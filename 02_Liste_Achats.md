@@ -26,28 +26,38 @@
 
 ---
 
-## 2. Moteurs & Actionneurs
-### Moteurs Intelligents (Robstride)
+## 2. Moteurs & Actionneurs (Par Phase)
+
+### Phase 1 : Tête / Torse (Aucun Moteur)
+*   Focus uniquement sur les capteurs et l'intelligence.
+
+### Phase 2 : Premier Bras (6 DOF)
 | Modèle | Quantité | Couple (Peak) | Usage |
 | :--- | :--- | :--- | :--- |
-| **Robstride 05** | 2 | 5.5 Nm | Cou, Poignets (Nouveaux ajouts) |
-| **Robstride 01** | - | 17 Nm | Coude / Épaule (Léger) |
-| **Robstride 02** | - | 24.8 Nm | Épaule / Torse |
-| **Robstride 03** | - | 35 Nm | Épaule (Force) |
-| **Robstride 04** | - | 60 Nm | Hanches / Torse Pivot |
+| **Robstride 03** | 2 | 35 Nm | Épaule (Force brute - Pitch/Roll) |
+| **Robstride 02** | 3 | 24.8 Nm | Biceps / Coude / Avant-bras |
+| **Robstride 00** | 1 | - | Poignet / Effecteur Final (Rotation) |
+
+*(Note: Le RS05 initialement prévu pour le cou est reporté ou intégré différemment selon le design final de la tête)*.
+
+### Autres Moteurs (Futur Phase 3/4)
+| Modèle | Quantité | Usage |
+| :--- | :--- | :--- |
+| **Robstride 04** | - | Hanches / Torse Pivot (Marche) |
 
 > **Note** : Vérifiez bien que les moteurs arrivent avec leurs câbles d'alimentation (XT60) et data (JST-GH). Sinon, commander séparément.
 
 ---
 
-## 3. Électronique & Câblage
-### Cerveau & Perception
-*   **NVIDIA Jetson Orin Nano** (Developer Kit)
-*   **Sony Spresense** :
-    *   Main Board (CXD5602PWBMAIN1)
-    *   **Extension Board (Recommandé : Standard)** pour l'audio et l'évolutivité. *(La version LTE est une alternative si usage outdoor sans Wi-Fi)*.
-*   **OAK-D Pro** (Luxonis) : Caméra IA Stéréo (avec IMU BNO085/BMI270 intégrée).
-*   **LiDAR Unitree L2** : Pour la navigation SLAM.
+## 3. Électronique & Cerveau (Détail Phase 1 & 2)
+
+| Composant | Modèle | Note |
+| :--- | :--- | :--- |
+| **Cerveau IA** | NVIDIA Jetson Orin Nano (8GB) | Le modèle Super est un plus, mais le 8GB suffit. |
+| **Vision (Tête)** | Luxonis OAK-D Pro | Version Fixed-Focus (FF) recommandée (vibrations). |
+| **Audio/IO** | Sony Spresense (Main + Ext) | Extension Board "Standard" (Pas la LTE). |
+| **LiDAR** | **Unitree L2** | FOV 360°x90°, Portée 30m, IMU intégrée. |
+| **Alimentation Labo** | **Wanptek DPS605U** | Indispensable Phase 2 (Régler sur 24V / Lim. 1A). |
 
 ### Interface CAN & Câbles
 *   **Adaptateur USB-CAN** : **InnoMaker USB2CAN-C**

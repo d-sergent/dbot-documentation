@@ -32,8 +32,16 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
 
 6.  **[Décisions Architecturales](./06_Decisions_Architecturales.md)**
     *   Pourquoi la Spresense Extension Board Standard ?
-    *   Pourquoi le LiDAR sur la tête ?
-    *   Choix des matériaux (Inox vs Acier noir, Laiton)
+    *   Positionnement LiDAR.
+
+7.  **[Guide Usinage CNC (Phase 2)](./07_Guide_Usinage_CNC.md)**
+    *   Préparation des fichiers STEP (Alu 6061).
+    *   Astuces pour réduire les coûts.
+
+8.  **[Sécurité & Mise en Marche](./08_Securite_Mise_En_Marche.md)**
+    *   Paramétrage Alimentation (24V / 1A).
+    *   Séquence d'allumage critique.
+    *   Arrêt d'urgence.
 
 ---
 *Documentation générée automatiquement à partir des archives de discussion (Février 2026).*

@@ -1,15 +1,35 @@
-# Synthèse du Projet K-Bot (Évolution)
+# Synthèse du Projet D-Bot (Évolution)
 
 ## 1. Vision et Objectifs
-Le projet consiste à construire un robot humanoïde basé sur la plateforme open-source **K-Bot**, mais en l'améliorant significativement avec des actionneurs modernes et une intelligence embarquée avancée.
+Le projet consiste à construire un robot humanoïde basé sur la plateforme open-source **D-Bot**, mais en l'améliorant significativement avec des actionneurs modernes et une intelligence embarquée avancée.
 
-### Améliorations Clés (vs K-Bot Original)
+### Améliorations Clés (vs D-Bot Original)
 - **Motorisation Avancée** : Intégration de moteurs **Robstride RS05** (x2) pour renforcer le cou et les poignets, en plus du kit standard (RS01-RS04).
 - **Perception 3D** : Ajout d'un **LiDAR Unitree L2** (sur la tête) et d'une caméra stéréoscopique **OAK-D Pro**.
 - **Intelligence Embarquée** : Cerveau principal **NVIDIA Jetson Orin Nano** couplé à une **Sony Spresense** pour la gestion audio/capteurs temps réel.
 - **Fabrication** : Impression 3D haute qualité sur une **Qidi Plus 4** avec du filament **PETG-CF** (PETG renforcé fibre de carbone) pour la rigidité structurelle.
 
-## 2. Architecture Matérielle
+## 2. Feuille de Route (Roadmap)
+Le projet est découpé en 4 phases distinctes pour valider chaque étape critique.
+
+### Phase 1 : Tête et Torse (En Cours)
+*   **Objectif** : Valider l'intelligence perception/audio.
+*   **Matériel** : Jetson Orin Nano, OAK-D Pro, Spresense.
+*   **Moteurs** : Aucun (0).
+
+### Phase 2 : Premier Bras (Focus Actuel)
+*   **Objectif** : Validation mécanique et manipulation.
+*   **Matériel** : + 6 Moteurs Robstride (RS03 épaule, RS02 coude, RS00 poignet).
+*   **Budget Est.** : ~2 000 €.
+
+### Phase 3 : Deuxième Bras
+*   **Objectif** : Coordination bimanuelle.
+
+### Phase 4 : Marche (Jambes)
+*   **Objectif** : Locomotion et équilibre dynamique.
+*   **Matériel** : + 10-12 Moteurs puissants (RS04).
+
+## 3. Architecture Matérielle
 L'architecture repose sur une séparation claire entre la puissance de calcul (IA) et le contrôle temps réel (Moteurs/Capteurs bas niveau).
 
 ```mermaid

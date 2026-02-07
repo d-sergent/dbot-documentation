@@ -31,12 +31,19 @@ Le PETG renforcé fibre de carbone (PETG-CF) est le meilleur compromis pour le D
 *   **Inconvénients** : Abrasif (utilisez une buse acier trempé).
 
 ### Paramètres de Slicer (OrcaSlicer / QidiSlicer)
+*   **Matériau** : Creality Hyper **PETG-CF** (Recommandé pour débuter).
+    *   *Alternative Pro* : **PA12-CF** (Nylon Carbone). Plus rigide et résistant à la chaleur, mais nécessite une enceinte chauffée et un séchage parfait. À réserver aux utilisateurs expérimentés.
+*   **Températures** :
+    *   **Buse** : 270°C
+    *   **Plateau** : 80°C
+    *   **Chambre (Active)** : 50°C
+*   **Vitesse** : 200-300 mm/s.
 *   **Hauteur de couche** : 0.20 mm (Standard) ou 0.16 mm (Précision engrenages).
 *   **Périmètres (Walls)** : **4 à 5 murs minimum**. C'est le plus important pour la solidité des filetages/inserts.
 *   **Remplissage (Infill)** :
-    *   **100% (Solid)** pour : Hanches, Épaules, Supports Moteurs RS04/RS05.
+    *   **100% (Solid)** pour : Hanches, Épaules, Supports Moteurs.
     *   **40% (Gyroid)** pour : Coques, avant-bras, tête.
-*   **Support** : "Tree Supports" (Arborescent) uniquement sur le plateau (build plate only) si possible.
+*   **Séchage** : Obligatoire avant impression (65°C / 6h).
 
 ---
 
