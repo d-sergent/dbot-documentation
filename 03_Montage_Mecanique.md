@@ -30,6 +30,19 @@ Le PETG renforcé fibre de carbone (PETG-CF) est le meilleur compromis pour le D
 *   **Avantages** : Rigidité accrue (moins de flexion que le PETG pur), aspect mat qui cache les couches, bonne tenue en température (vers 80°C).
 *   **Inconvénients** : Abrasif (utilisez une buse acier trempé).
 
+*   **(A) PLA** : Pour le prototypage rapide et validation de forme. **(~20€/kg)**
+*   **(B) PETG-CF** (Recommandé) : Rigide, facile à imprimer, esthétique carbone. Suffisant pour 80% du robot. **(~30€/kg)**
+*   **(C) PA12-CF** (Nylon Carbone) : Performance ultime (Chaleur/Choc). Nécessite enceinte chauffée + séchage pro. Pour les pièces critiques uniquement (Hanches). **(~100€/kg)**
+
+### Comparatif Matériaux
+| Critère | PLA (Proto) | PETG-CF (Standard) | PA12-CF (Pro) |
+| :--- | :--- | :--- | :--- |
+| **Coût (Est.)** | 20€ / kg | **30€ / kg** | 100€ / kg |
+| **Rigidité** | Moyenne | Élevée | Très Élevée |
+| **Résistance Chaleur** | Faible (50°C) | Moyenne (75°C) | Haute (100°C+) |
+| **Facilité Impression** | Très Facile | Facile | Difficile (Warping) |
+| **Usage D-Bot** | Tests de forme | **Coques, Bras, Tête** | Gears, Hanches |
+
 ### Paramètres de Slicer (OrcaSlicer / QidiSlicer)
 *   **Matériau** : Creality Hyper **PETG-CF** (Recommandé pour débuter).
     *   *Alternative Pro* : **PA12-CF** (Nylon Carbone). Plus rigide et résistant à la chaleur, mais nécessite une enceinte chauffée et un séchage parfait. À réserver aux utilisateurs expérimentés.

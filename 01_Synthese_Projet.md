@@ -1,9 +1,10 @@
 # Synthèse du Projet D-Bot (Évolution)
 
 ## 1. Vision et Objectifs
-Le projet consiste à construire un robot humanoïde basé sur la plateforme open-source **D-Bot**, mais en l'améliorant significativement avec des actionneurs modernes et une intelligence embarquée avancée.
+Le projet consiste à construire un robot humanoïde baptisé **D-Bot**.
+Il s'agit d'une **évolution majeure** de la plateforme open-source **K-Bot**, améliorée avec des actionneurs modernes et une intelligence embarquée avancée. Ce n'est pas un simple fork, mais une refonte complète de l'architecture électronique et motrice.
 
-### Améliorations Clés (vs D-Bot Original)
+### Améliorations Clés (vs K-Bot Original)
 - **Motorisation Avancée** : Intégration de moteurs **Robstride RS05** (x2) pour renforcer le cou et les poignets, en plus du kit standard (RS01-RS04).
 - **Perception 3D** : Ajout d'un **LiDAR Unitree L2** (sur la tête) et d'une caméra stéréoscopique **OAK-D Pro**.
 - **Intelligence Embarquée** : Cerveau principal **NVIDIA Jetson Orin Nano** couplé à une **Sony Spresense** pour la gestion audio/capteurs temps réel.
