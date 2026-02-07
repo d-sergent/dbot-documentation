@@ -61,5 +61,11 @@ La Qidi Plus 4 a été choisie pour sa capacité à imprimer des matériaux tech
   - **Tolérances** : Marge de 0.5mm sur les diamètres de perçage vis.
   - **Remplissage** : 100% pour les pièces de force (hanches, épaules), 40% gyroid pour les coques esthétiques.
 
+## 4. Points de Vigilance & Risques Techniques (Analyse Fév. 2026)
+*   **Distribution Électrique** : Prévoir des régulateurs (BEC) stables pour le 19V (Jetson) et 12V (LiDAR), isolés des pics de courant du 24V Moteurs.
+*   **Thermique** : Les coques en PETG/PA12 sont isolantes. Une ventilation active (fan) sera indispensable pour refroidir la Jetson Orin Nano dans le torse.
+*   **Bande Passante USB** : Le flux vidéo cumulé (OAK-D + Spresense + L2) peut saturer les contrôleurs. Un **Hub USB 3.0 alimenté** de qualité industrielle sera requis.
+*   **Sécurité Physique** : Un bouton d'arrêt d'urgence (Hard E-Stop) coupant physiquement l'alimentation moteurs (relais) est requis pour les phases mobiles.
+
 ---
 **Note** : Ce projet est une évolution active. Les choix techniques documentés ici reflètent l'état des lieux en Février 2026.
