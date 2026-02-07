@@ -1,9 +1,9 @@
-# Synthèse du Projet D-Bot (Évolution)
+# Synthèse du Projet K-Bot (Évolution)
 
 ## 1. Vision et Objectifs
-Le projet consiste à construire un robot humanoïde basé sur la plateforme open-source **D-Bot**, mais en l'améliorant significativement avec des actionneurs modernes et une intelligence embarquée avancée.
+Le projet consiste à construire un robot humanoïde basé sur la plateforme open-source **K-Bot**, mais en l'améliorant significativement avec des actionneurs modernes et une intelligence embarquée avancée.
 
-### Améliorations Clés (vs D-Bot Original)
+### Améliorations Clés (vs K-Bot Original)
 - **Motorisation Avancée** : Intégration de moteurs **Robstride RS05** (x2) pour renforcer le cou et les poignets, en plus du kit standard (RS01-RS04).
 - **Perception 3D** : Ajout d'un **LiDAR Unitree L2** (sur la tête) et d'une caméra stéréoscopique **OAK-D Pro**.
 - **Intelligence Embarquée** : Cerveau principal **NVIDIA Jetson Orin Nano** couplé à une **Sony Spresense** pour la gestion audio/capteurs temps réel.
@@ -14,19 +14,19 @@ L'architecture repose sur une séparation claire entre la puissance de calcul (I
 
 ```mermaid
 graph TD
-    A[NVIDIA Jetson Orin Nano] -- USB3 (High Speed) --> B[Sony Spresense]
-    A -- USB/CAN --> C[InnoMaker USB2CAN-C]
-    C -- Bus CAN (1 Mbps) --> D[Moteurs Robstride]
-    A -- USB3 --> E[OAK-D Pro (Vision AI)]
+    A[NVIDIA Jetson Orin Nano] -- "USB3 (High Speed)" --> B[Sony Spresense]
+    A -- USB/CAN --> C["InnoMaker USB2CAN-C"]
+    C -- "Bus CAN (1 Mbps)" --> D[Moteurs Robstride]
+    A -- USB3 --> E["OAK-D Pro (Vision AI)"]
     A -- USB --> F[LiDAR Unitree L2]
 
     subgraph "Contrôle Moteur"
-    D --> D1[RS01..04 (Membres)]
-    D --> D2[RS05 (Cou/Poignets)]
+    D --> D1["RS01..04 (Membres)"]
+    D --> D2["RS05 (Cou/Poignets)"]
     end
 
     subgraph "Perception Audio/Sensor"
-    B --> B1[Micros (Beamforming)]
+    B --> B1["Micros (Beamforming)"]
     B --> B2[Capteurs I2C/SPI]
     end
 ```
