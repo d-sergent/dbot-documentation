@@ -7,36 +7,46 @@ Ce document détaille l'installation de la buse haute performance en **Carbure d
 *   **Conductivité Thermique** : Proche du cuivre. Permet de chauffer aussi vite et stablement que le laiton, contrairement à l'acier trempé qui isole et demande de surchauffer (+10°C).
 *   **Fluidité** : Réduit drastiquement les risques de bouchage (clogs).
 
-## 2. Procédure d'Installation (Critique)
-Le carbure de tungstène est ultra-dur mais **cassant** aux chocs. Manipulez avec précaution.
+## 2. Procédure de Remplacement (Critique)
+Le carbure de tungstène est ultra-dur mais **cassant** aux chocs. De plus, le bloc de chauffe est fragile.
 
-### Étape 1 : Le Serrage à Chaud
-1.  Montez la buse à la main (à froid).
-2.  Chauffez la tête d'impression à **250°C** (ou plus, temp d'impression max).
-3.  **Serrez impérativement à chaud**. Cela garantit l'étanchéité métal-métal avec le heatbreak.
-    *   *Couple de serrage* : 1.5 Nm à 2.0 Nm (ne pas forcer comme une brute).
+### Matériel Requis
+*   Clé plate fournie.
+*   **Pince multiprise** (Indispensable pour le contre-appui).
+*   Gants thermiques.
 
-### Étape 2 : Calibration PID (Indispensable)
-La thermique de la tête change radicalement. L'imprimante doit réapprendre à chauffer.
-1.  Menu Qidi > Configuration > **PID Calibration**.
-2.  Sélectionnez la buse et lancez le cycle. Sauvegardez les valeurs.
+### Étape 1 : Démontage Sécurisé
+1.  **Chauffe** : Montez la température à **250°C**. (À froid, le plastique colle et vous casserez le heatbreak).
+2.  **Videz l'extrudeur** (Unload).
+3.  **Contre-Appui (Règle d'Or)** : Maintenez **fermement** le bloc de chauffe carré avec la pince. Il ne doit **jamais** tourner sur lui-même pendant le dévissage.
+4.  Dévissez la buse d'origine.
 
-### Étape 3 : Recalibration Z-Offset
-La géométrie de la nouvelle buse peut varier de quelques dixièmes de millimètre.
-1.  Lancez un **Auto-Leveling** complet du plateau.
-2.  Réglez le **Z-Offset** avec une feuille de papier. **Attention** : Si la buse tungstène crashe dans le plateau, elle ne s'usera pas, c'est le plateau PEI qui sera détruit.
+### Étape 2 : Montage et Serrage à Chaud
+1.  **Nettoyage** : Vérifiez que le filetage est propre.
+2.  **Vissage** : Vissez la buse Tungstène à la main (avec gant) pour sentir le filetage. Ne forcez pas si ça résiste.
+3.  **Serrage Final** : Toujours à **250°C** et avec la pince en contre-appui, serrez fermement (1.5 - 2.0 Nm).
+    *   *Contrôle Visuel* : Il doit rester un espace de **0.5mm à 1mm** entre la tête de la buse et le bloc. Si elle touche le bloc, elle ne scelle pas le heatbreak -> Fuite garantie.
 
-## 3. Paramètres d'Impression (Différences)
-Avec cette buse, vous pouvez **baisser** légèrement vos températures par rapport à l'acier trempé.
+## 3. Calibration Machine (Obligatoire)
+La thermique de la tête change radicalement. L'imprimante doit réapprendre.
 
-| Paramètre | Buse Acier Trempé (Standard) | Buse Carbure Tungstène (Upgrade) |
+1.  **PID Calibration** : Menu Qidi > Configuration > PID Tuning. (Stabilisation thermique).
+2.  **Auto-Leveling** : La nouvelle buse peut être plus longue de quelques microns. Refaites le niveau.
+3.  **Z-Offset** : Vérifiez la première couche. Ajustez si nécessaire.
+
+## 4. Paramètres Slicer (QIDI Print / Orca)
+Il n'y a pas de case "Tungstène". Modifiez vos profils existants :
+
+| Paramètre | Ajustement vs Acier Trempé | Pourquoi ? |
 | :--- | :--- | :--- |
-| **Temp. PA12-CF** | 290°C - 300°C | **280°C - 290°C** (Meilleure conductivité) |
-| **Temp. PETG-CF** | 260°C | **250°C - 255°C** |
-| **Risque Bouchage** | Moyen | Très Faible |
+| **Température** | **-5°C à -10°C** | Le tungstène conduit mieux la chaleur. |
+| **Flow Ratio (Débit)** | **-1% à -2%** | Ça glisse mieux ! Surveillez la sur-extrusion. |
+| **Volumetric Speed** | **+2 à +3 mm³/s** | Permet d'imprimer plus vite sans sous-extrusion. |
 
-## 4. Maintenance
+**Exemple PA12-CF** : Passez de 300°C à **290°C**.
+
+## 5. Maintenance
 *   **Nettoyage** : Le plastique n'adhère pas au tungstène. Un coup de brosse laiton à chaud suffit.
-*   **Durée de vie** : Virtuellement infinie pour ce projet. Elle survivra à l'imprimante.
+*   **Durée de vie** : Virtuellement infinie pour ce projet.
 
 > **Conseil D-Bot** : Installez-la **AVANT** de lancer la production massive des pièces critiques (Hanches RS-04, Fémurs) pour garantir une extrusion constante sur 40h+ d'impression.
