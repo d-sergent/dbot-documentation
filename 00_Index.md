@@ -48,5 +48,10 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Paramètres Slicer (PETG-CF vs PA12-CF).
     *   Optimisation des supports (Distances Z).
 
+10. **[Installation Buse Tungstène](./10_Guide_Buse_Tungstene.md)**
+    *   Pourquoi passer au Carbure de Tungstène ?
+    *   Procédure de serrage à chaud et PID.
+    *   Ajustement températures vs Acier Trempé.
+
 ---
 *Documentation générée automatiquement à partir des archives de discussion (Février 2026).*
