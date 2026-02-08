@@ -43,5 +43,10 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Séquence d'allumage critique.
     *   Arrêt d'urgence.
 
+9.  **[Guide Avancé Impression 3D](./09_Guide_Avance_Impression.md)**
+    *   Gestion humidité PA12-CF (Protocole Qidi Box).
+    *   Paramètres Slicer (PETG-CF vs PA12-CF).
+    *   Optimisation des supports (Distances Z).
+
 ---
 *Documentation générée automatiquement à partir des archives de discussion (Février 2026).*
