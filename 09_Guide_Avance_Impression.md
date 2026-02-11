@@ -62,20 +62,46 @@ Le recuit stabilise les molécules et augmente la rigidité (+30%). Profitez de 
 > [!CAUTION]
 > **Inserts Ruthex** : Ne faites JAMAIS de recuit sur des pièces équipées d'inserts. Le plastique ramollirait et les inserts se décentreraient. **Recuit d'abord, inserts après.**
 
-### Macros G-Code (Recuit Automatique)
-Vous pouvez enregistrer ces scripts en `.gcode` sur votre clé USB pour lancer un cycle de recuit indépendant.
+### Macros G-Code (Recuit Automatique de Fin d'Impression)
+Pour une automatisation totale, insérez ces scripts dans votre "End G-code" dans OrcaSlicer. La pièce reste ainsi fixée au plateau, ce qui réduit drastiquement le retrait.
 
+#### 1. eSUN PLA+ (Cristallisation)
 ```gcode
-; --- Macro Recuit PA12-CF (Exemple de saturation thermique) ---
-G28 ; Home
-M106 S0 ; Fan Off
-M140 S100 ; Plateau 100°C (Radiateur)
-M191 S65 ; Chambre 65°C
+; --- G-code de fin : Recuit Direct PLA+ ---
+M104 S0 ; Éteindre la buse
+M140 S70 ; Plateau à 70°C (Maintien base)
+M191 S60 ; Chambre à 60°C
+M117 Cristallisation PLA+ (1h)...
+G4 P3600000 ; Pause de 1 heure
+M140 S0 M191 S0
+M117 Terminé. Refroidissement porte fermée.
+M84
+```
+
+#### 2. PETG-CF (Finition & Stress-Relief)
+```gcode
+; --- G-code de fin : Recuit Direct PETG-CF ---
+M104 S0 ; Éteindre buse
+M140 S85 ; Plateau à 85°C (Transition vitreuse)
+M191 S60 ; Chambre à 60°C
+M117 Recuit PETG-CF (3h)...
+G4 P10800000 ; Pause de 3 heures
+M140 S0 M191 S0
+M117 Finition. Refroidissement lent.
+M84
+```
+
+#### 3. PA12-CF (Performance Maximale)
+```gcode
+; --- G-code de fin : Recuit Direct PA12-CF ---
+M104 S0 ; Éteindre buse
+M140 S100 ; Plateau à 100°C (Radiateur)
+M191 S65 ; Chambre à 65°C
 M117 Recuit PA12-CF (8h)...
-G4 P28800000 ; Pause 8h
-M140 S0 ; Bed Off
-M191 S0 ; Chamber Off
-M117 Refroidissement passif...
+G4 P28800000 ; Pause de 8 heures
+M140 S0 M191 S0
+M117 Refroidissement passif (2h)...
+M84
 ```
 
 ---
