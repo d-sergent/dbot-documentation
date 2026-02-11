@@ -40,10 +40,15 @@
 
 *(Note: Le RS05 initialement prévu pour le cou est reporté ou intégré différemment selon le design final de la tête)*.
 
-### Autres Moteurs (Futur Phase 3/4)
-| Modèle | Quantité | Usage |
-| :--- | :--- | :--- |
-| **Robstride 04** | - | Hanches / Torse Pivot (Marche) |
+### Autres Composants Électroniques
+| Composant | Modèle | Quantité | Note |
+| :--- | :--- | :--- | :--- |
+| **Robstride 04** | - | Hanches / Torse Pivot (Marche) | - |
+| Distribution (PDB) | **Matek PDB-HEX** (Master) + **PDB-XT60-W** (Satellites) | 2 + 4 | Hubs de puissance pro |
+| Connectique Data | **JST-GH 4-pin** (Silicone / Holybro) | 30m | Fils torsadés blindés |
+| Maintenance Tête | **WAGO 221-413 / 415** | 10 | Connecteurs rapides sans soudure |
+| Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 | Réglage précis 24V/48V + OCP |
+| Interface CAN | **InnoMaker USB2CAN-C** | 1 | Natif Linux (SocketCAN) |
 
 > **Note** : Vérifiez bien que les moteurs arrivent avec leurs câbles d'alimentation (XT60) et data (JST-GH). Sinon, commander séparément.
 
@@ -55,14 +60,18 @@
 | :--- | :--- | :--- |
 | **Cerveau IA** | NVIDIA Jetson Orin Nano (8GB) | Le modèle Super est un plus, mais le 8GB suffit. |
 | **Vision (Tête)** | Luxonis OAK-D Pro | Version Fixed-Focus (FF) recommandée (vibrations). |
-| **Audio/IO** | Sony Spresense (Main + Ext) | Extension Board "Standard" (Pas la LTE). |
+### Électronique de Contrôle
+- **Sony Spresense** :
+    - *Main Board* + *Extension Board* (Standard).
+    - **Note sémantique** : L'Extension Board Standard est préférée pour ses 8 entrées micro (vs 4 sur la version LTE).
+    - **Connectivité** : Pour la LTE, utilisez un shield tiers (Waveshare SIM7600) via UART pour conserver les 8 micros.
+- **Audio** : 8x Microphones numériques MEMS (PDM) + câbles blindés.
 | **LiDAR** | **Unitree L2** | FOV 360°x90°, Portée 30m, IMU intégrée. |
 | **Alimentation Labo** | **Wanptek DPS605U** | Indispensable Phase 2 (Régler sur 24V / Lim. 1A). |
 
 ### Interface CAN & Câbles
 *   **Adaptateur USB-CAN** : **InnoMaker USB2CAN-C**
     *   *Critique* : Basé sur firmware `gs_usb` (compatible Linux natif).
-    *   [Lien InnoMaker](http://www.innomaker.com)
 *   **Connecteurs Data** : **JST-GH 1.25mm** (Marque Holybro recommandée pour la qualité).
     *   Acheter des câbles "tout faits" si possible pour éviter de sertir du 1.25mm.
 *   **Connecteurs Puissance** : **XT60** (Jaune).

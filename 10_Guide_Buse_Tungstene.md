@@ -45,7 +45,19 @@ Il n'y a pas de case "Tungstène". Modifiez vos profils existants :
 
 **Exemple PA12-CF** : Passez de 300°C à **290°C**.
 
-## 5. Maintenance
+## 5.## Maintenance et Sécurité Électrique (Audit Fév. 2026)
+
+### Maintenance Rapide
+- **Tête/Cou** : L'utilisation de borniers **WAGO 221-413 (3 entrées)** ou **415 (5 entrées)** est recommandée pour les liaisons LiDAR et moteurs de cou. Cela permet de remplacer un capteur en 30 secondes sans soudure.
+- **Sauvegarde** : Toujours créer un **clone de la carte SD** Jetson sur un SSD externe (ex: Hynix P310) avant chaque mise à jour majeure (`sudo dd if=/dev/sdX of=backup.img`).
+
+### Sécurité Alimentation Wanptek
+Le modèle DPS605U nécessite une procédure stricte car il ne possède pas de bouton "Output ON/OFF" physique :
+1.  Allumer l'alimentation à vide.
+2.  Vérifier la tension (**24.0V** ou **48.0V**).
+3.  Calculer la limite (ex: 1A). Court-circuiter les pinces pour régler le courant si besoin.
+4.  Activer le mode **OCP** (Overcurrent Protection) : l'alimentation coupera d'elle-même en cas d'appel de courant anormal (branchement inversé).
+5.  Brancher seulement ensuite le moteur RobStride.
 *   **Nettoyage** : Le plastique n'adhère pas au tungstène. Un coup de brosse laiton à chaud suffit.
 *   **Durée de vie** : Virtuellement infinie pour ce projet.
 

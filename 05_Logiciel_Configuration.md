@@ -9,6 +9,18 @@ sudo apt-get update
 sudo apt-get install can-utils
 ```
 
+### Couche Jetson (Middleware)
+Le D-bot tourne sous **Ubuntu 22.04 (JetPack 6)** avec **ROS 2 Humble**.
+- **Micro-ROS Agent** : Gère la passerelle avec la Sony Spresense via `/dev/ttyTHS0` (Pins 8/10).
+- **NVIDIA Isaac ROS** : Accélération matérielle pour la vision (OAK-D).
+
+### Couche Spresense (Temps Réel)
+La Spresense exécute un firmware Arduino/NuttX avec **Micro-ROS Client**.
+- **Topics publiés** :
+    - `/audio/direction` : Angle DoA calculé par beamforming.
+    - `/imu/data` : Données fusionnées (IMU Tête).
+- **Liaison Audio** : Flux 8 canaux via **UAC 2.0** (USB) pour une qualité Hi-Res (192 kHz).
+
 ### Activation de l'Interface CAN
 L'adaptateur InnoMaker est reconnu comme `can0` (parfois `can1`).
 Le débit standard Robstride est **1 Mbps** (1,000,000 bps).

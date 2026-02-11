@@ -33,24 +33,6 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
 6.  **[Décisions Architecturales](./06_Decisions_Architecturales.md)**
     *   Pourquoi la Spresense Extension Board Standard ?
     *   Positionnement LiDAR.
-
-7.  **[Guide Usinage CNC (Phase 2)](./07_Guide_Usinage_CNC.md)**
-    *   Préparation des fichiers STEP (Alu 6061).
-    *   Astuces pour réduire les coûts.
-
-8.  **[Sécurité & Mise en Marche](./08_Securite_Mise_En_Marche.md)**
-    *   Paramétrage Alimentation (24V / 1A).
-    *   Séquence d'allumage critique.
-    *   Arrêt d'urgence.
-
-9.  **[Guide Avancé Impression 3D](./09_Guide_Avance_Impression.md)**
-    *   Gestion humidité PA12-CF (Protocole Qidi Box).
-    *   Paramètres Slicer (PETG-CF vs PA12-CF).
-    *   Optimisation des supports (Distances Z).
-
-10. **[Installation Buse Tungstène](./10_Guide_Buse_Tungstene.md)**
-    *   Pourquoi passer au Carbure de Tungstène ?
-    *   Procédure de serrage à chaud et PID.
     *   Ajustement températures vs Acier Trempé.
 
 ---

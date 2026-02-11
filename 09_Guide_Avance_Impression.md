@@ -78,6 +78,12 @@ M117 Terminé. Refroidissement porte fermée.
 M84
 ```
 
+### Avantages du Recuit "In-Situ" (Audit)
+Il est fortement recommandé de lancer le recuit **immédiatement après l'impression** sans retirer la pièce du plateau :
+- **Absence d'humidité** : Le PA12-CF n'a pas le temps d'absorber l'humidité ambiante (ce qui ferait bouillir l'eau lors du recuit).
+- **Contrainte mécanique** : Le plateau agit comme un gabarit de maintien, empêchant le retrait (shrinkage) de la base de la pièce.
+- **Béquille Thermique** : Pour les pièces hautes et fines, laissez les **Tree Supports** (supports arborescents). Ils servent de béquille thermique pour éviter que la pièce ne penche lors de la phase de ramollissement à 70-80°C.
+
 #### 2. PETG-CF (Finition & Stress-Relief)
 ```gcode
 ; --- G-code de fin : Recuit Direct PETG-CF ---

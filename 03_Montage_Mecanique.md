@@ -1,7 +1,31 @@
 # Guide Mécanique et Impression 3D
 
-## 1. Paramètres de Conception (Fusion 360)
-Pour intégrer correctement les vis DIN 912 et les inserts chauffants dans vos pièces imprimées, respectez scrupuleusement ces cotes.
+## 1. Paramètres### Visserie Industrielle
+Le projet utilise deux standards principaux :
+1.  **ISO 7380 (Tête Bombée)** : Profil bas, idéal pour l'esthétique et éviter d'accrocher les câbles.
+2.  **DIN 912 (Tête Cylindrique)** : Indispensable pour les zones à fort couple (hanches). Permet un serrage monumental.
+
+#### Paramètres de Chambrage (Fusion 360 - Vis DIN 912)
+| Dimension | Symbole | M3 (DIN 912) | M4 (DIN 912) |
+| :--- | :--- | :--- | :--- |
+| Diamètre Chambrage | Dcb | **6.5 mm** | **8.5 mm** |
+| Profondeur Chambrage | Hcb | **3.5 mm** | **4.5 mm** |
+| Trou Insert (PETG-CF) | dh | 4.2 - 4.5 mm | 5.6 - 5.8 mm |
+| Épaisseur Plancher | T | 3.0 mm min | 4.0 mm min |
+
+---
+
+### Inserts et Roulements
+- **Inserts Ruthex** : Utilisez les versions **Longues (8.1mm)** pour les RS-04. Les versions courtes (5.7mm) suffisent pour les carters.
+- **Roulements 608ZZ** :
+    - Montage : Bague extérieure fixe dans le support, intérieure tournante avec l'axe.
+    - Logement : **22.0 mm** pour press-fit (ajusté au fer).
+    - Butée : Épaulement de **1 mm** (ne doit toucher que la bague extérieure).
+
+### Commande CNC (Aluminium 6061)
+- **Format** : Fichiers `.step` uniquement.
+- **Rayons** : Rayons internes de **2mm minimum** (usinage fraise).
+- **Finition** : "As Machined" (le plus économique).
 
 ### Chambrages (Counterbore) pour têtes de vis DIN 912
 L'objectif est de noyer la tête de vis pour qu'elle ne dépasse pas, tout en laissant passer la clé Allen.
