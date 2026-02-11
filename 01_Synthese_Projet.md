@@ -60,7 +60,8 @@ La Qidi Plus 4 a été choisie pour sa capacité à imprimer des matériaux tech
   - **Chambrages (Counterbore)** : Indispensables pour noyer les têtes de vis.
   - **Tolérances** : Marge de 0.5mm sur les diamètres de perçage vis.
   - **Remplissage** : 100% pour les pièces de force (hanches, épaules), 40% gyroid pour les coques esthétiques.
-  - **Détails Complets** : Voir le **[Guide Avancé Impression 3D](./09_Guide_Avance_Impression.md)**.
+  - **Connectivité & Réseau** : TP-Link Archer T3U (AC1300 Mbps, USB 3.0, MU-MIMO). Indispensable pour stabiliser la connexion Klipper sur 5GHz.
+- **Détails Complets** : Voir le **[Guide Avancé Impression 3D](./09_Guide_Avance_Impression.md)**.
 
 ## 4. Points de Vigilance & Risques Techniques (Analyse Fév. 2026)
 *   **Distribution Électrique** : Prévoir des régulateurs (BEC) stables pour le 19V (Jetson) et 12V (LiDAR), isolés des pics de courant du 24V Moteurs.

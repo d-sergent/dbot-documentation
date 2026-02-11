@@ -70,6 +70,13 @@
 
 ---
 
-## 4. Consommables & Outils
+## 4. Infrastructure & Connexion
+| Composant | Modèle | Usage |
+| :--- | :--- | :--- |
+| **WiFi Imprimante** | **TP-Link Archer T3U** | AC1300 Mbps, USB 3.0. Connectivité stable pour Qidi Plus 4. |
+
+---
+
+## 5. Consommables & Outils
 *   **Frein Filet** : **Loctite 222** (Faible/Moyen). Indispensable ! Les vibrations des moteurs Robstride desserrent les vis M3 en quelques heures sans cela.
 *   **Clés Allen** : Jeu de clés de précision (Facom ou Wera) pour ne pas foire les têtes de vis.
