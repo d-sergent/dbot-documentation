@@ -48,5 +48,10 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Maintenance buse et sécurité électrique générale (Wanptek).
     *   Sauvegarde et maintenance préventive.
 
+11. **[Guide SensiEDGE & Sécurité](./11_Guide_SensiEDGE_Watchdog.md)**
+    *   Architecture "Power Manager" (Veille/Réveil).
+    *   Code C++ Watchdog et Surveillance Batterie 12S.
+    *   Intégration capteurs environnementaux (CommonSense).
+
 ---
 *Documentation exhaustive générée et auditée en Février 2026.*

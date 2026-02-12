@@ -18,7 +18,9 @@ Le D-bot tourne sous **Ubuntu 22.04 (JetPack 6)** avec **ROS 2 Humble**.
 La Spresense exécute un firmware Arduino/NuttX avec **Micro-ROS Client**.
 - **Topics publiés** :
     - `/audio/direction` : Angle DoA calculé par beamforming.
-    - `/imu/data` : Données fusionnées (IMU Tête).
+    - `/imu/data` : Données fusionnées (IMU Tête + SensiEDGE).
+    - `/power/status` : Tension batterie 12S et température interne (CommonSense).
+- **Fonction Watchdog** : Le firmware surveille le heartbeat de la Jetson et coupe le MOSFET de puissance en cas de freeze.
 - **Liaison Audio** : Flux 8 canaux via **UAC 2.0** (USB) pour une qualité Hi-Res (192 kHz).
 
 ### Activation de l'Interface CAN

@@ -65,7 +65,17 @@
     - *Main Board* + *Extension Board* (Standard).
     - **Note sémantique** : L'Extension Board Standard est préférée pour ses 8 entrées micro (vs 4 sur la version LTE).
     - **Connectivité** : Pour la LTE, utilisez un shield tiers (Waveshare SIM7600) via UART pour conserver les 8 micros.
+- **SensiEDGE CommonSense** : Carte d'extension "Tout-en-un" (IMU de secours + Qualité Air + Température interne).
 - **Audio** : 8x Microphones numériques MEMS (PDM) + câbles blindés.
+
+### Sécurité & Gestion d'Énergie (Power Management)
+| Composant | Référence | Rôle |
+| :--- | :--- | :--- |
+| **Régulateur Veille** | **Mean Well DDR-15G-5** (ou Buck 60V->5V) | Alimente la Spresense en permanence (Always-On). |
+| **Switch Puissance** | **Infineon BTS50085-1TMA** (ou MOSFET Opto) | Coupe le 44V (Jetson/Moteurs) sur ordre de la Spresense. |
+| **Pont Diviseur** | Résistances 150kΩ + 10kΩ | Surveillance de la tension batterie 12S. |
+| **Condensa.** | 1000µF / 63V (Low ESR) | Filtrage des pics de tension au branchement. |
+| **Connecteur** | **XT90-S** (Anti-Spark) | Obligatoire pour la batterie 12S (évite l'arc électrique). |
 | **LiDAR** | **Unitree L2** | FOV 360°x90°, Portée 30m, IMU intégrée. |
 | **Alimentation Labo** | **Wanptek DPS605U** | Indispensable Phase 2 (Régler sur 24V / Lim. 1A). |
 
