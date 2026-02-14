@@ -2,29 +2,77 @@
 
 Ce document détaille l'architecture cinématique du D-Bot (Target 24 DOF) et les spécifications techniques des actionneurs **RobStride**.
 
-## 1. Architecture Cinématique (Cible)
-L'architecture du D-Bot est une évolution du K-Bot standard (20 DOF + 2 Tête), portant le total à **24 Degrés de Liberté** pour une manipulation plus fine.
+## 1. Configuration K-Bot Standard (20 DOF)
 
-### Répartition des Moteurs
-| Zone | Articulation | DOF | Moteur Recommandé | Rôle |
-| :--- | :--- | :--- | :--- | :--- |
-| **Tête** | Cou (Pan / Tilt) | 2 | **2x RS-05** | Orientation du regard (LiDAR + Caméras). |
-| **Bras (x2)** | Épaule (Pitch, Roll) | 2 | **2x RS-03** | Force brute pour lever le bras. |
-| | Biceps (Yaw) | 1 | **1x RS-02** | Rotation du bras. |
-| | Coude (Pitch) | 1 | **1x RS-02** | Flexion. |
-| | Avant-bras (Roll) | 1 | **1x RS-02** | Pronation/Supination. |
-| | Poignet (Pitch/Yaw) | 1 | **1x RS-00** | Orientation fine de la main. |
-| **Jambes (x2)** | Hanche (Roll, Yaw, Pitch) | 3 | **3x RS-04** | Portance principale et équilibre. |
-| | Genou (Pitch) | 1 | **1x RS-04** | Flexion (Couple max requis). |
-| | Cheville (Pitch/Roll) | 1 | **1x RS-04** | Propulsion et adaptation au sol. |
+### 📊 Architecture Officielle K-Scale
+Le K-Bot standard est un robot humanoïde open-source de taille réelle développé par K-Scale Labs, équipé de **20 moteurs RobStride** pour 20 degrés de liberté. La configuration D-Bot étend cette base avec une tête articulée.
 
-*Note : La configuration standard "K-Bot" n'a que 5 moteurs par bras (pas de RS-00) et 5 par jambe, soit 20 moteurs au total. Le D-Bot ajoute le Cou (+2) et le Poignet (+2), soit 24 moteurs.*
+**Source** : [K-Scale Official Documentation](https://docs.kscale.dev/robots/k-bot/motor-id-mapping)
+
+---
+
+### 🦾 BRAS (10 moteurs - 5 par bras)
+
+**Configuration par bras :**
+
+| Articulation | Moteur | IDs<br/>(G/D) | Couple<br/>Pic | Couple<br/>Nom. | Poids | Fonction |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Épaule Pitch** | RS-03 | 11 / 21 | 60 N.m | 20 N.m | 880g | Lever le bras |
+| **Épaule Roll** | RS-03 | 12 / 22 | 60 N.m | 20 N.m | 880g | Écarter le bras |
+| **Épaule Yaw** | RS-02 | 13 / 23 | 17 N.m | 6 N.m | 405g | Rotation interne |
+| **Coude Pitch** | RS-02 | 14 / 24 | 17 N.m | 6 N.m | 405g | Flexion |
+| **Poignet Roll** | RS-00 | 15 / 25 | 14 N.m | 5 N.m | 310g | Orientation fine |
+
+**Total par bras** : 3 kg environ  
+**Total 2 bras** : 10 moteurs (4× RS-03 + 4× RS-02 + 2× RS-00)
+
+---
+
+### 🦵 JAMBES (10 moteurs - 5 par jambe)
+
+**Configuration par jambe :**
+
+| Articulation | Moteur | IDs<br/>(G/D) | Couple<br/>Pic | Couple<br/>Nom. | Poids | Fonction |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Hanche Pitch** | RS-04 | 31 / 41 | 120 N.m | 40 N.m | 1420g | Flexion jambe |
+| **Hanche Roll** | RS-03 | 32 / 42 | 60 N.m | 20 N.m | 880g | Équilibre latéral |
+| **Hanche Yaw** | RS-03 | 33 / 43 | 60 N.m | 20 N.m | 880g | Rotation hanche |
+| **Genou Pitch** | RS-04 | 34 / 44 | 120 N.m | 40 N.m | 1420g | Flexion genou |
+| **Cheville Pitch** | RS-02 | 35 / 45 | 17 N.m | 6 N.m | 405g | Propulsion |
+
+**Total par jambe** : 4.6 kg environ  
+**Total 2 jambes** : 10 moteurs (4× RS-04 + 4× RS-03 + 2× RS-02)
+
+---
+
+### 🔢 INVENTAIRE K-BOT STANDARD
+
+| Modèle | Quantité | Poids Unit. | Poids Total | Usage Principal |
+| :---: | :---: | :---: | :---: | :--- |
+| **RS-04** | 4 | 1420g | 5.68 kg | Hanches Pitch + Genoux |
+| **RS-03** | 8 | 880g | 7.04 kg | Épaules + Rotations hanches |
+| **RS-02** | 6 | 405g | 2.43 kg | Coudes + Yaw épaules + Chevilles |
+| **RS-00** | 2 | 310g | 0.62 kg | Poignets |
+| **TOTAL** | **20** | | **15.77 kg** | Total moteurs K-Bot |
+
+---
+
+### 🤖 ÉVOLUTION D-BOT (22 DOF minimum)
+
+Le **D-Bot** ajoute une **tête articulée** au K-Bot standard :
+
+| Ajout D-Bot | Moteur | Quantité | Couple Pic | Fonction |
+| :--- | :---: | :---: | :---: | :--- |
+| **Cou Pan** (Yaw) | RS-05 | 1 | 5.5 N.m | Rotation horizontale tête |
+| **Cou Tilt** (Pitch) | RS-05 | 1 | 5.5 N.m | Inclinaison tête |
+
+**Total D-Bot** : 20 + 2 = **22 moteurs** (évolutif à 24 avec doigts articulés)
 
 ## 2. Spécifications Moteurs RobStride (Gamme Complète)
 Voici les données techniques consolidées pour l'ensemble de la gamme RobStride (Février 2025).  
 *Prix officiels RobStride ou sources vérifiées (OpenELAB, AiFitLab) - Hors taxes/livraison.*
 
-| Modèle | Couple Pic (N.m) | Couple Nominal (N.m) | Vitesse Max (RPM) | Poids (g) | Dimensions (mm) | Ratio | Prix ($) | Voltage | Usage D-Bot |
+| Modèle | Pic<br/>(N.m) | Nom.<br/>(N.m) | Vmax<br/>(RPM) | Poids<br/>(g) | Dim.<br/>(mm) | Ratio | Prix<br/>($) | Volt.<br/>(V) | Usage D-Bot |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **RS-05** | **5.5** | 1.6 | 480 | **191** | 46×46×44 | 7.75:1 | **$120** | 48V (15-60V) | **Cou**, Doigts (futur) |
 | **RS-00** | **14.0** | 5.0 | 315 | **310** | 57×57×51 | 10:1 | **$135** | 48V (24-60V) | **Poignet** (Compact, fort couple) |
