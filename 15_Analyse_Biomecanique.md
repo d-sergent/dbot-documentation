@@ -256,38 +256,24 @@ Pour un portage lourd et une marche dynamique :
 | **Marche** | Chevilles 60 N.m → **Marche stable** ✅ |
 | **Portage bras tendu** | 2 kg → **5 kg continu** ✅ |
 | **Portage bras plié** | 5 kg → **15+ kg théorique** ✅ |
-| **Inconvénient** | CdG plus haut (+2.16 kg aux épaules), autonomie réduite |
+| **CdG** | Plus haut (+2.16 kg aux épaules) — **compensé par le Roll cheville** |
 
-> [!WARNING]
-> **L'Option D ajoute 3.5 kg**, ce qui réduit l'autonomie d'environ 15-20% et déplace le centre de gravité vers le haut. Conséquence : le contrôle de l'équilibre est plus difficile et les algorithmes de marche doivent être retuned.
+> [!NOTE]
+> **Clarification sur l'impact CdG** : L'Option D ajoute 3.5 kg dont 2.16 kg aux épaules. Cela élève le CdG mais **l'ajout du Roll cheville (voir Section 7) compense largement** ce handicap en fournissant des corrections latérales rapides. **Les deux options C et D nécessitent un re-tuning des algorithmes de marche** (masse différente, nouveaux DOF, nouvelles limites de couple). La difficulté de re-tuning de l'Option D est seulement **marginalement supérieure** à celle de l'Option C. Le surcoût D vs C n'est que de +$120 et +1.35 kg.
 
 ---
 
-## 6. Recommandation Finale
+## 6. Recommandation Finale (Initiale — voir Section 8 pour version révisée)
 
-### 🏆 Option C "D-Bot Performance" est RECOMMANDÉE
+### Analyse historique (avant ajout du Roll cheville)
 
-**Raison** : Meilleur rapport performance/impact.
-- Résout le problème **CRITIQUE** des chevilles (+$180, +950g)
-- Améliore significativement le portage des coudes (+$140, +432g)
-- Surpoids total modéré (+1.38 kg)
-- Reste 100% dans l'écosystème RobStride (compatibilité garantie)
+*Cette section reflète l'analyse initiale, **avant** la prise en compte du Roll cheville. La recommandation a évolué — voir Section 8 pour les configurations révisées et Section 9 pour le comparatif final.*
 
-### Configuration Finale "D-Bot Performance"
+**Raisonnement initial** : L'Option C était recommandée pour son rapport performance/impact. Cependant, l'ajout du Roll cheville dans les deux options change la donne :
 
-| Zone | Moteur | Qté | Couple Pic | Poids | Usage |
-| :--- | :---: | :---: | :---: | :---: | :--- |
-| Cou | RS-05 | 2 | 5.5 N.m | 191g | Orientation tête |
-| Poignet | RS-00 | 2 | 14 N.m | 310g | Manipulation fine |
-| Épaule Pitch/Roll | RS-03 | 4 | 60 N.m | 880g | Lever/écarter bras |
-| Épaule Yaw | RS-02 | 2 | 17 N.m | 405g | Rotation interne |
-| **Coude** | **RS-06** | **2** | **36 N.m** | **621g** | **Flexion améliorée** |
-| Hanche Pitch | RS-04 | 2 | 120 N.m | 1420g | Flexion jambe |
-| Hanche Roll/Yaw | RS-03 | 4 | 60 N.m | 880g | Équilibre/rotation |
-| Genou | RS-04 | 2 | 120 N.m | 1420g | Flexion genou |
-| **Cheville** | **RS-03** | **2** | **60 N.m** | **880g** | **Propulsion** |
-
-**Total** : 22 moteurs, ~17.5 kg de moteurs, ~37.4 kg robot complet
+- **Les deux options nécessitent un re-tuning** des algorithmes de marche (c'est inévitable dès qu'on modifie la configuration moteur)
+- Le Roll cheville **compense le CdG plus haut** de l'Option D
+- Le surcoût D vs C n'est que de **+$120 et +1.35 kg** pour un gain de portage **considérable**
 
 ### À retenir sur les moteurs alternatifs
 
@@ -508,4 +494,90 @@ Ajoute les RS-04 aux épaules en plus de la config C-Révisée :
 | **Tête articulée** | ❌ | ✅ Pan/Tilt | ✅ Pan/Tilt |
 
 > [!IMPORTANT]
-> **L'Option C-Révisée est le sweet spot** : elle atteint l'objectif des 24 DOF, résout les 2 problèmes critiques (cheville Pitch sous-dimensionnée ET Roll manquant), améliore le portage, et reste dans un surpoids/surcoût raisonnable (+4.2 kg, +$640).
+> **L'Option D-Révisée est désormais recommandée** si le portage est un objectif. Le Roll cheville compense le CdG plus haut, et la différence D vs C n'est que de +$120 / +1.35 kg pour un gain de portage majeur (5 kg bras tendu vs 3 kg). Les deux options nécessitent un re-tuning algorithmes identique en complexité. **L'Option C reste pertinente uniquement si la priorité absolue est l'autonomie batterie.**
+
+---
+---
+
+## 10. Améliorations Supplémentaires de la Stabilité
+
+> *Idées complémentaires pour optimiser l'équilibre du D-Bot, applicables à l'Option C comme D.*
+
+### 10.1 Optimisation du Design des Pieds
+
+Le design du pied est un facteur **majeur** de stabilité, souvent sous-estimé.
+
+| Amélioration | Principe | Impact | Difficulté | Coût |
+| :--- | :--- | :--- | :---: | :---: |
+| **Pieds plus grands** | Augmenter la surface d'appui (largeur +2 cm) | ✅ Base de support élargie, plus de marge CoP | Faible | ~$0 (impression 3D) |
+| **Semelle courbe (rocker)** | Courbure avant/arrière pour rouler naturellement | ✅ Transition de pas plus fluide, moins de couple cheville | Moyen | ~$10 |
+| **Orteils passifs** | Joint élastique à l'avant du pied (~15° flex) | ✅ Phase de poussée améliorée (toe-off) | Moyen | ~$5-15 |
+| **Semelle antidérapante** | Caoutchouc souple type Shore 40A collé sous le pied | ✅ Meilleure adhérence, moins de glissement | Faible | ~$5 |
+
+> [!TIP]
+> **Les pieds plus grands sont le gain de stabilité le plus simple et gratuit.** Un pied 2 cm plus large de chaque côté augmente la base de support de ~30%, ce qui donne une marge considérable au contrôleur d'équilibre.
+
+### 10.2 Placement Stratégique de la Batterie
+
+La batterie (typiquement 1.5-3 kg) est la **masse la plus facile à repositionner** sans impact fonctionnel.
+
+| Position | Impact CdG | Avantage | Inconvénient |
+| :--- | :--- | :--- | :--- |
+| **Torse haut** (actuel typique) | CdG haut | Facile d'accès, échange rapide | ❌ Élève le CdG |
+| **Torse bas / bassin** | CdG **bas** ✅ | Stabilité améliorée | Accès plus difficile |
+| **Dos bas (sac à dos)** | CdG moyen-bas | Bon compromis accès/stabilité | Légère protubérance |
+| **Répartie (2 batteries)** | CdG symétrique ✅ | Équilibre gauche/droite + redondance | Plus de câblage |
+
+**Recommandation** : Placer la batterie le **plus bas possible** dans le torse, idéalement au niveau du bassin. Cela abaisse le CdG de 5-10 cm et améliore la stabilité **gratuitement** (même batterie, même poids).
+
+### 10.3 IMU et Capteurs de Force
+
+L'équilibre d'un robot bipède dépend autant des **capteurs** que des actionneurs.
+
+| Capteur | Rôle | Priorité | Coût |
+| :--- | :--- | :---: | :---: |
+| **IMU haute fréquence** (≥200 Hz) | Mesure d'angle et de vitesse angulaire du torse | 🔴 **CRITIQUE** | ~$20-50 |
+| **Capteurs de force plantaires** | Mesure du Centre de Pression (CoP) sous chaque pied | 🟡 **IMPORTANT** | ~$30-80/pied |
+| **Encodeurs moteurs** (déjà inclus) | Position et vitesse articulaire | ✅ Intégré RobStride | $0 |
+
+L'IMU est **indispensable** — sans elle, le robot est aveugle à son inclinaison. Les capteurs plantaires sont un **plus significatif** qui permettent de savoir directement où se trouve le CoP au lieu de l'estimer par le modèle dynamique.
+
+### 10.4 Éléments Élastiques en Série (SEA)
+
+Une approche mécanique pour améliorer la compliance et la sécurité des interactions :
+
+| Concept | Principe | Avantage | Inconvénient |
+| :--- | :--- | :--- | :--- |
+| **SEA cheville** | Ressort entre moteur et articulation | Absorption des chocs au sol, protection du moteur | Réduit la bande passante du contrôle |
+| **SEA genou** | Idem au genou | Récupération d'énergie en phase de balancement | Complexité mécanique |
+
+**Verdict** : Intéressant pour une V2, mais ajoute une complexité mécanique significative. Les QDD RobStride ont déjà une certaine backdrivabilité grâce à leur faible ratio de réduction (9:1 à 10:1), offrant une compliance naturelle.
+
+### 10.5 DOF de Taille/Torse (Waist) — Optionnel V2
+
+Beaucoup de robots humanoïdes avancés (Unitree H2, ATLAS) ont un **DOF de rotation du torse** :
+
+| DOF Taille | Moteur Suggéré | Avantage | Quand ? |
+| :--- | :---: | :--- | :---: |
+| **Yaw** (rotation) | RS-03 | Dissocier mouvement bras/jambes, virages naturels | V2 |
+| **Pitch** (inclinaison) | RS-03 | Se pencher en avant sans bouger les hanches | V2+ |
+| **Roll** (latéral) | RS-03 | Compensation de charges latérales | V2+ |
+
+**Verdict** : Non prioritaire pour la V1. Le K-Bot standard n'en a pas et parvient à marcher. Intéressant pour une V2 si la marche rapide et le portage asymétrique deviennent des objectifs.
+
+### 10.6 Synthèse des Améliorations de Stabilité
+
+| Priorité | Amélioration | Coût | Difficulté | Impact |
+| :---: | :--- | :---: | :---: | :--- |
+| 🔴 **1** | IMU haute fréquence | ~$30 | Faible | Indispensable pour tout contrôle d'équilibre |
+| 🔴 **2** | Pieds plus grands (+2 cm) | ~$0 | Faible | +30% de base de support |
+| 🟠 **3** | Batterie en position basse | ~$0 | Faible | CdG abaissé de 5-10 cm |
+| 🟡 **4** | Semelle antidérapante | ~$5 | Faible | Meilleure adhérence au sol |
+| 🟡 **5** | Capteurs de force plantaires | ~$100 | Moyen | Mesure directe du CoP |
+| 🟢 **6** | Semelle courbe (rocker) | ~$10 | Moyen | Transition de pas naturelle |
+| 🟢 **7** | Orteils passifs | ~$15 | Moyen | Meilleur toe-off |
+| 🔵 **8** | SEA (élasticité série) | ~$50 | Élevé | Absorption de chocs, V2 |
+| 🔵 **9** | DOF Taille Yaw | ~$250 | Élevé | Virages naturels, V2 |
+
+> [!TIP]
+> **Les 4 premières améliorations coûtent moins de $35 au total** et sont toutes réalisables immédiatement avec une simple impression 3D (pieds), un composant ($30 IMU), et un repositionnement de batterie ($0). Elles auront collectivement un impact **considérable** sur la stabilité.
