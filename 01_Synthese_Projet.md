@@ -5,7 +5,7 @@ Le projet consiste à construire un robot humanoïde baptisé **D-Bot**.
 Il s'agit d'une **évolution majeure** de la plateforme open-source **K-Bot**, améliorée avec des actionneurs modernes et une intelligence embarquée avancée. Ce n'est pas un simple fork, mais une refonte complète de l'architecture électronique et motrice.
 
 ### Améliorations Clés (vs K-Bot Original)
-Le D-Bot repose sur un système de **22 moteurs RobStride** (20 DOF standard + 2x RS-05 additionnels), une vision IA **Luxonis OAK-D Pro** et un **LiDAR Unitree L2**, le tout piloté par une **NVIDIA Jetson Orin Nano** et une **Sony Spresense**.
+Le D-Bot repose sur un système de **24 moteurs RobStride** (20 DOF K-Bot + 2× RS-05 cou + 2× RS-02 cheville Roll), une vision IA **Luxonis OAK-D Pro** et un **LiDAR Unitree L2**, le tout piloté par une **NVIDIA Jetson Orin Nano** et une **Sony Spresense**.
 
 ## 2. Feuille de Route (Roadmap)
 Le projet est découpé en 4 phases distinctes pour valider chaque étape critique.
@@ -25,7 +25,8 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 
 ### Phase 4 : Marche (Jambes)
 *   **Objectif** : Locomotion et équilibre dynamique.
-*   **Matériel** : + 10-12 Moteurs puissants (RS-04).
+*   **Matériel** : + 12 Moteurs (RS-04 hanches/genoux, RS-03 cheville Pitch, RS-02 cheville Roll).
+*   **Capteurs** : IMU torse (BMI270 Add-on) pour le contrôle d'équilibre + capteurs FSR plantaires.
 
 ## 3. Architecture Matérielle
 L'architecture repose sur une séparation claire entre la puissance de calcul (IA) et le contrôle temps réel (Moteurs/Capteurs bas niveau).
@@ -39,13 +40,14 @@ graph TD
     A -- USB --> F[LiDAR Unitree L2]
 
     subgraph "Contrôle Moteur"
-    D --> D1["RS-01..04 (Membres)"]
-    D --> D2["RS-05 (Cou/Poignets)"]
+    D --> D1["RS-02/03/04 (Membres)"]
+    D --> D2["RS-00/05 (Poignets/Cou)"]
     end
 
     subgraph "Perception Audio/Sensor"
     B --> B1["Micros (Beamforming)"]
-    B --> B2[Capteurs I2C/SPI]
+    B --> B2["IMU Torse (BMI270)"]
+    B --> B3[Capteurs I2C/SPI]
     end
 ```
 
@@ -65,7 +67,7 @@ La construction est divisée en 4 phases pour valider les systèmes progressivem
 1.  **Phase 1 (Tête & Torse)** : Validation de l'intelligence (Jetson/Spresense), de la vision et de l'audio.
 2.  **Phase 2 (Premier Bras)** : Validation 6 DOF, Bus CAN et impression structurelle.
 3.  **Phase 3 (Deuxième Bras)** : Coordination bimanuelle et transport de charges.
-4.  **Phase 4 (Corps & Marche)** : Jambes, équilibre dynamique et autonomie.
+4.  **Phase 4 (Corps & Marche)** : Jambes (12 DOF incl. cheville Roll), équilibre dynamique (IMU torse + FSR plantaires) et autonomie.
 
 ## Points de Vigilance Critique (Audit Discussion)
 -   **Motorisation** : Le couple de pointe (Peak Torque) des RS-04 (hanches/genoux) atteint 120 Nm. La structure doit être en PA12-CF ou Aluminium 6061.

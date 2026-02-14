@@ -15,10 +15,17 @@ Ce document recense les choix techniques structurants effectués durant la phase
     *   La carte LTE officielle sacrifie trop d'I/O audios (max 4 micros) pour un usage "autonome outdoor" qui n'est pas la priorité immédiate.
 
 ## 3. Positionnement LiDAR (Unitree L2)
-**Choix** : **Sommet de la Tête**.
-*   **Alternatives rejetées** : Torse (occulté par les bras lors de la manipulation), Tibia (trop bas, ne voit pas les tables).
-*   **Avantage** : Champ de vision dégagé à 360° pour le SLAM (Simultaneous Localization and Mapping).
-*   **Contrainte** : Nécessite un câble passant dans le cou (attention à la torsion).
+**Choix** : **Haut du Torse, devant le cou, incliné 10-20° vers l'avant**.
+*   **Alternatives rejetées** :
+    - *Sommet de la tête* : FOV idéal mais nécessite un câble passant dans le cou articulé (Pan/Tilt RS-05) — risque d'usure et de torsion du câble, poids en hauteur (+CdG).
+    - *Tibia* : Trop bas, ne voit pas les tables ni les obstacles en hauteur.
+    - *Bassin* : Occulté par les jambes lors de la marche.
+*   **Avantage du torse haut** :
+    - Champ de vision 360° dégagé (les bras n'occultent que temporairement lors de manipulation).
+    - Pas de contrainte mécanique de câble articulé.
+    - Position stable (pas de vibrations du cou Pan/Tilt) = meilleur SLAM.
+    - L'inclinaison de 10-20° compense le décalage par rapport au sol.
+*   **Compensation** : L'OAK-D Pro (vision stéréo) dans la tête complète le champ de vision frontal quand les bras sont levés.
 
 ## 4. Matériaux et Fixations
 *   **Visserie** : Standardisation sur **DIN 912** (Cylindrique) Inox A2.

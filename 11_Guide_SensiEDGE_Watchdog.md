@@ -1,24 +1,36 @@
-# 11 - Guide SensiEDGE & Watchdog (Sécurité & Environnement)
+# 11 - Guide IMU & Watchdog (Sécurité & Équilibre)
 
-Ce guide détaille l'intégration de la carte **SensiEDGE CommonSense** et la mise en place de l'architecture de **Sécurité Active** (Watchdog + Power Management) pilotée par la Sony Spresense.
+Ce guide détaille l'intégration de l'**IMU torse** (BMI270 Add-on Board) et la mise en place de l'architecture de **Sécurité Active** (Watchdog + Power Management) pilotée par la Sony Spresense.
 
-## 1. Matériel : SensiEDGE CommonSense
-Cette carte "Tout-en-un" transforme la Spresense en une boîte noire environnementale et inertielle indépendante de la Jetson.
+> [!WARNING]
+> **Migration SensiEDGE → BMI270** : La carte SensiEDGE CommonSense initialement prévue **n'est pas disponible au grand public** (réservée aux professionnels). Ce guide a été mis à jour pour utiliser le **BMI270 Add-on Board** (Switch Science) comme IMU principale.
 
-### Spécifications Techniques
-*   **Connexion** : S'enfiche sur le port I2C/UART de la **Spresense Extension Board**.
-*   **Capteurs Critiques** :
-    *   **IMU 6-Axes (LSM6DSOX)** : Accéléromètre + Gyroscope. Sert de "Sens de l'équilibre" de secours pour détecter une chute quand la Jetson est éteinte.
-    *   **Magnétomètre (LIS2MDL)** : Boussole numérique.
-    *   **Environnement** : Température/Humidité (HTS221) et Pression (LPS22HH). Indispensable pour surveiller la température interne du torse (Moteurs + Jetson).
-    *   **Qualité d'Air (SGP40)** : Détection de VOC (Composés Organiques Volatils). Utile pour détecter une surchauffe de gaine ou un début d'incendie électrique.
-    *   **Lumière/Proximité** : Capteur de lumière ambiante.
+## 1. Matériel : IMU Torse
+
+### Option Recommandée : BMI270 Add-on Board (Switch Science)
+*   **Connexion** : S'enfiche sur les headers I2C/SPI de la **Spresense Extension Board**.
+*   **Capteur** : **Bosch BMI270** — Accéléromètre + Gyroscope 6 axes.
+*   **Fréquence** : Jusqu'à **416 Hz** (accéléromètre) / **6.4 kHz** (gyroscope).
+*   **Rôle primaire** : **IMU d'équilibre** du robot — contrôle du centre de masse en temps réel.
+*   **Rôle secondaire** : Détection de chute quand la Jetson est éteinte (Watchdog).
+*   **Bibliothèque Arduino** : `Arduino_BMI270_BMM150` ou `BMI270-Sensor-API`.
+
+### Alternative Haute Précision : Sony Spresense Multi-IMU Add-on Board
+*   **Sortie** : Février 2025.
+*   **Principe** : 16 MEMS IMUs fusionnées pour une précision comparable aux **gyroscopes à fibre optique (FOG)**.
+*   **Quand l'utiliser** : Si la marche dynamique sur terrain complexe nécessite une précision angulaire extrême.
+*   **Interface** : SPI.
+
+### ~~SensiEDGE CommonSense~~ (Indisponible)
+*   ⚠️ **Non disponible au grand public** — réservée aux clients professionnels.
+*   Contenait : IMU (LSM6DSOX), Magnétomètre (LIS2MDL), Temp/Humidité (HTS221), Pression (LPS22HH), Qualité d'air (SGP40).
+*   Les capteurs environnementaux ne sont **pas critiques** pour le prototype V1. Si nécessaire, ajouter des thermistances ($1) sur les moteurs RS-04.
 
 ### Montage Mécanique
 L'empilement (Stack) se fait verticalement dans le torse :
 1.  **Base** : Spresense Extension Board (Arduino form factor).
 2.  **Milieu** : Spresense Main Board.
-3.  **Haut** : SensiEDGE CommonSense (se connecte sur les headers).
+3.  **Haut** : **BMI270 Add-on Board** (se connecte sur les headers I2C/SPI).
 
 ---
 
@@ -51,7 +63,7 @@ Ce code surveille la batterie (protection décharge profonde) et la Jetson (anti
 ```cpp
 /*
  * D-Bot Power Manager & Watchdog
- * Matériel : Sony Spresense + SensiEDGE (IMU)
+ * Matériel : Sony Spresense + BMI270 Add-on (IMU Équilibre)
  */
 
 #include <RTC.h> // Pour la gestion du temps
@@ -144,10 +156,11 @@ void emergencyShutdown() {
 ```
 
 ### Intégration des Capteurs SensiEDGE
-Pour lire les capteurs environnementaux (Air Quality, Temp), utilisez les bibliothèques Arduino standard compatibles :
-- **IMU** : `Arduino_LSM6DSOX`
-- **Temp/Hum** : `Arduino_HTS221`
-- **Pression** : `Arduino_LPS22HH`
-- **Gaz** : `Sensirion I2C SGP40`
+Pour lire l'IMU BMI270 (remplacement de la SensiEDGE), utilisez :
+- **IMU** : `Arduino_BMI270_BMM150` (Bosch officiel) ou `BMI270-Sensor-API`
 
-*Note : La carte CommonSense utilise le bus I2C standard. Aucune électronique additionnelle n'est requise.*
+Si des capteurs environnementaux sont ajoutés ultérieurement :
+- **Température** : Thermistance NTC sur ADC Spresense
+- **Note** : Les bibliothèques SensiEDGE (`Arduino_LSM6DSOX`, `Arduino_HTS221`, etc.) ne sont plus nécessaires.
+
+*Note : Le BMI270 Add-on utilise le bus I2C ou SPI standard. Aucune électronique additionnelle n'est requise.*

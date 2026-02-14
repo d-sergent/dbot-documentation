@@ -31,14 +31,26 @@
 ### Phase 1 : Tête / Torse (Aucun Moteur)
 *   Focus uniquement sur les capteurs et l'intelligence.
 
-### Phase 2 : Premier Bras (6 DOF)
+### Phase 2 : Premier Bras (5 DOF)
 | Modèle | Quantité | Couple (Peak) | Usage |
 | :--- | :--- | :--- | :--- |
-| **Robstride 03** | 2 | 35 Nm | Épaule (Force brute - Pitch/Roll) |
-| **Robstride 02** | 3 | 24.8 Nm | Biceps / Coude / Avant-bras |
-| **Robstride 00** | 1 | - | Poignet / Effecteur Final (Rotation) |
+| **Robstride 03** | 2 | **60 Nm** | Épaule (Force brute - Pitch/Roll) |
+| **Robstride 02** | 2 | **17 Nm** | Épaule Yaw / Coude |
+| **Robstride 00** | 1 | 14 Nm | Poignet Roll |
 
-*(Note: Le RS-05 initialement prévu pour le cou est reporté ou intégré différemment selon le design final de la tête)*.
+### Phase 3 : Deuxième Bras (5 DOF identiques)
+*Même configuration que Phase 2, symétriquement.*
+
+### Phase 4 : Jambes + Cou (14 DOF)
+| Modèle | Quantité | Couple (Peak) | Usage |
+| :--- | :--- | :--- | :--- |
+| **Robstride 04** | 4 | **120 Nm** | Hanches Pitch + Genoux |
+| **Robstride 03** | 4 | **60 Nm** | Hanches Roll/Yaw |
+| **Robstride 03** | 2 | **60 Nm** | Chevilles Pitch (upgrade vs K-Bot) |
+| **Robstride 02** | 2 | **17 Nm** | Chevilles Roll (**NOUVEAU**, stabilité latérale) |
+| **Robstride 05** | 2 | **5.5 Nm** | Cou Pan/Tilt |
+
+> **Note** : Configuration basée sur l'Option D-Révisée "D-Bot Maximal" (24 DOF). Voir [Analyse Biomécanique](./15_Analyse_Biomecanique.md) pour le détail et les alternatives.
 
 ### Autres Composants Électroniques
 | Composant | Modèle | Quantité | Note |
@@ -65,8 +77,16 @@
     - *Main Board* + *Extension Board* (Standard).
     - **Note sémantique** : L'Extension Board Standard est préférée pour ses 8 entrées micro (vs 4 sur la version LTE).
     - **Connectivité** : Pour la LTE, utilisez un shield tiers (Waveshare SIM7600) via UART pour conserver les 8 micros.
-- **SensiEDGE CommonSense** : Carte d'extension "Tout-en-un" (IMU de secours + Qualité Air + Température interne).
+- **IMU Torse (Équilibre)** : **Bosch BMI270 Add-on Board** (Switch Science) — 6 axes, I2C/SPI, compatible Spresense. **C'est l'IMU principale d'équilibre** du robot (voir [Stratégie IMU](./08_Audio_Perception.md)).
+- ~~**SensiEDGE CommonSense**~~ : ⚠️ **Non disponible au grand public** (réservée aux professionnels). Remplacée par le BMI270 Add-on Board ci-dessus.
 - **Audio** : 8x Microphones numériques MEMS (PDM) + câbles blindés.
+
+### Capteurs d'Équilibre (Phase 4)
+| Composant | Modèle | Quantité | Note |
+| :--- | :--- | :--- | :--- |
+| **IMU Torse** | BMI270 Add-on Board (Spresense) | 1 | IMU primaire d'équilibre — 416 Hz, 6 axes |
+| **Capteurs plantaires** | FSR 402 (Force Sensing Resistor) | 8 (4/pied) | Mesure du Centre de Pression (CoP) — connectés aux ADC Spresense |
+| *Alternative IMU* | *Sony Multi-IMU Add-on Board* | *1* | *16 MEMS, précision classe FOG — si besoin haute précision* |
 
 ### Sécurité & Gestion d'Énergie (Power Management)
 | Composant | Référence | Rôle |
