@@ -1,6 +1,6 @@
 # 14 - Cinématique & Choix Moteurs
 
-Ce document détaille l'architecture cinématique du D-Bot (Target 24 DOF) et les spécifications techniques des actionneurs **RobStride**.
+Ce document détaille l'architecture cinématique du D-Bot (**Standard 24 DOF**) et les spécifications techniques des actionneurs **RobStride**.
 
 ## 1. Configuration K-Bot Standard (20 DOF)
 
@@ -57,16 +57,17 @@ Le K-Bot standard est un robot humanoïde open-source de taille réelle dévelop
 
 ---
 
-### 🤖 ÉVOLUTION D-BOT (22 DOF minimum)
+### 🤖 ÉVOLUTION D-BOT (24 DOF Standard)
 
-Le **D-Bot** ajoute une **tête articulée** au K-Bot standard :
+Le **D-Bot** étend le K-Bot avec une **tête articulée** et des **chevilles à 2 DOF** (pour la stabilité latérale) :
 
 | Ajout D-Bot | Moteur | Quantité | Couple Pic | Fonction |
 | :--- | :---: | :---: | :---: | :--- |
 | **Cou Pan** (Yaw) | RS-05 | 1 | 5.5 N.m | Rotation horizontale tête |
 | **Cou Tilt** (Pitch) | RS-05 | 1 | 5.5 N.m | Inclinaison tête |
+| **Cheville Roll** | RS-02 | 2 | 17 N.m | **Stabilité latérale** (Correction équilibre) |
 
-**Total D-Bot** : 20 + 2 = **22 moteurs** (évolutif à 24 avec doigts articulés)
+**Total D-Bot** : 20 (Base) + 2 (Tête) + 2 (Chevilles) = **24 moteurs** (Architecture "D-Bot Performance").
 
 ## 2. Spécifications Moteurs RobStride (Gamme Complète)
 Voici les données techniques consolidées pour l'ensemble de la gamme RobStride (Février 2025).  
@@ -110,7 +111,7 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 | Épaule | RS-03 | 2 | 60 N.m | Force indispensable pour porte-à-faux max |
 | Jambes (Hanche/Genou/Cheville) | RS-04 | 10 (5 par jambe) | 120 N.m | Portance totale (~15 kg robot) |
 
-**Total moteurs D-Bot** : 2 + 2 + 6 + 2 + 10 = **22 moteurs** (peut évoluer à 24 avec ajout doigts/torse).
+**Total moteurs D-Bot** : 2 + 2 + 6 + 2 + 10 + 2 (Cheville Roll) = **24 moteurs**.
 
 ## 3. Communication & Alimentation
 Tous les moteurs partagent le même protocole :

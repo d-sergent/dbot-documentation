@@ -98,7 +98,7 @@ Le PETG renforcé fibre de carbone (PETG-CF) est le meilleur compromis pour le D
 *   **Fichier STEP** : Disponible dans le dossier `Discussions/ou recuperer le modele step...`.
 
 ### Positionnement LiDAR Unitree L2
-*   **Emplacement** : Sommet de la tête (Top of Head).
-*   **Pourquoi ?** Champ de vision dégagé à 360° pour le SLAM.
-*   **Fixation** : 4 vis M3 traversantes vers des inserts dans la coque de tête.
-*   **Orientation** : Câble vers l'arrière pour ne pas gêner la caméra OAK-D Pro (placée en frontal).
+*   **Emplacement** : **Haut du Torse**, devant le cou (voir [Décisions Architecturales](./06_Decisions_Architecturales.md)).
+*   **Pourquoi ?** Évite le passage de câble dans le cou articulé, tout en gardant un bon FOV.
+*   **Fixation** : Support incliné à **10-20°** vers l'avant.
+*   **Orientation** : Connecteur vers le bas ou l'arrière selon le design du plastron.
