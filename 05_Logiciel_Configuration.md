@@ -10,7 +10,7 @@ sudo apt-get install can-utils
 ```
 
 ### Couche Jetson (Middleware)
-Le D-bot tourne sous **Ubuntu 22.04 (JetPack 6)** avec **ROS 2 Humble**.
+Le D-Bot tourne sous **Ubuntu 22.04 (JetPack 6)** avec **ROS 2 Humble**.
 - **Micro-ROS Agent** : Gère la passerelle avec la Sony Spresense via `/dev/ttyTHS0` (Pins 8/10).
 - **NVIDIA Isaac ROS** : Accélération matérielle pour la vision (OAK-D).
 

@@ -20,7 +20,7 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Préparation Commande CNC.
 
 4.  **[Électronique & Câblage](./04_Electronique_Cablage.md)**
-    *   Bus CAN Bus (Daisy Chain, GND critique, Stubs).
+    *   Bus CAN (Daisy Chain, GND critique, Stubs).
     *   Alimentation & Protection (XT60, Matek PDB).
     *   Sécurité Wanptek (Mode OCP).
 
@@ -29,8 +29,10 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Liaison série Jetson/Spresense (UART Pins 8/10).
     *   Configuration SocketCAN (1 Mbps).
 
-6.  **[Réseau et Sécurité](./06_Architecture_Reseau.md)**
-    *   WiFi 5GHz (Archer T3U) et VPN Wireguard.
+6.  **[Décisions Architecturales](./06_Decisions_Architecturales.md)**
+    *   Choix du Kit Moteur (RS-05).
+    *   Carte d'Extension Sony Spresense.
+    *   Positionnement LiDAR et Matériaux.
 
 7.  **[Vision et IA](./07_Vision_IA.md)**
     *   OAK-D Pro S2 FF (Encastrement, Tilt, Stéréo Active).
@@ -52,6 +54,20 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Architecture "Power Manager" (Veille/Réveil).
     *   Code C++ Watchdog et Surveillance Batterie 12S.
     *   Intégration capteurs environnementaux (CommonSense).
+
+12. **[Guide Pièces Métal (CNC)](./12_Guide_Parties_Metal_CNC.md)**
+    *   Spécifications Alu 6061-T6 et règles de conception.
+    *   Préparation fichiers STEP et astuces commande.
+
+13. **[Sécurité Électrique Essentielle](./13_Securite_Electrique.md)**
+    *   Paramètres alimentation labo (Safe Start).
+    *   Séquence d'allumage/extinction stricte.
+    *   Arrêt d'urgence et sécurité mécanique.
+
+14. **[Cinématique & Choix Moteurs](./14_Cinematique_Moteurs.md)**
+    *   Architecture 24 DOF (Tête + Bras + Jambes).
+    *   Tableau comparatif RobStride (RS-00 à RS-05).
+    *   Couple, Poids, Prix et Applications.
 
 ---
 *Documentation exhaustive générée et auditée en Février 2026.*

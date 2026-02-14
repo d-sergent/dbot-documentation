@@ -25,7 +25,7 @@ C'est la colonne vertébrale du robot. Une erreur ici rend le robot inerte.
     *   **GND** -> **CRITIQUE**. Relier la masse de l'USB2CAN à la masse commune des moteurs (Batterie -). Sans ça, le signal flotte et crée des erreurs "Bus Off".
 
 ### Bus de Communication (CAN 1 Mbps)
-Le CAN bus est le système nerveux du D-bot. Une erreur de câblage ici rend le robot incontrôlable.
+Le Bus CAN est le système nerveux du D-Bot. Une erreur de câblage ici rend le robot incontrôlable.
 
 #### Règle d'or du Câblage 3 fils
 Bien que différentiel, le CAN exige une référence commune :

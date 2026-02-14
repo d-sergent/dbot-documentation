@@ -50,7 +50,7 @@ Ce code surveille la batterie (protection décharge profonde) et la Jetson (anti
 
 ```cpp
 /*
- * K-Bot Power Manager & Watchdog
+ * D-Bot Power Manager & Watchdog
  * Matériel : Sony Spresense + SensiEDGE (IMU)
  */
 
@@ -87,7 +87,7 @@ void setup() {
   
   digitalWrite(PIN_MOSFET, LOW); // Sécurité : Tout éteint au démarrage
   Serial.begin(115200);
-  Serial.println("--- K-Bot Security Sentinel Started ---");
+  Serial.println("--- D-Bot Security Sentinel Started ---");
 }
 
 void loop() {
@@ -129,7 +129,7 @@ void loop() {
 }
 
 void wakeupRobot() {
-  Serial.println("Réveil du K-Bot...");
+  Serial.println("Réveil du D-Bot...");
   digitalWrite(PIN_MOSFET, HIGH);
   isRobotAwake = true;
   lastHeartbeat = millis(); 

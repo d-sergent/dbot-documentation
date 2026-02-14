@@ -86,7 +86,7 @@ Le PETG renforcé fibre de carbone (PETG-CF) est le meilleur compromis pour le D
 
 ## 3. Montage des Moteurs Robstride
 
-### Intégration Robstride 05 (RS05) - Cou / Poignets
+### Intégration Robstride 05 (RS-05) - Cou / Poignets
 *   **Ancrage** : Le couple de pointe (5.5 Nm) est élevé pour du plastique.
     *   Utilisez des **vis M4 x 12mm Acier 12.9 (Noir)** pour fixer le corps moteur au châssis. L'Inox est trop "mou" pour ces zones de force pure si vous démontez souvent.
 *   **Longueur de vis** : Règle d'or = Épaisseur pièce plastique + (Profondeur trou moteur - 1mm).

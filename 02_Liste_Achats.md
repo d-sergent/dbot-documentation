@@ -3,11 +3,11 @@
 ## 1. Visserie & Fixations (Hardware)
 **Stratégie** : Utilisation de vis **DIN 912 (Tête Cylindrique)** en Acier Inoxydable A2 (Inox 304) pour la résistance à la corrosion, ou Acier Noir 12.9 pour les axes moteurs de force.
 
-### Quantités Requises (D-Bot + 2x RS05)
+### Quantités Requises (D-Bot + 2x RS-05)
 | Type | Diamètre | Longueur | Quantité Est. | Usage |
 | :--- | :--- | :--- | :--- | :--- |
 | **Vis CHC** | M3 | 6mm - 12mm | ~240 | Fixations électroniques, caches, small motors |
-| **Vis CHC** | M4 | 10mm - 15mm | ~160 | Structure principale, moteurs RS01-RS04 |
+| **Vis CHC** | M4 | 10mm - 15mm | ~160 | Structure principale, moteurs RS-01-RS-04 |
 | **Vis CHC** | M5 | 12mm - 20mm | ~40 | Hanches, Grosses articulations |
 | **Écrous/Rondelles** | M3/M4/M5 | - | ~150 de chaque | - |
 
@@ -38,7 +38,7 @@
 | **Robstride 02** | 3 | 24.8 Nm | Biceps / Coude / Avant-bras |
 | **Robstride 00** | 1 | - | Poignet / Effecteur Final (Rotation) |
 
-*(Note: Le RS05 initialement prévu pour le cou est reporté ou intégré différemment selon le design final de la tête)*.
+*(Note: Le RS-05 initialement prévu pour le cou est reporté ou intégré différemment selon le design final de la tête)*.
 
 ### Autres Composants Électroniques
 | Composant | Modèle | Quantité | Note |

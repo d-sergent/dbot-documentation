@@ -5,7 +5,7 @@ Le projet consiste à construire un robot humanoïde baptisé **D-Bot**.
 Il s'agit d'une **évolution majeure** de la plateforme open-source **K-Bot**, améliorée avec des actionneurs modernes et une intelligence embarquée avancée. Ce n'est pas un simple fork, mais une refonte complète de l'architecture électronique et motrice.
 
 ### Améliorations Clés (vs K-Bot Original)
-Le D-bot repose sur un système de **22 moteurs RobStride** (20 DOF standard + 2x RS-05 additionnels), une vision IA **Luxonis OAK-D Pro** et un **LiDAR Unitree L2**, le tout piloté par une **NVIDIA Jetson Orin Nano** et une **Sony Spresense**.
+Le D-Bot repose sur un système de **22 moteurs RobStride** (20 DOF standard + 2x RS-05 additionnels), une vision IA **Luxonis OAK-D Pro** et un **LiDAR Unitree L2**, le tout piloté par une **NVIDIA Jetson Orin Nano** et une **Sony Spresense**.
 
 ## 2. Feuille de Route (Roadmap)
 Le projet est découpé en 4 phases distinctes pour valider chaque étape critique.
@@ -17,7 +17,7 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 
 ### Phase 2 : Premier Bras (Focus Actuel)
 *   **Objectif** : Validation mécanique et manipulation.
-*   **Matériel** : + 6 Moteurs Robstride (RS03 épaule, RS02 coude, RS00 poignet).
+*   **Matériel** : + 6 Moteurs Robstride (RS-03 épaule, RS-02 coude, RS-00 poignet).
 *   **Budget Est.** : ~2 000 €.
 
 ### Phase 3 : Deuxième Bras
@@ -25,7 +25,7 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 
 ### Phase 4 : Marche (Jambes)
 *   **Objectif** : Locomotion et équilibre dynamique.
-*   **Matériel** : + 10-12 Moteurs puissants (RS04).
+*   **Matériel** : + 10-12 Moteurs puissants (RS-04).
 
 ## 3. Architecture Matérielle
 L'architecture repose sur une séparation claire entre la puissance de calcul (IA) et le contrôle temps réel (Moteurs/Capteurs bas niveau).
@@ -39,8 +39,8 @@ graph TD
     A -- USB --> F[LiDAR Unitree L2]
 
     subgraph "Contrôle Moteur"
-    D --> D1["RS01..04 (Membres)"]
-    D --> D2["RS05 (Cou/Poignets)"]
+    D --> D1["RS-01..04 (Membres)"]
+    D --> D2["RS-05 (Cou/Poignets)"]
     end
 
     subgraph "Perception Audio/Sensor"
