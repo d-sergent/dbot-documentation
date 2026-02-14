@@ -102,3 +102,29 @@ Le PETG renforcé fibre de carbone (PETG-CF) est le meilleur compromis pour le D
 *   **Pourquoi ?** Évite le passage de câble dans le cou articulé, tout en gardant un bon FOV.
 *   **Fixation** : Support incliné à **10-20°** vers l'avant.
 *   **Orientation** : Connecteur vers le bas ou l'arrière selon le design du plastron.
+
+---
+
+## 4. Intégration Cheville 2-DOF (Roll + Pitch) [Phase 4]
+Pour l'option "D-Bot Performance" (24 DOF), la cheville utilise deux moteurs en série.
+
+### Schéma Cinématique (Bracket en L)
+L'objectif est de garder le pied le plus bas possible. Le moteur Roll (RS-02) est solidaire du pied, tandis que le moteur Pitch (RS-03) est solidaire du tibia.
+
+```mermaid
+graph TD
+    Tibia["Structure Tibia"] -->|Fixe le Stator| Pitch["Moteur Pitch RS-03"]
+    Pitch -->|"Rotor tourne (Y)"| Bracket["Pièce Inter-Moteurs 'L-Shape'"]
+    Bracket -->|Fixe le Stator| Roll["Moteur Roll RS-02"]
+    Roll -->|"Rotor tourne (X)"| Pied["Structure du Pied + FSR"]
+```
+
+### Pièces à Imprimer / Usiner
+1.  **Cheville_Inter_Bracket** (Pièce en L) :
+    *   Connecte la sortie du RS-03 (Pitch) au dos du RS-02 (Roll).
+    *   **Matériau** : PA12-CF ou Alu 6061 (Forte contrainte en torsion).
+    *   **Visserie** : M4 x 10mm (x4 côté Pitch) + M3 x 8mm (x4 côté Roll).
+2.  **Pied_Sole** :
+    *   Accueille le rotor du RS-02.
+    *   Logements pour les 4 capteurs FSR.
+    *   **Surface** : Ajouter un patin en TPU ou caoutchouc 2mm pour le grip.

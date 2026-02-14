@@ -71,3 +71,31 @@ Pour les premiers tests moteurs (Banc d'essai) :
 *   **Sécurité** :
     *   Fusible automobile sur la ligne principale.
     *   Bouton d'arrêt d'urgence (E-Stop) coupant l'alim moteurs mais *pas* la Jetson.
+
+---
+
+## 5. Capteurs de Force (FSR) - Phase 4
+Pour la marche dynamique, chaque pied est équipé de 4 capteurs FSR (Force Sensing Resistor) pour mesurer le Centre de Pression (CoP).
+
+### Schéma de Câblage (Pont Diviseur)
+Les FSR sont des résistances variables (Infini à vide -> ~1kΩ appuyé). La Spresense lit une **tension** (ADC). Il faut donc un circuit diviseur.
+
+```
+      3.3V (Spresense VREF)
+        │
+        │
+       [ ]  FSR (Capteur de force)
+        │
+        ├─── vers Pin Analogique (A0, A1, A2, A3)
+        │
+       [ ]  Résistance Pull-down (R = 10kΩ)
+        │
+       GND
+```
+
+### Connexion Spresense
+*   **Haut de l'Extension Board** : Pins `A0` à `A3` (4 canaux).
+*   **Multiplexage** : Si vous avez 8 FSR (4 par pied) et seulement 4 entrées analogiques libres :
+    *   Option A : Mettre les FSR Avant en parallèle (moyenne) et Arrière en parallèle. = 2 fils par pied.
+    *   Option B : Utiliser un multiplexeur I2C (ex: ADS1115) pour lire 4 canaux supplémentaires.
+    *   *Reco Prototype* : Option A (Suffisant pour savoir si le poids est sur les pointes ou les talons).
