@@ -66,8 +66,14 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
 
 14. **[Cinématique & Choix Moteurs](./14_Cinematique_Moteurs.md)**
     *   Architecture 24 DOF (Tête + Bras + Jambes).
-    *   Tableau comparatif RobStride (RS-00 à RS-05).
+    *   Tableau comparatif RobStride (RS-00 à RS-06).
     *   Couple, Poids, Prix et Applications.
+
+15. **[Analyse Biomécanique & Évolutions](./15_Analyse_Biomecanique.md)**
+    *   Analyse capacités de marche (lente, rapide, course).
+    *   Évaluation portage (bras tendu vs plié).
+    *   Propositions d'upgrade moteurs (RobStride + alternatives).
+    *   Configuration "D-Bot Performance" recommandée.
 
 ---
 *Documentation exhaustive générée et auditée en Février 2026.*
