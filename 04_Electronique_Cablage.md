@@ -75,40 +75,77 @@ Pour les premiers tests moteurs (Banc d'essai) :
     *   Bouton d'arrêt d'urgence (E-Stop) coupant l'alim moteurs mais *pas* la Jetson.
     *   MOSFET piloté par Spresense pour coupure logicielle (voir [Guide Watchdog](./11_Guide_SensiEDGE_Watchdog.md)).
 
-### Choix de Batteries (Comparatif)
+### Choix de Batteries — Semi-Solide (Stratégie Progressive)
 
-#### Phase 2-3 (Bras + Tests debout) — LiPo Standard
+> [!IMPORTANT]
+> **Stratégie retenue** : Acheter **1 seule batterie semi-solide 12S ~6 Ah** dès le début. La positionner **à plat, centrée au bassin**. En Phase 4 (marche), acheter **la 2ème identique** pour obtenir la symétrie latérale. **Zéro gaspillage**, même batterie du début à la fin.
 
-| Modèle | Techno | Capacité | Énergie | Poids | Dimensions (mm) | Prix | Note |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Tattu 12S 10Ah 30C** | LiPo | 10 Ah | 444 Wh | **2.8 kg** | 182×67×115 | ~$270 | ✅ Dispo immédiatement, fiable |
-| Tattu Pro 12S 22Ah LiHV | LiHV Smart | 22 Ah | 1003 Wh | 5.75 kg | 236×172×116 | ~$400 | ❌ Trop lourd |
+#### Comparatif Fournisseurs Semi-Solide 12S
 
-#### Phase 4 (Marche) — Semi-Solide Haut de Gamme
+| # | Fournisseur / Modèle | Densité | Capacité dispo | Poids estimé (6 Ah) | Dimensions estimées (6 Ah) | Prix unitaire | Achat |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| 🏆 | **Grepow Semi-Solid Custom** | **350 Wh/kg** | Sur mesure (5-84 Ah) | **~0.76 kg** | **~140×80×45 mm** | ~$300-400 | OEM — Devis |
+| 2 | **Foxtech Diamond Pro 330** | 330 Wh/kg | 22-36 Ah (stock) | ~0.81 kg* | ~150×85×45 mm* | ~$518 (17.5 Ah) | Boutique en ligne |
+| 3 | **Tattu/GenAce Semi-Solid** | 300 Wh/kg | 30 Ah (stock) | ~0.89 kg* | ~155×90×50 mm* | ~$350-450 | Boutique en ligne |
+| 4 | **HereWin Semi-Solid** | 310 Wh/kg | 26-35 Ah (stock) | ~0.86 kg* | ~150×85×48 mm* | ~$400-600 | Contact direct |
+| 5 | **KKLIPO Solid-State** | 320 Wh/kg | 20 Ah (stock) | ~0.83 kg* | ~145×85×46 mm* | ~$300-500 | Contact direct |
 
-| Modèle | Techno | Densité | Capacité | Énergie | Poids | Dimensions estimées (mm) | Prix | Note |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Grepow Semi-Solid 12S Custom (×1)** | Semi-solide NMC | 350 Wh/kg | 12 Ah | 530 Wh | **~1.5 kg** | **~180×100×60** | ~$500-700 | 🏆 1 batterie au bassin |
-| **Grepow Semi-Solid 12S Custom (×2)** | Semi-solide NMC | 350 Wh/kg | 6 Ah ×2 | 530 Wh total | **~0.75 kg ×2** | **~140×80×45 ×2** | ~$600-800 | 🏆 2 batteries latérales |
-| Foxtech Diamond Pro 12S | Semi-solide Li-Ion | 330 Wh/kg | 27 Ah | 1.2 kWh | ~3.6 kg | ~250×120×80 | ~$800-1200 | Conçu drone lourd |
+*\* Dimensions estimées par extrapolation pour 6 Ah — les modèles catalogue sont plus gros (22+ Ah). Une commande custom est nécessaire pour obtenir 6 Ah.*
 
 > [!TIP]
-> **Estimation des dimensions Grepow Custom** : Les batteries semi-solides de type pouch cell ont une densité volumique de ~500-600 Wh/L. Pour **530 Wh**, cela donne un volume de ~0.9-1.1L. En format **1 batterie plate** : environ **180 × 100 × 60 mm** (comparable à un livre de poche épais). En format **2 batteries fines** : environ **140 × 80 × 45 mm** chacune (comparable à un smartphone épais).
+> **Estimation des dimensions pour 6 Ah (265 Wh)** : Densité volumique semi-solide ~500-600 Wh/L → Volume ~0.45-0.53 L → Format pouch cell plat : environ **140 × 80 × 45 mm** (~taille d'un smartphone épais). Pour **2× 6 Ah en parallèle** (12 Ah, 530 Wh) : même taille ×2.
+
+#### 🔗 Liens Fournisseurs (Contact / Achat)
+
+| Fournisseur | Lien | Action |
+| :--- | :--- | :--- |
+| **Grepow** | [grepow.com/custom-battery](https://www.grepow.com/custom-battery-solution.html) — Email : **info@grepow.com** | Envoyer un devis avec : 12S, 6 Ah, semi-solide, connecteur XT90-S, BMS intégré |
+| **Foxtech** | [foxtechfpv.com/diamond-batteries](https://www.foxtechfpv.com/diamond-pro-330wh-kg-high-energy-density-semi-solid-state-li-ion-battery.html) | Achat direct — Modèle 12S le plus petit |
+| **Tattu/GenAce** | [genstattu.com](https://www.genstattu.com/) — [gensace.de](https://www.gensace.de/) (EU) | Boutique — Chercher "Semi Solid 12S" |
+| **HereWin** | [herewinpower.com](https://www.herewinpower.com/semi-solid-state-drone-battery/) | Contact commercial — Préciser usage robot |
+| **KKLIPO** | [kklipo360.com](https://www.kklipo360.com/) | Contact — Demander 12S 6 Ah solid-state |
 
 ### Positionnement dans le Robot
 
-| Config | Position | Volume à prévoir | Avantage | Inconvénient |
-| :--- | :--- | :---: | :--- | :--- |
-| **1× grosse** | Au-dessus des hanches, centre du torse bas | **180×100×60 mm** | CdG bas et centré, 1 seul connecteur | Bloc encombrant |
-| **2× petites** | 1 de chaque côté du bassin (symétrique) | **140×80×45 mm ×2** | CdG symétrique, hot-swap possible, redondance | 2 connecteurs, câblage parallèle |
+#### Phase 1-3 : 1 seule batterie (centrée)
+
+```
+┌─────────────────────────┐
+│       TORSE BAS          │
+│                          │
+│    ┌──────────────┐      │
+│    │  BATTERIE 1  │      │   ← À plat, centrée
+│    │  140×80×45   │      │      au-dessus du bassin
+│    └──────────────┘      │
+│      (CdG centré)        │
+└─────────────────────────┘
+```
+
+#### Phase 4 : 2 batteries (symétrie latérale)
+
+```
+┌─────────────────────────┐
+│       TORSE BAS          │
+│                          │
+│  ┌──────────┐ ┌──────────┐│
+│  │ BATT. 1  │ │ BATT. 2  ││  ← 1 de chaque côté
+│  │ 140×80   │ │ 140×80   ││     du bassin
+│  │ ×45      │ │ ×45      ││
+│  └──────────┘ └──────────┘│
+│   (Symétrie + Redondance) │
+└─────────────────────────┘
+```
 
 > [!IMPORTANT]
-> **Recommandation** : Prévoir un **slot batterie de 200 × 110 × 70 mm** dans le torse bas lors du design CAO. Ce volume absorbe les 2 configurations (1 grosse ou 2 petites avec séparateur). Ajouter un support vibration en **TPU** (2mm) et une sangle velcro pour le maintien.
+> **Recommandation CAO** : Prévoir un **slot batterie de 200 × 180 × 50 mm** dans le torse bas. Ce volume absorbe les 2 phases :
+> - Phase 1-3 : 1 batterie centrée + mousse de calage latéral
+> - Phase 4 : 2 batteries côte à côte avec séparateur TPU 2mm
+> Ajouter une **sangle velcro** et un **patin anti-vibration TPU** en fond de slot.
 
 ### Câblage Batterie → PDB
 
 ```
-Batterie 12S (XT90-S)
+Batterie(s) 12S (XT90-S) ─── [Si 2 : Y-Splitter XT90-S parallèle]
     │
     ├── Fusible 30A (Automobile, lame)
     │

@@ -96,8 +96,7 @@
 | **Pont Diviseur** | Résistances 150kΩ + 10kΩ | Surveillance de la tension batterie 12S. |
 | **Condensa.** | 1000µF / 63V (Low ESR) | Filtrage des pics de tension au branchement. |
 | **Connecteur** | **XT90-S** (Anti-Spark) | Obligatoire pour la batterie 12S (évite l'arc électrique). |
-| **Batterie (Phase 2-3)** | **Tattu 12S 10Ah 30C** (LiPo) | 444 Wh, 2.8 kg, ~$270 — Dispo immédiatement. |
-| **Batterie (Phase 4)** | **Grepow Semi-Solid 12S Custom** | ~530 Wh, ~1.5 kg, ~$500-700 — Commande OEM (voir [Détails Batterie](./04_Electronique_Cablage.md#4-alimentation--batterie)). |
+| **Batterie (×1 → ×2)** | **Semi-Solide 12S 6 Ah** (Grepow Custom reco.) | ~265 Wh, ~0.76 kg, ~$300-400 — Acheter 1 dès le début, 2ème en Phase 4 (voir [Détails](./04_Electronique_Cablage.md#4-alimentation--batterie)). |
 | **LiDAR** | **Unitree L2** | FOV 360°x90°, Portée 30m, IMU intégrée. |
 | **Alimentation Labo** | **Wanptek DPS605U** | Indispensable Phase 2 (Régler sur 24V / Lim. 1A). |
 
