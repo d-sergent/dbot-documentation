@@ -119,6 +119,13 @@ graph TD
     Roll -->|"Rotor tourne (X)"| Pied["Structure du Pied + FSR"]
 ```
 
+### Vue Éclatée de l'Assemblage
+![Schéma de l'assemblage cheville 2-DOF avec Bracket en L](./assets/ankle_2dof_assembly.png)
+
+> **Axes de Rotation** :
+> - **Axe Y** (Pitch) : Horizontal médio-latéral (gauche↔droite). Pied monte/descend.
+> - **Axe X** (Roll) : Horizontal antéro-postérieur (avant↔arrière). Pied penche latéralement.
+
 ### Pièces à Imprimer / Usiner
 1.  **Cheville_Inter_Bracket** (Pièce en L) :
     *   Connecte la sortie du RS-03 (Pitch) au dos du RS-02 (Roll).

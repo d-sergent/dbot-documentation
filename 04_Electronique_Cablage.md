@@ -63,14 +63,65 @@ Pour les premiers tests moteurs (Banc d'essai) :
 3.  Activer le mode **OCP** (Overcurrent Protection).
 4.  Séquence : Allumer l'alim -> Vérifier tension -> Brancher XT60 -> `Enable` logiciel.
 
-## 4. Alimentation (Power Distribution)
-*   **Batterie** : LiPo 6S ou alimentation stabilisée 24V (selon moteurs).
-*   **Connecteurs** :
-    *   **XT60 (Jaune)** : Pour la ligne principale de puissance. Indestructible.
-    *   **Distribution** : Utiliser un **PDB (Power Distribution Board)** de drone pour éclater le 24V vers chaque moteur.
+## 4. Alimentation & Batterie
+
+### Spécifications Système
+*   **Tension nominale** : **44.4V** (12S LiPo) ou **45.6V** (12S LiHV).
+*   **Tension max (charge)** : 50.4V (LiPo) / 52.8V (LiHV).
+*   **Connecteur principal** : **XT90-S** (Anti-Spark — obligatoire pour 12S, évite l'arc électrique).
+*   **Distribution** : **PDB (Power Distribution Board)** type Matek PDB-HEX pour éclater le 48V vers les moteurs.
 *   **Sécurité** :
     *   Fusible automobile sur la ligne principale.
     *   Bouton d'arrêt d'urgence (E-Stop) coupant l'alim moteurs mais *pas* la Jetson.
+    *   MOSFET piloté par Spresense pour coupure logicielle (voir [Guide Watchdog](./11_Guide_SensiEDGE_Watchdog.md)).
+
+### Choix de Batteries (Comparatif)
+
+#### Phase 2-3 (Bras + Tests debout) — LiPo Standard
+
+| Modèle | Techno | Capacité | Énergie | Poids | Dimensions (mm) | Prix | Note |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Tattu 12S 10Ah 30C** | LiPo | 10 Ah | 444 Wh | **2.8 kg** | 182×67×115 | ~$270 | ✅ Dispo immédiatement, fiable |
+| Tattu Pro 12S 22Ah LiHV | LiHV Smart | 22 Ah | 1003 Wh | 5.75 kg | 236×172×116 | ~$400 | ❌ Trop lourd |
+
+#### Phase 4 (Marche) — Semi-Solide Haut de Gamme
+
+| Modèle | Techno | Densité | Capacité | Énergie | Poids | Dimensions estimées (mm) | Prix | Note |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Grepow Semi-Solid 12S Custom (×1)** | Semi-solide NMC | 350 Wh/kg | 12 Ah | 530 Wh | **~1.5 kg** | **~180×100×60** | ~$500-700 | 🏆 1 batterie au bassin |
+| **Grepow Semi-Solid 12S Custom (×2)** | Semi-solide NMC | 350 Wh/kg | 6 Ah ×2 | 530 Wh total | **~0.75 kg ×2** | **~140×80×45 ×2** | ~$600-800 | 🏆 2 batteries latérales |
+| Foxtech Diamond Pro 12S | Semi-solide Li-Ion | 330 Wh/kg | 27 Ah | 1.2 kWh | ~3.6 kg | ~250×120×80 | ~$800-1200 | Conçu drone lourd |
+
+> [!TIP]
+> **Estimation des dimensions Grepow Custom** : Les batteries semi-solides de type pouch cell ont une densité volumique de ~500-600 Wh/L. Pour **530 Wh**, cela donne un volume de ~0.9-1.1L. En format **1 batterie plate** : environ **180 × 100 × 60 mm** (comparable à un livre de poche épais). En format **2 batteries fines** : environ **140 × 80 × 45 mm** chacune (comparable à un smartphone épais).
+
+### Positionnement dans le Robot
+
+| Config | Position | Volume à prévoir | Avantage | Inconvénient |
+| :--- | :--- | :---: | :--- | :--- |
+| **1× grosse** | Au-dessus des hanches, centre du torse bas | **180×100×60 mm** | CdG bas et centré, 1 seul connecteur | Bloc encombrant |
+| **2× petites** | 1 de chaque côté du bassin (symétrique) | **140×80×45 mm ×2** | CdG symétrique, hot-swap possible, redondance | 2 connecteurs, câblage parallèle |
+
+> [!IMPORTANT]
+> **Recommandation** : Prévoir un **slot batterie de 200 × 110 × 70 mm** dans le torse bas lors du design CAO. Ce volume absorbe les 2 configurations (1 grosse ou 2 petites avec séparateur). Ajouter un support vibration en **TPU** (2mm) et une sangle velcro pour le maintien.
+
+### Câblage Batterie → PDB
+
+```
+Batterie 12S (XT90-S)
+    │
+    ├── Fusible 30A (Automobile, lame)
+    │
+    ├── E-Stop (Bouton d'arrêt d'urgence)
+    │
+    ├── MOSFET Spresense (Pin D13) — Coupure logicielle
+    │
+    └── PDB (Matek PDB-HEX)
+         ├── Moteurs RS-04 Hanches (XT60 ×4)
+         ├── Moteurs RS-03 Épaules/Hanches (XT60 ×8)
+         ├── Moteurs RS-02/00/05 (XT30 ×10)
+         └── DC-DC 48V→5V (Jetson + Spresense)
+```
 
 ---
 
