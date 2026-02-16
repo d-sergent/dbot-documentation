@@ -19,7 +19,7 @@ La Spresense exécute un firmware Arduino/NuttX avec **Micro-ROS Client**.
 - **Topics publiés** :
     - `/audio/direction` : Angle DoA calculé par beamforming.
     - `/imu/balance` : Données IMU torse (BMI270 Add-on) pour le contrôle d'équilibre.
-    - `/power/status` : Tension batterie 12S et température interne.
+    - `/power/status` : Tension batterie 13S (48V) et température interne.
 - **Fonction Watchdog** : Le firmware surveille le heartbeat de la Jetson et coupe le MOSFET de puissance en cas de freeze.
 - **Liaison Audio** : Flux 8 canaux via **UAC 2.0** (USB) pour une qualité Hi-Res (192 kHz).
 

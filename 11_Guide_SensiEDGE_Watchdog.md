@@ -35,15 +35,15 @@ L'empilement (Stack) se fait verticalement dans le torse :
 ---
 
 ## 2. Architecture "Power Manager" (Veille & Réveil)
-La Spresense est le seul composant "Always-On" du robot. Elle contrôle l'alimentation de puissance (44V) via un **MOSFET**.
+La Spresense est le seul composant "Always-On" du robot. Elle contrôle l'alimentation de puissance (48V) via un **MOSFET**.
 
-### Schéma de Câblage (Protection 12S)
-*   **Entrée Batterie** : 12S LiPo (44.4V Nominal / 50.4V Max).
+### Schéma de Câblage (Protection 13S NMC)
+*   **Entrée Batterie** : 13S NMC 21700 (46.8V Nominal / 54.6V Max).
 *   **Pont Diviseur (Surveillance Tension)** :
     *   Connecté à la **Pin A0** de la Spresense.
     *   **R1** (Côté Batterie) : **150 kΩ**
     *   **R2** (Côté Masse) : **10 kΩ**
-    *   *Ratio* : 50V en entrée donne ~3.12V en lecture (Compatible 3.3V).
+    *   *Ratio* : 55V en entrée donne ~3.44V en lecture (Compatible 3.3V avec marge).
 *   **Commande Puissance (MOSFET)** :
     *   Connecté à la **Pin D13**.
     *   Composant recommandé : **Infineon BTS50085** (Smart High-Side Switch) ou Module MOSFET 100V opto-isolé.
@@ -73,10 +73,10 @@ const int PIN_HEARTBEAT = 12; // Entrée signal vie Jetson
 const int PIN_WAKEUP = 11;    // Bouton de Test (ou Trigger Vocal)
 const int PIN_BATTERY = A0;   // Pont diviseur
 
-// Paramètres Batterie 12S (Sécurité)
+// Paramètres Batterie 13S NMC (Sécurité)
 const float R1 = 150000.0; 
 const float R2 = 10000.0;
-const float VOLTAGE_THRESHOLD = 37.0; // Seuil critique (3.08V / cellule)
+const float VOLTAGE_THRESHOLD = 39.0; // Seuil critique (3.0V / cellule × 13S)
 
 // Paramètres Watchdog
 unsigned long lastHeartbeat = 0;

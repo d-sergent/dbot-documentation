@@ -52,7 +52,7 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
 
 11. **[Guide SensiEDGE & Sécurité](./11_Guide_SensiEDGE_Watchdog.md)**
     *   Architecture "Power Manager" (Veille/Réveil).
-    *   Code C++ Watchdog et Surveillance Batterie 12S.
+    *   Code C++ Watchdog et Surveillance Batterie 13S (48V).
     *   Intégration capteurs environnementaux (CommonSense).
 
 12. **[Guide Pièces Métal (CNC)](./12_Guide_Parties_Metal_CNC.md)**
@@ -73,6 +73,22 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Analyse capacités de marche (lente, rapide, course).
     *   Évaluation portage (bras tendu vs plié).
     *   Propositions d'upgrade moteurs (RobStride + alternatives).
+
+---
+
+### Annexes
+
+16. **[Annexe — Recherche Batteries NMC](./16_Annexe_Batterie_NMC.md)**
+    *   Packs NMC 21700 48V disponibles en France (AT WEY, B-Volt, OZO).
+    *   Intégration et schéma électrique 48V.
+
+17. **[Annexe — État des Lieux Semi-Solide](./17_Annexe_Batterie_SemiSolide.md)**
+    *   Analyse du marché semi-solide (2026) : aucun pack compact viable.
+    *   Veille technologique 2027+.
+
+18. **[Annexe — Comparatif Batteries & Scénarios](./18_Annexe_Batterie_Comparatif.md)**
+    *   Tableau NMC vs LiFePO4 vs Semi-Solide.
+    *   Scénarios court/moyen/long terme.
     *   Configuration "D-Bot Performance" recommandée.
 
 ---

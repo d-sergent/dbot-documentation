@@ -66,44 +66,67 @@ Pour les premiers tests moteurs (Banc d'essai) :
 ## 4. Alimentation & Batterie
 
 ### Spécifications Système
-*   **Tension nominale** : **44.4V** (12S LiPo) ou **45.6V** (12S LiHV).
-*   **Tension max (charge)** : 50.4V (LiPo) / 52.8V (LiHV).
-*   **Connecteur principal** : **XT90-S** (Anti-Spark — obligatoire pour 12S, évite l'arc électrique).
+*   **Tension nominale** : **46.8V** (13S Li-ion NMC) — Standard K-Bot.
+*   **Tension max (charge)** : 54.6V (13S NMC, chargeur CC/CV dédié).
+*   **Connecteur principal** : **Anderson SB50** (anti-spark) ou **XT90-S**.
 *   **Distribution** : **PDB (Power Distribution Board)** type Matek PDB-HEX pour éclater le 48V vers les moteurs.
 *   **Sécurité** :
-    *   Fusible automobile sur la ligne principale.
+    *   Fusible automobile 80A sur la ligne principale.
     *   Bouton d'arrêt d'urgence (E-Stop) coupant l'alim moteurs mais *pas* la Jetson.
     *   MOSFET piloté par Spresense pour coupure logicielle (voir [Guide Watchdog](./11_Guide_SensiEDGE_Watchdog.md)).
 
-### Choix de Batteries — Semi-Solide (Stratégie Progressive)
+> [!NOTE]
+> **Pourquoi 13S (48V) et non 12S (44V) ?** Le "S" = nombre de cellules en Série. Chaque cellule NMC fait 3.6V nominal. 13 × 3.6V = 46.8V ≈ "bus 48V" — c'est le standard des RobStride et du K-Bot officiel. En 12S (43.2V), les moteurs fonctionnent mais avec un couple réduit de ~8%. Le passage en 12S LiPo (3.7V/cellule = 44.4V) serait un compromis acceptable pour du RC, mais pour le D-Bot on suit le standard K-Bot.
+
+### Choix de Batteries — NMC 21700 (Stratégie Progressive)
 
 > [!IMPORTANT]
-> **Stratégie retenue** : Acheter **1 seule batterie semi-solide 12S ~6 Ah** dès le début. La positionner **à plat, centrée au bassin**. En Phase 4 (marche), acheter **la 2ème identique** pour obtenir la symétrie latérale. **Zéro gaspillage**, même batterie du début à la fin.
+> **Stratégie retenue** : Démarrer avec **1× AT WEY NMC 48V 10 Ah** (Phase 1-3), puis **ajouter la 2ème identique en parallèle** en Phase 4 pour doubler l'autonomie et la symétrie. **Même techno du début à la fin, zéro gaspillage.**
 
-#### Comparatif Fournisseurs Semi-Solide 12S
+#### 🏆 Batterie Recommandée : AT WEY NMC 48V 10 Ah
 
-| # | Fournisseur / Modèle | Densité | Capacité dispo | Poids estimé (6 Ah) | Dimensions estimées (6 Ah) | Prix unitaire | Achat |
-| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| 🏆 | **Grepow Semi-Solid Custom** | **350 Wh/kg** | Sur mesure (5-84 Ah) | **~0.76 kg** | **~140×80×45 mm** | ~$300-400 | OEM — Devis |
-| 2 | **Foxtech Diamond Pro 330** | 330 Wh/kg | 22-36 Ah (stock) | ~0.81 kg* | ~150×85×45 mm* | ~$518 (17.5 Ah) | Boutique en ligne |
-| 3 | **Tattu/GenAce Semi-Solid** | 300 Wh/kg | 30 Ah (stock) | ~0.89 kg* | ~155×90×50 mm* | ~$350-450 | Boutique en ligne |
-| 4 | **HereWin Semi-Solid** | 310 Wh/kg | 26-35 Ah (stock) | ~0.86 kg* | ~150×85×48 mm* | ~$400-600 | Contact direct |
-| 5 | **KKLIPO Solid-State** | 320 Wh/kg | 20 Ah (stock) | ~0.83 kg* | ~145×85×46 mm* | ~$300-500 | Contact direct |
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Modèle** | Batterie générique 48V 10 Ah |
+| **Chimie** | Li-ion NMC 21700, cellules **LG M50LT** |
+| **Tension** | 48V nominale (13S) |
+| **Capacité** | 10 Ah (480 Wh) |
+| **Poids** | **2.3 kg** par pack |
+| **BMS** | 13S NMC intégré, 20-50A continu, 100A pic |
+| **Connectique** | Personnalisable à la commande (demander **Anderson SB50**) |
+| **Fabrication** | 🇫🇷 Assemblé en France |
+| **Prix** | ~250-350 € TTC par pack |
 
-*\* Dimensions estimées par extrapolation pour 6 Ah — les modèles catalogue sont plus gros (22+ Ah). Une commande custom est nécessaire pour obtenir 6 Ah.*
+🔗 **Lien d'achat** : [AT WEY — Batterie générique 48V 10Ah](https://atwey.fr/accueil/94-batterie-generique-48v-10ah.html)
 
 > [!TIP]
-> **Estimation des dimensions pour 6 Ah (265 Wh)** : Densité volumique semi-solide ~500-600 Wh/L → Volume ~0.45-0.53 L → Format pouch cell plat : environ **140 × 80 × 45 mm** (~taille d'un smartphone épais). Pour **2× 6 Ah en parallèle** (12 Ah, 530 Wh) : même taille ×2.
+> **À la commande, préciser** : connecteur Anderson SB50 (ou QS8 anti-spark), BMS 50A continu minimum, usage robotique haute puissance. Demander aussi un **chargeur 13S (54.6V) 4-5A CC/CV**.
 
-#### 🔗 Liens Fournisseurs (Contact / Achat)
+#### Pourquoi NMC plutôt que Semi-Solide ?
 
-| Fournisseur | Lien | Action |
+| Critère | NMC 21700 (AT WEY) | Semi-Solide (Grepow/Tattu) |
 | :--- | :--- | :--- |
-| **Grepow** | [grepow.com/custom-battery](https://www.grepow.com/custom-battery-solution.html) — Email : **info@grepow.com** | Envoyer un devis avec : 12S, 6 Ah, semi-solide, connecteur XT90-S, BMS intégré |
-| **Foxtech** | [foxtechfpv.com/diamond-batteries](https://www.foxtechfpv.com/diamond-pro-330wh-kg-high-energy-density-semi-solid-state-li-ion-battery.html) | Achat direct — Modèle 12S le plus petit |
-| **Tattu/GenAce** | [genstattu.com](https://www.genstattu.com/) — [gensace.de](https://www.gensace.de/) (EU) | Boutique — Chercher "Semi Solid 12S" |
-| **HereWin** | [herewinpower.com](https://www.herewinpower.com/semi-solid-state-drone-battery/) | Contact commercial — Préciser usage robot |
-| **KKLIPO** | [kklipo360.com](https://www.kklipo360.com/) | Contact — Demander 12S 6 Ah solid-state |
+| **Disponibilité** | ✅ En stock, livraison FR | ❌ Custom, MOQ, délais 4-12 sem. |
+| **Poids (10 Ah)** | 2.3 kg | ~1.5 kg (théorique) |
+| **Capacité** | 10 Ah (480 Wh) | 6 Ah max (265 Wh) — custom requis |
+| **Prix** | ~€300 | ~$400-800 + import |
+| **Courant** | 50A continu, 100A pic | Variable, peu documenté |
+| **Cycles** | 800-1000 | 300-1000 |
+| **Assemblé en FR** | ✅ Oui | ❌ Import Chine |
+| **Risque projet** | ✅ Faible | ⚠️ Élevé (approvisionnement) |
+
+→ Le semi-solide sera réévalué en **2027+** quand des packs robotiques <5 kg existeront. Voir [Annexe Semi-Solide](./17_Annexe_Batterie_SemiSolide.md).
+
+#### Alternatives FR Évaluées
+
+| Fournisseur | Chimie | Avantage | Limite |
+| :--- | :--- | :--- | :--- |
+| [B-Volt](https://www.b-volt.com) | NMC Samsung 35E | Ultra-léger, FR | Moins de capacité |
+| [OZO Industries](https://ozo-industries.com) | NMC/LFP custom | Sur-mesure forme et BMS | Plus cher (~€600+) |
+| [Li-Tech](https://www.li-tech.fr) | LiFePO4 | Très sûr, 6000 cycles | +40% masse (3-4 kg) |
+| [PowerTech](https://www.powertechsystems.eu) | LiFePO4 | Industriel IP65 | Trop lourd pour bipède |
+
+→ Détails dans [Annexe NMC](./16_Annexe_Batterie_NMC.md) et [Annexe Comparatif](./18_Annexe_Batterie_Comparatif.md).
 
 ### Positionnement dans le Robot
 
@@ -114,40 +137,57 @@ Pour les premiers tests moteurs (Banc d'essai) :
 │       TORSE BAS          │
 │                          │
 │    ┌──────────────┐      │
-│    │  BATTERIE 1  │      │   ← À plat, centrée
-│    │  140×80×45   │      │      au-dessus du bassin
+│    │  AT WEY #1   │      │   ← À plat, centrée
+│    │  480 Wh      │      │      au-dessus du bassin
+│    │  2.3 kg      │      │
 │    └──────────────┘      │
 │      (CdG centré)        │
 └─────────────────────────┘
 ```
 
-#### Phase 4 : 2 batteries (symétrie latérale)
+#### Phase 4 : 2 batteries en parallèle (symétrie)
 
 ```
 ┌─────────────────────────┐
 │       TORSE BAS          │
 │                          │
 │  ┌──────────┐ ┌──────────┐│
-│  │ BATT. 1  │ │ BATT. 2  ││  ← 1 de chaque côté
-│  │ 140×80   │ │ 140×80   ││     du bassin
-│  │ ×45      │ │ ×45      ││
+│  │ AT WEY 1 │ │ AT WEY 2 ││  ← 1 de chaque côté
+│  │ 480 Wh   │ │ 480 Wh   ││     du bassin
+│  │ 2.3 kg   │ │ 2.3 kg   ││
 │  └──────────┘ └──────────┘│
+│   Total: 960 Wh, 4.6 kg   │
+│   Autonomie: ~40-50 min   │
 │   (Symétrie + Redondance) │
 └─────────────────────────┘
 ```
 
-> [!IMPORTANT]
-> **Recommandation CAO** : Prévoir un **slot batterie de 200 × 180 × 50 mm** dans le torse bas. Ce volume absorbe les 2 phases :
-> - Phase 1-3 : 1 batterie centrée + mousse de calage latéral
-> - Phase 4 : 2 batteries côte à côte avec séparateur TPU 2mm
-> Ajouter une **sangle velcro** et un **patin anti-vibration TPU** en fond de slot.
+> [!WARNING]
+> **Mise en parallèle** : Les 2 packs DOIVENT être identiques (même modèle, même âge). Toujours connecter/déconnecter à SoC proche (~50-60%). Utiliser un ORing MOSFET ou des diodes idéales pour éviter les courants d'équilibrage.
+
+### Sécurité Incendie (NMC)
+
+- ✅ Utiliser uniquement des **packs fermés avec BMS dédié** (jamais de cellules nues)
+- ✅ **Espace d'air** autour de la batterie dans le torse
+- ✅ **Cloisonnement** en matériaux ignifugés (PC/ABS, tôle alu)
+- ✅ **Sortie de dégazage** vers l'arrière (ne pas enfermer hermétiquement)
+- ✅ **Charge** uniquement avec chargeur **54.6V (13S) CC/CV** dédié, en zone ventilée
+- ✅ **Monitoring** température/tension/courant via Spresense (harnais faible puissance du BMS)
+
+### Slot CAD Recommandé
+
+Pour accueillir 1 ou 2 packs AT WEY, prévoir dans le torse 3D :
+- **Slot unique (Phase 1-3)** : 200 × 100 × 50 mm (avec marge)
+- **Double slot (Phase 4)** : 200 × 180 × 50 mm (2 packs côte-à-côte)
+- **Fixation** : Rails ou Velcro industriel + connecteur Anderson accessible par trappe arrière
+- **Sangle velcro** + **patin anti-vibration TPU** en fond de slot
 
 ### Câblage Batterie → PDB
 
 ```
-Batterie(s) 12S (XT90-S) ─── [Si 2 : Y-Splitter XT90-S parallèle]
+Batterie(s) 13S NMC (Anderson SB50) ─── [Si 2 : ORing MOSFET parallèle]
     │
-    ├── Fusible 30A (Automobile, lame)
+    ├── Fusible 80A (Automobile, lame)
     │
     ├── E-Stop (Bouton d'arrêt d'urgence)
     │

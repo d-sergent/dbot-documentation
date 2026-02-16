@@ -91,11 +91,12 @@
 | Composant | Référence | Rôle |
 | :--- | :--- | :--- |
 | **Régulateur Veille** | **Mean Well DDR-15G-5** (ou Buck 60V->5V) | Alimente la Spresense en permanence (Always-On). |
-| **Switch Puissance** | **Infineon BTS50085-1TMA** (ou MOSFET Opto) | Coupe le 44V (Jetson/Moteurs) sur ordre de la Spresense. |
-| **Pont Diviseur** | Résistances 150kΩ + 10kΩ | Surveillance de la tension batterie 12S. |
+| **Switch Puissance** | **Infineon BTS50085-1TMA** (ou MOSFET Opto) | Coupe le 48V (Jetson/Moteurs) sur ordre de la Spresense. |
+| **Pont Diviseur** | Résistances 150kΩ + 10kΩ | Surveillance de la tension batterie 13S (48V). |
 | **Condensa.** | 1000µF / 63V (Low ESR) | Filtrage des pics de tension au branchement. |
-| **Connecteur** | **XT90-S** (Anti-Spark) | Obligatoire pour la batterie 12S (évite l'arc électrique). |
-| **Batterie (×1 → ×2)** | **Semi-Solide 12S 6 Ah** (Grepow Custom reco.) | ~265 Wh, ~0.76 kg, ~$300-400 — Acheter 1 dès le début, 2ème en Phase 4 (voir [Détails](./04_Electronique_Cablage.md#4-alimentation--batterie)). |
+| **Connecteur** | **Anderson SB50** (anti-spark) ou XT90-S | Connecteur haute puissance pour batterie 13S NMC 48V. |
+| **Batterie (×1 → ×2)** | **[AT WEY NMC 48V 10 Ah](https://atwey.fr/accueil/94-batterie-generique-48v-10ah.html)** | 480 Wh, 2.3 kg, 13S NMC 21700 LG M50LT, BMS 50A, ~€300/pack — Assemblé 🇫🇷. Acheter 1 dès Phase 1, 2ème en Phase 4 (voir [Détails](./04_Electronique_Cablage.md#4-alimentation--batterie)). |
+| **Chargeur 13S** | **54.6V CC/CV 4-5A** | Chargeur dédié Li-ion 13S NMC. Demander à AT WEY ou fournisseur FR. |
 | **LiDAR** | **Unitree L2** | FOV 360°x90°, Portée 30m, IMU intégrée. |
 | **Alimentation Labo** | **Wanptek DPS605U** | Indispensable Phase 2 (Régler sur 24V / Lim. 1A). |
 
