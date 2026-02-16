@@ -135,3 +135,145 @@ Tous les moteurs partagent le même protocole :
 
 > [!NOTE]
 > **Prix et Disponibilité** : Les prix sont issus des sources officielles RobStride et distributeurs agréés (OpenELAB, AiFitLab) en Février 2025. Vérifiez la disponibilité avant commande - certains modèles peuvent avoir des délais variables.
+
+---
+
+## 4. Benchmark Industrie — D-Bot vs Robots Haut de Gamme
+
+### 4.1 Comparatif Global (Corps Entier)
+
+| Robot | DOF | DOF/Jambe | Cheville | Méca. Cheville | Couple max jambe | Poids | Actionneurs | Prix |
+| :--- | :---: | :---: | :---: | :--- | :---: | :---: | :--- | :---: |
+| **D-Bot (notre)** | **24** | **6** | **2 (P+R)** | **Série QDD** | **120 N.m** (RS-04) | ~38 kg | QDD RobStride 9:1 | ~$5k |
+| K-Bot (base) | 20 | 5 | 1 (P) | Tirant (linkage) | 120 N.m (RS-04) | ~34 kg | QDD RobStride 9:1 | ~$4k |
+| **Unitree G1** | 23 | **6** | **2** | **Parallèle RSU** | **120 N.m** | 35-47 kg | QDD propriétaire | ~$16k |
+| **Tesla Optimus** | 28+ | 6 | 2 | **Parallèle SPU** | **180 N.m** rotary / 8000N linéaire | ~73 kg | Harmonic + Linéaire | N/A |
+| **Figure 02** | 28 | 6 | 2 | **Universel + linéaire** | **150 N.m** | ~60 kg | Custom harmonic | N/A |
+| **Fourier GR-2** | 53 | ~8 | 2+ | **Parallèle** (FSA 2.0) | **380 N.m** | 63 kg | FSA 2.0 (7 types) | ~$150k |
+| **Agility Digit** | 28 | 5 | 2 | **SEA** (élastique) | N/A | 65 kg | Series-Elastic | ~$300k+ |
+
+> [!NOTE]
+> **Positionnement D-Bot** : Avec 24 DOF, 6 DOF/jambe et 2 DOF cheville, le D-Bot est au niveau du Unitree G1 en terme d'architecture cinématique, pour un budget 3× inférieur. Le principal écart est le type de mécanisme de cheville (série vs parallèle).
+
+### 4.2 Mécanismes de Cheville — Les 4 Approches
+
+![Comparaison des 3 mécanismes de cheville principaux : Série, Tirant, Parallèle](./assets/ankle_mechanisms_comparison.png)
+
+#### A. Série Direct-Drive (D-Bot Actuel)
+
+Les moteurs Pitch (RS-03) et Roll (RS-02) sont empilés **directement à la cheville**. Le couple au pied = le couple moteur.
+
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Moteurs** | RS-03 (Pitch) + RS-02 (Roll), tous à la cheville |
+| **Masse distale** | **~1285g** (880g + 405g) |
+| **Couple Pitch effectif** | 60 N.m (= couple RS-03) |
+| **Couple Roll effectif** | 17 N.m (= couple RS-02) |
+| **Complexité** | ⭐ Très faible — assemblage trivial |
+| **Coût mécanique** | ~$0 (juste le bracket en L) |
+
+#### B. Tirant / Linkage (K-Bot Original)
+
+Le moteur RS-02 est monté **en haut du tibia** et actionne le pied via un **pushrod** (barre de poussée). Le ratio de levier multiplie le couple.
+
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Moteurs** | RS-02 (Pitch uniquement), haut dans le tibia |
+| **Masse distale** | **~0g** (moteur en haut) |
+| **Couple Pitch effectif** | ~34 N.m (17 × ratio ~2:1) |
+| **Roll** | ❌ Absent |
+| **Complexité** | ⭐⭐ Moyenne — pushrod + pivot |
+| **Coût mécanique** | ~$20-50 (barre usinée + pivots) |
+
+#### C. 🆕 Hybride Tirant + Roll Direct (Proposition D-Bot V2)
+
+**Combine le meilleur des deux mondes** : Pitch via tirant (moteur haut, couple multiplié) + Roll en direct-drive à la cheville (correction fine, pas besoin de rapport de levier).
+
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Moteur Pitch** | RS-03 monté **haut dans le tibia** + pushrod |
+| **Moteur Roll** | RS-02 monté **à la cheville** (direct-drive) |
+| **Masse distale** | **~405g** (seulement le RS-02 Roll) |
+| **Couple Pitch effectif** | **~120 N.m** (60 × ratio ~2:1) ⚡ |
+| **Couple Roll effectif** | 17 N.m (suffisant pour correction latérale) |
+| **Complexité** | ⭐⭐⭐ Élevée — pushrod + bracket + pivot |
+| **Coût mécanique** | ~$50-100 (barre, pivots, usinage) |
+
+```
+  ┌─────┐
+  │GENOU│
+  └──┬──┘
+     │
+  ╔══╧══╗ RS-03 Pitch ← Moteur HAUT (880g)
+  ║PITCH║──────┐
+  ╚═════╝      │ Pushrod
+     │ Tibia   │ (barre de poussée)
+     │         │
+     │         │ Ratio levier ~2:1
+     │         │ → 60 × 2 = 120 N.m effectifs !
+     │         │
+     │    ╔════╧═╗
+     └────╢ ROLL ╟── RS-02 (405g) ← Seul moteur EN BAS
+          ╚══╤═══╝
+          ┌──┴──┐
+          │PIED │
+          └─────┘
+```
+
+#### D. Parallèle (Unitree G1, Tesla Optimus, Fourier GR-2)
+
+Deux moteurs montés **en haut du tibia**, chacun relié au pied par une **bielle**. Mouvements coordonnés = Pitch, différentiels = Roll. **Aucun moteur à la cheville.**
+
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Moteurs** | 2× moteurs rotatifs (ou linéaires) haut dans le tibia |
+| **Masse distale** | **~0g** |
+| **Couple Pitch effectif** | Variable, typiquement 80-150 N.m |
+| **Couple Roll effectif** | Variable, typiquement 40-80 N.m |
+| **Complexité** | ⭐⭐⭐⭐ Très élevée — cinématique parallèle |
+| **Coût mécanique** | >$200 (bielles, pivots, roulements, usinage CNC) |
+
+### 4.3 Impact sur la Marche et la Course
+
+| Critère | A. Série (D-Bot) | B. Tirant (K-Bot) | C. 🆕 Hybride | D. Parallèle (G1) |
+| :--- | :---: | :---: | :---: | :---: |
+| **Masse distale (par jambe)** | 1285g | ~0g | **405g** | ~0g |
+| **Couple Pitch effectif** | 60 N.m | ~34 N.m | **~120 N.m** ⚡ | 80-150 N.m |
+| **Couple Roll** | 17 N.m | ❌ | 17 N.m | 40-80 N.m |
+| **Marche lente (<1 km/h)** | ✅ OK | ✅ OK (pas de Roll) | ✅ **Excellent** | ✅ Optimal |
+| **Marche rapide (2-3 km/h)** | ⚠️ Limite | ❌ (pas de Roll) | ✅ **Bon** | ✅ Optimal |
+| **Course (>5 km/h)** | ❌ Trop d'inertie | ❌ (1 DOF) | ⚠️ **Possible** (~405g ok) | ✅ Optimal |
+| **Terrain irrégulier** | ✅ (2 DOF) | ❌ (1 DOF) | ✅ (2 DOF) | ✅ (2 DOF) |
+| **Simplicité montage** | ⭐ Trivial | ⭐⭐ Moyen | ⭐⭐⭐ Élevé | ⭐⭐⭐⭐ Très élevé |
+
+#### Analyse Détaillée de l'Impact Inertiel
+
+```
+Moment d'inertie de la jambe pendant le balancement (swing phase) :
+
+I = Σ(m × r²) où r = distance au pivot (hanche)
+
+                    Masse distale    r (dist. hanche)    Contribution I
+Série (D-Bot) :     1285g            ~0.70 m             630 g.m²  ← Élevé
+Hybride :           405g             ~0.70 m             198 g.m²  ← 3× moins !
+Parallèle (G1):    ~0g              N/A                  ~0 g.m²  ← Optimal
+
+→ Le Hybride réduit l'inertie de 68% vs Série, pour un surcoût minimal.
+```
+
+**Conséquences concrètes de l'inertie :**
+- **Marche** : Plus l'inertie est basse, plus la jambe balance vite → pas plus rapides, moins de couple requis aux hanches pour accélérer/freiner la jambe.
+- **Course** : À >5 km/h, la fréquence de pas monte à ~3 Hz. Avec 1285g en bout de jambe (série), les RS-04 de hanche doivent fournir ~30% de couple supplémentaire juste pour balancer la jambe. Avec 405g (hybride), c'est ~10% → la course devient **envisageable**.
+- **Chutes** : Moins d'inertie = réactions de rattrapage plus rapides. Le robot peut repositionner sa jambe plus vite pour éviter une chute.
+
+### 4.4 Recommandation Évolutive
+
+| Phase | Config Cheville | Pourquoi |
+| :--- | :--- | :--- |
+| **Phase 4 V1** (1er prototype marche) | **A. Série** (RS-03 + RS-02) | Simple, suffisant pour valider la marche <2 km/h |
+| **Phase 4 V2** (optimisation) | **C. Hybride** (RS-03 tirant + RS-02 direct) | Meilleure dynamique, course possible, même moteurs |
+| **V3** (si besoin performances extrêmes) | **D. Parallèle** | Uniquement si la course >5 km/h est un objectif |
+
+> [!TIP]
+> **Le passage de A → C ne change PAS les moteurs !** Ce sont les mêmes RS-03 + RS-02, juste repositionnés. Il suffit de concevoir un nouveau bracket tibia + pushrod. Le coût additionnel est uniquement en pièces mécaniques (~$50-100 d'usinage).
+
