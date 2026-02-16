@@ -51,7 +51,7 @@ graph TD
     end
 ```
 
-## 3. Plateforme de Fabrication (Qidi Plus 4)
+## 4. Plateforme de Fabrication (Qidi Plus 4)
 La Qidi Plus 4 a été choisie pour sa capacité à imprimer des matériaux techniques à haute température.
 
 - **Matériau Recommandé** : PETG-CF (Facile à imprimer, rigide, esthétique carbone).
@@ -62,14 +62,7 @@ La Qidi Plus 4 a été choisie pour sa capacité à imprimer des matériaux tech
   - **Connectivité & Réseau** : TP-Link Archer T3U (AC1300 Mbps, USB 3.0, MU-MIMO). Indispensable pour stabiliser la connexion Klipper sur 5GHz.
 - **Détails Complets** : Voir le **[Guide Avancé Impression 3D](./09_Guide_Avance_Impression.md)**.
 
-## Stratégie de Développement (Phases)
-La construction est divisée en 4 phases pour valider les systèmes progressivement :
-1.  **Phase 1 (Tête & Torse)** : Validation de l'intelligence (Jetson/Spresense), de la vision et de l'audio.
-2.  **Phase 2 (Premier Bras)** : Validation 6 DOF, Bus CAN et impression structurelle.
-3.  **Phase 3 (Deuxième Bras)** : Coordination bimanuelle et transport de charges.
-4.  **Phase 4 (Corps & Marche)** : Jambes (12 DOF incl. cheville Roll), équilibre dynamique (IMU torse + FSR plantaires) et autonomie.
-
-## Points de Vigilance Critique (Audit Discussion)
+## 5. Points de Vigilance Critique (Audit Discussion)
 -   **Motorisation** : Le couple de pointe (Peak Torque) des RS-04 (hanches/genoux) atteint 120 Nm. La structure doit être en PA12-CF ou Aluminium 6061.
 -   **Sécurité Électrique** : Toujours utiliser le mode **OCP** (Overcurrent Protection) sur l'alimentation Wanptek (limite à 1A pour les premiers tests).
 -   **Communication** : Le bus CAN 1 Mbps exige des paires torsadées et une masse commune (GND) entre la Jetson et les moteurs.

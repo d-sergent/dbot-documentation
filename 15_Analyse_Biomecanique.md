@@ -13,7 +13,7 @@ Ce document analyse les capacités mécaniques du D-Bot dans sa configuration ac
 | **Masse moteurs seuls** | 15.77 kg (K-Bot) + 0.38 kg (cou D-Bot) = 16.15 kg |
 | **Charge utile bras (spec)** | ~10 kg (total 2 bras) |
 | **Autonomie** | ~4h (batterie LiPo échangeable) |
-| **DOF** | 20 (K-Bot) / 22 (D-Bot) |
+| **DOF** | 20 (K-Bot) / 24 (D-Bot Performance) |
 
 ### Longueurs de Segments Estimées (robot 1.40m)
 
@@ -519,16 +519,16 @@ Le design du pied est un facteur **majeur** de stabilité, souvent sous-estimé.
 
 ### 10.2 Placement Stratégique de la Batterie
 
-La batterie (typiquement 1.5-3 kg) est la **masse la plus facile à repositionner** sans impact fonctionnel.
+La batterie est la **masse la plus facile à repositionner** sans impact fonctionnel.
 
 | Position | Impact CdG | Avantage | Inconvénient |
 | :--- | :--- | :--- | :--- |
 | **Torse haut** (actuel typique) | CdG haut | Facile d'accès, échange rapide | ❌ Élève le CdG |
-| **Torse bas / bassin** | CdG **bas** ✅ | Stabilité améliorée | Accès plus difficile |
+| **Torse bas / bassin** ✅ | CdG **bas** ✅ | Stabilité améliorée | Accès plus difficile |
 | **Dos bas (sac à dos)** | CdG moyen-bas | Bon compromis accès/stabilité | Légère protubérance |
-| **Répartie (2 batteries)** | CdG symétrique ✅ | Équilibre gauche/droite + redondance | Plus de câblage |
+| **Répartie (2 batteries)** ✅ | CdG symétrique ✅ | Équilibre gauche/droite + redondance | Plus de câblage |
 
-**Recommandation** : Placer la batterie le **plus bas possible** dans le torse, idéalement au niveau du bassin. Cela abaisse le CdG de 5-10 cm et améliore la stabilité **gratuitement** (même batterie, même poids).
+**Recommandation** : Placer la batterie le **plus bas possible** dans le torse, idéalement au niveau du bassin. Voir le **[Guide Batterie Détaillé](./04_Electronique_Cablage.md#4-alimentation--batterie)** pour la stratégie progressive (1 batterie centrée → 2 batteries symétriques) et les spécifications semi-solide.
 
 ### 10.3 IMU et Capteurs de Force
 

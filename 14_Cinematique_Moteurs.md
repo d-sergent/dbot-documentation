@@ -38,7 +38,7 @@ Le K-Bot standard est un robot humanoïde open-source de taille réelle dévelop
 | **Hanche Roll** | RS-03 | 32 / 42 | 60 N.m | 20 N.m | 880g | Équilibre latéral |
 | **Hanche Yaw** | RS-03 | 33 / 43 | 60 N.m | 20 N.m | 880g | Rotation hanche |
 | **Genou Pitch** | RS-04 | 34 / 44 | 120 N.m | 40 N.m | 1420g | Flexion genou |
-| **Cheville Pitch** | RS-02 | 35 / 45 | 17 N.m | 6 N.m | 405g | Propulsion |
+| **Cheville Pitch** | RS-02 | 35 / 45 | 17 N.m | 6 N.m | 405g | Propulsion (via mécanisme tirant) |
 
 **Total par jambe** : 4.6 kg environ  
 **Total 2 jambes** : 10 moteurs (4× RS-04 + 4× RS-03 + 2× RS-02)
@@ -57,17 +57,23 @@ Le K-Bot standard est un robot humanoïde open-source de taille réelle dévelop
 
 ---
 
-### 🤖 ÉVOLUTION D-BOT (24 DOF Standard)
+### 🤖 ÉVOLUTION D-BOT (24 DOF — "D-Bot Performance")
 
-Le **D-Bot** étend le K-Bot avec une **tête articulée** et des **chevilles à 2 DOF** (pour la stabilité latérale) :
+Le **D-Bot** étend le K-Bot de 20 à **24 DOF** avec trois ajouts. Voir [Analyse Biomécanique](./15_Analyse_Biomecanique.md) pour la justification détaillée de chaque upgrade.
 
 | Ajout D-Bot | Moteur | Quantité | Couple Pic | Fonction |
 | :--- | :---: | :---: | :---: | :--- |
 | **Cou Pan** (Yaw) | RS-05 | 1 | 5.5 N.m | Rotation horizontale tête |
 | **Cou Tilt** (Pitch) | RS-05 | 1 | 5.5 N.m | Inclinaison tête |
-| **Cheville Roll** | RS-02 | 2 | 17 N.m | **Stabilité latérale** (Correction équilibre) |
+| **Cheville Pitch** ⬆️ | RS-02 → **RS-03** | 2 (remplacement) | 17 → **60 N.m** | **Propulsion améliorée** (K-Bot trop faible en direct-drive) |
+| **Cheville Roll** 🆕 | RS-02 | 2 (ajout) | 17 N.m | **Stabilité latérale** (Correction équilibre) |
 
-**Total D-Bot** : 20 (Base) + 2 (Tête) + 2 (Chevilles) = **24 moteurs** (Architecture "D-Bot Performance").
+**Total D-Bot** : 20 (Base) + 2 (Tête) + 2 (Chevilles Roll) = **24 moteurs**, avec upgrade Pitch intégré.
+
+> [!NOTE]
+> **Mécanisme de cheville K-Bot (Tirant/Linkage)** : Dans le K-Bot original, le RS-02 de cheville n'est **pas en prise directe** sur l'axe de la cheville. Il est monté **haut dans le tibia** et actionne le pied via un **mécanisme de tirant** (connecting rod / pushrod). Ce bras de levier crée un avantage mécanique (~2-3:1) qui multiplie le couple effectif : 17 N.m × 2 ≈ **34 N.m** à la cheville, suffisant pour la marche lente. Pour le D-Bot, l'upgrade en RS-03 élimine le besoin de ce mécanisme et permet un montage **direct-drive** plus simple.
+
+![Mécanisme de cheville K-Bot avec tirant (RS-02 haut dans le tibia)](./assets/kbot_ankle_linkage.png)
 
 ## 2. Spécifications Moteurs RobStride (Gamme Complète)
 Voici les données techniques consolidées pour l'ensemble de la gamme RobStride (Février 2025).  
@@ -102,16 +108,19 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 *   **RS-03** : Minimum vital pour l'épaule D-Bot (couple nécessaire pour contrer le bras-de-levier).
 *   **RS-04** : Incontournable pour hanches/jambes. **Attention** : Peut briser des pièces PLA/PETG standard → Utiliser **PETG-CF (100% remplissage)** ou **Alu 6061 CNC**.
 
-### Choix pour le D-Bot (Rappel Répartition)
-| Zone | Moteur | Quantité | Couple Requis | Justification |
+### Choix pour le D-Bot — Répartition Complète (24 DOF)
+| Zone | Moteur | Quantité | Couple Pic | Justification |
 | :--- | :---: | :---: | :---: | :--- |
 | Cou (Pan/Tilt) | RS-05 | 2 | 5.5 N.m | Légèreté critique (tête lourde avec LiDAR/caméras) |
 | Poignet | RS-00 | 2 | 14 N.m | Compact, fort couple pour manipulation fine |
-| Coude/Biceps/Avant-bras | RS-02 | 6 (3 par bras) | 17 N.m | Standard polyvalent 48V |
-| Épaule | RS-03 | 2 | 60 N.m | Force indispensable pour porte-à-faux max |
-| Jambes (Hanche/Genou/Cheville) | RS-04 | 10 (5 par jambe) | 120 N.m | Portance totale (~15 kg robot) |
+| Épaule Yaw + Coude | RS-02 | 4 | 17 N.m | Standard polyvalent 48V |
+| Épaule Pitch/Roll | RS-03 | 4 | 60 N.m | Force pour porte-à-faux bras tendu |
+| Hanche Roll/Yaw | RS-03 | 4 | 60 N.m | Équilibre latéral + rotation |
+| Hanche Pitch + Genou | RS-04 | 4 | 120 N.m | Portance totale (~36 kg robot) |
+| **Cheville Pitch** ⬆️ | **RS-03** | **2** | **60 N.m** | **Propulsion (upgrade vs RS-02 K-Bot)** |
+| **Cheville Roll** 🆕 | **RS-02** | **2** | **17 N.m** | **Stabilité latérale (NOUVEAU)** |
 
-**Total moteurs D-Bot** : 2 + 2 + 6 + 2 + 10 + 2 (Cheville Roll) = **24 moteurs**.
+**Total moteurs D-Bot** : 2 + 2 + 4 + 4 + 4 + 4 + 2 + 2 = **24 moteurs**.
 
 ## 3. Communication & Alimentation
 Tous les moteurs partagent le même protocole :

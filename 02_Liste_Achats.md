@@ -55,7 +55,6 @@
 ### Autres Composants Électroniques
 | Composant | Modèle | Quantité | Note |
 | :--- | :--- | :--- | :--- |
-| **Robstride 04** | - | Hanches / Torse Pivot (Marche) | - |
 | Distribution (PDB) | **Matek PDB-HEX** (Master) + **PDB-XT60-W** (Satellites) | 2 + 4 | Hubs de puissance pro |
 | Connectique Data | **JST-GH 4-pin** (Silicone / Holybro) | 30m | Fils torsadés blindés |
 | Maintenance Tête | **WAGO 221-413 / 415** | 10 | Connecteurs rapides sans soudure |
