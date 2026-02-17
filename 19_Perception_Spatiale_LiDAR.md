@@ -249,3 +249,145 @@ rtabmap_ros:
 
 > [!NOTE]
 > Le L2 et l'OAK-D Pro se partagent la bande passante USB3. Chacun utilise ~400-500 Mb/s. Le Jetson Orin Nano dispose de suffisamment de ports USB3 pour les deux. Vérifier que le hub USB est bien USB 3.0+ si un hub est nécessaire.
+
+---
+
+## 9. Stabilisation Active du Regard (Gaze Control)
+
+### 9.1 Le Problème en Marche Rapide / Course
+
+À mesure que la vitesse augmente, le **torse oscille** en pitch (±5-15°) et roll (±3-8°) à chaque foulée. Ces oscillations :
+- **Flouttent l'image** de l'OAK-D Pro (motion blur → depth map dégradée).
+- **Déplacent le cône OAK-D** verticalement → le robot "perd de vue" le sol ou la direction.
+- **Secouent le L2** → bruit accru dans le nuage de points.
+
+### 9.2 La Solution : le Réflexe Vestibulo-Oculaire (VOR) du D-Bot
+
+> [!IMPORTANT]
+> **La tête du D-Bot dispose de 2 DOF** (RS-00 Pitch + RS-02 Yaw) qui permettent une **stabilisation active du regard**, exactement comme le réflexe vestibulo-oculaire humain compense les mouvements de la tête pendant la marche.
+
+**Principe** : Le BMI270 (IMU torse) mesure les oscillations du corps en temps réel. Le contrôleur de la tête applique une **compensation inverse** sur les moteurs du cou pour maintenir l'OAK-D Pro et le L2 orientés de manière stable.
+
+```
+            Oscillation du torse (marche/course)
+                    ┌──────────┐
+                    │   TORSE  │    ← Pitch ±10°, Roll ±5° à chaque foulée
+                    │          │
+                    └────┬─────┘
+                         │ Cou 2 DOF
+           ╔═════════════╧══════════════╗
+           ║   COMPENSATION INVERSE     ║
+           ║                            ║
+           ║  θ_tête = -θ_torse × k     ║    ← k ∈ [0.8, 1.0] (gain VOR)
+           ║                            ║
+           ╚═════════════╤══════════════╝
+                    ┌────┴─────┐
+                    │   TÊTE   │    ← Stable dans le repère monde
+                    │ L2 + OAK │
+                    └──────────┘
+```
+
+### 9.3 Modes de Regard par Phase de Locomotion
+
+| Phase | Vitesse | Pitch tête | Yaw tête | OAK-D cible | L2 effet |
+| :--- | :---: | :--- | :--- | :--- | :--- |
+| **Debout / Station** | 0 km/h | Libre (exploration) | Libre | Scène en face | Cartographie 360° |
+| **Marche lente** | 1-2 km/h | VOR actif (-pitch torse) | Direction marche | Sol 1-5m devant | SLAM normal |
+| **Marche rapide** | 3-4 km/h | VOR actif + bias -15° | Direction marche | **Sol + obstacles proches** | SLAM compensé |
+| **Course** | 5-8 km/h | VOR actif + bias -20° | Direction course | **Sol immédiat 0-3m** | SLAM dégradé (acceptable) |
+
+**En mode course**, la tête s'incline davantage vers le bas (bias -15° à -20°) pour **maximiser la couverture du sol** à proximité immédiate. C'est critique : à 6 km/h (1.67 m/s), le robot parcourt ~1.7 m entre chaque scan L2 (5.55 Hz). L'OAK-D Pro à 30 FPS comble ce gap en scannant le sol toutes les 33 ms = ~5.5 cm d'avancée.
+
+### 9.4 Implémentation ROS2 (Gaze Stabilization Node)
+
+```python
+#!/usr/bin/env python3
+"""
+D-Bot Gaze Stabilization — Vestibulo-Ocular Reflex (VOR)
+Compense les oscillations du torse en temps réel via les 2 DOF tête.
+"""
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Imu
+from std_msgs.msg import Float32
+
+class GazeStabilizer(Node):
+    def __init__(self):
+        super().__init__('gaze_stabilizer')
+        
+        # IMU torse (BMI270 via Spresense)
+        self.sub_imu = self.create_subscription(
+            Imu, '/imu/data', self.imu_callback, 10)
+        
+        # Commandes moteurs tête
+        self.pub_pitch = self.create_publisher(Float32, '/head/pitch_cmd', 10)
+        self.pub_yaw = self.create_publisher(Float32, '/head/yaw_cmd', 10)
+        
+        # Paramètres VOR
+        self.vor_gain_pitch = 0.9   # Compensation à 90%
+        self.vor_gain_yaw = 0.85
+        self.speed_mode = 'walk'    # walk, fast_walk, run
+        
+        # Bias selon vitesse (inclinaison sol)
+        self.pitch_bias = {
+            'stand': 0.0,       # Exploration libre
+            'walk': -5.0,       # Léger regard vers le sol
+            'fast_walk': -15.0, # Sol + obstacles proches
+            'run': -20.0,       # Sol immédiat prioritaire
+        }
+    
+    def imu_callback(self, msg):
+        # Extraire pitch et yaw du torse
+        torso_pitch = self._quat_to_pitch(msg.orientation)
+        torso_yaw_rate = msg.angular_velocity.z
+        
+        # Compensation inverse (VOR)
+        head_pitch = -torso_pitch * self.vor_gain_pitch
+        head_pitch += self.pitch_bias.get(self.speed_mode, 0.0)
+        
+        head_yaw_correction = -torso_yaw_rate * self.vor_gain_yaw * 0.01
+        
+        # Publier commandes
+        self.pub_pitch.publish(Float32(data=head_pitch))
+        self.pub_yaw.publish(Float32(data=head_yaw_correction))
+```
+
+---
+
+## 10. Analyse par Régime de Vitesse
+
+### 10.1 La Triple Fusion est-elle Suffisante en Course ?
+
+| Critère | Marche (2 km/h) | Marche rapide (4 km/h) | Course (7 km/h) |
+| :--- | :---: | :---: | :---: |
+| **Distance entre scans L2** | ~10 cm | ~20 cm | ~35 cm |
+| **OAK-D entre frames** | ~1.8 cm | ~3.7 cm | ~6.5 cm |
+| **Vibrations torse** | Faibles (±3°) | Modérées (±8°) | Fortes (±15°) |
+| **VOR suffisant ?** | ✅ RS-00 : 28 rad/s max | ✅ Marge confortable | ✅ 15°×5Hz = 75°/s << 28 rad/s |
+| **OAK-D motion blur** | ❌ Négligeable | 🟡 Gérable (VOR) | 🟠 Possible malgré VOR |
+| **L2 bruit** | Faible | Moyen (filtre SOR) | Élevé (filtrage agressif) |
+| **SLAM global (L2)** | ✅ Excellent | ✅ Bon | ⚠️ Dégradé mais utilisable |
+| **Obstacles proches (OAK-D)** | ✅ Dense, clair | ✅ Dense, VOR stable | ✅ Dense, VOR compense |
+| **Verdict** | ✅✅ Optimal | ✅ Suffisant | ⚠️ Viable avec VOR |
+
+### 10.2 Pourquoi la Course Reste Viable
+
+1. **VOR mécanique** : Le RS-00 (tête pitch) a une vitesse max de ~28 rad/s (~1600°/s). L'oscillation du torse en course (~15° × 3 Hz = ~45°/s) représente seulement **~3% de la capacité** du moteur. Le VOR a une marge immense.
+
+2. **OAK-D Pro à 30 FPS** : Même en course (1.9 m/s), l'OAK-D scanne tous les **6.5 cm** d'avancement — bien assez pour détecter les obstacles au sol. Le VOR stabilise l'image pour éviter le motion blur.
+
+3. **L2 en mode dégradé** : En course, le SLAM LiDAR peut dériver davantage, mais le **SLAM visuel OAK-D** prend le relais comme source d'odométrie principale. Le L2 contribue toujours à la localisation globale même avec un nuage filtré.
+
+4. **Stratégie de repli** : Si la course dégrade trop le SLAM, le robot peut automatiquement **ralentir à la marche rapide** pendant les phases de cartographie critique (virage, changement de pièce).
+
+### 10.3 Facteur Limitant Réel
+
+Le facteur limitant de la perception en course n'est **PAS le capteur** mais la **puissance de calcul** :
+- RTAB-Map avec fusion L2 + OAK-D + IMU à pleine vitesse → **~40-60% GPU** Jetson Orin
+- En course, les algorithmes de **planification de trajectoire** et de **contrôle de balance** consomment aussi du GPU
+- Budget GPU total disponible : ~20-30% GPU pour le planning/contrôle
+
+→ C'est largement gérable sur un Jetson Orin (NVDLA + GPU 1024-core).
+
+> [!TIP]
+> **Optimisation course** : En mode course, réduire la résolution OAK-D de 640×480 à 320×240 (75k pts/frame au lieu de 300k) pour libérer du GPU au contrôle de balance. La couverture reste suffisante pour la détection d'obstacles proches.
