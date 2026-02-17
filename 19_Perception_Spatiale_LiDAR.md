@@ -264,7 +264,7 @@ rtabmap_ros:
 ### 9.2 La Solution : le Réflexe Vestibulo-Oculaire (VOR) du D-Bot
 
 > [!IMPORTANT]
-> **La tête du D-Bot dispose de 2 DOF** (RS-00 Pitch + RS-02 Yaw) qui permettent une **stabilisation active du regard**, exactement comme le réflexe vestibulo-oculaire humain compense les mouvements de la tête pendant la marche.
+> **La tête du D-Bot dispose de 2 DOF** (2× RS-05 : Pitch + Yaw) qui permettent une **stabilisation active du regard**, exactement comme le réflexe vestibulo-oculaire humain compense les mouvements de la tête pendant la marche.
 
 **Principe** : Le BMI270 (IMU torse) mesure les oscillations du corps en temps réel. Le contrôleur de la tête applique une **compensation inverse** sur les moteurs du cou pour maintenir l'OAK-D Pro et le L2 orientés de manière stable.
 
@@ -363,7 +363,7 @@ class GazeStabilizer(Node):
 | **Distance entre scans L2** | ~10 cm | ~20 cm | ~35 cm |
 | **OAK-D entre frames** | ~1.8 cm | ~3.7 cm | ~6.5 cm |
 | **Vibrations torse** | Faibles (±3°) | Modérées (±8°) | Fortes (±15°) |
-| **VOR suffisant ?** | ✅ RS-00 : 28 rad/s max | ✅ Marge confortable | ✅ 15°×5Hz = 75°/s << 28 rad/s |
+| **VOR suffisant ?** | ✅ RS-05 : ~21 rad/s max | ✅ Marge confortable | ✅ 15°×5Hz = 75°/s << 21 rad/s |
 | **OAK-D motion blur** | ❌ Négligeable | 🟡 Gérable (VOR) | 🟠 Possible malgré VOR |
 | **L2 bruit** | Faible | Moyen (filtre SOR) | Élevé (filtrage agressif) |
 | **SLAM global (L2)** | ✅ Excellent | ✅ Bon | ⚠️ Dégradé mais utilisable |
@@ -372,7 +372,7 @@ class GazeStabilizer(Node):
 
 ### 10.2 Pourquoi la Course Reste Viable
 
-1. **VOR mécanique** : Le RS-00 (tête pitch) a une vitesse max de ~28 rad/s (~1600°/s). L'oscillation du torse en course (~15° × 3 Hz = ~45°/s) représente seulement **~3% de la capacité** du moteur. Le VOR a une marge immense.
+1. **VOR mécanique** : Le RS-05 (tête pitch) a une vitesse max de ~21 rad/s (~1200°/s). L'oscillation du torse en course (~15° × 3 Hz = ~45°/s) représente seulement **~4% de la capacité** du moteur. Le VOR a une marge immense.
 
 2. **OAK-D Pro à 30 FPS** : Même en course (1.9 m/s), l'OAK-D scanne tous les **6.5 cm** d'avancement — bien assez pour détecter les obstacles au sol. Le VOR stabilise l'image pour éviter le motion blur.
 
