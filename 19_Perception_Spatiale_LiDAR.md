@@ -107,23 +107,33 @@ La vision pure est insuffisante à notre niveau : pas assez de puissance IA pour
 ### 5.1 Principe
 
 > [!IMPORTANT]
-> **La clé de notre solution** : séparer le LiDAR de son IMU défectueuse et le fusionner avec l'OAK-D Pro pour compenser la faible densité de points. C'est l'approche du G1 (MID-360 + RealSense), adaptée à notre budget.
+> **La clé de notre solution** : séparer le LiDAR de son IMU défectueuse, le monter sur le **torse** (position stable pour le SLAM), et fusionner avec l'OAK-D Pro sur la **tête** (orientable pour la perception locale). C'est l'approche du G1 (MID-360 sur torse + RealSense en tête), adaptée à notre budget.
 
 ```
                     ┌─────────────────┐
-                    │   TÊTE D-BOT     │
-                    │                  │
-                    │  ┌────────────┐  │
-                    │  │ Unitree L2 │  │  ← LiDAR 3D : 360°×96°, 64k pts/s
-                    │  │ (sans IMU) │  │     Nuage de points SPARSE (loin)
-                    │  └────────────┘  │
-                    │                  │
+                    │   TÊTE D-BOT     │    ← 2 DOF (2× RS-05 : Pitch + Yaw)
+                    │   (orientable)   │       Gaze Control actif (VOR)
                     │  ┌────────────┐  │
                     │  │ OAK-D Pro  │  │  ← Depth Camera : 80° cone, 640×480 pixels
                     │  │ (stéréo)   │  │     Nuage de points DENSE (près, 0-10m)
-                    │  └────────────┘  │
+                    │  └────────────┘  │     Orientation active → regarde où il faut
                     └────────┬─────────┘
-                             │ USB3 × 2
+                             │ Cou (2× RS-05)
+                    ┌────────┴─────────┐
+                    │   TORSE (haut)    │
+                    │                  │
+                    │  ┌────────────┐  │
+                    │  │ Unitree L2 │  │  ← LiDAR 3D : 360°×96°, 64k pts/s
+                    │  │ (sans IMU) │  │     Position FIXE sur torse = TF statique
+                    │  │ [silent bl]│  │     Mouvement prévisible (locomotion)
+                    │  └────────────┘  │
+                    │                  │
+                    │  ┌────────────┐  │
+                    │  │ Spresense  │  │  ← IMU BMI270 : 400 Hz, timing stable
+                    │  │ BMI270     │  │     Co-localisé avec le L2 sur le torse
+                    │  └────────────┘  │     Publie sur /imu/data
+                    └────────┬─────────┘
+                             │ USB3 × 2 + Serial
                     ┌────────▼─────────┐
                     │   Jetson Orin     │
                     │                  │
@@ -133,26 +143,36 @@ La vision pure est insuffisante à notre niveau : pas assez de puissance IA pour
                     │  │ FAST-LIO   │◀─┼──── /imu/data       (BMI270, 400 Hz)
                     │  └────────────┘  │
                     └──────────────────┘
-                             ▲
-                    ┌────────┴─────────┐
-                    │  Spresense       │
-                    │  BMI270 Add-on   │  ← IMU 6 axes : 400 Hz, timing stable
-                    │  (Always-On)     │     Publie sur /imu/data via USB-Serial
-                    └──────────────────┘
 ```
 
-### 5.2 Pourquoi Cette Fusion est Optimale
+### 5.2 Pourquoi Cette Architecture (L2 Torse / OAK-D Tête)
 
-| Rôle | Capteur | Ce qu'il apporte |
-| :--- | :--- | :--- |
-| **Couverture globale** | L2 (360°×96°) | Nuage de points sparse sur tout l'environnement — cartographie, localisation |
-| **Densité locale** | OAK-D Pro (~80° forward) | ~300k pixels de profondeur dans le cône avant — obstacles proches, objets fins, reconnaissance |
-| **Odométrie inertielle** | BMI270 (400 Hz) | Compensation du mouvement bipédal, prédiction inter-scans, stabilité SLAM |
+> [!NOTE]
+> **Choix de placement du L2 sur le torse** : Le positionnement du L2 a fait l'objet d'une analyse approfondie. Le **torse** a été retenu plutôt que la tête pour 5 raisons :
 
-**Résultat** : la zone **devant le robot** (là où il marche) bénéficie de la **densité OAK-D Pro** (~300k pixels depth). Le **reste** (côtés, arrière, sol, plafond) est couvert par le L2 avec 64k pts/s — largement suffisant pour la cartographie et la localisation.
+| Critère | L2 sur la **tête** (rejeté) | L2 sur le **torse** (retenu) |
+| :--- | :---: | :---: |
+| **SLAM stabilité** | ⚠️ Mouvements tête imprévisibles → distorsion intra-scan | ✅ Mouvement locomotion prévisible |
+| **TF ROS2** | Dynamique (lidar→head→neck→torso) | ✅ **Statique** (lidar→torso = constante) |
+| **FOV L2 suffisant sans bouger ?** | Le L2 couvre déjà 96° vertical | ✅ **96° = sol au plafond sans incliner** |
+| **Inertie cervicale** | 330g (L2+OAK-D) sur la tête | ✅ **100g** (OAK-D seul) |
+| **OAK-D libre de pointer ?** | ❌ Mouvements tête perturbent le L2 | ✅ **Tête 100% dédiée à l'OAK-D** |
+| **Benchmark G1** | — | ✅ Le G1 fait exactement cela |
+
+**Séparation des rôles** :
+
+| Rôle | Capteur | Position | Ce qu'il apporte |
+| :--- | :--- | :---: | :--- |
+| **SLAM global (360°)** | L2 (360°×96°) | **Torse** (fixe) | Cartographie, localisation — mouvement stable et prévisible |
+| **Perception locale (orientable)** | OAK-D Pro (~80°) | **Tête** (2 DOF) | Obstacles proches, reconnaissance, densité adaptative |
+| **Odométrie inertielle** | BMI270 (400 Hz) | **Torse** (co-localisé L2) | Compensation locomotion, stabilité SLAM |
+
+**Résultat** : la zone **devant le robot** (là où il marche) bénéficie de la **densité OAK-D Pro** (~300k pixels depth), orientable par le cou. Le **reste** (côtés, arrière, sol, plafond) est couvert par le L2 avec 64k pts/s en position stable — optimal pour le SLAM.
 
 > [!TIP]
 > **Compensation de densité** : L'OAK-D Pro produit ~**300 000 points de profondeur** par frame (640×480 depth map @ 30 FPS) dans son cône de 80°. Le L2 ne produit que 64 000 pts/s sur 360°×96°. En fusionnant les deux, la **densité effective dans la zone de marche** est **5× supérieure** au L2 seul — et même supérieure au Livox MID-360 dans cette zone !
+>
+> De plus, l'OAK-D étant sur la tête orientable, le robot peut **diriger le cône dense là où c'est nécessaire** : vers le sol en course, vers un objet d'intérêt à l'arrêt, vers une porte à franchir.
 
 ### 5.3 Comparaison Densité Effective (Zone Avant 80°)
 
@@ -229,26 +249,37 @@ rtabmap_ros:
 
 ```
             ┌────────────────────────┐
-            │      TÊTE D-BOT        │
+            │      TÊTE D-BOT        │    ← Orientable (2× RS-05)
+            │                        │       Légère : OAK-D seul (100g)
+            │   ┌──────────┐         │
+            │   │ OAK-D Pro│ ←→ 🔵   │    ← En façade, centré
+            │   │ (front)  │         │       Fixation M4 sur support alu
+            │   └──────────┘         │
+            └────────┬───────────────┘
+                     │ Cou (2× RS-05)
+            ┌────────┴───────────────┐
+            │    TORSE HAUT          │    ← Position fixe, stable
             │                        │
-            │   ┌──────────┐         │    ← L2 sur le sommet, monté
-            │   │ L2 (top) │         │       sur 4 silent blocks Ø6mm
+            │   ┌──────────┐         │    ← L2 monté devant le cou,
+            │   │ L2 (fix) │         │       sur 4 silent blocks Ø6mm
             │   └──────────┘         │       vis M3 + rondelles caoutchouc
-            │         │              │
-            │   ┌──────────┐         │    ← OAK-D Pro en façade,
-            │   │ OAK-D Pro│ ←→ 🔵   │       centré, incliné 10° vers bas
-            │   │ (front)  │         │       fixation M4 sur support alu
+            │                        │       TF statique lidar→torso
+            │   ┌──────────┐         │
+            │   │Spresense │         │    ← BMI270 co-localisé avec L2
+            │   │ BMI270   │         │       Même repère = meilleure fusion
             │   └──────────┘         │
             └────────────────────────┘
 ```
 
+**Avantage clé du montage** : Le L2 et le BMI270 sont **co-localisés sur le torse** → leur repère est quasi-identique, ce qui simplifie la fusion IMU+LiDAR dans l'algorithme SLAM (pas de bras de levier entre les deux capteurs).
+
 **Câblage** :
-- L2 → USB3 (câble fourni) → Jetson Orin USB-A #1
-- OAK-D Pro → USB3 (câble DepthAI) → Jetson Orin USB-A #2
-- BMI270 → Serial (via Spresense) → Jetson Orin USB-C (ou ROS2-micro-ROS)
+- L2 → USB3 (câble fourni, passé dans le cou) → Jetson Orin USB-A #1
+- OAK-D Pro → USB3 (câble DepthAI, flexible dans le cou) → Jetson Orin USB-A #2
+- BMI270 → Serial (via Spresense) → Jetson Orin USB-C (ou micro-ROS)
 
 > [!NOTE]
-> Le L2 et l'OAK-D Pro se partagent la bande passante USB3. Chacun utilise ~400-500 Mb/s. Le Jetson Orin Nano dispose de suffisamment de ports USB3 pour les deux. Vérifier que le hub USB est bien USB 3.0+ si un hub est nécessaire.
+> Les câbles USB de l'OAK-D Pro passent par le cou articulé. Prévoir un **câble USB3 spiralé ou extra-souple** (type câble robot industriel) pour supporter les rotations du cou sans fatigue mécanique. Longueur recommandée : 30-40 cm avec mou.
 
 ---
 
@@ -259,44 +290,56 @@ rtabmap_ros:
 À mesure que la vitesse augmente, le **torse oscille** en pitch (±5-15°) et roll (±3-8°) à chaque foulée. Ces oscillations :
 - **Flouttent l'image** de l'OAK-D Pro (motion blur → depth map dégradée).
 - **Déplacent le cône OAK-D** verticalement → le robot "perd de vue" le sol ou la direction.
-- **Secouent le L2** → bruit accru dans le nuage de points.
+- **Secouent le L2** (sur le torse) → bruit modéré, mais mouvement prévisible (compensable par IMU).
 
 ### 9.2 La Solution : le Réflexe Vestibulo-Oculaire (VOR) du D-Bot
 
 > [!IMPORTANT]
-> **La tête du D-Bot dispose de 2 DOF** (2× RS-05 : Pitch + Yaw) qui permettent une **stabilisation active du regard**, exactement comme le réflexe vestibulo-oculaire humain compense les mouvements de la tête pendant la marche.
+> **La tête du D-Bot dispose de 2 DOF** (2× RS-05 : Pitch + Yaw) qui permettent une **stabilisation active du regard de l'OAK-D Pro**, exactement comme le réflexe vestibulo-oculaire humain compense les mouvements de la tête pendant la marche. Le L2, fixé sur le torse, n'a **pas besoin** de VOR — ses oscillations sont prévisibles et compensées par le BMI270 co-localisé.
 
-**Principe** : Le BMI270 (IMU torse) mesure les oscillations du corps en temps réel. Le contrôleur de la tête applique une **compensation inverse** sur les moteurs du cou pour maintenir l'OAK-D Pro et le L2 orientés de manière stable.
+**Principe** : Le BMI270 (IMU torse) mesure les oscillations du corps en temps réel. Le contrôleur de la tête applique une **compensation inverse** sur les moteurs du cou pour maintenir l'OAK-D Pro orienté de manière stable, indépendamment des mouvements du torse.
 
 ```
             Oscillation du torse (marche/course)
-                    ┌──────────┐
-                    │   TORSE  │    ← Pitch ±10°, Roll ±5° à chaque foulée
-                    │          │
-                    └────┬─────┘
-                         │ Cou 2 DOF
+                    ┌──────────────┐
+                    │   TORSE      │    ← Pitch ±10°, Roll ±5°
+                    │ ┌──────┐     │
+                    │ │  L2  │ fixe│    ← L2 subit les oscillations torse
+                    │ └──────┘     │       MAIS mouvement prévisible
+                    │ ┌──────┐     │       → compensé par BMI270 dans SLAM
+                    │ │BMI270│     │
+                    │ └──────┘     │
+                    └────┬─────────┘
+                         │ Cou 2× RS-05
            ╔═════════════╧══════════════╗
            ║   COMPENSATION INVERSE     ║
            ║                            ║
            ║  θ_tête = -θ_torse × k     ║    ← k ∈ [0.8, 1.0] (gain VOR)
+           ║  + bias selon vitesse       ║       Uniquement pour l'OAK-D
            ║                            ║
            ╚═════════════╤══════════════╝
                     ┌────┴─────┐
                     │   TÊTE   │    ← Stable dans le repère monde
-                    │ L2 + OAK │
+                    │ OAK-D Pro│       Image nette, depth map précise
                     └──────────┘
 ```
 
+> [!TIP]
+> **Avantage clé de l'architecture L2-torse / OAK-D-tête** : Le VOR ne doit stabiliser que **100g** (OAK-D Pro seul) au lieu de 330g (L2+OAK-D). Les RS-05 ont une marge de vitesse immense et l'inertie cervicale réduite améliore toute la dynamique de marche.
+
 ### 9.3 Modes de Regard par Phase de Locomotion
 
-| Phase | Vitesse | Pitch tête | Yaw tête | OAK-D cible | L2 effet |
+| Phase | Vitesse | Pitch tête (OAK-D) | Yaw tête | OAK-D cible | L2 (torse, fixe) |
 | :--- | :---: | :--- | :--- | :--- | :--- |
-| **Debout / Station** | 0 km/h | Libre (exploration) | Libre | Scène en face | Cartographie 360° |
-| **Marche lente** | 1-2 km/h | VOR actif (-pitch torse) | Direction marche | Sol 1-5m devant | SLAM normal |
-| **Marche rapide** | 3-4 km/h | VOR actif + bias -15° | Direction marche | **Sol + obstacles proches** | SLAM compensé |
-| **Course** | 5-8 km/h | VOR actif + bias -20° | Direction course | **Sol immédiat 0-3m** | SLAM dégradé (acceptable) |
+| **Debout / Station** | 0 km/h | Libre (exploration) | Libre | Scène en face / objet d'intérêt | SLAM 360° continu |
+| **Marche lente** | 1-2 km/h | VOR actif (-pitch torse) | Direction marche | Sol 1-5m devant | SLAM optimal |
+| **Marche rapide** | 3-4 km/h | VOR actif + bias -15° | Direction marche | **Sol + obstacles proches** | SLAM bon (filtré SOR) |
+| **Course** | 5-8 km/h | VOR actif + bias -20° | Direction course | **Sol immédiat 0-3m** | SLAM dégradé mais compensé BMI270 |
 
-**En mode course**, la tête s'incline davantage vers le bas (bias -15° à -20°) pour **maximiser la couverture du sol** à proximité immédiate. C'est critique : à 6 km/h (1.67 m/s), le robot parcourt ~1.7 m entre chaque scan L2 (5.55 Hz). L'OAK-D Pro à 30 FPS comble ce gap en scannant le sol toutes les 33 ms = ~5.5 cm d'avancée.
+**En mode course**, la tête s'incline davantage vers le bas (bias -15° à -20°) pour **maximiser la couverture du sol** de l'OAK-D à proximité immédiate. C'est critique : à 6 km/h (1.67 m/s), le robot parcourt ~1.7 m entre chaque scan L2 (5.55 Hz). L'OAK-D Pro à 30 FPS comble ce gap en scannant le sol toutes les 33 ms = ~5.5 cm d'avancée.
+
+> [!NOTE]
+> **Indépendance tête/torse** : En mode exploration (debout, station), la tête peut librement regarder autour sans perturber le SLAM LiDAR. C'est **impossible** avec le L2 sur la tête — chaque mouvement de curiosité aurait perturbé le scan.
 
 ### 9.4 Implémentation ROS2 (Gaze Stabilization Node)
 
@@ -362,23 +405,25 @@ class GazeStabilizer(Node):
 | :--- | :---: | :---: | :---: |
 | **Distance entre scans L2** | ~10 cm | ~20 cm | ~35 cm |
 | **OAK-D entre frames** | ~1.8 cm | ~3.7 cm | ~6.5 cm |
-| **Vibrations torse** | Faibles (±3°) | Modérées (±8°) | Fortes (±15°) |
-| **VOR suffisant ?** | ✅ RS-05 : ~21 rad/s max | ✅ Marge confortable | ✅ 15°×5Hz = 75°/s << 21 rad/s |
-| **OAK-D motion blur** | ❌ Négligeable | 🟡 Gérable (VOR) | 🟠 Possible malgré VOR |
-| **L2 bruit** | Faible | Moyen (filtre SOR) | Élevé (filtrage agressif) |
-| **SLAM global (L2)** | ✅ Excellent | ✅ Bon | ⚠️ Dégradé mais utilisable |
-| **Obstacles proches (OAK-D)** | ✅ Dense, clair | ✅ Dense, VOR stable | ✅ Dense, VOR compense |
+| **Vibrations torse (= L2)** | Faibles (±3°) | Modérées (±8°) | Fortes (±15°) |
+| **L2 SLAM (torse fixe)** | ✅ Excellent | ✅ Bon (BMI270 compense) | ⚠️ Dégradé mais compensé BMI270 |
+| **VOR OAK-D (tête)** | ✅ RS-05 : ~21 rad/s max | ✅ Marge confortable | ✅ 15°×5Hz = 75°/s << 21 rad/s |
+| **OAK-D motion blur** | ❌ Négligeable | 🟡 Gérable (VOR) | 🟠 Résiduel malgré VOR |
+| **Masse VOR (tête seule)** | ✅ 100g OAK-D seul | ✅ Réactif | ✅ Inertie faible |
+| **Obstacles proches (OAK-D)** | ✅ Dense, orientable | ✅ Dense, VOR + bias sol | ✅ Dense, VOR + bias -20° |
 | **Verdict** | ✅✅ Optimal | ✅ Suffisant | ⚠️ Viable avec VOR |
 
 ### 10.2 Pourquoi la Course Reste Viable
 
-1. **VOR mécanique** : Le RS-05 (tête pitch) a une vitesse max de ~21 rad/s (~1200°/s). L'oscillation du torse en course (~15° × 3 Hz = ~45°/s) représente seulement **~4% de la capacité** du moteur. Le VOR a une marge immense.
+1. **VOR léger** : Le RS-05 ne stabilise que **100g** (OAK-D seul, pas L2+OAK-D). L'oscillation torse en course (~15° × 3 Hz = ~45°/s) représente seulement **~4% de la capacité** du RS-05 (~21 rad/s). Marge immense.
 
-2. **OAK-D Pro à 30 FPS** : Même en course (1.9 m/s), l'OAK-D scanne tous les **6.5 cm** d'avancement — bien assez pour détecter les obstacles au sol. Le VOR stabilise l'image pour éviter le motion blur.
+2. **L2 stable sur torse** : Même en course, les oscillations du torse sont **prévisibles** (locomotion régulière). Le BMI270 co-localisé compense la distorsion dans l'algorithme SLAM (motion undistortion). C'est bien mieux que si le L2 subissait les mouvements aléatoires de la tête.
 
-3. **L2 en mode dégradé** : En course, le SLAM LiDAR peut dériver davantage, mais le **SLAM visuel OAK-D** prend le relais comme source d'odométrie principale. Le L2 contribue toujours à la localisation globale même avec un nuage filtré.
+3. **OAK-D Pro à 30 FPS** : Même en course (1.9 m/s), l'OAK-D scanne tous les **6.5 cm** d'avancement — bien assez pour détecter les obstacles au sol. Le VOR stabilise l'image pour éviter le motion blur.
 
-4. **Stratégie de repli** : Si la course dégrade trop le SLAM, le robot peut automatiquement **ralentir à la marche rapide** pendant les phases de cartographie critique (virage, changement de pièce).
+4. **Redondance SLAM** : En course, si le SLAM LiDAR dérive, le **SLAM visuel OAK-D** prend le relais comme source d'odométrie principale. Le L2 contribue toujours à la localisation globale même avec un nuage filtré.
+
+5. **Stratégie de repli** : Si la course dégrade trop le SLAM, le robot peut automatiquement **ralentir à la marche rapide** pendant les phases de cartographie critique (virage, changement de pièce).
 
 ### 10.3 Facteur Limitant Réel
 
