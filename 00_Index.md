@@ -89,7 +89,12 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
 18. **[Annexe — Comparatif Batteries & Scénarios](./18_Annexe_Batterie_Comparatif.md)**
     *   Tableau NMC vs LiFePO4 vs Semi-Solide.
     *   Scénarios court/moyen/long terme.
-    *   Configuration "D-Bot Performance" recommandée.
+
+19. **[Perception Spatiale & LiDAR](./19_Perception_Spatiale_LiDAR.md)**
+    *   Analyse complète Unitree L2 (points forts et problèmes IMU confirmés).
+    *   Benchmark industrie (G1, Optimus, Figure 02, Digit).
+    *   Alternatives évaluées (Livox MID-360, 2D LiDARs, multi-caméras, vision pure).
+    *   Solution retenue : **Triple fusion L2 + OAK-D Pro + BMI270**.
 
 ---
 *Documentation exhaustive générée et auditée en Février 2026.*

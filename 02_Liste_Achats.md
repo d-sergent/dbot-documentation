@@ -97,7 +97,7 @@
 | **Connecteur** | **Anderson SB50** (anti-spark) ou XT90-S | Connecteur haute puissance pour batterie 13S NMC 48V. |
 | **Batterie (×1 → ×2)** | **[AT WEY NMC 48V 10 Ah](https://atwey.fr/accueil/94-batterie-generique-48v-10ah.html)** | 480 Wh, 2.3 kg, 13S NMC 21700 LG M50LT, BMS 50A, ~€300/pack — Assemblé 🇫🇷. Acheter 1 dès Phase 1, 2ème en Phase 4 (voir [Détails](./04_Electronique_Cablage.md#4-alimentation--batterie)). |
 | **Chargeur 13S** | **54.6V CC/CV 4-5A** | Chargeur dédié Li-ion 13S NMC. Demander à AT WEY ou fournisseur FR. |
-| **LiDAR** | **Unitree L2** | FOV 360°x90°, Portée 30m, IMU intégrée. |
+| **LiDAR** | **Unitree L2** | FOV 360°×96°, Portée 30m, 64k pts/s. ⚠️ IMU intégrée défectueuse → utiliser BMI270 Spresense. Montage sur silent blocks. Voir [Analyse complète](./19_Perception_Spatiale_LiDAR.md). |
 | **Alimentation Labo** | **Wanptek DPS605U** | Indispensable Phase 2 (Régler sur 24V / Lim. 1A). |
 
 ### Interface CAN & Câbles
