@@ -42,23 +42,25 @@ En phase d'appui simple, un seul genou supporte toute la masse du robot :
 | **Hanche Roll** (RS-03) | 60 N.m | ~25 N.m | **+140%** | ✅ Confortable |
 | **Hanche Yaw** (RS-03) | 60 N.m | ~15 N.m | **+300%** | ✅ Surplus |
 | **Genou Pitch** (RS-04) | 120 N.m | ~60 N.m | **+100%** | ✅ OK |
-| **Cheville Pitch** (RS-02) | 17 N.m | ~30 N.m | **-43%** | ⚠️ INSUFFISANT |
+| **Cheville Pitch** (RS-02) | 17 N.m (×2 tirant = 34) | ~67 N.m | **-50%** | ❌ **CRITIQUE** |
 
 > [!CAUTION]
-> **Point faible critique : La CHEVILLE** (RS-02, 17 N.m pic) est très probablement sous-dimensionnée pour la marche. En phase de poussée (toe-off), la cheville doit générer un couple de ~30-50 N.m pour propulser 34 kg. Le RS-02 est à 17 N.m pic (6 N.m nominal), ce qui est **2 à 3× trop faible**.
+> **Point faible critique : La CHEVILLE**. Avec un bras de levier mesuré à **0.20 m**, le couple requis pour soutenir le robot sur la pointe/talon est de **~67 N.m**.
+> Le D-Bot V1 (RS-02 + tirant = 34 N.m) est en **déficit de 50%**.
+> **Conséquence** : La marche propulsive (déroulé du pied) est impossible. Le robot devra marcher "à plat" (flat-foot) en gardant le Centre de Pression (CoP) très proche de l'axe de rotation (< 10 cm). Tout appui fort sur le talon/pointe fera décrocher le moteur.
 
 > [!NOTE]
-> **⬆️ Ce calcul concerne le direct-drive** (RS-02 seul = 17 N.m). Le D-Bot conserve le **mécanisme tirant K-Bot** qui multiplie le couple : RS-02 (17 N.m) × ratio ~2:1 ≈ **34 N.m** effectif à la cheville — voir section 5 et doc 14.
+> **⬆️ Ce calcul concerne le mécanisme tirant**. Même avec le multiplicateur ×2 du K-Bot (34 N.m), le couple reste insuffisant pour le levier de 20 cm. L'upgrade V2 vers RS-03 (60 × 2 = 120 N.m) devient **indispensable** pour une vraie marche dynamique.
 
 #### Explication du Calcul Cheville
 ```
 Couple cheville = Masse × g × Distance CdP-Cheville
-                = 34 kg × 9.81 m/s² × 0.10 m (distance talon)
-                ≈ 33 N.m minimum statique
-                ≈ 50 N.m en dynamique (accélérations)
+                = 34 kg × 9.81 m/s² × 0.20 m (mesure réelle)
+                ≈ 67 N.m minimum statique
+                ≈ 100 N.m en dynamique (accélérations)
 ```
 
-**Conclusion marche lente** : La marche lente de type "shuffle" est possible grâce au surdimensionnement des hanches et genoux, mais sera fortement limitée par les chevilles. La marche sera plutôt un mouvement de type "flat-foot" sans propulsion.
+**Conclusion marche lente** : Le D-Bot V1 (RS-02) est limité à une marche de type "shuffle" (glissée/petite foulée à plat). Le couple de 34 N.m ne permet de contrer qu'un déséquilibre de ~10 cm. Au-delà (talon 20 cm), le robot ne tient pas.
 
 ---
 
@@ -68,7 +70,7 @@ Couple cheville = Masse × g × Distance CdP-Cheville
 | :--- | :---: | :---: | :---: |
 | Couple genou dynamique | ~80 N.m | 120 N.m (RS-04) | ✅ Suffisant |
 | Couple hanche dynamique | ~70 N.m | 120 N.m (RS-04) | ✅ Suffisant |
-| Couple cheville dynamique | ~50-60 N.m | 17 N.m (RS-02) | ❌ **CRITIQUE** |
+| Couple cheville dynamique | ~100 N.m | 17 N.m (RS-02) | ❌ **CRITIQUE** |
 
 > [!NOTE]
 > Ces estimations sont pour une marche à **~2-3 km/h**.
@@ -208,7 +210,7 @@ Couple épaule = (Masse_bras × g × L/2) + (Masse_charge × g × L_total)
 | Poids | 405g | 480g | +19% |
 | Prix | ~$160 | ~$480-580 | **×3** |
 
-**Verdict** : ⚠️ **INSUFFISANT**. +29% de couple ne résout pas le problème des chevilles (besoin minimum 40 N.m). Et coûte 3× plus cher qu'un RS-02. Passer à un RS-03 avec tirant (V2) est meilleur et moins cher.
+**Verdict** : ⚠️ **INSUFFISANT**. +29% de couple ne résout pas le problème des chevilles (besoin minimum ~67 N.m). Et coûte 3× plus cher qu'un RS-02. Passer à un RS-03 avec tirant (V2) est meilleur et moins cher.
 
 #### B3. MyActuator RMD-X10 V3 (pour Chevilles)
 
@@ -219,7 +221,7 @@ Couple épaule = (Masse_bras × g × L/2) + (Masse_charge × g × L_total)
 | Poids | 405g | 1150g | +184% |
 | Prix | ~$160 | ~$890 | **×5.5** |
 
-**Verdict** : ⚠️ **POSSIBLE mais coûteux**. Couple suffisant pour les chevilles (50 N.m pic) mais très lourd (1.15 kg) et très cher ($890). Le RS-03 RobStride avec tirant ferait mieux (60 N.m × 2 = 120 N.m effectif, $250).
+**Verdict** : ⚠️ **POSSIBLE mais coûteux**. Couple (50 N.m pic) **encore insuffisant** vs 67 N.m requis, très lourd (1.15 kg) et très cher ($890). Le RS-03 RobStride avec tirant ferait mieux (60 N.m × 2 = 120 N.m effectif, $250).
 
 ---
 
