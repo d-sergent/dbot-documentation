@@ -653,6 +653,15 @@ Beaucoup de robots humanoïdes avancés (Unitree H2, ATLAS) ont un **DOF de rota
 > [!WARNING]
 > **TPU 80A est TRÈS souple** — il nécessite un extrudeur **Direct Drive** (type MK3S, Prusa XL, Bambu Lab). Si votre imprimante est en Bowden, utiliser du 90A minimum ou acheter un adaptateur Direct Drive. Le TPU 80A en Bowden va se coincer dans le tube PTFE.
 
+> [!TIP]
+> **Compatibilité Qidi X-Plus 4** : La Qidi X-Plus 4 est équipée d'un **extrudeur Direct Drive** avec engrenages en acier trempé et un hotend monobloc pouvant atteindre 370°C. Le TPU 88A Francofil est **parfaitement compatible** :
+> - ✅ **Direct Drive** = le filament souple ne peut pas se coincer (pas de tube Bowden long)
+> - ✅ **Tête titane** = aucun problème, le TPU s'imprime à 220-240°C (bien dans les capacités)
+> - ✅ **Chambre chauffée** = laisser la porte **ouverte** pour le TPU (pas besoin de chaleur, au contraire)
+> - ⚠️ **Capteur de filament** = le TPU souple peut ne pas déclencher le capteur de filament — le pousser manuellement si besoin
+> - **Vitesse recommandée** : 20-30 mm/s max (la X-Plus 4 peut aller à 600 mm/s mais le TPU déteste la vitesse)
+> - **Rétraction** : 0.5 mm max, vitesse rétraction 20 mm/s (le Direct Drive de la Qidi gère bien)
+
 #### 10.7.4 Où Acheter le TPU (France / Europe)
 
 | Fournisseur | Shore | Prix/kg | Lien | Note |
