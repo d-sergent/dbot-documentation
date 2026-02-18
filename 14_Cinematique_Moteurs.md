@@ -334,11 +334,11 @@ V3 (parallèle):    ~40g             ~0.70 m              ~20 g.m²  ← Optimal
 | Phase | Config Cheville | Moteurs | Coût additionnel | Pourquoi |
 | :--- | :--- | :--- | :---: | :--- |
 | **V1** (prototype) | **A. Tirant K-Bot** + RS-00 Roll | RS-02 Pitch (tirant) + RS-00 Roll | $0 | Architecture K-Bot éprouvée, **suffisante pour marche V1** |
-| **V2** (optimisation) | **C. Tirant RS-03** + RS-00 Roll | RS-02 → RS-03 Pitch (tirant) | ~$90 (RS-03 - RS-02) | Couple Pitch ×3.5 (~120 N.m), propulsion réelle |
-| **V3** (performances) | **D. Parallèle** 2 bielles | 2× RS-02 (ou RS-03) + bielles | ~$33 bielles | Inertie ~0g, couple Roll par différentiel |
+| **V2** (optimisation) | **C. Tirant RS-06** + RS-00 Roll | RS-02 → **RS-06** Pitch (tirant) | ~$70 (RS-06 - RS-02) | Couple Pitch ×2 (~72 N.m), **Sweet Spot** poids/couple |
+| **V3** (performances) | **D. Parallèle** 2 bielles | 2× RS-06 (ou RS-03) + bielles | ~$33 bielles | Inertie ~0g, couple Roll par différentiel |
 
 > [!TIP]
-> **Progression V1 → V2** : Remplace le RS-02 cheville Pitch par un RS-03. Le mécanisme tirant est conservé, mais le couple effectif passe de ~34 N.m à ~120 N.m. Le RS-00 Roll reste en direct-drive à la cheville.
+> **Progression V1 → V2** : Le **RS-06** (36 N.m) est l'upgrade parfait. Il double le couple du RS-02 (72 N.m effectif) pour seulement +75g, permettant la marche rapide et l'absorption des chocs. Le RS-03 (V3) est réservé aux usages extrêmes.
 >
 > **Progression V2 → V3** : Remplace le tirant + RS-00 par 2 bielles parallèles rotulées. Les 2 moteurs (RS-02 ou RS-03) en parallèle donnent Pitch + Roll par coordination/différentiel. Aucun moteur à la cheville = inertie minimale.
 

@@ -232,6 +232,19 @@ Couple épaule = (Masse_bras × g × L/2) + (Masse_charge × g × L_total)
 
 **Verdict** : ⚠️ **POSSIBLE mais coûteux**. Couple (50 N.m pic) confortable vs 33 N.m requis, très lourd (1.15 kg) et très cher ($890). Le RS-03 RobStride avec tirant ferait mieux (60 N.m × 2 = 120 N.m effectif, $250).
 
+#### B4. Comparatif Stratégique Cheville Pitch (RS-02 vs RS-06 vs RS-03)
+
+Avec le mécanisme de tirant (ratio ~2:1) :
+
+| Moteur | Couple Moteur | Couple Effectif | Poids | Coût | Marge (vs 33 N.m) | Verdict |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **RS-02** (V1) | 17 N.m | **~34 N.m** | 405g | $160 | +2% | ✅ **Viable (Limite)**. Suffisant pour marche <2km/h. |
+| **RS-06** (Upgrade) | 36 N.m | **~72 N.m** | 480g | $230 | **+115%** | ⭐ **IDEAL**. Couple doublé pour seulement +75g ! |
+| **RS-03** (V3) | 60 N.m | **~120 N.m** | 880g | $250 | +260% | **Puissant mais Lourd** (+475g). Pour sauts/course. |
+
+> [!TIP]
+> **Le RS-06 est le "Sweet Spot"**. Il offre une marge de sécurité énorme (>100%) pour la marche dynamique sans l'inconvénient de masse du RS-03. C'est le meilleur choix pour une **V2 équilibrée** à la place du RS-03.
+
 ---
 
 ### Option C : Configuration "D-Bot Performance" (Recommandée)
