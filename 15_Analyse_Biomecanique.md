@@ -47,6 +47,9 @@ En phase d'appui simple, un seul genou supporte toute la masse du robot :
 > [!CAUTION]
 > **Point faible critique : La CHEVILLE** (RS-02, 17 N.m pic) est très probablement sous-dimensionnée pour la marche. En phase de poussée (toe-off), la cheville doit générer un couple de ~30-50 N.m pour propulser 34 kg. Le RS-02 est à 17 N.m pic (6 N.m nominal), ce qui est **2 à 3× trop faible**.
 
+> [!NOTE]
+> **⬆️ Ce calcul concerne la config K-Bot de base** (RS-02 cheville Pitch). Le D-Bot corrige ce problème en upgradeant la cheville Pitch en **RS-03 (60 N.m)** — voir section 5 et doc 14.
+
 #### Explication du Calcul Cheville
 ```
 Couple cheville = Masse × g × Distance CdP-Cheville
@@ -66,20 +69,27 @@ Couple cheville = Masse × g × Distance CdP-Cheville
 | Couple genou dynamique | ~80 N.m | 120 N.m (RS-04) | ✅ Suffisant |
 | Couple hanche dynamique | ~70 N.m | 120 N.m (RS-04) | ✅ Suffisant |
 | Couple cheville dynamique | ~50-60 N.m | 17 N.m (RS-02) | ❌ **CRITIQUE** |
-| Vitesse cycle hanche | ~100 RPM | 200 RPM (RS-04) | ✅ OK |
-| Vitesse cycle genou | ~150 RPM | 200 RPM (RS-04) | ✅ Limite |
+
+> [!NOTE]
+> Ces estimations sont pour une marche à **~2-3 km/h**.
 
 > [!WARNING]
-> **La marche rapide est quasi-impossible** dans la configuration actuelle à cause des chevilles RS-02. Le robot ne peut pas se propulser efficacement. Il est limité à un mode "shuffle" < 1 km/h.
+> **La marche rapide est quasi-impossible** dans la configuration K-Bot de base à cause des chevilles RS-02. Le robot ne peut pas se propulser efficacement. Il est limité à un mode "shuffle" < 1 km/h.
+
+> [!NOTE]
+> **⬆️ Config K-Bot de base analysée ici.** Le D-Bot résout ce problème avec l'upgrade cheville Pitch → **RS-03 (60 N.m)**, qui couvre les ~50-60 N.m requis avec marge.
 
 ---
 
 ### 2.3 Course (> 4 km/h)
 
-La course est **impossible** dans la configuration actuelle :
+La course est **impossible** dans la configuration K-Bot de base :
 - Les chevilles (RS-02) n'ont que 17 N.m vs ~100 N.m requis pour la phase de vol
 - Les genoux (RS-04, 200 RPM) sont trop lents pour la fréquence de pas requise
 - Pas de compliance élastique dans le système actuel
+
+> [!NOTE]
+> **⬆️ Config K-Bot de base.** Même avec l'upgrade D-Bot (RS-03, 60 N.m cheville), la course reste hors portée V1 : il faudrait des mécanismes SEA (Series Elastic Actuator) pour l'absorption des chocs — voir section 10.
 
 ---
 
@@ -353,7 +363,7 @@ Avec Roll cheville :
 
 #### Solution S1 : Ajout d'un RS-02 par cheville (Config "6 DOF Jambe")
 
-C'est la solution la plus directe, mentionnée par K-Scale eux-mêmes comme extension possible.
+C'est la solution la plus directe. L'idée d'un 6ème DOF (pivot cheville) a été évoquée dans une vidéo de présentation K-Scale comme extension possible du K-Bot 5 DOF/jambe, bien qu'aucune documentation écrite officielle ne détaille cette modification.
 
 | Paramètre | Détail |
 | :--- | :--- |
@@ -415,7 +425,7 @@ Solution inspirée de la recherche robotique (DFKI, IEEE) :
 La Solution S1 est recommandée car :
 - ✅ Couple suffisant (17 N.m vs ~15 N.m requis)
 - ✅ Compatible écosystème RobStride existant
-- ✅ Mentionnée par K-Scale comme extension envisagée
+- ✅ Évoquée dans une vidéo K-Scale comme extension envisagée du K-Bot
 - ✅ Surpoids modéré (+810g sur une position basse)
 - ✅ Porte le D-Bot à **24 DOF** (objectif initial)
 

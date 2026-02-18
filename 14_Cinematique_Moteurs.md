@@ -111,7 +111,7 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 ### Choix pour le D-Bot — Répartition Complète (24 DOF)
 | Zone | Moteur | Quantité | Couple Pic | Justification |
 | :--- | :---: | :---: | :---: | :--- |
-| Cou (Pan/Tilt) | RS-05 | 2 | 5.5 N.m | Légèreté critique (tête lourde avec LiDAR/caméras) |
+| Cou (Pan/Tilt) | RS-05 | 2 | 5.5 N.m | Légèreté critique (tête avec OAK-D Pro ~100g, LiDAR L2 sur le torse) |
 | Poignet | RS-00 | 2 | 14 N.m | Compact, fort couple pour manipulation fine |
 | Épaule Yaw + Coude | RS-02 | 4 | 17 N.m | Standard polyvalent 48V |
 | Épaule Pitch/Roll | RS-03 | 4 | 60 N.m | Force pour porte-à-faux bras tendu |
