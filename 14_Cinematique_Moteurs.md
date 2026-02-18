@@ -300,7 +300,7 @@ Pour une solution 2-bielles, les composants RC hélicoptère/drone sont **direct
 | **Masse distale (par jambe)** | 310g | ~0g | **310g** | ~0g |
 | **Couple Pitch effectif** | ~34 N.m | ~34 N.m | **~120 N.m** ⚡ | ~34-120 N.m |
 | **Couple Roll** | 14 N.m (RS-00) | ❌ | 14 N.m (RS-00) | ~60 N.m |
-| **Marche lente (<1 km/h)** | ⚠️ **Limitée** (Flat-foot) | ⚠️ **Limitée** (Flat-foot) | ✅ **Excellent** | ✅ Optimal |
+| **Marche lente (<1 km/h)** | ✅ **OK** (Déroulé pied) | ✅ **OK** (Déroulé pied) | ✅ **Excellent** | ✅ Optimal |
 | **Marche normale (2-3 km/h)** | ❌ Couple insuffisant | ❌ (pas de Roll) | ✅ **Excellent** | ✅ Optimal |
 | **Marche rapide (3-4 km/h)** | ❌ Couple insuffisant | ❌ (pas de Roll) | ⚠️ Roll au pic | ✅ Bon |
 | **Course (>5 km/h)** | ❌ Trop d'inertie | ❌ (1 DOF) | ⚠️ **Possible** | ✅ Optimal |
@@ -333,7 +333,7 @@ V3 (parallèle):    ~40g             ~0.70 m              ~20 g.m²  ← Optimal
 
 | Phase | Config Cheville | Moteurs | Coût additionnel | Pourquoi |
 | :--- | :--- | :--- | :---: | :--- |
-| **V1** (prototype) | **A. Tirant K-Bot** + RS-00 Roll | RS-02 Pitch (tirant) + RS-00 Roll | $0 | Architecture K-Bot éprouvée, mais **couple limité** (~34 N.m) |
+| **V1** (prototype) | **A. Tirant K-Bot** + RS-00 Roll | RS-02 Pitch (tirant) + RS-00 Roll | $0 | Architecture K-Bot éprouvée, **suffisante pour marche V1** |
 | **V2** (optimisation) | **C. Tirant RS-03** + RS-00 Roll | RS-02 → RS-03 Pitch (tirant) | ~$90 (RS-03 - RS-02) | Couple Pitch ×3.5 (~120 N.m), propulsion réelle |
 | **V3** (performances) | **D. Parallèle** 2 bielles | 2× RS-02 (ou RS-03) + bielles | ~$33 bielles | Inertie ~0g, couple Roll par différentiel |
 
