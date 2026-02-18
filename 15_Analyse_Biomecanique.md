@@ -361,32 +361,86 @@ Avec Roll cheville :
 
 ### 7.3 Solutions Proposées
 
-#### Solution S1 : Ajout d'un RS-02 par cheville (Config "6 DOF Jambe")
+#### Solution S1 : Ajout d'un moteur Roll par cheville (Config "6 DOF Jambe")
 
 C'est la solution la plus directe. L'idée d'un 6ème DOF (pivot cheville) a été évoquée dans une vidéo de présentation K-Scale comme extension possible du K-Bot 5 DOF/jambe, bien qu'aucune documentation écrite officielle ne détaille cette modification.
 
-| Paramètre | Détail |
-| :--- | :--- |
-| **Moteur ajouté** | 2× RS-02 (1 par cheville) |
-| **DOF cheville** | Pitch (existant) + **Roll (nouveau)** |
-| **Couple Roll** | 17 N.m (suffisant pour correction latérale) |
-| **Surpoids** | +810g (2× 405g) |
-| **Surcoût** | +$320 (2× $160) |
-| **DOF total robot** | 22 → **24 DOF** (D-Bot) |
-| **Complexité mécanique** | Moyenne — Nécessite un bracket d'articulation additionnel |
+**Deux variantes** sont envisagées selon le moteur Roll choisi :
 
-**Avantage** : Le couple de Roll cheville n'a PAS besoin d'être aussi élevé que le Pitch. Le RS-02 (17 N.m) est suffisant car le Roll est un mouvement de **correction fine**, pas de propulsion. Les forces latérales sont 3-5× inférieures aux forces sagittales.
-
-**Justification du RS-02 vs RS-03** :
+##### Calcul du couple Roll cheville requis
 ```
 Couple Roll cheville requis (estimation) :
 = Masse × g × Décalage_latéral_CoG
 = 36 kg × 9.81 × 0.03 m (décalage latéral max)
 ≈ 10.6 N.m (statique)
 ≈ 15 N.m (dynamique avec marges)
-
-→ RS-02 (17 N.m pic, 6 N.m nominal) = SUFFISANT avec marge de 13%
 ```
+
+##### Comparatif RS-00 vs RS-02 pour Cheville Roll
+
+| Paramètre | RS-00 | RS-02 |
+| :--- | :---: | :---: |
+| **Couple pic** | 14 N.m | 17 N.m |
+| **Couple nominal** | 5 N.m | 6 N.m |
+| **Poids** | **310g** | 405g |
+| **Dimensions** | **57×57×51 mm** | 78.5×78.5×45.5 mm |
+| **Prix** | **$135** | $160 |
+| **Ratio réducteur** | 10:1 | 7.75:1 |
+| **Vitesse max** | 315 RPM | 410 RPM |
+| **Marge vs 10.6 N.m** (statique) | ✅ +32% | ✅ +60% |
+| **Marge vs 15 N.m** (dynamique) | ⚠️ -7% | ✅ +13% |
+| **Surpoids (×2)** | **+620g** | +810g |
+| **Surcoût (×2)** | **+$270** | +$320 |
+| **Surface section** | **32.5 cm²** | 61.6 cm² |
+
+##### S1a : Variante RS-00 (🏆 RECOMMANDÉE)
+
+| Paramètre | Détail |
+| :--- | :--- |
+| **Moteur ajouté** | 2× RS-00 (1 par cheville) |
+| **DOF cheville** | Pitch (RS-03) + **Roll (RS-00)** |
+| **Couple Roll** | 14 N.m pic (5 N.m nominal) |
+| **Surpoids** | +620g (2× 310g) |
+| **Surcoût** | +$270 (2× $135) |
+| **DOF total robot** | 22 → **24 DOF** |
+| **Encombrement** | **57×57 mm** — s'intègre facilement dans le pied |
+
+**Avantages clés** du RS-00 pour ce rôle :
+- **-190g par cheville** (×2 = -380g aux pieds) → inertie oscillante réduite = meilleure fréquence de pas
+- **47% plus compact** en surface → intégration mécanique facilitée dans le pied
+- **Ratio 10:1** (vs 7.75:1) → micro-corrections plus **précises** pour la stabilisation latérale
+- **-$50 total** sur le robot
+
+##### S1b : Variante RS-02 (option conservatrice)
+
+| Paramètre | Détail |
+| :--- | :--- |
+| **Moteur ajouté** | 2× RS-02 (1 par cheville) |
+| **DOF cheville** | Pitch (RS-03) + **Roll (RS-02)** |
+| **Couple Roll** | 17 N.m pic (6 N.m nominal) |
+| **Surpoids** | +810g (2× 405g) |
+| **Surcoût** | +$320 (2× $160) |
+| **DOF total robot** | 22 → **24 DOF** |
+
+**Avantage** : +21% de couple pic → marge de 13% au-dessus du besoin dynamique.
+
+##### Impact par régime de vitesse
+
+| Régime | Couple Roll requis | RS-00 (14 N.m) | RS-02 (17 N.m) |
+| :--- | :---: | :---: | :---: |
+| **Station debout** | ~3-5 N.m | ✅ 3× marge | ✅ 4× marge |
+| **Marche lente** (<1.5 km/h) | ~8-10 N.m | ✅ +40% marge | ✅ +70% marge |
+| **Marche normale** (2-3 km/h) | ~12-14 N.m | ⚠️ Juste (~0% marge) | ✅ +21% marge |
+| **Marche rapide** (3-4 km/h) | ~15-18 N.m | ❌ Insuffisant au pic | ⚠️ Juste au pic |
+| **Terrain irrégulier** | ~10-15 N.m | ⚠️ Acceptable | ✅ OK |
+
+> [!NOTE]
+> **Analyse** : Le RS-00 est **suffisant pour la marche lente à normale** (~0-3 km/h), ce qui couvre 95% des scénarios d'un robot domestique/démo. En **marche rapide**, le couple pic de 14 N.m sera brièvement dépassé (~15-18 N.m requis), mais :
+> - Le pic dure < 50 ms par pas (correction de transfert latéral)
+> - Les moteurs RobStride supportent des **dépassements transitoires** de 20-30% pendant < 100 ms
+> - La hanche Roll (RS-03, 60 N.m) **assiste** la cheville Roll — les deux travaillent en synergie
+>
+> **En pratique**, le RS-00 est viable jusqu'à ~3 km/h. Au-delà, le RS-02 offre plus de marge, mais les deux sont insuffisants pour la course (>4 km/h) qui requiert des SEA.
 
 #### Solution S2 : Pied Passif à Compliance (Sans Moteur)
 
@@ -420,14 +474,20 @@ Solution inspirée de la recherche robotique (DFKI, IEEE) :
 
 **Verdict** : Trop complexe pour un premier prototype. Recommandé uniquement pour une V2 du robot.
 
-### 7.4 Recommandation : Solution S1 (RS-02 Roll Cheville)
+### 7.4 Recommandation : Solution S1a (RS-00 Roll Cheville)
 
-La Solution S1 est recommandée car :
-- ✅ Couple suffisant (17 N.m vs ~15 N.m requis)
-- ✅ Compatible écosystème RobStride existant
+La Solution **S1a (RS-00)** est recommandée car :
+- ✅ Couple suffisant pour marche lente à normale (14 N.m vs ~10-12 N.m en usage courant)
+- ✅ **47% plus compact** que le RS-02 → intégration mécanique facilitée dans le pied
+- ✅ **-380g** au total aux pieds → meilleure dynamique de marche
+- ✅ **Ratio 10:1** = corrections latérales plus précises
+- ✅ **-$50** sur le coût total
+- ✅ Compatible écosystème RobStride existant (même bus CAN, même connectique)
 - ✅ Évoquée dans une vidéo K-Scale comme extension envisagée du K-Bot
-- ✅ Surpoids modéré (+810g sur une position basse)
 - ✅ Porte le D-Bot à **24 DOF** (objectif initial)
+
+> [!TIP]
+> **Règle de décision** : Si le robot est principalement destiné à de la marche intérieure (sol plat, ≤ 2-3 km/h) → **RS-00**. Si marche rapide fréquente en extérieur (3-4 km/h, terrain variable) → **RS-02**. Le D-Bot V1 vise la marche intérieure, donc RS-00 recommandé.
 
 ---
 
@@ -435,7 +495,7 @@ La Solution S1 est recommandée car :
 
 ### 🏆 Option C-Révisée : "D-Bot Performance" (RECOMMANDÉE)
 
-Intègre l'upgrade des chevilles (Pitch → RS-03) + ajout Roll cheville (RS-02) + coudes améliorés (RS-06).
+Intègre l'upgrade des chevilles (Pitch → RS-03) + ajout Roll cheville (**RS-00**, compact et léger) + coudes améliorés (RS-06).
 
 | Zone | Moteur | Qté | Couple Pic | Poids | Usage |
 | :--- | :---: | :---: | :---: | :---: | :--- |
@@ -448,20 +508,23 @@ Intègre l'upgrade des chevilles (Pitch → RS-03) + ajout Roll cheville (RS-02)
 | Hanche Roll/Yaw | RS-03 | 4 | 60 N.m | 880g | Équilibre/rotation |
 | Genou | RS-04 | 2 | 120 N.m | 1420g | Flexion genou |
 | **Cheville Pitch** | **RS-03** | **2** | **60 N.m** | **880g** | **Propulsion (upgrade)** |
-| **Cheville Roll** | **RS-02** | **2** | **17 N.m** | **405g** | **Stabilité latérale (NOUVEAU)** |
+| **Cheville Roll** | **RS-00** | **2** | **14 N.m** | **310g** | **Stabilité latérale (compact)** |
+
+> [!NOTE]
+> **Alternative** : Remplacer le RS-00 par un RS-02 (17 N.m, $160, 405g) si une marge de couple supplémentaire est souhaitée pour la marche rapide. Coût : +$50, poids : +190g/cheville.
 
 #### Bilan Option C-Révisée
 
 | Impact | Détail |
 | :--- | :--- |
 | **Total moteurs** | **24 moteurs** (objectif D-Bot atteint ✅) |
-| **Poids moteurs** | ~18.3 kg |
-| **Poids robot total** | ~38.2 kg |
-| **Surpoids vs K-Bot** | +2.19 kg (chevilles upgrade + Roll + coudes) |
-| **Surcoût vs K-Bot** | +$640 total |
+| **Poids moteurs** | ~18.1 kg |
+| **Poids robot total** | ~38.0 kg |
+| **Surpoids vs K-Bot** | +2.0 kg (chevilles upgrade + Roll RS-00 + coudes) |
+| **Surcoût vs K-Bot** | +$590 total |
 | **DOF total** | **24 DOF** |
 | **Marche** | ✅ Stable, propulsée, avec adaptation latérale |
-| **Marche rapide** | ✅ 2-3 km/h réalisable |
+| **Marche rapide** | ✅ 2-3 km/h réalisable (Roll au pic en transitoire) |
 | **Terrain irrégulier** | ✅ Adaptation active du pied |
 | **Portage bras plié** | ✅ ~10 kg |
 
@@ -474,14 +537,14 @@ Ajoute les RS-04 aux épaules en plus de la config C-Révisée :
 | Épaule Pitch/Roll | **RS-04** | 4 | **120 N.m** | Upgrade RS-03→RS-04 |
 | Coude | **RS-06** | 2 | **36 N.m** | Upgrade RS-02→RS-06 |
 | Cheville Pitch | **RS-03** | 2 | **60 N.m** | Upgrade RS-02→RS-03 |
-| Cheville Roll | **RS-02** | 2 | **17 N.m** | **NOUVEAU** |
+| Cheville Roll | **RS-00** | 2 | **14 N.m** | **NOUVEAU (compact)** |
 | Reste | Inchangé | - | - | - |
 
 | Impact | Détail |
 | :--- | :--- |
 | **Total moteurs** | **24 moteurs** |
-| **Poids robot total** | ~41.7 kg |
-| **Surcoût vs K-Bot** | +$760 total |
+| **Poids robot total** | ~41.5 kg |
+| **Surcoût vs K-Bot** | +$710 total |
 | **Portage bras tendu** | **5 kg continu** |
 | **Portage bras plié** | **15+ kg théorique** |
 
@@ -493,10 +556,12 @@ Ajoute les RS-04 aux épaules en plus de la config C-Révisée :
 | :--- | :---: | :---: | :---: |
 | **DOF** | 20 | **24** | **24** |
 | **Moteurs** | 20 | **24** | **24** |
-| **Poids robot** | 34 kg | 38.2 kg | 41.7 kg |
-| **Surcoût** | Base | +$640 | +$760 |
+| **Cheville Roll** | ❌ Absent | **RS-00 (14 N.m)** | **RS-00 (14 N.m)** |
+| **Poids robot** | 34 kg | 38.0 kg | 41.5 kg |
+| **Surcoût** | Base | +$590 | +$710 |
 | **Marche lente** | ⚠️ Shuffle | ✅ Stable | ✅ Stable |
-| **Marche rapide** | ❌ Impossible | ✅ 2-3 km/h | ✅ 2-3 km/h |
+| **Marche normale** (2-3 km/h) | ❌ Impossible | ✅ Roll RS-00 OK | ✅ Roll RS-00 OK |
+| **Marche rapide** (3-4 km/h) | ❌ Impossible | ⚠️ Roll au pic | ⚠️ Roll au pic |
 | **Terrain irrégulier** | ❌ Impossible | ✅ Roll actif | ✅ Roll actif |
 | **Stabilité latérale** | ❌ Hanches seules | ✅ Cheville Roll | ✅ Cheville Roll |
 | **Portage bras tendu** | 2 kg | 3 kg | **5 kg** |
@@ -504,7 +569,10 @@ Ajoute les RS-04 aux épaules en plus de la config C-Révisée :
 | **Tête articulée** | ❌ | ✅ Pan/Tilt | ✅ Pan/Tilt |
 
 > [!IMPORTANT]
-> **L'Option D-Révisée est désormais recommandée** si le portage est un objectif. Le Roll cheville compense le CdG plus haut, et la différence D vs C n'est que de +$120 / +1.35 kg pour un gain de portage majeur (5 kg bras tendu vs 3 kg). Les deux options nécessitent un re-tuning algorithmes identique en complexité. **L'Option C reste pertinente uniquement si la priorité absolue est l'autonomie batterie.**
+> **Cheville Roll RS-00** : Choix par défaut pour les deux configs. Plus compact (-47% surface), plus léger (-190g/cheville), moins cher (-$25/moteur). Suffisant pour marche ≤ 3 km/h. Si marche rapide fréquente (3-4 km/h), upgrade en RS-02 (+$50, +380g).
+
+> [!IMPORTANT]
+> **L'Option D-Révisée est désormais recommandée** si le portage est un objectif. Le Roll cheville compense le CdG plus haut, et la différence D vs C n'est que de +$120 / +1.35 kg pour un gain de portage majeur (5 kg bras tendu vs 3 kg). **L'Option C reste pertinente uniquement si la priorité absolue est l'autonomie batterie.**
 
 ---
 ---

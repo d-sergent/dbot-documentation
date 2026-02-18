@@ -5,7 +5,7 @@ Le projet consiste à construire un robot humanoïde baptisé **D-Bot**.
 Il s'agit d'une **évolution majeure** de la plateforme open-source **K-Bot**, améliorée avec des actionneurs modernes et une intelligence embarquée avancée. Ce n'est pas un simple fork, mais une refonte complète de l'architecture électronique et motrice.
 
 ### Améliorations Clés (vs K-Bot Original)
-Le D-Bot repose sur un système de **24 moteurs RobStride** (20 DOF K-Bot + 2× RS-05 cou + 2× RS-02 cheville Roll), une vision IA **Luxonis OAK-D Pro** et un **LiDAR Unitree L2**, le tout piloté par une **NVIDIA Jetson Orin Nano** et une **Sony Spresense**.
+Le D-Bot repose sur un système de **24 moteurs RobStride** (20 DOF K-Bot + 2× RS-05 cou + 2× RS-00 cheville Roll), une vision IA **Luxonis OAK-D Pro** et un **LiDAR Unitree L2**, le tout piloté par une **NVIDIA Jetson Orin Nano** et une **Sony Spresense**.
 
 ## 2. Feuille de Route (Roadmap)
 Le projet est découpé en 4 phases distinctes pour valider chaque étape critique.
@@ -25,7 +25,7 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 
 ### Phase 4 : Marche (Jambes)
 *   **Objectif** : Locomotion et équilibre dynamique.
-*   **Matériel** : + 12 Moteurs (RS-04 hanches/genoux, RS-03 cheville Pitch, RS-02 cheville Roll).
+*   **Matériel** : + 12 Moteurs (RS-04 hanches/genoux, RS-03 cheville Pitch, RS-00 cheville Roll).
 *   **Capteurs** : IMU torse (BMI270 Add-on) pour le contrôle d'équilibre + capteurs FSR plantaires.
 
 ## 3. Architecture Matérielle

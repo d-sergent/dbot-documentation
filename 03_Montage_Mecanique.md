@@ -109,13 +109,13 @@ Le PETG renforcé fibre de carbone (PETG-CF) est le meilleur compromis pour le D
 Pour l'option "D-Bot Performance" (24 DOF), la cheville utilise deux moteurs en série.
 
 ### Schéma Cinématique (Bracket en L)
-L'objectif est de garder le pied le plus bas possible. Le moteur Roll (RS-02) est solidaire du pied, tandis que le moteur Pitch (RS-03) est solidaire du tibia.
+L'objectif est de garder le pied le plus bas possible. Le moteur Roll (RS-00, 57×57 mm) est solidaire du pied, tandis que le moteur Pitch (RS-03) est solidaire du tibia. Le RS-00 est plus compact que le RS-02 initialalement envisagé, facilitant l'intégration dans le pied.
 
 ```mermaid
 graph TD
     Tibia["Structure Tibia"] -->|Fixe le Stator| Pitch["Moteur Pitch RS-03"]
     Pitch -->|"Rotor tourne (Y)"| Bracket["Pièce Inter-Moteurs 'L-Shape'"]
-    Bracket -->|Fixe le Stator| Roll["Moteur Roll RS-02"]
+    Bracket -->|Fixe le Stator| Roll["Moteur Roll RS-00"]
     Roll -->|"Rotor tourne (X)"| Pied["Structure du Pied + FSR"]
 ```
 
@@ -128,10 +128,10 @@ graph TD
 
 ### Pièces à Imprimer / Usiner
 1.  **Cheville_Inter_Bracket** (Pièce en L) :
-    *   Connecte la sortie du RS-03 (Pitch) au dos du RS-02 (Roll).
+    *   Connecte la sortie du RS-03 (Pitch) au dos du RS-00 (Roll).
     *   **Matériau** : PA12-CF ou Alu 6061 (Forte contrainte en torsion).
     *   **Visserie** : M4 x 10mm (x4 côté Pitch) + M3 x 8mm (x4 côté Roll).
 2.  **Pied_Sole** :
-    *   Accueille le rotor du RS-02.
+    *   Accueille le rotor du RS-00.
     *   Logements pour les 4 capteurs FSR.
     *   **Surface** : Ajouter un patin en TPU ou caoutchouc 2mm pour le grip.

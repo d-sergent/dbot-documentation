@@ -66,7 +66,7 @@ Le **D-Bot** étend le K-Bot de 20 à **24 DOF** avec trois ajouts. Voir [Analys
 | **Cou Pan** (Yaw) | RS-05 | 1 | 5.5 N.m | Rotation horizontale tête |
 | **Cou Tilt** (Pitch) | RS-05 | 1 | 5.5 N.m | Inclinaison tête |
 | **Cheville Pitch** ⬆️ | RS-02 → **RS-03** | 2 (remplacement) | 17 → **60 N.m** | **Propulsion améliorée** (K-Bot trop faible en direct-drive) |
-| **Cheville Roll** 🆕 | RS-02 | 2 (ajout) | 17 N.m | **Stabilité latérale** (Correction équilibre) |
+| **Cheville Roll** 🆕 | RS-00 | 2 (ajout) | 14 N.m | **Stabilité latérale** (compact, précis) |
 
 **Total D-Bot** : 20 (Base) + 2 (Tête) + 2 (Chevilles Roll) = **24 moteurs**, avec upgrade Pitch intégré.
 
@@ -118,7 +118,7 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 | Hanche Roll/Yaw | RS-03 | 4 | 60 N.m | Équilibre latéral + rotation |
 | Hanche Pitch + Genou | RS-04 | 4 | 120 N.m | Portance totale (~36 kg robot) |
 | **Cheville Pitch** ⬆️ | **RS-03** | **2** | **60 N.m** | **Propulsion (upgrade vs RS-02 K-Bot)** |
-| **Cheville Roll** 🆕 | **RS-02** | **2** | **17 N.m** | **Stabilité latérale (NOUVEAU)** |
+| **Cheville Roll** 🆕 | **RS-00** | **2** | **14 N.m** | **Stabilité latérale (compact, ratio 10:1)** |
 
 **Total moteurs D-Bot** : 2 + 2 + 4 + 4 + 4 + 4 + 2 + 2 = **24 moteurs**.
 
@@ -161,14 +161,14 @@ Tous les moteurs partagent le même protocole :
 
 #### A. Série Direct-Drive (D-Bot Actuel)
 
-Les moteurs Pitch (RS-03) et Roll (RS-02) sont empilés **directement à la cheville**. Le couple au pied = le couple moteur.
+Les moteurs Pitch (RS-03) et Roll (RS-00) sont empilés **directement à la cheville**. Le couple au pied = le couple moteur.
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| **Moteurs** | RS-03 (Pitch) + RS-02 (Roll), tous à la cheville |
-| **Masse distale** | **~1285g** (880g + 405g) |
+| **Moteurs** | RS-03 (Pitch) + RS-00 (Roll), tous à la cheville |
+| **Masse distale** | **~1190g** (880g + 310g) |
 | **Couple Pitch effectif** | 60 N.m (= couple RS-03) |
-| **Couple Roll effectif** | 17 N.m (= couple RS-02) |
+| **Couple Roll effectif** | 14 N.m (= couple RS-00, suffisant corrections fines) |
 | **Complexité** | ⭐ Très faible — assemblage trivial |
 | **Coût mécanique** | ~$0 (juste le bracket en L) |
 
@@ -192,10 +192,10 @@ Le moteur RS-02 est monté **en haut du tibia** et actionne le pied via un **pus
 | Paramètre | Valeur |
 | :--- | :--- |
 | **Moteur Pitch** | RS-03 monté **haut dans le tibia** + pushrod |
-| **Moteur Roll** | RS-02 monté **à la cheville** (direct-drive) |
-| **Masse distale** | **~405g** (seulement le RS-02 Roll) |
+| **Moteur Roll** | RS-00 monté **à la cheville** (direct-drive) |
+| **Masse distale** | **~310g** (seulement le RS-00 Roll) |
 | **Couple Pitch effectif** | **~120 N.m** (60 × ratio ~2:1) ⚡ |
-| **Couple Roll effectif** | 17 N.m (suffisant pour correction latérale) |
+| **Couple Roll effectif** | 14 N.m (suffisant pour correction latérale) |
 | **Complexité** | ⭐⭐⭐ Élevée — pushrod + bracket + pivot |
 | **Coût mécanique** | ~$50-100 (barre, pivots, usinage) |
 

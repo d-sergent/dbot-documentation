@@ -47,7 +47,7 @@
 | **Robstride 04** | 4 | **120 Nm** | Hanches Pitch + Genoux |
 | **Robstride 03** | 4 | **60 Nm** | Hanches Roll/Yaw |
 | **Robstride 03** | 2 | **60 Nm** | Chevilles Pitch (upgrade vs K-Bot) |
-| **Robstride 02** | 2 | **17 Nm** | Chevilles Roll (**NOUVEAU**, stabilité latérale) |
+| **Robstride 00** | 2 | **14 Nm** | Chevilles Roll (**NOUVEAU**, compact, stabilité latérale) |
 | **Robstride 05** | 2 | **5.5 Nm** | Cou Pan/Tilt |
 
 > **Note** : Configuration basée sur l'Option D-Révisée "D-Bot Maximal" (24 DOF). Voir [Analyse Biomécanique](./15_Analyse_Biomecanique.md) pour le détail et les alternatives.
