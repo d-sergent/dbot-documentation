@@ -48,7 +48,7 @@ En phase d'appui simple, un seul genou supporte toute la masse du robot :
 > **Point faible critique : La CHEVILLE** (RS-02, 17 N.m pic) est très probablement sous-dimensionnée pour la marche. En phase de poussée (toe-off), la cheville doit générer un couple de ~30-50 N.m pour propulser 34 kg. Le RS-02 est à 17 N.m pic (6 N.m nominal), ce qui est **2 à 3× trop faible**.
 
 > [!NOTE]
-> **⬆️ Ce calcul concerne la config K-Bot de base** (RS-02 cheville Pitch). Le D-Bot corrige ce problème en upgradeant la cheville Pitch en **RS-03 (60 N.m)** — voir section 5 et doc 14.
+> **⬆️ Ce calcul concerne le direct-drive** (RS-02 seul = 17 N.m). Le D-Bot conserve le **mécanisme tirant K-Bot** qui multiplie le couple : RS-02 (17 N.m) × ratio ~2:1 ≈ **34 N.m** effectif à la cheville — voir section 5 et doc 14.
 
 #### Explication du Calcul Cheville
 ```
@@ -77,7 +77,7 @@ Couple cheville = Masse × g × Distance CdP-Cheville
 > **La marche rapide est quasi-impossible** dans la configuration K-Bot de base à cause des chevilles RS-02. Le robot ne peut pas se propulser efficacement. Il est limité à un mode "shuffle" < 1 km/h.
 
 > [!NOTE]
-> **⬆️ Config K-Bot de base analysée ici.** Le D-Bot résout ce problème avec l'upgrade cheville Pitch → **RS-03 (60 N.m)**, qui couvre les ~50-60 N.m requis avec marge.
+> **⬆️ Config K-Bot de base analysée ici.** Le D-Bot conserve le RS-02 avec **tirant (~34 N.m effectif)**. Pour la marche lente (<2 km/h), c'est suffisant. La marche rapide nécessite une optimisation du tirant ou un upgrade RS-03 (V2).
 
 ---
 
@@ -89,7 +89,7 @@ La course est **impossible** dans la configuration K-Bot de base :
 - Pas de compliance élastique dans le système actuel
 
 > [!NOTE]
-> **⬆️ Config K-Bot de base.** Même avec l'upgrade D-Bot (RS-03, 60 N.m cheville), la course reste hors portée V1 : il faudrait des mécanismes SEA (Series Elastic Actuator) pour l'absorption des chocs — voir section 10.
+> **⬆️ Config K-Bot de base.** Avec le RS-02 + tirant (~34 N.m), la course reste hors portée V1. Il faudrait un upgrade RS-03 (V2) + mécanismes SEA (Series Elastic Actuator) — voir section 10.
 
 ---
 
@@ -145,7 +145,7 @@ Couple épaule = (Masse_bras × g × L/2) + (Masse_charge × g × L_total)
 
 ### Option A : Upgrade RobStride (Restant dans l'écosystème)
 
-#### A1. Chevilles RS-02 → RS-03
+#### A1. Chevilles Pitch : upgrade V2 envisageable (RS-02 → RS-03 avec tirant)
 
 | Paramètre | Avant (RS-02) | Après (RS-03) | Gain |
 | :--- | :---: | :---: | :---: |
@@ -208,7 +208,7 @@ Couple épaule = (Masse_bras × g × L/2) + (Masse_charge × g × L_total)
 | Poids | 405g | 480g | +19% |
 | Prix | ~$160 | ~$480-580 | **×3** |
 
-**Verdict** : ⚠️ **INSUFFISANT**. +29% de couple ne résout pas le problème des chevilles (besoin minimum 40 N.m). Et coûte 3× plus cher qu'un RS-02. Passer directement à un RS-03 est meilleur et moins cher.
+**Verdict** : ⚠️ **INSUFFISANT**. +29% de couple ne résout pas le problème des chevilles (besoin minimum 40 N.m). Et coûte 3× plus cher qu'un RS-02. Passer à un RS-03 avec tirant (V2) est meilleur et moins cher.
 
 #### B3. MyActuator RMD-X10 V3 (pour Chevilles)
 
@@ -219,7 +219,7 @@ Couple épaule = (Masse_bras × g × L/2) + (Masse_charge × g × L_total)
 | Poids | 405g | 1150g | +184% |
 | Prix | ~$160 | ~$890 | **×5.5** |
 
-**Verdict** : ⚠️ **POSSIBLE mais coûteux**. Couple suffisant pour les chevilles (50 N.m pic) mais très lourd (1.15 kg) et très cher ($890). Le RS-03 RobStride fait mieux (60 N.m, 880g, $250).
+**Verdict** : ⚠️ **POSSIBLE mais coûteux**. Couple suffisant pour les chevilles (50 N.m pic) mais très lourd (1.15 kg) et très cher ($890). Le RS-03 RobStride avec tirant ferait mieux (60 N.m × 2 = 120 N.m effectif, $250).
 
 ---
 
@@ -229,7 +229,7 @@ Combinaison optimale des upgrades identifiés :
 
 | Zone | Avant | Après | Changement | Surcoût |
 | :--- | :---: | :---: | :--- | :---: |
-| **Cheville** | 2× RS-02 | **2× RS-03** | 17→60 N.m (×3.5) | +$180 |
+| **Cheville Pitch** | 2× RS-02 (tirant) | **V2 : 2× RS-03** (tirant) | ~34→~120 N.m (×3.5) | +$180 |
 | **Coude** | 2× RS-02 | **2× RS-06** | 17→36 N.m (×2.1) | +$140 |
 | **Épaule Yaw** | 2× RS-02 | 2× RS-02 | Inchangé | $0 |
 | Reste | Inchangé | Inchangé | Inchangé | $0 |
@@ -252,7 +252,7 @@ Pour un portage lourd et une marche dynamique :
 
 | Zone | Avant | Après | Changement | Surcoût |
 | :--- | :---: | :---: | :--- | :---: |
-| **Cheville** | 2× RS-02 | **2× RS-03** | 17→60 N.m (×3.5) | +$180 |
+| **Cheville Pitch** | 2× RS-02 (tirant) | **2× RS-03** (tirant) | ~34→~120 N.m (×3.5) | +$180 |
 | **Épaule Pitch** | 2× RS-03 | **2× RS-04** | 60→120 N.m (×2) | +$60 |
 | **Épaule Roll** | 2× RS-03 | **2× RS-04** | 60→120 N.m (×2) | +$60 |
 | **Coude** | 2× RS-02 | **2× RS-06** | 17→36 N.m (×2.1) | +$140 |
@@ -398,7 +398,7 @@ Couple Roll cheville requis (estimation) :
 | Paramètre | Détail |
 | :--- | :--- |
 | **Moteur ajouté** | 2× RS-00 (1 par cheville) |
-| **DOF cheville** | Pitch (RS-03) + **Roll (RS-00)** |
+| **DOF cheville** | Pitch (**RS-02 + tirant**) + **Roll (RS-00)** |
 | **Couple Roll** | 14 N.m pic (5 N.m nominal) |
 | **Surpoids** | +620g (2× 310g) |
 | **Surcoût** | +$270 (2× $135) |
@@ -416,7 +416,7 @@ Couple Roll cheville requis (estimation) :
 | Paramètre | Détail |
 | :--- | :--- |
 | **Moteur ajouté** | 2× RS-02 (1 par cheville) |
-| **DOF cheville** | Pitch (RS-03) + **Roll (RS-02)** |
+| **DOF cheville** | Pitch (**RS-02 + tirant**) + **Roll (RS-02)** |
 | **Couple Roll** | 17 N.m pic (6 N.m nominal) |
 | **Surpoids** | +810g (2× 405g) |
 | **Surcoût** | +$320 (2× $160) |
@@ -495,7 +495,7 @@ La Solution **S1a (RS-00)** est recommandée car :
 
 ### 🏆 Option C-Révisée : "D-Bot Performance" (RECOMMANDÉE)
 
-Intègre l'upgrade des chevilles (Pitch → RS-03) + ajout Roll cheville (**RS-00**, compact et léger) + coudes améliorés (RS-06).
+Conserve le RS-02 avec tirant pour Pitch (architecture K-Bot) + ajout Roll cheville (**RS-00**, compact et léger) + coudes améliorés (RS-06).
 
 | Zone | Moteur | Qté | Couple Pic | Poids | Usage |
 | :--- | :---: | :---: | :---: | :---: | :--- |
@@ -507,7 +507,7 @@ Intègre l'upgrade des chevilles (Pitch → RS-03) + ajout Roll cheville (**RS-0
 | Hanche Pitch | RS-04 | 2 | 120 N.m | 1420g | Flexion jambe |
 | Hanche Roll/Yaw | RS-03 | 4 | 60 N.m | 880g | Équilibre/rotation |
 | Genou | RS-04 | 2 | 120 N.m | 1420g | Flexion genou |
-| **Cheville Pitch** | **RS-03** | **2** | **60 N.m** | **880g** | **Propulsion (upgrade)** |
+| **Cheville Pitch** | **RS-02** | **2** | **17 N.m** (×2 tirant = ~34 N.m) | **405g** | **Propulsion (tirant K-Bot)** |
 | **Cheville Roll** | **RS-00** | **2** | **14 N.m** | **310g** | **Stabilité latérale (compact)** |
 
 > [!NOTE]
@@ -536,7 +536,7 @@ Ajoute les RS-04 aux épaules en plus de la config C-Révisée :
 | :--- | :---: | :---: | :---: | :--- |
 | Épaule Pitch/Roll | **RS-04** | 4 | **120 N.m** | Upgrade RS-03→RS-04 |
 | Coude | **RS-06** | 2 | **36 N.m** | Upgrade RS-02→RS-06 |
-| Cheville Pitch | **RS-03** | 2 | **60 N.m** | Upgrade RS-02→RS-03 |
+| Cheville Pitch | **RS-02** | 2 | **17 N.m** (×2 tirant) | Architecture K-Bot conservée |
 | Cheville Roll | **RS-00** | 2 | **14 N.m** | **NOUVEAU (compact)** |
 | Reste | Inchangé | - | - | - |
 

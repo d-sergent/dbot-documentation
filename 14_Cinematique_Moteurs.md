@@ -65,13 +65,12 @@ Le **D-Bot** étend le K-Bot de 20 à **24 DOF** avec trois ajouts. Voir [Analys
 | :--- | :---: | :---: | :---: | :--- |
 | **Cou Pan** (Yaw) | RS-05 | 1 | 5.5 N.m | Rotation horizontale tête |
 | **Cou Tilt** (Pitch) | RS-05 | 1 | 5.5 N.m | Inclinaison tête |
-| **Cheville Pitch** ⬆️ | RS-02 → **RS-03** | 2 (remplacement) | 17 → **60 N.m** | **Propulsion améliorée** (K-Bot trop faible en direct-drive) |
 | **Cheville Roll** 🆕 | RS-00 | 2 (ajout) | 14 N.m | **Stabilité latérale** (compact, précis) |
 
-**Total D-Bot** : 20 (Base) + 2 (Tête) + 2 (Chevilles Roll) = **24 moteurs**, avec upgrade Pitch intégré.
+**Total D-Bot** : 20 (Base) + 2 (Tête) + 2 (Chevilles Roll) = **24 moteurs**.
 
 > [!NOTE]
-> **Mécanisme de cheville K-Bot (Tirant/Linkage)** : Dans le K-Bot original, le RS-02 de cheville n'est **pas en prise directe** sur l'axe de la cheville. Il est monté **haut dans le tibia** et actionne le pied via un **mécanisme de tirant** (connecting rod / pushrod). Ce bras de levier crée un avantage mécanique (~2-3:1) qui multiplie le couple effectif : 17 N.m × 2 ≈ **34 N.m** à la cheville, suffisant pour la marche lente. Pour le D-Bot, l'upgrade en RS-03 élimine le besoin de ce mécanisme et permet un montage **direct-drive** plus simple.
+> **Mécanisme de cheville K-Bot conservé (Tirant/Linkage)** : Le RS-02 de cheville n'est **pas en prise directe** sur l'axe de la cheville. Il est monté **haut dans le tibia** et actionne le pied via un **mécanisme de tirant** (connecting rod / pushrod). Ce bras de levier crée un avantage mécanique (~2:1) qui multiplie le couple effectif : 17 N.m × 2 ≈ **34 N.m** à la cheville. **Le D-Bot conserve cette architecture éprouvée** pour le Pitch, et ajoute un RS-00 en direct-drive pour le Roll.
 
 ![Mécanisme de cheville K-Bot avec tirant (RS-02 haut dans le tibia)](./assets/kbot_ankle_linkage.png)
 
@@ -86,7 +85,7 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 | **RS-01** | **17.0** | 6.0 | 350 | **380** | 78.5×78.5×40 | 7.75:1 | **$140** | 36V (24-48V) | Alternative RS-02 (36V) |
 | **RS-02** | **17.0** | 6.0 | 410 | **405** | 78.5×78.5×45.5 | 7.75:1 | **$160** | 48V (24-60V) | **Coude**, Biceps, Poignet |
 | **RS-06** | **36.0** | 11.0 | 480 | **621** | 88×88×49 | 9:1 | **$230** | 48V (15-60V) | Entre-deux (Épaule légère) |
-| **RS-03** | **60.0** | 20.0 | 195 | **880** | 106×106×56 | 9:1 | **$250** | 48V (15-60V) | **Épaule** (Force brute) |
+| **RS-03** | **60.0** | 20.0 | 195 | **880** | 106×106×56 | 9:1 | **$250** | 48V (15-60V) | **Épaule**, Hanche rot. |
 | **RS-04** | **120.0** | 40.0 | 200 | **1420** | 120×120×56 | 9:1 | **$280** | 48V (15-60V) | **Hanche**, Genou, Cheville |
 
 ### Analyse Comparative
@@ -117,7 +116,7 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 | Épaule Pitch/Roll | RS-03 | 4 | 60 N.m | Force pour porte-à-faux bras tendu |
 | Hanche Roll/Yaw | RS-03 | 4 | 60 N.m | Équilibre latéral + rotation |
 | Hanche Pitch + Genou | RS-04 | 4 | 120 N.m | Portance totale (~36 kg robot) |
-| **Cheville Pitch** ⬆️ | **RS-03** | **2** | **60 N.m** | **Propulsion (upgrade vs RS-02 K-Bot)** |
+| **Cheville Pitch** | **RS-02** | **2** | **17 N.m** (×2 avec tirant = ~34 N.m) | **Propulsion via tirant** (architecture K-Bot conservée) |
 | **Cheville Roll** 🆕 | **RS-00** | **2** | **14 N.m** | **Stabilité latérale (compact, ratio 10:1)** |
 
 **Total moteurs D-Bot** : 2 + 2 + 4 + 4 + 4 + 4 + 2 + 2 = **24 moteurs**.
@@ -161,13 +160,13 @@ Tous les moteurs partagent le même protocole :
 
 #### A. Série Direct-Drive (D-Bot Actuel)
 
-Les moteurs Pitch (RS-03) et Roll (RS-00) sont empilés **directement à la cheville**. Le couple au pied = le couple moteur.
+Le moteur Pitch (RS-02) est monté **en haut du tibia** avec tirant/bielle (architecture K-Bot conservée). Le Roll (RS-00) est monté **directement à la cheville** en direct-drive.
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| **Moteurs** | RS-03 (Pitch) + RS-00 (Roll), tous à la cheville |
+| **Moteurs** | RS-02 (Pitch, haut tibia + tirant) + RS-00 (Roll, à la cheville) |
 | **Masse distale** | **~1190g** (880g + 310g) |
-| **Couple Pitch effectif** | 60 N.m (= couple RS-03) |
+| **Couple Pitch effectif** | ~34 N.m (RS-02 17 N.m × ratio tirant ~2:1) |
 | **Couple Roll effectif** | 14 N.m (= couple RS-00, suffisant corrections fines) |
 | **Complexité** | ⭐ Très faible — assemblage trivial |
 | **Coût mécanique** | ~$0 (juste le bracket en L) |
@@ -191,7 +190,7 @@ Le moteur RS-02 est monté **en haut du tibia** et actionne le pied via un **pus
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| **Moteur Pitch** | RS-03 monté **haut dans le tibia** + pushrod |
+| **Moteur Pitch** | RS-02 → **RS-03** monté **haut dans le tibia** + pushrod |
 | **Moteur Roll** | RS-00 monté **à la cheville** (direct-drive) |
 | **Masse distale** | **~310g** (seulement le RS-00 Roll) |
 | **Couple Pitch effectif** | **~120 N.m** (60 × ratio ~2:1) ⚡ |
@@ -225,7 +224,7 @@ Le moteur RS-02 est monté **en haut du tibia** et actionne le pied via un **pus
 Deux moteurs montés **en haut du tibia**, chacun relié au pied par une **bielle avec rotules** (rod end bearings). Mouvements coordonnés = Pitch, différentiels = Roll. **Aucun moteur à la cheville.**
 
 ```
-    RS-03 (A)          RS-03 (B)     ← 2 moteurs HAUT dans le tibia
+    Moteur A            Moteur B      ← 2 moteurs HAUT dans le tibia
        │                    │
        │ Bielle A           │ Bielle B    ← Tiges filetées M4 avec
        │ (rod end +         │               rod end bearing (rotule)
@@ -243,11 +242,11 @@ A↑ + B↓ (sens opposé) = ROLL  (inversion/éversion)
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| **Moteurs** | 2× RS-03 (ou linéaires) haut dans le tibia |
+| **Moteurs** | 2× RS-02 (ou RS-03 pour plus de couple) haut dans le tibia |
 | **Bielles** | 2× tiges filetées M4 inox (60-100mm) + 4× rod end bearings M4 |
 | **Masse distale** | **~0g** (seules les bielles sont en bas, ~20g/bielle) |
-| **Couple Pitch effectif** | ~120 N.m (2× RS-03 en phase, ratio géométrique ~1:1) |
-| **Couple Roll effectif** | ~60 N.m (différentiel des 2 moteurs) |
+| **Couple Pitch effectif** | ~34 N.m (2× RS-02) ou ~120 N.m (2× RS-03) |
+| **Couple Roll effectif** | ~17 N.m (2× RS-02) ou ~60 N.m (2× RS-03) |
 | **Complexité** | ⭐⭐⭐⭐ Très élevée — cinématique parallèle inverse |
 | **Coût mécanique** | ~$20-50 (bielles RC + brackets imprimés/CNC) |
 
@@ -296,10 +295,10 @@ Pour une solution 2-bielles, les composants RC hélicoptère/drone sont **direct
 
 ### 4.4 Impact sur la Marche et la Course
 
-| Critère | A. Série (V1) | B. Tirant (K-Bot) | C. Hybride (V2) | D. Parallèle (V3) |
+| Critère | A. Tirant+Roll (V1) | B. Tirant seul (K-Bot) | C. Tirant RS-03 (V2) | D. Parallèle (V3) |
 | :--- | :---: | :---: | :---: | :---: |
-| **Masse distale (par jambe)** | 1190g | ~0g | **310g** | ~0g |
-| **Couple Pitch effectif** | 60 N.m | ~34 N.m | **~120 N.m** ⚡ | ~120 N.m |
+| **Masse distale (par jambe)** | 310g | ~0g | **310g** | ~0g |
+| **Couple Pitch effectif** | ~34 N.m | ~34 N.m | **~120 N.m** ⚡ | ~34-120 N.m |
 | **Couple Roll** | 14 N.m (RS-00) | ❌ | 14 N.m (RS-00) | ~60 N.m |
 | **Marche lente (<1 km/h)** | ✅ OK | ✅ OK (pas de Roll) | ✅ **Excellent** | ✅ Optimal |
 | **Marche normale (2-3 km/h)** | ✅ OK | ❌ (pas de Roll) | ✅ **Excellent** | ✅ Optimal |
@@ -317,29 +316,29 @@ Moment d'inertie de la jambe pendant le balancement (swing phase) :
 I = Σ(m × r²) où r = distance au pivot (hanche)
 
                     Masse distale    r (dist. hanche)    Contribution I
-Série (D-Bot V1):   1190g            ~0.70 m             583 g.m²  ← Élevé
-Hybride (V2) :      310g             ~0.70 m             152 g.m²  ← 4× moins !
-Parallèle (V3):    ~40g             ~0.70 m              ~20 g.m²  ← Optimal
+D-Bot V1 (tirant):  310g             ~0.70 m             152 g.m²  ← RS-00 seul en bas
+V2 (RS-03 tirant):  310g             ~0.70 m             152 g.m²  ← Même (RS-00 seul en bas)
+V3 (parallèle):    ~40g             ~0.70 m              ~20 g.m²  ← Optimal
 
-→ Le Hybride réduit l'inertie de 74% vs Série, pour un surcoût minimal.
-→ Le Parallèle est quasi-nul, mais avec une complexité cinématique importante.
+→ V1 et V2 ont la même masse distale (~310g = RS-00 Roll seul) car le Pitch est toujours en haut du tibia.
+→ Le Parallèle (V3) élimine tout moteur à la cheville.
 ```
 
 **Conséquences concrètes de l'inertie :**
 - **Marche** : Plus l'inertie est basse, plus la jambe balance vite → pas plus rapides, moins de couple requis aux hanches.
-- **Course** : À >5 km/h, la fréquence de pas monte à ~3 Hz. Avec 1190g en bout de jambe (série), les RS-04 de hanche doivent fournir ~25% de couple supplémentaire juste pour balancer la jambe. Avec 310g (hybride), c'est ~7% → la course devient **envisageable**.
+- **Course** : À >5 km/h, la fréquence de pas monte à ~3 Hz. Avec seulement 310g en bout de jambe (RS-00 Roll), l'inertie oscillante est déjà faible. Le V3 parallèle l'élimine quasi-totalement → la course devient **envisageable**.
 - **Chutes** : Moins d'inertie = réactions de rattrapage plus rapides.
 
 ### 4.5 Recommandation Évolutive
 
 | Phase | Config Cheville | Moteurs | Coût additionnel | Pourquoi |
 | :--- | :--- | :--- | :---: | :--- |
-| **V1** (prototype) | **A. Série** (RS-03 + RS-00) | RS-03 Pitch + RS-00 Roll | $0 | Simple, valide la marche ≤3 km/h |
-| **V2** (optimisation) | **C. Hybride Tirant** + RS-00 direct | Mêmes moteurs, repositionnés | ~$50-100 | Inertie -74%, course possible |
-| **V3** (performances) | **D. Parallèle** 2 bielles | 2× RS-03 (remplace RS-03+RS-00) | ~$33 bielles + $115 moteur | Inertie ~0g, couple Roll ×4 |
+| **V1** (prototype) | **A. Tirant K-Bot** + RS-00 Roll | RS-02 Pitch (tirant) + RS-00 Roll | $0 | Architecture K-Bot éprouvée, ~34 N.m Pitch |
+| **V2** (optimisation) | **C. Tirant RS-03** + RS-00 Roll | RS-02 → RS-03 Pitch (tirant) | ~$90 (RS-03 - RS-02) | Couple Pitch ×3.5 (~120 N.m), course possible |
+| **V3** (performances) | **D. Parallèle** 2 bielles | 2× RS-02 (ou RS-03) + bielles | ~$33 bielles | Inertie ~0g, couple Roll par différentiel |
 
 > [!TIP]
-> **Progression V1 → V2** : Ne change PAS les moteurs ! Ce sont les mêmes RS-03 + RS-00, juste repositionnés (RS-03 monté haut dans le tibia + pushrod). Coût = uniquement pièces mécaniques.
+> **Progression V1 → V2** : Remplace le RS-02 cheville Pitch par un RS-03. Le mécanisme tirant est conservé, mais le couple effectif passe de ~34 N.m à ~120 N.m. Le RS-00 Roll reste en direct-drive à la cheville.
 >
-> **Progression V2 → V3** : Remplace le RS-00 Roll par un 2ème RS-03. Les 2 RS-03 en parallèle donnent ~120 N.m Pitch et ~60 N.m Roll. Le RS-00 récupéré peut être réaffecté (ex: poignet supplémentaire).
+> **Progression V2 → V3** : Remplace le tirant + RS-00 par 2 bielles parallèles rotulées. Les 2 moteurs (RS-02 ou RS-03) en parallèle donnent Pitch + Roll par coordination/différentiel. Aucun moteur à la cheville = inertie minimale.
 

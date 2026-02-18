@@ -25,7 +25,7 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 
 ### Phase 4 : Marche (Jambes)
 *   **Objectif** : Locomotion et équilibre dynamique.
-*   **Matériel** : + 12 Moteurs (RS-04 hanches/genoux, RS-03 cheville Pitch, RS-00 cheville Roll).
+*   **Matériel** : + 12 Moteurs (RS-04 hanches/genoux, RS-02 cheville Pitch avec tirant, RS-00 cheville Roll).
 *   **Capteurs** : IMU torse (BMI270 Add-on) pour le contrôle d'équilibre + capteurs FSR plantaires.
 
 ## 3. Architecture Matérielle
