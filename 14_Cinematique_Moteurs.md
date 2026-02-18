@@ -213,38 +213,101 @@ Le moteur RS-02 est monté **en haut du tibia** et actionne le pied via un **pus
      │         │ → 60 × 2 = 120 N.m effectifs !
      │         │
      │    ╔════╧═╗
-     └────╢ ROLL ╟── RS-02 (405g) ← Seul moteur EN BAS
+     └────╢ ROLL ╟── RS-00 (310g) ← Seul moteur EN BAS (compact 57mm)
           ╚══╤═══╝
           ┌──┴──┐
           │PIED │
           └─────┘
 ```
 
-#### D. Parallèle (Unitree G1, Tesla Optimus, Fourier GR-2)
+#### D. Parallèle 2 Bielles Rotulées (Unitree G1, LOLA TUM)
 
-Deux moteurs montés **en haut du tibia**, chacun relié au pied par une **bielle**. Mouvements coordonnés = Pitch, différentiels = Roll. **Aucun moteur à la cheville.**
+Deux moteurs montés **en haut du tibia**, chacun relié au pied par une **bielle avec rotules** (rod end bearings). Mouvements coordonnés = Pitch, différentiels = Roll. **Aucun moteur à la cheville.**
+
+```
+    RS-03 (A)          RS-03 (B)     ← 2 moteurs HAUT dans le tibia
+       │                    │
+       │ Bielle A           │ Bielle B    ← Tiges filetées M4 avec
+       │ (rod end +         │               rod end bearing (rotule)
+       │  tige M4)          │               à chaque extrémité
+       │                    │
+       ╰────────┬───────────╯
+                │
+           ┌────┴────┐
+           │  PIED   │        ← Plateforme mobile (2 DOF)
+           └─────────┘
+
+A↑ + B↑ (même sens)    = PITCH (flexion/extension)
+A↑ + B↓ (sens opposé) = ROLL  (inversion/éversion)
+```
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| **Moteurs** | 2× moteurs rotatifs (ou linéaires) haut dans le tibia |
-| **Masse distale** | **~0g** |
-| **Couple Pitch effectif** | Variable, typiquement 80-150 N.m |
-| **Couple Roll effectif** | Variable, typiquement 40-80 N.m |
-| **Complexité** | ⭐⭐⭐⭐ Très élevée — cinématique parallèle |
-| **Coût mécanique** | >$200 (bielles, pivots, roulements, usinage CNC) |
+| **Moteurs** | 2× RS-03 (ou linéaires) haut dans le tibia |
+| **Bielles** | 2× tiges filetées M4 inox (60-100mm) + 4× rod end bearings M4 |
+| **Masse distale** | **~0g** (seules les bielles sont en bas, ~20g/bielle) |
+| **Couple Pitch effectif** | ~120 N.m (2× RS-03 en phase, ratio géométrique ~1:1) |
+| **Couple Roll effectif** | ~60 N.m (différentiel des 2 moteurs) |
+| **Complexité** | ⭐⭐⭐⭐ Très élevée — cinématique parallèle inverse |
+| **Coût mécanique** | ~$20-50 (bielles RC + brackets imprimés/CNC) |
 
-### 4.3 Impact sur la Marche et la Course
+**Implémentations industrielles :**
 
-| Critère | A. Série (D-Bot) | B. Tirant (K-Bot) | C. 🆕 Hybride | D. Parallèle (G1) |
+| Robot | Type de bielle | Moteur | Particularité |
+| :--- | :--- | :--- | :--- |
+| **Unitree G1** | Bielles rotatives parallèles | QDD propriétaire | Mode AB (moteurs) / PR (Pitch-Roll), cinématique inverse intégrée |
+| **LOLA (TUM)** | Vis à billes (ball-screw) linéaires | Drives linéaires | 2 vis actionnent le pied — même sens = Pitch, sens inverse = Roll |
+| **Tesla Optimus** | SPU (Spherical-Prismatic-Universal) | Actionneurs linéaires custom | Universal joint + prismatic drives, couple >180 N.m (brevet WO2024072984A1) |
+
+> [!WARNING]
+> **Fourier GR-2 : marche arrière sur le parallèle.** En septembre 2024, Fourier Intelligence a **abandonné l'architecture parallèle** au profit du série pour le GR-2. Raisons officielles :
+> - Simplification du **système de contrôle** (cinématique inverse complexe éliminée)
+> - **Débogage** et maintenance facilités  
+> - **Coûts de fabrication** réduits
+> - Meilleur **transfert sim-to-real** (simulation → robot physique)
+>
+> C'est un signal fort : le parallèle n'est optimal que si l'on maîtrise parfaitement la cinématique et si les performances l'exigent. Pour un premier prototype, la configuration série ou hybride est plus prudente.
+
+### 4.3 Composants Pré-Assemblés pour Solution Parallèle (Sourcing)
+
+Pour une solution 2-bielles, les composants RC hélicoptère/drone sont **directement réutilisables** :
+
+| Composant | Référence Type | Source | Prix | Note |
+| :--- | :--- | :--- | :---: | :--- |
+| **Rod end bearing M4** (rotule femelle) | Fisheye ball bearing SA4T/K | AliExpress, eBay | **$3-8 / 10pcs** | Acier roulements, ±15° angle |
+| **Tige filetée M4 inox** (bielle) | Tige M4 × 80mm | Quincaillerie | **$2-5** | Longueur réglable (écrou) |
+| **Kit pushrod RC complet** | RJX Hobby M3/M4 swashplate linkage | RJXHobby, AliExpress | **$5-12 / kit** | Tige + 2 rod ends pré-assemblés |
+| **Rod end M4 double filetage** (CW+CCW) | Pour longueur réglable sans démontage | AliExpress | **$5-10 / lot** | Comme les tirants de direction auto |
+| **Rotule industrielle** (Heim joint M4) | M4 male/female rod end | RS Components, Misumi | **$3-8 / pièce** | Qualité supérieure |
+
+> [!NOTE]
+> **Il n'existe PAS de kit "2-bielles parallèle pour cheville robot" pré-assemblé clé en main.** Mais les composants individuels (rod ends + tiges) issus du monde RC hélicoptère (plateau cyclique / swashplate) sont **identiques** mécaniquement et coûtent ~$15-25 pour équiper les 2 chevilles. L'assemblage final nécessite un bracket custom (impression 3D ou CNC).
+
+**BOM Estimé — Kit 2 bielles par cheville :**
+
+| Pièce | Qté (×2 chevilles) | Coût |
+| :--- | :---: | :---: |
+| Rod end bearing M4 (rotules) | 8 (4 par cheville) | ~$8 |
+| Tiges filetées M4 × 80mm inox | 4 | ~$5 |
+| Écrous M4 frein (nylstop) | 8 | ~$2 |
+| Brackets pivot (impression 3D PA12-CF) | 4 (2 haut tibia + 2 bas pied) | ~$15 (filament) |
+| Visserie M4 × 12mm inox | 16 | ~$3 |
+| **Total bielles** | | **~$33** |
+
+### 4.4 Impact sur la Marche et la Course
+
+| Critère | A. Série (V1) | B. Tirant (K-Bot) | C. Hybride (V2) | D. Parallèle (V3) |
 | :--- | :---: | :---: | :---: | :---: |
-| **Masse distale (par jambe)** | 1285g | ~0g | **405g** | ~0g |
-| **Couple Pitch effectif** | 60 N.m | ~34 N.m | **~120 N.m** ⚡ | 80-150 N.m |
-| **Couple Roll** | 17 N.m | ❌ | 17 N.m | 40-80 N.m |
+| **Masse distale (par jambe)** | 1190g | ~0g | **310g** | ~0g |
+| **Couple Pitch effectif** | 60 N.m | ~34 N.m | **~120 N.m** ⚡ | ~120 N.m |
+| **Couple Roll** | 14 N.m (RS-00) | ❌ | 14 N.m (RS-00) | ~60 N.m |
 | **Marche lente (<1 km/h)** | ✅ OK | ✅ OK (pas de Roll) | ✅ **Excellent** | ✅ Optimal |
-| **Marche rapide (2-3 km/h)** | ⚠️ Limite | ❌ (pas de Roll) | ✅ **Bon** | ✅ Optimal |
-| **Course (>5 km/h)** | ❌ Trop d'inertie | ❌ (1 DOF) | ⚠️ **Possible** (~405g ok) | ✅ Optimal |
+| **Marche normale (2-3 km/h)** | ✅ OK | ❌ (pas de Roll) | ✅ **Excellent** | ✅ Optimal |
+| **Marche rapide (3-4 km/h)** | ⚠️ Roll au pic | ❌ (pas de Roll) | ⚠️ Roll au pic | ✅ Bon |
+| **Course (>5 km/h)** | ❌ Trop d'inertie | ❌ (1 DOF) | ⚠️ **Possible** | ✅ Optimal |
 | **Terrain irrégulier** | ✅ (2 DOF) | ❌ (1 DOF) | ✅ (2 DOF) | ✅ (2 DOF) |
 | **Simplicité montage** | ⭐ Trivial | ⭐⭐ Moyen | ⭐⭐⭐ Élevé | ⭐⭐⭐⭐ Très élevé |
+| **Coût mécanique** | $0 | $20-50 | $50-100 | $33-100 |
 
 #### Analyse Détaillée de l'Impact Inertiel
 
@@ -254,26 +317,29 @@ Moment d'inertie de la jambe pendant le balancement (swing phase) :
 I = Σ(m × r²) où r = distance au pivot (hanche)
 
                     Masse distale    r (dist. hanche)    Contribution I
-Série (D-Bot) :     1285g            ~0.70 m             630 g.m²  ← Élevé
-Hybride :           405g             ~0.70 m             198 g.m²  ← 3× moins !
-Parallèle (G1):    ~0g              N/A                  ~0 g.m²  ← Optimal
+Série (D-Bot V1):   1190g            ~0.70 m             583 g.m²  ← Élevé
+Hybride (V2) :      310g             ~0.70 m             152 g.m²  ← 4× moins !
+Parallèle (V3):    ~40g             ~0.70 m              ~20 g.m²  ← Optimal
 
-→ Le Hybride réduit l'inertie de 68% vs Série, pour un surcoût minimal.
+→ Le Hybride réduit l'inertie de 74% vs Série, pour un surcoût minimal.
+→ Le Parallèle est quasi-nul, mais avec une complexité cinématique importante.
 ```
 
 **Conséquences concrètes de l'inertie :**
-- **Marche** : Plus l'inertie est basse, plus la jambe balance vite → pas plus rapides, moins de couple requis aux hanches pour accélérer/freiner la jambe.
-- **Course** : À >5 km/h, la fréquence de pas monte à ~3 Hz. Avec 1285g en bout de jambe (série), les RS-04 de hanche doivent fournir ~30% de couple supplémentaire juste pour balancer la jambe. Avec 405g (hybride), c'est ~10% → la course devient **envisageable**.
-- **Chutes** : Moins d'inertie = réactions de rattrapage plus rapides. Le robot peut repositionner sa jambe plus vite pour éviter une chute.
+- **Marche** : Plus l'inertie est basse, plus la jambe balance vite → pas plus rapides, moins de couple requis aux hanches.
+- **Course** : À >5 km/h, la fréquence de pas monte à ~3 Hz. Avec 1190g en bout de jambe (série), les RS-04 de hanche doivent fournir ~25% de couple supplémentaire juste pour balancer la jambe. Avec 310g (hybride), c'est ~7% → la course devient **envisageable**.
+- **Chutes** : Moins d'inertie = réactions de rattrapage plus rapides.
 
-### 4.4 Recommandation Évolutive
+### 4.5 Recommandation Évolutive
 
-| Phase | Config Cheville | Pourquoi |
-| :--- | :--- | :--- |
-| **Phase 4 V1** (1er prototype marche) | **A. Série** (RS-03 + RS-02) | Simple, suffisant pour valider la marche <2 km/h |
-| **Phase 4 V2** (optimisation) | **C. Hybride** (RS-03 tirant + RS-02 direct) | Meilleure dynamique, course possible, même moteurs |
-| **V3** (si besoin performances extrêmes) | **D. Parallèle** | Uniquement si la course >5 km/h est un objectif |
+| Phase | Config Cheville | Moteurs | Coût additionnel | Pourquoi |
+| :--- | :--- | :--- | :---: | :--- |
+| **V1** (prototype) | **A. Série** (RS-03 + RS-00) | RS-03 Pitch + RS-00 Roll | $0 | Simple, valide la marche ≤3 km/h |
+| **V2** (optimisation) | **C. Hybride Tirant** + RS-00 direct | Mêmes moteurs, repositionnés | ~$50-100 | Inertie -74%, course possible |
+| **V3** (performances) | **D. Parallèle** 2 bielles | 2× RS-03 (remplace RS-03+RS-00) | ~$33 bielles + $115 moteur | Inertie ~0g, couple Roll ×4 |
 
 > [!TIP]
-> **Le passage de A → C ne change PAS les moteurs !** Ce sont les mêmes RS-03 + RS-02, juste repositionnés. Il suffit de concevoir un nouveau bracket tibia + pushrod. Le coût additionnel est uniquement en pièces mécaniques (~$50-100 d'usinage).
+> **Progression V1 → V2** : Ne change PAS les moteurs ! Ce sont les mêmes RS-03 + RS-00, juste repositionnés (RS-03 monté haut dans le tibia + pushrod). Coût = uniquement pièces mécaniques.
+>
+> **Progression V2 → V3** : Remplace le RS-00 Roll par un 2ème RS-03. Les 2 RS-03 en parallèle donnent ~120 N.m Pitch et ~60 N.m Roll. Le RS-00 récupéré peut être réaffecté (ex: poignet supplémentaire).
 
