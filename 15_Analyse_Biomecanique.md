@@ -70,7 +70,7 @@ Couple cheville = Masse × g × Distance CdP-Cheville
 | :--- | :---: | :---: | :---: |
 | Couple genou dynamique | ~80 N.m | 120 N.m (RS-04) | ✅ Suffisant |
 | Couple hanche dynamique | ~70 N.m | 120 N.m (RS-04) | ✅ Suffisant |
-| Couple cheville dynamique | ~100 N.m | 17 N.m (RS-02) | ❌ **CRITIQUE** |
+| Couple cheville dynamique | ~100 N.m | ~34 N.m (RS-02 + tirant) | ❌ **CRITIQUE** |
 
 > [!NOTE]
 > Ces estimations sont pour une marche à **~2-3 km/h**.
@@ -86,7 +86,7 @@ Couple cheville = Masse × g × Distance CdP-Cheville
 ### 2.3 Course (> 4 km/h)
 
 La course est **impossible** dans la configuration K-Bot de base :
-- Les chevilles (RS-02) n'ont que 17 N.m vs ~100 N.m requis pour la phase de vol
+- Les chevilles (RS-02 + tirant) n'ont que ~34 N.m vs ~150 N.m requis pour la phase de vol
 - Les genoux (RS-04, 200 RPM) sont trop lents pour la fréquence de pas requise
 - Pas de compliance élastique dans le système actuel
 
@@ -136,7 +136,7 @@ Couple épaule = (Masse_bras × g × L/2) + (Masse_charge × g × L_total)
 
 | Zone | Moteur Actuel | Problème | Sévérité |
 | :--- | :---: | :--- | :---: |
-| **Cheville** | RS-02 (17 N.m) | Sous-dimensionné 2-3× pour marche | 🔴 **CRITIQUE** |
+| **Cheville** | RS-02 tirant (34 N.m) | Déficit 50% vs 67 N.m requis | 🔴 **CRITIQUE** |
 | **Coude** | RS-02 (17 N.m) | Limite pour portage > 5 kg | 🟡 **MOYEN** |
 | **Épaule Pitch** | RS-03 (60 N.m) | Limite pour portage > 3 kg bras tendu | 🟡 **MOYEN** |
 | **Cheville Roll** | Aucun | Pas de DOF d'adaptation au sol | 🟠 **IMPORTANT** |
@@ -151,7 +151,7 @@ Couple épaule = (Masse_bras × g × L/2) + (Masse_charge × g × L_total)
 
 | Paramètre | Avant (RS-02) | Après (RS-03) | Gain |
 | :--- | :---: | :---: | :---: |
-| Couple Pic | 17 N.m | 60 N.m | **×3.5** |
+| Couple Pic | ~34 N.m | 120 N.m | **×3.5** |
 | Couple Nominal | 6 N.m | 20 N.m | **×3.3** |
 | Poids | 405g | 880g | +475g/cheville |
 | Surpoids total | - | +950g (2 chevilles) | |
