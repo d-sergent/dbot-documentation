@@ -567,17 +567,338 @@ Beaucoup de robots humanoïdes avancés (Unitree H2, ATLAS) ont un **DOF de rota
 
 ### 10.6 Synthèse des Améliorations de Stabilité
 
-| Priorité | Amélioration | Coût | Difficulté | Impact |
+| Priorité | Amélioration | Coût | Difficulté | Statut | Impact |
+| :---: | :--- | :---: | :---: | :---: | :--- |
+| 🔴 **1** | IMU haute fréquence (BMI270 Spresense) | ~$30 | Faible | ✅ Prévu | Indispensable pour tout contrôle d'équilibre |
+| 🔴 **2** | Pieds plus grands (+2 cm) | ~$0 | Faible | ✅ Prévu | +30% de base de support |
+| 🟠 **3** | Batterie en position basse | ~$0 | Faible | ✅ Prévu | CdG abaissé de 5-10 cm |
+| 🟡 **4** | Semelle antidérapante TPU | ~$15 | Faible | ✅ Prévu | Meilleure adhérence au sol |
+| 🟡 **5** | Capteurs de force plantaires (FSR) | ~$40-60 | Moyen | ✅ Prévu | Mesure directe du CoP |
+| 🟢 **6** | Semelle courbe (rocker) | ~$10 | Moyen | 📋 V2 | Transition de pas naturelle |
+| 🟢 **7** | Orteils passifs | ~$15 | Moyen | 📋 V2 | Meilleur toe-off |
+| 🔵 **8** | SEA (élasticité série) | ~$50 | Élevé | 📋 V2 | Absorption de chocs |
+| 🔵 **9** | DOF Taille Yaw | ~$250 | Élevé | 📋 V2 | Virages naturels |
+
+> [!IMPORTANT]
+> **Les améliorations 1 à 5 seront implémentées dès la V1.** Coût total : ~$85. L'IMU (1) est déjà intégrée via la Spresense + BMI270 Add-on Board. Les pieds (2) et la batterie basse (3) sont des modifications CAD/positionnement sans coût. Les semelles TPU (4) et les FSR (5) sont détaillés ci-dessous.
+
+---
+
+### 10.7 Détail — Semelle Antidérapante TPU (Amélioration 4)
+
+#### 10.7.1 Choix du Matériau
+
+> [!NOTE]
+> **Shore A** mesure la dureté des élastomères. Plus le chiffre est bas, plus le matériau est souple et adhérent. Pour une semelle de robot bipède, la plage **80A–90A** offre le meilleur compromis entre adhérence et résistance à l'usure.
+
+| Shore A | Équivalent | Adhérence | Résistance usure | Usage |
 | :---: | :--- | :---: | :---: | :--- |
-| 🔴 **1** | IMU haute fréquence | ~$30 | Faible | Indispensable pour tout contrôle d'équilibre |
-| 🔴 **2** | Pieds plus grands (+2 cm) | ~$0 | Faible | +30% de base de support |
-| 🟠 **3** | Batterie en position basse | ~$0 | Faible | CdG abaissé de 5-10 cm |
-| 🟡 **4** | Semelle antidérapante | ~$5 | Faible | Meilleure adhérence au sol |
-| 🟡 **5** | Capteurs de force plantaires | ~$100 | Moyen | Mesure directe du CoP |
-| 🟢 **6** | Semelle courbe (rocker) | ~$10 | Moyen | Transition de pas naturelle |
-| 🟢 **7** | Orteils passifs | ~$15 | Moyen | Meilleur toe-off |
-| 🔵 **8** | SEA (élasticité série) | ~$50 | Élevé | Absorption de chocs, V2 |
-| 🔵 **9** | DOF Taille Yaw | ~$250 | Élevé | Virages naturels, V2 |
+| **70A** | Semelle running souple | ✅✅✅ | ⚠️ Faible | Trop mou, usure rapide |
+| **80A** | Pneu vélo | ✅✅ | ✅ | **🏆 Idéal sol lisse (carrelage, parquet)** |
+| **85A** | Talon de chaussure | ✅✅ | ✅✅ | Bon compromis polyvalent |
+| **90A** | Roulette de skateboard | ✅ | ✅✅ | **🏆 Idéal sol dur (béton, extérieur)** |
+| **95A** | Pneu plein robot | ⚠️ | ✅✅✅ | Trop dur, glisse sur carrelage |
+
+**Recommandation** : Imprimer **deux jeux de semelles** — 80A (intérieur) et 90A (extérieur) — et changer selon l'environnement.
+
+#### 10.7.2 Design de la Semelle
+
+```
+     ┌───────────────────────────┐
+     │     PIED D-BOT (vue dessous)     │
+     │                                   │
+     │  ┌─────────────────────────────┐  │
+     │  │        SEMELLE TPU          │  │
+     │  │                             │  │
+     │  │   ┌─────┐       ┌─────┐    │  │    ← Rainures 2mm × 1mm
+     │  │   │ FSR │       │ FSR │    │  │       Motif en chevrons
+     │  │   │  1  │       │  2  │    │  │       pour évacuation eau
+     │  │   └─────┘       └─────┘    │  │
+     │  │      (talon gauche)  (talon droit)   │
+     │  │                             │  │
+     │  │   ╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲   │  │    ← Texture chevrons
+     │  │   ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱   │  │       sur toute la surface
+     │  │   ╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲   │  │
+     │  │                             │  │
+     │  │   ┌─────┐       ┌─────┐    │  │
+     │  │   │ FSR │       │ FSR │    │  │
+     │  │   │  3  │       │  4  │    │  │
+     │  │   └─────┘       └─────┘    │  │
+     │  │      (avant gauche)  (avant droit)   │
+     │  └─────────────────────────────┘  │
+     │                                   │
+     └───────────────────────────────────┘
+```
+
+- **Épaisseur** : 3-4 mm (assez pour amortir, assez fin pour ne pas trop suréléver le pied)
+- **Texture** : Rainures en chevrons (type pneu tout-terrain), 2 mm de large × 1 mm de profondeur
+- **Fixation** : Encastrement + colle cyanoacrylate sur la semelle PLA/PETG du pied
+- **Poches FSR** : 4 cavités Ø20 mm × 1.5 mm creusées depuis le dessus pour accueillir les FSR 402
+
+#### 10.7.3 Paramètres d'Impression TPU
+
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Filament** | TPU Shore 80A ou 90A |
+| **Buse** | 0.4 mm standard (pas besoin de tungstène) |
+| **Température buse** | 220-240°C (selon filament) |
+| **Température plateau** | 50-60°C |
+| **Vitesse** | **15-25 mm/s** (TPU souple = imprimer lentement) |
+| **Rétraction** | **Désactivée** ou très courte (0.5 mm, directe uniquement) |
+| **Remplissage** | 100% (semelle = surface de contact, pas de creux) |
+| **Hauteur couche** | 0.2 mm |
+| **Ventilateur** | 50-80% |
+| **Extrudeur** | **Direct Drive obligatoire** — le TPU <90A ne passe PAS en Bowden |
+
+> [!WARNING]
+> **TPU 80A est TRÈS souple** — il nécessite un extrudeur **Direct Drive** (type MK3S, Prusa XL, Bambu Lab). Si votre imprimante est en Bowden, utiliser du 90A minimum ou acheter un adaptateur Direct Drive. Le TPU 80A en Bowden va se coincer dans le tube PTFE.
+
+#### 10.7.4 Où Acheter le TPU (France / Europe)
+
+| Fournisseur | Shore | Prix/kg | Lien | Note |
+| :--- | :---: | :---: | :--- | :--- |
+| **Francofil** 🇫🇷 | TPE 88A | ~€35/kg | [francofil.fr](https://www.francofil.fr) | 🏆 Fabricant français, mention "semelles" |
+| **Recreus Filaflex** 🇪🇸 | 82A / 95A | ~€40/kg | [recreus.com](https://recreus.com) | Large gamme Shore, EU |
+| **Spectrum S-Flex** 🇵🇱 | 90A | ~€35/kg | [center3dprint.com](https://center3dprint.com) | Bonne résistance usure, EU |
+| **WASP TPU** 🇮🇹 | 80A | ~€40/kg | [3dwasp.shop](https://3dwasp.shop) | Spécialisé flexible |
+| **PrimaSelect** 🇸🇪 | 80A | ~€38/kg | [3dprima.com](https://3dprima.com) | Bonne qualité, dispo EU |
+| **Formfutura Python** 🇳🇱 | 90A | ~€45/kg | [3djake.fr](https://3djake.fr) | Industriel, anti-UV |
 
 > [!TIP]
-> **Les 4 premières améliorations coûtent moins de $35 au total** et sont toutes réalisables immédiatement avec une simple impression 3D (pieds), un composant ($30 IMU), et un repositionnement de batterie ($0). Elles auront collectivement un impact **considérable** sur la stabilité.
+> **Recommandation achat** : Commencer par le **Francofil TPE 88A** (~€35/kg, fabriqué en France). C'est le meilleur compromis adhérence/imprimabilité. Si trop souple pour vos pistes, passer au **Spectrum S-Flex 90A**.
+
+---
+
+### 10.8 Détail — Capteurs de Force Plantaires FSR (Amélioration 5)
+
+#### 10.8.1 Choix du Capteur : FSR 402
+
+> [!NOTE]
+> Les **FSR (Force Sensing Resistors)** sont des capteurs polymères dont la résistance diminue quand la force augmente. Ce sont les capteurs les plus utilisés pour la mesure de pression plantaire des robots bipèdes (publications IEEE, recherche ZMP/CoP).
+
+| Caractéristique | FSR 402 (Interlink) |
+| :--- | :--- |
+| **Type** | Résistif à force (FSR) |
+| **Forme** | Rond, Ø18.3 mm zone active |
+| **Épaisseur** | 0.46 mm (se glisse sous une semelle) |
+| **Plage de force** | 0.1 N – 10 N (extensible à 100 N avec résistance adaptée) |
+| **Temps de réponse** | < 3 ms |
+| **Interface** | 2 fils — simple diviseur de tension |
+| **Prix** | ~$7-8 / unité (×4 = **~$30 par pied**) |
+| **Durée de vie** | > 10 millions d'actuations |
+
+**Alternatives évaluées** :
+
+| Capteur | Prix | Avantage | Limite |
+| :--- | :---: | :--- | :--- |
+| **FSR 402** | ~$7 | 🏆 Fin, rond, adapté pied | Plage 10 N (extensible) |
+| FSR 406 | ~$8 | Plus grand (carré 44mm) | Trop grand pour notre pied |
+| FSR 408 | ~$10 | Longue bande | Pas adapté CoP ponctuel |
+| Velostat DIY | ~$1 | Ultra pas cher | Imprécis, dérive |
+| Capteur piézo | ~$2 | Très rapide | Mesure impacts, pas force statique |
+| Cellule de charge | ~$15 | Très précis | Trop encombrant pour un pied |
+
+**Verdict** : **4× FSR 402 par pied** (8 au total pour les 2 pieds) = la solution standard en robotique bipède.
+
+#### 10.8.2 Placement — Configuration 4 Points
+
+```
+                PIED D-BOT (vue dessous)
+     ┌───────────────────────────────────┐
+     │                                   │
+     │    (arrière / talon)              │
+     │                                   │
+     │    FSR 1 ●─────────────● FSR 2    │    ← 2 capteurs talon
+     │    (x₁,y₁)            (x₂,y₂)    │       Portent ~60% du poids
+     │                                   │
+     │           Centre Pied             │
+     │                                   │
+     │    FSR 3 ●─────────────● FSR 4    │    ← 2 capteurs avant-pied
+     │    (x₃,y₃)            (x₄,y₄)    │       Portent ~40% du poids
+     │                                   │
+     │    (avant / orteils)              │
+     │                                   │
+     └───────────────────────────────────┘
+```
+
+**Position recommandée** (pied de ~12 × 8 cm) :
+
+| FSR | Position | Coordonnées (x, y) mm | Rôle |
+| :---: | :--- | :---: | :--- |
+| **1** | Talon gauche | (20, 25) | Phase d'appui talon (heel strike) |
+| **2** | Talon droit | (20, 55) | Phase d'appui talon |
+| **3** | Avant gauche | (90, 25) | Phase de propulsion (toe-off) |
+| **4** | Avant droit | (90, 55) | Phase de propulsion |
+
+#### 10.8.3 Circuit Électrique — Diviseur de Tension
+
+Chaque FSR 402 nécessite un **diviseur de tension** pour être lu par un ADC (la Spresense a 6 entrées analogiques sur l'Extension Board) :
+
+```
+        3.3V (Spresense)
+         │
+         │
+    ┌────┴────┐
+    │  FSR    │    ← R_fsr varie : 1 MΩ (0 force) → ~1 kΩ (force max)
+    │  402    │
+    └────┬────┘
+         │
+         ├──────── A0 (Spresense ADC)    ← Lecture analogique
+         │
+    ┌────┴────┐
+    │  R_ref  │    ← Résistance fixe de référence
+    │  10 kΩ  │       Choix : 10 kΩ pour plage 0.1-10 N
+    └────┬────┘       (utiliser 1 kΩ si plage 10-100 N souhaitée)
+         │
+        GND
+```
+
+**Formule** : `V_out = V_cc × R_ref / (R_fsr + R_ref)`
+
+- Sans force : R_fsr ≈ 1 MΩ → V_out ≈ 0.03 V (≈ bruit)
+- Force légère (1 N) : R_fsr ≈ 30 kΩ → V_out ≈ 0.83 V
+- Force moyenne (5 N) : R_fsr ≈ 5 kΩ → V_out ≈ 2.2 V
+- Force forte (10 N) : R_fsr ≈ 1 kΩ → V_out ≈ 3.0 V
+
+#### 10.8.4 Câblage Spresense
+
+```
+    Spresense Extension Board
+    ┌──────────────────────────┐
+    │                          │
+    │   A0 ◄── FSR 1 (pied L, talon G)
+    │   A1 ◄── FSR 2 (pied L, talon D)
+    │   A2 ◄── FSR 3 (pied L, avant G)
+    │   A3 ◄── FSR 4 (pied L, avant D)
+    │   A4 ◄── FSR 5 (pied R, talon G)
+    │   A5 ◄── FSR 6 (pied R, talon D)
+    │                          │
+    │   GPIO D2 ◄── FSR 7 via MUX   │  ← Si >6 capteurs : utiliser
+    │   GPIO D3 ◄── FSR 8 via MUX   │    un MUX analogique CD4051
+    │                          │
+    │   3.3V ──► Alimentation FSR
+    │   GND  ──► Masse commune
+    │                          │
+    └──────────────────────────┘
+```
+
+> [!NOTE]
+> La Spresense Extension Board a **6 entrées analogiques** (A0-A5). Pour 8 capteurs FSR (4 par pied), deux solutions :
+> - **Option A** : Utiliser un **MUX analogique CD4051** (~$1) pour multiplexer les 2 derniers FSR sur A4/A5 via GPIO de sélection.
+> - **Option B** : Connecter 6 FSR directement (3 par pied, triangle : talon, avant-gauche, avant-droit) — suffisant pour un CoP 3 points.
+>
+> **Recommandation** : Option B (3 FSR/pied = 6 total) est plus simple et suffit largement pour le calcul du CoP. La triangulation 3 points donne le même résultat mathématique qu'une quadrilatère.
+
+#### 10.8.5 Calcul du Centre de Pression (CoP)
+
+Le CoP se calcule comme la **moyenne pondérée des positions des capteurs**, pondérée par la force mesurée :
+
+```
+CoP_x = Σ(Fᵢ × xᵢ) / Σ(Fᵢ)
+CoP_y = Σ(Fᵢ × yᵢ) / Σ(Fᵢ)
+```
+
+**Code C++ pour Spresense** (intégré dans le watchdog existant) :
+
+```cpp
+// ─── Capteurs de Force Plantaires (FSR 402) ─────────────────
+// 3 FSR par pied (6 total), lus sur A0-A5
+// Coordonnées en mm depuis le coin arrière-gauche du pied
+
+struct FSR_Sensor {
+    int pin;        // Pin analogique
+    float x_mm;     // Position X sur le pied (mm)
+    float y_mm;     // Position Y sur le pied (mm)
+};
+
+// Pied GAUCHE : 3 capteurs (talon, avant-gauche, avant-droit)
+FSR_Sensor fsr_left[3] = {
+    {A0, 20.0, 40.0},   // Talon centre
+    {A1, 90.0, 20.0},   // Avant gauche
+    {A2, 90.0, 60.0},   // Avant droit
+};
+
+// Pied DROIT : 3 capteurs
+FSR_Sensor fsr_right[3] = {
+    {A3, 20.0, 40.0},   // Talon centre
+    {A4, 90.0, 20.0},   // Avant gauche
+    {A5, 90.0, 60.0},   // Avant droit
+};
+
+// Convertir lecture ADC en force (N) — calibration approx.
+float adcToForce(int adc_value) {
+    float voltage = adc_value * 3.3 / 1023.0;
+    if (voltage < 0.05) return 0.0;  // Seuil de bruit
+    // R_fsr = R_ref × (Vcc - Vout) / Vout
+    float r_fsr = 10000.0 * (3.3 - voltage) / voltage;
+    // Courbe FSR 402 approx : F ≈ (R_fsr / 30000)^(-1.4)
+    float force = pow(r_fsr / 30000.0, -1.4);
+    return constrain(force, 0.0, 100.0);
+}
+
+// Calcul CoP pour un pied (3 capteurs)
+void calculateCoP(FSR_Sensor sensors[], int count,
+                  float &cop_x, float &cop_y, float &total_force) {
+    float sum_fx = 0.0, sum_fy = 0.0;
+    total_force = 0.0;
+
+    for (int i = 0; i < count; i++) {
+        float f = adcToForce(analogRead(sensors[i].pin));
+        sum_fx += f * sensors[i].x_mm;
+        sum_fy += f * sensors[i].y_mm;
+        total_force += f;
+    }
+
+    if (total_force > 0.1) {  // Seuil minimum
+        cop_x = sum_fx / total_force;
+        cop_y = sum_fy / total_force;
+    } else {
+        cop_x = -1.0;  // Pied en l'air
+        cop_y = -1.0;
+    }
+}
+
+// Publier sur ROS2 via micro-ROS ou Serial
+// Topic : /foot/left/cop  (geometry_msgs/Point)
+// Topic : /foot/right/cop (geometry_msgs/Point)
+// Topic : /foot/left/force  (std_msgs/Float32)
+// Topic : /foot/right/force (std_msgs/Float32)
+```
+
+#### 10.8.6 Utilisation du CoP en Contrôle de Balance
+
+Le CoP mesuré par les FSR est comparé au **ZMP (Zero Moment Point)** calculé par l'algorithme de marche. Si le CoP s'écarte du centre de la base de support, le contrôleur d'équilibre ajuste les moteurs :
+
+| Situation | CoP position | Action correctrice |
+| :--- | :--- | :--- |
+| Équilibre normal | Centre du pied | Aucune correction |
+| Robot penche en avant | CoP vers les orteils | Cheville pitch → flex dorsale |
+| Robot penche en arrière | CoP vers le talon | Cheville pitch → flex plantaire |
+| Robot penche à gauche | CoP vers le bord gauche | Cheville roll → éversion |
+| Pied décollé | Force totale ≈ 0 | Phase oscillante détectée |
+
+#### 10.8.7 Où Acheter les FSR
+
+| Fournisseur | Modèle | Prix/unité | Lien | Note |
+| :--- | :--- | :---: | :--- | :--- |
+| **SparkFun** | FSR 402 (Interlink) | ~$7 | [sparkfun.com](https://www.sparkfun.com/products/9375) | Référence standard |
+| **DigiKey EU** | FSR 402 | ~$7 | [digikey.fr](https://www.digikey.fr) | Livraison rapide EU |
+| **Mouser EU** | FSR 402 | ~$7 | [mouser.fr](https://www.mouser.fr) | Stock EU |
+| **AliExpress** | FSR 402 compatible | ~$2-3 | AliExpress | Clones, qualité variable |
+| **Amazon FR** | FSR 402 | ~$8-10 | amazon.fr | Dispo immédiate |
+
+> [!TIP]
+> **Budget total FSR** : 6 FSR 402 × ~$7 + 6 résistances 10 kΩ (~$1) + câblage (~$3) = **~$45**. Pas besoin de circuit imprimé : câblage direct sur les pins analogiques de l'Extension Board Spresense.
+
+---
+
+### 10.9 Résumé des Coûts — Améliorations de Stabilité V1
+
+| # | Amélioration | Composants | Coût |
+| :---: | :--- | :--- | :---: |
+| **1** | IMU BMI270 | Spresense + Add-on Board (déjà prévu) | $0 (inclus) |
+| **2** | Pieds +2 cm | Réimpression 3D (PLA/PETG) | ~$2 filament |
+| **3** | Batterie basse | Repositionnement dans le torse | $0 |
+| **4** | Semelles TPU | 1 rouleau TPU 88A Francofil (~250g utilisé) | ~$10 |
+| **5** | FSR plantaires | 6× FSR 402 + 6× R 10 kΩ + câbles | ~$45 |
+| | | **Total** | **~$57** |
