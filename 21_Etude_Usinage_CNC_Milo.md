@@ -39,6 +39,20 @@ La Milo étant produite par "batches" (lots de production LDO Motors), elle est 
 
 3. **La question de la V2** : Vérifier sur Discord l'imminence de la V2 avant l'achat d'un kit v1.5. Si les délais de la V2 sont trop longs, la v1.5 reste parfaitement dimensionnée et évolutive (upgrade possible en ré-usinant les nouvelles pièces).
 
+### 3.2. Comparatif V1.5 vs Future V2.0
+
+L'attente pour la V2.0 (ou la recherche des restocks de kits V1.5) dépendra de votre niveau d'urgence. La V2.0 passe d'une machine "bricolée de passionnés" à un produit beaucoup plus abouti, professionnel et facile à calibrer.
+
+Voici les évolutions majeures annoncées pour la V2.0 :
+- **Volume d'usinage agrandi** et introduction d'une variante compacte "Miley v2.0" (axe X fixe).
+- **Ajustement automatique du jeu** : Écrous Anti-Backlash auto-ajustables (correction d'un point noir de la V1.5).
+- **Protection accrue** : Couvertures magnétiques (Way Covers) pour protéger les rails des copeaux d'aluminium.
+- **Ergonomie ("Quality of Life")** : Alignement de la machine (Tramming) ultra-simplifié grâce à de nouvelles plaques "Easy tram plates".
+- **Électronique dédiée** : Nouvelle carte (partenariat BigTreeTech) intégrant directement les drivers (jusqu'à 4.75A) et la commande du VFD, éliminant le besoin de cartes filles.
+
+> [!NOTE]
+> À cause des énormes changements structurels, il n'est pas possible d'upgrader directement et totalement une v1.5 en v2.0. Cependant, un kit d'amélioration "v1.6" sera proposé pour apporter certaines améliorations de confort de la V2 aux possesseurs actuels de V1.5.
+
 ## 4. Équipements Indispensables et Méthodes d'Atelier
 
 L'usinage de pièces de k-bot en aluminium ne s'improvise pas sans méthodologie. Oubliez la fonderie artisanale (problèmes de porosité et retrait de 1 à 2%) et misez sur l'usinage dans la masse (Billet 6061-T6 depuis *Blockenstock* ou *Matière Détail*).
