@@ -29,7 +29,7 @@ Il est crucial d'utiliser un modèle industriel en acier haute résistance (type
 
 ### B. Fixation et Maintien Axial de l'Axe de 12 mm
 L'axe en acier rectifié (12mm h6) ne doit ni tourner à l'intérieur du cardan (transmission du couple), ni glisser sous l'effet des vibrations (maintien axial).
-1. **Transmission du Couple** : Privilégier un modèle avec **vis de pression (Set Screws)**. L'axe de 12 mm devra être aplani (création d'un méplat) pour l'appui de la vis. Mettre impérativement du **Frein filet bleu** (Loctite). Une autre option est la rainure de clavette.
+1. **Transmission du Couple** : Privilégier un **montage par rainure de clavette (Keyway)**. Ce standard de transmission de puissance (souvent avec une clavette de 4 mm de large) est indestructible. Il faut commander le cardan avec cette option (ex: **Michaud Chailly DIN 808 Finition JS / Série A5-473 avec option "Rainure"**) et acheter un axe de 12 mm déjà rainuré, ainsi que la clavette correspondante. Le montage avec vis de pression sur un méplat (anciennement envisagé) est **déconseillé** car trop contraignant à réaliser (usinage d'un acier trempé) et moins robuste face aux chocs.
 2. **Maintien Axial** : La vis de pression et la clavette ne suffiront pas pour encaisser les chocs latéraux (Roll). Il faut ajouter des **Bagues d'arrêt (Shaft Collars)** en acier, en deux parties (fendues), de chaque côté du cardan.
    - **Où acheter** : **HPC Europe** (BAG2-012) ou **Michaud Chailly / Ruland** (F2-39-12). Vis de classe 12.9.
 
