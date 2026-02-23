@@ -96,5 +96,10 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Alternatives évaluées (Livox MID-360, 2D LiDARs, multi-caméras, vision pure).
     *   Solution retenue : **Triple fusion L2 + OAK-D Pro + BMI270**.
 
+20. **[Étude & Acquisition CNC Milo](./21_Etude_Usinage_CNC_Milo.md)**
+    *   Choix de la Milo v1.5 face aux alternatives.
+    *   Exigences d'usinage aluminium (tolérances H7, fluage PA-CF).
+    *   Acquisition, outillage et méthodes (Threading Milling).
+
 ---
 *Documentation exhaustive générée et auditée en Février 2026.*
