@@ -1,6 +1,6 @@
 # Étude et Conception de la Cheville du D-Bot (Architecture Cardan)
 
-Ce document résume l'étude détaillée concernant la reconception de la cheville du robot brupède (approx. 35 kg), basée sur les analyses mécaniques récentes et visant à remplacer la rotule radiale GE12UK par un système de cardan (Gimbal) couplé à une cinématique différentielle.
+Ce document résume l'étude détaillée concernant la reconception de la cheville du robot bipède (approx. 35 kg), basée sur les analyses mécaniques récentes et visant à remplacer la rotule radiale GE12UK par un système de cardan (Gimbal) couplé à une cinématique différentielle.
 
 ## 1. Contexte et Problématique Initiale
 
