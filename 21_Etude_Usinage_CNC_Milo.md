@@ -53,6 +53,20 @@ Voici les évolutions majeures annoncées pour la V2.0 :
 > [!NOTE]
 > À cause des énormes changements structurels, il n'est pas possible d'upgrader directement et totalement une v1.5 en v2.0. Cependant, un kit d'amélioration "v1.6" sera proposé pour apporter certaines améliorations de confort de la V2 aux possesseurs actuels de V1.5.
 
+### 3.3. Alternatives Commerciales et Capacité de Tournage
+
+La Milo est une fraiseuse 3 axes pure, puissante (1500W) mais exigeante. L'étude a exploré d'autres machines "Desktop CNC" prêtes à l'emploi (notamment la gamme **Makera Carvera**) pour évaluer d'autres philosophies d'atelier et les capacités de **tournage CNC** (ex: pour la cheville).
+
+**La particularité du Tournage sur Fraiseuse CNC :**
+- Réaliser un filetage extérieur long sur une fraiseuse limite la pièce à cause de la course en axe Z (120mm max sur Milo). L'axe doit tenir debout dans l'étau, interdisant les bras longs.
+- Pour des pièces de révolution, contourner le problème se fait par taraudage intérieur + ajout de goujons en acier, ou en utilisant un vrai **4ème Axe Rotatif**.
+
+**Les Alternatives "Prêtes à l'emploi" :**
+- **Makera Carvera Air (~2500€) :** La reine de la propreté de bureau. Entièrement fermée, palpage automatique, changement rapide d'outil. Elle propose un **4ème Axe Rotatif** permettant de tourner/fileter des axes jusqu'à 200 mm de long. *Le compromis :* Sa fine broche de 200 Watts limite les outils à 1/8" et interdit les passes profondes dans un aluminium dur, allongeant dramatiquement les temps d'usinage face à une Milo.
+- **Makera Carvera classique (~5500€) :** Guidages industriels, changeur d'outil 100% automatique. Elle résout les problèmes de rigidité de la version Air, mais conserve la même broche de 200 Watts.
+- **Bantam Tools Desktop CNC (~4000€) :** Spécialisée aluminium, fermée, 28 000 tr/min. Extrêmement aboutie logiciellement pour l'usinage rapide sans erreur, mais sans 4ème axe natif.
+- **Le verdict (La Milo "Moddée") :** Pour le D-Bot (pièces de 35 kg épaisses), la puissance d'ébauche de la Milo (1500W / outils 8mm) est irremplaçable. Le meilleur "compromis" consistera à prendre la Milo, puis de l'équiper plus tard d'une broche ATC (Automatic Tool Changer) et d'un caisson DIY pour mimer l'expérience d'une machine premium.
+
 ## 4. Équipements Indispensables et Méthodes d'Atelier
 
 L'usinage de pièces de k-bot en aluminium ne s'improvise pas sans méthodologie. Oubliez la fonderie artisanale (problèmes de porosité et retrait de 1 à 2%) et misez sur l'usinage dans la masse (Billet 6061-T6 depuis *Blockenstock* ou *Matière Détail*).
