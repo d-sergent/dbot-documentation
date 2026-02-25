@@ -75,6 +75,14 @@ Si le choix se porte sur une **Makera Carvera** (pour bénéficier de sa propret
 2. **Architecture en "Squelette Hybride" :** Pour contourner ce déficit de puissance, la conception CAO doit migrer vers la création d'un **"Squelette interne" en Aluminium**. Ce squelette est usiné (2D/2.5D) dans des plaques fines (5 à 10 mm) superposées et vissées. C'est long à manufacturer sur la Carvera, mais sans effort pour son petit moteur. Ce "plate assembly" garantira l'alignement mécanique parfait des roulements (H7) et axes.
 3. **L'habillage Volumineux FDM :** Les volumes géométriquement profonds ou complexes (protection moteur, carrosserie pelvienne épaisse) seront sous-traités à l'imprimante 3D **Qidi Plus 4** en utilisant des polymères techniques (comme le **PA12-CF**). Les pièces plastiques épaisses viendront chapeauter le fin squelette en aluminium usiné. C'est le mariage optimal des deux écosystèmes makers, contournant brillement les contraintes temporelles et de rigidité de la Carvera.
 
+### 3.5. Étude de l'Opportunité : Carvera d'Occasion vs Milo
+
+Le marché de l'occasion peut rebattre drastiquement les cartes de la décision d'achat. Une opportunité d'acquérir une **Makera Carvera classique (avec Changeur d'Outil ATC) autour de 3 700 €** modifie profondément l'analyse :
+
+- **Le gain de Temps (L'ATC) :** Face à une Milo (dont le coût moddé avec caisson et broche pneumatique ATC avoisinerait les 2 700 € et plus de 80h de montage/configuration), la Carvera d'occasion exige un budget supplémentaire de ~1 000 €, mais fait gagner des semaines entières et offre une précision "Out-of-the-box" (rails industriels rectifiés et palpeur 3D sans fil natif de série).
+- **L'absence du 4ème Axe :** Si cette occasion n'inclut pas le module *4th Axis Rotary*, la Carvera redevient mécaniquement une machine 3 Axes (X,Y,Z). Elle est alors soumise à la même restriction que la Milo : l'impossibilité d'usiner un axe long debout dont la verticalité dépasserait le Z-Clearance (130mm max).
+- **Stratégie de fabrication :** À 3 700 €, l'achat reste incontestablement justifié pour produire l'immense majorité (95%) du "squelette" du robot (en traitant des plaques). L'absence provisoire du 4ème axe se compense en achetant le module Makera séparément plus tard (environ 500 €), ou en achetant les 5% de pièces purement cylindriques (Tiges en acier rectifié de 12mm standard) pour les tarauder et goujonner manuellement (contournement CNC 3 axes).
+
 ## 4. Équipements Indispensables et Méthodes d'Atelier
 
 L'usinage de pièces de k-bot en aluminium ne s'improvise pas sans méthodologie. Oubliez la fonderie artisanale (problèmes de porosité et retrait de 1 à 2%) et misez sur l'usinage dans la masse (Billet 6061-T6 depuis *Blockenstock* ou *Matière Détail*).
