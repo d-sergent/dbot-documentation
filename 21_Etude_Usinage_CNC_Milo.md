@@ -67,6 +67,14 @@ La Milo est une fraiseuse 3 axes pure, puissante (1500W) mais exigeante. L'étud
 - **Bantam Tools Desktop CNC (~4000€) :** Spécialisée aluminium, fermée, 28 000 tr/min. Extrêmement aboutie logiciellement pour l'usinage rapide sans erreur, mais sans 4ème axe natif.
 - **Le verdict (La Milo "Moddée") :** Pour le D-Bot (pièces de 35 kg épaisses), la puissance d'ébauche de la Milo (1500W / outils 8mm) est irremplaçable. Le meilleur "compromis" consistera à prendre la Milo, puis de l'équiper plus tard d'une broche ATC (Automatic Tool Changer) et d'un caisson DIY pour mimer l'expérience d'une machine premium.
 
+### 3.4. CAO Adaptative (Spécifique Carvera) : Squelette Alu et Habillage PA12-CF
+
+Si le choix se porte sur une **Makera Carvera** (pour bénéficier de sa propreté de bureau, de son automatisation, de son palpage 3D sans fil natif et du 4ème axe pour le tournage des chevilles), la CAO du robot doit s'adapter drastiquement au "Mur de la Physique" de sa broche :
+
+1. **La limite des poches profondes :** La Carvera est livrée avec des pinces (collets) de 1/8". Même en achetant la pince optionnelle de 6 mm (qui réduit la vibration de l'outil), la broche de 200W n'aura jamais le couple nécessaire pour enfoncer une fraise de 6 mm profondément dans de l'aluminium aérospatial sans caler. L'usinage "dans la masse" de pièces monolithiques épaisses est donc proscrit.
+2. **Architecture en "Squelette Hybride" :** Pour contourner ce déficit de puissance, la conception CAO doit migrer vers la création d'un **"Squelette interne" en Aluminium**. Ce squelette est usiné (2D/2.5D) dans des plaques fines (5 à 10 mm) superposées et vissées. C'est long à manufacturer sur la Carvera, mais sans effort pour son petit moteur. Ce "plate assembly" garantira l'alignement mécanique parfait des roulements (H7) et axes.
+3. **L'habillage Volumineux FDM :** Les volumes géométriquement profonds ou complexes (protection moteur, carrosserie pelvienne épaisse) seront sous-traités à l'imprimante 3D **Qidi Plus 4** en utilisant des polymères techniques (comme le **PA12-CF**). Les pièces plastiques épaisses viendront chapeauter le fin squelette en aluminium usiné. C'est le mariage optimal des deux écosystèmes makers, contournant brillement les contraintes temporelles et de rigidité de la Carvera.
+
 ## 4. Équipements Indispensables et Méthodes d'Atelier
 
 L'usinage de pièces de k-bot en aluminium ne s'improvise pas sans méthodologie. Oubliez la fonderie artisanale (problèmes de porosité et retrait de 1 à 2%) et misez sur l'usinage dans la masse (Billet 6061-T6 depuis *Blockenstock* ou *Matière Détail*).
