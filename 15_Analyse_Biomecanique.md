@@ -1352,6 +1352,194 @@ Vitesse angulaire divisée par 1.5 → vitesse de genou réduite de 33%
 
 ![Mécanisme Tirant Genou S2 — RS-04 dans la cuisse avec tirant carbone 1.5:1 vers le pivot du genou](./img_s2_genou_tirant.png)
 
+#### 12.3.1 Cinématique Détaillée du Mécanisme Tirant
+
+##### Anatomie du Mécanisme
+
+```
+┌──────────────────────────────────────────────────┐
+│  CUISSE (structure Alu CNC)                       │
+│                                                    │
+│     ╔═════════╗                                    │
+│     ║  RS-04  ║  ← Moteur fixé RIGIDEMENT à       │
+│     ║ (120Nm) ║    la structure de la cuisse       │
+│     ╚════╤════╝                                    │
+│          │ Arbre de sortie                         │
+│     ╔════╧════╗                                    │
+│     ║Bras de  ║  L_crank = 60 mm (bras de manivelle)
+│     ║manivelle║  → Converti rotation → translation │
+│     ╚════╤════╝                                    │
+│          │ Pivot A                                  │
+│          │                                          │
+│   Tirant Carbone (tube Ø12/10mm, L≈250mm)         │
+│   rigide, force de compression/traction uniquement │
+│          │                                          │
+│          │ Pivot B                                  │
+│     ╔════╧════╗                                    │
+│     ║  Levier ║  L_lever = 90 mm (bras levier genou)
+│     ║  Genou  ║  → Converti translation → rotation │
+│     ╚════╤════╝                                    │
+│          │ Pivot C = AXE GENOU                     │
+│          │                                          │
+│     ╔════╧════╗                                    │
+│     ║  TIBIA  ║                                    │
+│     ╚═════════╝                                    │
+└──────────────────────────────────────────────────┘
+
+Ratio mécanique = L_lever / L_crank = 90 / 60 = 1.5 : 1
+```
+
+---
+
+##### Effet de la Rotation Moteur
+
+**🔵 Moteur RS-04 tourne dans le sens HORAIRE → EXTENSION du genou**
+```
+Moteur CW → Bras de manivelle pivote vers l'AVANT et le BAS
+          → Le tirant est POUSSÉ vers le bas (compression)
+          → Le levier genou est poussé vers l'ARRIÈRE
+          → L'axe genou produit un couple d'extension
+          → Le tibia se redresse → JAMBE QUI SE TEND
+
+  Usage : Phase d'appui (supporter le poids), push-off (propulsion)
+  Couple effectif au genou : τ_RS04 × 1.5 = jusqu'à 180 N.m
+```
+
+**🔴 Moteur RS-04 tourne en sens ANTI-HORAIRE → FLEXION du genou**
+```
+Moteur CCW → Bras de manivelle pivote vers l'ARRIÈRE et le HAUT
+           → Le tirant est TIRÉ vers le haut (traction)
+           → Le levier genou est tiré vers l'AVANT
+           → L'axe genou produit un couple de flexion
+           → Le tibia se replie → JAMBE QUI SE PLIE
+
+  Usage : Phase oscillante (soulever le pied), monte-escalier, accroupi
+  Couple effectif au genou : τ_RS04 × 1.5 = jusqu'à 180 N.m (symétrique)
+```
+
+> [!NOTE]
+> **Symétrie remarquable** : Le mécanisme fournit le même amplification 1.5:1 en extension ET en flexion, dans toute la plage de mouvement. Ce n'est pas le cas d'un tirant direct-pushrod dont l'angle varie (et donc le couple effectif aussi), mais un bras de manivelle bien conçu maintient un ratio quasi-constant à ±10% entre 0° et 120°.
+
+---
+
+##### Chaîne de Transmission des Efforts (Analyse)
+
+```
+τ_moteur → F_pushrod → τ_genou
+
+Étape 1 : Conversion Couple → Force (au bras de manivelle)
+  F_tirant = τ_RS04 / L_crank × sin(angle)
+           = 120 N.m / 0.060 m
+           = 2000 N (au maximum, angle 90°)
+
+Étape 2 : Transmission par le tirant (rigide, compression ou traction)
+  F_tirant est transmise SANS PERTE par la barre carbone
+  Le tirant ne fléchit pas car : F_flambage > 2000 N pour Ø12/10 carbone
+  → Longueur critique Euler : L_cr = π × √(EI/F) > 500 mm ✅
+
+Étape 3 : Conversion Force → Couple (au levier genou)
+  τ_genou = F_tirant × L_lever × sin(angle_levier)
+           = 2000 N × 0.090 m
+           = 180 N.m (au maximum)
+
+Bilan :  τ_genou_max = τ_RS04 × (L_lever / L_crank) = 120 × 1.5 = 180 N.m ✅
+```
+
+**Variation du couple selon l'angle de flexion (effet de la géométrie) :**
+
+| Angle Genou | Angle Bras Manivelle | Factor sin | Couple Genou Effectif |
+| :---: | :---: | :---: | :---: |
+| 0° (tendu) | 90° | sin(90°) = 1.00 | **180 N.m** (max) |
+| 30° (légère flex.) | 75° | sin(75°) = 0.97 | 174 N.m |
+| 60° | 55° | sin(55°) = 0.82 | 148 N.m |
+| 90° (assis) | 30° | sin(30°) = 0.50 | 90 N.m |
+| 120° (accroupi) | 10° | sin(10°) = 0.17 | 31 N.m |
+
+> [!IMPORTANT]
+> **Point critique** : Le couple diminue sensiblement à forte flexion (90-120°). Full-squat (120°) donne seulement 31 N.m — insuffisant pour se relever d'une position accroupie profonde. En marche normale (flexion max ~60°), le couple reste à 148 N.m, ce qui est suffisant. Pour l'accroupissement profond, il faudra soit augmenter L_lever, soit ajouter une SEA (S3).
+
+> [!TIP]
+> **Design du bras de manivelle** : Choisir L_crank = 60 mm et positionner l'angle de repos (genou tendu, 0°) à 90° du bras maximise le couple précisément dans la plage de marche normale (0-60°), là où il est le plus critique.
+
+---
+
+##### Séquence Cinématique Complète — Cycle de Marche
+
+![Cinématique S2 — 4 positions clés de flexion/extension du genou avec le mécanisme tirant](./img_s2_cinematique_sequence.png)
+
+**Phase 1 — Double Appui Frontal (Genou quasi tendu, ~5-10°)**
+```
+Moteur : Position neutre, léger couple CW (anti-flexion)
+Tirant : Légèrement en compression
+Genou  : ~5° de flexion (amortissement choc d'impact)
+→ Le robot supporte son poids sur les 2 jambes
+→ Couple requis au genou : ~35-50 N.m (statique)
+→ Couple moteur requis : 35/1.5 = ~23 N.m ← très confortable
+```
+
+**Phase 2 — Appui Simple (Stance Phase, Genou à 10-25°)**
+```
+Moteur : Couple CW modéré (résister à la flexion due au poids)
+Tirant : En compression, F ≈ 800-1200 N
+Genou  : 10-25° de flexion, progressivement
+→ Toute la masse du robot passe sur 1 jambe
+→ Couple requis genou : ~69-117 N.m (marche 2-3 km/h)
+→ Couple moteur requis : 69/1.5 = ~46 N.m ← confortable
+```
+
+**Phase 3 — Poussée (Push-off, Genou retour vers 5°)**
+```
+Moteur : Couple CW fort (extension active)
+Tirant : Fort en compression, F ≈ 1200-1800 N (pic)
+Genou  : Retour de 25° → 5° (extension rapide)
+→ La cheville (RS-03 ×2, 120 N.m) propulse le corps vers l'avant
+→ Le genou s'étend pour aider la propulsion
+→ Couple moteur requis : ~80  N.m MAX (pic de course)
+```
+
+**Phase 4 — Oscillation Initiale (Initial Swing, Flexion rapide)**
+```
+Moteur : Bascule en CCW, accélération angulaire élevée
+Tirant : Passe en TRACTION (tire le levier genou vers le haut)
+Genou  : Flexion rapide 5° → 60° en ~200 ms
+→ Le pied doit dégager le sol (foot clearance)
+→ La rapidité de flexion dépend de la vitesse max moteur (71 RPM × 1.5 = 107 RPM au genou)
+→ Temps de flexion 0° → 60° : 60°/107 RPM ≈ 0.33 s ← suffisant
+```
+
+**Phase 5 — Oscillation Terminale (Terminal Swing, Extension pré-contact)**
+```
+Moteur : Retour en CW progressif
+Tirant : Repasse en compression légère
+Genou  : Retour de 60° → 5° avant le contact au sol
+→ Le moteur freine activement la chute du tibia (mode courant)
+→ Arrêt doux = atterrissage en mid-foot strike (favorise S1 algorithme)
+```
+
+---
+
+##### Point de Vigilance — Le Point Mort (Dead Center)
+
+```
+⚠️ Quand le bras de manivelle et le tirant sont PARFAITEMENT ALIGNÉS
+   (angle = 0° ou 180°), le mécanisme a un moment de force NUL.
+   Le moteur ne peut plus exercer aucun couple sur l'axe genou.
+
+              Bras de manivelle
+                    │
+                    V
+   En Point Mort : ─────●───── Tirant  (axe alignés → τ_genou = 0)
+
+Solution : Concevoir le bras de manivelle pour que le point mort
+           soit en DEHORS de la plage de travail (0° → 120°).
+           Avec L_crank = 60mm et la géométrie ci-dessus, le point mort
+           est à ~140° de flexion genou → jamais atteint en marche normale.
+```
+
+> [!WARNING]
+> **Vérifier la géométrie en CAO avant fabrication.** Le point mort exact dépend de la longueur du tirant (L≈250mm) et des positions des pivots A, B, C. Un outil de simulation cinématique (Fusion 360 Motion Study, ou FreeCAD Mechanism) doit valider que τ_genou > 80 N.m sur toute la plage 0-90°.
+
+
 ---
 
 ### 12.4 Solution S3 — SEA (Series Elastic Actuator)
