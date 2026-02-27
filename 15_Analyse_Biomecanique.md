@@ -1241,3 +1241,226 @@ Les tableaux de portage précédents (Section 3) **restent valides** → la capa
 
 ---
 *Section ajoutée en Mars 2026 suite à la révision de l'architecture cheville (Cardan DIN 808 + 2× RS-03) et à la mise à jour de la masse de référence (~39 kg).*
+
+---
+---
+
+## 12. Vers la Course — Facteurs Limitants du Genou et Solutions
+
+> *Contexte : Le genou RS-04 (120 N.m pic) supporte la marche jusqu'à ~5-6 km/h. La course (> 4 km/h, phase de vol) exige ~172 N.m, soit 43% au-delà du pic. Cette section analyse les leviers d'amélioration.*
+
+---
+
+### 12.1 Analyse des Facteurs Limitants
+
+Le couple au genou lors de la course dépend de trois composantes :
+
+```
+τ_genou_course = τ_statique × F_dynamique × F_impact
+
+τ_statique  = M × g × bras_levier_cuisse = 39 × 9.81 × 0.18 = 68.8 N.m
+F_dynamique = amplification cinétique (vitesse + accélération angulaire)
+F_impact    = pic à l'atterissage (contact du pied)
+
+À 4 km/h (phase de vol) :
+  F_dynamique ≈ 1.5,  F_impact ≈ 1.7  →  Total = 68.8 × 2.5 ≈ 172 N.m
+```
+
+**Décomposition du problème :**
+
+| Facteur | Contribution au problème | Levier disponible |
+| :--- | :---: | :---: |
+| **Masse du robot** (39 kg) | Élevée | Faible (difficile à réduire) |
+| **Bras de levier cuisse** (0.18 m) | Modérée | Moyen (géométrie fixe) |
+| **Facteur dynamique** (×1.5) | Modérée | Fort (algorithme) |
+| **Facteur d'impact** (×1.7) | Élevée | Fort (mécanique + algorithme) |
+| **Couple disponible RS-04** (120 N.m) | N/A | Moyen (upgrade ou amplification) |
+
+**Déficit à combler : 172 − 120 = 52 N.m** (soit +43%)
+
+---
+
+### 12.2 Solution S1 — Optimisation Algorithmique de la Foulée (Gratuit, immédiat)
+
+**Principe** : Modifier le pattern de marche pour réduire les facteurs dynamique et d'impact, sans aucun changement matériel.
+
+#### Sous-option A — Cadence haute / Foulée courte
+```
+La relation torque-vitesse dépend de la longueur de foulée :
+τ ∝ L_foulée × cadence²
+
+Si on réduit L_foulée de 30% et augmente la cadence de 30% :
+τ_genou_course ≈ 172 × 0.70 ≈ 120 N.m  ← exactement au pic !
+
+⚠️ Mais : vitesse effective = L_foulée × cadence → inchangée si on compense.
+On peut descendre à 4 km/h avec ce pattern "saccadé" mais la démarche est peu naturelle.
+```
+
+#### Sous-option B — Flexion permanente des genoux (Crouch Gait)
+```
+Une légère flexion permanente (15-20°) réduit le bras de levier effectif :
+bras_levier_cuisse_crouché ≈ 0.18 × cos(15°) ≈ 0.174 m
+τ_statique_réduit = 39 × 9.81 × 0.174 ≈ 66.5 N.m (-3%)  → gain modeste
+```
+
+#### Sous-option C — Atterrissage sur l'avant-pied (Mid-foot strike)
+Le pic d'impact F_impact passe de ×1.7 à ×1.2 si on atterrit sur l'avant du pied plutôt que sur le talon (comme les coureurs naturels). La cheville absorbe une partie de l'énergie.
+```
+τ_genou_mid-foot ≈ 68.8 × 1.5 × 1.2 ≈ 124 N.m ← tout juste viable !
+```
+
+| Stratégie Algo | Réduction τ | Gain sur 172 N.m | Faisabilité |
+| :--- | :---: | :---: | :---: |
+| A. Foulée courte | ~15% | → ~146 N.m | ✅ Facile |
+| B. Crouch gait | ~3% | → ~167 N.m | ✅ Facile |
+| **C. Mid-foot strike** | **~28%** | **→ ~124 N.m** | ✅ Facile |
+| **A+C combiné** | **~40%** | **→ ~103 N.m** | ✅ **Sous la limite !** |
+
+> [!TIP]
+> **S1 seul (algorithmique) peut suffire** ! La combinaison foulée courte + mid-foot strike ramène le couple genou à ~103 N.m, soit sous les 120 N.m du RS-04. Vitesse de course atteignable : **4-5 km/h avec ce pattern**. C'est la solution zero cost à implémenter en premier.
+
+---
+
+### 12.3 Solution S2 — Mécanisme Tirant au Genou (Analogue à l'Ancienne Cheville)
+
+**Principe** : Déplacer le moteur RS-04 dans la **cuisse** (haut) et l'accoupler au genou via un **tirant (pushrod)** avec un ratio de levier > 1:1, à l'image du mécanisme de l'ancienne cheville K-Bot (ratio ~2:1). Cela amplifie le couple ET réduit la masse distale.
+
+```
+Couple effectif genou = τ_RS-04 × ratio_tirant
+Ratio cible pour 172 N.m : 172 / 120 = 1.43
+
+Un tirant avec ratio 1.5:1 (faisable mécaniquement) :
+τ_genou_effectif = 120 × 1.5 = 180 N.m > 172 N.m ✅
+
+Vitesse angulaire divisée par 1.5 → vitesse de genou réduite de 33%
+  → Vitesse max course légèrement réduite (compensé par la cadence)
+```
+
+**Impact sur les masses :**
+
+| Zone | Avant | Après | Δ |
+| :--- | :---: | :---: | :---: |
+| **Moteur genou** (position) | Genou (bas cuisse) | **Cuisse (milieu)** | Masse distale ↓ |
+| **Masse genou** | RS-04 = 870g | Mécanisme tirant = ~200g | **-670g par genou** |
+| **Masse cuisse** | 0g | RS-04 = 870g | +870g (centré) |
+| **Inertie de swing** | Élevée | **Réduite de ~30%** | ✅ Majeur |
+
+> [!IMPORTANT]
+> **S2 est extrêmement intéressant.** Non seulement il monte le couple à 180 N.m (suffisant pour courir), mais il réduit aussi l'inertie de balancement de la jambe — ce qui améliore la cadence de pas. C'est la même logique que le cardan de cheville. Inconvénient : modification structurelle importante de la cuisse.
+
+**Référence industrielle** : Le genou de l'Atlas (Boston Dynamics v2) utilise exactement ce principe : moteur en haut du tibia + parallélogramme de bielles pour le genou.
+
+---
+
+### 12.4 Solution S3 — SEA (Series Elastic Actuator)
+
+**Principe** : Intercaler un **ressort de raideur calibrée** entre la sortie du RS-04 et l'articulation du genou. Ce ressort stocke de l'énergie lors de la flexion (impact) et la restitue rapidement lors de la poussée (propulsion), permettant des pics de puissance **bien supérieurs** à la puissance nominale du moteur.
+
+```
+Fonctionnement :
+  IMPACT : pied touche le sol → genou fléchit → ressort se comprime
+           → moteur "tourne contre" le ressort lentement → accumulation d'énergie
+
+  POUSSÉE : le ressort se détend brusquement (<100ms) → couple instantané :
+            τ_pic ≈ k × θ_max  (k = raideur, θ_max = compression max)
+
+  Exemple avec k = 300 N.m/rad et compression max θ = 0.6 rad :
+  τ_SEA_pic = 300 × 0.6 = 180 N.m  ← sans dépasser 120 N.m sur le moteur !
+```
+
+**Comparaison SEA vs Direct Drive :**
+
+| Paramètre | Direct Drive (RS-04) | SEA (RS-04 + ressort) |
+| :--- | :---: | :---: |
+| Couple moteur max | 120 N.m | 120 N.m (inchangé) |
+| Couple pic articulaire | 120 N.m | **~180-250 N.m** (selon ressort) |
+| Puissance pic | ~2 kW | **~4-6 kW** (décharge rapide) |
+| Absorption d'énergie (impact) | ❌ (moteur brûlé ou arrêté) | ✅ Passif (ressort) |
+| Récupération d'énergie | ❌ | ✅ En partie (rendement ~65%) |
+| Poids | 870g | ~870 + 200g ressort = ~1 070g |
+| Complexité | ⭐ | ⭐⭐⭐ |
+
+> [!NOTE]
+> **Le SEA est la solution utilisée par Agility Robotics (Digit)** pour son genou. C'est l'approche la plus élégante thermodynamiquement, mais elle ajoute de la complexité de contrôle (il faut estimer la déformation du ressort pour connaître le couple réel) et une légère compliance qui peut rendre le contrôle de position moins précis.
+
+**Où placer le ressort ?**
+- **Option A** : Ressort en torsion coaxial à l'axe du genou (compact, poids ~150g)
+- **Option B** : Ressort linéaire dans le tirant (si S2+S3 combinés) — le plus efficace
+
+---
+
+### 12.5 Solution S4 — Double RS-04 en Parallèle
+
+**Principe** : Utiliser **2× RS-04 par genou** actionnant en parallèle le même axe — solution "brute force".
+
+```
+τ_total = 2 × 120 = 240 N.m > 172 N.m requis ✅ (marge +40%)
+```
+
+| Paramètre | 1× RS-04 | 2× RS-04 Parallèle |
+| :--- | :---: | :---: |
+| Couple pic | 120 N.m | **240 N.m** |
+| Poids ajouté | 870g | +870g = **1 740g/genou** |
+| Coût ajouté | $400 | +$400 = **$800/genou** |
+| Consommation | ~9A | ~18A |
+| Encombrement | Normal | ⚠️ 2× servos à loger |
+
+> [!WARNING]
+> **S4 est simple mais coûteux en masse et argent.** +1.74 kg par genou (×2 jambes = +3.48 kg) aggrave le problème d'inertie et augmente la masse totale du robot à ~42 kg, ce qui recrée du besoin de couple supplémentaire — boucle négative. À réserver si les autres solutions échouent.
+
+---
+
+### 12.6 Solution S5 — Tibia Carbone Flexible (Leg Spring)
+
+**Principe** : Remplacer le tibia rigide par un tibia en **fibre de carbone en forme de lame**, analogue aux prothèses de course (Ossür Cheetah, Ottobock). La lame stocke l'énergie à l'impact par déformation élastique et la restitue en poussée.
+
+```
+Énergie stockée : U = ½ × k_tibia × δ²
+Pour k = 5000 N/m et δ = 0.01 m (1 cm de flexion) :
+U = ½ × 5000 × 0.01² = 0.25 J / pas
+
+Puissance restituée sur 80ms (poussée) : P = 0.25 / 0.08 = ~3 W par pas
+= ~3 N.m de couple équivalent au genou (faible mais gratuit)
+
+Impact plus significatif : réduction du pic F_impact de ×1.7 à ×1.3
+→ τ_genou_course = 68.8 × 1.5 × 1.3 = 134 N.m  (au lieu de 172 N.m)
+```
+
+| Avantage | Valeur |
+| :--- | :--- |
+| Réduction couple genou | ~22% (172 → 134 N.m) |
+| Masse | **Neutre ou négatif** (carbone plus léger que PA12-CF) |
+| Coût | ~50-150€ (lame carbone sur mesure ou achetée) |
+| Esthétique | ⚠️ Non-anthropomorphe (look prothèse) |
+| Compatibilité | ✅ Aucun changement moteur ni algo |
+
+> [!TIP]
+> **S5 + S1 (mid-foot strike)** est une combinaison puissante : 172 × 0.78 (S5) × 0.72 (S1) = **96 N.m** — sous la limite RS-04, pour un coût minime !
+
+---
+
+### 12.7 Tableau Comparatif — Toutes Solutions
+
+| Solution | τ_genou Atteignable | Coût | Masse Ajoutée | Complexité | Délai |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **S1A+C. Algo mid-foot + foulée** | **~103 N.m** | **0€** | **0g** | ⭐ | Immédiat |
+| **S5+S1. Tibia carbone + algo** | **~96 N.m** | **~100€** | **-50g** | ⭐⭐ | Semaines |
+| **S2. Tirant genou (cuisse)** | **~180 N.m** | **~150€** | **-670g** | ⭐⭐⭐ | Mois |
+| **S3. SEA ressort série** | **~200 N.m** | **~200€** | **+200g** | ⭐⭐⭐⭐ | Mois |
+| **S2+S3. Tirant + SEA** | **~270 N.m** | **~350€** | **-470g** | ⭐⭐⭐⭐⭐ | Long |
+| **S4. 2× RS-04 parallèle** | **~240 N.m** | **+$400** | **+870g** | ⭐⭐ | Rapide |
+
+### 12.8 Recommandation par Phase
+
+| Phase D-Bot | Recommandation | Vitesse Course Cible |
+| :--- | :--- | :---: |
+| **V1 (maintenant)** | **S1 algorithmique** (mid-foot strike + foulée courte) | ~4 km/h |
+| **V2 (6 mois)** | **S5** (tibia carbone) + **S1** | ~5-6 km/h |
+| **V3 (1 an)** | **S2** (tirant genou) ou **S3** (SEA) | ~8-10 km/h |
+| **V4 (ambitieux)** | **S2 + S3** (tirant + SEA) | > 10 km/h |
+
+> [!IMPORTANT]
+> **Priorité absolue V1 : l'algorithme de marche.** La stratégie mid-foot strike est gratuite, implémentable en logiciel pur, et peut rendre la course viable à 4 km/h sans aucune modification mécanique. C'est le chantier n°1 dès que la marche est validée. S5 (tibia carbone) est le quickwin matériel le plus rentable.
+
+---
+*Section ajoutée en Mars 2026. Analyse basée sur τ_genou_course = 172 N.m (39 kg, 4 km/h, facteur dynamique ×2.5), limite RS-04 = 120 N.m.*
