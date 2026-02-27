@@ -1,46 +1,144 @@
-# Étude et Conception de la Cheville du D-Bot (Architecture Cardan)
+# Étude Cheville D-Bot — Historique Évolutif & Architecture Cardan
 
-Ce document résume l'étude détaillée concernant la reconception de la cheville du robot bipède (approx. 35 kg), basée sur les analyses mécaniques récentes et visant à remplacer la rotule radiale GE12UK par un système de cardan (Gimbal) couplé à une cinématique différentielle.
+Ce document retrace l'évolution des solutions envisagées pour la cheville du D-Bot, puis détaille l'architecture finale retenue : un **cardan central DIN 808** couplé à un **système différentiel à 2 bielles** (type Optimus), actionné par **2× RS-03 par cheville**.
 
-## 1. Contexte et Problématique Initiale
+---
 
-La rotule radiale **GE12UK** initialement envisagée pour le pivot central de la cheville présente une forte limite cinématique. Son **débattement maximal de 15°** (en Pitch et Roll) est un "goulot d'étranglement". 
-Pour un humanoïde de 35 kg, ce débattement est insuffisant pour monter des pentes, s'accroupir ou simplement marcher de façon fluide. Le mécanisme risque d'arriver rapidement en butée mécanique, ce qui pourrait briser les pièces imprimées en 3D (PA12-CF) ou griller les moteurs sous l'effort.
+## 1. Historique des Solutions Étudiées
 
-## 2. La Nouvelle Architecture : Cheville Différentielle à Cardan
+L'architecture de la cheville a traversé cinq itérations avant d'aboutir au design final.
 
-L'étude conclut sans appel qu'il faut séparer les axes de liberté (Pitch et Roll) en utilisant un **joint de cardan (Gimbal)** comme pivot central.
-La cheville fonctionnera en "Trépied" avec un mécanisme à tringlerie parallèle différentiel (type Optimus) :
-- **Le Pivot Central (Cardan)** : Supporte 100% du poids du robot (35 kg). Permet un débattement très élevé (ex: +30°/-45° en Pitch) sans butée structurelle précoce.
-- **Les 2 Bielles (Pushrods) à l'arrière** : Reliées aux moteurs. Un mouvement synchrone crée le tangage (Pitch), un mouvement asynchrone crée le roulis (Roll).
+### Étape 1 — K-Bot Standard (Architecture de Base)
+Le K-Bot original utilise un seul **RS-02 monté en haut du tibia**, actionné via un mécanisme de **tirant (pushrod)** avec un ratio de levier ~2:1.
+- **Couple effectif** : ~34 N.m (17 N.m × 2)
+- **DOF** : 1 seul (Pitch)
+- **Roll** : ❌ Absent
+- **Problème** : Pas de stabilité latérale, marche uniquement sur sol plat.
 
-### Le Choix des Moteurs
-Pour un robot de 35 kg, la configuration recommandée est : **2 x Moteurs RobStride RS-03 par cheville**. 
-Bien que plus lourds, ils offrent ensemble un **couple de pointe en Pitch de 120 N.m**, une réserve vitale pour la stabilisation dynamique et pour compenser l'énorme charge d'impact lors d'un pas (jusqu'à 870 N). L'utilisation de petits moteurs RS-02 (34 N.m max en paire) ou RS-06 est jugée insuffisante ou trop juste pour ce poids.
+### Étape 2 — Rotule GE12UK (Premier Pivot Envisagé)
+Tentative d'ajout d'un pivot central avec une **rotule radiale GE12UK** (roulement lisse sphérique).
+- **Débattement** : ±15° seulement
+- **Problème** : Débattement insuffisant pour marcher sur des pentes, s'accroupir ou absorber les chocs. Le mécanisme arrive en butée mécanique rapidement, risquant de casser les pièces PA12-CF ou de griller les moteurs.
+- **Verdict** : ❌ Écarté — limite cinématique trop basse.
 
-## 3. Achats et Recommandations de Montage
+### Étape 3 — Ajout RS-00 Roll Direct-Drive (D-Bot V1)
+Ajout d'un **RS-00** (14 N.m, 310g) monté directement à la cheville pour le Roll, en conservant le RS-02+tirant pour le Pitch.
+- **DOF** : 2 (Pitch + Roll)
+- **Avantage** : Simple à implémenter, assemblage trivial.
+- **Problème** : 310g de masse distale (inertie oscillante), RS-02+tirant toujours limité à ~34 N.m pour le Pitch (marche rapide impossible).
+- **Analyse** : Voir [Analyse Biomécanique §7](./15_Analyse_Biomecanique.md).
 
-### A. Le Joint de Cardan 
-Il est crucial d'utiliser un modèle industriel en acier haute résistance (type Acier C45) pour un axe de 12 mm.
-- **Modèle Recommandé** : Joint de cardan simple **Série G** (douilles lisses, plus résistantes aux chocs que les aiguilles de la Série H). Norme DIN 808.
-- **Où acheter en France** :
-  - **Michaud Chailly** (Référence : A5-473-12, qualité premium).
-  - **HPC Europe** (Référence : UJ-12).
+### Étape 4 — RS-06 "Sweet Spot" avec Tirant (D-Bot V2)
+Remplacement du RS-02 par un **RS-06** (36 N.m, 621g) dans le tibia, avec tirant.
+- **Couple Pitch effectif** : ~72 N.m (36 × 2)
+- **Avantage** : Double le couple pour seulement +75g, marche rapide possible.
+- **RS-00 Roll conservé** (14 N.m).
+- **Analyse** : Voir [Cinématique §4.5](./14_Cinematique_Moteurs.md).
+- **Verdict** : ⚠️ Solution correcte mais le Roll reste au pic en marche rapide.
 
-### B. Fixation et Maintien Axial de l'Axe de 12 mm
-L'axe en acier rectifié (12mm h6) ne doit ni tourner à l'intérieur du cardan (transmission du couple), ni glisser sous l'effet des vibrations (maintien axial).
-1. **Transmission du Couple** : Privilégier un **montage par rainure de clavette (Keyway)**. Ce standard de transmission de puissance (souvent avec une clavette de 4 mm de large) est indestructible. Il faut commander le cardan avec cette option (ex: **Michaud Chailly DIN 808 Finition JS / Série A5-473 avec option "Rainure"**) et acheter un axe de 12 mm déjà rainuré, ainsi que la clavette correspondante. Le montage avec vis de pression sur un méplat (anciennement envisagé) est **déconseillé** car trop contraignant à réaliser (usinage d'un acier trempé) et moins robuste face aux chocs.
-2. **Maintien Axial** : La vis de pression et la clavette ne suffiront pas pour encaisser les chocs latéraux (Roll). Il faut ajouter des **Bagues d'arrêt (Shaft Collars)** en acier, en deux parties (fendues), de chaque côté du cardan.
-   - **Où acheter** : **HPC Europe** (BAG2-012) ou **Michaud Chailly / Ruland** (F2-39-12). Vis de classe 12.9.
+### Étape 5 — Architecture Cardan + Double Bielles (RETENUE ✅)
+Abandon du tirant au profit d'un **cardan central** (DIN 808, acier C45) + **2 bielles rotulées** actionnées par **2× RS-03** par cheville.
+- **Couple Pitch** : 120 N.m (2× 60 N.m en mode synchrone)
+- **Couple Roll** : 120 N.m (2× 60 N.m en mode différentiel)
+- **Masse distale** : ~0g (moteurs en haut du tibia)
+- **Inspiré de** : Tesla Optimus (mécanisme à bielles parallèles)
+- **Verdict** : ✅ **Architecture finale du D-Bot.**
 
-### C. Entretien et Protection (Soufflet)
-- **Le Soufflet** : Acheter un petit **soufflet de protection en néoprène** (souvent vendu en option avec le cardan sur RS, Michaud ou HPC). Il est indispensable pour protéger l'articulation (située au ras du sol) de la poussière et pour qu'elle ne prenne pas de jeu prématurément.
+---
 
-### D. Les Bielles (Pushrods) et Rotules Arrière
-- **Bielles** : Tubes en de Carbone 3K (Ø ext 10mm / Ø int 8mm) pour une excellente rigidité sous pression sans flambement.
-- **Rotules d'extrémités** : Embouts M5. **EBRM-05** d'Igus (très léger, polymère) ou **SAK 5 C** (acier/PTFE sur 123Roulement) pour absorber les vibrations.
+## 2. Architecture Retenue — Cheville Différentielle à Cardan
 
-## 4. Conclusion
+### Principe de Fonctionnement
 
-Pour garantir la durabilité du D-Bot (35 kg et 10 kg de charge utile), le passage d'une simple rotule radiale GE12UK à un **joint de cardan DIN 808 industriel couplé à un système d'actionneurs différentiels (2x RS-03)** est indispensable. 
-Le montage de la cheville doit rigoureusement intégrer des bagues d'arrêt en acier usiné pour empêcher la dislocation axiale, du frein filet pour parer aux vibrations, et des tubes de carbone rigides pour les bielles de transmission. L'ajout de 4 capteurs de force plantaire (FSR) sous le pied imprimé en PA12-CF finalisera alors l'aptitude du robot à s'équilibrer de manière autonome.
+La cheville fonctionne en "trépied" :
+- Le **Cardan Central** : Supporte 100% du poids du robot (~38-40 kg). Il permet un débattement très élevé (+30°/−45° en Pitch, ±25° en Roll) sans butée structurelle.
+- Les **2 Bielles (Pushrods) à l'Arrière** : Reliées chacune à un RS-03 monté en haut du tibia.
+
+```
+      ┌─────┐
+      │GENOU│
+      └──┬──┘
+         │
+    ╔════╧════╗   ╔════╧════╗
+    ║ RS-03 A ║   ║ RS-03 B ║  ← 2 moteurs HAUT du tibia
+    ╚════╤════╝   ╚════╤════╝    (chacun 60 N.m pic, 880g)
+         │             │
+         │ Bielle A    │ Bielle B    ← Tubes carbone 3K
+         │ (rotule M5) │ (rotule M5)   Ø10/8mm
+         │             │
+         ╰──────┬──────╯
+                │
+           ╔════╧════╗
+           ║ CARDAN  ║  ← DIN 808, Série G, Acier C45
+           ║ (pivot) ║    Supporte 100% du poids
+           ╚════╤════╝
+           ┌────┴────┐
+           │  PIED   │
+           └─────────┘
+
+    A↓ + B↓ (même sens)    = PITCH (flexion/extension)
+    A↓ + B↑ (sens opposé) = ROLL  (inversion/éversion)
+```
+
+### Bilan des Performances
+
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Couple Pitch effectif** | 120 N.m (2× RS-03 synchrones) |
+| **Couple Roll effectif** | 120 N.m (2× RS-03 différentiels) |
+| **Marge vs besoin statique (33 N.m)** | **+260%** |
+| **Masse distale** | ~0g (moteurs haut du tibia) |
+| **Débattement Pitch** | +30° / −45° |
+| **Débattement Roll** | ±25° |
+| **DOF total jambe** | 6 (Hanche P/R/Y + Genou + Cheville P/R) |
+| **Moteurs par jambe** | 6 (2× RS-04 + 2× RS-03 hanche + 2× RS-03 cheville) |
+
+---
+
+## 3. Achats et Montage
+
+### A. Joint de Cardan Central
+Joint de cardan simple **Série G** (douilles lisses, résistantes aux chocs), norme DIN 808, acier C45, axe 12 mm.
+- **Mouvement** : la transmission de couple se fait par montage à **rainure de clavette (Keyway)** de 4 mm.
+- **Fournisseurs France** :
+  - **Michaud Chailly** : Réf. A5-473-12 (qualité premium, option rainure).
+  - **HPC Europe** : Réf. UJ-12.
+
+### B. Fixation et Maintien Axial
+L'axe en acier rectifié (12mm h6) doit être immobilisé axialement :
+- **Bagues d'arrêt (Shaft Collars)** en acier, 2 parties (fendues), de chaque côté du cardan.
+  - **HPC Europe** : BAG2-012 ou **Michaud Chailly / Ruland** : F2-39-12. Vis de classe 12.9.
+
+### C. Bielles (Pushrods) et Rotules
+- **Bielles** : Tubes carbone 3K (Ø ext 10mm / Ø int 8mm) — rigidité maximale, pas de flambement.
+- **Rotules d'extrémité** : Embouts M5.
+  - **Igus EBRM-05** (polymère, ultra léger)
+  - **SAK 5 C** (acier/PTFE, sur 123Roulement).
+
+### D. Protection (Soufflet)
+Soufflet de protection en néoprène (vendu en option avec le cardan chez RS, Michaud ou HPC). Indispensable pour protéger l'articulation de la poussière.
+
+---
+
+## 4. Impact sur la Configuration Globale
+
+L'adoption de cette architecture modifie la configuration moteur des jambes :
+
+| Articulation | Moteur | Qté (×2 jambes) | Couple | Note |
+| :--- | :---: | :---: | :---: | :--- |
+| Hanche Pitch | RS-04 | 2 | 120 N.m | Inchangé (K-Bot) |
+| Hanche Roll | RS-03 | 2 | 60 N.m | Inchangé |
+| Hanche Yaw | RS-03 | 2 | 60 N.m | Inchangé |
+| Genou Pitch | RS-04 | 2 | 120 N.m | Inchangé |
+| **Cheville A** | **RS-03** | **2** | **60 N.m** | **NOUVEAU** (remplace RS-02 tirant) |
+| **Cheville B** | **RS-03** | **2** | **60 N.m** | **NOUVEAU** (remplace RS-00 Roll) |
+
+**Total moteurs jambes** : 12 (au lieu de 10 pour K-Bot + 2 RS-00 Roll précédents)
+**Surpoids** : +2× (880g − 405g) + 2× (880g − 310g) = +950g + 1140g = **+2.09 kg** vs V1.
+**Surcoût** : +2× ($250 − $160) + 2× ($250 − $135) = +$180 + $230 = **+$410** vs V1.
+
+> [!IMPORTANT]
+> **Ce surpoids est en position BASSE (tibia)**, donc l'impact sur le centre de gravité est minimal. L'avantage de couple (+260% de marge) et la suppression de toute masse distale (~0g vs 310g/cheville) compensent largement.
+
+---
+*Étude réalisée en Février 2026. Basée sur les analyses biomécaniques documentées dans les Annexes 14 et 15.*

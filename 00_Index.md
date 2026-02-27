@@ -101,12 +101,17 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Exigences d'usinage aluminium (tolérances H7, fluage PA-CF).
     *   Acquisition, outillage et méthodes (Threading Milling).
 
-21. **[Étude Main Robotique](./21_Etude_Main_Robotique.md)**
-    *   Design Hybride D-Hand (Tendons + QDD avant-bras).
-    *   Choix moteurs (CubeMars GL30) vs alternatives.
-    *   Réducteur Cycloïdal 15:1 usiné CNC.
+21. **[Étude Cheville Cardan](./20_Etude_Cheville_Cardan.md)**
+    *   Historique évolutif (GE12UK → Série → RS-06 → **Cardan DIN 808**).
+    *   Architecture retenue : 2× RS-03 + double bielles (type Optimus).
+    *   Achats : cardans Michaud Chailly, bielles carbone, rotules Igus.
 
-22. **[Usinage CNC C500](./22_Usinage_CNC_C500.md)**
+22. **[Étude Main Robotique — D-Hand Premium](./21_Etude_Main_Robotique.md)**
+    *   8 DOF, servos **Dynamixel XC330-T288-T** dans l'avant-bras.
+    *   Tendons Dyneema, poulies CNC, grip ~80-100 N.
+    *   Feuille de route et intégration logicielle (Dynamixel SDK + ROS 2).
+
+23. **[Usinage CNC C500](./22_Usinage_CNC_C500.md)**
     *   Outils métal DLC et règles d'ébavurage (H7).
     *   Danger des collets : Séparation Impérial vs Métrique.
     *   Gestion intelligente des porte-outils (RFID).

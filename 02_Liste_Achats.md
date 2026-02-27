@@ -46,11 +46,19 @@
 | :--- | :--- | :--- | :--- |
 | **Robstride 04** | 4 | **120 Nm** | Hanches Pitch + Genoux |
 | **Robstride 03** | 4 | **60 Nm** | Hanches Roll/Yaw |
-| **Robstride 03** | 2 | **60 Nm** | Chevilles Pitch (upgrade vs K-Bot) |
-| **Robstride 00** | 2 | **14 Nm** | Chevilles Roll (**NOUVEAU**, compact, stabilité latérale) |
+| **Robstride 03** | 4 | **60 Nm** | Chevilles Pitch+Roll (**2× par cheville**, architecture cardan + bielles) |
 | **Robstride 05** | 2 | **5.5 Nm** | Cou Pan/Tilt |
 
-> **Note** : Configuration basée sur l'Option D-Révisée "D-Bot Maximal" (24 DOF). Voir [Analyse Biomécanique](./15_Analyse_Biomecanique.md) pour le détail et les alternatives.
+> **Note** : Architecture cheville = Cardan DIN 808 + 2× RS-03 par cheville (différentiel Pitch/Roll). Voir [Étude Cheville](./20_Etude_Cheville_Cardan.md) pour le détail.
+
+### Phase 5 : Mains (16 DOF — 8 par main)
+| Modèle | Quantité | Couple (Peak) | Usage |
+| :--- | :--- | :--- | :--- |
+| **Dynamixel XC330-T288-T** | 16 | **1.0 Nm** | Actionnement par tendons (8 DOF / main) |
+| **U2D2** (USB↔Dynamixel) | 2 | — | Interface bus TTL (1 par main) |
+| **Buck 48V→12V** | 2 | — | Alimentation servos main |
+
+> **Note** : Voir [Étude Main Robotique](./21_Etude_Main_Robotique.md) pour l'architecture D-Hand Premium.
 
 ### Autres Composants Électroniques
 | Composant | Modèle | Quantité | Note |

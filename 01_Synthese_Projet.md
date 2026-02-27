@@ -51,16 +51,30 @@ graph TD
     end
 ```
 
-## 4. Plateforme de Fabrication (Qidi Plus 4)
-La Qidi Plus 4 a été choisie pour sa capacité à imprimer des matériaux techniques à haute température.
+## 4. Plateforme de Fabrication (Stratégie Hybride)
 
-- **Matériau Recommandé** : PETG-CF (Facile à imprimer, rigide, esthétique carbone).
-- **Paramètres Critiques** :
-  - **Chambrages (Counterbore)** : Indispensables pour noyer les têtes de vis.
-  - **Tolérances** : Marge de 0.5mm sur les diamètres de perçage vis.
-  - **Remplissage** : 100% pour les pièces de force (hanches, épaules), 40% gyroid pour les coques esthétiques.
-  - **Connectivité & Réseau** : TP-Link Archer T3U (AC1300 Mbps, USB 3.0, MU-MIMO). Indispensable pour stabiliser la connexion Klipper sur 5GHz.
-- **Détails Complets** : Voir le **[Guide Avancé Impression 3D](./09_Guide_Avance_Impression.md)**.
+Le D-Bot utilise une approche **Squelette Aluminium CNC + Coque Imprimée 3D** pour combiner la résistance mécanique aux endroits critiques et la facilité de fabrication partout ailleurs.
+
+### Machines Disponibles
+- **Qidi X-Plus 4** : Impression 3D haute température (PA12-CF, PETG-CF).
+- **NestWorks C500** : CNC 4 axes, usinage aluminium avec tolérances H7 (±0.02mm).
+
+### Répartition des Matériaux par Zone
+
+| Zone | Matériau | Machine | Justification |
+| :--- | :--- | :---: | :--- |
+| Brackets hanches/genoux (RS-04) | **Alu 6061/7075 CNC** | C500 | 120 N.m de couple, plastics insuffisants |
+| Brackets épaules (RS-03) | **Alu 6061 CNC** | C500 | Porte-à-faux du bras |
+| Pied / semelle structurelle | **PA12-CF** 100% | Qidi | Résistance aux chocs, rigidité |
+| Tibia / avant-bras | **PA12-CF** ou **Alu tubulaire** | Qidi/C500 | Rigidité en flexion |
+| Torse (structure interne) | **PA12-CF** 100% | Qidi | Grande surface, CNC trop coûteuse |
+| Coques extérieures (torse, bras) | **PETG-CF** 40% gyroid | Qidi | Esthétique carbone, léger |
+| Tête (boîtier capteurs) | **PETG-CF** 60% | Qidi | Masse à minimiser |
+| Phalanges main | **PA12-CF** → Alu 7075 (V2) | Qidi/C500 | Évolutif avec la C500 |
+
+- **Masse totale estimée** : ~**38-40 kg** (configuration cardan, 2× RS-03 par cheville).
+- **Détails Impression** : Voir le **[Guide Avancé Impression 3D](./09_Guide_Avance_Impression.md)**.
+- **Détails CNC** : Voir l'**[Usinage CNC C500](./22_Usinage_CNC_C500.md)**.
 
 ## 5. Points de Vigilance Critique (Audit Discussion)
 -   **Motorisation** : Le couple de pointe (Peak Torque) des RS-04 (hanches/genoux) atteint 120 Nm. La structure doit être en PA12-CF ou Aluminium 6061.
