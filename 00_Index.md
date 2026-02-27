@@ -69,10 +69,16 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Tableau comparatif RobStride (RS-00 à RS-06).
     *   Couple, Poids, Prix et Applications.
 
-15. **[Analyse Biomécanique & Évolutions](./15_Analyse_Biomecanique.md)**
-    *   Analyse capacités de marche (lente, rapide, course).
-    *   Évaluation portage (bras tendu vs plié).
-    *   Propositions d'upgrade moteurs (RobStride + alternatives).
+15. **[Analyse Biomécanique — Hub de Navigation](./15_Analyse_Biomecanique.md)**
+    *   15a — [Locomotion & Portage Baseline](./15a_Analyse_Locomotion_Baseline.md)
+    *   15b — [Configurations Moteurs & Évolutions (Options A/B/C/D)](./15b_Configurations_Moteurs.md)
+    *   15c — [Révision Cardan 39 kg](./15c_Revision_Cardan_39kg.md)
+    *   15d — [Genou & Course — 5 Solutions](./15d_Genou_et_Course.md)
+
+16. **[Conclusions & Architecture Finale D-Bot](./16_Conclusions_Architecture_DBot.md)**
+    *   Décisions définitives par articulation (cheville, genou, hanche, bras, main).
+    *   Performances globales estimées (vitesse, charge, grip).
+    *   Points d'attention V1 et roadmap évolution.
 
 ---
 
