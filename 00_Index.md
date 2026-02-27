@@ -101,5 +101,16 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Exigences d'usinage aluminium (tolérances H7, fluage PA-CF).
     *   Acquisition, outillage et méthodes (Threading Milling).
 
+21. **[Étude Main Robotique](./21_Etude_Main_Robotique.md)**
+    *   Design Hybride D-Hand (Tendons + QDD avant-bras).
+    *   Choix moteurs (CubeMars GL30) vs alternatives.
+    *   Réducteur Cycloïdal 15:1 usiné CNC.
+
+22. **[Usinage CNC C500](./22_Usinage_CNC_C500.md)**
+    *   Outils métal DLC et règles d'ébavurage (H7).
+    *   Danger des collets : Séparation Impérial vs Métrique.
+    *   Gestion intelligente des porte-outils (RFID).
+
+
 ---
 *Documentation exhaustive générée et auditée en Février 2026.*

@@ -29,6 +29,8 @@ files_to_read = [
     ('18_Annexe_Batterie_Comparatif.md', 'Annexes', '18_Annexe_Comparatif'),
     ('20_Etude_Cheville_Cardan.md', 'Annexes', '20_Etude_Cheville'),
     ('21_Etude_Usinage_CNC_Milo.md', 'Annexes', '21_Etude_Usinage_CNC_Milo'),
+    ('21_Etude_Main_Robotique.md', 'Annexes', '21_Etude_Main_Robotique'),
+    ('22_Usinage_CNC_C500.md', 'Annexes', '22_Usinage_CNC_C500'),
 ]
 
 def generate_portal():
