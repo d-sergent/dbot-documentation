@@ -110,34 +110,77 @@ La course est **impossible** dans la configuration K-Bot de base :
 
 C'est le **cas le plus défavorable** car le bras-de-levier est maximal.
 
-#### Modèle Mécanique (Bras Tendu)
-```
-Bras total ≈ 47 cm (25 cm bras + 22 cm avant-bras)
+#### Masses Actualisées du Bras (avec D-Hand Premium)
 
-Couple épaule = (Masse_bras × g × L/2) + (Masse_charge × g × L_total)
+| Segment | Masse Ancienne | Masse Actuelle | Δ |
+| :--- | :---: | :---: | :---: |
+| Bras (épaule → coude) | ~2.5 kg | ~2.5 kg | — |
+| Avant-bras (coude → poignet) | ~1.5 kg | ~1.5 kg | — |
+| **8× Dynamixel XC330 (dans avant-bras)** | 0 | **+0.184 kg** | +184g |
+| **Structure main + poulies + tendons** | 0 | **+0.250 kg** | +250g |
+| **Total avant-bras + main** | ~1.5 kg | **~1.93 kg** | +434g |
+| **Total bras complet** | ~3 kg | **~4.43 kg** | +1.43 kg |
+
+#### Modèle Mécanique Mis à Jour (Bras Tendu)
+
+```
+L_bras = 0.25 m,  L_avant-bras = 0.22 m
+
+Couple épaule (bras seul) =
+    M_bras × g × (L_bras / 2) + M_avant-bras+main × g × (L_bras + L_avant-bras / 2)
+  = 2.5 × 9.81 × 0.125 + 1.93 × 9.81 × (0.25 + 0.11)
+  = 3.07 + 6.82
+  = ~9.9 N.m   ← quasi identique à l'ancien (~10 N.m), car +0.43 kg × 0.36 m ≈ +1.5 N.m
+                  compensé par la redistribution de masse
+
+Avec charge externe (L = 0.47 m) :
+  Couple épaule total = 9.9 + M_charge × 9.81 × 0.47
 ```
 
 | Charge Portée | Couple Épaule Requis | Couple Dispo (RS-03) | Verdict |
 | :---: | :---: | :---: | :---: |
-| **0 kg** (bras seul) | ~10 N.m | 60 N.m pic / 20 N.m nom. | ✅ OK |
-| **1 kg** | ~15 N.m | 60 / 20 N.m | ✅ OK |
-| **2 kg** | ~19 N.m | 60 / 20 N.m | ⚠️ Limite nominale |
-| **3 kg** | ~24 N.m | 60 / 20 N.m | ⚠️ Au-dessus nominal |
-| **5 kg** | ~33 N.m | 60 / 20 N.m | ❌ > 1.5× nominal |
-| **10 kg** | ~55 N.m | 60 / 20 N.m | ❌ Presque pic, **dangereux** |
+| **0 kg** (bras + main seuls) | ~9.9 N.m | 60 N.m pic / 20 N.m nom. | ✅ OK |
+| **1 kg** | ~14.5 N.m | 60 / 20 N.m | ✅ OK |
+| **2 kg** | ~19.2 N.m | 60 / 20 N.m | ⚠️ Limite nominale |
+| **2.1 kg** | ~20 N.m | 60 / **20 N.m** nom. | 🎯 **Limite nominale exacte** |
+| **3 kg** | ~23.8 N.m | 60 / 20 N.m | ⚠️ Au-dessus nominal |
+| **5 kg** | ~33.1 N.m | 60 / 20 N.m | ❌ > 1.5× nominal |
+| **10 kg** | ~56.2 N.m | 60 / 20 N.m | ❌ Presque pic |
 
 > [!IMPORTANT]
-> **Limite de portage à bout de bras** : ~**2 kg en continu** (couple nominal) et ~**5 kg momentanément** (pic). Les 10 kg annoncés par K-Scale ne sont possibles que **bras plié** (coude fléchi à 90°) ce qui divise le bras-de-levier par 2.
+> **Limite de portage à bout de bras : inchangée.** L'ajout de la D-Hand (+434g) ne modifie pas significativement la capacité de portage (décalage de seulement ~1.5 N.m supplémentaire à l'épaule). La limite reste **~2 kg en continu** (couple nominal RS-03 = 20 N.m) et ~**5 kg momentanément** (pic 60 N.m).
+
+> [!NOTE]
+> **Pourquoi l'impact est si faible ?** Les moteurs XC330 (184g) sont dans l'avant-bras, à ~36 cm de l'épaule. La main (250g) est à ~47 cm. Le bras de levier crée seulement +1.5 N.m supplémentaire sur l'épaule — négligeable face aux 60 N.m disponibles au pic.
 
 ### 3.2 Portage Bras Plié (Coude 90°)
 
+```
+Avant-bras horizontal (coude à 90°) : L_avant-bras = 0.22 m
+
+Couple coude (avant-bras seul) = M_avant-bras+main × g × L_avant-bras / 2
+                                = 1.93 × 9.81 × 0.11
+                                ≈ 2.1 N.m   (était ~0.8 N.m, +1.3 N.m)
+
+Disponible pour charge : RS-02 (17 N.m) - 2.1 = **14.9 N.m**
+  → Max charge coude : 14.9 / (0.22 m) = ~68 N ≈ **6.8 kg au coude**
+```
+
 | Charge Portée | Couple Épaule Requis | Couple Coude Requis | Verdict |
 | :---: | :---: | :---: | :---: |
-| **5 kg** | ~24 N.m | ~11 N.m | ✅ Faisable |
-| **10 kg** | ~38 N.m | ~22 N.m | ⚠️ Coude au pic (RS-02: 17 N.m) |
+| **0 kg** (avant-bras seul) | ~14.7 N.m | ~2.1 N.m | ✅ OK |
+| **5 kg** | ~26.3 N.m | ~13.1 N.m | ✅ OK (RS-02 : 17 N.m pic) |
+| **7 kg** | ~33.3 N.m | ~17.5 N.m | ⚠️ Coude RS-02 au pic |
+| **10 kg** | ~44.3 N.m | ~24.1 N.m | ❌ Coude RS-02 dépassé |
 
 > [!WARNING]
-> **Le coude (RS-02, 17 N.m pic) est un goulot d'étranglement** pour le portage lourd. Porter 10 kg bras plié nécessite ~22 N.m au coude, ce qui dépasse le pic du RS-02.
+> **La D-Hand augmente la charge propre de l'avant-bras de +434g**, ce qui réduit légèrement la capacité de portage bras plié. Le coude RS-02 atteint son pic à ~7 kg de charge (au lieu de ~9 kg avant). La limite pratique reste **5 kg bras plié en sécurité**.
+
+> [!TIP]
+> **Upgrade coude RS-02 → RS-06** (36 N.m au lieu de 17 N.m) : Avec la D-Hand, la limite bras plié passerait à **~15 kg** avec un RS-06. Cost : +$70. Voir [Config Biomécanique Option C §8](./15_Analyse_Biomecanique.md#8-configurations-finales-révisées).
+
+---
+*Mis à jour Mars 2026 : Prise en compte de la D-Hand Premium (8× XC330, +0.184 kg + structure +0.250 kg = +0.434 kg total avant-bras).*
 
 ---
 
