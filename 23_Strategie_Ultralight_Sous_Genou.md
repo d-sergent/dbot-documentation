@@ -12,8 +12,23 @@ Voici la stratégie d'ingénierie optimisée composant par composant.
 
 * **❌ À proscrire** : Un tibia usiné en bloc d'aluminium (trop lourd, inertie catastrophique).
 * **✅ Option 1 (Full 3D Print)** : Impression sur la Qidi en **PA12-CF** (Nylon chargé carbone). Le nylon offre l'absorption des chocs (évite la rupture nette) et la fibre de carbone apporte la rigidité. *Paramètres : Remplissage gyroid 30%, 5-6 périmètres extérieurs.*
-* **🏆 Option 2 (Hybride Pro — Recommandée)** : Utiliser un **tube en fibre de carbone tressé** du commerce (ex: Ø40mm, ép. 2mm). Le rapport poids/rigidité est imbattable.
-  * **Intégration** : Imprimer des "bouchons" structurels en PA12-CF sur la Qidi, et les coller à l'époxy structurale (Loctite EA) aux deux extrémités de ce tube. Ces bouchons feront la liaison avec l'axe du genou (haut) et le cardan (bas).
+* **🏆 Option 2 (Hybride Pro — Recommandée)** : Utiliser un **tube en fibre de carbone tressé** du commerce (ex: Ø40mm ext / Ø36mm int, épaisseur 2mm). Le rapport poids/rigidité est imbattable.
+  
+  **Où acheter le tube carbone Ø40mm ?**
+  - **Spécifications requises** : Finition sergé (Twill) 3K, procédé **"Roll-wrapped"** (fibres croisées préimprégnées) impératif ! Ne jamais acheter du pultrudé (fibres axiales uniquement) pour un tibia, il fendrait sous l'effort.
+  - **Fournisseurs** : Boutiques spécialisées ULM/Drones/RC comme *CarbonTube.net*, *EasyComposites*, ou sur *AliExpress* (boutiques certifiées matériaux composites comme *RJX Hobby*).
+  - *Note : Une longueur de 500 mm suffit largement pour y découper les 2 tibias (longueur estimée ~220 mm).*
+
+  **A. Montage complet HAUT (Connexion au Genou RS-04)**
+  1. **Le Bouchon Haut (Plug PA12-CF)** : Pièce en "T" imprimée en 3D (Qidi). La jupe du bouchon (Ø36mm) s'insère en force dans le tube carbone sur environ 30 mm de profondeur.
+  2. **Collage Époxy Structural** : Dépolir l'intérieur du tube carbone avec du papier de verre (grain 120), nettoyer à l'isopropanol. Enduire la jupe du bouchon de résine époxy bicomposant longue durée (ex: Loctite EA 9466 ou DP490) puis emmancher. L'immense surface de contact (~34 cm²) rend cet joint virtuellement indestructible en traction/compression.
+  3. **Interface Moteur (Bracket Alu)** : Une pièce CNC en Aluminium (C500) fait la liaison entre le chapeau du Moteur Genou RS-04 et ce bouchon PA12-CF.
+  4. **Assemblage Mécanique** : 4 longues vis M4 ou M5 traversent verticalement la pièce aluminium, traversent l'épaulement du bouchon PA12-CF, et viennent se visser dans des écrous ou inserts taraudés noyés profondément dans le PA12-CF. Ainsi, la force est transmise : *RS-04 → Bracket Alu → Vis M4 → Bouchon PA12-CF → Joint Époxy → Tube Carbone*.
+
+  **B. Montage complet BAS (Connexion au Cardan DIN 808)**
+  1. **Le Bouchon Bas (Plug PA12-CF)** : Cylindre imprimé sur le même principe (Ø36mm), inséré et collé à l'époxy sur 30 mm au fond du tube carbone.
+  2. **Logement de la Cheville** : La base de ce bouchon PA12-CF est évidée (cylindre interne ou hexagone) au diamètre EXACT de la cage supérieure du joint de cardan (pour un cardan DIN 808 d'axe 12mm, le diamètre extérieur du manchon est souvent de 25 mm).
+  3. **Liaison Tibia / Cardan (Goupillage)** : La cage supérieure du cardan est enfoncée dans la cavité du bouchon bas. La liaison antirotation et anti-arrachement est assurée par une **goupille Mécanindus transversale (roll pin) de 4 ou 5 mm en acier**. On vient percer un trou traversant à 90° (à travers le tube carbone, le bouchon PA12, et le manchon en acier massif du cardan) et on frappe la goupille en force. Résultat : zéro jeu mécanique, transmission de couple 100% rigide.
 
 ---
 
