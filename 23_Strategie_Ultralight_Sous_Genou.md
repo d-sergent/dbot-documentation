@@ -26,63 +26,28 @@ Voici la stratégie d'ingénierie optimisée composant par composant.
   3. **Interface Moteur (Bracket Alu)** : Une pièce CNC en Aluminium (C500) fait la liaison entre le chapeau du Moteur Genou RS-04 et ce bouchon PA12-CF.
   4. **Assemblage Mécanique** : 4 longues vis M4 ou M5 traversent verticalement la pièce aluminium, traversent l'épaulement du bouchon PA12-CF, et viennent se visser dans des écrous ou inserts taraudés noyés profondément dans le PA12-CF. Ainsi, la force est transmise : *RS-04 → Bracket Alu → Vis M4 → Bouchon PA12-CF → Joint Époxy → Tube Carbone*.
 
-  **B. Montage complet BAS (Connexion au Cardan DIN 808)**
+  **B. Montage complet BAS (Connexion au Cardan DIN 808 — Méthode Pro)**
   ![Montage_Bas](./img_tibia_montage_bas.png)
-  1. **Le Bouchon Bas (Plug PA12-CF)** : Cylindre imprimé sur le même principe (Ø36mm), inséré et collé à l'époxy sur 30 mm au fond du tube carbone.
-  2. **Logement de la Cheville** : La base de ce bouchon PA12-CF est évidée (cylindre interne ou hexagone) au diamètre EXACT de la cage supérieure du joint de cardan (pour un cardan DIN 808 d'axe 12mm, le diamètre extérieur du manchon est souvent de 25 mm).
-  3. **Liaison Tibia / Cardan (Perçage et Goupillage)** : Le bouchon PA12-CF joue ici le rôle d'entretoise structurelle. La cage supérieure en acier du cardan est emmanchée dans la cavité du bouchon. **Comment l'ensemble reste-t-il définitivement solidaire ?** Grâce à une unique **goupille élastique (Mécanindus / roll pin) de 4 ou 5 mm en acier**.
-     - On perce un trou traversant de part en part, qui traverse diamétralement : la première paroi du tube carbone → le flanc du bouchon PA12-CF → **le manchon central en acier du cardan** → l'autre flanc du bouchon → la seconde paroi du carbone.
-     - On frappe la goupille en force dans ce tunnel traversant.
-     - **Résultat** : Cette goupille verrouille mécaniquement les 3 pièces (Carbone + PA12 + Cardan Acier) en même temps. Elle empêche totalement la rotation (transmission du couple lacet/yaw) ET bloque l'arrachement vertical du pied en phase de vol, avec zéro jeu.
 
-> [!CAUTION]
-> **Méthodologie d'Usinage : Comment percer le cardan en acier massif ?**
-> Tenter de percer un cardan industriel (souvent en acier C45 ou plus durci) à la main avec un foret métaux standard (HSS) est voué à l'échec (dérapage, casse du foret, trou de travers).
-> 
-> **Procédure impérative :**
-> 1. **Maintien ferme** : Utiliser un étau de perçage équipé d'un **Vé (V-block)** pour caler parfaitement le cylindre d'acier et empêcher toute rotation.
-> 2. **Perceuse à colonne** : Indispensable pour garantir une descente parfaitement verticale à 90°.
-> 3. **Type de foret** : Utiliser exclusivement des forets **Acier Cobalt (HSS-Co 5% ou 8%)** ou en **Carbure massif**.
-> 4. **Lubrification** : Appliquer abondamment de l'huile de coupe (Cutting fluid) tout au long du perçage.
-> 5. **Vitesse et Avance** : Vitesse de rotation très lente (ex: 400-600 RPM) avec une pression de descente forte et constante pour faire de vrais copeaux, sans brûler le foret.
-> 6. **Avant-trou** : Commencer par faire une empreinte avec un foret à pointer (Center drill), puis percer un avant-trou (ex: Ø 2.5 mm) avant de passer au diamètre final exigeant la goupille (ex: Ø 4.0 mm).
-> 
-> ❌ **La CNC C500 n'est PAS adaptée pour ce perçage traversant.** Les fraiseuses de bureau ont des broches (spindles) tournant beaucoup trop vite (10 000+ tr/min) pour percer de l'acier durci, ce qui brûlerait le foret instantanément. De plus, utiliser une micro-fraise (3mm) pour descendre à 25mm de profondeur provoquerait des vibrations fatales (chatter).
+  Au lieu d'imprimer un bouchon PA12-CF qu'il faudrait percer de part en part (opération hasardeuse sur de l'acier durci), on exploite l'alésage interne du joint de cardan. C'est la fixation d'ingénierie mécanique standardisée, totalement adaptée à la CNC C500.
 
-### 📝 Alternatives CNC "Sans Perçage" (Idéal avec la C500)
+  1. **Achat du Cardan (À alésage et rainure)** : 
+     - L'architecture exige un **Joint de Cardan DIN 808 avec alésage H7 ET rainure de clavette JS9** (Keyway).
+     - **Lien d'achat direct** : [Moyeu A5 473 — Joint de cardan simple Michaud Chailly (Modèle 3D)](https://maurin-embedded.partcommunity.com/3d-cad-models/mod%C3%A8le-a5-473-joint-de-cardan-simple-michaud-chailly-direct-transmission?info=michaud_chailly_transmission%2Ftransmission%2Fjoints_cardans%2Fa5_473.prj&cwid=6179)
+     - *(Autres fournisseurs : HPC Europe, Norelem)*.
 
-Si vous ne possédez pas de perceuse à colonne robuste, la fraiseuse CNC C500 vous offre **deux excellentes alternatives beaucoup plus élégantes** pour bloquer la rotation du cardan sans avoir à le percer de part en part :
+  2. **Usinage de l'Insert (Aluminium CNC 6061-T6)** : 
+     - On usine à la C500 une pièce d'adaptation en aluminium.
+     - Le *haut* de l'insert possède une jupe (Ø36mm) qui s'emmanche et se colle (Époxy Structurale) dans le tube carbone 40mm.
+     - Le *bas* de l'insert est un cylindre mâle (ex: Ø12mm) couplé à une clavette, qui rentre *dans* le joint de cardan.
+     - Précision d'usinage (C500) : Usiner une **gorge de circlips** à l'extrémité basse du cylindre de 12mm, calculée pour affleurer exactement à la sortie de la noix du cardan.
 
-**Alternative A : Usinage externe de Méplats (Surface Milling)**
-Sur une CNC C500, faire un surfaçage extérieur est très facile.
-1. Fixer le cardan couché dans l'étau rotatif de la C500.
-2. Avec une fraise carbure (DLC) de 6mm, usiner 2 ou 4 faces planes (méplats) sur la circonférence extérieure de la cage en acier, pour créer un profil carré ou en "double D". (L'acier s'usine très bien en passe fine à haute vitesse).
-3. Modéliser l'empreinte femelle exacte dans le bouchon PA12-CF.
-4. Une fois emboîté et collé à l'époxy, l'ensemble ne pourra **plus jamais tourner**. L'arrachement vertical est empêché par la colle et un petit épaulement interne.
+  3. **Verrouillage en Lacet (Clavette Anti-rotation)** :
+     La clavette en acier s'insère entre l'arbre en aluminium et la rainure de la cage du cardan. Elle bloque 100% de la rotation (effort de lacet/yaw). Aucun usinage "sur le tas" n'est requis.
 
-**Alternative B : Utilisation de l'alésage interne (Méthode Pro - Sélectionnée)**
-Au lieu d'imprimer un bouchon PA12-CF qui "avale" le cardan entier, on exploite l'intérieur du cardan. C'est la fixation d'ingénierie mécanique standardisée.
-
-1. **Achat (Où trouver le cardan rainuré ?) — Exemple Michaud Chailly A5 473** : 
-   - Vous devez rechercher un **Joint de Cardan DIN 808 avec alésage H7 ET rainure de clavette JS9** (Keyway).
-   - **Lien d'achat direct** : [Moyeu A5 473 — Joint de cardan simple Michaud Chailly (Modèle 3D)](https://maurin-embedded.partcommunity.com/3d-cad-models/mod%C3%A8le-a5-473-joint-de-cardan-simple-michaud-chailly-direct-transmission?info=michaud_chailly_transmission%2Ftransmission%2Fjoints_cardans%2Fa5_473.prj&cwid=6179)
-   - *Autre Fournisseurs Pros* : HPC Europe (Transmission Mécanique), Norelem, ou Prud'homme Transmissions.
-   - *Astuce* : Si la version rainurée est introuvable ou trop chère en petite série, l'usinage d'une rainure interne (brochage) dans un cardan alésé standard coûte peu cher chez un petit tourneur/fraiseur local.
-
-   ![Cardan_Rainure_Michaud_Chailly](./img_cardan_rainure.png)
-
-2. **Usinage de l'Insert (Aluminium sur la C500)** : 
-   - Usiner une pièce d'adaptation en **Aluminium 6061-T6 ou 7075**.
-   - Le *haut* de l'insert a une jupe qui rentre dans le tube carbone 40mm (collé à l'époxy structurale).
-   - Le *bas* de l'insert est un cylindre mâle (ex: Ø12mm) couplé à une clavette, qui rentre *dans* le cardan.
-   - *Rôle de la clavette* : Elle bloque 100% de la rotation (effort de lacet/yaw).
-
-3. **Verrouillage Axial (Comment empêcher le pied de tomber ?)** :
-   La clavette stoppe la rotation, mais pas la translation verticale (arrachement). Pour bloquer l'insert fermement dans le cardan, deux solutions mécaniques classiques (selon le modèle de cardan acheté) :
-   - **Solution B.1 (Filetage interne + Écrou Nyloc — Incassable)** : L'alésage du cardan traverse géneralement la mâchoire de part en part (jusqu'à la noix centrale). Usinez l'extrémité de votre bout d'arbre en aluminium pour le fileter (ex: M6 ou M8). Une fois l'insert en alu emmanché dans le cardan avec la clavette, venez serrer un écrou Nyloc bascule, par l'intérieur de la mâchoire du cardan. La tension de l'écrou tire l'insert et écrase sa collerette contre le bord du cardan.
-   - **Solution B.2 (Vis de pression radiale — Standard industriel)** : La quasi-totalité des cardans rainurés vendus par *Michaud Chailly* ou *HPC* comportent de série un trou taraudé transversal au niveau de la rainure. Une fois l'arbre en alu et la clavette insérés, on vient visser à refus une vis pointeau sans tête (Set screw) enduite de frein fileté fort (Loctite rouge) dans ce trou. La pointeau vient mordre le dos de la clavette ou l'arbre alu : le mouvement vertical est condamné.
-   - **Solution B.3 (Le Circlips / Anneau Élastique — Méthode la plus sûre)** : Demande un peu d'usinage sur la C500. On usine une petite gorge (rainure circulaire) sur l'axe en aluminium de 12 mm, calculée pour affleurer exactement à la sortie de l'alésage du cardan. On y insère un **circlips en acier ressort** (dispo chez 123Roulement ou Bricovis). C'est physiquement impossible pour l'axe de s'arracher, le circlips fait office de butée mécanique infranchissable.
-   - **Solution B.4 (Bague d'arrêt / Shaft Collar — Sans usinage axial)** : Si l'on souhaite éviter de fileter ou de rainurer l'extrémité. On laisse dépasser l'arbre aluminium de 10 mm en bas du cardan, et on vient glisser une **bague d'arrêt en acier (fendue en 2 pièces)** sur l'axe qu'on serre extrêmement fort contre la paroi du cardan. (Ex: Bague d'arrêt 12mm chez HPC). L'épaulement bloque la remontée de l'axe. *Attention : utiliser impérativement du frein-filet bleu sur la vis de la bague pour contrer les micro-vibrations.*
+  4. **Verrouillage Vertical (Circlips Acier Ressort Anti-arrachement)** :
+     La clavette stoppe la rotation, mais pas la translation verticale. Une fois l'arbre en alu enfoncé dans le cardan, on vient enclencher un **Circlips en Acier Ressort** (anneau élastique, ex: type E pour arbre de 12mm) dans la petite gorge usinée. 
+     - **Résultat** : C'est physiquement impossible pour l'axe de s'arracher en vol. Le circlips fait office de butée mécanique infranchissable, garantissant zéro jeu vertical.
 
 ---
 
