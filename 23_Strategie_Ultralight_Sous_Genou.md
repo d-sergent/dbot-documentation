@@ -60,13 +60,24 @@ Sur une CNC C500, faire un surfaçage extérieur est très facile.
 3. Modéliser l'empreinte femelle exacte dans le bouchon PA12-CF.
 4. Une fois emboîté et collé à l'époxy, l'ensemble ne pourra **plus jamais tourner**. L'arrachement vertical est empêché par la colle et un petit épaulement interne.
 
-**Alternative B : Utilisation de l'alésage interne (Méthode Pro)**
-Au lieu d'imprimer un bouchon PA12-CF qui "avale" le cardan entier, on exploite l'intérieur du cardan.
-1. **Achat** : Commander un joint DIN 808 **avec trou alésé et rainure de clavette** (ex: alésage Ø12mm + rainure).
-2. **Usinage** : Usiner à la C500 une pièce d'adaptation en **Aluminium**.
-   - Le bas de cette pièce est un cylindre mâle de 12mm avec le passage d'une clavette, qui rentre *dans* le cardan.
-   - Le haut de cette pièce dispose d'une collerette qui vient coller/visser dans le tube carbone.
-3. **Avantage** : C'est la fixation d'ingénierie standardisée. Pas de perçage hasardeux, la clavette encaisse tout le couple de torsion en lacet.
+**Alternative B : Utilisation de l'alésage interne (Méthode Pro - Sélectionnée)**
+Au lieu d'imprimer un bouchon PA12-CF qui "avale" le cardan entier, on exploite l'intérieur du cardan. C'est la fixation d'ingénierie mécanique standardisée.
+
+1. **Achat (Où trouver le cardan rainuré ?)** : 
+   - Vous devez rechercher un **Joint de Cardan DIN 808 avec alésage H7 ET rainure de clavette JS9** (Keyway).
+   - **Fournisseurs Pros** : *Michaud Chailly* (rechercher "Moyeu à alésage et rainure de clavette", famille F2 ou F4), *HPC Europe* (Transmission Mécanique), *Norelem*, ou *Prud'homme Transmissions*.
+   - *Astuce* : Si la version rainurée est introuvable ou trop chère en petite série, l'usinage d'une rainure interne (brochage) dans un cardan alésé standard coûte peu cher chez un petit tourneur/fraiseur local.
+
+2. **Usinage de l'Insert (Aluminium sur la C500)** : 
+   - Usiner une pièce d'adaptation en **Aluminium 6061-T6 ou 7075**.
+   - Le *haut* de l'insert a une jupe qui rentre dans le tube carbone 40mm (collé à l'époxy structurale).
+   - Le *bas* de l'insert est un cylindre mâle (ex: Ø12mm) couplé à une clavette, qui rentre *dans* le cardan.
+   - *Rôle de la clavette* : Elle bloque 100% de la rotation (effort de lacet/yaw).
+
+3. **Verrouillage Axial (Comment empêcher le pied de tomber ?)** :
+   La clavette stoppe la rotation, mais pas la translation verticale (arrachement). Pour bloquer l'insert fermement dans le cardan, deux solutions mécaniques classiques (selon le modèle de cardan acheté) :
+   - **Solution B.1 (Filetage interne + Écrou Nyloc — Incassable)** : L'alésage du cardan traverse géneralement la mâchoire de part en part (jusqu'à la noix centrale). Usinez l'extrémité de votre bout d'arbre en aluminium pour le fileter (ex: M6 ou M8). Une fois l'insert en alu emmanché dans le cardan avec la clavette, venez serrer un écrou Nyloc bascule, par l'intérieur de la mâchoire du cardan. La tension de l'écrou tire l'insert et écrase sa collerette contre le bord du cardan.
+   - **Solution B.2 (Vis de pression radiale — Standard industriel)** : La quasi-totalité des cardans rainurés vendus par *Michaud Chailly* ou *HPC* comportent de série un trou taraudé transversal au niveau de la rainure. Une fois l'arbre en alu et la clavette insérés, on vient visser à refus une vis pointeau sans tête (Set screw) enduite de frein fileté fort (Loctite rouge) dans ce trou. La pointeau vient mordre le dos de la clavette ou l'arbre alu : le mouvement vertical est condamné.
 
 ---
 
