@@ -395,6 +395,20 @@ Impact plus significatif : réduction du pic F_impact de ×1.7 à ×1.3
 > [!TIP]
 > **S5 + S1 (mid-foot strike)** est une combinaison puissante : 172 × 0.78 (S5) × 0.72 (S1) = **96 N.m** — sous la limite RS-04, pour un coût minime !
 
+#### Intégration Mécanique : Comment fixer le Cardan sur une Lame Flexible ?
+
+Une question d'ingénierie se pose : si le tibia fléchit, comment fixer la cheville complexe (cardan + bielles) en bas, et les moteurs RS-03 de la cheville en haut ?
+
+La solution est la conception d'un **Tibia Hybride (Rigide-Flexible-Rigide)** :
+1. **Partie Haute (Rigide, Base du Genou)** : Un bloc d'aluminium CNC abrite l'axe du genou ET sert de support de fixation fixe pour les 2 moteurs RS-03 de la cheville.
+2. **Partie Centrale (Flexible)** : La lame en fibre de carbone est boulonnée sur le bloc du haut. C'est la seule zone qui se déforme.
+3. **Partie Basse (Rigide, Sommet de Cheville)** : La lame d'acier s'insère dans un second bloc d'aluminium CNC qui abrite la cage supérieure du joint de cardan (DIN 808) et les points d'ancrage bas des deux bielles carbone (A et B).
+
+**Points clés de l'assemblage :**
+- **Les 2 bielles carbone (Pitch/Roll) sont TOUJOURS PRÉSENTES.** Elles descendent des moteurs RS-03 (en haut) jusqu'au cardan (en bas).
+- Puisque la lame centrale fléchit, la distance *en ligne droite* entre le haut et le bas du tibia varie très légèrement (de quelques millimètres) pendant le pas.
+- L'algorithme de cinématique inverse (IK) de la cheville **doit être informé de la flexion en temps réel** (via l'encodeur du genou ou un IMU) pour corriger dynamiquement la longueur apparente des jambes et l'angle requis pour les bielles.
+
 ---
 
 ### 12.7 Tableau Comparatif — Toutes Solutions
