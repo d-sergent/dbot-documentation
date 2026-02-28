@@ -46,6 +46,27 @@ Voici la stratégie d'ingénierie optimisée composant par composant.
 > 4. **Lubrification** : Appliquer abondamment de l'huile de coupe (Cutting fluid) tout au long du perçage.
 > 5. **Vitesse et Avance** : Vitesse de rotation très lente (ex: 400-600 RPM) avec une pression de descente forte et constante pour faire de vrais copeaux, sans brûler le foret.
 > 6. **Avant-trou** : Commencer par faire une empreinte avec un foret à pointer (Center drill), puis percer un avant-trou (ex: Ø 2.5 mm) avant de passer au diamètre final exigeant la goupille (ex: Ø 4.0 mm).
+> 
+> ❌ **La CNC C500 n'est PAS adaptée pour ce perçage traversant.** Les fraiseuses de bureau ont des broches (spindles) tournant beaucoup trop vite (10 000+ tr/min) pour percer de l'acier durci, ce qui brûlerait le foret instantanément. De plus, utiliser une micro-fraise (3mm) pour descendre à 25mm de profondeur provoquerait des vibrations fatales (chatter).
+
+### 📝 Alternatives CNC "Sans Perçage" (Idéal avec la C500)
+
+Si vous ne possédez pas de perceuse à colonne robuste, la fraiseuse CNC C500 vous offre **deux excellentes alternatives beaucoup plus élégantes** pour bloquer la rotation du cardan sans avoir à le percer de part en part :
+
+**Alternative A : Usinage externe de Méplats (Surface Milling)**
+Sur une CNC C500, faire un surfaçage extérieur est très facile.
+1. Fixer le cardan couché dans l'étau rotatif de la C500.
+2. Avec une fraise carbure (DLC) de 6mm, usiner 2 ou 4 faces planes (méplats) sur la circonférence extérieure de la cage en acier, pour créer un profil carré ou en "double D". (L'acier s'usine très bien en passe fine à haute vitesse).
+3. Modéliser l'empreinte femelle exacte dans le bouchon PA12-CF.
+4. Une fois emboîté et collé à l'époxy, l'ensemble ne pourra **plus jamais tourner**. L'arrachement vertical est empêché par la colle et un petit épaulement interne.
+
+**Alternative B : Utilisation de l'alésage interne (Méthode Pro)**
+Au lieu d'imprimer un bouchon PA12-CF qui "avale" le cardan entier, on exploite l'intérieur du cardan.
+1. **Achat** : Commander un joint DIN 808 **avec trou alésé et rainure de clavette** (ex: alésage Ø12mm + rainure).
+2. **Usinage** : Usiner à la C500 une pièce d'adaptation en **Aluminium**.
+   - Le bas de cette pièce est un cylindre mâle de 12mm avec le passage d'une clavette, qui rentre *dans* le cardan.
+   - Le haut de cette pièce dispose d'une collerette qui vient coller/visser dans le tube carbone.
+3. **Avantage** : C'est la fixation d'ingénierie standardisée. Pas de perçage hasardeux, la clavette encaisse tout le couple de torsion en lacet.
 
 ---
 
