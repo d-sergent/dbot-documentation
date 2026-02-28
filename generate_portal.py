@@ -36,6 +36,7 @@ files_to_read = [
     ('21_Etude_Usinage_CNC_Milo.md', 'Annexes', '21_Etude_Usinage_CNC_Milo'),
     ('21_Etude_Main_Robotique.md', 'Annexes', '21_Etude_Main_Robotique'),
     ('22_Usinage_CNC_C500.md', 'Annexes', '22_Usinage_CNC_C500'),
+    ('23_Strategie_Ultralight_Sous_Genou.md', 'Annexes', '24_Ultralight_Sous_Genou'),
 ]
 
 def generate_portal():

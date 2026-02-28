@@ -122,6 +122,11 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Danger des collets : Séparation Impérial vs Métrique.
     *   Gestion intelligente des porte-outils (RFID).
 
+24. **[Stratégie Ultralight Sous-Genou](./23_Strategie_Ultralight_Sous_Genou.md)**
+    *   Gestion de l'inertie distale par hybridation de matériaux.
+    *   Bielles et Tibia en carbone + embouts PA12-CF.
+    *   Architecture de pied composite (Carbone/TPU) pour l'amorti.
+
 
 ---
 *Documentation exhaustive générée et auditée en Février 2026.*
