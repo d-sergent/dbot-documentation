@@ -30,7 +30,10 @@ Voici la stratégie d'ingénierie optimisée composant par composant.
   ![Montage_Bas](./img_tibia_montage_bas.png)
   1. **Le Bouchon Bas (Plug PA12-CF)** : Cylindre imprimé sur le même principe (Ø36mm), inséré et collé à l'époxy sur 30 mm au fond du tube carbone.
   2. **Logement de la Cheville** : La base de ce bouchon PA12-CF est évidée (cylindre interne ou hexagone) au diamètre EXACT de la cage supérieure du joint de cardan (pour un cardan DIN 808 d'axe 12mm, le diamètre extérieur du manchon est souvent de 25 mm).
-  3. **Liaison Tibia / Cardan (Goupillage)** : La cage supérieure du cardan est enfoncée dans la cavité du bouchon bas. La liaison antirotation et anti-arrachement est assurée par une **goupille Mécanindus transversale (roll pin) de 4 ou 5 mm en acier**. On vient percer un trou traversant à 90° (à travers le tube carbone, le bouchon PA12, et le manchon en acier massif du cardan) et on frappe la goupille en force. Résultat : zéro jeu mécanique, transmission de couple 100% rigide.
+  3. **Liaison Tibia / Cardan (Perçage et Goupillage)** : Le bouchon PA12-CF joue ici le rôle d'entretoise structurelle. La cage supérieure en acier du cardan est emmanchée dans la cavité du bouchon. **Comment l'ensemble reste-t-il définitivement solidaire ?** Grâce à une unique **goupille élastique (Mécanindus / roll pin) de 4 ou 5 mm en acier**.
+     - On perce un trou traversant de part en part, qui traverse diamétralement : la première paroi du tube carbone → le flanc du bouchon PA12-CF → **le manchon central en acier du cardan** → l'autre flanc du bouchon → la seconde paroi du carbone.
+     - On frappe la goupille en force dans ce tunnel traversant.
+     - **Résultat** : Cette goupille verrouille mécaniquement les 3 pièces (Carbone + PA12 + Cardan Acier) en même temps. Elle empêche totalement la rotation (transmission du couple lacet/yaw) ET bloque l'arrachement vertical du pied en phase de vol, avec zéro jeu.
 
 ---
 
