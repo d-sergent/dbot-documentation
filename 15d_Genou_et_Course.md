@@ -155,6 +155,8 @@ Vitesse angulaire divisée par 1.5 → vitesse de genou réduite de 33%
 Ratio mécanique = L_lever / L_crank = 90 / 60 = 1.5 : 1
 ```
 
+> **Note Matériau** : L'utilisation d'un tube en fibre de carbone (plutôt que de l'aluminium) est cruciale : elle évite le flambement sous les 2000 N de charge, divise par deux l'inertie distale ajoutée à la jambe, et garantit une durée de vie infinie en fatigue cyclique. Le montage rotule se fait par collage époxy. *Détails techniques : [Étude Cheville §C](./20_Etude_Cheville_Cardan.md)*.
+
 ---
 
 ##### Effet de la Rotation Moteur

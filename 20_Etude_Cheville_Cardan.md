@@ -110,7 +110,14 @@ L'axe en acier rectifié (12mm h6) doit être immobilisé axialement :
   - **HPC Europe** : BAG2-012 ou **Michaud Chailly / Ruland** : F2-39-12. Vis de classe 12.9.
 
 ### C. Bielles (Pushrods) et Rotules
-- **Bielles** : Tubes carbone 3K (Ø ext 10mm / Ø int 8mm) — rigidité maximale, pas de flambement.
+
+#### Pourquoi des tubes en Carbone plutôt que de l'Aluminium ?
+Le choix de tubes en **fibre de carbone 3K (Ø ext 10mm / Ø int 8mm)** au lieu de tiges en aluminium est fondamental pour la locomotion bipède, pour 4 raisons d'ingénierie :
+
+1. **Résistance au Flambement (Compression extrême)** : Lors d'un pas dynamique, les bielles encaissent des forces massives (> 1500 N). La résistance au flambement dépend du module de Young ($E$). L'aluminium (69 GPa) plierait sous la charge à ce diamètre. Le carbone 3K pultrudé ($E \approx 120-150$ GPa) est plus de deux fois plus rigide.
+2. **Réduction de l'Inertie Distale** : Toute masse située loin de la hanche coûte très cher en énergie lors de la phase oscillante (balancement de la jambe). Un tube carbone Ø10/8 pèse ~20 g/mètre, contre ~40 g/mètre pour l'alu. Ce gain en bas de la jambe permet des foulées plus rapides et réduit la chauffe des moteurs.
+3. **Résistance à la Fatigue Cyclique** : À chaque pas, la bielle subit des stress alternés (Traction → Compression). L'aluminium finit par micro-fissurer (fatigue du métal). Le carbone a une résistance à la fatigue cyclique virtuellement infinie tant qu'il ne subit pas d'impact transversal direct.
+4. **Intégration par Collage Bicomposant** : Tarauder un tube aluminium de 1mm d'épaisseur (10/8) est mécaniquement faible. Avec le carbone, on utilise **le collage structural à l'époxy** : on encolle une tige filetée M5 (acier) avec une résine époxy bicomposant (ex: Loctite EA ou DP490) et on l'insère dans le tube (Ø int 8mm est parfait pour accueillir la tige et la colle + insert 3D). Cela crée un joint indissociable sans jeu mécanique.
 - **Rotules d'extrémité** : Embouts M5.
   - **Igus EBRM-05** (polymère, ultra léger)
   - **SAK 5 C** (acier/PTFE, sur 123Roulement).
