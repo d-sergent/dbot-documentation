@@ -40,14 +40,16 @@ Voici la stratégie d'ingénierie optimisée composant par composant.
      - On usine à la C500 une pièce d'adaptation en aluminium.
      - Le *haut* de l'insert possède une jupe (Ø36mm) qui s'emmanche et se colle (Époxy Structurale) dans le tube carbone 40mm.
      - Le *bas* de l'insert est un cylindre mâle (ex: Ø12mm) couplé à une clavette, qui rentre *dans* le joint de cardan.
-     - Précision d'usinage (C500) : Usiner une **gorge de circlips** à l'extrémité basse du cylindre de 12mm, calculée pour affleurer exactement à la sortie de la noix du cardan.
+     - Précision d'usinage (C500) : Usiner **2 gorges de circlips** sur le cylindre de 12mm : une gorge positionnée juste AVANT l'entrée dans le cardan, et une gorge positionnée juste APRÈS la sortie du cardan.
 
   3. **Verrouillage en Lacet (Clavette Anti-rotation)** :
      La clavette en acier s'insère entre l'arbre en aluminium et la rainure de la cage du cardan. Elle bloque 100% de la rotation (effort de lacet/yaw). Aucun usinage "sur le tas" n'est requis.
 
-  4. **Verrouillage Vertical (Circlips Acier Ressort Anti-arrachement)** :
-     La clavette stoppe la rotation, mais pas la translation verticale. Une fois l'arbre en alu enfoncé dans le cardan, on vient enclencher un **Circlips en Acier Ressort** (anneau élastique, ex: type E pour arbre de 12mm) dans la petite gorge usinée. 
-     - **Résultat** : C'est physiquement impossible pour l'axe de s'arracher en vol. Le circlips fait office de butée mécanique infranchissable, garantissant zéro jeu vertical.
+  4. **Verrouillage Vertical (2× Circlips Acier Ressort — Sandwich Anti-arrachement)** :
+     La clavette stoppe la rotation, mais pas la translation verticale. Pour verrouiller complètement l'axe, on utilise **2 circlips en acier ressort** (anneaux élastiques, ex: type E pour arbre de 12mm) :
+     - **Circlips HAUT** : Monté dans la gorge au-dessus du cardan (entre le tube carbone et la face supérieure du cardan). Il empêche le cardan de remonter vers le tibia.
+     - **Circlips BAS** : Monté dans la gorge en dessous du cardan (juste après la face inférieure du cardan). Il empêche le cardan de descendre et de s'arracher en phase de vol.
+     - **Résultat** : Les 2 circlips "prennent en sandwich" le cardan sur l'arbre en aluminium. Il est physiquement impossible pour l'axe de bouger dans un sens comme dans l'autre. Zéro jeu vertical, fixation 100% mécanique et démontable.
 
 ---
 
