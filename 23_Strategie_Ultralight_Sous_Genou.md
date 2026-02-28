@@ -35,6 +35,18 @@ Voici la stratégie d'ingénierie optimisée composant par composant.
      - On frappe la goupille en force dans ce tunnel traversant.
      - **Résultat** : Cette goupille verrouille mécaniquement les 3 pièces (Carbone + PA12 + Cardan Acier) en même temps. Elle empêche totalement la rotation (transmission du couple lacet/yaw) ET bloque l'arrachement vertical du pied en phase de vol, avec zéro jeu.
 
+> [!CAUTION]
+> **Méthodologie d'Usinage : Comment percer le cardan en acier massif ?**
+> Tenter de percer un cardan industriel (souvent en acier C45 ou plus durci) à la main avec un foret métaux standard (HSS) est voué à l'échec (dérapage, casse du foret, trou de travers).
+> 
+> **Procédure impérative :**
+> 1. **Maintien ferme** : Utiliser un étau de perçage équipé d'un **Vé (V-block)** pour caler parfaitement le cylindre d'acier et empêcher toute rotation.
+> 2. **Perceuse à colonne** : Indispensable pour garantir une descente parfaitement verticale à 90°.
+> 3. **Type de foret** : Utiliser exclusivement des forets **Acier Cobalt (HSS-Co 5% ou 8%)** ou en **Carbure massif**.
+> 4. **Lubrification** : Appliquer abondamment de l'huile de coupe (Cutting fluid) tout au long du perçage.
+> 5. **Vitesse et Avance** : Vitesse de rotation très lente (ex: 400-600 RPM) avec une pression de descente forte et constante pour faire de vrais copeaux, sans brûler le foret.
+> 6. **Avant-trou** : Commencer par faire une empreinte avec un foret à pointer (Center drill), puis percer un avant-trou (ex: Ø 2.5 mm) avant de passer au diamètre final exigeant la goupille (ex: Ø 4.0 mm).
+
 ---
 
 ## 2. Le Bloc Moteurs Cheville (Sous le genou)
