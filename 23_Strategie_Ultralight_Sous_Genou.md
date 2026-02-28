@@ -63,10 +63,13 @@ Sur une CNC C500, faire un surfaçage extérieur est très facile.
 **Alternative B : Utilisation de l'alésage interne (Méthode Pro - Sélectionnée)**
 Au lieu d'imprimer un bouchon PA12-CF qui "avale" le cardan entier, on exploite l'intérieur du cardan. C'est la fixation d'ingénierie mécanique standardisée.
 
-1. **Achat (Où trouver le cardan rainuré ?)** : 
+1. **Achat (Où trouver le cardan rainuré ?) — Exemple Michaud Chailly A5 473** : 
    - Vous devez rechercher un **Joint de Cardan DIN 808 avec alésage H7 ET rainure de clavette JS9** (Keyway).
-   - **Fournisseurs Pros** : *Michaud Chailly* (rechercher "Moyeu à alésage et rainure de clavette", famille F2 ou F4), *HPC Europe* (Transmission Mécanique), *Norelem*, ou *Prud'homme Transmissions*.
+   - **Lien d'achat direct** : [Moyeu A5 473 — Joint de cardan simple Michaud Chailly (Modèle 3D)](https://maurin-embedded.partcommunity.com/3d-cad-models/mod%C3%A8le-a5-473-joint-de-cardan-simple-michaud-chailly-direct-transmission?info=michaud_chailly_transmission%2Ftransmission%2Fjoints_cardans%2Fa5_473.prj&cwid=6179)
+   - *Autre Fournisseurs Pros* : HPC Europe (Transmission Mécanique), Norelem, ou Prud'homme Transmissions.
    - *Astuce* : Si la version rainurée est introuvable ou trop chère en petite série, l'usinage d'une rainure interne (brochage) dans un cardan alésé standard coûte peu cher chez un petit tourneur/fraiseur local.
+
+   ![Cardan_Rainure_Michaud_Chailly](./img_cardan_rainure.png)
 
 2. **Usinage de l'Insert (Aluminium sur la C500)** : 
    - Usiner une pièce d'adaptation en **Aluminium 6061-T6 ou 7075**.
