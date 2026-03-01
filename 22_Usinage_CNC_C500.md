@@ -1,6 +1,6 @@
 # Usinage CNC C500 - Consignes pour le D-Bot
 
-Afin d'usiner les composants vitaux du robot humainoïde D-Bot (y compris l'avant-bras et la série d'actuateurs cycloïdaux de la *D-Hand*), nous nous appuyons sur la **CNC NestWorks C500**.
+Afin d'usiner les composants vitaux du robot humainoïde D-Bot (y compris l'avant-bras et la série d'actuateurs cycloïdaux de la *D-Hand*), le projet s'appuie **exclusivement** sur la **CNC Netsworks C500 (Kickstarter)**. Cette fraiseuse 4 axes est la machine de référence unique pour tout l'aluminium du robot.
 Cette annexe recense les consignes clés issues de l'analyse initiale pour préserver la machine, garantir la précision vitale du H7 exigée par le montage moteur, et maximiser l'emploi des fournitures existantes.
 
 ## 1. Outils Métal (Professional Metal Tool Kit)

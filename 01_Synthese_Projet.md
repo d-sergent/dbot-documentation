@@ -57,7 +57,7 @@ Le D-Bot utilise une approche **Squelette Aluminium CNC + Coque Imprimée 3D** p
 
 ### Machines Disponibles
 - **Qidi X-Plus 4** : Impression 3D haute température (PA12-CF, PETG-CF).
-- **NestWorks C500** : CNC 4 axes, usinage aluminium avec tolérances H7 (±0.02mm).
+- **Netsworks C500 (Kickstarter)** : CNC 4 axes, usinage aluminium avec tolérances H7 (±0.02mm).
 
 ### Répartition des Matériaux par Zone
 
