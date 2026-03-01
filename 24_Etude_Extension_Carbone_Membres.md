@@ -68,6 +68,26 @@ Il s'agit de la synthèse absolue entre la résistance de l'aluminium et la lég
 *   **Hybridation (FDM)** : La perte de rigidité induite par la squelettisation est compensée par l'ajout de **coques structurelles épaisses en PA12-CF** (~150g). Ces coques viennent se visser ou se coller sur le squelette ajouré, fermant la cavité et offrant une rigidité en torsion exceptionnelle.
 *   **Avantage** : Un poids hybride record (~500g), une solidité structurelle rassurante aux points d'ancrage moteurs (aluminium), avec une esthétique et un routage de câbles parfaits (fermés et protégés par le Nylon-Carbone).
 
+#### Dimensions Approximatives & Ingénierie d'Assemblage
+
+Pour rendre cet usinage réaliste et efficace sur la C500, voici les dimensions cibles et la méthode d'assemblage recommandée :
+
+**Dimensions (Échelle Humanoïde ~1m40 - 1m50)** :
+- **Longueur totale (Axe Hanche → Axe Genou)** : ~350 mm à 400 mm.
+- **Largeur interne** : ~90 mm minimum (pour englober sans frotter le moteur RS-04 qui fait ~85mm de diamètre extérieur).
+- **Profondeur** : ~60 mm à 80 mm (suffisant pour y loger une carte contrôleur type *Moteus* ou *Odrive* et le passage des gros câbles d'alimentation).
+
+**L'Évolution : "Le Squelette en Plaques Ajustées"**
+L'idée de **ne pas usiner un "U" massif dans un seul bloc** est la vraie solution d'ingénierie ("Design for Manufacturing"). Usiner un bloc de 100x100x400 mm pour faire un U évidé serait un immense gaspillage de matière (80% transformé en copeaux) et d'heures de machine. 
+
+La méthode parfaite pour la C500 consiste à scinder le fémur en **plusieurs pièces plates vissées et collées** :
+1. **Les Interfaces Moteurs (Haut et Bas)** : Deux gros blocs d'Aluminium usinés pour épouser parfaitement les vis des moteurs RS-04. Ces blocs agiront comme les "bouchons" structurels du fémur.
+2. **Les Plaques Latérales (Joues)** : Deux plaques plates d'Aluminium 7075-T6 (épaisseur ~4 mm à 5 mm), découpées et évidées (Iso-grid) en 2.5D sur la CNC. C'est extrêmement rapide à usiner.
+3. **L'Assemblage** : Les plaques latérales viennent s'encastrer précisément (ajustement H7 ou H8) dans des rainures usinées sur les blocs Moteurs, puis sont solidarisées par des vis M3 ou M4 traversantes.
+4. **La Plaque Arrière (Optionnelle)** : Soit une troisième fine plaque d'aluminium usinée, soit directement la coque en PA12-CF qui vient fermer le fond du U pour apporter la rigidité finale en torsion.
+
+Cette philosophie d'une structure en **platines assemblées** est exactement celle utilisée sur les bras et les jambes du robot *Optimus* ou du *Unitree G1*.
+
 #### Comparatif Détaillé : Les 3 Architectures de Fémur
 
 | Critère | Poutre en U (Aluminium Plein) | Exosquelette Treillis (Carbone) | Solution Hybride (Alu *Iso-grid* + PA12-CF) |
