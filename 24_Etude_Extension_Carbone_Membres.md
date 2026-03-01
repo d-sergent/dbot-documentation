@@ -88,6 +88,18 @@ La méthode parfaite pour la C500 consiste à scinder le fémur en **plusieurs p
 
 Cette philosophie d'une structure en **platines assemblées** est exactement celle utilisée sur les bras et les jambes du robot *Optimus* ou du *Unitree G1*.
 
+#### Directives CAO / FAO (C500) pour les Plaques Latérales
+
+Pour concevoir les deux plaques d'aluminium (les joues du fémur) de la Solution 3, voici les **dimensions cibles recommandées** pour un robot de taille ~1m40 pesant ~35-40 kg. Ces cotes sont optimisées pour la CNC NestWorks C500 :
+
+1. **Épaisseur brute de la plaque (Alu 6061 ou 7075-T6)** : **5 mm**. C'est le standard dans l'industrie pour un fémur de cette taille (compromis parfait entre robustesse et flexibilité).
+2. **Épaisseur des "Struts" (Les branches du treillis)** : **4 mm à 6 mm de large**. 
+    - Ne descendez pas en dessous de 4 mm, sinon le fin bras d'aluminium vibrera lors de l'usinage (chatter) et cassera sous la charge dynamique du genou.
+3. **Profondeur de la poche (Pocketing)** : **3.5 mm**. 
+    - *Ne transpercez pas la plaque de part en part !* L'erreur classique est de faire des trous complets (0 mm restant). Il faut **laisser une "toile de fond" (*Web*) de 1.5 mm** d'épaisseur. Cette très fine toile unifiant tout le treillis ajoute une rigidité en cisaillement stupéfiante (type aile d'avion) pour quasiment 0 gramme supplémentaire. Les coques PA12-CF viendront se coller contre cette toile.
+4. **Angles internes (Congés / Fillets)** : **R > 3.175 mm (soit Ø6.35 mm)**.
+    - Dessinez vos poches triangulaires avec des angles très arrondis (minimum rayon 3.2 mm). Cela permet à la CNC C500 d'usiner la poche à pleine vitesse avec sa grosse fraise d'ébauche de 1/4" (6.35 mm) sans jamais s'arrêter aux angles, ce qui divise le temps d'usinage par 3.
+
 #### Comparatif Détaillé : Les 3 Architectures de Fémur
 
 | Critère | Poutre en U (Aluminium Plein) | Exosquelette Treillis (Carbone) | Solution Hybride (Alu *Iso-grid* + PA12-CF) |
