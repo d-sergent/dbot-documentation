@@ -19,12 +19,26 @@ Voici la stratégie d'ingénierie optimisée composant par composant.
   - **Fournisseurs** : Boutiques spécialisées ULM/Drones/RC comme *CarbonTube.net*, *EasyComposites*, ou sur *AliExpress* (boutiques certifiées matériaux composites comme *RJX Hobby*).
   - *Note : Une longueur de 500 mm suffit largement pour y découper les 2 tibias (longueur estimée ~220 mm).*
 
-  **A. Montage complet HAUT (Connexion au Genou RS-04)**
+  **A. Montage complet HAUT (Connexion au Genou RS-04 — Bracket en L + Goupille)**
   ![Montage_Haut](./img_tibia_montage_haut.png)
-  1. **Le Bouchon Haut (Plug PA12-CF)** : Pièce en "T" imprimée en 3D (Qidi). La jupe du bouchon (Ø36mm) s'insère en force dans le tube carbone sur environ 30 mm de profondeur.
-  2. **Collage Époxy Structural** : Dépolir l'intérieur du tube carbone avec du papier de verre (grain 120), nettoyer à l'isopropanol. Enduire la jupe du bouchon de résine époxy bicomposant longue durée (ex: Loctite EA 9466 ou DP490) puis emmancher. L'immense surface de contact (~34 cm²) rend cet joint virtuellement indestructible en traction/compression.
-  3. **Interface Moteur (Bracket Alu)** : Une pièce CNC en Aluminium (C500) fait la liaison entre le chapeau du Moteur Genou RS-04 et ce bouchon PA12-CF.
-  4. **Assemblage Mécanique** : 4 longues vis M4 ou M5 traversent verticalement la pièce aluminium, traversent l'épaulement du bouchon PA12-CF, et viennent se visser dans des écrous ou inserts taraudés noyés profondément dans le PA12-CF. Ainsi, la force est transmise : *RS-04 → Bracket Alu → Vis M4 → Bouchon PA12-CF → Joint Époxy → Tube Carbone*.
+
+  Le moteur RS-04 du genou a son **axe de sortie dans le même axe que le corps du moteur** (configuration inline). Le tibia ne peut donc pas se fixer directement dans l'axe du moteur : il faut un **bracket en forme de L** pour faire le renvoi à 90°.
+
+  1. **Le Bracket en L (Aluminium CNC — C500)** :
+     - Une pièce en **Aluminium 6061-T6** usinée à la CNC C500.
+     - La **branche horizontale** du L se fixe sur l'axe de sortie du RS-04 (par clavetage, vis de pression ou moyeu fendu selon le modèle).
+     - La **branche verticale** du L descend et vient envelopper le sommet du tube carbone. Elle comporte un alésage semi-circulaire ou une pince qui épouse la forme du tube Ø40mm.
+
+  2. **Le Bouchon Interne Haut (Alu ou PA12-CF)** :
+     - Identique au principe du montage bas : un bouchon massif (Ø36mm) est inséré et collé (Époxy Structurale) à l'intérieur du tube carbone, sur 30 mm de profondeur.
+     - **Rôle** : renforcer le tube carbone contre l'écrasement lors du goupillage, et augmenter la surface de transmission des efforts.
+
+  3. **Goupille Mécanindus Traversante (Sécurité Anti-arrachement)** :
+     - Même principe que le montage bas : une **goupille élastique Ø3mm** traverse de part en part : *Bracket Alu → Paroi Carbone → Bouchon → Paroi Carbone → Bracket Alu*.
+     - **Pourquoi ne pas se contenter de l'époxy ?** L'époxy structurale est extrêmement résistante en cisaillement et en compression, mais elle peut céder en traction pure (arrachement) sous des chocs répétés de course. La goupille garantit que le tube ne pourra **jamais** se séparer du bracket, même en cas de défaillance du joint collé.
+     - La colle époxy reste utile en complément : elle assure le zéro-jeu et distribue les contraintes sur toute la surface de contact (~34 cm²).
+
+  4. **Transmission des efforts** : *RS-04 → Axe de sortie → Bracket Alu en L → Goupille + Époxy → Bouchon → Tube Carbone*.
 
   **B. Montage complet BAS (Connexion au Cardan DIN 808 — Goupille Mécanindus)**
   ![Montage_Bas](./img_tibia_montage_bas.png)
