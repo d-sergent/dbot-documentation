@@ -127,6 +127,11 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Bielles et Tibia en carbone + embouts PA12-CF.
     *   Architecture de pied composite (Carbone/TPU) pour l'amorti.
 
+25. **[Étude Extension Carbone (Fémur & Bras)](./24_Etude_Extension_Carbone_Membres.md)**
+    *   Analyse de l'architecture Tube Carbone + Goupille Mécanindus pour les autres membres.
+    *   Validation pour les Bras (Humérus) et Avant-Bras.
+    *   Limites et complexité d'intégration pour le Fémur (Cuisse).
+
 
 ---
 *Documentation exhaustive générée et auditée en Février 2026.*
