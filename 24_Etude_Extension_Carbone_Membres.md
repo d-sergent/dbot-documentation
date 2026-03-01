@@ -59,7 +59,22 @@ Plutôt qu'un tube rond, on utilise des matériaux composites plats pour former 
 *   **Interfaces** : Des blocs massifs (inserts) en Aluminium usiné sont pris en sandwich entre les plaques en haut et en bas pour fournir l'ancrage rigide aux moteurs.
 *   **Avantage** : Ultra-léger, très rigide en torsion, tout en préservant un espace vide central pour le cheminement des câbles.
 
-**Verdict Fémur** : Le tube carbone rond est inadapté à la cuisse. Si l'on veut utiliser du carbone, il faudra concevoir le fémur avec **des plaques de carbone planes (Solution 2)**, ou privilégier l'usinage monolithique d'une **poutre en U en aluminium (Solution 1)**.
+#### Comparatif Détaillé : U-Beam vs Treillis Carbone
+
+| Critère | Poutre en U (Aluminium CNC) | Exosquelette Treillis (Carbone/Alu) |
+| :--- | :--- | :--- |
+| **Poids estimé** | ~600g - 800g (selon évidement interne) | **~300g - 400g** (Gain de 50% grâce au composite) |
+| **Solidité (Flexion)** | Excellente. L'aluminium massif encaisse parfaitement les chocs frontaux. | Excellente. Les plaques carbone sont imbattables dans le sens de la fibre. |
+| **Solidité (Torsion / Lacet)** | **Exceptionnelle**. Le profilé monobloc résiste parfaitement à la vrille. | Bonne, mais dépend entièrement de la qualité du serrage des entretoises en aluminium. |
+| **Complexité d'Usinage (C500)** | Moyenne/Haute. Nécessite d'usiner un gros volume d'aluminium, beaucoup de copeaux, 2 setups (intérieur puis extérieur). | **Faible/Moyenne**. Découpe 2D simple de plaques carbone. Usinage de petits blocs inserts simples. |
+| **Complexité d'Assemblage** | **Très simple**. C'est une pièce quasi-monolithique, très peu de vis. | Complexe. Beaucoup de vis, d'entretoises, risque de desserrage lié aux vibrations (frein filet obligatoire). |
+| **Intégration Câblage** | **Idéale**. Cavité interne naturelle très protectrice, facile à refermer avec un capot imprimé en 3D. | Bonne visuellement, mais les câbles restent partiellement exposés aux chocs latéraux entre les entretoises. |
+| **Prix des matières** | ~40€ - 60€ (Bloc brut Aluminium 6061 ou 7075). | ~80€ - 120€ (Plaques Carbone 4mm + Visserie + Inserts Alu). |
+| **Design "Look & Feel"** | Industriel, robuste, massif (type Tesla Optimus). | Très "High-Tech", course, agressif (type Unitree G1). |
+
+**Verdict Fémur** : Le tube carbone rond est inadapté à la cuisse. 
+- Si l'objectif principal est le **gain de poids absolu**, concevez le fémur avec **des plaques de carbone planes (Solution 2 - Treillis)**.
+- Si l'objectif principal est la **simplicité de montage**, la fiabilité (zéro desserrage) et une **protection parfaite de l'électronique** : privilégiez l'usinage monolithique d'une **poutre en U en aluminium (Solution 1)**. C'est le choix généralement retenu par l'industrie pour les robots humanoïdes de 40kg+.
 
 ---
 
