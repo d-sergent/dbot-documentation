@@ -26,30 +26,63 @@ Voici la stratégie d'ingénierie optimisée composant par composant.
   3. **Interface Moteur (Bracket Alu)** : Une pièce CNC en Aluminium (C500) fait la liaison entre le chapeau du Moteur Genou RS-04 et ce bouchon PA12-CF.
   4. **Assemblage Mécanique** : 4 longues vis M4 ou M5 traversent verticalement la pièce aluminium, traversent l'épaulement du bouchon PA12-CF, et viennent se visser dans des écrous ou inserts taraudés noyés profondément dans le PA12-CF. Ainsi, la force est transmise : *RS-04 → Bracket Alu → Vis M4 → Bouchon PA12-CF → Joint Époxy → Tube Carbone*.
 
-  **B. Montage complet BAS (Connexion au Cardan DIN 808 — Méthode Pro)**
+  **B. Montage complet BAS (Connexion au Cardan DIN 808 — Goupille Mécanindus)**
   ![Montage_Bas](./img_tibia_montage_bas.png)
 
-  Au lieu d'imprimer un bouchon PA12-CF qu'il faudrait percer de part en part (opération hasardeuse sur de l'acier durci), on exploite l'alésage interne du joint de cardan. C'est la fixation d'ingénierie mécanique standardisée, totalement adaptée à la CNC C500.
+  La fixation du tibia dans le cardan utilise la méthode la plus robuste de l'ingénierie mécanique : une **goupille élastique Mécanindus (roll pin) traversante**. Cette solution gère à la fois l'anti-rotation ET l'anti-arrachement en un seul composant. Il n'y a besoin ni de clavette, ni de circlips, ni de bague d'arrêt.
 
-  1. **Achat du Cardan (À alésage et rainure)** : 
-     - L'architecture exige un **Joint de Cardan DIN 808 avec alésage H7 ET rainure de clavette JS9** (Keyway).
-     - **Lien d'achat direct** : [Moyeu A5 473 — Joint de cardan simple Michaud Chailly (Modèle 3D)](https://maurin-embedded.partcommunity.com/3d-cad-models/mod%C3%A8le-a5-473-joint-de-cardan-simple-michaud-chailly-direct-transmission?info=michaud_chailly_transmission%2Ftransmission%2Fjoints_cardans%2Fa5_473.prj&cwid=6179)
-     - *(Autres fournisseurs : HPC Europe, Norelem)*.
+  1. **Achat du Cardan (Avec perçage sur mesure)** :
+     - Commander un **Joint de Cardan DIN 808** (ex: [Michaud Chailly A5 473](https://maurin-embedded.partcommunity.com/3d-cad-models/mod%C3%A8le-a5-473-joint-de-cardan-simple-michaud-chailly-direct-transmission?info=michaud_chailly_transmission%2Ftransmission%2Fjoints_cardans%2Fa5_473.prj&cwid=6179)).
+     - **Demander au fournisseur un perçage traversant de Ø3mm sur chaque moyeu** (usinage sur plan). Formuler la demande ainsi :
+       *"Bonjour, je souhaite commander la référence A5-473 avec une modification : un perçage traversant de Ø3mm sur chaque moyeu pour insertion d'une goupille élastique, centré à X mm du bord."*
+     - *(Autres fournisseurs : HPC Europe, Norelem, Prud'homme Transmissions)*.
 
-  2. **Usinage de l'Insert (Aluminium CNC 6061-T6)** : 
-     - On usine à la C500 une pièce d'adaptation en aluminium.
-     - Le *haut* de l'insert possède une jupe (Ø36mm) qui s'emmanche et se colle (Époxy Structurale) dans le tube carbone 40mm.
-     - Le *bas* de l'insert est un cylindre mâle (ex: Ø12mm) couplé à une clavette, qui rentre *dans* le joint de cardan.
-     - Précision d'usinage (C500) : Usiner **2 gorges de circlips** sur le cylindre de 12mm : une gorge positionnée juste AVANT l'entrée dans le cardan, et une gorge positionnée juste APRÈS la sortie du cardan.
+  2. **Le Bouchon Interne (Obligatoire pour tube creux)** :
+     - Insérer et coller (Époxy Structurale) un **bouchon massif en Aluminium ou PA12-CF** (Ø36mm) à l'intérieur du tube carbone, sur 30 mm de profondeur.
+     - **Rôle critique** : Lorsque la goupille traversera le tube carbone, le bouchon empêche les fibres de carbone de s'écraser et de se délaminer sous la pression de la goupille. Sans bouchon, le tube éclaterait.
 
-  3. **Verrouillage en Lacet (Clavette Anti-rotation)** :
-     La clavette en acier s'insère entre l'arbre en aluminium et la rainure de la cage du cardan. Elle bloque 100% de la rotation (effort de lacet/yaw). Aucun usinage "sur le tas" n'est requis.
+  3. **Assemblage et Perçage (Canon de perçage)** :
+     - Emmancher le tube carbone (avec son bouchon collé) dans le moyeu du cardan déjà percé.
+     - **Astuce Pro** : Utiliser les trous du cardan (acier trempé) comme **canon de perçage** pour percer le tube carbone et le bouchon avec une simple perceuse. L'acier guide le foret parfaitement au centre. Aucun alignement artisanal n'est nécessaire.
 
-  4. **Verrouillage Vertical (2× Circlips Acier Ressort — Sandwich Anti-arrachement)** :
-     La clavette stoppe la rotation, mais pas la translation verticale. Pour verrouiller complètement l'axe, on utilise **2 circlips en acier ressort** (anneaux élastiques, ex: type E pour arbre de 12mm) :
-     - **Circlips HAUT** : Monté dans la gorge au-dessus du cardan (entre le tube carbone et la face supérieure du cardan). Il empêche le cardan de remonter vers le tibia.
-     - **Circlips BAS** : Monté dans la gorge en dessous du cardan (juste après la face inférieure du cardan). Il empêche le cardan de descendre et de s'arracher en phase de vol.
-     - **Résultat** : Les 2 circlips "prennent en sandwich" le cardan sur l'arbre en aluminium. Il est physiquement impossible pour l'axe de bouger dans un sens comme dans l'autre. Zéro jeu vertical, fixation 100% mécanique et démontable.
+  4. **Insertion de la Goupille Mécanindus** :
+     - Enfoncer une **goupille élastique (roll pin) Ø3mm en acier** à l'aide d'un marteau et d'un chasse-goupille. Elle doit forcer légèrement (principe de la goupille élastique).
+     - **Résistance au cisaillement** : ~6 300 N (~630 kg) en double cisaillement, soit un **coefficient de sécurité de 5×** pour un robot de 39 kg à l'impact en course.
+     - **Résultat** : Pour séparer le tibia du cardan, il faudrait littéralement cisailler l'acier de la goupille (plusieurs tonnes de force). C'est la garantie absolue que rien ne bougera, même en cas de chute ou de saut.
+
+  > [!TIP]
+  > **Dimensionnement de la goupille selon le diamètre de l'axe :**
+  > | Diamètre Axe | Goupille Ø | Résistance cisaillement | Impact matière |
+  > |---|---|---|---|
+  > | 8 mm | 2,5 mm | ~4 400 N (~440 kg) | Acceptable (5,5 mm restants) |
+  > | 8 mm | 3 mm | ~6 300 N (~630 kg) | Limite pour la torsion |
+  > | 10 mm | 3 mm | ~6 300 N (~630 kg) | **Idéal** — très robuste |
+
+### 📐 Pourquoi un Tube Carbone et pas un Tube en Aluminium/Acier ?
+
+| Critère | **Tube Carbone 3K** (Ø40/36mm) | **Tube Aluminium 6061** (Ø40mm) | **Tube Acier** (Ø40mm) |
+|---|---|---|---|
+| **Masse** (L=220mm) | **~80 g** | ~180 g | ~450 g |
+| **Rigidité spécifique** (E/ρ) | **⭐⭐⭐⭐⭐** (~75 GPa·cm³/g) | ⭐⭐⭐ (~26 GPa·cm³/g) | ⭐⭐⭐ (~27 GPa·cm³/g) |
+| **Résistance fatigue** | **Infinie** (pas de limite d'endurance) | Limitée (fissures après ~10⁷ cycles) | Bonne |
+| **Impact inertiel** | **Minimal** — réduction de ~55% par rapport à l'alu | Référence | Catastrophique (~2,5× l'alu) |
+| **Assemblage** | Nécessite bouchon interne (collé + goupille) | Goupille directe, simple | Goupille directe, simple |
+| **Coût** | ~15-25 € (500mm) | ~5-10 € | ~5-10 € |
+
+**Verdict** : Le carbone est **2× plus léger** que l'aluminium et **5× plus léger** que l'acier, à rigidité égale ou supérieure. Pour un composant oscillant en bout de jambe (inertie distale maximale), cette réduction de masse a un **impact exponentiel** sur le couple requis aux genoux et hanches lors de la course. Le surcoût est négligeable (~15 €). Le bouchon interne (nécessaire pour protéger les fibres lors du goupillage) pèse ~15-20 g seulement.
+
+### 📐 Tube Carbone vs Lame de Carbone pour le Tibia ?
+
+| Critère | **Tube Carbone Ø40mm** | **Lame (plaque) Carbone** |
+|---|---|---|
+| **Résistance en flexion** | ⭐⭐⭐⭐⭐ Excellente dans **toutes** les directions (profil circulaire = inertie isotrope) | ⭐⭐⭐ Forte en pitch (sagittal) mais **très faible en lacet/roll** |
+| **Résistance en torsion** | ⭐⭐⭐⭐⭐ Moment d'inertie polaire élevé | ⭐⭐ Très mauvaise — une plaque fine vrille facilement |
+| **Assemblage cardan** | ⭐⭐⭐⭐ Bouchon + goupille traversante → très solide | ⭐⭐ Comment fixer un cardan sur une plaque plate ? Système de pince complexe |
+| **Poids** | ~80-100g | ~40-60g (mais à rigidité égale en 3D, il faut 2 plaques en V → poids comparable) |
+| **Amortissement passif** | Rigide (pas de flex) | ⭐⭐⭐⭐⭐ Fléchit comme un ressort à lame → absorption des chocs |
+| **Complexité** | Simple — un seul composant | Élevée — 2 plaques + pièces de jonction haut/bas |
+
+**Verdict** : Pour un tibia rigide relié à un cardan par goupille, le **tube carbone est le meilleur choix**. La lame serait intéressante uniquement dans une architecture "tibia flexible" (Solution S5 du document 15d), mais dans ce cas elle complète le tube, elle ne le remplace pas.
 
 ---
 
