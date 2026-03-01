@@ -9,7 +9,7 @@ Cette fraiseuse professionnelle "Desktop" est la machine de référence unique p
 ## 1. Spécifications Techniques (NestWorks C500)
 
 La C500 n'est pas un jouet de bureau, c'est une fraiseuse de classe industrielle miniaturisée :
-- **Broche Haute Puissance** : **1500W** (AC Servo motorisée). Permet d'attaquer directement des blocs massifs d'Aluminium 6061 ou 7075-T6 sans "caler", contrairement aux petites broches de 200W courantes.
+- **Broche Haute Puissance** : **800W** (AC Servo motorisée, jusqu'à 18 000 tr/min). Permet d'attaquer directement des blocs d'Aluminium 6061 ou 7075-T6, offrant un couple bien supérieur aux petites broches de 200W courantes sur les CNC de bureau.
 - **Changeur d'Outil Auto (ATC)** : Carrousel 10+ outils avec puces RFID pour la configuration automatique de la longueur d'outil.
 - **Précision Industrielle** : Guidages linéaires (Linear Rails & Ballscrews), suffisante pour garantir la tolérance **ISO H7 (±0.02 mm)** vitale pour l'insertion de nos roulements.
 - **Palpage 3D** : Touch probe sans fil intégré pour le repérage parfait des origines pièces.
@@ -49,7 +49,7 @@ La NestWorks C500 utilise un système de pince de serrage industriel **ER11**. L
 
 **Règle absolue :**
 1. **Ne jamais forcer** une fraise métrique de 6 mm dans une pince impériale de 1/4" (6.35 mm).
-2. Ce désalignement engendre un "runout" (voile) asymétrique. Un battement de juste **0.02 mm** ruine le fraisage d'un logement de roulement H7, et abîme prématurément la broche de 1500W.
+2. Ce désalignement engendre un "runout" (voile) asymétrique. Un battement de juste **0.02 mm** ruine le fraisage d'un logement de roulement H7, et abîme prématurément la broche de 800W.
 3. **Solution** : Ranger les collets NestWorks impériaux séparément. Si vous achetez des fraises européennes (6 mm, 4 mm), commandez les pinces ER11 métriques strictes correspondantes.
 
 ---
