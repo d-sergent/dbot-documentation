@@ -59,22 +59,32 @@ Plutôt qu'un tube rond, on utilise des matériaux composites plats pour former 
 *   **Interfaces** : Des blocs massifs (inserts) en Aluminium usiné sont pris en sandwich entre les plaques en haut et en bas pour fournir l'ancrage rigide aux moteurs.
 *   **Avantage** : Ultra-léger, très rigide en torsion, tout en préservant un espace vide central pour le cheminement des câbles.
 
-#### Comparatif Détaillé : U-Beam vs Treillis Carbone
+#### Solution 3 : Squelette Hybride (Alu Iso-grid + PA12-CF)
 
-| Critère | Poutre en U (Aluminium CNC) | Exosquelette Treillis (Carbone/Alu) |
-| :--- | :--- | :--- |
-| **Poids estimé** | ~600g - 800g (selon évidement interne) | **~300g - 400g** (Gain de 50% grâce au composite) |
-| **Solidité (Flexion)** | Excellente. L'aluminium massif encaisse parfaitement les chocs frontaux. | Excellente. Les plaques carbone sont imbattables dans le sens de la fibre. |
-| **Solidité (Torsion / Lacet)** | **Exceptionnelle**. Le profilé monobloc résiste parfaitement à la vrille. | Bonne, mais dépend entièrement de la qualité du serrage des entretoises en aluminium. |
-| **Complexité d'Usinage (C500)** | Moyenne/Haute. Nécessite d'usiner un gros volume d'aluminium, beaucoup de copeaux, 2 setups (intérieur puis extérieur). | **Faible/Moyenne**. Découpe 2D simple de plaques carbone. Usinage de petits blocs inserts simples. |
-| **Complexité d'Assemblage** | **Très simple**. C'est une pièce quasi-monolithique, très peu de vis. | Complexe. Beaucoup de vis, d'entretoises, risque de desserrage lié aux vibrations (frein filet obligatoire). |
-| **Intégration Câblage** | **Idéale**. Cavité interne naturelle très protectrice, facile à refermer avec un capot imprimé en 3D. | Bonne visuellement, mais les câbles restent partiellement exposés aux chocs latéraux entre les entretoises. |
-| **Prix des matières** | ~40€ - 60€ (Bloc brut Aluminium 6061 ou 7075). | ~80€ - 120€ (Plaques Carbone 4mm + Visserie + Inserts Alu). |
-| **Design "Look & Feel"** | Industriel, robuste, massif (type Tesla Optimus). | Très "High-Tech", course, agressif (type Unitree G1). |
+![Fémur : Solution Hybride Iso-grid](./img_femur_hybride.png)
+
+Il s'agit de la synthèse absolue entre la résistance de l'aluminium et la légèreté de l'impression 3D (PA12-CF) :
+*   **Squelettisation (CNC)** : On part d'une Poutre en U en aluminium 7075-T6 que l'on va évider agressivement (usinage de "poches" triangulaires type Iso-grid) sur la C500. Le bloc de ~800g perd 40% à 50% de sa masse pour atteindre ~350g, tout en conservant des interfaces moteurs (haut/bas) massives.
+*   **Hybridation (FDM)** : La perte de rigidité induite par la squelettisation est compensée par l'ajout de **coques structurelles épaisses en PA12-CF** (~150g). Ces coques viennent se visser ou se coller sur le squelette ajouré, fermant la cavité et offrant une rigidité en torsion exceptionnelle.
+*   **Avantage** : Un poids hybride record (~500g), une solidité structurelle rassurante aux points d'ancrage moteurs (aluminium), avec une esthétique et un routage de câbles parfaits (fermés et protégés par le Nylon-Carbone).
+
+#### Comparatif Détaillé : Les 3 Architectures de Fémur
+
+| Critère | Poutre en U (Aluminium Plein) | Exosquelette Treillis (Carbone) | Solution Hybride (Alu *Iso-grid* + PA12-CF) |
+| :--- | :--- | :--- | :--- |
+| **Poids estimé** | Lourd : ~700g - 800g | **Ultra-Léger : ~300g - 400g** | **Optimisé : ~500g** (350g Alu + 150g PA12) |
+| **Solidité (Flexion/Choc)** | Excellente. L'alu encaisse les gros chocs. | Excellente dans l'axe. Fragile aux chocs latéraux. | **Excellente**. L'alu prend la force, le PA12 encaisse l'impact. |
+| **Solidité (Torsion / Lacet)** | **Exceptionnelle** (Profilé monobloc). | Bonne (Robe aux vibrations de la visserie). | **Exceptionnelle** (Structure composite fermée). |
+| **Complexité Usinage (C500)** | Moyenne. 2 Setups (intérieur/extérieur). | Simple. Découpe 2D de plaques carbone. | **Haute**. Usinage complexe de poches triangulaires profondes. |
+| **Complexité Assemblage** | **Très simple** (pièce monobloc). | Complexe (beaucoup d'entretoises/vis). | Facile (vissage des coques PA12). |
+| **Intégration Câblage** | Idéale (caché dans la cavité). | Moyenne (câbles visibles entre les piliers). | **Idéale** (cavité étanche). |
+| **Aesthétique** | Industriel, robuste (type Tesla Optimus). | "Racing", agressif, filaire. | **Premium, futuriste (type Agility Digit)**. |
+| **Prix Estimé des matières**| Le moins cher : ~50€ (Bloc brut Alu).| Le plus cher : ~120€ (Plaques carbone). | Moyen : ~70€ (Alu brut + Fil PA12-CF). |
 
 **Verdict Fémur** : Le tube carbone rond est inadapté à la cuisse. 
-- Si l'objectif principal est le **gain de poids absolu**, concevez le fémur avec **des plaques de carbone planes (Solution 2 - Treillis)**.
-- Si l'objectif principal est la **simplicité de montage**, la fiabilité (zéro desserrage) et une **protection parfaite de l'électronique** : privilégiez l'usinage monolithique d'une **poutre en U en aluminium (Solution 1)**. C'est le choix généralement retenu par l'industrie pour les robots humanoïdes de 40kg+.
+- Si l'objectif principal est le **gain de poids absolu**, concevez le fémur avec le **Treillis Carbone (Solution 2)**.
+- Si le design exige **la simplicité et le prix le plus bas** : privilégiez la **Poutre en U massive en aluminium (Solution 1)**. 
+- 🏆 **La Recommandation Ultime** : La **Solution Hybride (Solution 3)** offre le compromis parfait d'ingénierie robotique moderne (répondant exactement à l'ADN du projet C500 + Qidi Plus 4). Elle marie des **ancrages moteurs indestructibles** (aluminium), une **protection parfaite de l'électronique** et un un **gain de poids drastique (-30% vs U-Beam plein)** grâce à la synergie de l'usinage en dentelle et de l'impression 3D composites.
 
 ---
 
