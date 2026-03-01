@@ -38,12 +38,28 @@ L'application du tube carbone au fémur semble intuitive pour gagner du poids, m
 - Le fémur n'est pas qu'un os : dans les robots bipèdes modernes, c'est l'endroit idéal pour loger les contrôleurs moteurs, acheminer les nappes de câbles (hanche → genou → cheville) cachées sous des coques de protection.
 - Un simple tube cylindrique rond empêche tout montage propre d'électronique et rend le "cable routing" (routage des câbles) affreux (tout courrait à l'extérieur, exposé aux chocs).
 
-### 📐 La vraie solution pour le Fémur : "Exosquelette treillis" ou "Poutre en U"
-Pour résoudre ces problèmes, les ingénieurs privilégient :
-1. **La Poutre en U (Aluminium plié ou CNC)** : Un profilé large et évidé. Rigide en flexion, léger, il offre une large surface pour visser les moteurs haut et bas, et une cavité pour faire passer les câbles/PCBs.
-2. **Le Treillis 3D avec plaques latérales (Carbone plat ou Alu)** : Deux plaques parallèles (gauche/droite) reliées par des entretoises.
+### 📐 Les vraies solutions pour le Fémur : "Poutre en U" ou "Treillis 3D"
+Pour résoudre ces problèmes, l'ingénierie biomimétique privilégie deux architectures robustes :
 
-**Verdict Fémur** : Le tube carbone rond est inadapté à la cuisse. Si l'on veut utiliser du carbone, il faudra concevoir le fémur avec **des plaques de carbone planes (lames épaisses usinées CNC)** disposées en "boîte" ou treillis, combinées à un châssis central en aluminium.
+#### Solution 1 : La Poutre en U (Aluminium CNC)
+
+![Fémur : Poutre en U Aluminum](./img_femur_poutre_u.png)
+
+Un profilé large et évidé en Aluminium 6061-T6 usiné à la CNC (C500). 
+*   **Rigidité** : Extrêmement rigide en flexion.
+*   **Intégration** : Il offre de très larges surfaces planes en haut et en bas pour visser les énormes brackets des moteurs de Hanche et de Genou.
+*   **Électronique** : Sa cavité interne est parfaite pour loger les PCB de puissance et faire passer les câbles proprement, protégés des chocs par une coque d'habillage externe en impression 3D (PA12-CF).
+
+#### Solution 2 : L'Exosquelette Treillis (Plaques Carbone + Aluminium)
+
+![Fémur : Exosquelette Treillis Carbone](./img_femur_treillis.png)
+
+Plutôt qu'un tube rond, on utilise des matériaux composites plats pour former une "boîte" ou 3D Truss :
+*   **Structure** : Deux épaisses plaques parallèles (gauche/droite) en Fibre de Carbone (usiné à la CNC), reliées entre elles par des entretoises horizontales en aluminium.
+*   **Interfaces** : Des blocs massifs (inserts) en Aluminium usiné sont pris en sandwich entre les plaques en haut et en bas pour fournir l'ancrage rigide aux moteurs.
+*   **Avantage** : Ultra-léger, très rigide en torsion, tout en préservant un espace vide central pour le cheminement des câbles.
+
+**Verdict Fémur** : Le tube carbone rond est inadapté à la cuisse. Si l'on veut utiliser du carbone, il faudra concevoir le fémur avec **des plaques de carbone planes (Solution 2)**, ou privilégier l'usinage monolithique d'une **poutre en U en aluminium (Solution 1)**.
 
 ---
 
