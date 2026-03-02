@@ -16,7 +16,7 @@ Ce document présente uniquement les **décisions définitives** pour le D-Bot. 
 | **Épaule** | **RS-03** (Pitch/Roll) + **RS-02** (Yaw) | 60 / 17 N.m | ✅ V1 |
 | **Coude** | **RS-02** | 17 N.m | ✅ V1 |
 | **Poignet Roll** | **RS-00** | 14 N.m | ✅ V1 |
-| **Main** | **D-Hand Premium** (8× XC330, tendons) | ~80-100 N grip | ✅ V1 |
+| **Main** | **D-Hand Hybrid** (4× XC430 + 4× XC330 + tactile) | ~175 N grip | ✅ V1 |
 | **Cou** | **RS-05** (×2) | 5.5 N.m | ✅ V1 |
 | **Masse totale** | ~**39 kg** | — | Référence |
 | **Vitesse marche** | ~**5-6 km/h** (pratique) | — | Estimé |
@@ -95,20 +95,21 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 ---
 
-## 5. Main — D-Hand Premium (8× Dynamixel XC330)
+## 5. Main — D-Hand Hybrid (4× XC430 + 4× XC330 + eFlesh)
 
-**Décision : Architecture tendon déporté, servos XC330 dans l'avant-bras.**
+**Décision : Architecture tandem déporté mixte, servos XC430 (force) et XC330 (précision) dans l'avant-bras.**
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| Servos | 8× **Dynamixel XC330-T288-T** (23g, métal, 1 N.m, 288:1) |
-| Emplacement | Avant-bras (10 cm sur 22 cm), 184g de moteurs |
+| Servos | 4× **Dynamixel XC430-W240-T** (force) + 4× **XC330-T288-T** (précision) |
+| Emplacement | Avant-bras (14.5 cm sur 22 cm dispo), 352g de moteurs |
 | DOF actifs | 8 (Pouce ×2, Index ×2, Majeur, Annulaire, Auriculaire, Paume) |
-| Force grip (5 doigts) | **~80-100 N** (8-10 kg) |
-| Poids main seule | **~250g** |
-| Tendons | Dyneema Ø0.8mm, gaines PTFE, poulies CNC Ø8mm |
-| Coût par main | ~**1 220 €** |
-| Protocole | Dynamixel TTL, ROS 2, SDK Python |
+| Force grip | **~175 N effectifs** (niveau Tesla Optimus) |
+| Tactile | **Options T2 (eFlesh 3-axes)** sur la pulpe des doigts |
+| Poids total (Main + Avant-bras) | **~850g** |
+| Tendons | Dyneema Ø0.8mm-1.0mm, gaines PTFE, poulies CNC Ø8mm |
+| Coût par main | ~**1 110 €** (Servos + BOM + eFlesh) |
+| Protocole | Dynamixel 2.0 TTL, ROS 2, SDK Python |
 
 **Évolution V4** : Phalanges Alu 7075 CNC (C500) pour durabilité maximale.
 
@@ -139,13 +140,13 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 | Métrique | Estimation | Config |
 | :--- | :---: | :---: |
-| **Masse totale** | ~39 kg | Cardan + D-Hand |
+| **Masse totale** | ~39.5 kg | Cardan + D-Hand Hybrid |
 | **DOF total** | 28 (24 corps + 2 cou + 2×8 mains) | V1 complet |
 | **Vitesse marche max** | ~5-6 km/h (pratique) | RS-04 genou limite |
 | **Vitesse course (V1 algo)** | ~4 km/h | Mid-foot strike |
 | **Vitesse course (V3 tirant)** | ~8-10 km/h | Mécanisme S2 |
-| **Charge portage bras tendu** | ~2 kg continu, 5 kg pic | RS-03 épaule |
-| **Grip main (force)** | ~80-100 N | 8× XC330 |
+| **Charge portage bras tendu** | ~2 kg continu, ~4 kg pic | RS-03 épaule |
+| **Grip main (force)** | **~175 N effectifs** | Hybrid XC430/XC330 |
 | **Autonomie** | ~4h | LiPo échangeable |
 
 ---
@@ -156,10 +157,10 @@ Aucune modification requise — marges très confortables même à 39 kg.
 > **Genou RS-04 à 97% de son pic à 2-3 km/h.** Nécessite un algorithme de marche soigné (ZMP control, courbe de jerk) pour éviter les pics thermiques. Priorité algorithmique n°1.
 
 > [!WARNING]
-> **Coude RS-02 limité à 5 kg bras plié** avec la D-Hand (+434g avant-bras). Upgrade RS-06 recommandé si portage lourd bras plié > 5 kg est requis.
+> **Coude RS-02 limité à 4.5 kg bras plié** avec la D-Hand Hybrid (+850g au bout du bras). Upgrade RS-06 recommandé si portage lourd bras plié > 4-5 kg est requis.
 
 > [!TIP]
-> **Démarrer par le gripper.** Un gripper simple (1× STS3215, 30€) permet de valider le bus RS-00 du poignet et l'intégration mécanique de la main **avant** d'investir ~1 220€ dans la D-Hand Premium.
+> **Démarrer par le gripper.** Un gripper simple (1× STS3215, 30€) permet de valider le bus RS-00 du poignet et l'intégration mécanique de la main **avant** d'investir ~1 110€ dans la D-Hand Hybrid.
 
 ---
 

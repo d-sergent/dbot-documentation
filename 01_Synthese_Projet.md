@@ -5,7 +5,7 @@ Le projet consiste à construire un robot humanoïde baptisé **D-Bot**.
 Il s'agit d'une **évolution majeure** de la plateforme open-source **K-Bot**, améliorée avec des actionneurs modernes et une intelligence embarquée avancée. Ce n'est pas un simple fork, mais une refonte complète de l'architecture électronique et motrice.
 
 ### Améliorations Clés (vs K-Bot Original)
-Le D-Bot repose sur un système de **24 moteurs RobStride** (20 DOF K-Bot + 2× RS-05 cou + 2× RS-00 cheville Roll), une vision IA **Luxonis OAK-D Pro** et un **LiDAR Unitree L2**, le tout piloté par une **NVIDIA Jetson Orin Nano** et une **Sony Spresense**.
+Le D-Bot repose sur un système de **24 moteurs RobStride** (membres, cou) et **16 servomoteurs Dynamixel purs** (mains tactiles D-Hand Hybrid à 8 DOF chacune), une vision IA **Luxonis OAK-D Pro** et un **LiDAR Unitree L2**, le tout piloté par une **NVIDIA Jetson Orin Nano** et une **Sony Spresense**.
 
 ## 2. Feuille de Route (Roadmap)
 Le projet est découpé en 4 phases distinctes pour valider chaque étape critique.
@@ -17,11 +17,12 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 
 ### Phase 2 : Premier Bras (Focus Actuel)
 *   **Objectif** : Validation mécanique et manipulation.
-*   **Matériel** : + 6 Moteurs Robstride (RS-03 épaule, RS-02 coude, RS-00 poignet).
-*   **Budget Est.** : ~2 000 €.
+*   **Matériel** : + 6 Moteurs Robstride (RS-03, RS-02, RS-00) et **D-Hand Hybrid (4× XC430 + 4× XC330 + eFlesh)**.
+*   **Budget Est.** : ~3 000 € (Bras + Main).
 
 ### Phase 3 : Deuxième Bras
 *   **Objectif** : Coordination bimanuelle.
+*   **Matériel** : + 6 Moteurs Robstride et **D-Hand Hybrid**.
 
 ### Phase 4 : Marche (Jambes)
 *   **Objectif** : Locomotion et équilibre dynamique.
@@ -42,6 +43,7 @@ graph TD
     subgraph "Contrôle Moteur"
     D --> D1["RS-02/03/04 (Membres)"]
     D --> D2["RS-00/05 (Poignets/Cou)"]
+    A -- "Bus TTL (U2D2)" --> D3["Dynamixel XC430/XC330 (Mains)"]
     end
 
     subgraph "Perception Audio/Sensor"

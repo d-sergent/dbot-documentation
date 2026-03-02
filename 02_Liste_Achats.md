@@ -54,9 +54,11 @@
 ### Phase 5 : Mains (16 DOF — 8 par main)
 | Modèle | Quantité | Couple (Peak) | Usage |
 | :--- | :--- | :--- | :--- |
-| **Dynamixel XC330-T288-T** | 16 | **1.0 Nm** | Actionnement par tendons (8 DOF / main) |
+| **Dynamixel XC430-W240-T** | 8 | **1.9 Nm** | Canaux de Force (Pouces, Index, Majeurs, Paumes) |
+| **Dynamixel XC330-T288-T** | 8 | **1.0 Nm** | Canaux de Précision (Oppositions, Abductions, Annulaires, Auriculaires) |
 | **U2D2** (USB↔Dynamixel) | 2 | — | Interface bus TTL (1 par main) |
-| **Buck 48V→12V** | 2 | — | Alimentation servos main |
+| **Buck 48V→12V 5A** | 2 | — | Alimentation servos main |
+| **Kit Tactile eFlesh** | 2 | — | Silicone Ecoflex 00-30, 10× MLX90393, 10× aimants N52 par main |
 
 > **Note** : Voir [Étude Main Robotique](./21_Etude_Main_Robotique.md) pour l'architecture D-Hand Premium.
 

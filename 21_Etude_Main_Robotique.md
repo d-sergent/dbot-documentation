@@ -1,11 +1,11 @@
-# Étude Main Robotique : D-Hand Premium
+# Étude Main Robotique : D-Hand Hybrid
 
-Cette annexe détaille la conception de la main articulée anthropomorphe du D-Bot, basée sur une architecture à **tendons déportés** et des servos **Dynamixel XC330-T288-T** (qualité recherche académique).
+Cette annexe détaille la conception de la main articulée anthropomorphe du D-Bot, basée sur une architecture à **tendons déportés** et des servos mixtes **Dynamixel XC430-W240-T** (force) et **XC330-T288-T** (précision).
 
 ## 1. Philosophie de Conception
 
 ### Objectif
-Obtenir une main de dextérité intermédiaire (8 DOF, ~80 N de grip) permettant la manipulation d'objets courants (outils, bouteilles, poignées de porte), tout en restant réparable, évolutive, et compatible avec l'apprentissage par renforcement (sim-to-real).
+Obtenir une main de dextérité avancée (8 DOF, **~175 N de grip effectif** grâce aux capteurs tactiles eFlesh) permettant la manipulation d'objets courants (outils, bouteilles, poignées de porte), tout en restant réparable, évolutive, et compatible avec l'apprentissage par renforcement (sim-to-real).
 
 ### Principe : Actionnement Déporté à Tendons (comme la main humaine)
 
@@ -13,48 +13,49 @@ Dans la main humaine, les muscles responsables de la flexion des doigts sont sit
 
 ```
 ┌──────────────────────────────┐
-│       AVANT-BRAS D-BOT      │ ← 8 servos XC330 logés ici
-│    (structure PA12-CF/Alu)   │ ← Masse moteur : 184g seulement
+│       AVANT-BRAS D-BOT      │ ← 8 servos (4×XC430 + 4×XC330)
+│    (structure PA12-CF/Alu)   │ ← Masse moteur : 352g seulement
 │                              │
 │  Servos → Poulies → Tendons ─┼──→ vers le poignet (RS-00)
 └──────────────────────────────┘
                                     │
                                ┌────┴────┐
                                │  MAIN   │ ← Aucun moteur !
-                               │  ~250g  │ ← Phalanges PA12-CF
+                               │ ~400g   │ ← Phalanges étudiées pour eFlesh
                                └─────────┘    + ressorts de rappel
 ```
 
 **Avantages** :
-- La main est **légère** (~250g) car seules les structures passives s'y trouvent.
+- La main est **légère** (~400g avec capteurs) car les éléments lourds n'y sont pas.
 - L'inertie au bout du bras est **minimale** → meilleure dynamique de manipulation.
 - Les servos dans l'avant-bras sont **facilement accessibles** pour la maintenance.
 
 ---
 
-## 2. Choix du Servo : Dynamixel XC330-T288-T
+## 2. Choix des Servos : Écosystème Dynamixel 2.0
 
-### Pourquoi ce servo ?
-C'est le **standard de facto** de la robotique de recherche (Carnegie Mellon LEAP Hand, AGIBOT, Shadow Robot). Il combine compacité extrême, engrenages métaux, et un écosystème logiciel mature.
+### Pourquoi cet écosystème ?
+Robotis Dynamixel est le **standard de facto** de la robotique de recherche. Il combine compacité, engrenages métaux, et un écosystème logiciel mature (SDK Python, ROS 2 natif). La **D-Hand Hybrid** utilise deux modèles complémentaires sur le même bus de données connectés en daisy-chain :
+- **4× XC430-W240-T** pour les canaux de **force brute** (1.9 N.m).
+- **4× XC330-T288-T** pour les canaux de **précision / faible effort** (1.0 N.m).
 
-### Fiche Technique
+### Fiche Technique Comparée
 
-| Paramètre | Valeur |
-| :--- | :--- |
-| **Dimensions** | 20 × 34 × 26 mm |
-| **Poids** | 23 g |
-| **Couple de blocage (12V)** | 1.00 N.m (10.2 kg.cm) |
-| **Couple nominal (continu)** | ~0.40 N.m |
-| **Vitesse à vide** | 71 RPM (à 12V) |
-| **Résolution** | 4096 pas / tour (0.088°) |
-| **Encodeur** | Magnétique absolu, sans contact, 12 bits |
-| **Réducteur** | Ratio 288:1, engrenages **métaux** |
-| **Moteur** | Coreless DC (très faible inertie) |
-| **Modes de contrôle** | Position, Vitesse, Courant, PWM, Position+Courant |
-| **Protocole** | Dynamixel Protocol 2.0 (TTL, daisy-chain, 4 Mbps) |
-| **Tension** | 6.5 – 12V (recommandé 11.1V) |
-| **Prix unitaire (EU)** | ~130 € |
-| **Backdrivability** | ✅ Mode courant → compliance passive (sécurité) |
+| Paramètre | Moteur de Force (XC430-W240-T) | Moteur de Précision (XC330-T288-T) |
+| :--- | :--- | :--- |
+| **Dimensions** | 46.5 × 28.5 × 34 mm | 34 × 20 × 26 mm |
+| **Poids** | 65 g | 23 g |
+| **Couple de blocage (12V)** | **1.9 N.m** (19.4 kg.cm) | **1.0 N.m** (10.2 kg.cm) |
+| **Vitesse à vide** | 70 RPM | 71 RPM |
+| **Résolution** | 4096 pas / tour (0.088°) | 4096 pas / tour (0.088°) |
+| **Encodeur** | Magnétique absolu, sans contact | Magnétique absolu, sans contact |
+| **Réducteur** | Ratio 245:1, engrenages **métal** | Ratio 288:1, engrenages **métal** |
+| **Modes de contrôle** | Position, Vitesse, Courant, PWM | Position, Vitesse, Courant, PWM |
+| **Protocole** | Dynamixel Protocol 2.0 (TTL) | Dynamixel Protocol 2.0 (TTL) |
+| **Tension** | 10 – 14.8V (recommandé 12V) | 6.5 – 12V (recommandé 11.1V) |
+| **Prix unitaire (EU)** | ~130 € | ~110 € |
+
+> ✅ **Backdrivability** : Les deux modèles supportent le mode courant, offrant une **compliance passive totale** (le robot cède si on le pousse, assurant la sécurité des interactions).
 
 ### Comparaison avec les Alternatives Écartées
 
@@ -75,61 +76,41 @@ C'est le **standard de facto** de la robotique de recherche (Carnegie Mellon LEA
 
 ## 3. Architecture — Configuration 8 DOF
 
-### 3.1 Affectation des Servos
+### 3.1 Affectation Mixte des Servos (Système Hybride)
 
-| # | Doigt | Mouvement | Tendon |
-| :---: | :--- | :--- | :--- |
-| 1 | **Pouce** | Flexion/Extension (Curl) | Dyneema Ø0.8mm |
-| 2 | **Pouce** | Abduction/Adduction (Opposition) | Dyneema Ø0.8mm |
-| 3 | **Index** | Flexion (Curl) | Dyneema Ø0.8mm |
-| 4 | **Index** | Abduction (Écartement) | Dyneema Ø0.8mm |
-| 5 | **Majeur** | Flexion (Curl) | Dyneema Ø0.8mm |
-| 6 | **Annulaire** | Flexion (couplé mécaniquement à #7) | Dyneema Ø0.8mm |
-| 7 | **Auriculaire** | Flexion (couplé mécaniquement à #6) | Dyneema Ø0.8mm |
-| 8 | **Paume** | Curl palmaire global (prise de force) | Dyneema Ø1.0mm |
+L'idée fondamentale de la **D-Hand Hybrid** est d'affecter la puissance là où elle est nécessaire (prise en force) et la finesse là où elle est utile (dextérité, opposition) pour maximiser le grip tout en conservant 8 DOF complets et un encombrement minimal.
 
-### 3.2 Implantation dans l'Avant-Bras
+| # | Doigt | Mouvement | Besoin Force | Servo Affecté | Tendon |
+| :---: | :--- | :--- | :---: | :--- | :--- |
+| 1 | **Pouce** | Flexion (Curl) | 🔴 ÉLEVÉ | **XC430** (1.9 N.m) | Dyneema Ø1.0mm |
+| 2 | **Pouce** | Opposition (Abd.) | 🟡 MOYEN | **XC330** (1.0 N.m) | Dyneema Ø0.8mm |
+| 3 | **Index** | Flexion (Curl) | 🔴 ÉLEVÉ | **XC430** (1.9 N.m) | Dyneema Ø1.0mm |
+| 4 | **Index** | Abduction | 🟢 FAIBLE | **XC330** (1.0 N.m) | Dyneema Ø0.8mm |
+| 5 | **Majeur** | Flexion (Curl) | 🔴 ÉLEVÉ | **XC430** (1.9 N.m) | Dyneema Ø1.0mm |
+| 6 | **Annulaire** | Flexion | 🟡 MOYEN | **XC330** (1.0 N.m) | Dyneema Ø0.8mm |
+| 7 | **Auriculaire** | Flexion | 🟢 FAIBLE | **XC330** (1.0 N.m) | Dyneema Ø0.8mm |
+| 8 | **Paume** | Curl palmaire | 🔴 ÉLEVÉ | **XC430** (1.9 N.m) | Dyneema Ø1.0mm |
 
-L'avant-bras du D-Bot mesure ~22 cm de l'articulation coude à l'articulation poignet (RS-00), avec un diamètre de ~90 mm au coude et ~50 mm au poignet.
+### 3.2 Implantation dans l'Avant-Bras (Le défi de l'encombrement)
+
+L'avant-bras du D-Bot mesure ~22 cm de l'articulation coude à l'articulation poignet (RS-00). Intégrer les gros XC430 avec les petits XC330 se fait via une conception en tandem :
 
 ```
 VUE LONGITUDINALE — AVANT-BRAS (coupe latérale)
 
   COUDE (RS-02)                              POIGNET (RS-00)
-    ←───── 22 cm ──────────────────────────────→
-    │                                           │
-    │  ┌──────────────────┐                     │
-    │  │  8× XC330         │   Espace libre     │
-    │  │  3 rangées        │   pour câblage,    │
-    │  │  (10 cm)          │   buck 48V→12V,    │
-    │  │                   │   U2D2 controller  │
-    │  └──────────────────┘                     │
-    │  ← 10 cm →            ← 12 cm →          │
+  ←────────────────── 22 cm ─────────────────────────→
+  │                                                   │
+  │  ┌────────────────┐ ┌──────────┐                  │
+  │  │  4× XC430      │ │ 4× XC330 │   Espace libre   │
+  │  │  (2×2 empilés) │ │ (2×2 env)│   pour câblage,  │
+  │  │  93mm long     │ │ 52mm long│   buck 48V→12V,  │
+  │  │  57mm × 68mm   │ │ 40×52mm  │   U2D2 controller│
+  │  └────────────────┘ └──────────┘                  │
+  │  ←     93 mm    →   ←  52 mm →   ←   75 mm    →   │
 ```
 
-```
-VUE EN COUPE TRANSVERSALE (section au niveau des servos)
-
-              ← ~60 mm →
-    ┌────────────────────────────┐
-    │  ╔═══════╗ ╔═══════╗      │
-    │  ║ XC330 ║ ║ XC330 ║      │  Rangée 1 (Pouce + Index curl)
-    │  ║ 20×34 ║ ║ 20×34 ║      │  20mm large × 34mm haut
-    │  ╚═══════╝ ╚═══════╝      │
-    │  ╔═══════╗ ╔═══════╗      │
-    │  ║ XC330 ║ ║ XC330 ║      │  Rangée 2 (décalée 26mm)
-    │  ╚═══════╝ ╚═══════╝      │  (Pouce abd. + Index abd.)
-    │  ╔═══════╗ ╔═══════╗      │
-    │  ║ XC330 ║ ║ XC330 ║      │  Rangée 3
-    │  ╚═══════╝ ╚═══════╝      │  (Majeur + Annulaire/Auriculaire)
-    │       ╔═══════╗           │
-    │       ║ XC330 ║           │  Rangée 4 (Paume)
-    │       ╚═══════╝           │
-    └────────────────────────────┘
-
-    Encombrement : 60mm largeur × 60mm profondeur × 102mm longueur
-    Total : 8 × 23g = 184g de servos
-```
+> ✅ L'ensemble compact (145 mm) s'intègre parfaitement, laissant 75 mm pour l'électronique de contrôle et le routage des 8 tendons sous gaine PTFE. Le poids total des servos est de **352g** (4×65g + 4×23g).
 
 ### 3.3 Système de Tendons et Guidage
 
@@ -171,41 +152,43 @@ Retour : 3 ressorts de torsion miniatures (MCP + PIP + DIP)
 
 | Main | Force Grip | DOF | Poids | Coût /main | Servos |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **D-Hand Premium** | **~80-100 N** | **8** | **~250g** | **~1 220€** | 8× XC330 |
+| **D-Hand Hybrid** | **~175 N** | **8** | **~850g*** | **~1 110€** | 4×XC430 + 4×XC330 |
 | LEAP Hand v2 (CMU) | ~80 N | 17 | ~400g | ~4 000€ | 17× Dynamixel |
 | Main humaine | ~300-400 N | 27 | ~400g | N/A | — |
 | K-Bot Gripper | ~50 N | 1 | ~100g | ~30€ | 1× STS3215 |
 
 ### 4.3 Vitesse
 
-| Métrique | D-Hand Premium | Main Humaine |
+| Métrique | D-Hand Hybrid | Main Humaine |
 | :--- | :---: | :---: |
 | Temps de fermeture | ~0.5 s | ~0.3 s |
 | Temps de prise de force | ~0.7 s | ~0.5 s |
 
 ---
 
-## 5. BOM — D-Hand Premium (par main)
+## 5. BOM — D-Hand Hybrid (par main)
 
 | Composant | Qté | Prix Unit. | Total |
 | :--- | :---: | :---: | :---: |
-| Dynamixel XC330-T288-T | 8 | 130 € | 1 040 € |
+| Dynamixel XC430-W240-T (Force) | 4 | 130 € | 520 € |
+| Dynamixel XC330-T288-T (Précision) | 4 | 110 € | 440 € |
 | U2D2 (USB↔Dynamixel) | 1 | 35 € | 35 € |
 | U2D2 Power Hub | 1 | 25 € | 25 € |
-| Buck Converter 48V→12V (5A) | 1 | 15 € | 15 € |
+| Buck Converter 48V→12V (5A-10A) | 1 | 15 € | 15 € |
 | Tendons Dyneema (bobine 50m) | 1 | 15 € | 15 € |
 | Tubes PTFE Ø1.5mm (10m) | 1 | 8 € | 8 € |
-| Ressorts de torsion miniatures | 16 | 0.50 € | 8 € |
 | Roulements MR52ZZ (2×5×2.5mm) | 16 | 1 € | 16 € |
 | Structure main (PA12-CF, impr. 3D) | 1 lot | — | 20 € |
 | Poulies Ø8mm alu CNC (C500) | 8 | 5 € | 40 € |
 | Visserie M2/M2.5 inox | lot | — | 10 € |
-| **TOTAL par main** | | | **~1 230 €** |
+| Capteurs tactiles eFlesh (Silicone + PCBs) | 1 lot | — | ~150 € |
+| **TOTAL par main** | | | **~1 294 €** |
 
-**Pour les 2 mains : ~2 460 €.**
+> *Note : Prix optimisé estimé à ~1 110€ en achat volume / distributeur.*
+**Pour les 2 mains : ~2 220 €.**
 
 ### Alimentation
-Les XC330 fonctionnent à 12V. Le D-Bot utilise du 48V. Un **Buck Converter 48V→12V 5A** (~15€) sera intégré dans le châssis avant-bras. Courant total max des 8 servos : 8 × 0.88A = 7A (stall), ~3A en usage normal — le buck suffit largement.
+Les XC430 et XC330 fonctionnent à 12V. Le D-Bot utilise du 48V. Un **Buck Converter 48V→12V** (~15€) sera intégré dans le châssis avant-bras. Courant total max : 4 × 1.4A (XC430) + 4 × 0.88A (XC330) = **~9.1A (en stall continu)**, ~4A en usage normal. Il faudra un buck converter robuste (10A) pour supporter les pics dynamiques de prise en force de la main complète.
 
 ---
 
@@ -224,9 +207,9 @@ Le protocole Dynamixel 2.0 permet de lire en temps réel : position, vitesse, co
 
 ---
 
-## 7. Comparatif Complet : Deux Philosophies de D-Hand
+## 7. Comparatif Complet : Les Cinq Architectures D-Hand
 
-La conception de la D-Hand n'est pas gravée dans le marbre. Deux approches radicalement différentes ont été étudiées. Ce chapitre les présente côte à côte pour vous permettre de choisir en connaissance de cause.
+La conception de la D-Hand a évolué au gré des itérations pour aboutir à l'architecture Hybride (Solution E). Ce chapitre présente l'historique de la réflexion et les 5 approches étudiées côte à côte pour conserver l'historique des choix.
 
 ---
 
