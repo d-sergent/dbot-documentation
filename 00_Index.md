@@ -127,6 +127,10 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Validation pour les Bras (Humérus) et Avant-Bras.
     *   Limites et complexité d'intégration pour le Fémur (Cuisse).
 
+26. **[Étude : Compatibilité IA & Apprentissage par Renforcement (Isaac Gym)](./25_Compatibilite_IA_Isaac_Gym.md)**
+    *   Standards URDF de l'industrie pour les algorithmes RL (NVIDIA).
+    *   Analyse du Waist Yaw (Rotation Z) et des degrés de liberté Bras/Épaule/Main.
+    *   Stratégie Sim2Real pour le D-Bot V1.
 
 ---
-*Documentation exhaustive générée et auditée en Février 2026.*
+*Documentation exhaustive générée et auditée en Février/Mars 2026.*
