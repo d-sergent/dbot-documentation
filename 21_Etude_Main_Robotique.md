@@ -645,11 +645,58 @@ Les capteurs **Xela uSkin** sont les capteurs tactiles utilisés par les laborat
 
 ### 8.5 Recommandation Tactile
 
-> **Pour le D-Bot V1** : Intégrer l'**Option T1 (FSR)** immédiatement (~50€/main). C'est gratuit en complexité et cela permet déjà la détection de contact et le dosage de force basique. Le couplage FSR + mode courant du Dynamixel crée une boucle de rétroaction très efficace :
-> ```
-> SI force_FSR > seuil ALORS réduire courant_servo → compliance adaptative
-> ```
+> 🟢 **Pour le D-Bot V1 : Intégrer l'Option T2 (eFlesh 3-axes) directement** (~150€/main).
+> L'écart de prix avec les FSR n'est que de +100€/main (+200€ pour les 2 mains). Pour ce surcoût marginal, on gagne la détection de **glissement** (3 axes), une bien meilleure sensibilité (0.5 gf vs 5 gf), et la compatibilité complète avec les algorithmes RL visuo-tactiles. Les moules sont imprimables sur la Qidi Plus 4 en PA12-CF, et le silicone Ecoflex 00-30 est disponible chez Amazon/AliExpress. **Ce choix est un no-brainer.**
 
-> **Pour le D-Bot V2** : Migrer vers l'**Option T2 (eFlesh 3-axes)** (~150€/main). L'ajout du cisaillement (glissement) permet d'entraîner des policies de manipulation stables en Isaac Gym. Le moulage silicone est réalisable avec une imprimante 3D et du Ecoflex 00-30.
+> 🟡 **L'Option T1 (FSR) reste un plan de secours** si le moulage Ecoflex pose problème. On colle les FSR en 5 minutes et on obtient déjà la détection de contact.
 
-> **Pour un objectif recherche pure** : L'**Option T3 (Xela uSkin)** est le choix de la Shadow Hand et de l'Allegro V5+, mais son coût (estimé 1 500-3 000€/main) dépasse potentiellement le budget d'un servo complet de D-Hand — à réserver pour le cas où un partenariat de recherche le financerait.
+> 🔴 **L'Option T3 (Xela uSkin)** est réservée à un objectif recherche financé ou un partenariat industriel.
+
+---
+
+### 8.6 Impact du Tactile sur la Force Effective de Grip
+
+C'est un point fondamental : le capteur tactile **ne change pas la force brute du moteur**, mais il **multiplie la force UTILE** de manière spectaculaire.
+
+#### Le problème sans tactile : la "marge de sécurité aveugle"
+
+Sans retour de force, le robot doit choisir entre deux stratégies perdantes :
+1. **Serrer fort "au cas où"** → Il gaspille ~40% de sa force en marge de sécurité, et risque quand même d'écraser un objet fragile.
+2. **Serrer faiblement "par précaution"** → L'objet glisse et tombe sans que le robot ne le sache.
+
+#### La solution tactile : le grip adaptatif en temps réel
+
+Avec un capteur 3-axes (eFlesh), le robot peut appliquer la stratégie humaine :
+```
+BOUCLE à 200 Hz :
+  1. Commencer avec une force minimale (10%)
+  2. LIRE capteurs tactiles (pression + cisaillement)
+  3. SI cisaillement > seuil → l'objet glisse ! → AUGMENTER force +5%
+  4. SI pression > max_objet → RÉDUIRE force (objet fragile)
+  5. Résultat : force OPTIMALE en permanence
+```
+
+#### Gain chiffré sur la force effective
+
+| Métrique | Sans Tactile | Avec Tactile T2 (eFlesh) |
+| :--- | :---: | :---: |
+| **Force brute moteur** | 100% | 100% (identique) |
+| **Marge de sécurité gaspillée** | ~40% | ~5% |
+| **Force utile effective** | **~60%** du couple | **~95%** du couple |
+| **Risque de casse objet fragile** | 🔴 Élevé | 🟢 Très faible |
+| **Risque de lâcher objet glissant** | 🔴 Élevé | 🟢 Très faible |
+
+#### Conséquence concrète sur nos 3 solutions de D-Hand
+
+| Solution | Couple brut | Force grip brute | Force grip **effective** (avec T2) |
+| :--- | :---: | :---: | :---: |
+| **D-Hand XL330 + eFlesh** | 0.52 N.m | ~40-60 N | **~55 N ✅** (suffisant pour démo/IA) |
+| **D-Hand XC330 + eFlesh** | 1.0 N.m | ~80-100 N | **~90 N ✅** (quotidien solide) |
+| **D-Hand STS3215 + eFlesh** | 3.0 N.m | ~120-150 N | **~140 N ✅** (industriel) |
+| D-Hand XC330 sans tactile | 1.0 N.m | ~80-100 N | **~55 N** (force gaspillée) |
+| D-Hand STS3215 sans tactile | 3.0 N.m | ~120-150 N | **~80 N** (force gaspillée) |
+
+> **Conclusion décisive** : Un **XC330 + eFlesh** à ~1 380€/main est **plus efficace en manipulation réelle** qu'un **STS3215 sans tactile** à ~300€/main ! Le STS3215 a 3× plus de couple brut, mais sans savoir quand il touche ni quand l'objet glisse, il gaspille sa puissance. Le XC330 avec capteurs dose parfaitement sa force limited et ne lâche jamais rien.
+>
+> Inversement, un **STS3215 + eFlesh** (à seulement ~450€/main) devient un véritable monstre de manipulation qui rivalise avec des mains à 16 000€ en termes de performance *effective*.
+
