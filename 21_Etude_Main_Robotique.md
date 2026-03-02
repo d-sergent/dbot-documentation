@@ -493,3 +493,163 @@ Le Dynamixel **XL330-M288-T** est le "petit frère" du XC330. Il partage son fac
 
 ---
 *Étude réalisée en Février/Mars 2026. Prix basés sur ROBOTIS-EU, RobotShop et distributeurs AliExpress.*
+
+---
+
+## 8. Le Toucher Robotique : Capteurs Tactiles pour la D-Hand
+
+### 8.1 Pourquoi le tactile change tout ?
+
+Sans capteurs tactiles, un robot manipule « en aveugle » : il sait où sont ses doigts (grâce aux encodeurs moteur), mais il **ne sait pas ce qu'il touche**, ni avec quelle force.
+
+Imaginez fermer les yeux et enfiler des gants de boxe : vous pouvez encore saisir une bouteille, mais impossible de manipuler une clé, de sentir si l'objet glisse, ou de doser la force pour ne pas écraser un œuf. Voilà la réalité d'un robot sans toucher.
+
+#### Ce que les capteurs tactiles apportent concrètement :
+
+| Capacité | Sans Tactile | Avec Tactile |
+| :--- | :--- | :--- |
+| **Détection de contact** | ❌ Le robot ne sait pas quand il touche l'objet | ✅ Détecte le contact au milligramme près |
+| **Dosage de la force** | ⚠️ Force préprogrammée (risque d'écraser / de lâcher) | ✅ Ajuste la pression en temps réel |
+| **Détection de glissement** | ❌ L'objet tombe sans prévenir | ✅ Détecte le micro-glissement → resserre |
+| **Reconnaissance d'objet** | ❌ Uniquement par la caméra | ✅ Identifie forme, texture, rigidité au toucher |
+| **Sécurité humaine** | ⚠️ Peut blesser en serrant trop fort | ✅ Relâche immédiatement si contact humain |
+| **Apprentissage (RL/IA)** | 🟡 Policies visuelles uniquement | 🟢 **Policies visuo-tactiles** (état de l'art 2024-2025) |
+
+> **En RL (Isaac Gym)** : Les publications les plus récentes (2024-2025) montrent que l'ajout de données tactiles dans les observations de l'agent **divise par 2 à 5 le temps d'entraînement** pour les tâches de manipulation et **améliore dramatiquement le taux de réussite du sim-to-real**. Les policies purement visuelles échouent presque systématiquement sur les tâches de manipulation fine (visser, insérer, tourner une clé).
+
+---
+
+### 8.2 Comparatif des Technologies Tactiles
+
+| Technologie | Principe | Sensibilité | Axes | Épaisseur | Prix / capteur | Complexité |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **FSR (Force Sensing Resistor)** | Résistance variable sous pression | ±5% (qualitatif) | 1 axe (normal) | 0.3 mm | **~2-5 €** | 🟢 Très simple |
+| **Capacitif (DIY TPU)** | Capacité entre 2 plaques | ±10% | 1 axe | 2-5 mm | **~5-15 €** | 🟢 Simple (3D print) |
+| **Piézoélectrique (PVDF)** | Charge électrique sous déformation | Très élevée | 1 axe (dynamique) | 0.1 mm | ~10-20 € | 🟡 Moyen |
+| **Magnétique (eFlesh)** | Hall sensor + aimant sous élastomère | Bonne | **3 axes** | 5-8 mm | ~15-30 € | 🟡 Moyen (open-source) |
+| **Xela uSkin** | Magnétique 3 axes industriel | **0.1 gf** | **3 axes** | 4-6.6 mm | **~200-500 €*** | 🔴 Pro (SDK dédié) |
+| **SynTouch BioTac** | Multi-modal (pression, vibration, T°) | Extrême | Multi | 25 mm | **~5 000 €** | 🔴 Recherche pure |
+
+*Prix Xela estimé (non public, sur devis).*
+
+---
+
+### 8.3 Propositions d'Intégration pour la D-Hand
+
+#### Option T1 : FSR DIY (~50€ / main) — « Le Minimum Vital »
+
+La solution la plus accessible : coller de petits capteurs FSR (type Interlink 402 ou Adafruit FSR) sur les bouts de doigts et la paume.
+
+| Composant | Qté | Prix |
+| :--- | :---: | :---: |
+| FSR Interlink 402 (Ø12.7mm) | 5 (bout de chaque doigt) | 25 € |
+| FSR longue bande (paume) | 2 | 10 € |
+| Multiplexeur analogique CD4051 | 1 | 2 € |
+| ADC 12-bit (ADS1015 ou intégré Jetson) | 1 | 5 € |
+| Câblage, film adhésif, gaine | lot | 8 € |
+| **Total / main** | | **~50 €** |
+
+```
+Implantation FSR sur la D-Hand :
+
+        ┌──── FSR Ø12mm ─────┐
+        │  [Pouce]  [Index]   │
+        │  [Majeur] [Annu.]   │
+        │  [Auric.]           │
+        │                     │
+        │  ══FSR Bande══      │  ← Paume (zone de puissance)
+        │  ══FSR Bande══      │
+        └─────────────────────┘
+```
+
+**Avantages** :
+- Intégration instantanée (coller + souder).
+- Compatible avec n'importe quelle version de D-Hand (XC330, STS3215, XL330).
+- Suffisant pour la détection de contact et le dosage basique de force.
+
+**Inconvénients** :
+- 1 seul axe (pression normale uniquement) → pas de détection de glissement.
+- Précision qualitative (~±20%) → pas de mesure absolue de force.
+- Pas de retour de texture ou de cisaillement.
+
+---
+
+#### Option T2 : Magnétique eFlesh 3-axes (~150€ / main) — « Le Sweet Spot Open-Source »
+
+Le projet **eFlesh** (publié 2024, open-source) propose des capteurs 3-axes imprimables en 3D. Un petit aimant est noyé dans un coussin d'élastomère, et un magnétomètre (type MLX90393) en dessous mesure le champ magnétique en X, Y, Z. Quand on appuie sur le coussin, l'aimant se déplace et le champ change.
+
+| Composant | Qté | Prix |
+| :--- | :---: | :---: |
+| Magnétomètre MLX90393 (breakout) | 5 (doigts) + 4 (paume) = 9 | 90 € |
+| Aimants néodyme Ø3×1mm | 9 | 5 € |
+| Élastomère silicone (Ecoflex 00-30) | 1 kit | 25 € |
+| Moules (imprimés 3D, PA12-CF) | 1 lot | 15 € |
+| Multiplexeur I²C TCA9548A | 1 | 5 € |
+| Câblage FPC + connecteurs | lot | 10 € |
+| **Total / main** | | **~150 €** |
+
+**Avantages** :
+- **3 axes** → détecte la pression ET le cisaillement (glissement).
+- Open-source, reproductible, réparable (moules imprimés 3D).
+- Résolution ~0.5 gf par axe → largement suffisant pour le grip adaptatif.
+- Forme personnalisable (bouts de doigts arrondis, paume plate).
+
+**Inconvénients** :
+- Épaisseur ~6 mm sur chaque bout de doigt (augmente légèrement le volume).
+- Calibration manuelle nécessaire pour chaque capteur.
+- Le silicone (Ecoflex) doit être moulé avec soin (bulles d'air = erreurs).
+
+---
+
+#### Option T3 : Xela uSkin Professionnel (~1 500-3 000€ / main estimé) — « Le Niveau Tesla »
+
+Les capteurs **Xela uSkin** sont les capteurs tactiles utilisés par les laboratoires de pointe et certains robots commerciaux. Ils offrent une sensibilité de 0.1 gf (un dixième de gramme !) sur 3 axes.
+
+| Configuration recommandée | Qté |
+| :--- | :---: |
+| uSkin Curved (uSCu) pour bouts de doigts | 5 (12 taxels chacun) |
+| uSkin Patch (uSPa) 4×4 pour paume | 2 (16 taxels chacun) |
+| Interface USB / I²C + câblage | 1 lot |
+| Logiciel uAi (calibration + visualisation) | Inclus |
+| **Total estimé / main** | **~1 500-3 000 €** |
+
+**Avantages** :
+- Sensibilité industrielle (0.1 gf, 3 axes).
+- Détection de texture, glissement, contact multi-points.
+- SDK professionnel, compatible ROS 2.
+- Épaisseur 4-6 mm (compact).
+
+**Inconvénients** :
+- Prix très élevé (sur devis uniquement, estimé 1 500-3 000€/main).
+- Dépendance fournisseur unique (Xela Robotics, Japon).
+- Surdimensionné pour un prototype V1.
+
+---
+
+### 8.4 Comparatif des Options Tactiles
+
+| Critère | T1 : FSR DIY | T2 : eFlesh 3-axes | T3 : Xela uSkin |
+| :--- | :---: | :---: | :---: |
+| **Coût / main** | **~50 €** 🟢 | ~150 € 🟡 | ~2 000 € 🔴 |
+| **Axes** | 1 (normal) | **3 (normal + cisaillement)** | **3 (normal + cisaillement)** |
+| **Détection contact** | ✅ | ✅ | ✅ |
+| **Détection glissement** | ❌ | ✅ | ✅ |
+| **Sensibilité** | ~5 g | ~0.5 g | **0.1 g** |
+| **Reconnaissance texture** | ❌ | ⚠️ Partielle | ✅ |
+| **Épaisseur** | 0.3 mm 🟢 | 6 mm | 4-6 mm |
+| **Reproductibilité DIY** | ✅ Triviale | ✅ Open-source | ❌ Commercial |
+| **Isaac Gym / RL** | 🟡 Basique | 🟢 Complet | 🟢 Optimal |
+| **Risque projet** | 🟢 Nul | 🟢 Faible | 🟡 Moyen (délai, coût) |
+
+---
+
+### 8.5 Recommandation Tactile
+
+> **Pour le D-Bot V1** : Intégrer l'**Option T1 (FSR)** immédiatement (~50€/main). C'est gratuit en complexité et cela permet déjà la détection de contact et le dosage de force basique. Le couplage FSR + mode courant du Dynamixel crée une boucle de rétroaction très efficace :
+> ```
+> SI force_FSR > seuil ALORS réduire courant_servo → compliance adaptative
+> ```
+
+> **Pour le D-Bot V2** : Migrer vers l'**Option T2 (eFlesh 3-axes)** (~150€/main). L'ajout du cisaillement (glissement) permet d'entraîner des policies de manipulation stables en Isaac Gym. Le moulage silicone est réalisable avec une imprimante 3D et du Ecoflex 00-30.
+
+> **Pour un objectif recherche pure** : L'**Option T3 (Xela uSkin)** est le choix de la Shadow Hand et de l'Allegro V5+, mais son coût (estimé 1 500-3 000€/main) dépasse potentiellement le budget d'un servo complet de D-Hand — à réserver pour le cas où un partenariat de recherche le financerait.
