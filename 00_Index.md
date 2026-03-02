@@ -132,5 +132,10 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Analyse du Waist Yaw (Rotation Z) et des degrés de liberté Bras/Épaule/Main.
     *   Stratégie Sim2Real pour le D-Bot V1.
 
+27. **[Étude : Architecture du Bloc Pelvien (Cardan de Hanche)](./26_Etude_Bloc_Pelvien_Hanche.md)**
+    *   Analyse de la chaîne cinématique de la hanche (Yaw → Roll → Pitch).
+    *   Comparatif de l'approche K-Bot vs Tesla Optimus / Unitree.
+    *   Jonction du dernier maillon (Pitch) avec le Fémur Hybride Sandwich.
+
 ---
 *Documentation exhaustive générée et auditée en Février/Mars 2026.*

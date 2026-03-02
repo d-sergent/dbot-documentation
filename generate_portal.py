@@ -38,6 +38,7 @@ files_to_read = [
     ('23_Strategie_Ultralight_Sous_Genou.md', 'Annexes', '24_Ultralight_Sous_Genou'),
     ('24_Etude_Extension_Carbone_Membres.md', 'Annexes', '25_Etude_Extension_Carbone_Membres'),
     ('25_Compatibilite_IA_Isaac_Gym.md', 'Annexes', '26_Compatibilite_IA'),
+    ('26_Etude_Bloc_Pelvien_Hanche.md', 'Annexes', '27_Bloc_Pelvien_Hanche'),
 ]
 
 def generate_portal():
