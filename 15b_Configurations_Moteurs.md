@@ -874,5 +874,17 @@ Le CoP mesuré par les FSR est comparé au **ZMP (Zero Moment Point)** calculé 
 | | | **Total** | **~$57** |
 
 ---
----
 
+## 11. Addendum : Architecture Hanche (Référence K-Bot vs D-Bot)
+
+Voici les extraits visuels de la modélisation CAO illustrant le positionnement théorique des moteurs d'origine du K-Bot transposés sur les membres du D-Bot (notamment au niveau du bloc pelvien et de la hanche).
+
+![Positionnement Moteurs Hanche K-Bot (Vue 1)](./img_kbot_assemblage_hanche_1.png)
+
+![Positionnement Moteurs Hanche K-Bot (Vue 2)](./img_kbot_assemblage_hanche_2.png)
+
+> [!NOTE]
+> **À titre de référence** : Ces images montrent la géométrie d'origine des actionneurs (Pitch / Roll / Yaw contigus). Étant donné les avancées récentes sur l'architecture du **Fémur Hybride** (Squelette articulé à plaques d'aluminium usinées), nous n'avons pas encore statué de manière définitive si nous reproduirons exactement à l'identique cet encombrement pelvien ou si nous optimiserons les supports.
+> *Ces schémas sont donc conservés ici comme point d'ancrage théorique pour la phase de conception CAO du bassin.*
+
+---
