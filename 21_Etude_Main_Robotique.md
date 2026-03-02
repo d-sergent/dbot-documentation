@@ -224,17 +224,184 @@ Le protocole Dynamixel 2.0 permet de lire en temps réel : position, vitesse, co
 
 ---
 
-## 7. Note Historique — Concepts Écartés
+## 7. Comparatif Complet : Deux Philosophies de D-Hand
 
-### CubeMars GL30 + Réducteur Cycloïdal (étude initiale)
-L'approche initiale envisageait 6 moteurs CubeMars GL30 (gimbal, 0.28 N.m) couplés à des réducteurs cycloïdaux 15:1 usinés en aluminium 7075-T6. Cette solution a été écartée car :
-- Usinage de 6 profils cycloïdaux 15 lobes à ±0.02mm → à la **limite de la C500**
-- ~120 pièces de précision par main → **assemblage irréaliste** pour un prototype
-- Aucun projet open-source n'a validé cette combinaison
-- Ratio coût/performance défavorable (~700-800€ pour un résultat incertain)
-
-### Feetech STS3215 (alternative budget)
-Option intermédiaire (6× STS3215, ~230€/main) offrant 3 N.m et 55g par servo. Engrenages nylon (usure), backdrivability limitée. Reste une **option de secours budget** valide mais ne correspond pas à l'ambition "haut de gamme" du projet.
+La conception de la D-Hand n'est pas gravée dans le marbre. Deux approches radicalement différentes ont été étudiées. Ce chapitre les présente côte à côte pour vous permettre de choisir en connaissance de cause.
 
 ---
-*Étude réalisée en Février 2026. Les prix et spécifications sont basés sur les sources officielles ROBOTIS et distributeurs européens.*
+
+### Solution A : D-Hand Premium (8× Dynamixel XC330-T288-T)
+*Architecture d'origine — Standard Académique*
+
+#### Fiche Technique XC330
+
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Dimensions (L×l×H)** | **34 × 20 × 26 mm** |
+| **Poids** | **23 g** |
+| **Couple de blocage (12V)** | 1.00 N.m (10.2 kg.cm) |
+| **Vitesse à vide** | 71 RPM (0.21 s/60° @12V) |
+| **Résolution position** | 4096 pas / 0.088° |
+| **Encodeur** | Magnétique absolu 12 bits |
+| **Réducteur** | 288:1 — engrenages **métal** |
+| **Moteur de base** | Coreless DC, très faible inertie |
+| **Bruit fonctionnement** | **~35–38 dB** (@ 30 cm; estimation) |
+| **Backdrivability** | ✅ Mode courant → compliance totale |
+| **Protocole** | Dynamixel 2.0 TTL, 4 Mbps, daisy-chain |
+| **Compatible SDK/ROS** | ✅ Dynamixel SDK, ROS 2, Isaac Gym URDF |
+| **Prix unitaire (EU)** | **~130 € (ROBOTIS-EU)** |
+| **Prix 8× / main** | **~1 040 €** |
+| **Prix total 2 mains** | **~2 080 €** |
+
+#### Implantation dans l'Avant-Bras
+
+Un seul XC330 mesure 34 × 20 × 26 mm. Avec 8 servos :
+- Emprise en coupe transversale : **60 × 60 mm**
+- Longueur de la "batterie de servos" : **~102 mm** (3 rangées de 26mm + 1 rangée)
+- Sur une fenêtre avant-bras de 22 cm (coude → poignet), l'emprise total laisse **12 cm** libres pour l'électronique (buck 48V→12V, câblage, contrôleur U2D2).
+
+```
+VUE EN COUPE TRANSVERSALE — 8× XC330
+          ← 60 mm →
+┌───────────────────────────┐
+│  ┌────────┐ ┌────────┐    │ ← Rangée 1
+│  │XC330 20│ │XC330 20│    │   (Pouce Curl + Index Curl)
+│  └────────┘ └────────┘    │
+│  ┌────────┐ ┌────────┐    │ ← Rangée 2 (décalée 26mm)
+│  │XC330   │ │XC330   │    │   (Pouce Abduction + Index Abduction)
+│  └────────┘ └────────┘    │
+│  ┌────────┐ ┌────────┐    │ ← Rangée 3
+│  │XC330   │ │XC330   │    │   (Majeur + Annulaire/Auriculaire)
+│  └────────┘ └────────┘    │
+│       ┌────────┐          │ ← Rangée 4
+│       │XC330   │          │   (Paume)
+│       └────────┘          │
+└───────────────────────────┘
+  Emprise totale : 60×60×102 mm / 184g de servos
+```
+
+#### Points Forts / Faibles
+
+| Critère | Évaluation |
+| :--- | :--- |
+| ✅ **Poids** | Le plus léger (~184g) — idéal pour l'inertie distale |
+| ✅ **Silencieux** | Coreless + engrenages métal → ~35-38 dB en fonctionnement |
+| ✅ **Backdrivability** | Compliance programmable → sécurité humain-robot |
+| ✅ **Précision** | 0.088°, encodeur magnétique sans contact, très fiable |
+| ✅ **Écosystème** | Meilleur du marché : SDK, ROS 2, URDF pour Isaac Gym |
+| ❌ **Prix** | 130€/servo → 1 040€/main → **2 080€ pour les deux** |
+| ❌ **Disponibilité** | Délais European ROBOTIS-EU parfois longs |
+| ❌ **Couple brut** | 1 N.m seulement — nécessite l'amplification par poulies |
+
+---
+
+### Solution B : D-Hand Standard (8× Feetech STS3215)
+*Architecture Budget Haute Performance*
+
+Le Feetech STS3215 est le servo *bus* le plus populaire dans la robotique open-source mondiale. Il équipe les K-Bot (1er prototype), les robots NASA Valkyrie hacks, et des centaines de projets DIY en attendant une version améliorée.
+
+#### Fiche Technique STS3215
+
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Dimensions (L×l×H)** | **45.2 × 24.7 × 35 mm** |
+| **Poids** | **55 g** |
+| **Couple de blocage (12V)** | **3.0 N.m (30 kg.cm)** |
+| **Vitesse à vide** | ~45 RPM (0.222 s/60° @12V) |
+| **Résolution position** | 4096 pas / 0.088° |
+| **Encodeur** | Magnétique absolu 12 bits |
+| **Réducteur** | ~252:1 — engrenages **acier** (version 12V) |
+| **Moteur de base** | DC standard (à balais, inertie plus élevée) |
+| **Bruit fonctionnement** | **~40–45 dB** (@ 30 cm; mesuré par fabricant) |
+| **Backdrivability** | ⚠️ Limitée (réducteur fort) — compliance partielle en courant |
+| **Protocole** | Feetech TTL (UART Half-Duplex, compatible SCSerial) |
+| **Compatible SDK/ROS** | ✅ Python SCSerial, ROS 2 via wrapper open-source |
+| **Prix unitaire (EU)** | **~22–30 € (RobotShop, AliExpress)** |
+| **Prix 8× / main** | **~180–240 €** |
+| **Prix total 2 mains** | **~360–480 €** |
+
+#### Implantation dans l'Avant-Bras
+
+Un STS3215 mesure 45.2 × 24.7 × 35 mm, soit **2x plus grand** qu'un XC330 dans chaque dimension. Avec 8 servos, deux configurations sont possibles :
+
+**Option 1 : 2 rangées de 4 (côte à côte)**
+```
+VUE EN COUPE TRANSVERSALE — 8× STS3215 (config 2×4)
+           ← ~100 mm →
+┌───────────────────────────────────────┐
+│  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐  │ ← Rangée 1 (4×)
+│  │STS 45mm │ │STS 45mm │ │STS 45mm │ │STS 45mm │  │   45×35 mm
+│  └─────────┘ └─────────┘ └─────────┘ └─────────┘  │
+│  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐  │ ← Rangée 2 (4×)
+│  └─────────┘ └─────────┘ └─────────┘ └─────────┘  │
+└───────────────────────────────────────┘
+  Emprise totale : 100×80×95 mm — TROP LARGE (Ø avant-bras ~80mm)
+```
+
+> ⚠️ **Problème Majeur d'Intégration** : 4 STS3215 côte à côte nécessitent ~100 mm de largeur. L'avant-bras du D-Bot ne fait que 80-90 mm à sa section la plus large (au niveau du coude). Cette configuration ne rentre **pas** dans un avant-bras esthétiquement correct.
+
+**Option 2 : Disposition en Tandem (2 colonnes de 4)**
+```
+VUE LONGITUDINALE — 8× STS3215 (tandem 2×4)
+  COUDE                                     POIGNET
+  ←────────────── 22 cm ─────────────────────→
+  │  ┌─────────┐ ┌─────────┐             │
+  │  │ Col A   │ │ Col B   │ Espace très  │
+  │  │ 4×STS   │ │ 4×STS   │ limité pour  │
+  │  │ 190mm   │ │ 190mm   │ l'électroniq.│
+  │  └─────────┘ └─────────┘             │
+    Emprise : 50mm × 70mm × 190 mm → Très juste
+```
+
+> ⚠️ La disposition en tandem est physiquement faisable, mais elle occupe **190 mm** de l'avant-bras en longueur (sur 220 mm totaux), laissant à peine **3 cm** pour le buck converter, le câblage bus série, et le contrôleur. C'est extrêmement contraint.
+
+> 💡 **Alternative réaliste** : Réduire à **6 STS3215** au lieu de 8 (en couplant mécaniquement les doigts 4 et 5). On tombe alors à ~143mm d'emprise en longueur, ce qui laisse 8 cm pour l'électronique. La perte fonctionnelle est acceptable.
+
+#### Points Forts / Faibles
+
+| Critère | Évaluation |
+| :--- | :--- |
+| ✅ **Couple brut** | 3× supérieur au XC330 (3 N.m vs 1 N.m) → prise de force immédiate |
+| ✅ **Prix** | ~25€/servo → 200€/main → **400€ pour les deux** — économie de 1 700€ |
+| ✅ **Disponibilité** | Stock constant (AliExpress, RobotShop, Seeed Studio) |
+| ✅ **Engrenages acier** | Plus robustes aux chocs que les bagues nylon |
+| ❌ **Poids** | 55g vs 23g → 440g de servos au lieu de 184g → +256g par main |
+| ❌ **Bruit** | 40–45 dB mesurés (vs ~35 dB XC330) — audible dans une pièce calme |
+| ❌ **Backdrivability** | Compliance réduite → risque de blesser les mains d'un humain si mal réglé |
+| ❌ **Encombrement** | **Trop grand** pour 8 servos en avant-bras standard. Oblige à passer à 6 DOF |
+| ❌ **Écosystème** | SDK Python correct mais moins bien intégré avec ROS 2 natif |
+
+---
+
+### Comparatif Final Côte à Côte
+
+| Critère | D-Hand Premium (8× XC330) | D-Hand Standard (6× STS3215) |
+| :--- | :---: | :---: |
+| **Coût total (2 mains)** | **~2 080 €** 🔴 | **~350 €** 🟢 |
+| **DOF par main** | **8** | 6 |
+| **Poids servos (par main)** | **184 g** 🟢 | 330 g 🔴 |
+| **Couple brut** | 1.0 N.m | **3.0 N.m** 🟢 |
+| **Bruit fonctionnement** | **~35 dB** 🟢 | ~43 dB 🟡 |
+| **Backdrivability** | ✅ Totale 🟢 | ⚠️ Partielle |
+| **Intégration avant-bras** | ✅ Aisée (60×60×102mm) | ⚠️ Contrainte (nécessite 6 servos min) |
+| **Force de grip estimée** | ~80-100 N | **~120-150 N** (couple brut × poulies) |
+| **Écosystème logiciel** | **Dynamixel SDK + ROS 2 natif** 🟢 | Python SCSerial + wrapper 🟡 |
+| **Niveau de risque projet** | 🟢 Faible | 🟡 Moyen (intégration plus serrée) |
+
+---
+
+### Recommandations Stratégiques
+
+> **Choisir la Solution A (XC330)** si :
+> - Vous privilégiez l'interaction sécurisée avec des humains (compliance totale en mode courant).
+> - L'intelligence artificielle et le sim-to-real (Isaac Gym) sont une priorité dès la V1.
+> - Vous voulez le bras le plus léger possible pour maximiser la dynamique du bras.
+
+> **Choisir la Solution B (STS3215)** si :
+> - Le budget est la contrainte primaire (économie de ~1 680 € sur les 2 mains).
+> - Vous préférez commencer avec une main fonctionnelle "à moindre coût" et upgrader en XC330 pour la V2.
+> - L'objectif prioritaire est la manipulation d'objets lourds (bouteilles, outils) plutôt que la dextérité fine.
+> - Vous acceptez de réduire à **6 DOF** par main (les doigts 4 et 5 couplés).
+
+---
+*Étude réalisée en Février/Mars 2026. Prix basés sur ROBOTIS-EU, RobotShop et distributeurs AliExpress.*
