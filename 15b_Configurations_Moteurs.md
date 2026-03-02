@@ -897,6 +897,9 @@ La cheville (Pitch/Roll) sert à maintenir la plante du pied à plat sur le sol,
 **2. Empêcher le pas croisé (Cross-Stepping)**
 Pendant la marche, lorsqu'une jambe est levée et avancée, la conservation du moment cinétique fait naturellement pivoter le bassin autour de la jambe d'appui. Le moteur Hanche Yaw compense activement cette rotation pour maintenir le bassin aligné vers l'avant. Sans lui, les jambes se croiseraient à chaque pas, entraînant inévitablement la chute du robot.
 
-En conclusion, une jambe bipède universelle nécessite impérativement 6 degrés de liberté (3 à la hanche, 1 au genou, 2 à la cheville). C'est pourquoi le positionnement de cet actionneur au niveau du bassin (le deuxième moteur RS-03 visible sur les schémas ci-dessus) doit impérativement être conservé dans la conception finale.
+**3. Compatibilité IA / Apprentissage par Renforcement (Isaac Gym)**
+C'est un point fondamental. L'architecture **6 DOF par jambe** (3 Hanche + 1 Genou + 2 Cheville) est le standard absolu de la robotique humanoïde. Tous les algorithmes modernes d'Apprentissage par Renforcement (RL) sous **NVIDIA Isaac Gym**, MuJoCo ou PyBullet s'attendent nativement à piloter ces 6 axes. En respectant ce standard URDF, le D-Bot pourra utiliser des politiques de marche (Sim2Real) génériques et s'entraîner beaucoup plus vite. Retirer un axe comme le Yaw forcerait l'IA à trouver des "hacks" de locomotion impossibles à transférer dans le monde physique.
+
+En conclusion, une jambe bipède universelle nécessite impérativement 6 degrés de liberté. C'est pourquoi le positionnement de cet actionneur au niveau du bassin (le deuxième moteur RS-03 visible sur les schémas ci-dessus) doit impérativement être conservé dans la conception finale.
 
 ---
