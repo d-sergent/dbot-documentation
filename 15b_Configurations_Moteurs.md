@@ -887,4 +887,16 @@ Voici les extraits visuels de la modélisation CAO illustrant le positionnement 
 > **À titre de référence** : Ces images montrent la géométrie d'origine des actionneurs (Pitch / Roll / Yaw contigus). Étant donné les avancées récentes sur l'architecture du **Fémur Hybride** (Squelette articulé à plaques d'aluminium usinées), nous n'avons pas encore statué de manière définitive si nous reproduirons exactement à l'identique cet encombrement pelvien ou si nous optimiserons les supports.
 > *Ces schémas sont donc conservés ici comme point d'ancrage théorique pour la phase de conception CAO du bassin.*
 
+### 11.1 Pourquoi le DOF "Hanche Yaw" (Rotation Z) est-il indispensable ?
+
+Bien que le D-Bot soit doté de chevilles articulées sur 2 axes (Pitch + Roll) grâce au mécanisme de cardan, la rotation de la jambe sur son axe vertical (Z, le Yaw de la hanche) reste une nécessité biomécanique absolue. On ne peut pas s'en passer.
+
+**1. Le Yaw sert à tourner (Le Pitch/Roll sert à s'équilibrer)**
+La cheville (Pitch/Roll) sert à maintenir la plante du pied à plat sur le sol, quelle que soit son inclinaison. La hanche (Yaw) sert à **changer la direction de la marche**. Si l'axe Z de la hanche est bloqué, le robot est contraint d'avancer en ligne droite. Pour faire un virage, il devrait riper ses pieds sur le sol, ce qui détruirait rapidement les moteurs de cheville par friction.
+
+**2. Empêcher le pas croisé (Cross-Stepping)**
+Pendant la marche, lorsqu'une jambe est levée et avancée, la conservation du moment cinétique fait naturellement pivoter le bassin autour de la jambe d'appui. Le moteur Hanche Yaw compense activement cette rotation pour maintenir le bassin aligné vers l'avant. Sans lui, les jambes se croiseraient à chaque pas, entraînant inévitablement la chute du robot.
+
+En conclusion, une jambe bipède universelle nécessite impérativement 6 degrés de liberté (3 à la hanche, 1 au genou, 2 à la cheville). C'est pourquoi le positionnement de cet actionneur au niveau du bassin (le deuxième moteur RS-03 visible sur les schémas ci-dessus) doit impérativement être conservé dans la conception finale.
+
 ---
