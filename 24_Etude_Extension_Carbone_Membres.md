@@ -83,7 +83,9 @@ L'idée de **ne pas usiner un "U" massif dans un seul bloc** est la vraie soluti
 La méthode parfaite pour la C500 consiste à scinder le fémur en **plusieurs pièces plates vissées et collées** :
 1. **Les Interfaces Moteurs (Haut et Bas)** : Deux gros blocs d'Aluminium usinés pour épouser parfaitement les vis des moteurs RS-04. Ces blocs agiront comme les "bouchons" structurels du fémur.
 2. **Les Plaques Latérales (Joues)** : Deux plaques plates d'Aluminium 7075-T6 (épaisseur ~4 mm à 5 mm), découpées et évidées (Iso-grid) en 2.5D sur la CNC. C'est extrêmement rapide à usiner.
-3. **L'Assemblage** : Les plaques latérales viennent s'encastrer précisément (ajustement H7 ou H8) dans des rainures usinées sur les blocs Moteurs, puis sont solidarisées par des vis M3 ou M4 traversantes.
+3. **L'Assemblage (Goupilles Mécanindus)** : Les plaques latérales s'encastrent précisément (ajustement H7 ou H8) dans des rainures usinées sur les blocs Moteurs. Plutôt que d'utiliser des vis (dont les filetages aluminium s'arracheraient sous les secousses), l'assemblage est verrouillé par des **Goupilles Élastiques (Mécanindus)** traversant l'ensemble de part en part.
+    - *Avantage Mécanique* : Une goupille offre une résistance au cisaillement (translation) infiniment supérieure à une vis et ne craindra jamais les vibrations du robot.
+    - *Règle de Conception* : Les alésages recevant ces goupilles **doivent impérativement être débouchants**. Ainsi, bien que l'assemblage soit extrêmement ferme, il reste 100% démontable en chassant simplement la goupille avec un pointeau (chasse-goupille).
 4. **La Plaque Arrière (Optionnelle)** : Soit une troisième fine plaque d'aluminium usinée, soit directement la coque en PA12-CF qui vient fermer le fond du U pour apporter la rigidité finale en torsion.
 
 Cette philosophie d'une structure en **platines assemblées** est exactement celle utilisée sur les bras et les jambes du robot *Optimus* ou du *Unitree G1*.
