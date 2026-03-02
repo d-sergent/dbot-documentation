@@ -87,6 +87,35 @@ C'est ici que l'approche matérielle dicte l'approche logicielle. Isaac Gym gèr
 
 ---
 
+## 4. La Tête et le Cou (Active Vision)
+
+**Question** : *Les algorithmes s'attendent-ils à avoir 2 DOFs au niveau du cou ? Le Pan/Tilt de la tête peut-il compenser l'absence de rotation du buste (Waist Yaw) ?*
+
+### 4.1 La Tête dans Isaac Gym (Active Vision)
+
+Absolument. En Apprentissage par Renforcement, la capacité de la *policy* à orienter ses propres capteurs s'appelle l'**Active Vision** (ou l'Attention Active). Les algorithmes les plus avancés ne se contentent pas de subir un flux vidéo statique découpé au hasard ; ils apprennent à *bouger* la caméra (la tête) pour scanner l'environnement, construire une carte de profondeur efficace (avec l'OAK-D et le LiDAR L2), et "verrouiller" visuellement une cible pendant que le corps bouge.
+
+| Axe (Convention) | Action | Statut IA | D-Bot V1 |
+| :--- | :--- | :---: | :---: |
+| **Head Pan (Yaw/Z)** | Dire "Non", tourner la tête gauche/droite | 🟢 **Très Important** | ✅ RS-05 |
+| **Head Tilt (Pitch/Y)** | Dire "Oui", lever/baisser la tête | 🟢 **Très Important** | ✅ RS-05 |
+
+Une tête articulée à 2 DOFs est la norme absolue pour les robots humanoïdes de nouvelle génération (Figure 01, Optimus, Atlas). Cela permet au robot de regarder où il va poser les pieds sur un sol accidenté sans avoir à incliner tout son torse avec un Waist Pitch.
+
+### 4.2 Le "Head Pan" comme Substitut Ultime au "Waist Yaw"
+
+C'est là que l'architecture du D-Bot est très élégante et que votre intuition est parfaitement exacte. **Oui, le Pan de la tête (rotation Z du cou) compense la majeure partie des inconvénients liés à l'absence de Waist Yaw (rotation Z du buste).**
+
+Si un robot est dépourvu de Waist Yaw *et* de tête articulée, et qu'il veut manipuler un objet situé à 45° sur sa droite, il a un énorme problème : il ne le voit plus. Il doit donc tourner tout son corps avec ses jambes pour le ramener au centre de son champ de vision.
+
+Grâce à ses **2 moteurs RS-05 au cou**, le D-Bot résout ce problème de ciblage spatial sans impliquer la dynamique complexe du torse :
+1. **Perception Indépendante** : Le D-Bot peut conserver sa dynamique de marche rectiligne (stable) tout en tournant la tête (Head Pan) pour repérer et "verrouiller" une cible sur sa gauche ou sa droite.
+2. **Ciblage Asymétrique pour la Manipulation** : Puisque la caméra stéréo (OAK-D) donne les coordonnées XYZ exactes de la cible à l'IA, le contrôleur des bras peut utiliser son **bras à 5 DOFs** (qui est amplement assez articulé) pour aller cueillir l'objet de côté, même si les épaules restent alignées avec les hanches.
+
+> **Verdict D-Bot** : L'intégration des 2 RS-05 au cou n'est pas un simple "gadget". C'est un composant fondamental pour la survie du robot dans un environnement RL. Le Pan/Tilt transforme l'absence de rotation du buste d'un véritable goulot d'étranglement (blocage perceptif) en une simple contrainte de "reachability" (espace de travail des bras) pour l'IA. Tant que l'objet est dans le champ visuel du cou et physiquement atteignable par les bras, l'absence de Waist Yaw est totalement transparente pour une tâche de manipulation en mouvement.
+
+---
+
 ## Bilan Cinématique D-Bot vs Standards RL
 
 Le D-Bot V1 est **parfaitement aligné** sur les standards pour un humanoïde d'apprentissage :
