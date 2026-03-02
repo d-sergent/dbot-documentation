@@ -22,6 +22,10 @@ Les images du K-Bot montrent une tentative de compacter les 3 moteurs dans un es
 - *Inconvénient majeur* : Cette conception crée souvent des collisions (auto-intersections) lors de mouvements combinés extrêmes et rend l'usinage des pièces de liaison affreusement complexe en CAO 3D.
 
 ### B. L'approche Tesla Optimus / Agility Digit
+
+![Référence : Actionneurs de Hanche Tesla Optimus (AI Day 2022)](./img_optimus_pelvis_reference.jpg)
+*(Note : Vue des actionneurs rotatifs de la hanche du Tesla Optimus, illustrant parfaitement l'empilement séquentiel des axes de rotation).*
+
 Dans les robots humanoïdes de nouvelle génération, l'empilement est assumé, clair et rectiligne. Le bassin (Pelvis) abrite le premier moteur, et les suivants s'y attachent comme des maillons de chaîne :
 1. **Bassin → Moteur Yaw (Lacet)** : Monté verticalement dans le bassin pour orienter la jambe.
 2. **Moteur Yaw → Moteur Roll (Roulis)** : Fixé à l'horizontale pour écarter la jambe de côté.
