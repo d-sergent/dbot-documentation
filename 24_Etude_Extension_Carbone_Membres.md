@@ -90,6 +90,29 @@ La méthode parfaite pour la C500 consiste à scinder le fémur en **plusieurs p
 
 Cette philosophie d'une structure en **platines assemblées** est exactement celle utilisée sur les bras et les jambes du robot *Optimus* ou du *Unitree G1*.
 
+#### 4. Zoom sur l'Ingénierie des Interfaces (Hanche et Genou)
+
+L'un des défis majeurs évoqués plus haut est la connexion d'un côté au **cluster de hanche** (impliquant 3 moteurs dont le gros RS-04) et de l'autre au **genou** (RS-04). Comment concevoir ces "Blocs Moteurs" (les extrémités du fémur) de manière simple et robuste ?
+
+La solution s'appelle **l'Architecture en "Sandwich"** :
+
+**A. L'Interface Supérieure (Côté Hanche RS-04)**
+- Le stator du moteur RS-04 de la hanche (Pitch) est fixé au bassin. C'est son rotor (la cloche tournante) qui entraîne le fémur.
+- Le fémur ne se visse *pas* directement sur le rotor. Il vient "enserrer" une pièce intermédiaire.
+- **La Pièce Clé (Le "Bloc Hanche")** : C'est une grosse brique d'aluminium usinée (CNC). Une de ses faces possède l'empreinte circulaire des 8 vis M4 du rotor du RS-04. Ses côtés (flancs) sont parfaitement plats et usinés avec des rainures (encoches).
+- **Le Sandwich** : Les deux grandes plaques latérales du fémur (les joues en alu Iso-grid de 5mm) viennent s'emboîter de chaque côté de cette brique. Des goupilles Mécanindus traversent la plaque gauche, la brique d'aluminium, et la plaque droite. L'ensemble est indéformable en torsion.
+
+**B. L'Interface Inférieure (Côté Genou RS-04)**
+La situation au genou est inversée. Le fémur doit "porter" le moteur du genou.
+- **Le Bloc Genou** : Une autre brique d'aluminium massive usinée. Elle agit comme le "berceau" du moteur RS-04.
+- Le stator (partie fixe) du RS-04 vient se visser solidement dans ce berceau (souvent via un collier de serrage CNC ou des vis frontales).
+- Comme pour la hanche, les deux grandes plaques du fémur viennent prendre ce berceau "en sandwich" de chaque côté, verrouillées par goupilles Mécanindus.
+- *C'est ensuite le tibia (via un autre système) qui viendra se fixer sur le rotor tournant de ce moteur de genou.*
+
+> **Le Bilan Mécanique** : Cette approche découple totalement la complexité. La C500 n'a plus qu'à usiner 2 plaques plates (facile en 2.5D) et 2 petits blocs massifs de fixation (les adaptateurs Hanche et Genou). On n'essaie plus "d'évader" un bloc géant pour tout faire d'un coup.
+
+![Architecture Sandwich Fémur Hybride](./img_femur_hybride_sandwich.png)
+
 #### Directives CAO / FAO (C500) pour les Plaques Latérales
 
 Pour concevoir les deux plaques d'aluminium (les joues du fémur) de la Solution 3, voici les **dimensions cibles recommandées** pour un robot de taille ~1m40 pesant ~35-40 kg. Ces cotes sont optimisées pour la CNC NestWorks C500 :
