@@ -28,7 +28,7 @@ Presque tous les algorithmes d'entraînement modernes se basent sur des modèles
 
 **Pour la Manipulation Mobile (marcher ET manipuler)** : Oui. Dès que vous entraînez une "Whole-Body Control Policy" (WBC) où le robot doit avancer dans un couloir tout en regardant et attrapant un objet sur une table à sa droite, l'IA cherchera l'axe *Waist Yaw*. Sans axe Z au torse, le robot devrait marcher en "pas chassés" (crabe) ce qui est énergétiquement inefficace, ou tourner entièrement son corps sans cesse.
 
-> **Verdict D-Bot** : La version actuelle (V1) n'a pas de Waist Yaw pour des raisons de rigidité structurelle et de simplicité (et le K-Bot n'en a pas). C'est le **premier axe à ajouter dans une V2** (via un gros moteur type RS-04 ou un Harmonic Drive) entre le bassin et les épaules, dès que le D-Bot devra faire des tâches de manipulation complexes. L'IA s'adaptera sans problème à son absence pour l'apprentissage de la marche initiale.
+> **Verdict D-Bot** : La version actuelle (V1) fait l'impasse sur le Waist Yaw pour des raisons de rigidité structurelle et de simplicité. Mais, comme expliqué plus bas dans la **Section 4 (La Tête et le Cou)**, cette absence est **magistralement compensée par les 2 moteurs du cou (Pan/Tilt)**. En utilisant la Vision Active (Active Vision), le robot peut tourner la tête pour cibler un objet asymétrique, et utiliser les 5 DOFs de ses bras pour l'atteindre, sans avoir besoin de faire pivoter son bassin. L'ajout d'un Waist Yaw reste une piste d'optimisation (V2) pour des postures extrêmes, mais l'IA s'adaptera sans problème à son absence sur la V1 grâce à la tête articulée.
 
 ---
 
