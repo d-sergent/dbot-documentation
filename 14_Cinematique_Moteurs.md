@@ -65,14 +65,12 @@ Le **D-Bot** étend le K-Bot de 20 à **24 DOF** avec trois ajouts. Voir [Analys
 | :--- | :---: | :---: | :---: | :--- |
 | **Cou Pan** (Yaw) | RS-05 | 1 | 5.5 N.m | Rotation horizontale tête |
 | **Cou Tilt** (Pitch) | RS-05 | 1 | 5.5 N.m | Inclinaison tête |
-| **Cheville Roll** 🆕 | RS-00 | 2 (ajout) | 14 N.m | **Stabilité latérale** (compact, précis) |
+| **Poignet Roll** 🆕 | RS-00 | 2 (ajout) | 14 N.m | **Orientation main** (compact, puissant) |
 
 **Total D-Bot** : 20 (Base) + 2 (Tête) + 2 (Chevilles Roll) = **24 moteurs**.
 
 > [!NOTE]
-> **Mécanisme de cheville K-Bot conservé (Tirant/Linkage)** : Le RS-02 de cheville n'est **pas en prise directe** sur l'axe de la cheville. Il est monté **haut dans le tibia** et actionne le pied via un **mécanisme de tirant** (connecting rod / pushrod). Ce bras de levier crée un avantage mécanique (~2:1) qui multiplie le couple effectif : 17 N.m × 2 ≈ **34 N.m** à la cheville. **Le D-Bot conserve cette architecture éprouvée** pour le Pitch, et ajoute un RS-00 en direct-drive pour le Roll.
-
-![Mécanisme de cheville K-Bot avec tirant (RS-02 haut dans le tibia)](./assets/kbot_ankle_linkage.png)
+> **Mécanisme de cheville D-Bot (Cardan + 2×RS-03)** : La cheville du K-Bot (RS-02) était insuffisante pour la marche dynamique. Le D-Bot la remplace par une architecture de cardan à deux axes concourants (DIN 808) pilotée par deux moteurs RS-03 via des bielles croisées. Ce différentiel mécanique offre 120 N.m en Pitch et Roll sans ajouter de masse distale (les moteurs sont haut dans le tibia).
 
 ## 2. Spécifications Moteurs RobStride (Gamme Complète)
 Voici les données techniques consolidées pour l'ensemble de la gamme RobStride (Février 2025).  
@@ -111,15 +109,18 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 | Zone | Moteur | Quantité | Couple Pic | Justification |
 | :--- | :---: | :---: | :---: | :--- |
 | Cou (Pan/Tilt) | RS-05 | 2 | 5.5 N.m | Légèreté critique (tête avec OAK-D Pro ~100g, LiDAR L2 sur le torse) |
-| Poignet | RS-00 | 2 | 14 N.m | Compact, fort couple pour manipulation fine |
-| Épaule Yaw + Coude | RS-02 | 4 | 17 N.m | Standard polyvalent 48V |
+| Poignet Roll | RS-00 | 2 | 14 N.m | Compact, fort couple pour manipulation fine |
+| Coude Pitch | RS-06 | 2 | 36 N.m | Force intermédiaire pour manipulation bras plié |
+| Épaule Yaw | RS-02 | 2 | 17 N.m | Rotation de l'humérus proximale |
 | Épaule Pitch/Roll | RS-03 | 4 | 60 N.m | Force pour porte-à-faux bras tendu |
 | Hanche Roll/Yaw | RS-03 | 4 | 60 N.m | Équilibre latéral + rotation |
-| Hanche Pitch + Genou | RS-04 | 4 | 120 N.m | Portance totale (~36 kg robot) |
-| **Cheville Pitch** | **RS-02** | **2** | **17 N.m** (×2 avec tirant = ~34 N.m) | **Propulsion via tirant** (architecture K-Bot conservée) |
-| **Cheville Roll** 🆕 | **RS-00** | **2** | **14 N.m** | **Stabilité latérale (compact, ratio 10:1)** |
+| Hanche Pitch + Genou | RS-04 | 4 | 120 N.m | Portance totale dynamique |
+| Cheville (Pitch/Roll) | RS-03 | 4 | 120 N.m (Cardan) | Propulsion via bielles et cardan DIN 808 (2× RS-03 par cheville) |
 
-**Total moteurs D-Bot** : 2 + 2 + 4 + 4 + 4 + 4 + 2 + 2 = **24 moteurs**.
+**Total moteurs D-Bot** : 2 (Cou) + 2 (Poignets) + 2 (Coudes) + 2 (Yaws) + 4 (Epaules) + 4 (Hanches R/Y) + 4 (Hanches/Genoux P) + 4 (Chevilles) = **24 moteurs**.
+
+> [!NOTE]
+> **Décisions Architecturales Finales** : Le tableau ci-dessus reflète les conclusions de l'**option de performance maximale** (architecture V2). L'ancienne configuration cheville (RS-02/RS-00) a été remplacée par l'architecture Cardan (2× RS-03), et le coude (RS-02) par le RS-06. (Voir Documents 15 et 16).
 
 ## 3. Communication & Alimentation
 Tous les moteurs partagent le même protocole :

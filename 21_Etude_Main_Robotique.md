@@ -98,7 +98,7 @@ L'avant-bras du D-Bot mesure ~22 cm de l'articulation coude à l'articulation po
 ```
 VUE LONGITUDINALE — AVANT-BRAS (coupe latérale)
 
-  COUDE (RS-02)                              POIGNET (RS-00)
+  COUDE (RS-06)                              POIGNET (RS-00)
   ←────────────────── 22 cm ─────────────────────────→
   │                                                   │
   │  ┌────────────────┐ ┌──────────┐                  │
@@ -455,7 +455,7 @@ La magie du mix : les 4 "petits" XC330 compensent les 4 "gros" XC430 en occupant
 ```
 VUE LONGITUDINALE — HYBRIDE 4×XC430 + 4×XC330
 
-  COUDE (RS-02)                                    POIGNET (RS-00)
+  COUDE (RS-06)                                    POIGNET (RS-00)
   ←──────────────────── 22 cm ──────────────────────→
   │                                                  │
   │ ┌────────────────┐  ┌──────────┐                │

@@ -35,7 +35,8 @@
 | Modèle | Quantité | Couple (Peak) | Usage |
 | :--- | :--- | :--- | :--- |
 | **Robstride 03** | 2 | **60 Nm** | Épaule (Force brute - Pitch/Roll) |
-| **Robstride 02** | 2 | **17 Nm** | Épaule Yaw / Coude |
+| **Robstride 06** | 1 | **36 Nm** | Coude |
+| **Robstride 02** | 1 | **17 Nm** | Épaule Yaw |
 | **Robstride 00** | 1 | 14 Nm | Poignet Roll |
 
 ### Phase 3 : Deuxième Bras (5 DOF identiques)

@@ -14,7 +14,7 @@ Ce document présente uniquement les **décisions définitives** pour le D-Bot. 
 | **Genou Pitch** | **RS-04** + algo mid-foot strike | 120 N.m | ✅ V1 |
 | **Hanche Pitch + Yaw** | **RS-04** (pitch) + **RS-03** (roll/yaw) | 120 / 60 N.m | ✅ V1 |
 | **Épaule** | **RS-03** (Pitch/Roll) + **RS-02** (Yaw) | 60 / 17 N.m | ✅ V1 |
-| **Coude** | **RS-02** | 17 N.m | ✅ V1 |
+| **Coude** | **RS-06** | 36 N.m | ✅ V1 |
 | **Poignet Roll** | **RS-00** | 14 N.m | ✅ V1 |
 | **Main** | **D-Hand Hybrid** (4× XC430 + 4× XC330 + tactile) | ~175 N grip | ✅ V1 |
 | **Cou** | **RS-05** (×2) | 5.5 N.m | ✅ V1 |
@@ -83,13 +83,13 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | Épaule Pitch | RS-03 | 60 N.m |
 | Épaule Roll | RS-03 | 60 N.m |
 | Épaule Yaw | RS-02 | 17 N.m |
-| Coude Pitch | RS-02 | 17 N.m |
+| Coude Pitch | RS-06 | 36 N.m |
 | Poignet Roll | RS-00 | 14 N.m |
 
 **Capacité de portage (avec D-Hand +434g) :**
 - Bras tendu, continu : **~2 kg**
 - Bras tendu, pic : **~5 kg**
-- Bras plié (coude 90°), sécurité : **~5 kg**
+- Bras plié (coude 90°), sécurité : **~10 kg**
 
 > Voir : [Analyse portage §3](./15a_Analyse_Locomotion_Baseline.md) | [Mise à jour D-Hand](./15c_Revision_Cardan_39kg.md)
 
