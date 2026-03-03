@@ -239,7 +239,19 @@ VUE SCHÉMATIQUE — ÉPAULE D-BOT V1
 | **2 (Inter.)** | **RS-03** | **Roll (X)** | 60 N.m | Contre le porte-à-faux latéral. Fixé au rotor du Pitch. |
 | **3 (Distal)** | **RS-02** | **Yaw (Z)** | 17 N.m | Rotation de l'humérus. Le plus léger (405g) car en bout de chaîne. |
 
-### 5.3 Brackets de Liaison (CNC Alu 6061)
+### 5.3 Choix du Matériau pour les Brackets (CNC C500)
+
+L'usinage maison sur la NestWorks C500 offre plusieurs choix de matériaux (Aluminium, Inox, Tungstène). Voici l'analyse pour notre cas d'usage (brackets d'épaule devant supporter 60 N.m tout en recherchant la compacité pour rendre les axes concourants) :
+
+| Matériau | Densité | Usinabilité (C500) | Résistance (R_{e}) | Verdict pour l'Épaule |
+| :--- | :--- | :--- | :--- | :--- |
+| **Alu 6061-T6** | **2.7 g/cm³** (Très léger) | ⭐⭐⭐ Excellente | ~276 MPa | 🟢 **Le choix optimal.** Parfait compromis poids/rigidité. Permet un usinage rapide et précis sur la C500 pour atteindre les tolérances nécessaires aux axes quasi-concourants. Excellente dissipation thermique pour les moteurs. |
+| **Acier Inox (304/316)** | **8.0 g/cm³** (Très lourd) | ⭐ Difficile | ~215-300 MPa | ❌ **Trop lourd.** Multiplierait par 3 le poids des brackets (~600g au lieu de 200g). Ajouter du poids (masse morte) aussi haut sur le torse d'un humanoïde est critique pour l'équilibre dynamique. |
+| **Tungstène** | **19.3 g/cm³** (Métal lourd) | ❌ Très difficile | Très élevée | ❌ **À proscrire.** Les brackets pèseraient près de 1.4 kg (7x plus lourd) ! L'usinage sur une CNC comme la C500 serait un cauchemar (usure extrême des fraises) pour des formes en 3D. |
+
+> **Conclusion Matériau** : L'**Aluminium 6061-T6** s'impose sans hésitation. Sur un robot humanoïde, réduire l'inertie et la masse placée en hauteur est LA priorité absolue de la conception. Une plaque d'Alu de 4 à 5 mm d'épaisseur est structurellement sur-dimensionnée pour gérer les 60 N.m du couple Pitch/Roll.
+
+### 5.4 Spécifications des Brackets (Alu 6061)
 
 Deux brackets sont nécessaires pour relier les 3 moteurs :
 
@@ -250,7 +262,7 @@ Deux brackets sont nécessaires pour relier les 3 moteurs :
 
 > **Note** : Les brackets doivent être **aussi compacts que possible** pour minimiser le décalage entre les axes de rotation (les rapprocher d'une configuration concourante). Viser un décalage inter-axe de **< 30mm** entre Pitch et Roll, et **< 25mm** entre Roll et Yaw.
 
-### 5.4 Bilan Masse et Coût
+### 5.5 Bilan Masse et Coût
 
 | Composant | Masse | Coût |
 | :--- | :---: | :---: |
