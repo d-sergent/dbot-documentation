@@ -203,6 +203,8 @@ Contrairement à la cheville où le cardan + bielles résolvait un problème sp�
 
 ### 5.1 Empilement Recommandé
 
+![Vue 3D des 3 moteurs de l'épaule D-Bot avec axes nommés — RS-03 Pitch (Axe Y), RS-03 Roll (Axe X), RS-02 Yaw (Axe Z) — et humérus](./assets/shoulder_3d_axes.png)
+
 ```
 VUE SCHÉMATIQUE — ÉPAULE D-BOT V1
 
@@ -266,6 +268,8 @@ Deux brackets sont nécessaires pour relier les 3 moteurs :
 ## 6. Optimisations Futures (V2+)
 
 ### 6.1 Réduction du Décalage Inter-Axe
+
+![Concept : comparaison entre le décalage inter-axe du K-Bot (axes décalés ~50mm, couples parasites importants) et la cible D-Bot V2 (axes quasi-concourants, décalage < 15mm)](./assets/shoulder_interaxis_concept.png)
 
 Le principal défaut de l'empilement série est que les axes ne sont pas concourants. Cela crée des couples parasites (le bras de levier entre l'axe Pitch et le centre de masse du bras augmente avec le décalage).
 
