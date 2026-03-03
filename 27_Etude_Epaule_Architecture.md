@@ -295,4 +295,113 @@ Certains robots avancés (KIT Dual Arm) ajoutent un 4ème DOF "clavicule" (élé
 
 ---
 
+## 8. Axes Concourants — Références et Concepts Clés
+
+### 8.1 Qu'est-ce que les Axes Concourants ?
+
+Un **joint sphérique** (ou joint à rotule) est une articulation qui permet la rotation autour d'un **point fixe unique** avec 3 degrés de liberté. En robotique, on reproduit ce comportement en empilant 3 moteurs rotatifs (revolute joints) dont les axes de rotation **se croisent au même point** — on dit alors que les axes sont **concourants** (*concurrent axes* en anglais).
+
+```
+     AXES NON CONCOURANTS                    AXES CONCOURANTS
+     (D-Bot V1 / K-Bot)                     (Cible optimale)
+
+        ────── Axe Y ──────                    ──── Axe Y ────
+                                                       ╲
+              ┈┈┈ Axe X ┈┈┈                    ┈┈┈┈ Axe X ┈┈┈
+                                                     ╱
+              ─ ─ ─ Axe Z ─ ─                  ─ ─ Axe Z ─ ─
+
+    Les 3 axes sont parallèles            Les 3 axes CONVERGENT
+    mais décalés verticalement            vers un point commun ●
+    → Bras de levier parasite             → Couple parasite minimal
+```
+
+> **Principe fondamental** : Plus les axes sont proches d'une configuration concourante, plus l'articulation se comporte comme une vraie rotule, et moins il y a de **couples parasites** (moments indésirables dus au décalage entre l'axe de rotation et le centre de masse de la charge).
+
+### 8.2 Le Problème du Gimbal Lock (Blocage Cardanique)
+
+Lorsque 3 axes rotatifs sont parfaitement concourants, il existe une configuration dangereuse appelée **gimbal lock** : si deux axes s'alignent, un degré de liberté est temporairement perdu.
+
+**En pratique pour le D-Bot** : Le gimbal lock ne se produit que dans des positions extrêmes (bras levé à 90° au-dessus de la tête, ce qui n'est pas un cas d'usage courant). Les algorithmes de contrôle ROS 2 gèrent ce cas via des **quaternions** au lieu des angles d'Euler, évitant ainsi toute singularité logicielle.
+
+### 8.3 Approches de Design de Bracket pour Axes Concourants
+
+La littérature scientifique et l'industrie proposent plusieurs solutions mécaniques pour rapprocher les axes :
+
+#### A. Brackets en L Compact (Notre Approche — D-Bot V1)
+
+Le bracket relie le **rotor d'un moteur** au **stator du moteur suivant**. Plus le bracket est court, plus les axes sont proches.
+
+```
+     Bracket #1 (Pitch→Roll)
+     ┌─────────────────┐
+     │  Fixé au Rotor  │◄── Rotor RS-03 Pitch
+     │  du Pitch       │
+     │                 │
+     │  ╔═══════════╗  │
+     │  ║ Stator    ║  │◄── Stator RS-03 Roll
+     │  ║ Roll      ║  │
+     └──╚═══════════╝──┘
+         Décalage ≈ 20-30mm
+```
+
+**Avantages** : Simple, pas de pièces spéciales, usinable sur CNC C500.
+**Référence design** : Architecture K-Bot (brackets imprimés), améliorée en Alu CNC pour notre D-Bot.
+
+#### B. Actuation Distante par Câbles/Poulies (iCub)
+
+Le robot **iCub** (IIT Gênes) utilise 3 moteurs **coaxiaux** logés dans le torse, reliés à l'épaule par des câbles et poulies. Les moteurs sont loin de l'articulation, mais les axes de rotation des poulies sont concourants à l'épaule.
+
+**Avantages** : Épaule ultra-légère (pas de moteur dans l'épaule elle-même).
+**Inconvénients** : Complexité du routage câble, stretch des câbles sous charge, maintenance difficile.
+**Référence** : [ResearchGate — iCub Shoulder Design](https://www.researchgate.net/publication/iCub_shoulder)
+
+#### C. Réducteurs Harmoniques Intégrés (ARMAR III / Unitree)
+
+Le robot **ARMAR III** (KIT, Allemagne) utilise des réducteurs **Harmonic Drive** + courroies crantées pour transmettre le couple tout en gardant les moteurs quasi-coplanaires. Les axes convergent grâce à la compacité des Harmonic Drives.
+
+**Avantages** : Très compact, couple élevé (rapports de réduction 100:1).
+**Inconvénients** : Coûteux (~$500/unité), pas backdrivable, jeu mécanique (backlash).
+**Références** :
+- [SciSpace — ARMAR III Shoulder Design](https://scispace.com/paper/armar-iii-shoulder)
+- [MDPI — Lockable Spherical Joints for Robot Design](https://www.mdpi.com/spherical-lockable-joints)
+
+#### D. Axes Creux et Moteurs Custom (Unitree H1, Tesla)
+
+Les moteurs les plus avancés (Unitree M107, Tesla actuators) intègrent un **axe creux** (*hollow shaft*) qui permet de faire passer les câbles du moteur suivant **à travers** le moteur précédent. Cela permet de réduire le décalage à presque zéro.
+
+**Avantages** : Axes quasi-parfaitement concourants, câblage interne, design épuré.
+**Inconvénients** : Moteurs custom non disponibles commercialement.
+**Référence** : [Unitree H1 Specs — M107 Joint Motor](https://www.unitree.com/h1)
+
+### 8.4 Récapitulatif des Approches
+
+| Approche | Décalage Inter-Axe | Complexité | Coût | Adapté D-Bot ? |
+| :--- | :---: | :---: | :---: | :---: |
+| **A. Bracket L compact** (CNC) | 20-30mm | ⭐ Faible | ~50€ | ✅ **OUI — V1** |
+| **B. Câbles/Poulies** (iCub) | ~0mm | ⭐⭐⭐ Élevée | ~200€ | ❌ Trop complexe |
+| **C. Harmonic Drive** (ARMAR) | 5-10mm | ⭐⭐ Moyenne | ~1500€ | ❌ Trop cher |
+| **D. Axe creux custom** (Unitree) | ~0mm | ⭐⭐⭐⭐ Très élevée | N/A | ❌ Non dispo |
+
+> **Conclusion** : Pour le D-Bot V1, l'**approche A** (Brackets CNC compacts) est la seule viable. L'objectif est de pousser le bracket #1 vers un décalage ≤ 25mm et le bracket #2 vers ≤ 20mm.
+
+---
+
+## 9. Glossaire
+
+| Terme | Catégorie | Définition |
+| :--- | :---: | :--- |
+| **Pitch** | Axe de rotation | **Tangage** — Rotation autour de l'axe médio-latéral (Y, gauche↔droite). À l'épaule, c'est le mouvement de **lever ou abaisser le bras devant/derrière soi**. Analogue au mouvement de "oui" de la tête. C'est l'axe qui subit le couple gravitationnel maximal car il lutte directement contre le poids du bras tendu. |
+| **Roll** | Axe de rotation | **Roulis** — Rotation autour de l'axe antéro-postérieur (X, avant↔arrière). À l'épaule, c'est le mouvement d'**écarter le bras latéralement** (abduction/adduction). Analogue au mouvement de pencher la tête sur le côté. |
+| **Yaw** | Axe de rotation | **Lacet** — Rotation autour de l'axe vertical (Z, haut↔bas). À l'épaule, c'est la **rotation interne/externe du bras sur lui-même** (comme tourner un tournevis). L'axe qui nécessite le moins de couple car il ne lutte pas contre la gravité. |
+| **Backdrivability** | Mécanique | **Réversibilité mécanique** — Capacité d'un actionneur à être "poussé" manuellement lorsqu'il n'est pas alimenté. Un moteur backdrivable permet au bras de retomber naturellement sous l'effet de la gravité quand il est éteint, et de céder face à un obstacle (compliance passive). Les moteurs RobStride (RS-03, RS-02) sont **backdrivable** grâce à leur faible rapport de réduction. À l'inverse, un moteur avec un réducteur Harmonic Drive ou à vis sans fin n'est PAS backdrivable — il reste figé en position même sans courant. La backdrivability est essentielle pour la **sécurité** (le robot ne blesse pas un humain en cas de collision) et pour le **contrôle en impédance** (le robot peut "sentir" les forces externes et s'adapter). |
+| **Axes concourants** | Cinématique | Configuration où les 3 axes de rotation d'un joint à 3 DOF (Pitch, Roll, Yaw) **se croisent en un point unique**. Cela reproduit le comportement d'une **rotule sphérique** parfaite. Plus les axes sont concourants, moins il y a de couples parasites dus aux bras de levier. C'est le standard visé par tous les robots haut de gamme (Unitree, Tesla, Atlas). |
+| **Gimbal Lock** | Cinématique | **Blocage cardanique** — Perte temporaire d'un degré de liberté qui survient quand deux des trois axes de rotation d'un joint cardanique s'alignent. En pratique, cela signifie que le robot ne peut momentanément plus tourner dans une direction. Résolu en logiciel par l'utilisation de **quaternions** au lieu des angles d'Euler. |
+| **Stacked Perpendicular** | Architecture | Architecture d'épaule/hanche où les 3 moteurs sont **empilés en série**, chacun monté perpendiculairement au précédent. Le stator de chaque moteur est fixé au rotor du moteur précédent via un bracket. C'est l'architecture la plus simple et la plus reproductible pour les robots utilisant des moteurs off-the-shelf. |
+| **Direct-Drive** | Motorisation | Configuration où le rotor du moteur est **directement connecté** à la charge, sans réducteur ni engrenage intermédiaire. Avantages : zéro backlash, backdrivable, contrôle en couple précis. Inconvénient : couple limité au couple natif du moteur. Les moteurs RobStride sont **quasi direct-drive** (réducteur planétaire à faible ratio ~9:1). |
+| **Bracket** | Pièce mécanique | Pièce de liaison (équerre, support) reliant le **rotor d'un moteur** au **stator du moteur suivant** dans un empilement série. Usiné en Alu 6061-T6 sur CNC (C500) pour le D-Bot. Sa compacité détermine directement le décalage inter-axe. |
+
+---
+
 *Étude réalisée en Mars 2026. Réf : K-Bot standard, Hanche D-Bot (§16), [Étude Cheville Cardan](./20_Etude_Cheville_Cardan.md).*
+
