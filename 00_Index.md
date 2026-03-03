@@ -137,5 +137,10 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Comparatif de l'approche K-Bot vs Tesla Optimus / Unitree.
     *   Jonction du dernier maillon (Pitch) avec le Fémur Hybride Sandwich.
 
+28. **[Étude : Architecture Épaule D-Bot (Positionnement Moteurs)](./27_Etude_Epaule_Architecture.md)**
+    *   Analyse de l'architecture K-Bot (empilement perpendiculaire RS-03/RS-02).
+    *   Comparatif Tesla Optimus, Unitree H1, Figure 02, Atlas Électrique.
+    *   Recommandation Stacked Perpendicular avec brackets CNC Alu.
+
 ---
 *Documentation exhaustive générée et auditée en Février/Mars 2026.*
