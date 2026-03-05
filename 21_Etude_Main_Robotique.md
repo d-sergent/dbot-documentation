@@ -205,6 +205,12 @@ Les XC430 et XC330 fonctionnent à 12V. Le D-Bot utilise du 48V. Un **Buck Conve
 
 Le protocole Dynamixel 2.0 permet de lire en temps réel : position, vitesse, courant, température et charge de chaque servo à 200 Hz sur le bus TTL — suffisant pour un contrôle de grip adaptatif.
 
+### 6.1 Backdrivabilité Mécanique vs Compliance Active
+
+Contrairement aux gros moteurs RobStride des bras/jambes (quasi direct-drive à ~9:1), les servomoteurs de la main possèdent d'énormes réducteurs métalliques (245:1 pour le XC430, 288:1 pour le XC330).
+- **Mécaniquement : NON Backdrivable.** Une main D-Bot éteinte est figée. Forcer manuellement sur les doigts risque de casser les engrenages. L'avantage est qu'une fois un objet saisi, la main peut rester serrée avec une consommation électrique très faible (Holding Torque "mécanique").
+- **Logiciellement : Compliance Active (OUI).** Pour qu'un robot humanoïde puisse interagir en toute sécurité, les servos sont pilotés en mode **Current Control** (Contrôle en Courant pour XC330) ou **PWM Control** (XC430). L'IA limite le courant maximum autorisé. Dès que le doigt touche l'objet, le courant monte ; si la limite de consigne est atteinte, le moteur s'arrête de forcer sans jamais casser l'objet (un œuf, par exemple). De plus, si un humain tire sur l'objet avec une force supérieure à la consigne, le moteur "cédera" et reculera logiciellement. La main agit alors comme un ressort virtuel paramétrable.
+
 ---
 
 ## 7. Comparatif Complet : Les Cinq Architectures D-Hand
@@ -783,4 +789,14 @@ BOUCLE à 200 Hz :
 > **Conclusion décisive** : Un **XC330 + eFlesh** à ~1 380€/main est **plus efficace en manipulation réelle** qu'un **STS3215 sans tactile** à ~300€/main ! Le STS3215 a 3× plus de couple brut, mais sans savoir quand il touche ni quand l'objet glisse, il gaspille sa puissance. Le XC330 avec capteurs dose parfaitement sa force limited et ne lâche jamais rien.
 >
 > Inversement, un **STS3215 + eFlesh** (à seulement ~450€/main) devient un véritable monstre de manipulation qui rivalise avec des mains à 16 000€ en termes de performance *effective*.
+
+### 8.7 Pourquoi eFlesh si les moteurs lisent déjà le courant ?
+
+Étant donné que les moteurs Dynamixel XC peuvent lire leur propre consommation de courant (Proprioception) pour en déduire la force appliquée, est-il vraiment nécessaire d'ajouter des capteurs tactiles eFlesh (Exteroception) ? **Oui, c'est même indispensable pour la manipulation fine.**
+
+1. **La Friction et la "Zone Morte" (Deadband)** : La lecture du courant moteur mesure l'effort total à la source. Mais entre le moteur et la pulpe du doigt, il y a des engrenages (288:1), des poulies, et le frottement du tendon Dyneema dans sa gaine PTFE. Cette friction mécanique "avale" les micro-forces de contact. Le moteur ne "sentira" pas le contact ultra-léger avec une fraise ou un œuf fragile avant qu'il ne soit trop tard, car le signal d'effort est noyé dans le bruit de friction mécanique. L'eFlesh, placé à l'extrémité, sent le contact avant même que le tendon ne se tende complètement.
+2. **Détection du Glissement (Shear Forces)** : Le courant moteur indique uniquement une force de traction axiale (z). Il est **totalement aveugle** aux forces latérales. Si le robot tient une bouteille en plastique et que celle-ci commence à glisser vers le bas, le tendon ne bouge pas, la force de traction ne change pas, le moteur ne voit rien. L'eFlesh (3 axes) voit la déformation magnétique en Z (pression) mais surtout en X/Y (cisaillement). Il peut avertir la Jetson : *"L'objet est en train de glisser vers le bas, serre plus fort !"*, **avant même que l'objet ne tombe**.
+3. **Localisation du Contact** : Le retour moteur indique "Je touche quelque chose", mais l'eFlesh indique "Je touche l'objet avec le bord supérieur gauche de mon index". C'est crucial pour l'IA d'apprentissage par renforcement (Isaac Gym) afin d'ajuster la prise de manière stable.
+
+> **En résumé :** Le retour de courant des moteurs est le "Muscles" (Force Macro), l'eFlesh est la "Peau" (Toucher Micro). Pour ne pas casser un œuf et ne pas le laisser glisser non plus, la fusion des deux sens est obligatoire.
 
