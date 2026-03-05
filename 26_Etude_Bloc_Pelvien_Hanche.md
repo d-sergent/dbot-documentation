@@ -21,24 +21,28 @@ Il est donc géométriquement impossible d'avoir une vraie liaison sphérique co
 Les images du K-Bot montrent une tentative de compacter les 3 moteurs dans un espace très restreint (sorte de grappe entremêlée).
 - *Inconvénient majeur* : Cette conception crée souvent des collisions (auto-intersections) lors de mouvements combinés extrêmes et rend l'usinage des pièces de liaison affreusement complexe en CAO 3D.
 
-### B. L'approche Tesla Optimus / Agility Digit
+### B. L'approche Tesla Optimus : Séquentielle (Chaîne Empilée)
 
 ![Référence : Actionneurs de Hanche Tesla Optimus (AI Day 2022)](./assets/img_optimus_pelvis_reference.jpg)
 *(Note : Vue des actionneurs rotatifs de la hanche du Tesla Optimus, illustrant parfaitement l'empilement séquentiel des axes de rotation).*
 
-Dans les robots humanoïdes de nouvelle génération, l'empilement est assumé, clair et rectiligne. Le bassin (Pelvis) abrite le premier moteur, et les suivants s'y attachent comme des maillons de chaîne :
-1. **Bassin → Moteur Yaw (Lacet)** : Monté verticalement dans le bassin pour orienter la jambe.
-2. **Moteur Yaw → Moteur Roll (Roulis)** : Fixé à l'horizontale pour écarter la jambe de côté.
-3. **Moteur Roll → Moteur Pitch (Flexion)** : Fixé de profil pour lever la jambe en avant.
-4. **Moteur Pitch → Fémur**.
+Tesla a opté pour une approche mécanique très franche dite en **chaîne cinématique séquentielle**. Le bassin abrite le premier moteur, et les suivants s'y attachent comme des maillons de chaîne :
+1. **L'empilement** : Le premier moteur est fixé au bassin, puis un *bracket* (équerre) métallique le relie au deuxième moteur, qui lui-même porte le troisième.
+2. **Intégration dans la cuisse** : Pour gagner de la compacité en largeur, Tesla a carrément descendu le moteur de Lacet (Yaw) **à l'intérieur de la cuisse** (le fémur), tandis que les moteurs de Pitch et de Roll restent au niveau du bassin.
+3. **Conséquence géométrique** : Les 3 axes de rotation ne se croisent pas au même point (ils sont non-concourants et décalés dans l'espace). C'est une approche géométriquement imparfaite mais **extrêmement robuste et facile à usiner** (ce qui est logique pour un constructeur automobile).
 
-C'est l'approche la plus saine mécaniquement, car elle est facilement usinable (par notre fameuse C500) à l'aide de "Brackets" (Équerres) en aluminium de type L ou U.
+### C. L'approche Unitree H1 / H1-2 : Sphérique (Grappe Concentrée)
+
+De son côté, Unitree adopte une philosophie radicalement différente pour maximiser la dynamique et la vitesse (le H1 détient le record du monde de vitesse humanoïde).
+1. **Concentration des masses** : Les trois moteurs de la hanche (des modèles M107 ultra-compacts et très coupleux développés en interne) sont agglutinés en une **grappe très dense** directement centrée sur le bassin.
+2. **Quasi-concourants** : À l'inverse de Tesla, Unitree s'efforce de faire en sorte que les axes de ces 3 moteurs se croisent *presque* au même point géométrique. L'objectif est d'imiter la vraie articulation "sur rotule" du corps humain.
+3. **Bras de levier réduit** : Aucun moteur lourd n'est inséré dans le haut de la cuisse. Toute la puissance est dans le bassin, réduisant l'inertie lors des déplacements rapides.
 
 ---
 
-## 3. L'Architecture D-Bot : Le Cardan de Hanche Séquentiel
+## 3. L'Architecture D-Bot : Le Cardan de Hanche Séquentiel (Méthode Tesla)
 
-Pour le D-Bot, nous validons officiellement l'approche séquentielle (type Optimus/Unitree).
+Pour le D-Bot, nous validons officiellement l'approche **séquentielle (type Optimus)**, car c'est la seule qui soit réaliste avec des moteurs QDD standards "off-the-shelf" (RobStride) et usinable avec notre CNC C500. L'approche sphérique d'Unitree nécessite des moteurs sur-mesure imbriqués, incompatibles avec nos moyens de production en atelier.
 
 Concrètement, la liaison entre le Bassin et le Fémur (Cuisse) du robot se décompose ainsi :
 
