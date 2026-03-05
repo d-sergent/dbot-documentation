@@ -142,5 +142,8 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Comparatif Tesla Optimus, Unitree H1, Figure 02, Atlas Électrique.
     *   Recommandation Stacked Perpendicular avec brackets CNC Alu.
 
+29. **[Glossaire Technique Robotique](./28_Glossaire_Technique.md)**
+    *   Définitions détaillées des concepts (Pitch, Roll, Yaw, Gimbal Lock, Backdrivability...).
+
 ---
 *Documentation exhaustive générée et auditée en Février/Mars 2026.*
