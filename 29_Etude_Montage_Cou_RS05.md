@@ -22,7 +22,10 @@ Cette annexe détaille la conception du montage vertical d'un moteur **RobStride
 
 > ⚠️ **Point fondamental** : À la différence de nombreux actionneurs, le RS-05 ne possède **aucun arbre de sortie saillant**. Le rotor est **affleurant avec le stator**, exposant uniquement une **face plane avec un plot de centrage** et des **trous filetés**.
 
-![Plan de montage officiel RobStride RS-05 — Interface rotor et fixations](./assets/img_rs05_drawing.jpg)
+![Photo du RS-05 (Vue de dessus) — Rotor et Stator affleurants](./assets/img_rs05_photo_top.png)
+*Vue photographique de la face supérieure du RS-05 avec ses 3 plots de centrage.*
+
+![Plan de montage officiel RobStride RS-05 — Interface rotor et fixations](./assets/img_rs05_drawing.png)
 
 ### Interface du Rotor RS-05 (données plan officiel)
 
@@ -35,7 +38,6 @@ Cette annexe détaille la conception du montage vertical d'un moteur **RobStride
 | **Diamètre extérieur corps moteur** | ø46 mm |
 | **Profondeur totale** | 44 mm |
 | **Fixation stator (arrière)** | 4× M3 Profondeur 8 mm |
-| **Fixation stator (côté)** | 3× ø4 mm (passages de vis) |
 
 **Conséquence directe** : Il est **impossible** de monter un roulement directement sur un arbre de rotor (il n'existe pas). La solution doit être une **architecture flasque/moyeu** boulonnée sur la face du rotor, avec un roulement **annulaire** ou **thin-section** positionné autour de ce moyeu.
 
