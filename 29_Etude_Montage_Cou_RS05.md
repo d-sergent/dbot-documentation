@@ -28,9 +28,8 @@ Cette annexe détaille la conception du montage vertical d'un moteur **RobStride
 
 | Élément | Dimension |
 | :--- | :--- |
-| **Plot de centrage (boss)** | ø17.7 ±0.03 mm |
-| **Trous visserie rotor (interface principale)** | **8× M3 Profondeur 6 mm** (EQS sur ø38.5mm) |
-| **Trous visserie rotor (interface secondaire)** | **6× M4 Profondeur 3 mm** (EQS) |
+| **Trous visserie STATOR (interface périphérique)** | **8× M3 Profondeur 6 mm** (EQS sur ø38.5mm) |
+| **Trous visserie ROTOR (interface tournante)** | **6× M4 Profondeur 3 mm** (EQS sur ø24mm) + 3 plots |
 | **Alésage central côté rotor** | ø24 mm |
 | **Diamètre rotor** | ø41.5 mm |
 | **Diamètre extérieur corps moteur** | ø46 mm |
@@ -48,7 +47,7 @@ Cette annexe détaille la conception du montage vertical d'un moteur **RobStride
 
 Au lieu de poser un roulement sur un arbre (impossible ici), on crée une **pièce intermédiaire usinée (HUB)** qui :
 1. Se **centre** sur le plot ø17.7mm du rotor.
-2. Se **visse** sur les 8× M3 du rotor.
+2. S'aligne sur les **3 plots de centrage** et se **visse** sur les **6× M4** du rotor.
 3. Dépasse latéralement pour recevoir la **bague intérieure d'un roulement annulaire**.
 4. Porte la structure de la tête au-dessus.
 
@@ -71,8 +70,8 @@ Le roulement choisi est un **roulement à billes de petite section** (thin-secti
                              │ (4× vis M4 dans le HUB)
               ╔══════════════╧═══════════════╗
               ║    HUB / FLASQUE ROTATIF      ║  ← Alu 6061 usiné CNC
-              ║    (diamètre ext. : ~55 mm)   ║  ← Centrage : ø17.7mm boss
-              ║    Centré sur boss ø17.7mm    ║  ← Vissé : 8× M3 dans rotor
+              ║    (diamètre ext. : ~55 mm)   ║  ← Centrage : ø17.7mm + 3 plots
+              ║    Vissé sur ROTOR : 6× M4    ║
               ╚══╤══════════════════════╤═════╝
                  │                      │
            ┌─────┴──────┐        ┌──────┴──────┐
@@ -95,8 +94,8 @@ Le roulement choisi est un **roulement à billes de petite section** (thin-secti
                 │   ║   ┌──────────┐ ║     │   ← Rotor AFFLEURANT
                 │   ║   │ ROTOR    │ ║     │      (pas d'arbre saillant)
                 │   ║   │ face     │ ║     │
-                │   ║   │ boss ø17 │ ║     │
-                │   ║   │ 8×M3     │ ║     │
+                │   ║   │ 3 plots  │ ║     │
+                │   ║   │ 6×M4     │ ║     │
                 │   ║   └──────────┘ ║     │
                 │   ║   STATOR       ║     │
                 │   ║   (moteur)     ║     │
@@ -150,8 +149,8 @@ C'est la pièce **centrale** du montage. Elle est à usiner en **Aluminium 6061*
 | **Matériau** | Aluminium 6061-T6 |
 | **Diamètre extérieur** | ~52 mm (diamètre intérieur roulement choisi) |
 | **Épaisseur totale** | ~12 mm |
-| **Alésage de centrage** | ø17.7 mm (H7) — s'emboîte sur le boss du rotor |
-| **Trous de fixation rotor** | 8× M3 traversants (couronne ø38.5mm) |
+| **Alésage de centrage** | ø17.7 mm (H7) + 3 trous pour les plots de centrage |
+| **Trous de fixation rotor** | 6× M4 traversants (couronne ø24mm) |
 | **Trous de fixation tête** | 4× M4 en couronne supérieure |
 | **Épaulement pour bague int.** | Ø52 × 2mm de profondeur pour caler la bague intérieure |
 
@@ -159,7 +158,7 @@ C'est la pièce **centrale** du montage. Elle est à usiner en **Aluminium 6061*
 VUE DU HUB (dessus et coupe)
 
           ╔═══════════════════════╗
-          ║ ●  ●  ●  ●  ●  ●  ● ● ║  ← 8× M3 pour fixer au rotor (ø38.5mm)
+          ║   ●  ●  ●  ●  ●  ●    ║  ← 6× M4 pour fixer au rotor (ø24mm) + 3 trous plots
           ║                       ║
           ║    ┌──────────┐       ║
           ║    │ Alésage  │       ║  ← ø17.7mm H7 (centrage sur boss rotor)
@@ -228,8 +227,8 @@ SÉQUENCE DE MONTAGE (étape par étape) :
    (emmanchement serré H7/r6 ou k6 selon fits)
         ↓
 4. Poser le HUB (flasque) sur la face du rotor RS-05 :
-   - Centrage ø17.7mm boss rotor → alésage HUB H7
-   - Serrer 8× vis M3 à couple approprié (~0.3 N.m)
+   - Centrage ø17.7mm boss rotor + alignement sur les 3 plots
+   - Serrer 6× vis M4 à couple approprié (~1.5 N.m)
         ↓
 5. La bague intérieure du 6806 s'emboîte sur l'épaulement ø30mm du HUB
    (emmanchement tournant : H7/k6 ou légèrement serré)
@@ -276,7 +275,7 @@ G_roll = 2 × 9.81 × 0.05 × sin(45°) ≈ 0.69 N.m
 | Roulement thin-section | **6806-2RS** (30×42×7mm) | 1-2 | ~4-6 € | SKF, NSK, Amazon |
 | HUB Flasque | Alu 6061 ø55 épaisseur 12mm (CNC) | 1 | Usinage maison | Stock alu |
 | Carter logement | Alu 6061 (CNC) ou PA12-CF | 1 | Usinage/impression | Stock |
-| Visserie | 8× M3×8 CHC (fixation hub→rotor) | 1 | ~0.50 € | Visserie standard |
+| Visserie | 6× M4×8 CHC (fixation hub→rotor) | 1 | ~0.50 € | Visserie standard |
 | Visserie | 4× M4 (fixation tête→hub) | 1 | ~0.50 € | Visserie standard |
 
 **Coût total ajouté** : **< 15 €** pour une solution professionnelle et durable.
@@ -287,6 +286,6 @@ G_roll = 2 × 9.81 × 0.05 × sin(45°) ≈ 0.69 N.m
 
 > **🟢 Le montage avec roulement de support est fortement recommandé, avec l'architecture HUB + roulement annulaire 6806-2RS.**
 >
-> La particularité du RS-05 (rotor affleurant, sans arbre saillant) impose de concevoir un **HUB flasque usiné CNC** centré sur le boss ø17.7mm et boulonné via les 8× M3 du rotor. Ce hub porte la bague intérieure d'un roulement annulaire 6806-2RS, dont la bague extérieure est noyée dans un carter fixe solidaire du torse.
+> La particularité du RS-05 (rotor affleurant, sans arbre saillant) impose de concevoir un **HUB flasque usiné CNC** centré sur le boss ø17.7mm et les 3 plots de centrage, puis boulonné via les 6× M4 du rotor. Ce hub porte la bague intérieure d'un roulement annulaire 6806-2RS, dont la bague extérieure est noyée dans un carter fixe solidaire du torse. (Les 8× M3 périphériques du moteur appartiennent au stator et ne doivent pas être rattachés au rotor).
 >
 > Cette architecture transfère **100% des charges statiques** (poids de la tête, moments de basculement) vers le torse via le roulement, laissant au RS-05 sa seule mission : **générer un couple de Roll pur**. C'est une solution standard dans l'industrie des supports de caméra gyrostabilisés et des plateaux tournants.
