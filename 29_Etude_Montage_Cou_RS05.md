@@ -18,225 +18,227 @@ Cette annexe détaille la conception du montage vertical d'un moteur **RobStride
 | **Orientation moteur** | Vertical, stator fixé au torse, rotor vers le haut |
 | **Amplitude souhaitée** | ±30° à ±45° |
 
-### 1.2 Le Problème du Montage Vertical
+### 1.2 Particularité Critique : Interface Rotor RS-05 (Pas de Sortie d'Arbre !)
 
-Lorsqu'un moteur QDD comme le RS-05 est monté **verticalement** avec le rotor pointant vers le haut et portant une charge :
+> ⚠️ **Point fondamental** : À la différence de nombreux actionneurs, le RS-05 ne possède **aucun arbre de sortie saillant**. Le rotor est **affleurant avec le stator**, exposant uniquement une **face plane avec un plot de centrage** et des **trous filetés**.
 
-1. **Charge axiale directe** : La masse de la tête (2 kg = **19.6 N**) s'exerce **directement** sur l'axe du rotor, dans la direction de l'arbre. Les roulements internes du RS-05 ne sont pas conçus principalement pour supporter des charges axiales, mais plutôt des charges radiales et le couple de torsion.
+![Plan de montage officiel RobStride RS-05 — Interface rotor et fixations](./assets/img_rs05_drawing.jpg)
 
-2. **Porte-à-faux** : Si la tête n'est pas parfaitement centrée sur l'axe, un **moment de basculement** (charge radiale + moment) s'ajoute, aggravant les contraintes sur les roulements internes.
+### Interface du Rotor RS-05 (données plan officiel)
 
-3. **Usure prématurée** : Sans roulement de support, les roulements internes du moteur s'usent plus vite car ils encaissent simultanément le couple moteur ET la charge gravitationnelle. Cela peut provoquer du jeu, des vibrations et une dégradation des performances.
+| Élément | Dimension |
+| :--- | :--- |
+| **Plot de centrage (boss)** | ø17.7 ±0.03 mm |
+| **Trous visserie rotor (interface principale)** | **8× M3 Profondeur 6 mm** (EQS sur ø38.5mm) |
+| **Trous visserie rotor (interface secondaire)** | **6× M4 Profondeur 3 mm** (EQS) |
+| **Alésage central côté rotor** | ø24 mm |
+| **Diamètre rotor** | ø41.5 mm |
+| **Diamètre extérieur corps moteur** | ø46 mm |
+| **Profondeur totale** | 44 mm |
+| **Fixation stator (arrière)** | 4× M3 Profondeur 8 mm |
+| **Fixation stator (côté)** | 3× ø4 mm (passages de vis) |
 
-> ⚠️ **Constat** : Les spécifications RobStride ne publient pas la capacité de charge axiale des roulements internes du RS-05. Il est donc **fortement recommandé** d'ajouter un roulement de support externe.
-
----
-
-## 2. Solution Recommandée : Roulement de Support Externe
-
-### 2.1 Principe
-
-L'idée est simple et élégante : **ajouter un roulement à billes au-dessus du moteur** qui prend en charge la quasi-totalité des efforts axiaux (poids de la tête) et radiaux (porte-à-faux), ne laissant au rotor du RS-05 que ce pour quoi il est conçu : **le couple de rotation pure (Roll)**.
-
-### 2.2 Schéma de Montage
-
-![Schéma de montage vertical RS-05 avec roulement de support pour le Roll de la tête du D-Bot](./assets/img_rs05_head_roll_mount.png)
-
-```
-          SCHÉMA DE MONTAGE — COU D-BOT (Roll)
-          =====================================
-
-                    ┌─────────────┐
-                    │   TÊTE      │  ← ~2 kg (OAK-D Pro, structure, etc.)
-                    │   ~2 kg     │
-                    └──────┬──────┘
-                           │
-              ╔════════════╧════════════╗
-              ║   PLATEAU TÊTE          ║  ← Plaque Alu 6061 usinée CNC
-              ║   (Hub / Flasque)       ║     Boulonné à l'arbre de sortie
-              ╚════════════╤════════════╝
-                           │
-            ┌──────────────┼──────────────┐
-            │   ┌──────────┼──────────┐   │
-            │   │    ROULEMENT        │   │  ← Roulement 6001-2RS (28×12×8mm)
-            │   │    de SUPPORT       │   │     Capacité axiale : ~200 N
-            │   │    (Bague ext.      │   │     Capacité radiale : ~530 N
-            │   │     dans platine)   │   │     Bague int. fixée sur l'arbre
-            │   └──────────┼──────────┘   │
-            │              │              │
-            │   ╔══════════╧══════════╗   │
-            │   ║  PLATINE SUPPORT    ║   │  ← Plaque Alu fixée au torse
-            │   ║  (Top Plate)        ║   │     Le roulement est emmanchement
-    ████████╧═══╬══════════════════════╬═══╧████████ ← Structure Torse
-            │   ║                      ║   │
-            │   ║   ╔══════════════╗   ║   │
-            │   ║   ║              ║   ║   │
-            │   ║   ║   RS-05      ║   ║   │  ← Moteur vertical
-            │   ║   ║   STATOR     ║   ║   │     46×46×44mm
-            │   ║   ║   (FIXE)     ║   ║   │     Stator boulonné au torse
-            │   ║   ║              ║   ║   │
-            │   ║   ║   ┌──────┐   ║   ║   │
-            │   ║   ║   │ROTOR │   ║   ║   │  ← Rotor libre en rotation
-            │   ║   ║   │(axe) │   ║   ║   │     Ne porte QUE le couple
-            │   ║   ║   └──────┘   ║   ║   │
-            │   ║   ╚══════════════╝   ║   │
-            │   ╚══════════════════════╝   │
-            └──────────────────────────────┘
-```
-
-### 2.3 Description du Flux de Forces
-
-```
-FLUX DES EFFORTS — MONTAGE AVEC ROULEMENT DE SUPPORT
-
-    ┌─────────────────────────────────────────┐
-    │         TÊTE (~2 kg)                    │
-    │                                         │
-    │  Charge axiale : 19.6 N (gravité)       │
-    │  Charge radiale : ~5-10 N (porte-à-faux)│
-    └──────────────┬──────────────────────────┘
-                   │
-                   ▼
-    ┌──────────────────────────────────────┐
-    │     PLATEAU TÊTE (Hub)               │
-    │     Solidaire de l'arbre de sortie   │
-    └──────────────┬───────────────────────┘
-                   │
-          ┌────────┴────────┐
-          │                 │
-          ▼                 ▼
-    ╔═══════════╗    ╔════════════╗
-    ║ ROULEMENT ║    ║  RS-05     ║
-    ║ 6001-2RS  ║    ║  ROTOR     ║
-    ║           ║    ║            ║
-    ║ Absorbe:  ║    ║ Absorbe:   ║
-    ║ • Axial   ║    ║ • Couple   ║
-    ║   19.6 N  ║    ║   de Roll  ║
-    ║ • Radial  ║    ║   UNIQUEM. ║
-    ║   5-10 N  ║    ║            ║
-    ╚═════╤═════╝    ╚════════════╝
-          │
-          ▼
-    ┌──────────────────────────────────────┐
-    │     PLATINE SUPPORT (Structure)      │
-    │     → Torse D-Bot                    │
-    └──────────────────────────────────────┘
-```
-
-**Résultat** : Le rotor du RS-05 ne "voit" que le **couple pur de Roll** (max ~0.5 N.m pour incliner la tête de 2 kg à 25 cm de bras de levier). Les 19.6 N de charge axiale passent intégralement par le roulement externe → **durée de vie du moteur maximisée**.
+**Conséquence directe** : Il est **impossible** de monter un roulement directement sur un arbre de rotor (il n'existe pas). La solution doit être une **architecture flasque/moyeu** boulonnée sur la face du rotor, avec un roulement **annulaire** ou **thin-section** positionné autour de ce moyeu.
 
 ---
 
-## 3. Choix du Roulement
+## 2. Solution Retenue : Moyeu Boulonné + Roulement Annulaire
 
-### 3.1 Roulement Recommandé : 6001-2RS
+### 2.1 Principe Général
+
+Au lieu de poser un roulement sur un arbre (impossible ici), on crée une **pièce intermédiaire usinée (HUB)** qui :
+1. Se **centre** sur le plot ø17.7mm du rotor.
+2. Se **visse** sur les 8× M3 du rotor.
+3. Dépasse latéralement pour recevoir la **bague intérieure d'un roulement annulaire**.
+4. Porte la structure de la tête au-dessus.
+
+Le roulement choisi est un **roulement à billes de petite section** (thin-section bearing) dont :
+- La **bague intérieure** tourne avec le HUB (solidaire du rotor).
+- La **bague extérieure** est maintenue fixe dans un carter annulaire solidaire du torse.
+
+### 2.2 Schéma de Montage Corrigé
+
+![Schéma de montage vertical RS-05 avec moyeu et roulement annulaire — Vue en coupe](./assets/img_rs05_head_mount_annular.png)
+
+```
+          SCHÉMA DE MONTAGE RS-05 — COU D-BOT (Roll)
+          Montage vertical sans arbre saillant
+          ============================================
+
+                    ┌─────────────────┐
+                    │    TÊTE ~2 kg   │  ← Structure, OAK-D Pro, électronique
+                    └────────┬────────┘
+                             │ (4× vis M4 dans le HUB)
+              ╔══════════════╧═══════════════╗
+              ║    HUB / FLASQUE ROTATIF      ║  ← Alu 6061 usiné CNC
+              ║    (diamètre ext. : ~55 mm)   ║  ← Centrage : ø17.7mm boss
+              ║    Centré sur boss ø17.7mm    ║  ← Vissé : 8× M3 dans rotor
+              ╚══╤══════════════════════╤═════╝
+                 │                      │
+           ┌─────┴──────┐        ┌──────┴──────┐
+           │  BAGUE INT. │        │  BAGUE INT.  │
+           │  (tourne)   │        │  (tourne)    │
+           │  ROULEMENT  │        │  ROULEMENT   │  ← 2 roulements (doublet)
+           │  6806-2RS   │        │  6806-2RS    │     ou 1 roulement à 2 rangées
+           │  BAGUE EXT. │        │  BAGUE EXT.  │
+           │  (fixe)     │        │  (fixe)      │
+           └─────┬──────┘        └──────┬────────┘
+                 │                      │
+          ╔══════╧══════════════════════╧══════╗
+          ║   CARTER / LOGEMENT (fixe)          ║  ← Alu 6061/PA12-CF
+          ║   Solidaire du torse du robot        ║  ← Maintient les bagues ext.
+          ╚═════╤══════════════════════════╤════╝
+                │      │          │        │
+                │   ╔══╧══════════╧══╗     │
+                │   ║                ║     │
+                │   ║   RS-05        ║     │
+                │   ║   ┌──────────┐ ║     │   ← Rotor AFFLEURANT
+                │   ║   │ ROTOR    │ ║     │      (pas d'arbre saillant)
+                │   ║   │ face     │ ║     │
+                │   ║   │ boss ø17 │ ║     │
+                │   ║   │ 8×M3     │ ║     │
+                │   ║   └──────────┘ ║     │
+                │   ║   STATOR       ║     │
+                │   ║   (moteur)     ║     │
+                │   ╚════════════════╝     │
+                │          │               │
+                └──────────┼───────────────┘
+                  (4× M3 ou passage vis dans stator → torse)
+```
+
+### 2.3 Flux des Efforts — Montage Corrigé
+
+```
+    TÊTE (~2kg)
+       │
+       │ Charge axiale : 19.6 N (gravité)
+       │ Couple de Roll : ≤ 0.7 N.m
+       │
+    ┌──┴──────────────────────────────────┐
+    │         HUB FLASQUE                 │
+    │         (Alu 6061 rotatif)          │
+    └────────────┬──────────┬─────────────┘
+                 │          │
+    (Couple Roll)│          │(Charge Axiale + Radiale)
+                 │          │
+          ╔══════╧══╗ ╔═════╧══════════╗
+          ║ ROTOR   ║ ║  ROULEMENT     ║
+          ║ RS-05   ║ ║  6806-2RS      ║
+          ║ (génère ║ ║                ║
+          ║  couple)║ ║ Absorbe:       ║
+          ╚═════════╝ ║ • Axial 19.6N  ║
+                      ║ • Radial ~10N  ║
+                      ║ • Moment flex  ║
+                      ╚═══════╤════════╝
+                               │
+                    ╔══════════╧════════════╗
+                    ║    CARTER FIXE        ║
+                    ║    (Torse D-Bot)      ║
+                    ╚═══════════════════════╝
+```
+
+---
+
+## 3. Définition des Pièces Mécaniques
+
+### 3.1 Pièce 1 : Le HUB (Moyeu Flasque)
+
+C'est la pièce **centrale** du montage. Elle est à usiner en **Aluminium 6061** sur la CNC C500.
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| **Désignation** | 6001-2RS (ou 6001-2Z pour version blindée) |
-| **Diamètre intérieur** | 12 mm |
-| **Diamètre extérieur** | 28 mm |
-| **Largeur** | 8 mm |
-| **Capacité de charge dynamique** | ~5.1 kN (radiale) |
-| **Capacité de charge statique** | ~2.4 kN (radiale) |
-| **Charge axiale admissible** | ~200 N (règle pratique : ~30% de C₀ radiale) |
-| **Poids** | ~18 g |
-| **Prix** | ~3-5 € (SKF / NSK) |
-| **Étanchéité** | Joints caoutchouc 2RS (protection poussière) |
+| **Matériau** | Aluminium 6061-T6 |
+| **Diamètre extérieur** | ~52 mm (diamètre intérieur roulement choisi) |
+| **Épaisseur totale** | ~12 mm |
+| **Alésage de centrage** | ø17.7 mm (H7) — s'emboîte sur le boss du rotor |
+| **Trous de fixation rotor** | 8× M3 traversants (couronne ø38.5mm) |
+| **Trous de fixation tête** | 4× M4 en couronne supérieure |
+| **Épaulement pour bague int.** | Ø52 × 2mm de profondeur pour caler la bague intérieure |
 
-### 3.2 Justification du Dimensionnement
+```
+VUE DU HUB (dessus et coupe)
 
-| Critère | Besoin | Capacité 6001-2RS | Marge |
-| :--- | :---: | :---: | :---: |
-| **Charge axiale** (poids tête) | 19.6 N | ~200 N | **×10** ✅ |
-| **Charge radiale** (porte-à-faux) | ~10 N max | ~5100 N | **×500** ✅ |
-| **Diamètre intérieur** | Compatible arbre RS-05 | 12 mm | ✅ |
-| **Encombrement** | Compact | 28×8 mm | ✅ |
+          ╔═══════════════════════╗
+          ║ ●  ●  ●  ●  ●  ●  ● ● ║  ← 8× M3 pour fixer au rotor (ø38.5mm)
+          ║                       ║
+          ║    ┌──────────┐       ║
+          ║    │ Alésage  │       ║  ← ø17.7mm H7 (centrage sur boss rotor)
+          ║    │  ø17.7   │       ║
+          ║    └──────────┘       ║
+          ║                       ║
+          ╚═══════════════════════╝
+              │←——  ø52mm  ——→│
+              │                │
+           Épaulement ø52mm pour
+           recevoir la bague int.
+           du roulement 6806-2RS
+```
 
-> 💡 **Alternative** : Si l'arbre de sortie du RS-05 nécessite un diamètre intérieur différent de 12 mm, envisager un roulement **608-2RS** (8×22×7mm) ou **6000-2RS** (10×26×8mm) selon le cas. La charge reste largement surdimensionnée dans tous les cas.
+### 3.2 Pièce 2 : Le Roulement — 6806-2RS
 
-### 3.3 Pourquoi pas un Roulement à Contact Oblique ?
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Désignation** | **6806-2RS** (ou 61806-2RS selon fabricant) |
+| **Diamètre intérieur** | **30 mm** |
+| **Diamètre extérieur** | **42 mm** |
+| **Largeur** | **7 mm** |
+| **Capacité de charge dynamique (C)** | ~4.6 kN (radiale) |
+| **Capacité de charge statique (C₀)** | ~2.8 kN (radiale) |
+| **Charge axiale admissible** | ~560 N (20% de C₀) |
+| **Poids** | ~25 g |
+| **Prix** | ~3-6€ (SKF, NSK, ZEN) |
+| **Étanchéité** | -2RS (joints caoutchouc, graissé à vie) |
 
-Un roulement à contact oblique (type 7001) offrirait une meilleure capacité axiale "pure", mais dans notre cas :
-- La charge axiale est **minuscule** (19.6 N) → un simple 6001 standard suffit largement.
-- Le roulement à contact oblique nécessite un **pré-charge** et un appairage plus complexe.
-- Le coût et la complexité de montage ne se justifient pas pour 2 kg de tête.
+> 💡 **Pourquoi ce roulement ?** Son **diamètre intérieur de 30mm** s'adapte parfaitement au HUB ayant un épaulement ø30mm à la base, centré sur le boss ø17.7mm. Son profil "thin-section" minimise l'encombrement total.
 
-**Verdict** : Le **6001-2RS standard** est le choix optimal (simple, peu cher, surdimensionné).
+### 3.3 Pièce 3 : Le Carter / Logement (Fixe)
+
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Matériau** | Aluminium 6061 (CNC C500) ou PA12-CF (impression 3D) |
+| **Alésage logement roulement** | ø42 mm (H7) — pour la bague extérieure |
+| **Fixation au torse** | 4× M3 ou M4 traversants |
+| **Fixation sur le stator** | S'appuie sur le périmètre du stator RS-05 |
 
 ---
 
-## 4. Détails de Mise en Œuvre
+## 4. Choix du Type de Roulement — Comparatif
 
-### 4.1 Fixation du Stator RS-05
+| Type | Exemple | Axial | Radial | Moment | Complexité | Coût |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **Billes thin-section 6806** | SKF 61806 | ✅ bon | ✅ bon | ⚠️ moyen | 🟢 Facile | ~5€ |
+| **Contact oblique 7906** | SKF 7906 | ✅✅ excellent | ✅ bon | ✅ bon | 🟡 Moyen | ~20€ |
+| **Croisé à rouleaux** | INA CSCB030 | ✅✅ excellent | ✅✅ excellent | ✅✅ excellent | 🟡 Moyen | ~60€ |
+| **Butée à billes** | 51106 | ✅✅ axial seul | ❌ zéro | ❌ zéro | 🟢 Facile | ~4€ |
 
-Le stator du RS-05 est fixé **rigidement** au châssis du torse (structure PA12-CF ou Alu) :
+> **Recommandation finale : 6806-2RS** (solution standard) ou doublet de **7906** en contact oblique O (solution premium). Pour une tête de 2 kg, le 6806 est largement suffisant.
 
-- **4 vis M3** (ou M4) dans les trous de fixation du stator du RS-05
-- Utiliser des **inserts filetés** (ou taraudages directs dans l'alu) dans la structure du torse
-- Le câble de puissance et de données sort par le bas du stator
+---
 
-### 4.2 Platine Support (Top Plate)
-
-Une platine en **Aluminium 6061** usinée CNC (ou en PA12-CF imprimée 3D) se place **au-dessus** du moteur :
-
-- **Emmanchement serré H7/k6** pour la bague extérieure du roulement 6001
-- Fixation au torse via 4 entretoises (colonnes) encadrant le moteur
-- Épaisseur recommandée : **6-8 mm** pour rigidité suffisante
-
-### 4.3 Hub de Sortie (Plateau Tête)
-
-Le plateau qui porte la tête est solidaire de l'arbre de sortie du RS-05 :
-
-- **Bague intérieure du roulement** : emmanchée serrée sur l'arbre de sortie (ou sur un adaptateur/manchon)
-- **Clavette ou vis de pression** pour solidariser le hub à l'arbre
-- Le hub est en **Alu 6061** usiné, avec des trous de fixation pour recevoir la structure de la tête
-
-### 4.4 Séquence de Montage
+## 5. Séquence de Montage
 
 ```
 SÉQUENCE DE MONTAGE (étape par étape) :
 
-1. Fixer le STATOR du RS-05 au torse (4× M3)
+1. Fixer le STATOR RS-05 au torse (4× M3 arrière, ou via le carter)
         ↓
-2. Placer la PLATINE SUPPORT au-dessus du moteur,
-   fixée aux entretoises du torse
+2. Monter le CARTER dans le torse (logement du roulement)
         ↓
-3. Emmancher le roulement 6001-2RS dans la platine
-   (emmanchement serré bague extérieure → logement H7)
+3. Emmancher la bague extérieure du 6806-2RS dans le carter
+   (emmanchement serré H7/r6 ou k6 selon fits)
         ↓
-4. Passer l'arbre de sortie du RS-05 (rotor) à travers
-   la bague intérieure du roulement
+4. Poser le HUB (flasque) sur la face du rotor RS-05 :
+   - Centrage ø17.7mm boss rotor → alésage HUB H7
+   - Serrer 8× vis M3 à couple approprié (~0.3 N.m)
         ↓
-5. Fixer le HUB (plateau tête) sur l'arbre de sortie
-   au-dessus du roulement (vis de pression ou clavette)
+5. La bague intérieure du 6806 s'emboîte sur l'épaulement ø30mm du HUB
+   (emmanchement tournant : H7/k6 ou légèrement serré)
         ↓
-6. Monter la structure de la tête sur le hub
+6. Fixer la structure de la tête sur le dessus du HUB (4× M4)
+        ↓
+✅ VÉRIFICATION : La tête doit tourner librement en Roll
+   sans jeu axial perceptible
 ```
-
----
-
-## 5. Bilan des Avantages
-
-### 5.1 Avec Roulement de Support (✅ Recommandé)
-
-| Avantage | Détail |
-| :--- | :--- |
-| **Durée de vie moteur** | Les roulements internes du RS-05 ne subissent que le couple → durée de vie maximale |
-| **Précision** | Zéro jeu axial, mouvement de Roll pur et fluide |
-| **Rigidité** | La tête est soutenue par le roulement, pas par le rotor → aucun "ballottement" |
-| **Sécurité** | En cas de coupure moteur, la tête reste en place (le roulement la porte) |
-| **Coût** | Un roulement 6001-2RS coûte 3-5 € — investissement négligeable |
-| **Masse ajoutée** | 18g (roulement) + ~30g (platine) = **~48g total** |
-
-### 5.2 Sans Roulement de Support (❌ Non recommandé)
-
-| Risque | Détail |
-| :--- | :--- |
-| **Usure prématurée** | Les roulements internes du RS-05 encaissent axial + couple → jeu en 6-12 mois |
-| **Vibrations** | Le jeu croissant provoque des micro-oscillations visibles sur la tête |
-| **Bruit** | Les roulements surchargés deviennent bruyants |
-| **Perte de couple** | Une partie du couple moteur est "consommée" pour maintenir la tête en position |
 
 ---
 
@@ -247,48 +249,44 @@ SÉQUENCE DE MONTAGE (étape par étape) :
 ```
 G_roll = m × g × L × sin(θ)
 
-Où :
   m = 2 kg (masse tête)
   g = 9.81 m/s²
-  L = 0.05 m (bras de levier = distance centre de gravité tête → axe de rotation)
+  L = 0.05 m (bras de levier Centre de gravité → axe)
   θ = 45° (inclinaison maximale)
 
-G_roll = 2 × 9.81 × 0.05 × sin(45°)
-G_roll = 2 × 9.81 × 0.05 × 0.707
-G_roll ≈ 0.69 N.m
+G_roll = 2 × 9.81 × 0.05 × sin(45°) ≈ 0.69 N.m
 ```
 
-### 6.2 Marge du RS-05
+### 6.2 Marge RS-05
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| **Couple gravitationnel max** | 0.69 N.m (à 45° d'inclinaison) |
+| **Couple gravitationnel max** | 0.69 N.m (à 45°) |
 | **Couple nominal RS-05** | 1.6 N.m |
 | **Couple pic RS-05** | 5.5 N.m |
 | **Marge nominale** | ×2.3 ✅ |
 | **Marge pic** | ×8 ✅ |
 
-> ✅ **Verdict** : Le RS-05 est parfaitement dimensionné pour le Roll de la tête. Avec le roulement de support qui absorbe les efforts axiaux, le moteur peut consacrer 100% de son couple au mouvement de rotation.
-
 ---
 
-## 7. Recommandation de Roulement — Récapitulatif Achat
+## 7. BOM — Récapitulatif Achat
 
-| Composant | Référence | Qté | Prix Unitaire | Fournisseur |
+| Composant | Référence | Qté | Prix Unit. | Fournisseur |
 | :--- | :--- | :---: | :---: | :--- |
-| Roulement à billes | **6001-2RS** (12×28×8mm) | 1 | ~3-5 € | SKF, NSK, Amazon, RS Components |
-| Platine support | Alu 6061, ép. 8mm (CNC C500) | 1 | Usinage maison | Stock alu |
-| Hub tête | Alu 6061, ép. 6mm (CNC C500) | 1 | Usinage maison | Stock alu |
-| Entretoises | M3 ou M4, longueur ~50mm | 4 | ~0.50 € | Visserie standard |
+| Roulement thin-section | **6806-2RS** (30×42×7mm) | 1-2 | ~4-6 € | SKF, NSK, Amazon |
+| HUB Flasque | Alu 6061 ø55 épaisseur 12mm (CNC) | 1 | Usinage maison | Stock alu |
+| Carter logement | Alu 6061 (CNC) ou PA12-CF | 1 | Usinage/impression | Stock |
+| Visserie | 8× M3×8 CHC (fixation hub→rotor) | 1 | ~0.50 € | Visserie standard |
+| Visserie | 4× M4 (fixation tête→hub) | 1 | ~0.50 € | Visserie standard |
 
-**Coût total ajouté** : **< 10 €** pour une solution professionnelle durable.
+**Coût total ajouté** : **< 15 €** pour une solution professionnelle et durable.
 
 ---
 
 ## 8. Conclusion
 
-> **🟢 OUI, le montage avec roulement de support est fortement recommandé.**
+> **🟢 Le montage avec roulement de support est fortement recommandé, avec l'architecture HUB + roulement annulaire 6806-2RS.**
 >
-> C'est même une **bonne pratique d'ingénierie standard** dans tous les cas où un moteur est monté verticalement et porte une charge axiale. Le surcoût est négligeable (~5 €, ~48g) et les bénéfices sont majeurs : durée de vie du moteur multipliée, précision accrue, rigidité garantie.
+> La particularité du RS-05 (rotor affleurant, sans arbre saillant) impose de concevoir un **HUB flasque usiné CNC** centré sur le boss ø17.7mm et boulonné via les 8× M3 du rotor. Ce hub porte la bague intérieure d'un roulement annulaire 6806-2RS, dont la bague extérieure est noyée dans un carter fixe solidaire du torse.
 >
-> Le roulement **6001-2RS** est surdimensionné d'un facteur ×10 pour la charge axiale de notre tête de 2 kg, ce qui garantit une longévité quasi-illimitée dans des conditions normales d'utilisation.
+> Cette architecture transfère **100% des charges statiques** (poids de la tête, moments de basculement) vers le torse via le roulement, laissant au RS-05 sa seule mission : **générer un couple de Roll pur**. C'est une solution standard dans l'industrie des supports de caméra gyrostabilisés et des plateaux tournants.
