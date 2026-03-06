@@ -145,5 +145,10 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
 29. **[Glossaire Technique Robotique](./28_Glossaire_Technique.md)**
     *   Définitions détaillées des concepts (Pitch, Roll, Yaw, Gimbal Lock, Backdrivability...).
 
+30. **[Étude : Montage Vertical RS-05 pour le Roll de Tête](./29_Etude_Montage_Cou_RS05.md)**
+    *   Montage vertical du RS-05 avec roulement de support externe (6001-2RS).
+    *   Schéma de montage, flux de forces, choix du roulement et BOM.
+    *   Vérification de couple gravitationnel et séquence de montage.
+
 ---
 *Documentation exhaustive générée et auditée en Février/Mars 2026.*
