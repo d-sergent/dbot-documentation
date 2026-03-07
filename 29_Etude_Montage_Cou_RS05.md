@@ -252,11 +252,16 @@ VUE EN COUPE — SOLUTION 4 : HUB RÉDUIT + 6802-2RS INTERNE
         │  (bague   │ ← Bague int. Ø15mm (TOURNE)
         │   int.    │
         │   Ø15mm)  │
+   Circlip► ═ ═ ═ ═ ═ ◄ Circlip de retenue haute (E15)
         └─────┬─────┘
         ┌─────┴─────┐
-        │ TUBE HUB  │ ← Al-6061, Ø ext 15mm, H~10mm
-        │ Ø15mm     │    Vissé au rotor (6×M4 via bride)
+Épaulement► ┌─┴─┐   │ ← ÉPAULEMENT de retenue basse (butée)
+        │   │   │   │    Le diamètre passe de Ø15 à ~Ø17mm
+        │ TUBE HUB  │ ← Al-6061, Ø ext principal 15mm
+        │ Ø15/17mm  │    Vissé au rotor (6×M4 via bride)
         └─────┬─────┘
+
+> ⚠️ **Détail critique (Retenue Axiale)** : Le tube-hub ne doit pas être un simple cylindre lisse de 15mm. Il **doit** comporter un **épaulement** (passage de Ø15mm à ~Ø17mm à la base) pour servir de butée basse à la bague intérieure du roulement. Sans cet épaulement, la bague glisserait vers le bas sous l'effet du poids de la tête (19.6 N). Une gorge pour un **circlip E15** au-dessus du roulement assure la retenue vers le haut.
    ┌──────────┴──────────────┐
    │   ROTOR (Ø41.5mm)       │ ← 6×M4 sur Ø24mm + 3 plots
    │   ┌─────────────────┐   │
