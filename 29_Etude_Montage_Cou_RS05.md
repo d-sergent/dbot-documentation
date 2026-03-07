@@ -211,21 +211,107 @@ La butée AXK 2035 (Ø20 × Ø35 × **2 mm**) s'insère directement entre le hub
 
 ---
 
-## 4. Comparatif des 3 Solutions
+### 3.4 Solution 4 — Hub Réduit Ø15mm + Roulement 6802-2RS Interne ⭐⭐ NOUVELLE RECOMMANDATION
 
-| Critère | Sol. 1 : Hub Surélevé 6806 | Sol. 2 : Ultra-Mince 6706 | Sol. 3 : Butée AXK 2035 |
-| :--- | :---: | :---: | :---: |
-| **Faisabilité** | ✅ Excellente | ⚠️ Très serré (2.25mm) | ✅ Simple |
-| **Charge axiale** | ✅ 560 N | ⚠️ ~200 N | ✅✅ ~10 kN |
-| **Charge radiale** | ✅ 4.6 kN | ⚠️ ~1 kN | ❌ Zéro |
-| **Moment (tilt)** | ✅ Bon | ⚠️ Faible | ❌ Zéro |
-| **Surcoût hauteur** | ⚠️ +15-20 mm | ✅ +4 mm | ✅✅ +2 mm |
-| **Complexité usinage** | 🟡 Tube + carter | 🔴 Carter très précis | 🟢 Très simple |
-| **Coût** | ~8 € | ~5 € | ~3 € |
+L'idée clé : **réduire le diamètre du tube-hub** de sorte que le roulement entier (bague intérieure + bague extérieure) **rentre à l'intérieur de l'enveloppe du stator** (Ø41.5mm). La bague extérieure du roulement est emmanchée dans un carter fixe posé sur le stator. Plus aucun conflit de diamètre, et **aucune surélévation excessive** nécessaire.
 
-> **🟢 Recommandation finale : Solution 1 (Hub Surélevé + 6806-2RS)** — C'est la seule qui offre une **vraie reprise de tous les efforts** (axial, radial, moment) avec un roulement standard facile à trouver. Le surcoût en hauteur de 15-20 mm est parfaitement acceptable pour le cou d'un robot humanoïde.
+![Photo d'un roulement 6802-2RS — Bagues verticales concentriques](./assets/img_roulement_6802_2RS.png)
+*Roulement 6802-2RS : noter les bagues intérieure et extérieure verticales (cylindres concentriques), avec joints 2RS (rouge).*
+
+![Solution 4 : Hub Réduit Ø15mm + Roulement 6802-2RS s'insérant dans le carter du stator](./assets/img_rs05_solution4_hub_reduit.png)
+
+**Principe :**
+
+Un **tube-hub fin** (Al-6061, Ø extérieur ≈ 15mm) se visse sur le rotor (6×M4 sur Ø24mm — via une bride ou une pièce d'adaptation) et s'élève de ~10-15 mm. Sur ce tube-hub, on emmanche la **bague intérieure** du roulement 6802-2RS. La **bague extérieure** (Ø24mm) est quant à elle emmanchée en H7 dans un **carter fixe** (bague-tube en aluminium) posé à l'aplomb du stator et fixé au torse.
+
+Le Ø extérieur du roulement (24 mm) est **bien inférieur** au diamètre du rotor (41.5 mm), laissant ≈ **8.75 mm de marge par côté**. L'encombrement est minimal.
+
+```
+VUE EN COUPE — SOLUTION 4 : HUB RÉDUIT + 6802-2RS INTERNE
+
+   ┌─────────────────────────┐
+   │     TÊTE (~2 kg)        │
+   └──────────┬──────────────┘
+              │ (vis M4)
+   ┌──────────┴──────────────┐
+   │   BRIDE SUPÉRIEURE      │ ← Fixation tête → hub
+   └──────────┬──────────────┘
+        ┌─────┴─────┐
+        │ CARTER    │ ← Al-6061, alésage Ø24mm H7
+        │ FIXE      │    fixé au torse/stator
+        │ (bague    │
+        │  ext.     │ ← Bague ext. Ø24mm (FIXE)
+        │  Ø24mm)   │
+        │ ┌───────┐ │
+        │ │6802-2R│ │ ← Roulement : bagues VERTICALES
+        │ │ billes│ │    concentriques (comme sur la photo)
+        │ │ Ø15×  │ │    Ø15 int × Ø24 ext × 5mm larg.
+        │ │ Ø24×  │ │
+        │ │ 5mm   │ │
+        │ └───────┘ │
+        │  (bague   │ ← Bague int. Ø15mm (TOURNE)
+        │   int.    │
+        │   Ø15mm)  │
+        └─────┬─────┘
+        ┌─────┴─────┐
+        │ TUBE HUB  │ ← Al-6061, Ø ext 15mm, H~10mm
+        │ Ø15mm     │    Vissé au rotor (6×M4 via bride)
+        └─────┬─────┘
+   ┌──────────┴──────────────┐
+   │   ROTOR (Ø41.5mm)       │ ← 6×M4 sur Ø24mm + 3 plots
+   │   ┌─────────────────┐   │
+   │   │  boss Ø17.7mm   │   │    ← Centrage
+   │   └─────────────────┘   │
+   │   STATOR (46×46×44mm)   │ ← 8×M3 périphérique + 4×M3 arrière
+   └──────────┬──────────────┘
+              │ (4×M3 arrière)
+   ┌──────────┴──────────────┐
+   │      TORSE ROBOT        │
+   └─────────────────────────┘
+
+   Ø24mm (roulement ext.) << Ø41.5mm (rotor)
+   → RENTRE LARGEMENT ! ✅✅
+```
+
+#### Roulements compatibles avec cette solution
+
+| Roulement | Ø int (hub) | Ø ext (carter) | Largeur | Charge rad. dyn. | Remarque |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **6802-2RS** | **15 mm** | **24 mm** | **5 mm** | ~1.6 kN | ✅ Très compact, marge ×80 |
+| **6804-2RS** | **20 mm** | **32 mm** | **7 mm** | ~3.0 kN | ✅ Plus robuste, hub Ø20mm |
+| **6904-2RS** | 20 mm | 37 mm | 9 mm | ~6.2 kN | ✅ Haute capacité |
+
+| Paramètre | Valeur |
+| :--- | :--- |
+| **Tube Hub** | Al 6061, Ø ext 15mm (ou 20mm), hauteur ~10-15mm, centrage Ø17.7mm, fixation 6×M4 via bride |
+| **Roulement** | 6802-2RS (Ø15×Ø24×5mm) ou 6804-2RS (Ø20×Ø32×7mm) |
+| **Carter fixe** | Al 6061, alésage Ø24mm (ou Ø32mm) en H7, fixé au torse |
+| **Surcoût hauteur** | +10-15 mm (moins que la Solution 1) |
+| **Charge axiale** | ✅ ~320 N pour 6802 (×16 la charge requise de 19.6 N) |
+| **Charge radiale** | ✅ ~1.6 kN pour 6802 (×80 la charge requise) |
+| **Reprise de moment** | ✅ Bon (roulement radial standard) |
+| **Coût** | ~3-5 € |
+
+> ✅✅ **Avantage majeur** : Le roulement s'insère **à l'intérieur de l'enveloppe du moteur** avec une large marge (Ø24mm << Ø41.5mm). Le carter fixe se pose simplement sur le stator. L'usinage du carter est trivial (un simple alésage Ø24mm H7). C'est la solution la plus **élégante, compacte et simple à réaliser**.
+
+---
+
+## 4. Comparatif des 4 Solutions
+
+| Critère | Sol. 1 : Hub Surélevé 6806 | Sol. 2 : Ultra-Mince 6706 | Sol. 3 : Butée AXK 2035 | Sol. 4 : Hub Réduit 6802 ⭐ |
+| :--- | :---: | :---: | :---: | :---: |
+| **Faisabilité** | ✅ Bonne | ⚠️ Très serré | ✅ Simple | ✅✅ Excellente |
+| **Charge axiale** | ✅ 560 N | ⚠️ ~200 N | ✅✅ ~10 kN | ✅ 320 N |
+| **Charge radiale** | ✅ 4.6 kN | ⚠️ ~1 kN | ❌ Zéro | ✅ 1.6 kN |
+| **Moment (tilt)** | ✅ Bon | ⚠️ Faible | ❌ Zéro | ✅ Bon |
+| **Surcoût hauteur** | ⚠️ +15-20 mm | ✅ +4 mm | ✅✅ +2 mm | ✅ +10-15 mm |
+| **Complexité usinage** | 🟡 Tube + carter ext. | 🔴 Carter très précis | 🟢 Très simple | 🟢 Simple (alésage Ø24) |
+| **Coût** | ~8 € | ~5 € | ~3 € | ~3-5 € |
+| **Encombrement radial** | ⚠️ Dépasse le stator | ⚠️ Limite | ✅ Compact | ✅✅ Très compact |
+
+> **⭐ Recommandation finale : Solution 4 (Hub Réduit Ø15mm + 6802-2RS)** — La plus **élégante et réaliste**. Le roulement rentre largement dans l'enveloppe du moteur. L'usinage est simple (tube Ø15mm + carter avec alésage Ø24mm). Elle reprend **tous les efforts** (axial, radial, moment) avec un roulement standard à ~3€.
 >
-> La Solution 3 (butée à aiguilles) est un **excellent complément** si l'on souhaite en plus soulager l'effort axial de façon ultra-compacte, par exemple en la plaçant directement sous le tube-hub de la Solution 1.
+> La Solution 3 (butée à aiguilles) reste un **excellent complément** à ajouter sous le tube-hub pour une double sécurité axiale.
 
 ---
 
@@ -286,27 +372,28 @@ G_roll = 2 × 9.81 × 0.05 × sin(45°) ≈ 0.69 N.m
 
 ---
 
-## 7. BOM — Récapitulatif Achat (Solution 1)
+## 7. BOM — Récapitulatif Achat (Solution 4 — Recommandée)
 
 | Composant | Référence | Qté | Prix Unit. | Fournisseur |
 | :--- | :--- | :---: | :---: | :--- |
-| Roulement thin-section | **6806-2RS** (30×42×7mm) | 1 | ~4-6 € | SKF, NSK, Amazon |
-| Tube Hub | Alu 6061 Ø30 × 20mm hauteur (CNC) | 1 | Usinage maison | Stock alu |
-| Carter fixe annulaire | Alu 6061 (CNC) ou PA12-CF | 1 | Usinage/impression | Stock |
-| Visserie | 6× M4×8 CHC (fixation hub→rotor) | 1 | ~0.50 € | Visserie standard |
+| Roulement radial étanche | **6802-2RS** (Ø15×Ø24×5mm) | 1 | ~2-4 € | SKF, NSK, Amazon |
+| Tube Hub | Alu 6061 Ø15 × 10-15mm hauteur (CNC) | 1 | Usinage maison | Stock alu |
+| Carter fixe (bague) | Alu 6061, alésage Ø24mm H7 (CNC) | 1 | Usinage maison | Stock alu |
+| Bride d'adaptation | Alu 6061 (fixation 6×M4 → tube Ø15) | 1 | Usinage maison | Stock alu |
+| Visserie | 6× M4×8 CHC (fixation bride→rotor) | 1 | ~0.50 € | Visserie standard |
 | Visserie | 4× M4 (fixation tête→hub) | 1 | ~0.50 € | Visserie standard |
 
-**Coût total ajouté** : **< 15 €** pour une solution professionnelle et durable.
+**Coût total ajouté** : **< 10 €** pour une solution compacte, robuste et professionnelle.
 
 ---
 
 ## 8. Conclusion
 
-> **🟢 Le montage avec roulement de support est fortement recommandé, avec l'architecture HUB SURÉLEVÉ + roulement annulaire 6806-2RS (Solution 1).**
+> **⭐ Le montage avec roulement de support est fortement recommandé, avec l'architecture HUB RÉDUIT Ø15mm + roulement 6802-2RS interne (Solution 4).**
 >
 > L'analyse dimensionnelle a révélé un **conflit géométrique critique** : l'espace radial disponible entre le cercle de vis M4 du rotor (Ø24mm) et le bord du stator (Ø41.5mm) est trop étroit (5.25 mm) pour accueillir un roulement 6806-2RS (section 6 mm) dans le même plan. **Un montage coplanaire avec un 6806-2RS est impossible.**
 >
-> La solution retenue consiste à **surélever le roulement** au-dessus du moteur grâce à un tube-hub cylindrique (Al-6061, hauteur 15-20mm), ce qui élimine tout conflit de diamètre. Le carter fixe se monte indépendamment sur le torse, et l'ensemble reprend **100% des charges statiques** (poids de la tête de 2 kg, moments de basculement).
+> La solution retenue consiste à **réduire le diamètre du tube-hub** (Ø15mm) de sorte que le roulement 6802-2RS (Ø15×Ø24×5mm) rentre **entièrement dans l'enveloppe du moteur** (Ø24mm << Ø41.5mm). La bague extérieure est emmanchée dans un carter fixe solidaire du torse. L'ensemble reprend **100% des charges statiques** (poids de la tête de 2 kg, moments de basculement) avec un roulement standard à ~3€.
 >
 > Le RS-05 ne fournit alors que le **couple de Roll pur** (0.69 N.m max vs 1.6 N.m nominal), avec une marge confortable de ×2.3.
 >
