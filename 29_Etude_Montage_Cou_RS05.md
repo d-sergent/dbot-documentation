@@ -315,26 +315,26 @@ VUE EN COUPE — SOLUTION 4 : HUB RÉDUIT + 6802-2RS INTERNE
 
 ---
 
-## 5. Séquence de Montage (Solution 1 Recommandée)
+## 5. Séquence de Montage (Solution 4 Recommandée)
 
 ```
-SÉQUENCE DE MONTAGE — SOLUTION 1 : HUB SURÉLEVÉ
+SÉQUENCE DE MONTAGE — SOLUTION 4 : HUB RÉDUIT Ø15mm + 6802-2RS
 
 1. Fixer le STATOR RS-05 au torse (4× M3 arrière)
         ↓
-2. Monter le CARTER FIXE sur la structure du torse
-   (alésage Ø42mm H7 pour bague ext.)
-   Positionné ~20mm au-dessus du plan du stator
-        ↓
-3. Emmancher la bague extérieure du 6806-2RS dans le carter
-   (emmanchement serré H7/r6 ou k6)
-        ↓
-4. Assembler le TUBE HUB sur la face du rotor RS-05 :
+2. Assembler la BRIDE D'ADAPTATION + TUBE HUB (Ø15mm)
+   sur la face du rotor RS-05 :
    - Centrage ø17.7mm boss rotor + alignement 3 plots
    - Serrer 6× vis M4 à couple approprié (~1.5 N.m)
         ↓
-5. La bague intérieure du 6806 s'emboîte sur l'épaulement
-   ø30mm du tube hub (emmanchement tournant H7/k6)
+3. Emmancher la bague intérieure du 6802-2RS sur le tube hub
+   (emmanchement tournant Ø15mm H7/k6)
+        ↓
+4. Monter le CARTER FIXE (alésage Ø24mm H7) sur le torse,
+   en l'alignant autour du roulement
+        ↓
+5. Emmancher la bague extérieure du 6802-2RS dans le carter
+   (emmanchement serré Ø24mm H7/r6)
         ↓
 6. Fixer la structure de la tête sur le dessus du tube hub (4× M4)
         ↓
