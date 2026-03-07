@@ -325,27 +325,30 @@ VUE EN COUPE — SOLUTION 4 : HUB RÉDUIT + 6802-2RS INTERNE
 ```
 SÉQUENCE DE MONTAGE — SOLUTION 4 : HUB RÉDUIT Ø15mm + 6802-2RS
 
-1. Fixer le STATOR RS-05 au torse (4× M3 arrière)
+1. [PRÉPARATION À LA PRESSE] Emmancher la bague extérieure du 6802-2RS 
+   dans le CARTER FIXE (emmanchement serré Ø24mm H7/r6). 
+   ⚠️ Appliquer l'effort uniquement sur la bague extérieure.
         ↓
-2. Assembler la BRIDE D'ADAPTATION + TUBE HUB (Ø15mm)
+2. Fixer le STATOR RS-05 au torse (4× M3 arrière)
+        ↓
+3. Assembler la BRIDE D'ADAPTATION + TUBE HUB (Ø15/17mm)
    sur la face du rotor RS-05 :
    - Centrage ø17.7mm boss rotor + alignement 3 plots
    - Serrer 6× vis M4 à couple approprié (~1.5 N.m)
         ↓
-3. Emmancher la bague intérieure du 6802-2RS sur le tube hub
-   (emmanchement tournant Ø15mm H7/k6)
+4. Installer le sous-ensemble [CARTER + ROULEMENT] par le dessus :
+   - La bague intérieure s'emmanche sur le Ø15mm du tube hub jusqu'à 
+     l'épaulement butée (emmanchement juste / tournant Ø15mm H7/k6)
+   - Fixer le carter solidairement à la structure fixe du robot
         ↓
-4. Monter le CARTER FIXE (alésage Ø24mm H7) sur le torse,
-   en l'alignant autour du roulement
-        ↓
-5. Emmancher la bague extérieure du 6802-2RS dans le carter
-   (emmanchement serré Ø24mm H7/r6)
+5. Insérer le CIRCLIP E15 dans sa gorge sur le tube hub (juste au-dessus
+   du roulement) pour assurer la retenue axiale complète.
         ↓
 6. Fixer la structure de la tête sur le dessus du tube hub (4× M4)
         ↓
 ✅ VÉRIFICATION : La tête doit tourner librement en Roll
-   sans jeu axial perceptible. Le roulement reprend
-   le poids de la tête, pas le moteur.
+   sans jeu axial perceptible. Le roulement reprend le poids
+   de la tête, protégeant ainsi le moteur.
 ```
 
 ---
