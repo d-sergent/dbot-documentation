@@ -395,7 +395,30 @@ G_roll = 2 × 9.81 × 0.05 × sin(45°) ≈ 0.69 N.m
 
 ---
 
-## 8. Conclusion
+## 8. Assurer la Concentricité des Axes (Rotor vs Stator)
+
+Une contrainte majeure de ce montage hyperstatique est de s'assurer que l'axe de la bague intérieure (liée au rotor) et l'axe de la bague extérieure (liée au carter fixe/stator) sont **parfaitement alignés**. Tout désalignement obligerait le moteur à "forcer" sur le roulement à chaque rotation, entraînant usure, vibrations et surconsommation.
+
+On ne s'en remet jamais au hasard. L'alignement est obtenu en combinant un **usinage strict (côté rotor)** et une stratégie **d'auto-centrage au serrage (côté stator)**.
+
+### 8.1 Côté Rotor : Concentricité par usinage CNC (Bague intérieure)
+La concentricité de la bague intérieure est garantie par la **pièce elle-même** (le Tube-Hub).
+- **Référence native** : Le RS-05 possède un bossage mécanique usiné de **Ø17.7 mm** spécifiquement conçu par RobStride pour offrir un centrage physique parfait (les vis ne servant qu'à serrer).
+- **Usinage en une passe** : Le Tube-Hub doit être usiné à la CNC en **une seule prise (même posage)** : l'alésage de centrage (Ø17.7mm H7) et le diamètre extérieur recevant le roulement (Ø15mm k6) partagent ainsi strictement le même axe de révolution.
+- **Résultat** : Une fois le hub posé sur le bossage du RS-05, la bague intérieure du roulement tourne *parfaitement rond* sans faux-rond.
+
+### 8.2 Côté Stator : Auto-centrage au montage (Bague extérieure)
+C'est ici qu'intervient l'astuce mécanique : on n'essaie pas d'usiner un carter parfait qui viendrait s'emboîter sur le carré extérieur du stator. On utilise **le roulement lui-même comme gabarit d'alignement** lors du montage.
+
+1. **Jeux de fixation** : Le carter fixe est percé pour être vissé sur le torse du robot (ex: trous de passage pour vis M3). Ces trous ne doivent pas être de Ø3.0mm justes, mais **légèrement surdimensionnés** (ex: Ø3.5 mm) pour offrir un "flottement" de quelques dixièmes de millimètres.
+2. **Assemblage à blanc** : Le roulement (préalablement pressé dans le carter) est glissé sur le tube-hub. À cet instant, les vis du carter au torse sont insérées mais **non serrées**.
+3. **L'Auto-alignement** : Le roulement 6802-2RS est une pièce de précision. Ses deux bagues sont parfaitement concentriques. C'est le roulement lui-même qui va "pousser" le carter flottant dans la position idéale.
+4. On fait faire quelques tours au moteur à la main : le système se "détend" de toute contrainte radiale.
+5. **Serrage final** : On bloque enfin les vis du carter au couple. Le carter est immuablement figé dans sa position parfaitement concentrique.
+
+---
+
+## 9. Conclusion
 
 > **⭐ Le montage avec roulement de support est fortement recommandé, avec l'architecture HUB RÉDUIT Ø15mm + roulement 6802-2RS interne (Solution 4).**
 >
