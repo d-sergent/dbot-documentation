@@ -278,13 +278,17 @@ VUE EN COUPE — SOLUTION 4 : HUB RÉDUIT + 6802-2RS INTERNE
    → RENTRE LARGEMENT ! ✅✅
 ```
 
-#### Roulements compatibles avec cette solution
+#### Tailles de Roulements (Série 6800 Thin-Section)
 
-| Roulement | Ø int (hub) | Ø ext (carter) | Largeur | Charge rad. dyn. | Remarque |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **6802-2RS** | **15 mm** | **24 mm** | **5 mm** | ~1.6 kN | ✅ Très compact, marge ×80 |
-| **6804-2RS** | **20 mm** | **32 mm** | **7 mm** | ~3.0 kN | ✅ Plus robuste, hub Ø20mm |
-| **6904-2RS** | 20 mm | 37 mm | 9 mm | ~6.2 kN | ✅ Haute capacité |
+Cette série est idéale en robotique pour son faible encombrement radial. Voici pourquoi le **6802** est le meilleur candidat pour s'insérer dans l'enveloppe du RS-05 (Ø41.5mm) :
+
+| Référence | Ø Intérieur (Hub) | Ø Extérieur (Carter) | Largeur | Capacité Rad. estimée | Compatibilité avec RS-05 (Ø41.5mm) |
+| :---: | :---: | :---: | :---: | :--- | :--- |
+| **6802-2RS** | **15 mm** | **24 mm** | **5 mm** | ~1.6 kN | ⭐ **Recommandé** (Marge de 8.75mm par côté) |
+| **6803-2RS** | **17 mm** | **26 mm** | **5 mm** | ~1.7 kN | ✅ Excellent aussi (Hub Ø17, carter Ø26) |
+| **6804-2RS** | **20 mm** | **32 mm** | **7 mm** | ~3.0 kN | ✅ Option robuste (Hub Ø20, carter Ø32) |
+| **6805-2RS** | **25 mm** | **37 mm** | **7 mm** | ~3.2 kN | ⚠️ Limite (Carter Ø37 + paroi fine) |
+| **6806-2RS** | **30 mm** | **42 mm** | **7 mm** | ~4.6 kN | ❌ Trop grand (Dépasse le moteur de 0.5mm) |
 
 | Paramètre | Valeur |
 | :--- | :--- |
