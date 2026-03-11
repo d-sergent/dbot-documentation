@@ -85,6 +85,7 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 | **RS-06** | **36.0** | 11.0 | 480 | **621** | 88×88×49 | 9:1 | **$230** | 48V (15-60V) | Entre-deux (Épaule légère) |
 | **RS-03** | **60.0** | 20.0 | 195 | **880** | 106×106×56 | 9:1 | **$250** | 48V (15-60V) | **Épaule**, Hanche rot. |
 | **RS-04** | **120.0** | 40.0 | 200 | **1420** | 120×120×56 | 9:1 | **$280** | 48V (15-60V) | **Hanche**, Genou, Cheville |
+| *Unitree GO-M8* | *23.7* | *~8.0* | *286* | *530* | *96.5×96.5×42.3* | *6.33:1* | *$369* | *24V (12-30V)* | *Alternative (Non CAN)* |
 
 ### Analyse Comparative
 
@@ -99,6 +100,13 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 #### RS-06 (Intermédiaire Nouveau)
 *   **Niche** : Entre RS-02 (17 N.m) et RS-03 (60 N.m). Avec **36 N.m** et 621g, c'est un compromis pour des articulations nécessitant plus que du RS-02 sans le poids du RS-03.
 *   **Usage potentiel** : Épaule de petits robots, torse rotation, ou remplacer un RS-03 si l'on veut économiser 260g et 20$.
+
+#### 🆕 Alternative Externe : Unitree GO-M8010-6
+*   **Profil** : Avec **23.7 N.m** pour **530g**, il a d'excellentes caractéristiques qui le placent pile entre le RS-02 (405g) et le RS-06 (621g). Il est back-drivable, avec un ratio de 6.33:1. C'est le moteur réputé du robot chien Unitree Go1.
+*   **Pourquoi il n'est pas retenu pour le D-Bot** :
+    1.  **Protocole de Communication** : Il utilise le bus **RS-485**. Or, l'intégralité du D-Bot est câblée en **CAN 2.0B** (daisy-chain). Introduire du RS-485 casserait l'homogénéité du bus et forcerait l'ajout de contrôleurs/convertisseurs dédiés.
+    2.  **Prix** : À environ **$369**, il est beaucoup plus cher que la gamme RobStride (un RS-06, pourtant 50% plus coupleux, coûte $230).
+*   **Conclusion** : Très bon moteur intrinsèquement, mais **totalement déconseillé** ici pour des raisons d'intégration logicielle/matérielle et de budget.
 
 #### RS-03 vs RS-04 (Gros Moteurs)
 *   **Saut de performance brutal** : RS-03 → 60 N.m (880g) ; RS-04 → **120 N.m** (1420g, +61% poids).
