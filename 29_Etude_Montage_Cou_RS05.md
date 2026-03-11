@@ -433,3 +433,130 @@ C'est ici qu'intervient l'astuce mécanique : on n'essaie pas d'usiner un carter
 > Le RS-05 ne fournit alors que le **couple de Roll pur** (0.69 N.m max vs 1.6 N.m nominal), avec une marge confortable de ×2.3.
 >
 > Les 8× M3 périphériques du moteur appartiennent au **stator** et servent uniquement à fixer le moteur au torse. Le stator ne peut être fixé que par l'**arrière** (4× M3).
+
+---
+
+## 10. Préparation URDF — Naming et Axes (Fusion 360)
+
+Cette section détaille les conventions de nommage et d'orientation à respecter dans Fusion 360 pour permettre un export URDF propre du sous-assemblage du cou.
+
+### 10.1 Convention d'Axes : Fusion 360 vs URDF
+
+Fusion 360 (en mode **Z-up**, réglable dans *Préférences → Conception → Orientation de modélisation par défaut*) utilise les axes suivants :
+
+```
+FUSION 360 (Z-up)              URDF (REP 103)
+                                
+     Z (haut)                       Z (haut)
+     │                              │
+     │   Y (arrière)                │   X (avant / regard)
+     │  /                           │  /
+     │ /                            │ /
+     └──── X (droite)               └──── Y (gauche)
+```
+
+> 📐 **Règle d'or** : Dans Fusion 360, orientez votre robot pour qu'il **regarde vers X+** (vers la droite quand vous regardez la face "AVANT" du ViewCube). Ainsi, lors de l'export URDF, l'axe X de Fusion correspondra directement à l'axe X de URDF (direction du regard).
+
+| Axe Fusion 360 | Direction physique | Axe URDF | Mouvement du cou |
+| :---: | :--- | :---: | :--- |
+| **Z+** | Vers le haut (ciel) | **Z+** | Axe du **Yaw** (Pan) : tourner la tête gauche/droite |
+| **X+** | Vers la droite → **direction du regard du robot** | **X+** | Axe du **Roll** : pencher la tête oreille→épaule |
+| **Y+** | Vers l'arrière | **-Y** | Axe du **Pitch** (Tilt) : hocher la tête oui/non |
+
+### 10.2 Renommage des Pièces Fusion 360 → URDF
+
+En URDF, chaque « pièce rigide » s'appelle un **link**, et chaque articulation un **joint**. Les pièces qui ne bougent pas l'une par rapport à l'autre doivent être **fusionnées en un seul link** (ou reliées par un joint de type `fixed`).
+
+#### Règles de nommage URDF
+
+1. **Tout en `snake_case`** (minuscules + underscores) : `neck_roll_link`, pas `NeckRollLink`
+2. **Préfixer par la zone du corps** : `neck_`, `head_`, `torso_`
+3. **Suffixer les links par `_link`** et les joints par `_joint`**
+4. **Pas de numéros de version** : `neck_roll_motor`, pas `robstride05 v1:2`
+5. **Pas de caractères spéciaux** : ni tirets `-`, ni accents, ni espaces, ni points
+
+#### Tableau de correspondance (assemblage actuel "Neck v28")
+
+Voici le mapping entre vos noms actuels dans Fusion 360 et les noms URDF recommandés :
+
+| Nom actuel Fusion 360 | Rôle mécanique | Nom URDF (Link) | Remarque |
+| :--- | :--- | :--- | :--- |
+| `robstride05 v1:1` | Moteur Pan (Yaw) | `neck_yaw_motor` | Fusionné dans `neck_yaw_link` |
+| `U-Pan v15:1` | Bracket en U (Pan→Tilt) | `neck_yaw_bracket` | Fusionné dans `neck_yaw_link` |
+| `Tilt v14:1` | Bracket du Tilt (Pitch) | `neck_pitch_bracket` | = `neck_pitch_link` |
+| `robstride05 v1:2` | Moteur Roll | `neck_roll_motor` | Fusionné dans `neck_roll_link` |
+| `6082Z v1:1` | Carter alu / entretoise | `neck_roll_housing` | Fusionné dans `neck_roll_link` |
+| `6804_2rs v1:1` | Roulement 6804-2RS | `neck_roll_bearing` | Joint `fixed` vers `neck_roll_link` |
+
+> 💡 **"Fusionné" signifie** : dans l'URDF, ces pièces font partie du **même link** (même corps rigide). Par exemple, le moteur Pan (`robstride05 v1:1`) et le bracket U-Pan (`U-Pan v15:1`) bougent ensemble → ils forment un seul link appelé `neck_yaw_link`. On ne crée **pas** de joint entre eux.
+
+#### Résumé des Links URDF à créer
+
+| Link URDF | Pièces Fusion fusionnées dedans | Description |
+| :--- | :--- | :--- |
+| `torso_link` | Structure du torse (existant) | Point d'ancrage fixe |
+| `neck_yaw_link` | `robstride05 v1:1` + `U-Pan v15:1` | Ensemble qui tourne en Yaw (gauche/droite) |
+| `neck_pitch_link` | `Tilt v14:1` | Bracket articulé en Pitch (oui/non) |
+| `neck_roll_link` | `robstride05 v1:2` + `6082Z v1:1` + `6804_2rs v1:1` | Ensemble qui tourne en Roll (oreille→épaule) |
+| `head_link` | Crâne, capteurs, boîtier électronique | La tête elle-même |
+
+### 10.3 Chaîne Cinématique URDF du Cou
+
+Voici l'arbre parent-enfant complet à définir dans l'URDF :
+
+```
+torso_link
+  │
+  └── neck_yaw_joint (type: revolute, axe: Z)
+        │
+        └── neck_yaw_link   ← [robstride05 v1:1 + U-Pan bracket]
+              │
+              └── neck_pitch_joint (type: revolute, axe: Y)
+                    │
+                    └── neck_pitch_link   ← [Tilt bracket]
+                          │
+                          └── neck_roll_joint (type: revolute, axe: X)
+                                │
+                                └── neck_roll_link   ← [robstride05 v1:2 + carter + roulement]
+                                      │
+                                      └── head_fixed_joint (type: fixed)
+                                            │
+                                            └── head_link   ← [tête + capteurs]
+```
+
+### 10.4 Définition des Joints (DOF)
+
+Chaque joint `revolute` doit spécifier son **axe de rotation**, ses **limites angulaires**, et son **effort maximal** :
+
+| Joint URDF | Type | Axe | Limites (rad) | Limites (deg) | Effort max (N.m) | Vitesse max (rad/s) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| `neck_yaw_joint` | revolute | `0 0 1` (Z) | [-1.57, 1.57] | ±90° | 5.5 | 6.28 |
+| `neck_pitch_joint` | revolute | `0 1 0` (Y) | [-0.79, 0.79] | ±45° | 5.5 | 6.28 |
+| `neck_roll_joint` | revolute | `1 0 0` (X) | [-0.79, 0.79] | ±45° | 5.5 | 6.28 |
+
+> ⚠️ **Les axes `0 0 1`, `0 1 0` et `1 0 0`** sont les directions dans le référentiel du link **parent**. Vérifiez après export que chaque axe correspond bien au mouvement attendu. Si un mouvement est inversé, changez le signe (ex: `0 0 -1`).
+
+### 10.5 Workflow d'Export Fusion 360 → URDF
+
+1. **Renommer les pièces** dans Fusion 360 selon le tableau de la section 10.2 (clic droit → Renommer dans le navigateur)
+2. **Vérifier l'orientation** : Vue de dessus (face HAUT du ViewCube) → le robot regarde vers X+
+3. **Définir les joints** dans Fusion 360 (Assemblage → Joint) en mode revolute, avec les bons axes de rotation
+4. **Installer le plugin** `fusion2urdf` (de Toshinori Kitamura) via le Fusion 360 App Store ou GitHub :
+   ```
+   https://github.com/syuntoku14/fusion2urdf
+   ```
+5. **Lancer l'export** : le plugin génère automatiquement :
+   - Le fichier `.urdf` avec la chaîne cinématique
+   - Les meshes `.stl` pour chaque link (collision + visual)
+   - Un fichier `launch` pour RViz (visualisation)
+6. **Vérifier dans RViz** : ouvrir le `.urdf` et tester les joints avec les sliders
+
+### 10.6 Checklist Avant Export
+
+- [ ] Toutes les pièces sont renommées en `snake_case` sans version ni caractères spéciaux
+- [ ] Le robot regarde vers X+ (vue de dessus)
+- [ ] Les pièces fixes entre elles sont marquées comme `Rigid Group` ou `fixed joint`
+- [ ] Les 3 joints revolute (yaw, pitch, roll) sont définis avec les bons axes
+- [ ] Les masses et matériaux sont assignés à chaque pièce (Fusion les exportera comme propriétés d'inertie)
+- [ ] Les origines des joints sont positionnées au centre de rotation réel (axe du moteur RS-05)
+
