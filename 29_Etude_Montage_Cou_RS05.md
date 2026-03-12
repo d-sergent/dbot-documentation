@@ -560,3 +560,26 @@ Chaque joint `revolute` doit spécifier son **axe de rotation**, ses **limites a
 - [ ] Les masses et matériaux sont assignés à chaque pièce (Fusion les exportera comme propriétés d'inertie)
 - [ ] Les origines des joints sont positionnées au centre de rotation réel (axe du moteur RS-05)
 
+### 10.7 Bonnes Pratiques : Conception vs Export (Méthode du "Bac à sable")
+
+La CAO mécanique (paramétrique) et la topologie URDF (arborescence Links/Joints) ont des exigences contradictoires. Essayer de forcer une arborescence URDF parfaite dans le fichier de conception maître (tout en gardant l'historique et les liens externes) conduit souvent à des blocages ou des références circulaires dans Fusion 360.
+
+**La méthode professionnelle consiste à séparer le Design de l'Export :**
+
+#### 1. L'Espace de Conception (Le fichier de travail habituel)
+*   **Historique** : Activé.
+*   **Liens externes** : Autorisés et recommandés (importez les moteurs 🔗, créez des sous-assemblages).
+*   **Structure** : Organisez vos dossiers comme c'est logique pour la conception et l'usinage. Ne vous souciez pas des "links" URDF ici.
+
+#### 2. L'Espace d'Export URDF (Le fichier "Bac à sable")
+Quand le design d'un membre (ex: le Cou) est figé, procédez ainsi pour créer un URDF propre sans casser votre CAO :
+1.  Créez un **Nouveau Fichier Fusion** vide (ex: `EXPORT_URDF_NECK`).
+2.  Insérez-y votre grand assemblage de conception "Neck" (il aura un maillon 🔗).
+3.  Faites immédiatement un clic droit sur la racine et **Désactivez l'historique** (*Ne pas capturer l'historique de conception*).
+4.  Faites un clic droit sur votre assemblage importé et cliquez sur **Rompre le lien (Break Link)**. Tous les composants deviennent 100% locaux.
+5.  Créez vos dossiers URDF (ex: `torso_link`, `neck_yaw_link`, `neck_pitch_link`).
+6.  Glissez librement toutes les pièces locales dans les bons dossiers URDF.
+7.  Recréez vos **Liaisons (Joints)** propres entre ces dossiers.
+8.  Lancez le plugin d'export.
+
+> ✅ **Avantage** : Votre vraie CAO est protégée avec tout son historique. Si le design évolue, il suffit de refaire un fichier d'export "bac à sable" en 5 minutes. C'est la méthode de travail la plus saine et la plus utilisée en robotique.
