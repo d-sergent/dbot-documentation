@@ -583,3 +583,9 @@ Quand le design d'un membre (ex: le Cou) est figé, procédez ainsi pour créer 
 8.  Lancez le plugin d'export.
 
 > ✅ **Avantage** : Votre vraie CAO est protégée avec tout son historique. Si le design évolue, il suffit de refaire un fichier d'export "bac à sable" en 5 minutes. C'est la méthode de travail la plus saine et la plus utilisée en robotique.
+
+#### 💡 Astuce UX Spécifique (Fusion 360 sur Mac)
+Pour déplacer physiquement un composant dans un autre (glisser-déposer) au sein du navigateur Fusion 360 sur macOS :
+1. Cliquez sur le composant à déplacer.
+2. Maintenez la touche **Command (⌘)** enfoncée.
+3. Déposez-le précisément sur **les lettres (le nom)** du nouveau composant parent.
