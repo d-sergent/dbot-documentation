@@ -545,6 +545,19 @@ Chaque joint `revolute` doit spécifier son **axe de rotation**, ses **limites a
 1. **Renommer les pièces** dans Fusion 360 selon le tableau de la section 10.2 (clic droit → Renommer dans le navigateur)
 2. **Vérifier l'orientation** : Vue de dessus (face HAUT du ViewCube) → le robot regarde vers X+
 3. **Définir les joints** dans Fusion 360 (Assemblage → Joint) en mode revolute, avec les bons axes de rotation
+   
+   > 💡 **La Méthode Parfaite (Liaison Réelle / As-built Joint)**
+   > 
+   > Puisque vos pièces sont déjà à la bonne place géométriquement, n'utilisez **pas** l'outil "Liaison" (Joint) classique qui risque de déplacer vos pièces.
+   > 1. Allez dans le menu **Assembler**.
+   > 2. Cliquez sur **Liaison réelle** (*As-built Joint*, icône avec le trombone jaune et la flèche).
+   > 3. **Composants** : Cliquez sur `torso_link:1`, puis sur `neck_yaw_link:1`.
+   > 4. **Type** : Choisissez `Révolution`.
+   > 5. **Position (Origine/Axe)** : Fusion vous demande de cliquer sur le point central qui servira d'axe. Cliquez sur un repère circulaire (ex: le trou central du hub ou le bord du stator). Un petit drapeau X,Y,Z apparaît et l'animation vous montre le cou qui tourne.
+   > 6. Cliquez sur **OK**.
+   > 
+   > *Résultat :* Si vous essayez d'attraper le cou avec la souris et de tirer dessus vers le haut, il sera "bétonné" au torse. Il ne pourra **que** tourner, sans avoir besoin d'aucune autre contrainte !
+   
 4. **Installer le plugin** `fusion2urdf` (de Toshinori Kitamura) via le Fusion 360 App Store ou GitHub :
    ```
    https://github.com/syuntoku14/fusion2urdf
