@@ -490,6 +490,10 @@ Voici le mapping entre vos noms actuels dans Fusion 360 et les noms URDF recomma
 
 > 💡 **"Fusionné" signifie** : dans l'URDF, ces pièces font partie du **même link** (même corps rigide). Par exemple, le moteur Pan (`robstride05 v1:1`) et le bracket U-Pan (`U-Pan v15:1`) bougent ensemble → ils forment un seul link appelé `neck_yaw_link`. On ne crée **pas** de joint entre eux.
 
+> 🛠️ **Cas particulier des Roulements (Bague fixe vs mobile)** :
+> En URDF, on ne peut pas diviser une pièce en deux. Un roulement entier (bague intérieure + bague extérieure) doit être glissé dans **un seul** de vos dossiers de link.
+> **La Règle :** Placez le roulement entier dans le composant **Parent (Fixe)** ou celui qui supporte sa bague extérieure (le carter). La masse du roulement sera ainsi fusionnée avec celle du parent, ce qui ne change rien à la dynamique de la simulation. Visuellement, comme c'est un cylindre de révolution parfait, on ne verra pas qu'il "ne tourne pas" avec l'axe dans RViz/Isaac.
+
 #### Résumé des Links URDF à créer
 
 | Link URDF | Pièces Fusion fusionnées dedans | Description |
