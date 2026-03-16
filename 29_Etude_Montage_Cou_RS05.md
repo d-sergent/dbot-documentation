@@ -338,4 +338,79 @@ On utilise **le roulement lui-même comme gabarit d'alignement** lors du montage
 
 ---
 
+---
+
 *Dernière mise à jour : Mars 2026. Voir aussi : [30_URDF_Cou_Neck.md](./30_URDF_Cou_Neck.md) pour la préparation URDF de ce sous-assemblage.*
+
+---
+
+## 10. Extension : Moteur Tilt (Pitch) — Montage "Chape en U" (Yoke Mount)
+
+> ✅ **Statut (Mars 2026)** : Solution conçue et validée conceptuellement. Réutilise la Solution 4 (6804-2RS) pour le côté rotor, et ajoute un second roulement 6804-2RS à l'arrière du stator via un bracket en U.
+
+### 10.1 Principe du Montage "Moteur Flottant"
+
+Le moteur RS-05 dédié au **Tilt (Pitch)** est positionné **horizontalement** (axe de rotation = axe Y). Le stator est maintenu par un **bracket en U en aluminium 7075**, dont :
+- Le **bras avant** se connecte au **hub rotor** via un roulement **6804-2RS** (Solution 4 — identique au Roll).
+- Le **bras arrière** porte un **axe cylindrique** s'engageant dans la **bague intérieure** d'un second roulement **6804-2RS** logé dans un palier fixe solidaire du support de torse.
+
+Le stator ne fournit que le **couple de rotation pur**. Les 2 roulements reprennent **100% des charges structurales** (poids de la tête, inerties).
+
+![Schéma en coupe du Yoke Mount Tilt — 2× 6804-2RS](./tilt_yoke_mount_6804_cross_section.png)
+*Coupe transversale du montage tilt : le stator flotte entre les deux bras du U, les roulements avant et arrière immobilisent tous les degrés de liberté sauf la rotation en Pitch (Y).*
+
+### 10.2 Tableau des Composants
+
+| Composant | Matériau | Rôle |
+| :--- | :--- | :--- |
+| **Bracket en U** | AL 7075-T6 | Support structural — reprend les efforts radiaux et axiaux de la tête |
+| **Roulement Avant 6804-2RS** | Acier TrempéMax (billes inox) | Appui rotor → même Solution 4 que le Roll |
+| **Tube Hub Avant** | AL 7075-T6 | Interface rotor / bague intérieure roulement avant |
+| **Roulement Arrière 6804-2RS** | Acier — Ø20×Ø32×7mm | Appui arrière stator → bague int. solidaire bracket, bague ext. logée dans palier fixe |
+| **Axe Arrière** | Acier 42CrMo4 ou AL 7075 | Cheville du bras arrière du U → bague intérieure roulement arrière |
+| **Palier Fixe Arrière** | AL 6061-T6 | Logement bague extérieure roulement arrière — boulonné au torse |
+
+### 10.3 Analyse des Charges
+
+| Effort | Valeur | Reprise |
+| :--- | :---: | :--- |
+| Poids tête (~2 kg × 1.5g dynamique) | ~30 N | 50%/50% entre les 2 roulements |
+| Moment de flexion (bras de levier ~100mm) | ~3 N.m | Couple de réaction entre les 2 roulements (F = M/L ≈ 18 N par roulement) |
+| Couple moteur max | 5.5 N.m | Couple stator → bracket (cisaillement des bras du U) |
+| Capacité radiale 6804-2RS | ~3.1 kN | **Marge × 170 sur les efforts normaux** |
+
+> ✅ **Le 6804-2RS est largement sur-dimensionné** pour le tilt. La seconde contrainte est la **rigidité du bracket en U** face à la flexion.
+
+### 10.4 Contrainte Critique : Coaxialité Avant-Arrière
+
+Les axes des deux roulements (avant − rotor, arrière − stator) doivent être **coaxiaux à moins de 0.05mm**. Tout désalignement charge les roulements radialement de façon permanente.
+
+**Solution d'usinage recommandée :**
+1. Usiner le bracket en U en **une seule mise en position** sur un centre 5 axes (ou sur un tour puis fraiseuse avec reprise au mandrin 3 mors sur le diamètre extérieur).
+2. Les **alésages H7** des deux bras sont percés sans démontage → coaxialité garantie.
+3. Utiliser des **vis de fixation stator** avec des trous surdimensionnés (+0.3mm) pour permettre un léger auto-centrage lors du montage.
+
+### 10.5 Séquence d'Assemblage
+
+```
+1. Presser la bague ext. du roulement AVANT dans le bras avant du U (H7/k6).
+2. Visser le Tube-Hub sur le rotor RS-05 (Solution 4).
+3. Engager le hub dans la bague int. du roulement avant.
+4. Orienter le câblage RS-05 vers l'arrière (perçage de passage dans le bras).
+5. Engager l'axe arrière du bras U dans la bague int. du roulement ARRIÈRE.
+6. Loger la bague ext. du roulement arrière dans le palier fixe torse (H7/k6).
+7. Boutonner le palier fixe sur le support de torse (4× M4).
+8. Serrage final : vérifier que le moteur tourne librement à la main.
+```
+
+> ⚠️ **Point câblage critique** : Passer les 3 fils du RS-05 dans le **perçage du bras arrière** avant d'engager l'axe. Impossible à faire après montage complet.
+
+### 10.6 Avantages et Limites
+
+| ✅ Avantages | ⚠️ Limites |
+| :--- | :--- |
+| Réutilise la Solution 4 validée (cohérence) | Coaxialité critique sur le bracket en U |
+| Stator "flottant" → zéro flexion sur le moteur | Usinage plus complexe (2 alésages coaxiaux) |
+| Montage démontable (pas de frettage permanent) | Accès câblage à planifier avant montage |
+| Chapes en U très utilisées en cobotique (Kuka, Franken) | Rigidité du U à vérifier pour bras fins |
+
