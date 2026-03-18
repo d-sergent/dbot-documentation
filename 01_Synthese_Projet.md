@@ -17,16 +17,16 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 
 ### Phase 2 : Premier Bras (Focus Actuel)
 *   **Objectif** : Validation mécanique et manipulation.
-*   **Matériel** : + 6 Moteurs Robstride (RS-03, RS-06, RS-02, RS-00) et **D-Hand Hybrid (4× XC430 + 4× XC330 + eFlesh)**.
+*   **Matériel** : + 5 Moteurs Robstride (RS-04, RS-03, RS-06, RS-02, RS-00) et **D-Hand Hybrid (4× XC430 + 4× XC330 + eFlesh)**.
 *   **Budget Est.** : ~3 000 € (Bras + Main).
 
 ### Phase 3 : Deuxième Bras
 *   **Objectif** : Coordination bimanuelle.
-*   **Matériel** : + 6 Moteurs Robstride et **D-Hand Hybrid**.
+*   **Matériel** : + 5 Moteurs Robstride et **D-Hand Hybrid**.
 
-### Phase 4 : Marche (Jambes)
+### Phase 4 : Marche (Jambes) + Cou
 *   **Objectif** : Locomotion et équilibre dynamique.
-*   **Matériel** : + 12 Moteurs (RS-04 hanches/genoux, RS-02 cheville Pitch avec tirant, RS-00 cheville Roll).
+*   **Matériel** : + 14 Moteurs (RS-04 hanches/genoux, RS-03 hanche/cheville cardan, RS-05 cou).
 *   **Capteurs** : IMU torse (BMI270 Add-on) pour le contrôle d'équilibre + capteurs FSR plantaires.
 
 ## 3. Architecture Matérielle
