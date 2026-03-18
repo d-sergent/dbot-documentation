@@ -13,14 +13,14 @@ Ce document présente uniquement les **décisions définitives** pour le D-Bot. 
 | **Cheville Pitch + Roll** | Cardan DIN 808 + **2× RS-03** + bielles | 120 N.m | ✅ V1 |
 | **Genou Pitch** | **RS-04** + algo mid-foot strike | 120 N.m | ✅ V1 |
 | **Hanche Pitch + Yaw** | **RS-04** (pitch) + **RS-03** (roll/yaw) | 120 / 60 N.m | ✅ V1 |
-| **Épaule** | **RS-04** (Pitch/Roll) + **RS-02** (Yaw) | 120 / 17 N.m | ✅ V1 |
+| **Épaule** | **RS-04** (Pitch) + **RS-03** (Roll) + **RS-02** (Yaw) | 120 / 60 / 17 N.m | ✅ V1 |
 | **Coude** | **RS-06** | 36 N.m | ✅ V1 |
 | **Poignet Roll** | **RS-00** | 14 N.m | ✅ V1 |
 | **Main** | **D-Hand Hybrid** (4× XC430 + 4× XC330 + tactile) | ~175 N grip | ✅ V1 |
 | **Cou** | **RS-05** (×2) | 5.5 N.m | ✅ V1 |
-| **Masse totale** | ~**41.5 kg** | — | Référence |
-| **Vitesse marche** | ~**2-3 km/h** (pratique sécurisée) | — | Estimé |
-| **Course V1** | ~**4 km/h** (algo mid-foot, transitoires) | — | V1 logiciel |
+| **Masse totale** | ~**40.4 kg** (avant allégement 3D) | — | Référence |
+| **Vitesse marche** | ~**2 km/h** (genou 101%) | — | Estimé |
+| **Course V1** | ~**3-4 km/h** (algo mid-foot, transitoires) | — | V1 logiciel |
 
 ---
 
