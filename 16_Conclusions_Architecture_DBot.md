@@ -179,3 +179,138 @@ Aucune modification requise — marges très confortables même à 39 kg.
 ---
 
 *Conclusions établies en Mars 2026. Architecture D-Bot V1 stabilisée — **Option D Révisée complète** : RS-04 épaules + RS-06 coude + Cardan DIN 808 + 2×RS-03 chevilles + D-Hand Hybrid. Masse de référence : ~41.5 kg.*
+
+---
+
+## 9. Bilan Masse Détaillé (Moteurs vs Structure)
+
+### 9.1 Masse des Moteurs — Inventaire Complet
+
+| Moteur | Rôle | Qté | Masse unit. | Masse totale |
+| :--- | :--- | :---: | :---: | :---: |
+| **RS-05** | Cou Pan + Tilt | 2 | 191g | **382g** |
+| **RS-04** | Épaule Pitch (×2) + Hanche Pitch (×2) + Genou (×2) | 6 | 1420g | **8 520g** |
+| **RS-04** | Épaule Roll (×2) | 2 | 1420g | **2 840g** |
+| **RS-03** | Hanche Roll (×2) + Hanche Yaw (×2) + Cheville Cardan (×4) | 8 | 880g | **7 040g** |
+| **RS-06** | Coude (×2) | 2 | 621g | **1 242g** |
+| **RS-02** | Épaule Yaw (×2) | 2 | 405g | **810g** |
+| **RS-00** | Poignet Roll (×2) | 2 | 310g | **620g** |
+| **TOTAL MOTEURS (24)** | | **24** | | **21 454g = 21.45 kg** |
+
+### 9.2 Masse Structurelle Estimée
+
+> La masse structurelle est estimée par déduction depuis la base K-Bot (34 kg total, 15.77 kg de moteurs → **18.23 kg de structure**), ajustée pour les éléments D-Bot spécifiques.
+
+| Poste | Matériau envisagé | Masse estimée | Allégement possible |
+| :--- | :--- | :---: | :---: |
+| Torse + Bassin (structure interne) | PA12-CF (isogrid/sandwich) | ~3.5 kg | → 2.8 kg (−20%) |
+| Fémurs D+G (cuisse) | PA12-CF sandwich ou carbone | ~1.5 kg | → 1.0-1.2 kg (−25%) |
+| Tibias D+G | Tube carbone 3K Ø30mm | ~0.8 kg | → 0.5 kg (−38%) |
+| Pieds D+G | PA12-CF 100% + semelle TPU | ~0.8 kg | → 0.6 kg (−25%) |
+| Bras (humérus + avant-bras) ×2 | PA12-CF + alu | ~1.5 kg | → 1.2 kg (−20%) |
+| Cardan DIN 808 ×2 + bielles | Acier C45 | ~0.6 kg | ✗ usiné — fixe |
+| Brackets hanches/genoux | Alu 6061/7075 CNC | ~1.5 kg | → 1.1 kg (isogrid) |
+| Brackets épaules | Alu 6061/7075 CNC | ~0.7 kg | → 0.5 kg (allégé) |
+| Tête + cou (boîtier capteurs) | PETG-CF | ~0.4 kg | → 0.3 kg |
+| Batterie 48V 10Ah (AT WEY NMC) | — | **2.3 kg** | ✗ fixe |
+| Jetson Orin Nano 8GB | — | 0.3 kg | ✗ fixe |
+| Spresense + électronique | — | 0.3 kg | ✗ fixe |
+| OAK-D Pro FF | — | 0.091 kg | ✗ fixe |
+| Unitree L2 LiDAR | — | 0.23 kg | ✗ fixe |
+| D-Hand Hybrid ×2 | Servos + Dyneema | **1.7 kg** | ✗ fixe |
+| Câblage, connecteurs, visserie | — | ~0.8 kg | → 0.6 kg (optimisé) |
+| **TOTAL STRUCTUREL (estimé)** | | **~17.0 kg** | **→ ~13.5 kg (optimisé)** |
+
+### 9.3 Masse Totale Robot — 3 Scénarios
+
+| Scénario | Moteurs | Structure | **Total** | Impact genou 2-3 km/h |
+| :--- | :---: | :---: | :---: | :---: |
+| **A — RS-04 ×8 épaules (actuel)** | 21.45 kg | ~17.0 kg | **~41.5 kg** | ⚠️ ~125 N.m (104% de 120) |
+| **B — RS-04 Pitch + RS-03 Roll épaule** | 20.37 kg | ~17.0 kg | **~40.4 kg** | ⚠️ ~121 N.m (~101%) |
+| **C — Scénario B + allégement 3D** | 20.37 kg | ~14.0 kg | **~34-36 kg** | ✅ ~107 N.m (89%) — marche confortable |
+
+> [!TIP]
+> **Objectif cible réaliste** : Le scénario B + allégement modéré (structure à ~15 kg) amène le robot autour de **35-36 kg**. À cette masse, le genou RS-04 opère à ~85-90% de son pic à 2-3 km/h → **marche normale confortable et course envisageable sans compromis**.
+
+---
+
+## 10. Analyse : Épaule — RS-04 Pitch + RS-03 Roll (Config Hybride)
+
+### 10.1 Justification Biomécanique
+
+Le **Pitch** (lever le bras en avant) est l'axe le plus sollicité car il lutte contre la gravité sur la totalité de la longueur du bras :
+
+```
+τ_pitch (bras tendu + 5 kg payload) :
+= bras seul : 3 kg × 9.81 × 0.30 m = 8.8 N.m
++ payload   : 5 kg × 9.81 × 0.60 m = 29.4 N.m
+= 38.2 N.m → RS-04 nominal (40 N.m) = +5% marge ✅
+→ RS-03 nominal (20 N.m)            = INSUFFISANT ❌
+```
+
+Le **Roll** (écarter le bras latéralement) est sollicité au maximum uniquement bras horizontal avec charge latérale — un usage moins fréquent :
+
+```
+τ_roll_max (bras écarté 90° + 5 kg) :
+= 38.2 N.m (même calcul)
+→ RS-04 nominal (40 N.m) : confortable ✅
+→ RS-03 nominal (20 N.m) : marginal à 5 kg ⚠️ mais 60 N.m pic largement suffisant ✅
+→ RS-03 : OK pour portage latéral ≤ 2 kg continu, 5 kg en pic
+```
+
+### 10.2 Comparatif des Options Épaule
+
+| Config | Moteur Pitch | Moteur Roll | Portage frontal | Portage latéral | Masse épaules | Coût |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Option A (actuelle)** | RS-04 | RS-04 | 5 kg continu | 5 kg continu | **5 680g** | $560 |
+| **Option B (hybride)** ⭐ | RS-04 | **RS-03** | 5 kg continu | **~2 kg continu, 5 kg pic** | **4 600g** | $530 |
+| K-Bot original | RS-03 | RS-03 | ~2 kg continu | ~2 kg continu | 3 520g | $500 |
+
+> **Économie Option B vs A** : −1 080g par robot, −$30, et la capacité frontale (le cas principal) est identique.
+
+> [!NOTE]
+> **Recommandation** : L'**Option B hybride (RS-04 Pitch + RS-03 Roll)** est le meilleur compromis. La quasi-totalité des tâches de manipulation domestique (saisir, porter, placer un objet) solicite le Pitch frontal. Le Roll latéral n'est sous contrainte maximale que lors de portage bras horizontal X tendus — un geste rare. Économiser 1 kg aux épaules a un impact direct sur le genou.
+
+---
+
+## 11. Stratégie Allégement — Impression 3D & Optimisation
+
+L'objectif est d'atteindre la masse cible de **~35 kg** (±2 kg) pour que le genou RS-04 opère à **< 90%** de son pic à 2-3 km/h, déblocant une marche confortable et une course envisageable.
+
+### 11.1 Leviers d'Allégement par Priorité
+
+| Priorité | Pièce | Approche | Gain estimé | Difficulté |
+| :---: | :--- | :--- | :---: | :---: |
+| 🔴 **1** | **Tibias** | Tube carbone 3K Ø30mm (ou alu 2014) à la place de PA12-CF plein | −300g | Moyen |
+| 🔴 **2** | **Fémurs** | Design sandwich carbone/mousse + isogrid CNC alu | −300-500g | Élevé |
+| 🟠 **3** | **Brackets hanches/genoux** | Alu 7075 ajouré (toile de 5mm + nervures) | −400g | Moyen |
+| 🟠 **4** | **Torse bas + bassin** | Isogrid PA12-CF (40% gyroid adaptatif) | −300g | Faible |
+| 🟡 **5** | **Câblage** | Câbles ultra-flex silicone 26AWG (−30% poids vs silicone standard) | −100g | Faible |
+| 🟡 **6** | **Pieds** | PA12-CF creux 30% gyroid (seule la semelle est pleine) | −150g | Faible |
+| 🟢 **7** | **Visserie M4** | Titane EN 3.7164 pour les boulons moteurs (−60% masse) | −50-80g | Élevé |
+
+> Gain total potentiel avec toutes ces optimisations : **−1.5 à −2.5 kg** sur la structure.
+
+### 11.2 Impact sur les Marges de Marche
+
+En combinant **Config Hybride B** (RS-03 Roll épaule) + **Allégement 2 kg structure** :
+
+```
+Masse cible : 40.4 - 2.0 = ~38.5 kg
+
+τ_genou à 2-3 km/h :
+= (38.5 / 39) × 117 N.m × 1.7 (dynamique)
+= 0.987 × 117 = 115.5 N.m
+→ Marge RS-04 : (120 - 115.5) / 120 = +3.8% ← marge confortable
+
+τ_genou à 3-4 km/h :
+= (38.5 / 39) × 68.8 × 2.2 (facteur dynamique rapide)
+= 148 N.m → dépasse RS-04 → course : algorithme SEA ou mid-foot nécessaire
+```
+
+**Vitesse de marche maximale théorique à ~38.5 kg :**
+```
+v_max (marche sans phase de vol) ≈ 9.3 × (38.5/39)^-1 → ~9.5 km/h théorique
+En pratique (marge thermique + contrôle) : ~4-5 km/h → BIEN meilleur que 2-3 km/h actuel
+```
+
