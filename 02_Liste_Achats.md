@@ -34,10 +34,10 @@
 ### Phase 2 : Premier Bras (5 DOF)
 | Modèle | Quantité | Couple (Peak) | Usage |
 | :--- | :--- | :--- | :--- |
-| **Robstride 04** | 1 | **120 Nm** | Épaule Pitch (Force levage frontal) |
-| **Robstride 03** | 1 | **60 Nm** | Épaule Roll (Écartement latéral) |
+| **Robstride 04** | 1 (**✅ Acheté**) | **120 Nm** | Épaule Pitch (Force levage frontal) |
+| **Robstride 03** | 1 (**✅ Acheté**) | **60 Nm** | Épaule Roll (Écartement latéral) |
 | **Robstride 06** | 1 | **36 Nm** | Coude |
-| **Robstride 02** | 1 | **17 Nm** | Épaule Yaw |
+| **Robstride 02** | 1 (**✅ Acheté**) | **17 Nm** | Épaule Yaw |
 | **Robstride 00** | 1 | 14 Nm | Poignet Roll |
 
 ### Phase 3 : Deuxième Bras (5 DOF identiques)
@@ -49,7 +49,7 @@
 | **Robstride 04** | 4 | **120 Nm** | Hanches Pitch + Genoux |
 | **Robstride 03** | 4 | **60 Nm** | Hanches Roll/Yaw |
 | **Robstride 03** | 4 | **60 Nm** | Chevilles Pitch+Roll (**2× par cheville**, architecture cardan + bielles) |
-| **Robstride 05** | 2 | **5.5 Nm** | Cou Pan/Tilt |
+| **Robstride 05** | 2 (**✅ Achetés**) | **5.5 Nm** | Cou Pan/Tilt |
 
 > **Note** : Architecture cheville = Cardan DIN 808 + 2× RS-03 par cheville (différentiel Pitch/Roll). Voir [Étude Cheville](./20_Etude_Cheville_Cardan.md) pour le détail.
 

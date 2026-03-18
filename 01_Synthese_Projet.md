@@ -10,14 +10,15 @@ Le D-Bot repose sur un système de **24 moteurs RobStride** (membres, cou) et **
 ## 2. Feuille de Route (Roadmap)
 Le projet est découpé en 4 phases distinctes pour valider chaque étape critique.
 
-### Phase 1 : Tête et Torse (En Cours)
-*   **Objectif** : Valider l'intelligence perception/audio.
+### Phase 1 : Tête, Torse et Cou (Focus Actuel)
+*   **Objectif** : Valider l'intelligence perception/audio et l'intégration mécanique du cou (VOR).
 *   **Matériel** : Jetson Orin Nano, OAK-D Pro, Spresense.
-*   **Moteurs** : Aucun (0).
+*   **Moteurs** : 2× RS-05 cou Pan/Tilt (**✅ Déjà achetés**).
 
-### Phase 2 : Premier Bras (Focus Actuel)
+### Phase 2 : Premier Bras (En Préparation)
 *   **Objectif** : Validation mécanique et manipulation.
-*   **Matériel** : + 5 Moteurs Robstride (RS-04, RS-03, RS-06, RS-02, RS-00) et **D-Hand Hybrid (4× XC430 + 4× XC330 + eFlesh)**.
+*   **Matériel** : + 5 Moteurs Robstride (RS-04, RS-03, RS-06, RS-02, RS-00) et **D-Hand Hybrid**.
+    *   *Note : 1× RS-04, 1× RS-03 et 1× RS-02 sont **✅ Déjà achetés**.*
 *   **Budget Est.** : ~3 000 € (Bras + Main).
 
 ### Phase 3 : Deuxième Bras
