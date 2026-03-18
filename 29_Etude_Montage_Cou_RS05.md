@@ -356,7 +356,7 @@ Le moteur RS-05 dédié au **Tilt (Pitch)** est positionné **horizontalement** 
 
 Le stator ne fournit que le **couple de rotation pur**. Les 2 roulements reprennent **100% des charges structurales** (poids de la tête, inerties).
 
-![Schéma en coupe du Yoke Mount Tilt — 2× 6804-2RS](./tilt_yoke_mount_6804_cross_section.png)
+![Schéma en coupe du Yoke Mount Tilt — 2× 6804-2RS](./assets/tilt_yoke_mount_6804_cross_section.png)
 *Coupe transversale du montage tilt : le stator flotte entre les deux bras du U, les roulements avant et arrière immobilisent tous les degrés de liberté sauf la rotation en Pitch (Y).*
 
 ### 10.2 Tableau des Composants
