@@ -46,7 +46,7 @@ Pour le D-Bot, nous validons officiellement l'approche **séquentielle (type Opt
 
 Concrètement, la liaison entre le Bassin et le Fémur (Cuisse) du robot se décompose ainsi :
 
-![Schéma Éclaté du Cardan de Hanche](./img_hip_kinematic_chain.png)
+![Schéma Éclaté du Cardan de Hanche](./assets/img_hip_kinematic_chain.png)
 
 ### Maillon 1 : L'Axe Yaw (Moteur RS-03)
 * **Emplacement** : Fixe, monté *à l'intérieur* ou directement sous le châssis du bassin (Pelvis). Il pointe vers le bas (axe Z).
