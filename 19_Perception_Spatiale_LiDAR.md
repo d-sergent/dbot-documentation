@@ -155,7 +155,7 @@ La vision pure est insuffisante à notre niveau : pas assez de puissance IA pour
 | **SLAM stabilité** | ⚠️ Mouvements tête imprévisibles → distorsion intra-scan | ✅ Mouvement locomotion prévisible |
 | **TF ROS2** | Dynamique (lidar→head→neck→torso) | ✅ **Statique** (lidar→torso = constante) |
 | **FOV L2 suffisant sans bouger ?** | Le L2 couvre déjà 96° vertical | ✅ **96° = sol au plafond sans incliner** |
-| **Inertie cervicale** | 330g (L2+OAK-D) sur la tête | ✅ **100g** (OAK-D seul) |
+| **Inertie cervicale** | 330g (L2+OAK-D) sur la tête | ✅ **~91g** (OAK-D seul) |
 | **OAK-D libre de pointer ?** | ❌ Mouvements tête perturbent le L2 | ✅ **Tête 100% dédiée à l'OAK-D** |
 | **Benchmark G1** | — | ✅ Le G1 fait exactement cela |
 
@@ -250,7 +250,7 @@ rtabmap_ros:
 ```
             ┌────────────────────────┐
             │      TÊTE D-BOT        │    ← Orientable (2× RS-05)
-            │                        │       Légère : OAK-D seul (100g)
+            │                        │       Légère : OAK-D seul (~91g)
             │   ┌──────────┐         │
             │   │ OAK-D Pro│ ←→ 🔵   │    ← En façade, centré
             │   │ (front)  │         │       Fixation M4 sur support alu
@@ -325,7 +325,7 @@ rtabmap_ros:
 ```
 
 > [!TIP]
-> **Avantage clé de l'architecture L2-torse / OAK-D-tête** : Le VOR ne doit stabiliser que **100g** (OAK-D Pro seul) au lieu de 330g (L2+OAK-D). Les RS-05 ont une marge de vitesse immense et l'inertie cervicale réduite améliore toute la dynamique de marche.
+> **Avantage clé de l'architecture L2-torse / OAK-D-tête** : Le VOR ne doit stabiliser que **~91g** (OAK-D Pro seul) au lieu de 330g (L2+OAK-D). Les RS-05 ont une marge de vitesse immense et l'inertie cervicale réduite améliore toute la dynamique de marche.
 
 ### 9.3 Modes de Regard par Phase de Locomotion
 
@@ -415,7 +415,7 @@ class GazeStabilizer(Node):
 
 ### 10.2 Pourquoi la Course Reste Viable
 
-1. **VOR léger** : Le RS-05 ne stabilise que **100g** (OAK-D seul, pas L2+OAK-D). L'oscillation torse en course (~15° × 3 Hz = ~45°/s) représente seulement **~4% de la capacité** du RS-05 (~21 rad/s). Marge immense.
+1. **VOR léger** : Le RS-05 ne stabilise que **~91g** (OAK-D seul, pas L2+OAK-D). L'oscillation torse en course (~15° × 3 Hz = ~45°/s) représente seulement **~4% de la capacité** du RS-05 (~21 rad/s). Marge immense.
 
 2. **L2 stable sur torse** : Même en course, les oscillations du torse sont **prévisibles** (locomotion régulière). Le BMI270 co-localisé compense la distorsion dans l'algorithme SLAM (motion undistortion). C'est bien mieux que si le L2 subissait les mouvements aléatoires de la tête.
 

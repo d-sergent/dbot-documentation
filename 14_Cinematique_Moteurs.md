@@ -167,7 +167,9 @@ Tous les moteurs partagent le même protocole :
 
 ![Comparaison des 3 mécanismes de cheville principaux : Série, Tirant, Parallèle](./assets/ankle_mechanisms_comparison.png)
 
-#### A. Série Direct-Drive (D-Bot Actuel)
+#### A. Série Direct-Drive (❌ D-Bot V1 Historique — Abandonné)
+
+> ⚠️ **Cette architecture a été abandonnée.** La configuration finale D-Bot utilise le **Cardan DIN 808 + 2×RS-03** (voir §4.5 et [Conclusions Architecture](./16_Conclusions_Architecture_DBot.md)).
 
 Le moteur Pitch (RS-02) est monté **en haut du tibia** avec tirant/bielle (architecture K-Bot conservée). Le Roll (RS-00) est monté **directement à la cheville** en direct-drive.
 
