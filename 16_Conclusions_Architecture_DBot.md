@@ -132,7 +132,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | Zone | Matériau | Machine |
 | :--- | :--- | :---: |
 | Brackets hanches/genoux (RS-04) | **Alu 6061/7075 CNC** | C500 |
-| Brackets épaules (RS-04) | **Alu 6061/7075 CNC** | C500 |
+| Brackets épaules (RS-04/03) | **Alu 6061/7075 CNC** | C500 |
 | Pivot cheville (cardan) | **Acier C45** (DIN 808) | Commerce |
 | Tibia / avant-bras structure | **PA12-CF** ou Alu tube | Qidi/C500 |
 | Pied / semelle | **PA12-CF** 100% | Qidi |
@@ -148,9 +148,9 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 | Métrique | Estimation | Config |
 | :--- | :---: | :---: |
-| **Masse totale** | **~41.5 kg** | Cardan + RS-04 épaules + D-Hand Hybrid |
+| **Masse totale** | **~40.4 kg** | Cardan + Épaule Hybride (RS-04/03) + D-Hand |
 | **DOF total** | 24 corps RobStride + 2×8 mains Dynamixel = **40 DOF actifs** | V1 complet |
-| **Vitesse marche sécurisée** | **~2 km/h** (marge genou 120 N.m) | RS-04 genou à 104% à 2-3 km/h |
+| **Vitesse marche sécurisée** | **~2 km/h** (marge genou 120 N.m) | RS-04 genou à 101% à 2-3 km/h |
 | **Vitesse marche max** | ~3 km/h (algo ZMP, pics transitoires ok) | RS-04 genou à 97→104% |
 | **Vitesse course (V1 algo)** | ~3-4 km/h | Mid-foot strike (genou au pic) |
 | **Vitesse course (V3 tirant genou)** | ~8-10 km/h | Mécanisme S2 (V3 future) |
@@ -164,11 +164,11 @@ Aucune modification requise — marges très confortables même à 39 kg.
 ## 8. Points d'Attention V1
 
 > [!WARNING]
-> **⚠️ Genou RS-04 à ~104% de son pic à 2-3 km/h avec 41.5 kg.** Avec la masse accrue (+2.16 kg aux épaules vs RS-03), le couple genou en marche normale atteint ~125 N.m vs 120 N.m pic RS-04. Conséquences pratiques :
-> - **Vitesse sécurisée recommandée : 1.5-2 km/h** pour rester dans les limites nominales.
-> - À 2-3 km/h : genou opère sur les **pics transitoires** (< 50 ms) que le RS-04 supporte en mode impulsionnel — viable mais limites thermiques à surveiller.
+> **⚠️ Genou RS-04 à ~101% de son pic à 2-3 km/h avec 40.4 kg.** Avec la masse ajustée grâce aux épaules hybrides (-1.08 kg vs Option D), le couple genou en marche normale atteint ~121 N.m vs 120 N.m pic RS-04. Conséquences pratiques :
+> - **Vitesse sécurisée recommandée : 2 km/h** pour rester dans les limites nominales.
+> - À 2-3 km/h : genou opère sur les **pics transitoires** (< 50 ms) — viable mais limites thermiques à surveiller.
 > - **Priorité algorithmique n°1** : ZMP control + courbe de jerk + mid-foot strike pour lisser les impacts.
-> - **Compromis assumé** : Le gain de portage (+5 kg bras tendu vs +2 kg avec RS-03) justifie cette contrainte pour les phases statiques ou manipulation lourde. La marche rapide est secondaire dans l'usage robotique prévu.
+> - **Compromis assumé** : Le gain de portage (+5 kg frontal vs +2 kg ancestral) justifie cette contrainte.
 
 > [!IMPORTANT]
 > **✅ Coude RS-06 (upgrade RS-02)** : Le coude RS-06 permet un portage bras plié de 8-10 kg en continu (vs ~4.5 kg avec RS-02). C'est l'upgrade complémentaire indispensable aux RS-04 épaules.
@@ -178,7 +178,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 ---
 
-*Conclusions établies en Mars 2026. Architecture D-Bot V1 stabilisée — **Option D Révisée complète** : RS-04 épaules + RS-06 coude + Cardan DIN 808 + 2×RS-03 chevilles + D-Hand Hybrid. Masse de référence : ~41.5 kg.*
+*Conclusions établies en Mars 2026. Architecture D-Bot V1 stabilisée — **Option Hybride complète** : RS-04 Pitch + RS-03 Roll épaules + RS-06 coude + Cardan DIN 808 + 2×RS-03 chevilles + D-Hand Hybrid. Masse de référence : ~40.4 kg.*
 
 ---
 
@@ -190,12 +190,11 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | :--- | :--- | :---: | :---: | :---: |
 | **RS-05** | Cou Pan + Tilt | 2 | 191g | **382g** |
 | **RS-04** | Épaule Pitch (×2) + Hanche Pitch (×2) + Genou (×2) | 6 | 1420g | **8 520g** |
-| **RS-04** | Épaule Roll (×2) | 2 | 1420g | **2 840g** |
-| **RS-03** | Hanche Roll (×2) + Hanche Yaw (×2) + Cheville Cardan (×4) | 8 | 880g | **7 040g** |
+| **RS-03** | Épaule Roll (×2) + Hanche Roll (×2) + Hanche Yaw (×2) + Cheville Cardan (×4) | 10 | 880g | **8 800g** |
 | **RS-06** | Coude (×2) | 2 | 621g | **1 242g** |
 | **RS-02** | Épaule Yaw (×2) | 2 | 405g | **810g** |
 | **RS-00** | Poignet Roll (×2) | 2 | 310g | **620g** |
-| **TOTAL MOTEURS (24)** | | **24** | | **21 454g = 21.45 kg** |
+| **TOTAL MOTEURS (24)** | | **24** | | **20 374g = 20.37 kg** |
 
 ### 9.2 Masse Structurelle Estimée
 
@@ -225,8 +224,8 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 | Scénario | Moteurs | Structure | **Total** | Impact genou 2-3 km/h |
 | :--- | :---: | :---: | :---: | :---: |
-| **A — RS-04 ×8 épaules (actuel)** | 21.45 kg | ~17.0 kg | **~41.5 kg** | ⚠️ ~125 N.m (104% de 120) |
-| **B — RS-04 Pitch + RS-03 Roll épaule** | 20.37 kg | ~17.0 kg | **~40.4 kg** | ⚠️ ~121 N.m (~101%) |
+| **A — Option D Révisée (2× RS-04 épaules)** | 21.45 kg | ~17.0 kg | **~41.5 kg** | ⚠️ ~125 N.m (104% de 120) |
+| **B — Option Hybride (Adoptée)** | 20.37 kg | ~17.0 kg | **~40.4 kg** | ⚠️ ~121 N.m (~101%) |
 | **C — Scénario B + allégement 3D** | 20.37 kg | ~14.0 kg | **~34-36 kg** | ✅ ~107 N.m (89%) — marche confortable |
 
 > [!TIP]
@@ -262,7 +261,7 @@ Le **Roll** (écarter le bras latéralement) est sollicité au maximum uniquemen
 
 | Config | Moteur Pitch | Moteur Roll | Portage frontal | Portage latéral | Masse épaules | Coût |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Option A (actuelle)** | RS-04 | RS-04 | 5 kg continu | 5 kg continu | **5 680g** | $560 |
+| **Option A (Abandonnée)** | RS-04 | RS-04 | 5 kg continu | 5 kg continu | **5 680g** | $560 |
 | **Option B (hybride)** ⭐ | RS-04 | **RS-03** | 5 kg continu | **~2 kg continu, 5 kg pic** | **4 600g** | $530 |
 | K-Bot original | RS-03 | RS-03 | ~2 kg continu | ~2 kg continu | 3 520g | $500 |
 
