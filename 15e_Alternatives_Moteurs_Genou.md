@@ -6,6 +6,7 @@
 > - [15c] [Révision Configuration Cardan 39 kg](./15c_Revision_Cardan_39kg.md)
 > - [15d] [Genou & Course — Solutions](./15d_Genou_et_Course.md)
 > - [15e] **Alternatives Moteurs Genou** ← *vous êtes ici*
+> - [15f] [Portage de Charges & Marche](./15f_Portage_Charges_et_Marche.md)
 > - [16] [**Conclusions & Architecture Finale D-Bot**](./16_Conclusions_Architecture_DBot.md)
 
 ---
