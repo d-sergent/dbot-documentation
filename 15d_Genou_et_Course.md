@@ -5,6 +5,7 @@
 > - [15b] [Configurations Moteurs & Évolutions](./15b_Configurations_Moteurs.md)
 > - [15c] [Révision Configuration Cardan 39 kg](./15c_Revision_Cardan_39kg.md)
 > - [15d] **Genou & Course — Solutions** ← *vous êtes ici*
+> - [15e] [**Alternatives Moteurs Genou**](./15e_Alternatives_Moteurs_Genou.md)
 > - [16] [**Conclusions & Architecture Finale D-Bot**](./16_Conclusions_Architecture_DBot.md)
 
 Ce document analyse pourquoi le genou RS-04 (120 N.m) devient le goulot d'étranglement pour la course (172 N.m requis), et propose 5 solutions graduelles : de l'optimisation algorithmique gratuite jusqu'au mécanisme tirant (type Atlas) avec SEA.
