@@ -74,16 +74,16 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 ---
 
-## 4. Bras — RS-04 / RS-06 / RS-02 / RS-00 ⭐ UPGRADE MAXIMAL
+## 4. Bras — RS-04 / RS-03 / RS-06 / RS-02 / RS-00 ⭐ UPGRADE HYBRIDE
 
-**Décision : Épaules RS-04 + Coude RS-06 (Option D Révisée — Portage Maximal).**
+**Décision : Épaule Pitch RS-04 + Épaule Roll RS-03 + Coude RS-06 (Option Hybride — Compromis Idéal Max Portage / Masse).**
 
-> 🆕 **Changement vs K-Bot** : L'épaule passe de RS-03 (60 N.m, 880g) à **RS-04 (120 N.m, 1420g)** pour ×2 de portage. Le coude passe de RS-02 (17 N.m) à **RS-06 (36 N.m)** pour ×2 de flexion chargée. Ce choix implique +2.16 kg aux épaules et +0.43 kg aux coudes (voir impact masse §7).
+> 🆕 **Changement vs K-Bot** : L'épaule Pitch passe de RS-03 (60 N.m, 880g) à **RS-04 (120 N.m, 1420g)** pour ×2.5 de portage frontal. L'épaule Roll reste en **RS-03** (suffisant en latéral, économise 1.08 kg sur la paire vs 2× RS-04). Le coude passe de RS-02 (17 N.m) à **RS-06 (36 N.m)** pour ×2 de flexion. 
 
 | Articulation | Moteur | Couple Pic | Couple Nom. | Masse |
 | :--- | :---: | :---: | :---: | :---: |
 | Épaule Pitch | **RS-04** | **120 N.m** | 40 N.m | 1420g |
-| Épaule Roll | **RS-04** | **120 N.m** | 40 N.m | 1420g |
+| Épaule Roll | **RS-03** | 60 N.m | 20 N.m | 880g |
 | Épaule Yaw | RS-02 | 17 N.m | 6 N.m | 405g |
 | Coude Pitch | **RS-06** | **36 N.m** | 11 N.m | 621g |
 | Poignet Roll | RS-00 | 14 N.m | 5 N.m | 310g |
@@ -92,14 +92,14 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 | Scénario | Couple requis | Moteur limitant | Capacité |
 | :--- | :---: | :---: | :---: |
-| **Bras tendu, continu** (épaule limite) | ~33 N.m | RS-04 (40 N.m nom.) | ✅ **~5 kg** continu |
-| **Bras tendu, pic** | ~55 N.m | RS-04 (120 N.m pic) | ✅ **~10 kg** pic |
-| **Bras plié 90°, sécurité** (coude limite) | ~30 N.m | RS-06 (36 N.m nom.) | ✅ **~8-10 kg** sécurité |
-| **Bras plié 90°, pic** | ~55 N.m | RS-06 (36 N.m pic) | ⚠️ **~15 kg** théorique |
+| **Bras tendu (frontal), continu** | ~33 N.m | Pitch RS-04 (40 N.m nom.) | ✅ **~5 kg** continu |
+| **Bras tendu (frontal), pic** | ~55 N.m | Pitch RS-04 (120 N.m pic) | ✅ **~10 kg** pic |
+| **Bras tendu (latéral), continu** | ~33 N.m | Roll RS-03 (20 N.m nom.) | ⚠️ **~2.5 kg** continu |
+| **Bras plié 90°, sécurité** | ~30 N.m | Coude RS-06 (36 N.m nom.) | ✅ **~8-10 kg** sécurité |
 
-> ⚠️ **Impact sur la masse du robot** : Les RS-04 épaules (+2160g vs RS-03) portent la masse totale à **~41.5 kg** (vs 39.5 kg avec RS-03). Voir §7 et §8 pour les conséquences sur la marche.
+> ⚠️ **Impact sur la masse du robot** : Cette configuration hybride amène la masse totale à **~40.4 kg** (avant allégement 3D). Le genou RS-04 opère à ~101% de sa capacité à 2-3 km/h, permettant une marche sécurisée à 2 km/h. Voir §9 et §11 pour la stratégie d'allégement 3D.
 
-> Voir : [Analyse portage §3](./15a_Analyse_Locomotion_Baseline.md) | [Options A2/D (15b)](./15b_Configurations_Moteurs.md)
+> Voir : [Analyse portage §3](./15a_Analyse_Locomotion_Baseline.md) | [Comparatif Option Hybride](./15b_Configurations_Moteurs.md)
 
 ---
 

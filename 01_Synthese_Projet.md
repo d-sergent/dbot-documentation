@@ -66,7 +66,7 @@ Le D-Bot utilise une approche **Squelette Aluminium CNC + Coque Imprimée 3D** p
 | Zone | Matériau | Machine | Justification |
 | :--- | :--- | :---: | :--- |
 | Brackets hanches/genoux (RS-04) | **Alu 6061/7075 CNC** | C500 | 120 N.m de couple, plastics insuffisants |
-| Brackets épaules (RS-03) | **Alu 6061 CNC** | C500 | Porte-à-faux du bras |
+| Brackets épaules (RS-04/03) | **Alu 6061 CNC** | C500 | Porte-à-faux du bras |
 | Pied / semelle structurelle | **PA12-CF** 100% | Qidi | Résistance aux chocs, rigidité |
 | Tibia / avant-bras | **PA12-CF** ou **Alu tubulaire** | Qidi/C500 | Rigidité en flexion |
 | Torse (structure interne) | **PA12-CF** 100% | Qidi | Grande surface, CNC trop coûteuse |
@@ -74,7 +74,7 @@ Le D-Bot utilise une approche **Squelette Aluminium CNC + Coque Imprimée 3D** p
 | Tête (boîtier capteurs) | **PETG-CF** 60% | Qidi | Masse à minimiser |
 | Phalanges main | **PA12-CF** → Alu 7075 (V2) | Qidi/C500 | Évolutif avec la C500 |
 
-- **Masse totale estimée** : ~**41.5 kg** (Configuration D finale : RS-04 épaules + RS-06 coudes + Cardan 2×RS-03 chevilles + D-Hand Hybrid ×2).
+- **Masse totale estimée** : ~**40.4 kg** (Configuration Hybride : RS-04 Pitch + RS-03 Roll épaules, RS-06 coudes, Cardan 2×RS-03 chevilles, D-Hand Hybrid ×2).
 - **Détails Impression** : Voir le **[Guide Avancé Impression 3D](./09_Guide_Avance_Impression.md)**.
 - **Détails CNC** : Voir l'**[Usinage CNC C500](./22_Usinage_CNC_C500.md)**.
 

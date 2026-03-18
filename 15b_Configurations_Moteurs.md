@@ -435,27 +435,19 @@ Ajoute les RS-04 aux épaules en plus de la config C-Révisée :
 
 ## 9. Comparatif des Configurations
 
-| Critère | K-Bot Standard | D-Bot Perf (C-Rév.) | D-Bot Max (D-Rév.) |
-| :--- | :---: | :---: | :---: |
-| **DOF** | 20 | **24** | **24** |
-| **Moteurs** | 20 | **24** | **24** |
-| **Cheville Roll** | ❌ Absent | **RS-00 (14 N.m)** | **RS-00 (14 N.m)** |
-| **Poids robot** | 34 kg | 38.0 kg | 41.5 kg |
-| **Surcoût** | Base | +$590 | +$710 |
-| **Marche lente** | ⚠️ Shuffle | ✅ Stable | ✅ Stable |
-| **Marche normale** (2-3 km/h) | ❌ Impossible | ✅ Roll RS-00 OK | ✅ Roll RS-00 OK |
-| **Marche rapide** (3-4 km/h) | ❌ Impossible | ⚠️ Roll au pic | ⚠️ Roll au pic |
-| **Terrain irrégulier** | ❌ Impossible | ✅ Roll actif | ✅ Roll actif |
-| **Stabilité latérale** | ❌ Hanches seules | ✅ Cheville Roll | ✅ Cheville Roll |
-| **Portage bras tendu** | 2 kg | 3 kg | **5 kg** |
-| **Portage bras plié** | ~5 kg | **10 kg** | **15+ kg** |
-| **Tête articulée** | ❌ | ✅ Pan/Tilt | ✅ Pan/Tilt |
+| Critère | K-Bot Standard | D-Bot Perf (C-Rév.) | D-Bot Max (D-Rév.) | **D-Bot Hybride** ⭐ |
+| :--- | :---: | :---: | :---: | :---: |
+| **DOF** | 20 | **24** | **24** | **24** |
+| **Épaule** | RS-03 / RS-03 | RS-03 / RS-03 | RS-04 / RS-04 | **RS-04 Pitch / RS-03 Roll** |
+| **Poids robot** | 34 kg | 38.0 kg | 41.5 kg | **40.4 kg** (avant allégement) |
+| **Marche normale** | ❌ Impossible | ✅ Roll actif | ⚠️ Limite genou 104% | ✅ Stable (101% genou) |
+| **Portage frontal** | 2 kg | 3 kg | **5 kg** | **5 kg** |
+| **Portage latéral** | 2 kg | 3 kg | 5 kg | 2.5 kg continu (5 kg pic) |
+| **Tête articulée** | ❌ | ✅ Pan/Tilt | ✅ Pan/Tilt | ✅ Pan/Tilt |
 
 > [!IMPORTANT]
-> **Cheville Roll RS-00** : Choix par défaut pour les deux configs. Plus compact (-47% surface), plus léger (-190g/cheville), moins cher (-$25/moteur). Suffisant pour marche ≤ 3 km/h. Si marche rapide fréquente (3-4 km/h), upgrade en RS-02 (+$50, +380g).
-
-> [!IMPORTANT]
-> **L'Option D-Révisée est désormais recommandée** si le portage est un objectif. Le Roll cheville compense le CdG plus haut, et la différence D vs C n'est que de +$120 / +1.35 kg pour un gain de portage majeur (5 kg bras tendu vs 3 kg). **L'Option C reste pertinente uniquement si la priorité absolue est l'autonomie batterie.**
+> **L'Option Hybride (RS-04 Pitch + RS-03 Roll) est la configuration DÉFINITIVE retenue (voir [Document 16](./16_Conclusions_Architecture_DBot.md))**. 
+> Elle offre la capacité de portage frontal de l'Option D (5 kg) essentielle pour la manipulation, tout en économisant 1.08 kg sur la masse des épaules par rapport aux doubles RS-04. Cette baisse de poids redescend la contrainte sur le genou RS-04 à un niveau gérable (~101% du pic à 2 km/h), permettant une marche sécurisée.
 
 ---
 ---

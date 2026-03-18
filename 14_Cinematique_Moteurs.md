@@ -17,8 +17,8 @@ Le K-Bot standard est un robot humanoïde open-source de taille réelle dévelop
 
 | Articulation | Moteur | IDs<br/>(G/D) | Couple<br/>Pic | Couple<br/>Nom. | Poids | Fonction |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Épaule Pitch** | RS-03 | 11 / 21 | 60 N.m | 20 N.m | 880g | Lever le bras |
-| **Épaule Roll** | RS-03 | 12 / 22 | 60 N.m | 20 N.m | 880g | Écarter le bras |
+| **Épaule Pitch** | **RS-04** | 11 / 21 | 120 N.m | 40 N.m | 1420g | Lever le bras frontalement |
+| **Épaule Roll** | **RS-03** | 12 / 22 | 60 N.m | 20 N.m | 880g | Écarter le bras |
 | **Épaule Yaw** | RS-02 | 13 / 23 | 17 N.m | 6 N.m | 405g | Rotation interne |
 | **Coude Pitch** | RS-02 | 14 / 24 | 17 N.m | 6 N.m | 405g | Flexion |
 | **Poignet Roll** | RS-00 | 15 / 25 | 14 N.m | 5 N.m | 310g | Orientation fine |
@@ -49,11 +49,13 @@ Le K-Bot standard est un robot humanoïde open-source de taille réelle dévelop
 
 | Modèle | Quantité | Poids Unit. | Poids Total | Usage Principal |
 | :---: | :---: | :---: | :---: | :--- |
-| **RS-04** | 4 | 1420g | 5.68 kg | Hanches Pitch + Genoux |
-| **RS-03** | 8 | 880g | 7.04 kg | Épaules + Rotations hanches |
-| **RS-02** | 6 | 405g | 2.43 kg | Coudes + Yaw épaules + Chevilles |
+| **RS-04** | 6 | 1420g | 8.52 kg | Hanches Pitch + Genoux + **Épaules Pitch** |
+| **RS-03** | 10 | 880g | 8.80 kg | **Épaules Roll** + Rotations hanches + Chevilles Cardan |
+| **RS-06** | 2 | 621g | 1.24 kg | Coudes |
+| **RS-02** | 2 | 405g | 0.81 kg | Yaw épaules |
 | **RS-00** | 2 | 310g | 0.62 kg | Poignets |
-| **TOTAL** | **20** | | **15.77 kg** | Total moteurs K-Bot |
+| **RS-05** | 2 | 191g | 0.38 kg | Cou Pan/Tilt |
+| **TOTAL** | **24** | — | **~20.37 kg** | **Ensemble du corps robotisé** |
 
 ---
 
@@ -110,8 +112,7 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 
 #### RS-03 vs RS-04 (Gros Moteurs)
 *   **Saut de performance brutal** : RS-03 → 60 N.m (880g) ; RS-04 → **120 N.m** (1420g, +61% poids).
-*   **RS-03** : Minimum vital pour l'épaule D-Bot (couple nécessaire pour contrer le bras-de-levier).
-*   **RS-04** : Incontournable pour hanches/jambes. **Attention** : Peut briser des pièces PLA/PETG standard → Utiliser **PETG-CF (100% remplissage)** ou **Alu 6061 CNC**.
+*   **Usage Épaule D-Bot** : Option Hybride retenue avec un **RS-04 en Pitch** (pour la force frontale) et un **RS-03 en Roll** (suffisant pour le latéral). **Attention** : Peut briser des pièces PLA/PETG standard → Utiliser **PETG-CF (100% remplissage)** ou **Alu 6061 CNC**.
 
 ### Choix pour le D-Bot — Répartition Complète (24 DOF)
 | Zone | Moteur | Quantité | Couple Pic | Justification |
@@ -120,7 +121,8 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 | Poignet Roll | RS-00 | 2 | 14 N.m | Compact, fort couple pour manipulation fine |
 | Coude Pitch | RS-06 | 2 | 36 N.m | Force intermédiaire pour manipulation bras plié |
 | Épaule Yaw | RS-02 | 2 | 17 N.m | Rotation de l'humérus proximale |
-| Épaule Pitch/Roll | RS-03 | 4 | 60 N.m | Force pour porte-à-faux bras tendu |
+| Épaule Pitch | **RS-04** | 2 | 120 N.m | Force pour porte-à-faux bras tendu |
+| Épaule Roll | **RS-03** | 2 | 60 N.m | Écartement latéral bras |
 | Hanche Roll/Yaw | RS-03 | 4 | 60 N.m | Équilibre latéral + rotation |
 | Hanche Pitch + Genou | RS-04 | 4 | 120 N.m | Portance totale dynamique |
 | Cheville (Pitch/Roll) | RS-03 | 4 | 120 N.m (Cardan) | Propulsion via bielles et cardan DIN 808 (2× RS-03 par cheville) |

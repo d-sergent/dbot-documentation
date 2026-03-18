@@ -34,7 +34,8 @@
 ### Phase 2 : Premier Bras (5 DOF)
 | Modèle | Quantité | Couple (Peak) | Usage |
 | :--- | :--- | :--- | :--- |
-| **Robstride 03** | 2 | **60 Nm** | Épaule (Force brute - Pitch/Roll) |
+| **Robstride 04** | 1 | **120 Nm** | Épaule Pitch (Force levage frontal) |
+| **Robstride 03** | 1 | **60 Nm** | Épaule Roll (Écartement latéral) |
 | **Robstride 06** | 1 | **36 Nm** | Coude |
 | **Robstride 02** | 1 | **17 Nm** | Épaule Yaw |
 | **Robstride 00** | 1 | 14 Nm | Poignet Roll |
