@@ -81,7 +81,7 @@
 
 | Composant | Modèle | Note |
 | :--- | :--- | :--- |
-| **Cerveau IA** | NVIDIA Jetson Orin Nano (8GB) | Le modèle Super est un plus, mais le 8GB suffit. |
+| **Cerveau IA** | NVIDIA Jetson Orin Nano (8GB) | Le modèle Super est un plus, mais le 8GB suffit. (**✅ Achetée**) |
 | **Vision (Tête)** | Luxonis OAK-D Pro | Version Fixed-Focus (FF) recommandée (vibrations). |
 ### Électronique de Contrôle
 - **Sony Spresense** :

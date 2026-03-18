@@ -12,7 +12,7 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 
 ### Phase 1 : Tête, Torse et Cou (Focus Actuel)
 *   **Objectif** : Valider l'intelligence perception/audio et l'intégration mécanique du cou (VOR).
-*   **Matériel** : Jetson Orin Nano, OAK-D Pro, Spresense.
+*   **Matériel** : Jetson Orin Nano (**✅ Déjà achetée**), OAK-D Pro, Spresense.
 *   **Moteurs** : 2× RS-05 cou Pan/Tilt (**✅ Déjà achetés**).
 
 ### Phase 2 : Premier Bras (En Préparation)
