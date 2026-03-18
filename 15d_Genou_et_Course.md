@@ -116,7 +116,7 @@ Vitesse angulaire divisée par 1.5 → vitesse de genou réduite de 33%
 
 **Référence industrielle** : Le genou de l'Atlas (Boston Dynamics v2) utilise exactement ce principe : moteur en haut du tibia + parallélogramme de bielles pour le genou.
 
-![Mécanisme Tirant Genou S2 — RS-04 dans la cuisse avec tirant carbone 1.5:1 vers le pivot du genou](./img_s2_genou_tirant.png)
+![Mécanisme Tirant Genou S2 — RS-04 dans la cuisse avec tirant carbone 1.5:1 vers le pivot du genou](./assets/img_s2_genou_tirant.png)
 
 #### 12.3.1 Cinématique Détaillée du Mécanisme Tirant
 
@@ -233,7 +233,7 @@ Bilan :  τ_genou_max = τ_RS04 × (L_lever / L_crank) = 120 × 1.5 = 180 N.m �
 
 ##### Séquence Cinématique Complète — Cycle de Marche
 
-![Cinématique S2 — 4 positions clés de flexion/extension du genou avec le mécanisme tirant](./img_s2_cinematique_sequence.png)
+![Cinématique S2 — 4 positions clés de flexion/extension du genou avec le mécanisme tirant](./assets/img_s2_cinematique_sequence.png)
 
 **Phase 1 — Double Appui Frontal (Genou quasi tendu, ~5-10°)**
 ```
