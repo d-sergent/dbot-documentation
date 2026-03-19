@@ -71,5 +71,5 @@ Le remplacement du RS-04 par un moteur de type **Unitree M107** déploie **360 N
 | :--- | :---: | :---: |
 | **V1 (RS-04 Direct)** | 2.5 km/h | $\approx 0\text{ kg}$ ⚠️ |
 | **V1 (RS-04 Direct)** | $< 1.5\text{ km/h}$ | $\approx \mathbf{10\text{ kg}}$ |
-| **V3 (+ Tirant S2)** | 2.5 km/h | $\approx \mathbf{20\text{ kg}}$ ✅ |
+| **V1 (+ GT3 2:1 S6)** | 2.5 km/h | $\approx \mathbf{20\text{ kg}}$ ✅ |
 | **V4 (+ M107)** | 3.0 km/h | $\mathbf{30\text{ kg et +}}$ 🔥 |

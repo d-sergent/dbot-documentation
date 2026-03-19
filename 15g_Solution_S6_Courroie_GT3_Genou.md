@@ -37,7 +37,7 @@ CONFIGURATION ACTUELLE (Direct Drive 1:1) :
        TIBIA
 
 
-NOUVELLE CONFIGURATION S6 (GT3 1.5:1) :
+NOUVELLE CONFIGURATION S6 (GT3 2:1) :
 
   ┌─────────────────────────────┐
   │         HANCHE              │
@@ -52,10 +52,10 @@ NOUVELLE CONFIGURATION S6 (GT3 1.5:1) :
          │                │  ← Courroie GT3 9mm (boucle fermée ~600mm)
      CUISSE (fémur)       │     Tendue par un galet tendeur à ressort
          │                │
-         │         ◉──────┘  Pignon Genou (grand) : 30 dents, Ø48mm
+         │         ◉──────┘  Pignon Genou (grand) : 40 dents, Ø64mm
   ┌──────┴──────┐
   │   GENOU     │  Axe genou = axe du grand pignon
-  └──────┬──────┘     120 N.m × 1.5 = 180 N.m, vitesse 111 RPM
+  └──────┬──────┘     120 N.m × 2 = 240 N.m, vitesse 83 RPM
          │
        TIBIA
 ```
@@ -64,7 +64,7 @@ NOUVELLE CONFIGURATION S6 (GT3 1.5:1) :
 
 ## 3. Vue en Coupe — Architecture Détaillée
 
-![Solution S6 — Transmission GT3 1.5:1 : RS-04 relocalisé en haut de cuisse avec courroie crantée vers l'axe du genou](./assets/img_s6_gt3_knee_transmission.png)
+![Solution S6 — Transmission GT3 2:1 : RS-04 relocalisé en haut de cuisse avec courroie crantée vers l'axe du genou](./assets/img_s6_gt3_knee_transmission.png)
 
 ### 3.1 Disposition des Moteurs dans la Hanche
 
@@ -97,7 +97,7 @@ VUE FRONTALE — BLOC HANCHE + HAUT DE CUISSE
                              │  ~250mm d'entraxe
                              │
                         ●────┘
-                    Pignon 30T
+                    Pignon 40T
               ═══════╪════════════  ← Axe Genou
                      │
                    TIBIA
@@ -115,11 +115,11 @@ VUE FRONTALE — BLOC HANCHE + HAUT DE CUISSE
 | :--- | :--- | :---: | :---: | :--- |
 | **Courroie GT3 fermée** | GT3, largeur 9mm, longueur ~600mm | 2 (D+G) | ~15€ | Amazon / AliExpress |
 | **Pignon moteur** | GT3, 20 dents, alésage Ø8mm, alu | 2 | ~8€ | AliExpress |
-| **Pignon genou** | GT3, 30 dents, alésage Ø12mm, alu | 2 | ~12€ | AliExpress |
+| **Pignon genou** | GT3, 40 dents, alésage Ø12mm, alu | 2 | ~15€ | AliExpress |
 | **Galet tendeur** | Roulement 625ZZ Ø16mm + bras ressort | 2 | ~5€ | AliExpress |
 | **Ressort de tension** | Ressort traction 2N, ~30mm | 2 | ~2€ | Quincaillerie |
 | **Vis + entretoises** | M4 inox + entretoises CNC/imprimées | lot | ~5€ | — |
-| **TOTAL (2 jambes)** | | | **~47€** | |
+| **TOTAL (2 jambes)** | | | **~53€** | |
 
 ### 4.2 Masse Ajoutée
 
@@ -127,40 +127,41 @@ VUE FRONTALE — BLOC HANCHE + HAUT DE CUISSE
 | :--- | :---: | :---: |
 | Courroie GT3 9mm × 600mm | ~25g | 50g |
 | Pignon 20T alu | ~15g | 30g |
-| Pignon 30T alu | ~35g | 70g |
+| Pignon 40T alu | ~65g | 130g |
 | Galet tendeur + ressort | ~20g | 40g |
 | Visserie + support | ~15g | 30g |
-| **TOTAL** | **~110g/jambe** | **~220g** |
+| **TOTAL** | **~140g/jambe** | **~280g** |
 
-> ✅ **220 grammes** pour les deux jambes. C'est **négligeable** face aux +2 840g d'un double RS-04 (solution S4) ou aux +400g d'un mécanisme tirant (solution S2).
+> ✅ **280 grammes** pour les deux jambes. C'est **négligeable** face aux +2 840g d'un double RS-04 (solution S4) ou aux +400g d'un mécanisme tirant (solution S2).
 
 ---
 
 ## 5. Performances Calculées
 
-### 5.1 Rapport 1.5:1 (20T → 30T)
+### 5.1 Rapport 2:1 (20T → 40T) — Le profil cible V1
 
-| Paramètre | Direct Drive (actuel) | GT3 1.5:1 (S6) | Δ |
+| Paramètre | Direct Drive (actuel) | GT3 2:1 (S6) | Δ |
 | :--- | :---: | :---: | :---: |
-| **Couple genou** | 120 N.m | **180 N.m** | **+50%** |
-| **Vitesse max genou** | 167 RPM | **111 RPM** | -33% |
-| **Temps flexion 0→90°** | 0.15 s | **0.22 s** | Acceptable |
-| Marche 2-3 km/h (vide) | 101% ⚠️ | **67%** ✅ | Confortable |
-| Portage 10 kg marchant | Impossible | **~85%** ✅ | Viable |
-| Course 5 km/h | 143% ❌ | **~95%** ⚠️ | Limite mais possible |
-
-### 5.2 Rapport 2:1 (20T → 40T) — Alternative plus agressive
-
-| Paramètre | GT3 2:1 |
-| :--- | :---: |
-| **Couple genou** | **240 N.m** |
-| **Vitesse max genou** | 83 RPM |
-| Marche avec 15 kg | **~70%** ✅ |
-| Course 5 km/h | **~72%** ✅ |
-| Course 8 km/h | ~95% ⚠️ |
+| **Couple genou** | 120 N.m | **240 N.m** | **+100%** |
+| **Vitesse max genou** | 167 RPM | **83 RPM** | -50% |
+| **Temps flexion 0→90°** | 0.15 s | **0.29 s** | Acceptable pour course avec "mid-foot strike" |
+| Marche 2.5 km/h (vide) | 101% ⚠️ | **50%** ✅ | Extrêmement confortable |
+| Portage 20 kg marchant | Impossible | **~90%** ✅ | Viable |
+| Course 5 km/h | 143% ❌ | **~72%** ✅ | Très confortable |
+| Course 8 km/h | 185% ❌ | **~92%** ✅ | Possible |
 
 > [!TIP]
-> Le rapport **2:1** est un excellent compromis universel. Il fournit assez de couple pour porter des charges lourdes ET courir, tout en conservant une vitesse de genou acceptable (83 RPM = flexion 0→90° en 0.27s).
+> Le rapport **2:1** est le meilleur compromis universel. Il fournit assez de couple pour porter des charges lourdes ET courir à 5-8 km/h avec une excellente marge de sécurité thermique sur le RS-04.
+
+### 5.2 Rapport 1.5:1 (20T → 30T) — Alternative plus rapide
+
+| Paramètre | GT3 1.5:1 |
+| :--- | :---: |
+| **Couple genou** | **180 N.m** |
+| **Vitesse max genou** | 111 RPM |
+| Marche avec 10 kg | **~85%** ✅ |
+| Course 5 km/h | **~96%** ⚠️ (limite thermique) |
+| Course 8 km/h | ~122% ❌ |
 
 ---
 
@@ -169,8 +170,8 @@ VUE FRONTALE — BLOC HANCHE + HAUT DE CUISSE
 | Critère | S2 (Tirant) | S4 (Double RS-04) | **S6 (GT3)** |
 | :--- | :---: | :---: | :---: |
 | **Couple max** | 180 N.m | 240 N.m | **180-240 N.m** |
-| **Masse ajoutée** | ~400g | **+2 840g** | **~220g** ⭐ |
-| **Coût** | ~150€ | +800$ | **~47€** ⭐ |
+| **Masse ajoutée** | ~400g | **+2 840g** | **~280g** ⭐ |
+| **Coût** | ~150€ | +800$ | **~53€** ⭐ |
 | **Point mort à forte flexion** | ⚠️ Oui (31 N.m @ 120°) | Non | **Non** ⭐ |
 | **Backdrivability** | Partielle | ✅ | **✅** |
 | **Complexité mécanique** | ⭐⭐⭐ (CAO bielles) | ⭐⭐ | **⭐** ⭐ |
@@ -191,7 +192,7 @@ La courroie GT3 introduit un jeu de **0.5-1.5°** selon la tension. Pour le réd
 - **Pignons en aluminium usiné** (pas imprimés 3D) : Le profil de dent doit être précis.
 
 ### 7.2 Durée de Vie
-Une courroie GT3 de qualité (Gates, Continental) supporte **>10 millions de cycles** à 180 N.m si bien tendue. C'est largement supérieur à la durée de vie du robot. En cas de rupture, le remplacement est instantané (~5 minutes, 15€).
+Une courroie GT3 de qualité (Gates, Continental) supporte **>10 millions de cycles** à 240 N.m si bien tendue. C'est largement supérieur à la durée de vie du robot. En cas de rupture, le remplacement est instantané (~5 minutes, 15€).
 
 ### 7.3 Alignement
 Les deux pignons (moteur et genou) doivent être **parfaitement coplanaires**. Un désalignement >1mm provoque une usure prématurée de la courroie. Utiliser des entretoises CNC ou imprimées PA12-CF pour le calage.
@@ -209,8 +210,8 @@ Monter le RS-04 sur un bracket en haut de la cuisse, aussi près que possible de
 ### Étape 3 — Installer le petit pignon (20T) sur le RS-04
 Fixer le pignon 20T GT3 sur l'arbre de sortie du RS-04 avec une vis de serrage ou une clavette.
 
-### Étape 4 — Installer le grand pignon (30T) sur l'axe du genou
-Le pignon 30T est fixé directement sur l'axe de rotation du genou, là où le RS-04 était auparavant.
+### Étape 4 — Installer le grand pignon (40T) sur l'axe du genou
+Le pignon 40T est fixé directement sur l'axe de rotation du genou, là où le RS-04 était auparavant. Vérifier que la taille du pignon (Ø64mm) rentre bien dans l'enveloppe ou le cache-genou de la pièce imprimée.
 
 ### Étape 5 — Installer la courroie GT3
 Enfiler la courroie fermée autour des deux pignons. Ajuster l'entraxe si nécessaire (via des trous oblongs sur le support du RS-04).
@@ -226,7 +227,7 @@ Faire tourner le moteur à la main : la courroie doit rester centrée sur les pi
 ## 9. Évolutions Futures
 
 ### V2 : GT3 2:1 + SEA
-Remplacer le pignon 30T par un 40T (ratio 2:1) et ajouter un ressort en série (SEA) entre le grand pignon et l'axe du genou :
+Le pignon 40T est déjà prévu. On ajoute simplement un ressort en série (SEA) entre le grand pignon et l'axe du genou :
 ```
 RS-04 → GT3 2:1 → Ressort torsion → Axe genou
 Couple continu : 240 N.m
