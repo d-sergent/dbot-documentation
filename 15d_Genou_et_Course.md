@@ -7,6 +7,7 @@
 > - [15d] **Genou & Course — Solutions** ← *vous êtes ici*
 > - [15e] [Alternatives Moteurs Genou](./15e_Alternatives_Moteurs_Genou.md)
 > - [15f] [Portage de Charges & Marche](./15f_Portage_Charges_et_Marche.md)
+> - [15g] [Solution S6 : Courroie GT3](./15g_Solution_S6_Courroie_GT3_Genou.md)
 > - [16] [**Conclusions & Architecture Finale D-Bot**](./16_Conclusions_Architecture_DBot.md)
 
 Ce document analyse pourquoi le genou RS-04 (120 N.m) devient le goulot d'étranglement pour la course (172 N.m requis), et propose 5 solutions graduelles : de l'optimisation algorithmique gratuite jusqu'au mécanisme tirant (type Atlas) avec SEA.

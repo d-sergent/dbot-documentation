@@ -2,7 +2,7 @@
 
 Ce document présente uniquement les **décisions définitives** pour le D-Bot. Il synthétise l'ensemble des études et analyses précédentes.
 
-> **Pour comprendre le raisonnement derrière chaque choix**, consultez la [Série Biomécanique 15a→15d](./15_Analyse_Biomecanique.md).
+> **Pour comprendre le raisonnement derrière chaque choix**, consultez la [Série Biomécanique 15a→15g](./15_Analyse_Biomecanique.md).
 
 ---
 
@@ -11,7 +11,7 @@ Ce document présente uniquement les **décisions définitives** pour le D-Bot. 
 | Zone | Solution Retenue | Couple / Perf | Statut |
 | :--- | :--- | :---: | :---: |
 | **Cheville Pitch + Roll** | Cardan DIN 808 + **2× RS-03** + bielles | 120 N.m | ✅ V1 |
-| **Genou Pitch** | **RS-04** + algo mid-foot strike | 120 N.m | ✅ V1 |
+| **Genou Pitch** | **RS-04** + Courroie GT3 1.5:1 (S6) | 180 N.m | ✅ V1 |
 | **Hanche Pitch + Yaw** | **RS-04** (pitch) + **RS-03** (roll/yaw) | 120 / 60 N.m | ✅ V1 |
 | **Épaule** | **RS-04** (Pitch) + **RS-03** (Roll) + **RS-02** (Yaw) | 120 / 60 / 17 N.m | ✅ V1 |
 | **Coude** | **RS-06** | 36 N.m | ✅ V1 |
