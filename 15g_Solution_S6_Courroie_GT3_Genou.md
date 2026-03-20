@@ -45,10 +45,9 @@ NOUVELLE CONFIGURATION S6 (GT3 2:1) :
   │  RS-04 Knee (RELOCALISÉ) ──┼──> Le moteur genou est maintenant ICI !
   └──────┬──────────────────────┘    En haut de la cuisse, près de la hanche
          │
-         │  ╔══════════╗  Pignon Moteur (petit) : 20 dents, Ø32mm
-         │  ║ RS-04    ║──●
-         │  ║ Knee     ║  │
-         │  ╚══════════╝  │
+         │   [||||]        Pignon Moteur (petit) : 20 dents, Ø32mm
+         │   RS-04 Knee ──●
+         │  (Vertical)    │
          │                │  ← Courroie GT3 9mm (boucle fermée ~600mm)
      CUISSE (fémur)       │     Tendue par un galet tendeur à ressort
          │                │
@@ -70,38 +69,38 @@ NOUVELLE CONFIGURATION S6 (GT3 2:1) :
 
 Le RS-04 du genou est monté **en parallèle et légèrement en dessous** du RS-04 de la hanche Pitch, tous les deux fixés rigidement au châssis du bassin / haut de cuisse :
 
-```
-VUE FRONTALE — BLOC HANCHE + HAUT DE CUISSE
+```text
+VUE DE FACE — CHASSIS HANCHE + HAUT DE CUISSE (Axe du robot face à vous)
 
-         ┌──────────────────────────────┐
-         │          BASSIN              │
-         │                              │
-    ═════╪══════════════════════════════╪═════  ← Axe Hanche Pitch
-         │                              │
-         │   ╔════════════╗             │
-         │   ║  RS-04     ║             │  ← Moteur Hanche Pitch
-         │   ║  Hip Pitch ║             │     (sur l'axe de rotation)
-         │   ╚════════════╝             │
-         │                              │
-         │   ╔════════════╗             │
-         │   ║  RS-04     ║──●          │  ← Moteur Genou RELOCALISÉ
-         │   ║  Knee      ║  │ Pignon   │     (fixé au châssis cuisse)
-         │   ╚════════════╝  │ 20T      │
-         │                   │          │
-         └───────────────────┼──────────┘
+         ┌───────────────────────────────────┐
+         │             BASSIN                │
+         │                                   │
+         │       RS-04 Hip Pitch             │
+         │        (Vertical)                 │
+         │        [||||||] ──── Axe Hanche Pitch ──> Vers la jambe opposée
+         │           │                       │
+         │           │                       │
+         │       RS-04 Knee (Relocalisé)     │
+         │        (Vertical)                 │
+         │        [||||||] ──● Pignon 20T    │
+         │                   │               │
+         └───────────────────┼───────────────┘
                              │
-                       Courroie GT3
-                       (descend dans
+                             │
+                       Courroie GT3 
+                      (descend dans 
                         la cuisse)
                              │
                              │  ~250mm d'entraxe
                              │
                         ●────┘
                     Pignon 40T
-              ═══════╪════════════  ← Axe Genou
+              ═══════╪════════════  ← Axe Genou Pitch
                      │
                    TIBIA
 ```
+
+> **Avantage géométrique (Moteurs plats)** : Le moteur RS-04 n'est pas un long cylindre, mais un disque plat (type "pancake", épaisseur fine). Le fait que l'axe Pitch soit latéral signifie que le disque du moteur se dresse **à la verticale**. En les superposant ou les décalant de quelques centimètres, on obtient un encombrement en épaisseur minimal, permettant à la hanche de rester fine. Le pignon du moteur inférieur s'aligne parfaitement avec la descente de cuisse pour la courroie.
 
 > **Point clé** : Les deux RS-04 (hanche + genou) sont maintenant **concentrés dans la même zone**, en haut de la cuisse. Cela a un avantage majeur : toute la masse motrice est **proche du centre de gravité** du robot, ce qui **réduit drastiquement l'inertie de balancement** de la jambe (Swing Inertia).
 
