@@ -88,8 +88,8 @@
     - [*Main Board*](https://www.mouser.fr/ProductDetail/Sony-Spresense/CXD5602PWBMAIN1_FG_875607611_P?qs=%252B6g0mu59x7Ifurwfgmhhqg%3D%3D) + [*Extension Board* (Standard)](https://www.mouser.fr/ProductDetail/Sony-Spresense/CXD5602PWBEXT1E_FG_875612931_P?qs=%252B6g0mu59x7IfMFVSCO3mMw%3D%3D).
     - **Note sémantique** : L'Extension Board Standard est préférée pour ses 8 entrées micro (vs 4 sur la version LTE).
     - **Connectivité** : Pour la LTE, utilisez un shield tiers (Waveshare SIM7600) via UART pour conserver les 8 micros.
-- **IMU Torse (Équilibre)** : **Bosch BMI270 Add-on Board** (Switch Science) — 6 axes, I2C/SPI, compatible Spresense. **C'est l'IMU principale d'équilibre** du robot (voir [Stratégie IMU](./08_Audio_Perception.md)). 
-    - ⚠️ *Note sur l'achat* : Le lien [Bosch BMI270 sur Mouser](https://www.mouser.fr/ProductDetail/Bosch-Sensortec/BMI270?qs=u16ybLDytRYIj%252BjQEee88A%3D%3D) pointe uniquement vers la puce nue (à souder). Si vous ne souhaitez pas faire de soudure CMS complexe, cherchez la carte Shield/Add-on complète de chez Switch Science.
+- **IMU Torse (Équilibre)** : **Bosch BMI270 Add-on Board** (fabriquée par Switch Science) — 6 axes, I2C/SPI, compatible Spresense. **C'est l'IMU principale d'équilibre** du robot (voir [Stratégie IMU](./08_Audio_Perception.md)). 
+    - ⚠️ **Note sur l'achat** : N'achetez PAS la puce "BMI270" nue vendue par défaut sur Mouser, elle nécessite une soudure CMS impossible à la main. Vous devez impérativement chercher la carte complète **prête à enficher**. La référence mondiale exacte à chercher en France (souvent chez Digi-Key, RS ou Mouser import) est : **`SSCI-079782`**.
 - ~~**SensiEDGE CommonSense**~~ : ⚠️ **Non disponible au grand public** (réservée aux professionnels). Remplacée par le BMI270 Add-on Board ci-dessus.
 - **Audio** : 8x Microphones numériques MEMS (PDM) + câbles blindés.
 
