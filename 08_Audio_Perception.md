@@ -17,7 +17,7 @@ L'architecture audio est conçue pour l'interaction sociale et la localisation s
     - ⚠️ **Règle d'or de blindage** : La tresse métallique du câble ne doit être connectée à la masse (GND) **que d'un seul côté** (celui de la carte Sony Spresense). Laissez la tresse coupée et isolée "en l'air" côté microphone pour créer une cage de Faraday parfaite sans boucle de masse.
 
 ### Isolation Acoustique
-- **Filtrage Mécanique** : Les microphones doivent être montés sur des supports en **TPU souple** pour isoler les capteurs des vibrations haute fréquence des moteurs RobStride.
+- **Filtrage Mécanique** : Les microphones doivent impérativement être montés sur des fixations imprimées en **Qidi TPU 95A-HF** (filament souple universel du projet). Pour obtenir l'amorti acoustique nécessaire au blocage des vibrations haute fréquence des moteurs, ce 95A doit être imprimé avec un profil "spongieux" (Remplissage **10% à 15% Gyroid** et 1 seul mur externe).
 - **Synchronisation** : La Spresense garantit une capture synchronisée à **192 kHz**, indispensable pour le calcul du TDOA (Time Difference of Arrival).
 
 ## 2. Stratégie IMU (Fusion Multi-Capteurs)
