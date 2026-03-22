@@ -134,5 +134,6 @@
 ---
 
 ## 5. Consommables & Outils
+*   **Filament Flexible** : **1x Bobine Qidi TPU 95A-HF**. C'est le matériau universel officiel pour toutes les pièces souples du robot (supports amortisseurs pour les micros, semelles antidérapantes des pieds en utilisant le "Fuzzy Skin").
 *   **Frein Filet** : **Loctite 222** (Faible/Moyen). Indispensable ! Les vibrations des moteurs Robstride desserrent les vis M3 en quelques heures sans cela.
 *   **Clés Allen** : Jeu de clés de précision (Facom ou Wera) pour ne pas foire les têtes de vis.

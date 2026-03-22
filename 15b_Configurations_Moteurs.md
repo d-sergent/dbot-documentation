@@ -539,20 +539,19 @@ Beaucoup de robots humanoïdes avancés (Unitree H2, ATLAS) ont un **DOF de rota
 
 ### 10.7 Détail — Semelle Antidérapante TPU (Amélioration 4)
 
-#### 10.7.1 Choix du Matériau
+#### 10.7.1 Choix du Matériau : L'approche Universelle (Qidi TPU 95A-HF)
 
 > [!NOTE]
-> **Shore A** mesure la dureté des élastomères. Plus le chiffre est bas, plus le matériau est souple et adhérent. Pour une semelle de robot bipède, la plage **80A–90A** offre le meilleur compromis entre adhérence et résistance à l'usure.
+> Habituellement, la plage **80A–90A** offre un meilleur compromis naturel entre adhérence et souplesse. Cependant, pour rationaliser les achats et profiter de la vitesse de la Qidi Plus 4, nous avons standardisé **toutes les pièces flexibles** du robot (pads acoustiques, semelles, joints d'amortissement) autour d'un seul matériau universel : le **Qidi TPU 95A-HF** (High Flow).
 
-| Shore A | Équivalent | Adhérence | Résistance usure | Usage |
-| :---: | :--- | :---: | :---: | :--- |
-| **70A** | Semelle running souple | ✅✅✅ | ⚠️ Faible | Trop mou, usure rapide |
-| **80A** | Pneu vélo | ✅✅ | ✅ | **🏆 Idéal sol lisse (carrelage, parquet)** |
-| **85A** | Talon de chaussure | ✅✅ | ✅✅ | Bon compromis polyvalent |
-| **90A** | Roulette de skateboard | ✅ | ✅✅ | **🏆 Idéal sol dur (béton, extérieur)** |
-| **95A** | Pneu plein robot | ⚠️ | ✅✅✅ | Trop dur, glisse sur carrelage |
+Le 95A étant naturellement assez dur et glissant sur les sols lisses, nous compensons ces propriétés par de puissantes astuces de Slicer (Orca/Qidi) :
 
-**Recommandation** : Imprimer **deux jeux de semelles** — 80A (intérieur) et 90A (extérieur) — et changer selon l'environnement.
+1.  **Pour l'Adhérence Ultime (Semelles D-Bot)** : 
+    *   **"Fuzzy Skin" (Peau Cannelée)** : Activez cette option sur la paroi externe en contact avec le sol. L'imprimante créera des milliers de micro-picots rugueux qui agissent comme du papier de verre inversé.
+    *   **Géométrie** : Modélisez des crampons ou des stries profondes. Le 95A se pliera localement sous les 40kg du robot pour "mordre" le sol.
+    *   *(Bonus Post-traitement : Pulvériser du silicone liquide ou du PlastiDip sur la semelle 95A offre un grip infaillible).*
+2.  **Pour l'Amorti et l'Acoustique (Microphones, Butées)** : 
+    *   **"Profil Spongieux"** : Imprimez le 95A avec un remplissage très faible (**10% à 15% Gyroid**) et seulement 1 ou 2 murs extérieurs. La pièce devient une éponge remplie d'air, cassant parfaitement la transmission des vibrations haute fréquence des moteurs RobStride.
 
 #### 10.7.2 Design de la Semelle
 
@@ -592,7 +591,7 @@ Beaucoup de robots humanoïdes avancés (Unitree H2, ATLAS) ont un **DOF de rota
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| **Filament** | TPU Shore 80A ou 90A |
+| **Filament** | **Qidi TPU 95A-HF** (High Flow) |
 | **Buse** | 0.4 mm standard (pas besoin de tungstène) |
 | **Température buse** | 220-240°C (selon filament) |
 | **Température plateau** | 50-60°C |
@@ -604,7 +603,7 @@ Beaucoup de robots humanoïdes avancés (Unitree H2, ATLAS) ont un **DOF de rota
 | **Extrudeur** | **Direct Drive obligatoire** — le TPU <90A ne passe PAS en Bowden |
 
 > [!WARNING]
-> **TPU 80A est TRÈS souple** — il nécessite un extrudeur **Direct Drive** (type MK3S, Prusa XL, Bambu Lab). Si votre imprimante est en Bowden, utiliser du 90A minimum ou acheter un adaptateur Direct Drive. Le TPU 80A en Bowden va se coincer dans le tube PTFE.
+> La force du **Qidi TPU 95A-HF** couplé à l'extrudeur Direct Drive de la Plus 4 est qu'il s'imprime avec une facilité déconcertante, presque comme du PLA. Assurez-vous simplement que la matière soit bien sèche (65°C / 8h dans la Qidi Box).
 
 > [!TIP]
 > **Compatibilité Qidi X-Plus 4** : La Qidi X-Plus 4 est équipée d'un **extrudeur Direct Drive** avec engrenages en acier trempé et un hotend monobloc pouvant atteindre 370°C. Le TPU 88A Francofil est **parfaitement compatible** :
