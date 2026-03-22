@@ -18,7 +18,7 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 ### Phase 2 : Premier Bras (En Préparation)
 *   **Objectif** : Validation mécanique et manipulation.
 *   **Matériel** : + 5 Moteurs Robstride (RS-04, RS-03, RS-06, RS-02, RS-00) et **D-Hand Hybrid**.
-    *   *Note : 1× RS-04, 1× RS-03 et 1× RS-02 sont **✅ Déjà achetés**.*
+    *   *Note : Les 5 moteurs Robstride du bras sont **✅ Déjà achetés**.*
 *   **Budget Est.** : ~3 000 € (Bras + Main).
 
 ### Phase 3 : Deuxième Bras
