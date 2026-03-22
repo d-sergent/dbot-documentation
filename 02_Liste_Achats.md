@@ -125,7 +125,7 @@
 ## 4. Infrastructure & Connexion
 | Composant | Modèle | Usage |
 | :--- | :--- | :--- |
-| **WiFi Imprimante** | **TP-Link Archer T3U** | AC1300 Mbps, USB 3.0. Connectivité stable pour Qidi Plus 4. |
+| **WiFi Imprimante** | **TP-Link Archer T3U** (**✅ Acheté**) | AC1300 Mbps, USB 3.0. Connectivité stable pour Qidi Plus 4. |
 
 ---
 
