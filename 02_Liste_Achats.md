@@ -69,9 +69,9 @@
 | :--- | :--- | :--- | :--- |
 | Distribution (PDB) | **Matek PDB-HEX** (Master) + **PDB-XT60-W** (Satellites) | 2 + 4 | Hubs de puissance pro |
 | Connectique Data | **JST-GH 4-pin** (Silicone / Holybro) | 30m | Fils torsadés blindés |
-| Maintenance Tête | **WAGO 221-413 / 415** | 10 | Connecteurs rapides sans soudure |
-| Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 | Réglage précis 24V/48V + OCP |
-| Interface CAN | **InnoMaker USB2CAN-C** | 1 | Natif Linux (SocketCAN) |
+| Maintenance Tête | **WAGO 221-413 / 415** | 10 (**✅ Achetés**) | Connecteurs rapides sans soudure |
+| Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 (**✅ Achetée**) | Réglage précis 24V/48V + OCP |
+| Interface CAN | **InnoMaker USB2CAN-C** | 1 (**✅ Achetée**) | Natif Linux (SocketCAN) |
 
 > **Note** : Vérifiez bien que les moteurs arrivent avec leurs câbles d'alimentation (XT60) et data (JST-GH). Sinon, commander séparément.
 
