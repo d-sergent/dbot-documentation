@@ -89,7 +89,8 @@
     - **Note sémantique** : L'Extension Board Standard est préférée pour ses 8 entrées micro (vs 4 sur la version LTE).
     - **Connectivité** : Pour la LTE, utilisez un shield tiers (Waveshare SIM7600) via UART pour conserver les 8 micros.
 - **IMU Torse (Équilibre)** : **Bosch BMI270 Add-on Board** (fabriquée par Switch Science) — 6 axes, I2C/SPI, compatible Spresense. **C'est l'IMU principale d'équilibre** du robot (voir [Stratégie IMU](./08_Audio_Perception.md)). 
-    - ⚠️ **Note sur l'achat** : N'achetez PAS la puce "BMI270" nue vendue par défaut sur Mouser, elle nécessite une soudure CMS impossible à la main. Vous devez impérativement chercher la carte complète **prête à enficher**. La référence mondiale exacte à chercher en France (souvent chez Digi-Key, RS ou Mouser import) est : **`SSCI-079782`**.
+    - ⚠️ **Note sur l'achat** : N'achetez PAS la puce "BMI270" nue vendue par défaut sur Mouser, elle nécessite une soudure CMS impossible à la main. Vous devez impérativement chercher la carte complète **prête à enficher**. La référence mondiale exacte à chercher en France (souvent chez Digi-Key, RS ou Mouser import) est : **`SSCI-079782`**. 
+    - *Alternative SparkFun* : Si vous achetez la carte SparkFun `SEN-22397` (Qwiic), il vous faudra impérativement le **câble adaptateur Qwiic vers Pins Mâles** (Réf Mouser : [Adafruit 4209](https://www.mouser.fr/ProductDetail/Adafruit/4209?qs=PzGy0jfpSMuV28p8L2H4sQ%3D%3D)) pour la brancher sur la Spresense.
 - ~~**SensiEDGE CommonSense**~~ : ⚠️ **Non disponible au grand public** (réservée aux professionnels). Remplacée par le BMI270 Add-on Board ci-dessus.
 - **Audio** : 8x Microphones numériques MEMS (PDM) + câbles blindés.
 
