@@ -1,16 +1,16 @@
 # 11 - Guide IMU & Watchdog (Sécurité & Équilibre)
 
-Ce guide détaille l'intégration de l'**IMU torse** (BMI270 Add-on Board) et la mise en place de l'architecture de **Sécurité Active** (Watchdog + Power Management) pilotée par la Sony Spresense.
+Ce guide détaille l'intégration de l'**IMU torse** (SparkFun BMI270) et la mise en place de l'architecture de **Sécurité Active** (Watchdog + Power Management) pilotée par la Sony Spresense.
 
 > [!WARNING]
-> **Migration SensiEDGE → BMI270** : La carte SensiEDGE CommonSense initialement prévue **n'est pas disponible au grand public** (réservée aux professionnels). Ce guide a été mis à jour pour utiliser le **BMI270 Add-on Board** (Switch Science) comme IMU principale.
+> **Migration SensiEDGE → BMI270** : La carte SensiEDGE CommonSense initialement prévue **n'est pas disponible au grand public** (réservée aux professionnels). Ce guide a été mis à jour pour utiliser la **SparkFun 6DoF IMU Breakout - BMI270 (SEN-22397)** couplée à un câble Qwiic, beaucoup plus simple à sourcer en Europe.
 
 ## 1. Matériel : IMU Torse
 
-### Option Recommandée : BMI270 Add-on Board (Switch Science)
-*   **Connexion** : S'enfiche sur les headers I2C/SPI de la **Spresense Extension Board**.
+### Option Recommandée : SparkFun BMI270 (SEN-22397)
+*   **Connexion** : Se câble sur le port I2C de la **Spresense Extension Board** via le câble adaptateur **Qwiic vers Pins Mâles (Adafruit 4209)**.
 *   **Capteur** : **Bosch BMI270** — Accéléromètre + Gyroscope 6 axes.
-*   **Fréquence** : Jusqu'à **416 Hz** (accéléromètre) / **6.4 kHz** (gyroscope).
+*   **Rôle** : "Sens de l'équilibre" indépendant de la Jetson. Envoie les données (416Hz) vers ROS2.(accéléromètre) / **6.4 kHz** (gyroscope).
 *   **Rôle primaire** : **IMU d'équilibre** du robot — contrôle du centre de masse en temps réel.
 *   **Rôle secondaire** : Détection de chute quand la Jetson est éteinte (Watchdog).
 *   **Bibliothèque Arduino** : `Arduino_BMI270_BMM150` ou `BMI270-Sensor-API`.
@@ -30,7 +30,7 @@ Ce guide détaille l'intégration de l'**IMU torse** (BMI270 Add-on Board) et la
 L'empilement (Stack) se fait verticalement dans le torse :
 1.  **Base** : Spresense Extension Board (Arduino form factor).
 2.  **Milieu** : Spresense Main Board.
-3.  **Haut** : **BMI270 Add-on Board** (se connecte sur les headers I2C/SPI).
+3.  **Haut** : **SparkFun BMI270 Breakout** (se connecte sur les headers/broches I2C via fils Qwiic).
 
 ---
 
@@ -63,7 +63,7 @@ Ce code surveille la batterie (protection décharge profonde) et la Jetson (anti
 ```cpp
 /*
  * D-Bot Power Manager & Watchdog
- * Matériel : Sony Spresense + BMI270 Add-on (IMU Équilibre)
+ * Matériel : Sony Spresense + SparkFun BMI270 (IMU Équilibre)
  */
 
 #include <RTC.h> // Pour la gestion du temps
@@ -163,4 +163,4 @@ Si des capteurs environnementaux sont ajoutés ultérieurement :
 - **Température** : Thermistance NTC sur ADC Spresense
 - **Note** : Les bibliothèques SensiEDGE (`Arduino_LSM6DSOX`, `Arduino_HTS221`, etc.) ne sont plus nécessaires.
 
-*Note : Le BMI270 Add-on utilise le bus I2C ou SPI standard. Aucune électronique additionnelle n'est requise.*
+*Note : L'IMU SparkFun utilise le bus I2C standard de la Spresense via son câble Qwiic.*
