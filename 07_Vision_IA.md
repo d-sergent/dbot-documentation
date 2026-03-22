@@ -52,7 +52,7 @@ Pour un encastrement parfait dans le visage du robot :
 - **IMU Intégrée (BNO085/BMI270)** : Utilisée **uniquement pour la stabilisation du regard** et le V-SLAM. ⚠️ **Ne doit PAS servir pour l'équilibre du corps** car l'OAK-D est dans la tête qui bouge indépendamment du torse (2 DOF cou).
 - **Rôle dans la stratégie IMU** : Voir [Stratégie IMU](./08_Audio_Perception.md) pour la répartition des rôles (IMU tête vs IMU torse vs IMU LiDAR).
 
-## 2. LiDAR : Unitree L2
+## 2. LiDAR : Unitree L2 (Option V2)
 
 ### Position : Haut du Torse (avant le cou)
 - **Montage** : Fixé sur le haut du torse, devant la base du cou, **incliné de 10-20° vers l'avant**.

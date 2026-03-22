@@ -5,7 +5,7 @@ Le projet consiste à construire un robot humanoïde baptisé **D-Bot**.
 Il s'agit d'une **évolution majeure** de la plateforme open-source **K-Bot**, améliorée avec des actionneurs modernes et une intelligence embarquée avancée. Ce n'est pas un simple fork, mais une refonte complète de l'architecture électronique et motrice.
 
 ### Améliorations Clés (vs K-Bot Original)
-Le D-Bot repose sur un système de **24 moteurs RobStride** (membres, cou) et **16 servomoteurs Dynamixel purs** (mains tactiles D-Hand Hybrid à 8 DOF chacune), une vision IA **Luxonis OAK-D Pro** et un **LiDAR Unitree L2**, le tout piloté par une **NVIDIA Jetson Orin Nano** et une **Sony Spresense**.
+Le D-Bot repose sur un système de **24 moteurs RobStride** (membres, cou) et **16 servomoteurs Dynamixel purs** (mains tactiles D-Hand Hybrid à 8 DOF chacune), une vision IA **Luxonis OAK-D Pro** (le LiDAR Unitree L2 étant réservé pour la V2), le tout piloté par une **NVIDIA Jetson Orin Nano** et une **Sony Spresense**.
 
 ## 2. Feuille de Route (Roadmap)
 Le projet est découpé en 4 phases distinctes pour valider chaque étape critique.
@@ -39,7 +39,7 @@ graph TD
     A -- USB/CAN --> C["InnoMaker USB2CAN-C"]
     C -- "Bus CAN (1 Mbps)" --> D[Moteurs Robstride]
     A -- USB3 --> E["OAK-D Pro (Vision AI)"]
-    A -- USB --> F[LiDAR Unitree L2]
+    A -. USB .-> F[LiDAR Unitree L2 (V2)]
 
     subgraph "Contrôle Moteur"
     D --> D1["RS-02/03/04/06 (Membres)"]
@@ -75,7 +75,7 @@ Le D-Bot utilise une approche **Squelette Aluminium CNC + Coque Imprimée 3D** p
 | Tête (boîtier capteurs) | **PETG-CF** 60% | Qidi | Masse à minimiser |
 | Phalanges main | **PA12-CF** → Alu 7075 (V2) | Qidi/C500 | Évolutif avec la C500 |
 
-- **Masse totale estimée** : ~**40.4 kg** (Configuration Hybride : RS-04 Pitch + RS-03 Roll épaules, RS-06 coudes, Cardan 2×RS-03 chevilles, D-Hand Hybrid ×2).
+- **Masse totale estimée** : ~**40.2 kg** (Configuration Hybride : RS-04 Pitch + RS-03 Roll épaules, RS-06 coudes, Cardan 2×RS-03 chevilles, D-Hand Hybrid ×2, V1 sans LiDAR).
 - **Détails Impression** : Voir le **[Guide Avancé Impression 3D](./09_Guide_Avance_Impression.md)**.
 - **Détails CNC** : Voir l'**[Usinage CNC C500](./22_Usinage_CNC_C500.md)**.
 

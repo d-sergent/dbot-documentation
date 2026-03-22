@@ -1,5 +1,8 @@
 # 19. Perception Spatiale & LiDAR — Analyse Complète
 
+> [!IMPORTANT]
+> **Mise à jour Mars 2026** : Le LiDAR Unitree L2 a été retiré de la nomenclature de la V1 (Phase 1/4) pour des raisons de coût et de complexité logicielle initiale. L'architecture décrite ci-dessous (SLAM LiDAR + Odométrie Visuelle) reste totalement valide pour une future implémentation (V2) afin d'accéder à la course tout-terrain. Le D-Bot V1 fonctionnera intégralement sur le SLAM visuel (OAK-D Pro).
+
 > **Objectif** : Doter le D-Bot d'une perception 3D fiable pour la navigation autonome (SLAM), l'évitement d'obstacles et la cartographie en temps réel.
 
 ---

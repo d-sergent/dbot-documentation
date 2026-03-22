@@ -14,7 +14,7 @@ Ce document recense les choix techniques structurants effectués durant la phase
     *   Elle possède des connecteurs Arduino compatibles, permettant d'ajouter un shield LTE tiers plus tard si nécessaire.
     *   La carte LTE officielle sacrifie trop d'I/O audios (max 4 micros) pour un usage "autonome outdoor" qui n'est pas la priorité immédiate.
 
-## 3. Positionnement LiDAR (Unitree L2)
+## 3. Positionnement LiDAR (Unitree L2) - Option V2
 **Choix** : **Haut du Torse, devant le cou, incliné 10-20° vers l'avant**.
 *   **Alternatives rejetées** :
     - *Sommet de la tête* : FOV idéal mais nécessite un câble passant dans le cou articulé (Pan/Tilt RS-05) — risque d'usure et de torsion du câble, poids en hauteur (+CdG).

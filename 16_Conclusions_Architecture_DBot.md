@@ -18,7 +18,7 @@ Ce document présente uniquement les **décisions définitives** pour le D-Bot. 
 | **Poignet Roll** | **RS-00** | 14 N.m | ✅ V1 |
 | **Main** | **D-Hand Hybrid** (4× XC430 + 4× XC330 + tactile) | ~175 N grip | ✅ V1 |
 | **Cou** | **RS-05** (×2) | 5.5 N.m | ✅ V1 |
-| **Masse totale** | ~**40.4 kg** (avant allégement 3D) | — | Référence |
+| **Masse totale** | ~**40.2 kg** (avant allégement 3D) | — | Référence |
 | **Vitesse marche** | ~**2 km/h** (genou 101%) | — | Estimé |
 | **Course V1** | ~**3-4 km/h** (algo mid-foot, transitoires) | — | V1 logiciel |
 
@@ -97,7 +97,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | **Bras tendu (latéral), continu** | ~33 N.m | Roll RS-03 (20 N.m nom.) | ⚠️ **~2.5 kg** continu |
 | **Bras plié 90°, sécurité** | ~30 N.m | Coude RS-06 (36 N.m nom.) | ✅ **~8-10 kg** sécurité |
 
-> ⚠️ **Impact sur la masse du robot** : Cette configuration hybride amène la masse totale à **~40.4 kg** (avant allégement 3D). Le genou RS-04 opère à ~101% de sa capacité à 2-3 km/h, permettant une marche sécurisée à 2 km/h. Voir §9 et §11 pour la stratégie d'allégement 3D.
+> ⚠️ **Impact sur la masse du robot** : Cette configuration hybride amène la masse totale à **~40.2 kg** (avant allégement 3D, LiDAR V2 décompté). Le genou RS-04 opère à ~101% de sa capacité à 2-3 km/h, permettant une marche sécurisée à 2 km/h. Voir §9 et §11 pour la stratégie d'allégement 3D.
 
 > Voir : [Analyse portage §3](./15a_Analyse_Locomotion_Baseline.md) | [Comparatif Option Hybride](./15b_Configurations_Moteurs.md)
 
@@ -148,7 +148,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 | Métrique | Estimation | Config |
 | :--- | :---: | :---: |
-| **Masse totale** | **~40.4 kg** | Cardan + Épaule Hybride (RS-04/03) + D-Hand |
+| **Masse totale** | **~40.2 kg** | Cardan + Épaule Hybride (RS-04/03) + D-Hand |
 | **DOF total** | 24 corps RobStride + 2×8 mains Dynamixel = **40 DOF actifs** | V1 complet |
 | **Vitesse marche sécurisée** | **~2 km/h** (marge genou 120 N.m) | RS-04 genou à 101% à 2-3 km/h |
 | **Vitesse marche max** | ~3 km/h (algo ZMP, pics transitoires ok) | RS-04 genou à 97→104% |
@@ -164,7 +164,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 ## 8. Points d'Attention V1
 
 > [!WARNING]
-> **⚠️ Genou RS-04 à ~101% de son pic à 2-3 km/h avec 40.4 kg.** Avec la masse ajustée grâce aux épaules hybrides (-1.08 kg vs Option D), le couple genou en marche normale atteint ~121 N.m vs 120 N.m pic RS-04. Conséquences pratiques :
+> **⚠️ Genou RS-04 à ~101% de son pic à 2-3 km/h avec 40.2 kg.** Avec la masse ajustée grâce aux épaules hybrides (-1.08 kg vs Option D), le couple genou en marche normale atteint ~121 N.m vs 120 N.m pic RS-04. Conséquences pratiques :
 > - **Vitesse sécurisée recommandée : 2 km/h** pour rester dans les limites nominales.
 > - À 2-3 km/h : genou opère sur les **pics transitoires** (< 50 ms) — viable mais limites thermiques à surveiller.
 > - **Priorité algorithmique n°1** : ZMP control + courbe de jerk + mid-foot strike pour lisser les impacts.
@@ -178,7 +178,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 ---
 
-*Conclusions établies en Mars 2026. Architecture D-Bot V1 stabilisée — **Option Hybride complète** : RS-04 Pitch + RS-03 Roll épaules + RS-06 coude + Cardan DIN 808 + 2×RS-03 chevilles + D-Hand Hybrid. Masse de référence : ~40.4 kg.*
+*Conclusions établies en Mars 2026. Architecture D-Bot V1 stabilisée — **Option Hybride complète** : RS-04 Pitch + RS-03 Roll épaules + RS-06 coude + Cardan DIN 808 + 2×RS-03 chevilles + D-Hand Hybrid. Masse de référence : ~40.2 kg.*
 
 ---
 
@@ -215,7 +215,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | Jetson Orin Nano 8GB | — | 0.3 kg | ✗ fixe |
 | Spresense + électronique | — | 0.3 kg | ✗ fixe |
 | OAK-D Pro FF | — | 0.091 kg | ✗ fixe |
-| Unitree L2 LiDAR | — | 0.23 kg | ✗ fixe |
+| ~~Unitree L2 LiDAR~~ | — | ~~0.23 kg~~ | ⚠️ Repoussé **V2** |
 | D-Hand Hybrid ×2 | Servos + Dyneema | **1.7 kg** | ✗ fixe |
 | Câblage, connecteurs, visserie | — | ~0.8 kg | → 0.6 kg (optimisé) |
 | **TOTAL STRUCTUREL (estimé)** | | **~17.0 kg** | **→ ~13.5 kg (optimisé)** |
@@ -225,7 +225,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | Scénario | Moteurs | Structure | **Total** | Impact genou 2-3 km/h |
 | :--- | :---: | :---: | :---: | :---: |
 | **A — Option D Révisée (2× RS-04 épaules)** | 21.45 kg | ~17.0 kg | **~41.5 kg** | ⚠️ ~125 N.m (104% de 120) |
-| **B — Option Hybride (Adoptée)** | 20.37 kg | ~17.0 kg | **~40.4 kg** | ⚠️ ~121 N.m (~101%) |
+| **B — Option Hybride (Adoptée)** | 20.37 kg | ~16.8 kg | **~40.2 kg** | ⚠️ ~121 N.m (~101%) |
 | **C — Scénario B + allégement 3D** | 20.37 kg | ~14.0 kg | **~34-36 kg** | ✅ ~107 N.m (89%) — marche confortable |
 
 > [!TIP]
@@ -295,7 +295,7 @@ L'objectif est d'atteindre la masse cible de **~35 kg** (±2 kg) pour que le gen
 En combinant **Config Hybride B** (RS-03 Roll épaule) + **Allégement 2 kg structure** :
 
 ```
-Masse cible : 40.4 - 2.0 = ~38.5 kg
+Masse cible : 40.2 - 2.0 = ~38.2 kg
 
 τ_genou à 2-3 km/h :
 = (38.5 / 39) × 117 N.m × 1.7 (dynamique)

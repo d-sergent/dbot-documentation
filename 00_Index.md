@@ -36,7 +36,7 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
 
 7.  **[Vision et IA](./07_Vision_IA.md)**
     *   OAK-D Pro S2 FF (Encastrement, Tilt, Stéréo Active).
-    *   LiDAR Unitree L2 et Fusion de capteurs Isaac ROS.
+    *   Unitree L2 (Option V2) et Fusion de capteurs Isaac ROS.
 
 8.  **[Audio et Perception](./08_Audio_Perception.md)**
     *   Spatialisation 8 micros (PDM), Beamforming et TPU isolation.
@@ -96,7 +96,7 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Tableau NMC vs LiFePO4 vs Semi-Solide.
     *   Scénarios court/moyen/long terme.
 
-19. **[Perception Spatiale & LiDAR](./19_Perception_Spatiale_LiDAR.md)**
+19. **[Perception Spatiale & LiDAR (V2)](./19_Perception_Spatiale_LiDAR.md)**
     *   Analyse complète Unitree L2 (points forts et problèmes IMU confirmés).
     *   Benchmark industrie (G1, Optimus, Figure 02, Digit).
     *   Alternatives évaluées (Livox MID-360, 2D LiDARs, multi-caméras, vision pure).
