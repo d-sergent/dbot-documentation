@@ -10,7 +10,11 @@ L'architecture audio est conçue pour l'interaction sociale et la localisation s
     - 1x Torse (Face)
     - 1x Nuque (Dos)
     - + 4x Additionnels pour le beamforming 3D.
-- **Câblage** : Utiliser impérativement des **câbles blindés** pour éviter que les interférences des antennes (LTE/Wifi) ou des moteurs ne créent de "buzz" audio.
+- **Câblage PDM (Microphones)** : Le signal d'horloge (1-3 MHz) est très sensible aux interférences électromagnétiques (EMI) générées par les moteurs RobStride. **L'utilisation d'un câble blindé est impérative**.
+    - **Option 1 (Hack "Maker")** : Séparer et récupérer les fils d'un **câble USB 2.0 sacrificiel**. C'est la solution la plus souple et économique (4 fils internes + tresse de blindage). *Note : le pin `SEL` du micro Adafruit se câble via un pont de soudure local, seuls 4 fils traversent le robot (3V, GND, DAT, CLK).*
+    - **Option 2 (Standard Électronique)** : Câble de type "Microphone" ou **LiYCY 4x0.14 mm²** (Gotronic, Lextronic). Très fin et souple.
+    - **Option 3 (Industriel)** : **SAB ou LappKabel LiYCY 4x0.14** (RS, Mouser). Extrêmement résistant aux flexions répétées des articulations.
+    - ⚠️ **Règle d'or de blindage** : La tresse métallique du câble ne doit être connectée à la masse (GND) **que d'un seul côté** (celui de la carte Sony Spresense). Laissez la tresse coupée et isolée "en l'air" côté microphone pour créer une cage de Faraday parfaite sans boucle de masse.
 
 ### Isolation Acoustique
 - **Filtrage Mécanique** : Les microphones doivent être montés sur des supports en **TPU souple** pour isoler les capteurs des vibrations haute fréquence des moteurs RobStride.
