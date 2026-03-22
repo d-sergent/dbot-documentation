@@ -93,7 +93,8 @@
     - **Câblage Requis** : Il vous faut impérativement accompagner cette carte d'un **câble adaptateur Qwiic vers Pins Mâles** (Réf Mouser : [Adafruit 4209](https://www.mouser.fr/ProductDetail/Adafruit/4209?qs=PzGy0jfpSMuV28p8L2H4sQ%3D%3D)) pour la brancher facilement sur les pins classiques de la Spresense Extension Board sans faire de soudures compliquées.
     - *Alternative (Difficile à sourcer)* : La carte `SSCI-079782` (Switch Science) qui s'enfiche directement sur la Spresense reste excellente mais est très dure à trouver en Europe.
 - ~~**SensiEDGE CommonSense**~~ : ⚠️ Remplacée par la BMI270 ci-dessus car introuvable.
-- **Audio** : 8x Microphones numériques MEMS (PDM) + câbles blindés.
+- **Audio (Beamforming 3D)** : [**8x Adafruit PDM MEMS Microphone Breakout** (Réf Mouser: `Adafruit 3492`)](https://www.mouser.fr/ProductDetail/Adafruit/3492?qs=rrS6PyfT74fqioym9ewQCw%3D%3D) + câbles blindés.
+    - ⚠️ **Isolation Mécanique** : Les micros ne doivent jamais toucher le PETG du châssis en direct. Installez-les sur un petit joint ou socle imprimé en **TPU souple** pour bloquer les bruits constants des moteurs.
 
 ### Capteurs d'Équilibre (Phase 4)
 | Composant | Modèle | Quantité | Note |
