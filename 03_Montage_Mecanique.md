@@ -116,6 +116,14 @@ Pour le design mécanique des jonctions de genou et de hanche du D-Bot (39 kg), 
 2.  **Montage en Chape Rigide (Recommandé)** : C'est le standard de l'industrie (ex: Unitree Go2). Le stator du moteur D-Bot est fixé d'un côté. L'axe de sortie (rotor) traverse le membre et est supporté par **un seul** roulement à l'extrémité opposée (montage en porte-à-faux supporté).
     *   **Mise en œuvre D-Bot** : Utilisez un support en Aluminium 7075 usiné à la CNC C500. Du côté opposé au moteur, insérez un roulement étanche à section fine **6807-2RS** (pour laisser passer les câbles XT30/CAN de 35mm). L'ensemble doit être lié par une entretoise transversale extrêmement rigide assurant la coaxialité parfaite.
 
+### Fixation Axiale des Roulements sur Arbre (Aluminium CNC)
+L'assemblage des roulements à section fine sur l'axe en aluminium de la chape demande une géométrie stricte pour durer :
+1.  **L'Épaulement (Butée)** : Il sert de référence perpendiculaire. Sa hauteur doit **uniquement** s'appuyer sur la bague *intérieure* du roulement. S'il est trop haut et frotte la bague extérieure ou le joint 2RS, votre moteur forcera et surchauffera.
+2.  **La Gorge de Décharge** : La CNC laissera toujours un rayon (congé d'outil) à la base de l'épaulement, ce qui crée un faux-rond repoussant le roulement. Usinez une toute petite gorge de décharge dans cet angle pour garantir que le roulement plaque à plat contre le mur de l'épaulement.
+3.  **Rétention par le Haut (Le Piège)** :
+    *   *Cou / Bras (Léger)* : Le blocage par un simple **Circlips** (anneau élastique) suffit amplement. Assurez-vous d'usiner la gorge à la largeur exacte du roulement (+0.05 mm) pour éviter tout "cliquetis" qui éroderait l'axe en alu.
+    *   *Genoux / Hanches (Lourd 39 kg)* : Un choc latéral brutal peut faire sauter un circlips de sa gorge. Sur ces gros points névralgiques, remplacez-le par un **Écrou à encoches (Écrou KM)** ou une grosse entretoise pleine vissée en bout d'arbre. C'est plus lourd, mais indestructible.
+
 ---
 
 ## 4. Intégration Cheville 2-DOF (Roll + Pitch) [Phase 4]

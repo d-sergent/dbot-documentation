@@ -41,4 +41,17 @@ Pour les articulations majeures du D-Bot, vos roulements doivent s'insérer en f
 
 1.  **Stock to Leave** : N'usinez jamais l'alésage final d'un seul coup. Lors de la passe d'ébauche, laissez obligatoirement **0.1 mm** de matière radiale.
 2.  **Spring Pass (Passe de ressort)** : Utilisez la grosse fraise plate 1/4" (la plus rigide) pour la passe de contournage de finition. Répétez cette même trajectoire finale une seconde fois à vide sans aucun décalage. Cela permet à l'outil de couper uniquement sa propre déflexion mécanique résiduelle (flexion de l'arbre).
-3.  **Lubrification MQL** : Obligatoire sur l'aluminium. Réglez le brouillard pour obtenir une pellicule d'huile constante mais fine. Associé au revêtement DLC, cela laissera un fini "miroir" à l'intérieur de l'alésage (capital pour la portée du roulement).
+4.  **Lubrification MQL** : Obligatoire sur l'aluminium. Réglez le brouillard pour obtenir une pellicule d'huile constante mais fine. Associé au revêtement DLC, cela laissera un fini "miroir" à l'intérieur de l'alésage (capital pour la portée du roulement).
+
+---
+
+## 4. Sécurité & Précision : Filetage M3 (Thread Milling)
+
+Pour vos fixations de cou et d'articulations, le pire cauchemar est de briser un taraud manuel (HSS) dans une pièce usinée durant 4 heures. La méthode "Pro" pour la C500 est le **Fraisage de filet** (Thread Milling) :
+
+1. **L'Outil** : Achetez une **Micro-fraise à fileter M3 à 1 dent (Single Point)** en carbure avec revêtement DLC (trouvable chez *CncFraises* en France, à queue de 4mm pour s'adapter à vos collets).
+2. **Le Perçage** : L'outil demande un avant-trou parfait. Utilisez un foret en carbure de **2.5 mm** avant de passer la fraise à fileter.
+3. **Les Avantages (Robot 39 kg)** :
+   *   *Force* : La broche 800W de la C500 peinerait avec une fraise multi-dents, le modèle à 1 dent coupe en douceur.
+   *   *Sécurité* : La fraise tourne sans forcer et ne reste jamais bloquée.
+   *   *Ajustement* : Vous pouvez régler finement l'offset (compensation au centième près) dans Fusion 360 pour obtenir un couple de serrage M3 exactement comme vous le souhaitez.
