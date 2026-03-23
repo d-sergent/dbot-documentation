@@ -55,9 +55,9 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   Code C++ Watchdog et Surveillance Batterie 13S (48V).
     *   Intégration capteurs environnementaux (CommonSense).
 
-12. **[Guide Pièces Métal (CNC)](./12_Guide_Parties_Metal_CNC.md)**
-    *   Spécifications Alu 6061-T6 et règles de conception.
-    *   Préparation fichiers STEP et astuces commande.
+12. **Usinage CNC et Métal**
+    *   12a — [Guide Pièces Métal (Bases)](./12_Guide_Parties_Metal_CNC.md) (Règles générales et Aluminum 6061-T6).
+    *   12b — [Bibliothèque C500 & Vitesses de Coupe](./12b_Bibliotheque_C500_Vitesses_Coupe.md) (RPM/Feeds DLC et Ajustements H7).
 
 13. **[Sécurité Électrique Essentielle](./13_Securite_Electrique.md)**
     *   Paramètres alimentation labo (Safe Start).

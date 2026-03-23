@@ -24,6 +24,17 @@
 *   **Pourquoi ?** Les moletages opposés offrent la meilleure résistance à l'arrachement dans le PETG-CF.
 *   **Acheter chez** : [3DJake France](https://www.3djake.fr) ou Amazon.
 
+### Roulements à Section Fine (Articulations)
+Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les roulements standards (60xx) beaucoup trop profonds et lourds. Utilisez les séries *67xx* ou *68xx* :
+*   **Pour le Moteur RS-04 (Hanches/Genoux) : 6807-2RS**
+    *   *Dimensions* : 35 mm (Int) × 47 mm (Ext) × 7 mm (Ép).
+    *   *Masse & Capacité* : ~30g, Capacité radiale **4.8 kN** (~480 kg). Le large diamètre interne permet de passer vos câbles XT30 et CAN !
+*   **Pour le Moteur RS-03 (Cou/Chevilles) : 6705-2RS**
+    *   *Dimensions* : 25 mm (Int) × 32 mm (Ext) × 4 mm (Ép).
+    *   *Masse* : ~11g, hyper léger.
+> [!CAUTION]
+> **Joints 2RS Obligatoires** : Achetez exclusivement des versions "2RS" (Joints d'étanchéité en caoutchouc). Vos pièces en PA12-CF vont générer une fine poussière de carbone très abrasive qui détruira des roulements métalliques ouverts (ZZ) en quelques heures.
+
 ---
 
 ## 2. Moteurs & Actionneurs (Par Phase)

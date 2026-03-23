@@ -110,6 +110,12 @@ Le couple pharaonique des moteurs RS-04 (Hanches et Genoux) génère des efforts
 *   **Fixation** : Support incliné à **10-20°** vers l'avant.
 *   **Orientation** : Connecteur vers le bas ou l'arrière selon le design du plastron.
 
+### Architecture Articulaire : Montage en Chape (Simple Soutien) vs Double Soutien
+Pour le design mécanique des jonctions de genou et de hanche du D-Bot (39 kg), deux écoles d'ingénierie s'affrontent :
+1.  **Le Double Soutien (Hyperstatique / Cage)** : Consiste à enfermer le RS-04 dans une cage avec deux gros roulements externes soutenant l'axe de chaque côté du stator pour totalement isoler le moteur. *Risque Majeur* : L'alignement des deux roulements externes avec les roulements internes du moteur doit être parfait au micron près. Le moindre défaut de concentricité lors d'un assemblage génère des contraintes internes qui ruineront le moteur par friction.
+2.  **Montage en Chape Rigide (Recommandé)** : C'est le standard de l'industrie (ex: Unitree Go2). Le stator du moteur D-Bot est fixé d'un côté. L'axe de sortie (rotor) traverse le membre et est supporté par **un seul** roulement à l'extrémité opposée (montage en porte-à-faux supporté).
+    *   **Mise en œuvre D-Bot** : Utilisez un support en Aluminium 7075 usiné à la CNC C500. Du côté opposé au moteur, insérez un roulement étanche à section fine **6807-2RS** (pour laisser passer les câbles XT30/CAN de 35mm). L'ensemble doit être lié par une entretoise transversale extrêmement rigide assurant la coaxialité parfaite.
+
 ---
 
 ## 4. Intégration Cheville 2-DOF (Roll + Pitch) [Phase 4]
