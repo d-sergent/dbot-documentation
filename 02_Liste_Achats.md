@@ -71,7 +71,7 @@
 | Connectique Data | **JST-GH 4-pin** (Silicone / Holybro) | 30m | Fils torsadés blindés |
 | Maintenance Tête | **WAGO 221-413 / 415** | 10 (**✅ Achetés**) | Connecteurs rapides sans soudure |
 | Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 (**✅ Achetée**) | Réglage précis 24V/48V + OCP |
-| Interface CAN | **InnoMaker USB2CAN-C** | 1 (**✅ Achetée**) | Natif Linux (SocketCAN) |
+| Interface CAN | **InnoMaker USB2CAN-C** + **R-Link (Isolé)** | 1 + 1 | InnoMaker pour Jetson. R-link (Isolation Galvanique vitale) pour debug USB/PC. |
 
 > **Note** : Vérifiez bien que les moteurs arrivent avec leurs câbles d'alimentation (XT60) et data (JST-GH). Sinon, commander séparément.
 
@@ -119,6 +119,8 @@
 ### Interface CAN & Câbles
 *   **Adaptateur USB-CAN** : **InnoMaker USB2CAN-C**
     *   *Critique* : Basé sur firmware `gs_usb` (compatible Linux natif).
+*   **Module de Debug** : **R-Link**
+    *   Un seul module USB vers CAN suffit pour paramétrer tous les moteurs via *RobStride Studio*. Exiger l'**Isolation Galvanique** pour protéger le PC de la tension 48V.
 *   **Connecteurs Data** : **JST-GH 1.25mm** (Marque Holybro recommandée pour la qualité).
     *   Acheter des câbles "tout faits" si possible pour éviter de sertir du 1.25mm.
 *   **Connecteurs Puissance** : **XT60** (Jaune).

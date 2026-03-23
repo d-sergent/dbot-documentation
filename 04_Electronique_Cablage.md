@@ -34,10 +34,17 @@ Bien que différentiel, le CAN exige une référence commune :
 3.  **GND** (Noir) : **CRITIQUE.** Doit relier la borne GND de l'InnoMaker à la masse des moteurs.
 *Note : Le fil rouge (VCC 5V) du Hub Holybro ne doit JAMAIS être connecté aux moteurs alimentés en 48V.*
 
-#### Architecture Daisy Chain
-- **Stubs** : Les dérivations vers les moteurs doivent mesurer moins de **30 cm**.
-- **Terminaison** : Une résistance de **120 Ω** doit être placée à chaque extrémité (Jetson et dernier moteur).
-- **Torsion** : Torsader les fils (33 tours/mètre) pour annuler les EMI.
+#### Topologie Réseau (Data CAN) : Le Multi-Bus
+Le câblage de communication exige rigueur et méthode à 1 Mbps pour éviter les réflexions et les désynchronisations :
+1.  **En Étoile / Y (Interdit)** : Ne séparez jamais le câble CAN en "Y" au niveau du bassin. Les "stubs" (dérivations) dépassant 30 cm ruinent le signal.
+2.  **Chaîne Unique (Déconseillée)** : Faire une série qui descend jusqu'au pied, puis remonte toute la jambe pour repartir vers la seconde, triple la longueur filaire et les risques de cassure.
+3.  **Multi-Bus (Recommandé)** : C'est le standard des quadrupèdes. Utilisez plusieurs ports CAN matériels sur le Maître (ex: InnoMaker double port). Adressez un Bus 1 indépendant qui descend le long de la jambe gauche, et un Bus 2 pour la jambe droite.
+*   **Terminaison** : Placez les résistances de **120 Ω** sur l'interface maître USB2CAN, ainsi que sur le circuit du TOUT DERNIER moteur en bout de **chaque** bus (le pied de chaque jambe).
+
+#### Module de Débogage Pré-Assemblage (R-Link)
+Pour initialiser vos moteurs, calibrer le firmware et attribuer les ID (1, 2, 3...) via la suite *RobStride Studio*, **un seul module R-Link (USB vers CAN) est suffisant** pour tout votre banc de test.
+> [!IMPORTANT]
+> **Isolation Galvanique** : Veillez à acquérir une version du R-Link *avec* isolation galvanique (Optocoupleur). Faute de quoi, une erreur de câblage sur le banc de test pourrait balancer les 48V de la ligne de puissance directement dans votre port USB, détruisant instantanément la carte mère de votre ordinateur de développement.
 
 ___
 
@@ -182,9 +189,14 @@ Pour accueillir 1 ou 2 packs AT WEY, prévoir dans le torse 3D :
 - **Fixation** : Rails ou Velcro industriel + connecteur Anderson accessible par trappe arrière
 - **Sangle velcro** + **patin anti-vibration TPU** en fond de slot
 
-### Câblage Batterie → PDB
+### Topologie de Puissance (48V) : ÉTOILE OBLIGATOIRE
 
-```
+> [!CAUTION]
+> **DANGER FONTE XT30 / Daisy-Chain** : S'il est tentant de chaîner les câbles de puissance d'un RS-04 à l'autre le long de la jambe (comme pour le data), c'est une manipulation **interdite et dangereuse**. Le petit connecteur XT30 au dos du moteur supporte **30A continu max**. Un RS-04 tire jusqu'à **90A en pic**. Un chaînage de puissance fondra immédiatement le premier connecteur de la cuisse, et causera une chute de tension extrême (*Under-voltage error*) pour la cheville. 
+
+Le 48V de chaque moteur doit impérativement rejoindre un connecteur inoccupé de la carte de distribution centrale de la manière la plus directe possible (Topologie Étoile / Parallèle).
+
+```text
 Batterie(s) 13S NMC (Anderson SB50) ─── [Si 2 : ORing MOSFET parallèle]
     │
     ├── Fusible 80A (Automobile, lame)
