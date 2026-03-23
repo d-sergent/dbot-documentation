@@ -5,7 +5,7 @@ Le projet consiste à construire un robot humanoïde baptisé **D-Bot**.
 Il s'agit d'une **évolution majeure** de la plateforme open-source **K-Bot**, améliorée avec des actionneurs modernes et une intelligence embarquée avancée. Ce n'est pas un simple fork, mais une refonte complète de l'architecture électronique et motrice.
 
 ### Améliorations Clés (vs K-Bot Original)
-Le D-Bot repose sur un système de **24 moteurs RobStride** (membres, cou) et **16 servomoteurs Dynamixel purs** (mains tactiles D-Hand Hybrid à 8 DOF chacune), une vision IA **Luxonis OAK-D Pro** (le LiDAR Unitree L2 étant réservé pour la V2), le tout piloté par une **NVIDIA Jetson Orin Nano** et une **Sony Spresense**.
+Le D-Bot repose sur un système de **24 moteurs RobStride** (membres, cou) et **16 servomoteurs Dynamixel purs** (mains tactiles D-Hand Hybrid à 8 DOF chacune), une vision IA **Luxonis OAK-D Pro** (le LiDAR Unitree L2 étant réservé pour la V2), le tout piloté par une **NVIDIA Jetson Orin Nano Super** (40 TOPS) et une **Sony Spresense**.
 
 ## 2. Feuille de Route (Roadmap)
 Le projet est découpé en 4 phases distinctes pour valider chaque étape critique.
@@ -27,7 +27,7 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 
 ### Phase 4 : Marche (Jambes) + Cou
 *   **Objectif** : Locomotion et équilibre dynamique.
-*   **Matériel** : + 14 Moteurs (RS-04 hanches/genoux, RS-03 hanche/cheville cardan, RS-05 cou).
+*   **Matériel** : + 12 Moteurs (RS-04 hanches/genoux, RS-03 hanche/cheville cardan). *Note : les 2× RS-05 cou sont déjà achetés en Phase 1.*
 *   **Capteurs** : IMU torse (BMI270 Add-on) pour le contrôle d'équilibre + capteurs FSR plantaires.
 
 ## 3. Architecture Matérielle
@@ -59,7 +59,7 @@ graph TD
 Le D-Bot utilise une approche **Squelette Aluminium CNC + Coque Imprimée 3D** pour combiner la résistance mécanique aux endroits critiques et la facilité de fabrication partout ailleurs.
 
 ### Machines Disponibles
-- **Qidi X-Plus 4** : Impression 3D haute température (PA12-CF, PETG-CF).
+- **Qidi Plus 4** : Impression 3D haute température (PA12-CF, PETG-CF).
 - **NestWorks C500 (Kickstarter)** : CNC 4 axes, usinage aluminium avec tolérances H7 (±0.02mm).
 
 ### Répartition des Matériaux par Zone

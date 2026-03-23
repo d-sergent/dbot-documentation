@@ -157,7 +157,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | **Charge portage bras tendu** | **~5 kg continu, ~10 kg pic** | RS-04 épaule (×2.5 vs RS-03) |
 | **Charge portage bras plié 90°** | **~8-10 kg sécurité, ~15 kg pic** | RS-06 coude |
 | **Grip main (force)** | **~175 N effectifs** | Hybrid XC430/XC330 |
-| **Autonomie** | ~4h | LiPo échangeable |
+| **Autonomie** | ~1-2.5h (selon activité) | NMC 48V 10Ah (480 Wh), extensible ×2 en Phase 4 |
 
 ---
 

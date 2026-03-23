@@ -92,7 +92,7 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 
 | Composant | Modèle | Note |
 | :--- | :--- | :--- |
-| **Cerveau IA** | NVIDIA Jetson Orin Nano (8GB) | Le modèle Super est un plus, mais le 8GB suffit. (**✅ Achetée**) |
+| **Cerveau IA** | **NVIDIA Jetson Orin Nano Super** (8GB, 40 TOPS) | (**✅ Achetée**) |
 | **Vision (Tête)** | [Luxonis OAK-D Pro FF](https://www.mouser.fr/ProductDetail/Luxonis/OAK-D-PRO-FF?qs=Znm5pLBrcAK58KqDdxCLeQ%3D%3D) | Version Fixed-Focus (FF) recommandée (vibrations). |
 ### Électronique de Contrôle
 - **Sony Spresense** :
@@ -149,5 +149,5 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 ## 5. Consommables & Outils
 *   **Filament Flexible** : **1x Bobine Qidi TPU 95A-HF**. C'est le matériau universel officiel pour toutes les pièces souples du robot (supports amortisseurs pour les micros, semelles antidérapantes des pieds en utilisant le "Fuzzy Skin").
 *   **Outils Filetage CNC (C500)** : **1x Micro-fraise à fileter M3 (1 dent, DLC)** + **1x Foret carbure 2.5mm**. (Queue de 4mm). Obligatoire pour fileter mécaniquement vos pièces Aluminium sans risquer de casser des tarauds manuels. (Acheter spécialisé : e.g., CncFraises).
-*   **Frein Filet** : **Loctite 222** (Faible/Moyen). Indispensable ! Les vibrations des moteurs Robstride desserrent les vis M3 en quelques heures sans cela.
+*   **Frein Filet** : **Loctite 222** (Faible) pour visserie M3 (coques, électronique). **Loctite 243** (Moyen, Bleu) pour visserie M4/M5 haute charge (moteurs RS-04, brackets CNC). Indispensable ! Les vibrations desserrent les vis en quelques heures sans cela.
 *   **Clés Allen** : Jeu de clés de précision (Facom ou Wera) pour ne pas foire les têtes de vis.

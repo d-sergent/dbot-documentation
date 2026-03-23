@@ -99,10 +99,10 @@ Le couple pharaonique des moteurs RS-04 (Hanches et Genoux) génère des efforts
 *   **Longueur de vis** : Règle d'or = Épaisseur pièce plastique + (Profondeur trou moteur - 1mm).
     *   *Ne forcez jamais* si la vis touche le fond du trou borgne du moteur ! Vous détruiriez le filetage interne du stator.
 
-### Roulements 608ZZ
-*   Utilisés pour les articulations passives.
-*   **Indépendance** : La bague intérieure et extérieure sont indépendantes. Vous pouvez fixer l'une au châssis et l'autre au membre mobile.
-*   **Fichier STEP** : Disponible dans le dossier `Discussions/ou recuperer le modele step...`.
+### Roulements 608ZZ (Axes Passifs Uniquement)
+*   Utilisés pour les articulations passives (ex: poulies de renvoi GT3, pivots libres).
+*   ⚠️ Pour les **articulations actives** (hanches, genoux, cou), utilisez impérativement les **roulements à section fine** (6807-2RS, 6705-2RS) documentés dans la BOM §1.
+*   **Logement 608ZZ** : 22.0 mm pour press-fit (ajusté au fer).
 
 ### Positionnement LiDAR Unitree L2
 *   **Emplacement** : **Haut du Torse**, devant le cou (voir [Décisions Architecturales](./06_Decisions_Architecturales.md)).
@@ -126,33 +126,26 @@ L'assemblage des roulements à section fine sur l'axe en aluminium de la chape d
 
 ---
 
-## 4. Intégration Cheville 2-DOF (Roll + Pitch) [Phase 4]
-Pour l'option "D-Bot Performance" (24 DOF), la cheville utilise deux moteurs en série.
+## 4. Intégration Cheville 2-DOF (Roll + Pitch) [Phase 4] — Architecture Cardan DIN 808
 
-### Schéma Cinématique (Bracket en L)
-L'objectif est de garder le pied le plus bas possible. Le moteur Roll (RS-00, 57×57 mm) est solidaire du pied en direct-drive, tandis que le moteur Pitch (**RS-02**) est monté **haut dans le tibia** et actionne la cheville via un **mécanisme de tirant/bielle** (architecture K-Bot conservée, ratio ~2:1 → ~34 N.m effectif). Le RS-00 est plus compact que le RS-02 initialement envisagé pour le Roll, facilitant l'intégration dans le pied.
+> ⚠️ **Mise à jour Mars 2026** : L'ancienne architecture (RS-02 Pitch + RS-00 Roll avec Bracket en L) a été **remplacée** par le système **Cardan DIN 808 + 2× RS-03 + Bielles Carbone**, retenu pour sa robustesse et ses performances supérieures (120 N.m Pitch + 120 N.m Roll). Voir [20_Etude_Cheville_Cardan.md](./20_Etude_Cheville_Cardan.md) pour l'étude complète.
 
-```mermaid
-graph TD
-    Tibia["Structure Tibia"] -->|Fixe le Stator| Pitch["Moteur Pitch RS-02 (haut tibia)"]
-    Pitch -->|"Rotor tourne (Y)"| Bracket["Pièce Inter-Moteurs 'L-Shape'"]
-    Bracket -->|Fixe le Stator| Roll["Moteur Roll RS-00"]
-    Roll -->|"Rotor tourne (X)"| Pied["Structure du Pied + FSR"]
-```
+### Principe
+Les deux moteurs **RS-03** (60 N.m chacun) sont fixés **en haut du tibia** (pas dans le pied). Chacun actionne la cheville via une **bielle en carbone** (tube 3K Ø10/8mm) avec un ratio d'amplification mécanique de ~2:1, portant le couple effectif à **120 N.m** par axe (Pitch et Roll). Le joint de liaison est un **Cardan DIN 808 Série G** (acier C45, axe 12mm) commercial.
 
-### Vue Éclatée de l'Assemblage
-![Schéma de l'assemblage cheville 2-DOF avec Bracket en L](./assets/ankle_2dof_assembly.png)
+### Avantages vs Ancien Design
+| Critère | Ancien (RS-02+RS-00) | Nouveau (Cardan + 2×RS-03) |
+| :--- | :---: | :---: |
+| Couple Pitch | ~34 N.m | **120 N.m** |
+| Couple Roll | 14 N.m | **120 N.m** |
+| Masse distale (pied) | ~870g (moteurs) | **~0g** (moteurs en haut du tibia) |
+| Robustesse | Fragile | Acier C45 industriel |
 
-> **Axes de Rotation** :
-> - **Axe Y** (Pitch) : Horizontal médio-latéral (gauche↔droite). Pied monte/descend.
-> - **Axe X** (Roll) : Horizontal antéro-postérieur (avant↔arrière). Pied penche latéralement.
+### Pièces Clés
+*   **Cardan** : Michaud Chailly A5-473-12 (DIN 808, Ø axe 12mm).
+*   **Bielles** : Tubes carbone 3K Ø10/8mm + rotules Igus EBRM-05.
+*   **Capteurs FSR** : 4× FSR 402 dans la semelle du pied (mesure du CoP).
+*   **Semelle** : PA12-CF + patin TPU/caoutchouc 2mm pour le grip.
 
-### Pièces à Imprimer / Usiner
-1.  **Cheville_Inter_Bracket** (Pièce en L) :
-    *   Connecte la sortie du tirant RS-02 (Pitch) au bracket du RS-00 (Roll).
-    *   **Matériau** : PA12-CF ou Alu 6061 (Forte contrainte en torsion).
-    *   **Visserie** : M4 x 10mm (x4 côté Pitch) + M3 x 8mm (x4 côté Roll).
-2.  **Pied_Sole** :
-    *   Accueille le rotor du RS-00.
-    *   Logements pour les 4 capteurs FSR.
-    *   **Surface** : Ajouter un patin en TPU ou caoutchouc 2mm pour le grip.
+> Pour le détail complet (fournisseurs, montage, cinématique) : **[Étude Cheville Cardan](./20_Etude_Cheville_Cardan.md)** | **[Révision 39 kg](./15c_Revision_Cardan_39kg.md)**
+

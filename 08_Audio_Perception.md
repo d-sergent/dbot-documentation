@@ -12,8 +12,8 @@ Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Na
 Le robot adopte une configuration "Luxe" séparant la localisation spatiale de la compréhension pure de la parole. L'architecture repose sur deux flux traités concurremment.
 
 ### 2.1 Rôles et Câblage
-- **Matrice 8-micros PDM** (L'Ouïe Spatiale) : Son but unique est le **DoA (Direction of Arrival)** à 360°. Elle s'interface avec ROS2 pour ordonner au cou (Pan/Tilt) d'orienter la tête.
-- **Système DSP type Jabra/Anker** (L'Écoute IA) : Son annulation d'écho matérielle (AEC) filtre le bruit de ses propres moteurs/haut-parleurs. Il capte les mots pour Riva.
+- **Matrice 8-micros PDM** (L'Ouïe Spatiale) : Son but unique est le **DoA (Direction of Arrival)** à 360°. La **Sony Spresense** reste le maître exclusif de ces 8 canaux PDM (DSP temps réel). Elle publie les coordonnées d'arrivée du son sur **ROS2 `/audio/doa`** pour ordonner au cou (Pan/Tilt) d'orienter la tête.
+- **Système DSP : Jabra Speak 510** (~80€, USB, AEC matériel) : Son annulation d'écho matérielle filtre le bruit des moteurs et du haut-parleur intégré. Il capte les mots pour Riva via USB sur la Jetson. Le haut-parleur du Jabra Speak sert aussi de TTS.
 - **Alimentation et Hub USB** : La Jetson n'ayant pas de prise son native, les deux systèmes se branchent sur un **Hub USB 3.0 Alimenté**. Prévoyez une ligne **5 V / 3 A dédiée et isolée galvaniquement** du circuit moteur (48V) pour éviter les sifflements de boucle de masse.
 
 ### 2.2 Configuration Microphones & Blindage (Audit EMI)
@@ -32,8 +32,20 @@ Le robot adopte une configuration "Luxe" séparant la localisation spatiale de l
 - **Filtrage Vibratoire** : Les bases des microphones doivent impérativement être montées sur des fixations imprimées en **Qidi TPU 95A-HF**. Pour amortir les vibrations haute fréquence des moteurs (cliquetis des pignons métalliques), imprimez le TPU avec un profil "spongieux" (Remplissage **10% à 15% Gyroid** et 1 seul mur externe).
 - **Isolement Acoustique (HP vs Micros)** : La zone haute (micros en couronne) et la zone basse (haut-parleur DSP, derrière la visière) doivent être séparées physiquement. Utilisez un barrage de **mousse haute densité** pour bloquer la repisse sonore à l'intérieur de la coque du casque. Si le son interne du HP excite les micros, le robot s'assourdira en parlant.
 - **Gestion du vent Jetson** : L'air de refroidissement de la Jetson ne doit absolument pas effleurer les micros (le vent détruit le beamforming).
-- **Synchronisation TDOA** : La capture des 8 micros doit garantir une synchro à **192 kHz**, indispensable pour le calcul TDOA.
-- **"Muzzle" ROS2** : Le nœud de contrôle audio (PipeWire) baisse algorithmiquement la sensibilité d'écoute à l'instant où les genoux RS-04 forcent à 100%, ignorant les bruits mécaniques pour l'IA.
+- **Synchronisation TDOA** : La capture des 8 micros par la Spresense doit garantir une synchro à **48 kHz** (suffisant pour le DoA en localisation de pièce, le 192 kHz est surdimensionné).
+- **Routage Audio (ALSA / PulseAudio)** : JetPack 6 (L4T) utilise nativement PulseAudio. **PipeWire n'est pas intégré et sa compilation manuelle est un risque technique**. Utilisez la configuration PulseAudio standard pour router le Jabra Speak comme *Source* ASR et *Sink* TTS, tandis que la Spresense gère ses propres 8 micros indépendamment.
+- **"Muzzle" ROS2** : Le nœud de contrôle audio baisse algorithmiquement la sensibilité d'écoute à l'instant où les genoux RS-04 forcent à 100%, ignorant les bruits mécaniques pour l'IA.
+
+### 2.4 Schéma de Routage Audio
+```
+[8 Micros PDM] → Spresense (TDOA 48kHz, DoA) → ROS2 /audio/doa → Cou Pan/Tilt
+
+[Jabra Speak 510 USB] → Jetson (PulseAudio) → Riva ASR → ROS2 /audio/command
+                                                    ↓
+[Haut-parleur Jabra]  ← Riva TTS ← Jetson
+
+"Muzzle" ROS2 agit sur les 2 entrées en parallèle.
+```
 
 ## 3. Stratégie IMU (Fusion Multi-Capteurs)
 
@@ -45,7 +57,7 @@ Le D-Bot exploite **3 IMUs** positionnées stratégiquement, chacune avec un rô
 | :--- | :--- | :--- | :---: | :--- | :--- |
 | **IMU Torse** | **BMI270** (Add-on Spresense) | Torse (centre de masse) | **416 Hz** | 🔴 **Équilibre bipède** | Détection de chute (Watchdog) |
 | **IMU Tête** | BNO085/BMI270 (OAK-D Pro) | Front (tête) | 100 Hz | **Stabilisation regard** | V-SLAM visuel |
-| **IMU LiDAR** | IMU intégrée (Unitree L2) | Haut du torse | **1000 Hz** | **Odométrie LiDAR** (LIO-SLAM) | Fusion avec V-SLAM |
+| **IMU LiDAR** | IMU intégrée (Unitree L2) | Haut du torse | **1000 Hz** | **Odométrie LiDAR** (LIO-SLAM) | Fusion avec V-SLAM | ⚠️ **V2** |
 
 ### Architecture de Fusion
 
