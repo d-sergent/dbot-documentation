@@ -1,26 +1,35 @@
 # 08 - Audio et Perception Sensorielle
 
-## 1. Système Audio Sony Spresense
-L'architecture audio est conçue pour l'interaction sociale et la localisation spatiale des sons.
+## 1. Cerveau IA (Jetson Orin Nano Super)
+Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Nano Super** (40 TOPS). Grâce à ses *Tensor Cores*, le robot fait tourner la suite logicielle **NVIDIA Riva** intégralement en local (sans serveur cloud, latence quasi nulle) :
+- **ASR (Speech-to-Text)** : Compréhension de la parole gérée par le DSP de l'IA.
+- **NLP** : Analyse de l'intention humaine.
+- **TTS (Text-to-Speech)** : Voix de synthèse naturelle.
 
-### Configuration Microphones (Audit)
-- **Standard (8 micros)** : Utilisation de microphones **MEMS numériques (PDM)**.
-- **Placement stratégique** : 
-    - 2x Oreilles
-    - 1x Torse (Face)
-    - 1x Nuque (Dos)
-    - + 4x Additionnels pour le beamforming 3D.
-- **Câblage PDM (Microphones)** : Le signal d'horloge (1-3 MHz) est très sensible aux interférences électromagnétiques (EMI) générées par les moteurs RobStride. **L'utilisation d'un câble blindé est impérative**.
-    - **Option 1 (Hack "Maker")** : Séparer et récupérer les fils d'un **câble USB 2.0 sacrificiel**. C'est la solution la plus souple et économique (4 fils internes + tresse de blindage). *Note : le pin `SEL` du micro Adafruit se câble via un pont de soudure local, seuls 4 fils traversent le robot (3V, GND, DAT, CLK).*
-    - **Option 2 (Standard Électronique)** : Câble de type "Microphone" ou **LiYCY 4x0.14 mm²** (Gotronic, Lextronic). Très fin et souple.
-    - **Option 3 (Industriel)** : **SAB ou LappKabel LiYCY 4x0.14** (RS, Mouser). Extrêmement résistant aux flexions répétées des articulations.
-    - ⚠️ **Règle d'or de blindage** : La tresse métallique du câble ne doit être connectée à la masse (GND) **que d'un seul côté** (celui de la carte Sony Spresense). Laissez la tresse coupée et isolée "en l'air" côté microphone pour créer une cage de Faraday parfaite sans boucle de masse.
+> *Marge Processeur : La marche (CAN), la vision (OAK-D), le beamforming et l'audio IA (Riva) consomment environ 52% du processeur au maximum, laissant 48% de marge de sécurité.*
 
-### Isolation Acoustique
-- **Filtrage Mécanique** : Les microphones doivent impérativement être montés sur des fixations imprimées en **Qidi TPU 95A-HF** (filament souple universel du projet). Pour obtenir l'amorti acoustique nécessaire au blocage des vibrations haute fréquence des moteurs, ce 95A doit être imprimé avec un profil "spongieux" (Remplissage **10% à 15% Gyroid** et 1 seul mur externe).
-- **Synchronisation** : La Spresense garantit une capture synchronisée à **192 kHz**, indispensable pour le calcul du TDOA (Time Difference of Arrival).
+## 2. Architecture Audio Hybride (Double Système)
+Le robot adopte une configuration "Luxe" séparant la localisation spatiale de la compréhension pure de la parole.
 
-## 2. Stratégie IMU (Fusion Multi-Capteurs)
+### 2.1 Rôles des Systèmes
+- **Matrice 8-micros** (L'Ouïe Spatiale) : Son but unique est le **DoA (Direction of Arrival)**. En tâche de fond, elle localise le son et s'interface avec ROS2 pour ordonner au cou (Pan/Tilt) d'orienter le masque vers l'interlocuteur.
+- **Système DSP (Type Jabra/Anker)** (L'Écoute IA) : Son annulation d'écho matérielle (AEC) filtre le bruit de ses propres moteurs et de son propre haut-parleur. Il capte "proprement" les mots pour l'ASR (Riva).
+
+### 2.2 Câblage et Alimentation (EMI & USB)
+La Jetson, dépourvue de prise audio native, nécessite un intermédiaire.
+- **Concentrateur** : Les deux systèmes audio sont branchés sur un **Hub USB 3.0 Alimenté**.
+- **Alimentation Audio Dédiée** : L'audio requiert ~1,5 W (micros) + 5 à 10 W (DSP). Une ligne **5 V / 3 A dédiée et isolée galvaniquement** du circuit 48 V des moteurs est vitale pour éviter les *boucles de masse* (sifflements de ligne).
+- **Câblage PDM (Si micros sur-mesure I2S/USB)** : Le signal d'horloge (1-3 MHz) est sensible aux interférences (EMI) des moteurs RobStride. Utilisez du câble blindé **LiYCY 4x0.14 mm²**. 
+    - ⚠️ *Règle de blindage* : La tresse métallique ne doit être connectée à la masse (GND) **que d'un seul côté** (côté Hub/Carte) pour créer une cage de Faraday. Évitez les antennes parasites.
+
+### 2.3 Intégration Casque & Routage Logiciel
+- **Agencement & Isolation Vibratoire** : La matrice est logée en couronne au sommet du crâne. Le haut-parleur DSP est logé en bas (visière). Les bases micros doivent être montées sur des fixations imprimées en **TPU 95A-HF** (profil "spongieux" à 15% Gyroid) pour absorber les vibrations haute fréquence du robot.
+- **Isolement Acoustique Séparé** : La chambre du haut (micros) et la chambre du bas (haut-parleur) doivent être impérativement rendues imperméables au son l'une de l'autre par une large cloison de **mousse haute densité**. Si les micros captent le haut-parleur par l'intérieur du plastique du casque, le robot "s'assourdira" en parlant.
+- **Gestion du Vent** : Le ventilateur de la Jetson ne doit absolument pas recracher l'air vers les micros (le bruit de vent détruit l'algorithme de beamforming).
+- **Routage Linux (PipeWire)** : Logiciel utilisé pour router la Matrice comme *Source* et le DSP comme *Sink*.
+- **"Muzzle" ROS2** : Le système baisse algorithmiquement la sensibilité d'écoute à l'instant précis où les genoux RS-04 forcent (effort max), ignorant les pics sonores de la pignonnerie et préservant l'IA des erreurs.
+
+## 3. Stratégie IMU (Fusion Multi-Capteurs)
 
 Le D-Bot exploite **3 IMUs** positionnées stratégiquement, chacune avec un rôle clairement défini :
 
