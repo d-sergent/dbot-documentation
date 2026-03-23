@@ -126,6 +126,17 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 *   **Saut de performance brutal** : RS-03 → 60 N.m (880g) ; RS-04 → **120 N.m** (1420g, +61% poids).
 *   **Usage Épaule D-Bot** : Option Hybride retenue avec un **RS-04 en Pitch** (pour la force frontale) et un **RS-03 en Roll** (suffisant pour le latéral). **Attention** : Peut briser des pièces PLA/PETG standard → Utiliser **PETG-CF (100% remplissage)** ou **Alu 6061 CNC**.
 
+#### Analyse Thermique Statique (Charge de 39 kg)
+Pour maintenir le robot de 39 kg debout avec les genoux légèrement fléchis ("crouch stance" - posture d'équilibre), chaque hanche et genou requiert environ **20 N.m** de couple de maintien permanent (holding torque). 
+*   **Si on utilise le RS-03** (Résistance interne 0.39 Ω, Constante K_t 2.36 N.m/A) : Le moteur demande ~8.5 A continus. La dissipation thermique par effet Joule ($P=R \cdot I^2$) s'élève à **~28 Watts**. Le moteur est à 100% de son couple nominal et surchauffera rapidement jusqu'à la coupure de sécurité.
+*   **Si on utilise le RS-04** (Résistance interne 0.16 Ω, Constante K_t 2.10 N.m/A) : Le moteur demande ~9.5 A. La dissipation thermique chute à **~14.5 Watts**. Le moteur n'est qu'à 50% de son nominal, dissipe deux fois moins de chaleur et possède 61% de masse métallique en plus pour absorber ces calories.
+**Verdict** : Le **RS-04** est obligatoire pour les hanches et genoux pour prévenir l'effondrement thermique. Le RS-03 (plus léger de 540g) reste le compromis idéal pour les chevilles. (L'utilisation de nos plaques d'interface aluminium fraisées CNC est critique pour ponctionner les 14.5W restants).
+
+#### Concept Futurs : Système de Verrouillage Statique (SVS)
+Même le RS-04 dissipe 14.5W au repos. Puisque les moteurs QDD n'ont pas de friction irréversible (frein passif), ils consument de l'énergie "juste pour ne pas tomber". Deux mécanismes anti-effondrement sont étudiés pour la suite du projet (usinables localement via la CNC C500) :
+1.  **SVS Électromagnétique (Solenoid Pin Lock)** : Usinage dans la plaque d'interface en aluminium d'un logement pour un micro-solénoïde tubulaire. Lorsque le robot passe en mode "Stand-by" (posture parfaitement définie), le solénoïde pousse une broche de métal (pin) dans un trou borgne du rotor du RS-04. L'articulation est verrouillée mécaniquement. L'alimentation du RS-04 peut être coupée à 0A sans que le robot ne s'effondre.
+2.  **SVS Servo-Cliquet (Ratchet & Pawl)** : Remplacement de la broche par un cliquet hélicoïdal sur la couronne du moteur, engagé par un micro-servo. Ce système plus robuste limite la flexion mais autorise librement le mouvement d'extension (pour se relever).
+
 ### Choix pour le D-Bot — Répartition Complète (24 DOF)
 | Zone | Moteur | Quantité | Couple Pic | Justification |
 | :--- | :---: | :---: | :---: | :--- |
