@@ -1,6 +1,6 @@
-# Guide Préparation Fichiers CNC
+# 12 - Guide Usinage & Pièces Métallurgiques CNC
 
-Ce guide détaille la procédure pour commander les pièces structurelles en aluminium (Alu 6061) auprès de services d'usinage en ligne (JLCPCB, PCBWay, Xometry).
+Ce guide détaille la procédure pour concevoir et usiner les pièces structurelles en aluminium (Alu 6061 ou 7075). Avec la disposition de notre **fraiseuse CNC C500**, toutes les pièces soumises à de grosses contraintes doivent être systématiquement usinées sur place, bien que les principes restent applicables pour des services en ligne.
 
 ## 1. Spécifications Techniques
 *   **Matériau** : **Aluminium 6061-T6** (Standard aérospatial, bon compromis résistance/poids).
@@ -19,7 +19,14 @@ Ce guide détaille la procédure pour commander les pièces structurelles en alu
 *   **Dowel Pins** : Les trous pour les goupilles de centrage (3mm et 4mm) doivent être précis (H7 si possible, sinon standard).
 *   **Interfaces Moteurs** : Les surfaces de contact avec les moteurs Robstride doivent être parfaitement planes pour dissiper la chaleur du moteur vers le châssis.
 
-## 4. Astuces de Commande
-*   **Regroupement** : Commandez toutes les pièces d'un coup (Bras Droit + Gauche).
-*   **Symétrie** : Vérifiez si vos pièces sont identiques (x2) ou symétriques (Miroir). En CNC, une pièce miroir est une référence différente.
-*   **Taraudage** : Indiquez clairement sur les plans 2D (PDF associés) quels trous doivent être taraudés (M3, M4). Sinon, ils seront livrés en trous lisses.
+## 4. Règle d'or : Interfaces RS-04 (Hanches et Genoux)
+
+Pour dissiper la chaleur et bloquer le cisaillement massif des moteurs **RS-04 (120 N.m)**, il faut **systématiquement faire usiner** sur la **CNC C500** une plaque d'interface en alliage d'Aluminium (5 mm d'épaisseur mini) venant s'intercaler entre le moteur et le squelette en PA12-CF.
+Cette plaque d'aluminium jouera deux rôles critiques :
+1.  **Dissipateur Thermique (Heatsink)** : Les moteurs QDD chauffent à l'arrêt en retenant les 40kg du robot. L'aluminium absorbera massivement cette chaleur.
+2.  **Cage anti-Cisaillement** : La plaque protégera la structure en fibre de carbone imprimée d'une potentielle destruction par ovalisation des trous.
+
+## 5. Astuces de Commande / Production
+*   **Regroupement** : Usinez toutes les pièces d'un coup (Bras Droit + Gauche).
+*   **Symétrie** : Vérifiez si vos pièces sont identiques (x2) ou symétriques (Miroir). En CNC, une pièce miroir nécessite un nouveau réglage CAO.
+*   **Taraudage** : Indiquez clairement sur vos plans d'usinage (Machine C500) quels trous utiliseront la fraise à tarauder (M3, M4).

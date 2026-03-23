@@ -74,7 +74,19 @@ Le **D-Bot** étend le K-Bot de 20 à **24 DOF** avec trois ajouts. Voir [Analys
 > [!NOTE]
 > **Mécanisme de cheville D-Bot (Cardan + 2×RS-03)** : La cheville du K-Bot (RS-02) était insuffisante pour la marche dynamique. Le D-Bot la remplace par une architecture de cardan à deux axes concourants (DIN 808) pilotée par deux moteurs RS-03 via des bielles croisées. Ce différentiel mécanique offre 120 N.m en Pitch et Roll sans ajouter de masse distale (les moteurs sont haut dans le tibia).
 
-## 2. Spécifications Moteurs RobStride (Gamme Complète)
+## 2. Pourquoi choisir les moteurs QDD (Quasi-Direct Drive) ?
+
+Les moteurs QDD tels que les **RobStride** de notre inventaire sont devenus le standard *de facto* pour la robotique agile (bipèdes, quadrupèdes) parce qu'ils réussissent là où les servos traditionnels échouent dans l'interaction avec le monde physique :
+
+1. **La Réversibilité (Backdrivability)** : Le "Secret Sauce". Grâce à une très faible réduction (autour de 9:1), le moteur offre peu de résistance s'il est poussé de l'extérieur. Lors d'un impact au sol en courant, la mécanique "cédera" souplement au lieu d'exploser les engrenages (contrairement à un servo dynamique bloqué par un ratio de 100:1).
+2. **Contrôle d'Impédance (Transparence)** : L'absence de frottement lourd permet de déduire la force externe simplement en lisant la consommation de courant (sans mettre de capteurs d'efforts coûteux). Le robot peut "sentir" le sol.
+3. **Densité de Couple Extraordinaire** : Orientés "Outrunner" (le rotor est à l'extérieur tel un volant d'inertie), les RobStride génèrent un couple d'arrachement pharaonique dans une taille de galette plate (ex: 60 N.m pour 880g sur le RS-03).
+4. **Intégration "Tout-en-un"** : ESC intégré, doubles encodeurs gérant le "backlash", et communication avec un simple bus CAN/Alimentation (seulement 4 fils parcourant la jambe).
+
+> [!WARNING]
+> **Le point faible à maîtriser** : Les servos traditionnels ont un frottement énorme freinant naturellement la chute. Les RobStride n'ayant aucun frein passif, s'ils doivent stabiliser 40 kg à l'arrêt, ils consommeront de l'énergie en courant continu et **chaufferont considérablement**. Une excellente dissipation thermique (interfaces en aluminium usinées à la CNC) est cruciale.
+
+## 3. Spécifications Moteurs RobStride (Gamme Complète)
 Voici les données techniques consolidées pour l'ensemble de la gamme RobStride (Février 2025).  
 *Prix officiels RobStride ou sources vérifiées (OpenELAB, AiFitLab) - Hors taxes/livraison.*
 
@@ -132,7 +144,7 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 > [!NOTE]
 > **Décisions Architecturales Finales** : Le tableau ci-dessus reflète les conclusions de l'**option de performance maximale** (architecture V2). L'ancienne configuration cheville (RS-02/RS-00) a été remplacée par l'architecture Cardan (2× RS-03), et le coude (RS-02) par le RS-06. (Voir Documents 15 et 16).
 
-## 3. Communication & Alimentation
+## 4. Communication & Alimentation
 Tous les moteurs partagent le même protocole :
 *   **Bus** : CAN 2.0B @ 1 Mbps.
 *   **Alimentation** : 48V DC Nominal (Supportent 24V mais avec couple/vitesse réduits). RS-01 optimisé pour 36V.
@@ -148,7 +160,7 @@ Tous les moteurs partagent le même protocole :
 
 ---
 
-## 4. Benchmark Industrie — D-Bot vs Robots Haut de Gamme
+## 5. Benchmark Industrie — D-Bot vs Robots Haut de Gamme
 
 ### 4.1 Comparatif Global (Corps Entier)
 
