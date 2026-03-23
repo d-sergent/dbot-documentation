@@ -12,7 +12,7 @@
 > - [16] [**Conclusions & Architecture Finale D-Bot**](./16_Conclusions_Architecture_DBot.md)
 
 Ce document archive les analyses et les débats architecturaux concernant la transmission de puissance entre le moteur **RS-04** et l'axe du genou.
-Bien que la configuration retenue pour la **Phase V1** soit la [Courroie GT3 (Ratio 2.5:1)](./15g_Solution_S6_Courroie_GT3_Genou.md), plusieurs autres technologies (vérins, chaînes, mécanismes à géométrie variable) ont été sérieusement étudiées.
+Bien que la configuration retenue pour la **Phase V1** soit la [Courroie GT3 (Ratio 2.5:1, 300 N.m)](./15g_Solution_S6_Courroie_GT3_Genou.md), plusieurs autres technologies (vérins, chaînes, mécanismes à géométrie variable) ont été sérieusement étudiées.
 
 ---
 

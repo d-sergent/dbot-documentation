@@ -37,7 +37,7 @@ CONFIGURATION ACTUELLE (Direct Drive 1:1) :
        TIBIA
 
 
-NOUVELLE CONFIGURATION S6 (GT3 2:1) :
+NOUVELLE CONFIGURATION S6 (GT3 2.5:1) :
 
   ┌─────────────────────────────┐
   │         HANCHE              │
@@ -48,13 +48,13 @@ NOUVELLE CONFIGURATION S6 (GT3 2:1) :
          │   [||||]        Pignon Moteur (petit) : 20 dents, Ø32mm
          │   RS-04 Knee ──●
          │  (Vertical)    │
-         │                │  ← Courroie GT3 9mm (boucle fermée ~600mm)
+         │                │  ← Courroie GT3 9mm (boucle fermée ~650mm)
      CUISSE (fémur)       │     Tendue par un galet tendeur à ressort
          │                │
-         │         ◉──────┘  Pignon Genou (grand) : 40 dents, Ø64mm
+         │         ◉──────┘  Pignon Genou (grand) : 50 dents, Ø51mm
   ┌──────┴──────┐
   │   GENOU     │  Axe genou = axe du grand pignon
-  └──────┬──────┘     120 N.m × 2 = 240 N.m, vitesse 83 RPM
+  └──────┬──────┘     120 N.m × 2.5 = 300 N.m, vitesse 67 RPM
          │
        TIBIA
 ```
@@ -94,7 +94,7 @@ VUE DE FACE — CHASSIS HANCHE + HAUT DE CUISSE (Axe du robot face à vous)
                              │  ~250mm d'entraxe
                              │
                         ●────┘
-                    Pignon 40T
+                     Pignon 50T
               ═══════╪════════════  ← Axe Genou Pitch
                      │
                    TIBIA
@@ -112,13 +112,13 @@ VUE DE FACE — CHASSIS HANCHE + HAUT DE CUISSE (Axe du robot face à vous)
 
 | Composant | Spécification | Quantité | Prix estimé | Source |
 | :--- | :--- | :---: | :---: | :--- |
-| **Courroie GT3 fermée** | GT3, largeur 9mm, longueur ~600mm | 2 (D+G) | ~15€ | Amazon / AliExpress |
+| **Courroie GT3 fermée** | GT3, largeur 9mm, longueur ~650mm | 2 (D+G) | ~15€ | Amazon / AliExpress |
 | **Pignon moteur** | GT3, 20 dents, alésage Ø8mm, alu | 2 | ~8€ | AliExpress |
-| **Pignon genou** | GT3, 40 dents, alésage Ø12mm, alu | 2 | ~15€ | AliExpress |
+| **Pignon genou** | GT3, 50 dents, alésage Ø12mm, alu | 2 | ~18€ | AliExpress |
 | **Galet tendeur** | Roulement 625ZZ Ø16mm + bras ressort | 2 | ~5€ | AliExpress |
 | **Ressort de tension** | Ressort traction 2N, ~30mm | 2 | ~2€ | Quincaillerie |
 | **Vis + entretoises** | M4 inox + entretoises CNC/imprimées | lot | ~5€ | — |
-| **TOTAL (2 jambes)** | | | **~53€** | |
+| **TOTAL (2 jambes)** | | | **~56€** | |
 
 ### 4.2 Masse Ajoutée
 
@@ -126,31 +126,31 @@ VUE DE FACE — CHASSIS HANCHE + HAUT DE CUISSE (Axe du robot face à vous)
 | :--- | :---: | :---: |
 | Courroie GT3 9mm × 600mm | ~25g | 50g |
 | Pignon 20T alu | ~15g | 30g |
-| Pignon 40T alu | ~65g | 130g |
+| Pignon 50T alu | ~85g | 170g |
 | Galet tendeur + ressort | ~20g | 40g |
 | Visserie + support | ~15g | 30g |
-| **TOTAL** | **~140g/jambe** | **~280g** |
+| **TOTAL** | **~160g/jambe** | **~320g** |
 
-> ✅ **280 grammes** pour les deux jambes. C'est **négligeable** face aux +2 840g d'un double RS-04 (solution S4) ou aux +400g d'un mécanisme tirant (solution S2).
+> ✅ **320 grammes** pour les deux jambes. C'est **négligeable** face aux +2 840g d'un double RS-04 (solution S4) ou aux +400g d'un mécanisme tirant (solution S2).
 
 ---
 
 ## 5. Performances Calculées
 
-### 5.1 Rapport 2:1 (20T → 40T) — Le profil cible V1
+### 5.1 Rapport 2.5:1 (20T → 50T) — Le profil adopté V1
 
-| Paramètre | Direct Drive (actuel) | GT3 2:1 (S6) | Δ |
+| Paramètre | Direct Drive (actuel) | GT3 2.5:1 (S6) | Δ |
 | :--- | :---: | :---: | :---: |
-| **Couple genou** | 120 N.m | **240 N.m** | **+100%** |
-| **Vitesse max genou** | 167 RPM | **83 RPM** | -50% |
-| **Temps flexion 0→90°** | 0.15 s | **0.29 s** | Acceptable pour course avec "mid-foot strike" |
-| Marche 2.5 km/h (vide) | 101% ⚠️ | **50%** ✅ | Extrêmement confortable |
-| Portage 20 kg marchant | Impossible | **~90%** ✅ | Viable |
-| Course 5 km/h | 143% ❌ | **~72%** ✅ | Très confortable |
-| Course 8 km/h | 185% ❌ | **~92%** ✅ | Possible |
+| **Couple genou** | 120 N.m | **300 N.m** | **+150%** |
+| **Vitesse max genou** | 167 RPM | **67 RPM** | -60% |
+| **Temps flexion 0→90°** | 0.15 s | **0.36 s** | Acceptable pour course avec "mid-foot strike" |
+| Marche 2.5 km/h (vide) | 101% ⚠️ | **39%** ✅ | Extrêmement confortable |
+| Portage 20 kg marchant | Impossible | **~65%** ✅ | Viable |
+| Course 5 km/h | 143% ❌ | **~57%** ✅ | Très confortable |
+| Course 8 km/h | 185% ❌ | **~73%** ✅ | Confortable |
 
 > [!TIP]
-> Le rapport **2:1** est le meilleur compromis universel. Il fournit assez de couple pour porter des charges lourdes ET courir à 5-8 km/h avec une excellente marge de sécurité thermique sur le RS-04.
+> Le rapport **2.5:1** est le standard V1 adopté. Il fournit assez de couple pour porter 20 kg en marchant ET courir à 8 km/h avec une excellente marge de sécurité thermique sur le RS-04.
 
 ### 5.2 Rapport 1.5:1 (20T → 30T) — Alternative plus rapide
 
@@ -168,8 +168,8 @@ VUE DE FACE — CHASSIS HANCHE + HAUT DE CUISSE (Axe du robot face à vous)
 
 | Critère | S2 (Tirant) | S4 (Double RS-04) | **S6 (GT3)** |
 | :--- | :---: | :---: | :---: |
-| **Couple max** | 180 N.m | 240 N.m | **180-240 N.m** |
-| **Masse ajoutée** | ~400g | **+2 840g** | **~280g** ⭐ |
+| **Couple max** | 180 N.m | 240 N.m | **300 N.m** |
+| **Masse ajoutée** | ~400g | **+2 840g** | **~320g** ⭐ |
 | **Coût** | ~150€ | +800$ | **~53€** ⭐ |
 | **Point mort à forte flexion** | ⚠️ Oui (31 N.m @ 120°) | Non | **Non** ⭐ |
 | **Backdrivability** | Partielle | ✅ | **✅** |
@@ -210,7 +210,7 @@ Monter le RS-04 sur un bracket en haut de la cuisse, aussi près que possible de
 Fixer le pignon 20T GT3 sur l'arbre de sortie du RS-04 avec une vis de serrage ou une clavette.
 
 ### Étape 4 — Installer le grand pignon (40T) sur l'axe du genou
-Le pignon 40T est fixé directement sur l'axe de rotation du genou, là où le RS-04 était auparavant. Vérifier que la taille du pignon (Ø64mm) rentre bien dans l'enveloppe ou le cache-genou de la pièce imprimée.
+Le pignon 50T est fixé directement sur l'axe de rotation du genou, là où le RS-04 était auparavant. Vérifier que la taille du pignon (Ø51mm) rentre bien dans l'enveloppe ou le cache-genou de la pièce imprimée.
 
 ### Étape 5 — Installer la courroie GT3
 Enfiler la courroie fermée autour des deux pignons. Ajuster l'entraxe si nécessaire (via des trous oblongs sur le support du RS-04).
@@ -226,17 +226,17 @@ Faire tourner le moteur à la main : la courroie doit rester centrée sur les pi
 ## 9. Évolutions Futures
 
 ### V2 : GT3 2:1 + SEA
-Le pignon 40T est déjà prévu. On ajoute simplement un ressort en série (SEA) entre le grand pignon et l'axe du genou :
+Le pignon 50T est déjà prévu. On ajoute simplement un ressort en série (SEA) entre le grand pignon et l'axe du genou :
 ```
-RS-04 → GT3 2:1 → Ressort torsion → Axe genou
-Couple continu : 240 N.m
-Couple pic (SEA) : 300-350 N.m
+RS-04 → GT3 2.5:1 → Ressort torsion → Axe genou
+Couple continu : 300 N.m
+Couple pic (SEA) : 350-400 N.m
 ```
 
 ### V3 : Double Transmission Switchable
 Ajouter un solénoïde + tendeur commandé pour basculer entre :
 - **Mode Direct** (courroie relâchée → 120 N.m, vitesse max)
-- **Mode GT3** (courroie tendue → 240 N.m, couple max)
+- **Mode GT3** (courroie tendue → 300 N.m, couple max)
 
 ---
 

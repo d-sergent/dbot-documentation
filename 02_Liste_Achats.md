@@ -92,7 +92,7 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 
 | Composant | Modèle | Note |
 | :--- | :--- | :--- |
-| **Cerveau IA** | **NVIDIA Jetson Orin Nano Super** (8GB, 40 TOPS) | (**✅ Achetée**) |
+| **Cerveau IA** | **NVIDIA Jetson Orin Nano Super** (8GB, 67 TOPS) | (**✅ Achetée**) |
 | **Vision (Tête)** | [Luxonis OAK-D Pro FF](https://www.mouser.fr/ProductDetail/Luxonis/OAK-D-PRO-FF?qs=Znm5pLBrcAK58KqDdxCLeQ%3D%3D) | Version Fixed-Focus (FF) recommandée (vibrations). |
 ### Électronique de Contrôle
 - **Sony Spresense** :

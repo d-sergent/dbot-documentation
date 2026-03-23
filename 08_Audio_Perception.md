@@ -1,7 +1,7 @@
 # 08 - Audio et Perception Sensorielle
 
 ## 1. Cerveau IA (Jetson Orin Nano Super)
-Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Nano Super** (40 TOPS). Grâce à ses *Tensor Cores*, le robot fait tourner la suite logicielle **NVIDIA Riva** intégralement en local (sans serveur cloud, latence quasi nulle) :
+Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Nano Super** (67 TOPS). Grâce à ses *Tensor Cores*, le robot fait tourner la suite logicielle **NVIDIA Riva** intégralement en local (sans serveur cloud, latence quasi nulle) :
 - **ASR (Speech-to-Text)** : Compréhension de la parole.
 - **NLP** : Analyse de l'intention humaine.
 - **TTS (Text-to-Speech)** : Voix de synthèse naturelle.
