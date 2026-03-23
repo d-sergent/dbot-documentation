@@ -74,6 +74,10 @@ Bienvenue dans la documentation technique du projet de robot humanoïde basé su
     *   15b — [Configurations Moteurs & Évolutions (Options A/B/C/D)](./15b_Configurations_Moteurs.md)
     *   15c — [Révision Cardan 39 kg](./15c_Revision_Cardan_39kg.md)
     *   15d — [Genou & Course — 5 Solutions](./15d_Genou_et_Course.md)
+    *   15e — [Alternatives Moteurs Genou](./15e_Alternatives_Moteurs_Genou.md)
+    *   15f — [Portage de Charges & Marche](./15f_Portage_Charges_et_Marche.md)
+    *   15g — [Solution S6 : Courroie GT3 Genou](./15g_Solution_S6_Courroie_GT3_Genou.md)
+    *   15h — [Alternatives Transmission Genou](./15h_Alternatives_Transmission_Genou.md)
 
 16. **[Conclusions & Architecture Finale D-Bot](./16_Conclusions_Architecture_DBot.md)**
     *   Décisions définitives par articulation (cheville, genou, hanche, bras, main).
