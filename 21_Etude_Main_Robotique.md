@@ -810,9 +810,9 @@ Cette section présente une étude comparative approfondie des projets open-sour
 
 ### 9.1 Les Projets de Référence
 
-#### 🔬 ORCA Hand (ETH Zurich, Open-source, 2023-2024)
+#### 🔬 ORCA Hand (ETH Zurich / orcahand.com, 2023-2024)
 
-Développée par le groupe de recherche RSL de l'ETH Zurich, l'ORCA Hand est l'une des mains tendon-driven les plus complètes et robustes en open-source absolu.
+Développée initialement par le groupe de recherche RSL de l'ETH Zurich, la main ORCA est désormais commercialisée en deux versions : la **Base** et la **Touch**. C'est l'une des mains tendon-driven les plus complètes et robustes.
 
 | Paramètre | Détail |
 | :--- | :--- |
@@ -825,16 +825,17 @@ Développée par le groupe de recherche RSL de l'ETH Zurich, l'ORCA Hand est l'u
 | **Force de prise de force** | Levée de **>9 kg** (~90 N) en saisie sphérique |
 | **Poids total** | ~1.3 kg |
 | **Taille** | Anthropomorphique (taille main d'adulte ~18 cm) |
-| **Capteurs tactiles** | ✅ FSR sur chaque bout de doigt (peau silicone cast) |
+| **Capteurs tactiles (Base)** | ✅ FSR sur chaque bout de doigt (peau silicone cast) |
+| **Capteurs tactiles (Touch)** | ✅ **351 taxels (3D force : cisaillement, glissement)** = 1053 canaux |
 | **Durabilité** | >10 000 cycles continus sans panne (~20 heures) |
-| **Temps d'assemblage** | <8 heures (composants + impression 3D) |
+| **Temps d'assemblage DIY** | <8 heures (composants + impression 3D) |
 | **Open-source** | ✅ Complet : STLs, code, doc (orcahand.com) |
-| **Coût matière** | **~2 000 CHF (~2 000 €)** — Peut atteindre 5 889 $ préassemblé |
+| **Coût matière (DIY)** | **~2 000 CHF (~2 000 €)** |
+| **Prix Commercial (Pré-assemblé)** | **$3 500 (Base)** / **$6 100 (Touch)** |
 | **SDK/ROS** | ✅ Dynamixel SDK + ROS 2 |
-| **Compatibilité Robot** | Tout système avec avant-bras compatible Dynamixel |
 
-**Points forts :** La référence académique open-source. Durabilité exceptionnelle, capteurs intégrés, compatible sim-to-real, la meilleure documentation disponible.
-**Points faibles :** Coût élevé (~2 000 €), poids conséquent (1.3 kg), complexité mécanique avancée.
+**Points forts :** La référence académique open-source devenue produit commercial. La version *Touch* offre la meilleure intégration tactile 3D du marché à ce prix.
+**Points faibles :** Coût très élevé en version *Touch* (6 100 $), ou complexe à fabriquer soi-même pour atteindre ce niveau de finition. Poids conséquent (1.3 kg).
 
 ---
 
