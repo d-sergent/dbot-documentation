@@ -1216,3 +1216,33 @@ La CNC intervient là où l'impression 3D montre ses limites : la résistance au
 | **Poulies (Spools)**| Alu 6061 | Fraisage / Tournage | NestWorks C500 | Résistance à la découpe du câble |
 | **Bride Moteurs** | Alu 6061 | Fraisage CNC 2.5D | NestWorks C500 | Dissipation thermique / Rigidité |
 | **Routage tendons**| Tube PTFE | Coupe manuelle | — | Glissement sans friction (Téflon) |
+
+---
+
+### 11.4 Capacités Fonctionnelles : Que permettent 8 DOF ?
+
+La décision de retenir **8 Degrés de Liberté** (contre 1, 2, ou les 17 de l'ORCA originale) repose sur une analyse stricte de Pareto : obtenir 95 % des capacités de préhension humaines avec 50 % de la complexité mécanique. Pour référence, une pince industrielle classique possède 1 DOF, et les prothèses médicales bioniques haut de gamme (ex: *Taska*, *bebionic*) oscillent autour de 5 à 6 DOF.
+
+En exploitant le design biomimétique des doigts ORCA (qui couple mécaniquement la flexion de la phalange proximale et médiane sur un seul tendon), la D-Hand Hybrid répartit ses 8 DOF comme suit :
+
+| Moteur (DOF) | Fonction Actionnée | Dextérité & Usage dans le monde réel (Isaac Gym) |
+| :--- | :--- | :--- |
+| **DOF 1** | **Index (Flexion)** | Isolé pour pincer un petit objet avec le pouce (Pinch Grasp), appuyer sur un bouton-poussoir discret, ou presser une gâchette (perceuse). |
+| **DOF 2** | **Majeur (Flexion)** | Essentiel pour stabiliser une prise en pince avec l'index (prise tridigitale de précision, comme tenir un stylo ou un tournevis). |
+| **DOF 3** | **Annulaire + Auriculaire (Flexion couplée)** | Ces deux doigts sont couplés sur 1 moteur. Ils s'enroulent ensemble autour d'un manche (marteau, poêle) pour verrouiller la prise de force (Power Grasp). |
+| **DOF 4** | **Pouce (Flexion)** | Plier le pouce pour serrer ou verrouiller une prise cylindrique. |
+| **DOF 5** | **Pouce (Opposition)** | **Le DOF le plus crucial** : pivoter le pouce face à l'index pour passer d'une main "plate" à une main capable de saisir une sphère (pomme) ou de pincer. |
+| **DOF 6** | **Écartement des doigts (Abduction)** | Écarter l'index et l'auriculaire vers l'extérieur pour attraper de gros objets ronds ou stabiliser un plateau large par les bords. |
+| **DOF 7** | **Poignet (Pitch)** | Inclinaison haut/bas, vitale pour ouvrir une poignée de porte. |
+| **DOF 8** | **Poignet (Yaw / Roll)** | Rotation ou inclinaison latérale pour visser/dévisser. |
+
+#### Ce que le robot POURRA faire très bien (95 % des tâches cibles) :
+*   ✅ **Prise de Force (Power Grasp)** : Tenir fermement un outil de bricolage, une perceuse, un balai, ouvrir une poignée de porte, porter une charge lourde. Les 5 doigts se referment ensemble.
+*   ✅ **Prise de Précision (Pinch & Tripod)** : Ramasser une vis, tenir un gobelet en plastique fragile sans l'écraser (le tactile eFlesh dose la force), insérer une clé dans une serrure.
+*   ✅ **Prise Globale / Sphérique** : Attraper une balle (grâce au DOF n°6 d'écartement des doigts).
+*   ✅ **Interaction fine** : Allumer un interrupteur, pointer du doigt, tirer une sangle.
+
+#### Ce que le robot NE POURRA PAS faire (Limites des 8 DOF vs 17 DOF) :
+*   ❌ **Manipulation Intra-Manuelle Complexe (In-hand manipulation)** : Faire rouler un stylo entre ses différents doigts de manière fluide, jouer du piano avec accords complexes, ou exécuter l'entièreté du langage des signes. Ces gestes nécessitent le désaccouplement temporel et spatial de chaque articulation, ce qui réclame les 17 DOF pleins de l'ORCA Base.
+
+> **En résumé** : Le sous-actionnement mécanique (un tendon tire plusieurs articulations) permet au doigt de s'enrouler "naturellement" autour de la forme de l'objet, sans que l'IA n'ait besoin de calculer la trajectoire exacte de chaque micro-phalange. Le choix de ces 8 DOF est le compromis optimal pour l'entraînement par renforcement (RL) de préhension robuste.
