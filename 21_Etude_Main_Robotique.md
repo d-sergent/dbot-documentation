@@ -1165,3 +1165,54 @@ L'écosystème ORCA est remarquablement complet (12 repos, mis à jour en Mars 2
 > [!TIP]
 > **Versus from-scratch** : concevoir les phalanges à zero nécessiterait environ 2-3 mois de travail CAD + tests itératifs. Le Scénario A réduit ce délai à **~30 heures** de travail effectif (1 semaine à temps partiel).
 
+---
+
+## 11. Stratégie de Fabrication Hybride (Impression 3D vs Usinage CNC)
+
+L’hybridation ne concerne pas seulement le design (ORCA) et l’actionnement (D-Hand/Dynamixel), elle s'applique aussi aux méthodes de fabrication. Le D-Bot dispose d’un écosystème de production in-house très performant : une imprimante **Qidi Plus 4** (enceinte chauffée 65°C) et une fraiseuse CNC **NestWorks C500**. 
+
+Voici l'analyse d'ingénierie dictant comment chaque pièce du "Scénario A" doit être fabriquée pour garantir une robustesse de niveau industriel.
+
+### 11.1 Ce qui doit être IMPRIMÉ en 3D (Qidi Plus 4)
+
+L'impression 3D est irremplaçable pour la création de pièces aux géométries internes complexes ou devant absorber des micro-chocs.
+
+#### 🦴 Les Phalanges (Doigts) : PA12-CF (Nylon Carbone)
+*   **Pourquoi l'imprimer ?** Les doigts ORCA possèdent des **canaux internes tubulaires** (souvent courbes) permettant au tendon Dyneema de glisser librement à travers les phalanges. Réaliser ces canaux courbes en usinage CNC 3 axes est physiquement impossible. De plus, des doigts en aluminium massif augmenteraient dramatiquement l'inertie du système, ralentissant les mouvements rapides et augmentant la charge sur les servomoteurs.
+*   **Pourquoi le PA12-CF ?** Le Nylon (PA12) est auto-lubrifiant (réduit la friction contre les pièces contiguës des articulations qui n'ont pas de roulements à billes). L'ajout de fibres de carbone (CF) lui confère une rigidité absolue, empêchant le doigt de "plier" sous les 15 kg de tension du tendon.
+*   **Méthode** : Fichiers `.3mf` pré-configurés ORCA (si compatibles) ou slicés manuellement pour la Qidi avec support dédié.
+
+#### 🧽 La Peau Tactile (Finger Pads) : Silicone Coulé + FDM (Moule)
+*   **Méthode** : Les moules négatifs (molds) sont imprimés en PLA basique, puis du silicone (de type EcoFlex ou DragonSkin) y est coulé pour former la pulpe. L'eFlesh viendra s'insérer sous cette couche.
+
+---
+
+### 11.2 Ce qui DOIT être USINÉ en CNC (NestWorks C500)
+
+La CNC intervient là où l'impression 3D montre ses limites : la résistance au cisaillement continu (fil à couper le beurre) et la rigidité structurelle sous charge asymétrique lourde.
+
+#### ⚙️ Les Poulies d'Enroulement (Spools) : Aluminium 6061
+*   **Problème de la 3D** : Dans le design ORCA original, le treuil (spool) fixé sur le servo est imprimé en plastique. Sous l'effort (1.9 Nm d'un XC430 sur un rayon de 8 mm = **>230 N de tension** sur le fil), le fin fil Dyneema (Ø0.8mm) crée une pression locale extrême. À la longue, le fil "scie" le plastique, modifiant le diamètre de la poulie et détruisant la calibration Isaac Gym.
+*   **Solution CNC** : Usiner 8 poulies dans un lopin (barre ronde) d'Aluminium 6061 ou 7075.
+*   **Bénéfice** : Usure structurelle du tambour strictement égale à zéro, durabilité infinie, calibration mathématique stable.
+
+#### 🧱 La Paume (Carpals / Palm Block) : Aluminium 6061 (Recommandé)
+*   **Problème de la 3D** : La paume est le point de concentration des contraintes centrales de toute la main. Elle encaisse simultanément la poussée des objets saisis et la force de compression des 8 tendons tirant à l'unisson (potentiellement >100 kg de force cumulée). Une paume en plastique imprimé – même en CF – va subir des micro-déformations (flex ou fluage) sous charge maximale, faussant la précision des IK (Inverse Kinematics).
+*   **Solution CNC** : La paume est généralement un bloc relativement "carré", usinable en 2.5D ou 3D sur trois ou quatre faces sur la C500. 
+*   **Bénéfice** : Un châssis "Rock Solid". Les articulations à la base des doigts (MCP) s'ancreront dans de l'aluminium (zéro jeu mécanique), éliminant toute torsion latérale de la main lorsque le poignet bouge brusquement, et offrant un ancrage parfait avec le poignet RS-00 du bras.
+
+#### 🔩 Brides de Support Moteurs (Avant-bras) : Aluminium 6061
+*   **Rôle** : Les 8 servomoteurs XC430/XC330 seront entassés dans l'avant-bras. S'ils sont montés sur du plastique, l'avant-bras peut fléchir ou vibrer lors des accélérations (jitter). D'autre part, les moteurs chauffent en maintien de force continue.
+*   **Bénéfice CNC** : Une plaque/cage d'intégration moteur usinée en aluminium sert de **dissipateur thermique géant** (heatsink) rayonnant la chaleur des XC430 vers l'extérieur du robot, tout en augmentant la densité structurelle de l'avant-bras.
+
+### 11.3 Synthèse du Flux de Production (D-Hand v1)
+
+| Composant | Matériau | Procédé | Outil | Raison principale |
+| :--- | :--- | :--- | :--- | :--- |
+| **Phalanges** | PA12-CF | Impression FDM | Qidi Plus 4 | Canaux internes / Légèreté |
+| **Moule des peaux** | PLA | Impression FDM | Qidi Plus 4 | Pièce jetable / Coût |
+| **Peau Tactile** | Silicone | Coulée manuelle | — | Compliance adhérente |
+| **Paume (Palm)** | Alu 6061 | Fraisage CNC 3+1 axes | NestWorks C500 | Rigidité absolue / Zéro fluage |
+| **Poulies (Spools)**| Alu 6061 | Fraisage / Tournage | NestWorks C500 | Résistance à la découpe du câble |
+| **Bride Moteurs** | Alu 6061 | Fraisage CNC 2.5D | NestWorks C500 | Dissipation thermique / Rigidité |
+| **Routage tendons**| Tube PTFE | Coupe manuelle | — | Glissement sans friction (Téflon) |
