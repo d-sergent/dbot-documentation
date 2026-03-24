@@ -4,11 +4,18 @@ Ce document centralise toutes les hypothèses de dimensions physiques, longueurs
 
 Il sert de point de référence unique (Source of Truth) pour la modélisation CAO et la commande numérique.
 
-## 1. Dimensions Globales et Torse
-- **Hauteur Totale** : ~1.40 m (Cible).
-- **Torse (Hauteur Épaule -> Hanche)** : ~400 mm (40 cm).
-- **Largeur d'Épaules (Entraxe Moteurs RS-03)** : *[Incertain - À figer en CAO]* - Déterminera la carrure du robot et le débattement des bras par rapport au buste.
-- **Largeur de Bassin (Entraxe Moteurs RS-04)** : *[Incertain - À figer en CAO]* - Dépendra de l'encombrement du cluster hybride de 3 moteurs RS-04 à la hanche. 
+## 1. Dimensions Globales et Torse (Hypothèse V1)
+
+| Paramètre | Valeur | Statut |
+| :--- | :---: | :--- |
+| **Hauteur Totale** | **~1.47 m** | Cible (recalculée avec torse 420 mm) |
+| **Torse (Hauteur Épaule → Hanche)** | **420 mm** | ✅ Hypothèse V1 |
+| **Torse (Largeur, Droite ↔ Gauche)** | **300 mm** | ✅ Hypothèse V1 |
+| **Torse (Profondeur, Avant ↔ Arrière)** | **220 mm** | ✅ Hypothèse V1 |
+| Largeur d'Épaules (Entraxe RS-04 Pitch) | ~300 mm | Déterminée par la cage alu |
+| Largeur de Bassin (Entraxe RS-04 Hanche) | ~300 mm | Déterminée par la cage alu |
+
+> Voir [29_Etude_Squelette_Torse_Alu.md](./29_Etude_Squelette_Torse_Alu.md) pour l'étude structurale complète de la cage aluminium.
 
 ## 2. Membres Inférieurs (Jambes)
 *Données déduites de `15a_Analyse_Locomotion_Baseline.md`.*
@@ -47,31 +54,34 @@ Pour sécuriser la modélisation CAO finale et la génération des fichiers URDF
 Voici une représentation schématique du squelette du D-Bot avec les dimensions principales calculées :
 
 ```text
-               [ OAK-D ] 
-                   |   Cou (À figer)
-               .---o---.  <-- Ligne d'Épaules (À figer)
-      Bras    /    |    \ 
-    (250mm)  o     |     o
-            /      |      \  Torse (400 mm)
-   Av-Bras o       |       o 
-   (220mm) |       |       |
-           |       |       |
-     Main  o   .---o---.   o
-   (250mm) |  /         \  | <-- Ligne de Bassin (À figer)
-           X o           o X
-             |           |
-             |           | Cuisse
-             |           | (350 mm)
-             |           |
-             o           o <-- Genou (Leviers - Manivelle: 60mm / Genou: 90mm)
-             |           |
-             |           | Tibia
-             |           | (350 mm)
-             |           |
-             o           o <-- Cheville
-            /_\         /_\ 
-           Pied (Bras de levier : 100 mm)
+                  [ LiDAR ]
+               [ OAK-D Pro ]
+                    |    Cou (RS-05 × 2, À figer)
+                .---o---.  <── Épaules (Traverse 35×35)
+       Bras    /    |    \           ← 300 mm →
+     (250mm)  o     |     o
+             /      |      \     ┐
+    Av-Bras o       |       o    │
+    (220mm) |       |       |    │  Torse
+            |       |       |    │  420 mm
+      Main  o       |       o    │  (Cage Alu)
+    (250mm) |   .---o---.   |    │  Prof: 220 mm
+            X  /  60×60  \  X    ┘
+              o  (Hanches) o  <── Bassin (Traverse 60×60)
+              |           |
+              |           |  Cuisse
+              |           |  (350 mm)
+              |           |
+              o           o  <── Genou (Manivelle: 60mm / Levier: 90mm)
+              |           |
+              |           |  Tibia
+              |           |  (350 mm)
+              |           |
+              o           o  <── Cheville
+             /_\         /_\ 
+            Pied (Levier : 100 mm)
 
-   |-----------------------------|
-   Hauteur Totale Cible : ~ 1.40 m
+    |──────────────────────────────|
+    Hauteur Totale Estimée : ~ 1.47 m
+    (Cou + 420 + 350 + 350 + 100 + pieds)
 ```
