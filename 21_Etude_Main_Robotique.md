@@ -812,30 +812,22 @@ Cette section présente une étude comparative approfondie des projets open-sour
 
 #### 🔬 ORCA Hand (ETH Zurich / orcahand.com, 2023-2024)
 
-Développée initialement par le groupe de recherche RSL de l'ETH Zurich, la main ORCA est désormais commercialisée en deux versions : la **Base** et la **Touch**. C'est l'une des mains tendon-driven les plus complètes et robustes.
+Développée initialement par le groupe de recherche RSL de l'ETH Zurich, la main ORCA est désormais commercialisée en de multiples versions : **Base (17 DOF)**, **Touch (17 DOF)** et la nouvelle **Lite (9 DOF)**. C'est l'une des mains tendon-driven les plus complètes.
 
-| Paramètre | Détail |
-| :--- | :--- |
-| **DOF** | **17** (16 doigts + 1 poignet) |
-| **Type d'actionnement** | Tendons (câbles) + poulies internes, actionneurs déportés |
-| **Moteurs** | Dynamixel **XC430-T240BB-T** (force) + **XC330-T228T** (précision) |
-| **Nombre de servos** | 17 (un par DOF) |
-| **Couple moteur (max)** | 1.9 N.m (XC430) / 1.0 N.m (XC330) |
-| **Force de grip mesurée** | **~103 N** (10.5 kg à 600 mA) — Power grasp |
-| **Force de prise de force** | Levée de **>9 kg** (~90 N) en saisie sphérique |
-| **Poids total** | ~1.3 kg |
-| **Taille** | Anthropomorphique (taille main d'adulte ~18 cm) |
-| **Capteurs tactiles (Base)** | ✅ FSR sur chaque bout de doigt (peau silicone cast) |
-| **Capteurs tactiles (Touch)** | ✅ **351 taxels (3D force : cisaillement, glissement)** = 1053 canaux |
-| **Durabilité** | >10 000 cycles continus sans panne (~20 heures) |
-| **Temps d'assemblage DIY** | <8 heures (composants + impression 3D) |
-| **Open-source** | ✅ Complet : STLs, code, doc (orcahand.com) |
-| **Coût matière (DIY)** | **~2 000 CHF (~2 000 €)** |
-| **Prix Commercial (Pré-assemblé)** | **$3 500 (Base)** / **$6 100 (Touch)** |
-| **SDK/ROS** | ✅ Dynamixel SDK + ROS 2 |
+| Paramètre | ORCA Base / Touch (17 DOF) | ORCA Lite (9 DOF) |
+| :--- | :--- | :--- |
+| **DOF** | **17** (16 doigts + 1 poignet) | **9** (8 doigts + 1 poignet, sous-actionné) |
+| **Type d'actionnement** | Tendons individuels | Tendons couplés (MCP+PIP couplés, DIP fixes) |
+| **Moteurs** | 17× Dynamixel (XC430 + XC330) | 9× Feetech (8× HL-3915 + 1× HL-3930) |
+| **Couple moteur (max)** | 1.9 N.m (XC430) / 1.0 N.m (XC330) | 0.92 N.m (HL-3915) / 1.9 N.m (HL-3930) |
+| **Force de grip mesurée** | **~103 N** (Power grasp) | *Non spécifiée (probablement ~50-60 N via Feetech)* |
+| **Poids total** | ~1.3 kg | ~0.7 kg |
+| **Capteurs tactiles** | FSR (Base) / 351 Taxels 3D (Touch) | ❌ Aucun capteur sur la version Lite |
+| **Open-source** | ✅ Complet (orcahand.com) | ✅ À venir (STLs et code BOM annoncés) |
+| **Prix Commercial** | **$3 500 (Base)** / **$6 100 (Touch)** | *En attente* (BOM "très réduit" attendu) |
 
-**Points forts :** La référence académique open-source devenue produit commercial. La version *Touch* offre la meilleure intégration tactile 3D du marché à ce prix.
-**Points faibles :** Coût très élevé en version *Touch* (6 100 $), ou complexe à fabriquer soi-même pour atteindre ce niveau de finition. Poids conséquent (1.3 kg).
+**Points forts de la gamme :** La référence académique devenue produit commercial de la version complète. La version *Touch* offre la meilleure intégration tactile 3D. La nouvelle version *Lite* tente de s'aligner sur des budgets réels d'amateurs avec l'abandon des Dynamixel au profit de Feetech.
+**Points faibles :** La version Lite perd l'indépendance des doigts (sous-actionnement), utilise des moteurs Feetech moins performants en compliance, et n'a aucun retour tactile. La version Touch est hors de prix ($6 100).
 
 ---
 
@@ -914,21 +906,18 @@ Projet académique de référence, utilisé pour cadrer les performances des mai
 
 ### 9.2 Tableau Comparatif Global
 
-| Critère | 🏆 **D-Hand Hybrid** (Notre choix) | **ORCA Hand** (ETH Zurich) | **RUKA Hand** (NYU) | **BiDexHand V4** | **ILDA Hand** (Ref.) |
+| Critère | 🏆 **D-Hand Hybrid** (Notre choix) | **ORCA Hand (Base/Touch)** | **ORCA Lite** (Nouveau) | **RUKA Hand** (NYU) | **BiDexHand V4** |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **DOF** | **8** | 17 | 15 | 16 | 15 |
-| **Type actionnement** | Câbles + poulies Ø8mm alu | Câbles + poulies | Câbles fil pêche PTFE | Câbles + poulies (N-config) | Bielles (Linkage) |
-| **Moteurs** | 4× XC430 + 4× XC330 | XC430 + XC330 (17×) | 3× XM430 + 8× XL330 | 15× FeeTech SCS | Actionneurs dédiés |
-| **Nb servos** | **8** | 17 | 11 | 15 | N/A |
-| **Couple max** | 1.9 N.m (XC430) | 1.9 N.m (XC430) | 4.1 N.m (XM430) | ~3.0 N.m (STS) | N/A |
-| **Force grip (Power)** | **~160-190 N*** | ~103 N (mesuré) | ~60 N (>6 kg) | ~45 N (~4.5 kg) | N/A |
-| **Force pince (Pinch)** | **~50 N** (pouce+index) | ~30 N (estimé) | ~2.74 N (mesuré) | ~21 N (mesuré) | **34 N** (mesuré) |
-| **Capteurs tactiles** | ✅ eFlesh 3 axes (optionnel) | ✅ FSR silicone (basique) | ❌ Aucun | ❌ Aucun | ✅ Intégrés |
-| **Compliance active** | ✅✅ Totale (mode courant Dynamixel) | ✅✅ Totale (Dynamixel) | ✅ Partielle (XM430 + XL330) | ⚠️ Partielle (FeeTech) | ❌ Non |
-| **Poids main** | **~400g** (avg) | ~1 300g | Compact (<400g) | Compact (<300g) | 1 100g |
-| **Moteurs déportés** | ✅ Dans avant-bras | ✅ Dans avant-bras | ✅ Dans avant-bras | ✅ Proximal Sleeve | ✅ |
-| **Écosystème SW** | ✅✅ Dynamixel SDK + ROS 2 + Isaac Gym | ✅✅ Dynamixel SDK + ROS 2 | ✅ Dynamixel SDK + ROS 2 | ✅ ROS 2 (FeeTech) | ⚠️ Recherche only |
-| **Coût matière /main** | **~1 110 €** (avec eFlesh) | **~2 000 €** | **~500-1 300 $** | **~300-500 $** | N/A (non DIY) |
+| **DOF** | **8** | 17 | 9 | 15 | 16 |
+| **Type actionnement** | Câbles + poulies Ø8mm alu | Câbles + poulies | Câbles (couplés) | Câbles fil pêche PTFE | Câbles + poulies |
+| **Moteurs** | 4× XC430 + 4× XC330 | Dynamixel XC (17×) | 9× Feetech HL | 3× XM430 + 8× XL330 | 15× FeeTech SCS |
+| **Nb servos** | **8** | 17 | 9 | 11 | 15 |
+| **Couple max** | 1.9 N.m (XC430) | 1.9 N.m (XC430) | 0.92 N.m (HL3915) | 4.1 N.m (XM430) | ~3.0 N.m (STS) |
+| **Force grip (Power)** | **~160-190 N*** | ~103 N (mesuré) | Inconnue (~50 N) | ~60 N (>6 kg) | ~45 N (~4.5 kg) |
+| **Capteurs tactiles** | ✅ eFlesh 3 axes (optionnel) | ✅ FSR ou 351 Taxels | ❌ Aucun | ❌ Aucun | ❌ Aucun |
+| **Compliance active** | ✅✅ Totale (mode courant) | ✅✅ Totale (Dynamixel) | ⚠️ Limitée (Feetech) | ✅ Partielle (Dynamixel) | ⚠️ Partielle (FeeTech) |
+| **Poids main** | **~400g** (avg) | ~1 300g | ~700g | Compact (<400g) | Compact (<300g) |
+| **Prix /main** | **~1 110 €** (avec eFlesh) | **$3 500 à $6 100** | BOM DIY à venir | **~500-1 300 $** | **~300-500 $** |
 | **Reproductibilité DIY** | ✅ Bonne (CNC C500 + Qidi Plus 4) | ✅ Bonne (<8h) | ✅ Très bonne (<7h) | ✅ Bonne | ❌ Non |
 | **Open-source** | ✅ (ce doc) | ✅ Complet (orcahand.com) | ✅ Complet (GitHub NYU) | ✅ Complet (GitHub) | ⚠️ Partiel |
 | **Niveau complexité** | 🟡 Moyen | 🔴 Élevé | 🟢 Faible-Moyen | 🟢 Moyen | 🔴 Très élevé |
