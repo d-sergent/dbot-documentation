@@ -176,24 +176,11 @@ Moins sollicitée que la traverse basse. Elle reprend le poids des bras (~4 kg p
 ## 6. Nœuds de Jonction (Usinés CNC)
 
 ### Principe d'Assemblage
-Chaque coin de la cage est connecté par un **nœud tri-axial** usiné dans un bloc d'aluminium 6061 T6. Le nœud comporte des tenons cylindriques ou rectangulaires qui s'insèrent à l'intérieur des tubes creux.
+Chaque coin de la cage est connecté par un **nœud tri-axial** usiné dans un bloc d'aluminium 6061 T6. Le nœud comporte des tenons rectangulaires ou carrés qui s'insèrent à l'intérieur des tubes creux.
 
-```text
-     Tube 35x35            Tube 35x35
-     (Traverse)            (Traverse)
-         │                     │
-         ▼                     ▼
-    ┌────┤     ┌───────┐      ├────┐
-    │    │     │       │      │    │
-    │    └─────┤ NOEUD ├──────┘    │
-    │          │  CNC  │           │
-    │          │ (6061)│           │
-    │          └───┬───┘           │
-    │              │               │
-    │              ▼               │
-    │         Tube 40x40           │
-    │         (Montant)            │
-```
+![Rendu CAO 3D d'un nœud de jonction CNC en Aluminium 6061](./assets/img_cnc_joining_node.png)
+
+*Illustration : Concept de Nœud Tri-axial usiné sur CNC (3 axes). Les tenons s'insèrent dans les tubes 40x40 et 35x35.*
 
 ### Spécifications d'Usinage
 - **Matériau brut** : Bloc Alu 6061 T6, ~50×50×50 mm
