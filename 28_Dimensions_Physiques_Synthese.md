@@ -50,42 +50,13 @@ Pour sécuriser la modélisation CAO finale et la génération des fichiers URDF
 2.  **L'entraxe Y des épaules** : Détermine l'espace disponible dans le torse supérieur (pour les Matek PDB et l'électronique) et les collisions possibles entre les bras et le buste.
 3.  **La position X, Y, Z du Centre de Masse (CoM)** : À extraire du logiciel de CAO (Fusion 360) une fois le torse numériquement peuplé par la batterie 12S, l'ordinateur de bord (Jetson) et le câblage.
 
-## 6. Schéma Visuel Simplifié (Stick-Figure)
+## 6. Schémas Visuels et Proportions
 
-Voici une représentation schématique du squelette du D-Bot avec les dimensions principales calculées :
+### Plan Coté (Blueprint Proportionnel)
+Ce plan technique illustre les proportions exactes des segments verticaux discutés (Hauteur totale : 1470 mm).
 
-```text
-                  [ LiDAR ]
-               [ OAK-D Pro ]     ┐
-                    |            │ Cou + Tête
-                .---o---.  <──   ┘ (250 mm)
-       Bras    /    |    \           ← 300 mm →
-     (250mm)  o     |     o
-             /      |      \     ┐
-    Av-Bras o       |       o    │
-    (220mm) |       |       |    │  Torse
-            |       |       |    │  420 mm
-      Main  o       |       o    │  (Cage Alu)
-    (250mm) |   .---o---.   |    │  Prof: 220 mm
-            X  /  60×60  \  X    ┘
-              o  (Hanches) o  <── Bassin (Traverse 60×60)
-              |           |
-              |           |  Cuisse
-              |           |  (350 mm)
-              |           |
-              o           o  <── Genou (Manivelle: 60mm / Levier: 90mm)
-              |           |
-              |           |  Tibia
-              |           |  (350 mm)
-              |           |
-              o           o  <── Cheville
-             /_\         /_\ 
-            Pied (Levier : 100 mm)
-
-    |──────────────────────────────|
-    Hauteur Totale Estimée : ~ 1.47 m
-    (250 + 420 + 350 + 350 + 100)
-```
+![Blueprint Proportionnel D-Bot](./assets/img_robot_full_blueprint.png)
+*Illustration : Les dimensions sont respectées (Tête/Cou: 250, Torse: 420, Cuisse: 350, Tibia: 350, Pied: 100)*
 
 ### Rendu 3D Global (Conceptuel)
 ![Squelette Complet D-Bot](./assets/img_robot_full_skeleton.png)
