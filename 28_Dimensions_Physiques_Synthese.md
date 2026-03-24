@@ -39,8 +39,9 @@ Il sert de point de référence unique (Source of Truth) pour la modélisation C
 - **Allonge combinée de l'avant-bras et main** : ~470 mm (47 cm).
 
 ## 4. Tête et Capteurs
+- **Hauteur totale Tête + Cou** : **250 mm** (25 cm) - *Hypothèse figer*.
 - **OAK-D Pro (Vision)** : Entraxe de fixation de 75 mm (vis M3). Encastrement ~98x30 mm.
-- **Cou (Double RS-05)** : *[Incertain - À figer en CAO]* - La superposition ou juxtaposition des deux moteurs RS-05 définira la hauteur totale du cou et le débattement de la tête.
+- **Cou (Double RS-05)** : La superposition des moteurs s'inscrit dans l'enveloppe globale de 250 mm allouée à la tête et au cou.
 
 ## 5. Synthèse des Incertitudes (À définir pour la construction)
 Pour sécuriser la modélisation CAO finale et la génération des fichiers URDF (pour ROS 2 / Isaac Gym), les points suivants doivent être impérativement relevés et figés une fois le design 3D terminé :
@@ -55,9 +56,9 @@ Voici une représentation schématique du squelette du D-Bot avec les dimensions
 
 ```text
                   [ LiDAR ]
-               [ OAK-D Pro ]
-                    |    Cou (RS-05 × 2, À figer)
-                .---o---.  <── Épaules (Traverse 35×35)
+               [ OAK-D Pro ]     ┐
+                    |            │ Cou + Tête
+                .---o---.  <──   ┘ (250 mm)
        Bras    /    |    \           ← 300 mm →
      (250mm)  o     |     o
              /      |      \     ┐
@@ -83,5 +84,5 @@ Voici une représentation schématique du squelette du D-Bot avec les dimensions
 
     |──────────────────────────────|
     Hauteur Totale Estimée : ~ 1.47 m
-    (Cou + 420 + 350 + 350 + 100 + pieds)
+    (250 + 420 + 350 + 350 + 100)
 ```
