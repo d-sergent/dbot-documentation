@@ -41,3 +41,37 @@ Pour sécuriser la modélisation CAO finale et la génération des fichiers URDF
 1.  **L'entraxe Y des hanches** : C'est la largeur du bassin. Elle est critique pour planifier la marche, l'équilibre latéral et le balancement (transfert de masse gauche/droite).
 2.  **L'entraxe Y des épaules** : Détermine l'espace disponible dans le torse supérieur (pour les Matek PDB et l'électronique) et les collisions possibles entre les bras et le buste.
 3.  **La position X, Y, Z du Centre de Masse (CoM)** : À extraire du logiciel de CAO (Fusion 360) une fois le torse numériquement peuplé par la batterie 12S, l'ordinateur de bord (Jetson) et le câblage.
+
+## 6. Schéma Visuel Simplifié (Stick-Figure)
+
+Voici une représentation schématique du squelette du D-Bot avec les dimensions principales calculées :
+
+```text
+               [ OAK-D ] 
+                   |   Cou (À figer)
+               .---o---.  <-- Ligne d'Épaules (À figer)
+      Bras    /    |    \ 
+    (250mm)  o     |     o
+            /      |      \  Torse (400 mm)
+   Av-Bras o       |       o 
+   (220mm) |       |       |
+           |       |       |
+     Main  o   .---o---.   o
+   (250mm) |  /         \  | <-- Ligne de Bassin (À figer)
+           X o           o X
+             |           |
+             |           | Cuisse
+             |           | (350 mm)
+             |           |
+             o           o <-- Genou (Leviers - Manivelle: 60mm / Genou: 90mm)
+             |           |
+             |           | Tibia
+             |           | (350 mm)
+             |           |
+             o           o <-- Cheville
+            /_\         /_\ 
+           Pied (Bras de levier : 100 mm)
+
+   |-----------------------------|
+   Hauteur Totale Cible : ~ 1.40 m
+```
