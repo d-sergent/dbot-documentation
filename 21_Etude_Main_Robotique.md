@@ -800,3 +800,207 @@ BOUCLE à 200 Hz :
 
 > **En résumé :** Le retour de courant des moteurs est le "Muscles" (Force Macro), l'eFlesh est la "Peau" (Toucher Micro). Pour ne pas casser un œuf et ne pas le laisser glisser non plus, la fusion des deux sens est obligatoire.
 
+---
+
+## 9. Comparatif Poussé : Mains Robotiques Open-Source à Câbles/Poulies (vs D-Hand)
+
+Cette section présente une étude comparative approfondie des projets open-source les plus avancés partageant l'architecture à tendons/câbles et poulies de la D-Hand. L'objectif est de situer précisément le D-Hand Hybrid dans l'état de l'art mondial des mains robotiques DIY.
+
+---
+
+### 9.1 Les Projets de Référence
+
+#### 🔬 ORCA Hand (ETH Zurich, Open-source, 2023-2024)
+
+Développée par le groupe de recherche RSL de l'ETH Zurich, l'ORCA Hand est l'une des mains tendon-driven les plus complètes et robustes en open-source absolu.
+
+| Paramètre | Détail |
+| :--- | :--- |
+| **DOF** | **17** (16 doigts + 1 poignet) |
+| **Type d'actionnement** | Tendons (câbles) + poulies internes, actionneurs déportés |
+| **Moteurs** | Dynamixel **XC430-T240BB-T** (force) + **XC330-T228T** (précision) |
+| **Nombre de servos** | 17 (un par DOF) |
+| **Couple moteur (max)** | 1.9 N.m (XC430) / 1.0 N.m (XC330) |
+| **Force de grip mesurée** | **~103 N** (10.5 kg à 600 mA) — Power grasp |
+| **Force de prise de force** | Levée de **>9 kg** (~90 N) en saisie sphérique |
+| **Poids total** | ~1.3 kg |
+| **Taille** | Anthropomorphique (taille main d'adulte ~18 cm) |
+| **Capteurs tactiles** | ✅ FSR sur chaque bout de doigt (peau silicone cast) |
+| **Durabilité** | >10 000 cycles continus sans panne (~20 heures) |
+| **Temps d'assemblage** | <8 heures (composants + impression 3D) |
+| **Open-source** | ✅ Complet : STLs, code, doc (orcahand.com) |
+| **Coût matière** | **~2 000 CHF (~2 000 €)** — Peut atteindre 5 889 $ préassemblé |
+| **SDK/ROS** | ✅ Dynamixel SDK + ROS 2 |
+| **Compatibilité Robot** | Tout système avec avant-bras compatible Dynamixel |
+
+**Points forts :** La référence académique open-source. Durabilité exceptionnelle, capteurs intégrés, compatible sim-to-real, la meilleure documentation disponible.
+**Points faibles :** Coût élevé (~2 000 €), poids conséquent (1.3 kg), complexité mécanique avancée.
+
+---
+
+#### 🤖 RUKA Hand (NYU, Open-source, 2024)
+
+Développée par des chercheurs de NYU (New York University), RUKA vise le meilleur compromis entre coût, accessibilité et performance fonctionnelle.
+
+| Paramètre | Détail |
+| :--- | :--- |
+| **DOF** | **15** (sous-actionnés, 5 doigts dont pouce 3 DOF) |
+| **Type d'actionnement** | Tendons tressés (câble pêche) dans gaines PTFE + poulies |
+| **Moteurs** | 3× Dynamixel **XM430-W210-T** (Pouce) + 8× **XL330-M288-T** (Doigts) |
+| **Nombre de servos** | **11 servos** (déportés dans l'avant-bras) |
+| **Couple max moteur** | 4.1 N.m (XM430) / 0.52 N.m (XL330) |
+| **Force de grip (Power grasp)** | **~60 N** (levée de >6 kg) |
+| **Force de pince (Pinch)** | ~2.74 N (pulpe-à-pulpe) — dosage fin |
+| **Force glissement (DIP/PIP)** | 33 N |
+| **Poids** | Compact (structure PLA+TPU) |
+| **Taille** | ~18 cm (taille adulte) |
+| **Capteurs tactiles** | ❌ Aucun capteur embarqué |
+| **Retour proprioceptif** | Via lecture de courant Dynamixel uniquement |
+| **Contrôle** | Apprentissage (calibration avec gant Motion Capture Manus VR) |
+| **Temps d'assemblage** | <7 heures |
+| **Open-source** | ✅ Complet : STLs, code, doc sur GitHub (NYU Robotics) |
+| **Coût matière** | **~$500 à $1 300** selon qualité des servos |
+| **SDK/ROS** | ✅ Dynamixel SDK + ROS 2 |
+| **Matériaux** | PLA (structure) + Filaflex Foamy TPU (coussins) + Dyneema/fil pêche + PTFE |
+
+**Points forts :** Excellent rapport coût/DOF, compatibilité Dynamixel totale, très bien documenté, taille humaine réelle.
+**Points faibles :** Pas de capteurs tactiles, faible force de pince pouce-index (2.74 N — délicat pour manipulation), dépend d'un système de calibration Motion Capture externe.
+
+---
+
+#### 🦾 BiDexHand V4 (Open-source, 2024)
+
+Projet communautaire avec architecture biomimétique avancée et 16 DOF complets câble-poulie.
+
+| Paramètre | Détail |
+| :--- | :--- |
+| **DOF** | **16** (biomimétique, articulations MCP/PIP/DIP + pouce opposable) |
+| **Type d'actionnement** | Câbles + poulies (N-configuration) |
+| **Moteurs** | **15× FeeTech SCS** (série bus) — 1 servo par joint actif |
+| **Couple moteur (max)** | ~3.0 N.m (STS3215-class) |
+| **Force mesurée à la pulpe** | **~21 N** (2.14 N par doigt × multiplication mécanique) |
+| **Charge maximale levée** | ~4.5 kg (≈ 45 N) |
+| **Capteurs tactiles** | ❌ Non intégrés dans la version V4 |
+| **Poids** | Compact (impression 3D) |
+| **Open-source** | ✅ Complet sur GitHub (BOM, STLs, ROS 2) |
+| **Coût matière estimé** | **~$300–500** (15× FeeTech SCS à ~15-20 $/servo + 3D print) |
+| **SDK/ROS** | ✅ ROS 2 + packages de contrôle inclus |
+| **Montage servos** | Déportés dans le "Proximal Servo Sleeve" (proche poignet) |
+
+**Points forts :** Le plus abordable pour 16 DOF, ROS 2 natif, architecture câble-poulie la plus proche de notre conception, excellente réduction d'inertie distale.
+**Points faibles :** Force par doigt mesurée modeste (2.14 N), pas de capteurs tactiles, servos FeeTech moins fiables sur long terme, pas de compliance logicielle native aussi poussée que Dynamixel.
+
+---
+
+#### 🔗 ILDA Hand (Linkage-Driven, Étude Harvard/MIT, 2022)
+
+Projet académique de référence, utilisé pour cadrer les performances des mains dextres. Architecture par bielles et non par câbles purs, mais cité pour sa comparaison de force.
+
+| Paramètre | Détail |
+| :--- | :--- |
+| **DOF** | **15** (20 joints, une bielle par joint) |
+| **Type d'actionnement** | Bielles mécaniques (linkage-driven) — pas de câbles |
+| **Force à la pulpe du doigt** | **34 N** (mesurée) |
+| **Poids** | 1.1 kg |
+| **Taille** | 218 mm max |
+| **Capteurs tactiles** | ✅ Intégrés (tactile sensing) |
+| **Open-source** | ⚠️ Partiel (publication ArXiv/papers uniquement, pas de STLs publics) |
+| **Coût** | Non disponible (composants usinés précision) |
+
+> Mentionnée uniquement pour référence de performance. **Non reproductible en DIY** en raison des tolérances d'usinage très fines.
+
+---
+
+### 9.2 Tableau Comparatif Global
+
+| Critère | 🏆 **D-Hand Hybrid** (Notre choix) | **ORCA Hand** (ETH Zurich) | **RUKA Hand** (NYU) | **BiDexHand V4** | **ILDA Hand** (Ref.) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **DOF** | **8** | 17 | 15 | 16 | 15 |
+| **Type actionnement** | Câbles + poulies Ø8mm alu | Câbles + poulies | Câbles fil pêche PTFE | Câbles + poulies (N-config) | Bielles (Linkage) |
+| **Moteurs** | 4× XC430 + 4× XC330 | XC430 + XC330 (17×) | 3× XM430 + 8× XL330 | 15× FeeTech SCS | Actionneurs dédiés |
+| **Nb servos** | **8** | 17 | 11 | 15 | N/A |
+| **Couple max** | 1.9 N.m (XC430) | 1.9 N.m (XC430) | 4.1 N.m (XM430) | ~3.0 N.m (STS) | N/A |
+| **Force grip (Power)** | **~160-190 N*** | ~103 N (mesuré) | ~60 N (>6 kg) | ~45 N (~4.5 kg) | N/A |
+| **Force pince (Pinch)** | **~50 N** (pouce+index) | ~30 N (estimé) | ~2.74 N (mesuré) | ~21 N (mesuré) | **34 N** (mesuré) |
+| **Capteurs tactiles** | ✅ eFlesh 3 axes (optionnel) | ✅ FSR silicone (basique) | ❌ Aucun | ❌ Aucun | ✅ Intégrés |
+| **Compliance active** | ✅✅ Totale (mode courant Dynamixel) | ✅✅ Totale (Dynamixel) | ✅ Partielle (XM430 + XL330) | ⚠️ Partielle (FeeTech) | ❌ Non |
+| **Poids main** | **~400g** (avg) | ~1 300g | Compact (<400g) | Compact (<300g) | 1 100g |
+| **Moteurs déportés** | ✅ Dans avant-bras | ✅ Dans avant-bras | ✅ Dans avant-bras | ✅ Proximal Sleeve | ✅ |
+| **Écosystème SW** | ✅✅ Dynamixel SDK + ROS 2 + Isaac Gym | ✅✅ Dynamixel SDK + ROS 2 | ✅ Dynamixel SDK + ROS 2 | ✅ ROS 2 (FeeTech) | ⚠️ Recherche only |
+| **Coût matière /main** | **~1 110 €** (avec eFlesh) | **~2 000 €** | **~500-1 300 $** | **~300-500 $** | N/A (non DIY) |
+| **Reproductibilité DIY** | ✅ Bonne (CNC C500 + Qidi Plus 4) | ✅ Bonne (<8h) | ✅ Très bonne (<7h) | ✅ Bonne | ❌ Non |
+| **Open-source** | ✅ (ce doc) | ✅ Complet (orcahand.com) | ✅ Complet (GitHub NYU) | ✅ Complet (GitHub) | ⚠️ Partiel |
+| **Niveau complexité** | 🟡 Moyen | 🔴 Élevé | 🟢 Faible-Moyen | 🟢 Moyen | 🔴 Très élevé |
+
+*\* Force estimée par calcul (moteur → poulie → tendon → phalange). Pas encore validée par mesure physique sur prototype D-Hand.*
+
+---
+
+### 9.3 Focus : Comparaison de la Force de Pince et de Grip
+
+La force de prise est le critère fonctionnel le plus important pour la manipulation d'objets du quotidien.
+
+#### Force de Grip en Power Grasp (Prise Cylindrique Complète)
+
+| Main | Force Mesurée | Correspondance Quotidienne |
+| :--- | :---: | :--- |
+| **ORCA Hand** | **103 N** ✅ | Porter un pack de 6 bouteilles (10 kg) |
+| **D-Hand Hybrid** (calc.) | **~160-175 N** ✅✅ | Serrer vigoureusement une poignée de porte + tenir un outil |
+| **RUKA Hand** | **~60 N** ⚠️ | Tenir un stylo épais / ouvrir un bouchon |
+| **BiDexHand V4** | **~45 N** ⚠️ | Tenir un verre, objet léger |
+| **Main Humaine** (ref.) | **300-400 N** | — |
+
+> **Notre position :** La D-Hand Hybrid avec les XC430 sur les canaux de force a la force calculée la plus élevée de tous les projets DIY comparés, y compris l'ORCA Hand académique. **À valider par mesure sur prototype.**
+
+#### Force de Pince Pouce-Index (Pinch Grasp)
+
+| Main | Force de Pince | Correspondance Quotidienne |
+| :--- | :---: | :--- |
+| **ILDA Hand** | **34 N** ✅ | Tenir fermement une clé à l'appel |
+| **D-Hand Hybrid** (calc.) | **~50 N** ✅✅ | Pincer et soulever une pièce mécanique |
+| **BiDexHand V4** | **~21 N** ⚠️ | Pincer une feuille de papier |
+| **ORCA Hand** | **~30 N** (estimé) | Tenir une bille |
+| **RUKA Hand** | **2.74 N** ❌ | Pincer une feuille millimétrée |
+
+> La faiblesse critique de RUKA est sa pince (2.74 N mesurés) car les XL330 n'ont que 0.52 N.m de couple. C'est sa limitation majeure vs notre XC430+XC330.
+
+---
+
+### 9.4 Architecture Mécanique : Câbles et Poulies (Points de Différenciation)
+
+Le tableau ci-dessous compare les choix d'architecture pour le routage des tendons et des poulies :
+
+| Aspect | D-Hand Hybrid | ORCA Hand | RUKA Hand | BiDexHand V4 |
+| :--- | :--- | :--- | :--- | :--- |
+| **Matière tendon** | Dyneema Ø0.8mm (40 lbs) | Acier inox / Dyneema | Fil de pêche tressé | Dyneema/FeeTech câble |
+| **Gaine de guidage** | PTFE Ø1.5mm int. | PTFE tube custom | PTFE tube (Bowden style) | Gaines intégrées |
+| **Matière poulies** | **Alu 6061 Ø8mm (CNC C500)** | Imprimées PLA renforcé | Imprimées PLA | Imprimées PLA |
+| **Retour passif** | Ressorts torsion 0.05 N.m | Ressorts torsion intégrés | Ressorts enrobés dans la phalange | Ressorts impression TPU |
+| **Fixation tendon** | Nœud + cyanoacrylate | Serre-câble + manchon | Nœud + époxy | Nœud |
+| **Chemin de câble** | Traversée RS-00 (poignet creux) | Poignet propriétaire | Poignet tubulaire dédié | Proximal Sleeve tubulaire |
+
+**Avantage D-Hand** : les poulies en aluminium usiné CNC offrent une durabilité supérieure aux poulies imprimées (usure quasi nulle sur Dyneema vs PLA qui creuse à l'usage).
+
+---
+
+### 9.5 Verdict et Positionnement du D-Hand Hybrid
+
+| Critère | D-Hand Hybrid | ORCA | RUKA | BiDexHand |
+| :--- | :---: | :---: | :---: | :---: |
+| **Force brute** | 🥇 1er (~175N calc) | 🥈 2ème (103N mesuré) | 🥉 3ème (~60N) | 4ème (~45N) |
+| **Dextérité** | 🥉 3ème (8 DOF) | 🥇 1er (17 DOF) | 🥈 2ème (15 DOF) | 🥈 2ème (16 DOF) |
+| **Coût** | 🥉 3ème (~1 110€) | 4ème (~2 000€) | 🥇 1er (~650€) | 🥈 2ème (~400€) |
+| **Compliance** | 🥇 1er (Dynamixel mode courant) | 🥇 1er (= , Dynamixel) | 🥈 2ème | 🥉 3ème (FeeTech) |
+| **Poids** | 🥈 2ème (~400g) | 4ème (1 300g) | 🥇 1er (<300g) | 🥇 1er (<300g) |
+| **Tactile** | 🥇 1er (eFlesh 3 axes) | 🥉 3ème (FSR basic) | ❌ Absent | ❌ Absent |
+| **Maturité technique** | 🥇 Haut niveau | 🥇 Très haut | 🥈 Haut | 🥇 Haut |
+| **Difficulté build** | 🥈 Moyen | 🔴 Élevé | 🥇 Faible | 🥇 Faible |
+
+> [!TIP]
+> **Conclusion** : Le D-Hand Hybrid n'est pas le moins cher ni le plus dextère, mais il est le **seul projet** qui combine simultanément : force de grip estimée maximale **+ capteurs 3 axes + compliance active totale + intégration ROS 2 / Isaac Gym**. C'est le seul comparable au Tesla Optimus Gen3 en termes de force effective estimée dans le monde open-source.
+
+> [!NOTE]
+> **Ce qu'il manque vs l'ORCA** : 9 DOF supplémentaires (abductions des doigts, oppositions fines). Ces DOF supplémentaires permettent des prises en "pincette à 3 doigts" et des manipulations en rotation dans la paume ("in-hand manipulation"). Ce manque pourra être comblé en V2 si l'IA de manipulation dépasse les capacités de l'ORCA Hand en tests comparatifs grâce aux capteurs eFlesh.
+
+*Source des données : arxiv.org (ORCA 2024, RUKA 2024), GitHub BiDexHand V4, orcahand.com, humanoid.guide. Mars 2026.*
+
