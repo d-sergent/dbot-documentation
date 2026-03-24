@@ -27,55 +27,61 @@ La soudure TIG/MIG détruit localement le traitement thermique T6, réduisant la
 
 ```text
     ← 300 mm (Largeur) →
-    ┌─────────────────────┐  ─┬─
-    │   Traverse Haute    │   │
-    │   (Épaules 35x35)   │   │
-    ├─────────────────────┤   │
+    [N]─────────────────[N]  ─┬─
+    │ │ Traverse Haute  │ │   │
+    │ │ (Épaules 35x35) │ │   │
+    [N]─────────────────[N]   │
     │ ↑                 ↑ │   │
-    │ │  Montant        │ │   │
-    │ │  Vertical       │ │   │  420 mm
-    │ │  (40x40)        │ │   │  (Hauteur)
-    │ │                 │ │   │
+    │ │  Montant        │ │   │  420 mm
+    │ │  Vertical       │ │   │  (Hauteur)
+    │ │  (40x40)        │ │   │
     │ ↓                 ↓ │   │
-    ├─────────────────────┤   │
-    │   Traverse Basse    │   │
-    │   (Hanches 60x60)   │  ─┴─
-    └─────────────────────┘
+    [N]─────────────────[N]   │
+    │ │ Traverse Basse  │ │   │
+    │ │ (Hanches 60x60) │ │  ─┴─
+    [N]─────────────────[N]
+    
+    *Légende:*
+    [N] = Nœud de jonction CNC en Alu 6061 (Bloc de ~50×50×50 mm)
 ```
 
 ### Schéma de la Cage (Vue de Dessus)
 
 ```text
     ← 300 mm (Largeur) →
-    ┌─────────────────────┐  ─┬─
+    [N]─────────────────[N]  ─┬─
     │ ■                 ■ │   │
     │ Montant           Montant│ 220 mm
     │ (40x40)           (40x40)│ (Profondeur)
     │ ■                 ■ │   │
-    └─────────────────────┘  ─┴─
-         (4 montants, un à chaque coin)
+    [N]─────────────────[N]  ─┴─
+    
+    *Légende:*
+    [N] = Nœud de jonction CNC en Alu 6061 (Bloc de ~50×50×50 mm)
 ```
 
 ### Schéma 3D Simplifié (Perspective Isométrique)
 
 ```text
-        Traverse Haute (35x35)
-        ┌──────────────────┐
-       /│                 /│
-      / │    Épaule      / │
-     /  │     G         /  │  Épaule D
-    ┌───┼──────────────┐   │
-    │   │              │   │
-    │   │ Montant 40x40│   │  ← 420 mm
-    │   │              │   │
-    │   │              │   │
-    │   └──────────────┼───┘
-    │  /               │  /
-    │ /  Traverse Basse│ /   (60x60)
-    │/   (Hanches)     │/
-    └──────────────────┘
-    ↕         ↔          ↕
-  220mm    300mm       220mm
+           Traverse Haute (35x35)
+          [N]──────────────────[N]
+         / │                  / │
+        /  │                 /  │
+       /   │                /   │
+     [N]───┼──────────────[N]   │
+      │    │               │    │
+      │   [N]──────────────┼───[N]  ← 420 mm (Hauteur)
+      │   /  Montant 40x40 │   /
+      │  /                 │  /
+      │ /  Traverse Basse  │ /   (60x60)
+      │/   (Hanches)       │/
+     [N]──────────────────[N]
+     
+     ↕         ↔          ↕
+   220mm    300mm       220mm
+   
+   *Légende:*
+   [N] = Nœud de jonction de coin usiné CNC (Bloc de ~50×50×50 mm)
 ```
 
 ## 3. Choix des Matériaux
