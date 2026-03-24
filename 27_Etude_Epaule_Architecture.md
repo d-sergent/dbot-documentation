@@ -154,8 +154,8 @@ HANCHE D-BOT (3 DOF)
 
 | Critère | Hanche | Épaule | Différence Clé |
 | :--- | :--- | :--- | :--- |
-| **Moteur de base** | RS-04 (120 N.m) | RS-03 (60 N.m) | Couple ~2× inférieur à la hanche |
-| **Charge portée** | Jambe entière (~8 kg) | Bras entier (~3.5 kg) | Charge ~2× inférieure |
+| **Moteur de base** | RS-04 (120 N.m) | **RS-04** (120 N.m) | Moteurs identiques en base pour garantir une forte capacité de portage frontal |
+| **Charge portée** | Jambe entière (~8 kg) | Bras entier + charge externe (~3.5 kg bras + jusqu'à 10 kg payload) | Capacité de levage frontal maximisée |
 | **Axe critique** | Pitch (lever la jambe) | **Pitch (lever le bras)** | Le pitch est critique dans les deux cas |
 | **Inversion du porte-à-faux** | Vers le BAS | Vers le BAS aussi | Le bras pend, la gravité tire pareil |
 | **Orientation du premier moteur** | Horizontal (médio-latéral) | **Horizontal (médio-latéral)** | Identique |
@@ -166,7 +166,7 @@ HANCHE D-BOT (3 DOF)
 
 #### ✅ Arguments POUR (adopter la même architecture que la hanche)
 
-1. **Même logique physique** : Comme la hanche, l'épaule subit principalement un couple gravitationnel sur l'axe Pitch. Mettre le moteur le plus coupleux (RS-03, 60 N.m) sur cet axe, en base, est la bonne stratégie.
+1. **Même logique physique** : La hanche comme l'épaule subissent des couples gravitationnels intenses sur l'axe Pitch (surtout lors du portage de charges à bout de bras). Installer le moteur le plus puissant de la gamme (**RS-04, 120 N.m**) sur cet axe Pitch en base est la bonne stratégie pour garantir une manipulation lourde (~5 kg continu, ~10 kg pic).
 
 2. **Cohérence de design** : Utiliser la même philosophie d'empilement sur tout le robot simplifie considérablement la conception CAO, l'assemblage, les pièces de rechange et la maintenabilité.
 
@@ -180,10 +180,10 @@ HANCHE D-BOT (3 DOF)
 
 | Point | Risque | Mitigation |
 | :--- | :--- | :--- |
-| **Masse totale empilée** | 2.165 kg de moteurs empilés à ~15 cm du centre du torse | Brackets en Alu léger (pas en PA12-CF) pour minimiser le poids additionnel |
-| **Couple résiduel Pitch** | Le RS-03 Pitch doit en permanence compenser le poids du bras (~3.5 kg × 0.25m × g ≈ 8.6 N.m) même au repos | Mode "holding torque" du RS-03 < 10 N.m → confortable (nominal 20 N.m) |
-| **Encombrement latéral** | L'empilement RS-03 + RS-03 + RS-02 fait ~106 + 106 + 78 mm de haut ≈ 290 mm | S'intègre dans l'épaule humanoïde standard (~30 cm d'épaule) |
-| **Câblage** | 3 câbles XT60 (power) + 3 câbles JST-GH (data) qui doivent suivre les rotations | Prévoir des passages de câble avec du jeu de ≥ 15 cm et des boucles de service |
+| **Masse totale empilée** | 2.705 kg de moteurs empilés à ~15 cm du centre du torse | Brackets en Alu léger pour minimiser le poids additionnel. Le poids du RS-04 se justifie par la charge utile gagnée. |
+| **Couple résiduel Pitch** | Le RS-04 Pitch doit compenser le poids du bras + Roll + Yaw (~4 kg × 0.25m × g ≈ 10 N.m) au repos | Mode "holding torque" du RS-04 < 15 N.m → très confortable (nominal 40 N.m) |
+| **Encombrement latéral** | L'empilement RS-04 + RS-03 + RS-02 fait ~120 + 106 + 78 mm haut ≈ 304 mm | S'intègre dans l'épaule humanoïde standard (~35 cm d'épaule) |
+| **Câblage** | 3 câbles XT60/XT30 + 3 câbles JST-GH qui doivent suivre les rotations | Prévoir passages de câble avec du jeu de ≥ 15 cm et des boucles de service |
 
 #### ❌ Arguments CONTRE l'utilisation de bielles/cardan à l'épaule
 
@@ -193,7 +193,7 @@ Contrairement à la cheville où le cardan + bielles résolvait un problème sp�
 
 2. **Un mécanisme de bielles ajouterait de la complexité pour zéro gain** : À la cheville, les bielles permettaient de retirer 310g de masse distale. À l'épaule, les moteurs sont déjà en position proximale.
 
-3. **Le couple requis est confortable** : Le RS-03 (60 N.m pic) a une marge de +600% sur le couple gravitationnel du bras (~8.6 N.m). Pas besoin de mécanisme amplificateur.
+3. **Le couple requis est massif en bout de bras** : Pour porter une charge frontale de 5 kg à bras tendu, le bras de levier requiert les 120 N.m pic du RS-04. Un cardan ne serait pas capable de transmettre de tels couples sans une complexité massive.
 
 4. **Un cardan introduirait des jeux mécaniques** : Sur un bras qui fait de la manipulation fine (D-Hand Hybrid), tout jeu angulaire se traduirait par une imprécision au bout des doigts — inadmissible.
 
@@ -211,8 +211,8 @@ VUE SCHÉMATIQUE — ÉPAULE D-BOT V1
                 ┌──────── TORSE ────────┐
                 │                        │
     Fixé        │  ╔════════════════╗    │
-    au        ──┼──║  RS-03  PITCH  ║    │  ← Axe Y (médio-latéral)
-    torse       │  ║  (60 N.m)      ║    │     Lever/abaisser le bras
+    au        ──┼──║  RS-04  PITCH  ║    │  ← Axe Y (médio-latéral)
+    torse       │  ║  (120 N.m)     ║    │     Lever/abaisser le bras
                 │  ╚═══════╤════════╝    │
                 └──────────┼─────────────┘
                            │  Bracket Alu #1
@@ -235,7 +235,7 @@ VUE SCHÉMATIQUE — ÉPAULE D-BOT V1
 
 | Position | Moteur | Axe | Couple | Justification |
 | :--- | :---: | :---: | :---: | :--- |
-| **1 (Base)** | **RS-03** | **Pitch (Y)** | 60 N.m | Porte le plus de charge. Le stator est fixé rigidement au torse. |
+| **1 (Base)** | **RS-04** | **Pitch (Y)** | **120 N.m** | Porte toute la charge du bras et payload (jusqu'à 10kg max). Stator fixé au torse. |
 | **2 (Inter.)** | **RS-03** | **Roll (X)** | 60 N.m | Contre le porte-à-faux latéral. Fixé au rotor du Pitch. |
 | **3 (Distal)** | **RS-02** | **Yaw (Z)** | 17 N.m | Rotation de l'humérus. Le plus léger (405g) car en bout de chaîne. |
 
@@ -257,7 +257,7 @@ Deux brackets sont nécessaires pour relier les 3 moteurs :
 
 | Bracket | Relie | Matériau | Machine | Contraintes |
 | :--- | :--- | :--- | :---: | :--- |
-| **Bracket #1** (Pitch→Roll) | Rotor RS-03 Pitch → Stator RS-03 Roll | Alu 6061-T6 | C500 | Couple max 60 N.m, doit supporter le poids Roll+Yaw+Bras (~2.8 kg) |
+| **Bracket #1** (Pitch→Roll) | Rotor RS-04 Pitch → Stator RS-03 Roll | Alu 6061-T6 | C500 | Couple max 120 N.m, doit supporter le poids Roll+Yaw+Bras (~2.8 kg) |
 | **Bracket #2** (Roll→Yaw) | Rotor RS-03 Roll → Stator RS-02 Yaw | Alu 6061-T6 | C500 | Couple max 17 N.m, doit supporter le poids Yaw+Bras (~1.4 kg) |
 
 > **Note** : Les brackets doivent être **aussi compacts que possible** pour minimiser le décalage entre les axes de rotation (les rapprocher d'une configuration concourante). Viser un décalage inter-axe de **< 30mm** entre Pitch et Roll, et **< 25mm** entre Roll et Yaw.
@@ -266,14 +266,14 @@ Deux brackets sont nécessaires pour relier les 3 moteurs :
 
 | Composant | Masse | Coût |
 | :--- | :---: | :---: |
-| RS-03 Pitch | 880g | ~$250 |
+| RS-04 Pitch | 1420g | ~$300 |
 | RS-03 Roll | 880g | ~$250 |
 | RS-02 Yaw | 405g | ~$170 |
-| Bracket #1 (Alu CNC) | ~120g (est.) | ~30€ (CNC C500) |
+| Bracket #1 (Alu CNC) | ~140g (est.) | ~40€ (CNC C500) |
 | Bracket #2 (Alu CNC) | ~80g (est.) | ~20€ (CNC C500) |
-| Visserie M4 12.9 | ~30g | ~5€ |
-| **Total par épaule** | **~2 395g** | **~$720** |
-| **Total 2 épaules** | **~4 790g** | **~$1 440** |
+| Visserie M4/M5 12.9 | ~40g | ~5€ |
+| **Total par épaule** | **~2 965g** | **~$785** |
+| **Total 2 épaules** | **~5 930g** | **~$1 570** |
 
 ---
 
@@ -299,11 +299,11 @@ Certains robots avancés (KIT Dual Arm) ajoutent un 4ème DOF "clavicule" (élé
 
 ## 7. Conclusion
 
-> 🟢 **Recommandation V1 : Adopter l'architecture Stacked Perpendicular identique à la hanche.**
+> 🟢 **Recommandation V1 : Adopter l'architecture "Option Hybride" avec empilement.**
 >
-> L'empilement RS-03 (Pitch) → RS-03 (Roll) → RS-02 (Yaw) est la solution optimale pour le D-Bot avec des moteurs off-the-shelf. C'est l'architecture du K-Bot, validée par Unitree H1 et l'ensemble des humanoïdes open-source. Aucun mécanisme de bielles ou cardan n'est nécessaire à l'épaule — les moteurs sont déjà en position proximale et les couples sont confortables.
+> L'empilement **RS-04 (Pitch) → RS-03 (Roll) → RS-02 (Yaw)** est la solution optimale pour le D-Bot. Cette architecture "Hybride", validée en clôture de Phase V1, donne la primeur au Pitch pour garantir une capacité de portage frontal de 5 à 10 kg, tout en économisant près d'un kilo par rapport à un double RS-04 (Roll) peu utile latéralement.
 >
-> La priorité de conception est de **minimiser le décalage inter-axe** des brackets pour tendre vers une articulation quasi-sphérique.
+> La priorité de conception reste de **minimiser le décalage inter-axe** des brackets pour tendre vers une articulation quasi-sphérique.
 
 ---
 
