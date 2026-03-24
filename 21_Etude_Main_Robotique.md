@@ -994,3 +994,174 @@ Le tableau ci-dessous compare les choix d'architecture pour le routage des tendo
 
 *Source des données : arxiv.org (ORCA 2024, RUKA 2024), GitHub BiDexHand V4, orcahand.com, humanoid.guide. Mars 2026.*
 
+---
+
+## 10. Étude de Mix : Utiliser l'ORCA Hand comme Base Mécanique pour la D-Hand
+
+### 10.1 Le Constat
+
+Notre plus grande faiblesse actuelle est le **manque de design mécanique concret pour les doigts** du D-Hand Hybrid. Nous avons la théorie (8 DOF, servos XC430+XC330, tendons Dyneema, poulies alu), mais pas encore les fichiers CAD des phalanges, de la paume ni du routage de câble.
+
+L'ORCA Hand, elle, dispose de **tout cela en open-source** :
+- **Fichiers STEP + STL** prêts à imprimer (disponibles sur orcahand.com/legacy/files)
+- **Guide d'assemblage en 31 étapes** avec photos détaillées
+- **BOM complète** sur GitHub (orcahand/orca_core)
+- **Modèles URDF/MJCF** pour la simulation (orcahand/orcahand_description)
+- **Environnement de simulation** Isaac Gym (orcahand/orca-gym)
+- **Système de téléopération** (orcahand/orca_retargeter)
+
+La question est : **peut-on réutiliser les pièces mécaniques ORCA tout en gardant notre stratégie d'actionnement D-Hand ?**
+
+---
+
+### 10.2 Les 4 Scénarios de Mix Possibles
+
+#### Scénario A : « ORCA Fingers + D-Hand Actionneurs » (Recommandé ✅)
+
+**Concept** : Prendre les phalanges ORCA (imprimées PA12-CF) telles quelles, mais les relier à **nos 8 servos Dynamixel XC430/XC330** au lieu des 17 servos ORCA.
+
+| Composant | Source | Modification requise |
+| :--- | :--- | :--- |
+| **Phalanges (proximale, médiane, distale)** | ORCA v1 (fichiers STEP) | Aucune — canaux de tendon compatibles |
+| **Paume (palm)** | ORCA v1 (fichier STEP) | Adaptations mineures : réduire les 17 passages à 8 |
+| **Tendons** | D-Hand (Dyneema Ø0.8mm) | Compatible directement avec les canaux ORCA |
+| **Gaines PTFE** | D-Hand (Ø1.5mm int.) | Même approche que l'ORCA (tube Téflon) |
+| **Poulies** | D-Hand (Alu CNC Ø8mm) | Avantage : plus durables que les poulies imprimées ORCA |
+| **Servomoteurs** | D-Hand (4× XC430 + 4× XC330) | Montage dans l'avant-bras avec bride custom |
+| **Nœuds de tendon** | ORCA (Ashley Stopper Knot) | ✅ Adopter cette technique éprouvée |
+| **Retour passif (extension)** | ORCA (ressorts torsion) | Compatible directement |
+| **Capteurs tactiles** | D-Hand (eFlesh 3 axes) | Montage sur pulpe distale ORCA (à vérifier encombrement) |
+
+**Couplage des tendons (passage de 17 à 8 DOF) :**
+
+| Doigt | ORCA (3 servos indépendants) | D-Hand Mix (tendons couplés) |
+| :--- | :--- | :--- |
+| **Index** | MCP curl + PIP curl + Abduction | 1× XC430 (MCP+PIP couplés) + 1× XC330 (Abduction) |
+| **Majeur** | MCP curl + PIP curl + Abduction | 1× XC430 (MCP+PIP couplés) |
+| **Annulaire** | MCP curl + PIP curl + Abduction | Couplé avec Majeur sur même XC430 |
+| **Auriculaire** | MCP curl + PIP curl + Abduction | Couplé avec Annulaire |
+| **Pouce** | IP + MCP + Opposition | 1× XC430 (IP+MCP couplés) + 1× XC330 (Opposition) |
+| **Abd. Index/Aur.** | 2× servos indépendants | 1× XC330 (partagé) |
+
+**Avantages :**
+- ✅ **Gain de temps énorme** : pas besoin de dessiner les phalanges from scratch
+- ✅ **Design validé** : >10 000 cycles prouvés sur les doigts ORCA
+- ✅ **Mêmes matériaux** : PA12-CF + Dyneema + PTFE = identique à notre baseline
+- ✅ **Ashley Stopper Knot** : technique de fixation tendon bien documentée, meilleure que notre colle cyano
+- ✅ **Simulation prête** : URDF/MJCF directement disponible pour Isaac Gym
+- ✅ **Force supérieure** : les XC430 (1.9 Nm) délivrent 2× plus de couple que les HL-3915 de l'ORCA Lite
+
+**Risques :**
+- ⚠️ Adapter la paume ORCA (17 chemins → 8) nécessite une retouche CAD
+- ⚠️ Vérifier l'encombrement des capteurs eFlesh dans la pulpe distale ORCA
+
+**Coût estimé :**
+
+| Poste | Prix |
+| :--- | ---: |
+| 4× XC430-T240BB-T | 560 € |
+| 4× XC330-T228T | 280 € |
+| Filament PA12-CF (phalanges) | ~30 € |
+| Dyneema + PTFE + ressorts | ~25 € |
+| Poulies alu CNC (8×) | ~40 € |
+| eFlesh 3 axes (5 doigts) | ~175 € |
+| **Total** | **~1 110 €** |
+
+---
+
+#### Scénario B : « Full ORCA Lite Replica + eFlesh » (Budget)
+
+**Concept** : Reproduire l'ORCA Lite telle quelle (9 DOF, servos Feetech), mais ajouter nos capteurs eFlesh 3 axes.
+
+| Composant | Source |
+| :--- | :--- |
+| Phalanges + Paume | ORCA Lite (STLs à venir) |
+| Servomoteurs | 9× Feetech HL-3915/HL-3930 |
+| Capteurs | eFlesh 3 axes (ajout custom) |
+
+| Avantage | Inconvénient |
+| :--- | :--- |
+| ✅ Coût minimal (<900 $ + eFlesh) | ❌ Perte totale de compliance active |
+| ✅ Assemblage très simple | ❌ Couple faible (0.92 Nm vs 1.9 Nm) |
+| ✅ Open-source complet bientôt | ❌ Aucune lecture de courant fine sur Feetech |
+
+**Verdict** : ❌ Ne convient PAS pour le D-Bot. La perte de compliance active Dynamixel est rédhibitoire pour la manipulation RL.
+
+---
+
+#### Scénario C : « Full ORCA Base Replica » (Haut de Gamme)
+
+**Concept** : Reproduire l'ORCA Base complète (17 DOF) avec ses 17 servos Dynamixel.
+
+| Avantage | Inconvénient |
+| :--- | :--- |
+| ✅ 17 DOF = dextérité maximale | ❌ Coût x2 (~2 000 € en composants) |
+| ✅ Design 100% validé | ❌ 17 servos = 17× plus de câblage |
+| ✅ Simulation Isaac Gym native | ❌ Poids élevé (1.3 kg) |
+| | ❌ Complexité d'assemblage élevée |
+
+**Verdict** : ⚠️ Option V2 viable si la V1 montre que 8 DOF sont insuffisants pour la manipulation cible.
+
+---
+
+#### Scénario D : « ORCA Fingers + Paume D-Hand Custom » (Avancé)
+
+**Concept** : Prendre les phalanges ORCA, mais reconcevoir entièrement la paume en aluminium CNC (C500) pour un montage plus rigide et une intégration parfaite avec le poignet RS-00 du D-Bot.
+
+| Avantage | Inconvénient |
+| :--- | :--- |
+| ✅ Intégration parfaite avec le chassis D-Bot | ❌ Nécessite un design CNC de paume complet |
+| ✅ Rigidité supérieure (alu vs PA12-CF) | ❌ Coût CNC additionnel |
+| ✅ Poulies alu intégrées dans la paume | ❌ Temps de développement plus long |
+
+**Verdict** : 🟡 Réservé à la V2. La paume imprimée (Scénario A) suffira pour la V1.
+
+---
+
+### 10.3 Ressources ORCA Disponibles sur GitHub
+
+L'écosystème ORCA est remarquablement complet (12 repos, mis à jour en Mars 2026) :
+
+| Repo GitHub | Contenu | Utilité pour D-Hand |
+| :--- | :--- | :--- |
+| `orcahand/orca_core` | Contrôleur Python (354 ⭐) | ✅ Base du driver servo, à adapter pour nos 8 DOF |
+| `orcahand/orcahand_description` | URDF + MJCF (246 ⭐) | ✅✅ Essentiel pour Isaac Gym simulation |
+| `orcahand/orca_sim` | Environnement de simulation | ✅ Benchmark comparatif |
+| `orcahand/orca-gym` | Isaac Gym (forked from K-Scale) | ✅✅ Template RL direct pour manipulation |
+| `orcahand/orca_retargeter` | Téléopération (gant → main) | ✅ Pour la collecte de données humaines |
+| `orcahand/rwr_system` | Dataset et inférence | 🟡 Avancé, V2 |
+| **Site orcahand.com** | Fichiers STEP/STL + BOM + Guide 31 étapes | ✅✅✅ La base mécanique de notre V1 |
+
+---
+
+### 10.4 Recommandation Finale : Scénario A
+
+> [!IMPORTANT]
+> **Le Scénario A « ORCA Fingers + D-Hand Actionneurs »** est le chemin optimal pour la V1 du D-Hand Hybrid.
+
+**Pourquoi :**
+
+1. **Gain de temps** : au lieu de 2-3 mois de conception CAD des phalanges, on peut les imprimer en 24h depuis les fichiers STEP existants.
+2. **Fiabilité prouvée** : les doigts ORCA ont résisté à 10 000+ cycles continus, c'est le meilleur test de fatigue disponible en open-source.
+3. **Force supérieure** : nos XC430 (1.9 Nm) offrent **2× le couple** des Feetech HL-3915 de l'ORCA Lite (0.92 Nm), donc nous surpassons la force de l'ORCA Lite avec le même nombre de DOF.
+4. **Tactile unique** : aucune version ORCA (hors Touch à $6 100) n'offre les capteurs eFlesh 3 axes que nous intégrons pour ~175 €.
+5. **Simulation native** : on hérite directement de l'environnement Isaac Gym (`orca-gym`) et des modèles URDF/MJCF (`orcahand_description`).
+6. **Couplage câbles Ashley Stopper** : la technique de nœud ORCA est supérieure à notre approche initiale (colle cyano), car elle permet un démontage non destructif et un re-tensionnement facile.
+
+**Plan d'action concret :**
+
+| Étape | Action | Durée estimée |
+| :---: | :--- | :---: |
+| 1 | Télécharger les fichiers STEP v1 depuis orcahand.com/legacy/files | 10 min |
+| 2 | Imprimer les phalanges en PA12-CF sur le Qidi Plus 4 | ~8h |
+| 3 | Modifier la paume ORCA dans Fusion 360 (17 → 8 passages) | ~4h |
+| 4 | Usiner 8 poulies Ø8mm en alu 6061 sur la CNC C500 | ~2h |
+| 5 | Assembler avec la technique Ashley Stopper (guide 31 étapes ORCA) | ~6h |
+| 6 | Intégrer les capteurs eFlesh dans les pulpes distales | ~3h |
+| 7 | Connecter les 8 servos via Dynamixel Bus + orca_core adapté | ~2h |
+| 8 | Tester dans Isaac Gym avec l'URDF ORCA modifié | ~4h |
+| **Total** | | **~30h** |
+
+> [!TIP]
+> **Versus from-scratch** : concevoir les phalanges à zero nécessiterait environ 2-3 mois de travail CAD + tests itératifs. Le Scénario A réduit ce délai à **~30 heures** de travail effectif (1 semaine à temps partiel).
+
