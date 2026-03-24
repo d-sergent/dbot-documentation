@@ -86,3 +86,7 @@ Voici une représentation schématique du squelette du D-Bot avec les dimensions
     Hauteur Totale Estimée : ~ 1.47 m
     (250 + 420 + 350 + 350 + 100)
 ```
+
+### Rendu 3D Global (Conceptuel)
+![Squelette Complet D-Bot](./assets/img_robot_full_skeleton.png)
+*Illustration : Vue globale du squelette intégrant la cage torse en aluminium ancrée aux membres robotisés.*
