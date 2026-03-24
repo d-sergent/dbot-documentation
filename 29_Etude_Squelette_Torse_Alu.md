@@ -23,66 +23,15 @@ Le torse est constitué de **profilés creux en aluminium** (tubes rectangulaire
 **Pourquoi pas de soudure ?**
 La soudure TIG/MIG détruit localement le traitement thermique T6, réduisant la résistance de l'aluminium 6060 de ~50% dans la zone affectée thermiquement (ZAT). L'assemblage boulonné conserve 100% des propriétés mécaniques.
 
-### Schéma de la Cage (Vue de Face)
+### Plans et Vues de la Cage
 
-```text
-    ← 300 mm (Largeur) →
-    [N]─────────────────[N]  ─┬─
-    │ │ Traverse Haute  │ │   │
-    │ │ (Épaules 35x35) │ │   │
-    [N]─────────────────[N]   │
-    │ ↑                 ↑ │   │
-    │ │  Montant        │ │   │  420 mm
-    │ │  Vertical       │ │   │  (Hauteur)
-    │ │  (40x40)        │ │   │
-    │ ↓                 ↓ │   │
-    [N]─────────────────[N]   │
-    │ │ Traverse Basse  │ │   │
-    │ │ (Hanches 60x60) │ │  ─┴─
-    [N]─────────────────[N]
-    
-    *Légende:*
-    [N] = Nœud de jonction CNC en Alu 6061 (Bloc de ~50×50×50 mm)
-```
+**Vue de Face (Blueprint Technique)**
+![Vue de Face - Plan Technique Squelette Aluminium](./assets/torso_frame_front_1774385220302.png)
+*Illustration : Les montants verticaux (40x40) sont joints aux traverses (60x60 en bas, 35x35 en haut) via les nœuds de jonction CNC. Largeur 300 mm, Hauteur 420 mm.*
 
-### Schéma de la Cage (Vue de Dessus)
-
-```text
-    ← 300 mm (Largeur) →
-    [N]─────────────────[N]  ─┬─
-    │ ■                 ■ │   │
-    │ Montant           Montant│ 220 mm
-    │ (40x40)           (40x40)│ (Profondeur)
-    │ ■                 ■ │   │
-    [N]─────────────────[N]  ─┴─
-    
-    *Légende:*
-    [N] = Nœud de jonction CNC en Alu 6061 (Bloc de ~50×50×50 mm)
-```
-
-### Schéma 3D Simplifié (Perspective Isométrique)
-
-```text
-           Traverse Haute (35x35)
-          [N]──────────────────[N]
-         / │                  / │
-        /  │                 /  │
-       /   │                /   │
-     [N]───┼──────────────[N]   │
-      │    │               │    │
-      │   [N]──────────────┼───[N]  ← 420 mm (Hauteur)
-      │   /  Montant 40x40 │   /
-      │  /                 │  /
-      │ /  Traverse Basse  │ /   (60x60)
-      │/   (Hanches)       │/
-     [N]──────────────────[N]
-     
-     ↕         ↔          ↕
-   220mm    300mm       220mm
-   
-   *Légende:*
-   [N] = Nœud de jonction de coin usiné CNC (Bloc de ~50×50×50 mm)
-```
+**Vue Perspective (Rendu 3D Isométrique)**
+![Vue Perspective - Squelette Torse Alu 3D](./assets/torso_frame_isometric_1774385202707.png)
+*Illustration : La profondeur de la cage est de 220 mm. On y distingue clairement les nœuds de jonction CNC pleins (de ~50x50x50 mm) vissés dans les coins.*
 
 ## 3. Choix des Matériaux
 
