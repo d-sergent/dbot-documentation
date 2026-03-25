@@ -1295,5 +1295,72 @@ Pour l'avant-bras et la base-moteur, notre **Scénario A** annule une grande par
 | ~150 micro-vis (M2x4, M2x6, crochets) | Fixation par bride Alu CNC | Moins de pièces cassables, montage plus rapide. |
 | Poulies imprimées en plastique (Spools) | 8× Poulies usinées alu CNC | Zéro usure du câble (plus de "fil à couper le beurre"). |
 
+#### ⚠️ Correction BOM Câble Dyneema (post-vérification mécanique)
+> [!WARNING]
+> Le Ø **0.40 mm** de l'ORCA est calibré pour les moteurs Feetech (1.1 N.m max). Nos **XC430 atteignent 2.6 N.m en pic**, ce qui donne un facteur de sécurité de seulement **×1.7** — insuffisant. La spécification câble D-Hand corrigée est **Ø 0.50 à 0.60 mm** (voir section 11.7 pour le calcul complet).
+
 #### Action Achat à prévoir :
-Il nous faudra passer commande d'un lot de **40 roulements 4x8x3 mm**, de **tubes PTFE [0.9x1.5mm]** et des **goupilles 2x6mm**. Le fil *Dyneema / Berkley x9* (0.40mm de diamètre pour ~40kg de résistance) est le standard parfait pour le D-Hand.
+Il nous faudra passer commande d'un lot de **40 roulements 4x8x3 mm**, de **tubes PTFE [0.9x1.5mm]**, des **goupilles 2x6mm** et du fil *Dyneema / Berkley x9* (⚠️ **Ø 0.50 à 0.60 mm**) pour les moteurs D-Hand.
+
+---
+
+### 11.7 Vérification Mécanique Complète (Câble, Poulies, Roulements)
+
+Suite à l'intégration des roulements ORCA (4x8x3 mm) et à la correction du diamètre de câble, voici la vérification complète du dimensionnement mécanique du D-Hand.
+
+#### A. Tensions Générées par les Moteurs (XC430 + XC330)
+
+| Moteur | Couple continu | Couple pic | Tension câble @ r=8mm | Tension câble @ r=10mm |
+| :--- | :---: | :---: | :---: | :---: |
+| **XC430-T240BB** (Force) | 1.9 N.m | 2.6 N.m | **237 N (24 kg)** / 325 N (33 kg) pic | 190 N / 260 N |
+| **XC330-T228** (Précision) | 0.76 N.m | 1.6 N.m | 95 N (10 kg) / 200 N pic | 76 N / 160 N |
+
+#### B. Résistance à la Rupture du Câble Dyneema (PE Tressé) et Facteur de Sécurité
+
+Facteur de sécurité cible : **×3 minimum** (robotique industrielle). Le calcul se fait sur la tension de pic (cas du blocage du doigt sur un objet dur).
+
+| Diamètre | Rupture (PE/Dyneema) | Facteur sécurité vs XC430 pic (325 N) | Verdict |
+| :---: | :---: | :---: | :---: |
+| Ø 0.40 mm (ORCA orig.) | ~392 N (40 kg) | **×1.2** | ❌ Insuffisant |
+| **Ø 0.50 mm** | ~540 N (55 kg) | **×1.7** | ⚠️ Limite (usage normal OK) |
+| **Ø 0.60 mm** | ~750 N (76 kg) | **×2.3** | ✅ Recommandé D-Hand |
+| Ø 0.80 mm (initial) | ~1177 N (120 kg) | **×3.6** | ✅✅ Trop gros pour canaux ORCA |
+
+> [!IMPORTANT]
+> **Standard retenu pour le D-Hand Hybrid :** Fil Dyneema PE 9 brins, **Ø 0.60 mm (80 lbs / 36 kg de rupture)** — celui-ci passe dans les tubes PTFE 0.9mm internes (marge +0.3mm suffisante pour la courbure), et offre le facteur de sécurité ×2.3 jugé acceptable pour une main manipulant des objets de 0 à 5 kg.
+
+#### C. Géométrie de Poulie CNC Révisée (Intégrant Roulement 4x8x3 mm)
+
+La découverte que les poulies ORCA embarquent des **roulements à billes 4x8x3 mm** modifie les cotes de nos poulies CNC. Voici le profil mécanique résultant :
+
+```
+                     ┌──────────────────────┐
+                     │  Gorge câble Ø0.60mm │
+               ┌─────┴──────────────────────┴─────┐
+               │  Couronne Alu ⌀ ext ≥ 16 mm      │
+               │   ┌───────────────────────┐       │
+               │   │  Roulement 4x8x3 mm   │       │
+               │   │  (MR84ZZ pressé)      │       │
+               │   │  Alésage intérieur ⌀4mm│      │
+               │   └───────────────────────┘       │
+               └──────────────────────────────────┘
+                      Axe Ø4mm (goupille Inox)
+```
+
+| Paramètre Poulie CNC | Valeur retenue | Justification |
+| :--- | :---: | :--- |
+| Diamètre extérieur (spool complet) | ≥ **16 mm** | Roulement ⌀8mm + 4mm de matière alu autour |
+| Gorge câble (profil en U) | Largeur **0.8mm**, Prof **0.8mm** | Câble Ø0.60 mm avec jeu de guidage |
+| Alésage pour roulement | **⌀8 mm H7** (pressé) | Monter le roulement 4x8x3mm à la presse |
+| Alésage interne (axe) | **⌀4 mm H7** | Traversé par une goupille Inox ⌀4mm |
+| Matériau | **Alu 6061** (ou 7075 si disponible) | Résistance à l'arête du câble, légèreté |
+| Tolérance gorge câble | **H7/g6** | Pour permettre câble de rouler librement |
+
+#### D. Les Roulements 4x8x3 mm (MR84ZZ) dans les Doigts
+
+Dans les phalanges imprimées, les roulements ne sont pas dans les poulies mais dans les **articulations MCP et PIP elles-mêmes** :
+- Chaque rotule MCP/PIP possède un **axe ⌀4mm** traversant la phalange.
+- Un roulement MR84ZZ est inséré en force dans chaque pièce PA12-CF pour supprimer la friction directe plastique-axe.
+- Résultat : articulations **fluides à vie**, sans usure du plastique autour de l'axe.
+
+**Conclusion Générale :** Le design D-Hand Hybrid est mécaniquement cohérent sous les efforts des XC430 **sous réserve** d'utiliser un câble Ø0.60mm (et non le 0.40mm ORCA). Les poulies CNC et les roulements 4x8x3mm sont dimensionnés correctement.
