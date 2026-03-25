@@ -1246,3 +1246,20 @@ En exploitant le design biomimétique des doigts ORCA (qui couple mécaniquement
 *   ❌ **Manipulation Intra-Manuelle Complexe (In-hand manipulation)** : Faire rouler un stylo entre ses différents doigts de manière fluide, jouer du piano avec accords complexes, ou exécuter l'entièreté du langage des signes. Ces gestes nécessitent le désaccouplement temporel et spatial de chaque articulation, ce qui réclame les 17 DOF pleins de l'ORCA Base.
 
 > **En résumé** : Le sous-actionnement mécanique (un tendon tire plusieurs articulations) permet au doigt de s'enrouler "naturellement" autour de la forme de l'objet, sans que l'IA n'ait besoin de calculer la trajectoire exacte de chaque micro-phalange. Le choix de ces 8 DOF est le compromis optimal pour l'entraînement par renforcement (RL) de préhension robuste.
+
+---
+
+### 11.5 Ressource Clé : Guide de Montage & Méthodologie
+
+Bien que nous utilisions nos propres servomoteurs (D-Hand actionneurs), l'assemblage mécanique des doigts, de la paume et le cheminement des tendons suivent strictement la méthodologie validée par l'ETH Zurich.
+
+🔗 **Le Guide d'Assemblage Officiel (Interactive) :**
+**[https://www.orcahand.com/legacy/files#assembly](https://www.orcahand.com/legacy/files#assembly)**
+
+Ce guide interactif en 29 à 31 étapes illustrées avec photos couvre absolument tout :
+1. **Routage du bout des doigts (Fingertips)** : Comment insérer le fil Dyneema et réaliser le nœud de blocage au bout de la phalange distale.
+2. **Technique du Nœud "Ashley Stopper" (Oysterman's stopper)** : C'est le nœud officiel utilisé pour garantir que le câble ne glisse jamais sous haute tension, tout en restant démontable (très supérieur à notre idée initiale de point de colle cyanoacrylate).
+3. **Mise en place des tubes PTFE** : Comment insérer les tubes Téflon dans les "Carpals" (la paume) pour garantir le glissement sans friction du câble de la paume jusqu'à l'avant-bras.
+4. **Tensionnement des ressorts** : La méthode pour monter les ressorts de rappel en torsion dans les phalanges imprimées en 3D afin de garantir l'extension passive du doigt.
+
+*Il est impératif de garder cette page web ouverte lors de l'assemblage physique du premier prototype D-Hand.*
