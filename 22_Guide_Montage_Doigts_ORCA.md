@@ -25,13 +25,13 @@ Le **Nœud Ashley Stopper** (aussi appelé "Oysterman's Stopper") est utilisé m
 4. **Si l'insertion du tendon dans un canal échoue plusieurs fois**, couper à nouveau l'extrémité du fil pour avoir une coupe nette, et recommencer. Les tolerances sont serrées, mais un bout propre passera.
 5. **Utilisez des brucelles (tweezers)** pour appliquer une pression uniforme et guider le tendon. Elles ne sont pas représentées dans les photos des étapes pour la lisibilité, mais elles sont **vivement recommandées**.
 
-![Knot step 1](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F00_About_tendons_and_knots%2Fsubstep_01.png?alt=media)
-![Knot step 2](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F00_About_tendons_and_knots%2Fsubstep_02.png?alt=media)
-![Knot step 3](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F00_About_tendons_and_knots%2Fsubstep_03.png?alt=media)
-![Knot step 4](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F00_About_tendons_and_knots%2Fsubstep_04.png?alt=media)
-![Knot step 5](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F00_About_tendons_and_knots%2Fsubstep_05.png?alt=media)
-![Knot step 6](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F00_About_tendons_and_knots%2Fsubstep_06.png?alt=media)
-![Knot step 7](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F00_About_tendons_and_knots%2Fsubstep_07.png?alt=media)
+![Knot step 1](Images_ORCA/Assembly_2_00_About_tendons_and_knots_substep_01.png)
+![Knot step 2](Images_ORCA/Assembly_2_00_About_tendons_and_knots_substep_02.png)
+![Knot step 3](Images_ORCA/Assembly_2_00_About_tendons_and_knots_substep_03.png)
+![Knot step 4](Images_ORCA/Assembly_2_00_About_tendons_and_knots_substep_04.png)
+![Knot step 5](Images_ORCA/Assembly_2_00_About_tendons_and_knots_substep_05.png)
+![Knot step 6](Images_ORCA/Assembly_2_00_About_tendons_and_knots_substep_06.png)
+![Knot step 7](Images_ORCA/Assembly_2_00_About_tendons_and_knots_substep_07.png)
 
 > [!NOTE]
 > *Adaptation D-Hand :* Le matériau officiel ORCA est du Dyneema Ø0.40–0.41 mm. **La D-Hand Hybrid utilise du Dyneema Ø0.60 mm** pour compenser le couple 2× supérieur des moteurs XC430 (voir Section 11.7 du document 21_Etude_Main_Robotique.md).
@@ -44,8 +44,8 @@ Passez un tendon d'environ **0.5 m de long** avec un nœud Ashley Stopper à une
 
 *Répétez pour tous les doigts, y compris le pouce.*
 
-![Fingertip step 1](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F01_Fingertip_Tendon_Routing%2Fsubstep_01.png?alt=media)
-![Fingertip step 2](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F01_Fingertip_Tendon_Routing%2Fsubstep_12.png?alt=media)
+![Fingertip step 1](Images_ORCA/Assembly_2_01_Fingertip_Tendon_Routing_substep_01.png)
+![Fingertip step 2](Images_ORCA/Assembly_2_01_Fingertip_Tendon_Routing_substep_12.png)
 
 ---
 
@@ -59,8 +59,8 @@ Une fois la goupille en place, insérez le tendon depuis le trou lateral et réa
 
 *Répétez pour tous les doigts, y compris le pouce.*
 
-![PP step 1](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F02_PP_Tendon_Routing%2Fsubstep_01.png?alt=media)
-![PP step 2](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F02_PP_Tendon_Routing%2Fsubstep_07.png?alt=media)
+![PP step 1](Images_ORCA/Assembly_2_02_PP_Tendon_Routing_substep_01.png)
+![PP step 2](Images_ORCA/Assembly_2_02_PP_Tendon_Routing_substep_07.png)
 
 ---
 
@@ -70,8 +70,8 @@ Prenez **2 tendons de 50 cm** (sans nœuds initiaux) et insérez-les sur le cot�
 
 *Répétez pour tous les doigts, sauf le pouce (qui a son propre système — voir Étape 06).*
 
-![Abd step 1](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F03_Abduction_Routing%2Fsubstep_01.png?alt=media)
-![Abd step 2](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F03_Abduction_Routing%2Fsubstep_09.png?alt=media)
+![Abd step 1](Images_ORCA/Assembly_2_03_Abduction_Routing_substep_01.png)
+![Abd step 2](Images_ORCA/Assembly_2_03_Abduction_Routing_substep_09.png)
 
 ---
 
@@ -94,8 +94,8 @@ Emboîtez l'assemblage de la phalange distale sur l'assemblage PP en l'enfonçan
 
 *Répétez pour tous les doigts sauf le pouce.*
 
-![Finger asm 1](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F05_Finger_Assembly%2Fsubstep_01.png?alt=media)
-![Finger asm 2](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F05_Finger_Assembly%2Fsubstep_13.png?alt=media)
+![Finger asm 1](Images_ORCA/Assembly_2_05_Finger_Assembly_substep_01.png)
+![Finger asm 2](Images_ORCA/Assembly_2_05_Finger_Assembly_substep_13.png)
 
 ---
 
@@ -105,7 +105,7 @@ Même procédure que l'Étape 03, mais appliquée à la pièce spécifique d'abd
 
 Vérifiez le routage : tirez manuellement sur chaque tendon et observez que l'articulation tourne de façon fluide dans les deux sens avant de clore l'assemblage.
 
-![Thumb abd 1](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F06_Thumb_Abduction_Tendon_Routing%2Fsubstep_01.png?alt=media)
+![Thumb abd 1](Images_ORCA/Assembly_2_06_Thumb_Abduction_Tendon_Routing_substep_01.png)
 
 ---
 
@@ -113,7 +113,7 @@ Vérifiez le routage : tirez manuellement sur chaque tendon et observez que l'ar
 
 Faites passer tous les tendons du pouce à travers le grand canal d'accès prévu. Emboîtez ensuite les composants du pouce en les enfonçant jusqu'à l'enclenchement. Le pouce a une cinématique avec opposition (DOF 5) et flexion (DOF 4), ses tendons rejoindront deux sorties dédiées sur la paume CNC.
 
-![Thumb asm 1](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F07_Thumb_Assembly%2Fsubstep_01.png?alt=media)
+![Thumb asm 1](Images_ORCA/Assembly_2_07_Thumb_Assembly_substep_01.png)
 
 ---
 
@@ -128,8 +128,8 @@ Procédure générique :
 - Faire tourner le moteur dans le sens d'enroulement (sens anti-horaire pour les moteurs D-Bot) jusqu'à ce que le jeu dans le tendon soit éliminé.
 - Bloquer par un point de colle mécanique sur la fixation de tendon ou un vis de bridage (selon la conception finale de notre paume en alu).
 
-![Spool step 1](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F26_Tendon_spooling%2Fsubstep_01.png?alt=media)
-![Spool step 2](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F26_Tendon_spooling%2Fsubstep_18.png?alt=media)
+![Spool step 1](Images_ORCA/Assembly_2_26_Tendon_spooling_substep_01.png)
+![Spool step 2](Images_ORCA/Assembly_2_26_Tendon_spooling_substep_18.png)
 
 ---
 
@@ -150,7 +150,7 @@ Vérifiez que :
 - La peau en silicone ramène correctement les doigts en position ouverte quand la tension est relâchée.
 - L'eFlesh est correctement sécurisé sous la peau silicone à la pulpe de chaque doigt.
 
-![Finish 1](https://firebasestorage.googleapis.com/v0/b/orca-a25f9.firebasestorage.app/o/Assembly_2%2F31_Complete_Assembly%2Fsubstep_01.png?alt=media)
+![Finish 1](Images_ORCA/Assembly_2_31_Complete_Assembly_substep_01.png)
 
 ---
 
