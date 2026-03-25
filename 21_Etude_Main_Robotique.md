@@ -1263,3 +1263,37 @@ Ce guide interactif en 29 à 31 étapes illustrées avec photos couvre absolumen
 4. **Tensionnement des ressorts** : La méthode pour monter les ressorts de rappel en torsion dans les phalanges imprimées en 3D afin de garantir l'extension passive du doigt.
 
 *Il est impératif de garder cette page web ouverte lors de l'assemblage physique du premier prototype D-Hand.*
+
+---
+
+### 11.6 Bill of Materials (BOM) : La Quincaillerie Commune ORCA / D-Hand
+
+Après extraction minutieuse de la nomenclature officielle ORCA, voici la liste exacte de la quincaillerie mécanique **qu'il faut commander** pour assembler les doigts et la paume du D-Hand. 
+
+> [!WARNING]
+> **Découverte Technique Majeure** : Contrairement aux hypothèses de départ, les doigts ORCA **utilisent bien des micro-roulements à billes** pour la fluidité, et **n'utilisent AUCUN ressort mécanique en métal pour l'extension**. L'extension passive du doigt (le fait qu'il se rouvre seul) est générée **exclusivement par l'élasticité de la peau en silicone (eFlesh) coulée sur le doigt**. Faire la peau en silicone est donc obligatoire sur le plan mécanique, pas juste cosmétique.
+
+#### 📦 Achats Communs Requis (Main & Doigts)
+
+| Catégorie | Référence exacte ORCA | Quantité pour 1 Main | Usage |
+| :--- | :--- | :---: | :--- |
+| **Roulements (Micro)** | Roulement à billes **4x8x3 mm** (MR84ZZ ou ouvert) | **35 unités** | Articulations des doigts et poulies de routage dans la paume. |
+| **Roulements (Poignet)** | Roulement à billes **6x13x5 mm** | **2 unités** | Base du pouce / poignet. |
+| **Axes Métalliques** | Goupilles cylindriques **2x6 mm** en acier | **20 unités** | Verrouillage des articulations MCP/PIP. |
+| **Axes Longs** | Axes en Inox **3x55 mm** | **4 unités** | Axes majeurs traversant la paume. |
+| **Aimants** | Aimants Néodyme ronds **5x2.8 mm** | **10 unités** | Fixation magnétique des pulpes / capteurs. |
+| **Câble (Tendon)** | Ligne tressée de pêche (Dyneema) **Ø 0.39 - 0.41 mm** | 1 bobine (15 brins) | *Berkley x9 Braid* recommandée pour sa rigidité extrême. |
+| **Guidage Tendon** | Tube PTFE (Téflon) **0.9 mm (interne) x 1.5 mm (externe)** | 1 bobine | Insertion dans toutes les pièces imprimées pour guider le fil. |
+
+#### 💸 Ce que l'on NE DOIT PAS ACHETER (Spécifique D-Hand)
+
+Pour l'avant-bras et la base-moteur, notre **Scénario A** annule une grande partie de la volumineuse visserie ORCA, que nous remplaçons par nos pièces usinées.
+
+| Pièce ORCA évitée | Remplacement D-Hand | Avantage |
+| :--- | :--- | :--- |
+| **17× servomoteurs Feetech/Dynamixel** | **8× Dynamixel (4× XC430 + 4× XC330)** | Budget divisé, câblage divisé par deux. |
+| ~150 micro-vis (M2x4, M2x6, crochets) | Fixation par bride Alu CNC | Moins de pièces cassables, montage plus rapide. |
+| Poulies imprimées en plastique (Spools) | 8× Poulies usinées alu CNC | Zéro usure du câble (plus de "fil à couper le beurre"). |
+
+#### Action Achat à prévoir :
+Il nous faudra passer commande d'un lot de **40 roulements 4x8x3 mm**, de **tubes PTFE [0.9x1.5mm]** et des **goupilles 2x6mm**. Le fil *Dyneema / Berkley x9* (0.40mm de diamètre pour ~40kg de résistance) est le standard parfait pour le D-Hand.
