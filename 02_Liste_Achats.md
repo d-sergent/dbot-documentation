@@ -103,7 +103,7 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
     - **Câblage Requis** : Il vous faut impérativement accompagner cette carte d'un **câble adaptateur Qwiic vers Pins Mâles** (Réf Mouser : [Adafruit 4209](https://www.mouser.fr/ProductDetail/Adafruit/4209?qs=PzGy0jfpSMuV28p8L2H4sQ%3D%3D)) pour la brancher facilement sur les pins classiques de la Spresense Extension Board sans faire de soudures compliquées.
     - *Alternative (Difficile à sourcer)* : La carte `SSCI-079782` (Switch Science) qui s'enfiche directement sur la Spresense reste excellente mais est très dure à trouver en Europe.
 - ~~**SensiEDGE CommonSense**~~ : ⚠️ Remplacée par la BMI270 ci-dessus car introuvable.
-- **Audio (Système Simplifié)** : [**Seeed ReSpeaker XVF-3800 USB 4-Mic Array**](https://www.gotronic.fr) (~35€) + **HP 5W 8Ω 40mm** (~5€)
+- **Audio (Système Simplifié)** : [**Seeed ReSpeaker XVF-3800 USB 4-Mic Array**](https://www.gotronic.fr) (**✅ Acheté**) + [**CQRobot 5W 8Ω Miniature Speaker (JST-PH2.0)**](https://www.amazon.fr) (**✅ Acheté**)
     - Remplace l'ancien système 8 micros PDM + Jabra Speak 510. Voir [Architecture Audio](./08_Audio_Perception.md).
     - Fournit : DoA 360° + Beamforming + AEC + Noise Suppression + sortie HP JST 5W.
     - Interface : **USB** → Jetson (PulseAudio natif).
