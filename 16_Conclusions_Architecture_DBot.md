@@ -18,7 +18,7 @@ Ce document présente uniquement les **décisions définitives** pour le D-Bot. 
 | **Poignet Roll** | **RS-00** | 14 N.m | ✅ V1 |
 | **Main** | **D-Hand Hybrid** (4× XC430 + 4× XC330 + tactile) | ~175 N grip | ✅ V1 |
 | **Cou** | **RS-05** (×2) | 5.5 N.m | ✅ V1 |
-| **Masse totale** | **~40.5 kg** | Cardan + Épaule Hybride (RS-04/03) + D-Hand + GT3 | Référence |
+| **Masse totale** | **~39.4 kg** | Squelette Alu + Hybrid Épaules + D-Hand + GT3 | Référence |
 | **Vitesse marche** | **~5 km/h** (marge XL) | — | Estimé |
 | **Course V1** | **~6-8 km/h** (mid-foot strike) | — | V1 logiciel |
 
@@ -148,6 +148,8 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 | Métrique | Estimation | Config |
 | :--- | :---: | :---: |
+| **Masse totale** | **~39.4 kg** | Squelette Alu + Hybrid Épaules + D-Hand + GT3 |
+| **DOF total** | 24 corps RobStride + 2×8 mains Dynamixel = **40 DOF actifs** | V1 complet |
 | **Vitesse marche sécurisée** | **~5 km/h** (marge genou 300 N.m) | RS-04+GT3 à 40% de charge |
 | **Vitesse marche max** | ~7 km/h (limite cadence RS-04) | RS-04 nominal (Vitesse rotation) |
 | **Vitesse course (V1 algo)** | ~6-8 km/h | Mid-foot strike (marge de couple XL) |
@@ -175,7 +177,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 ---
 
-*Conclusions établies en Mars 2026. Architecture D-Bot V1 stabilisée — **Option Hybride complète** : RS-04 Pitch + RS-03 Roll épaules + RS-06 coude + Cardan DIN 808 + 2×RS-03 chevilles + D-Hand Hybrid. Masse de référence : ~40.5 kg.*
+*Conclusions établies en Mars 2026. Architecture D-Bot V1 stabilisée — **Option Hybride complète** : RS-04 Pitch + RS-03 Roll épaules + RS-06 coude + Cardan DIN 808 + 2×RS-03 chevilles + D-Hand Hybrid. Masse de référence : ~39.4 kg.*
 
 ---
 
@@ -199,7 +201,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 | Poste | Matériau envisagé | Masse estimée | Allégement possible |
 | :--- | :--- | :---: | :---: |
-| Torse + Bassin (structure interne) | PA12-CF (isogrid/sandwich) | ~3.5 kg | → 2.8 kg (−20%) |
+| Torse + Bassin (Squelette Alu CNC) | Tubes 6060 + Nœuds CNC | **2.36 kg** | ✗ usiné — fixe |
 | Fémurs D+G (cuisse) | PA12-CF sandwich ou carbone | ~1.5 kg | → 1.0-1.2 kg (−25%) |
 | Tibias D+G | Tube carbone 3K Ø30mm | ~0.8 kg | → 0.5 kg (−38%) |
 | Pieds D+G | PA12-CF 100% + semelle TPU | ~0.8 kg | → 0.6 kg (−25%) |
@@ -216,15 +218,15 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | ~~Unitree L2 LiDAR~~ | — | ~~0.23 kg~~ | ⚠️ Repoussé **V2** |
 | D-Hand Hybrid ×2 | Servos + Dyneema + Structure | **1.57 kg** | ✗ fixe |
 | Câblage, connecteurs, visserie | — | ~0.8 kg | → 0.6 kg (optimisé) |
-| **TOTAL STRUCTUREL (estimé)** | | **~17.3 kg** | **→ ~13.8 kg (optimisé)** |
+| **TOTAL STRUCTUREL (estimé)** | | **~16.16 kg** | **→ ~12.66 kg (optimisé)** |
 
 ### 9.3 Masse Totale Robot — 3 Scénarios
 
 | Scénario | Moteurs | Structure | **Total** | Impact genou 2-3 km/h |
 | :--- | :---: | :---: | :---: | :---: |
 | **A — Option D Révisée (2× RS-04 épaules)** | 21.45 kg | ~17.0 kg | **~41.5 kg** | ✅ ~125/300 N.m (42%) |
-| **B — Option Hybride (Adoptée)** | 20.37 kg | ~17.1 kg | **~40.5 kg** | ✅ ~121/300 N.m (~40%) |
-| **C — Scénario B + allégement 3D** | 20.37 kg | ~14.3 kg | **~34.7 kg** | ✅ ~107/300 N.m (35%) — marge XL |
+| **B — Option Hybride (Adoptée)** | 20.37 kg | ~19.03 kg | **~39.40 kg** | ✅ ~121/300 N.m (~40%) |
+| **C — Scénario B + allégement 3D** | 20.37 kg | ~15.53 kg | **~35.90 kg** | ✅ ~107/300 N.m (35%) — marge XL |
 
 > [!TIP]
 > **Objectif cible réaliste** : Le scénario B + allégement modéré (structure à ~15 kg) amène le robot autour de **35-36 kg**. À cette masse, le genou RS-04 opère avec une réserve de puissance monumentale (>60%) → **marche et course sans aucune contrainte thermique**.
