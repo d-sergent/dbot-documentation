@@ -151,14 +151,15 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | :--- | :---: | :---: |
 | **Masse totale** | **~39.4 kg** | Squelette Alu + Hybrid Épaules + D-Hand + GT3 |
 | **DOF total** | 24 corps RobStride + 2×8 mains Dynamixel = **40 DOF actifs** | V1 complet |
-| **Vitesse marche sécurisée** | **~5 km/h** (marge genou 300 N.m) | RS-04+GT3 à 40% de charge |
-| **Vitesse marche max** | ~7 km/h (limite cadence RS-04) | RS-04 nominal (Vitesse rotation) |
-| **Vitesse course (V1 algo)** | ~6-8 km/h | Mid-foot strike (marge de couple XL) |
-| **Vitesse course (V3 tirant genou)** | ~8-10 km/h | Mécanisme S2 (V3 future) |
-| **Charge portage bras tendu** | **~5 kg continu, ~10 kg pic** | RS-04 épaule (×2.5 vs RS-03) |
-| **Charge portage bras plié 90°** | **~8-10 kg sécurité, ~15 kg pic** | RS-06 coude |
+| **Vitesse marche sécurisée** | **~5 km/h** (à vide) | Marge genou 300 N.m |
+| **Vitesse marche max** | **~7 km/h** | Limite physique RS-04 (Vitesse) |
+| **Vitesse course (V1 algo)** | **~6-8 km/h** | Marge couple XL (Course pic OK) |
+| **Vitesse course (V3 tirant genou)** | ~10 km/h | Mécanisme future "Atlas" |
+| **Charge utile (Portage marchant)**| **~20 kg** (à 2.5 km/h) | Utilisation genou ~65% (GT3) |
+| **Charge utile (Bras tendu frontal)**| **~5 kg** (en continu) | Limite épaule RS-04 |
+| **Charge utile (Bras plié 90°)** | **~10 kg** (sécurité) | Limite coude RS-06 |
 | **Grip main (force)** | **~175 N effectifs** | Hybrid XC430/XC330 |
-| **Autonomie** | ~1-2.5h (selon activité) | NMC 48V 10Ah (480 Wh), extensible ×2 en Phase 4 |
+| **Autonomie** | **~1.5h - 3h** | NMC 48V 10Ah (extensible ×2) |
 
 ---
 
