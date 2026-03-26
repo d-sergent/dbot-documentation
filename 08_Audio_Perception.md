@@ -8,44 +8,105 @@ Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Na
 
 > *Marge Processeur : La marche, la vision OAK-D et l'audio IA consomment environ 52% du processeur au maximum, laissant 48% de marge de sécurité.*
 
-## 2. Architecture Audio Hybride (Double Système)
-Le robot adopte une configuration "Luxe" séparant la localisation spatiale de la compréhension pure de la parole. L'architecture repose sur deux flux traités concurremment.
+## 2. Architecture Audio Simplifiée (ReSpeaker XVF-3800)
 
-### 2.1 Rôles et Câblage
-- **Matrice 8-micros PDM** (L'Ouïe Spatiale) : Son but unique est le **DoA (Direction of Arrival)** à 360°. La **Sony Spresense** reste le maître exclusif de ces 8 canaux PDM (DSP temps réel). Elle publie les coordonnées d'arrivée du son sur **ROS2 `/audio/doa`** pour ordonner au cou (Pan/Tilt) d'orienter la tête.
-- **Système DSP : Jabra Speak 510** (~80€, USB, AEC matériel) : Son annulation d'écho matérielle filtre le bruit des moteurs et du haut-parleur intégré. Il capte les mots pour Riva via USB sur la Jetson. Le haut-parleur du Jabra Speak sert aussi de TTS.
-- **Alimentation et Hub USB** : La Jetson n'ayant pas de prise son native, les deux systèmes se branchent sur un **Hub USB 3.0 Alimenté**. Prévoyez une ligne **5 V / 3 A dédiée et isolée galvaniquement** du circuit moteur (48V) pour éviter les sifflements de boucle de masse.
+> [!NOTE]
+> **Simplification V1 (Mars 2026)** : L'ancienne architecture "Luxe" (8 micros PDM + Spresense DSP + Jabra Speak 510) a été remplacée par un **module unique** ReSpeaker XVF-3800. Cette décision s'aligne sur les pratiques de l'industrie (Unitree G1 : 4 micros, Figure 02 : micros intégrés, 1X NEO : micros + LLM).
 
-### 2.2 Configuration Microphones & Blindage (Audit EMI)
-- **Placement stratégique** : 
-    - 2x Oreilles
-    - 1x Torse (Face)
-    - 1x Nuque (Dos)
-    - + 4x Additionnels en couronne sur la tête (pour le beamforming 3D).
-- **Câblage PDM (Microphones)** : Le signal d'horloge (1-3 MHz) est très sensible aux interférences électromagnétiques (EMI) générées par les moteurs RobStride. **L'utilisation d'un câble blindé est impérative** entre chaque micro et la puce d'acquisition.
-    - **Option 1 (Hack "Maker")** : Câble USB 2.0 sacrificiel (4 fils internes + tresse). *Note : le pin SEL Adafruit se câble via un pont local.*
-    - **Option 2 (Standard)** : Câble de type "Microphone" ou **LiYCY 4x0.14 mm²** (Gotronic).
-    - **Option 3 (Industriel)** : **SAB ou LappKabel LiYCY 4x0.14** (RS, Mouser). Résistant aux flexions répétées au cou.
-    - ⚠️ **Règle d'or de blindage** : La tresse métallique ne doit être connectée à la masse (GND) **que d'un seul côté** (côté Hub/Acquisition). Laissez la tresse coupée "en l'air" côté microphone pour créer une cage de Faraday parfaite.
+### 2.1 Module Unique : Seeed ReSpeaker XVF-3800
 
-### 2.3 Intégration Mécanique & Acoustique
-- **Filtrage Vibratoire** : Les bases des microphones doivent impérativement être montées sur des fixations imprimées en **Qidi TPU 95A-HF**. Pour amortir les vibrations haute fréquence des moteurs (cliquetis des pignons métalliques), imprimez le TPU avec un profil "spongieux" (Remplissage **10% à 15% Gyroid** et 1 seul mur externe).
-- **Isolement Acoustique (HP vs Micros)** : La zone haute (micros en couronne) et la zone basse (haut-parleur DSP, derrière la visière) doivent être séparées physiquement. Utilisez un barrage de **mousse haute densité** pour bloquer la repisse sonore à l'intérieur de la coque du casque. Si le son interne du HP excite les micros, le robot s'assourdira en parlant.
-- **Gestion du vent Jetson** : L'air de refroidissement de la Jetson ne doit absolument pas effleurer les micros (le vent détruit le beamforming).
-- **Synchronisation TDOA** : La capture des 8 micros par la Spresense doit garantir une synchro à **48 kHz** (suffisant pour le DoA en localisation de pièce, le 192 kHz est surdimensionné).
-- **Routage Audio (ALSA / PulseAudio)** : JetPack 6 (L4T) utilise nativement PulseAudio. **PipeWire n'est pas intégré et sa compilation manuelle est un risque technique**. Utilisez la configuration PulseAudio standard pour router le Jabra Speak comme *Source* ASR et *Sink* TTS, tandis que la Spresense gère ses propres 8 micros indépendamment.
-- **"Muzzle" ROS2** : Le nœud de contrôle audio baisse algorithmiquement la sensibilité d'écoute à l'instant où les genoux RS-04 forcent à 100%, ignorant les bruits mécaniques pour l'IA.
+| Caractéristique | Détail |
+| :--- | :--- |
+| **Chip** | XMOS XVF-3800 |
+| **Microphones** | 4× MEMS numériques (arrangement circulaire) |
+| **DoA (Direction of Arrival)** | ✅ 360° (traitement on-chip) |
+| **Beamforming** | ✅ (on-chip, focalisation sur la voix cible) |
+| **AEC (Annulation d'Écho)** | ✅ Matériel (élimine la voix TTS du HP) |
+| **Suppression de Bruit** | ✅ (on-chip, moteurs + environnement) |
+| **Dé-réverbération** | ✅ (on-chip) |
+| **VAD** | ✅ Détection d'activité vocale |
+| **Haut-parleur intégré** | ❌ Non — Sortie JST amplifiée 5W |
+| **Sortie audio** | Jack 3.5mm + **connecteur JST 5W** |
+| **Interface** | **USB** (Plug-and-play Jetson, PulseAudio natif) |
+| **Dimensions** | Ø70 mm (version ronde avec boîtier) |
+| **Masse** | ~30 g |
+| **Prix** | ~35 € |
 
-### 2.4 Schéma de Routage Audio
+**Achat (France)** :
+- [Gotronic.fr](https://www.gotronic.fr) — Distributeur français, stock local
+- [Seeed Studio](https://www.seeedstudio.com) — Direct fabricant, livraison internationale
+- [AliExpress](https://www.aliexpress.com) — Alternative économique
+
+### 2.2 Haut-Parleur Externe (TTS)
+
+Le ReSpeaker ne possédant pas de HP intégré, un **mini haut-parleur 5W / 8Ω** est connecté via le port JST de la carte.
+
+| Composant | Spécification | Prix |
+| :--- | :--- | :---: |
+| HP 5W 8Ω (40mm) | Connecteur JST, ~20 g | ~5 € |
+
+### 2.3 Placement dans le Robot
+
 ```
-[8 Micros PDM] → Spresense (TDOA 48kHz, DoA) → ROS2 /audio/doa → Cou Pan/Tilt
-
-[Jabra Speak 510 USB] → Jetson (PulseAudio) → Riva ASR → ROS2 /audio/command
-                                                    ↓
-[Haut-parleur Jabra]  ← Riva TTS ← Jetson
-
-"Muzzle" ROS2 agit sur les 2 entrées en parallèle.
+                    ┌─────────────────────────┐
+                    │       CRÂNE (top)        │
+                    │                          │
+                    │   ┌──────────────────┐   │
+                    │   │  ReSpeaker Ø70mm │   │ ← 4 micros DoA 360°
+                    │   │  (USB → Jetson)  │   │
+                    │   └──────────────────┘   │
+                    │                          │
+                    │ ~~~~~~~~ MOUSSE ~~~~~~~~ │ ← Isolation acoustique
+                    │                          │
+                    │   ┌──────────────────┐   │
+                    │   │  HP 5W (JST)     │   │ ← Zone buccale (grille)
+                    │   └──────────────────┘   │
+                    │                          │
+                    │       OAK-D Pro (FF)     │ ← Vision (front)
+                    └──────────┬───────────────┘
+                               │ Cou (USB dans tube)
+                             TORSE
 ```
+
+- **ReSpeaker** : Sommet du crâne (intérieur de la coque). Les 4 micros circulaires captent le son à 360° sans obstruction.
+- **HP 5W** : Zone buccale (derrière la grille faciale). Séparé physiquement des micros par une **mousse haute densité** pour éviter la repisse sonore.
+- **Câblage** : Un seul câble USB descend dans le cou vers le Hub USB Jetson. Le HP est relié au ReSpeaker par un fil JST de ~15 cm.
+
+### 2.4 Intégration Logicielle
+
+- **Routage Audio (PulseAudio)** : JetPack 6 (L4T) reconnaît nativement le ReSpeaker comme source USB. PulseAudio le configure automatiquement en *Source* ASR et *Sink* TTS (via la sortie HP).
+- **DoA via ROS2** : Le ReSpeaker publie les données DoA sur **`/audio/doa`** (via un nœud ROS2 léger, basé sur le package `respeaker_ros2`). Le cou Pan/Tilt s'oriente automatiquement vers la source sonore.
+- **"Muzzle" ROS2** : Le nœud de contrôle audio baisse algorithmiquement la sensibilité d'écoute lorsque les moteurs forcent, ignorant les bruits mécaniques.
+
+### 2.5 Schéma de Routage Audio
+
+```
+                          ┌──────────────────┐
+                          │  ReSpeaker USB   │
+                          │  (XMOS XVF-3800) │
+                          │                  │
+[4 Micros MEMS] ─────────┤  DoA 360°        ├──── USB ──→ Jetson (PulseAudio)
+                          │  Beamforming     │              │
+                          │  AEC + NS        │              ├─→ Riva ASR → ROS2 /audio/command
+                          │                  │              ├─→ DoA → ROS2 /audio/doa → Cou Pan/Tilt
+                          │  Sortie JST 5W ──┼──→ HP 5W    ├─← Riva TTS (Voix)
+                          └──────────────────┘
+```
+
+### 2.6 Comparatif Ancien vs Nouveau Système
+
+| Critère | Ancien (8-mic + Jabra) | **Nouveau (ReSpeaker)** |
+| :--- | :---: | :---: |
+| **Coût** | ~180 € | **~40 €** |
+| **Masse** | ~250 g | **~50 g** (ReSpeaker + HP) |
+| **Câblage** | 10+ fils blindés | **1 câble USB + 1 JST** |
+| **EMI à gérer** | Critique (8 lignes PDM) | **Aucun** (traitement on-chip) |
+| **DoA 360°** | ✅ | ✅ |
+| **AEC** | ✅ (Jabra) | ✅ (on-chip) |
+| **Complexité montage** | Très élevée | **Très faible** |
+
+> [!IMPORTANT]
+> **Impact sur la Spresense** : La Spresense **ne gère plus l'audio**. Ses rôles restants sont : Watchdog (heartbeat Jetson), Power Management (surveillance batterie 12S, MOSFET 48V), IMU BMI270 (équilibre bipède 416 Hz), lecture des FSR plantaires (ADC), et thermistances moteurs. Les deux cartes (Main Board + Extension Board) restent nécessaires pour ces fonctions critiques. Voir [Guide Watchdog](./11_Guide_SensiEDGE_Watchdog.md).
 
 ## 3. Stratégie IMU (Fusion Multi-Capteurs)
 

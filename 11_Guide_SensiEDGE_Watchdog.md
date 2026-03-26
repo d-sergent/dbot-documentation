@@ -2,6 +2,14 @@
 
 Ce guide détaille l'intégration de l'**IMU torse** (SparkFun BMI270) et la mise en place de l'architecture de **Sécurité Active** (Watchdog + Power Management) pilotée par la Sony Spresense.
 
+> [!NOTE]
+> **Mars 2026** : La Spresense **ne gère plus l'audio** (remplacé par le [ReSpeaker XVF-3800](./08_Audio_Perception.md)). Ses rôles restants sont :
+> - **Watchdog** : Surveillance heartbeat Jetson + coupure MOSFET 48V
+> - **Power Management** : Surveillance tension batterie 12S
+> - **IMU BMI270** : Équilibre bipède (416 Hz)
+> - **FSR** : Lecture capteurs plantaires (6× ADC)
+> - **Thermistances** : Monitoring moteurs RS-04
+
 > [!WARNING]
 > **Migration SensiEDGE → BMI270** : La carte SensiEDGE CommonSense initialement prévue **n'est pas disponible au grand public** (réservée aux professionnels). Ce guide a été mis à jour pour utiliser la **SparkFun 6DoF IMU Breakout - BMI270 (SEN-22397)** couplée à un câble Qwiic, beaucoup plus simple à sourcer en Europe.
 

@@ -97,15 +97,16 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 ### Électronique de Contrôle
 - **Sony Spresense** :
     - [*Main Board*](https://www.mouser.fr/ProductDetail/Sony-Spresense/CXD5602PWBMAIN1_FG_875607611_P?qs=%252B6g0mu59x7Ifurwfgmhhqg%3D%3D) + [*Extension Board* (Standard)](https://www.mouser.fr/ProductDetail/Sony-Spresense/CXD5602PWBEXT1E_FG_875612931_P?qs=%252B6g0mu59x7IfMFVSCO3mMw%3D%3D).
-    - **Note sémantique** : L'Extension Board Standard est préférée pour ses 8 entrées micro (vs 4 sur la version LTE).
-    - **Connectivité** : Pour la LTE, utilisez un shield tiers (Waveshare SIM7600) via UART pour conserver les 8 micros.
+    - **Note** : La Spresense **ne gère plus l'audio** (remplacé par le ReSpeaker). Ses rôles restants : Watchdog, Power Management, IMU BMI270, FSR, Thermistances.
 - **IMU Torse (Équilibre)** : [**SparkFun 6DoF IMU Breakout - BMI270** (Réf: `SEN-22397`)](https://www.mouser.fr/ProductDetail/SparkFun/SEN-22397?qs=1Kr7Jg1SGW8PccltG0E4HQ%3D%3D) + Câble. 
     - **C'est l'IMU principale d'équilibre** du robot (voir [Stratégie IMU](./08_Audio_Perception.md)). 
     - **Câblage Requis** : Il vous faut impérativement accompagner cette carte d'un **câble adaptateur Qwiic vers Pins Mâles** (Réf Mouser : [Adafruit 4209](https://www.mouser.fr/ProductDetail/Adafruit/4209?qs=PzGy0jfpSMuV28p8L2H4sQ%3D%3D)) pour la brancher facilement sur les pins classiques de la Spresense Extension Board sans faire de soudures compliquées.
     - *Alternative (Difficile à sourcer)* : La carte `SSCI-079782` (Switch Science) qui s'enfiche directement sur la Spresense reste excellente mais est très dure à trouver en Europe.
 - ~~**SensiEDGE CommonSense**~~ : ⚠️ Remplacée par la BMI270 ci-dessus car introuvable.
-- **Audio (Beamforming 3D)** : [**8x Adafruit PDM MEMS Microphone Breakout** (Réf Mouser: `Adafruit 3492`)](https://www.mouser.fr/ProductDetail/Adafruit/3492?qs=rrS6PyfT74fqioym9ewQCw%3D%3D) + câbles blindés.
-    - ⚠️ **Isolation Mécanique** : Les micros ne doivent jamais toucher le PETG du châssis en direct. Installez-les sur un petit joint ou socle imprimé en **TPU souple** pour bloquer les bruits constants des moteurs.
+- **Audio (Système Simplifié)** : [**Seeed ReSpeaker XVF-3800 USB 4-Mic Array**](https://www.gotronic.fr) (~35€) + **HP 5W 8Ω 40mm** (~5€)
+    - Remplace l'ancien système 8 micros PDM + Jabra Speak 510. Voir [Architecture Audio](./08_Audio_Perception.md).
+    - Fournit : DoA 360° + Beamforming + AEC + Noise Suppression + sortie HP JST 5W.
+    - Interface : **USB** → Jetson (PulseAudio natif).
 
 ### Capteurs d'Équilibre (Phase 4)
 | Composant | Modèle | Quantité | Note |
