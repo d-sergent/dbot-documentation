@@ -37,6 +37,9 @@ Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Na
 - [Seeed Studio](https://www.seeedstudio.com) — Direct fabricant, livraison internationale
 - [AliExpress](https://www.aliexpress.com) — Alternative économique
 
+**Ressources Techniques & CAO (STEP) :**
+- [Wiki Officiel ReSpeaker XVF-3800](https://wiki.seeedstudio.com/respeaker_xvf3800_introduction/#resources) (Inclut les fichiers 3D)
+
 ### 2.2 Haut-Parleur Externe (TTS)
 
 Le ReSpeaker ne possédant pas de HP intégré, un **mini haut-parleur 5W / 8Ω** est connecté via le port JST de la carte.

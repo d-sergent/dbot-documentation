@@ -107,6 +107,7 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
     - Remplace l'ancien système 8 micros PDM + Jabra Speak 510. Voir [Architecture Audio](./08_Audio_Perception.md).
     - Fournit : DoA 360° + Beamforming + AEC + Noise Suppression + sortie HP JST 5W.
     - Interface : **USB** → Jetson (PulseAudio natif).
+    - [Ressources & Modèles CAO (Wiki)](https://wiki.seeedstudio.com/respeaker_xvf3800_introduction/#resources)
 
 ### Capteurs d'Équilibre (Phase 4)
 | Composant | Modèle | Quantité | Note |
