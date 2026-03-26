@@ -70,6 +70,20 @@ Le ReSpeaker ne possédant pas de HP intégré, un **mini haut-parleur 5W / 8Ω*
 
 - **ReSpeaker** : Sommet du crâne (intérieur de la coque). Les 4 micros circulaires captent le son à 360° sans obstruction.
 - **HP 5W** : Zone buccale (derrière la grille faciale). Séparé physiquement des micros par une **mousse haute densité** pour éviter la repisse sonore.
+
+#### 2.3.1 Détails d'Intégration Acoustique (Crucial)
+
+Pour que les microphones fonctionnent à travers la coque en PETG-CF, vous devez respecter ces deux règles :
+
+1.  **Évents Acoustiques (Mic Ports)** : La coque du robot **ne doit pas être pleine** devant les micros. Vous devez percer (ou prévoir à la conception 3D) **4 petits trous de Ø1.5 mm à Ø2 mm**, alignés précisément avec les 4 microphones MEMS de la carte ReSpeaker. Sans ces trous, le son sera étouffé et la localisation (DoA) sera impossible.
+2.  **Joint TPU (Gasket)** : Il est impératif d'interposer un joint fin (0.5 mm à 1.0 mm) imprimé en **TPU souple** entre la face supérieure du ReSpeaker et la paroi interne du crâne.
+    - **Rôle 1** : Étanchéité acoustique. Empêche le son interne du robot (ventilation Jetson, sifflement des moteurs) de "remonter" vers les micros par l'intérieur du crâne.
+    - **Rôle 2** : Isolation vibratoire. Empêche les vibrations mécaniques du châssis d'exciter directement les membranes des micros.
+    - **Conception** : Le joint doit comporter 4 perçages alignés avec les évents de la coque et les micros.
+
+> [!TIP]
+> **Protection Poussière** : Vous pouvez coller une fine membrane de **tulle acoustique** ou un morceau de collant en nylon entre le joint TPU et la coque pour empêcher la poussière d'entrer dans les micros sans bloquer le son.
+
 - **Câblage** : Un seul câble USB descend dans le cou vers le Hub USB Jetson. Le HP est relié au ReSpeaker par un fil JST de ~15 cm.
 
 ### 2.4 Intégration Logicielle
