@@ -50,7 +50,8 @@ Fournisseurs : Cardan **Michaud Chailly** A5-473-12, bielles carbone 3K Ø10/8mm
 | :--- | :---: | :---: | :---: |
 | Marche lente (< 1 km/h) | ~69 N.m | **300 N.m** | ✅ +330% (Marges XL) |
 | Marche normale (2-3 km/h) | ~117 N.m | **300 N.m** | ✅ +156% (Sécurisé) |
-| Course algo mid-foot (4 km/h) | **~103 N.m** | **300 N.m** | ✅ **Très Confortable** |
+| Course pic (172 N.m requis) | **172 N.m** | **300 N.m** | ✅ **Sécurisé** (Marge 42%) |
+| Course mid-foot (4 km/h) | **~103 N.m** | **300 N.m** | ✅ **Ultra-Margé** (65%) |
 
 **Évolution planifiée :**
 - **V2** (~6 mois) : Tibia en lame carbone flexible pour absorption passive des chocs.
@@ -302,9 +303,10 @@ Masse cible : 40.2 - 2.0 = ~38.2 kg
 = 0.987 × 117 = 115.5 N.m
 → Marge RS-04 (avec GT3 300 N.m) : (300 - 115.5) / 300 = **+61%** ← réserve massive
 
-τ_genou à 3-4 km/h :
+τ_genou à 3-4 km/h (Course pic) :
 = (38.5 / 39) × 68.8 × 2.2 (facteur dynamique rapide)
-= 148 N.m → dépasse RS-04 → course : algorithme SEA ou mid-foot nécessaire
+= 148 N.m → **✅ Marge GT3 : (300 - 148) / 300 = +50%**
+→ La course est possible même **sans** mid-foot strike (148 < 300 N.m).
 ```
 
 **Vitesse de marche maximale théorique à ~38.5 kg :**
