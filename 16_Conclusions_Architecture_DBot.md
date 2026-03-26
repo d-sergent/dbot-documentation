@@ -114,7 +114,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | DOF actifs | 8 (Pouce ×2, Index ×2, Majeur, Annulaire, Auriculaire, Paume) |
 | Force grip | **~175 N effectifs** (niveau Tesla Optimus) |
 | Tactile | **Options T2 (eFlesh 3-axes)** sur la pulpe des doigts |
-| Poids total (Main + Avant-bras) | **~850g** |
+| Poids total (Main + Avant-bras) | **~785g** |
 | Tendons | Dyneema Ø0.8mm-1.0mm, gaines PTFE, poulies CNC Ø8mm |
 | Coût par main | ~**1 110 €** (Servos + BOM + eFlesh) |
 | Protocole | Dynamixel 2.0 TTL, ROS 2, SDK Python |
@@ -216,7 +216,7 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | Spresense + électronique | — | 0.3 kg | ✗ fixe |
 | OAK-D Pro FF | — | 0.091 kg | ✗ fixe |
 | ~~Unitree L2 LiDAR~~ | — | ~~0.23 kg~~ | ⚠️ Repoussé **V2** |
-| D-Hand Hybrid ×2 | Servos + Dyneema | **1.7 kg** | ✗ fixe |
+| D-Hand Hybrid ×2 | Servos + Dyneema + Structure | **1.57 kg** | ✗ fixe |
 | Câblage, connecteurs, visserie | — | ~0.8 kg | → 0.6 kg (optimisé) |
 | **TOTAL STRUCTUREL (estimé)** | | **~17.0 kg** | **→ ~13.5 kg (optimisé)** |
 
