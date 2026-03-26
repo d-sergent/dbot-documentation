@@ -215,20 +215,21 @@ Aucune modification requise — marges très confortables même à 39 kg.
 | Tête + cou (boîtier capteurs) | PETG-CF | ~0.4 kg | → 0.3 kg |
 | Batterie 48V 10Ah (AT WEY NMC) | — | **2.3 kg** | ✗ fixe |
 | Jetson Orin Nano 8GB | — | 0.3 kg | ✗ fixe |
-| Spresense + électronique | — | 0.3 kg | ✗ fixe |
+| Spresense (Watchdog/IMU/FSR) | — | **0.20 kg** | ✗ fixe |
 | OAK-D Pro FF | — | 0.091 kg | ✗ fixe |
 | ~~Unitree L2 LiDAR~~ | — | ~~0.23 kg~~ | ⚠️ Repoussé **V2** |
+| Audio (ReSpeaker + HP 5W) | — | **0.05 kg** | 🆕 Simplifié |
 | D-Hand Hybrid ×2 | Servos + Dyneema + Structure | **1.57 kg** | ✗ fixe |
-| Câblage, connecteurs, visserie | — | ~0.8 kg | → 0.6 kg (optimisé) |
-| **TOTAL STRUCTUREL (estimé)** | | **~16.16 kg** | **→ ~12.66 kg (optimisé)** |
+| Câblage, connecteurs, visserie | — | ~0.7 kg | → 0.5 kg (optimisé) |
+| **TOTAL STRUCTUREL (estimé)** | | **~15.96 kg** | **→ ~12.46 kg (optimisé)** |
 
 ### 9.3 Masse Totale Robot — 3 Scénarios
 
 | Scénario | Moteurs | Structure | **Total** | Impact genou 2-3 km/h |
 | :--- | :---: | :---: | :---: | :---: |
 | **A — Option D Révisée (2× RS-04 épaules)** | 21.45 kg | ~17.0 kg | **~41.5 kg** | ✅ ~125/300 N.m (42%) |
-| **B — Option Hybride (Adoptée)** | 20.37 kg | ~19.03 kg | **~39.40 kg** | ✅ ~121/300 N.m (~40%) |
-| **C — Scénario B + allégement 3D** | 20.37 kg | ~15.53 kg | **~35.90 kg** | ✅ ~107/300 N.m (35%) — marge XL |
+| **B — Option Hybride (Adoptée)** | 20.37 kg | ~18.83 kg | **~39.20 kg** | ✅ ~121/300 N.m (~40%) |
+| **C — Scénario B + allégement 3D** | 20.37 kg | ~15.33 kg | **~35.70 kg** | ✅ ~107/300 N.m (35%) — marge XL |
 
 > [!TIP]
 > **Objectif cible réaliste** : Le scénario B + allégement modéré (structure à ~15 kg) amène le robot autour de **35-36 kg**. À cette masse, le genou RS-04 opère avec une réserve de puissance monumentale (>60%) → **marche et course sans aucune contrainte thermique**.
