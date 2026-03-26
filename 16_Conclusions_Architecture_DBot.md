@@ -42,21 +42,21 @@ Fournisseurs : Cardan **Michaud Chailly** A5-473-12, bielles carbone 3K Ø10/8mm
 
 ---
 
-## 2. Genou — RS-04 + Optimisation Algorithmique
+## 2. Genou — RS-04 + Courroie GT3 (S6)
 
-**Décision V1 : RS-04 (120 N.m) + pattern de marche mid-foot strike.**
+**Décision V1 : RS-04 (120 N.m) + Réduction GT3 2.5:1 = 300 N.m effectifs.**
 
-| Scénario | Couple Requis | Couple Dispo | Verdict |
+| Scénario | Couple Requis | Couple Dispo (S6) | Verdict |
 | :--- | :---: | :---: | :---: |
-| Marche lente (< 1 km/h) | ~69 N.m | 120 N.m | ✅ +74% |
-| Marche normale (2-3 km/h) | ~117 N.m | 120 N.m | ⚠️ Transitoires OK |
-| Course algo mid-foot (4 km/h) | **~103 N.m** | 120 N.m | ✅ **Viable** |
+| Marche lente (< 1 km/h) | ~69 N.m | **300 N.m** | ✅ +330% (Marges XL) |
+| Marche normale (2-3 km/h) | ~117 N.m | **300 N.m** | ✅ +156% (Sécurisé) |
+| Course algo mid-foot (4 km/h) | **~103 N.m** | **300 N.m** | ✅ **Très Confortable** |
 
 **Évolution planifiée :**
-- **V2** (~6 mois) : Tibia en lame carbone flexible → τ_genou_course ~134 N.m → +12% marge
-- **V3** (~1 an) : Mécanisme tirant dans la cuisse (ratio 1.5:1 → 180 N.m, type Atlas) → course 8-10 km/h
+- **V2** (~6 mois) : Tibia en lame carbone flexible pour absorption passive des chocs.
+- **V3** (~1 an) : Mécanisme "Atlas" à tirant haute-vitesse pour course > 10 km/h.
 
-> Voir : [Genou & Course](./15d_Genou_et_Course.md)
+> Voir : [Solution S6 : Courroie GT3](./15g_Solution_S6_Courroie_GT3_Genou.md) | [Alternatives Transmission](./15h_Alternatives_Transmission_Genou.md)
 
 ---
 
@@ -148,11 +148,9 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 | Métrique | Estimation | Config |
 | :--- | :---: | :---: |
-| **Masse totale** | **~40.2 kg** | Cardan + Épaule Hybride (RS-04/03) + D-Hand |
-| **DOF total** | 24 corps RobStride + 2×8 mains Dynamixel = **40 DOF actifs** | V1 complet |
-| **Vitesse marche sécurisée** | **~2 km/h** (marge genou 120 N.m) | RS-04 genou à 101% à 2-3 km/h |
-| **Vitesse marche max** | ~3 km/h (algo ZMP, pics transitoires ok) | RS-04 genou à 97→104% |
-| **Vitesse course (V1 algo)** | ~3-4 km/h | Mid-foot strike (genou au pic) |
+| **Vitesse marche sécurisée** | **~5 km/h** (marge genou 300 N.m) | RS-04+GT3 à 40% de charge |
+| **Vitesse marche max** | ~7 km/h (limite cadence RS-04) | RS-04 nominal (Vitesse rotation) |
+| **Vitesse course (V1 algo)** | ~6-8 km/h | Mid-foot strike (marge de couple XL) |
 | **Vitesse course (V3 tirant genou)** | ~8-10 km/h | Mécanisme S2 (V3 future) |
 | **Charge portage bras tendu** | **~5 kg continu, ~10 kg pic** | RS-04 épaule (×2.5 vs RS-03) |
 | **Charge portage bras plié 90°** | **~8-10 kg sécurité, ~15 kg pic** | RS-06 coude |
@@ -163,12 +161,11 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 ## 8. Points d'Attention V1
 
-> [!WARNING]
-> **⚠️ Genou RS-04 à ~101% de son pic à 2-3 km/h avec 40.2 kg.** Avec la masse ajustée grâce aux épaules hybrides (-1.08 kg vs Option D), le couple genou en marche normale atteint ~121 N.m vs 120 N.m pic RS-04. Conséquences pratiques :
-> - **Vitesse sécurisée recommandée : 2 km/h** pour rester dans les limites nominales.
-> - À 2-3 km/h : genou opère sur les **pics transitoires** (< 50 ms) — viable mais limites thermiques à surveiller.
-> - **Priorité algorithmique n°1** : ZMP control + courbe de jerk + mid-foot strike pour lisser les impacts.
-> - **Compromis assumé** : Le gain de portage (+5 kg frontal vs +2 kg ancestral) justifie cette contrainte.
+> [!IMPORTANT]
+> **✅ Genou RS-04 + GT3 (S6) :** L'ajout de la réduction 2.5:1 fait passer le couple de 120 N.m à **300 N.m**. À 2-3 km/h, le moteur n'est sollicité qu'à **~40%** de sa capacité.
+> - **Vitesse sécurisée** : Augmentée à 5 km/h.
+> - **Thermique** : Excellente dissipation prévue (faible courant requis en croisière).
+> - **Stabilité** : Les marges de couple permettent de corriger les perturbations d'équilibre bien plus agressivement.
 
 > [!IMPORTANT]
 > **✅ Coude RS-06 (upgrade RS-02)** : Le coude RS-06 permet un portage bras plié de 8-10 kg en continu (vs ~4.5 kg avec RS-02). C'est l'upgrade complémentaire indispensable aux RS-04 épaules.
@@ -224,12 +221,12 @@ Aucune modification requise — marges très confortables même à 39 kg.
 
 | Scénario | Moteurs | Structure | **Total** | Impact genou 2-3 km/h |
 | :--- | :---: | :---: | :---: | :---: |
-| **A — Option D Révisée (2× RS-04 épaules)** | 21.45 kg | ~17.0 kg | **~41.5 kg** | ⚠️ ~125 N.m (104% de 120) |
-| **B — Option Hybride (Adoptée)** | 20.37 kg | ~16.8 kg | **~40.2 kg** | ⚠️ ~121 N.m (~101%) |
-| **C — Scénario B + allégement 3D** | 20.37 kg | ~14.0 kg | **~34-36 kg** | ✅ ~107 N.m (89%) — marche confortable |
+| **A — Option D Révisée (2× RS-04 épaules)** | 21.45 kg | ~17.0 kg | **~41.5 kg** | ✅ ~125/300 N.m (42%) |
+| **B — Option Hybride (Adoptée)** | 20.37 kg | ~16.8 kg | **~40.2 kg** | ✅ ~121/300 N.m (~40%) |
+| **C — Scénario B + allégement 3D** | 20.37 kg | ~14.0 kg | **~34-36 kg** | ✅ ~107/300 N.m (35%) — marge XL |
 
 > [!TIP]
-> **Objectif cible réaliste** : Le scénario B + allégement modéré (structure à ~15 kg) amène le robot autour de **35-36 kg**. À cette masse, le genou RS-04 opère à ~85-90% de son pic à 2-3 km/h → **marche normale confortable et course envisageable sans compromis**.
+> **Objectif cible réaliste** : Le scénario B + allégement modéré (structure à ~15 kg) amène le robot autour de **35-36 kg**. À cette masse, le genou RS-04 opère avec une réserve de puissance monumentale (>60%) → **marche et course sans aucune contrainte thermique**.
 
 ---
 
@@ -300,7 +297,7 @@ Masse cible : 40.2 - 2.0 = ~38.2 kg
 τ_genou à 2-3 km/h :
 = (38.5 / 39) × 117 N.m × 1.7 (dynamique)
 = 0.987 × 117 = 115.5 N.m
-→ Marge RS-04 : (120 - 115.5) / 120 = +3.8% ← marge confortable
+→ Marge RS-04 (avec GT3 300 N.m) : (300 - 115.5) / 300 = **+61%** ← réserve massive
 
 τ_genou à 3-4 km/h :
 = (38.5 / 39) × 68.8 × 2.2 (facteur dynamique rapide)
