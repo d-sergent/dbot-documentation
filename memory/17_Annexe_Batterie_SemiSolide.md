@@ -1,1 +1,0 @@
-.././17_Annexe_Batterie_SemiSolide.md

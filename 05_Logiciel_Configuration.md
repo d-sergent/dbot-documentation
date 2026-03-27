@@ -117,13 +117,49 @@ L'agent OpenClaw est configuré pour utiliser l'API compatible OpenAI de LM Stud
 - **Base URL** : `http://127.0.0.1:1234/v1`
 - **Modèle par défaut** : `openai/meta-llama-3.1-8b-instruct` (Llama 3.1 8B) ou `openai/qwen2.5-coder-7b-instruct@q4_k_m`.
 
-### Workspace & Mémoire (RAG)
-Pour que l'agent puisse lire la documentation du D-Bot, son espace de travail a été configuré sur le dossier Google Drive :
-- **Workspace** : `/Volumes/Drive-Mac/Mon Google Drive Physique/Documentation`
-- **Commande de mise à jour de l'index** :
-  ```bash
-  openclaw memory index
-  ```
+### Workspace & Mémoire (RAG Local)
+L'agent utilise une architecture **RAG (Retrieval-Augmented Generation)** pour indexer et consulter la documentation. Cette architecture nécessite **deux modèles** tournant simultanément dans LM Studio :
 
-> [!TIP]
-> Par défaut, OpenClaw indexe les fichiers situés dans le sous-dossier `memory/` de votre workspace pour la recherche sémantique. Pour une navigation directe dans tous les fichiers, l'agent utilise ses outils de manipulation de fichiers standards.
+1.  **Modèle de Raisonnement (LLM)** : `qwen2.5-coder-7b-instruct` (celui qui discute).
+2.  **Modèle d'Embeddings** : `nomic-embed-text-v1.5` (celui qui indexe et cherche dans les fichiers).
+
+### Configuration `openclaw.json` (Local RAG)
+Pour que la recherche sémantique fonctionne en 100% local avec LM Studio, votre fichier `~/.openclaw/openclaw.json` doit être configuré ainsi :
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openai/qwen2.5-coder-7b-instruct"
+      },
+      "workspace": "/Volumes/Drive-Mac/Mon Google Drive Physique/Documentation",
+      "memorySearch": {
+        "enabled": true,
+        "model": "openai/text-embedding-nomic-embed-text-v1.5"
+      }
+    }
+  },
+  "models": {
+    "providers": {
+      "openai": {
+        "baseUrl": "http://127.0.0.1:1234/v1",
+        "apiKey": "none",
+        "api": "openai-responses"
+      }
+    }
+  }
+}
+```
+
+### Procédure d'Indexation
+1.  **LM Studio** : Dans l'onglet "Local Server", chargez **à la fois** votre LLM et le modèle d'embedding `nomic-embed-text`.
+2.  **Nettoyage & Symlinks** : OpenClaw indexe les fichiers présents dans le dossier `memory/` du workspace.
+3.  **Mise à jour de l'index** :
+    ```bash
+    # Force la ré-indexation complète avec le modèle local
+    openclaw memory index --force
+    ```
+
+> [!IMPORTANT]
+> Si l'agent répond qu'il ne trouve pas d'informations, vérifiez avec `openclaw memory status` que le modèle utilisé est bien `text-embedding-nomic-embed-text-v1.5` et non `text-embedding-3-small` (OpenAI distant).

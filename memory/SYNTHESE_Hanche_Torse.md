@@ -1,0 +1,1 @@
+../Synthese_Etat_Actuel/SYNTHESE_Hanche_Torse.md
