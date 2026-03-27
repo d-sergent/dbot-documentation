@@ -85,3 +85,29 @@ L'agent IA et le système global doivent être audités régulièrement pour gar
 
 > [!IMPORTANT]
 > Ne jamais sauter la phase d'audit après l'ajout d'un nouvel outil (outil de manipulation de fichiers, accès réseau ou nouveau driver moteur) pour s'assurer que l'agent IA reste dans son périmètre de sécurité.
+
+---
+
+## 5. Ollama (LLM Local)
+
+**Ollama** permet d'exécuter des modèles de langage (LLM) en local sur le poste de développement (Mac Apple Silicon).
+
+### Démarrage en Service (Arrière-plan)
+Pour lancer Ollama au démarrage et le maintenir actif en arrière-plan :
+```bash
+brew services start ollama
+```
+
+### Démarrage Manuel (Optimisé)
+Si vous préférez un lancement ponctuel sans service, utilisez les variables d'environnement d'optimisation :
+```bash
+OLLAMA_FLASH_ATTENTION="1" OLLAMA_KV_CACHE_TYPE="q8_0" /opt/homebrew/opt/ollama/bin/ollama serve
+```
+
+| Variable | Effet |
+| :--- | :--- |
+| `OLLAMA_FLASH_ATTENTION=1` | Active **Flash Attention** — réduit la consommation mémoire et accélère l'inférence. |
+| `OLLAMA_KV_CACHE_TYPE=q8_0` | Quantifie le **KV Cache en Q8_0** — réduit l'empreinte VRAM tout en conservant une bonne qualité. |
+
+> [!TIP]
+> Sur Apple Silicon (M1/M2/M3/M4), ces optimisations permettent de charger des modèles plus grands (ex: 70B Q4) dans la mémoire unifiée GPU/CPU.
