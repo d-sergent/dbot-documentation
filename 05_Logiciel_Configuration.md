@@ -97,32 +97,21 @@ openclaw gateway
 
 ---
 
-## 5. Ollama (LLM Local)
+## 5. LM Studio (LLM Local - Recommandé)
 
-**Ollama** permet d'exécuter des modèles de langage (LLM) en local sur le poste de développement (Mac Apple Silicon).
+**LM Studio** est utilisé comme alternative à Ollama pour une gestion plus fine de l'interface et de la mémoire (Unified Memory).
 
-### Installation d'un modèle
-Les modèles ne sont pas inclus par défaut. Vous devez les télécharger avant de les utiliser dans OpenClaw :
-```bash
-ollama pull mistral:7b
-```
+### Configuration du Serveur Local
+1.  Lancez **LM Studio**.
+2.  Allez dans l'onglet **Local Server** (icône `<->`).
+3.  Chargez un modèle (ex: `Qwen2.5-Coder-7B-Instruct`).
+4.  Cliquez sur **Start Server**. L'URL par défaut est `http://127.0.0.1:1234/v1`.
 
-### Démarrage en Service (Arrière-plan)
-Pour lancer Ollama au démarrage et le maintenir actif en arrière-plan :
-```bash
-brew services start ollama
-```
-
-### Démarrage Manuel (Optimisé)
-Si vous préférez un lancement ponctuel sans service, utilisez les variables d'environnement d'optimisation :
-```bash
-OLLAMA_FLASH_ATTENTION="1" OLLAMA_KV_CACHE_TYPE="q8_0" /opt/homebrew/opt/ollama/bin/ollama serve
-```
-
-| Variable | Effet |
-| :--- | :--- |
-| `OLLAMA_FLASH_ATTENTION=1` | Active **Flash Attention** — réduit la consommation mémoire et accélère l'inférence. |
-| `OLLAMA_KV_CACHE_TYPE=q8_0` | Quantifie le **KV Cache en Q8_0** — réduit l'empreinte VRAM tout en conservant une bonne qualité. |
+### Intégration OpenClaw
+L'agent OpenClaw est configuré pour utiliser l'API compatible OpenAI de LM Studio :
+- **Fournisseur** : `openai-responses`
+- **Base URL** : `http://127.0.0.1:1234/v1`
+- **Modèle par défaut** : `openai/qwen2.5-coder-7b-instruct@q4_k_m`
 
 > [!TIP]
-> Sur Apple Silicon (M1/M2/M3/M4), ces optimisations permettent de charger des modèles plus grands (ex: 70B Q4) dans la mémoire unifiée GPU/CPU.
+> Si vous manquez de RAM (16 Go), privilégiez les modèles en quantification **Q4_K_M** ou inférieurs pour laisser de la place aux autres outils de développement.
