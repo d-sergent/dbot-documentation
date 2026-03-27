@@ -67,18 +67,27 @@ L'objectif est d'avoir un système réactif où la vision influence directement 
 
 ---
 
-## 4. Audit de Sécurité (OpenClaw)
+## 4. Audit de Sécurité & Agent IA (OpenClaw)
 
 L'agent IA et le système global doivent être audités régulièrement pour garantir qu'aucune vulnérabilité (permissions de fichiers, accès aux outils, limites de l'agent) n'est apparue au cours du développement.
 
-**Procédure de maintenance hebdomadaire :**
+### Configuration & Diagnostic
+Avant de lancer le service, assurez-vous que la configuration est valide :
+- **Configuration initiale** : `openclaw configure` (permet de lier Ollama, les modèles et les canaux).
+- **Diagnostic** : `openclaw doctor --fix` (détecte et répare automatiquement les erreurs de config).
 
+### Démarrage du Service Gateway
+Pour lancer le service de communication de l'agent :
+```bash
+openclaw gateway
+```
+
+### Procédure de maintenance hebdomadaire
 1.  **Audit Approfondi** : Analyse toute la trajectoire de sécurité et l'espace d'action.
     ```bash
     openclaw security audit --deep
     ```
-
-2.  **Correction Automatique** : Applique les correctifs suggérés par l'audit (fermeture de canaux, révision des permissions).
+2.  **Correction Automatique** : Applique les correctifs suggérés (fermeture de canaux, révision des permissions).
     ```bash
     openclaw security audit --fix
     ```
@@ -91,6 +100,12 @@ L'agent IA et le système global doivent être audités régulièrement pour gar
 ## 5. Ollama (LLM Local)
 
 **Ollama** permet d'exécuter des modèles de langage (LLM) en local sur le poste de développement (Mac Apple Silicon).
+
+### Installation d'un modèle
+Les modèles ne sont pas inclus par défaut. Vous devez les télécharger avant de les utiliser dans OpenClaw :
+```bash
+ollama pull mistral:7b
+```
 
 ### Démarrage en Service (Arrière-plan)
 Pour lancer Ollama au démarrage et le maintenir actif en arrière-plan :
