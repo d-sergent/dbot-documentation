@@ -1,0 +1,1 @@
+.././12_Guide_Parties_Metal_CNC.md
