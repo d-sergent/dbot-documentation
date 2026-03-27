@@ -151,14 +151,35 @@ Pour que la recherche sémantique fonctionne en 100% local, votre fichier `~/.op
     ```
 
 ### Roadmap Matérielle & Cerveau Déporté (Remote Brain)
-Pour atteindre une autonomie de réflexion "State of the Art" sans saturer les ressources du Mac de développement, la stratégie recommandée pour 2026 est l'utilisation d'une **Jetson AGX Orin 64 Go** en mode déporté.
-
-1.  **Architecture "Remote Brain"** :
-    *   **Serveur** : Jetson AGX Orin 64 Go.
-    *   **Rôle** : Fait tourner le Gateway OpenClaw et les modèles (8B à 70B).
-    *   **Liaison** : Ethernet GigE ou Wifi 6E. Le Mac n'est plus qu'un terminal de contrôle (TUI).
+...
 2.  **Évolution vers NVIDIA Thor** :
     *   Le passage à la génération **Thor (2000 TOPS, 128 Go RAM)** est envisagé pour la V2 du D-Bot (2027) pour supporter des modèles de raisonnement massifs en 100% embarqué.
+
+## 6. Architecture Hybride (Orin Nano + Cloud)
+
+Pour un robot comme le D-Bot s'appuyant sur une **Orin Nano (8 Go)**, l'intelligence est déportée.
+
+### Schéma de Fonctionnement
+*   **Robot (Orin Nano)** : Gère le bus CAN (RobStride), la Vision (OAK-D) et fait office de "Proxy" sensoriel.
+*   **Serveur Distant (Mac/PC/Cloud)** : Héberge le Gateway OpenClaw et accède aux LLMs (GPT-4o, Claude 3.5).
+*   **Liaison** : WebSocket sécurisé (wss://).
+
+### Sécurité & Accès Distant
+L'ouverture d'un Gateway sur le réseau nécessite une sécurisation stricte pour éviter qu'un tiers ne prenne le contrôle du robot.
+
+1.  **Authentification (Token)** :
+    L'accès au Gateway doit impérativement être protégé par un token unique :
+    ```bash
+    # Lancement avec token de sécurité
+    openclaw gateway --token "VOTRE_TOKEN_SECRET_LONG"
+    ```
+2.  **Tunnel Sécurisé (Tailscale)** :
+    Plutôt que d'ouvrir des ports sur votre box (NAT), utilisez **Tailscale**. Cela crée un réseau VPN privé entre votre Mac et le robot. Le Gateway sera alors accessible via l'IP privée Tailscale (ex: `100.x.y.z:18789`) de façon cryptée.
+3.  **Sandboxing des Skills** :
+    Sur le serveur distant, assurez-vous que les skills (ex: `exec`, `write`) sont configurés avec des restrictions de chemins pour ne pas compromettre le système hôte.
+
+> [!CAUTION]
+> Ne lancez **jamais** un Gateway sur une IP publique sans tunnel VPN ou reverse-proxy avec authentification forte.
 
 ---
 *Dernière mise à jour : Mars 2026*

@@ -15,23 +15,17 @@
 
 L'idée d'acheter une carte **maintenant** pour déporter les calculs OpenClaw pendant la phase d'étude est **excellente**.
 
-### Avantages de l'achat immédiat (Orin 64 Go)
-1. **Stabilité Logicielle** : JetPack 6.x est mature. Tout votre code ROS2 et OpenClaw tournera sans "essuyer les plâtres".
-2. **Consommation/Autonomie** : La consommation de l'Orin (max 60W) est beaucoup plus gérable pour une batterie 13S embarquée que les 130W potentiels de la Thor.
-3. **Coût** : L'Orin 64 Go se trouve à ~1900-2000$. La Thor sera probablement au-delà de 3000$.
-
-### Avantages de l'attente (Thor 128 Go)
-1. **LLM de Classe Mondiale** : 128 Go de RAM permettent de faire tourner des modèles de **70B paramètres** (Llama 3/4) avec une fluidité exceptionnelle.
-2. **Physique AI** : Thor est optimisée nativement pour les "Foundation Models" de robotique (marche, manipulation).
+### Avantages de l'option Hybride (Orin Nano 8 Go + Cloud)
+1. **Poids & Autonomie** : Réduction massive de la consommation (10W vs 60W). Idéal pour maximiser le temps de marche.
+2. **Intelligence Maximum** : Accès aux modèles de pointe (GPT-4o, Claude 3.5) sans les contraintes de RAM locale.
+3. **Sécurité Déportée** : Le Gateway OpenClaw doit être sécurisé via **Tailscale** et un **Token d'authentification**.
 
 ## 3. Recommandation pour le D-Bot
 
 > [!TIP]
-> **Le Sweet Spot Immédiat :** Investissez dans une **Jetson AGX Orin 64 Go**. 
-> - **Pourquoi :** C'est le standard actuel des robots humanoïdes les plus avancés (ex: K-Bot). 
-> - **Usage :** Installez-la dans un petit boîtier sur votre bureau. Connectez votre Mac dessus en Ethernet. 
-> - **Action :** Faites tourner OpenClaw et le serveur d'embeddings sur l'Orin. Votre Mac redevient fluide et vous testez "en conditions réelles" la latence de réflexion du robot.
-> - **Futur :** Dans 2 ans, si le D-Bot a besoin d'un "Level Up", le passage de l'Orin à la Thor se fera sans douleur car les scripts et les modèles sont compatibles (CUDA).
+> **Le Sweet Spot Immédiat :**
+> - **Option A (Performance)** : Investissez dans une **Jetson AGX Orin 64 Go** pour une autonomie totale et privée.
+> - **Option B (Légèreté)** : Gardez l'**Orin Nano 8 Go** et déportez la réflexion lourde sur votre Mac ou dans le Cloud via un tunnel sécurisé.
 
 ---
 **Conclusion :** N'attendez pas. L'Orin 64 Go déporté est le meilleur investissement pour valider votre architecture logicielle dès aujourd'hui.
