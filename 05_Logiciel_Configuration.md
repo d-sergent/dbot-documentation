@@ -111,7 +111,7 @@ openclaw gateway
 L'agent OpenClaw est configuré pour utiliser l'API compatible OpenAI de LM Studio :
 - **Fournisseur** : `openai-responses`
 - **Base URL** : `http://127.0.0.1:1234/v1`
-- **Modèle par défaut** : `openai/qwen2.5-coder-7b-instruct@q4_k_m`
+- **Modèle par défaut** : `openai/meta-llama-3.1-8b-instruct` (Llama 3.1 8B)
 
 > [!TIP]
 > Si vous manquez de RAM (16 Go), privilégiez les modèles en quantification **Q4_K_M** ou inférieurs pour laisser de la place aux autres outils de développement.
