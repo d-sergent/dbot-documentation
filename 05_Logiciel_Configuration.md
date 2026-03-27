@@ -120,18 +120,18 @@ L'agent OpenClaw est configuré pour utiliser l'API compatible OpenAI de LM Stud
 ### Workspace & Mémoire (RAG Local)
 L'agent utilise une architecture **RAG (Retrieval-Augmented Generation)** pour indexer et consulter la documentation. Cette architecture nécessite **deux modèles** tournant simultanément dans LM Studio :
 
-1.  **Modèle de Raisonnement (LLM)** : `qwen2.5-coder-7b-instruct` (celui qui discute).
-2.  **Modèle d'Embeddings** : `nomic-embed-text-v1.5` (celui qui indexe et cherche dans les fichiers).
+1.  **Modèle de Raisonnement (LLM)** : `Llama-3.1-8B` (Cerveau principal).
+2.  **Modèle d'Embeddings** : `nomic-embed-text-v1.5` (Bibliothécaire).
 
 ### Configuration `openclaw.json` (Local RAG)
-Pour que la recherche sémantique fonctionne en 100% local avec LM Studio, votre fichier `~/.openclaw/openclaw.json` doit être configuré ainsi :
+Pour que la recherche sémantique fonctionne en 100% local, votre fichier `~/.openclaw/openclaw.json` doit être configuré avec Llama 3.1 pour éviter les erreurs de formatage ("NO") :
 
 ```json
 {
   "agents": {
     "defaults": {
       "model": {
-        "primary": "openai/qwen2.5-coder-7b-instruct"
+        "primary": "openai/meta-llama-3.1-8b-instruct"
       },
       "workspace": "/Volumes/Drive-Mac/Mon Google Drive Physique/Documentation",
       "memorySearch": {
@@ -139,27 +139,26 @@ Pour que la recherche sémantique fonctionne en 100% local avec LM Studio, votre
         "model": "openai/text-embedding-nomic-embed-text-v1.5"
       }
     }
-  },
-  "models": {
-    "providers": {
-      "openai": {
-        "baseUrl": "http://127.0.0.1:1234/v1",
-        "apiKey": "none",
-        "api": "openai-responses"
-      }
-    }
   }
 }
 ```
 
 ### Procédure d'Indexation
-1.  **LM Studio** : Dans l'onglet "Local Server", chargez **à la fois** votre LLM et le modèle d'embedding `nomic-embed-text`.
-2.  **Nettoyage & Symlinks** : OpenClaw indexe les fichiers présents dans le dossier `memory/` du workspace.
-3.  **Mise à jour de l'index** :
+1.  **LM Studio** : Chargez à la fois le LLM et le modèle d'embedding.
+2.  **Mise à jour de l'index** :
     ```bash
-    # Force la ré-indexation complète avec le modèle local
     openclaw memory index --force
     ```
 
-> [!IMPORTANT]
-> Si l'agent répond qu'il ne trouve pas d'informations, vérifiez avec `openclaw memory status` que le modèle utilisé est bien `text-embedding-nomic-embed-text-v1.5` et non `text-embedding-3-small` (OpenAI distant).
+### Roadmap Matérielle & Cerveau Déporté (Remote Brain)
+Pour atteindre une autonomie de réflexion "State of the Art" sans saturer les ressources du Mac de développement, la stratégie recommandée pour 2026 est l'utilisation d'une **Jetson AGX Orin 64 Go** en mode déporté.
+
+1.  **Architecture "Remote Brain"** :
+    *   **Serveur** : Jetson AGX Orin 64 Go.
+    *   **Rôle** : Fait tourner le Gateway OpenClaw et les modèles (8B à 70B).
+    *   **Liaison** : Ethernet GigE ou Wifi 6E. Le Mac n'est plus qu'un terminal de contrôle (TUI).
+2.  **Évolution vers NVIDIA Thor** :
+    *   Le passage à la génération **Thor (2000 TOPS, 128 Go RAM)** est envisagé pour la V2 du D-Bot (2027) pour supporter des modèles de raisonnement massifs en 100% embarqué.
+
+---
+*Dernière mise à jour : Mars 2026*
