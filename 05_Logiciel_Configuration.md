@@ -117,5 +117,13 @@ L'agent OpenClaw est configuré pour utiliser l'API compatible OpenAI de LM Stud
 - **Base URL** : `http://127.0.0.1:1234/v1`
 - **Modèle par défaut** : `openai/meta-llama-3.1-8b-instruct` (Llama 3.1 8B) ou `openai/qwen2.5-coder-7b-instruct@q4_k_m`.
 
+### Workspace & Mémoire (RAG)
+Pour que l'agent puisse lire la documentation du D-Bot, son espace de travail a été configuré sur le dossier Google Drive :
+- **Workspace** : `/Volumes/Drive-Mac/Mon Google Drive Physique/Documentation`
+- **Commande de mise à jour de l'index** :
+  ```bash
+  openclaw memory index
+  ```
+
 > [!TIP]
-> Si vous rencontrez des erreurs de parsing JSON ("Extra content after tool call"), vérifiez le **Prompt Template** dans LM Studio ou passez sur le modèle **Qwen 2.5 Coder 7B**, qui est extrêmement rigoureux sur les appels d'outils.
+> Par défaut, OpenClaw indexe les fichiers situés dans le sous-dossier `memory/` de votre workspace pour la recherche sémantique. Pour une navigation directe dans tous les fichiers, l'agent utilise ses outils de manipulation de fichiers standards.
