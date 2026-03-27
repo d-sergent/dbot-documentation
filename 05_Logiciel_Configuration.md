@@ -64,3 +64,24 @@ L'objectif est d'avoir un système réactif où la vision influence directement 
 ## 3. Outils de Développement
 *   **Fusion 360** : CAO Mécano-Soudée.
 *   **Docker** : Recommandé sur la Jetson pour isoler l'environnement ROS2 Humble/Jazzy.
+
+---
+
+## 4. Audit de Sécurité (OpenClaw)
+
+L'agent IA et le système global doivent être audités régulièrement pour garantir qu'aucune vulnérabilité (permissions de fichiers, accès aux outils, limites de l'agent) n'est apparue au cours du développement.
+
+**Procédure de maintenance hebdomadaire :**
+
+1.  **Audit Approfondi** : Analyse toute la trajectoire de sécurité et l'espace d'action.
+    ```bash
+    openclaw security audit --deep
+    ```
+
+2.  **Correction Automatique** : Applique les correctifs suggérés par l'audit (fermeture de canaux, révision des permissions).
+    ```bash
+    openclaw security audit --fix
+    ```
+
+> [!IMPORTANT]
+> Ne jamais sauter la phase d'audit après l'ajout d'un nouvel outil (outil de manipulation de fichiers, accès réseau ou nouveau driver moteur) pour s'assurer que l'agent IA reste dans son périmètre de sécurité.
