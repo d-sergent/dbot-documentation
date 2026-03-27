@@ -104,14 +104,18 @@ openclaw gateway
 ### Configuration du Serveur Local
 1.  Lancez **LM Studio**.
 2.  Allez dans l'onglet **Local Server** (icône `<->`).
-3.  Chargez un modèle (ex: `Qwen2.5-Coder-7B-Instruct`).
-4.  Cliquez sur **Start Server**. L'URL par défaut est `http://127.0.0.1:1234/v1`.
+3.  Chargez un modèle (ex: `Qwen2.5-Coder-7B-Instruct` ou `Llama-3.1-8B`).
+4.  **Réglages critiques** (Panneau de droite) :
+    - **Context Length ($n\_ctx$)** : Réglez sur **20480** ou **32768**. L'agent OpenClaw a besoin d'environ 18k tokens de contexte initial pour charger ses outils.
+    - **KV Cache Quantization** : Activez **Q4_K** ou **Q8_0** pour réduire l'occupation RAM du contexte.
+    - **Prompt Template** : Sélectionnez impérativement le template correspondant au modèle (ex: **Llama 3 Instruct**) pour garantir le bon formatage des appels d'outils (JSON).
+5.  Cliquez sur **Start Server**. L'URL par défaut est `http://127.0.0.1:1234/v1`.
 
 ### Intégration OpenClaw
 L'agent OpenClaw est configuré pour utiliser l'API compatible OpenAI de LM Studio :
 - **Fournisseur** : `openai-responses`
 - **Base URL** : `http://127.0.0.1:1234/v1`
-- **Modèle par défaut** : `openai/meta-llama-3.1-8b-instruct` (Llama 3.1 8B)
+- **Modèle par défaut** : `openai/meta-llama-3.1-8b-instruct` (Llama 3.1 8B) ou `openai/qwen2.5-coder-7b-instruct@q4_k_m`.
 
 > [!TIP]
-> Si vous manquez de RAM (16 Go), privilégiez les modèles en quantification **Q4_K_M** ou inférieurs pour laisser de la place aux autres outils de développement.
+> Si vous rencontrez des erreurs de parsing JSON ("Extra content after tool call"), vérifiez le **Prompt Template** dans LM Studio ou passez sur le modèle **Qwen 2.5 Coder 7B**, qui est extrêmement rigoureux sur les appels d'outils.
