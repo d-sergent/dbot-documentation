@@ -1449,3 +1449,127 @@ F_grip_total = N_doigts × F_pulpe × cos(θ)
 > Les **roulements MR84ZZ améliorent le chiffre nominal de +15%** par rapport au design sans roulements (+19 N en grip), ce qui valide la décision d'intégration mécanique des roulements dans les doigts même si elle complique légèrement l'assemblage des phalanges imprimées.
 
 *Mars 2026 — Calcul basé sur hypothèses de bras de levier anatomique standard (réf: DLR Hand-II, ORCA Hand EPFL/ETH 2024).*
+
+---
+
+## Annexe A — Amplification Mécanique Poulie-Tendon : Explication Complète
+
+> *Cette annexe a été rédigée en Mars 2026 pour expliquer clairement le cheminement des câbles et le calcul de la force de grip, depuis le servo jusqu'au bout du doigt.*
+
+### A.1 — Le Principe Fondamental : F = τ / r
+
+Le servo produit un **couple de rotation** (τ en N.m). En enroulant le tendon autour d'une **poulie de petit rayon** (r en mètres), on convertit ce couple en une **force linéaire de traction** dans le câble :
+
+> **F = τ / r**
+>
+> Avec le XC430 (Ø16mm, r = 8mm) : F = 1.9 / 0.008 = **237 N** par tendon
+> Avec le XC330 (Ø16mm, r = 8mm) : F = 1.0 / 0.008 = **125 N** par tendon
+> Avec ~80% de rendement (friction gaines PTFE + poulies) : **F effective ≈ 190/100 N**
+
+**Plus la poulie est petite, plus la force est grande** au détriment de la course du câble — c'est le principe du levier.
+
+```
+       Servo ──► Poulie Ø16mm ──► Tension câble
+                  r = 8mm            F = τ / r
+
+  XC430 (1.9 N.m) ──► 1.9 / 0.008 = 237 N (théorique)
+                                   × 0.80 = 190 N (effectif)
+```
+
+> ⚠️ **Note sur le rayon de poulie** : Le document initial évoquait Ø8mm (r=4mm → 475 N). Le guide de montage ORCA (Doc 22, §Spools) précise que la D-Hand utilise en réalité des **poulies CNC Ø16mm avec roulement MR84ZZ intégré** pour garantir la longévité. La force effective par tendon est donc ~190 N (XC430), ce qui reste largement suffisant pour le grip cible de ~175 N réparti sur l'ensemble des doigts.
+
+---
+
+### A.2 — Comment le Câble s'Enroule
+
+Le tendon Dyneema **s'enroule autour de la poulie** (~1 à 1.5 tour) et est fixé par une **vis de serrage** dans un trou percé dans la poulie en aluminium usiné CNC. L'enroulement est essentiel : sans le tour de câble, le câble glisserait sous la forte tension générée.
+
+```
+                 Poulie Ø16mm (Al 6061 CNC)
+               ┌──────────────────────┐
+               │   Vis de serrage ◄── │──── Extrémité câble fixée
+               │        ┌─────────────│
+               │   ~~~~╱  tendon      │   ← ~1.5 tours d'enroulement
+               │  ╱~~~~  Dyneema      │
+               └─────────────────────/
+                            ↓
+                    Tube PTFE (Ø1.5mm intérieur)
+                         ↓
+                  → vers le doigt →
+```
+
+- **Enroulement** (~540°) : empêche le glissement sous charge.
+- **Tube PTFE** : gaine de guidage à très faible friction entre l'avant-bras et la paume.
+- **Nœud Ashley Stopper** en bout de tendon : méthode de fixation officielle ORCA à la phalange distale.
+
+---
+
+### A.3 — Trajet Complet du Tendon (de l'Avant-Bras au Bout du Doigt)
+
+```
+  AVANT-BRAS                  POIGNET     PAUME                    DOIGT
+  ──────────────────────────────────────────────────────────────────────
+  [Servo XC430]
+      ↓ Arbre de sortie
+  [Poulie Ø16mm CNC]          [RS-00]
+      ↓ Enroule le Dyneema       ↓
+  [Tube PTFE]──────────────────────── [Poulie de renvoi] ──────────────
+      ↓ guide le câble (~145mm)                ↓               MCP → PIP → DIP
+      ...................................................................
+                                              tendon longe la face palmaire du doigt
+                                              attache sur la phalange distale (Nœud Ashley)
+```
+
+Concrètement :
+1. **Servo XC430** (dans l'avant-bras) → tourne en enroulant le tendon.
+2. **Poulie Ø16mm** (sur l'arbre de sortie) → convertit le couple en tension.
+3. **Tube PTFE Ø1.5mm** → guide le tendon sur toute la longueur de l'avant-bras avec une friction minimale.
+4. **Passage du poignet** (à travers le RS-00 ou son voisinage) → le câble traverse sans interférer avec la rotation du poignet.
+5. **Poulies de renvoi dans la paume** (Ø6mm, PA12-CF imprimées) → dévient le câble vers le doigt correspondant.
+6. **Face palmaire du doigt** → le tendon passe par les guides de chaque phalange (MCP → PIP → DIP).
+7. **Phalange distale** → fixation par nœud Ashley Stopper + goutte de cyanoacrylate.
+
+---
+
+### A.4 — Retour Passif des Doigts : Silicone, Pas de Ressorts !
+
+> [!IMPORTANT]
+> **Découverte Technique Majeure issue de l'analyse ORCA (Section 11.6 de ce document) :**
+> Les doigts de type ORCA **n'utilisent AUCUN ressort mécanique en métal pour l'extension**. Le retour passif des doigts en position ouverte est assuré **exclusivement par l'élasticité de la peau en silicone** (EcoFlex 00-30 ou Dragon Skin 10) moulée autour des phalanges.
+>
+> **Le moulage silicone est donc mécaniquement obligatoire, pas juste cosmétique.**
+
+La peau en silicone fait triple emploi :
+
+| Rôle | Mécanisme |
+| :--- | :--- |
+| **Rappel élastique** | Quand le servo relâche le câble, le silicone ramène le doigt en position ouverte |
+| **Protection tactile** | Le capteur eFlesh est intégré sous cette même peau, à la pulpe |
+| **Grip de surface** | Coefficient de friction élevé pour la saisie d'objets |
+
+**Matériaux validés :**
+- **EcoFlex 00-30** (plus souple, meilleur rappel) ou **Dragon Skin 10** (plus rigide, meilleure durabilité).
+- Polymérisation en ~4h à température ambiante.
+- Moules négatifs imprimés en PLA sur la Qidi Plus 4 (fichiers `ORCA_Molds.zip` dans `Ressources 3D/ORCA_Hand`).
+
+---
+
+### A.5 — Vue d'Ensemble des 8 Câbles
+
+Chaque câble est indépendant et contrôlé par son propre servo :
+
+| # | Servo | Type | Fonction | Tendon |
+| :---: | :--- | :---: | :--- | :--- |
+| 1 | XC430 | Force | Pouce — Flexion (Curl) | Dyneema Ø0.6mm |
+| 2 | XC330 | Précision | Pouce — Opposition | Dyneema Ø0.6mm |
+| 3 | XC430 | Force | Index — Flexion (Curl) | Dyneema Ø0.6mm |
+| 4 | XC330 | Précision | Index — Abduction | Dyneema Ø0.6mm |
+| 5 | XC430 | Force | Majeur — Flexion | Dyneema Ø0.6mm |
+| 6 | XC330 | Précision | Annulaire — Flexion | Dyneema Ø0.6mm |
+| 7 | XC330 | Précision | Auriculaire — Flexion | Dyneema Ø0.6mm |
+| 8 | XC430 | Force | Paume — Curl palmaire | Dyneema Ø0.6mm |
+
+> **Note :** La D-Hand utilise du Dyneema **Ø0.6mm** (résistance ~25 kg) au lieu du Ø0.40mm d'origine ORCA, pour compenser le couple 2× supérieur des moteurs XC430 vs les Feetech STS3215.
+
+---
+*Annexe rédigée en Mars 2026. Réf : [Guide Montage Doigts ORCA](./22_Guide_Montage_Doigts_ORCA.md) | [16 — Conclusions Architecture](./16_Conclusions_Architecture_DBot.md)*
