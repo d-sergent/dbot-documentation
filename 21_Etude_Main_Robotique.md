@@ -1468,6 +1468,8 @@ Le servo produit un **couple de rotation** (τ en N.m). En enroulant le tendon a
 
 **Plus la poulie est petite, plus la force est grande** au détriment de la course du câble — c'est le principe du levier.
 
+![Principe du levier — comparaison de poulies et calcul de la tension dans le tendon](./assets/img_dhand_pulley_mechanical_advantage.png)
+
 ```
        Servo ──► Poulie Ø16mm ──► Tension câble
                   r = 8mm            F = τ / r
@@ -1498,6 +1500,8 @@ Le tendon Dyneema **s'enroule autour de la poulie** (~1 à 1.5 tour) et est fix�
                   → vers le doigt →
 ```
 
+![Détail de l'enroulement du tendon sur la poulie Ø16mm — vis de serrage et tube PTFE](./assets/img_dhand_pulley_wrap.png)
+
 - **Enroulement** (~540°) : empêche le glissement sous charge.
 - **Tube PTFE** : gaine de guidage à très faible friction entre l'avant-bras et la paume.
 - **Nœud Ashley Stopper** en bout de tendon : méthode de fixation officielle ORCA à la phalange distale.
@@ -1520,6 +1524,8 @@ Le tendon Dyneema **s'enroule autour de la poulie** (~1 à 1.5 tour) et est fix�
                                               attache sur la phalange distale (Nœud Ashley)
 ```
 
+![Coupe longitudinale du système servo → poulie → tendon → phalange distale — MCP, PIP, DIP](./assets/img_dhand_tendon_pulley_system.png)
+
 Concrètement :
 1. **Servo XC430** (dans l'avant-bras) → tourne en enroulant le tendon.
 2. **Poulie Ø16mm** (sur l'arbre de sortie) → convertit le couple en tension.
@@ -1530,6 +1536,8 @@ Concrètement :
 7. **Phalange distale** → fixation par nœud Ashley Stopper + goutte de cyanoacrylate.
 
 ---
+
+![Vue de dessus — routage des 8 câbles Dyneema depuis les servos (avant-bras) jusqu'aux doigts](./assets/img_dhand_tendon_routing_overview.png)
 
 ### A.4 — Retour Passif des Doigts : Silicone, Pas de Ressorts !
 
