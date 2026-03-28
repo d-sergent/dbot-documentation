@@ -1,31 +1,29 @@
-# Synthèse : Genou (Knee) - État de l'Art
+# SYNTHÈSE : Architecture Genou (D-Bot)
 
-Ce document résume la configuration finale et aboutie du système articulé du genou pour le D-Bot (Phase V1).
+## 1. Actionneur & Amplification (RobStride + GT3)
+Le genou utilise une solution de relocalisation du moteur pour amplifier le couple et réduire l'inertie de balancement (Swing Inertia).
 
-## 1. Actionneur & Transmission
-- **Moteur** : Unitree **RS-04** (120 N.m pic).
-- **Transmission** : Courroie synchrone **GT3** (Solution S6).
-- **Réduction** : **2.5:1** (Pignon 20T sur moteur / 50T sur genou).
-- **Performances** :
-  - **Couple Pic** : **300 N.m**.
-  - **Masse Transmission** : ~320 g.
-  - **Vitesse Max** : ~1.5 m/s (Marche sécurisée à 5 km/h).
+| Composant | Modèle | Caractéristique |
+| :--- | :--- | :--- |
+| **Moteur** | **RobStride RS-04** | Relocalisé en haut de cuisse (sous la hanche) |
+| **Transmission** | **Courroie GT3 (9mm)** | Réduction synchrone |
+| **Rapport** | **2.5 : 1** | Pignon 20 dents (moteur) / 50 dents (genou) |
+| **Couple Final** | **300 N.m (Pic)** | Amplification massive (+150% vs direct-drive) |
 
-## 2. Intégration Mécanique
-- **Position Moteur** : Déporté en haut du fémur (pancake vertical) pour réduire l'inertie du tibia.
-- **Structure** : Brackets en aluminium **7075-T6 CNC** avec allégement **Isogrid** (nervures de 5mm).
-- **Tension** : Galet tendeur à ressort sur le brin mou.
+## 2. Cinématique & Dynamique
+- **Entraxe** : ~250mm entre le moteur et l'axe du genou.
+- **Vitesse Max** : 67 RPM (suffisant pour une marche rapide à 5-6 km/h et course légère).
+- **Inertie** : Le déplacement du moteur RS-04 (1.4 kg) vers le haut de la cuisse transforme radicalement la dynamique du robot.
 
-## 3. Analyse de Charge (39-40 kg)
-| Scénario | Charge (%) | Vitesse | Marge |
-| :--- | :---: | :---: | :---: |
-| Marche lente (2 km/h) | ~40% | Basse | Très Large |
-| Portage (Charge 20 kg) | ~65% | 2.5 km/h | Confortable |
-| Course (Pic) | ~90% | > 6 km/h | Limite Thermique |
+## 3. Conception Mécanique
+- **Composants** : Pignons Alu GT3, Courroie fermée Gates/Continental.
+- **Tension** : Galet tendeur à ressort permanent pour annuler le backlash (~0.5-1°).
+- **Structure** : Double flasque de cuisse en carbone ou sandwich Alu prenant en charge les pignons.
 
-## 4. Liens et Archives
-- **Analyse de Portage** : [15f_Portage_Charges_et_Marche.md](../15f_Portage_Charges_et_Marche.md)
-- **Détails Montage GT3** : [15g_Solution_S6_Courroie_GT3_Genou.md](../15g_Solution_S6_Courroie_GT3_Genou.md)
-- **Études Historiques** : 
-  - [Archives/ETUDE_Verrin_vs_GT3.md](../Archives/ETUDE_Verrin_vs_GT3.md) (Raison du rejet du vérin)
-  - [Archives/ETUDE_Chaines_Rouleaux.md](../Archives/ETUDE_Chaines_Rouleaux.md) (Raison du rejet de la chaîne)
+## 4. Performances & Limites
+- **Marche normale** : Opère à seulement 39% du couple nominal (thermique négligeable).
+- **Portage** : Capable de marcher avec **20 kg de payload** additionnelle.
+- **Évolution (V2)** : Possibilité d'ajouter un ressort (SEA) en série pour la récupération d'énergie lors de la course.
+
+---
+*Dernière mise à jour : Mars 2026*

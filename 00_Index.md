@@ -2,13 +2,15 @@
 
 Bienvenue dans la documentation technique du projet de robot humanoïde D-Bot. Cette documentation est optimisée pour l'IA et la consultation rapide.
 
-## 🚀 ÉTAT DE L'ART (SYNTHÈSES)
-*Pour une vision immédiate des dernières décisions techniques validées.*
+## 🚀 ÉTAT DE L'ART (SYNTHÈSES PAR ARTICULATION)
+*Pour une vision technique immédiate des dernières décisions validées (Moteurs RobStride).*
 
+- **[Synthèse : Épaule (Shoulder)](./Synthese_Etat_Actuel/SYNTHESE_Epaule.md)**
+- **[Synthèse : Hanche (Hip)](./Synthese_Etat_Actuel/SYNTHESE_Hanche.md)**
+- **[Synthèse : Genou (Knee 300Nm)](./Synthese_Etat_Actuel/SYNTHESE_Genou.md)**
+- **[Synthèse : Cheville (Ankle Cardan)](./Synthese_Etat_Actuel/SYNTHESE_Cheville.md)**
+- **[Synthèse : Torse & Cou (Neck)](./Synthese_Etat_Actuel/SYNTHESE_Torse_Cou.md)**
 - **[Synthèse : Audio & IMU](./Synthese_Etat_Actuel/SYNTHESE_Audio_IMU.md)**
-- **[Synthèse : Genou (Knee)](./Synthese_Etat_Actuel/SYNTHESE_Genou.md)**
-- **[Synthèse : Cheville (Ankle)](./Synthese_Etat_Actuel/SYNTHESE_Cheville.md)**
-- **[Synthèse : Hanche & Torse](./Synthese_Etat_Actuel/SYNTHESE_Hanche_Torse.md)**
 - **[Synthèse : Électronique & Câblage](./Synthese_Etat_Actuel/SYNTHESE_Electronique.md)**
 
 ---

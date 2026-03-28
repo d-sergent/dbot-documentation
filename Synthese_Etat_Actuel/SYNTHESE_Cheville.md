@@ -1,32 +1,28 @@
-# Synthèse : Cheville (Ankle) - État de l'Art
+# SYNTHÈSE : Architecture Cheville (D-Bot)
 
-Ce document résume la configuration finale et aboutie du système articulé de la cheville pour le D-Bot (Phase V1).
+## 1. Actionneurs & Différentiel (RobStride)
+La cheville abandonne le montage direct pour une architecture différentielle déportée, libérant le bas du tibia de toute masse morte.
 
-## 1. Architecture & Actionneurs
-- **Mécanique** : Joint universel (**Cardan**) de type **DIN 808**.
-- **Moteurs** : **2× Unitree RS-03** par cheville (montage en différentiel ou découplé selon l'axe).
-- **Performances** :
-  - **Couple Pitch (Flexion)** : **120 N.m** (Pic).
-  - **Couple Roll (Latéral)** : **120 N.m** (Pic).
-  - **Marge statique** (39 kg) : **+167%** (Besoin ~45 N.m).
-  - **Marge dynamique** (Course) : **+17%** (Besoin ~103 N.m).
+| Composant | Modèle | Couple Combiné (Pic) |
+| :--- | :--- | :---: |
+| **Moteurs (2x)** | **RobStride RS-03** | **120 N.m** (Pitch & Roll) |
 
-## 2. Évolutions Majeures
-- **Ancienne Version** : RS-02 + Tirant (34 N.m). Rejetée car marge nulle (0%) à 34 kg.
-- **Gain Architecture Cardan** :
-  - Multiplication par **3.5** du couple de flexion.
-  - Multiplication par **8** du couple latéral (stabilité XL).
-  - Suppression du point de fragilité des tirants mécaniques.
+## 2. Transmission (Cardan & Bielles)
+- **Cœur Mécanique** : **Joint de Cardan DIN 808** de haute résistance (permet 2 DOF : Pitch & Roll).
+- **Liaison** : Deux bielles parallèles reliant les moteurs (placés en haut du tibia) au plateau du pied.
+- **Différentiel** : 
+    - Mouvements identiques des moteurs = **Pitch** (flexion/extension).
+    - Mouvements opposés des moteurs = **Roll** (inversion/éversion).
 
-## 3. Analyse de Charge (39 kg)
-| Scénario | Charge (%) | Stabilité | Verdict |
-| :--- | :---: | :---: | :---: |
-| Marche normale (3 km/h)| ~37% | Excellente | 🟢 Résolu |
-| Correction d'équilibre | < 50% | Très Réactive | 🟢 Idéal |
-| Course (V1) | ~86% | Viable | 🟡 Limite |
+## 3. Conception Mécanique
+- **Masse distale** : Gain de **-310g** en bas de jambe par rapport au K-Bot.
+- **Composants** : Cardan acier, bielles alu CNC, rotules GE12UK.
+- **Structure** : Montage par bagues d'arrêt et axes 12.9 pour encaisser les 120 N.m.
 
-## 4. Liens et Archives
-- **Révision Architecture 39 kg** : [15c_Revision_Cardan_39kg.md](../15c_Revision_Cardan_39kg.md)
-- **Analyse Biomécanique** : [15_Analyse_Biomecanique.md](../15_Analyse_Biomecanique.md)
-- **Historique des Choix** : 
-  - [Archives/ETUDE_RS02_Tirant.md](../Archives/ETUDE_RS02_Tirant.md) (L'ancienne solution abandonnée)
+## 4. Performances & Limites
+- **Marge Statique** : **+167%** pour un robot de 39 kg (résolution du goulot d'étranglement historique).
+- **Vitesse** : Capacité de marche rapide jusqu'à 6-9 km/h théoriques.
+- **Stabilité latérale** : Couple de Roll exceptionnel (120 N.m) pour le rattrapage d'équilibre sur terrain accidenté.
+
+---
+*Dernière mise à jour : Mars 2026*
