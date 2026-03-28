@@ -23,7 +23,12 @@ Le genou utilise une solution de relocalisation du moteur pour amplifier le coup
 ## 4. Performances & Limites
 - **Marche normale** : Opère à seulement 39% du couple nominal (thermique négligeable).
 - **Portage** : Capable de marcher avec **20 kg de payload** additionnelle.
-- **Évolution (V2)** : Possibilité d'ajouter un ressort (SEA) en série pour la récupération d'énergie lors de la course.
+- **Sécurité** : Marge de 42% même lors des pics de course saccadée (172 N.m requis).
 
 ---
+### 🔗 Études Complètes
+- **[15g — Solution S6 : Courroie GT3 Genou](../15g_Solution_S6_Courroie_GT3_Genou.md)**
+- **[15d — Genou et Course : Solutions](../15d_Genou_et_Course.md)**
+- **[16 — Conclusions Architecture Finale](../16_Conclusions_Architecture_DBot.md)**
+
 *Dernière mise à jour : Mars 2026*
