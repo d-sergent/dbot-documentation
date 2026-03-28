@@ -1212,15 +1212,98 @@ La CNC intervient là où l'impression 3D montre ses limites : la résistance au
 **Problème du design ORCA original (spools plastique imprimés) :**
 Sous l'effort du XC430 (1.9 N.m), le Dyneema Ø0.6mm "scie" progressivement le plastique → modification du rayon effectif → dérive de calibration Isaac Gym + perte de force progressive.
 
-**Solution validée D-Hand : Poulies CNC Ø12mm avec roulement MR84ZZ intégré.**
+**Solution validée D-Hand : Tambour CNC Ø12mm avec roulement MR84ZZ et gorge hélicoïdale.**
 
 | Paramètre | Valeur |
 | :--- | :--- |
 | **Diamètre extérieur** | **Ø12mm** (optimisé force vs intégrité) |
 | **Roulement** | **MR84ZZ** (4mm bore / 8mm OD / 2mm) pressé en H7 |
 | **Paroi alu** | 2mm chaque côté du roulement |
-| **Gorge Dyneema** | 0.7mm large × 0.5mm prof., rayon effectif **r=6mm** |
+| **Rayon effectif r** | **6mm** (depuis axe jusqu'au fond de gorge) |
 | **Tension XC430** | ~269 N effectifs (η=85%) |
+
+---
+
+##### A — Gorge Hélicoïdale : Conception et Dimensionnement
+
+> [!IMPORTANT]
+> **La gorge hélicoïdale est mécaniquement obligatoire.** Sans gorge guidée, le tendon migre latéralement sur le tambour, le rayon effectif r varie de manière aléatoire, et la force de grip devient imprévisible. C'est la gorge qui garantit r=6mm constant à chaque cycle.
+
+**Rôle de la gorge :**
+1. **Maintien latéral** : le câble reste à r=6mm constant (force reproductible)
+2. **Anti-saut** : la profondeur ≥ diamètre câble empêche le Dyneema de "sauter" hors du tambour lors d'une décharge soudaine
+3. **Distribution de charge** : la surface de contact gorge/câble est plus grande → usure minimale
+
+**Profil et dimensions de la gorge :**
+
+| Paramètre | Valeur | Justification |
+| :--- | :---: | :--- |
+| **Profil** | U-groove (fond plat) | Meilleur maintien latéral qu'un V-groove |
+| **Largeur gorge** | **0.75mm** | Dyneema Ø0.6mm + 0.15mm de jeu |
+| **Profondeur gorge** | **0.6mm** | ≥ diamètre câble → câble ne peut pas sauter |
+| **Pitch hélicoïdal** | **0.7mm/tour** | Dyneema Ø0.6 + 0.1mm séparation inter-spires |
+| **Trou de fixation câble** | Ø1.0mm + M1.6 | Vis de serrage sur le flanc du tambour |
+
+---
+
+##### B — Calcul du Nombre de Tours de Câble
+
+**Déplacement linéaire nécessaire pour fermer un doigt complètement :**
+
+| Articulation | Débattement | Bras de levier | Câble consommé |
+| :--- | :---: | :---: | :---: |
+| **MCP** (métacarpo-phalangienne) | ~90° | ~9mm | ~14mm |
+| **PIP** (inter-phalangienne prox.) | ~100° | ~7mm | ~12mm |
+| **DIP** (inter-phalangienne dist.) | ~70° | ~5mm | ~6mm |
+| **Total** (couplage réduit ~10%) | | | **~28-30mm** |
+
+> Les articulations sont couplées via le routage du tendon : la consommation réelle est ~10% inférieure à la somme algébrique.
+
+**Conversion en tours sur la poulie Ø12mm :**
+
+```
+Circonférence = π × 12mm = 37.7mm
+
+Tours fonctionnels = 30mm / 37.7mm = 0.80 tour (~290° de rotation servo)
+← Bien dans la plage du mode joint Dynamixel (0-360°) ✅
+```
+
+**Composition des tours sur le tambour :**
+
+| Couche | Rôle | Quantité |
+| :--- | :--- | :---: |
+| Tours fonctionnels | Fermeture complète du doigt | ~0.8 tour |
+| Tours de sécurité | ≥ 0.5 tour toujours enroulé même à l'extrême "ouvert" | +0.7 tour |
+| **Total recommandé** | | **1.5 tours** |
+
+> ⚠️ **2 tours est le maximum** : au-delà, les spires se superposent et le rayon effectif augmente de manière non-contrôlée (r augmente de ~0.6mm par couche = perte de force et dérive de calibration).
+
+**Géométrie axiale du tambour :**
+
+```
+COUPE AXIALE DU TAMBOUR Ø12mm (vue de face)
+
+  Flasque │←— Zone hélicoïdale —→│ Flasque
+   1.5mm  │  1.5 × 0.7mm = 1.05mm │  1.5mm
+          │   ┌──┬──┐              │
+  ────────┤───┤  │  ├──────────────├────────
+          │   └──┴──┘              │
+          │   Ø12mm ext.           │
+          │     MR84ZZ (Ø8mm)     │
+  ────────┴───────────────────────┴────────
+  Largeur totale tambour : ~4.1mm
+```
+
+| Élément | Dimension axiale |
+| :--- | :---: |
+| Zone de gorge hélicoïdale (1.5 tours × 0.7mm pitch) | 1.05mm |
+| Flasque gauche (anti-débordement) | 1.5mm |
+| Flasque droit (anti-débordement) | 1.5mm |
+| **Largeur totale du tambour** | **~4.1mm** |
+
+> ✅ Totalement usinable sur la C500 en un seul posage : fraiser la gorge hélicoïdale avec une fraise Ø0.6-0.8mm en 2.5D hélicoïdal.
+
+---
 
 **Comparatif matériaux pour la poulie :**
 
@@ -1237,17 +1320,20 @@ Sous l'effort du XC430 (1.9 N.m), le Dyneema Ø0.6mm "scie" progressivement le p
 
 **Procédure d'usinage recommandée sur C500 :**
 1. Serrer une barre ronde Ø16mm (7075 ou bronze) en mandrin 4 mors
-2. Aléser le Ø8mm intérieur H7 (tolérance ±0.018mm) — même opération que le Ø extérieur → concentricité garantie
+2. Aléser le Ø8mm intérieur H7 (tolérance ±0.018mm) — même axe que l'extérieur → concentricité garantie
 3. Tourner l'extérieur à Ø12mm
-4. Fraiser la gorge Ø0.7mm × 0.5mm de profondeur sur le tour de la poulie
-5. Presser le roulement MR84ZZ avec une presse à colonne (ne jamais chasser au marteau)
-6. Percer le trou M1.6 pour la vis de serrage du tendon
+4. Fraiser la gorge hélicoïdale 0.75mm × 0.6mm (1.5 tours, pitch 0.7mm) avec fraise Ø0.6-0.8mm
+5. Fraiser les deux flasques latéraux (épaulement 1.5mm de chaque côté)
+6. Percer le trou Ø1.0mm + tarauder M1.6 pour la vis de serrage du tendon
+7. Presser le roulement MR84ZZ avec une presse à colonne (ne jamais chasser au marteau)
 
 **Bénéfices vs ORCA original :**
 - ✅ Usure du tambour : **zéro** (vs plastique qui dérive en < 6 mois)
-- ✅ Calibration Isaac Gym : **stable à vie**
+- ✅ Calibration Isaac Gym : **stable à vie** (r=6mm constant à toutes les températures)
 - ✅ Rendement : **+10 à +15%** (roulement vs friction directe plastique/acier)
 - ✅ +33% de force de grip vs Ø16mm en 6061 (r=6mm vs r=8mm)
+- ✅ Gorge hélicoïdale : rayon effectif **garanti constant** sur toute la course
+
 
 #### 🧱 La Paume (Carpals / Palm Block) : Aluminium 6061 (Recommandé)
 *   **Problème de la 3D** : La paume est le point de concentration des contraintes centrales de toute la main. Elle encaisse simultanément la poussée des objets saisis et la force de compression des 8 tendons tirant à l'unisson (potentiellement >100 kg de force cumulée). Une paume en plastique imprimé – même en CF – va subir des micro-déformations (flex ou fluage) sous charge maximale, faussant la précision des IK (Inverse Kinematics).
