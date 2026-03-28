@@ -1229,10 +1229,34 @@ Sous l'effort du XC430 (1.9 N.m), le Dyneema Ø0.6mm "scie" progressivement le p
 > [!IMPORTANT]
 > **La gorge hélicoïdale est mécaniquement obligatoire.** Sans gorge guidée, le tendon migre latéralement sur le tambour, le rayon effectif r varie de manière aléatoire, et la force de grip devient imprévisible. C'est la gorge qui garantit r=6mm constant à chaque cycle.
 
-**Rôle de la gorge :**
-1. **Maintien latéral** : le câble reste à r=6mm constant (force reproductible)
-2. **Anti-saut** : la profondeur ≥ diamètre câble empêche le Dyneema de "sauter" hors du tambour lors d'une décharge soudaine
-3. **Distribution de charge** : la surface de contact gorge/câble est plus grande → usure minimale
+**Design retenu : Tambour "Bobine à Flasques Débordantes"**
+
+Le tambour n'est pas un simple cylindre droit — il adopte une forme de bobine (comme une bobine de fil industriel) avec des **flasques de diamètre supérieur à la zone de gorge**. C'est le design optimal pour la solidité et le guidage :
+
+![Coupe technique du tambour-bobine : gorge Ø12mm avec flasques Ø14mm et roulement MR84ZZ](./assets/img_dhand_pulley_bobine_cross_section.png)
+
+```
+PROFIL DU TAMBOUR (vue en coupe axiale)
+
+   Flasque     Zone gorge     Flasque
+   Ø14mm       Ø12mm          Ø14mm
+  ┌──┐ ┌────────────────────┐ ┌──┐
+  │  │ │  gorge hélicoïdale │ │  │
+  │  │ │  (1.5 tours câble) │ │  │
+  ├──┤ ├────────────────────┤ ├──┤
+  │  MR84ZZ (Ø8mm OD) pressé en H7   │
+  └──┴─────────────────────────┴──┘
+  1.5mm    1.05mm gorge    1.5mm = 4.1mm total
+```
+
+**Épaisseur de paroi selon la zone :**
+
+| Zone | Diamètre ext. | Paroi jusqu'au roulement | Rôle |
+| :--- | :---: | :---: | :--- |
+| **Flasques** (2×) | **Ø14mm** | **3mm** ← robuste | Support press-fit roulement (73% de la longueur) |
+| **Fond de gorge** | Ø10.8mm | 1.4mm | Traction tangentielle Dyneema uniquement |
+
+> ✅ **Pourquoi les flasques Ø14mm renforcent le press-fit :** le roulement est pressé sur toute la longueur axiale (~4.1mm). Les zones de flasque (2 × 1.5mm) représentent 73% de la surface de contact → les contraintes de serrage se distribuent sur les 3mm de paroi des flasques. Le fond de gorge à 1.4mm n'encaisse **pas** le press-fit, uniquement la traction tangentielle du câble → 1.4mm en 7075-T6 est largement suffisant (σ_e = 503 MPa).
 
 **Profil et dimensions de la gorge :**
 
@@ -1241,6 +1265,7 @@ Sous l'effort du XC430 (1.9 N.m), le Dyneema Ø0.6mm "scie" progressivement le p
 | **Profil** | U-groove (fond plat) | Meilleur maintien latéral qu'un V-groove |
 | **Largeur gorge** | **0.75mm** | Dyneema Ø0.6mm + 0.15mm de jeu |
 | **Profondeur gorge** | **0.6mm** | ≥ diamètre câble → câble ne peut pas sauter |
+| **Hauteur flasques** | **1mm au-dessus de la gorge** | (r_flasque=7mm) − (r_gorge=6mm) = 1mm |
 | **Pitch hélicoïdal** | **0.7mm/tour** | Dyneema Ø0.6 + 0.1mm séparation inter-spires |
 | **Trou de fixation câble** | Ø1.0mm + M1.6 | Vis de serrage sur le flanc du tambour |
 
