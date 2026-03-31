@@ -260,3 +260,209 @@ Source : Manuel EL05-EN, page 4 — Driver Product Specifications.
 | Mode de contrôle | FOC |
 
 > Pour les premiers tests (banc), utiliser **24V** au lieu de 48V nominal. Couple et vitesse seront réduits de ~50%, mais le risque en cas d'erreur est divisé par 2.
+
+---
+
+## 12. Tests de Fonctionnement — Séquence Banc (Wanptek 24V)
+
+Procédure progressive du moins risqué au plus dynamique. **À effectuer avec l'arbre du moteur libre, rien de fixé dessus.**
+
+---
+
+### Test 0 — Pré-requis avant tout test
+
+Avant d'activer quoi que ce soit, vérifier :
+
+- [ ] Wanptek : **24.00V**, limite courant **1.0A** (ou 2.0A), **OCP activé**
+- [ ] Module EL05 : **SW1=OFF**, **SW2=ON**
+- [ ] Moteur posé sur la table, arbre vers le haut, **zone dégagée autour**
+- [ ] Moteur détecté dans MotorStudio (**"Detection Devices"** → ID visible dans la liste)
+
+---
+
+### Test 1 — Lecture Télémétrie (passif, zéro risque)
+
+Moteur alimenté, **non activé** (avant tout "Enable") — vérifier les valeurs en temps réel :
+
+| Paramètre affiché | Valeur normale à 24V, moteur au repos |
+| :--- | :--- |
+| **Position** (pos / angle) | Stable (±0.01 rad). Si elle dérive, il y a un problème d'encodeur. |
+| **Vitesse** (vel / speed) | ≈ 0 rad/s |
+| **Courant** (cur / current) | ≈ 0 à 0.05A (holding passif minimal) |
+| **Température** | Température ambiante (20–25°C) |
+| **Tension bus** (bus voltage) | 22–24V (chute normale dans les câbles) |
+
+> ✅ **Résultat attendu** : Toutes les valeurs sont stables et cohérentes avec les conditions ambiantes. Si la température dépasse 30°C au repos → problème de court-circuit partiel dans le câblage puissance.
+
+---
+
+### Test 2 — Enable / Disable (sans ordre de mouvement)
+
+1. Cliquer **"Enable"** dans MotorStudio.
+2. Observer la **Wanptek** : le courant monte légèrement → **50 à 200 mA** (holding torque FOC actif). C'est normal.
+3. Essayer de tourner l'**arbre à la main** → vous devez sentir une **résistance magnétique**. C'est le couple de maintien (Holding Torque). Plus la résistance est franche, mieux c'est.
+4. Cliquer **"Stop"** ou **"Disable"** → l'arbre redevient **libre immédiatement**.
+
+> ⚠️ Si l'OCP de la Wanptek se déclenche à l'Enable (courant > limite) → augmenter la limite à **2A** sur la Wanptek. Cela peut arriver si le moteur "cherche" sa position home au démarrage.
+
+> ✅ **Résultat attendu** : Résistance magnétique perceptible sous "Enable", arbre libre sous "Disable". Courant Wanptek < 0.3A au repos.
+
+---
+
+### Test 3 — Premier Mouvement en Mode MIT (position douce)
+
+> [!WARNING]
+> L'arbre doit être **absolument libre**. Ne pas tenir le moteur par l'arbre pendant ce test. Posez-le sur une surface stable.
+
+En mode **MIT** dans MotorStudio, saisir les paramètres suivants pour un déplacement **très lent et contrôlé** :
+
+```
+Position target (pos)  :  +1.0  rad   (≈ 57°, un ~1/6 de tour)
+Vitesse max (vel)       :   1.0  rad/s  (très lent)
+Rigidité (Kp)           :   5.0
+Amortissement (Kd)      :   0.5
+Couple feedforward (T)  :   0.0  N.m
+```
+
+Envoyer la commande → le moteur doit **tourner lentement de ~57° et s'immobiliser**.
+
+**Ajustements si nécessaire :**
+
+| Symptôme | Ajustement |
+| :--- | :--- |
+| Rotation trop rapide | Réduire `vel` à 0.5 rad/s |
+| Moteur tremble / oscille | Augmenter `Kd` à 1.0 |
+| OCP de la Wanptek déclenche | Passer la limite à 2A (normal à basse vitesse) |
+| Moteur n'atteint pas la cible | Augmenter `Kp` à 10.0 (plus rigide) |
+
+Pour revenir au point de départ : envoyer `pos = 0.0 rad`.
+
+> ✅ **Résultat attendu** : Rotation douce et précise de ~57°. Position finale stable. Pas de vibration ni d'oscillation.
+
+---
+
+### Test 4 — Test de Vitesse (Mode Vitesse)
+
+Si MotorStudio propose un mode **Velocity Control** :
+
+```
+Vitesse cible   :  5.0  rad/s  (≈ 0.8 tour/s — vitesse modérée)
+Limite courant  :  1.0  A
+Durée           :  2 secondes maximum
+```
+
+Observer :
+- Le moteur doit tourner **régulièrement** sans à-coups.
+- Le courant Wanptek doit rester **< 1.5A** à vide.
+- La température ne doit **pas dépasser 40°C** pendant ce test court.
+
+Stopper le moteur (`vel = 0`) puis **Disable**.
+
+---
+
+### Test 5 — Calibration du Zéro Mécanique
+
+Si la position affichée n'est pas 0.0 alors que vous souhaitez définir la position actuelle comme origine :
+
+1. Positioner manuellement l'arbre à la position mécanique souhaitée comme "zéro".
+2. Dans MotorStudio, chercher le bouton **"Set Zero"** ou **"Zero Position"** (parfois dans un menu "Calibration").
+3. Confirmer → la position affichée repasse à **0.0 rad**.
+4. **Sauvegarder** (bouton "Save" ou "Write to Flash") → le zéro est persisté dans la mémoire flash du moteur.
+
+> [!IMPORTANT]
+> Cette calibration du zéro **est obligatoire après chaque mise à jour du firmware** (le flash efface la position de référence). Ne pas oublier cette étape après toute opération de mise à jour.
+
+---
+
+### Tableau de Synthèse des Tests
+
+| Test | Risque | Courant Wanptek attendu | Résultat attendu |
+| :--- | :---: | :---: | :--- |
+| **T1 - Télémétrie** | Nul | ~0 mA | Valeurs cohérentes affichées |
+| **T2 - Enable/Disable** | Très faible | 50–200 mA | Résistance magnétique à la main |
+| **T3 - Position MIT** | Faible | < 500 mA | Rotation précise de 57°, stable |
+| **T4 - Vitesse** | Modéré | < 1.5A | Rotation régulière à vide |
+| **T5 - Calibration zéro** | Nul | ~0 mA | pos affichée = 0.0 rad |
+
+---
+
+## 13. Mise à Jour du Firmware RS-05
+
+> [!CAUTION]
+> La mise à jour firmware est une opération à **risque de "brick"** si elle est interrompue (coupure secteur, perte USB). Assurez-vous que la Wanptek est bien alimentée et que le câble USB-C est stable avant de commencer.
+
+---
+
+### 13.1 Méthode Standard — Via MotorStudio (moteur fonctionnel)
+
+C'est la méthode normale si le moteur répond encore au bus CAN.
+
+**Étape 1 — Télécharger le firmware RS-05**
+
+Le firmware est distribué sur GitHub (dépôt séparé de MotorStudio) :
+
+**→ [https://github.com/RobStride/Product_Information/releases](https://github.com/RobStride/Product_Information/releases)**
+
+Télécharger le fichier **`.bin`** correspondant au **RS-05** (vérifier le nom du fichier — il doit contenir "RS05" ou "EL05").
+
+**Étape 2 — Connexion et préparation**
+
+1. Connecter et allumer le moteur normalement (suivre §6).
+2. Dans MotorStudio, ouvrir le COM et détecter le moteur (**"Detection Devices"**).
+3. Sélectionner le moteur dans la liste.
+
+**Étape 3 — Lancer la mise à jour**
+
+1. Dans MotorStudio, chercher l'onglet ou le bouton **"Firmware Update"** / **"升级"** (mise à niveau).
+2. Cliquer **"Open File"** → sélectionner le fichier `.bin` téléchargé.
+3. Cliquer **"Erase"** → le logiciel efface le firmware actuel et place le moteur en **"Upgrade Mode"**. Le moteur ne répond plus aux commandes pendant cette phase, c'est **normal**.
+4. Cliquer **"Start Update"** → la barre de progression doit avancer de 0 à 100%.
+5. Une fois à 100%, le moteur redémarre automatiquement.
+
+**Étape 4 — Post-flash obligatoire**
+
+> [!IMPORTANT]
+> Après chaque mise à jour firmware, le zéro position est **effacé**. Refaire impérativement le **Test 5 - Calibration du Zéro** (§12) avant toute utilisation du moteur.
+
+Vérifier également que le Motor ID est toujours correct (parfois remis à 1 par défaut après un flash).
+
+---
+
+### 13.2 Méthode d'Urgence — Via Pin BOOT du Moteur (moteur muet/corrompu)
+
+À utiliser **uniquement si le moteur ne répond plus du tout** au bus CAN (firmware corrompu, moteur "brick").
+
+Le connecteur JST-GH 4-pin du moteur dispose d'un pin **BOOT (pin 4)** qui, relié au GND pendant la mise sous tension, force le moteur en mode bootloader SWD (récupération bas niveau).
+
+**Procédure :**
+
+1. **Couper l'alimentation** du moteur.
+2. Sur le câble JST-GH, **court-circuiter le Pin 4 (BOOT) avec le Pin 3 (GND)** à l'aide d'un cavalier ou d'un fil fin.
+3. **Remettre sous tension** → le moteur démarre en mode bootloader (l'arbre ne tourne pas, aucune led active sur le driver).
+4. Dans MotorStudio, lancer la procédure de flash comme en §13.1 (Erase + Start Update).
+5. Une fois le flash terminé, **couper l'alimentation**, retirer le court-circuit BOOT/GND.
+6. Remettre sous tension normalement → le moteur démarre avec le nouveau firmware.
+7. Refaire la **calibration du zéro** (Test 5, §12).
+
+```
+Câble JST-GH moteur — Mode Bootloader Urgence :
+
+  Pin 1 : CANH  → CANH module EL05
+  Pin 2 : CANL  → CANL module EL05
+  Pin 3 : GND   → GND module EL05
+  Pin 4 : BOOT  → [cavalier] → Pin 3 GND  ← ACTIVER SEULEMENT pour flash urgence
+```
+
+> ⚠️ Retirer le cavalier BOOT/GND immédiatement après le flash. Si le moteur démarre à nouveau avec ce cavalier en place, il entrera encore en bootloader et ne fonctionnera pas.
+
+---
+
+### 13.3 Tableau de Décision — Quelle Méthode Utiliser ?
+
+| Situation | Méthode |
+| :--- | :--- |
+| Moteur fonctionne, mise à jour de confort | **§13.1** — Via MotorStudio (standard) |
+| Moteur détecté mais instable / bogué | **§13.1** — Via MotorStudio (standard) |
+| Moteur ne répond plus du tout au CAN | **§13.2** — Pin BOOT (urgence) |
+| Moteur répond mais firmware très ancien | **§13.1** — Via MotorStudio (standard) |
+
