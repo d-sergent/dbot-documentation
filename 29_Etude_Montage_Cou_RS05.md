@@ -414,3 +414,13 @@ Les axes des deux roulements (avant − rotor, arrière − stator) doivent êtr
 | Montage démontable (pas de frettage permanent) | Accès câblage à planifier avant montage |
 | Chapes en U très utilisées en cobotique (Kuka, Franken) | Rigidité du U à vérifier pour bras fins |
 
+---
+
+## 11. Historique de Maintenance et Firmware
+
+Ce tableau consigne les interventions logicielles sur les moteurs du sous-ensemble Cou (Roll & Pitch).
+
+| Date | Moteur(s) | Action | Version Firmware | Note |
+| :--- | :--- | :--- | :--- | :--- |
+| **31 Mars 2026** | **Cou (Roll & Pitch)** | Mise à jour système | **0.5.0.9** | Actualisation via MotorStudio v1.0.3. Calibration du zéro effectuée après flash. |
+
