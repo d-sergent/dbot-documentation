@@ -30,7 +30,14 @@ Bienvenue dans la documentation technique du projet de robot humanoïde D-Bot. C
 12b. **[Bibliothèque CNC NestWorks](./12b_Bibliotheque_C500_Vitesses_Coupe.md)** : Vitesses de coupe et ajustements H7.
 13. **[Sécurité Électrique Essentielle](./13_Securite_Electrique.md)** : Séquence d'allumage et E-Stop.
 14. **[Cinématique & Moteurs](./14_Cinematique_Moteurs.md)** : Tableau comparatif RobStride.
-31. **[Guide Debug RS-05 — Module EL05 & MotorStudio](./31_Guide_Debug_RS05_MotorStudio.md)** : Câblage CAN, DIP switches, procédure Wanptek, et connexion logicielle MotorStudio.
+
+---
+
+## 🛠️ ANNEXES & GUIDES DE DEBUG
+*Guides d'interfaçage ponctuel et configurations de bas niveau.*
+
+31. **[Guide Debug RS-05 — Module EL05 & MotorStudio](./annexes/31_Guide_Debug_RS05_MotorStudio.md)** : Câblage CAN, DIP switches, procédure Wanptek, et connexion logicielle MotorStudio.
+32. **[Configuration ID, Zéro & Limites (RS-05 Cou)](./annexes/32_Configuration_ID_Limites_Cou.md)** : Procédure ID, calibration du zéro et bornes de rotation logicielles.
 
 ---
 
