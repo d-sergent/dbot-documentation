@@ -25,7 +25,7 @@ Ce guide décrit comment connecter un moteur **RobStride 05 (RS-05)** au **modul
 
 ## 2. Le Module de Debug EL05 — Description Physique
 
-![Photo réelle du module EL05 RobStride montrant les bornes GND, CANH, CANL et les 2 DIP switches](../assets/img_rlink_module_photo.png)
+![Photo réelle du module EL05 RobStride montrant les bornes GND, CANH, CANL et les 2 DIP switches](../../assets/img_rlink_module_photo.png)
 
 Le module EL05 est une petite carte noire (version 2025/6/17/V02) composée de :
 
@@ -158,7 +158,7 @@ Le logiciel est distribué sur GitHub :
 
 Télécharger la dernière version : **`motor_toolV13.zip`** (v1.0.3 — Latest — 20.4 MB, Fév 2026).
 
-![Page GitHub des releases MotorStudio montrant la version v1.0.3 (Latest)](../assets/img_motorstudio_github_releases.png)
+![Page GitHub des releases MotorStudio montrant la version v1.0.3 (Latest)](../../assets/img_motorstudio_github_releases.png)
 
 > **Note Linux** : La version v1.0.1 précédente avait une version Linux (AppImage). La v1.0.3 est Windows uniquement. Pour Linux, utilisez directement l'InnoMaker USB2CAN + SocketCAN (voir Doc 05).
 
