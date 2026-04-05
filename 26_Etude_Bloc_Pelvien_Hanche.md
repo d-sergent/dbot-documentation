@@ -21,15 +21,15 @@ Il est donc géométriquement impossible d'avoir une vraie liaison sphérique co
 Les images du K-Bot montrent une tentative de compacter les 3 moteurs dans un espace très restreint (sorte de grappe entremêlée).
 - *Inconvénient majeur* : Cette conception crée souvent des collisions (auto-intersections) lors de mouvements combinés extrêmes et rend l'usinage des pièces de liaison affreusement complexe en CAO 3D.
 
-### B. L'approche Tesla Optimus : Séquentielle (Chaîne Empilée)
+### B. L'approche Tesla Optimus : séquentielle A-R-F
 
-![Référence : Actionneurs de Hanche Tesla Optimus (AI Day 2022)](./assets/img_optimus_pelvis_reference.jpg)
-*(Note : Vue des actionneurs rotatifs de la hanche du Tesla Optimus, illustrant parfaitement l'empilement séquentiel des axes de rotation).*
+Tesla a opté pour une chaîne cinématique **A-R-F** (Abduction→Rotation→Flexion), soit Roll→Yaw→Pitch dans notre nomenclature :
+1. **Maillon 1 : Roll (Abduction)** — fixé au bassin, stabilité latérale.
+2. **Maillon 2 : Yaw (Rotation)** — rotation interne/externe.
+3. **Maillon 3 : Pitch (Flexion)** — dans la cuisse, levée et propulsion.
 
-Tesla a opté pour une approche mécanique très franche dite en **chaîne cinématique séquentielle**. Le bassin abrite le premier moteur, et les suivants s'y attachent comme des maillons de chaîne :
-1. **L'empilement** : Le premier moteur est fixé au bassin, puis un *bracket* (équerre) métallique le relie au deuxième moteur, qui lui-même porte le troisième.
-2. **Intégration dans la cuisse** : Pour gagner de la compacité en largeur, Tesla a carrément descendu le moteur de Lacet (Yaw) **à l'intérieur de la cuisse** (le fémur), tandis que les moteurs de Pitch et de Roll restent au niveau du bassin.
-3. **Conséquence géométrique** : Les 3 axes de rotation ne se croisent pas au même point (ils sont non-concourants et décalés dans l'espace). C'est une approche géométriquement imparfaite mais **extrêmement robuste et facile à usiner** (ce qui est logique pour un constructeur automobile).
+**Avantage** : Le gros moteur Pitch (le plus lourd) est le dernier maillon et ne porte que la cuisse.  
+**Inconvénient** : Architecture "Gen 1" — le bassin reste très large et les proportions du torse sont moins naturelles.
 
 ### C. L'approche Unitree H1 / H1-2 : Sphérique (Grappe Concentrée)
 
@@ -38,47 +38,128 @@ De son côté, Unitree adopte une philosophie radicalement différente pour maxi
 2. **Quasi-concourants** : À l'inverse de Tesla, Unitree s'efforce de faire en sorte que les axes de ces 3 moteurs se croisent *presque* au même point géométrique. L'objectif est d'imiter la vraie articulation "sur rotule" du corps humain.
 3. **Bras de levier réduit** : Aucun moteur lourd n'est inséré dans le haut de la cuisse. Toute la puissance est dans le bassin, réduisant l'inertie lors des déplacements rapides.
 
+> ⚠️ L'approche sphérique d'Unitree nécessite des moteurs sur-mesure imbriqués, incompatibles avec nos moyens de production en atelier.
+
+### D. L'approche Gen2 (Figure 02, Unitree G1) : F-A-R
+
+Les robots humanoides de deuxième génération (Figure 02, Unitree G1) ont convergé vers l'ordre **F-A-R** (Flexion→Abduction→Rotation), soit Pitch→Roll→Yaw :
+
+1. **Maillon 1 : Pitch (Flexion)** — fixé au haut du bassin/torse, axe principal.
+2. **Maillon 2 : Roll (Abduction)** — suspendu sous l'axe Pitch.
+3. **Maillon 3 : Yaw (Rotation)** — en bas, vers la cuisse.
+
+**Avantages** :
+- Packaging anatomique — le bassin est plus fin, le torse proportionnellement plus long.
+- Le pivot principal (Pitch) est haut, ce qui donne des proportions humaines naturelles.
+- Standard de l'industrie 2024-2025.
+
+**Inconvénient** :
+- Le moteur Pitch porte les masses des moteurs Roll et Yaw lors du swing de jambe, ce qui augmente théoriquement l'inertie distale. En pratique, les marges de couple des RS-04 rendent cet inconvénient négligeable (voir §4).
+
 ---
 
-## 3. L'Architecture D-Bot : Le Cardan de Hanche Séquentiel (Méthode Tesla)
+## 3. L'Architecture D-Bot : Chaîne F-A-R (Méthode Gen2)
 
-Pour le D-Bot, nous validons officiellement l'approche **séquentielle (type Optimus)**, car c'est la seule qui soit réaliste avec des moteurs QDD standards "off-the-shelf" (RobStride) et usinable avec notre CNC C500. L'approche sphérique d'Unitree nécessite des moteurs sur-mesure imbriqués, incompatibles avec nos moyens de production en atelier.
+**Pour le D-Bot, nous adoptons officiellement l'ordre F-A-R**, en ligne avec les standards de la robotique humanoïde 2024-2025. C'est la seule approche qui soit à la fois réaliste avec des moteurs QDD standards "off-the-shelf" (RobStride) et qui offre des proportions anatomiques satisfaisantes.
 
 Concrètement, la liaison entre le Bassin et le Fémur (Cuisse) du robot se décompose ainsi :
 
 ![Schéma Éclaté du Cardan de Hanche](./assets/img_hip_kinematic_chain.png)
 
-### Maillon 1 : L'Axe Yaw (Moteur RS-03)
-* **Emplacement** : Fixe, monté *à l'intérieur* ou directement sous le châssis du bassin (Pelvis). Il pointe vers le bas (axe Z).
-* **Rôle** : Tourner la pointe du pied vers l'intérieur ou l'extérieur.
-* **Connexion sortante** : Son rotor (qui tourne) porte la première équerre (un L-Bracket usiné en alu massif).
+### Maillon 1 : L'Axe Pitch (Moteur RS-04)
+* **Emplacement** : Fixé au sommet du bassin ou en partie basse du torse (axe Y — horizontal, regarde sur les côtés du robot).
+* **Rôle** : C'est le boss de la motricité. Il encaisse la charge principale pour lever la cuisse, s'accroupir, ou propulser le robot en avant.
+* **Connexion sortante** : Son rotor porte la première équerre (un L-Bracket usiné en alu massif) qui descend vers le moteur Roll.
+* **Motorisation** : RS-04 (120 N.m pic) — le plus fort, justement placé en premier pour encaisser tous les efforts.
 
 ### Maillon 2 : L'Axe Roll (Moteur RS-03)
-* **Emplacement** : Fixé horizontalement (axe X) à l'extrémité du L-Bracket venant du moteur Yaw. Il regarde devant ou derrière le robot.
+* **Emplacement** : Fixé horizontalement (axe X) à l'extrémité du L-Bracket venant du moteur Pitch. Il regarde devant ou derrière le robot.
 * **Rôle** : Permettre au robot de faire le grand écart ou d'écarter la jambe sur le côté.
-* **Connexion sortante** : Son rotor porte la deuxième équerre (un U-Bracket ou L-Bracket).
+* **Connexion sortante** : Son rotor porte la deuxième équerre (un U-Bracket ou L-Bracket) vers le Yaw.
 
-### Maillon 3 : L'Axe Pitch (Gros Moteur RS-04)
-* **Emplacement** : Fixé perpendiculairement (axe Y) à l'extrémité de l'équerre du moteur Roll. Il regarde sur les côtés du robot.
-* **Rôle** : C'est le boss de la motricité. Il encaisse la charge principale pour lever la cuisse, s'accroupir, ou propulser le robot en avant. C'est pour cela qu'il nécessite un RS-04 (120 Nm) contre des RS-03 pour les deux autres.
-* **Connexion sortante** : Son rotor est la ligne d'arrivée du bassin.
+### Maillon 3 : L'Axe Yaw (Moteur RS-03)
+* **Emplacement** : Fixé verticalement (axe Z) à l'extrémité de l'équerre du moteur Roll, en haut de la cuisse.
+* **Rôle** : Rotation interne/externe (tourner la pointe du pied vers l'intérieur ou l'extérieur).
+* **Connexion sortante** : Son rotor est la ligne d'arrivée — c'est ici que vient se greffer le **Fémur Hybride en Sandwich**.
 
 ### Le Bout de la Chaîne : Le Fémur Hybride
-Et c'est ici - *et uniquement ici !* - que vient se greffer notre **"Fémur Hybride en Sandwich"** (décrit dans le document 24).
-Les deux épaisses plaques latérales du fémur viennent prendre en sandwich l'interface (cloche/rotor) du dernier moteur, le RS-04 de Pitch. 
-
-Le fémur, en réalité, ne "sait pas" qu'il y a 2 autres moteurs au-dessus de lui. Il n'est attaché qu'au dernier maillon de la chaîne.
+Les deux épaisses plaques latérales du fémur viennent prendre en sandwich l'interface (cloche/rotor) du moteur Yaw (RS-03). Le fémur ne "sait pas" qu'il y a 2 autres moteurs au-dessus de lui. Il n'est attaché qu'au dernier maillon de la chaîne.
 
 ---
 
-## 4. Conséquences pour l'Ingénierie (Usinage C500)
+## 4. Analyse des Marges de Couple en F-A-R
 
-L'énorme avantage de rejeter le "cluster" touffu du K-Bot pour cette chaîne séquentielle, c'est l'usinabilité immédiate !
+En F-A-R, le RS-04 Pitch porte les masses des moteurs Roll et Yaw en plus de la jambe entière. Voici l'analyse des couples mis en jeu :
 
-Nous avons réduit la hanche d'une géométrie 3D impénétrable à **seulement 2 pièces mécaniques simples (Brackets)** :
-1. **Le "Yaw-Roll Bracket"** : Une simple équerre de profilé aluminium.
-2. **Le "Roll-Pitch Bracket"** : Une seconde équerre en aluminium reliant le deuxième et le troisième moteur.
+**Masses portées par le Hip Pitch (RS-04) :**
 
-La D-Bot peut ainsi s'appuyer sur des blocs massifs d'aluminium (7075-T6 de haute résistance) taillés par la C500. Ces Brackets mesurent tout au plus 5 à 8 cm de long chacun, offrant une rigidité exceptionnelle sans le moindre risque de flambement, contrairement aux longues pièces en plastique du dos ou des tibias.
+| Composant | Masse |
+|:---|:---:|
+| RS-03 Roll | 880g |
+| RS-03 Yaw | 880g |
+| 2× Brackets de liaison | ~400g |
+| Fémur hybride complet | ~750g |
+| RS-04 Knee (relocalisé en haut de cuisse via GT3) | 1 420g |
+| Tibia + pied | ~800g |
+| **TOTAL porté par le Hip Pitch** | **~5 130g** |
 
-> **Verdict / Action Recommandée** : Toute la modélisation CAO du bloc pelvien doit se concentrer sur le design ultra-rigide de ces 2 Brackets de liaison. C'est la seule façon moderne et viable de raccrocher notre "Fémur Hybride Sandwich" aux 3 DOFs exigés par les algorithmes de locomotion (Isaac Gym).
+**Couple requis (bras de levier au CdG de la jambe ~0.15m) :**
+```
+τ_statique      = 5.13 × 9.81 × 0.15  ≈  7.5 N.m
+τ_marche normale (×2.5 dyn.)          ≈ 18.8 N.m   → RS-04 (120 N.m) : 16% ✅
+τ_course pic (×4.0 dyn.)             ≈ 30.0 N.m   → RS-04 (120 N.m) : 25% ✅
+```
+
+> [!TIP]
+> **Conclusion** : Même en portant tous les maillons de la chaîne, le RS-04 Hip Pitch ne dépasse jamais 30% de ses capacités lors de la locomotion normale. Les marges sont très confortables. **Aucune amplification GT3 n'est nécessaire à la hanche** (voir §5).
+
+---
+
+## 5. Étude Option GT3 Hip Pitch — Analyse et Rejet
+
+Face aux très bonnes marges du §4, nous avons étudié l'option d'ajouter une réduction GT3 sur le Hip Pitch (en s'inspirant de la Doc 15g pour le genou), afin de délocaliser le RS-04 dans le torse et de réduire encore l'inertie du bassin. L'analyse conclut que cette option, bien que techniquement viable, n'est **pas retenue**.
+
+### Principe étudié
+
+Le RS-04 Hip Pitch serait placé dans la partie basse du torse, et sa puissance transmise à l'axe de pivot de la hanche via une courroie GT3 (ratio 1.5:1 → 180 N.m).
+
+### Avantages identifiés
+- Réduction de la masse suspendue au bassin (RS-04 fixe dans le torse)
+- Légère amplification de couple supplémentaire (180 N.m vs 120 N.m)
+- Inertie de balancement de jambe légèrement réduite
+
+### Raisons du rejet
+
+| Raison | Détail |
+|:---|:---|
+| **Couple déjà suffisant** | Le RS-04 à 120 N.m est sollicité à max 25% en locomotion. La GT3 serait une complexité sans bénéfice mesurable. |
+| **Complexité de routage** | La courroie doit traverser une zone mobile (articulation Pitch). Le passage du brin de courroie est difficile à protéger lors des rotations Roll et Yaw. |
+| **Encombrement torse** | Le torse basse héberge déjà la batterie 48V et la PDB. Ajouter 2 RS-04 (2 840g) dans cet espace est un défi d'intégration important. |
+| **GT3 genou déjà mise en place** | La délocalisation du moteur genou via GT3 (Doc 15g) apporte déjà la réduction d'inertie distale majeure. La GT3 hanche est redondante avec cet effort. |
+
+> [!IMPORTANT]
+> **Décision** : Le RS-04 Hip Pitch reste **directement sur l'axe de la hanche**, en direct drive 1:1. C'est plus simple, plus robuste, et les marges de couple sont largement suffisantes.
+
+---
+
+## 6. Conséquences pour l'Ingénierie (Usinage C500)
+
+L'énorme avantage de l'ordre F-A-R avec chaîne séquentielle, c'est l'usinabilité immédiate.
+
+Nous avons réduit la hanche à **seulement 2 pièces mécaniques simples (Brackets)** :
+1. **Le "Pitch-Roll Bracket"** : Une équerre reliant l'axe Pitch (RS-04) au moteur Roll (RS-03).
+2. **Le "Roll-Yaw Bracket"** : Une seconde équerre reliant le moteur Roll au moteur Yaw.
+
+Ces deux pièces sont des usinages simples en aluminium 7075-T6 sur C500. Elles mesurent tout au plus 5 à 10 cm de long chacune, offrant une rigidité exceptionnelle.
+
+| Comparaison des ordres cinématiques | Packaging bassin | Proportions | Standard industrie |
+|:---|:---:|:---:|:---:|
+| R-A-F (Yaw→Roll→Pitch) — **Ancien D-Bot** | Moyen | Peu naturel | Non-standard |
+| A-R-F (Roll→Yaw→Pitch) — **Tesla Optimus** | Bon (Pitch en bas) | Gen1 | Déclinant |
+| **F-A-R (Pitch→Roll→Yaw) — D-Bot V2** | **Excellent** | **Anatomique** | **Gen2 standard** ✅ |
+
+> **Verdict / Action Recommandée** : Toute la modélisation CAO du bloc pelvien doit se concentrer sur le design ultra-rigide des 2 Brackets de liaison (Pitch-Roll et Roll-Yaw). Le RS-04 Pitch est positionné au sommet du bassin/bas du torse, son rotor orienté vers le côté (axe Y), définissant le plan médio-latéral du robot.
+
+---
+
+*Document mis à jour en Avril 2026 — Passage de l'architecture R-A-F à F-A-R suite à l'analyse comparative des standards de l'industrie (Tesla Optimus Gen1 = A-R-F, Figure 02 / Unitree G1 Gen2 = F-A-R). Option GT3 Hip Pitch étudiée et rejetée (couple RS-04 suffisant en direct drive).*

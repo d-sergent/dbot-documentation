@@ -61,17 +61,23 @@ Fournisseurs : Cardan **Michaud Chailly** A5-473-12, bielles carbone 3K Ø10/8mm
 
 ---
 
-## 3. Hanches — RS-04 + RS-03
+## 3. Hanches — RS-04 (Pitch) + RS-03 (Roll + Yaw) en F-A-R
 
-**Décision : Architecture K-Bot conservée — RS-04 (Pitch, 120 N.m) et RS-03 (Roll/Yaw, 60 N.m).**
+**Décision : Architecture séquentielle F-A-R (Pitch→Roll→Yaw) — standard Gen2 (Figure 02, Unitree G1).**
 
-| Articulation | Moteur | Couple Pic | Couple Requis (39 kg) | Marge |
-| :--- | :---: | :---: | :---: | :---: |
-| Hanche Pitch | RS-04 | 120 N.m | ~50 N.m | **+140%** ✅ |
-| Hanche Roll | RS-03 | 60 N.m | ~20 N.m | **+200%** ✅ |
-| Hanche Yaw | RS-03 | 60 N.m | ~15 N.m | **+300%** ✅ |
+| Maillon | Axe | Moteur | Couple Pic | Couple Requis (39 kg, dyn.) | Marge |
+| :---: | :--- | :---: | :---: | :---: | :---: |
+| **1** | **Hanche Pitch** | RS-04 | 120 N.m | ~19 N.m | **+530%** ✅ |
+| **2** | **Hanche Roll** | RS-03 | 60 N.m | ~20 N.m | **+200%** ✅ |
+| **3** | **Hanche Yaw** | RS-03 | 60 N.m | ~15 N.m | **+300%** ✅ |
 
-Aucune modification requise — marges très confortables même à 39 kg.
+**Changement vs architecture antérieure :**
+- Ancien ordre **R-A-F** (Yaw→Roll→Pitch) remplacé par l'ordre **F-A-R** (Pitch→Roll→Yaw).
+- Le RS-04 Pitch est maintenant en **Maillon 1** (fixé au bassin/bas du torse), Roll en 2, Yaw en 3 (vers la cuisse).
+- Packaging anatomique amélioré, bassin plus fin, proportions Gen2.
+- **GT3 étudiée et rejetée** : le RS-04 Pitch en direct drive ne dépasse jamais 25% de ses capacités en locomotion — aucun renfort mécanique nécessaire.
+
+> Voir : [26 — Étude Bloc Pelvien Hanche](./26_Etude_Bloc_Pelvien_Hanche.md)
 
 ---
 
