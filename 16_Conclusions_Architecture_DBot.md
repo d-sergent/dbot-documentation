@@ -95,16 +95,55 @@ Fournisseurs : Cardan **Michaud Chailly** A5-473-12, bielles carbone 3K Ø10/8mm
 | Coude Pitch | **RS-06** | **36 N.m** | 11 N.m | 621g |
 | Poignet Roll | RS-00 | 14 N.m | 5 N.m | 310g |
 
-**Capacité de portage (avec D-Hand +850g total, bras = ~3 kg):**
+**Capacité de portage (avec D-Hand +850g total, bras = ~3 kg) — 1 bras :**
 
 | Scénario | Couple requis | Moteur limitant | Capacité |
 | :--- | :---: | :---: | :---: |
 | **Bras tendu (frontal), continu** | ~33 N.m | Pitch RS-04 (40 N.m nom.) | ✅ **~5 kg** continu |
 | **Bras tendu (frontal), pic** | ~55 N.m | Pitch RS-04 (120 N.m pic) | ✅ **~10 kg** pic |
-| **Bras tendu (latéral), continu** | ~33 N.m | Roll RS-03 (20 N.m nom.) | ⚠️ **~2.5 kg** continu |
 | **Bras plié 90°, sécurité** | ~30 N.m | Coude RS-06 (36 N.m nom.) | ✅ **~8-10 kg** sécurité |
 
+> [!TIP]
+> **Portage à 2 bras (charge symétrique)** : chaque moteur ne porte que la moitié de la charge. Les capacités sont doublées : ~**10 kg continu** bras tendus frontaux, ~**16-20 kg continu** bras pliés à 90°. La limite devient alors l'équilibre du robot (centre de gravité) et la tenue du genou (GT3 → 300 N.m), pas les moteurs de bras.
+
 > ⚠️ **Impact sur la masse du robot** : Cette configuration hybride amène la masse totale à **~40.2 kg** (avant allégement 3D, LiDAR V2 décompté). Le genou RS-04 opère à ~101% de sa capacité à 2-3 km/h, permettant une marche sécurisée à 2 km/h. Voir §9 et §11 pour la stratégie d'allégement 3D.
+
+### 🔮 Évolution Future — GT3 Coude (Non déployée en V1)
+
+> [!NOTE]
+> **Cette évolution n'est pas prévue pour la V1.** Elle est documentée ici pour tracer le cheminement de réflexion et guider une future itération si les besoins opérationnels l'exigent.
+
+Par analogie avec la **Solution S6 GT3 du genou** (RS-04 remonté dans le fémur → 300 N.m), il serait possible d'appliquer le même principe au coude :
+
+**Principe** : Relocaliser le RS-06 depuis le coude vers **l'humérus** (zone entre épaule et coude), et le relier à l'axe du coude par une courroie GT3. L'avant-bras (qui contient les 8 servos Dynamixel de la D-Hand) n'est **pas concerné** par cet encombrement.
+
+```
+ARCHITECTURE GT3 COUDE (Évolution V3) :
+
+[ÉPAULE]
+   │
+[HUMÉRUS] — RS-06 Coude RELOCALISÉ + Pignon petit
+   │          ← Courroie GT3 9mm (~200mm entraxe)
+[COUDE]   — Grand pignon = AXE COUDE (remplace RS-06 direct)
+   │
+[AVANT-BRAS] — 8× Dynamixels D-Hand (inchangé)
+```
+
+**Bénéfices calculés (ratio 2:1) :**
+
+| Paramètre | RS-06 Direct (V1) | GT3 2:1 (V3) |
+|:---|:---:|:---:|
+| **Couple coude nominal** | 11 N.m | **22 N.m** (+100%) |
+| **Couple coude pic** | 36 N.m | **72 N.m** |
+| **Portage bras plié, 1 bras** | ~8-10 kg | **~15 kg continu** |
+| **Portage bras plié, 2 bras** | ~16-20 kg | **~30 kg continu** |
+| **Masse retirée du coude** | 0g | −621g (RS-06) + 160g (GT3) = **−461g** distaux ⭐ |
+| **Coût** | 0€ | ~53€ (même BOM que GT3 genou) |
+
+> La réduction de masse distale (−461g au coude) améliore aussi la dynamique des gestes rapides et réduit la sollicitation du RS-04 Pitch lors des accélérations du bras.
+
+**Raison du report en V3** : absence de déficit critique de couple (RS-06 à ~83% en pic pour 10 kg, non problématique en usage courant). La complexité mécanique n'est pas justifiée avant validation des cas d'usage opérationnels concrets.
+
 
 > Voir : [Analyse portage §3](./15a_Analyse_Locomotion_Baseline.md) | [Comparatif Option Hybride](./15b_Configurations_Moteurs.md)
 
