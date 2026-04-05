@@ -11,8 +11,9 @@ Cette section a été restructurée pour plus de clarté. Le contenu est désorm
 | **15a** | [Locomotion & Portage (Baseline K-Bot)](./15a_Analyse_Locomotion_Baseline.md) | Paramètres physiques, couples requis marche/course/portage, faiblesses initiales | ~200 |
 | **15b** | [Configurations Moteurs & Évolutions](./15b_Configurations_Moteurs.md) | Options A/B/C/D, comparatifs, DOF Roll, stabilité, capteurs FSR, algorithmes | ~900 |
 | **15c** | [Révision Cardan 39 kg](./15c_Revision_Cardan_39kg.md) | Recalcul complet avec masse 39 kg et architecture cheville cardan 2×RS-03 | ~200 |
-| **15d** | [Genou & Course — Solutions](./15d_Genou_et_Course.md) | Les 5 solutions pour le genou, cinématique mécanisme tirant S2, diagrammes | ~430 |
+| **15d** | [Genou — Analyse & Solution GT3](./15d_Genou_et_Course.md) | **Document principal genou (fusionné 15d+15g)** — S1 à S5 explorées, S6 (GT3 2.5:1, 300 N.m) retenue, compatibilité F-A-R hanche validée | ~300 |
 | **15e** | [Alternatives Moteurs Genou](./15e_Alternatives_Moteurs_Genou.md) | Comparatif RS-02, RS-03, RS-06 pour upgrades | ~150 |
+| **15g** | [→ Redirection vers 15d](./15g_Solution_S6_Courroie_GT3_Genou.md) | Contenu fusionné dans 15d (Avril 2026) | — |
 | **15h** | [Alternatives Transmission Genou](./15h_Alternatives_Transmission_Genou.md) | Archive des débats Vérins Linéaires vs Chaîne vs Courroie vs Pivots Variables | ~70 |
 | **16** | [**Conclusions & Architecture Finale D-Bot**](./16_Conclusions_Architecture_DBot.md) | **Décisions finales par articulation. Lire en premier.** | ~100 |
 

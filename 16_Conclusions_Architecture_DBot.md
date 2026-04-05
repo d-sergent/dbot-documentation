@@ -57,7 +57,7 @@ Fournisseurs : Cardan **Michaud Chailly** A5-473-12, bielles carbone 3K Ø10/8mm
 - **V2** (~6 mois) : Tibia en lame carbone flexible pour absorption passive des chocs.
 - **V3** (~1 an) : Mécanisme "Atlas" à tirant haute-vitesse pour course > 10 km/h.
 
-> Voir : [Solution S6 : Courroie GT3](./15g_Solution_S6_Courroie_GT3_Genou.md) | [Alternatives Transmission](./15h_Alternatives_Transmission_Genou.md)
+> Voir : [Étude Genou — Analyse & Solution GT3](./15d_Genou_et_Course.md) | [Alternatives Transmission](./15h_Alternatives_Transmission_Genou.md)
 
 ---
 
