@@ -110,6 +110,17 @@ M117 Refroidissement passif (2h)...
 M84
 ```
 
+#### 4. Arrêt Automatique Sécurisé (M81)
+Pour éteindre l'imprimante en fin de cycle (après un recuit ou une impression simple), utilisez ce bloc. L'utilisation de `M109 R50` est **critique** pour éviter le bouchage de la buse par remontée de chaleur (Heat Creep).
+
+```gcode
+; --- G-code : Arrêt Automatique Sécurisé ---
+M104 S0 ; Éteindre la chauffe buse
+M140 S0 ; Éteindre la chauffe plateau
+M109 R50 ; ATTENDRE refroidissement buse < 50°C (SÉCURITÉ)
+M81 ; Éteindre l'imprimante (Relais PSU)
+```
+
 ---
 
 ## 5. Validation et Calibration Finale
