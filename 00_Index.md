@@ -26,7 +26,7 @@ Bienvenue dans la documentation technique du projet de robot humanoïde D-Bot. C
 7.  **[Vision et IA](./07_Vision_IA.md)** : OAK-D Pro S2 FF et LiDAR Unitree L2 (V2).
 8.  **[Architecture Audio](./08_Architecture_Audio.md)** : XMOS XVF-3800 et Haut-Parleur.
 18. **[Stratégie IMU et Fusion](./18_Strategie_IMU_Fusion.md)** : Équilibre Bipède (416Hz) et V-SLAM.
-9.  **[Guide Impression 3D](./09_Guide_Avance_Impression.md)** : Orca Slicer, PA12-CF et Recuit.
+9.  **[Guide Impression 3D](./annexes/impression_3d/09_Guide_Avance_Impression.md)** : Orca Slicer, PA12-CF et Recuit.
 12a. **[Guide Pièces Métal CNC](./12_Guide_Parties_Metal_CNC.md)** : C500, Alu 7075-T6 et plaques RS-04.
 12b. **[Bibliothèque CNC NestWorks](./12b_Bibliotheque_C500_Vitesses_Coupe.md)** : Vitesses de coupe et ajustements H7.
 13. **[Sécurité Électrique Essentielle](./13_Securite_Electrique.md)** : Séquence d'allumage et E-Stop.
