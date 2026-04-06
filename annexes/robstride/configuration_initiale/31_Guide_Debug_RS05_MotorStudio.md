@@ -1,6 +1,6 @@
 # 31 — Guide : Debug RS-05 avec le Module EL05 et MotorStudio
 
-> *Document créé Mars 2026 — Sources : Manuel officiel EL05-EN (RobStride / Lingfoot Times Technology), GitHub RobStride/MotorStudio, Doc 13 Sécurité Électrique, Doc 04 Câblage CAN.*
+> *Document créé Mars 2026 — Sources : Manuel officiel EL05-EN (RobStride / Lingfoot Times Technology), GitHub RobStride/MotorStudio, Doc 04 Câblage CAN.*
 
 Ce guide décrit comment connecter un moteur **RobStride 05 (RS-05)** au **module de debug CAN-to-USB (EL05)**, alimenter l'ensemble avec la **Wanptek DPS605U**, et piloter le moteur depuis le logiciel **MotorStudio** sur PC.
 
@@ -125,7 +125,7 @@ Pin 4  : BOOT  → Non connecté (réservé flash d'urgence moteur)
 
 ## 6. Séquence d'Allumage (à respecter impérativement)
 
-Référence : Doc 13 — Sécurité Électrique.
+Référence : Doc 04 — Électronique & Câblage (Section Sécurité).
 
 **Étape 1 — Préparer la Wanptek (Procédure de Sécurité)**
 Le modèle DPS605U nécessite une vigilance particulière car il ne possède pas de bouton "Output ON/OFF" physique dédié. Suivez scrupuleusement cet ordre :
@@ -242,8 +242,7 @@ Le module EL05 utilise la puce série **GD32F303** (la même puce que dans le dr
 | **Manuel EL05-EN** (officiel) | https://lsleg.feishu.cn/wiki/Hkp4wjuXmiYxpRkFc2HciqOpnNh | Manuel complet 40 pages (Feishu, nécessite compte) |
 | **Driver CH340** | https://www.wch.cn/download/CH341SER_EXE.html | Si module non reconnu par Windows |
 | **Seeed Studio Wiki** | https://wiki.seeedstudio.com/robstride_actuator_modules/ | Tutoriel complémentaire |
-| **Doc 04** | [04_Electronique_Cablage.md](./04_Electronique_Cablage.md) | Architecture CAN D-Bot complète |
-| **Doc 13** | [13_Securite_Electrique.md](./13_Securite_Electrique.md) | Procédure sécurité Wanptek |
+| **Doc 04** | [04_Electronique_Cablage.md](./04_Electronique_Cablage.md) | Architecture CAN et Sécurité |
 
 ---
 
