@@ -85,7 +85,7 @@ Le PETG renforcé fibre de carbone (PETG-CF) est le meilleur compromis pour le D
 ### Sécurisation Haute Charge (RS-04: 120 N.m)
 Le couple pharaonique des moteurs RS-04 (Hanches et Genoux) génère des efforts de cisaillement massifs d'environ 4000 N sur le cercle de perçage radial. Pour empêcher les vis de cisailler ou les pièces plastiques (PA12-CF/PETG-CF) de s'écraser et de s'ovaliser sous la pression :
 1.  **Goupilles de Positionnement (Dowel Pins)** : Ne comptez **jamais** sur le corps des vis pour encaisser le couple. Insérez impérativement 2 goupilles cylindriques rectifiées en acier trempé (Ø5mm ou Ø6mm en diamétralement opposé) pour reprendre le cisaillement pur.
-2.  **Interface Aluminium CNC** : Usinez systématiquement une plaque en Aluminium de 5mm à la **CNC C500** (cf. [Guide CNC](./12_Guide_Parties_Metal_CNC.md)) entre le stator RS-04 et le squelette pour dissiper l'énorme chaleur générée par le moteur à l'arrêt, et servir de cage de rétention.
+2.  **Interface Aluminium CNC** : Usinez systématiquement une plaque en Aluminium de 5mm à la **CNC C500** (cf. [Guide CNC](./annexes/cnc/12_Guide_Parties_Metal_CNC.md)) entre le stator RS-04 et le squelette pour dissiper l'énorme chaleur générée par le moteur à l'arrêt, et servir de cage de rétention.
 3.  **Visserie Acier 12.9** : Remplacez l'inox A2 standard par de la visserie de classe **12.9** (Acier bruni) sécurisée avec du frein-filet **Loctite 243** (Bleu) pour anticiper les chocs de la course.
 4.  **Inserts et Rondelles** : Le serrage sur plastique requiert systématiquement de larges rondelles d'appui.
 
