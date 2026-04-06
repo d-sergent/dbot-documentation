@@ -30,5 +30,6 @@ Trois IMU spécialisées pour une stabilité optimale :
 > L'équilibre est géré exclusivement par l'IMU du torse (BMI270 connectée à la Spresense) pour découpler les mouvements de la tête de la stabilisation du corps.
 
 ## 4. Liens et Archives
-- **Analyse Complète** : [08_Audio_Perception.md](../08_Audio_Perception.md)
+- **Analyse Audio** : [08_Architecture_Audio.md](../08_Architecture_Audio.md)
+- **Analyse IMU** : [18_Strategie_IMU_Fusion.md](../18_Strategie_IMU_Fusion.md)
 - **Historique des Choix** : [Archives/ETUDE_Audio_8Mic_PDM.md](../Archives/ETUDE_Audio_8Mic_PDM.md) (Ancienne architecture Luxe)

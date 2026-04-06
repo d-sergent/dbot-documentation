@@ -17,10 +17,6 @@ Le projet utilise deux standards principaux :
 
 ### Inserts et Roulements
 - **Inserts Ruthex** : Utilisez les versions **Longues (8.1mm)** pour les RS-04. Les versions courtes (5.7mm) suffisent pour les carters.
-- **Roulements 608ZZ** :
-    - Montage : Bague extérieure fixe dans le support, intérieure tournante avec l'axe.
-    - Logement : **22.0 mm** pour press-fit (ajusté au fer).
-    - Butée : Épaulement de **1 mm** (ne doit toucher que la bague extérieure).
 
 ### Commande CNC (Aluminium 6061)
 - **Format** : Fichiers `.step` uniquement.
@@ -99,16 +95,9 @@ Le couple pharaonique des moteurs RS-04 (Hanches et Genoux) génère des efforts
 *   **Longueur de vis** : Règle d'or = Épaisseur pièce plastique + (Profondeur trou moteur - 1mm).
     *   *Ne forcez jamais* si la vis touche le fond du trou borgne du moteur ! Vous détruiriez le filetage interne du stator.
 
-### Roulements 608ZZ (Axes Passifs Uniquement)
-*   Utilisés pour les articulations passives (ex: poulies de renvoi GT3, pivots libres).
-*   ⚠️ Pour les **articulations actives** (hanches, genoux, cou), utilisez impérativement les **roulements à section fine** (6807-2RS, 6705-2RS) documentés dans la BOM §1.
-*   **Logement 608ZZ** : 22.0 mm pour press-fit (ajusté au fer).
+### Roulements à Section Fine (Articulations Actives)
+*   Pour les **articulations actives** (hanches, genoux, cou), utilisez impérativement les **roulements à section fine** (6807-2RS, 6705-2RS) documentés dans la BOM §1.
 
-### Positionnement LiDAR Unitree L2
-*   **Emplacement** : **Haut du Torse**, devant le cou (voir [Décisions Architecturales](./06_Decisions_Architecturales.md)).
-*   **Pourquoi ?** Évite le passage de câble dans le cou articulé, tout en gardant un bon FOV.
-*   **Fixation** : Support incliné à **10-20°** vers l'avant.
-*   **Orientation** : Connecteur vers le bas ou l'arrière selon le design du plastron.
 
 ### Architecture Articulaire : Montage en Chape (Simple Soutien) vs Double Soutien
 Pour le design mécanique des jonctions de genou et de hanche du D-Bot (39 kg), deux écoles d'ingénierie s'affrontent :
