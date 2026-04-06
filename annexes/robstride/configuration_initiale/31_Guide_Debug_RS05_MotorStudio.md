@@ -1,8 +1,8 @@
-# 31 — Guide : Debug RS-05 avec le Module EL05 et MotorStudio
+# 31 — Guide : Debug RS-05 avec le Module de Debug CAN-to-USB et MotorStudio
 
 > *Document créé Mars 2026 — Sources : Manuel officiel EL05-EN (RobStride / Lingfoot Times Technology), GitHub RobStride/MotorStudio, Doc 04 Câblage CAN.*
 
-Ce guide décrit comment connecter un moteur **RobStride 05 (RS-05)** au **module de debug CAN-to-USB (EL05)**, alimenter l'ensemble avec la **Wanptek DPS605U**, et piloter le moteur depuis le logiciel **MotorStudio** sur PC.
+Ce guide décrit comment connecter un moteur **RobStride 05 (RS-05)** au **module de debug CAN-to-USB**, alimenter l'ensemble avec la **Wanptek DPS605U**, et piloter le moteur depuis le logiciel **MotorStudio** sur PC.
 
 ---
 
@@ -11,23 +11,23 @@ Ce guide décrit comment connecter un moteur **RobStride 05 (RS-05)** au **modul
 | Composant | Modèle | Role |
 | :--- | :--- | :--- |
 | **Moteur** | RobStride RS-05 | Actionneur CAN FOC |
-| **Module debug** | RobStride EL05 (CAN-to-USB) | Interface PC ↔ Bus CAN |
+| **Module debug** | Module de Debug CAN-to-USB (RobStride) | Interface PC ↔ Bus CAN |
 | **Alimentation labo** | Wanptek DPS605U (60V/5A) | Puissance 24V moteur |
 | **PC Windows** | — | Héberger MotorStudio |
-| **Câble USB-C** | — | Relier l'EL05 au PC |
+| **Câble USB-C** | — | Relier le module de debug au PC |
 | **Câble JST-GH 4 pins** | Holybro Ø1.25mm | Relier le moteur au module |
 | **Câble puissance** | XT30 mâle/femelle | Relier le moteur à la Wanptek |
 
 > [!NOTE]
-> Le module EL05 fonctionne **uniquement sur Windows** avec le logiciel MotorStudio officiel. Pour une intégration Linux/ROS2 (production), utiliser l'InnoMaker USB2CAN-C avec SocketCAN (voir Doc 05).
+> Le module de debug CAN-to-USB fonctionne **uniquement sur Windows** avec le logiciel MotorStudio officiel. Pour une intégration Linux/ROS2 (production), utiliser l'InnoMaker USB2CAN-C avec SocketCAN (voir Doc 05).
 
 ---
 
-## 2. Le Module de Debug EL05 — Description Physique
+## 2. Le Module de Debug CAN-to-USB — Description Physique
 
-![Photo réelle du module EL05 RobStride montrant les bornes GND, CANH, CANL et les 2 DIP switches](../../../assets/img_rlink_module_photo.png)
+![Photo réelle du module de debug CAN-to-USB RobStride montrant les bornes GND, CANH, CANL et les 2 DIP switches](../../../assets/img_rlink_module_photo.png)
 
-Le module EL05 est une petite carte noire (version 2025/6/17/V02) composée de :
+Le module de debug CAN-to-USB est une petite carte noire (version 2025/6/17/V02) composée de :
 
 ### Côté Gauche — Interface Moteur (bornes à vis)
 
@@ -83,14 +83,14 @@ XT30 Mâle côté moteur :
 
 ### Port Communication (JST-GH 4 pins)
 ```
-Pin 1  : CANH  → Borne CANH du module EL05
-Pin 2  : CANL  → Borne CANL du module EL05  
-Pin 3  : GND   → Borne GND du module EL05 (**ET** borne (-) Wanptek)
+Pin 1  : CANH  → Borne CANH du module de debug CAN-to-USB
+Pin 2  : CANL  → Borne CANL du module de debug CAN-to-USB  
+Pin 3  : GND   → Borne GND du module de debug CAN-to-USB (**ET** borne (-) Wanptek)
 Pin 4  : BOOT  → Non connecté (réservé flash d'urgence moteur)
 ```
 
 > [!WARNING]
-> **La masse commune est critique.** Le GND du module EL05 (côté PC/USB) DOIT être relié au GND de l'alimentation Wanptek (côté moteur/puissance). Si ce pont de masse est absent, le signal CAN "flotte" par rapport à la référence USB → erreurs **"Bus Off"** immédiates + risque de destruction du module par différence de potentiel.
+> **La masse commune est critique.** Le GND du module de debug CAN-to-USB (côté PC/USB) DOIT être relié au GND de l'alimentation Wanptek (côté moteur/puissance). Si ce pont de masse est absent, le signal CAN "flotte" par rapport à la référence USB → erreurs **"Bus Off"** immédiates + risque de destruction du module par différence de potentiel.
 
 ---
 
@@ -102,16 +102,16 @@ Pin 4  : BOOT  → Non connecté (réservé flash d'urgence moteur)
       DPS605U        │                                         │
                     │  ┌──────────┐    ┌──────────────────┐   │
    (+) 24V ─────────┼──┤ XT30     │    │ JST-GH 4-pin     │   │
-   (-) GND ─────────┼──┤ Puissance│    │ Pin1: CANH ──────┼───┼──→ CANH [EL05]
-       │    │       │  └──────────┘    │ Pin2: CANL ──────┼───┼──→ CANL [EL05]
-       │    │       │                  │ Pin3: GND  ───────┼───┼──→ GND  [EL05]
+   (-) GND ─────────┼──┤ Puissance│    │ Pin1: CANH ──────┼───┼──→ CANH [module de debug]
+       │    │       │  └──────────┘    │ Pin2: CANL ──────┼───┼──→ CANL [module de debug]
+       │    │       │                  │ Pin3: GND  ───────┼───┼──→ GND  [module de debug]
        │    │       └─────────────────│ Pin4: BOOT ─ N.C. │   │
        │    │                         └──────────────────┘   │
        │    └─────────────────────────────────────────────────┘
        │                        Masse commune
-       └────────────────────────────────────────→ GND [EL05]
+       └────────────────────────────────────────→ GND [module de debug]
 
-                                         [EL05]
+                                         [module de debug]
                                   SW1(BOOT)=OFF ●○
                                   SW2(CAN) =ON  ○●
                                          │
@@ -139,14 +139,14 @@ Le modèle DPS605U nécessite une vigilance particulière car il ne possède pas
 6. **Bouton Output** : Si votre version possède un bouton "ON/OFF", laissez-le sur **OFF** jusqu'au branchement complet.
 
 **Étape 2 — Câbler (tout hors tension)**
-1. Brancher le JST-GH du moteur sur les bornes GND/CANH/CANL du module EL05.
+1. Brancher le JST-GH du moteur sur les bornes GND/CANH/CANL du module de debug CAN-to-USB.
 2. Brancher le **GND du module** au **GND (-)** de la Wanptek (masse commune).
 3. Brancher le XT30 puissance du moteur sur la Wanptek.
 4. Vérifier les DIP switches : SW1=OFF, SW2=ON.
 
 **Étape 3 — Mettre sous tension**
 1. ✅ Allumer la Wanptek / activer la sortie → 24V → le moteur est alimenté.
-2. ✅ Brancher le câble USB-C du module EL05 sur le PC.
+2. ✅ Brancher le câble USB-C du module de debug CAN-to-USB sur le PC.
 3. ✅ Lancer MotorStudio.
 
 > [!CAUTION]
@@ -170,7 +170,7 @@ Télécharger la dernière version : **`motor_toolV13.zip`** (v1.0.3 — Latest 
 
 ### Prérequis — Driver CH340
 
-Le module EL05 utilise la puce série **GD32F303** (la même puce que dans le driver CH340 de nombreuses cartes Arduino). Si le module n'est pas reconnu par Windows :
+Le module de debug CAN-to-USB utilise la puce série **GD32F303** (la même puce que dans le driver CH340 de nombreuses cartes Arduino). Si le module n'est pas reconnu par Windows :
 
 1. Ouvrir le Gestionnaire de Périphériques.
 2. Si vous voyez un point d'exclamation sur un port COM → installer le driver CH340.
@@ -203,7 +203,7 @@ Le module EL05 utilise la puce série **GD32F303** (la même puce que dans le dr
 
 1. **Lancer MotorStudio** (après avoir mis le moteur sous tension).
 2. Cliquer sur **"Refresh COM"** → la liste des ports COM se met à jour.
-3. **Sélectionner le port COM** correspondant au module EL05 (généralement COM3 à COM10 selon le PC). Si vous ne savez pas lequel, vérifiez dans le Gestionnaire de Périphériques Windows → "Ports (COM et LPT)".
+3. **Sélectionner le port COM** correspondant au module de debug CAN-to-USB (généralement COM3 à COM10 selon le PC). Si vous ne savez pas lequel, vérifiez dans le Gestionnaire de Périphériques Windows → "Ports (COM et LPT)".
 4. Cliquer **"Open COM"** → le port s'ouvre.
 5. Cliquer **"Detection Devices"** → MotorStudio scanne le bus CAN et trouve l'ID du moteur (par défaut ID=1 sur un RS-05 neuf).
 6. Le moteur apparaît dans la liste → cliquer dessus pour accéder à ses paramètres.
@@ -226,7 +226,7 @@ Le module EL05 utilise la puce série **GD32F303** (la même puce que dans le dr
 | :--- | :--- | :--- |
 | Module non reconnu par Windows | Driver CH340 absent | Installer le driver CH340 |
 | "Detection Devices" ne trouve rien | SW1 (BOOT) sur ON | Mettre SW1 sur **OFF** |
-| Erreur "Bus Off" dans les logs | GND non partagé | Relier GND du module EL05 au GND (-) Wanptek |
+| Erreur "Bus Off" dans les logs | GND non partagé | Relier GND du module de debug CAN-to-USB au GND (-) Wanptek |
 | Connexion instable / perte de trames | CANH/CANL inversés | Inverser les deux fils CAN |
 | OCP déclenche dès "Enable" | Limite courant trop basse (1A) | Augmenter à 2A sur la Wanptek |
 | Moteur chaud mais ne bouge pas | Pas d'ordre de mouvement | Vérifier que le mode est correct (MIT vs Position) |
@@ -279,7 +279,7 @@ Procédure progressive du moins risqué au plus dynamique. **À effectuer avec l
 Avant d'activer quoi que ce soit, vérifier :
 
 - [ ] Wanptek : **24.00V**, limite courant **1.0A** (ou 2.0A), **OCP activé**
-- [ ] Module EL05 : **SW1=OFF**, **SW2=ON**
+- [ ] Module de Debug CAN-to-USB : **SW1=OFF**, **SW2=ON**
 - [ ] Moteur posé sur la table, arbre vers le haut, **zone dégagée autour**
 - [ ] Moteur détecté dans MotorStudio (**"Detection Devices"** → ID visible dans la liste)
 
@@ -452,9 +452,9 @@ Le connecteur JST-GH 4-pin du moteur dispose d'un pin **BOOT (pin 4)** qui, reli
 ```
 Câble JST-GH moteur — Mode Bootloader Urgence :
 
-  Pin 1 : CANH  → CANH module EL05
-  Pin 2 : CANL  → CANL module EL05
-  Pin 3 : GND   → GND module EL05
+  Pin 1 : CANH  → CANH module de debug CAN-to-USB
+  Pin 2 : CANL  → CANL module de debug CAN-to-USB
+  Pin 3 : GND   → GND module de debug CAN-to-USB
   Pin 4 : BOOT  → [cavalier] → Pin 3 GND  ← ACTIVER SEULEMENT pour flash urgence
 ```
 
