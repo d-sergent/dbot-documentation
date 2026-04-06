@@ -52,7 +52,7 @@ ___
 
 ### OAK-D Pro (Vision)
 *   Agit comme un capteur USB3.
-*   Intègre une **IMU (BNO085/BMI270)** — **utilisée uniquement pour la stabilisation du regard**, pas pour l'équilibre du corps (voir [Stratégie IMU](./08_Audio_Perception.md)).
+*   Intègre une **IMU (BNO085/BMI270)** — **utilisée uniquement pour la stabilisation du regard**, pas pour l'équilibre du corps (voir [18 — Stratégie IMU](./18_Strategie_IMU_Fusion.md)).
 
 ### Sony Spresense (Audio & I/O)
 *   **Carte Extension Choisie** : **Standard Board** (CXD5602PWBEXT1).

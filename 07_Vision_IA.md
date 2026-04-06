@@ -50,7 +50,7 @@ Pour un encastrement parfait dans le visage du robot :
 ### Atouts Techniques (Audit)
 - **Stéréo Active** : Contrairement à la version Lite, la Pro dispose d'un projecteur IR permettant de voir la profondeur même sur des surfaces sans texture (murs blancs unis).
 - **IMU Intégrée (BNO085/BMI270)** : Utilisée **uniquement pour la stabilisation du regard** et le V-SLAM. ⚠️ **Ne doit PAS servir pour l'équilibre du corps** car l'OAK-D est dans la tête qui bouge indépendamment du torse (2 DOF cou).
-- **Rôle dans la stratégie IMU** : Voir [Stratégie IMU](./08_Audio_Perception.md) pour la répartition des rôles (IMU tête vs IMU torse vs IMU LiDAR).
+- **Rôle dans la stratégie IMU** : Voir [18 — Stratégie IMU](./18_Strategie_IMU_Fusion.md) pour la répartition des rôles (IMU tête vs IMU torse vs IMU LiDAR).
 
 
 - **Rôle de la Vision** : Perception locale, détection d'obstacles rapprochés (0-10m), reconnaissance d'objets et V-SLAM.
