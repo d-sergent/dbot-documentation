@@ -23,6 +23,14 @@ La Spresense exécute un firmware Arduino/NuttX avec **Micro-ROS Client**.
 - **Fonction Watchdog** : Le firmware surveille le heartbeat de la Jetson et coupe le MOSFET de puissance en cas de freeze.
 - **Liaison Audio** : Flux 8 canaux via **UAC 2.0** (USB) pour une qualité Hi-Res (192 kHz).
 
+### Maintenance et Sauvegarde Système
+Pour éviter de perdre des heures de configuration ROS2 en cas de corruption de carte SD :
+- **Clonage de sécurité** : Créez régulièrement un clone de la carte SD sur un SSD externe (ex: Hynix P310) avant chaque mise à jour majeure via la commande :
+  ```bash
+  # Remplacez /dev/sdX par l'identifiant de votre carte SD
+  sudo dd if=/dev/sdX of=backup_dbot_date.img status=progress
+  ```
+
 ### Activation de l'Interface CAN
 L'adaptateur InnoMaker est reconnu comme `can0` (parfois `can1`).
 Le débit standard Robstride est **1 Mbps** (1,000,000 bps).

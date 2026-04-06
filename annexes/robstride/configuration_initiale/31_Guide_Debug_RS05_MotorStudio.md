@@ -127,10 +127,16 @@ Pin 4  : BOOT  → Non connecté (réservé flash d'urgence moteur)
 
 Référence : Doc 13 — Sécurité Électrique.
 
-**Étape 1 — Préparer la Wanptek (hors tension)**
-1. Allumez la Wanptek sans rien brancher.
-2. Réglez : **Tension = 24.00V** | **Limite courant = 1.0A** (mode OCP activé).
-3. Désactivez la sortie (ou éteignez temporairement).
+**Étape 1 — Préparer la Wanptek (Procédure de Sécurité)**
+Le modèle DPS605U nécessite une vigilance particulière car il ne possède pas de bouton "Output ON/OFF" physique dédié. Suivez scrupuleusement cet ordre :
+1. **Mise sous tension à vide** : Allumez l'alimentation sans aucun moteur branché.
+2. **Réglage Tension** : Vérifiez et ajustez la tension (**24.0V** pour les tests banc, **48.0V** pour la production).
+3. **Réglage Limite Courant** : 
+   - Désactivez la sortie si possible.
+   - Court-circuiter brièvement les pinces (+) et (-) pour régler le courant max (ex: **1.0A** ou **2.0A** selon le moteur).
+4. **Activation du Mode OCP** (Overcurrent Protection) : Appuyez sur le bouton de réglage de courant jusqu'à voir "OCP". L'alimentation coupera d'elle-même la sortie en cas d'appel de courant anormal (ex: branchement inversé).
+5. **Vérification finale** : La tension est stable, le courant est limité, l'OCP est armé.
+6. **Bouton Output** : Si votre version possède un bouton "ON/OFF", laissez-le sur **OFF** jusqu'au branchement complet.
 
 **Étape 2 — Câbler (tout hors tension)**
 1. Brancher le JST-GH du moteur sur les bornes GND/CANH/CANL du module EL05.

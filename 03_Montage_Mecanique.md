@@ -95,6 +95,9 @@ Le couple pharaonique des moteurs RS-04 (Hanches et Genoux) génère des efforts
 *   **Longueur de vis** : Règle d'or = Épaisseur pièce plastique + (Profondeur trou moteur - 1mm).
     *   *Ne forcez jamais* si la vis touche le fond du trou borgne du moteur ! Vous détruiriez le filetage interne du stator.
 
+### Maintenance Rapide (Connectique Tête/Cou)
+- **Tête/Cou** : L'utilisation de borniers **WAGO 221-413 (3 entrées)** ou **415 (5 entrées)** est vivement recommandée pour les liaisons LiDAR et moteurs de cou. Cela permet de remplacer un capteur ou un moteur en 30 secondes sans soudure, tout en garantissant un contact électrique fiable face aux vibrations.
+
 ### Roulements à Section Fine (Articulations Actives)
 *   Pour les **articulations actives** (hanches, genoux, cou), utilisez impérativement les **roulements à section fine** (6807-2RS, 6705-2RS) documentés dans la BOM §1.
 
