@@ -81,16 +81,17 @@ XT30 Mâle côté moteur :
   Noir  (-) → Borne (-) Wanptek (GND)
 ```
 
-### Port Communication (JST-GH 4 pins)
+### Port Communication (Petit connecteur CAN 2 fils)
+
+> [!IMPORTANT]
+> Le connecteur CAN du moteur RS-05 est physiquement un JST-GH 4 broches, mais **seuls 2 fils sont câblés** dans le harnais standard livré :
+
 ```
-Pin 1  : CANH  → Borne CANH du module de debug CAN-to-USB
-Pin 2  : CANL  → Borne CANL du module de debug CAN-to-USB  
-Pin 3  : GND   → Borne GND du module de debug CAN-to-USB (**ET** borne (-) Wanptek)
-Pin 4  : BOOT  → Non connecté (réservé flash d'urgence moteur)
+Fil rouge (fin)  → CANH (CAN High)
+Fil noir  (fin)  → CANL (CAN Low)
 ```
 
-> [!WARNING]
-> **La masse commune est critique.** Le GND du module de debug CAN-to-USB (côté PC/USB) DOIT être relié au GND de l'alimentation Wanptek (côté moteur/puissance). Si ce pont de masse est absent, le signal CAN "flotte" par rapport à la référence USB → erreurs **"Bus Off"** immédiates + risque de destruction du module par différence de potentiel.
+Les broches GND (pin 3) et BOOT (pin 4) **ne sont pas câblées** dans le harnais standard. Le GND de référence CAN est déjà assuré par le fil noir épais de la puissance (XT30 -).
 
 ---
 
@@ -101,15 +102,13 @@ Pin 4  : BOOT  → Non connecté (réservé flash d'urgence moteur)
       WANPTEK        │            RS-05 MOTEUR                 │
       DPS605U        │                                         │
                     │  ┌──────────┐    ┌──────────────────┐   │
-   (+) 24V ─────────┼──┤ XT30     │    │ JST-GH 4-pin     │   │
-   (-) GND ─────────┼──┤ Puissance│    │ Pin1: CANH ──────┼───┼──→ CANH [module de debug]
-       │    │       │  └──────────┘    │ Pin2: CANL ──────┼───┼──→ CANL [module de debug]
-       │    │       │                  │ Pin3: GND  ───────┼───┼──→ GND  [module de debug]
-       │    │       └─────────────────│ Pin4: BOOT ─ N.C. │   │
-       │    │                         └──────────────────┘   │
-       │    └─────────────────────────────────────────────────┘
-       │                        Masse commune
-       └────────────────────────────────────────→ GND [module de debug]
+   (+) 24V ─────────┼──┤ XT30     │    │ CAN (2 fils)     │   │
+   (-) GND ─────────┼──┤ Puissance│    │ Rouge: CANH ────┼───┼──→ CANH [module debug]
+       │            │  └──────────┘    │ Noir : CANL ────┼───┼──→ CANL [module debug]
+       │            │                  └──────────────┘   │
+       │            └─────────────────────────────────────────┘
+       │
+       └──── GND commun (via XT30 -) ────→ GND [module debug] (bornes à vis)
 
                                          [module de debug]
                                   SW1(BOOT)=OFF ●○

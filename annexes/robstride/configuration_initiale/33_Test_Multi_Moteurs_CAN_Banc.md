@@ -31,13 +31,14 @@ Les deux moteurs alimentés **en parallèle** sur une seule Wanptek. Les câbles
 
 ```
 Wanptek DPS605U
-  (+) 24V ──────────┬──── XT30 Mâle ──→ [Pan  ID=1]
-                    └──── XT30 Mâle ──→ [Tilt ID=2]
-  (-) GND ──────────┬──── XT30 Mâle ──→ [Pan  ID=1]
-                    └──── XT30 Mâle ──→ [Tilt ID=2]
+  (+) 24V ──────────┬──── XT30 (+) ──→ [Pan  ID=1]
+                    └──── XT30 (+) ──→ [Tilt ID=2]
+  (-) GND ──────────┬──── XT30 (-) ──→ [Pan  ID=1]
+                    └──── XT30 (-) ──→ [Tilt ID=2]
+                    └────────────── GND borne à vis [module de debug]
 ```
 
-> Utilisez deux câbles XT30 (ou XT30 → bornes à vis) pour relier chaque moteur à la Wanptek.
+> Le GND commun du module de debug est relié **directement** à la borne (-) de la Wanptek, pas via un fil CAN.
 
 ---
 
@@ -87,31 +88,27 @@ Le câble idéal pour le bus CAN-to-USB du D-Bot est une **paire torsadée blind
 
 ### 2.2 Topologie de Câblage CAN — Daisy-Chain
 
+> [!IMPORTANT]
+> Les moteurs RobStride RS-05 sont livrés avec un câble CAN **2 fils uniquement** (fil rouge = CANH, fil noir = CANL). Il n'y a **pas de fil GND séparé** dans le câble CAN. Le GND de référence est assuré par le câble d'alimentation (XT30 noir).
+
 ```
 [Module de debug CAN-to-USB]
      │  (bornes à vis)
-     ├── GND  (fil noir)  ──────────────┬─────────────────────┐
-     ├── CANH (fil jaune) ──────────────┼──────────┐          │
-     └── CANL (fil vert)  ──────────────┼──────────┼──────┐   │
-                                        │          │      │   │
-                               [Pan ID=1 - JST-GH 4-pin] │   │
-                               Pin 1: CANH ────────┘      │   │
-                               Pin 2: CANL ───────────────┘   │
-                               Pin 3: GND  ───────────────────┘
-                               Pin 4: BOOT → NC (non connecté)
-                                        │
-                                [Fil de liaison vers Tilt]
-                                        │
-                               [Tilt ID=2 - JST-GH 4-pin]
-                               Pin 1: CANH
-                               Pin 2: CANL
-                               Pin 3: GND
-                               Pin 4: BOOT → NC
-                                        │
-                               [Fin du bus — Terminaison 120Ω]
-                               → Résistance 120Ω entre CANH et CANL
-                                 (ou résistance intégrée du moteur si disponible)
+     ├── GND  (fil court direct vers borne Wanptek (-))
+     ├── CANH (rouge) ─────────┬─────────────┐
+     └── CANL (noir)  ─────────└─────────────┤
+                                 │             │
+                        [Pan ID=1]           [Tilt ID=2]
+                        fil rouge CANH       fil rouge CANH
+                        fil noir  CANL       fil noir  CANL
+                                 │
+                         [liaison daisy-chain vers Tilt]
+                                 │
+                        [Tilt ID=2 — fin du bus]
+                        + Résistance 120Ω entre CANH et CANL
 ```
+
+**Note sur le GND** : Le pont GND est à réaliser une **seule fois** directement de la borne (-) de la Wanptek vers la borne GND des bornes à vis du module de debug. Ne pas chercher à passer le GND dans les câbles CAN intermédiaires d'un moteur à l'autre.
 
 ### 2.3 Terminaisons 120Ω — Règle des 2 Extrémités
 
