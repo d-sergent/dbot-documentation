@@ -42,75 +42,109 @@ Wanptek DPS605U
 
 ---
 
-## 2. Câblage CAN (Bus Partagé) — Daisy-Chain
+## 2. Câblage CAN (Bus Partagé)
 
-Le CAN est un **bus différentiel partagé**. Les deux moteurs sont branchés **en chaîne** sur les trois fils GND/CANH/CANL. Ce n'est **pas une connexion en étoile (Y)** — les dérivations dégradent le signal à 1 Mbps.
-
-### 2.1 Type de Câble CAN — Spécifications Requises
+### 2.0 Nombre de Ports CAN par Moteur — Tableau de Référence
 
 > [!IMPORTANT]
-> Le câble CAN n'est **pas** un câble USB ni un câble Ethernet standard. Utiliser le mauvais câble provoque des erreurs "Bus Off" ou une communication instable à haute fréquence.
+> **Constat terrain (Avril 2026)** : Le RS-05 est le **seul moteur RobStride du D-Bot à n'avoir qu'un seul port CAN**. Tous les autres modèles (RS-02, RS-03, RS-04, RS-06) disposent de **2 ports CAN** (entrée + sortie) permettant un daisy-chain natif.
 
-Le câble idéal pour le bus CAN-to-USB du D-Bot est une **paire torsadée blindée** (STP — Shielded Twisted Pair) :
-
-| Critère | Spécification |
-| :--- | :--- |
-| **Type** | Paire torsadée blindée (STP) |
-| **Impédance caractéristique** | **120 Ω** (correspondance avec les terminaisons du bus) |
-| **Section conducteurs** | **0.22 mm²** (24 AWG) à 0.34 mm² (22 AWG) |
-| **Blindage** | Feuillard aluminium (drain wire) ou tresse |
-| **Couleurs recommandées** | CANH = Jaune, CANL = Vert, GND = Noir |
-| **Longueur maxi (banc)** | 2 m sans problème à 1 Mbps |
-| **Longueur maxi (robot)** | 3 m max par segment entre nœuds |
-
-#### Câbles Acceptables pour le Banc (Disponibles en France)
-
-| Produit | Référence / Nom | Prix | Lien |
-| :--- | :--- | :---: | :--- |
-| **Câble CAN dédié** | Belden 9841, Alpha 5902 (câble 120Ω STP) | ~3–5 €/m | Mouser, RS Components |
-| **Câble réseau S/FTP Cat7** | N'importe quel Cat7 S/FTP | ~1–2 €/m | Amazon, LDLC |
-| **Câble Holybro CAN** | Holybro JST-GH CAN Cable | ~8–12 € | Holybro.com, AliExpress |
-| **Câble JST-GH robotique** | Silicone 24AWG STP (Pimoroni, SparkFun) | ~5–15 € | SparkFun, AliExpress |
-
-> [!TIP]
-> Pour le **banc de test**, un câble S/FTP Cat7 dépinné avec terminaux Dupont ou JST suffit amplement sur des longueurs < 50 cm. Pour l'intégration définitive dans le robot, privilégiez des câbles Holybro avec connecteurs JST-GH moulés.
-
-#### Câbles à Éviter
-
-| Type de Câble | Pourquoi c'est problématique |
-| :--- | :--- |
-| Câble USB simple | Non différentiel, pas torsadé → reflections |
-| Câble non blindé (UTP simple) | Sensible aux perturbations des moteurs |
-| Câble en "Y" (dérivation) | Stub length > 30 cm → oscillations à 1 Mbps |
-| Câble téléphonique RJ11 | Impédance incorrecte (600Ω vs 120Ω) |
+| Modèle | Ports CAN | Topologie | Utilisation D-Bot |
+| :--- | :---: | :--- | :--- |
+| **RS-02** | 2 | Daisy-chain natif | Cheville, Mains |
+| **RS-03** | 2 | Daisy-chain natif | Hanche, Épaule |
+| **RS-04** | 2 | Daisy-chain natif | Hanche, Genou |
+| **RS-05** | **1** | **Y au module de debug** | Cou (Pan + Tilt) |
+| **RS-06** | 2 | Daisy-chain natif | Coude, Cheville |
 
 ---
 
-### 2.2 Topologie de Câblage CAN — Daisy-Chain
+### 2.1 Topologie pour le Cou RS-05 (1 port = Y au départ)
 
-> [!IMPORTANT]
-> Les moteurs RobStride RS-05 sont livrés avec un câble CAN **2 fils uniquement** (fil rouge = CANH, fil noir = CANL). Il n'y a **pas de fil GND séparé** dans le câble CAN. Le GND de référence est assuré par le câble d'alimentation (XT30 noir).
+Puisque le RS-05 n'a qu'un seul port CAN, on ne peut pas faire de chaîne de moteur à moteur. La solution est un **Y au niveau des bornes à vis du module de debug** : les deux moteurs sont branchés en parallèle directement depuis les bornes.
 
 ```
 [Module de debug CAN-to-USB]
-     │  (bornes à vis)
-     ├── GND  (fil court direct vers borne Wanptek (-))
-     ├── CANH (rouge) ─────────┬─────────────┐
-     └── CANL (noir)  ─────────└─────────────┤
-                                 │             │
-                        [Pan ID=1]           [Tilt ID=2]
-                        fil rouge CANH       fil rouge CANH
-                        fil noir  CANL       fil noir  CANL
-                                 │
-                         [liaison daisy-chain vers Tilt]
-                                 │
-                        [Tilt ID=2 — fin du bus]
-                        + Résistance 120Ω entre CANH et CANL
+     | (bornes à vis)
+     |
+     +-- GND (1 fil court) ---------------------> borne (-) Wanptek
+     |
+     +-- CANH (rouge) ---+------> fil rouge CAN [Pan  ID=1]
+     |                   |
+     |                   +------> fil rouge CAN [Tilt ID=2]
+     |
+     +-- CANL (noir) ----+------> fil noir  CAN [Pan  ID=1]
+                         |
+                         +------> fil noir  CAN [Tilt ID=2]
 ```
 
-**Note sur le GND** : Le pont GND est à réaliser une **seule fois** directement de la borne (-) de la Wanptek vers la borne GND des bornes à vis du module de debug. Ne pas chercher à passer le GND dans les câbles CAN intermédiaires d'un moteur à l'autre.
+> **Pourquoi un Y est acceptable ici** : La règle "pas de Y" s'applique aux bus CAN longs (> 30 cm de dérivation) avec de nombreux nœuds. Pour 2 moteurs de cou à moins de 50 cm, un Y aux bornes du module de debug fonctionne parfaitement à 1 Mbps.
 
-### 2.3 Terminaisons 120Ω — Règle des 2 Extrémités
+---
+
+### 2.2 Topologie pour les Autres Moteurs (2 ports = Daisy-Chain Natif)
+
+Pour tous les autres moteurs du D-Bot (RS-02, RS-03, RS-04, RS-06), la chaîne est directe d'un moteur à l'autre :
+
+```
+[Module de debug / InnoMaker]
+CANH ----> [Moteur A - port 1] ----> [Moteur B - port 1] ----> [Moteur C - port 1]
+CANL ----> [Moteur A - port 1] ----> [Moteur B - port 1] ----> [Moteur C - port 1]
+
+                  [Moteur A - port 2]  [Moteur B - port 2]  [Moteur C - port 2]
+                  (vers Moteur B)       (vers Moteur C)       Fin de bus (120Ω)
+```
+
+Châque moteur possède 2 ports identiques. Vous entrez par l'un et sortez par l'autre. Le dernier moteur en bout de chaîne a son deuxième port muni d'une résistance 120Ω (ou laissé ouvert si la terminaison est déjà intégrée dans le moteur).
+
+---
+
+### 2.3 Type de Câble CAN — Ce qu'il Faut Acheter
+
+> [!IMPORTANT]
+> Les moteurs RobStride RS-05 sont livrés avec un câble CAN **2 fils uniquement** (fil rouge = CANH, fil noir = CANL). Il n'y a **pas de fil GND séparé** dans le câble CAN. Le GND est assuré par le câble d'alimentation XT30 noir.
+
+#### Pour le Banc Prototype (Disponible sur Amazon.fr - Livré demain)
+
+**Option 1 — La plus rapide : Démonter un câble Ethernet Cat6/Cat7**
+Un câble Ethernet S/FTP Cat7 contient 4 paires torsadées blindées. Vous n'avez besoin que d'**une seule paire** (2 fils torsadés) pour CANH + CANL.
+
+| Recherche Amazon.fr | Prix | Notes |
+| :--- | :---: | :--- |
+| "câble ethernet Cat7 S/FTP 1m" | 3–5 € | Couper, dégainer, utiliser 1 paire |
+| "câble ethernet RJ45 plat Cat6" | 2–4 € | Éviter le plat (non torsadé) |
+
+> Choisissez **Cat7 S/FTP** (pas Cat5 UTP) : les conducteurs sont torsadés par paire et blindés individuellement = parfait pour le CAN.
+
+**Option 2 — Câble servo RC 2 fils (le plus simple à utiliser)**
+Ces câbles ont des bouts dénués prêts à s'insérer dans les bornes à vis du module de debug.
+
+| Recherche Amazon.fr | Prix | Notes |
+| :--- | :---: | :--- |
+| "servo extension lead 30cm" | 5–8 €/pack 10 | Fils fins, pas blindés, OK < 50cm |
+| "câble biplaire torsadé 26AWG" | 5–10 €/5m | Plus professionnel |
+
+**Option 3 — Achat définitif : Câble STP dédié CAN**
+Pour la production finale dans le robot :
+
+| Produit | Enseigne | Prix |
+| :--- | :--- | :---: |
+| Belden 9841 (STP 2×24AWG 120Ω) | RS Components.fr / Mouser.fr | ~2–3 €/m |
+| Alpha Wire 5902 | Mouser.fr | ~2 €/m |
+| Câble CAN Holybro (avec connecteurs JST-GH) | MyBotShop.de | ~4–6 €/câble |
+
+#### Blindé ou pas ?
+
+| Cas | Blindage |
+| :--- | :---: |
+| Cou (2 moteurs, < 50 cm, prototype) | ❌ Inutile |
+| Bras (4–6 moteurs, < 80 cm) | ❌ Facultatif |
+| Jambes (6–8 moteurs, 80–150 cm, RS-04 à pleine puissance) | ✅ Recommandé |
+| Production définitive robot complet | ✅ Standard |
+
+---
+
+### 2.4 Terminaisons 120Ω — Règle des 2 Extrémités
 
 Un bus CAN correctement câblé a **exactement 2 résistances de terminaison de 120Ω**, une à chaque extrémité physique du bus.
 
@@ -119,13 +153,12 @@ Un bus CAN correctement câblé a **exactement 2 résistances de terminaison de 
 | **Début du bus** | Module de debug CAN-to-USB | ✅ SW2=ON (intégrée) |
 | **Fin du bus** | Dernier moteur en bout (Tilt ID=2) | ✅ À ajouter |
 
-**Comment terminer le côté moteur :**
+**Comment terminer le côté dernier moteur :**
 
-- **Option A (recommandée)** : Souder une résistance CMS 120Ω 0805 directement entre CANH (Pin 1) et CANL (Pin 2) du connecteur JST du Tilt, sur un petit PCB ou un connecteur adapté.
-- **Option B (dépannage rapide)** : Insérer une résistance 120Ω traversante entre deux fils Dupont femelles branchés sur CANH et CANL.
-- **Option C** : Certains câbles Holybro ont un bouchon de terminaison optionnel à clipper en bout de bus.
+- **Option A (recommandée)** : Souder une résistance traversante 120Ω entre les 2 fils CANH et CANL à l'entrée du connecteur du dernier moteur (côté libre).
+- **Option B (dépannage rapide)** : Insérer une résistance 120Ω entre deux fils Dupont femelles branchés sur CANH et CANL.
 
-> **Vérification** : Avec les deux moteurs hors tension, mesurer au multimètre entre CANH et CANL depuis les bornes du module de debug → vous devez lire **environ 60Ω** (120Ω // 120Ω = 60Ω en parallèle). Si vous lisez >100Ω, une terminaison manque. Si vous lisez <40Ω, il y a un court-circuit.
+> **Vérification** : Avec tous moteurs hors tension, mesurer au multimètre entre CANH et CANL depuis les bornes du module de debug → vous devez lire **environ 60Ω** (120Ω // 120Ω = 60Ω). Si > 100Ω : une terminaison manque. Si < 40Ω : court-circuit.
 
 ---
 
