@@ -78,8 +78,28 @@ Le moteur RS-05 dispose de deux ports :
 ```
 XT30 Mâle côté moteur :
   Rouge (+) → Borne (+) Wanptek (24V)
-  Noir  (-) → Borne (-) Wanptek (GND)
+  Noir  (-) → Borne (-) Wanptek (0V circuit)
 ```
+
+> [!WARNING]
+> **Wanptek : 3 bornes, mais seulement 2 sont utiles pour le circuit moteur.**
+> La Wanptek DPS605U dispose de 3 bornes en sortie :
+> - **(+)** : +24V — connectez vos XT30 (+) moteurs ✅
+> - **(-)** : 0V circuit (masse de référence) — connectez vos XT30 (-) moteurs ET le GND du module de debug ✅
+> - **(⏚ GND)** : Terre de protection secteur (châssis) — **ne rien brancher dessus** ❌
+>
+> Le symbole ⏚ (ou les 3 lignes décroissantes) désigne la **terre de sécurité** reliée à la broche PE de votre prise secteur. Elle ne partage **aucun potentiel électrique** avec le circuit (-). Brancher votre module de debug sur cette borne = aucune référence commune = bus CAN inutilisable.
+
+#### Câble d'Alimentation Puissance — Section Recommandée
+
+| Moteur | Courant continu | Courant crête | Section recommandée | Votre bobine 14 AWG |
+| :--- | :---: | :---: | :---: | :---: |
+| **RS-05 (cou)** | ~0.5–1.5 A | ~3 A | **20–22 AWG** | ⚠️ Overkill (rigide) |
+| RS-04 (hanche/genou) | 8–12 A | 20 A+ | **14–16 AWG** | ✅ Parfait |
+| RS-03 (épaule) | 4–6 A | 12 A | **16–18 AWG** | ✅ Acceptable |
+| RS-06 (coude) | 3–5 A | 10 A | **18–20 AWG** | ✅ Acceptable |
+
+> **Pour les RS-05 du cou** : un câble 20 ou 22 AWG en silicone souple est idéal. Le 14 AWG fonctionne électriquement mais est difficile à insérer dans les bornes XT30 (conçu pour 16 AWG max) et trop rigide pour le passage de câbles dans l'assemblage mécanique du cou. Réservez votre bobine 14 AWG pour les RS-04 des jambes.
 
 ### Port Communication (Petit connecteur CAN 2 fils)
 

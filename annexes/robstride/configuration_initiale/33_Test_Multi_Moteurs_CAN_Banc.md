@@ -30,15 +30,31 @@ Les deux moteurs alimentés **en parallèle** sur une seule Wanptek. Les câbles
 ### Schéma Puissance
 
 ```
-Wanptek DPS605U
+Wanptek DPS605U — Bornes de sortie
+
   (+) 24V ──────────┬──── XT30 (+) ──→ [Pan  ID=1]
                     └──── XT30 (+) ──→ [Tilt ID=2]
-  (-) GND ──────────┬──── XT30 (-) ──→ [Pan  ID=1]
-                    └──── XT30 (-) ──→ [Tilt ID=2]
-                    └────────────── GND borne à vis [module de debug]
+  (-) 0V  ──────────┬──── XT30 (-) ──→ [Pan  ID=1]
+                    ├──── XT30 (-) ──→ [Tilt ID=2]
+                    └──── GND borne à vis [module de debug]
+  (⏚ GND) ── Ne rien brancher (terre secteur PE)
 ```
 
-> Le GND commun du module de debug est relié **directement** à la borne (-) de la Wanptek, pas via un fil CAN.
+> [!WARNING]
+> **La Wanptek a 3 bornes : (+), (-) et (⏚ GND). Ces deux dernières ne sont PAS équivalentes.**
+> - La borne **(-)** est le **0V du circuit** — connectez ici les masses des moteurs ET le GND du module de debug. ✅
+> - La borne **(⏚ GND)** est la **terre de protection secteur** (reliée à la broche PE de la prise secteur). Ne rien brancher dessus. ❌ Y connecter le module de debug = référence flottante = bus CAN inutilisable.
+
+### Câble de Puissance — Section Recommandée par Moteur
+
+| Moteur | Courant continu | Courant crête | AWG recommandé | Bobine 14 AWG |
+| :--- | :---: | :---: | :---: | :---: |
+| **RS-05 (cou)** | 0.5–1.5 A | ~3 A | **20–22 AWG** | ⚠️ Overkill (rigide, XT30 difficile) |
+| RS-06 (coude) | 3–5 A | 10 A | **18–20 AWG** | ✅ Acceptable |
+| RS-03 (épaule) | 4–6 A | 12 A | **16–18 AWG** | ✅ Acceptable |
+| RS-04 (hanche/genou) | 8–12 A | 20 A+ | **14–16 AWG** | ✅ Parfait |
+
+> **Votre bobine 14 AWG est idéale pour les RS-04 des jambes** (les plus gourmands). Pour les RS-05 du cou, préférez du **silicone souple 20–22 AWG** : plus facile à souder aux XT30 (conçus pour 16 AWG max), plus léger et plus maniable dans l'assemblage mécanique du cou.
 
 ---
 
