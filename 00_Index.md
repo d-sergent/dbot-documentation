@@ -40,6 +40,9 @@ Bienvenue dans la documentation technique du projet de robot humanoïde D-Bot. C
 - 31. **[Guide Debug RS-05 — Module EL05 & MotorStudio](./annexes/robstride/configuration_initiale/31_Guide_Debug_RS05_MotorStudio.md)** : Câblage CAN, DIP switches, procédure Wanptek, et connexion logicielle MotorStudio.
 - 32. **[Configuration ID, Zéro & Limites (RS-05 Cou)](./annexes/robstride/configuration_initiale/32_Configuration_ID_Limites_Cou.md)** : Procédure ID, calibration du zéro et bornes de rotation logicielles.
 
+#### Firmware
+- **[Notes de Mise à Jour Firmware (04/2026)](./annexes/robstride/firmware/01_Notes_Maj_Firmware.md)** : Traduction exhaustive du changelog des firmwares (séries RS00 à RS06) avec explications sur le calibrage, l'anti-rétro-entraînement et le watchdog.
+
 ---
 
 ## 🏛️ DOSSIERS D'ÉTUDES (ARCHIVES)
