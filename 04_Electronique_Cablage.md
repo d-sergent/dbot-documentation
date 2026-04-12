@@ -66,9 +66,12 @@ ___
 ### Mise sous tension (Sécurité Wanptek)
 Pour les premiers tests moteurs (Banc d'essai) :
 1.  Régler la tension à **24.0V** (ou 48V) à vide.
-2.  Régler la limite de courant à **1.000A** (en court-circuitant les pinces).
+2.  Régler la limite de courant à **3.0A** pour 2× RS-05 (voir [Doc 33 §1](./annexes/robstride/configuration_initiale/33_Test_Multi_Moteurs_CAN_Banc.md) pour le détail par moteur).
 3.  Activer le mode **OCP** (Overcurrent Protection).
-4.  Séquence : Allumer l'alim -> Vérifier tension -> Brancher XT60 -> `Enable` logiciel.
+4.  Séquence : Allumer l'alim → Vérifier tension → Brancher XT30 → `Enable` logiciel.
+
+> [!WARNING]
+> **3 bornes Wanptek : (+), (-) et (⏚ GND).** Brancher les moteurs et le module de debug sur la borne **(-)** uniquement. La borne **(⏚ GND)** est la terre de protection secteur (PE) — ne rien brancher dessus. Voir [Doc 04 §4b](./04_Electronique_Cablage.md#4b-c%C3%A2bles-de-puissance-moteurs--guide-dachat-et-longueurs) pour le détail.
 
 ## 4. Alimentation & Batterie
 
@@ -85,92 +88,81 @@ Pour les premiers tests moteurs (Banc d'essai) :
 > [!NOTE]
 > **Pourquoi 13S (48V) et non 12S (44V) ?** Le "S" = nombre de cellules en Série. Chaque cellule NMC fait 3.6V nominal. 13 × 3.6V = 46.8V ≈ "bus 48V" — c'est le standard des RobStride et du K-Bot officiel. En 12S (43.2V), les moteurs fonctionnent mais avec un couple réduit de ~8%. Le passage en 12S LiPo (3.7V/cellule = 44.4V) serait un compromis acceptable pour du RC, mais pour le D-Bot on suit le standard K-Bot.
 
-### Choix de Batteries — NMC 21700 (Stratégie Progressive)
+### Choix de Batteries — Stratégie Progressive (Avril 2026)
 
 > [!IMPORTANT]
-> **Stratégie retenue** : Démarrer avec **1× AT WEY NMC 48V 10 Ah** (Phase 1-3), puis **ajouter la 2ème identique en parallèle** en Phase 4 pour doubler l'autonomie et la symétrie. **Même techno du début à la fin, zéro gaspillage.**
+> **Stratégie retenue : Progressive en 2 phases.** La forme finale du torse n'étant pas encore validée, l'espace batterie exact est inconnu. On démarre avec une batterie **standard VAE 48V** (format rectangulaire universel, achat immédiat) pour prototyper, puis on passera à du **sur-mesure** (forme optimisée pour le CdG du robot) une fois le châssis figé.
 
-#### 🏆 Batterie Recommandée : AT WEY NMC 48V 10 Ah
+---
 
-| Paramètre | Valeur |
+#### Phase 1 — Prototype : Batterie VAE Standard 48V (Achat Immédiat)
+
+Une batterie de vélo électrique 48V (13S) est le choix le plus pragmatique pour le prototype :
+- Disponible immédiatement sur Amazon.fr, AliExpress, ou chez des spécialistes FR
+- BMS 13S intégré avec protection (surcharge, sous-tension, court-circuit)
+- Connecteur XT60 ou Anderson souvent inclus
+- Format boîte rectangulaire « universel » facile à fixer avec du Velcro
+
+| Paramètre | Spécification Recherchée |
 | :--- | :--- |
-| **Modèle** | Batterie générique 48V 10 Ah |
-| **Chimie** | Li-ion NMC 21700, cellules **LG M50LT** |
-| **Tension** | 48V nominale (13S) |
-| **Capacité** | 10 Ah (480 Wh) |
-| **Poids** | **2.3 kg** par pack |
-| **BMS** | 13S NMC intégré, 20-50A continu, 100A pic |
-| **Connectique** | Personnalisable à la commande (demander **Anderson SB50**) |
-| **Fabrication** | 🇫🇷 Assemblé en France |
-| **Prix** | ~250-350 € TTC par pack |
+| **Chimie** | Li-ion NMC (18650 ou 21700) |
+| **Tension** | 48V nominale (13S), 54.6V max charge |
+| **Capacité** | 10 Ah minimum (480 Wh) |
+| **BMS** | 30A continu minimum (50A+ recommandé) |
+| **Connecteur** | XT60 pré-câblé (ou adaptable) |
+| **Poids** | 2.5–4.0 kg selon les cellules |
+| **Budget** | 180–350 € TTC |
 
-🔗 **Lien d'achat** : [AT WEY — Batterie générique 48V 10Ah](https://atwey.fr/accueil/94-batterie-generique-48v-10ah.html)
+**Où acheter (vérifié accessible en France, Avril 2026) :**
 
-> [!TIP]
-> **À la commande, préciser** : connecteur Anderson SB50 (ou QS8 anti-spark), BMS 50A continu minimum, usage robotique haute puissance. Demander aussi un **chargeur 13S (54.6V) 4-5A CC/CV**.
-
-#### Pourquoi NMC plutôt que Semi-Solide ?
-
-| Critère | NMC 21700 (AT WEY) | Semi-Solide (Grepow/Tattu) |
-| :--- | :--- | :--- |
-| **Disponibilité** | ✅ En stock, livraison FR | ❌ Custom, MOQ, délais 4-12 sem. |
-| **Poids (10 Ah)** | 2.3 kg | ~1.5 kg (théorique) |
-| **Capacité** | 10 Ah (480 Wh) | 6 Ah max (265 Wh) — custom requis |
-| **Prix** | ~€300 | ~$400-800 + import |
-| **Courant** | 50A continu, 100A pic | Variable, peu documenté |
-| **Cycles** | 800-1000 | 300-1000 |
-| **Assemblé en FR** | ✅ Oui | ❌ Import Chine |
-| **Risque projet** | ✅ Faible | ⚠️ Élevé (approvisionnement) |
-
-→ Le semi-solide sera réévalué en **2027+** quand des packs robotiques <5 kg existeront. Voir [Annexe Semi-Solide](./17_Annexe_Batterie_SemiSolide.md).
-
-#### Alternatives FR Évaluées
-
-| Fournisseur | Chimie | Avantage | Limite |
-| :--- | :--- | :--- | :--- |
-| [B-Volt](https://www.b-volt.com) | NMC Samsung 35E | Ultra-léger, FR | Moins de capacité |
-| [OZO Industries](https://ozo-industries.com) | NMC/LFP custom | Sur-mesure forme et BMS | Plus cher (~€600+) |
-| [Li-Tech](https://www.li-tech.fr) | LiFePO4 | Très sûr, 6000 cycles | +40% masse (3-4 kg) |
-| [PowerTech](https://www.powertechsystems.eu) | LiFePO4 | Industriel IP65 | Trop lourd pour bipède |
-
-→ Détails dans [Annexe NMC](./16_Annexe_Batterie_NMC.md) et [Annexe Comparatif](./18_Annexe_Batterie_Comparatif.md).
-
-### Positionnement dans le Robot
-
-#### Phase 1-3 : 1 seule batterie (centrée)
-
-```
-┌─────────────────────────┐
-│       TORSE BAS          │
-│                          │
-│    ┌──────────────┐      │
-│    │  AT WEY #1   │      │   ← À plat, centrée
-│    │  480 Wh      │      │      au-dessus du bassin
-│    │  2.3 kg      │      │
-│    └──────────────┘      │
-│      (CdG centré)        │
-└─────────────────────────┘
-```
-
-#### Phase 4 : 2 batteries en parallèle (symétrie)
-
-```
-┌─────────────────────────┐
-│       TORSE BAS          │
-│                          │
-│  ┌──────────┐ ┌──────────┐│
-│  │ AT WEY 1 │ │ AT WEY 2 ││  ← 1 de chaque côté
-│  │ 480 Wh   │ │ 480 Wh   ││     du bassin
-│  │ 2.3 kg   │ │ 2.3 kg   ││
-│  └──────────┘ └──────────┘│
-│   Total: 960 Wh, 4.6 kg   │
-│   Autonomie: ~40-50 min   │
-│   (Symétrie + Redondance) │
-└─────────────────────────┘
-```
+| Source | Type | Prix | Avantage | Lien |
+| :--- | :--- | :---: | :--- | :--- |
+| **Save My Battery** | Assemblage FR, cellules marque | ~300–450 € | 🇫🇷 SAV français, cellules Samsung/LG | [savemybattery.fr](https://www.savemybattery.fr) |
+| **Yose Power** | VAE standard, stock EU | ~200–300 € | Livraison rapide Europe, bon rapport qualité/prix | [yosepower.com](https://www.yosepower.com) |
+| **Amazon.fr / AliExpress** | VAE générique | ~180–280 € | Achat immédiat, livraison 48h-7j | Recherche : `"batterie 48V 13S 10Ah BMS"` |
 
 > [!WARNING]
-> **Mise en parallèle** : Les 2 packs DOIVENT être identiques (même modèle, même âge). Toujours connecter/déconnecter à SoC proche (~50-60%). Utiliser un ORing MOSFET ou des diodes idéales pour éviter les courants d'équilibrage.
+> **Vérifier impérativement** avant achat :
+> - Le **BMS est bien 13S** (pas 12S = 44.4V incompatible)
+> - Le courant de décharge continu est **≥ 30A** (les batteries VAE bas de gamme sont parfois limitées à 15-20A)
+> - Le connecteur de sortie (XT60 de préférence, sinon Anderson PP30 ou PP45)
+> - Les avis récents (éviter les batteries avec cellules reconditionnées)
+
+---
+
+#### Phase 2 — Production : Batterie Sur-Mesure (Quand le Châssis est Figé)
+
+Une fois le torse CAO validé et l'espace batterie défini, passer commande chez un assembleur français :
+
+| Fournisseur | Spécialité | Avantage | Contact |
+| :--- | :--- | :--- | :--- |
+| **[Save My Battery](https://www.savemybattery.fr)** | Assemblage NMC sur mesure | 🇫🇷 FR, cellules Samsung 50E, forme custom | Via site web |
+| **[OZO Industries](https://www.ozo-electric.com)** | NMC/LFP custom, bureau d'études | 🇫🇷 FR (Éguilles), BMS CAN possible | batteries@ozo-electric.com |
+| **[Neogy](https://www.neogy.fr)** | Batteries haute performance | 🇫🇷 FR, expertise robotique et mobilité | Via site web |
+
+**Cahier des charges à fournir** :
+- Tension : 48V (13S NMC)
+- Capacité : 10-15 Ah (480-720 Wh)
+- Courant continu : 50A minimum, pic 100A
+- Dimensions max : à définir selon le torse CAO
+- Connecteur : XT90-S (anti-spark) ou Anderson SB50
+- BMS : avec sortie monitoring (idéalement CAN ou UART pour la Jetson)
+- Budget : 400-700 €
+
+---
+
+#### Pourquoi NMC et pas LiFePO4 ?
+
+| Critère | NMC 21700 | LiFePO4 |
+| :--- | :--- | :--- |
+| **Densité massique** | ~250 Wh/kg | ~160 Wh/kg |
+| **Poids pour 480 Wh** | **~2.0-2.5 kg** | ~3.0-4.0 kg |
+| **Tension/cellule** | 3.6V → 13S = 46.8V ✅ | 3.2V → 15S nécessaire ❌ |
+| **Cycles** | 800-1000 | 2000-6000 |
+| **Sécurité** | ⚠️ BMS indispensable | ✅ Plus stable chimiquement |
+| **Verdict** | **Retenu** (poids critique pour bipède) | Exclu (trop lourd, 15S incompatible) |
+
+---
 
 ### Sécurité Incendie (NMC)
 
@@ -181,36 +173,101 @@ Pour les premiers tests moteurs (Banc d'essai) :
 - ✅ **Charge** uniquement avec chargeur **54.6V (13S) CC/CV** dédié, en zone ventilée
 - ✅ **Monitoring** température/tension/courant via Spresense (harnais faible puissance du BMS)
 
-### Slot CAD Recommandé
+### Positionnement dans le Robot
 
-Pour accueillir 1 ou 2 packs AT WEY, prévoir dans le torse 3D :
-- **Slot unique (Phase 1-3)** : 200 × 100 × 50 mm (avec marge)
-- **Double slot (Phase 4)** : 200 × 180 × 50 mm (2 packs côte-à-côte)
-- **Fixation** : Rails ou Velcro industriel + connecteur Anderson accessible par trappe arrière
-- **Sangle velcro** + **patin anti-vibration TPU** en fond de slot
+- **Phase Prototype** : Batterie VAE fixée par Velcro industriel + sangle dans le torse bas, accessible par trappe arrière
+- **Phase Production** : Pack sur-mesure intégré dans un slot CAO dédié avec patin anti-vibration TPU
+- **Dimensions à prévoir** : ~200 × 100 × 70 mm minimum (format VAE standard)
+
+> [!TIP]
+> **Évolution future** : Quand le design du torse sera figé, une 2ème batterie identique pourra être ajoutée en parallèle (symétrie gauche/droite) pour doubler l'autonomie (~40-50 min → ~80-100 min). Les 2 packs DOIVENT être identiques (même modèle, même âge). Utiliser un ORing MOSFET pour éviter les courants d'équilibrage.
 
 ### Topologie de Puissance (48V) : ÉTOILE OBLIGATOIRE
 
 > [!CAUTION]
-> **DANGER FONTE XT30 / Daisy-Chain** : S'il est tentant de chaîner les câbles de puissance d'un RS-04 à l'autre le long de la jambe (comme pour le data), c'est une manipulation **interdite et dangereuse**. Le petit connecteur XT30 au dos du moteur supporte **30A continu max**. Un RS-04 tire jusqu'à **90A en pic**. Un chaînage de puissance fondra immédiatement le premier connecteur de la cuisse, et causera une chute de tension extrême (*Under-voltage error*) pour la cheville. 
+> **DANGER FONTE XT30 / Daisy-Chain** : S'il est tentant de chaîner les câbles de puissance d'un RS-04 à l'autre le long de la jambe (comme pour le data), c'est une manipulation **interdite et dangereuse**. Le petit connecteur XT30 au dos du moteur supporte **30A continu max**. Un RS-04 tire jusqu'à **90A en pic**. Un chaînage de puissance fondra immédiatement le premier connecteur de la cuisse, et causera une chute de tension extrême (*Under-voltage error*) pour la cheville.
 
-Le 48V de chaque moteur doit impérativement rejoindre un connecteur inoccupé de la carte de distribution centrale de la manière la plus directe possible (Topologie Étoile / Parallèle).
+Le 48V de chaque moteur doit impérativement rejoindre la barre de distribution centrale de la manière la plus directe possible (Topologie Étoile / Parallèle).
+
+### Distribution : Système Busbar + Pigtails (Sans Soudure)
+
+> [!WARNING]
+> **Le Matek PDB-HEX (drone) est INCOMPATIBLE** avec le bus 48V du D-Bot (tension max 18V). Ne pas utiliser de PDB drone standard.
+
+La solution retenue est un **système de busbars** (barres de distribution cuivre) avec des **pigtails XT60 pré-câblés** vissés aux bornes. C'est le standard industriel pour la robotique, **sans aucune soudure** :
+
+#### Composants du Système
+
+| Composant | Spécification | Qté | Prix | Source |
+| :--- | :--- | :---: | :---: | :--- |
+| **Busbar double** (+ et -) | Cuivre étamé, 60V/100A, 6-12 bornes à vis | 1 | ~15-25 € | Amazon.fr : `"busbar 12 positions 60V 100A"` |
+| **Pigtails XT60 femelles** | XT60 femelle → fils nus 14 AWG, 30 cm | 8 | ~2-3 €/pièce | Amazon.fr : `"XT60 female pigtail 14AWG"` |
+| **Pigtails XT30 femelles** | XT30 femelle → fils nus 18 AWG, 30 cm | 6 | ~1-2 €/pièce | Amazon.fr : `"XT30 female pigtail 18AWG"` |
+| **DC-DC 48V→5V** | Buck converter isolé, 5V 5A (25W) | 1 | ~10-15 € | Amazon.fr : `"48V to 5V DC-DC converter 5A"` |
+| **Fusible 80A + porte-fusible** | Lame automobile ANL/MIDI | 1 | ~5-8 € | Amazon.fr |
+| **Bouton E-Stop** | Coup de poing NC + câble | 1 | ~8-12 € | Amazon.fr |
+| **Total système** | | | **~60-90 €** | |
+
+#### Schéma de Distribution
 
 ```text
-Batterie(s) 13S NMC (Anderson SB50) ─── [Si 2 : ORing MOSFET parallèle]
+Batterie 13S NMC (XT60 ou XT90-S)
     │
-    ├── Fusible 80A (Automobile, lame)
+    ├── Fusible 80A (lame automobile)
     │
-    ├── E-Stop (Bouton d'arrêt d'urgence)
+    ├── E-Stop (Bouton d'arrêt d'urgence, NC)
     │
-    ├── MOSFET Spresense (Pin D13) — Coupure logicielle
-    │
-    └── PDB (Matek PDB-HEX)
-         ├── Moteurs RS-04 Hanches (XT60 ×4)
-         ├── Moteurs RS-03 Épaules/Hanches (XT60 ×8)
-         ├── Moteurs RS-02/00/05 (XT30 ×10)
+    └── BUSBAR DOUBLE (+ et -)  ← Barres cuivre avec bornes à vis
+         │
+         │   [Pigtails XT60 vissés aux bornes — gros moteurs]
+         ├── XT60 → RS-04 Épaule Pitch G     (14 AWG)
+         ├── XT60 → RS-04 Épaule Pitch D     (14 AWG)
+         ├── XT60 → RS-04 Hanche Pitch G     (14 AWG)
+         ├── XT60 → RS-04 Hanche Pitch D     (14 AWG)
+         ├── XT60 → RS-04 Genou G            (14 AWG)
+         ├── XT60 → RS-04 Genou D            (14 AWG)
+         │
+         │   [Pigtails XT30/XT60 — moteurs moyens]
+         ├── XT60 → RS-03 Épaule Roll G      (18 AWG)
+         ├── XT60 → RS-03 Épaule Roll D      (18 AWG)
+         ├── XT30 → RS-03 Hanche Roll G      (18 AWG)
+         ├── XT30 → RS-03 Hanche Roll D      (18 AWG)
+         ├── XT30 → RS-03 Hanche Yaw G       (18 AWG)
+         ├── XT30 → RS-03 Hanche Yaw D       (18 AWG)
+         ├── XT30 → RS-03 Cheville G ×2      (18 AWG)
+         ├── XT30 → RS-03 Cheville D ×2      (18 AWG)
+         │
+         │   [Pigtails XT30 — petits moteurs]
+         ├── XT30 → RS-06 Coude G            (18 AWG)
+         ├── XT30 → RS-06 Coude D            (18 AWG)
+         ├── XT30 → RS-02 Épaule Yaw G       (18 AWG)
+         ├── XT30 → RS-02 Épaule Yaw D       (18 AWG)
+         ├── XT30 → RS-00 Poignet G          (18 AWG)
+         ├── XT30 → RS-00 Poignet D          (18 AWG)
+         ├── XT30 → RS-05 Cou Pan            (18 AWG)
+         ├── XT30 → RS-05 Cou Tilt           (18 AWG)
+         │
+         │   [Alimentation logique]
          └── DC-DC 48V→5V (Jetson + Spresense)
 ```
+
+#### Principe Sans Soudure
+
+```
+1. Le pigtail XT60 a déjà le connecteur soudé d'usine
+2. L'autre bout est un fil nu (14 ou 18 AWG)
+3. Vous dénudez 8mm du fil nu
+4. Vous l'insérez dans la borne à vis du busbar
+5. Vous serrez la vis → Contact fait → Zéro soudure
+
+   [XT60 femelle] ══════════ fil 14AWG ══════════ [borne à vis busbar]
+        ↑                                              ↑
+   Se branche                                    Se visse
+   sur le moteur                                  sur la barre cuivre
+```
+
+> [!TIP]
+> **Avantage majeur du busbar** : modulaire. Ajouter ou retirer un moteur = 1 vis. Pas de PCB à ressouder, pas de nappe à refaire. Idéal pour un prototype en évolution constante.
 
 ---
 
