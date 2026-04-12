@@ -214,7 +214,96 @@ Batterie(s) 13S NMC (Anderson SB50) ─── [Si 2 : ORing MOSFET parallèle]
 
 ---
 
+## 4b. Câbles de Puissance Moteurs — Guide d'Achat et Longueurs
+
+### Courants par Modèle de Moteur
+
+| Moteur | Courant continu | Courant crête | AWG adapté | Utilisation D-Bot |
+| :---: | :---: | :---: | :---: | :--- |
+| **RS-05** | ~0.8 A | ~3 A | 20–22 AWG | Cou (Pan + Tilt) |
+| **RS-00** | ~1.5 A | ~4 A | 20–22 AWG | Poignets Roll |
+| **RS-02** | ~2 A | ~5 A | 18–20 AWG | Épaule Yaw |
+| **RS-06** | ~4 A | ~10 A | 18–20 AWG | Coudes |
+| **RS-03** | ~6 A | ~15 A | 18 AWG | Épaule Roll, Hanches R/Y, Chevilles |
+| **RS-04** | ~10 A | ~22 A | **14–16 AWG** | Épaule Pitch, Hanche Pitch, Genoux |
+
+### Stratégie Rationalisée — 2 Calibres Seulement
+
+> [!TIP]
+> Plutôt que d'acheter un calibre différent par moteur, **deux calibres couvrent toute la gamme** sans compromis critique :
+> - **14 AWG** → RS-04 uniquement (les plus gourmands)
+> - **18 AWG silicone souple** → Tous les autres moteurs (RS-05, RS-00, RS-02, RS-06, RS-03)
+>
+> Le 18 AWG est certifié pour 16A continu. Le RS-03 pointe brièvement à 15A — largement toléré. Ce compromis évite de gérer 4-5 calibres différents.
+
+### Wanptek — Quelle borne utiliser ?
+
+> [!WARNING]
+> La Wanptek DPS605U (et les alimentations de labo similaires) dispose de **3 bornes de sortie** :
+> - **(+)** : +24V/48V du circuit → brancher vos XT30/XT60 (+) moteurs ✅
+> - **(-)** : 0V du circuit (masse de référence) → brancher vos XT30/XT60 (-) moteurs ET le GND du module de debug CAN ✅
+> - **(⏚ GND)** : Terre de sécurité secteur (PE, reliée à la prise murale) → **ne rien brancher dessus** ❌
+>
+> Brancher le module de debug sur la borne ⏚ au lieu de (-) = référence CAN flottante = erreurs "Bus Off" immédiates.
+
+### Longueurs Estimées par Zone — Câble 14 AWG (RS-04)
+
+Distance PDB (bassin/torse) → moteur, par conducteur :
+
+| Moteur | Qty | Longueur estimée | Total par couleur |
+| :--- | :---: | :---: | :---: |
+| Épaule Pitch (RS-04 ×2) | 2 | ~50 cm | 1.0 m |
+| Hanche Pitch (RS-04 ×2) | 2 | ~30 cm | 0.6 m |
+| Genou (RS-04 ×2) | 2 | ~60 cm | 1.2 m |
+| **Sous-total** | 6 | | **2.8 m** |
+| Marge 30% | | | **+0.8 m** |
+| **Total à avoir par couleur** | | | **~3.6 m** |
+
+> Une bobine de **5m par couleur** (rouge + noir) couvre tous les RS-04 avec marge confortable.
+
+### Longueurs Estimées par Zone — Câble 18 AWG (Tous les autres)
+
+| Zone | Moteurs | Qty | Longueur/moteur | Total par couleur |
+| :--- | :---: | :---: | :---: | :---: |
+| Cou | RS-05 | 2 | 40 cm | 0.8 m |
+| Poignets | RS-00 | 2 | 80 cm | 1.6 m |
+| Épaule Yaw | RS-02 | 2 | 55 cm | 1.1 m |
+| Coudes | RS-06 | 2 | 70 cm | 1.4 m |
+| Épaule Roll | RS-03 | 2 | 55 cm | 1.1 m |
+| Hanches Roll/Yaw | RS-03 | 4 | 25 cm | 1.0 m |
+| Chevilles | RS-03 | 4 | 65 cm | 2.6 m |
+| **Sous-total** | **18** | | | **9.6 m** |
+| Marge 30% | | | | **+2.9 m** |
+| **Total à avoir par couleur** | | | | **~12.5 m** |
+
+> Commander **15m par couleur** (rouge + noir) en 18 AWG silicone.
+
+### Recommandations d'Achat (disponible en France)
+
+| Câble | Format | Où acheter | Recherche | Prix estimé |
+| :--- | :--- | :--- | :--- | :---: |
+| 14 AWG silicone rouge | Bobine séparée 5m | Amazon.fr | `"silicone wire 14AWG red 5m"` | ~10-15 € |
+| 14 AWG silicone noir | Bobine séparée 5m | Amazon.fr | `"silicone wire 14AWG black 5m"` | ~10-15 € |
+| **18 AWG silicone rouge** | **Bobine séparée 15m** | Amazon.fr | `"silicone wire 18AWG red 15m"` | ~15-20 € |
+| **18 AWG silicone noir** | **Bobine séparée 15m** | Amazon.fr | `"silicone wire 18AWG black 15m"` | ~15-20 € |
+
+> [!IMPORTANT]
+> **Fils séparés, pas bipolaires.** Acheter des bobines **rouge et noir séparément** (pas un câble bipolaire avec les 2 conducteurs dans la même gaine). Dans un robot, le + et le - d'un même moteur passent souvent par des chemins légèrement différents dans les passages d'articulation. Des fils séparés offrent la flexibilité de routing nécessaire et sont plus faciles à passer dans les passages étroits.
+>
+> **Silicone obligatoire** (pas PVC) : la gaine silicone reste souple à froid, résiste à 200°C, et supporte les flexions répétées dans les articulations mobiles.
+
+### Récapitulatif Budget Câble Puissance
+
+| Achat | AWG | Quantité | Statut | Prix |
+| :--- | :---: | :---: | :---: | :---: |
+| 14 AWG rouge + noir | 14 | 5m × 2 couleurs | ✅ Déjà acheté | — |
+| **18 AWG rouge + noir silicone** | 18 | 15m × 2 couleurs | 🛒 À acheter | **~30-40 €** |
+| **Total investissement câble puissance** | | | | **~30-40 €** |
+
+---
+
 ## 5. Capteurs de Force (FSR) - Phase 4
+
 Pour la marche dynamique, chaque pied est équipé de 4 capteurs FSR (Force Sensing Resistor) pour mesurer le Centre de Pression (CoP).
 
 ### Schéma de Câblage (Pont Diviseur)
