@@ -359,6 +359,74 @@ Distance PDB (bassin/torse) → moteur, par conducteur :
 
 ---
 
+## 4c. Séquence de Validation — Wanptek → Batterie
+
+La Wanptek DPS605U peut alimenter le busbar directement, exactement comme la batterie le ferait :
+
+```
+Wanptek (+) ──── Borne (+) busbar   ← fil 14 AWG, 30-50 cm
+Wanptek (-) ──── Borne (-) busbar
+                     │
+                     ├── Pigtail XT30 → Moteur 1
+                     ├── Pigtail XT30 → Moteur 2
+                     └── ...
+```
+
+La limite est le **courant maximum de la Wanptek : 5A**. Voici les zones de validité :
+
+### Composition du Bras — Rappel (Pourquoi pas de "test bras" avec Wanptek)
+
+| Articulation | Moteur | Courant continu | Wanptek 5A |
+| :--- | :---: | :---: | :---: |
+| Épaule Pitch | **RS-04** | 10–22 A | ❌ Insuffisant |
+| Épaule Roll | **RS-03** | 6–15 A | ❌ Insuffisant |
+| Épaule Yaw | RS-02 | ~2–5 A | ✅ OK |
+| Coude | RS-06 | ~4–10 A | ⚠️ Limite |
+| Poignet Roll | RS-00 | ~1.5–4 A | ✅ OK |
+
+> [!IMPORTANT]
+> Il n'existe **pas de test bras complet sans batterie** : l'épaule Pitch (RS-04) est l'articulation proximale du bras. Dès qu'il est monté et sollicité, la Wanptek est insuffisante. En revanche, le segment "coude → poignet" peut être testé seul en isolation sur banc.
+
+### Roadmap Wanptek → Batterie
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║  WANPTEK SUFFISANT (5A)                                      ║
+╠══════════════════════════════════════════════════════════════╣
+║  1. Configuration individuelle de TOUS les moteurs          ║
+║     (ID, zéro mécanique, limites logicielles)               ║
+║     → RS-04 IDLE < 1A ✅ — mais dès qu'il bouge = OCP       ║
+║                                                              ║
+║  2. Scan CAN + vérification communication multi-moteurs     ║
+║     → Aucun mouvement, juste protocole ✅                   ║
+║                                                              ║
+║  3. Test mouvements : cou uniquement (2× RS-05)             ║
+║     → Segment autonome, aucun RS-04 ✅                      ║
+║                                                              ║
+║  4. Test segment "avant-bras isolé" sur banc                ║
+║     → RS-06 (coude) + RS-02 (yaw) + RS-00 (poignet)        ║
+║     → Sans l'épaule = sans RS-04 ✅                         ║
+╠══════════════════════════════════════════════════════════════╣
+║  ⚡ BATTERIE INDISPENSABLE à partir d'ici                    ║
+╠══════════════════════════════════════════════════════════════╣
+║  5. Premier mouvement RS-04 ou RS-03                         ║
+║     → Même un seul RS-04 en mouvement > 5A                  ║
+║                                                              ║
+║  6. Test bras complet (épaule RS-04 incluse)                ║
+║                                                              ║
+║  7. Test jambe (RS-04 hanche + genou + RS-03 cheville)      ║
+║                                                              ║
+║  8. Test debout / équilibre bipède                           ║
+╚══════════════════════════════════════════════════════════════╝
+```
+
+> [!TIP]
+> **Avantage de la Wanptek en phases 1–4** : la limite OCP est une **protection active**. Si un câble est mal branché ou un moteur bloqué mécaniquement, l'alim coupe avant tout dégât. Une batterie peut débiter 100A dans un court-circuit et fondre les connecteurs — raison de plus pour ne pas se précipiter vers la batterie tant que la Wanptek suffit.
+>
+> **Batterie à acheter avant l'étape 5.** Voir [§4 — Batterie Progressive](./04_Electronique_Cablage.md#choix-de-batteries--stratégie-progressive-avril-2026).
+
+---
+
 ## 5. Capteurs de Force (FSR) - Phase 4
 
 Pour la marche dynamique, chaque pied est équipé de 4 capteurs FSR (Force Sensing Resistor) pour mesurer le Centre de Pression (CoP).
