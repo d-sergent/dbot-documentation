@@ -369,61 +369,142 @@ Wanptek (-) ──── Borne (-) busbar
                      │
                      ├── Pigtail XT30 → Moteur 1
                      ├── Pigtail XT30 → Moteur 2
-                     └── ...
+                     └── Buck 48V→12V → Dynamixel (main)
 ```
 
 La limite est le **courant maximum de la Wanptek : 5A**. Voici les zones de validité :
 
-### Composition du Bras — Rappel (Pourquoi pas de "test bras" avec Wanptek)
+### Composition du Bras — Rappel (Pourquoi pas de "test bras complet" avec Wanptek)
 
-| Articulation | Moteur | Courant continu | Wanptek 5A |
-| :--- | :---: | :---: | :---: |
-| Épaule Pitch | **RS-04** | 10–22 A | ❌ Insuffisant |
-| Épaule Roll | **RS-03** | 6–15 A | ❌ Insuffisant |
-| Épaule Yaw | RS-02 | ~2–5 A | ✅ OK |
-| Coude | RS-06 | ~4–10 A | ⚠️ Limite |
-| Poignet Roll | RS-00 | ~1.5–4 A | ✅ OK |
+| Articulation | Moteur/Servo | Protocole | Tension | Courant typique | Wanptek |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| Épaule Pitch | **RS-04** | CAN | 48V | 10–22 A | ❌ |
+| Épaule Roll | **RS-03** | CAN | 48V | 6–15 A | ❌ |
+| Épaule Yaw | RS-02 | CAN | 48V | ~2–5 A | ✅ |
+| Coude | RS-06 | CAN | 48V | ~4–10 A | ⚠️ |
+| Poignet Roll | RS-00 | CAN | 48V | ~1.5–4 A | ✅ |
+| Main ×4 XC430 | Dynamixel | TTL | **12V** | ~0.5 A/servo | ✅ via buck |
+| Main ×4 XC330 | Dynamixel | TTL | **12V** | ~0.3 A/servo | ✅ via buck |
 
 > [!IMPORTANT]
-> Il n'existe **pas de test bras complet sans batterie** : l'épaule Pitch (RS-04) est l'articulation proximale du bras. Dès qu'il est monté et sollicité, la Wanptek est insuffisante. En revanche, le segment "coude → poignet" peut être testé seul en isolation sur banc.
+> Il n'existe **pas de test bras complet sans batterie** : l'épaule Pitch (RS-04) est l'articulation proximale. Par contre, le segment "coude → poignet → main" est entièrement testable avec la Wanptek + un buck 48V→12V.
 
-### Roadmap Wanptek → Batterie
+### Intégration de la Main — Architecture Buck 48V→12V
+
+La D-Hand utilise des servos **Dynamixel TTL à 12V**, totalement différents des RobStride (CAN, 48V). Un buck connecté sur le busbar 48V permet d'alimenter tout depuis la même source :
 
 ```
-╔══════════════════════════════════════════════════════════════╗
-║  WANPTEK SUFFISANT (5A)                                      ║
-╠══════════════════════════════════════════════════════════════╣
-║  1. Configuration individuelle de TOUS les moteurs          ║
-║     (ID, zéro mécanique, limites logicielles)               ║
-║     → RS-04 IDLE < 1A ✅ — mais dès qu'il bouge = OCP       ║
-║                                                              ║
-║  2. Scan CAN + vérification communication multi-moteurs     ║
-║     → Aucun mouvement, juste protocole ✅                   ║
-║                                                              ║
-║  3. Test mouvements : cou uniquement (2× RS-05)             ║
-║     → Segment autonome, aucun RS-04 ✅                      ║
-║                                                              ║
-║  4. Test segment "avant-bras isolé" sur banc                ║
-║     → RS-06 (coude) + RS-02 (yaw) + RS-00 (poignet)        ║
-║     → Sans l'épaule = sans RS-04 ✅                         ║
-╠══════════════════════════════════════════════════════════════╣
-║  ⚡ BATTERIE INDISPENSABLE à partir d'ici                    ║
-╠══════════════════════════════════════════════════════════════╣
-║  5. Premier mouvement RS-04 ou RS-03                         ║
-║     → Même un seul RS-04 en mouvement > 5A                  ║
-║                                                              ║
-║  6. Test bras complet (épaule RS-04 incluse)                ║
-║                                                              ║
-║  7. Test jambe (RS-04 hanche + genou + RS-03 cheville)      ║
-║                                                              ║
-║  8. Test debout / équilibre bipède                           ║
-╚══════════════════════════════════════════════════════════════╝
+Wanptek 48V (ou batterie)
+     │
+     └──→ Busbar 48V / GND
+               │
+               ├──→ RS-06 (coude)      48V CAN
+               ├──→ RS-02 (épaule yaw) 48V CAN
+               ├──→ RS-00 (poignet)    48V CAN
+               │
+               └──→ Buck 48V→12V 5A
+                    GND commun busbar ✅
+                          │
+                          └──→ U2D2 → XC430 ×4 + XC330 ×4
+                                        12V TTL
+```
+
+**La masse GND est automatiquement commune** — tout part du même busbar. C'est aussi l'architecture définitive de production.
+
+#### Budget Courant — Avant-Bras + Main avec Wanptek
+
+| Composant | Courant @ 48V | Calcul |
+| :--- | :---: | :--- |
+| RS-06 coude | ~2 A | mouvement léger |
+| RS-02 yaw | ~1 A | mouvement léger |
+| RS-00 poignet | ~0.8 A | mouvement léger |
+| Buck (→ 8 servos Dynamixel) | ~0.8 A | 12V×3A ÷ 48V ÷ 0.9 eff. |
+| **Total** | **~4.6 A** | **≤ 5A Wanptek ✅** |
+
+> Faisable pour des mouvements doux et séquentiels. Un pic RS-06 en accélération rapide déclenche l'OCP Wanptek — protection automatique, pas un problème.
+
+#### Buck à Commander (Utile Maintenant + Indispensable en Production)
+
+> [!WARNING]
+> La batterie chargée est à **54.6V max**. Il faut un buck supportant **≥ 60V en entrée** — les modules limités à 40V ne conviennent pas.
+
+| Spec | Valeur |
+| :--- | :--- |
+| Tension entrée max | **≥ 60V** |
+| Tension sortie | 12V (réglable) |
+| Courant sortie | **5A minimum** (60W) |
+| Recherche Amazon.fr | `"DC DC converter 48V 12V 5A 60W"` ou `"step down 60V 12V 5A"` |
+| Prix | ~10–18 € |
+| Quantité | **2** (1 par bras, identiques en production) |
+
+---
+
+### Roadmap Complète — Tous les Tests Possibles par Segment
+
+```
+╔══════════════════════════════════════════════════════════════════════╗
+║  ZONE WANPTEK SUFFISANTE (5A @ 48V)                                 ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║  1. CONFIGURATION INDIVIDUELLE — TOUS LES MOTEURS       < 1A ✅     ║
+║     • ID unique (1..24), zéro mécanique, limites soft               ║
+║     • RS-04 IDLE < 1A  (dès qu'il bouge → OCP)                     ║
+║     • Outil : MotorStudio + module de debug                         ║
+║     • Wanptek : 24V ou 48V, limite 1A par moteur                    ║
+║                                                                      ║
+║  2. SCAN CAN MULTI-MOTEURS                              ~0A ✅       ║
+║     • Vérification adressage, baudrate, version firmware            ║
+║     • Aucun mouvement = aucune limite courant                       ║
+║                                                                      ║
+║  3. TEST COU (2× RS-05)                                ~1–3A ✅     ║
+║     • Pan + Tilt, mouvements amplitude complète                     ║
+║     • Wanptek : 24V, limite 3A                                      ║
+║                                                                      ║
+║  4a. TEST AVANT-BRAS ROBSTRIDE ISOLÉ                   ~3–4A ✅     ║
+║     • RS-06 (coude) + RS-02 (yaw) + RS-00 (poignet)                ║
+║     • Pas d'épaule = pas de RS-04 ✅                                ║
+║     • Mouvements séquentiels doux                                   ║
+║                                                                      ║
+║  4b. TEST MAIN DYNAMIXEL SEULE                         ~3A@12V ✅   ║
+║     • Wanptek réglée à 12V (déconnecter RobStride)                  ║
+║     • 8 servos via U2D2, Python SDK ou Dynamixel Wizard             ║
+║     • Grip, amplitude doigts, mesure courant par servo              ║
+║                                                                      ║
+║  4c. TEST AVANT-BRAS + MAIN INTÉGRÉ                    ~4.6A ✅     ║
+║     • Nécessite Buck 48V→12V sur busbar ← ACHETER AVANT             ║
+║     • RS-06 + RS-02 + RS-00 (48V) + Dynamixel via buck (12V)       ║
+║     • Gestes de préhension complets, mouvements doux               ║
+║                                                                      ║
+╠══════════════════════════════════════════════════════════════════════╣
+║  ⚡ BATTERIE INDISPENSABLE (VAE 48V 13S) — Acheter avant étape 5    ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║  5. PREMIER MOUVEMENT RS-04 / RS-03                    > 10A        ║
+║     • Épaule pitch, hanche, genou, cheville                         ║
+║     • Même un RS-04 à vide en accélération > 5A                    ║
+║                                                                      ║
+║  6. TEST BRAS COMPLET (épaule + avant-bras + main)                  ║
+║     • 5 RobStride + 8 Dynamixel coordonnés                          ║
+║     • Pick & place, gestes de manipulation                          ║
+║                                                                      ║
+║  7. TEST JAMBE                                                       ║
+║     • RS-04 hanche pitch + genou                                    ║
+║     • RS-03 hanche Roll/Yaw + cheville (×2 par cheville)            ║
+║                                                                      ║
+║  8. TEST DEBOUT — ÉQUILIBRE BIPÈDE STATIQUE                          ║
+║     • Tous moteurs actifs                                            ║
+║     • IMU BMI270 + FSR pieds en boucle de contrôle                 ║
+║                                                                      ║
+║  9. MARCHE DYNAMIQUE                                                 ║
+║     • 2ème batterie recommandée (autonomie doublée)                 ║
+║     • ORing MOSFET pour mise en parallèle des 2 packs              ║
+╚══════════════════════════════════════════════════════════════════════╝
 ```
 
 > [!TIP]
-> **Avantage de la Wanptek en phases 1–4** : la limite OCP est une **protection active**. Si un câble est mal branché ou un moteur bloqué mécaniquement, l'alim coupe avant tout dégât. Une batterie peut débiter 100A dans un court-circuit et fondre les connecteurs — raison de plus pour ne pas se précipiter vers la batterie tant que la Wanptek suffit.
+> **Avantage de la Wanptek en phases 1–4** : la limite OCP est une **protection active**. Une batterie peut débiter 100A dans un court-circuit et fondre les connecteurs — la Wanptek coupe proprement. Ne passez à la batterie qu'à l'étape 5.
 >
-> **Batterie à acheter avant l'étape 5.** Voir [§4 — Batterie Progressive](./04_Electronique_Cablage.md#choix-de-batteries--stratégie-progressive-avril-2026).
+> **Batterie à acheter avant l'étape 5.** Voir [§4 — Batterie Progressive](#choix-de-batteries--stratégie-progressive-avril-2026).
 
 ---
 

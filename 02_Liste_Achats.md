@@ -70,7 +70,7 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 | **Dynamixel XC430-W240-T** | 8 | **1.9 Nm** | Canaux de Force (Pouces, Index, Majeurs, Paumes) |
 | **Dynamixel XC330-T288-T** | 8 | **1.0 Nm** | Canaux de Précision (Oppositions, Abductions, Annulaires, Auriculaires) |
 | **U2D2** (USB↔Dynamixel) | 2 | — | Interface bus TTL (1 par main) |
-| **Buck 48V→12V 5A** | 2 | — | Alimentation servos main |
+| **Buck 48V→12V 5A** | 2 | — | Alimentation servos main depuis bus 48V. **⚠️ Entrée ≥ 60V obligatoire** (batterie = 54.6V chargée). Recherche : `"DC DC converter 48V 12V 5A 60W"`. ~10-18 €/pièce |
 | **Kit Tactile eFlesh** | 2 | — | Silicone Ecoflex 00-30, 10× MLX90393, 10× aimants N52 par main |
 
 > **Note** : Voir [Étude Main Robotique](./21_Etude_Main_Robotique.md) pour l'architecture D-Hand Premium.
@@ -78,7 +78,7 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 ### Autres Composants Électroniques
 | Composant | Modèle | Quantité | Note |
 | :--- | :--- | :--- | :--- |
-| Distribution (PDB) | **Matek PDB-HEX** (Master) + **PDB-XT60-W** (Satellites) | 2 + 4 | Hubs de puissance pro |
+| Distribution (Busbar) | **Busbar double cuivre** 60V/100A 12 bornes + **pigtails XT60 femelle 14AWG** ×8 + **pigtails XT30 femelle 18AWG** ×10 | 1 kit | Sans soudure. Amazon : `"busbar 12 positions 60V"` + `"XT60 female pigtail"`. ~60-90 € total |
 | Connectique Data | **JST-GH 4-pin** (Silicone / Holybro) | 30m | Fils torsadés blindés |
 | Maintenance Tête | **WAGO 221-413 / 415** | 10 (**✅ Achetés**) | Connecteurs rapides sans soudure |
 | Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 (**✅ Achetée**) | Réglage précis 24V/48V + OCP |
@@ -124,10 +124,11 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 | **Pont Diviseur** | Résistances 150kΩ + 10kΩ | Surveillance de la tension batterie 13S (48V). |
 | **Condensa.** | 1000µF / 63V (Low ESR) | Filtrage des pics de tension au branchement. |
 | **Connecteur** | **Anderson SB50** (anti-spark) ou XT90-S | Connecteur haute puissance pour batterie 13S NMC 48V. |
-| **Batterie (×1 → ×2)** | **[AT WEY NMC 48V 10 Ah](https://atwey.fr/accueil/94-batterie-generique-48v-10ah.html)** | 480 Wh, 2.3 kg, 13S NMC 21700 LG M50LT, BMS 50A, ~€300/pack — Assemblé 🇫🇷. Acheter 1 dès Phase 1, 2ème en Phase 4 (voir [Détails](./04_Electronique_Cablage.md#4-alimentation--batterie)). |
-| **Chargeur 13S** | **54.6V CC/CV 4-5A** | Chargeur dédié Li-ion 13S NMC. Demander à AT WEY ou fournisseur FR. |
+| **Batterie Phase 1 (prototype)** | **Batterie VAE 48V 13S NMC 10Ah BMS 30A+** (format boîte, connecteur XT60) | ~180-350 €. Sources vérifiées FR : [Save My Battery](https://www.savemybattery.fr) (~350€) ou [Yose Power](https://www.yosepower.com) (~250€) ou Amazon.fr (`"batterie 48V 13S 10Ah BMS"`). **Vérifier : BMS 13S, ≥30A continu, connecteur XT60.** Voir [§4](./04_Electronique_Cablage.md#4-alimentation--batterie). |
+| **Batterie Phase 2 (production)** | **Pack sur-mesure 48V 13S NMC, forme optimisée** | ~400-700 €. À commander quand le torse CAO est figé : [OZO Electric](mailto:batteries@ozo-electric.com) ou [Save My Battery](https://www.savemybattery.fr) ou [Neogy](https://www.neogy.fr). |
+| **Chargeur 13S** | **54.6V CC/CV 4-5A** | Chargeur dédié Li-ion 13S NMC (souvent livré avec la batterie VAE). |
 | ~~**LiDAR**~~ | ~~**Unitree L2**~~ | ⚠️ **Repoussé à la V2**. SLAM assuré par l'OAK-D Pro en V1. Voir [Analyse LiDAR](./19_Perception_Spatiale_LiDAR.md). |
-| **Alimentation Labo** | **Wanptek DPS605U** | Indispensable Phase 2 (Régler sur 24V / Lim. 1A). |
+| **Alimentation Labo** | **Wanptek DPS605U** | Indispensable Phases 1-4 (48V, limite 3A pour RS-05, voir [§4c](./04_Electronique_Cablage.md#4c-séquence-de-validation--wanptek--batterie)). |
 
 ### Interface CAN & Câbles
 *   **Adaptateur USB-CAN** : **InnoMaker USB2CAN-C**
