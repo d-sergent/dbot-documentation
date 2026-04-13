@@ -84,7 +84,7 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 | Fusibles par zone | **Porte-fusible lame en ligne** + fusibles 80A ×1 + 50A ×2 + 30A ×2 + 5A ×1 | 6 | Isolation de faute par membre. Amazon `"porte-fusible lame automobile en ligne"`. ~3-5 € le lot |
 | Connecteurs XT60/XT30 | **Connecteurs nus Mâle/Femelle (pré-étamés)** | 1 lot | (**✅ Achetés**) Pour fabriquer les pigtails sur-mesure des moteurs et les troncs détachables. |
 | Câbles de Puissance | **Rouleaux Silicone 14 AWG et 18 AWG** | 1 lot | (**✅ Achetés**) Rouge + Noir. 14 AWG (troncs/gros moteurs), 18 AWG (petits moteurs). |
-| Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 (**✅ Achetée**) | Réglage précis 24V/48V + OCP. Manuel : [dps605U.pdf](./manuels/dps605U.pdf). |
+| Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 (**✅ Achetée**) | Indispensable Phases 1-4 (48V). Limite 3A pour RS-04/05 (voir [§4c](./04_Electronique_Cablage.md#4c-séquence-de-validation--wanptek--batterie)). Manuel : [dps605U.pdf](./manuels/dps605U.pdf). |
 | Interface CAN | **InnoMaker USB2CAN-C** + **R-Link (Isolé)** | 1 + 1 | InnoMaker pour Jetson. R-link (Isolation Galvanique vitale) pour debug USB/PC. |
 
 > **Note** : Vérifiez bien que les moteurs arrivent avec leurs câbles d'alimentation (XT60) et data (JST-GH). Sinon, commander séparément.
@@ -131,7 +131,6 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 | **Batterie Phase 2 (production)** | **Pack sur-mesure 48V 13S NMC, forme optimisée** | ~400-700 €. À commander quand le torse CAO est figé : [OZO Electric](mailto:batteries@ozo-electric.com) ou [Save My Battery](https://www.savemybattery.fr) ou [Neogy](https://www.neogy.fr). |
 | **Chargeur 13S** | **54.6V CC/CV 4-5A** | Chargeur dédié Li-ion 13S NMC (souvent livré avec la batterie VAE). |
 | ~~**LiDAR**~~ | ~~**Unitree L2**~~ | ⚠️ **Repoussé à la V2**. SLAM assuré par l'OAK-D Pro en V1. Voir [Analyse LiDAR](./19_Perception_Spatiale_LiDAR.md). |
-| **Alimentation Labo** | **Wanptek DPS605U** | Indispensable Phases 1-4 (48V, limite 3A pour RS-05, voir [§4c](./04_Electronique_Cablage.md#4c-séquence-de-validation--wanptek--batterie)). |
 
 ### Interface CAN & Câbles
 *   **Adaptateur USB-CAN** : **InnoMaker USB2CAN-C**
