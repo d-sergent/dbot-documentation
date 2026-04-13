@@ -70,8 +70,16 @@ Pour les premiers tests moteurs (Banc d'essai) :
 3.  Activer le mode **OCP** (Overcurrent Protection).
 4.  Séquence : Allumer l'alim → Vérifier tension → Brancher XT30 → `Enable` logiciel.
 
+> [!TIP]
+> **Manuel Utilisateur** : Le manuel de la Wanptek est disponible ici : [dps605U.pdf](./manuels/dps605U.pdf).
+
 > [!WARNING]
 > **3 bornes Wanptek : (+), (-) et (⏚ GND).** Brancher les moteurs et le module de debug sur la borne **(-)** uniquement. La borne **(⏚ GND)** est la terre de protection secteur (PE) — ne rien brancher dessus. Voir [Doc 04 §4b](./04_Electronique_Cablage.md#4b-c%C3%A2bles-de-puissance-moteurs--guide-dachat-et-longueurs) pour le détail.
+
+> [!IMPORTANT]
+> **Pourquoi couper les fils pré-étamés d'usine ?**
+> Les moteurs arrivent avec des fils étamés (soudure au bout) pour faciliter la soudure sur PCB. Cependant, pour une **connexion mécanique** (WAGO à ressort ou Cosse ronde à sertir), l'étain est trop rigide et "flue" (se déforme) avec le temps, ce qui peut desserrer la connexion. 
+> **Action** : Coupez les 5 derniers mm d'étain pour retrouver le cuivre nu souple avant de l'insérer dans un WAGO ou une cosse.
 
 ## 4. Alimentation & Batterie
 

@@ -84,7 +84,7 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 | Fusibles par zone | **Porte-fusible lame en ligne** + fusibles 80A ×1 + 50A ×2 + 30A ×2 + 5A ×1 | 6 | Isolation de faute par membre. Amazon `"porte-fusible lame automobile en ligne"`. ~3-5 € le lot |
 | Connecteurs XT60/XT30 | **Connecteurs nus Mâle/Femelle (pré-étamés)** | 1 lot | (**✅ Achetés**) Pour fabriquer les pigtails sur-mesure des moteurs et les troncs détachables. |
 | Câbles de Puissance | **Rouleaux Silicone 14 AWG et 18 AWG** | 1 lot | (**✅ Achetés**) Rouge + Noir. 14 AWG (troncs/gros moteurs), 18 AWG (petits moteurs). |
-| Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 (**✅ Achetée**) | Réglage précis 24V/48V + OCP |
+| Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 (**✅ Achetée**) | Réglage précis 24V/48V + OCP. Manuel : [dps605U.pdf](./manuels/dps605U.pdf). |
 | Interface CAN | **InnoMaker USB2CAN-C** + **R-Link (Isolé)** | 1 + 1 | InnoMaker pour Jetson. R-link (Isolation Galvanique vitale) pour debug USB/PC. |
 
 > **Note** : Vérifiez bien que les moteurs arrivent avec leurs câbles d'alimentation (XT60) et data (JST-GH). Sinon, commander séparément.
