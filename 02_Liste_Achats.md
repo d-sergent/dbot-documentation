@@ -78,9 +78,12 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 ### Autres Composants Électroniques
 | Composant | Modèle | Quantité | Note |
 | :--- | :--- | :--- | :--- |
-| Distribution (Busbar) | **Busbar double cuivre** 60V/100A 12 bornes + **pigtails XT60 femelle 14AWG** ×8 + **pigtails XT30 femelle 18AWG** ×10 | 1 kit | Sans soudure. Amazon : `"busbar 12 positions 60V"` + `"XT60 female pigtail"`. ~60-90 € total |
-| Connectique Data | **JST-GH 4-pin** (Silicone / Holybro) | 30m | Fils torsadés blindés |
-| Maintenance Tête | **WAGO 221-413 / 415** | 10 (**✅ Achetés**) | Connecteurs rapides sans soudure |
+| Distribution Centrale | **Busbar double cuivre 8-12 bornes** 60V/100A, laiton étamé, couvercle | 1 | Torse. Amazon : `"dual bus bar 12 way"` / SVB Marine / Seatronic. ~15-25 € |
+| Distribution Jambes | **Mini-busbars 6 bornes** cuivre, 60V+ | 2 | Splitters locaux bassin G/D. Amazon `"bus bar 6 way marine"`. ~8-12 €/pce |
+| Splitters Bras/Cou | **WAGO 221-413 / 221-415** | 10 (**✅ Achetés**) | Splitters locaux dans les bras (2×WAGO-415 par bras) et le cou (WAGO-413). 32A / 450V sans soudure. |
+| Fusibles par zone | **Porte-fusible lame en ligne** + fusibles 80A ×1 + 50A ×2 + 30A ×2 + 5A ×1 | 6 | Isolation de faute par membre. Amazon `"porte-fusible lame automobile en ligne"`. ~3-5 € le lot |
+| Pigtails XT60 | **XT60 femelle → fils nus 14 AWG, 30cm** | 8 | Amazon `"XT60 female pigtail 14AWG"`. ~2-3 €/pce |
+| Pigtails XT30 | **XT30 femelle → fils nus 18 AWG, 30cm** | 16 | Amazon `"XT30 female pigtail 18AWG"`. ~1-2 €/pce |
 | Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 (**✅ Achetée**) | Réglage précis 24V/48V + OCP |
 | Interface CAN | **InnoMaker USB2CAN-C** + **R-Link (Isolé)** | 1 + 1 | InnoMaker pour Jetson. R-link (Isolation Galvanique vitale) pour debug USB/PC. |
 

@@ -194,152 +194,218 @@ Le 48V de chaque moteur doit impérativement rejoindre la barre de distribution 
 > [!WARNING]
 > **Le Matek PDB-HEX (drone) est INCOMPATIBLE** avec le bus 48V du D-Bot (tension max 18V). Ne pas utiliser de PDB drone standard.
 
-La solution retenue est un **système de busbars** (barres de distribution cuivre) avec des **pigtails XT60/XT30 pré-câblés** vissés aux bornes. C'est le standard industriel pour la robotique, **sans aucune soudure**.
+#### Architecture Retenue : Distribution Hiérarchique "Arbre" (Standard Industrie)
 
-#### Qu'est-ce qu'un "Busbar Double" ?
+L'architecture de distribution du D-Bot suit le modèle hiérarchique utilisé par les robots humanoïdes industriels (Unitree H1/G1, Tesla Optimus) : un **busbar central compact** dans le torse qui alimente **des lignes "tronc" fusionnées par zone**, chacune aboutissant à un **splitter local** dans chaque membre.
 
-Un busbar double = **2 rails conducteurs séparés dans un même boîtier** : un pour le (+) et un pour le (-). Les 2 rails sont isolés l'un de l'autre par du plastique. Chaque rail a plusieurs bornes à vis identiques qui sont toutes reliées entre elles électriquement.
+> [!NOTE]
+> **Pourquoi pas un busbar géant à 27 bornes ?** Avec 24 moteurs + 3 convertisseurs, un busbar unique dans le torse serait un nœud de 27 paires de câbles — ingérable, lourd, et sans isolation de fautes. En découpant en zones avec des splitters locaux, on obtient :
+> - Seulement **7 câbles "tronc"** qui quittent le torse (au lieu de 27)
+> - **Protection fusible par zone** → un court-circuit dans une jambe ne coupe pas les bras
+> - **Déconnexion rapide** d'un membre entier via un seul connecteur XT60
+> - Câbles courts vers les moteurs (< 30 cm) → moins de chutes de tension
 
-```
-╔══════════════════════════════════════════════╗
-║  BUSBAR DOUBLE (vue de face)                 ║
-╠══════════════════════════════════════════════╣
-║  ┌────────────────────────────────────────┐  ║
-║  │  RAIL (+)  ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○  │  ← 12 bornes (+), toutes reliées
-║  └────────────────────────────────────────┘  ║
-║          ← isolation plastique →             ║
-║  ┌────────────────────────────────────────┐  ║
-║  │  RAIL (-)  ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○  │  ← 12 bornes (-), toutes reliées
-║  └────────────────────────────────────────┘  ║
-╚══════════════════════════════════════════════╝
-  ↑
-  1 borne = 1 câble moteur (pigtail XT30 ou XT60 vissé)
-```
-
-**Le nombre de bornes = le nombre de câbles moteurs connectables simultanément** sur chaque rail.
-
-#### Combien de Bornes pour le D-Bot Complet ?
-
-Sur le robot complet, chaque moteur + convertisseur = 1 borne sur le rail (+) et 1 borne sur le rail (-) :
-
-| Groupe | Qté | Connecteur | Bornes nécessaires |
-| :--- | :---: | :---: | :---: |
-| RS-04 (épaule Pitch ×2, hanche Pitch ×2, genou ×2) | 6 | XT60 | 6 |
-| RS-03 (épaule Roll ×2, hanche R/Y ×4, cheville ×4) | 10 | XT60/XT30 | 10 |
-| RS-06 (coudes) | 2 | XT30 | 2 |
-| RS-02 (épaule Yaw) | 2 | XT30 | 2 |
-| RS-00 (poignets) | 2 | XT30 | 2 |
-| RS-05 (cou) | 2 | XT30 | 2 |
-| Buck 48V→12V (mains, ×2) | 2 | fils nus | 2 |
-| DC-DC 48V→5V (Jetson+Spresense) | 1 | fils nus | 1 |
-| **TOTAL** | **27** | | **27 par rail (+/-)** |
-
-> [!IMPORTANT]
-> Un busbar 12 bornes **ne suffit pas** pour le robot complet (27 connexions nécessaires). Voir la stratégie d'achat progressive ci-dessous.
-
-#### Stratégie d'Achat Progressive — 2 Busbars
-
-Pour éviter d'acheter une pièce trop grande dès le début (et difficile à trouver), la solution est d'acheter **2 busbars de 12 bornes** et de les combiner au fur et à mesure :
+#### Vue Globale — Topologie en Arbre
 
 ```
-Phase 2-3 (2 bras + mains)  →  1 busbar double 12 bornes  ← ACHETER MAINTENANT
-                                  6 RS-04/RS-03/RS-06/RS-02/RS-00 + buck ×2 = 8 connexions
-                                  (2 bras complets = 12 connexions) ✅
+                    ┌─────────────────────────────────────────────┐
+                    │          TORSE (Busbar Central 8 bornes)     │
+                    │                                             │
+     Batterie ──── Fusible 80A ──── E-Stop ──── BUSBAR (+ / -)   │
+                    │                 │                            │
+                    │    ┌────────────┼────────────┐              │
+                    │    │            │            │              │
+                    └────┼────────────┼────────────┼──────────────┘
+                         │            │            │
+                    ┌────┴───┐   ┌────┴───┐   ┌───┴──────┐
+                    │ Tronc  │   │ Tronc  │   │  Tronc   │
+                    │ Bras G │   │ Bras D │   │ Logique  │
+                    │ 30A    │   │ 30A    │   │ 5V / 19V │
+                    └───┬────┘   └───┬────┘   └──────────┘
+                        │            │
+              ┌─────────┴──┐   ┌────┴─────────┐
+              │Splitter    │   │Splitter       │
+              │Bras G      │   │Bras D         │
+              │(WAGO/mini  │   │(WAGO/mini     │
+              │ busbar)    │   │ busbar)       │
+              └────────────┘   └───────────────┘
 
-Phase 4 (jambes + cou)       →  + 1 busbar double 12 bornes  ← ACHETER PLUS TARD
-                                  12 RS-03/RS-04 jambes + RS-05 cou + DC-DC = 15 connexions
+     ┌────────────┐  ┌────────────┐
+     │ Tronc      │  │ Tronc      │
+     │ Jambe G    │  │ Jambe D    │
+     │ 50A        │  │ 50A        │
+     └─────┬──────┘  └─────┬──────┘
+           │               │
+     ┌─────┴──────┐  ┌─────┴──────┐
+     │Splitter    │  │Splitter    │      ┌────────────┐
+     │Jambe G     │  │Jambe D     │      │ Tronc      │
+     │(mini       │  │(mini       │      │ Cou / Tête │
+     │ busbar)    │  │ busbar)    │      │ 5A         │
+     └────────────┘  └────────────┘      └────────────┘
 ```
 
-Les 2 busbars sont montés côte à côte dans le torse, reliés entre eux par un seul câble court (+) et un câble court (-) depuis la batterie.
+#### Découpage en 7 Zones
 
-#### Composants du Système
+| Zone | Moteurs / Charges | N° moteurs | Fusible | AWG tronc | Connecteur tronc |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **Bras G** | RS-04 + RS-03 + RS-02 + RS-06 + RS-00 + Buck→12V | 5 + 1 | **30A** | **14 AWG** | XT60 |
+| **Bras D** | (idem) | 5 + 1 | **30A** | **14 AWG** | XT60 |
+| **Jambe G** | RS-04 × 2 + RS-03 × 3 + RS-02 | 6 | **50A** | **12 AWG** | XT60 |
+| **Jambe D** | (idem) | 6 | **50A** | **12 AWG** | XT60 |
+| **Cou / Tête** | RS-05 × 2 | 2 | **5A** | **18 AWG** | XT30 |
+| **Logique** | DC-DC 48V→5V (Spresense) + DC-DC 48V→19V (Jetson) | 0 | **5A** | **18 AWG** | fils vissés |
+| **E-Stop** | Bouton arrêt d'urgence NC | — | — | — | panneau |
+| **TOTAL bornes sur busbar central** | | | | | **7 paires (+/-)** |
+
+> **Résultat** : le busbar central n'a besoin que de **~8 bornes par rail** (7 zones + 1 entrée batterie) → un **busbar double 8-12 bornes** unique suffit pour le robot complet.
+
+#### Rôle des WAGO 221 (✅ Déjà Achetés)
+
+> [!TIP]
+> **Les WAGO 221-413 (3 entrées) et 221-415 (5 entrées) sont les splitters locaux** à l'intérieur de chaque membre. Ils ne remplacent pas le busbar central — ils font le travail de distribution finale après le tronc fusionné.
+
+```
+Exemple — Splitter Bras G (situé dans l'épaule ou haut du bras) :
+
+Câble Tronc 14 AWG (XT60 depuis busbar)
+    │
+    └── WAGO 221-415 (5 entrées, 32A max)
+         ├── (+) → XT60 pigtail → RS-04 Épaule Pitch      14 AWG
+         ├── (+) → XT30 pigtail → RS-03 Épaule Roll        18 AWG
+         ├── (+) → XT30 pigtail → RS-02 Épaule Yaw         18 AWG
+         ├── (+) → XT30 pigtail → RS-06 Coude Pitch        18 AWG
+         └── (+) → XT30 pigtail → RS-00 Poignet Roll       18 AWG
+
+    └── WAGO 221-415 (5 entrées) → même chose pour le (-)
+
+    └── Buck 48V→12V 5A → WAGO 221-413 (3 entrées) → 8 Dynamixel main
+```
+
+**Pourquoi les WAGO et non un mini-busbar dans le membre ?**
+- Les WAGO 221 sont compacts (18×6×16mm), sans outil (levier), et supportent **32A / 450V** → bien au-delà de nos besoins
+- Ils acceptent du **0.2 à 4 mm²** (24 à 12 AWG) → parfait pour mixer 14 et 18 AWG
+- Ils sont transparents → vérification visuelle du contact
+- **Déjà achetés** ✅
+
+> [!WARNING]
+> Les WAGO 221 sont adaptés pour les **bras et le cou** (courant par zone ≤ 30A). Pour les **jambes** (50A par zone avec 2× RS-04 + 3× RS-03), utilisez un **mini-busbar 6 bornes** comme splitter local au lieu des WAGO (limités à 32A de capacité nominale).
+
+#### Schéma Détaillé de Distribution
+
+```text
+Batterie 13S NMC 48V (XT90-S / Anderson SB50)
+    │
+    ├── Fusible principal 80A (ANL/MIDI lame)
+    │
+    ├── E-Stop (Coup de poing NC — coupe moteurs, pas Jetson)
+    │
+    └── BUSBAR CENTRAL DOUBLE 8-12 bornes (torse)
+         │
+         │  ═══ ZONE BRAS GAUCHE ═══════════════════════════════
+         ├── Fusible 30A lame ──→ XT60 tronc (14 AWG, ~40cm)
+         │   └── Splitter Bras G (WAGO 221-415 × 2, dans épaule)
+         │        ├── XT60 → RS-04 Épaule Pitch G     (14 AWG, ~15cm)
+         │        ├── XT30 → RS-03 Épaule Roll G       (18 AWG, ~15cm)
+         │        ├── XT30 → RS-02 Épaule Yaw G        (18 AWG, ~20cm)
+         │        ├── XT30 → RS-06 Coude G             (18 AWG, ~40cm)
+         │        ├── XT30 → RS-00 Poignet G           (18 AWG, ~60cm)
+         │        └── Buck 48V→12V → 8× Dynamixel main G
+         │
+         │  ═══ ZONE BRAS DROIT ════════════════════════════════
+         ├── Fusible 30A lame ──→ XT60 tronc (14 AWG, ~40cm)
+         │   └── Splitter Bras D (idem)
+         │
+         │  ═══ ZONE JAMBE GAUCHE ══════════════════════════════
+         ├── Fusible 50A lame ──→ XT60 tronc (12 AWG, ~30cm)
+         │   └── Mini-busbar 6 bornes (bassin G)
+         │        ├── XT60 → RS-04 Hanche Pitch G      (14 AWG, ~15cm)
+         │        ├── XT30 → RS-03 Hanche Roll G        (18 AWG, ~15cm)
+         │        ├── XT30 → RS-03 Hanche Yaw G         (18 AWG, ~20cm)
+         │        ├── XT60 → RS-04 Genou G              (14 AWG, ~50cm)
+         │        ├── XT30 → RS-03 Cheville Pitch G     (18 AWG, ~80cm)
+         │        └── XT30 → RS-03 Cheville Roll G      (18 AWG, ~80cm)
+         │
+         │  ═══ ZONE JAMBE DROITE ══════════════════════════════
+         ├── Fusible 50A lame ──→ XT60 tronc (12 AWG, ~30cm)
+         │   └── Mini-busbar 6 bornes (bassin D, idem)
+         │
+         │  ═══ ZONE COU / TÊTE ═══════════════════════════════
+         ├── Fusible 5A ──→ XT30 tronc (18 AWG)
+         │   └── WAGO 221-413
+         │        ├── XT30 → RS-05 Cou Pan              (18 AWG, ~20cm)
+         │        └── XT30 → RS-05 Cou Tilt             (18 AWG, ~20cm)
+         │
+         │  ═══ ZONE LOGIQUE ══════════════════════════════════
+         └── DC-DC 48V→5V (Spresense always-on)
+             DC-DC 48V→19V (Jetson Orin Nano)
+```
+
+#### Avantages de cette Architecture
+
+| Critère | Busbar plat (ancienne) | Arbre hiérarchique (retenue) |
+| :--- | :---: | :---: |
+| Câbles au torse | 27 paires | **7 paires** |
+| Isolation de faute | Non (1 fusible 80A) | **Oui (fusible par zone)** |
+| Déconnecter un bras | 5 vis au busbar | **1 XT60** |
+| Longueur câble max | 1.2m (busbar→cheville) | **0.8m (splitter→cheville)** |
+| Nœud de câbles torse | ❌ Dense | **✅ Aéré** |
+| Extension/maintenance | Compliqué | **Modulaire** |
+| Standard industriel | Non | **Oui (Unitree, Tesla)** |
+
+#### Composants du Système Complet
 
 | Composant | Spécification | Qté | Prix | Source |
 | :--- | :--- | :---: | :---: | :--- |
-| **Busbar double 12 bornes** | Laiton étamé, 60V+, 100A, couvercle transparent | 1 (→ 2 en Phase 4) | ~15-30 € | Voir sourcing ci-dessous |
-| **Pigtails XT60 femelles** | XT60 femelle → fils nus 14 AWG, 30 cm | 8 | ~2-3 €/pièce | Amazon.fr : `"XT60 female pigtail 14AWG"` |
-| **Pigtails XT30 femelles** | XT30 femelle → fils nus 18 AWG, 30 cm | 16 | ~1-2 €/pièce | Amazon.fr : `"XT30 female pigtail 18AWG"` |
+| **Busbar double 8-12 bornes** | Laiton étamé, 60V+, 100A, couvercle | 1 | ~15-25 € | Amazon.fr : `"dual bus bar 12 way"` / SVB Marine / Seatronic |
+| **Mini-busbars 6 bornes** | Laiton, 60V+, pour bassin jambes | 2 | ~8-12 €/pce | Amazon.fr : `"bus bar 6 way 60V"` |
+| **WAGO 221-415 (5 entrées)** | Levier, 32A, 450V, 0.2-4mm² | 4 (×2 par bras) | ✅ Déjà achetés | — |
+| **WAGO 221-413 (3 entrées)** | Levier, 32A, 450V | 6 | ✅ Déjà achetés | — |
+| **Fusibles lame + porte-fusibles** | 30A ×2 (bras) + 50A ×2 (jambes) + 5A ×1 (cou) + 80A ×1 (principal) | 6 | ~3-5 € le lot | Amazon.fr : `"porte-fusible lame automobile en ligne"` |
+| **Pigtails XT60 femelles** | Fils nus 14 AWG, 30 cm | 8 | ~2-3 €/pce | Amazon.fr : `"XT60 female pigtail 14AWG"` |
+| **Pigtails XT30 femelles** | Fils nus 18 AWG, 30 cm | 16 | ~1-2 €/pce | Amazon.fr : `"XT30 female pigtail 18AWG"` |
 | **DC-DC 48V→5V** | Buck isolé, 5V 5A (25W) | 1 | ~10-15 € | Amazon.fr : `"48V to 5V DC-DC converter 5A"` |
-| **Buck 48V→12V 5A** | Entrée ≥ 60V, sortie 12V 5A | 2 | ~10-18 €/pièce | Amazon.fr : `"DC DC converter 48V 12V 5A 60W"` |
-| **Fusible 80A + porte-fusible** | ANL/MIDI lame automobile | 1 | ~5-8 € | Amazon.fr |
-| **Bouton E-Stop** | Coup de poing NC + câble | 1 | ~8-12 € | Amazon.fr |
-| **Total Phase 2-3** | | | **~80-110 €** | |
+| **DC-DC 48V→19V** | Buck, 19V 5A (95W) | 1 | ~15-20 € | Amazon.fr : `"48V to 19V DC-DC converter 5A"` |
+| **Buck 48V→12V 5A** | Entrée ≥ 60V, sortie 12V 5A | 2 | ~10-18 €/pce | Amazon.fr : `"DC DC converter 48V 12V 5A 60W"` |
+| **Bouton E-Stop** | Coup de poing NC | 1 | ~8-12 € | Amazon.fr |
+| **Total estimé** | | | **~100-140 €** | |
 
-#### Où Trouver le Busbar Double
+#### Où Trouver les Busbars
 
 > [!TIP]
-> **Le meilleur marché** pour ce type de composant est le secteur **nautique** (bateaux) — les busbars marins sont conçus exactement pour la distribution 12V/24V/48V DC avec des bornes robustes, couvercle de protection, et laiton étamé anti-corrosion. Ils supportent tous 60V+ malgré la mention "12/24V" (cela désigne la tension du système bateau, pas la limite du composant).
+> **Le secteur nautique** (bateaux) fabrique exactement ces composants pour la distribution DC 12V/24V/48V avec des bornes robustes, couvercle de protection, et laiton étamé anti-corrosion. Ils supportent tous 60V+ malgré la mention "12/24V".
 
-| Source | Terme de recherche | Prix estimé | Avantage |
-| :--- | :--- | :---: | :--- |
-| **Amazon.fr** | `"bus bar double 12 voies"` ou `"dual bus bar 12 way"` | ~15-25 € | Livraison immédiate |
-| **SVB Marine** ([svb24.com](https://www.svb24.com)) | "Barres omnibus" > "Distribution" — Marques : Blue Sea Systems, BEP Marine | ~20-40 € | Qualité nautique premium, couvercle incl. |
-| **Seatronic.fr** ([seatronic.fr](https://www.seatronic.fr)) | "Bornier de raccordement" 12 voies double | ~20-35 € | Spécialiste FR, bon SAV |
-| **RS Components** ([fr.rs-online.com](https://fr.rs-online.com)) | "Répartiteur de puissance DIN" ou "Power distribution block" | ~25-50 € | Qualité industrielle, très fiable |
-| **AliExpress** | `"dual bus bar 12 way screw terminal"` | ~8-15 € | Moins cher, délai 2-3 semaines |
+| Source | Terme de recherche | Avantage |
+| :--- | :--- | :--- |
+| **Amazon.fr** | `"dual bus bar 12 way"` ou `"bus bar 6 way marine"` | Livraison rapide, ~10-25 € |
+| **SVB Marine** ([svb24.com](https://www.svb24.com)) | Blue Sea Systems, BEP Marine | Qualité premium, couvercle inclus |
+| **Seatronic.fr** ([seatronic.fr](https://www.seatronic.fr)) | "Bornier de raccordement" | Spécialiste FR, bon SAV |
+| **RS Components** ([fr.rs-online.com](https://fr.rs-online.com)) | "Power distribution block" | Qualité industrielle |
 
-**Checklist avant achat** :
-- ✅ **Double rangée** (+ et - dans un seul boîtier) ou **2 pièces séparées** (une rouge +, une noire -)
-- ✅ **≥ 12 bornes par rail**
-- ✅ **Courant ≥ 100A** par rail (le busbar lui-même — les pigtails limitent déjà à 30-60A par borne)
-- ✅ **Couvercle de protection transparent** (évite les courts-circuits accidentels dans le torse)
-- ✅ **Matériau laiton étamé** (pas aluminium seul — l'oxydation augmente la résistance)
-- ✅ Bornes acceptant du **14 AWG** (section ≥ 2.5 mm²)
-
-#### Schéma de Distribution
-
-```text
-Batterie 13S NMC (XT60 ou XT90-S)
-    │
-    ├── Fusible 80A (lame automobile ANL/MIDI)
-    │
-    ├── E-Stop (Bouton d'arrêt d'urgence, NC)
-    │
-    └── BUSBAR DOUBLE #1 (+ et -)  ← Bornes à vis, couvercle transparent
-         │
-         │   [Pigtails XT60 vissés aux bornes — gros moteurs RS-04]
-         ├── XT60 → RS-04 Épaule Pitch G     (14 AWG)
-         ├── XT60 → RS-04 Épaule Pitch D     (14 AWG)
-         ├── XT60 → RS-04 Hanche Pitch G     (14 AWG)
-         ├── XT60 → RS-04 Hanche Pitch D     (14 AWG)
-         ├── XT60 → RS-04 Genou G            (14 AWG)
-         ├── XT60 → RS-04 Genou D            (14 AWG)
-         │
-         │   [Pigtails XT30/XT60 — moteurs moyens RS-03/RS-06]
-         ├── XT60 → RS-03 Épaule Roll G      (18 AWG)
-         ├── XT60 → RS-03 Épaule Roll D      (18 AWG)
-         ├── XT30 → RS-06 Coude G            (18 AWG)
-         ├── XT30 → RS-06 Coude D            (18 AWG)
-         ├── fils  → Buck 48V→12V main G     (18 AWG)
-         ├── fils  → Buck 48V→12V main D     (18 AWG)
-         │
-    └── BUSBAR DOUBLE #2 (Phase 4 — jambes + cou)
-         ├── XT30 → RS-03 Hanche Roll G/D    (18 AWG)
-         ├── XT30 → RS-03 Hanche Yaw G/D     (18 AWG)
-         ├── XT30 → RS-03 Cheville G/D ×2    (18 AWG)
-         ├── XT30 → RS-02 Épaule Yaw G/D     (18 AWG)
-         ├── XT30 → RS-00 Poignet G/D        (18 AWG)
-         ├── XT30 → RS-05 Cou Pan + Tilt     (18 AWG)
-         └── fils  → DC-DC 48V→5V            (18 AWG)
-```
+**Checklist avant achat busbar** :
+- ✅ **Laiton étamé** (pas aluminium pur)
+- ✅ **Couvercle transparent** (anti court-circuit)
+- ✅ Bornes acceptant **12-14 AWG** (≥ 2.5 mm²)
+- ✅ Courant nominal **≥ 100A** par rail
 
 #### Principe Sans Soudure
 
-```
-1. Le pigtail XT60/XT30 a déjà le connecteur soudé d'usine
-2. L'autre bout est un fil nu (14 ou 18 AWG)
-3. Vous dénudez 8mm du fil nu
-4. Vous l'insérez dans la borne à vis du busbar
-5. Vous serrez la vis → Contact fait → Zéro soudure
+Tout le système fonctionne sans soudure grâce à 2 types de connexion :
 
-   [XT60 femelle] ══════════ fil 14AWG ══════════ [borne à vis busbar]
-        ↑                                              ↑
-   Se branche                                    Se visse
-   sur le moteur                                  sur la barre cuivre
+```
+BUSBAR : bornes à vis ──────────────────────────────────────────
+  1. Dénuder 8mm du fil
+  2. Insérer dans la borne
+  3. Serrer la vis → contact fait
+
+WAGO 221 : levier à ressort ────────────────────────────────────
+  1. Ouvrir le levier orange
+  2. Insérer le fil dénudé (12mm)
+  3. Fermer le levier → contact à ressort auto-ajusté
+  4. Vérifiable visuellement (boîtier transparent)
 ```
 
 > [!TIP]
-> **Avantage majeur du busbar** : modulaire. Ajouter ou retirer un moteur = 1 vis. Pas de PCB à ressouder. Idéal pour un prototype en évolution constante.
+> **Résumé** : Le torse contient uniquement le busbar central (8 bornes) + les fusibles par zone + les DC-DC. Chaque membre reçoit **un seul câble tronc** qui aboutit à son splitter local (WAGO ou mini-busbar). Architecture propre, modulaire, sûre, et entièrement sans soudure.
 
 ---
 
