@@ -23,78 +23,119 @@ Le bus CAN (Controller Area Network) est le protocole de communication entre la 
 - **CAN_H** et **CAN_L** : la paire différentielle (signal)
 - **GND** : la masse commune — **critique**, sans elle le signal "flotte" et génère des erreurs "Bus Off"
 
-Tous les moteurs d'un même bus sont **chaînés en série** (daisy-chain data), du premier au dernier. Le dernier moteur doit porter une **résistance de terminaison 120 Ω** pour éviter les réflexions de signal.
+Tous les moteurs d'un même bus sont **chaînés en série** (daisy-chain), du premier au dernier. Le dernier moteur doit porter une **résistance de terminaison 120 Ω**.
 
 ---
 
-### Combien d'InnoMaker USB2CAN-C faut-il ?
+### Combien de bus CAN et pourquoi ?
 
-> [!IMPORTANT]
-> L'InnoMaker USB2CAN-C est une interface **1 canal CAN** = il gère **1 bus à la fois**. Pour faire fonctionner le robot complet (tous les moteurs en simultané), il vous faut **autant d'InnoMaker que de bus CAN indépendants**.
+> [!NOTE]
+> Ce n'est pas un choix arbitraire — c'est **une contrainte physique du protocole CAN** qui impose le découpage en zones.
 
-Avec l'architecture multi-bus recommandée pour le D-Bot (voir ci-dessous), il faudra **3 à 4 InnoMaker** en fonctionnement robot complet :
+**Calcul de capacité par bus (1 Mbps) :**
+- Taille d'une trame RobStride (position + vitesse + couple) : ~130 bits
+- Boucle de contrôle cible : **1 kHz** (1000 commandes/sec/moteur)
+- Bande passante consommée par moteur : **~130 kbps**
+- Capacité maximale théorique : 1000 / 130 ≈ **7 moteurs**
+- **Règle pratique retenue : 5-6 moteurs par bus** (marge pour les acquittements et les pics)
 
-| Bus CAN | Moteurs couverts | Nb moteurs | InnoMaker requis |
+| Bus CAN | Moteurs | Nb | Pourcentage du bus |
 | :--- | :--- | :---: | :---: |
-| **Bus 1 — Bras** | Bras G + Bras D (RS-04, 03, 06, 02, 00) | 10 | 1 |
-| **Bus 2 — Jambe G** | Hanche G + Genou G + Cheville G (RS-04 ×2, RS-03 ×3) | 5 | 1 |
-| **Bus 3 — Jambe D** | Hanche D + Genou D + Cheville D (même config) | 5 | 1 |
-| **Bus 4 — Cou** | RS-05 Pan + RS-05 Tilt | 2 | 1 |
-| **TOTAL** | 22 moteurs | | **3 à 4 InnoMaker** |
+| **Bus 1 — Bras G + Cou** | 5 RS (bras) + 2 RS-05 (cou) | **7** | ~91% ⚠️ limite |
+| **Bus 2 — Bras D** | RS-04, RS-03, RS-06, RS-02, RS-00 | **5** | ~65% ✅ |
+| **Bus 3 — Jambe G** | RS-04 ×2, RS-03 ×4 | **6** | ~78% ✅ |
+| **Bus 4 — Jambe D** | RS-04 ×2, RS-03 ×4 | **6** | ~78% ✅ |
 
-> **Pour l'instant (Phase 1-2, banc de test)** : 1 seul InnoMaker suffit. Vous le branchez sur le bus que vous testez. Les autres bus restent en attente.
+> **Les mains (Dynamixel XC430/XC330)** utilisent le protocole **TTL half-duplex** via le module **U2D2** — elles sont **entièrement indépendantes du bus CAN**. Aucun InnoMaker n'est nécessaire pour les mains.
 
-Manuel : [usb2can.pdf](./manuels/usb2can.pdf)
+> [!TIP]
+> **Alternative pour Bus 1** : Si 7 moteurs à 1 kHz s'avère instable en pratique, séparer le cou sur un 5e bus (2 moteurs uniquement) est trivial — il suffit d'ajouter un CANable 2.0 supplémentaire (~15€).
 
 ---
 
-### Topologie du Câblage Data (CAN)
+### Choix du matériel USB2CAN — Étude Comparative
+
+Trois options ont été évaluées pour assurer ces 4 bus depuis la Jetson Orin Nano :
+
+| Option | Format | Prix total | Ports USB | Isolation | Verdict |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **4× InnoMaker USB2CAN-C** (simple) | Boîtier ~80×50mm | ~120€ | 4 | ✅ | Trop de ports USB |
+| **2× InnoMaker USB2CAN-X2** (dual) | Boîtier ~80×50mm | ~160€ | 2 | ✅ | Cher, encombrant |
+| **4× CANable 2.0** + hub USB | PCB nu **45×16mm** | **~70-110€** | 1 (hub) | ⚠️ selon version | **✅ Retenu** |
+
+#### Option Retenue : 4× CANable 2.0 + Hub USB alimenté
+
+Le **CANable 2.0** est un adaptateur USB-CAN open-source ultra-compact (45 × 16 × 1.6 mm, quelques grammes) basé sur un STM32G4. Avec le firmware **candleLight** (préchargé sur la plupart des clones), il apparaît comme une interface `gs_usb` native sous Linux — exactement comme l'InnoMaker que vous possédez déjà.
+
+**Avantages :**
+- **Le plus compact** : s'intègre facilement dans le torse sans encombrer
+- **Le moins cher** : clones AliExpress ~10-20€ pièce, officiel ~30-35€
+- **Compatible ROS2/SocketCAN** sans modification
+- **Terminaison 120Ω** configurable par jumper inclus
+- **Remplacement facile** en cas de panne (pièce standard open-source)
+
+**Point d'attention isolation galvanique :**
+
+> [!WARNING]
+> La plupart des CANable 2.0 **n'ont pas d'isolation galvanique** (contrairement à votre module de debug). Pour le robot en fonctionnement, cette isolation est moins critique qu'en debug (les masses sont partagées via le busbar commun). Cependant, si un bus subit un court-circuit ou une surtension, l'absence d'isolation peut théoriquement endommager le port USB du hub. **Mitigation** : utiliser un **hub USB alimenté avec protection de surtension**, et non brancher directement à la Jetson.
+
+**Liste d'achat résultante :**
+- **3× CANable 2.0** supplémentaires (vous avez déjà 1× InnoMaker USB2CAN-C pour le Bus 1)
+- **1× hub USB 4 ports alimenté** (avec protection surtension)
+
+```
+Jetson Orin Nano
+    └── Hub USB 4 ports (alimenté)
+         ├── InnoMaker USB2CAN-C (✅ Acheté) → Bus 1 : Bras G + Cou
+         ├── CANable 2.0 n°1              → Bus 2 : Bras D
+         ├── CANable 2.0 n°2              → Bus 3 : Jambe G
+         └── CANable 2.0 n°3              → Bus 4 : Jambe D
+
+Dynamixel (Mains) :
+    └── USB direct Jetson → U2D2 Main G
+    └── USB direct Jetson → U2D2 Main D    (protocole TTL, indépendant du CAN)
+```
+
+---
+
+### Topologie du Câblage Data (CAN) par Bus
 
 > [!CAUTION]
-> **Interdiction absolue de faire un "Y" (étoile)** : Ne séparez jamais le câble CAN en dérivation. Les "stubs" (branches) de plus de 30 cm ruinent le signal à 1 Mbps.
-
-La bonne topologie est la **chaîne droite** (daisy-chain) par bus :
+> **Interdiction absolue de faire un "Y" (étoile)** : Ne dérivez jamais le câble CAN. Les stubs > 30 cm corrompent le signal à 1 Mbps.
 
 ```
-InnoMaker USB2CAN
+CANable/InnoMaker
       │
-   Moteur 1 (ID 1) ── Moteur 2 (ID 2) ── ... ── Moteur N (ID N)
-                                                        │
-                                               [Résistance 120 Ω]
+   Moteur ID-1 ── Moteur ID-2 ── ... ── Moteur ID-N
+                                               │
+                                      [Résistance 120 Ω]
 ```
 
-**Règles à respecter :**
-1. Chaque moteur a un **ID unique** sur son bus (configurer via R-Link avant montage)
-2. La résistance **120 Ω** se place uniquement sur **le dernier moteur** de la chaîne (pas sur les intermédiaires)
-3. Le fil **GND** doit relier l'InnoMaker à la masse commune moteurs — le brancher sur la borne **(-)** du busbar ou de l'alim
+**Règles :**
+1. Chaque moteur a un **ID unique sur son bus** (configurer via module de debug avant montage)
+2. La résistance **120 Ω** se place **uniquement sur le dernier moteur** de la chaîne
+3. Le fil **GND** doit relier l'adaptateur CAN à la masse commune moteurs (borne **-** du busbar)
+
+**Couleurs des fils RobStride :**
+- **CAN_H** → Fil Jaune
+- **CAN_L** → Fil Blanc
+- **GND** → Fil Noir
 
 ---
 
-### Configuration de l'InnoMaker USB2CAN-C
+### Module de Debug (✅ Déjà Acheté)
 
-*   **Firmware** : `gs_usb` (natif Linux, aucun driver à installer sur la Jetson)
-*   **Switch 120 Ω** : Mettre sur **ON** (l'InnoMaker est toujours en début de chaîne)
-*   **Couleur des fils** (conventions RobStride) :
-    *   **CAN_H** → Fil Jaune
-    *   **CAN_L** → Fil Blanc
-    *   **GND** → Fil Noir (brancher sur le **-** de l'alim / busbar)
-
----
-
-### Module de Débogage : R-Link (✅ Déjà Acheté)
-
-Le R-Link est un outil de **configuration et debug** uniquement — il ne sert pas à faire tourner le robot. Il sert à :
-- Attribuer les ID (1, 2, 3...) à chaque moteur via *RobStride Studio*
+Le module de debug est un outil de **configuration uniquement** — il ne sert pas à faire tourner le robot en conditions normales. Il sert à :
+- Attribuer les **ID uniques** (1, 2, 3...) à chaque moteur via *RobStride Studio*
 - Mettre à jour les firmwares moteurs
 - Tester un moteur individuellement sur le banc
 
-**Un seul R-Link suffit** pour configurer tous vos moteurs.
+**Un seul module de debug suffit** pour configurer tous vos moteurs, un à un.
 
 > [!IMPORTANT]
-> **Isolation Galvanique obligatoire** : Assurez-vous que votre R-Link possède une isolation galvanique (optocoupleur). Sans isolation, une erreur de câblage sur le 48V pourrait détruire instantanément le port USB de votre PC de développement.
+> **Isolation galvanique obligatoire** : Votre module de debug possède une isolation galvanique (optocoupleur). C'est indispensable pour protéger votre PC lors des sessions de debug sur le banc avec le 48V.
 
 ___
-
 
 ## 3. Sony Spresense & OAK-D Pro
 

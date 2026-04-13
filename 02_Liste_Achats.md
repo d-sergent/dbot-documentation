@@ -85,8 +85,10 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 | Connecteurs XT60/XT30 | **Connecteurs nus Mâle/Femelle (pré-étamés)** | 1 lot | (**✅ Achetés**) Pour fabriquer les pigtails sur-mesure des moteurs et les troncs détachables. |
 | Câbles de Puissance | **Rouleaux Silicone 14 AWG et 18 AWG** | 1 lot | (**✅ Achetés**) Rouge + Noir. 14 AWG (troncs/gros moteurs), 18 AWG (petits moteurs). |
 | Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 (**✅ Achetée**) | Indispensable Phases 1-4 (48V). Limite 3A pour RS-04/05 (voir [§4c](./04_Electronique_Cablage.md#4c-séquence-de-validation--wanptek--batterie)). Manuel : [dps605U.pdf](./manuels/dps605U.pdf). |
-| Interface CAN | **InnoMaker USB2CAN-C** | 1 (**✅ Acheté**) → **3 à 4 nécessaires** pour robot complet (1 par bus CAN) | 1 par bus CAN indépendant (Bras, Jambe G, Jambe D, Cou). Voir [§2](./04_Electronique_Cablage.md#2-bus-can-moteurs-robstride) pour le détail. Manuel : [usb2can.pdf](./manuels/usb2can.pdf). |
-| R-Link (Isolé) | **R-Link avec Isolation Galvanique** | 1 | Outil de **config/debug uniquement** (pas nécessaire en fonctionnement robot). 1 seul suffit pour configurer tous les moteurs. |
+| Interface CAN — Bus 1 | **InnoMaker USB2CAN-C** | 1 (**✅ Acheté**) | Bus 1 : Bras G + Cou (7 moteurs). Manuel : [usb2can.pdf](./manuels/usb2can.pdf). |
+| Interface CAN — Bus 2/3/4 | **CANable 2.0** (firmware candleLight, gs_usb) | 3 (à acheter) | Bus Bras D + Jambe G + Jambe D. Ultra-compact (45×16mm). AliExpress ~10-20€/pce ou officiel ~30-35€. Chercher : `"CANable 2.0"` ou `"MKS CANable"`. |
+| Hub USB alimenté | **Hub USB 4 ports alimenté** avec protection surtension | 1 (à acheter) | Regroupe les 4 adaptateurs CAN sur 1 seul port USB Jetson. ~10-15€. |
+| Module de Debug | **Module de Debug RobStride (Isolation Galvanique)** | 1 (**✅ Acheté**) | Config/debug uniquement via RobStride Studio. 1 seul suffit pour tous les moteurs. |
 
 > **Note** : Vérifiez bien que les moteurs arrivent avec leurs câbles d'alimentation (XT60) et data (JST-GH). Sinon, commander séparément.
 
