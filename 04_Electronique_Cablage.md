@@ -194,32 +194,110 @@ Le 48V de chaque moteur doit impérativement rejoindre la barre de distribution 
 > [!WARNING]
 > **Le Matek PDB-HEX (drone) est INCOMPATIBLE** avec le bus 48V du D-Bot (tension max 18V). Ne pas utiliser de PDB drone standard.
 
-La solution retenue est un **système de busbars** (barres de distribution cuivre) avec des **pigtails XT60 pré-câblés** vissés aux bornes. C'est le standard industriel pour la robotique, **sans aucune soudure** :
+La solution retenue est un **système de busbars** (barres de distribution cuivre) avec des **pigtails XT60/XT30 pré-câblés** vissés aux bornes. C'est le standard industriel pour la robotique, **sans aucune soudure**.
+
+#### Qu'est-ce qu'un "Busbar Double" ?
+
+Un busbar double = **2 rails conducteurs séparés dans un même boîtier** : un pour le (+) et un pour le (-). Les 2 rails sont isolés l'un de l'autre par du plastique. Chaque rail a plusieurs bornes à vis identiques qui sont toutes reliées entre elles électriquement.
+
+```
+╔══════════════════════════════════════════════╗
+║  BUSBAR DOUBLE (vue de face)                 ║
+╠══════════════════════════════════════════════╣
+║  ┌────────────────────────────────────────┐  ║
+║  │  RAIL (+)  ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○  │  ← 12 bornes (+), toutes reliées
+║  └────────────────────────────────────────┘  ║
+║          ← isolation plastique →             ║
+║  ┌────────────────────────────────────────┐  ║
+║  │  RAIL (-)  ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○  │  ← 12 bornes (-), toutes reliées
+║  └────────────────────────────────────────┘  ║
+╚══════════════════════════════════════════════╝
+  ↑
+  1 borne = 1 câble moteur (pigtail XT30 ou XT60 vissé)
+```
+
+**Le nombre de bornes = le nombre de câbles moteurs connectables simultanément** sur chaque rail.
+
+#### Combien de Bornes pour le D-Bot Complet ?
+
+Sur le robot complet, chaque moteur + convertisseur = 1 borne sur le rail (+) et 1 borne sur le rail (-) :
+
+| Groupe | Qté | Connecteur | Bornes nécessaires |
+| :--- | :---: | :---: | :---: |
+| RS-04 (épaule Pitch ×2, hanche Pitch ×2, genou ×2) | 6 | XT60 | 6 |
+| RS-03 (épaule Roll ×2, hanche R/Y ×4, cheville ×4) | 10 | XT60/XT30 | 10 |
+| RS-06 (coudes) | 2 | XT30 | 2 |
+| RS-02 (épaule Yaw) | 2 | XT30 | 2 |
+| RS-00 (poignets) | 2 | XT30 | 2 |
+| RS-05 (cou) | 2 | XT30 | 2 |
+| Buck 48V→12V (mains, ×2) | 2 | fils nus | 2 |
+| DC-DC 48V→5V (Jetson+Spresense) | 1 | fils nus | 1 |
+| **TOTAL** | **27** | | **27 par rail (+/-)** |
+
+> [!IMPORTANT]
+> Un busbar 12 bornes **ne suffit pas** pour le robot complet (27 connexions nécessaires). Voir la stratégie d'achat progressive ci-dessous.
+
+#### Stratégie d'Achat Progressive — 2 Busbars
+
+Pour éviter d'acheter une pièce trop grande dès le début (et difficile à trouver), la solution est d'acheter **2 busbars de 12 bornes** et de les combiner au fur et à mesure :
+
+```
+Phase 2-3 (2 bras + mains)  →  1 busbar double 12 bornes  ← ACHETER MAINTENANT
+                                  6 RS-04/RS-03/RS-06/RS-02/RS-00 + buck ×2 = 8 connexions
+                                  (2 bras complets = 12 connexions) ✅
+
+Phase 4 (jambes + cou)       →  + 1 busbar double 12 bornes  ← ACHETER PLUS TARD
+                                  12 RS-03/RS-04 jambes + RS-05 cou + DC-DC = 15 connexions
+```
+
+Les 2 busbars sont montés côte à côte dans le torse, reliés entre eux par un seul câble court (+) et un câble court (-) depuis la batterie.
 
 #### Composants du Système
 
 | Composant | Spécification | Qté | Prix | Source |
 | :--- | :--- | :---: | :---: | :--- |
-| **Busbar double** (+ et -) | Cuivre étamé, 60V/100A, 6-12 bornes à vis | 1 | ~15-25 € | Amazon.fr : `"busbar 12 positions 60V 100A"` |
+| **Busbar double 12 bornes** | Laiton étamé, 60V+, 100A, couvercle transparent | 1 (→ 2 en Phase 4) | ~15-30 € | Voir sourcing ci-dessous |
 | **Pigtails XT60 femelles** | XT60 femelle → fils nus 14 AWG, 30 cm | 8 | ~2-3 €/pièce | Amazon.fr : `"XT60 female pigtail 14AWG"` |
-| **Pigtails XT30 femelles** | XT30 femelle → fils nus 18 AWG, 30 cm | 6 | ~1-2 €/pièce | Amazon.fr : `"XT30 female pigtail 18AWG"` |
-| **DC-DC 48V→5V** | Buck converter isolé, 5V 5A (25W) | 1 | ~10-15 € | Amazon.fr : `"48V to 5V DC-DC converter 5A"` |
-| **Fusible 80A + porte-fusible** | Lame automobile ANL/MIDI | 1 | ~5-8 € | Amazon.fr |
+| **Pigtails XT30 femelles** | XT30 femelle → fils nus 18 AWG, 30 cm | 16 | ~1-2 €/pièce | Amazon.fr : `"XT30 female pigtail 18AWG"` |
+| **DC-DC 48V→5V** | Buck isolé, 5V 5A (25W) | 1 | ~10-15 € | Amazon.fr : `"48V to 5V DC-DC converter 5A"` |
+| **Buck 48V→12V 5A** | Entrée ≥ 60V, sortie 12V 5A | 2 | ~10-18 €/pièce | Amazon.fr : `"DC DC converter 48V 12V 5A 60W"` |
+| **Fusible 80A + porte-fusible** | ANL/MIDI lame automobile | 1 | ~5-8 € | Amazon.fr |
 | **Bouton E-Stop** | Coup de poing NC + câble | 1 | ~8-12 € | Amazon.fr |
-| **Total système** | | | **~60-90 €** | |
+| **Total Phase 2-3** | | | **~80-110 €** | |
+
+#### Où Trouver le Busbar Double
+
+> [!TIP]
+> **Le meilleur marché** pour ce type de composant est le secteur **nautique** (bateaux) — les busbars marins sont conçus exactement pour la distribution 12V/24V/48V DC avec des bornes robustes, couvercle de protection, et laiton étamé anti-corrosion. Ils supportent tous 60V+ malgré la mention "12/24V" (cela désigne la tension du système bateau, pas la limite du composant).
+
+| Source | Terme de recherche | Prix estimé | Avantage |
+| :--- | :--- | :---: | :--- |
+| **Amazon.fr** | `"bus bar double 12 voies"` ou `"dual bus bar 12 way"` | ~15-25 € | Livraison immédiate |
+| **SVB Marine** ([svb24.com](https://www.svb24.com)) | "Barres omnibus" > "Distribution" — Marques : Blue Sea Systems, BEP Marine | ~20-40 € | Qualité nautique premium, couvercle incl. |
+| **Seatronic.fr** ([seatronic.fr](https://www.seatronic.fr)) | "Bornier de raccordement" 12 voies double | ~20-35 € | Spécialiste FR, bon SAV |
+| **RS Components** ([fr.rs-online.com](https://fr.rs-online.com)) | "Répartiteur de puissance DIN" ou "Power distribution block" | ~25-50 € | Qualité industrielle, très fiable |
+| **AliExpress** | `"dual bus bar 12 way screw terminal"` | ~8-15 € | Moins cher, délai 2-3 semaines |
+
+**Checklist avant achat** :
+- ✅ **Double rangée** (+ et - dans un seul boîtier) ou **2 pièces séparées** (une rouge +, une noire -)
+- ✅ **≥ 12 bornes par rail**
+- ✅ **Courant ≥ 100A** par rail (le busbar lui-même — les pigtails limitent déjà à 30-60A par borne)
+- ✅ **Couvercle de protection transparent** (évite les courts-circuits accidentels dans le torse)
+- ✅ **Matériau laiton étamé** (pas aluminium seul — l'oxydation augmente la résistance)
+- ✅ Bornes acceptant du **14 AWG** (section ≥ 2.5 mm²)
 
 #### Schéma de Distribution
 
 ```text
 Batterie 13S NMC (XT60 ou XT90-S)
     │
-    ├── Fusible 80A (lame automobile)
+    ├── Fusible 80A (lame automobile ANL/MIDI)
     │
     ├── E-Stop (Bouton d'arrêt d'urgence, NC)
     │
-    └── BUSBAR DOUBLE (+ et -)  ← Barres cuivre avec bornes à vis
+    └── BUSBAR DOUBLE #1 (+ et -)  ← Bornes à vis, couvercle transparent
          │
-         │   [Pigtails XT60 vissés aux bornes — gros moteurs]
+         │   [Pigtails XT60 vissés aux bornes — gros moteurs RS-04]
          ├── XT60 → RS-04 Épaule Pitch G     (14 AWG)
          ├── XT60 → RS-04 Épaule Pitch D     (14 AWG)
          ├── XT60 → RS-04 Hanche Pitch G     (14 AWG)
@@ -227,34 +305,28 @@ Batterie 13S NMC (XT60 ou XT90-S)
          ├── XT60 → RS-04 Genou G            (14 AWG)
          ├── XT60 → RS-04 Genou D            (14 AWG)
          │
-         │   [Pigtails XT30/XT60 — moteurs moyens]
+         │   [Pigtails XT30/XT60 — moteurs moyens RS-03/RS-06]
          ├── XT60 → RS-03 Épaule Roll G      (18 AWG)
          ├── XT60 → RS-03 Épaule Roll D      (18 AWG)
-         ├── XT30 → RS-03 Hanche Roll G      (18 AWG)
-         ├── XT30 → RS-03 Hanche Roll D      (18 AWG)
-         ├── XT30 → RS-03 Hanche Yaw G       (18 AWG)
-         ├── XT30 → RS-03 Hanche Yaw D       (18 AWG)
-         ├── XT30 → RS-03 Cheville G ×2      (18 AWG)
-         ├── XT30 → RS-03 Cheville D ×2      (18 AWG)
-         │
-         │   [Pigtails XT30 — petits moteurs]
          ├── XT30 → RS-06 Coude G            (18 AWG)
          ├── XT30 → RS-06 Coude D            (18 AWG)
-         ├── XT30 → RS-02 Épaule Yaw G       (18 AWG)
-         ├── XT30 → RS-02 Épaule Yaw D       (18 AWG)
-         ├── XT30 → RS-00 Poignet G          (18 AWG)
-         ├── XT30 → RS-00 Poignet D          (18 AWG)
-         ├── XT30 → RS-05 Cou Pan            (18 AWG)
-         ├── XT30 → RS-05 Cou Tilt           (18 AWG)
+         ├── fils  → Buck 48V→12V main G     (18 AWG)
+         ├── fils  → Buck 48V→12V main D     (18 AWG)
          │
-         │   [Alimentation logique]
-         └── DC-DC 48V→5V (Jetson + Spresense)
+    └── BUSBAR DOUBLE #2 (Phase 4 — jambes + cou)
+         ├── XT30 → RS-03 Hanche Roll G/D    (18 AWG)
+         ├── XT30 → RS-03 Hanche Yaw G/D     (18 AWG)
+         ├── XT30 → RS-03 Cheville G/D ×2    (18 AWG)
+         ├── XT30 → RS-02 Épaule Yaw G/D     (18 AWG)
+         ├── XT30 → RS-00 Poignet G/D        (18 AWG)
+         ├── XT30 → RS-05 Cou Pan + Tilt     (18 AWG)
+         └── fils  → DC-DC 48V→5V            (18 AWG)
 ```
 
 #### Principe Sans Soudure
 
 ```
-1. Le pigtail XT60 a déjà le connecteur soudé d'usine
+1. Le pigtail XT60/XT30 a déjà le connecteur soudé d'usine
 2. L'autre bout est un fil nu (14 ou 18 AWG)
 3. Vous dénudez 8mm du fil nu
 4. Vous l'insérez dans la borne à vis du busbar
@@ -267,11 +339,12 @@ Batterie 13S NMC (XT60 ou XT90-S)
 ```
 
 > [!TIP]
-> **Avantage majeur du busbar** : modulaire. Ajouter ou retirer un moteur = 1 vis. Pas de PCB à ressouder, pas de nappe à refaire. Idéal pour un prototype en évolution constante.
+> **Avantage majeur du busbar** : modulaire. Ajouter ou retirer un moteur = 1 vis. Pas de PCB à ressouder. Idéal pour un prototype en évolution constante.
 
 ---
 
 ## 4b. Câbles de Puissance Moteurs — Guide d'Achat et Longueurs
+
 
 ### Courants par Modèle de Moteur
 
