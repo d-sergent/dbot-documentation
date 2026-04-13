@@ -304,11 +304,11 @@ Batterie 13S NMC 48V (XT90-S / Anderson SB50)
          │  ═══ ZONE BRAS GAUCHE ═══════════════════════════════
          ├── Fusible 30A lame ──→ XT60 tronc (14 AWG, ~40cm)
          │   └── Splitter Bras G (WAGO 221-415 × 2, dans épaule)
-         │        ├── XT60 → RS-04 Épaule Pitch G     (14 AWG, ~15cm)
-         │        ├── XT30 → RS-03 Épaule Roll G       (18 AWG, ~15cm)
-         │        ├── XT30 → RS-02 Épaule Yaw G        (18 AWG, ~20cm)
-         │        ├── XT30 → RS-06 Coude G             (18 AWG, ~40cm)
-         │        ├── XT30 → RS-00 Poignet G           (18 AWG, ~60cm)
+         │        ├── XT30 → RS-04 Épaule Pitch G      (14 AWG, ~15cm)
+         │        ├── fils → RS-03 Épaule Roll G       (18 AWG, ~15cm)
+         │        ├── fils → RS-02 Épaule Yaw G        (18 AWG, ~20cm)
+         │        ├── fils → RS-06 Coude G             (18 AWG, ~40cm)
+         │        ├── fils → RS-00 Poignet G           (18 AWG, ~60cm)
          │        └── Buck 48V→12V → 8× Dynamixel main G
          │
          │  ═══ ZONE BRAS DROIT ════════════════════════════════
@@ -318,22 +318,22 @@ Batterie 13S NMC 48V (XT90-S / Anderson SB50)
          │  ═══ ZONE JAMBE GAUCHE ══════════════════════════════
          ├── Fusible 50A lame ──→ XT60 tronc (12 AWG, ~30cm)
          │   └── Mini-busbar 6 bornes (bassin G)
-         │        ├── XT60 → RS-04 Hanche Pitch G      (14 AWG, ~15cm)
-         │        ├── XT30 → RS-03 Hanche Roll G        (18 AWG, ~15cm)
-         │        ├── XT30 → RS-03 Hanche Yaw G         (18 AWG, ~20cm)
-         │        ├── XT60 → RS-04 Genou G              (14 AWG, ~50cm)
-         │        ├── XT30 → RS-03 Cheville Pitch G     (18 AWG, ~80cm)
-         │        └── XT30 → RS-03 Cheville Roll G      (18 AWG, ~80cm)
+         │        ├── XT30 → RS-04 Hanche Pitch G      (14 AWG, ~15cm)
+         │        ├── fils → RS-03 Hanche Roll G       (18 AWG, ~15cm)
+         │        ├── fils → RS-03 Hanche Yaw G        (18 AWG, ~20cm)
+         │        ├── XT30 → RS-04 Genou G             (14 AWG, ~50cm)
+         │        ├── fils → RS-03 Cheville Pitch G    (18 AWG, ~80cm)
+         │        └── fils → RS-03 Cheville Roll G     (18 AWG, ~80cm)
          │
          │  ═══ ZONE JAMBE DROITE ══════════════════════════════
          ├── Fusible 50A lame ──→ XT60 tronc (12 AWG, ~30cm)
          │   └── Mini-busbar 6 bornes (bassin D, idem)
          │
          │  ═══ ZONE COU / TÊTE ═══════════════════════════════
-         ├── Fusible 5A ──→ XT30 tronc (18 AWG)
+         ├── Fusible 5A ──→ fils tronc (18 AWG)
          │   └── WAGO 221-413
-         │        ├── XT30 → RS-05 Cou Pan              (18 AWG, ~20cm)
-         │        └── XT30 → RS-05 Cou Tilt             (18 AWG, ~20cm)
+         │        ├── fils → RS-05 Cou Pan             (18 AWG, ~20cm)
+         │        └── fils → RS-05 Cou Tilt            (18 AWG, ~20cm)
          │
          │  ═══ ZONE LOGIQUE ══════════════════════════════════
          └── DC-DC 48V→5V (Spresense always-on)
@@ -391,8 +391,9 @@ Batterie 13S NMC 48V (XT90-S / Anderson SB50)
 
 L'avantage d'avoir vos propres connecteurs nus est de pouvoir fabriquer des câbles pile à la bonne longueur. Le câblage se fait en deux étapes :
 
-**1. Côté Connecteurs (XT60 / XT30) : Soudure**
-*   **Connexion Moteur ↔ WAGO** : Soudez un XT60 (ou XT30) *Femelle* aux fils rouge/noir (les fils pré-étamés aident beaucoup). L'autre extrémité libre ira dans le WAGO. Vous venez de créer un pigtail sur-mesure !
+**1. Côté Connecteurs (XT60 / XT30) : Soudure (RS-04 et Troncs uniquement)**
+*   **Connexion Moteur ↔ WAGO** : Seul le gros moteur **RS-04** possède un connecteur (XT30 Mâle) d'origine. Vous devez lui fabriquer un "pigtail" : soudez un XT30 *Femelle* aux fils rouge/noir, et l'autre extrémité ira dans le WAGO. 
+*   **Pour tous les autres moteurs (RS-03, RS-02, RS-06...)** : Leurs câbles sont nus et pré-étamés d'usine. **Ne soudez aucun connecteur !** Coupez juste le petit bout étamé avec une pince coupante pour retrouver le cuivre pur souple, puis insérez-le directement dans le WAGO ou la cosse ronde.
 *   **Troncs Détachables (Busbar ↔ Membre)** : Soudez un XT60 *Femelle* sur le câble qui part du torse. Soudez un XT60 *Mâle* sur celui qui part du bras/jambe. Pour retirer le membre, il suffit de déclipser cette prise.
 *   *Note équipement* : Le câble 14 AWG et les XT60 pompent beaucoup de chaleur. Utilisez un fer puissant (≥ 60W) et n'oubliez pas la gaine thermo-rétractable.
 
