@@ -14,39 +14,87 @@ L'architecture repose sur un bus CAN centralisé et des liaisons USB High-Speed.
 ---
 
 ## 2. Bus CAN (Moteurs Robstride)
+
 C'est la colonne vertébrale du robot. Une erreur ici rend le robot inerte.
 
-### Adaptateur : InnoMaker USB2CAN-C
-*   **Firmware** : `gs_usb` (Natif Linux).
-*   **Configuration Switch** : Mettre le switch **120 \Omega** sur **ON** (si l'adaptateur est en début de chaîne).
-*   **Câblage Bornier** :
-    *   **CAN_H** -> Fil Vert (souvent) du moteur.
-    *   **CAN_L** -> Fil Jaune (souvent) du moteur.
-    *   **GND** -> **CRITIQUE**. Relier la masse de l'USB2CAN à la masse commune des moteurs (Batterie -). Sans ça, le signal flotte et crée des erreurs "Bus Off".
+### Principe du Bus CAN
 
-### Bus de Communication (CAN 1 Mbps)
-Le Bus CAN est le système nerveux du D-Bot. Une erreur de câblage ici rend le robot incontrôlable.
+Le bus CAN (Controller Area Network) est le protocole de communication entre la Jetson et tous les moteurs RobStride. Il fonctionne sur 3 fils :
+- **CAN_H** et **CAN_L** : la paire différentielle (signal)
+- **GND** : la masse commune — **critique**, sans elle le signal "flotte" et génère des erreurs "Bus Off"
 
-#### Règle d'or du Câblage 3 fils
-Bien que différentiel, le CAN exige une référence commune :
-1.  **CAN_H** (Jaune)
-2.  **CAN_L** (Blanc)
-3.  **GND** (Noir) : **CRITIQUE.** Doit relier la borne GND de l'InnoMaker à la masse des moteurs.
-*Note : Le fil rouge (VCC 5V) du Hub Holybro ne doit JAMAIS être connecté aux moteurs alimentés en 48V.*
+Tous les moteurs d'un même bus sont **chaînés en série** (daisy-chain data), du premier au dernier. Le dernier moteur doit porter une **résistance de terminaison 120 Ω** pour éviter les réflexions de signal.
 
-#### Topologie Réseau (Data CAN) : Le Multi-Bus
-Le câblage de communication exige rigueur et méthode à 1 Mbps pour éviter les réflexions et les désynchronisations :
-1.  **En Étoile / Y (Interdit)** : Ne séparez jamais le câble CAN en "Y" au niveau du bassin. Les "stubs" (dérivations) dépassant 30 cm ruinent le signal.
-2.  **Chaîne Unique (Déconseillée)** : Faire une série qui descend jusqu'au pied, puis remonte toute la jambe pour repartir vers la seconde, triple la longueur filaire et les risques de cassure.
-3.  **Multi-Bus (Recommandé)** : C'est le standard des quadrupèdes. Utilisez plusieurs ports CAN matériels sur le Maître (ex: InnoMaker double port). Adressez un Bus 1 indépendant qui descend le long de la jambe gauche, et un Bus 2 pour la jambe droite.
-*   **Terminaison** : Placez les résistances de **120 Ω** sur l'interface maître USB2CAN, ainsi que sur le circuit du TOUT DERNIER moteur en bout de **chaque** bus (le pied de chaque jambe).
+---
 
-#### Module de Débogage Pré-Assemblage (R-Link)
-Pour initialiser vos moteurs, calibrer le firmware et attribuer les ID (1, 2, 3...) via la suite *RobStride Studio*, **un seul module R-Link (USB vers CAN) est suffisant** pour tout votre banc de test.
+### Combien d'InnoMaker USB2CAN-C faut-il ?
+
 > [!IMPORTANT]
-> **Isolation Galvanique** : Veillez à acquérir une version du R-Link *avec* isolation galvanique (Optocoupleur). Faute de quoi, une erreur de câblage sur le banc de test pourrait balancer les 48V de la ligne de puissance directement dans votre port USB, détruisant instantanément la carte mère de votre ordinateur de développement.
+> L'InnoMaker USB2CAN-C est une interface **1 canal CAN** = il gère **1 bus à la fois**. Pour faire fonctionner le robot complet (tous les moteurs en simultané), il vous faut **autant d'InnoMaker que de bus CAN indépendants**.
+
+Avec l'architecture multi-bus recommandée pour le D-Bot (voir ci-dessous), il faudra **3 à 4 InnoMaker** en fonctionnement robot complet :
+
+| Bus CAN | Moteurs couverts | Nb moteurs | InnoMaker requis |
+| :--- | :--- | :---: | :---: |
+| **Bus 1 — Bras** | Bras G + Bras D (RS-04, 03, 06, 02, 00) | 10 | 1 |
+| **Bus 2 — Jambe G** | Hanche G + Genou G + Cheville G (RS-04 ×2, RS-03 ×3) | 5 | 1 |
+| **Bus 3 — Jambe D** | Hanche D + Genou D + Cheville D (même config) | 5 | 1 |
+| **Bus 4 — Cou** | RS-05 Pan + RS-05 Tilt | 2 | 1 |
+| **TOTAL** | 22 moteurs | | **3 à 4 InnoMaker** |
+
+> **Pour l'instant (Phase 1-2, banc de test)** : 1 seul InnoMaker suffit. Vous le branchez sur le bus que vous testez. Les autres bus restent en attente.
+
+Manuel : [usb2can.pdf](./manuels/usb2can.pdf)
+
+---
+
+### Topologie du Câblage Data (CAN)
+
+> [!CAUTION]
+> **Interdiction absolue de faire un "Y" (étoile)** : Ne séparez jamais le câble CAN en dérivation. Les "stubs" (branches) de plus de 30 cm ruinent le signal à 1 Mbps.
+
+La bonne topologie est la **chaîne droite** (daisy-chain) par bus :
+
+```
+InnoMaker USB2CAN
+      │
+   Moteur 1 (ID 1) ── Moteur 2 (ID 2) ── ... ── Moteur N (ID N)
+                                                        │
+                                               [Résistance 120 Ω]
+```
+
+**Règles à respecter :**
+1. Chaque moteur a un **ID unique** sur son bus (configurer via R-Link avant montage)
+2. La résistance **120 Ω** se place uniquement sur **le dernier moteur** de la chaîne (pas sur les intermédiaires)
+3. Le fil **GND** doit relier l'InnoMaker à la masse commune moteurs — le brancher sur la borne **(-)** du busbar ou de l'alim
+
+---
+
+### Configuration de l'InnoMaker USB2CAN-C
+
+*   **Firmware** : `gs_usb` (natif Linux, aucun driver à installer sur la Jetson)
+*   **Switch 120 Ω** : Mettre sur **ON** (l'InnoMaker est toujours en début de chaîne)
+*   **Couleur des fils** (conventions RobStride) :
+    *   **CAN_H** → Fil Jaune
+    *   **CAN_L** → Fil Blanc
+    *   **GND** → Fil Noir (brancher sur le **-** de l'alim / busbar)
+
+---
+
+### Module de Débogage : R-Link (✅ Déjà Acheté)
+
+Le R-Link est un outil de **configuration et debug** uniquement — il ne sert pas à faire tourner le robot. Il sert à :
+- Attribuer les ID (1, 2, 3...) à chaque moteur via *RobStride Studio*
+- Mettre à jour les firmwares moteurs
+- Tester un moteur individuellement sur le banc
+
+**Un seul R-Link suffit** pour configurer tous vos moteurs.
+
+> [!IMPORTANT]
+> **Isolation Galvanique obligatoire** : Assurez-vous que votre R-Link possède une isolation galvanique (optocoupleur). Sans isolation, une erreur de câblage sur le 48V pourrait détruire instantanément le port USB de votre PC de développement.
 
 ___
+
 
 ## 3. Sony Spresense & OAK-D Pro
 
