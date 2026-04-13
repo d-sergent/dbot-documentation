@@ -361,8 +361,8 @@ Batterie 13S NMC 48V (XT90-S / Anderson SB50)
 | **WAGO 221-415 (5 entrées)** | Levier, 32A, 450V, 0.2-4mm² | 4 (×2 par bras) | ✅ Déjà achetés | — |
 | **WAGO 221-413 (3 entrées)** | Levier, 32A, 450V | 6 | ✅ Déjà achetés | — |
 | **Fusibles lame + porte-fusibles** | 30A ×2 (bras) + 50A ×2 (jambes) + 5A ×1 (cou) + 80A ×1 (principal) | 6 | ~3-5 € le lot | Amazon.fr : `"porte-fusible lame automobile en ligne"` |
-| **Pigtails XT60 femelles** | Fils nus 14 AWG, 30 cm | 8 | ~2-3 €/pce | Amazon.fr : `"XT60 female pigtail 14AWG"` |
-| **Pigtails XT30 femelles** | Fils nus 18 AWG, 30 cm | 16 | ~1-2 €/pce | Amazon.fr : `"XT30 female pigtail 18AWG"` |
+| **Connecteurs XT60/XT30 nus** | Mâle/Femelle (pré-étamés) | 1 lot | ✅ Déjà achetés | Fabrication pigtails moteurs & troncs |
+| **Câbles de Puissance** | Silicone 14 AWG et 18 AWG | 1 lot | ✅ Déjà achetés | Fils rouge/noir pour liaisons sur-mesure |
 | **DC-DC 48V→5V** | Buck isolé, 5V 5A (25W) | 1 | ~10-15 € | Amazon.fr : `"48V to 5V DC-DC converter 5A"` |
 | **DC-DC 48V→19V** | Buck, 19V 5A (95W) | 1 | ~15-20 € | Amazon.fr : `"48V to 19V DC-DC converter 5A"` |
 | **Buck 48V→12V 5A** | Entrée ≥ 60V, sortie 12V 5A | 2 | ~10-18 €/pce | Amazon.fr : `"DC DC converter 48V 12V 5A 60W"` |
@@ -387,25 +387,32 @@ Batterie 13S NMC 48V (XT90-S / Anderson SB50)
 - ✅ Bornes acceptant **12-14 AWG** (≥ 2.5 mm²)
 - ✅ Courant nominal **≥ 100A** par rail
 
-#### Principe Sans Soudure
+#### Câblage Mixte (Sur-mesure + Sans Soudure)
 
-Tout le système fonctionne sans soudure grâce à 2 types de connexion :
+L'avantage d'avoir vos propres connecteurs nus est de pouvoir fabriquer des câbles pile à la bonne longueur. Le câblage se fait en deux étapes :
+
+**1. Côté Connecteurs (XT60 / XT30) : Soudure**
+*   **Connexion Moteur ↔ WAGO** : Soudez un XT60 (ou XT30) *Femelle* aux fils rouge/noir (les fils pré-étamés aident beaucoup). L'autre extrémité libre ira dans le WAGO. Vous venez de créer un pigtail sur-mesure !
+*   **Troncs Détachables (Busbar ↔ Membre)** : Soudez un XT60 *Femelle* sur le câble qui part du torse. Soudez un XT60 *Mâle* sur celui qui part du bras/jambe. Pour retirer le membre, il suffit de déclipser cette prise.
+*   *Note équipement* : Le câble 14 AWG et les XT60 pompent beaucoup de chaleur. Utilisez un fer puissant (≥ 60W) et n'oubliez pas la gaine thermo-rétractable.
+
+**2. Côté Busbar et WAGO : Interdiction de souder !**
+Une fois les XT soudés, l'autre extrémité de vos fils (qui se banche sur les répartiteurs) ne doit **jamais** être soudée ou étamée (l'étain est mou et se desserre avec le temps sous la pression).
 
 ```
-BUSBAR : bornes à vis ──────────────────────────────────────────
-  1. Dénuder 8mm du fil
-  2. Insérer dans la borne
-  3. Serrer la vis → contact fait
+WAGO 221 (dans les bras et cou) ──────────────────────────────────
+  1. Dénuder 12mm du câble silicone (cuivre nu pur)
+  2. Ouvrir le levier orange
+  3. Insérer le cuivre nu et fermer. Le ressort garantit la tension à vie.
 
-WAGO 221 : levier à ressort ────────────────────────────────────
-  1. Ouvrir le levier orange
-  2. Insérer le fil dénudé (12mm)
-  3. Fermer le levier → contact à ressort auto-ajusté
-  4. Vérifiable visuellement (boîtier transparent)
+BUSBAR CENTRAL / MINI-BUSBARS (vis M4) ───────────────────────────
+  1. Dénuder le fil
+  2. Insérer le cuivre nu dans une cosse ronde à sertir (Ring Terminal M4)
+  3. Sertir fermement avec une vraie pince à sertir
+  4. Visser la cosse sur le busbar.
+
+  [XT60 soudé] ════ fil 14 AWG sur-mesure ════ [Cosse ronde sertie] ──> Vissé au Busbar
 ```
-
-> [!TIP]
-> **Résumé** : Le torse contient uniquement le busbar central (8 bornes) + les fusibles par zone + les DC-DC. Chaque membre reçoit **un seul câble tronc** qui aboutit à son splitter local (WAGO ou mini-busbar). Architecture propre, modulaire, sûre, et entièrement sans soudure.
 
 ---
 
