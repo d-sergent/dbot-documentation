@@ -39,61 +39,62 @@ Tous les moteurs d'un même bus sont **chaînés en série** (daisy-chain), du p
 - Capacité maximale théorique : 1000 / 130 ≈ **7 moteurs**
 - **Règle pratique retenue : 5-6 moteurs par bus** (marge pour les acquittements et les pics)
 
-| Bus CAN | Moteurs | Nb | Pourcentage du bus |
+| Bus CAN | Moteurs | Nb | % bande passante |
 | :--- | :--- | :---: | :---: |
-| **Bus 1 — Bras G + Cou** | 5 RS (bras) + 2 RS-05 (cou) | **7** | ~91% ⚠️ limite |
-| **Bus 2 — Bras D** | RS-04, RS-03, RS-06, RS-02, RS-00 | **5** | ~65% ✅ |
-| **Bus 3 — Jambe G** | RS-04 ×2, RS-03 ×4 | **6** | ~78% ✅ |
-| **Bus 4 — Jambe D** | RS-04 ×2, RS-03 ×4 | **6** | ~78% ✅ |
+| **Bus Cou** | RS-05 Pan + RS-05 Tilt | **2** | ~26% ✅ |
+| **Bus Bras G** | RS-04, RS-03, RS-02, RS-06, RS-00 | **5** | ~65% ✅ |
+| **Bus Bras D** | RS-04, RS-03, RS-02, RS-06, RS-00 | **5** | ~65% ✅ |
+| **Bus Jambe G** | RS-04 ×2, RS-03 ×4 | **6** | ~78% ✅ |
+| **Bus Jambe D** | RS-04 ×2, RS-03 ×4 | **6** | ~78% ✅ |
 
-> **Les mains (Dynamixel XC430/XC330)** utilisent le protocole **TTL half-duplex** via le module **U2D2** — elles sont **entièrement indépendantes du bus CAN**. Aucun InnoMaker n'est nécessaire pour les mains.
-
-> [!TIP]
-> **Alternative pour Bus 1** : Si 7 moteurs à 1 kHz s'avère instable en pratique, séparer le cou sur un 5e bus (2 moteurs uniquement) est trivial — il suffit d'ajouter un CANable 2.0 supplémentaire (~15€).
+> **Les mains (Dynamixel XC430/XC330)** utilisent le protocole **TTL half-duplex** via le module **U2D2** — elles sont **entièrement indépendantes du bus CAN**. Aucun adaptateur CAN n'est nécessaire pour les mains.
 
 ---
 
 ### Choix du matériel USB2CAN — Étude Comparative
 
-Trois options ont été évaluées pour assurer ces 4 bus depuis la Jetson Orin Nano :
+Trois options ont été évaluées :
 
 | Option | Format | Prix total | Ports USB | Isolation | Verdict |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **4× InnoMaker USB2CAN-C** (simple) | Boîtier ~80×50mm | ~120€ | 4 | ✅ | Trop de ports USB |
-| **2× InnoMaker USB2CAN-X2** (dual) | Boîtier ~80×50mm | ~160€ | 2 | ✅ | Cher, encombrant |
-| **4× CANable 2.0** + hub USB | PCB nu **45×16mm** | **~70-110€** | 1 (hub) | ⚠️ selon version | **✅ Retenu** |
+| **4× InnoMaker USB2CAN-C** (simple) | Boîtier ~80×50mm | ~120€ | 4+ | ✅ | Trop encombrant |
+| **2× InnoMaker USB2CAN-X2** (dual) | Boîtier ~80×50mm | ~160€ | 2 | ✅ | Cher |
+| **1× InnoMaker + 3× CANable Pro** | PCB nu **45×16mm** | **~100-130€** | 4 (hub) | **✅ Isolation 2.5kV** | **✅ Retenu** |
 
-#### Option Retenue : 4× CANable 2.0 + Hub USB alimenté
+#### Architecture Définitive Retenue
 
-Le **CANable 2.0** est un adaptateur USB-CAN open-source ultra-compact (45 × 16 × 1.6 mm, quelques grammes) basé sur un STM32G4. Avec le firmware **candleLight** (préchargé sur la plupart des clones), il apparaît comme une interface `gs_usb` native sous Linux — exactement comme l'InnoMaker que vous possédez déjà.
+| Adaptateur | Bus | Moteurs | Statut |
+| :--- | :--- | :--- | :--- |
+| **InnoMaker USB2CAN-C** | Bus Cou | RS-05 Pan + RS-05 Tilt | ✅ Acheté |
+| **CANable Pro n°1** | Bus Bras G | 5 moteurs RS | À acheter |
+| **CANable Pro n°2** | Bus Bras D | 5 moteurs RS | À acheter |
+| **CANable Pro n°3** | Bus Jambe G | 6 moteurs RS | À acheter |
+| **CANable Pro n°4** | Bus Jambe D | 6 moteurs RS | À acheter |
 
-**Avantages :**
-- **Le plus compact** : s'intègre facilement dans le torse sans encombrer
-- **Le moins cher** : clones AliExpress ~10-20€ pièce, officiel ~30-35€
-- **Compatible ROS2/SocketCAN** sans modification
-- **Terminaison 120Ω** configurable par jumper inclus
-- **Remplacement facile** en cas de panne (pièce standard open-source)
+> **Note** : 4 CANable Pro sont nécessaires pour les membres. Si le budget est contraint, un 1er achat de 3 CANable Pro suffit pour les 2 bras + 1 jambe (Phase 2-3), le 4e s'achète en Phase 4 avec les jambes.
 
-**Point d'attention isolation galvanique :**
+Le **CANable Pro** est la version avec **isolation galvanique 2.5kV** du CANable 2.0 open-source, au même format ultra-compact (45 × 16 mm). Avec le firmware **candleLight**, il apparaît nativement comme interface `gs_usb` sous Linux — identique à l'InnoMaker.
+
+**Sources d'achat :**
+- **[openlightlabs.com](https://openlightlabs.com)** : fabricant officiel, ~45 USD, qualité garantie
+- **AliExpress** : chercher `"CANable Pro isolated 2.5kV"` ou `"USB CAN isolated candleLight"`, ~20-35€
+- **[Tindie.com](https://tindie.com)** : vendeurs vérifiés, ~30-40€
 
 > [!WARNING]
-> La plupart des CANable 2.0 **n'ont pas d'isolation galvanique** (contrairement à votre module de debug). Pour le robot en fonctionnement, cette isolation est moins critique qu'en debug (les masses sont partagées via le busbar commun). Cependant, si un bus subit un court-circuit ou une surtension, l'absence d'isolation peut théoriquement endommager le port USB du hub. **Mitigation** : utiliser un **hub USB alimenté avec protection de surtension**, et non brancher directement à la Jetson.
-
-**Liste d'achat résultante :**
-- **3× CANable 2.0** supplémentaires (vous avez déjà 1× InnoMaker USB2CAN-C pour le Bus 1)
-- **1× hub USB 4 ports alimenté** (avec protection surtension)
+> Sur AliExpress, vérifier que la fiche mentionne explicitement **"2.5kV galvanic isolation"**. Les CANable 2.0 standard (sans isolation) sont souvent vendus sous le même nom.
 
 ```
 Jetson Orin Nano
-    └── Hub USB 4 ports (alimenté)
-         ├── InnoMaker USB2CAN-C (✅ Acheté) → Bus 1 : Bras G + Cou
-         ├── CANable 2.0 n°1              → Bus 2 : Bras D
-         ├── CANable 2.0 n°2              → Bus 3 : Jambe G
-         └── CANable 2.0 n°3              → Bus 4 : Jambe D
+    └── Hub USB (modèle à choisir après liste complète des périphériques)
+         ├── InnoMaker USB2CAN-C (✅ Acheté) → Bus Cou    (RS-05 ×2)
+         ├── CANable Pro n°1    (à acheter) → Bus Bras G (RS-04/03/02/06/00)
+         ├── CANable Pro n°2    (à acheter) → Bus Bras D (idem)
+         ├── CANable Pro n°3    (à acheter) → Bus Jambe G (RS-04 ×2 + RS-03 ×4)
+         └── CANable Pro n°4    (à acheter) → Bus Jambe D (idem)
 
 Dynamixel (Mains) :
-    └── USB direct Jetson → U2D2 Main G
-    └── USB direct Jetson → U2D2 Main D    (protocole TTL, indépendant du CAN)
+    └── Hub USB → U2D2 Main G  (TTL, indépendant CAN)
+    └── Hub USB → U2D2 Main D  (TTL, indépendant CAN)
 ```
 
 ---
