@@ -99,14 +99,14 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 | Composant | Modèle | Note |
 | :--- | :--- | :--- |
 | **Cerveau IA** | **NVIDIA Jetson Orin Nano Super** (8GB, 67 TOPS) | (**✅ Achetée**) |
-| **Vision (Tête)** | [Luxonis OAK-D Pro FF](https://www.mouser.fr/ProductDetail/Luxonis/OAK-D-PRO-FF?qs=Znm5pLBrcAK58KqDdxCLeQ%3D%3D) | Version Fixed-Focus (FF) recommandée (vibrations). |
+| **Vision (Tête)** | [Luxonis OAK-D Pro FF](https://www.mouser.fr/ProductDetail/Luxonis/OAK-D-PRO-FF?qs=Znm5pLBrcAK58KqDdxCLeQ%3D%3D) | (**✅ Achetée**) Version Fixed-Focus (FF) recommandée (vibrations). |
 ### Électronique de Contrôle
 - **Sony Spresense** :
-    - [*Main Board*](https://www.mouser.fr/ProductDetail/Sony-Spresense/CXD5602PWBMAIN1_FG_875607611_P?qs=%252B6g0mu59x7Ifurwfgmhhqg%3D%3D) + [*Extension Board* (Standard)](https://www.mouser.fr/ProductDetail/Sony-Spresense/CXD5602PWBEXT1E_FG_875612931_P?qs=%252B6g0mu59x7IfMFVSCO3mMw%3D%3D).
+    - [*Main Board*](https://www.mouser.fr/ProductDetail/Sony-Spresense/CXD5602PWBMAIN1_FG_875607611_P?qs=%252B6g0mu59x7Ifurwfgmhhqg%3D%3D) + [*Extension Board* (Standard)](https://www.mouser.fr/ProductDetail/Sony-Spresense/CXD5602PWBEXT1E_FG_875612931_P?qs=%252B6g0mu59x7IfMFVSCO3mMw%3D%3D) (**✅ Achetées**).
     - **Note** : La Spresense **ne gère plus l'audio** (remplacé par le ReSpeaker). Ses rôles restants : Watchdog, Power Management, IMU BMI270, FSR, Thermistances.
-- **IMU Torse (Équilibre)** : [**SparkFun 6DoF IMU Breakout - BMI270** (Réf: `SEN-22397`)](https://www.mouser.fr/ProductDetail/SparkFun/SEN-22397?qs=1Kr7Jg1SGW8PccltG0E4HQ%3D%3D) + Câble. 
+- **IMU Torse (Équilibre)** : [**SparkFun 6DoF IMU Breakout - BMI270** (Réf: `SEN-22397`)](https://www.mouser.fr/ProductDetail/SparkFun/SEN-22397?qs=1Kr7Jg1SGW8PccltG0E4HQ%3D%3D) (**✅ Achetée**) + Câble. 
     - **C'est l'IMU principale d'équilibre** du robot (voir [18 — Stratégie IMU](./18_Strategie_IMU_Fusion.md)). 
-    - **Câblage Requis** : Il vous faut impérativement accompagner cette carte d'un **câble adaptateur Qwiic vers Pins Mâles** (Réf Mouser : [Adafruit 4209](https://www.mouser.fr/ProductDetail/Adafruit/4209?qs=PzGy0jfpSMuV28p8L2H4sQ%3D%3D)) pour la brancher facilement sur les pins classiques de la Spresense Extension Board sans faire de soudures compliquées.
+    - **Câblage Requis** : Il vous faut impérativement accompagner cette carte d'un **câble adaptateur Qwiic vers Pins Mâles** (Réf Mouser : [Adafruit 4209](https://www.mouser.fr/ProductDetail/Adafruit/4209?qs=PzGy0jfpSMuV28p8L2H4sQ%3D%3D) **✅ Acheté**) pour la brancher facilement sur les pins classiques de la Spresense Extension Board sans faire de soudures compliquées.
     - *Alternative (Difficile à sourcer)* : La carte `SSCI-079782` (Switch Science) qui s'enfiche directement sur la Spresense reste excellente mais est très dure à trouver en Europe.
 - ~~**SensiEDGE CommonSense**~~ : ⚠️ Remplacée par la BMI270 ci-dessus car introuvable.
 - **Audio (Système Simplifié)** : [**Seeed ReSpeaker XVF-3800 USB 4-Mic Array**](https://www.gotronic.fr) (**✅ Acheté**) + [**CQRobot 5W 8Ω Miniature Speaker (JST-PH2.0)**](https://www.amazon.fr) (**✅ Acheté**)
@@ -118,7 +118,7 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 ### Capteurs d'Équilibre (Phase 4)
 | Composant | Modèle | Quantité | Note |
 | :--- | :--- | :--- | :--- |
-| **IMU Torse** | [SparkFun BMI270 Qwiic (SEN-22397)](https://www.mouser.fr/ProductDetail/SparkFun/SEN-22397?qs=1Kr7Jg1SGW8PccltG0E4HQ%3D%3D) | 1 | IMU primaire d'équilibre — 416 Hz |
+| **IMU Torse** | [SparkFun BMI270 Qwiic (SEN-22397)](https://www.mouser.fr/ProductDetail/SparkFun/SEN-22397?qs=1Kr7Jg1SGW8PccltG0E4HQ%3D%3D) | 1 (**✅ Achetée**) | IMU primaire d'équilibre — 416 Hz |
 | **Capteurs plantaires** | FSR 402 (Force Sensing Resistor) | 8 (4/pied) | Mesure du Centre de Pression (CoP) — connectés aux ADC Spresense |
 | *Alternative IMU* | *Sony Multi-IMU Add-on Board* | *1* | *16 MEMS, précision classe FOG — si besoin haute précision* |
 
