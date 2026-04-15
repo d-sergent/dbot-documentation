@@ -1,5 +1,12 @@
 # Logiciel & Configuration
 
+## 0. Installation de base (JetPack & Accès Distant)
+Pour rappel, la configuration initiale complète du cerveau du D-Bot (Jetson Orin Nano Super) est documentée en annexe :
+- **[40 — Installation JetPack (BalenaEtcher)](./annexes/jetson/40_Installation_JetPack_6.md)** : Flashage de l'image `JP6.2.1` et premier démarrage.
+- **[41 — Accès Distant Headless (NoMachine & SSH)](./annexes/jetson/41_Acces_Distant_NoMachine.md)** : Prise de contrôle du bureau Ubuntu à distance depuis votre Mac.
+
+---
+
 ## 1. NVIDIA Jetson (SocketCAN)
 La configuration du bus CAN est essentielle pour piloter les moteurs Robstride.
 
