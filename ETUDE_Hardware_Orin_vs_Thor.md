@@ -11,21 +11,15 @@
 | **Consommation** | 15W - 60W | **40W - 130W** | +116% (Pointe) |
 | **Disponibilité** | Immédiate | Limité (DevKit d'été 2025) | - |
 
-## 2. Analyse Stratégique : L'approche "Remote Brain"
+## 2. Analyse Stratégique pour le D-Bot
 
-L'idée d'acheter une carte **maintenant** pour déporter les calculs OpenClaw pendant la phase d'étude est **excellente**.
+### Option A : Jetson Orin Nano (8 Go) — Déjà achetée
+- **Avantage** : Légère, consommation très faible (10W-15W).
+- **Inconvénient** : Suffisante pour la cinématique de base (ROS2) et la vision (OAK-D), mais ne pourra pas faire tourner de gros algorithmes d'IA en local si le besoin se présente plus tard.
 
-### Avantages de l'option Hybride (Orin Nano 8 Go + Cloud)
-1. **Poids & Autonomie** : Réduction massive de la consommation (10W vs 60W). Idéal pour maximiser le temps de marche.
-2. **Intelligence Maximum** : Accès aux modèles de pointe (GPT-4o, Claude 3.5) sans les contraintes de RAM locale.
-3. **Sécurité Déportée** : Le Gateway OpenClaw doit être sécurisé via **Tailscale** et un **Token d'authentification**.
-
-## 3. Recommandation pour le D-Bot
-
-> [!TIP]
-> **Le Sweet Spot Immédiat :**
-> - **Option A (Performance)** : Investissez dans une **Jetson AGX Orin 64 Go** pour une autonomie totale et privée.
-> - **Option B (Légèreté)** : Gardez l'**Orin Nano 8 Go** et déportez la réflexion lourde sur votre Mac ou dans le Cloud via un tunnel sécurisé.
+### Option B : Évolution vers Orin AGX (64 Go)
+- **Avantage** : Puissance colossale, permet d'envisager beaucoup plus d'algorithmes et de traitements lourds directement dans le robot.
+- **Inconvénient** : Consommation importante (jusqu'à 60W), ce qui réduit le temps de marche autonome.
 
 ---
-**Conclusion :** N'attendez pas. L'Orin 64 Go déporté est le meilleur investissement pour valider votre architecture logicielle dès aujourd'hui.
+**Conclusion :** L'Orin Nano 8 Go actuelle est parfaite pour finaliser l'assemblage et la marche via ROS2. Le passage à une architecture plus lourde (Orin 64 Go ou Thor) pourra être évalué pour une future itération (V2) en fonction des besoins algorithmiques.

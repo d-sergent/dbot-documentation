@@ -22,7 +22,7 @@ Bienvenue dans la documentation technique du projet de robot humanoïde D-Bot. C
 2.  **[Liste des Achats (BOM)](./02_Liste_Achats.md)** : Composants exacts et liens marchands.
 3.  **[Guide Montage Mécanique](./03_Montage_Mecanique.md)** : Tolérances, roulements et CNC.
 4.  **[Électronique & Câblage](./04_Electronique_Cablage.md)** : Bus CAN, Star Power 48V et PDB.
-5.  **[Logiciel & IA Libre (OpenClaw)](./05_Logiciel_Configuration.md)** : JetPack, ROS2, mROS et Config Agent.
+5.  **[Logiciel & Configuration](./05_Logiciel_Configuration.md)** : JetPack, ROS2, mROS.
 7.  **[Vision et IA](./07_Vision_IA.md)** : OAK-D Pro S2 FF et LiDAR Unitree L2 (V2).
 8.  **[Architecture Audio](./08_Architecture_Audio.md)** : XMOS XVF-3800 et Haut-Parleur.
 18. **[Stratégie IMU et Fusion](./18_Strategie_IMU_Fusion.md)** : Équilibre Bipède (416Hz) et V-SLAM.
