@@ -53,8 +53,8 @@ Le mot de passe de compte vous sera demandé. Vous êtes maintenant connecté.
 6. Acceptez le certificat de sécurité.
 7. Vous avez maintenant accès au bureau du robot en temps réel !
 
-## 4. Pour un fonctionnement "Headless" parfait
+## 4. Fonctionnement "Headless" (Sans écran)
 
-Si la Jetson démarre **sans écran branché** (HDMI ou DP), Ubuntu refuse parfois de générer un bureau virtuel, ce qui bloque NoMachine.
+Si la Jetson démarre **sans écran branché** (HDMI ou DP), le système ne détecte pas de moniteur matériel. 
 
-Pour forcer la résolution à distance (même sans écran), **NoMachine** simule habituellement ce bureau, mais un "HDMI Dummy Plug" (une petite clé USB-HDMI qui trompe la carte graphique) acheté pour ~3€ sur Amazon peut régler nativement tous les problèmes de résolution bloquée si jamais NoMachine affiche un écran tout petit ou noir.
+**Bonne nouvelle confirmée sur le D-Bot (JetPack 6.2.1)** : Contrairement à d'anciennes versions, NoMachine est capable de simuler de lui-même un bureau virtuel fluide. Vous n'avez **pas** besoin d'acheter un "HDMI Dummy Plug" (une petite clé hardware qui trompe la carte graphique) pour conserver l'interface graphique. La prise en main fonctionne immédiatement ("Out-of-the-box") !
