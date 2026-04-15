@@ -76,7 +76,7 @@ Le ReSpeaker ne possédant pas de HP intégré, un **mini haut-parleur 5W / 8Ω*
 
 #### 2.3.1 Intégration Acoustique dans le Crâne (Guide Complet)
 
-![Schéma d'intégration ReSpeaker dans le crâne](./images/respeaker_skull_integration.png)
+![Schéma d'intégration ReSpeaker dans le crâne](./assets/respeaker_skull_integration.png)
 
 ##### A. Les 4 Ouvertures Acoustiques dans le Crâne
 
