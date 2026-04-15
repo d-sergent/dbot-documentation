@@ -58,3 +58,30 @@ Le mot de passe de compte vous sera demandé. Vous êtes maintenant connecté.
 Si la Jetson démarre **sans écran branché** (HDMI ou DP), le système ne détecte pas de moniteur matériel. 
 
 **Bonne nouvelle confirmée sur le D-Bot (JetPack 6.2.1)** : Contrairement à d'anciennes versions, NoMachine est capable de simuler de lui-même un bureau virtuel fluide. Vous n'avez **pas** besoin d'acheter un "HDMI Dummy Plug" (une petite clé hardware qui trompe la carte graphique) pour conserver l'interface graphique. La prise en main fonctionne immédiatement ("Out-of-the-box") !
+
+## 5. Clavier AZERTY (Mac Français) — Configuration validée
+
+Lorsqu'on se connecte depuis un Mac avec un clavier français via NoMachine, certaines touches sont mal interprétées par Ubuntu (ex: `&` devient `à`, `@` et `#` absents). Cela est dû à un conflit entre la traduction faite par NoMachine et le modèle de clavier attendu par Linux.
+
+**Solution validée sur le D-Bot (MacBook Pro FR → Jetson Orin Nano, JetPack 6.2.1) :**
+
+Le modèle `macintosh` (différent de `apple`) est la seule combinaison qui résout le problème en une fois.
+
+**Étape 1 — Mettre à jour le fichier de configuration clavier :**
+```bash
+sudo nano /etc/default/keyboard
+```
+Contenu à mettre :
+```text
+XKBMODEL="macintosh"
+XKBLAYOUT="fr"
+XKBVARIANT=""
+XKBOPTIONS=""
+```
+
+**Étape 2 — Appliquer de manière permanente :**
+```bash
+sudo dpkg-reconfigure keyboard-configuration
+```
+
+**Résultat :** Toutes les touches AZERTY fonctionnent correctement, y compris `@`, `#`, `&`, `é`, `è`, `à`, etc. La configuration survit aux redémarrages.
