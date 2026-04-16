@@ -12,7 +12,7 @@ Ce guide décrit la mise en place du **Bus CAN 1** dédié aux 2 moteurs RobStri
 ![Schéma Câblage CAN - Cou (Bus 1)](../../../assets/can_innomaker_rs05_wiring.png)
 
 ### Points clés du câblage
-- **CAN H** (orange) et **CAN L** (bleu) partent de l'InnoMaker vers un **splitter CAN** central.
+- **CAN H** (rouge) et **CAN L** (noir) partent de l'InnoMaker vers un **splitter CAN** central.
 - Le splitter distribue les 2 fils vers chaque RS-05 **en parallèle**.
 - Chaque RS-05 doit avoir sa **résistance de terminaison 120 Ω** active entre CAN H et CAN L (vérifiez le DIP switch ou jumper intégré à chaque moteur).
 - **L'InnoMaker côté Jetson** doit également avoir sa propre résistance de terminaison 120 Ω (intégrée à l'adaptateur, vérifiez le jumper sur la carte).
