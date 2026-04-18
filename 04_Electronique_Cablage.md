@@ -454,18 +454,19 @@ Batterie 13S NMC 48V (XT90-S / Anderson SB50)
 
 | Composant | Spécification | Qté | Prix | Source |
 | :--- | :--- | :---: | :---: | :--- |
-| **Busbar double 8-12 bornes** | Laiton étamé, 60V+, 100A, couvercle | 1 | ~15-25 € | Amazon.fr : `"dual bus bar 12 way"` / SVB Marine / Seatronic |
+| **Busbar double (12 bornes M4)** | Laiton étamé, 150A, couvercle anti-étincelle | 1 | ✅ Acheté | Amazon / Marine Grade |
 | **Mini-busbars 6 bornes** | Laiton, 60V+, pour bassin jambes | 2 | ~8-12 €/pce | Amazon.fr : `"bus bar 6 way 60V"` |
 | **WAGO 221-415 (5 entrées)** | Levier, 32A, 450V, 0.2-4mm² | 4 (×2 par bras) | ✅ Déjà achetés | — |
 | **WAGO 221-413 (3 entrées)** | Levier, 32A, 450V | 6 | ✅ Déjà achetés | — |
 | **Fusibles lame + porte-fusibles** | 30A ×2 (bras) + 50A ×2 (jambes) + 5A ×1 (cou) + 80A ×1 (principal) | 6 | ~3-5 € le lot | Amazon.fr : `"porte-fusible lame automobile en ligne"` |
 | **Connecteurs XT60/XT30 nus** | Mâle/Femelle (pré-étamés) | 1 lot | ✅ Déjà achetés | Fabrication pigtails moteurs & troncs |
-| **Câbles de Puissance** | Silicone 14 AWG et 18 AWG | 1 lot | ✅ Déjà achetés | Fils rouge/noir pour liaisons sur-mesure |
+| **Câble 18 AWG Silicone** | Rouleau 30m (Rouge + Noir) | 1 | ✅ Acheté | Liaison petits moteurs (RS-05, 00, 02, 06, 03) |
+| **Câble 14 AWG Silicone** | 5m (Rouge + Noir) | 1 | ✅ Acheté | Liaison gros moteurs (RS-04) |
 | **DC-DC 48V→5V** | Buck isolé, 5V 5A (25W) | 1 | ~10-15 € | Amazon.fr : `"48V to 5V DC-DC converter 5A"` |
 | **DC-DC 48V→19V** | Buck, 19V 5A (95W) | 1 | ~15-20 € | Amazon.fr : `"48V to 19V DC-DC converter 5A"` |
 | **Buck 48V→12V 5A** | Entrée ≥ 60V, sortie 12V 5A | 2 | ~10-18 €/pce | Amazon.fr : `"DC DC converter 48V 12V 5A 60W"` |
 | **Bouton E-Stop** | Coup de poing NC | 1 | ~8-12 € | Amazon.fr |
-| **Total estimé** | | | **~100-140 €** | |
+| **Total estimé** | | | **~60-80 €** | |
 
 #### Où Trouver les Busbars
 

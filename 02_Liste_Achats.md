@@ -78,12 +78,12 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 ### Autres Composants Électroniques
 | Composant | Modèle | Quantité | Note |
 | :--- | :--- | :--- | :--- |
-| Distribution Centrale | **Busbar double cuivre 8-12 bornes** 60V/100A, laiton étamé, couvercle | 1 | Torse. Amazon : `"dual bus bar 12 way"` / SVB Marine / Seatronic. ~15-25 € |
+| Distribution Centrale | **Busbar double cuivre (Busbar 2 voies)** 12 x M4, 150A + Couvercle | 1 | (**✅ Acheté**) Torse. Distribution centrale validée 48V/150A. |
 | Distribution Jambes | **Mini-busbars 6 bornes** cuivre, 60V+ | 2 | Splitters locaux bassin G/D. Amazon `"bus bar 6 way marine"`. ~8-12 €/pce |
 | Splitters Bras/Cou | **WAGO 221-413 / 221-415** | 10 (**✅ Achetés**) | Splitters locaux dans les bras (2×WAGO-415 par bras) et le cou (WAGO-413). 32A / 450V sans soudure. |
 | Fusibles par zone | **Porte-fusible lame en ligne** + fusibles 80A ×1 + 50A ×2 + 30A ×2 + 5A ×1 | 6 | Isolation de faute par membre. Amazon `"porte-fusible lame automobile en ligne"`. ~3-5 € le lot |
 | Connecteurs XT60/XT30 | **Connecteurs nus Mâle/Femelle (pré-étamés)** | 1 lot | (**✅ Achetés**) Pour fabriquer les pigtails sur-mesure des moteurs et les troncs détachables. |
-| Câbles de Puissance | **Rouleaux Silicone 14 AWG et 18 AWG** | 1 lot | (**✅ Achetés**) Rouge + Noir. 14 AWG (troncs/gros moteurs), 18 AWG (petits moteurs). |
+| Câbles de Puissance | **Rouleaux Silicone 14 AWG et 18 AWG** | 1 lot | (**✅ Achetés**) Rouge + Noir. 14 AWG (troncs/gros moteurs), 18 AWG (rouleau 30m pour petits moteurs). |
 | Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 (**✅ Achetée**) | Indispensable Phases 1-4 (48V). Limite 3A pour RS-04/05 (voir [§4c](./04_Electronique_Cablage.md#4c-séquence-de-validation--wanptek--batterie)). Manuel : [dps605U.pdf](./manuels/dps605U.pdf). |
 | Interface CAN — Bus Cou | **InnoMaker USB2CAN-C** | 1 (**✅ Acheté**) | Bus Cou : RS-05 Pan + Tilt (2 moteurs). Manuel : [usb2can.pdf](./manuels/usb2can.pdf). |
 | Interface CAN — Bus Membres | **CANable Pro** (isolation galvanique 2.5kV, firmware candleLight) | 4 (à acheter) | 1 par membre (Bras G, Bras D, Jambe G, Jambe D). Achat progressif possible. Sources : [openlightlabs.com](https://openlightlabs.com) ~45 USD, AliExpress `"CANable Pro isolated 2.5kV"` ~20-35€, [Tindie](https://tindie.com) ~30-40€. Vérifier la mention **"2.5kV galvanic isolation"**. |
