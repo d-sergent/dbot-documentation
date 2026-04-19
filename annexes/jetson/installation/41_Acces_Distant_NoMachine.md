@@ -67,7 +67,7 @@ Lorsqu'on se connecte depuis un Mac avec un clavier français via NoMachine, cer
 
 Le modèle `macintosh` (différent de `apple`) est la seule combinaison qui résout le problème en une fois.
 
-**Étape 1 — Mettre à jour le fichier de configuration clavier :**
+**Étape 1 — Mettre à jour le fichier de configuration clavier système :**
 ```bash
 sudo nano /etc/default/keyboard
 ```
@@ -79,9 +79,24 @@ XKBVARIANT=""
 XKBOPTIONS=""
 ```
 
-**Étape 2 — Appliquer de manière permanente :**
+**Étape 2 — Appliquer de manière permanente au niveau système :**
 ```bash
 sudo dpkg-reconfigure keyboard-configuration
 ```
 
-**Résultat :** Toutes les touches AZERTY fonctionnent correctement, y compris `@`, `#`, `&`, `é`, `è`, `à`, etc. La configuration survit aux redémarrages.
+**Étape 3 — Forcer la prise en compte par NoMachine (session graphique) :**
+
+> [!IMPORTANT]
+> NoMachine gère sa propre session graphique et n'applique pas toujours `/etc/default/keyboard`. Il faut également ajouter la commande `setxkbmap` au profil utilisateur pour qu'elle soit exécutée à chaque ouverture de session.
+
+```bash
+echo "setxkbmap -model macintosh -layout fr" >> ~/.profile
+```
+
+Pour appliquer immédiatement sans redémarrer :
+```bash
+setxkbmap -model macintosh -layout fr
+```
+
+**Résultat :** Toutes les touches AZERTY fonctionnent correctement, y compris `@`, `#`, `&`, `é`, `è`, `à`, etc. La configuration survit aux redémarrages et aux reconnexions NoMachine.
+
