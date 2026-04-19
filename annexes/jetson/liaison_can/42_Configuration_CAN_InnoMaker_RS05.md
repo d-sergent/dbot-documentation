@@ -12,11 +12,24 @@ Ce guide décrit la mise en place du **Bus CAN 1** dédié aux moteurs RobStride
 ![Schéma Câblage CAN - Cou (Bus 1)](../../../assets/can_innomaker_rs05_wiring.png)
 
 ### Points clés du câblage
-- **CAN H** (rouge) et **CAN L** (noir) partent de l'InnoMaker vers un **splitter CAN** central.
+- **CAN H** (rouge) et **CAN L** (noir) partent de l'InnoMaker vers un **splitter CAN** central (topologie étoile obligatoire).
 - Le splitter distribue les 2 fils vers chaque RS-05 **en parallèle**.
-- Chaque RS-05 doit avoir sa **résistance de terminaison 120 Ω** active entre CAN H et CAN L (vérifiez le jumper ou micro-switch de la carte).
-- **L'InnoMaker côté Jetson** doit également posséder sa résistance de terminaison 120 Ω (activée en usine ou via cavalier).
 - La **masse (GND)** doit être commune entre la Jetson, l'InnoMaker et les alimentations moteurs pour éviter un bus flottant.
+
+### Résistances de Terminaison 120 Ω — Où les Placer ?
+
+> [!IMPORTANT]
+> Le RS-05 n'ayant **qu'un seul port CAN** (entrée uniquement, pas de sortie), il n'y a aucun cavalier ou DIP switch de terminaison intégré au moteur. C'est une topologie en étoile, et les résistances doivent être placées **sur les câbles**, pas sur les boîtiers moteurs.
+
+Le bus CAN requiert une résistance de **120 Ω à chaque extrémité physique du réseau**. Dans cette topologie étoile, les 3 extrémités sont :
+
+| Extrémité | Résistance | Comment |
+| :--- | :--- | :--- |
+| **InnoMaker (côté Jetson)** | 120 Ω **intégrée en interne** | Activée en usine — vérifiez le cavalier sur la carte ✅ |
+| **Câble RS-05 ID:1** | 120 Ω **à souder sur la prise JST** | Ponter CAN H (rouge) et CAN L (noir) juste avant le connecteur |
+| **Câble RS-05 ID:2** | 120 Ω **à souder sur la prise JST** | Idem |
+
+**Méthode pratique :** Soudez les deux pattes de la résistance 120 Ω directement entre les fils rouge et noir, **juste avant** que le câble n'entre dans le connecteur JST qui se fiche sur le moteur. La résistance doit être sur le câble indépendamment du moteur, de sorte qu'elle reste en place même si vous débranchez le moteur pour maintenance.
 
 ---
 
