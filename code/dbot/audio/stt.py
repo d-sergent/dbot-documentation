@@ -14,10 +14,15 @@ class LocalSTT:
         
         try:
             self.model = WhisperModel(model_size, device=device, compute_type="float16")
-            print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes !")
+            print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes (Accélération GPU) !")
         except Exception as e:
-            print(f"❌ [STT] Erreur critique lors du chargement de Whisper: {e}")
-            print("Êtes-vous sûr d'avoir installé les librairies CUDA nécessaires ?")
+            if "CUDA support" in str(e) or "CUDA" in str(e):
+                print(f"⚠ [STT] CTranslate2 n'est pas compilé pour CUDA. Passage sur le CPU (Cortex-A78)...")
+                # Sur CPU, on utilise 'int8' pour un calcul très rapide sans perte de compréhension
+                self.model = WhisperModel(model_size, device="cpu", compute_type="int8")
+                print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes (Mode CPU) !")
+            else:
+                print(f"❌ [STT] Erreur critique lors du chargement de Whisper: {e}")
 
     def transcribe(self, audio_file_path: str) -> str:
         """
