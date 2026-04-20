@@ -88,79 +88,42 @@ def main():
     if idx is None:
         print("❌ ReSpeaker non détecté. Vérifiez vos ports USB.")
         sys.exit(1)
-        
-    print(f"✅ ReSpeaker détecté (Index PyAudio: {idx}, Sortie ALSA: {alsa_hw})")
-    
-    # Fonction interne pour enregistrer 5 secondes via PyAudio (méthode robuste)
-    def record_5_seconds(output_filename="/tmp/dbot_capture.wav"):
-        CHUNK = 1024
-        FORMAT = pyaudio.paInt16
-        CHANNELS = 2  # Le ReSpeaker envoie 2 canaux traités
-        RATE = 16000
-        
-        p = pyaudio.PyAudio()
-        stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, 
-                        input=True, input_device_index=idx, frames_per_buffer=CHUNK)
-        
-        print("\n🔴 ENREGISTREMENT (5 secondes) - Parlez maintenant !")
-        frames = []
-        for i in range(0, int(RATE / CHUNK * 5)):
-            data = stream.read(CHUNK, exception_on_overflow=False)
-            frames.append(data)
-            
-        stream.stop_stream()
-        stream.close()
-        p.terminate()
-        
-        import audioop
-        raw_data = b''.join(frames)
-        # Prendre uniquement le canal Gauche (1.0, 0.0) pour éviter l'annulation de phase
-        mono_data = audioop.tomono(raw_data, p.get_sample_size(FORMAT), 1.0, 0.0)
-        
-        import wave
-        wf = wave.open(output_filename, 'wb')
-        wf.setnchannels(1)  # Fixé à Mono !
-        wf.setsampwidth(p.get_sample_size(FORMAT))
-        wf.setframerate(RATE)
-        wf.writeframes(mono_data)
-        wf.close()
-        return output_filename
-
     recognizer = sr.Recognizer()
-
+    recognizer.dynamic_energy_threshold = True
+    recognizer.pause_threshold = 0.8  # Attente avant de considérer la phrase finie
+    
     try:
-        # Phrase de démarrage
-        speak("Activation système. Appuyez sur Entrée pour me parler.", alsa_hw)
-        
-        while True:
-            input("\n👉 Appuyez sur [ENTRÉE] puis parlez (Ctrl+C pour quitter)...")
+        # Le XVF3800 fonctionne nativement à 16000 Hz. Forcer cette valeur évite les bugs de resampling ALSA.
+        with sr.Microphone(device_index=idx, sample_rate=16000) as source:
+            print("\n⏳ Calibration du bruit de fond ambiant (1 seconde)...")
+            recognizer.adjust_for_ambient_noise(source, duration=1.0)
             
-            # Enregistre 5 secondes de manière fiable
-            wav_file = record_5_seconds()
+            # Phrase de démarrage
+            speak("Activation système en écoute continue. Parlez naturellement.", alsa_hw)
             
-            print("🔊 Lecture de ce que je viens d'enregistrer (Vérification micro)...")
-            subprocess.run(["aplay", "-D", "plughw:2,0", wav_file], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            
-            print("💭 Traitement audio en cours...")
-            try:
-                # Lecture du fichier WAV fraichement enregistré
-                with sr.AudioFile(wav_file) as source:
-                    audio = recognizer.record(source)
-                
-                # Appel à Google Speech Recognition
-                user_text = recognizer.recognize_google(audio, language="fr-FR")
-                print(f"👤 Vous : \"{user_text}\"")
-                
-                # Analyse du texte par le faux cerveau
-                response = mock_brain(user_text)
-                
-                # Génération et lecture de la réponse vocale
-                speak(response, alsa_hw)
-                
-            except sr.UnknownValueError:
-                print("💭 (Je n'ai pas très bien entendu - Le fichier est sûrement vide)")
-            except sr.RequestError as e:
-                print(f"⚠ Erreur réseau (API Google STT inaccessible) : {e}")
+            while True:
+                print(f"\n👂 Prêt (Écoute continue). Parlez... (Ctrl+C pour quitter)")
+                try:
+                    # timeout=None (attend à l'infini que vous commenciez à parler)
+                    # phrase_time_limit=15 (coupe après 15s si vous parlez sans discontinuer)
+                    audio = recognizer.listen(source, timeout=None, phrase_time_limit=15)
+                    
+                    print("💭 Traitement audio en cours...")
+                    
+                    # Appel à Google Speech Recognition
+                    user_text = recognizer.recognize_google(audio, language="fr-FR")
+                    print(f"👤 Vous : \"{user_text}\"")
+                    
+                    # Analyse du texte par le faux cerveau
+                    response = mock_brain(user_text)
+                    
+                    # Génération et lecture de la réponse vocale
+                    speak(response, alsa_hw)
+                    
+                except sr.UnknownValueError:
+                    print("💭 (Le silence ou le bruit ambiant a été ignoré)")
+                except sr.RequestError as e:
+                    print(f"⚠ Erreur réseau (API Google STT inaccessible) : {e}")
 
     except KeyboardInterrupt:
         print("\n\n🛑 Arrêt de l'assistant.")
