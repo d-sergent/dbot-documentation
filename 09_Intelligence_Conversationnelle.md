@@ -60,3 +60,19 @@ Le cycle est le suivant :
 7. Le système efface les anciens messages de la mémoire (pour rester léger) et recommence à guetter.
 
 **Validation Finale** : Le système fonctionne avec le module WiFi éteint (mode avion), ce qui prouve l'intégrale autonomisation de la réflexion du D-Bot.
+
+---
+
+## 4. Augmentation Cognitive (Tool Use / Function Calling)
+
+Bien que le robot soit conçu pour fonctionner 100% hors-ligne, une capacité matérielle avancée de *"Function Calling"* a été intégrée à son Cerveau (`llm_client.py`) pour lui permettre d'interagir avec le monde extérieur (ex: Internet) de manière autonome.
+
+### Le Principe
+Le modèle `Qwen2.5:3B` est entraîné pour l'utilisation d'outils. Si un humain lui pose une question sur un événement récent qu'il ignore :
+1. Le LLM évalue scrupuleusement ses propres connaissances. S'il n'est pas sûr, il refuse d'halluciner la réponse.
+2. Il génère un ordre JSON système demandant l'utilisation formelle de l'outil `search_web` sur certains mots clés.
+3. Notre code Python intercepte cet ordre, met la voix en pause, et exécute en sous-marin une recherche via la librairie légère `ddgs` (DuckDuckGo).
+4. Python extrait les résumés des 2 premiers articles et les glisse discrètement dans la "mémoire court terme" du robot.
+5. L'IA lit ces faits objectifs ultra-récents et formule finalement sa réponse à voix haute.
+
+**Bénéfice Architectural** : Cette intégration de DuckDuckGo sert de "Preuve de Concept" (Proof of Concept). Puisque le cerveau LLM sait désormais invoquer des fonctions Python locales, il pourra dans le futur utiliser de la même manière des outils physiques comme `lever_bras_gauche()` ou `evaluer_batterie()`.
