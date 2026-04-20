@@ -24,8 +24,9 @@ def main():
             # Caméra principale — .build() configure le socket
             cam = pipeline.create(dai.node.Camera).build(dai.CameraBoardSocket.CAM_A)
 
-            # requestOutput crée le flux + le lien XLink automatiquement
+            # requestOutput crée le flux — createOutputQueue() est obligatoire
             video_out = cam.requestOutput((640, 360), dai.ImgFrame.Type.BGR888p)
+            queue = video_out.createOutputQueue()
 
             # Démarrage du pipeline (connexion à la caméra)
             pipeline.start()
@@ -33,8 +34,8 @@ def main():
             print("Appuyez sur 'q' dans la fenêtre pour quitter.")
 
             while pipeline.isRunning():
-                # Récupération du frame directement via video_out
-                frame_data = video_out.get()
+                # Récupération du frame via la queue
+                frame_data = queue.get()
                 if frame_data is not None:
                     frame = frame_data.getCvFrame()
                     cv2.imshow("OAK‑D Pro – Vue D‑Bot", frame)
