@@ -8,7 +8,7 @@ Appuyez sur **q** pour quitter.
 
 import cv2
 import depthai as dai
-from depthai import XLinkOut  # Import explicite du nœud de sortie (nouveau API)
+# XLinkOut is accessed via dai.node.XLinkOut (no direct import needed)
 
 
 def main():
@@ -31,7 +31,7 @@ def main():
     cam_rgb.setPreviewKeepAspectRatio(True)
 
     # 3️⃣ Sortie vers l’hôte (XLinkOut)
-    xout_rgb = pipeline.create(XLinkOut)
+    xout_rgb = pipeline.create(dai.node.XLinkOut)
     xout_rgb.setStreamName("rgb")
     cam_rgb.preview.link(xout_rgb.input)
 
