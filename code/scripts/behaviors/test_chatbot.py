@@ -114,8 +114,8 @@ def main():
         
         import audioop
         raw_data = b''.join(frames)
-        # Mix down Stereo (2 channels) to Mono (1 channel) for STT compatibility
-        mono_data = audioop.tomono(raw_data, p.get_sample_size(FORMAT), 0.5, 0.5)
+        # Prendre uniquement le canal Gauche (1.0, 0.0) pour éviter l'annulation de phase
+        mono_data = audioop.tomono(raw_data, p.get_sample_size(FORMAT), 1.0, 0.0)
         
         import wave
         wf = wave.open(output_filename, 'wb')
@@ -126,8 +126,6 @@ def main():
         wf.close()
         return output_filename
 
-    recognizer = sr.Recognizer()
-
     try:
         # Phrase de démarrage
         speak("Activation système. Appuyez sur Entrée pour me parler.", alsa_hw)
@@ -137,6 +135,9 @@ def main():
             
             # Enregistre 5 secondes de manière fiable
             wav_file = record_5_seconds()
+            
+            print("🔊 Lecture de ce que je viens d'enregistrer (Vérification micro)...")
+            subprocess.run(["aplay", "-D", "plughw:2,0", wav_file], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             
             print("💭 Traitement audio en cours...")
             try:
@@ -155,7 +156,7 @@ def main():
                 speak(response, alsa_hw)
                 
             except sr.UnknownValueError:
-                print("💭 (Je n'ai pas très bien entendu)")
+                print("💭 (Je n'ai pas très bien entendu - Le fichier est sûrement vide)")
             except sr.RequestError as e:
                 print(f"⚠ Erreur réseau (API Google STT inaccessible) : {e}")
 
