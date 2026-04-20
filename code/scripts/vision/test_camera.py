@@ -1,54 +1,54 @@
 #!/usr/bin/env python3
 """
-scripts/vision/test_camera.py — Test vidéo OAK‑D Pro (DepthAI 2.x)
+scripts/vision/test_camera.py — Test vidéo OAK‑D Pro (DepthAI 3.x)
 ===================================================================
-Affiche le flux RGB de la caméra OAK‑D Pro dans une fenêtre OpenCV.
+Affiche le flux RGB de la caméra OAK‑D Pro dans une fenêtre OpenCV.
+API compatible DepthAI 3.x (node.Camera.build + requestOutput).
 Appuyez sur **q** pour quitter.
 """
-
 import cv2
 import depthai as dai
-# XLinkOut is accessed via dai.node.XLinkOut (no direct import needed)
 
 
 def main():
     print("=" * 50)
     print("  D‑Bot — Test Vidéo OAK‑D Pro")
     print("=" * 50)
-    print("Initialisation du pipeline DepthAI...")
+    print("Initialisation du pipeline DepthAI 3.x...")
 
     # 1️⃣ Pipeline
     pipeline = dai.Pipeline()
 
-    # 2️⃣ Caméra couleur – utilisation du nouveau nœud Camera
-    cam_rgb = pipeline.create(dai.node.Camera)
-    cam_rgb.setBoardSocket(dai.CameraBoardSocket.CAM_A)  # Caméra principale
-    cam_rgb.setResolution(dai.CameraResolution.THE_1080_P)
-    cam_rgb.setInterleaved(False)
-    cam_rgb.setColorOrder(dai.ColorCameraProperties.ColorOrder.BGR)
-    cam_rgb.setFps(30)
-    cam_rgb.setPreviewSize(640, 360)
-    cam_rgb.setPreviewKeepAspectRatio(True)
+    # 2️⃣ Caméra couleur — API DepthAI 3.x
+    #    .build() remplace setBoardSocket() + setResolution() séparés
+    cam = pipeline.create(dai.node.Camera).build(dai.CameraBoardSocket.CAM_A)
 
-    # 3️⃣ Sortie vers l’hôte (XLinkOut)
-    xout_rgb = pipeline.create(dai.node.XLinkOut)
-    xout_rgb.setStreamName("rgb")
-    cam_rgb.preview.link(xout_rgb.input)
+    # 3️⃣ Flux de sortie en 640×360 BGR pour l'affichage
+    video_out = cam.requestOutput(
+        (640, 360),
+        type=dai.ImgFrame.Type.BGR888p,
+    )
 
-    # 4️⃣ Connexion et boucle d’affichage
+    # 4️⃣ Nœud XLinkOut → envoie le flux vers l'hôte (Jetson)
+    xout = pipeline.create(dai.node.XLinkOut)
+    xout.setStreamName("rgb")
+    video_out.link(xout.input)
+
+    # 5️⃣ Connexion et boucle d'affichage
     try:
         with dai.Device(pipeline) as device:
             print("✅ Caméra connectée avec succès.")
-            print("Affichage du flux vidéo – appuyez sur 'q' pour quitter.")
-            q_rgb = device.getOutputQueue(name="rgb", maxSize=4, blocking=False)
+            print("Appuyez sur 'q' dans la fenêtre pour quitter.")
+            q = device.getOutputQueue(name="rgb", maxSize=4, blocking=False)
             while True:
-                in_rgb = q_rgb.get()          # récupère le frame
-                frame = in_rgb.getCvFrame()
+                frame = q.get().getCvFrame()
                 cv2.imshow("OAK‑D Pro – Vue D‑Bot", frame)
                 if cv2.waitKey(1) == ord('q'):
                     break
     except Exception as e:
-        print(f"❌ Erreur lors de la connexion à la caméra : {e}")
+        print(f"❌ Erreur : {e}")
+    finally:
+        cv2.destroyAllWindows()
 
 
 if __name__ == '__main__':
