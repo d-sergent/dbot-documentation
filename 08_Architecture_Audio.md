@@ -151,6 +151,11 @@ Extérieur    Crâne PETG-CF    Anneau TPU 95A     ReSpeaker PCB
   # '2' correspond à l'index de la carte ReSpeaker (hw:2)
   amixer -c 2 sset 'PCM',0 100%
   ```
+
+> [!CAUTION]
+> **Ne pas brancher le ReSpeaker sur le port USB-C de la Jetson Orin Nano !**
+> Le port USB-C supporte les flux audio sortants (haut-parleur ✅) mais ne remonte pas correctement les flux audio entrants isochrones (microphone ❌). Linux enregistrera du silence pur malgré une détection apparemment correcte du périphérique.
+> **Toujours utiliser un port USB-A (bleu) pour le ReSpeaker.**
 - **DoA via ROS2** : Le ReSpeaker publie les données DoA sur **`/audio/doa`** (via un nœud ROS2 léger, basé sur le package `respeaker_ros2`). Le cou Pan/Tilt s'oriente automatiquement vers la source sonore.
 - **"Muzzle" ROS2** : Le nœud de contrôle audio baisse algorithmiquement la sensibilité d'écoute lorsque les moteurs forcent, ignorant les bruits mécaniques.
 
