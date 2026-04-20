@@ -47,6 +47,8 @@ def main():
             print("✅ Caméra connectée avec succès.\n")
 
             saved = 0
+            warmup = 0
+            WARMUP_FRAMES = 30   # laisse l'auto-exposition se stabiliser
             while pipeline.isRunning():
                 frame_data = queue.get()
                 if frame_data is None:
@@ -59,6 +61,12 @@ def main():
                         pipeline.stop()
                         break
                 else:
+                    # Warm-up : attendre que l'auto-exposition se stabilise
+                    if warmup < WARMUP_FRAMES:
+                        warmup += 1
+                        if warmup == 1:
+                            print(f"  ⏳ Warm-up auto-exposition ({WARMUP_FRAMES} frames)...")
+                        continue
                     # Sauvegarde sur disque
                     path = f"{SAVE_DIR}/frame_{saved:03d}.jpg"
                     ok = cv2.imwrite(path, frame)
