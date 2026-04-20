@@ -34,7 +34,7 @@ Bâtir une IA locale sur les 8 Go d'une Jetson comporte quelques pièges majeurs
 **Cause** : Le modèle de 1,9 Go essayait d'allouer un énorme bloc dans la mémoire unifiée CUDA de la Jetson. Or, le bureau `NoMachine`, l'interface `GNOME` d'Ubuntu et d'autres outils fragmentaient déjà 5 à 6 Go des 8 Go totaux.
 **Solution** :
 1. Fermeture complète de l'application NoMachine (qui utilise énormément la VRAM/RAM).
-2. Forçage du mode "Terminal/Console pure" (tue le processeur d'interface graphique) : `sudo systemctl isolate multi-user.target`.
+2. Forçage du mode "Terminal/Console pure" (tue le processeur d'interface graphique) : `sudo systemctl isolate multi-user.target` *(Note : pour réactiver le bureau plus tard, utilisez la commande inverse `sudo systemctl isolate graphical.target`)*.
 3. Purge des caches Linux : `sudo sysctl -w vm.drop_caches=3`.
 4. Ajout vital d'un espace **SWAP (fichier d'échange) de 10 Go** sur le SSD NVMe (`sudo fallocate -l 10G /swapfile ...`). Ce fichier permet à Ubuntu de déporter temporairement les processus inutiles sur le disque pour libérer un grand bloc complet de RAM physique pour CUDA.
 5. Activation du profil de performance maximale de la Jetson : `sudo nvpmodel -m 0`.
