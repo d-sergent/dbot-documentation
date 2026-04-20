@@ -13,6 +13,6 @@ setup(
     ],
     extras_require={
         'vision': ['depthai>=2.24.0', 'flask>=2.0.0'],
-        'audio':  ['pyaudio>=0.2.14', 'numpy>=1.24.0'],
+        'audio':  ['pyaudio>=0.2.14', 'numpy>=1.24.0', 'SpeechRecognition>=3.10.0', 'gTTS>=2.4.0'],
     },
 )
