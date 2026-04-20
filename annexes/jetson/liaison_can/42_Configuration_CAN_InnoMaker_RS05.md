@@ -16,20 +16,20 @@ Ce guide décrit la mise en place du **Bus CAN 1** dédié aux moteurs RobStride
 - Le splitter distribue les 2 fils vers chaque RS-05 **en parallèle**.
 - La **masse (GND)** doit être commune entre la Jetson, l'InnoMaker et les alimentations moteurs pour éviter un bus flottant.
 
-### Résistances de Terminaison 120 Ω — Où les Placer ?
+### Résistances de Terminaison 120 Ω — Nécessaires ?
 
-> [!IMPORTANT]
-> Le RS-05 n'ayant **qu'un seul port CAN** (entrée uniquement, pas de sortie), il n'y a aucun cavalier ou DIP switch de terminaison intégré au moteur. C'est une topologie en étoile, et les résistances doivent être placées **sur les câbles**, pas sur les boîtiers moteurs.
+> [!NOTE]
+> **Validé D-Bot (câbles courts < 30 cm) :** Les résistances de terminaison se sont révélées **non nécessaires** avec les câbles courts du cou du robot. Le bus fonctionne correctement sans elles dans cette configuration.
 
-Le bus CAN requiert une résistance de **120 Ω à chaque extrémité physique du réseau**. Dans cette topologie étoile, les 3 extrémités sont :
+La règle théorique du protocole CAN impose 120 Ω à chaque extrémité du bus. En pratique :
 
-| Extrémité | Résistance | Comment |
-| :--- | :--- | :--- |
-| **InnoMaker (côté Jetson)** | 120 Ω **intégrée en interne** | Activée en usine — vérifiez le cavalier sur la carte ✅ |
-| **Câble RS-05 ID:1** | 120 Ω **à souder sur la prise JST** | Ponter CAN H (rouge) et CAN L (noir) juste avant le connecteur |
-| **Câble RS-05 ID:2** | 120 Ω **à souder sur la prise JST** | Idem |
+| Longueur des câbles | Résistances nécessaires ? |
+| :--- | :--- |
+| **< 30 cm** (cas du cou D-Bot) | ❌ Non requises — validé en conditions réelles |
+| **30 cm – 1 m** | ⚠️ Recommandées (erreurs sporadiques possibles) |
+| **> 1 m** | ✅ Obligatoires (erreurs `Bus-off` garanties sans elles) |
 
-**Méthode pratique :** Soudez les deux pattes de la résistance 120 Ω directement entre les fils rouge et noir, **juste avant** que le câble n'entre dans le connecteur JST qui se fiche sur le moteur.
+Si vous devez en ajouter (câbles longs ou futurs membres), placez une résistance 120 Ω **sur le câble lui-même** en pontant CAN H (rouge) et CAN L (noir) juste avant le connecteur JST moteur — l'InnoMaker possède la sienne intégrée en interne.
 
 ---
 
@@ -210,6 +210,78 @@ with can.Bus(interface='socketcan', channel='can0') as bus:
     print("✅ Test terminé !")
 ```
 
+### 5.4. Script ±20° sur 2 Moteurs (Cou Pan + Tilt)
+
+Alimentez la Wanptek à **24V / 5A** (limite OCP activée) pour supporter les 2 moteurs en simultané. **Validé en conditions réelles.**
+
+> [!CAUTION]
+> Assurez-vous que les axes des 2 moteurs sont **libres de tourner** avant de lancer ce script.
+
+```python
+import can
+import robstride
+import time
+import math
+
+ANGLE_DEG = 20
+ANGLE_RAD = math.radians(ANGLE_DEG)  # 0.349 rad
+
+with can.Bus(interface='socketcan', channel='can0') as bus:
+    rs = robstride.Client(bus)
+
+    # Détection des 2 moteurs
+    for mid in [1, 2]:
+        try:
+            mode = rs.read_param(mid, 'run_mode')
+            print(f"✅ Moteur ID:{mid} détecté — Mode = {mode}")
+        except:
+            print(f"❌ Moteur ID:{mid} introuvable — vérifiez le branchement")
+            exit()
+
+    # Passage en mode Position
+    for mid in [1, 2]:
+        rs.write_param(mid, 'run_mode', robstride.RunMode.Position)
+    time.sleep(0.1)
+
+    # Activation
+    resp1 = rs.enable(1)
+    resp2 = rs.enable(2)
+    print(f"\nPositions de départ : ID1={math.degrees(resp1.angle):.1f}° | ID2={math.degrees(resp2.angle):.1f}°")
+
+    # Mouvement +20°
+    print(f"\n→ Les 2 moteurs à +{ANGLE_DEG}°...")
+    rs.write_param(1, 'loc_ref', ANGLE_RAD)
+    rs.write_param(2, 'loc_ref', ANGLE_RAD)
+    time.sleep(2.0)
+    p1 = rs.read_param(1, 'mechpos')
+    p2 = rs.read_param(2, 'mechpos')
+    print(f"   ID1={math.degrees(p1):.1f}° | ID2={math.degrees(p2):.1f}°")
+
+    time.sleep(1.0)
+
+    # Mouvement -20°
+    print(f"\n→ Les 2 moteurs à -{ANGLE_DEG}°...")
+    rs.write_param(1, 'loc_ref', -ANGLE_RAD)
+    rs.write_param(2, 'loc_ref', -ANGLE_RAD)
+    time.sleep(2.0)
+    p1 = rs.read_param(1, 'mechpos')
+    p2 = rs.read_param(2, 'mechpos')
+    print(f"   ID1={math.degrees(p1):.1f}° | ID2={math.degrees(p2):.1f}°")
+
+    time.sleep(1.0)
+
+    # Retour à 0
+    print("\n→ Retour à 0°...")
+    rs.write_param(1, 'loc_ref', 0.0)
+    rs.write_param(2, 'loc_ref', 0.0)
+    time.sleep(2.0)
+
+    # Désactivation
+    rs.disable(1)
+    rs.disable(2)
+    print("\n✅ Test terminé — 2 moteurs désactivés.")
+```
+
 ---
 
 ## 6. Référence Paramètres Disponibles
@@ -240,7 +312,7 @@ with can.Bus(interface='socketcan', channel='can0') as bus:
 | :--- | :--- | :--- |
 | **`can0` absent dans `ip link`** | Driver non chargé | `sudo modprobe gs_usb` |
 | **`candump` vide au boot moteur** | Câblage incorrect ou alim absente | Vérifier alim 24-48V et couleurs Rouge=CANH, Noir=CANL |
-| **Erreur `Bus-off`** | Résistance de terminaison manquante | Souder 120 Ω entre Rouge et Noir sur le câble JST moteur |
+| **Erreur `Bus-off`** | Câble trop long sans terminaison | Souder 120 Ω entre Rouge et Noir sur le câble JST si câbles > 30cm |
 | **`OSError: [Errno 100]`** | Interface réseau à l'état DOWN | `sudo ip link set can0 up` |
 | **`No response from motor`** | Moteur non alimenté ou ID incorrect | Vérifier l'alim 24-48V, tester ID 1 et 2 |
 | **Mauvais CAN ID reçu** | Conflit d'ID sur le bus | Reconfigurer les IDs via RobStride MotorStudio sur PC |
