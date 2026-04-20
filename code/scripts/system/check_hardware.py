@@ -26,14 +26,19 @@ CHECKS = {
         "expect": "03e7",   # Vendor ID Luxonis
         "fix": "Brancher l'OAK-D Pro en USB3",
     },
-}
-
-OPTIONAL_CHECKS = {
     "ReSpeaker USB": {
         "cmd": "lsusb",
         "expect": "2886",   # Seeed (ReSpeaker)
-        "fix": "Brancher le ReSpeaker USB",
+        "fix": "Brancher le ReSpeaker XVF-3800",
     },
+    "Udev Rules OAK-D": {
+        "cmd": "ls /etc/udev/rules.d/99-depthai.rules",
+        "expect": "99-depthai.rules",
+        "fix": "sudo tee /etc/udev/rules.d/99-depthai.rules <<< 'SUBSYSTEM==\"usb\", ATTR{idVendor}==\"03e7\", MODE=\"0666\"' && sudo udevadm control --reload-rules",
+    },
+}
+
+OPTIONAL_CHECKS = {
 }
 
 
