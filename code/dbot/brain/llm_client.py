@@ -3,11 +3,11 @@ import time
 import json
 
 try:
-    from duckduckgo_search import DDGS
+    from ddgs import DDGS
     HAS_DDGS = True
 except ImportError:
     HAS_DDGS = False
-    print("⚠ [Cerveau] duckduckgo-search non installé. Exécutez : pip3 install duckduckgo-search")
+    print("⚠ [Cerveau] ddgs non installé. Exécutez : pip3 install ddgs")
 
 def perform_web_search(query: str) -> str:
     """Interroge discrètement DuckDuckGo et retourne un résumé brut."""
