@@ -135,6 +135,22 @@ eog /tmp/dbot_frames/   # Eye of GNOME (Ubuntu)
 python3 code/scripts/vision/test_camera.py --display
 ```
 
+### 5.4 Mode Affichage Local Réseau (Stream Wi-Fi)
+
+La méthode la plus confortable (et recommandée) pour visualiser le flux tout en codant, sans écran branché et pour contourner les limitations de rendu de NoMachine, est de lancer le serveur de streaming embarqué. Le flux s'affichera directement dans le navigateur Safari/Chrome de votre Mac.
+
+1. **Sur la Jetson** (assurez-vous d'avoir installé `flask`) :
+   ```bash
+   python3 code/scripts/vision/stream_camera.py
+   ```
+2. **Sur votre Mac** (ou téléphone connecté au même Wi-Fi) :
+   Ouvrez un navigateur Web et accédez à : `http://<IP_DE_LA_JETSON>:5000`
+
+Vous obtiendrez un rendu en temps réel !
+
+> [!TIP]
+> Pour **arrêter la caméra et fermer le stream**, allez simplement dans le terminal de la Jetson et appuyez sur la combinaison clavier **`Ctrl + C`**.
+
 ---
 
 ## 6. Dépannage
