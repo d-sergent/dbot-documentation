@@ -42,11 +42,14 @@ Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Na
 
 ### 2.2 Haut-Parleur Externe (TTS)
 
-Le ReSpeaker ne possédant pas de HP intégré, un **mini haut-parleur 5W / 8Ω** est connecté via le port JST de la carte.
+> [!IMPORTANT]
+> **Ouverture du Boîtier Obligatoire** : Pour utiliser le haut-parleur suggéré, il est nécessaire de dévisser le boîtier en plastique du ReSpeaker. Le connecteur JST (1.25mm) est situé directement sur le PCB.
+> 
+> **Lien AEC (Hardware Echo Cancellation)** : Le HP **doit** être branché sur le port JST interne du ReSpeaker. Si vous branchez un HP séparé sur la Jetson, la fonction d'annulation d'écho matérielle (AEC) ne fonctionnera pas, empêchant ainsi le robot de vous entendre pendant qu'il parle.
 
 | Composant | Spécification | Prix |
 | :--- | :--- | :---: |
-| HP 5W 8Ω (40mm) | Connecteur JST, ~20 g | ~5 € |
+| HP 5W 8Ω (40mm) | Connecteur JST 1.25, ~20 g | ~5 € |
 
 ### 2.3 Placement dans le Robot
 
