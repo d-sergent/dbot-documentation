@@ -223,38 +223,8 @@ Un bus CAN correctement câblé a **exactement 2 résistances de terminaison de 
 
 Une fois les deux IDs validés simultanément sur MotorStudio, la configuration matérielle est terminée.
 
-### Étape A — Intégration Jetson via InnoMaker USB2CAN-C
-
-1. Remplacer le module de debug CAN-to-USB par l'**InnoMaker USB2CAN-C** (interface Linux/ROS2 — voir Doc 04 §2).
-2. Configurer le bus CAN sous Linux :
-```bash
-sudo ip link set can0 up type can bitrate 1000000
-ip link show can0   # vérifier l'état
-candump can0        # écouter le trafic brut (les 2 moteurs doivent envoyer)
-```
-3. Vérifier que les deux nœuds (ID 1 et 2) transmettent des trames.
-
-### Étape B — Intégration ROS2 (Contrôleur Cou)
-
-1. Lancer le nœud RobStride ROS2 :
-```bash
-ros2 run robstride_driver robstride_node --ros-args -p can_channel:=can0
-```
-2. Vérifier les topics :
-```bash
-ros2 topic list    # doit montrer /neck/pan/cmd et /neck/tilt/cmd
-ros2 topic echo /neck/pan/state
-```
-
-### Étape C — Test Stabilisation Regard (OAK-D Pro)
-
-1. Connecter l'OAK-D Pro (USB3 → Jetson).
-2. Lancer le nœud de suivi de visage (Isaac ROS FaceDetect ou MediaPipe).
-3. Valider que le cou suit la cible visuelle en temps réel sans oscillation (ajuster Kd si besoin).
-
-### Étape D — Intégration URDF ROS2
-
-Reporter les limites du Doc 32 §3.2 dans le fichier URDF du robot pour que MoveIt2 puisse planifier des trajectoires valides.
+> [!NOTE]
+> La suite (intégration Jetson via InnoMaker, scripts Python validés, et roadmap ROS2) est documentée dans la **[Doc 43 — Tests Cou Python & ROS2](../../jetson/liaison_can/43_Tests_Cou_Python_ROS2.md)**.
 
 ---
 
@@ -267,4 +237,4 @@ Reporter les limites du Doc 32 §3.2 dans le fichier URDF du robot pour que Move
 | **USB (PC/Jetson)** | USB-A → USB-C standard | standard | N/A |
 
 ---
-*Document créé Avril 2026 — Complément à la Doc 32 ; précède l'intégration Jetson/ROS2.*
+*Document créé Avril 2026 — Complément à la Doc 32 ; précède l'intégration Jetson/ROS2 (voir Doc 43).*
