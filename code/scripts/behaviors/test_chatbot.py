@@ -126,6 +126,8 @@ def main():
         wf.close()
         return output_filename
 
+    recognizer = sr.Recognizer()
+
     try:
         # Phrase de démarrage
         speak("Activation système. Appuyez sur Entrée pour me parler.", alsa_hw)
