@@ -91,43 +91,66 @@ def main():
         
     print(f"✅ ReSpeaker détecté (Index PyAudio: {idx}, Sortie ALSA: {alsa_hw})")
     
-    recognizer = sr.Recognizer()
-    
-    # Rendre le micro ultra sensible
-    recognizer.dynamic_energy_threshold = False
-    recognizer.energy_threshold = 50  # Sensibilité maximale
-    recognizer.pause_threshold = 0.8  # Attente avant de considérer la phrase finie
-    
+    # Fonction interne pour enregistrer 5 secondes via PyAudio (méthode robuste)
+    def record_5_seconds(output_filename="/tmp/dbot_capture.wav"):
+        CHUNK = 1024
+        FORMAT = pyaudio.paInt16
+        CHANNELS = 2  # Le ReSpeaker envoie 2 canaux traités
+        RATE = 16000
+        
+        p = pyaudio.PyAudio()
+        stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, 
+                        input=True, input_device_index=idx, frames_per_buffer=CHUNK)
+        
+        print("\n🔴 ENREGISTREMENT (5 secondes) - Parlez maintenant !")
+        frames = []
+        for i in range(0, int(RATE / CHUNK * 5)):
+            data = stream.read(CHUNK, exception_on_overflow=False)
+            frames.append(data)
+            
+        stream.stop_stream()
+        stream.close()
+        p.terminate()
+        
+        import wave
+        wf = wave.open(output_filename, 'wb')
+        wf.setnchannels(CHANNELS)
+        wf.setsampwidth(p.get_sample_size(FORMAT))
+        wf.setframerate(RATE)
+        wf.writeframes(b''.join(frames))
+        wf.close()
+        return output_filename
+
     try:
-        # Le XVF3800 fonctionne nativement à 16000 Hz. Forcer cette valeur évite les bugs de resampling ALSA.
-        with sr.Microphone(device_index=idx, sample_rate=16000) as source:
+        # Phrase de démarrage
+        speak("Activation système. Appuyez sur Entrée pour me parler.", alsa_hw)
+        
+        while True:
+            input("\n👉 Appuyez sur [ENTRÉE] puis parlez (Ctrl+C pour quitter)...")
             
-            # Phrase de démarrage
-            speak("Activation système. Je vous écoute.", alsa_hw)
+            # Enregistre 5 secondes de manière fiable
+            wav_file = record_5_seconds()
             
-            while True:
-                print(f"\n👂 Prêt (Seuil: {recognizer.energy_threshold}). Parlez... (Ctrl+C pour quitter)")
-                try:
-                    # timeout=None (attend à l'infini que vous commenciez à parler)
-                    # phrase_time_limit=10 (coupe après 10s si vous parlez sans discontinuer)
-                    audio = recognizer.listen(source, timeout=None, phrase_time_limit=10)
-                    
-                    print("💭 Traitement audio en cours...")
-                    
-                    # Appel à Google Speech Recognition
-                    user_text = recognizer.recognize_google(audio, language="fr-FR")
-                    print(f"👤 Vous : \"{user_text}\"")
-                    
-                    # Analyse du texte par le faux cerveau
-                    response = mock_brain(user_text)
-                    
-                    # Génération et lecture de la réponse vocale
-                    speak(response, alsa_hw)
-                    
-                except sr.UnknownValueError:
-                    print("💭 (Je n'ai pas compris ce qui a été dit)")
-                except sr.RequestError as e:
-                    print(f"⚠ Erreur réseau (API Google STT inaccessible) : {e}")
+            print("💭 Traitement audio en cours...")
+            try:
+                # Lecture du fichier WAV fraichement enregistré
+                with sr.AudioFile(wav_file) as source:
+                    audio = recognizer.record(source)
+                
+                # Appel à Google Speech Recognition
+                user_text = recognizer.recognize_google(audio, language="fr-FR")
+                print(f"👤 Vous : \"{user_text}\"")
+                
+                # Analyse du texte par le faux cerveau
+                response = mock_brain(user_text)
+                
+                # Génération et lecture de la réponse vocale
+                speak(response, alsa_hw)
+                
+            except sr.UnknownValueError:
+                print("💭 (Je n'ai pas très bien entendu)")
+            except sr.RequestError as e:
+                print(f"⚠ Erreur réseau (API Google STT inaccessible) : {e}")
 
     except KeyboardInterrupt:
         print("\n\n🛑 Arrêt de l'assistant.")
