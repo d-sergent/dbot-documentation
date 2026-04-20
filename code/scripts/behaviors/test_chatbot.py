@@ -93,22 +93,22 @@ def main():
     
     recognizer = sr.Recognizer()
     
-    # Ajustement de paramètres pour la reconnaissance (Bruit de fond)
-    recognizer.dynamic_energy_threshold = True
+    # Rendre le micro très sensible (désactiver le réglage auto qui échoue souvent)
+    recognizer.dynamic_energy_threshold = False
+    recognizer.energy_threshold = 150  # 300 est la valeur par défaut. 150 capte des sons plus faibles.
     recognizer.pause_threshold = 0.8  # Attente avant de considérer la phrase finie
     
     try:
         with sr.Microphone(device_index=idx) as source:
-            print("\n⏳ Calibration du bruit de fond ambiant (1 seconde)...")
-            recognizer.adjust_for_ambient_noise(source, duration=1.0)
             
             # Phrase de démarrage
             speak("Activation système. Je vous écoute.", alsa_hw)
             
             while True:
-                print("\n👂 Prêt. Parlez... (Ctrl+C pour quitter)")
+                print(f"\n👂 Prêt (Seuil: {recognizer.energy_threshold}). Parlez... (Ctrl+C pour quitter)")
                 try:
-                    # Écoute bloquante (timeout=None) jusqu'à ce que la phrase soit finie
+                    # timeout=None (attend à l'infini que vous commenciez à parler)
+                    # phrase_time_limit=10 (coupe après 10s si vous parlez sans discontinuer)
                     audio = recognizer.listen(source, timeout=None, phrase_time_limit=10)
                     
                     print("💭 Traitement audio en cours...")
