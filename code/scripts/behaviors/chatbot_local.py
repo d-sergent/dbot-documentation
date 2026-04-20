@@ -4,11 +4,11 @@ import tempfile
 import speech_recognition as sr
 
 # Permet d'importer nos modules D-Bot locaux même si le script est lancé de n'importe où
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from code.dbot.audio.stt import LocalSTT
-from code.dbot.audio.tts import LocalTTS
-from code.dbot.brain.llm_client import DbotBrain
+from dbot.audio.stt import LocalSTT
+from dbot.audio.tts import LocalTTS
+from dbot.brain.llm_client import DbotBrain
 
 def get_respeaker_hw_info():
     """Tente de détecter automatiquement le ReSpeaker via PyAudio"""
