@@ -20,7 +20,8 @@ setup(
             'gTTS>=2.4.0',
             'ollama>=0.1.7',
             'faster-whisper>=1.0.0',
-            'piper-tts>=1.2.0'
+            'piper-tts>=1.2.0',
+            'duckduckgo-search>=6.0.0'
         ],
     },
 )
