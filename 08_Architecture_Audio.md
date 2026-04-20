@@ -145,6 +145,12 @@ Extérieur    Crâne PETG-CF    Anneau TPU 95A     ReSpeaker PCB
 ### 2.4 Intégration Logicielle
 
 - **Routage Audio (PulseAudio)** : JetPack 6 (L4T) reconnaît nativement le ReSpeaker comme source USB. PulseAudio le configure automatiquement en *Source* ASR et *Sink* TTS (via la sortie HP).
+- **Test Matériel** : Un script de diagnostic (`code/scripts/audio/test_audio.py`) permet de valider la détection USB, d'identifier l'index ALSA de la carte et d'enregistrer un échantillon de 3 secondes.
+- **Réglage du Volume (ALSA)** : Par défaut, le gain du `PCM` (qui contrôle l'amplificateur JST interne de 5W) peut être très faible ou muet. Il faut forcer le volume au maximum via le terminal de la Jetson :
+  ```bash
+  # '2' correspond à l'index de la carte ReSpeaker (hw:2)
+  amixer -c 2 sset 'PCM',0 100%
+  ```
 - **DoA via ROS2** : Le ReSpeaker publie les données DoA sur **`/audio/doa`** (via un nœud ROS2 léger, basé sur le package `respeaker_ros2`). Le cou Pan/Tilt s'oriente automatiquement vers la source sonore.
 - **"Muzzle" ROS2** : Le nœud de contrôle audio baisse algorithmiquement la sensibilité d'écoute lorsque les moteurs forcent, ignorant les bruits mécaniques.
 
