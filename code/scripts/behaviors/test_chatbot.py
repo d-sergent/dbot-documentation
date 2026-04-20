@@ -93,13 +93,14 @@ def main():
     
     recognizer = sr.Recognizer()
     
-    # Rendre le micro très sensible (désactiver le réglage auto qui échoue souvent)
+    # Rendre le micro ultra sensible
     recognizer.dynamic_energy_threshold = False
-    recognizer.energy_threshold = 150  # 300 est la valeur par défaut. 150 capte des sons plus faibles.
+    recognizer.energy_threshold = 50  # Sensibilité maximale
     recognizer.pause_threshold = 0.8  # Attente avant de considérer la phrase finie
     
     try:
-        with sr.Microphone(device_index=idx) as source:
+        # Le XVF3800 fonctionne nativement à 16000 Hz. Forcer cette valeur évite les bugs de resampling ALSA.
+        with sr.Microphone(device_index=idx, sample_rate=16000) as source:
             
             # Phrase de démarrage
             speak("Activation système. Je vous écoute.", alsa_hw)
