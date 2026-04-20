@@ -112,12 +112,17 @@ def main():
         stream.close()
         p.terminate()
         
+        import audioop
+        raw_data = b''.join(frames)
+        # Mix down Stereo (2 channels) to Mono (1 channel) for STT compatibility
+        mono_data = audioop.tomono(raw_data, p.get_sample_size(FORMAT), 0.5, 0.5)
+        
         import wave
         wf = wave.open(output_filename, 'wb')
-        wf.setnchannels(CHANNELS)
+        wf.setnchannels(1)  # Fixé à Mono !
         wf.setsampwidth(p.get_sample_size(FORMAT))
         wf.setframerate(RATE)
-        wf.writeframes(b''.join(frames))
+        wf.writeframes(mono_data)
         wf.close()
         return output_filename
 
