@@ -12,7 +12,7 @@ setup(
         'robstride>=0.1.0',
     ],
     extras_require={
-        'vision': ['depthai>=2.24.0'],
+        'vision': ['depthai>=2.24.0', 'flask>=2.0.0'],
         'audio':  ['pyaudio>=0.2.14', 'numpy>=1.24.0'],
     },
 )
