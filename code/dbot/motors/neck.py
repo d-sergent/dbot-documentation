@@ -32,6 +32,7 @@ class NeckController:
     def __init__(self):
         self._client = robstride.Client(get_bus())
         self._enabled = False
+        self.active_motors = []  # Liste des IDs détectés
 
     # ── Context Manager ────────────────────────────────────
     def __enter__(self):
@@ -54,19 +55,22 @@ class NeckController:
 
     # ── Activation / Désactivation ─────────────────────────
     def enable(self) -> None:
-        """Active les 2 moteurs en mode Position."""
-        for mid in [NECK_PAN_ID, NECK_TILT_ID]:
+        """Active les moteurs détectés en mode Position."""
+        for mid in self.active_motors:
             self._client.write_param(mid, 'run_mode', robstride.RunMode.Position)
-        time.sleep(0.05)
-        self._client.enable(NECK_PAN_ID)
-        self._client.enable(NECK_TILT_ID)
+        
+        if self.active_motors:
+            time.sleep(0.05)
+            
+        for mid in self.active_motors:
+            self._client.enable(mid)
         self._enabled = True
 
     def disable(self) -> None:
-        """Désactive les 2 moteurs (coupe le holding torque)."""
+        """Désactive les moteurs détectés (coupe le holding torque)."""
         if self._enabled:
-            self._client.disable(NECK_PAN_ID)
-            self._client.disable(NECK_TILT_ID)
+            for mid in self.active_motors:
+                self._client.disable(mid)
             self._enabled = False
 
     # ── Commandes ──────────────────────────────────────────
@@ -81,13 +85,17 @@ class NeckController:
         """
         pan_rad  = self.clamp_pan(math.radians(pan_deg))
         tilt_rad = self.clamp_tilt(math.radians(tilt_deg))
-        self._client.write_param(NECK_PAN_ID,  'loc_ref', pan_rad)
-        self._client.write_param(NECK_TILT_ID, 'loc_ref', tilt_rad)
+        if NECK_PAN_ID in self.active_motors:
+            self._client.write_param(NECK_PAN_ID,  'loc_ref', pan_rad)
+        if NECK_TILT_ID in self.active_motors:
+            self._client.write_param(NECK_TILT_ID, 'loc_ref', tilt_rad)
 
     def look_at_rad(self, pan_rad: float = 0.0, tilt_rad: float = 0.0) -> None:
         """Idem look_at() mais en radians."""
-        self._client.write_param(NECK_PAN_ID,  'loc_ref', self.clamp_pan(pan_rad))
-        self._client.write_param(NECK_TILT_ID, 'loc_ref', self.clamp_tilt(tilt_rad))
+        if NECK_PAN_ID in self.active_motors:
+            self._client.write_param(NECK_PAN_ID,  'loc_ref', self.clamp_pan(pan_rad))
+        if NECK_TILT_ID in self.active_motors:
+            self._client.write_param(NECK_TILT_ID, 'loc_ref', self.clamp_tilt(tilt_rad))
 
     def center(self) -> None:
         """Recentre la tête à 0°, 0°."""
@@ -96,23 +104,28 @@ class NeckController:
     # ── Télémétrie ─────────────────────────────────────────
     def get_state(self) -> dict:
         """
-        Lit la position et la vitesse actuelles des 2 moteurs.
+        Lit la position et la vitesse actuelles des moteurs connectés.
 
         Returns:
             dict avec clés: pan_deg, tilt_deg, pan_vel_dps, tilt_vel_dps, vbus_v
         """
-        pan_pos  = math.degrees(self._client.read_param(NECK_PAN_ID,  'mechpos'))
-        tilt_pos = math.degrees(self._client.read_param(NECK_TILT_ID, 'mechpos'))
-        pan_vel  = math.degrees(self._client.read_param(NECK_PAN_ID,  'mechvel'))
-        tilt_vel = math.degrees(self._client.read_param(NECK_TILT_ID, 'mechvel'))
-        vbus     = self._client.read_param(NECK_PAN_ID, 'vbus')
-        return {
-            'pan_deg':      pan_pos,
-            'tilt_deg':     tilt_pos,
-            'pan_vel_dps':  pan_vel,
-            'tilt_vel_dps': tilt_vel,
-            'vbus_v':       vbus,
+        state = {
+            'pan_deg': 0.0, 'tilt_deg': 0.0,
+            'pan_vel_dps': 0.0, 'tilt_vel_dps': 0.0,
+            'vbus_v': 0.0,
         }
+        if NECK_PAN_ID in self.active_motors:
+            state['pan_deg'] = math.degrees(self._client.read_param(NECK_PAN_ID,  'mechpos'))
+            state['pan_vel_dps'] = math.degrees(self._client.read_param(NECK_PAN_ID,  'mechvel'))
+            state['vbus_v'] = self._client.read_param(NECK_PAN_ID, 'vbus')
+            
+        if NECK_TILT_ID in self.active_motors:
+            state['tilt_deg'] = math.degrees(self._client.read_param(NECK_TILT_ID, 'mechpos'))
+            state['tilt_vel_dps'] = math.degrees(self._client.read_param(NECK_TILT_ID, 'mechvel'))
+            if state['vbus_v'] == 0.0:
+                state['vbus_v'] = self._client.read_param(NECK_TILT_ID, 'vbus')
+                
+        return state
 
     def print_state(self) -> None:
         """Affiche la télémétrie dans le terminal."""
@@ -132,10 +145,12 @@ class NeckController:
             {1: True/False, 2: True/False}
         """
         result = {}
+        self.active_motors.clear()
         for mid in [NECK_PAN_ID, NECK_TILT_ID]:
             try:
                 self._client.read_param(mid, 'run_mode')
                 result[mid] = True
+                self.active_motors.append(mid)
             except Exception:
                 result[mid] = False
         return result

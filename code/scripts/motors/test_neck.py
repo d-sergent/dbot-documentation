@@ -43,9 +43,11 @@ def main():
             icon = "✅" if ok else "❌"
             print(f"  {icon} Moteur ID:{mid} ({role})")
 
-        if not all(status.values()):
-            print("\n❌ Un ou plusieurs moteurs manquants — arrêt.")
+        if not any(status.values()):
+            print("\n❌ Aucun moteur détecté — arrêt.")
             sys.exit(1)
+        elif not all(status.values()):
+            print("\n⚠️ Attention : Un moteur est manquant. Seuls les moteurs détectés réagiront.")
 
         print("\nMoteurs connectés. Activation en cours...")
         neck.enable()
