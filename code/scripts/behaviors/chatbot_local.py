@@ -49,9 +49,9 @@ def main():
         sys.exit(1)
     
     # Moteur "bête" pour la Détection d'Activité Vocale (VAD)
-    # Il ne fait que découper le son quand on arrête de parler.
     recognizer = sr.Recognizer()
-    recognizer.dynamic_energy_threshold = True
+    recognizer.dynamic_energy_threshold = False # On empêche l'IA de se rendre sourde
+    recognizer.energy_threshold = 250           # On force un seuil d'écoute ultra-sensible
     recognizer.pause_threshold = 0.8
     
     # On fait parler le robot pour signaler qu'il a fini de "booter"
@@ -60,14 +60,14 @@ def main():
     # --- BOUCLE CONVERSATIONNELLE HORS-LIGNE ---
     try:
         with sr.Microphone(device_index=idx, sample_rate=16000) as source:
-            print("\n⏳ Calibration de l'acoustique ambiante (1 seconde)...")
-            recognizer.adjust_for_ambient_noise(source, duration=1.0)
+            print(f"\n✅ Micro initialisé (Seuil statique: {recognizer.energy_threshold})")
             
             print("\n👀 Je vous écoute... (Appuyez sur Ctrl+C pour m'éteindre)")
             while True:
                 try:
                     # 1. ÉCOUTE DE L'UTILISATEUR (Attend ici automatiquement)
-                    audio_data = recognizer.listen(source, timeout=None, phrase_time_limit=15)
+                    audio_data = recognizer.listen(source, phrase_time_limit=15)
+                    print("💭 [VAD] Parole captée, transmission au STT...")
                     
                     # 2. Sauvegarde de la phrase dans la RAM (WAV temporaire)
                     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
