@@ -16,7 +16,9 @@ def get_respeaker_hw_info():
     p = pyaudio.PyAudio()
     for i in range(p.get_device_count()):
         info = p.get_device_info_by_index(i)
-        if "reSpeaker" in info.get('name', ''):
+        # On doit ABSOLUMENT vérifier qu'il s'agit d'un canal de captation (maxInputChannels > 0)
+        # et pas du canal haut-parleur.
+        if info.get('maxInputChannels') > 0 and ("reSpeaker" in info.get('name', '') or "XVF3800" in info.get('name', '')):
             # Info nom ressemble souvent à "reSpeaker XVF3800 4-Mic Array: USB Audio (hw:2,0)"
             card_num = 2 # valeur par défaut raisonnable si on n'arrive pas à parser
             for part in info['name'].split(','):
@@ -78,8 +80,9 @@ def main():
                     user_text = stt.transcribe(wav_path)
                     os.remove(wav_path) # Nettoyage de la RAM
                     
-                    # Si c'était juste un souffle ou un claquement de porte, on ignore
-                    if not user_text or len(user_text) < 2:
+                    # Filtre anti-hallucination du modèle Whisper sur les silences profonds
+                    hallus = ["amara.org", "sous-titre", "merci de votre attention", "merci."]
+                    if not user_text or len(user_text) < 2 or any(h in user_text.lower() for h in hallus):
                         continue
                         
                     print(f"👤 Vous avez dit : '{user_text}'")
