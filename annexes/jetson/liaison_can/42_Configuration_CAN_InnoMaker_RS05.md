@@ -123,6 +123,13 @@ iface can0 inet manual
 
 ## 5. Tests de Communication Python
 
+> [!IMPORTANT]
+> **Sécurité Alimentation (Wanptek)** : Pour TOUS les tests de laboratoire sur banc, paramétrez obligatoirement votre alimentation stabilisée à **24.0V**.
+> Définissez une limite de courant stricte (OCP - Over Current Protection) :
+> - **2.0A maximum** pour tester **1 seul moteur**.
+> - **5.0A maximum** pour tester **2 moteurs simultanément**.
+> Cela protège l'électronique interne (mosfets) en cas de blocage inattendu de l'arbre ou de court-circuit.
+
 > [!NOTE]
 > Les RS-05 utilisent le protocole **CAN Extended 29-bit** — les trames standard 11-bit sont ignorées par le moteur. La librairie `robstride` gère ce protocole correctement.
 
