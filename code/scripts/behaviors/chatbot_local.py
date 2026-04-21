@@ -52,8 +52,7 @@ def main():
     
     # Moteur "bête" pour la Détection d'Activité Vocale (VAD)
     recognizer = sr.Recognizer()
-    recognizer.dynamic_energy_threshold = False # On empêche l'IA de se rendre sourde
-    recognizer.energy_threshold = 250           # On force un seuil d'écoute ultra-sensible
+    recognizer.dynamic_energy_threshold = True 
     recognizer.pause_threshold = 0.8
     
     # On fait parler le robot pour signaler qu'il a fini de "booter"
@@ -62,7 +61,9 @@ def main():
     # --- BOUCLE CONVERSATIONNELLE HORS-LIGNE ---
     try:
         with sr.Microphone(device_index=idx, sample_rate=16000) as source:
-            print(f"\n✅ Micro initialisé (Seuil statique: {recognizer.energy_threshold})")
+            print("\n⏳ Calibration du bruit de fond ambiant (Ne parlez pas pendant 1.5s)...")
+            recognizer.adjust_for_ambient_noise(source, duration=1.5)
+            print(f"✅ Micro profilé sur l'acoustique ! (Seuil mesuré: {recognizer.energy_threshold:.0f})")
             
             print("\n👀 Je vous écoute... (Appuyez sur Ctrl+C pour m'éteindre)")
             while True:
