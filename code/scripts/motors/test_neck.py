@@ -47,7 +47,9 @@ def main():
             print("\n❌ Un ou plusieurs moteurs manquants — arrêt.")
             sys.exit(1)
 
-        print("\nMoteurs activés — Démarrage séquence...\n")
+        print("\nMoteurs connectés. Activation en cours...")
+        neck.enable()
+        print("Moteurs activés — Démarrage séquence...\n")
         neck.print_state()
 
         for label, pan_deg, tilt_deg, duration in SEQUENCE:
