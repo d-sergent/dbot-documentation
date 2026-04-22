@@ -10,20 +10,36 @@ FRAME_MS = 30
 FRAME_SIZE = int(SAMPLE_RATE * FRAME_MS / 1000)
 CHUNK_BYTES = FRAME_SIZE * 2  # 16-bit = 2 bytes per sample
 
+def get_respeaker_alsa_device():
+    """Déduit le périphérique ALSA (plughw:X,0) du ReSpeaker via aplay/arecord -l."""
+    try:
+        out = subprocess.check_output(["arecord", "-l"], text=True)
+        for line in out.split('\n'):
+            if "card" in line and ("reSpeaker" in line or "XVF3800" in line or "USB Audio" in line):
+                # Format: "card 0: Array [reSpeaker...], device 0: USB Audio..."
+                card_num = line.split("card ")[1].split(":")[0]
+                return f"plughw:{card_num},0"
+    except Exception:
+        pass
+    return "plughw:0,0"  # Fallback très probable
+
+
 def test_arecord_vad():
     print("==================================================")
     print("  D-Bot — Test VAD via 'arecord' direct")
     print("==================================================")
 
     vad = webrtcvad.Vad(3)
+    alsa_dev = get_respeaker_alsa_device()
+    print(f"🔌 Carte matérielle ciblée : {alsa_dev}")
     
     # Lancement de arecord en tâche de fond pour capturer le flux propre de Linux
     cmd = [
         "arecord",
+        "-D", alsa_dev,   # On tape directement sur la puce USB, pas le mixeur logiciel
         "-f", "S16_LE",
         "-r", "16000",
         "-c", "1",
-        "-D", "default",  # On utilise le mixeur par défaut de Linux qui fonctionne toujours
         "-q"              # Mode silencieux
     ]
     
