@@ -12,11 +12,15 @@ echo "║   D-Bot — Démarrage Robot   ║"
 echo "╚══════════════════════════════╝"
 echo ""
 
-# 1. Interface CAN0
-echo "[1/3] Initialisation interface CAN..."
+# 1. Interfaces CAN0 et CAN1
+echo "[1/3] Initialisation des interfaces CAN..."
 sudo ip link set can0 type can bitrate 1000000 2>/dev/null || true
 sudo ip link set can0 up 2>/dev/null || true
 echo "      can0 à 1 Mbps — UP ✔"
+
+sudo ip link set can1 type can bitrate 1000000 2>/dev/null || true
+sudo ip link set can1 up 2>/dev/null || true
+echo "      can1 à 1 Mbps — UP ✔"
 
 # 2. Mise à jour du code
 echo "[2/3] Mise à jour code depuis GitHub..."
