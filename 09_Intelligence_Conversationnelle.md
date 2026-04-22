@@ -76,3 +76,30 @@ Le modèle `Qwen2.5:3B` est entraîné pour l'utilisation d'outils. Si un humain
 5. L'IA lit ces faits objectifs ultra-récents et formule finalement sa réponse à voix haute.
 
 **Bénéfice Architectural** : Cette intégration de DuckDuckGo sert de "Preuve de Concept" (Proof of Concept). Puisque le cerveau LLM sait désormais invoquer des fonctions Python locales, il pourra dans le futur utiliser de la même manière des outils physiques comme `lever_bras_gauche()` ou `evaluer_batterie()`.
+
+---
+
+## 5. Mode d'Emploi (Démarrage Rapide)
+
+Si vous venez de démarrer la Jetson, voici la procédure stricte pour réveiller le robot :
+
+**1. Libérer la RAM (Crucial)**
+Fermez les interfaces graphiques gourmandes :
+```bash
+sudo systemctl isolate multi-user.target
+sudo sysctl -w vm.drop_caches=3
+```
+
+**2. Allumer le Cerveau (Ollama)**
+Dans un premier terminal, lancez le serveur IA en tâche de fond :
+```bash
+ollama serve
+```
+
+**3. Lancer la Boucle d'Écoute**
+Dans un second terminal, exécutez le script principal :
+```bash
+cd ~/dbot
+python3 code/scripts/behaviors/chatbot_local.py
+```
+*(Patientez le temps du chargement des modèles, puis parlez au robot dès l'apparition du message `Je vous écoute...`).*
