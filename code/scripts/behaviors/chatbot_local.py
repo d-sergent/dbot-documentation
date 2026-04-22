@@ -37,11 +37,13 @@ def get_respeaker_pyaudio_index():
     return None, None
 
 
-def record_until_silence(pa_index: int, vad_aggressiveness: int = 2,
-                          sample_rate: int = 16000, silence_duration: float = 1.2):
+def record_until_silence(pa_index: int, vad_aggressiveness: int = 3,
+                          sample_rate: int = 16000, silence_duration: float = 1.0,
+                          max_record_s: float = 10.0):
     """
     Enregistre la voix jusqu'à un silence de 'silence_duration' secondes.
     Utilise WebRTC VAD (Google) pour distinguer voix vs bruit même avec AGC matériel.
+    S'arrête automatiquement après max_record_s secondes pour éviter de bloquer sur le bruit du ventilateur.
 
     Returns: bytes bruts PCM (16-bit mono 16kHz) ou None si timeout
     """
@@ -50,6 +52,7 @@ def record_until_silence(pa_index: int, vad_aggressiveness: int = 2,
     frame_ms = 30        # WebRTC VAD supporte 10, 20 ou 30ms
     frame_size = int(sample_rate * frame_ms / 1000)   # 480 samples à 16kHz
     silence_frames = int(silence_duration * 1000 / frame_ms)
+    max_record_frames = int(max_record_s * 1000 / frame_ms)
 
     p = pyaudio.PyAudio()
     stream = p.open(
@@ -64,11 +67,12 @@ def record_until_silence(pa_index: int, vad_aggressiveness: int = 2,
     ring_buffer = collections.deque(maxlen=silence_frames)
     triggered = False
     voiced_frames = []
+    recorded_frames = 0  # Compteur pour la durée max
 
     print("💭 [VAD] En attente de voix...", end='\r')
 
     try:
-        timeout_frames = int(30 * 1000 / frame_ms)  # 30 secondes max
+        timeout_frames = int(30 * 1000 / frame_ms)  # 30 secondes max avant déclenchement
         for _ in range(timeout_frames):
             frame = stream.read(frame_size, exception_on_overflow=False)
             is_speech = vad.is_speech(frame, sample_rate)
@@ -76,21 +80,28 @@ def record_until_silence(pa_index: int, vad_aggressiveness: int = 2,
             if not triggered:
                 ring_buffer.append((frame, is_speech))
                 num_voiced = len([f for f, speech in ring_buffer if speech])
-                # Déclenche si 60% des frames récentes sont de la voix
-                if ring_buffer.maxlen and num_voiced > 0.6 * ring_buffer.maxlen:
+                # Déclenche si 80% des frames récentes sont de la voix (plus strict que 60%)
+                if ring_buffer.maxlen and num_voiced > 0.8 * ring_buffer.maxlen:
                     triggered = True
                     print("💭 [VAD] Parole captée, enregistrement en cours...")
                     voiced_frames.extend([f for f, s in ring_buffer])
                     ring_buffer.clear()
+                    recorded_frames = 0
             else:
                 voiced_frames.append(frame)
+                recorded_frames += 1
                 ring_buffer.append((frame, is_speech))
                 num_unvoiced = len([f for f, speech in ring_buffer if not speech])
-                # Arrête si 90% des frames récentes sont du silence
-                if ring_buffer.maxlen and num_unvoiced > 0.9 * ring_buffer.maxlen:
+
+                # Arrête si silence détecté OU durée max atteinte
+                silence_detected = ring_buffer.maxlen and num_unvoiced > 0.9 * ring_buffer.maxlen
+                max_reached = recorded_frames >= max_record_frames
+                if silence_detected or max_reached:
+                    if max_reached:
+                        print(f"⏱ [VAD] Durée max ({max_record_s}s) atteinte — envoi au STT.")
                     break
         else:
-            return None  # Timeout 30s
+            return None  # Timeout 30s sans déclenchement
     finally:
         stream.stop_stream()
         stream.close()
