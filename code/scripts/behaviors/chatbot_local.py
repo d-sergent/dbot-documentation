@@ -53,8 +53,11 @@ def main():
     
     # Moteur "bête" pour la Détection d'Activité Vocale (VAD)
     recognizer = sr.Recognizer()
-    recognizer.dynamic_energy_threshold = True 
-    recognizer.dynamic_energy_ratio = 1.2  # Baisse la rigidité (par défaut 1.5). Rend le robot plus sensible.
+    
+    # Le ReSpeaker XVF3800 a un gain matériel très fort non-réglable. 
+    # Le bruit de fond de la Jetson est à ~1300. On force donc le déclenchement à 2000.
+    recognizer.dynamic_energy_threshold = False 
+    recognizer.energy_threshold = 2000
     recognizer.pause_threshold = 0.8
     
     # On fait parler le robot pour signaler qu'il a fini de "booter"
@@ -64,9 +67,7 @@ def main():
     # --- BOUCLE CONVERSATIONNELLE HORS-LIGNE ---
     try:
         with sr.Microphone(device_index=idx, sample_rate=16000) as source:
-            print("\n⏳ Calibration du bruit de fond ambiant (Ne parlez pas pendant 1.5s)...")
-            recognizer.adjust_for_ambient_noise(source, duration=1.5)
-            print(f"✅ Micro profilé sur l'acoustique ! (Seuil mesuré: {recognizer.energy_threshold:.0f})")
+            print(f"✅ Micro configuré en manuel (Seuil forcé à: {recognizer.energy_threshold:.0f})")
             
             print("\n👀 Je vous écoute... (Appuyez sur Ctrl+C pour m'éteindre)")
             while True:
