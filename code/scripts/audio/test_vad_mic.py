@@ -55,32 +55,38 @@ def test_microphone():
                     frames_per_buffer=FRAME_SIZE)
 
     print("\n🎤 Parlez maintenant (l'enregistrement s'arrêtera après 1.5s de silence)...")
+    print("Affichage du volume brut (RMS) et de la détection VAD :")
     
     voiced_frames = []
     triggered = False
     ring_buffer = collections.deque(maxlen=int(1.5 * 1000 / FRAME_MS))
     
+    import audioop
+    
     try:
         while True:
             frame = stream.read(FRAME_SIZE, exception_on_overflow=False)
             is_speech = vad.is_speech(frame, SAMPLE_RATE)
+            rms = audioop.rms(frame, 2)
+            
+            print(f"Volume RMS: {rms:5d} | VAD dit voix: {is_speech} ", end='\r')
             
             if not triggered:
                 ring_buffer.append(is_speech)
                 if sum(ring_buffer) > 0.8 * ring_buffer.maxlen:
                     triggered = True
-                    print("   [VAD] Parole détectée ! Enregistrement en cours...")
+                    print("\n\n   [VAD] Parole détectée ! Enregistrement en cours...")
                     voiced_frames.append(frame)
                     ring_buffer.clear()
             else:
                 voiced_frames.append(frame)
                 ring_buffer.append(is_speech)
                 if sum(1 for s in ring_buffer if not s) > 0.9 * ring_buffer.maxlen:
-                    print("   [VAD] Silence détecté, fin de l'enregistrement.")
+                    print("\n   [VAD] Silence détecté, fin de l'enregistrement.")
                     break
                     
             if len(voiced_frames) > int(10.0 * 1000 / FRAME_MS):
-                print("   [VAD] Durée maximale atteinte (10s).")
+                print("\n   [VAD] Durée maximale atteinte (10s).")
                 break
                 
     finally:
