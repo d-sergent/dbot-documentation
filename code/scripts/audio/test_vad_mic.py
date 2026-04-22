@@ -48,7 +48,7 @@ def test_microphone():
     
     p = pyaudio.PyAudio()
     stream = p.open(format=pyaudio.paInt16,
-                    channels=1,
+                    channels=2, # Le XVF3800 expose 2 canaux matériels !
                     rate=SAMPLE_RATE,
                     input=True,
                     input_device_index=idx,
@@ -65,9 +65,15 @@ def test_microphone():
     
     try:
         while True:
-            frame = stream.read(FRAME_SIZE, exception_on_overflow=False)
-            is_speech = vad.is_speech(frame, SAMPLE_RATE)
-            rms = audioop.rms(frame, 2)
+            # On lit une frame stéréo (le double de la taille car 2 canaux)
+            stereo_frame = stream.read(FRAME_SIZE, exception_on_overflow=False)
+            
+            # On convertit le stéréo en mono (en prenant uniquement le canal de gauche : 1, 0)
+            # C'est vital car le VAD ne comprend que le Mono 16-bit
+            mono_frame = audioop.tomono(stereo_frame, 2, 1, 0)
+            
+            is_speech = vad.is_speech(mono_frame, SAMPLE_RATE)
+            rms = audioop.rms(mono_frame, 2)
             
             print(f"Volume RMS: {rms:5d} | VAD dit voix: {is_speech} ", end='\r')
             
@@ -76,10 +82,10 @@ def test_microphone():
                 if sum(ring_buffer) > 0.8 * ring_buffer.maxlen:
                     triggered = True
                     print("\n\n   [VAD] Parole détectée ! Enregistrement en cours...")
-                    voiced_frames.append(frame)
+                    voiced_frames.append(mono_frame)
                     ring_buffer.clear()
             else:
-                voiced_frames.append(frame)
+                voiced_frames.append(mono_frame)
                 ring_buffer.append(is_speech)
                 if sum(1 for s in ring_buffer if not s) > 0.9 * ring_buffer.maxlen:
                     print("\n   [VAD] Silence détecté, fin de l'enregistrement.")
