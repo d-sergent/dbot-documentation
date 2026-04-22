@@ -53,23 +53,53 @@ def main():
     
     # Moteur "bête" pour la Détection d'Activité Vocale (VAD)
     recognizer = sr.Recognizer()
-    
-    # Le ReSpeaker XVF3800 a un gain matériel très fort non-réglable. 
-    # Le bruit de fond de la Jetson est à ~1300. On force donc le déclenchement à 2000.
-    recognizer.dynamic_energy_threshold = False 
-    recognizer.energy_threshold = 2000
+    recognizer.dynamic_energy_threshold = False
     recognizer.pause_threshold = 0.8
-    
+
     # On fait parler le robot pour signaler qu'il a fini de "booter"
     tts.speak("Mes réseaux neuronaux sont chargés. Je suis totalement autonome.")
-    time.sleep(0.5) # On laisse le temps à l'écho physique du haut-parleur de s'estomper
-    
+    time.sleep(0.8)
+
+    # --- CALIBRATION INTELLIGENTE EN 2 PHASES ---
+    # Phase 1 : Mesure du bruit de fond (ventilateur Jetson, etc.)
+    # Phase 2 : Mesure de la voix pour trouver un seuil qui passe entre les deux
+    try:
+        with sr.Microphone(device_index=idx, sample_rate=16000) as source:
+            print("\n⏳ Phase 1/2 : Mesure du bruit ambiant (Ne parlez pas pendant 2s)...")
+            recognizer.adjust_for_ambient_noise(source, duration=2.0)
+            noise_level = recognizer.energy_threshold
+            print(f"   → Bruit de fond mesuré : {noise_level:.0f}")
+
+            tts.speak("Maintenant parlez pendant 3 secondes.")
+            time.sleep(0.3)
+            print("⏳ Phase 2/2 : Parlez maintenant pendant 3 secondes...")
+
+            # On écoute la voix brute pendant 3 secondes pour mesurer son énergie
+            import audioop, struct
+            p_test = sr.Recognizer()
+            p_test.dynamic_energy_threshold = True
+            p_test.adjust_for_ambient_noise(source, duration=3.0)
+            voice_level = p_test.energy_threshold
+            print(f"   → Niveau de voix mesuré : {voice_level:.0f}")
+
+            # Le seuil optimal est à mi-chemin entre bruit et voix
+            optimal = (noise_level + voice_level) / 2
+            # Sécurité minimale : on ne peut pas descendre sous le bruit de fond + 10%
+            optimal = max(optimal, noise_level * 1.1)
+            recognizer.energy_threshold = optimal
+            print(f"✅ Seuil VAD optimal calculé : {optimal:.0f} (Bruit={noise_level:.0f} / Voix={voice_level:.0f})")
+            tts.speak(f"Calibration terminée. Je vous écoute.")
+            time.sleep(0.3)
+
+    except Exception as e:
+        # Fallback si la calibration échoue : valeur statique conservative
+        recognizer.energy_threshold = 1800
+        print(f"⚠ Calibration impossible ({e}), seuil statique à 1800")
+
     # --- BOUCLE CONVERSATIONNELLE HORS-LIGNE ---
     try:
         with sr.Microphone(device_index=idx, sample_rate=16000) as source:
-            print(f"✅ Micro configuré en manuel (Seuil forcé à: {recognizer.energy_threshold:.0f})")
-            
-            print("\n👀 Je vous écoute... (Appuyez sur Ctrl+C pour m'éteindre)")
+            print(f"\n👀 Je vous écoute... (Seuil={recognizer.energy_threshold:.0f}) (Ctrl+C pour m'éteindre)")
             while True:
                 try:
                     # 1. ÉCOUTE DE L'UTILISATEUR (Attend ici automatiquement)
