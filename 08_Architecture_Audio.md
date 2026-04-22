@@ -142,22 +142,27 @@ Extérieur    Crâne PETG-CF    Anneau TPU 95A     ReSpeaker PCB
 
 - **Câblage** : Un seul câble USB descend dans le cou vers le Hub USB Jetson. Le HP est relié au ReSpeaker par un fil JST de ~15 cm.
 
-### 2.4 Intégration Logicielle
+### 2.4 Intégration Logicielle et Tests Système (Validés sur Banc)
 
-- **Routage Audio (PulseAudio)** : JetPack 6 (L4T) reconnaît nativement le ReSpeaker comme source USB. PulseAudio le configure automatiquement en *Source* ASR et *Sink* TTS (via la sortie HP).
-- **Test Matériel** : Un script de diagnostic (`code/scripts/audio/test_audio.py`) permet de valider la détection USB, d'identifier l'index ALSA de la carte et d'enregistrer un échantillon de 3 secondes.
-- **Réglage du Volume (ALSA)** : Par défaut, le gain du `PCM` (qui contrôle l'amplificateur JST interne de 5W) peut être très faible ou muet. Il faut forcer le volume au maximum via le terminal de la Jetson :
+- **Routage Audio (ALSA)** : JetPack 6 reconnaît nativement le ReSpeaker en USB. Il prend généralement l'index matériel `hw:0,0` (vérifiable via les commandes `aplay -l` pour le haut-parleur et `arecord -l` pour le micro).
+- **Test Indépendant du Micro (Validé)** : Pour capturer l'audio de force en ignorant Python (utile pour isoler un bug) :
   ```bash
-  # '2' correspond à l'index de la carte ReSpeaker (hw:2)
-  amixer -c 2 sset 'PCM',0 100%
+  arecord -D plughw:0,0 -f cd -d 5 /tmp/test_mic.wav
   ```
+  *(Rappel Critique : Le port USB-C de la Jetson enregistre du silence. Utilisez obligatoirement un port USB-A bleu).*
+- **Test Indépendant du Haut-Parleur (Validé)** : Pour envoyer un signal sinusoïdal pur de 440 Hz vers l'amplificateur 5W du connecteur JST :
+  ```bash
+  speaker-test -D plughw:0,0 -t sine -f 440 -c 1
+  ```
+- **Démutage et Volume Matériel (ALSA)** : Par défaut, le gain interne peut être coupé ("Muted" ou 0%). Pour forcer le volume au maximum sans interface graphique :
+  ```bash
+  amixer -c 0 sset 'PCM' 100% unmute
+  amixer -c 0 sset 'Speaker' 100% unmute
+  amixer -c 0 sset 'Playback' 100% unmute
+  ```
+- **Optimisation Sensibilité VAD** : À cause du bruit extrême du ventilateur de la Jetson, le calibrage dynamique rendait le micro "sourd" (seuil > 1900). Le ratio `dynamic_energy_ratio` a été abaissé de `1.5` à `1.2` dans le code Python, et un silence de `0.5s` a été ajouté après le TTS pour éviter que le micro ne s'auto-calibre sur l'écho de sa propre voix.
 
-> [!CAUTION]
-> **Ne pas brancher le ReSpeaker sur le port USB-C de la Jetson Orin Nano !**
-> Le port USB-C supporte les flux audio sortants (haut-parleur ✅) mais ne remonte pas correctement les flux audio entrants isochrones (microphone ❌). Linux enregistrera du silence pur malgré une détection apparemment correcte du périphérique.
-> **Toujours utiliser un port USB-A (bleu) pour le ReSpeaker.**
-- **DoA via ROS2** : Le ReSpeaker publie les données DoA sur **`/audio/doa`** (via un nœud ROS2 léger, basé sur le package `respeaker_ros2`). Le cou Pan/Tilt s'oriente automatiquement vers la source sonore.
-- **"Muzzle" ROS2** : Le nœud de contrôle audio baisse algorithmiquement la sensibilité d'écoute lorsque les moteurs forcent, ignorant les bruits mécaniques.
+- **DoA via ROS2** : Le ReSpeaker publie les données DoA sur **`/audio/doa`** (via un nœud ROS2 léger). Le cou Pan/Tilt s'orientera automatiquement vers la source sonore.
 
 ### 2.5 Schéma de Routage Audio
 
