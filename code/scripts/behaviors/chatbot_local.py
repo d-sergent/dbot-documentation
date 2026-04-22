@@ -2,6 +2,7 @@ import os
 import sys
 import tempfile
 import speech_recognition as sr
+import time
 
 # Permet d'importer nos modules D-Bot locaux même si le script est lancé de n'importe où
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
