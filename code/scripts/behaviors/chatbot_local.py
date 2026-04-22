@@ -53,10 +53,12 @@ def main():
     # Moteur "bête" pour la Détection d'Activité Vocale (VAD)
     recognizer = sr.Recognizer()
     recognizer.dynamic_energy_threshold = True 
+    recognizer.dynamic_energy_ratio = 1.2  # Baisse la rigidité (par défaut 1.5). Rend le robot plus sensible.
     recognizer.pause_threshold = 0.8
     
     # On fait parler le robot pour signaler qu'il a fini de "booter"
     tts.speak("Mes réseaux neuronaux sont chargés. Je suis totalement autonome.")
+    time.sleep(0.5) # On laisse le temps à l'écho physique du haut-parleur de s'estomper
     
     # --- BOUCLE CONVERSATIONNELLE HORS-LIGNE ---
     try:
