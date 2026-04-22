@@ -153,9 +153,13 @@ def main():
             user_text = stt.transcribe(wav_path)
             os.remove(wav_path)
 
+            # DEBUG — à retirer une fois stable
+            print(f"🔍 [STT DEBUG] Transcrit : '{user_text}'")
+
             # Filtre anti-hallucination Whisper (silence enregistré accidentellement)
             hallus = ["amara.org", "sous-titre", "merci de votre attention", "merci.", "sous titres"]
             if not user_text or len(user_text) < 2 or any(h in user_text.lower() for h in hallus):
+                print(f"   ↳ Filtré (hallucination ou vide)")
                 continue
 
             print(f"👤 Vous avez dit : '{user_text}'")
