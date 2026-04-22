@@ -1,8 +1,11 @@
 import os
 import sys
 import tempfile
-import speech_recognition as sr
+import wave
 import time
+import collections
+import pyaudio
+import webrtcvad
 
 # Permet d'importer nos modules D-Bot locaux même si le script est lancé de n'importe où
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
@@ -11,136 +14,163 @@ from dbot.audio.stt import LocalSTT
 from dbot.audio.tts import LocalTTS
 from dbot.brain.llm_client import DbotBrain
 
-def get_respeaker_hw_info():
-    """Tente de détecter automatiquement le ReSpeaker via PyAudio"""
-    import pyaudio
+
+def get_respeaker_pyaudio_index():
+    """Détecte l'index PyAudio du ReSpeaker (canaux d'entrée uniquement)."""
     p = pyaudio.PyAudio()
     for i in range(p.get_device_count()):
         info = p.get_device_info_by_index(i)
-        # On doit ABSOLUMENT vérifier qu'il s'agit d'un canal de captation (maxInputChannels > 0)
-        # et pas du canal haut-parleur.
-        if info.get('maxInputChannels') > 0 and ("reSpeaker" in info.get('name', '') or "XVF3800" in info.get('name', '')):
-            # Info nom ressemble souvent à "reSpeaker XVF3800 4-Mic Array: USB Audio (hw:2,0)"
-            card_num = 2 # valeur par défaut raisonnable si on n'arrive pas à parser
-            for part in info['name'].split(','):
+        if info.get('maxInputChannels', 0) > 0 and \
+           ("reSpeaker" in info.get('name', '') or "XVF3800" in info.get('name', '')):
+            name = info.get('name', '')
+            p.terminate()
+            # Extraction du numéro de carte depuis "hw:X,0"
+            alsa_hw = "plughw:0,0"
+            for part in name.split(','):
                 if 'hw:' in part:
-                    try:
-                        card_num = ''.join(filter(str.isdigit, part.split('hw:')[1]))
-                    except:
-                        pass
-            return i, f"plughw:{card_num},0"
+                    card_num = ''.join(filter(str.isdigit, part.split('hw:')[1]))
+                    if card_num:
+                        alsa_hw = f"plughw:{card_num},0"
+                    break
+            return i, alsa_hw
+    p.terminate()
     return None, None
+
+
+def record_until_silence(pa_index: int, vad_aggressiveness: int = 2,
+                          sample_rate: int = 16000, silence_duration: float = 1.2):
+    """
+    Enregistre la voix jusqu'à un silence de 'silence_duration' secondes.
+    Utilise WebRTC VAD (Google) pour distinguer voix vs bruit même avec AGC matériel.
+
+    Returns: bytes bruts PCM (16-bit mono 16kHz) ou None si timeout
+    """
+    vad = webrtcvad.Vad(vad_aggressiveness)
+
+    frame_ms = 30        # WebRTC VAD supporte 10, 20 ou 30ms
+    frame_size = int(sample_rate * frame_ms / 1000)   # 480 samples à 16kHz
+    silence_frames = int(silence_duration * 1000 / frame_ms)
+
+    p = pyaudio.PyAudio()
+    stream = p.open(
+        format=pyaudio.paInt16,
+        channels=1,
+        rate=sample_rate,
+        input=True,
+        input_device_index=pa_index,
+        frames_per_buffer=frame_size
+    )
+
+    ring_buffer = collections.deque(maxlen=silence_frames)
+    triggered = False
+    voiced_frames = []
+
+    print("💭 [VAD] En attente de voix...", end='\r')
+
+    try:
+        timeout_frames = int(30 * 1000 / frame_ms)  # 30 secondes max
+        for _ in range(timeout_frames):
+            frame = stream.read(frame_size, exception_on_overflow=False)
+            is_speech = vad.is_speech(frame, sample_rate)
+
+            if not triggered:
+                ring_buffer.append((frame, is_speech))
+                num_voiced = len([f for f, speech in ring_buffer if speech])
+                # Déclenche si 60% des frames récentes sont de la voix
+                if ring_buffer.maxlen and num_voiced > 0.6 * ring_buffer.maxlen:
+                    triggered = True
+                    print("💭 [VAD] Parole captée, enregistrement en cours...")
+                    voiced_frames.extend([f for f, s in ring_buffer])
+                    ring_buffer.clear()
+            else:
+                voiced_frames.append(frame)
+                ring_buffer.append((frame, is_speech))
+                num_unvoiced = len([f for f, speech in ring_buffer if not speech])
+                # Arrête si 90% des frames récentes sont du silence
+                if ring_buffer.maxlen and num_unvoiced > 0.9 * ring_buffer.maxlen:
+                    break
+        else:
+            return None  # Timeout 30s
+    finally:
+        stream.stop_stream()
+        stream.close()
+        p.terminate()
+
+    if not voiced_frames:
+        return None
+
+    return b''.join(voiced_frames)
+
+
+def frames_to_wav(frames: bytes, sample_rate: int = 16000) -> str:
+    """Sauvegarde des frames PCM brutes dans un fichier WAV temporaire."""
+    with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as f:
+        wav_path = f.name
+    with wave.open(wav_path, 'wb') as wf:
+        wf.setnchannels(1)
+        wf.setsampwidth(2)  # 16-bit
+        wf.setframerate(sample_rate)
+        wf.writeframes(frames)
+    return wav_path
+
 
 def main():
     print("🤖 === D-Bot : Démarrage du Cerveau 100% Hors-Ligne === 🤖\n")
-    
-    idx, alsa_hw = get_respeaker_hw_info()
+
+    idx, alsa_hw = get_respeaker_pyaudio_index()
     if idx is None:
         print("❌ ReSpeaker introuvable. Branchez-le sur un port USB-A et relancez le programme.")
         sys.exit(1)
-        
-    print(f"🔌 Matériel Audio détecté : PyAudio={idx}, ALSA={alsa_hw}")
-        
+    print(f"🔌 ReSpeaker détecté : index PyAudio={idx}, ALSA={alsa_hw}")
+
     # --- PHASE D'INITIALISATION DE L'IA ---
-    # Cette étape demande beaucoup de calculs pour charger les modèles en VRAM
     try:
-        tts = LocalTTS(alsa_hw=alsa_hw)
+        tts   = LocalTTS(alsa_hw=alsa_hw)
         brain = DbotBrain(model_name="qwen2.5:3b")
-        stt = LocalSTT(model_size="small", device="cuda")
+        stt   = LocalSTT(model_size="small", device="cuda")
     except Exception as e:
         print(f"\n❌ Erreur sérieuse lors de l'activation des réseaux neuronaux : {e}")
         sys.exit(1)
-    
-    # Moteur "bête" pour la Détection d'Activité Vocale (VAD)
-    recognizer = sr.Recognizer()
-    recognizer.dynamic_energy_threshold = False
-    recognizer.pause_threshold = 0.8
 
-    # On fait parler le robot pour signaler qu'il a fini de "booter"
     tts.speak("Mes réseaux neuronaux sont chargés. Je suis totalement autonome.")
-    time.sleep(0.8)
+    time.sleep(0.5)
 
-    # --- CALIBRATION INTELLIGENTE EN 2 PHASES ---
-    # Phase 1 : Mesure du bruit de fond (ventilateur Jetson, etc.)
-    # Phase 2 : Mesure de la voix pour trouver un seuil qui passe entre les deux
+    # --- BOUCLE CONVERSATIONNELLE (WebRTC VAD — Google) ---
+    print("\n👀 Je vous écoute... (Appuyez sur Ctrl+C pour m'éteindre)")
+    print("   [WebRTC VAD — Aggressivité 2/3 — insensible au bruit du ventilateur]")
+
     try:
-        with sr.Microphone(device_index=idx, sample_rate=16000) as source:
-            print("\n⏳ Phase 1/2 : Mesure du bruit ambiant (Ne parlez pas pendant 2s)...")
-            recognizer.adjust_for_ambient_noise(source, duration=2.0)
-            noise_level = recognizer.energy_threshold
-            print(f"   → Bruit de fond mesuré : {noise_level:.0f}")
+        while True:
+            # 1. ÉCOUTE — WebRTC VAD détecte la voix indépendamment du bruit de fond
+            raw_frames = record_until_silence(idx, vad_aggressiveness=2)
+            if raw_frames is None:
+                continue  # Timeout 30s — rien entendu
 
-            tts.speak("Maintenant parlez pendant 3 secondes.")
-            time.sleep(0.3)
-            print("⏳ Phase 2/2 : Parlez maintenant pendant 3 secondes...")
+            # 2. Sauvegarde WAV temporaire
+            wav_path = frames_to_wav(raw_frames)
 
-            # On écoute la voix brute pendant 3 secondes pour mesurer son énergie
-            import audioop, struct
-            p_test = sr.Recognizer()
-            p_test.dynamic_energy_threshold = True
-            p_test.adjust_for_ambient_noise(source, duration=3.0)
-            voice_level = p_test.energy_threshold
-            print(f"   → Niveau de voix mesuré : {voice_level:.0f}")
+            # 3. RÉFLEXION (STT via faster-whisper sur CPU)
+            user_text = stt.transcribe(wav_path)
+            os.remove(wav_path)
 
-            # Le seuil optimal est à mi-chemin entre bruit et voix
-            optimal = (noise_level + voice_level) / 2
-            # Sécurité minimale : on ne peut pas descendre sous le bruit de fond + 10%
-            optimal = max(optimal, noise_level * 1.1)
-            recognizer.energy_threshold = optimal
-            print(f"✅ Seuil VAD optimal calculé : {optimal:.0f} (Bruit={noise_level:.0f} / Voix={voice_level:.0f})")
-            tts.speak(f"Calibration terminée. Je vous écoute.")
-            time.sleep(0.3)
+            # Filtre anti-hallucination Whisper (silence enregistré accidentellement)
+            hallus = ["amara.org", "sous-titre", "merci de votre attention", "merci.", "sous titres"]
+            if not user_text or len(user_text) < 2 or any(h in user_text.lower() for h in hallus):
+                continue
 
-    except Exception as e:
-        # Fallback si la calibration échoue : valeur statique conservative
-        recognizer.energy_threshold = 1800
-        print(f"⚠ Calibration impossible ({e}), seuil statique à 1800")
+            print(f"👤 Vous avez dit : '{user_text}'")
 
-    # --- BOUCLE CONVERSATIONNELLE HORS-LIGNE ---
-    try:
-        with sr.Microphone(device_index=idx, sample_rate=16000) as source:
-            print(f"\n👀 Je vous écoute... (Seuil={recognizer.energy_threshold:.0f}) (Ctrl+C pour m'éteindre)")
-            while True:
-                try:
-                    # 1. ÉCOUTE DE L'UTILISATEUR (Attend ici automatiquement)
-                    audio_data = recognizer.listen(source, phrase_time_limit=15)
-                    print("💭 [VAD] Parole captée, transmission au STT...")
-                    
-                    # 2. Sauvegarde de la phrase dans la RAM (WAV temporaire)
-                    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
-                        wav_path = f.name
-                        f.write(audio_data.get_wav_data())
-                        
-                    # 3. RÉFLEXION (STT) : Transforme l'onde sonore en texte via le GPU
-                    user_text = stt.transcribe(wav_path)
-                    os.remove(wav_path) # Nettoyage de la RAM
-                    
-                    # Filtre anti-hallucination du modèle Whisper sur les silences profonds
-                    hallus = ["amara.org", "sous-titre", "merci de votre attention", "merci."]
-                    if not user_text or len(user_text) < 2 or any(h in user_text.lower() for h in hallus):
-                        continue
-                        
-                    print(f"👤 Vous avez dit : '{user_text}'")
-                        
-                    # 4. CERVEAU (LLM) : Génère la réplique du robot à partir du texte
-                    ai_response = brain.generate_response(user_text)
-                    
-                    # On évite à la RAM de s'effondrer après des heures de discussion
-                    brain.trim_memory(max_messages=10)
-                    
-                    # 5. PAROLE (TTS) : Envoie le texte du LLM dans le haut-parleur
-                    tts.speak(ai_response)
-                    
-                    print("\n👀 À l'écoute...")
-                    
-                except sr.UnknownValueError:
-                    pass
-                except OSError:
-                    # Rétouffe les alertes ALSA 'underflow' inoffensives de Linux
-                    pass
-                
+            # 4. CERVEAU (LLM via Ollama)
+            ai_response = brain.generate_response(user_text)
+            brain.trim_memory(max_messages=10)
+
+            # 5. PAROLE (TTS via Piper)
+            tts.speak(ai_response)
+            print("\n👀 À l'écoute...")
+
     except KeyboardInterrupt:
         print("\n\n🛑 Arrêt manuel du système robotique.")
+
 
 if __name__ == "__main__":
     main()
