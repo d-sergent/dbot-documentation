@@ -146,31 +146,38 @@ def main():
             if raw_frames is None:
                 continue  # Timeout 30s — rien entendu
 
-            # 2. Sauvegarde WAV temporaire
-            wav_path = frames_to_wav(raw_frames)
+            try:
+                # 2. Sauvegarde WAV temporaire
+                wav_path = frames_to_wav(raw_frames)
 
-            # 3. RÉFLEXION (STT via faster-whisper sur CPU)
-            user_text = stt.transcribe(wav_path)
-            os.remove(wav_path)
+                # 3. RÉFLEXION (STT via faster-whisper sur CPU)
+                user_text = stt.transcribe(wav_path)
+                os.remove(wav_path)
 
-            # DEBUG — à retirer une fois stable
-            print(f"🔍 [STT DEBUG] Transcrit : '{user_text}'")
+                # DEBUG — à retirer une fois stable
+                print(f"🔍 [STT DEBUG] Transcrit : '{user_text}'")
 
-            # Filtre anti-hallucination Whisper (silence enregistré accidentellement)
-            hallus = ["amara.org", "sous-titre", "merci de votre attention", "merci.", "sous titres"]
-            if not user_text or len(user_text) < 2 or any(h in user_text.lower() for h in hallus):
-                print(f"   ↳ Filtré (hallucination ou vide)")
-                continue
+                # Filtre anti-hallucination Whisper (silence enregistré accidentellement)
+                hallus = ["amara.org", "sous-titre", "merci de votre attention", "merci.", "sous titres"]
+                if not user_text or len(user_text) < 2 or any(h in user_text.lower() for h in hallus):
+                    print(f"   ↳ Filtré (hallucination ou vide)")
+                    continue
 
-            print(f"👤 Vous avez dit : '{user_text}'")
+                print(f"👤 Vous avez dit : '{user_text}'")
 
-            # 4. CERVEAU (LLM via Ollama)
-            ai_response = brain.generate_response(user_text)
-            brain.trim_memory(max_messages=10)
+                # 4. CERVEAU (LLM via Ollama)
+                ai_response = brain.generate_response(user_text)
+                brain.trim_memory(max_messages=10)
 
-            # 5. PAROLE (TTS via Piper)
-            tts.speak(ai_response)
-            print("\n👀 À l'écoute...")
+                # 5. PAROLE (TTS via Piper)
+                tts.speak(ai_response)
+                print("\n👀 À l'écoute...")
+
+            except Exception as e:
+                import traceback
+                print(f"\n❌ Erreur dans la boucle IA :")
+                traceback.print_exc()
+                print("   → Reprise de l'écoute...\n")
 
     except KeyboardInterrupt:
         print("\n\n🛑 Arrêt manuel du système robotique.")
