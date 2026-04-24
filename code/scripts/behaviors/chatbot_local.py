@@ -40,12 +40,12 @@ def get_pulse_device_name() -> str:
     try:
         out = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
         for line in out.splitlines():
-            if "reSpeaker" in line or "XVF3800" in line:
+            if ("reSpeaker" in line or "XVF3800" in line) and ".monitor" not in line:
                 if "iec958" in line:
                     return line.split()[1]
         # Fallback
         for line in out.splitlines():
-            if "reSpeaker" in line or "XVF3800" in line:
+            if ("reSpeaker" in line or "XVF3800" in line) and ".monitor" not in line:
                 return line.split()[1]
     except Exception as e:
         print(f"Erreur pactl: {e}")
