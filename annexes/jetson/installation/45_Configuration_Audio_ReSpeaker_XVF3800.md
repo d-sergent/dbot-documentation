@@ -81,7 +81,19 @@ pasuspender -- aplay -D plughw:0,0 /usr/share/sounds/alsa/Front_Center.wav
 
 ---
 
-## 5. Résumé de l'Architecture Finale
+## 5. Optimisation des Ressources (RAM)
+
+Le pipeline STT (Whisper) + LLM (Ollama) est gourmand en mémoire vive. Sur une Jetson Orin Nano (8GB), il est fortement recommandé de désactiver l'interface graphique pour libérer ~1.5 Go de RAM.
+
+| Action | Commande |
+| :--- | :--- |
+| **Passer en mode Headless** (Console) | `sudo systemctl isolate multi-user.target` |
+| **Relancer l'interface graphique** | `sudo systemctl isolate graphical.target` |
+| **Vérifier la RAM libre** | `free -m` |
+
+---
+
+## 6. Résumé de l'Architecture Finale
 
 - **Capture** : `parecord` (PulseAudio) → Capture le flux numérique traité (Beamforming + NS).
 - **Traitement** : `webrtcvad` + `Faster-Whisper` (STT).
