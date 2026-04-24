@@ -4,7 +4,7 @@ import tempfile
 import wave
 import time
 import collections
-import pyaudio
+import subprocess
 import webrtcvad
 
 # Permet d'importer nos modules D-Bot locaux même si le script est lancé de n'importe où
@@ -19,62 +19,76 @@ FRAME_MS    = 30
 FRAME_SIZE  = int(SAMPLE_RATE * FRAME_MS / 1000)  # 480 samples
 
 
-def get_respeaker_pyaudio_index():
-    """Détecte l'index PyAudio du ReSpeaker (canaux d'entrée uniquement)."""
-    p = pyaudio.PyAudio()
-    for i in range(p.get_device_count()):
-        info = p.get_device_info_by_index(i)
-        if info.get('maxInputChannels', 0) > 0 and \
-           ("reSpeaker" in info.get('name', '') or "XVF3800" in info.get('name', '')):
-            name = info.get('name', '')
-            p.terminate()
-            alsa_hw = "plughw:0,0"
-            for part in name.split(','):
-                if 'hw:' in part:
-                    card_num = ''.join(filter(str.isdigit, part.split('hw:')[1]))
-                    if card_num:
-                        alsa_hw = f"plughw:{card_num},0"
-                    break
-            return i, alsa_hw
-    p.terminate()
-    return None, None
+def get_respeaker_alsa_hw() -> str:
+    """Détecte l'index ALSA (plughw:X,0) du ReSpeaker pour le haut-parleur."""
+    try:
+        out = subprocess.check_output(["arecord", "-l"], text=True)
+        for line in out.splitlines():
+            if "carte" in line and ("reSpeaker" in line or "XVF3800" in line):
+                card_num = line.split("carte ")[1].split(":")[0].strip()
+                return f"plughw:{card_num},0"
+            if "card" in line and ("reSpeaker" in line or "XVF3800" in line):
+                card_num = line.split("card ")[1].split(":")[0].strip()
+                return f"plughw:{card_num},0"
+    except Exception:
+        pass
+    return "plughw:0,0"
 
 
-def _open_stream(pa_index: int) -> tuple:
-    """Ouvre un flux PyAudio 16kHz mono 16-bit sur le micro par défaut (PulseAudio)."""
-    p = pyaudio.PyAudio()
-    stream = p.open(
-        format=pyaudio.paInt16,
-        channels=1,
-        rate=SAMPLE_RATE,
-        input=True,
-        input_device_index=None,  # <-- C'EST LA CLEF : Laisse Linux gérer le flux numérique
-        frames_per_buffer=FRAME_SIZE
-    )
-    return p, stream
+def get_pulse_device_name() -> str:
+    """Détecte le nom exact du périphérique PulseAudio (ie958) pour le ReSpeaker."""
+    try:
+        out = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
+        for line in out.splitlines():
+            if "reSpeaker" in line or "XVF3800" in line:
+                if "iec958" in line:
+                    return line.split()[1]
+        # Fallback
+        for line in out.splitlines():
+            if "reSpeaker" in line or "XVF3800" in line:
+                return line.split()[1]
+    except Exception as e:
+        print(f"Erreur pactl: {e}")
+    return None
 
 
-def measure_noise_vad_ratio(pa_index: int, vad: webrtcvad.Vad, duration: float = 2.5) -> float:
+def _open_pulse_stream(device_name: str):
+    """Lance parecord pour capturer le flux numérique natif via PulseAudio."""
+    cmd = [
+        "parecord",
+        f"--device={device_name}",
+        "--format=s16le",
+        "--channels=1",
+        "--rate=16000",
+        "--raw"
+    ]
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    return proc
+
+
+def measure_noise_vad_ratio(device_name: str, vad: webrtcvad.Vad, duration: float = 2.5) -> float:
     """
     Mesure le ratio de frames classées 'parole' par le VAD quand personne ne parle.
     Sert de seuil de référence pour ignorer le bruit du ventilateur Jetson.
     """
-    p, stream = _open_stream(pa_index)
+    proc = _open_pulse_stream(device_name)
     total = int(duration * 1000 / FRAME_MS)
     speech_count = 0
+    bytes_per_frame = FRAME_SIZE * 2
     try:
         for _ in range(total):
-            frame = stream.read(FRAME_SIZE, exception_on_overflow=False)
+            frame = proc.stdout.read(bytes_per_frame)
+            if not frame or len(frame) < bytes_per_frame:
+                break
             if vad.is_speech(frame, SAMPLE_RATE):
                 speech_count += 1
     finally:
-        stream.stop_stream()
-        stream.close()
-        p.terminate()
-    return speech_count / total
+        proc.terminate()
+        proc.wait()
+    return speech_count / total if total > 0 else 0.0
 
 
-def record_until_silence(pa_index: int, vad: webrtcvad.Vad,
+def record_until_silence(device_name: str, vad: webrtcvad.Vad,
                           noise_ratio: float,
                           silence_duration: float = 1.0,
                           max_record_s: float = 10.0):
@@ -95,13 +109,17 @@ def record_until_silence(pa_index: int, vad: webrtcvad.Vad,
     voiced_frames = []
     rec_count     = 0
 
-    p, stream = _open_stream(pa_index)
+    proc = _open_pulse_stream(device_name)
+    bytes_per_frame = FRAME_SIZE * 2
     print(f"💭 [VAD] Écoute (seuil adaptatif: {trigger_ratio*100:.0f}% — bruit fond: {noise_ratio*100:.0f}%)...", end='\r')
 
     try:
         timeout = int(30 * 1000 / FRAME_MS)
         for _ in range(timeout):
-            frame = stream.read(FRAME_SIZE, exception_on_overflow=False)
+            frame = proc.stdout.read(bytes_per_frame)
+            if not frame or len(frame) < bytes_per_frame:
+                break
+            
             is_speech = vad.is_speech(frame, SAMPLE_RATE)
 
             if not triggered:
@@ -130,9 +148,8 @@ def record_until_silence(pa_index: int, vad: webrtcvad.Vad,
         else:
             return None  # Timeout sans déclenchement
     finally:
-        stream.stop_stream()
-        stream.close()
-        p.terminate()
+        proc.terminate()
+        proc.wait()
 
     return b''.join(voiced_frames) if voiced_frames else None
 
@@ -152,11 +169,13 @@ def frames_to_wav(frames: bytes) -> str:
 def main():
     print("🤖 === D-Bot : Démarrage du Cerveau 100% Hors-Ligne === 🤖\n")
 
-    idx, alsa_hw = get_respeaker_pyaudio_index()
-    if idx is None:
-        print("❌ ReSpeaker introuvable. Branchez-le sur un port USB-A et relancez.")
+    device_name = get_pulse_device_name()
+    if not device_name:
+        print("❌ ReSpeaker introuvable via PulseAudio. Branchez-le sur un port USB et relancez.")
         sys.exit(1)
-    print(f"🔌 ReSpeaker détecté : index PyAudio={idx}, ALSA={alsa_hw}")
+        
+    alsa_hw = get_respeaker_alsa_hw()
+    print(f"🔌 ReSpeaker détecté : PulseAudio={device_name[:30]}..., ALSA={alsa_hw}")
 
     # --- INITIALISATION IA ---
     try:
@@ -173,7 +192,7 @@ def main():
     # --- CALIBRATION BRUIT DE FOND ---
     vad = webrtcvad.Vad(3)  # Aggressivité max
     print("\n⏳ Calibration acoustique : Ne parlez pas pendant 2.5 secondes...")
-    noise_ratio = measure_noise_vad_ratio(idx, vad, duration=2.5)
+    noise_ratio = measure_noise_vad_ratio(device_name, vad, duration=2.5)
     print(f"✅ Bruit de fond calibré : {noise_ratio*100:.0f}% de frames classées 'parole' par le VAD")
     print(f"   → Seuil de déclenchement fixé à : {min(noise_ratio+0.35, 0.95)*100:.0f}%")
 
@@ -182,7 +201,7 @@ def main():
 
     try:
         while True:
-            raw_frames = record_until_silence(idx, vad, noise_ratio)
+            raw_frames = record_until_silence(device_name, vad, noise_ratio)
             if raw_frames is None:
                 continue
 
