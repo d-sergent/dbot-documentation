@@ -41,14 +41,14 @@ def get_respeaker_pyaudio_index():
 
 
 def _open_stream(pa_index: int) -> tuple:
-    """Ouvre un flux PyAudio 16kHz mono 16-bit sur le micro."""
+    """Ouvre un flux PyAudio 16kHz mono 16-bit sur le micro par défaut (PulseAudio)."""
     p = pyaudio.PyAudio()
     stream = p.open(
         format=pyaudio.paInt16,
         channels=1,
         rate=SAMPLE_RATE,
         input=True,
-        input_device_index=pa_index,
+        input_device_index=None,  # <-- C'EST LA CLEF : Laisse Linux gérer le flux numérique
         frames_per_buffer=FRAME_SIZE
     )
     return p, stream
