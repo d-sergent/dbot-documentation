@@ -144,23 +144,25 @@ Extérieur    Crâne PETG-CF    Anneau TPU 95A     ReSpeaker PCB
 
 ### 2.4 Intégration Logicielle et Tests Système (Validés sur Banc)
 
-- **Routage Audio (ALSA)** : JetPack 6 reconnaît nativement le ReSpeaker en USB. Il prend généralement l'index matériel `hw:0,0` (vérifiable via les commandes `aplay -l` pour le haut-parleur et `arecord -l` pour le micro).
-- **Test Indépendant du Micro (Validé)** : Pour capturer l'audio de force en ignorant Python (utile pour isoler un bug) :
+> [!IMPORTANT]
+> **Guide de Configuration Détaillé** : Pour le dépannage des grésillements et l'activation du haut-parleur sur Jetson, consultez l'annexe [45 - Configuration Audio ReSpeaker](./annexes/jetson/installation/45_Configuration_Audio_ReSpeaker_XVF3800.md).
+
+- **Routage Audio (ALSA/PulseAudio)** : Le ReSpeaker est reconnu nativement. Pour une capture propre, il est **impératif** d'utiliser le profil **"Entrée Stéréo numérique (IEC958)"** dans PulseAudio.
+- **Capture Audio Robuste (VAD)** : Pour éviter les instabilités du driver USB sur Jetson, le pipeline Python n'utilise plus PyAudio mais capture le flux via `parecord` (PulseAudio) :
   ```bash
-  arecord -D plughw:0,0 -f cd -d 5 /tmp/test_mic.wav
+  # Test de capture propre via PulseAudio
+  parecord --device=alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800...iec958-stereo --format=s16le --channels=1 --rate=16000 test.wav
   ```
-  *(Rappel Critique : Le port USB-C de la Jetson enregistre du silence. Utilisez obligatoirement un port USB-A bleu).*
-- **Test Indépendant du Haut-Parleur (Validé)** : Pour envoyer un signal sinusoïdal pur de 440 Hz vers l'amplificateur 5W du connecteur JST :
+- **Test Indépendant du Haut-Parleur** : Pour envoyer un signal vers l'amplificateur JST tout en contournant les interférences de NoMachine :
   ```bash
-  speaker-test -D plughw:0,0 -t sine -f 440 -c 1
+  pasuspender -- aplay -D plughw:0,0 /usr/share/sounds/alsa/Front_Center.wav
   ```
-- **Démutage et Volume Matériel (ALSA)** : Par défaut, le gain interne peut être coupé ("Muted" ou 0%). Pour forcer le volume au maximum sans interface graphique :
+- **Démutage et Volume Matériel (ALSA)** : Pour forcer l'activation de l'amplificateur JST (souvent muté sur l'index 1 par défaut) :
   ```bash
-  amixer -c 0 sset 'PCM' 100% unmute
-  amixer -c 0 sset 'Speaker' 100% unmute
-  amixer -c 0 sset 'Playback' 100% unmute
+  amixer -c 0 cset numid=3 on && amixer -c 0 cset numid=4 on
+  amixer -c 0 cset numid=5 60 && amixer -c 0 cset numid=6 60
   ```
-- **Optimisation Sensibilité VAD** : À cause du bruit extrême du ventilateur de la Jetson, le calibrage dynamique rendait le micro "sourd" (seuil > 1900). Le ratio `dynamic_energy_ratio` a été abaissé de `1.5` à `1.2` dans le code Python, et un silence de `0.5s` a été ajouté après le TTS pour éviter que le micro ne s'auto-calibre sur l'écho de sa propre voix.
+- **Optimisation Sensibilité VAD** : Le ratio `dynamic_energy_ratio` a été abaissé dans le code Python pour compenser le bruit du ventilateur Jetson, tout en utilisant le flux numérique filtré matériellement.
 
 - **DoA via ROS2** : Le ReSpeaker publie les données DoA sur **`/audio/doa`** (via un nœud ROS2 léger). Le cou Pan/Tilt s'orientera automatiquement vers la source sonore.
 
