@@ -61,7 +61,7 @@ Nous installons Open WebUI en mode natif (Python) pour économiser les ~8 Go de 
     ```
 2.  **Installation des dépendances** :
     ```bash
-    pip install open-webui lancedb tantivy pypdf sentence-transformers flashrank
+    pip install open-webui lancedb tantivy pypdf sentence-transformers flashrank tavily-python
     ```
 3.  **Lancement** :
     ```bash
@@ -71,7 +71,31 @@ Nous installons Open WebUI en mode natif (Python) pour économiser les ~8 Go de 
 
 ---
 
-## 4. Étape 3 : Intelligence Vectorielle (LanceDB & Re-ranker)
+## 4. Étape 3 : Recherche Web (Tavily AI)
+Tavily est le "bras armé" de votre système sur Internet.
+
+### A. Configuration Open WebUI (Usage Quotidien)
+1.  **Activation** : Allez dans `Settings > Web Search`.
+2.  **Paramètres Recommandés** :
+    *   **Search Engine** : Tavily.
+    *   **Tavily API Key** : Votre clé.
+    *   **Search Depth** : `Advanced` (pour des rapports d'ingénierie précis).
+    *   **Max Results** : 5 (excellent compromis coût/vitesse).
+3.  **Utilisation** : Dans le chat, activez l'icône "Web Search". Qwen utilisera alors Tavily automatiquement si la question le nécessite.
+
+### B. Usage Standalone (Script Python)
+Si vous voulez effectuer une recherche rapide sans lancer l'interface graphique :
+1.  **Installation** : `pip install tavily-python`.
+2.  **Exécution du script** :
+    ```bash
+    export TAVILY_API_KEY="votre_clé_ici"
+    python "/Users/Shared/Mon Google Drive Physique/Documentation/code/scripts/ia/test_tavily_search.py"
+    ```
+    *Ce script affiche une synthèse de la recherche et les sources les plus pertinentes.*
+
+---
+
+## 5. Étape 4 : Intelligence Vectorielle (LanceDB & Re-ranker)
 LanceDB est la base de données qui stocke vos documents. Le Re-ranker est le modèle qui garantit la précision technique.
 
 1.  **Installation des moteurs** (Dans votre venv `open-webui-env`) :
@@ -85,32 +109,31 @@ LanceDB est la base de données qui stocke vos documents. Le Re-ranker est le mo
 
 ---
 
-## 5. Étape 4 : Vérification par Script (Standalone)
-Avant de configurer l'interface, vérifiez que le moteur LanceDB accède bien à vos fichiers.
+## 6. Étape 5 : Vérification par Script (Standalone)
+Avant de configurer l'interface, vérifiez que les moteurs accèdent bien à vos fichiers et au web.
 
-1.  **Exécution du script de test** :
+1.  **Test LanceDB** :
     ```bash
-    source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
     python "/Users/Shared/Mon Google Drive Physique/Documentation/code/scripts/ia/test_lancedb_rag.py"
     ```
-2.  **Résultat attendu** : Le script doit extraire les pages d'un PDF de votre doc, les indexer et réussir une recherche "robot".
+2.  **Test Tavily** :
+    ```bash
+    python "/Users/Shared/Mon Google Drive Physique/Documentation/code/scripts/ia/test_tavily_search.py"
+    ```
 
 ---
 
-## 6. Étape 5 : Fonctions Expertes (Open WebUI)
+## 7. Étape 6 : Fonctions Expertes (Open WebUI)
 Maintenant que les moteurs sont installés, nous les lions à l'interface graphique.
 
-1.  **Recherche Web (Tavily AI)** :
-    *   Récupérez votre clé sur [tavily.com](https://tavily.com).
-    *   Configuration : Dans Open WebUI > Settings > Web Search, activez Tavily.
-2.  **RAG Local (LanceDB)** :
+1.  **RAG Local (LanceDB)** :
     Créez une **Function** (Workspace > Functions) et injectez le code de recherche.
     *   **Database Path** : `/Users/Shared/AI_Shared_Knowledge/lancedb`
     *   **Documents Path** : Votre dossier `/Users/Shared/Mon Google Drive Physique/Documentation`.
 
 ---
 
-## 7. Étape 6 : Serveur MCP & Audit Claude
+## 8. Étape 7 : Serveur MCP & Audit Claude
 1.  **Accès Fichiers** : Lancez le serveur MCP pour vos projets :
     ```bash
     uvx mcp-server-filesystem "/Users/Shared/Mon Google Drive Physique/Documentation"
@@ -119,7 +142,7 @@ Maintenant que les moteurs sont installés, nous les lions à l'interface graphi
 
 ---
 
-## 8. Utilisation au Quotidien
+## 9. Utilisation au Quotidien
 Une fois configuré, votre workflow est le suivant :
 1.  **Dégrossissage** : Qwen local cherche dans LanceDB + Web -> Proposition.
 2.  **Audit** : Un clic sur le bouclier 🛡️ envoie la proposition à Claude pour certification.
