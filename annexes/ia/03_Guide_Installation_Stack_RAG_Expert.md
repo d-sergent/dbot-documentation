@@ -1,176 +1,107 @@
-# Guide d'Installation de la Stack RAG Expert (Native Mac)
+# 🚀 Guide Expert : Installation de la Stack Hybrid Agentic RAG (Native Mac)
 
-Ce guide détaille les étapes pour installer la totalité de la stack **Hybrid Agentic RAG** sur macOS sans Docker.
-
-## 1. Prérequis Système & Partage Multi-Session
-Pour que la stack soit accessible depuis vos différentes sessions (Standard et IA), nous utilisons le répertoire partagé de macOS.
-
-1.  **Création du dossier de savoir partagé** :
-    ```bash
-    mkdir -p "/Users/Shared/AI_Shared_Knowledge/lancedb/models"
-    # Donner les accès aux deux sessions (Crucial pour le partage)
-    sudo chmod -R 777 "/Users/Shared/AI_Shared_Knowledge"
-    ```
-    > [!IMPORTANT]
-    > **Note Technique** : LanceDB est une base de données "embedded". Les fichiers (format Apache Arrow) sont physiquement stockés dans ce dossier. Contrairement à une base classique, il n'y a pas de "serveur" à lancer ; c'est l'accès direct aux fichiers qui permet le partage entre vos sessions.
-2.  **Configuration LM Studio (Session Standard)** :
-    *   Ouvrez LM Studio > Settings.
-    *   Changez le **Models Directory** pour : `/Users/Shared/AI_Shared_Knowledge/lancedb/models`.
-3.  **Homebrew, Python & uv** : Installez-les via brew (voir section précédente).
+Ce guide détaille la mise en place d'un système d'intelligence artificielle local de haut niveau sur macOS. Ce système combine la puissance de l'inférence locale (confidentialité) avec la précision de l'audit Cloud (Claude 4.7 Opus).
 
 ---
 
-## 2. Étape 1 : Inférence Locale (Choix du Moteur)
+## 📋 1. Architecture du Savoir Partagé
+Pour que votre IA soit accessible depuis toutes vos sessions macOS (Standard et IA) sans duplication de données, nous utilisons une infrastructure centralisée.
 
-### Option A : LLMster (`lms`) - [Recommandé pour la simplicité]
-Idéal car il partage nativement le dossier de LM Studio sans aucune importation.
-1.  **Installation** (Session IA) :
-    ```bash
-    npm install -g @lmstudio/lms
-    ```
-2.  **Lancement** :
-    ```bash
-    lms server start
-    lms load <nom-du-modèle-téléchargé>
-    ```
+### A. Création du coffre-fort de données
+Ouvrez un terminal et créez l'arborescence dans le répertoire partagé :
+```bash
+mkdir -p "/Users/Shared/AI_Shared_Knowledge/lancedb/models"
+mkdir -p "/Users/Shared/AI_Shared_Knowledge/ollama_models"
+# Règle d'or : On donne les pleins accès pour le multi-session
+sudo chmod -R 777 "/Users/Shared/AI_Shared_Knowledge"
+```
 
-### Option B : Ollama - [Recommandé pour l'écosystème]
-Plus puissant pour les embeddings et la vision. 
-1.  **Installation** : Téléchargez l'app sur [ollama.com](https://ollama.com).
-2.  **Partage Multi-Session (Important)** : 
-    Par défaut, Ollama stocke les modèles dans `~/.ollama`. Pour partager les modèles entre sessions, ajoutez ceci à votre fichier `~/.zshrc` dans **chaque session** :
+### B. Configuration des dossiers de modèles
+*   **LM Studio** : Dans `Settings > Models Directory`, pointez vers `/Users/Shared/AI_Shared_Knowledge/lancedb/models`.
+*   **Ollama** : Ajoutez cette ligne à votre fichier `~/.zshrc` (pour chaque session) :
     ```bash
     export OLLAMA_MODELS="/Users/Shared/AI_Shared_Knowledge/ollama_models"
     ```
-3.  **Téléchargement direct** :
-    ```bash
-    # Télécharger sans lancer
-    ollama pull qwen3.6:35b-a3b
-    # Télécharger et lancer immédiatement
-    ollama run qwen3.6:35b-a3b
-    ```
-4.  **Modèle d'Embedding** : `ollama pull nomic-embed-text`.
 
 ---
 
-## 3. Étape 2 : Interface Native (Open WebUI)
+## 🛠️ 2. Environnement & Interface (Open WebUI)
+Nous installons l'interface en mode **Python natif** pour maximiser les performances de votre puce M1 Max et économiser 8 Go de RAM par rapport à Docker.
+
+### A. Création de l'Environnement Virtuel (venv)
 > [!IMPORTANT]
-> **RÈGLE D'OR** : Toutes les commandes Python suivantes **DOIVENT** être exécutées après avoir activé l'environnement virtuel. Ne l'oubliez jamais, sous peine d'erreurs de bibliothèques manquantes.
-> ```bash
-> source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
-> ```
+> L'activation du venv est **obligatoire** avant chaque étape suivante.
+```bash
+# Création (à ne faire qu'une fois)
+python3.11 -m venv "/Users/Shared/AI_Shared_Knowledge/open-webui-env"
 
-1.  **Création de l'environnement virtuel dans le dossier partagé** :
-    ```bash
-    # À ne faire qu'une seule fois
-    python3.11 -m venv "/Users/Shared/AI_Shared_Knowledge/open-webui-env"
-    source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
-    ```
-    > [!TIP]
-    > **Pourquoi ici ?** En installant le venv dans `/Users/Shared`, toutes les bibliothèques installées via `pip3.11` sont physiquement stockées au même endroit pour vos deux sessions. Vous économisez de l'espace disque et garantissez que les deux sessions utilisent exactement les mêmes versions de code.
-2.  **Installation des dépendances** :
-    ```bash
-    pip3.11 install open-webui lancedb tantivy pypdf sentence-transformers flashrank tavily-python
-    ```
-3.  **Lancement** :
-    ```bash
-    open-webui serve
-    ```
-    *Accès via http://localhost:8080*
+# Activation (à faire à chaque nouvelle session de terminal)
+source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
+```
+
+### B. Installation de la Stack logicielle
+```bash
+pip3.11 install open-webui lancedb tantivy pypdf sentence-transformers flashrank tavily-python mcpo
+```
+
+### C. Lancement de l'interface
+```bash
+open-webui serve
+```
+*Accès : http://localhost:8080*
 
 ---
 
-## 4. Étape 3 : Intelligence Vectorielle (LanceDB & Re-ranker)
-Cette étape installe les deux "moteurs" de votre savoir :
-1.  **LanceDB (Le Bibliothécaire)** : Il stocke et retrouve les documents.
-2.  **Le Re-ranker (L'Expert)** : Il relit les résultats de LanceDB pour ne donner que les plus pertinents à l'IA. C'est lui qui évite que l'IA ne raconte n'importe quoi en confondant deux moteurs.
+## 🧠 3. Intelligence Vectorielle (LanceDB & Reranking)
+Cette couche permet à l'IA de "lire" vos documents PDF locaux et de trier les informations par pertinence.
 
-**Configuration du Re-ranker (Dans l'interface Open WebUI)** :
-*   Allez dans `Settings > Documents`.
-*   Activez d'abord le switch **Hybrid Search** (Indispensable pour faire apparaître les options de Reranking).
-*   Cherchez **Reranking Model** et tapez : `BAAI/bge-reranker-v2-m3`.
-*   Réglez **Top K** sur `10` et **Top K Reranker** sur `5`.
-*   Cliquez sur **Save** en bas à droite.
-
----
-
-## 5. Étape 4 : Recherche Web (Tavily AI)
-Tavily est le "bras armé" de votre système sur Internet.
-
-### A. Configuration Open WebUI (Usage Quotidien)
-1.  **Activation** : Allez dans `Settings > Web Search`.
-2.  **Paramètres Recommandés** :
-    *   **Search Engine** : Tavily.
-    *   **Tavily API Key** : Votre clé.
-    *   **Search Depth** : `Advanced` (pour des rapports d'ingénierie précis).
-    *   **Max Results** : 5.
-3.  **Utilisation** : Dans le chat, activez l'icône "Web Search".
+### A. Configuration du Re-ranker (L'Expert de tri)
+Dans l'interface Open WebUI :
+1.  Allez dans `Settings > Documents`.
+2.  Activez le switch **Hybrid Search** (Indispensable pour voir les options).
+3.  Champ **Reranking Model** : Saisissez `BAAI/bge-reranker-v2-m3`.
+4.  Réglages de précision : 
+    *   **Top K** : `10`
+    *   **Top K Reranker** : `5`
+5.  Cliquez sur **Save**.
 
 ---
 
-## 6. Étape 5 : Configuration de l'Outil RAG (Open WebUI)
-Pour que l'IA puisse "appeler" votre base de documents locale, vous devez créer un **Tool**.
+## 🌐 4. Recherche Web & Outils (Tavily & MCP)
+Cette section connecte votre IA au monde extérieur et à votre système de fichiers.
 
-1.  **Accès** : Dans Open WebUI, allez dans `Workspace > Tools`.
-2.  **Création** : Cliquez sur `+ New Tool`.
-3.  **Code** : Copiez-collez le contenu de ce fichier :
-    👉 [open_webui_lancedb_filter.py](../../code/scripts/ia/open_webui_lancedb_filter.py)
-4.  **Enregistrement** : Cliquez sur `Save`. 
-    *Note : Si vous avez une erreur "No Tools class found", vérifiez que vous avez bien copié la classe `class Tools:`.*
+### A. Recherche Web (Tavily AI)
+1.  Dans `Settings > Web Search`, activez **Tavily**.
+2.  Saisissez votre clé API et réglez le `Search Depth` sur **Advanced**.
 
----
+### B. Serveurs MCP (Le Pont Système)
+Open WebUI communique via HTTP. Pour Git et les fichiers locaux, utilisez le proxy `mcpo` :
 
-## 7. Étape 6 : Configuration des Serveurs MCP (Via mcpo Proxy)
-Open WebUI communique avec les serveurs MCP via HTTP. Comme Git et Filesystem utilisent `stdio`, nous utilisons `mcpo` pour faire le pont.
-
-1.  **Installation du proxy** :
-    ```bash
-    pip3.11 install mcpo
-    ```
-2.  **Lancement du pont Filesystem** :
+1.  **Pont Fichiers** : 
     ```bash
     mcpo run npx -y @modelcontextprotocol/server-filesystem "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
-    *Notez l'URL fournie (ex: http://localhost:8000).*
-3.  **Lancement du pont Git** :
+2.  **Pont Git** : 
     ```bash
     mcpo run uvx mcp-server-git
     ```
-    *Notez l'URL fournie (ex: http://localhost:8001).*
-4.  **Déclaration dans Open WebUI** :
-    *   Allez dans `Settings > Integrations > MCP`.
-    *   **Type** : `MCP (Streamable HTTP)`.
-    *   **URL** : L'URL correspondante fournie par mcpo.
-
-> [!CAUTION]
-> **Important** : Pour que l'IA y ait accès, les commandes `mcpo` doivent tourner dans un terminal pendant que vous utilisez Open WebUI.
+> [!TIP]
+> Notez les URLs fournies par `mcpo` (ex: http://localhost:8000) et déclarez-les dans `Settings > Integrations > MCP` sous le type **Streamable HTTP**.
 
 ---
 
----
+## ✅ 5. Validation de la Stack
+Testez votre système avec ces trois requêtes dans un nouveau chat :
 
-## 8. Étape 7 : Validation de la Stack
-Une fois tout configuré, effectuez ces tests dans un nouveau chat pour vérifier la chaîne de liaison.
-
-### 🧪 Test 1 : Intelligence Git
-Demandez : *"Peux-tu me lister les 3 derniers commits de ce dépôt ?"*
-*   **Succès** : L'IA affiche l'historique réel via le serveur MCP Git.
-
-### 🧪 Test 2 : RAG Local (LanceDB)
-Demandez : *"Quelles sont les spécifications techniques trouvées dans les datasheets locales ?"*
-*   **Succès** : L'IA cite des sources PDF et utilise le contexte injecté.
-
-### 🧪 Test 3 : Accès Fichiers
-Demandez : *"Liste-moi les fichiers du dossier `annexes/ia/`."*
-*   **Succès** : L'IA parcourt l'arborescence via MCP Filesystem.
+1.  **Test Git** : *"Donne-moi les 3 derniers commits du dépôt."*
+2.  **Test RAG** : *"Quelles sont les spécifications du bus CAN dans mes documents ?"*
+3.  **Test Fichiers** : *"Liste les fichiers du dossier `annexes/ia/`."*
 
 ---
 
-## 9. Utilisation au Quotidien
-Votre workflow expert est maintenant le suivant :
-1.  **Recherche** : Qwen local cherche dans LanceDB + Web + Git -> Proposition.
-2.  **Audit** : Cliquez sur le bouclier **Audit Expert 🛡️** pour envoyer la proposition à Claude 4.7 Opus (Cloud) pour certification finale.
+## 🛡️ 6. Workflow Quotidien "Expert"
+1.  **Dégrossissage** : L'IA locale (Qwen 3.6) cherche dans vos documents + Web + Git.
+2.  **Audit Final** : Utilisez le bouton **Audit Expert 🛡️** (lié à Claude 4.7 Opus via une Action) pour valider les calculs critiques et la sécurité.
 
 ---
-
-*Guide d'installation final — Avril 2026.*
+*Documentation Finalisée — Avril 2026 — D-Bot Project*
