@@ -18,7 +18,8 @@ Pour maximiser l'utilisation de la RAM unifiée (Unified Memory), il est recomma
 | Étape | Outil | Session | Pourquoi ? |
 | :--- | :--- | :--- | :--- |
 | **Recherche & Download** | **LM Studio** | Standard | Excellente interface pour explorer Hugging Face et tester rapidement. |
-| **Inférence (Run)** | **Ollama** ou **Llama.cpp** | **Dédiée IA** | Inférence "Lean" sans l'over-head d'une application Electron. |
+| **Inférence (Run)** | **LLMster (`lms`)** | **Dédiée IA** | La version "Headless" (sans GUI) de LM Studio. Très léger, idéal pour l'arrière-plan. |
+| **Inférence (Alternative)** | **Ollama** | **Dédiée IA** | Très simple, gère son propre registre de modèles. |
 
 ### Partage des Modèles
 Pour éviter de dupliquer les fichiers `.gguf` (très lourds), créez un dossier partagé entre les deux utilisateurs :
@@ -26,7 +27,17 @@ Pour éviter de dupliquer les fichiers `.gguf` (très lourds), créez un dossier
 
 ---
 
-## 3. Commande "Pro" : Libérer la limite de VRAM
+## 3. Interfaces Recommandées (GUI Light)
+
+Une fois le moteur (Ollama ou LLMster) lancé dans votre session IA, vous pouvez utiliser une interface pour discuter. Voici les meilleures options pour Mac :
+
+*   **Enchanted** (App Store) : Une application **native macOS** extrêmement légère et élégante. Parfait pour rester dans l'écosystème Apple sans consommer de RAM inutile.
+*   **Chatbox** : Une application multi-plateforme très propre qui se connecte facilement aux API locales (Ollama/LMS).
+*   **Open WebUI** (via Docker) : L'interface la plus puissante (proche de ChatGPT), mais plus lourde car elle nécessite Docker. Recommandée uniquement si vous avez besoin de fonctions avancées (RAG, gestion de documents).
+
+---
+
+## 4. Commande "Pro" : Libérer la limite de VRAM
 
 Par défaut, macOS limite la mémoire allouée au GPU à environ **70-80%** de la RAM totale. Sur une machine de 64 Go, cela bride l'utilisation à ~48 Go. 
 
@@ -46,7 +57,7 @@ sudo sysctl iogpu.wired_limit_mb=57344
 
 ---
 
-## 4. Recommandations de Modèles (Config 64 Go)
+## 5. Recommandations de Modèles (Config 64 Go)
 
 Sur un M1 Max 64 Go, les modèles suivants sont recommandés pour un équilibre parfait vitesse/intelligence :
 
@@ -56,4 +67,4 @@ Sur un M1 Max 64 Go, les modèles suivants sont recommandés pour un équilibre 
 
 ---
 
-*Document créé en Avril 2026 suite aux tests de performance sur D-Bot Brain.*
+*Document mis à jour en Avril 2026 suite à l'intégration de LLMster (lms).*
