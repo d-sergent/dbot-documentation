@@ -37,7 +37,21 @@ Une fois le moteur (Ollama ou LLMster) lancé dans votre session IA, vous pouvez
 
 ---
 
-## 4. Commande "Pro" : Libérer la limite de VRAM
+## 4. GGUF vs MLX : Lequel choisir ?
+
+Sur Apple Silicon, vous rencontrerez deux formats principaux. Voici comment choisir :
+
+| Critère | **GGUF** (Ollama, LMS) | **MLX** (Natif Apple) |
+| :--- | :--- | :--- |
+| **Vitesse** | Très élevée | **Maximale (+20-30%)** |
+| **Choix** | **Immense** (Tout Hugging Face) | Limité aux modèles récents |
+| **Usage** | Stable, simple, universel | Expérimental, ultra-rapide |
+
+**Règle d'or** : Privilégiez le **GGUF** pour l'intelligence et la diversité (modèles 30B+). Utilisez **MLX** si vous avez besoin d'une vitesse de lecture extrême sur des modèles plus petits ou des contextes géants.
+
+---
+
+## 5. Commande "Pro" : Libérer la limite de VRAM
 
 Par défaut, macOS limite la mémoire allouée au GPU à environ **70-80%** de la RAM totale. Sur une machine de 64 Go, cela bride l'utilisation à ~48 Go. 
 
@@ -57,14 +71,15 @@ sudo sysctl iogpu.wired_limit_mb=57344
 
 ---
 
-## 5. Recommandations de Modèles (Config 64 Go)
+## 6. Recommandations de Modèles (Config 64 Go)
 
-Sur un M1 Max 64 Go, les modèles suivants sont recommandés pour un équilibre parfait vitesse/intelligence :
+Avec 64 Go de RAM unifiée, vous pouvez exploiter des modèles de "classe mondiale" en local.
 
-1.  **Llama-3-70B-Instruct (Quantification Q4_K_M)** : Le modèle de référence pour la réflexion complexe.
-2.  **Command R (35B)** : Excellent pour le RAG et les longs contextes.
-3.  **Mistral Large** : Très puissant pour le code et le français.
+1.  **Qwen-2.5-32B (Instruct)** : Le meilleur compromis actuel. Extrêmement intelligent, gère 128k de contexte, et tourne à une vitesse parfaite sur M1 Max.
+2.  **DeepSeek-V3 (ou V2.5)** : L'excellence de l'architecture MoE (Mixture of Experts). Idéal pour le code et le raisonnement logique pur.
+3.  **Llama-3.1-70B (Q4_K_M)** : Le standard de l'industrie. Il rentre "juste" dans vos 64 Go (avec ~40 Go de VRAM) mais offre la meilleure fiabilité de réponse.
+4.  **Gemma-2-27B** : Un modèle Google très performant et très rapide pour un usage quotidien fluide.
 
 ---
 
-*Document mis à jour en Avril 2026 suite à l'intégration de LLMster (lms).*
+*Document mis à jour en Avril 2026 suite à l'analyse GGUF vs MLX.*
