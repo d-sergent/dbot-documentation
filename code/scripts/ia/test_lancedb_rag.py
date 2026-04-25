@@ -26,42 +26,46 @@ def test_indexation():
         print("❌ Aucun fichier PDF trouvé pour le test dans le répertoire Documentation.")
         return
 
-    test_file = pdf_files[0] if '/' in pdf_files[0] else os.path.join(DOCS_PATH, pdf_files[0])
-    print(f"📖 Lecture du fichier de test : {os.path.basename(test_file)}")
+    for test_file in pdf_files:
+        full_path = test_file if '/' in test_file else os.path.join(root, test_file)
+        print(f"📖 Tentative de lecture : {os.path.basename(full_path)}")
 
-    # Extraction du texte
-    try:
-        reader = pypdf.PdfReader(test_file)
-        data = []
-        for i, page in enumerate(reader.pages):
-            text = page.extract_text()
-            if text:
-                data.append({
-                    "text": text,
-                    "metadata": {"source": os.path.basename(test_file), "page": i + 1}
-                })
-        
-        print(f"✅ {len(data)} pages extraites.")
+        try:
+            reader = pypdf.PdfReader(full_path)
+            data = []
+            for i, page in enumerate(reader.pages):
+                text = page.extract_text()
+                if text and len(text.strip()) > 10:
+                    data.append({
+                        "text": text,
+                        "metadata": {"source": os.path.basename(full_path), "page": i + 1}
+                    })
+            
+            if not data:
+                print(f"⚠️ Aucun texte extrait de {os.path.basename(full_path)}, essai du fichier suivant...")
+                continue
 
-        # Création de la table (mode overwrite pour le test)
-        table_name = "test_table"
-        tbl = db.create_table(table_name, data=data, mode="overwrite")
-        print(f"🚀 Table '{table_name}' créée avec succès dans LanceDB.")
+            print(f"✅ {len(data)} pages extraites.")
 
-        # Test de recherche simple (FTS ou Vectorielle)
-        query = "robot" # Terme générique
-        print(f"🔍 Recherche du terme : '{query}'...")
-        results = tbl.search(query).limit(3).to_list()
-        
-        if results:
-            print(f"✨ {len(results)} résultats trouvés :")
-            for res in results:
-                print(f" - [{res['metadata']['source']} p.{res['metadata']['page']}] : {res['text'][:100]}...")
-        else:
-            print("⚠️ Aucun résultat trouvé (vérifiez le contenu du PDF).")
+            # Création de la table
+            table_name = "test_table"
+            tbl = db.create_table(table_name, data=data, mode="overwrite")
+            print(f"🚀 Table '{table_name}' créée avec succès.")
 
-    except Exception as e:
-        print(f"❌ Erreur lors du test : {e}")
+            # Test de recherche
+            query = "robot"
+            print(f"🔍 Recherche du terme : '{query}'...")
+            results = tbl.search(query).limit(3).to_list()
+            
+            if results:
+                print(f"✨ {len(results)} résultats trouvés.")
+                return # Succès, on s'arrête là
+            
+        except Exception as e:
+            print(f"⚠️ Erreur sur {os.path.basename(full_path)} : {e}")
+            continue
+
+    print("❌ Échec : Aucun des PDFs testés n'a pu être indexé.")
 
 if __name__ == "__main__":
     # S'assurer que le dossier DB existe
