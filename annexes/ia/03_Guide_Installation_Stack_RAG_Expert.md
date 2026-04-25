@@ -120,24 +120,24 @@ Pour que l'IA puisse "appeler" votre base de documents locale, vous devez créer
 
 ---
 
-## 7. Étape 6 : Serveurs MCP (Accès Fichiers & Git)
-Les serveurs MCP permettent à l'IA d'interagir directement avec votre système.
+## 7. Étape 6 : Configuration des Serveurs MCP (Dans Open WebUI)
+Contrairement aux outils classiques, les serveurs MCP ne se lancent pas à la main dans le terminal. C'est Open WebUI qui les lance pour vous.
 
-1.  **Accès Fichiers** (Lecture/Écriture) :
-    ```bash
-    # Recommandé (Node.js) :
-    npx -y @modelcontextprotocol/server-filesystem "/Users/Shared/Mon Google Drive Physique/Documentation"
-    
-    # Alternative (Python) :
-    # uvx filesystem-operations-mcp --root-dir "/Users/Shared/Mon Google Drive Physique/Documentation"
-    ```
-2.  **Accès Git** (Historique & Commits) :
-    ```bash
-    uvx mcp-server-git
-    ```
-    > [!NOTE]
-    > **Attention** : Si vous lancez ces commandes à la main, il est normal de voir une erreur `JSONRPCMessage`. Ces serveurs doivent être configurés dans l'onglet **Integrations > MCP** d'Open WebUI pour fonctionner avec l'IA.
-3.  **Action d'Audit Claude** : Créez une **Action** nommée "Audit Expert 🛡️" liée à Claude 4.7 Opus pour la validation finale.
+1.  **Accès** : Allez dans `Settings > Integrations > MCP`.
+2.  **Configuration du Filesystem** (Accès aux fichiers) :
+    *   **Name** : `LocalFiles`
+    *   **Type** : `stdio`
+    *   **Command** : `npx` (ou le chemin complet vers npx)
+    *   **Args** : `-y @modelcontextprotocol/server-filesystem "/Users/Shared/Mon Google Drive Physique/Documentation"`
+3.  **Configuration de Git** (Accès historique) :
+    *   **Name** : `LocalGit`
+    *   **Type** : `stdio`
+    *   **Command** : `uvx` (ou le chemin complet vers uvx)
+    *   **Args** : `mcp-server-git`
+4.  **Validation** : Cliquez sur le bouton "Add" puis "Save". Si le voyant devient vert, l'IA a maintenant accès à vos fichiers et à votre historique Git.
+
+> [!NOTE]
+> **Chemins Complets** : Si Open WebUI ne trouve pas `uvx` ou `npx`, remplacez-les par leurs chemins absolus (ex: `/usr/local/bin/uvx` ou `/Users/ia/.local/bin/uvx`).
 
 ---
 
