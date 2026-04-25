@@ -123,7 +123,7 @@ Pour que l'IA puisse "appeler" votre base de documents locale, vous devez créer
 ## 7. Étape 6 : Serveur MCP & Audit Claude
 1.  **Accès Fichiers** : Lancez le serveur MCP pour vos projets :
     ```bash
-    uvx mcp-server-filesystem "/Users/Shared/Mon Google Drive Physique/Documentation"
+    uvx mcp-server-file-system "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
 2.  **Action d'Audit** : Créez une **Action** nommée "Audit Expert 🛡️" liée à Claude 4.7 Opus pour la validation finale.
 
