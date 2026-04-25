@@ -8,9 +8,11 @@ Pour que la stack soit accessible depuis vos différentes sessions (Standard et 
 1.  **Création du dossier de savoir partagé** :
     ```bash
     mkdir -p "/Users/Shared/AI_Shared_Knowledge/lancedb/models"
-    # Donner les accès aux deux sessions
+    # Donner les accès aux deux sessions (Crucial pour le partage)
     sudo chmod -R 777 "/Users/Shared/AI_Shared_Knowledge"
     ```
+    > [!IMPORTANT]
+    > **Note Technique** : LanceDB est une base de données "embedded". Les fichiers (format Apache Arrow) sont physiquement stockés dans ce dossier. Contrairement à une base classique, il n'y a pas de "serveur" à lancer ; c'est l'accès direct aux fichiers qui permet le partage entre vos sessions.
 2.  **Configuration LM Studio (Session Standard)** :
     *   Ouvrez LM Studio > Settings.
     *   Changez le **Models Directory** pour : `/Users/Shared/AI_Shared_Knowledge/lancedb/models`.
