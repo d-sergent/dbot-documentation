@@ -120,24 +120,30 @@ Pour que l'IA puisse "appeler" votre base de documents locale, vous devez créer
 
 ---
 
-## 7. Étape 6 : Configuration des Serveurs MCP (Dans Open WebUI)
-Contrairement aux outils classiques, les serveurs MCP ne se lancent pas à la main dans le terminal. C'est Open WebUI qui les lance pour vous.
+## 7. Étape 6 : Configuration des Serveurs MCP (Via mcpo Proxy)
+Open WebUI communique avec les serveurs MCP via HTTP. Comme Git et Filesystem utilisent `stdio`, nous utilisons `mcpo` pour faire le pont.
 
-1.  **Accès** : Allez dans `Settings > Integrations > MCP`.
-2.  **Configuration du Filesystem** (Accès aux fichiers) :
-    *   **Name** : `LocalFiles`
-    *   **Type** : `stdio`
-    *   **Command** : `npx` (ou le chemin complet vers npx)
-    *   **Args** : `-y @modelcontextprotocol/server-filesystem "/Users/Shared/Mon Google Drive Physique/Documentation"`
-3.  **Configuration de Git** (Accès historique) :
-    *   **Name** : `LocalGit`
-    *   **Type** : `stdio`
-    *   **Command** : `uvx` (ou le chemin complet vers uvx)
-    *   **Args** : `mcp-server-git`
-4.  **Validation** : Cliquez sur le bouton "Add" puis "Save". Si le voyant devient vert, l'IA a maintenant accès à vos fichiers et à votre historique Git.
+1.  **Installation du proxy** :
+    ```bash
+    pip3.11 install mcpo
+    ```
+2.  **Lancement du pont Filesystem** :
+    ```bash
+    mcpo run npx -y @modelcontextprotocol/server-filesystem "/Users/Shared/Mon Google Drive Physique/Documentation"
+    ```
+    *Notez l'URL fournie (ex: http://localhost:8000).*
+3.  **Lancement du pont Git** :
+    ```bash
+    mcpo run uvx mcp-server-git
+    ```
+    *Notez l'URL fournie (ex: http://localhost:8001).*
+4.  **Déclaration dans Open WebUI** :
+    *   Allez dans `Settings > Integrations > MCP`.
+    *   **Type** : `MCP (Streamable HTTP)`.
+    *   **URL** : L'URL correspondante fournie par mcpo.
 
-> [!NOTE]
-> **Chemins Complets** : Si Open WebUI ne trouve pas `uvx` ou `npx`, remplacez-les par leurs chemins absolus (ex: `/usr/local/bin/uvx` ou `/Users/ia/.local/bin/uvx`).
+> [!CAUTION]
+> **Important** : Pour que l'IA y ait accès, les commandes `mcpo` doivent tourner dans un terminal pendant que vous utilisez Open WebUI.
 
 ---
 
