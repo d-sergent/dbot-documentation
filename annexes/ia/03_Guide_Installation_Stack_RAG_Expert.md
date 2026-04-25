@@ -29,10 +29,21 @@ Idéal car il partage nativement le dossier de LM Studio sans aucune importation
     ```
 
 ### Option B : Ollama - [Recommandé pour l'écosystème]
-Plus puissant pour les embeddings et la vision, mais nécessite une importation pour les fichiers téléchargés hors Ollama.
+Plus puissant pour les embeddings et la vision. 
 1.  **Installation** : Téléchargez l'app sur [ollama.com](https://ollama.com).
-2.  **Modèle principal** : `ollama run qwen3.6:35b-a3b-q6_k`.
-3.  **Modèle d'Embedding** : `ollama pull nomic-embed-text`.
+2.  **Partage Multi-Session (Important)** : 
+    Par défaut, Ollama stocke les modèles dans `~/.ollama`. Pour partager les modèles entre sessions, ajoutez ceci à votre fichier `~/.zshrc` dans **chaque session** :
+    ```bash
+    export OLLAMA_MODELS="/Users/Shared/AI_Shared_Knowledge/ollama_models"
+    ```
+3.  **Téléchargement direct** :
+    ```bash
+    # Télécharger sans lancer
+    ollama pull qwen3.6:35b-a3b-q6_k
+    # Télécharger et lancer immédiatement
+    ollama run qwen3.6:35b-a3b-q6_k
+    ```
+4.  **Modèle d'Embedding** : `ollama pull nomic-embed-text`.
 
 ---
 
