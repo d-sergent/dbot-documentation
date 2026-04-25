@@ -1,34 +1,28 @@
-# Guide d'Installation de la Stack RAG Expert (Native Mac)
+## 1. Prérequis Système & Partage Multi-Session
+Pour que la stack soit accessible depuis votre session principale (Antigravity) et votre session IA (Ollama/LMS), nous utilisons le répertoire partagé de macOS.
 
-Ce guide détaille les étapes pour installer la totalité de la stack **Hybrid Agentic RAG** sur macOS sans Docker.
-
-## 1. Prérequis Système
-Avant de commencer, assurez-vous d'avoir :
-*   **Homebrew** installé (`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`).
-*   **Python 3.11+** installé via brew : `brew install python@3.11`.
-*   **uv** (gestionnaire Python ultra-rapide) : `curl -LsSf https://astral.sh/uv/install.sh | sh`.
+1.  **Création du dossier de savoir partagé** :
+    ```bash
+    mkdir -p "/Users/Shared/AI_Shared_Knowledge/lancedb"
+    # Donner les accès aux deux sessions
+    sudo chmod -R 777 "/Users/Shared/AI_Shared_Knowledge"
+    ```
+2.  **Homebrew & Python** : Installez-les via brew (voir section précédente).
+3.  **uv** : `curl -LsSf https://astral.sh/uv/install.sh | sh`.
 
 ---
 
 ## 2. Étape 1 : Inférence Locale (Ollama)
-1.  Téléchargez Ollama sur [ollama.com](https://ollama.com).
-2.  Installez le modèle principal :
-    ```bash
-    ollama run qwen3.6:35b-a3b-q6_k
-    ```
-3.  Installez le modèle d'embedding (pour le RAG) :
-    ```bash
-    ollama pull nomic-embed-text
-    ```
+... (Section inchangée) ...
 
 ---
 
 ## 3. Étape 2 : Interface Native (Open WebUI)
 Nous installons Open WebUI en mode natif pour économiser la RAM.
-1.  Créez un environnement dédié :
+1.  Créez un environnement dédié dans le dossier partagé (optionnel mais conseillé) :
     ```bash
-    python3.11 -m venv ~/open-webui-env
-    source ~/open-webui-env/bin/activate
+    python3.11 -m venv "/Users/Shared/AI_Shared_Knowledge/open-webui-env"
+    source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
     ```
 2.  Installez Open WebUI et les dépendances RAG :
     ```bash
@@ -38,27 +32,24 @@ Nous installons Open WebUI en mode natif pour économiser la RAM.
     ```bash
     open-webui serve
     ```
-    *Accès via http://localhost:8080*
 
 ---
 
 ## 4. Étape 3 : Recherche Agentique (Tavily & GPT Researcher)
-1.  **Clé API** : Créez un compte sur [tavily.com](https://tavily.com) et récupérez votre clé.
-2.  **Installation de GPT Researcher** :
-    ```bash
-    git clone https://github.com/assafelovic/gpt-researcher.git
-    cd gpt-researcher
-    pip install -r requirements.txt
-    ```
-3.  **Lien avec l'IA** : Dans Open WebUI > Settings > Web Search, activez Tavily et entrez votre clé.
+... (Section inchangée) ...
 
 ---
 
-## 5. Étape 4 : Fonctions Expertes (LanceDB & Reranker)
-Dans l'interface Open WebUI, créez une nouvelle **Function** (Workspace > Functions > Create) :
-1.  Copiez le code d'intégration **LanceDB** (voir annexe dédiée ou discussion).
-2.  Configurez le chemin de votre dossier technique (ex: `~/Documents/Robotique_Docs`).
-3.  Activez le **Qwen3-Reranker-0.6B** dans le code en utilisant le device `mps` pour profiter du GPU du Mac.
+## 5. Étape 4 : Fonctions Expertes (LanceDB Partagée)
+Dans l'interface Open WebUI, créez une nouvelle **Function**. **IMPORTANT** : Modifiez le chemin de la base de données pour pointer vers le dossier partagé :
+
+```python
+# Dans votre classe Tools
+self.db_path = "/Users/Shared/AI_Shared_Knowledge/lancedb"
+self.docs_path = "/Users/Shared/Mon Google Drive Physique/Documentation" 
+```
+
+**Bénéfice** : Antigravity pourra exécuter des scripts de recherche directement sur ce dossier depuis votre session principale sans que vous ayez à basculer de session.
 
 ---
 
