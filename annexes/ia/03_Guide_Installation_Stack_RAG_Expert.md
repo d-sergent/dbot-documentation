@@ -82,14 +82,16 @@ Ouvrez deux terminaux séparés (avec venv activé) pour lancer les services :
     mcpo run uvx mcp-server-git
     ```
 
-### C. Déclaration dans l'interface Open WebUI
-1.  Allez dans `Settings > Integrations > MCP`.
-2.  Cliquez sur **+ Add Server**.
-3.  **Type** : `MCP (Streamable HTTP)`.
-4.  **URL** : Copiez l'URL affichée par mcpo (généralement `http://localhost:8000` pour le premier).
-5.  Répétez pour le deuxième serveur.
+### C. Déclaration dans l'interface Open WebUI (Conforme Doc Officielle)
+1.  Allez dans **⚙️ Admin Settings** (Paramètres d'administration) → **External Tools** (Outils externes).
+2.  Cliquez sur le bouton **+** (Add Server).
+3.  **Type** : Sélectionnez impérativement **MCP (Streamable HTTP)**.
+4.  **Auth** : Sélectionnez **None** (pour un usage local).
+5.  **URL** : Copiez l'URL affichée par mcpo (ex: `http://localhost:8000`).
+6.  Cliquez sur **Save**.
 
----
+> [!CAUTION]
+> **Important** : Les terminaux exécutant `mcpo` doivent rester **ouverts** pendant toute l'utilisation d'Open WebUI. Si vous les fermez, l'IA perdra l'accès à ses outils système.
 
 ## ✅ 5. Validation Finale de la Stack
 Testez le bon fonctionnement avec ces trois questions dans le chat :
@@ -97,6 +99,12 @@ Testez le bon fonctionnement avec ces trois questions dans le chat :
 1.  **Test Git** : *"Quels sont les 3 derniers messages de commit sur ce dépôt ?"*
 2.  **Test RAG** : *"Quelles sont les spécifications critiques du bus CAN dans mes PDFs ?"*
 3.  **Test Filesystem** : *"Quels fichiers sont présents dans le dossier `code/scripts/ia/` ?"*
+
+---
+
+## 🛡️ 6. Workflow Quotidien "Expert"
+1.  **Recherche** : L'IA locale (Qwen 3.6) cherche dans vos documents + Web + Git.
+2.  **Audit Final** : Utilisez le bouton **Audit Expert 🛡️** (lié à Claude 4.7 Opus via une Action) pour valider les calculs critiques.
 
 ---
 *Guide d'installation final (Version 100% Python) — Avril 2026*
