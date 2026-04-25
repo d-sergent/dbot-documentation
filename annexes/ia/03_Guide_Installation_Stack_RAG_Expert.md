@@ -1,3 +1,7 @@
+# Guide d'Installation de la Stack RAG Expert (Native Mac)
+
+Ce guide détaille les étapes pour installer la totalité de la stack **Hybrid Agentic RAG** sur macOS sans Docker.
+
 ## 1. Prérequis Système & Partage Multi-Session
 Pour que la stack soit accessible depuis vos différentes sessions (Standard et IA), nous utilisons le répertoire partagé de macOS.
 
@@ -39,9 +43,9 @@ Plus puissant pour les embeddings et la vision.
 3.  **Téléchargement direct** :
     ```bash
     # Télécharger sans lancer
-    ollama pull qwen3.6:35b-a3b-q6_k
+    ollama pull qwen3.6:35b-a3b
     # Télécharger et lancer immédiatement
-    ollama run qwen3.6:35b-a3b-q6_k
+    ollama run qwen3.6:35b-a3b
     ```
 4.  **Modèle d'Embedding** : `ollama pull nomic-embed-text`.
 
@@ -81,7 +85,19 @@ LanceDB est la base de données qui stocke vos documents. Le Re-ranker est le mo
 
 ---
 
-## 5. Étape 4 : Fonctions Expertes (Open WebUI)
+## 5. Étape 4 : Vérification par Script (Standalone)
+Avant de configurer l'interface, vérifiez que le moteur LanceDB accède bien à vos fichiers.
+
+1.  **Exécution du script de test** :
+    ```bash
+    source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
+    python "/Users/Shared/Mon Google Drive Physique/Documentation/code/scripts/ia/test_lancedb_rag.py"
+    ```
+2.  **Résultat attendu** : Le script doit extraire les pages d'un PDF de votre doc, les indexer et réussir une recherche "robot".
+
+---
+
+## 6. Étape 5 : Fonctions Expertes (Open WebUI)
 Maintenant que les moteurs sont installés, nous les lions à l'interface graphique.
 
 1.  **Recherche Web (Tavily AI)** :
@@ -94,12 +110,19 @@ Maintenant que les moteurs sont installés, nous les lions à l'interface graphi
 
 ---
 
-## 6. Étape 5 : Serveur MCP & Audit Claude
+## 7. Étape 6 : Serveur MCP & Audit Claude
 1.  **Accès Fichiers** : Lancez le serveur MCP pour vos projets :
     ```bash
     uvx mcp-server-filesystem "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
 2.  **Action d'Audit** : Créez une **Action** nommée "Audit Expert 🛡️" liée à Claude 4.7 Opus pour la validation finale des calculs et de la sécurité.
+
+---
+
+## 8. Utilisation au Quotidien
+Une fois configuré, votre workflow est le suivant :
+1.  **Dégrossissage** : Qwen local cherche dans LanceDB + Web -> Proposition.
+2.  **Audit** : Un clic sur le bouclier 🛡️ envoie la proposition à Claude pour certification.
 
 ---
 
