@@ -39,12 +39,11 @@ python3.11 -m venv "/Users/Shared/AI_Shared_Knowledge/open-webui-env"
 source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
 ```
 
-### B. Installation de la Stack Python (Précision Chirurgicale)
-Une fois le venv activé, lancez cette commande unique pour installer tous les outils :
+### B. Installation de la Stack Python
+Une fois le venv activé, lancez cette commande pour installer tous les outils :
 ```bash
 pip3.11 install open-webui lancedb tantivy pypdf sentence-transformers flashrank tavily-python mcpo
 ```
-*Note : `mcpo` est l'outil qui servira de pont entre vos serveurs locaux et l'interface web.*
 
 ---
 
@@ -52,26 +51,21 @@ pip3.11 install open-webui lancedb tantivy pypdf sentence-transformers flashrank
 Cette couche permet à l'IA de "lire" vos documents PDF locaux et de trier les informations.
 
 ### A. Configuration du Re-ranker (Précision Technique)
-Dans l'interface Open WebUI (http://localhost:8080) :
+Dans l'interface Open WebUI :
 1.  Allez dans `Settings > Documents`.
-2.  Activez le switch **Hybrid Search** (Indispensable pour voir les options suivantes).
+2.  Activez le switch **Hybrid Search** (Indispensable pour voir les options).
 3.  Champ **Reranking Model** : Saisissez exactement `BAAI/bge-reranker-v2-m3`.
-4.  Réglages de précision : 
-    *   **Top K** : `10`
-    *   **Top K Reranker** : `5`
-5.  Cliquez sur **Save** en bas à droite.
+4.  Réglages de précision : **Top K** : `10` / **Top K Reranker** : `5`.
+5.  Cliquez sur **Save**.
 
 ---
 
-## 🌐 4. Recherche Web & Serveurs MCP (Accès Système)
-Cette section connecte votre IA au web et à vos fichiers locaux sans utiliser Node.js.
+## 🌐 4. Serveurs MCP (Accès Système via mcpo)
+Cette section connecte votre IA à vos fichiers et à Git via un pont HTTP.
 
-### A. Recherche Web (Tavily AI)
-1.  Dans `Settings > Web Search`, activez **Tavily**.
-2.  Saisissez votre clé API et réglez le `Search Depth` sur **Advanced**.
-
-### B. Lancement des Serveurs MCP via mcpo (Pont HTTP)
-Ouvrez deux terminaux séparés (avec venv activé) pour lancer les services :
+### A. Lancement des Services (Terminaux séparés)
+> [!CAUTION]
+> **Syntaxe Critique** : Ne pas utiliser le mot `run`. Utilisez `--` pour séparer les options de mcpo de la commande.
 
 1.  **Service Fichiers** (Terminal 1) : 
     ```bash
@@ -81,32 +75,31 @@ Ouvrez deux terminaux séparés (avec venv activé) pour lancer les services :
 2.  **Service Git** (Terminal 2) : 
     ```bash
     source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
-    mcpo --port 8001 -- uvx mcp-server-git
+    mcpo --port 8001 -- uvx mcp-server-git "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
 
-### C. Déclaration dans l'interface Open WebUI (Conforme Doc Officielle)
-1.  Allez dans **⚙️ Admin Settings** (Paramètres d'administration) → **External Tools** (Outils externes).
-2.  Cliquez sur le bouton **+** (Add Server).
-3.  **Type** : Sélectionnez impérativement **MCP (Streamable HTTP)**.
-4.  **Auth** : Sélectionnez **None** (pour un usage local).
-5.  **URL** : Copiez l'URL affichée par mcpo (ex: `http://localhost:8000`).
-6.  Cliquez sur **Save**.
+### B. Résolution des problèmes de Droits (User "ia")
+Si un serveur (notamment Git) plante au démarrage, vérifiez les permissions :
+```bash
+# Test de lecture Git pour l'utilisateur courant
+cd "/Users/Shared/Mon Google Drive Physique/Documentation"
+git status
+# Si erreur "Permission denied", débloquez le dossier :
+sudo chmod -R 777 "/Users/Shared/Mon Google Drive Physique/Documentation"
+```
 
-> [!CAUTION]
-> **Important** : Les terminaux exécutant `mcpo` doivent rester **ouverts** pendant toute l'utilisation d'Open WebUI. Si vous les fermez, l'IA perdra l'accès à ses outils système.
-
-## ✅ 5. Validation Finale de la Stack
-Testez le bon fonctionnement avec ces trois questions dans le chat :
-
-1.  **Test Git** : *"Quels sont les 3 derniers messages de commit sur ce dépôt ?"*
-2.  **Test RAG** : *"Quelles sont les spécifications critiques du bus CAN dans mes PDFs ?"*
-3.  **Test Filesystem** : *"Quels fichiers sont présents dans le dossier `code/scripts/ia/` ?"*
+### C. Déclaration dans l'interface Open WebUI
+1.  Allez dans **⚙️ Admin Settings** → **External Tools**.
+2.  Cliquez sur **+** (Add Server).
+3.  **Type** : `MCP (Streamable HTTP)`. / **Auth** : `None`.
+4.  **URL** : L'URL affichée par mcpo (ex: `http://localhost:8000`).
 
 ---
 
-## 🛡️ 6. Workflow Quotidien "Expert"
-1.  **Recherche** : L'IA locale (Qwen 3.6) cherche dans vos documents + Web + Git.
-2.  **Audit Final** : Utilisez le bouton **Audit Expert 🛡️** (lié à Claude 4.7 Opus via une Action) pour valider les calculs critiques.
+## ✅ 5. Validation & Workflow
+1.  **Test Git** : *"Quels sont les 3 derniers commits ?"*
+2.  **Test RAG** : *"Quelles sont les specs du bus CAN ?"*
+3.  **Audit** : Utilisez le bouton **Audit Expert 🛡️** pour la validation finale via Claude 4.7.
 
 ---
-*Guide d'installation final (Version 100% Python) — Avril 2026*
+*Guide d'installation final (Version 100% Python corrigée) — Avril 2026*
