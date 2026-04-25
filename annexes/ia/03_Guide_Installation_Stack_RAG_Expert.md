@@ -75,11 +75,11 @@ Ouvrez deux terminaux séparés (avec venv activé) pour lancer les services :
 
 1.  **Service Fichiers** (Terminal 1) : 
     ```bash
-    mcpo run uvx filesystem-operations-mcp --root-dir "/Users/Shared/Mon Google Drive Physique/Documentation"
+    mcpo --port 8000 -- uvx filesystem-operations-mcp --root-path "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
 2.  **Service Git** (Terminal 2) : 
     ```bash
-    mcpo run uvx mcp-server-git
+    mcpo --port 8001 -- uvx mcp-server-git
     ```
 
 ### C. Déclaration dans l'interface Open WebUI (Conforme Doc Officielle)
