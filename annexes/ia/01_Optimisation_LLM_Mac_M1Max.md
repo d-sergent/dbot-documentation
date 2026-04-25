@@ -71,15 +71,15 @@ sudo sysctl iogpu.wired_limit_mb=57344
 
 ---
 
-## 6. Recommandations de Modèles (Config 64 Go)
+## 6. Recommandations de Modèles de Pointe (Avril 2026)
 
-Avec 64 Go de RAM unifiée, vous pouvez exploiter des modèles de "classe mondiale" en local.
+Avec 64 Go de RAM, vous pouvez faire tourner les modèles les plus récents sortis en ce mois d'avril 2026.
 
-1.  **Qwen-2.5-32B (Instruct)** : Le meilleur compromis actuel. Extrêmement intelligent, gère 128k de contexte, et tourne à une vitesse parfaite sur M1 Max.
-2.  **DeepSeek-V3 (ou V2.5)** : L'excellence de l'architecture MoE (Mixture of Experts). Idéal pour le code et le raisonnement logique pur.
-3.  **Llama-3.1-70B (Q4_K_M)** : Le standard de l'industrie. Il rentre "juste" dans vos 64 Go (avec ~40 Go de VRAM) mais offre la meilleure fiabilité de réponse.
-4.  **Gemma-2-27B** : Un modèle Google très performant et très rapide pour un usage quotidien fluide.
+1.  **Qwen-3.6-27B (Dense)** : **Le choix n°1 pour le D-Bot**. Optimisé spécifiquement pour l'encodage agentique et le raisonnement au niveau du dépôt (repository-level). Sa version Dense est d'une précision redoutable pour corriger vos scripts Python.
+2.  **Llama-4-Scout (109B MoE / 17B actifs)** : **Le monstre du contexte**. Grâce à ses 10 millions de tokens de fenêtre de contexte, il peut "lire" l'intégralité de votre documentation et de votre code source simultanément. À utiliser en GGUF (Q4_K).
+3.  **Gemma-4-31B (Dense)** : **L'excellence multimodale**. Le tout dernier modèle de Google (2 avril 2026). À privilégier si vous intégrez des flux vidéo ou image (via OAK-D) dans vos réflexions IA.
+4.  **Qwen-3.6-35B-A3B** : Un modèle MoE ultra-rapide qui offre un excellent compromis entre vitesse d'inférence et capacité de raisonnement complexe.
 
 ---
 
-*Document mis à jour en Avril 2026 suite à l'analyse GGUF vs MLX.*
+*Document mis à jour le 25 Avril 2026 — Intégration des sorties majeures de Llama 4, Gemma 4 et Qwen 3.6.*
