@@ -1,38 +1,38 @@
-# Guide d'Installation de la Stack RAG Expert (Native Mac)
-
-Ce guide détaille les étapes pour installer la totalité de la stack **Hybrid Agentic RAG** sur macOS sans Docker.
-
 ## 1. Prérequis Système & Partage Multi-Session
-Pour que la stack soit accessible depuis vos différentes sessions, nous utilisons le répertoire partagé de macOS.
+Pour que la stack soit accessible depuis vos différentes sessions (Standard et IA), nous utilisons le répertoire partagé de macOS.
 
 1.  **Création du dossier de savoir partagé** :
     ```bash
-    mkdir -p "/Users/Shared/AI_Shared_Knowledge/lancedb"
+    mkdir -p "/Users/Shared/AI_Shared_Knowledge/lancedb/models"
     # Donner les accès aux deux sessions
     sudo chmod -R 777 "/Users/Shared/AI_Shared_Knowledge"
     ```
-2.  **Homebrew & Python** :
-    ```bash
-    brew install python@3.11
-    ```
-3.  **uv** (gestionnaire Python ultra-rapide) :
-    ```bash
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    ```
+2.  **Configuration LM Studio (Session Standard)** :
+    *   Ouvrez LM Studio > Settings.
+    *   Changez le **Models Directory** pour : `/Users/Shared/AI_Shared_Knowledge/lancedb/models`.
+3.  **Homebrew, Python & uv** : Installez-les via brew (voir section précédente).
 
 ---
 
-## 2. Étape 1 : Inférence Locale (Ollama)
-1.  **Installation** : Téléchargez et installez l'application depuis [ollama.com](https://ollama.com).
-2.  **Modèle de Raisonnement** : Installez le Qwen 3.6 35B (version optimisée pour votre RAM) :
+## 2. Étape 1 : Inférence Locale (Choix du Moteur)
+
+### Option A : LLMster (`lms`) - [Recommandé pour la simplicité]
+Idéal car il partage nativement le dossier de LM Studio sans aucune importation.
+1.  **Installation** (Session IA) :
     ```bash
-    ollama run qwen3.6:35b-a3b-q6_k
+    npm install -g @lmstudio/lms
     ```
-3.  **Modèle d'Embedding** : Indispensable pour que l'IA puisse "comprendre" vos PDFs :
+2.  **Lancement** :
     ```bash
-    ollama pull nomic-embed-text
+    lms server start
+    lms load <nom-du-modèle-téléchargé>
     ```
-4.  **Vérification** : Tapez `ollama list` pour vérifier que les deux modèles sont présents.
+
+### Option B : Ollama - [Recommandé pour l'écosystème]
+Plus puissant pour les embeddings et la vision, mais nécessite une importation pour les fichiers téléchargés hors Ollama.
+1.  **Installation** : Téléchargez l'app sur [ollama.com](https://ollama.com).
+2.  **Modèle principal** : `ollama run qwen3.6:35b-a3b-q6_k`.
+3.  **Modèle d'Embedding** : `ollama pull nomic-embed-text`.
 
 ---
 
