@@ -125,7 +125,11 @@ Les serveurs MCP permettent à l'IA d'interagir directement avec votre système.
 
 1.  **Accès Fichiers** (Lecture/Écriture) :
     ```bash
-    uvx mcp-server-file-system "/Users/Shared/Mon Google Drive Physique/Documentation"
+    # Recommandé (Node.js) :
+    npx -y @modelcontextprotocol/server-filesystem "/Users/Shared/Mon Google Drive Physique/Documentation"
+    
+    # Alternative (Python) :
+    # uvx filesystem-operations-mcp --root-dir "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
 2.  **Accès Git** (Historique & Commits) :
     Indispensable pour que l'IA puisse consulter l'historique ou commiter ses changements.
