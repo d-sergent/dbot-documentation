@@ -61,7 +61,7 @@ Nous installons Open WebUI en mode natif (Python) pour économiser les ~8 Go de 
     ```
 2.  **Installation des dépendances** :
     ```bash
-    pip install open-webui lancedb tantivy pypdf sentence-transformers flashrank tavily-python
+    pip3.11 install open-webui lancedb tantivy pypdf sentence-transformers flashrank tavily-python
     ```
 3.  **Lancement** :
     ```bash
@@ -85,7 +85,7 @@ Tavily est le "bras armé" de votre système sur Internet.
 
 ### B. Usage Standalone (Script Python)
 Si vous voulez effectuer une recherche rapide sans lancer l'interface graphique :
-1.  **Installation** : `pip install tavily-python`.
+1.  **Installation** : `pip3.11 install tavily-python`.
 2.  **Exécution du script** :
     ```bash
     export TAVILY_API_KEY="votre_clé_ici"
@@ -100,7 +100,7 @@ LanceDB est la base de données qui stocke vos documents. Le Re-ranker est le mo
 
 1.  **Installation des moteurs** (Dans votre venv `open-webui-env`) :
     ```bash
-    pip install lancedb tantivy pypdf sentence-transformers flashrank
+    pip3.11 install lancedb tantivy pypdf sentence-transformers flashrank
     ```
 2.  **Configuration du Re-ranker (Optimisation Mac)** :
     Pour que le réordonnancement soit instantané, nous utilisons la puce graphique (GPU) de votre M1 Max.
