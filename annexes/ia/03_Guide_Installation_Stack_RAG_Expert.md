@@ -132,10 +132,11 @@ Les serveurs MCP permettent à l'IA d'interagir directement avec votre système.
     # uvx filesystem-operations-mcp --root-dir "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
 2.  **Accès Git** (Historique & Commits) :
-    Indispensable pour que l'IA puisse consulter l'historique ou commiter ses changements.
     ```bash
     uvx mcp-server-git
     ```
+    > [!NOTE]
+    > **Attention** : Si vous lancez ces commandes à la main, il est normal de voir une erreur `JSONRPCMessage`. Ces serveurs doivent être configurés dans l'onglet **Integrations > MCP** d'Open WebUI pour fonctionner avec l'IA.
 3.  **Action d'Audit Claude** : Créez une **Action** nommée "Audit Expert 🛡️" liée à Claude 4.7 Opus pour la validation finale.
 
 ---
