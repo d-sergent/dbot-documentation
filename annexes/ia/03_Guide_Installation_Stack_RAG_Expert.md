@@ -75,10 +75,12 @@ Ouvrez deux terminaux séparés (avec venv activé) pour lancer les services :
 
 1.  **Service Fichiers** (Terminal 1) : 
     ```bash
+    source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
     mcpo --port 8000 -- uvx filesystem-operations-mcp --root-path "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
 2.  **Service Git** (Terminal 2) : 
     ```bash
+    source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
     mcpo --port 8001 -- uvx mcp-server-git
     ```
 
