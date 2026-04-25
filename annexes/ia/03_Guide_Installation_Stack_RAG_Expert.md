@@ -56,11 +56,14 @@ Plus puissant pour les embeddings et la vision.
 ## 3. Étape 2 : Interface Native (Open WebUI)
 Nous installons Open WebUI en mode natif (Python) pour économiser les ~8 Go de RAM habituellement réservés par Docker.
 
-1.  **Création de l'environnement virtuel** :
+1.  **Création de l'environnement virtuel dans le dossier partagé** :
     ```bash
+    # On le crée dans /Users/Shared pour que les bibliothèques soient communes
     python3.11 -m venv "/Users/Shared/AI_Shared_Knowledge/open-webui-env"
     source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
     ```
+    > [!TIP]
+    > **Pourquoi ici ?** En installant le venv dans `/Users/Shared`, toutes les bibliothèques installées via `pip3.11` sont physiquement stockées au même endroit pour vos deux sessions. Vous économisez de l'espace disque et garantissez que les deux sessions utilisent exactement les mêmes versions de code.
 2.  **Installation des dépendances** :
     ```bash
     pip3.11 install open-webui lancedb tantivy pypdf sentence-transformers flashrank tavily-python
