@@ -67,20 +67,30 @@ Nous installons Open WebUI en mode natif (Python) pour économiser les ~8 Go de 
 
 ---
 
-## 4. Étape 3 : Recherche Web (Tavily AI)
-1.  **Clé API** : Récupérez votre clé gratuite sur [tavily.com](https://tavily.com).
-2.  **Configuration** : Dans Open WebUI > Settings > Web Search :
-    *   Activer la recherche.
-    *   Moteur : **Tavily**.
-    *   Clé API : Coller votre clé.
+## 4. Étape 3 : Intelligence Vectorielle (LanceDB & Re-ranker)
+LanceDB est la base de données qui stocke vos documents. Le Re-ranker est le modèle qui garantit la précision technique.
+
+1.  **Installation des moteurs** (Dans votre venv `open-webui-env`) :
+    ```bash
+    pip install lancedb tantivy pypdf sentence-transformers flashrank
+    ```
+2.  **Configuration du Re-ranker (Optimisation Mac)** :
+    Pour que le réordonnancement soit instantané, nous utilisons la puce graphique (GPU) de votre M1 Max.
+    *   Modèle conseillé : `Qwen/Qwen3-Reranker-0.6B`.
+    *   Accélération : Assurez-vous que `device='mps'` est spécifié dans vos scripts (Metal Performance Shaders).
 
 ---
 
-## 5. Étape 4 : Fonctions Expertes (LanceDB & Reranker)
-Créez une **Function** dans Open WebUI (Workspace > Functions) avec les paramètres suivants :
-*   **Database Path** : `/Users/Shared/AI_Shared_Knowledge/lancedb`
-*   **Documents Path** : Le chemin de votre dossier de documentation robotique.
-*   **Re-ranker** : Configurez le modèle `Qwen3-Reranker-0.6B` pour utiliser le device `mps` (Metal).
+## 5. Étape 4 : Fonctions Expertes (Open WebUI)
+Maintenant que les moteurs sont installés, nous les lions à l'interface graphique.
+
+1.  **Recherche Web (Tavily AI)** :
+    *   Récupérez votre clé sur [tavily.com](https://tavily.com).
+    *   Configuration : Dans Open WebUI > Settings > Web Search, activez Tavily.
+2.  **RAG Local (LanceDB)** :
+    Créez une **Function** (Workspace > Functions) et injectez le code de recherche.
+    *   **Database Path** : `/Users/Shared/AI_Shared_Knowledge/lancedb`
+    *   **Documents Path** : Votre dossier `/Users/Shared/Mon Google Drive Physique/Documentation`.
 
 ---
 
