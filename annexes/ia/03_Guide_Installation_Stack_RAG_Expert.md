@@ -141,10 +141,29 @@ Les serveurs MCP permettent à l'IA d'interagir directement avec votre système.
 
 ---
 
-## 8. Utilisation au Quotidien
-Une fois configuré, votre workflow est le suivant :
-1.  **Dégrossissage** : Qwen local cherche dans LanceDB + Web -> Proposition.
-2.  **Audit** : Un clic sur le bouclier 🛡️ envoie la proposition à Claude pour certification.
+---
+
+## 8. Étape 7 : Validation de la Stack
+Une fois tout configuré, effectuez ces tests dans un nouveau chat pour vérifier la chaîne de liaison.
+
+### 🧪 Test 1 : Intelligence Git
+Demandez : *"Peux-tu me lister les 3 derniers commits de ce dépôt ?"*
+*   **Succès** : L'IA affiche l'historique réel via le serveur MCP Git.
+
+### 🧪 Test 2 : RAG Local (LanceDB)
+Demandez : *"Quelles sont les spécifications techniques trouvées dans les datasheets locales ?"*
+*   **Succès** : L'IA cite des sources PDF et utilise le contexte injecté.
+
+### 🧪 Test 3 : Accès Fichiers
+Demandez : *"Liste-moi les fichiers du dossier `annexes/ia/`."*
+*   **Succès** : L'IA parcourt l'arborescence via MCP Filesystem.
+
+---
+
+## 9. Utilisation au Quotidien
+Votre workflow expert est maintenant le suivant :
+1.  **Recherche** : Qwen local cherche dans LanceDB + Web + Git -> Proposition.
+2.  **Audit** : Cliquez sur le bouclier **Audit Expert 🛡️** pour envoyer la proposition à Claude 4.7 Opus (Cloud) pour certification finale.
 
 ---
 
