@@ -1,65 +1,43 @@
-"""
-title: LanceDB Expert RAG
-author: D-Bot Project
-author_url: https://github.com/d-sergent/dbot-documentation
-version: 1.0.0
-"""
-
 import os
 import lancedb
 from pydantic import BaseModel, Field
 from typing import Optional, List
 
-class Filter:
-    class Valves(BaseModel):
-        db_path: str = Field(
-            default="/Users/Shared/AI_Shared_Knowledge/lancedb",
-            description="Chemin vers la base LanceDB partagée."
-        )
-        collection_name: str = Field(
-            default="technical_docs",
-            description="Nom de la table de documentation."
-        )
-        top_k: int = Field(
-            default=5,
-            description="Nombre de résultats à récupérer."
-        )
-
+class Tools:
     def __init__(self):
-        self.valves = self.Valves()
+        # Configuration des chemins
+        self.db_path = "/Users/Shared/AI_Shared_Knowledge/lancedb"
+        self.collection_name = "technical_docs"
 
-    def inlet(self, body: dict, __user__: Optional[dict] = None) -> dict:
-        # Récupération de la question de l'utilisateur
-        messages = body.get("messages", [])
-        if not messages:
-            return body
-        
-        last_message = messages[-1]["content"]
-        
+    def search_technical_docs(self, query: str) -> str:
+        """
+        Recherche des informations techniques précises dans la documentation locale du robot (datasheets, specs moteurs, etc.).
+        :param query: La question technique ou les mots-clés de recherche.
+        :return: Les extraits les plus pertinents trouvés dans la base de connaissances.
+        """
         try:
             # Connexion à la base LanceDB
-            db = lancedb.connect(self.valves.db_path)
+            db = lancedb.connect(self.db_path)
             
             # Vérifier si la table existe
-            if self.valves.collection_name not in db.table_names():
-                print(f"⚠️ Table {self.valves.collection_name} non trouvée.")
-                return body
+            if self.collection_name not in db.table_names():
+                return "⚠️ Erreur : La base de documentation n'est pas encore indexée dans LanceDB."
 
-            tbl = db.open_table(self.valves.collection_name)
+            tbl = db.open_table(self.collection_name)
             
-            # Recherche sémantique
-            results = tbl.search(last_message).limit(self.valves.top_k).to_list()
+            # Recherche sémantique (top 5)
+            results = tbl.search(query).limit(5).to_list()
             
-            if results:
-                context = "\n".join([f"- {r['text']}" for r in results])
-                
-                # Injection du contexte dans le message système ou avant la question
-                prompt_injection = f"\n\nCONTEXTE TECHNIQUE (LanceDB) :\n{context}\n\nUtilise ce contexte pour répondre à la question suivante."
-                messages[-1]["content"] = prompt_injection + "\n\nQUESTION : " + last_message
-                
-                print(f"✅ RAG activé : {len(results)} extraits injectés.")
+            if not results:
+                return "🔍 Aucune information pertinente trouvée dans la documentation locale pour cette requête."
+
+            # Formatage de la réponse pour l'IA
+            context = "\n\n".join([
+                f"--- SOURCE : {r['metadata'].get('source', 'Inconnu')} (Page {r['metadata'].get('page', '?')}) ---\n{r['text']}" 
+                for r in results
+            ])
+            
+            return f"Voici les extraits de la documentation technique locale :\n\n{context}"
             
         except Exception as e:
-            print(f"❌ Erreur RAG : {e}")
-            
-        return body
+            return f"❌ Erreur lors de la recherche dans LanceDB : {str(e)}"

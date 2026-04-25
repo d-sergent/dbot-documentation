@@ -80,7 +80,20 @@ Plus puissant pour les embeddings et la vision.
 
 ---
 
-## 4. Étape 3 : Recherche Web (Tavily AI)
+## 4. Étape 3 : Intelligence Vectorielle (LanceDB & Re-ranker)
+Cette étape installe les deux "moteurs" de votre savoir :
+1.  **LanceDB (Le Bibliothécaire)** : Il stocke et retrouve les documents.
+2.  **Le Re-ranker (L'Expert)** : Il relit les résultats de LanceDB pour ne donner que les plus pertinents à l'IA. C'est lui qui évite que l'IA ne raconte n'importe quoi en confondant deux moteurs.
+
+**Configuration du Re-ranker (Dans l'interface Open WebUI)** :
+*   Allez dans `Settings > Documents`.
+*   Cherchez **Reranking Model**.
+*   Tapez : `BAAI/bge-reranker-v2-m3` (le standard haute précision de 2026).
+*   Cliquez sur le switch pour **activer le Reranking**.
+
+---
+
+## 5. Étape 4 : Recherche Web (Tavily AI)
 Tavily est le "bras armé" de votre système sur Internet.
 
 ### A. Configuration Open WebUI (Usage Quotidien)
@@ -89,73 +102,33 @@ Tavily est le "bras armé" de votre système sur Internet.
     *   **Search Engine** : Tavily.
     *   **Tavily API Key** : Votre clé.
     *   **Search Depth** : `Advanced` (pour des rapports d'ingénierie précis).
-    *   **Max Results** : 5 (excellent compromis coût/vitesse).
-3.  **Utilisation** : Dans le chat, activez l'icône "Web Search". Qwen utilisera alors Tavily automatiquement si la question le nécessite.
-
-### B. Usage Standalone (Script Python)
-Si vous voulez effectuer une recherche rapide sans lancer l'interface graphique :
-1.  **Installation** : `pip3.11 install tavily-python`.
-2.  **Exécution du script** :
-    ```bash
-    export TAVILY_API_KEY="votre_clé_ici"
-    python "/Users/Shared/Mon Google Drive Physique/Documentation/code/scripts/ia/test_tavily_search.py"
-    ```
-    *Ce script affiche une synthèse de la recherche et les sources les plus pertinentes.*
+    *   **Max Results** : 5.
+3.  **Utilisation** : Dans le chat, activez l'icône "Web Search".
 
 ---
 
-## 5. Étape 4 : Intelligence Vectorielle (LanceDB & Re-ranker)
-LanceDB est la base de données qui stocke vos documents. Le Re-ranker est le modèle qui garantit la précision technique.
+## 6. Étape 5 : Configuration de l'Outil RAG (Open WebUI)
+Pour que l'IA puisse "appeler" votre base de documents locale, vous devez créer un **Tool**.
 
-1.  **Installation des moteurs** (Dans votre venv `open-webui-env`) :
-    ```bash
-    pip3.11 install lancedb tantivy pypdf sentence-transformers flashrank
-    ```
-2.  **Configuration du Re-ranker (Optimisation Mac)** :
-    Pour que le réordonnancement soit instantané, nous utilisons la puce graphique (GPU) de votre M1 Max.
-    *   Modèle conseillé : `Qwen/Qwen3-Reranker-0.6B`.
-    *   Accélération : Assurez-vous que `device='mps'` est spécifié dans vos scripts (Metal Performance Shaders).
-
----
-
-## 6. Étape 5 : Vérification par Script (Standalone)
-Avant de configurer l'interface, vérifiez que les moteurs accèdent bien à vos fichiers et au web.
-
-1.  **Test LanceDB** :
-    ```bash
-    python "/Users/Shared/Mon Google Drive Physique/Documentation/code/scripts/ia/test_lancedb_rag.py"
-    ```
-2.  **Test Tavily** :
-    ```bash
-    python "/Users/Shared/Mon Google Drive Physique/Documentation/code/scripts/ia/test_tavily_search.py"
-    ```
-
----
-
-## 7. Étape 6 : Configuration de la Fonction RAG (Open WebUI)
-Pour que l'interface utilise LanceDB, vous devez créer une "Function" (ou un "Tool") avec le code suivant.
-
-1.  **Accès** : Dans Open WebUI, allez dans `Workspace > Tools` (ou `Functions`).
+1.  **Accès** : Dans Open WebUI, allez dans `Workspace > Tools`.
 2.  **Création** : Cliquez sur `+ New Tool`.
-3.  **Code** : Copiez le contenu du fichier suivant :
+3.  **Code** : Copiez-collez le contenu de ce fichier :
     👉 [open_webui_lancedb_filter.py](../../code/scripts/ia/open_webui_lancedb_filter.py)
-4.  **Paramètres (Valves)** : Une fois enregistré, vérifiez les "Valves" pour pointer sur :
-    *   `db_path`: `/Users/Shared/AI_Shared_Knowledge/lancedb`
-    *   `collection_name`: `technical_docs`
-5.  **Activation** : Dans n'importe quel nouveau chat, activez le filtre "LanceDB Expert RAG" via l'icône de réglages du modèle.
+4.  **Enregistrement** : Cliquez sur `Save`. 
+    *Note : Si vous avez une erreur "No Tools class found", vérifiez que vous avez bien copié la classe `class Tools:`.*
 
 ---
 
-## 8. Étape 7 : Serveur MCP & Audit Claude
+## 7. Étape 6 : Serveur MCP & Audit Claude
 1.  **Accès Fichiers** : Lancez le serveur MCP pour vos projets :
     ```bash
     uvx mcp-server-filesystem "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
-2.  **Action d'Audit** : Créez une **Action** nommée "Audit Expert 🛡️" liée à Claude 4.7 Opus pour la validation finale des calculs et de la sécurité.
+2.  **Action d'Audit** : Créez une **Action** nommée "Audit Expert 🛡️" liée à Claude 4.7 Opus pour la validation finale.
 
 ---
 
-## 9. Utilisation au Quotidien
+## 8. Utilisation au Quotidien
 Une fois configuré, votre workflow est le suivant :
 1.  **Dégrossissage** : Qwen local cherche dans LanceDB + Web -> Proposition.
 2.  **Audit** : Un clic sur le bouclier 🛡️ envoie la proposition à Claude pour certification.
