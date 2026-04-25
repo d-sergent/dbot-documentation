@@ -132,13 +132,17 @@ Avant de configurer l'interface, vérifiez que les moteurs accèdent bien à vos
 
 ---
 
-## 7. Étape 6 : Fonctions Expertes (Open WebUI)
-Maintenant que les moteurs sont installés, nous les lions à l'interface graphique.
+## 7. Étape 6 : Configuration de la Fonction RAG (Open WebUI)
+Pour que l'interface utilise LanceDB, vous devez créer une "Function" (ou un "Tool") avec le code suivant.
 
-1.  **RAG Local (LanceDB)** :
-    Créez une **Function** (Workspace > Functions) et injectez le code de recherche.
-    *   **Database Path** : `/Users/Shared/AI_Shared_Knowledge/lancedb`
-    *   **Documents Path** : Votre dossier `/Users/Shared/Mon Google Drive Physique/Documentation`.
+1.  **Accès** : Dans Open WebUI, allez dans `Workspace > Tools` (ou `Functions`).
+2.  **Création** : Cliquez sur `+ New Tool`.
+3.  **Code** : Copiez le contenu du fichier suivant :
+    👉 [open_webui_lancedb_filter.py](../../code/scripts/ia/open_webui_lancedb_filter.py)
+4.  **Paramètres (Valves)** : Une fois enregistré, vérifiez les "Valves" pour pointer sur :
+    *   `db_path`: `/Users/Shared/AI_Shared_Knowledge/lancedb`
+    *   `collection_name`: `technical_docs`
+5.  **Activation** : Dans n'importe quel nouveau chat, activez le filtre "LanceDB Expert RAG" via l'icône de réglages du modèle.
 
 ---
 
