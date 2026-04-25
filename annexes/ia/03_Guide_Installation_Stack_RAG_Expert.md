@@ -120,12 +120,19 @@ Pour que l'IA puisse "appeler" votre base de documents locale, vous devez créer
 
 ---
 
-## 7. Étape 6 : Serveur MCP & Audit Claude
-1.  **Accès Fichiers** : Lancez le serveur MCP pour vos projets :
+## 7. Étape 6 : Serveurs MCP (Accès Fichiers & Git)
+Les serveurs MCP permettent à l'IA d'interagir directement avec votre système.
+
+1.  **Accès Fichiers** (Lecture/Écriture) :
     ```bash
     uvx mcp-server-file-system "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
-2.  **Action d'Audit** : Créez une **Action** nommée "Audit Expert 🛡️" liée à Claude 4.7 Opus pour la validation finale.
+2.  **Accès Git** (Historique & Commits) :
+    Indispensable pour que l'IA puisse consulter l'historique ou commiter ses changements.
+    ```bash
+    uvx mcp-server-git
+    ```
+3.  **Action d'Audit Claude** : Créez une **Action** nommée "Audit Expert 🛡️" liée à Claude 4.7 Opus pour la validation finale.
 
 ---
 
