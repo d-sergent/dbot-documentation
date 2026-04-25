@@ -87,9 +87,10 @@ Cette étape installe les deux "moteurs" de votre savoir :
 
 **Configuration du Re-ranker (Dans l'interface Open WebUI)** :
 *   Allez dans `Settings > Documents`.
-*   Cherchez **Reranking Model**.
-*   Tapez : `BAAI/bge-reranker-v2-m3` (le standard haute précision de 2026).
-*   Cliquez sur le switch pour **activer le Reranking**.
+*   Activez d'abord le switch **Hybrid Search** (Indispensable pour faire apparaître les options de Reranking).
+*   Cherchez **Reranking Model** et tapez : `BAAI/bge-reranker-v2-m3`.
+*   Réglez **Top K** sur `10` et **Top K Reranker** sur `5`.
+*   Cliquez sur **Save** en bas à droite.
 
 ---
 
