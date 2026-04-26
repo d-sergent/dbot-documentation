@@ -45,7 +45,19 @@ Une fois le venv activé, lancez cette commande pour installer tous les outils :
 pip3.11 install open-webui lancedb tantivy pypdf sentence-transformers flashrank tavily-python mcpo
 ```
 
-### C. Optimisation Expert (Modelfile Ollama)
+### C. Persistance & Lancement (Crucial)
+Pour ne pas perdre votre configuration (utilisateurs, MCP, réglages) au redémarrage, vous devez forcer le dossier de données :
+```bash
+# Définir le dossier partagé
+export DATA_DIR="/Users/Shared/AI_Shared_Knowledge/open-webui-data"
+mkdir -p $DATA_DIR
+
+# Lancer le serveur
+open-webui serve
+```
+*Accès : http://localhost:8080*
+
+### D. Optimisation Expert (Modelfile Ollama)
 Pour maximiser les performances sur votre M1 Max et éviter les temps de rechargement :
 1.  **Créez un fichier nommé `Modelfile`** :
     ```dockerfile
