@@ -17,7 +17,8 @@ class LocalSTT:
             print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes (Accélération GPU) !")
         except Exception as e:
             if "CUDA support" in str(e) or "CUDA" in str(e):
-                print(f"⚠ [STT] CTranslate2 n'est pas compilé pour CUDA. Passage sur le CPU (Cortex-A78)...")
+                print(f"⚠ [STT] Problème CUDA détecté : {e}")
+                print(f"⚠ [STT] Passage sur le CPU (Cortex-A78)...")
                 # Sur CPU, on utilise 'int8' pour un calcul très rapide sans perte de compréhension
                 self.model = WhisperModel(model_size, device="cpu", compute_type="int8")
                 print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes (Mode CPU) !")
