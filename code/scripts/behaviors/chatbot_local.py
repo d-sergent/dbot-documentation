@@ -101,7 +101,7 @@ def record_until_silence(device_name: str, vad: webrtcvad.Vad,
     """
     silence_frames   = int(silence_duration * 1000 / FRAME_MS)
     max_rec_frames   = int(max_record_s * 1000 / FRAME_MS)
-    trigger_ratio    = min(noise_ratio + 0.35, 0.95)  # Seuil adaptatif : bruit + 35%
+    trigger_ratio    = min(noise_ratio + 0.15, 0.95)  # Seuil plus sensible : bruit + 15%
 
     ring_buffer  = collections.deque(maxlen=silence_frames)
     detect_buf   = collections.deque(maxlen=10)  # Fenêtre de détection (300ms)
