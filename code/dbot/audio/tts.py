@@ -32,7 +32,10 @@ class LocalTTS:
         print(f"🗣️ [D-Bot dit] : {text}")
         
         try:
-            # Commande de lecture : on utilise -D seulement si alsa_hw est spécifié et non None
+            # La commande piper génère du RAW audio à 22050 Hz
+            piper_cmd = ["piper", "-m", self.voice_model_path, "--output_raw"]
+
+            # Commande de lecture
             aplay_cmd = ["aplay", "-r", "22050", "-f", "S16_LE", "-t", "raw"]
             if self.alsa_hw:
                 aplay_cmd.extend(["-D", self.alsa_hw])
