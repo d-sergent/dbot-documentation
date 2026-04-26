@@ -89,12 +89,12 @@ Cette section connecte votre IA à vos fichiers et à Git via un pont HTTP.
 1.  **Service Fichiers** (Terminal 1) : 
     ```bash
     source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
-    mcpo --port 8000 -- uvx filesystem-operations-mcp --root-path "/Users/Shared/Mon Google Drive Physique/Documentation"
+    mcpo --port 8000 -- uvx filesystem-operations-mcp --root-dir "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
 2.  **Service Git** (Terminal 2) : 
     ```bash
     source "/Users/Shared/AI_Shared_Knowledge/open-webui-env/bin/activate"
-    mcpo --port 8001 -- uvx mcp-server-git "/Users/Shared/Mon Google Drive Physique/Documentation"
+    mcpo --port 8001 -- uvx mcp-server-git -r "/Users/Shared/Mon Google Drive Physique/Documentation"
     ```
 
 ### B. Résolution des problèmes de Droits (User "ia")
