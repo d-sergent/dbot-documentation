@@ -58,9 +58,11 @@ def main():
 
     # --- RÉVEIL FORCÉ ---
     print("⚡ Réveil forcé de PulseAudio + Amplificateur JST...")
-    # CRITIQUE : forcer la source hors de l'état SUSPENDED
-    # Sans cette commande, PulseAudio peut retourner un signal constant (bruit de fond fixe)
-    # au lieu de l'audio live du micro quand NoMachine n'est pas connecté.
+    # CRITIQUE : désactiver module-suspend-on-idle qui re-suspend le micro quelques secondes
+    # après chaque commande suspend-source 0. Sans ça, le micro reste en état SUSPENDED
+    # et retourne un signal constant au lieu de l'audio live.
+    subprocess.run(["pactl", "unload-module", "module-suspend-on-idle"], stderr=subprocess.DEVNULL)
+    # Forcer la source hors de l'état SUSPENDED
     subprocess.run(["pactl", "suspend-source", source_name, "0"], stderr=subprocess.DEVNULL)
     subprocess.run(["pactl", "set-source-mute", source_name, "false"], stderr=subprocess.DEVNULL)
     subprocess.run(["pactl", "set-source-volume", source_name, "150%"], stderr=subprocess.DEVNULL)
