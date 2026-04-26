@@ -97,7 +97,7 @@ def main():
             rms = math.sqrt(sum(s*s for s in shorts) / count) if count > 0 else 0
             meter = "|" * int(min(rms / 100, 20))
 
-            is_speech = vad.is_speech(frame, 16000)
+            is_speech = vad.is_speech(mono_frame, 16000)
             
             if not triggered:
                 print(f"\r💭 [VAD] Amplitude: {rms:5.0f} {meter:<20}", end='', flush=True)
