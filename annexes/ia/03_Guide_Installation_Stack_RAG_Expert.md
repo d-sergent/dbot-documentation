@@ -45,6 +45,25 @@ Une fois le venv activé, lancez cette commande pour installer tous les outils :
 pip3.11 install open-webui lancedb tantivy pypdf sentence-transformers flashrank tavily-python mcpo
 ```
 
+### C. Optimisation Expert (Modelfile Ollama)
+Pour maximiser les performances sur votre M1 Max et éviter les temps de rechargement :
+1.  **Créez un fichier nommé `Modelfile`** :
+    ```dockerfile
+    FROM qwen3.6:35b-a3b
+    # Force l'utilisation maximale du GPU Metal
+    PARAMETER num_gpu 99
+    # Contexte équilibré pour 64Go de RAM (64k tokens)
+    PARAMETER num_ctx 64000
+    # Garde le modèle en RAM pendant 24h
+    PARAMETER keep_alive "24h"
+    # Stop sequence
+    PARAMETER stop "User:"
+    ```
+2.  **Créez votre modèle optimisé** :
+    ```bash
+    ollama create qwen-expert -f Modelfile
+    ```
+
 ---
 
 ## 🧠 3. Intelligence Vectorielle (LanceDB & Reranking)
