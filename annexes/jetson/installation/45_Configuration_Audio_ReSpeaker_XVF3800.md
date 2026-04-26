@@ -21,7 +21,7 @@ Ce guide documente les solutions **validées en Avril 2026** pour stabiliser le 
 | Symptôme | Cause | Solution |
 | :--- | :--- | :--- |
 | **Amplitude bloquée à 128** | PulseAudio capte en 1 canal (mono) au lieu de 2 (stéréo) | Utiliser `--channels=2` dans `parecord` puis extraire le canal gauche |
-| **Voix non reconnue sans NoMachine** | NoMachine booste le gain à la connexion. À la déconnexion, PulseAudio reset le volume source à un niveau trop faible | Forcer `pactl set-source-volume SOURCE 150%` (pas 100%) dans la séquence de démarrage |
+| **Voix non reconnue sans NoMachine** | La source PulseAudio reste en état **SUSPENDED** : elle retourne un signal constant (bruit de fond fixe ~600 RMS) au lieu de l'audio live | Appeler `pactl suspend-source SOURCE 0` avant de lancer parecord, ET booster le volume à 150% |
 | **Haut-parleur muet** | Amplificateur JST éteint (non géré par PulseAudio) | Lancer les 4 commandes `amixer cset numid=3/4/5/6` |
 | **Son sorti uniquement vers le Mac (NoMachine)** | NoMachine capture le Sink par défaut | Forcer `pactl set-default-sink` sur le ReSpeaker ET utiliser `PULSE_SINK` en variable d'environnement |
 | **Grésillement assourdissant** | Accès direct ALSA `hw:0,0` instable | Passer par PulseAudio (ne jamais utiliser `hw:`, toujours `plughw:`) |

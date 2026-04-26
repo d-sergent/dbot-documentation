@@ -58,10 +58,14 @@ def main():
 
     # --- RÉVEIL FORCÉ ---
     print("⚡ Réveil forcé de PulseAudio + Amplificateur JST...")
+    # CRITIQUE : forcer la source hors de l'état SUSPENDED
+    # Sans cette commande, PulseAudio peut retourner un signal constant (bruit de fond fixe)
+    # au lieu de l'audio live du micro quand NoMachine n'est pas connecté.
+    subprocess.run(["pactl", "suspend-source", source_name, "0"], stderr=subprocess.DEVNULL)
     subprocess.run(["pactl", "set-source-mute", source_name, "false"], stderr=subprocess.DEVNULL)
-    # 150% pour compenser la perte de gain quand NoMachine est déconnecté
     subprocess.run(["pactl", "set-source-volume", source_name, "150%"], stderr=subprocess.DEVNULL)
     if sink_name:
+        subprocess.run(["pactl", "suspend-sink", sink_name, "0"], stderr=subprocess.DEVNULL)
         subprocess.run(["pactl", "set-default-sink", sink_name], stderr=subprocess.DEVNULL)
         subprocess.run(["pactl", "set-sink-mute", sink_name, "false"], stderr=subprocess.DEVNULL)
         subprocess.run(["pactl", "set-sink-volume", sink_name, "100%"], stderr=subprocess.DEVNULL)
