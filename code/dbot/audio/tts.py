@@ -23,29 +23,36 @@ class LocalTTS:
 
     def speak(self, text: str):
         if not text: return
+        import tempfile
         print(f"🗣️ [D-Bot dit] : {text}")
         
         try:
-            # 1. On prépare l'environnement avec le Sink spécifique
+            # 1. Préparation de l'environnement
             env = os.environ.copy()
             if self.pulse_sink:
                 env["PULSE_SINK"] = self.pulse_sink
                 subprocess.run(["pactl", "set-sink-mute", self.pulse_sink, "false"], stderr=subprocess.DEVNULL)
                 subprocess.run(["pactl", "set-sink-volume", self.pulse_sink, "100%"], stderr=subprocess.DEVNULL)
 
-            # 2. On lance la commande EXACTE qui a fonctionné en manuel
-            # On utilise --output_raw car c'est ce que aplay attend en format "raw"
-            cmd = f'echo "{text}" | piper -m {self.voice_model_path} --output_raw | aplay -r 22050 -f S16_LE -t raw'
-            
-            if self.alsa_hw:
-                # On tente l'ALSA direct, sinon PulseAudio via l'environnement
-                direct_cmd = cmd + f" -D {self.alsa_hw}"
-                res = subprocess.run(direct_cmd, shell=True, stderr=subprocess.PIPE, env=env)
-                if res.returncode != 0:
-                    print(f"ℹ️ [TTS] ALSA occupé, passage par PulseAudio ({self.pulse_sink or 'default'})...")
-                    subprocess.run(cmd, shell=True, env=env)
+            # 2. Création d'un fichier WAV temporaire
+            with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tf:
+                temp_wav = tf.name
+
+            # 3. Génération du son vers le fichier (Piper crée un WAV propre par défaut)
+            gen_cmd = f'echo "{text}" | piper -m {self.voice_model_path} --output_file {temp_wav}'
+            subprocess.run(gen_cmd, shell=True, stderr=subprocess.DEVNULL, env=env)
+
+            # 4. Lecture du fichier
+            if os.path.exists(temp_wav) and os.path.getsize(temp_wav) > 0:
+                # On utilise paplay pour PulseAudio (très robuste)
+                play_cmd = ["paplay", temp_wav]
+                if self.pulse_sink:
+                    play_cmd.extend(["--device", self.pulse_sink])
+                
+                subprocess.run(play_cmd, env=env)
+                os.remove(temp_wav)
             else:
-                subprocess.run(cmd, shell=True, env=env)
+                print("❌ [TTS] Erreur : Le fichier audio n'a pas pu être généré.")
             
         except Exception as e:
             print(f"❌ [TTS] Erreur : {e}")
