@@ -6,96 +6,125 @@ import time
 import collections
 import subprocess
 import webrtcvad
+import math
+import struct
 
-# Ajout du chemin pour les modules D-Bot
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-
-from dbot.audio.stt import LocalSTT
-from dbot.audio.tts import LocalTTS
-
+# Configuration Audio
 SAMPLE_RATE = 16000
 FRAME_MS    = 30
 FRAME_SIZE  = int(SAMPLE_RATE * FRAME_MS / 1000)
 
 def get_respeaker_alsa_hw() -> str:
-    """Détecte l'index ALSA (plughw:X,0) du ReSpeaker."""
     try:
         out = subprocess.check_output(["arecord", "-l"], text=True)
         for line in out.splitlines():
             if "carte" in line and ("reSpeaker" in line or "XVF3800" in line):
-                card_num = line.split("carte ")[1].split(":")[0].strip()
-                return f"plughw:{card_num},0"
+                return f"plughw:{line.split('carte ')[1].split(':')[0].strip()},0"
             if "card" in line and ("reSpeaker" in line or "XVF3800" in line):
-                card_num = line.split("card ")[1].split(":")[0].strip()
-                return f"plughw:{card_num},0"
-    except Exception:
-        pass
+                return f"plughw:{line.split('card ')[1].split(':')[0].strip()},0"
+    except Exception: pass
     return "plughw:0,0"
 
 def get_pulse_device_name() -> str:
-    """Détecte le périphérique PulseAudio d'entrée du ReSpeaker (évite le .monitor)."""
     try:
         out = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
         for line in out.splitlines():
-            # On cherche impérativement 'input' et on exclut '.monitor'
-            if "reSpeaker" in line or "XVF3800" in line:
-                if "input" in line and ".monitor" not in line:
-                    return line.split()[1]
-        # Fallback si 'input' n'est pas explicite
-        for line in out.splitlines():
-            if ("reSpeaker" in line or "XVF3800" in line) and ".monitor" not in line:
+            if ("reSpeaker" in line or "XVF3800" in line) and "input" in line and ".monitor" not in line:
                 return line.split()[1]
-    except Exception:
-        pass
+    except Exception: pass
     return None
 
 def main():
-    print("🔊 === TEST BOUCLE AUDIO D-BOT (STT -> TTS) === 🔊")
-    
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+    from dbot.audio.stt import LocalSTT
+    from dbot.audio.tts import LocalTTS
+
+    print("🔊 === TEST BOUCLE AUDIO AUTONOME (STT -> TTS) === 🔊")
     device_name = get_pulse_device_name()
     alsa_hw = get_respeaker_alsa_hw()
     
     if not device_name:
-        print("❌ ReSpeaker introuvable. Vérifiez la connexion USB.")
-        return
+        print("❌ ReSpeaker introuvable."); return
 
-    print(f"✅ Micro (PulseAudio): {device_name}")
-    print(f"✅ HP (ALSA): {alsa_hw}")
-
-    # Initialisation IA
-    print("\n⏳ Chargement des modèles STT et TTS (Faster-Whisper + Piper)...")
+    print(f"✅ Micro: {device_name}\n✅ HP: {alsa_hw}")
+    
     stt = LocalSTT(model_size="base", device="cuda")
     tts = LocalTTS(alsa_hw=alsa_hw)
-
     vad = webrtcvad.Vad(3)
+
+    # --- CALIBRATION ---
+    print("\n⏳ Calibration (Silence 2s)...")
+    cmd = ["parecord", f"--device={device_name}", "--format=s16le", "--channels=1", "--rate=16000", "--raw"]
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     
-    # Import des fonctions de capture partagées (pour rester cohérent avec chatbot_local.py)
-    from chatbot_local import measure_noise_vad_ratio, record_until_silence, frames_to_wav
+    noise_frames = 0
+    speech_in_noise = 0
+    for _ in range(int(2.0 * 1000 / FRAME_MS)):
+        frame = proc.stdout.read(FRAME_SIZE * 2)
+        if vad.is_speech(frame, 16000): speech_in_noise += 1
+        noise_frames += 1
+    proc.terminate(); proc.wait()
+    
+    noise_ratio = speech_in_noise / noise_frames
+    trigger_ratio = min(noise_ratio + 0.15, 0.95)
+    print(f"✅ Bruit: {noise_ratio*100:.0f}% -> Seuil: {trigger_ratio*100:.0f}%")
 
-    print("\n⏳ Calibration acoustique (SILENCE pendant 2s)...")
-    noise_ratio = measure_noise_vad_ratio(device_name, vad, duration=2.0)
-    print(f"✅ Bruit calibré à {noise_ratio*100:.0f}%.")
-
-    print("\n🎤 Je vous écoute... Parlez maintenant !")
+    # --- BOUCLE ---
+    print("\n🎤 Parlez maintenant !")
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    
+    voiced_frames = []
+    triggered = False
+    detect_buf = collections.deque(maxlen=10)
+    silence_buf = collections.deque(maxlen=30)
 
     try:
         while True:
-            raw_frames = record_until_silence(device_name, vad, noise_ratio)
-            if raw_frames:
-                wav_path = frames_to_wav(raw_frames)
-                text = stt.transcribe(wav_path)
-                os.remove(wav_path)
+            frame = proc.stdout.read(FRAME_SIZE * 2)
+            if not frame: break
 
-                if text and len(text.strip()) > 2:
-                    print(f"👤 RECONNU : \"{text}\"")
-                    response = f"Vous avez dit : {text}"
-                    print(f"🤖 TTS : \"{response}\"")
-                    tts.speak(response)
-                
-                print("\n👀 À l'écoute...")
+            # Calcul Amplitude RMS
+            count = len(frame) // 2
+            shorts = struct.unpack("<" + "h" * count, frame)
+            rms = math.sqrt(sum(s*s for s in shorts) / count) if count > 0 else 0
+            meter = "|" * int(min(rms / 100, 20))
+
+            is_speech = vad.is_speech(frame, 16000)
+            
+            if not triggered:
+                print(f"\r💭 [VAD] Amplitude: {rms:5.0f} {meter:<20}", end='', flush=True)
+                detect_buf.append(is_speech)
+                if (sum(detect_buf) / len(detect_buf) if detect_buf else 0) >= trigger_ratio:
+                    triggered = True
+                    print("\n✅ PAROLE DÉTECTÉE !")
+                    voiced_frames.extend(list(detect_buf)) # On garde le début
+            else:
+                voiced_frames.append(frame)
+                silence_buf.append(is_speech)
+                if len(silence_buf) == silence_buf.maxlen and sum(silence_buf) < 3: # 90% silence
+                    print("📝 Transcription...")
+                    proc.terminate(); proc.wait()
+                    
+                    with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as f:
+                        wf = wave.open(f.name, 'wb')
+                        wf.setnchannels(1); wf.setsampwidth(2); wf.setframerate(16000)
+                        wf.writeframes(b''.join(voiced_frames)); wf.close()
+                        
+                        text = stt.transcribe(f.name)
+                        os.remove(f.name)
+                        
+                        if text:
+                            print(f"👤 VOUS : {text}")
+                            tts.speak(f"Vous avez dit : {text}")
+                    
+                    # Reset pour la suite
+                    triggered = False; voiced_frames = []; detect_buf.clear(); silence_buf.clear()
+                    print("\n🎤 À l'écoute...")
+                    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
 
     except KeyboardInterrupt:
-        print("\n🛑 Test arrêté.")
+        proc.terminate()
+        print("\n🛑 Arrêt.")
 
 if __name__ == "__main__":
     main()
