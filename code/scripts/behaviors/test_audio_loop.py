@@ -74,7 +74,9 @@ def main():
     
     stt = LocalSTT(model_size="base", device="cuda")
     tts = LocalTTS(alsa_hw=alsa_hw, pulse_sink=sink_name)
-    vad = webrtcvad.Vad(3)
+    # Mode 1 = moins agressif que mode 3, détecte mieux la parole sans NoMachine
+    vad = webrtcvad.Vad(1)
+    RMS_SPEECH_THRESHOLD = 500  # Seuil d'amplitude RMS : si > 500, on considère que c'est de la parole
 
     # --- CALIBRATION ---
     print("\n⏳ Calibration (Silence 2s)...")
@@ -124,6 +126,8 @@ def main():
             meter = "|" * int(min(rms / 100, 20))
 
             is_speech = vad.is_speech(mono_frame, 16000)
+            # Détection hybride : VAD OU amplitude élevée (robuste sans NoMachine)
+            is_speech = is_speech or (rms > RMS_SPEECH_THRESHOLD)
             
             if not triggered:
                 print(f"\r💭 [VAD] Amplitude: {rms:5.0f} {meter:<20}", end='', flush=True)
