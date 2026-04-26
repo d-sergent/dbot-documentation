@@ -59,7 +59,8 @@ def main():
     # --- RÉVEIL FORCÉ ---
     print("⚡ Réveil forcé de PulseAudio + Amplificateur JST...")
     subprocess.run(["pactl", "set-source-mute", source_name, "false"], stderr=subprocess.DEVNULL)
-    subprocess.run(["pactl", "set-source-volume", source_name, "100%"], stderr=subprocess.DEVNULL)
+    # 150% pour compenser la perte de gain quand NoMachine est déconnecté
+    subprocess.run(["pactl", "set-source-volume", source_name, "150%"], stderr=subprocess.DEVNULL)
     if sink_name:
         subprocess.run(["pactl", "set-default-sink", sink_name], stderr=subprocess.DEVNULL)
         subprocess.run(["pactl", "set-sink-mute", sink_name, "false"], stderr=subprocess.DEVNULL)
@@ -94,7 +95,8 @@ def main():
     proc.terminate(); proc.wait()
     
     noise_ratio = speech_in_noise / noise_frames
-    trigger_ratio = min(noise_ratio + 0.15, 0.95)
+    # Offset de 10% (au lieu de 15%) pour être plus sensible sans NoMachine
+    trigger_ratio = min(noise_ratio + 0.10, 0.90)
     print(f"✅ Bruit: {noise_ratio*100:.0f}% -> Seuil: {trigger_ratio*100:.0f}%")
 
     # --- BOUCLE ---
