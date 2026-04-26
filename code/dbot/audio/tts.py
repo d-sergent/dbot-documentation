@@ -10,7 +10,6 @@ class LocalTTS:
         self.alsa_hw = alsa_hw
         self.pulse_sink = pulse_sink
         
-        # Par défaut, utilise la voix téléchargée par l'utilisateur
         if voice_model_path is None:
             self.voice_model_path = os.path.expanduser("~/.local/share/piper-voices/fr_FR-upmc-medium.onnx")
         else:
@@ -18,6 +17,15 @@ class LocalTTS:
             
         if not os.path.exists(self.voice_model_path):
             print(f"⚠ [TTS] AVERTISSEMENT : Le modèle vocal n'a pas été trouvé ici : {self.voice_model_path}")
+
+        # CRITIQUE : Activer l'amplificateur JST du ReSpeaker.
+        # PulseAudio ne le fait JAMAIS automatiquement (registres ALSA numid=3,4,5,6).
+        # Sans ces commandes, le haut-parleur reste muet même si PulseAudio fonctionne.
+        # Voir doc : 45_Configuration_Audio_ReSpeaker_XVF3800.md — Section 3
+        subprocess.run(["amixer", "-c", "0", "cset", "numid=3", "on"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(["amixer", "-c", "0", "cset", "numid=4", "on"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(["amixer", "-c", "0", "cset", "numid=5", "60"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(["amixer", "-c", "0", "cset", "numid=6", "60"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             
         print(f"🔊 [TTS] Initialisé avec la voix : {os.path.basename(self.voice_model_path)}")
 
