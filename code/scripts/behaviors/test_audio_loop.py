@@ -54,14 +54,19 @@ def main():
 
     # --- CALIBRATION ---
     print("\n⏳ Calibration (Silence 2s)...")
-    cmd = ["parecord", f"--device={device_name}", "--format=s16le", "--channels=1", "--rate=16000", "--raw"]
+    # On passe en --channels=2 car pactl a détecté 2ch
+    cmd = ["parecord", f"--device={device_name}", "--format=s16le", "--channels=2", "--rate=16000", "--raw"]
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     
     noise_frames = 0
     speech_in_noise = 0
+    # Lecture de FRAME_SIZE * 4 octets (2 octets par échantillon * 2 canaux)
     for _ in range(int(2.0 * 1000 / FRAME_MS)):
-        frame = proc.stdout.read(FRAME_SIZE * 2)
-        if vad.is_speech(frame, 16000): speech_in_noise += 1
+        frame = proc.stdout.read(FRAME_SIZE * 4)
+        if not frame: break
+        # Pour le VAD, on ne lui donne que le canal gauche (les premiers 2 octets de chaque paire)
+        mono_frame = b''.join([frame[i:i+2] for i in range(0, len(frame), 4)])
+        if vad.is_speech(mono_frame, 16000): speech_in_noise += 1
         noise_frames += 1
     proc.terminate(); proc.wait()
     
@@ -80,12 +85,15 @@ def main():
 
     try:
         while True:
-            frame = proc.stdout.read(FRAME_SIZE * 2)
+            frame = proc.stdout.read(FRAME_SIZE * 4)
             if not frame: break
 
+            # Extraction mono pour le VAD et l'Amplitude (Canal Gauche)
+            mono_frame = b''.join([frame[i:i+2] for i in range(0, len(frame), 4)])
+
             # Calcul Amplitude RMS
-            count = len(frame) // 2
-            shorts = struct.unpack("<" + "h" * count, frame)
+            count = len(mono_frame) // 2
+            shorts = struct.unpack("<" + "h" * count, mono_frame)
             rms = math.sqrt(sum(s*s for s in shorts) / count) if count > 0 else 0
             meter = "|" * int(min(rms / 100, 20))
 
