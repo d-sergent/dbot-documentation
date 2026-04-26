@@ -57,13 +57,19 @@ def main():
     print(f"✅ Micro: {source_name}\n✅ HP: {alsa_hw}\n✅ Sink Pulse: {sink_name}")
 
     # --- RÉVEIL FORCÉ ---
-    print("⚡ Réveil forcé de PulseAudio...")
+    print("⚡ Réveil forcé de PulseAudio + Amplificateur JST...")
     subprocess.run(["pactl", "set-source-mute", source_name, "false"], stderr=subprocess.DEVNULL)
     subprocess.run(["pactl", "set-source-volume", source_name, "100%"], stderr=subprocess.DEVNULL)
     if sink_name:
         subprocess.run(["pactl", "set-default-sink", sink_name], stderr=subprocess.DEVNULL)
         subprocess.run(["pactl", "set-sink-mute", sink_name, "false"], stderr=subprocess.DEVNULL)
         subprocess.run(["pactl", "set-sink-volume", sink_name, "100%"], stderr=subprocess.DEVNULL)
+    # Activation de l'amplificateur JST du ReSpeaker (obligatoire, non géré par PulseAudio)
+    subprocess.run(["amixer", "-c", "0", "cset", "numid=3", "on"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+    subprocess.run(["amixer", "-c", "0", "cset", "numid=4", "on"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+    subprocess.run(["amixer", "-c", "0", "cset", "numid=5", "60"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+    subprocess.run(["amixer", "-c", "0", "cset", "numid=6", "60"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+    print("✅ Amplificateur JST activé.")
     
     stt = LocalSTT(model_size="base", device="cuda")
     tts = LocalTTS(alsa_hw=alsa_hw, pulse_sink=sink_name)
