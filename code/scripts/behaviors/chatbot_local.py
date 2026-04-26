@@ -110,8 +110,9 @@ def record_until_silence(device_name: str, vad: webrtcvad.Vad,
     rec_count     = 0
 
     proc = _open_pulse_stream(device_name)
+    
     bytes_per_frame = FRAME_SIZE * 2
-    print(f"💭 [VAD] Écoute (seuil adaptatif: {trigger_ratio*100:.0f}% — bruit fond: {noise_ratio*100:.0f}%)...", end='\r')
+    print(f"💭 [VAD] Écoute (seuil: {trigger_ratio*100:.0f}%) [Flux: ", end='', flush=True)
 
     try:
         timeout = int(30 * 1000 / FRAME_MS)
@@ -120,7 +121,12 @@ def record_until_silence(device_name: str, vad: webrtcvad.Vad,
             if not frame or len(frame) < bytes_per_frame:
                 break
             
+            # Indicateur de vie : un point tous les 20 frames (~0.6s)
+            if _ % 20 == 0:
+                print(".", end='', flush=True)
+
             is_speech = vad.is_speech(frame, SAMPLE_RATE)
+            # ... suite de la logique ...
 
             if not triggered:
                 detect_buf.append(is_speech)
