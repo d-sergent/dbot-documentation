@@ -22,49 +22,32 @@ class LocalTTS:
         print(f"🔊 [TTS] Initialisé avec la voix : {os.path.basename(self.voice_model_path)}")
 
     def speak(self, text: str):
-        """
-        Transforme le texte en audio et le joue simultanément via ALSA.
-        On utilise un "pipe" Unix pour lier la génération Piper directement à la lecture aplay.
-        Cela donne une latence virtuellement nulle !
-        """
-        if not text:
-            return
-            
+        if not text: return
         print(f"🗣️ [D-Bot dit] : {text}")
         
         try:
-            # La commande piper génère du RAW audio à 22050 Hz
-            piper_cmd = ["piper", "-m", self.voice_model_path, "--output_raw"]
+            # 1. On force le volume du Sink PulseAudio au cas où NoMachine l'aurait baissé
+            if self.pulse_sink:
+                subprocess.run(["pactl", "set-sink-mute", self.pulse_sink, "false"], stderr=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-sink-volume", self.pulse_sink, "100%"], stderr=subprocess.DEVNULL)
 
-            # Commande de lecture
-            aplay_cmd = ["aplay", "-r", "22050", "-f", "S16_LE", "-t", "raw"]
+            # 2. On lance la commande EXACTE qui a fonctionné en manuel
+            # On utilise shell=True pour reproduire fidèlement l'environnement du terminal
+            cmd = f'echo "{text}" | piper -m {self.voice_model_path} --output_raw | aplay -r 22050 -f S16_LE -t raw'
+            
+            # Si on veut tenter l'ALSA direct d'abord, on pourrait, mais restons sur ce qui marche
             if self.alsa_hw:
-                aplay_cmd.extend(["-D", self.alsa_hw])
+                # On essaie d'abord ALSA direct, si ça échoue on laisse PulseAudio (par défaut)
+                direct_cmd = cmd + f" -D {self.alsa_hw}"
+                res = subprocess.run(direct_cmd, shell=True, stderr=subprocess.PIPE)
+                if res.returncode != 0:
+                    print("ℹ️ [TTS] ALSA occupé, passage par PulseAudio...")
+                    subprocess.run(cmd, shell=True)
+            else:
+                subprocess.run(cmd, shell=True)
             
-            # echo text | piper ... | aplay ...
-            p1 = subprocess.Popen(["echo", text], stdout=subprocess.PIPE)
-            p2 = subprocess.Popen(piper_cmd, stdin=p1.stdout, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-            p3 = subprocess.Popen(aplay_cmd, stdin=p2.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
-            
-            # On attend que la lecture soit complètement terminée
-            _, stderr = p3.communicate()
-            
-            # Fallback si ALSA direct échoue (Device busy)
-            if p3.returncode != 0 and (self.alsa_hw or self.pulse_sink):
-                print(f"ℹ️ [TTS] ALSA occupé, bascule sur PulseAudio ({self.pulse_sink or 'default'})...")
-                aplay_cmd_fallback = ["aplay", "-r", "22050", "-f", "S16_LE", "-t", "raw"]
-                if self.pulse_sink:
-                    aplay_cmd_fallback.extend(["-D", f"pulse"]) # Le driver pulse d'aplay utilise la sortie par défaut si on ne spécifie pas plus, mais on peut forcer le sink via env ou driver spécifique
-                
-                p1 = subprocess.Popen(["echo", text], stdout=subprocess.PIPE)
-                p2 = subprocess.Popen(piper_cmd, stdin=p1.stdout, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-                p3 = subprocess.Popen(aplay_cmd_fallback, stdin=p2.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                p3.wait()
-            
-        except FileNotFoundError:
-            print("❌ [TTS] Erreur : La commande 'piper' ou 'aplay' est introuvable. Avez-vous installé piper-tts ?")
         except Exception as e:
-            print(f"❌ [TTS] Erreur inattendue : {e}")
+            print(f"❌ [TTS] Erreur : {e}")
 
 if __name__ == "__main__":
     # Test unitaire autonome de la voix
