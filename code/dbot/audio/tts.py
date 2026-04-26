@@ -26,25 +26,24 @@ class LocalTTS:
         print(f"🗣️ [D-Bot dit] : {text}")
         
         try:
-            # 1. On force le volume du Sink PulseAudio au cas où NoMachine l'aurait baissé
+            # 1. On prépare l'environnement avec le Sink spécifique
+            env = os.environ.copy()
             if self.pulse_sink:
+                env["PULSE_SINK"] = self.pulse_sink
                 subprocess.run(["pactl", "set-sink-mute", self.pulse_sink, "false"], stderr=subprocess.DEVNULL)
                 subprocess.run(["pactl", "set-sink-volume", self.pulse_sink, "100%"], stderr=subprocess.DEVNULL)
 
-            # 2. On lance la commande EXACTE qui a fonctionné en manuel
-            # On utilise shell=True pour reproduire fidèlement l'environnement du terminal
+            # 2. On lance la commande
             cmd = f'echo "{text}" | piper -m {self.voice_model_path} --output_raw | aplay -r 22050 -f S16_LE -t raw'
             
-            # Si on veut tenter l'ALSA direct d'abord, on pourrait, mais restons sur ce qui marche
             if self.alsa_hw:
-                # On essaie d'abord ALSA direct, si ça échoue on laisse PulseAudio (par défaut)
                 direct_cmd = cmd + f" -D {self.alsa_hw}"
-                res = subprocess.run(direct_cmd, shell=True, stderr=subprocess.PIPE)
+                res = subprocess.run(direct_cmd, shell=True, stderr=subprocess.PIPE, env=env)
                 if res.returncode != 0:
                     print("ℹ️ [TTS] ALSA occupé, passage par PulseAudio...")
-                    subprocess.run(cmd, shell=True)
+                    subprocess.run(cmd, shell=True, env=env)
             else:
-                subprocess.run(cmd, shell=True)
+                subprocess.run(cmd, shell=True, env=env)
             
         except Exception as e:
             print(f"❌ [TTS] Erreur : {e}")
