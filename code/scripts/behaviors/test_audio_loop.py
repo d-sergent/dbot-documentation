@@ -61,6 +61,7 @@ def main():
     subprocess.run(["pactl", "set-source-mute", source_name, "false"], stderr=subprocess.DEVNULL)
     subprocess.run(["pactl", "set-source-volume", source_name, "100%"], stderr=subprocess.DEVNULL)
     if sink_name:
+        subprocess.run(["pactl", "set-default-sink", sink_name], stderr=subprocess.DEVNULL)
         subprocess.run(["pactl", "set-sink-mute", sink_name, "false"], stderr=subprocess.DEVNULL)
         subprocess.run(["pactl", "set-sink-volume", sink_name, "100%"], stderr=subprocess.DEVNULL)
     

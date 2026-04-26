@@ -33,17 +33,16 @@ class LocalTTS:
                 subprocess.run(["pactl", "set-sink-mute", self.pulse_sink, "false"], stderr=subprocess.DEVNULL)
                 subprocess.run(["pactl", "set-sink-volume", self.pulse_sink, "100%"], stderr=subprocess.DEVNULL)
 
-            # 2. On lance la commande
-            # Note : On retire --output_raw pour que Piper sorte un WAV complet (avec en-tête)
-            # paplay est plus robuste que aplay pour PulseAudio
-            cmd = f'echo "{text}" | piper -m {self.voice_model_path} | paplay'
+            # 2. On lance la commande EXACTE qui a fonctionné en manuel
+            # On utilise --output_raw car c'est ce que aplay attend en format "raw"
+            cmd = f'echo "{text}" | piper -m {self.voice_model_path} --output_raw | aplay -r 22050 -f S16_LE -t raw'
             
             if self.alsa_hw:
-                # On tente l'ALSA direct (plus rapide) avec le flux RAW
-                direct_cmd = f'echo "{text}" | piper -m {self.voice_model_path} --output_raw | aplay -r 22050 -f S16_LE -t raw -D {self.alsa_hw}'
+                # On tente l'ALSA direct, sinon PulseAudio via l'environnement
+                direct_cmd = cmd + f" -D {self.alsa_hw}"
                 res = subprocess.run(direct_cmd, shell=True, stderr=subprocess.PIPE, env=env)
                 if res.returncode != 0:
-                    print(f"ℹ️ [TTS] ALSA occupé, passage par paplay ({self.pulse_sink or 'default'})...")
+                    print(f"ℹ️ [TTS] ALSA occupé, passage par PulseAudio ({self.pulse_sink or 'default'})...")
                     subprocess.run(cmd, shell=True, env=env)
             else:
                 subprocess.run(cmd, shell=True, env=env)
