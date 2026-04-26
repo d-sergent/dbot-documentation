@@ -80,7 +80,8 @@ def main():
     
     voiced_frames = []
     triggered = False
-    detect_buf = collections.deque(maxlen=10)
+    detect_buf = collections.deque(maxlen=10) # Pour la détection (bool)
+    pre_buffer = collections.deque(maxlen=10) # Pour garder le son AVANT le trigger (bytes)
     silence_buf = collections.deque(maxlen=30)
 
     try:
@@ -102,12 +103,13 @@ def main():
             if not triggered:
                 print(f"\r💭 [VAD] Amplitude: {rms:5.0f} {meter:<20}", end='', flush=True)
                 detect_buf.append(is_speech)
+                pre_buffer.append(mono_frame) # On stocke le son nettoyé (mono)
                 if (sum(detect_buf) / len(detect_buf) if detect_buf else 0) >= trigger_ratio:
                     triggered = True
                     print("\n✅ PAROLE DÉTECTÉE !")
-                    voiced_frames.extend(list(detect_buf)) # On garde le début
+                    voiced_frames.extend(list(pre_buffer)) # On ajoute le début du son
             else:
-                voiced_frames.append(frame)
+                voiced_frames.append(mono_frame)
                 silence_buf.append(is_speech)
                 if len(silence_buf) == silence_buf.maxlen and sum(silence_buf) < 3: # 90% silence
                     print("📝 Transcription...")
