@@ -121,9 +121,18 @@ def record_until_silence(device_name: str, vad: webrtcvad.Vad,
             if not frame or len(frame) < bytes_per_frame:
                 break
             
-            # Indicateur de vie : un point tous les 20 frames (~0.6s)
-            if _ % 20 == 0:
-                print(".", end='', flush=True)
+            # Indicateur de vie et VU-mètre
+            if _ % 10 == 0:
+                import math
+                import struct
+                # Calcul de l'amplitude RMS (Root Mean Square)
+                count = len(frame) // 2
+                shorts = struct.unpack("<" + "h" * count, frame)
+                sum_squares = sum(s*s for s in shorts)
+                rms = math.sqrt(sum_squares / count) if count > 0 else 0
+                level = int(rms / 100)
+                meter = "|" * min(level, 20)
+                print(f"\r💭 [VAD] Écoute (seuil: {trigger_ratio*100:.0f}%) [Amplitude: {rms:5.0f}] {meter:<20}", end='', flush=True)
 
             is_speech = vad.is_speech(frame, SAMPLE_RATE)
             # ... suite de la logique ...
