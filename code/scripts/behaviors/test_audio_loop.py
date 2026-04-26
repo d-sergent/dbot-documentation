@@ -33,11 +33,17 @@ def get_respeaker_alsa_hw() -> str:
     return "plughw:0,0"
 
 def get_pulse_device_name() -> str:
-    """Détecte le périphérique PulseAudio du ReSpeaker."""
+    """Détecte le périphérique PulseAudio d'entrée du ReSpeaker (évite le .monitor)."""
     try:
         out = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
         for line in out.splitlines():
-            if ("reSpeaker" in line or "XVF3800" in line) and "iec958" in line:
+            # On cherche impérativement 'input' et on exclut '.monitor'
+            if "reSpeaker" in line or "XVF3800" in line:
+                if "input" in line and ".monitor" not in line:
+                    return line.split()[1]
+        # Fallback si 'input' n'est pas explicite
+        for line in out.splitlines():
+            if ("reSpeaker" in line or "XVF3800" in line) and ".monitor" not in line:
                 return line.split()[1]
     except Exception:
         pass
