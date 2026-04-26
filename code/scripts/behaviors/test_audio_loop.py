@@ -25,14 +25,22 @@ def get_respeaker_alsa_hw() -> str:
     except Exception: pass
     return "plughw:0,0"
 
-def get_pulse_device_name() -> str:
+def get_pulse_device_names():
+    """Détecte les noms d'entrée (source) et de sortie (sink) du ReSpeaker."""
+    source, sink = None, None
     try:
+        # Sources (Micro)
         out = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
         for line in out.splitlines():
             if ("reSpeaker" in line or "XVF3800" in line) and "input" in line and ".monitor" not in line:
-                return line.split()[1]
+                source = line.split()[1]
+        # Sinks (Haut-parleur)
+        out = subprocess.check_output(["pactl", "list", "short", "sinks"], text=True)
+        for line in out.splitlines():
+            if "reSpeaker" in line or "XVF3800" in line:
+                sink = line.split()[1]
     except Exception: pass
-    return None
+    return source, sink
 
 def main():
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
@@ -40,22 +48,22 @@ def main():
     from dbot.audio.tts import LocalTTS
 
     print("🔊 === TEST BOUCLE AUDIO AUTONOME (STT -> TTS) === 🔊")
-    device_name = get_pulse_device_name()
+    source_name, sink_name = get_pulse_device_names()
     alsa_hw = get_respeaker_alsa_hw()
     
-    if not device_name:
+    if not source_name:
         print("❌ ReSpeaker introuvable."); return
 
-    print(f"✅ Micro: {device_name}\n✅ HP: {alsa_hw}")
+    print(f"✅ Micro: {source_name}\n✅ HP: {alsa_hw}\n✅ Sink Pulse: {sink_name}")
     
     stt = LocalSTT(model_size="base", device="cuda")
-    tts = LocalTTS(alsa_hw=alsa_hw)
+    tts = LocalTTS(alsa_hw=alsa_hw, pulse_sink=sink_name)
     vad = webrtcvad.Vad(3)
 
     # --- CALIBRATION ---
     print("\n⏳ Calibration (Silence 2s)...")
     # On passe en --channels=2 car pactl a détecté 2ch
-    cmd = ["parecord", f"--device={device_name}", "--format=s16le", "--channels=2", "--rate=16000", "--raw"]
+    cmd = ["parecord", f"--device={source_name}", "--format=s16le", "--channels=2", "--rate=16000", "--raw"]
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     
     noise_frames = 0

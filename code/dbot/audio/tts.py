@@ -6,8 +6,9 @@ class LocalTTS:
     Système de synthèse vocale 100% hors-ligne utilisant Piper.
     Piper est ultra rapide et léger sur les processeurs ARM.
     """
-    def __init__(self, voice_model_path=None, alsa_hw="plughw:2,0"):
+    def __init__(self, voice_model_path=None, alsa_hw="plughw:2,0", pulse_sink=None):
         self.alsa_hw = alsa_hw
+        self.pulse_sink = pulse_sink
         
         # Par défaut, utilise la voix téléchargée par l'utilisateur
         if voice_model_path is None:
@@ -49,9 +50,12 @@ class LocalTTS:
             _, stderr = p3.communicate()
             
             # Fallback si ALSA direct échoue (Device busy)
-            if p3.returncode != 0 and self.alsa_hw:
-                print("ℹ️ [TTS] Périphérique ALSA occupé, bascule sur la sortie par défaut (PulseAudio)...")
+            if p3.returncode != 0 and (self.alsa_hw or self.pulse_sink):
+                print(f"ℹ️ [TTS] ALSA occupé, bascule sur PulseAudio ({self.pulse_sink or 'default'})...")
                 aplay_cmd_fallback = ["aplay", "-r", "22050", "-f", "S16_LE", "-t", "raw"]
+                if self.pulse_sink:
+                    aplay_cmd_fallback.extend(["-D", f"pulse"]) # Le driver pulse d'aplay utilise la sortie par défaut si on ne spécifie pas plus, mais on peut forcer le sink via env ou driver spécifique
+                
                 p1 = subprocess.Popen(["echo", text], stdout=subprocess.PIPE)
                 p2 = subprocess.Popen(piper_cmd, stdin=p1.stdout, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
                 p3 = subprocess.Popen(aplay_cmd_fallback, stdin=p2.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
