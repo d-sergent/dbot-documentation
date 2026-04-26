@@ -1,109 +1,194 @@
 # 45 - Guide de Configuration Audio : ReSpeaker XVF3800 sur Jetson Orin Nano
 
-Ce guide documente les solutions **validées en Avril 2026** pour stabiliser le pipeline audio complet (STT → TTS) du D-Bot sur Jetson Orin Nano. Il est conçu pour être auto-suffisant : si un problème survient, ce guide doit permettre de retrouver la solution même sans contexte.
+> **Document de référence — Validé Avril 2026**
+> Ce guide est auto-suffisant. Si un problème survient, pointez un assistant IA vers ce fichier pour qu'il dispose de tout le contexte nécessaire sans historique de conversation.
 
 ---
 
-## 1. Architecture Matérielle (Câblage)
+## 1. Architecture Matérielle
 
 | Composant | Connexion | Remarque |
 | :--- | :--- | :--- |
-| **ReSpeaker XVF3800** | Port USB-A **Bleu** (USB 3.0) de la Jetson | NE PAS utiliser USB-C ou USB 2.0 |
-| **Haut-parleur JST 5W** | Port **JST 1.25mm** sur le ReSpeaker | Bénéficie de l'AEC (Annulation d'Écho) matérielle |
+| **ReSpeaker XVF3800** | Port **USB-A Bleu (USB 3.0)** de la Jetson | NE PAS utiliser USB-C ou USB 2.0 (instabilités isochrones) |
+| **Haut-parleur JST 5W** | Port **JST 1.25mm** sur la carte ReSpeaker | Bénéficie de l'AEC (Annulation d'Écho) matérielle |
+
+### Comment le ReSpeaker apparaît dans Linux
+```
+# Entrée micro (Source PulseAudio) :
+alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800_4-Mic_Array_...-00.iec958-stereo
+
+# Sortie HP (Sink PulseAudio) :
+alsa_output.usb-Seeed_Studio_reSpeaker_XVF3800_4-Mic_Array_...-00.iec958-stereo
+
+# Carte ALSA :
+plughw:0,0   (carte 0, périphérique 0 — USB Audio)
+```
+
+Le suffixe `iec958` désigne le profil PulseAudio (numérique S/PDIF). Le DSP XMOS convertit les 4 micros PDM en flux numérique USB — ce **n'est pas** une connexion S/PDIF physique.
+
+---
+
+## 2. Comportement Selon l'État de NoMachine
 
 > [!IMPORTANT]
-> Le port JST du ReSpeaker possède un **amplificateur matériel** qui **n'est pas activé automatiquement** par Linux/PulseAudio. Il faut l'activer manuellement via les registres ALSA à chaque démarrage (voir section 3).
+> **NoMachine modifie profondément l'état de PulseAudio.** Le robot doit fonctionner **sans NoMachine** en production. Les différences de comportement sont documentées ici.
+
+### Avec NoMachine connecté
+| Élément | État |
+| :--- | :--- |
+| Source micro | `RUNNING` — audio live reçu immédiatement |
+| Source par défaut PulseAudio | **`nx_remapped_out`** (micro du Mac distant !) |
+| Amplitude de fond | ~200 RMS |
+| Amplitude voix | ~400–900 RMS |
+| VAD (mode 3) | Fonctionne normalement |
+
+### Sans NoMachine (Production / Robot Autonome)
+| Élément | État |
+| :--- | :--- |
+| Source micro | **`SUSPENDED`** — retourne un signal constant (~600 RMS) |
+| Source par défaut PulseAudio | ReSpeaker (correct) |
+| Amplitude de fond | ~600–900 RMS (signal figé, ne varie PAS) |
+| Amplitude voix | Identique au fond — la voix ne "monte" pas |
+| VAD (mode 3) | Ne détecte rien (signal constant perçu comme non-parole) |
+
+> [!CAUTION]
+> **PIÈGE :** Sans NoMachine, l'amplitude de fond peut être de ~880 RMS. Si le seuil de détection est codé en dur (ex: 500), il y a des faux positifs. Si le seuil est trop haut (ex: 1877 = 3×626), la voix ne dépasse jamais le bruit de fond car le signal est FIGÉ.
+> La solution n'est pas d'ajuster le seuil : c'est de **sortir la source de l'état SUSPENDED**.
 
 ---
 
-## 2. Diagnostic Rapide des Problèmes
+## 3. Diagnostic Rapide
 
-| Symptôme | Cause | Solution |
+| Symptôme | Cause Racine | Solution |
 | :--- | :--- | :--- |
-| **Amplitude bloquée à 128** | PulseAudio capte en 1 canal (mono) au lieu de 2 (stéréo) | Utiliser `--channels=2` dans `parecord` puis extraire le canal gauche |
-| **Voix non reconnue sans NoMachine** | La source PulseAudio reste en état **SUSPENDED** : elle retourne un signal constant (bruit de fond fixe ~600 RMS) au lieu de l'audio live | Appeler `pactl suspend-source SOURCE 0` avant de lancer parecord, ET booster le volume à 150% |
-| **Haut-parleur muet** | Amplificateur JST éteint (non géré par PulseAudio) | Lancer les 4 commandes `amixer cset numid=3/4/5/6` |
-| **Son sorti uniquement vers le Mac (NoMachine)** | NoMachine capture le Sink par défaut | Forcer `pactl set-default-sink` sur le ReSpeaker ET utiliser `PULSE_SINK` en variable d'environnement |
-| **Grésillement assourdissant** | Accès direct ALSA `hw:0,0` instable | Passer par PulseAudio (ne jamais utiliser `hw:`, toujours `plughw:`) |
-| **`aplay -D plughw:0,0` → "Périphérique occupé"** | PulseAudio verrouille le matériel | Utiliser `paplay` ou `aplay` sans `-D` (via PulseAudio) |
-| **`webrtcvad.Error: Error while processing frame`** | Frame en stéréo passée au VAD (qui attend du mono) | Extraire le canal gauche avant de passer la frame au VAD |
+| **Amplitude bloquée à 128** | `parecord` capture en 1 canal (mono) mais le ReSpeaker est déclaré stéréo (2ch) | Utiliser `--channels=2` dans `parecord`, puis extraire le canal gauche pour le VAD |
+| **Amplitude constante (~600–900) — voix ne monte pas** | Source PulseAudio en état **SUSPENDED** | `pactl unload-module module-suspend-on-idle` puis `pactl suspend-source SOURCE 0` |
+| **VAD ne détecte pas la parole** | Mode VAD 3 (ultra-agressif) refuse le signal brut USB sans traitement NoMachine | Passer au mode VAD **1** + détection hybride RMS calibrée dynamiquement |
+| **Haut-parleur JST muet** | Amplificateur matériel éteint — **PulseAudio ne l'active JAMAIS automatiquement** | `amixer -c 0 cset numid=3 on && numid=4 on && numid=5 60 && numid=6 60` |
+| **Son sorti vers le Mac au lieu du HP** | NoMachine a capturé le Sink par défaut | `pactl set-default-sink SINK_RESPEAKER` + variable `PULSE_SINK` dans l'env Python |
+| **`aplay -D plughw:0,0` → "Périphérique occupé"** | PulseAudio verrouille le matériel | Ne jamais utiliser `hw:` — toujours passer par PulseAudio (`paplay` ou `aplay` sans `-D`) |
+| **`webrtcvad.Error: Error while processing frame`** | Frame stéréo (1920 octets) passée au VAD qui attend du mono (960 octets) | Extraire le canal gauche : `mono = b''.join([frame[i:i+2] for i in range(0, len(frame), 4)])` |
+| **Faux positifs de détection (parole détectée sans parler)** | Seuil RMS fixe trop bas par rapport au bruit amplifié à 150% | Calibrer le seuil dynamiquement : `seuil = max(rms_fond × 3.0, 300)` |
 
 ---
 
-## 3. Solution Complète : Séquence de Démarrage Obligatoire
+## 4. Séquence de Démarrage Complète (Obligatoire)
 
-**Ces commandes doivent être exécutées à chaque démarrage du robot**, avant tout script audio. Elles sont intégrées dans `test_audio_loop.py` et `LocalTTS` mais peuvent être lancées manuellement :
+Ces commandes sont intégrées dans `test_audio_loop.py` et dans `LocalTTS.__init__()`, mais peuvent être lancées manuellement pour déboguer.
 
 ```bash
-# 1. Identifier les noms des périphériques
-SOURCE=$(pactl list short sources | grep "XVF3800" | grep "input" | grep -v "monitor" | awk '{print $2}')
-SINK=$(pactl list short sinks | grep "XVF3800" | awk '{print $2}')
+# Variables
+SOURCE="alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800_4-Mic_Array_114993701260500251-00.iec958-stereo"
+SINK="alsa_output.usb-Seeed_Studio_reSpeaker_XVF3800_4-Mic_Array_114993701260500251-00.iec958-stereo"
 
-# 2. Réveiller le micro
+# ÉTAPE 1 : Désactiver la mise en veille automatique de PulseAudio
+# module-suspend-on-idle re-suspend le micro quelques secondes après inactivité
+# C'est la CAUSE RACINE du signal constant sans NoMachine
+pactl unload-module module-suspend-on-idle
+
+# ÉTAPE 2 : Sortir le micro de l'état SUSPENDED
+pactl suspend-source "$SOURCE" 0
 pactl set-source-mute "$SOURCE" false
-pactl set-source-volume "$SOURCE" 100%
+pactl set-source-volume "$SOURCE" 150%   # 150% car sans NoMachine le gain est plus faible
 
-# 3. Réveiller le haut-parleur PulseAudio
+# ÉTAPE 3 : Configurer le haut-parleur
+pactl suspend-sink "$SINK" 0
 pactl set-default-sink "$SINK"
 pactl set-sink-mute "$SINK" false
 pactl set-sink-volume "$SINK" 100%
 
-# 4. CRITIQUE : Activer l'amplificateur matériel JST du ReSpeaker
-# (PulseAudio ne le fait JAMAIS automatiquement)
-amixer -c 0 cset numid=3 on   # PCM Playback Switch (canal Gauche)
-amixer -c 0 cset numid=4 on   # PCM Playback Switch (canal Droit)
-amixer -c 0 cset numid=5 60   # PCM Playback Volume (canal Gauche) — max=100
-amixer -c 0 cset numid=6 60   # PCM Playback Volume (canal Droit)  — max=100
+# ÉTAPE 4 : Activer l'amplificateur JST (CRITIQUE — non géré par PulseAudio)
+amixer -c 0 cset numid=3 on    # PCM Playback Switch Gauche
+amixer -c 0 cset numid=4 on    # PCM Playback Switch Droit
+amixer -c 0 cset numid=5 60    # PCM Playback Volume Gauche (0-100)
+amixer -c 0 cset numid=6 60    # PCM Playback Volume Droit  (0-100)
 ```
 
 > [!TIP]
-> Pour tester que le haut-parleur fonctionne après ces commandes :
+> **Test rapide du haut-parleur** (après les étapes ci-dessus) :
 > ```bash
-> piper -m ~/.local/share/piper-voices/fr_FR-upmc-medium.onnx --output_file /tmp/test.wav <<< "Bonjour je suis le robot" && paplay /tmp/test.wav
+> piper -m ~/.local/share/piper-voices/fr_FR-upmc-medium.onnx \
+>   --output_file /tmp/test.wav <<< "Bonjour je suis le robot" \
+>   && paplay /tmp/test.wav
 > ```
 
 ---
 
-## 4. Architecture Logicielle Validée (Pipeline Python)
+## 5. Fix Permanent : Désactiver `module-suspend-on-idle` au Démarrage
 
-### A. Identification Dynamique des Périphériques
+Sans ce fix, il faut exécuter `pactl unload-module module-suspend-on-idle` à chaque redémarrage de PulseAudio.
+
+```bash
+# Créer un fichier de configuration PulseAudio qui supprime ce module au démarrage
+sudo mkdir -p /etc/pulse/default.pa.d
+sudo tee /etc/pulse/default.pa.d/no-suspend-on-idle.conf << 'EOF'
+### Fix D-Bot : désactive la mise en veille automatique des périphériques audio
+### Sans ce fix, le micro ReSpeaker reste en état SUSPENDED hors session NoMachine
+### et retourne un signal constant (non réactif à la voix).
+unload-module module-suspend-on-idle
+EOF
+
+# Redémarrer PulseAudio pour appliquer
+pulseaudio -k && pulseaudio --start
+```
+
+---
+
+## 6. Architecture Logicielle Validée (Pipeline Python)
+
+### A. Détection des Périphériques
 ```python
 import subprocess
 
 def get_pulse_device_names():
-    """Détecte les noms d'entrée (source) et de sortie (sink) du ReSpeaker."""
     source, sink = None, None
-    out_sources = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
-    for line in out_sources.splitlines():
+    out = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
+    for line in out.splitlines():
         if ("XVF3800" in line or "reSpeaker" in line) and "input" in line and ".monitor" not in line:
             source = line.split()[1]
-    out_sinks = subprocess.check_output(["pactl", "list", "short", "sinks"], text=True)
-    for line in out_sinks.splitlines():
+    out = subprocess.check_output(["pactl", "list", "short", "sinks"], text=True)
+    for line in out.splitlines():
         if "XVF3800" in line or "reSpeaker" in line:
             sink = line.split()[1]
     return source, sink
 ```
 
-### B. Capture Audio (VAD) — CRITIQUE : 2 canaux
-Le ReSpeaker est déclaré en **2 canaux (stéréo)** dans PulseAudio. Si on force `--channels=1`, on obtient une amplitude bloquée à 128 (silence). Il faut capturer en stéréo puis extraire le canal gauche pour le VAD :
-
+### B. Capture Audio — CRITIQUE : 2 canaux + extraction mono
 ```python
+# Le ReSpeaker est déclaré stéréo (2ch). Capturer en mono provoque amplitude = 128.
 cmd = ["parecord", f"--device={source_name}", "--format=s16le",
-       "--channels=2",  # OBLIGATOIRE — le ReSpeaker est déclaré stéréo
+       "--channels=2",   # OBLIGATOIRE
        "--rate=16000", "--raw"]
 proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
 
-FRAME_SIZE = 480  # = 16000 Hz × 30ms
+FRAME_SIZE = 480  # 16000 Hz × 30ms
 while True:
-    frame_stereo = proc.stdout.read(FRAME_SIZE * 4)  # 4 octets/sample (2ch × 2 octets)
-    # Extraction du canal gauche pour le VAD (mono 16-bit)
+    frame_stereo = proc.stdout.read(FRAME_SIZE * 4)   # 4 octets = 2ch × 2 octets/sample
+    # Extraction canal gauche pour le VAD (webrtcvad attend du mono)
     mono_frame = b''.join([frame_stereo[i:i+2] for i in range(0, len(frame_stereo), 4)])
-    is_speech = vad.is_speech(mono_frame, 16000)  # Toujours passer mono_frame, pas frame_stereo
+    # Calcul RMS pour détection hybride
+    import struct, math
+    shorts = struct.unpack("<" + "h" * (len(mono_frame)//2), mono_frame)
+    rms = math.sqrt(sum(s*s for s in shorts) / len(shorts))
+    # Détection hybride : VAD (mode 1) OU seuil RMS calibré
+    is_speech = vad.is_speech(mono_frame, 16000) or (rms > RMS_SPEECH_THRESHOLD)
 ```
 
-### C. Sortie TTS — Méthode Fichier Temporaire + paplay
-La méthode la plus robuste (immunisée contre les interceptions NoMachine) :
+### C. Calibration Dynamique (VAD + RMS)
+```python
+# Phase 1 : calibration VAD (2 secondes de silence)
+noise_ratio = nb_frames_speech / nb_frames_total
+trigger_ratio = min(noise_ratio + 0.10, 0.90)
 
+# Phase 2 : calibration RMS (1 seconde de silence)
+noise_rms = moyenne_rms_pendant_silence
+RMS_SPEECH_THRESHOLD = max(noise_rms * 3.0, 300)
+# → Exemple sans NoMachine : bruit = 626 RMS → seuil = 1878
+# → La voix doit dépasser 1878 pour déclencher — mais comme le signal était FIGÉ,
+#   il faut d'abord sortir la source du mode SUSPENDED (voir Section 4).
+```
+
+### D. TTS — Méthode Fichier Temporaire + paplay
 ```python
 import tempfile, os, subprocess
 
@@ -113,8 +198,7 @@ def speak(text, voice_model_path, pulse_sink=None):
         env["PULSE_SINK"] = pulse_sink
         subprocess.run(["pactl", "set-sink-mute", pulse_sink, "false"], stderr=subprocess.DEVNULL)
         subprocess.run(["pactl", "set-sink-volume", pulse_sink, "100%"], stderr=subprocess.DEVNULL)
-
-    # Générer le WAV dans un fichier temporaire (évite les bugs de pipe Python)
+    # Fichier temporaire — évite les bugs de pipe Python avec Piper
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tf:
         temp_wav = tf.name
     subprocess.run(f'echo "{text}" | piper -m {voice_model_path} --output_file {temp_wav}',
@@ -129,39 +213,48 @@ def speak(text, voice_model_path, pulse_sink=None):
 
 ---
 
-## 5. Profil PulseAudio Correct (`pavucontrol`)
+## 7. Schéma du Pipeline Audio Complet
 
-Si le profil PulseAudio est perdu (après une mise à jour ou un redémarrage) :
-1. Lancer `pavucontrol` (via NoMachine ou interface graphique)
-2. Onglet **Configuration** → ReSpeaker XVF3800
-3. Sélectionner : **`Stéréo numérique (IEC958)`**
-4. *(Note : Le port JST analogique n'a pas de profil séparé — il est piloté via les registres amixer)*
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      CAPTURE (Entrée)                           │
+│  4 micros PDM → XVF3800 DSP (Beamforming + NS + AEC)          │
+│  → USB Audio IEC958 → PulseAudio Source (2ch, 16kHz)          │
+│  → parecord --channels=2 → extraction canal gauche (mono)      │
+│  → webrtcvad (mode 1) + seuil RMS calibré → déclenchement     │
+│  → Faster-Whisper STT → texte                                  │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                    TRAITEMENT (Cerveau)                         │
+│  Ollama LLM → réponse texte                                     │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                      SORTIE (Voix)                              │
+│  Piper TTS → fichier .wav temporaire                           │
+│  → paplay --device=SINK → PulseAudio Sink (avec PULSE_SINK)    │
+│  → DAC interne XVF3800 → Ampli JST (numid=3,4,5,6 activés)    │
+│  → Haut-parleur JST 5W                                         │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 6. Optimisation des Ressources (RAM)
-
-Sur Jetson Orin Nano (8GB), le pipeline STT+LLM est gourmand. Pour libérer ~1.5 Go de RAM :
+## 8. Optimisation RAM (Jetson Orin Nano 8GB)
 
 | Action | Commande |
 | :--- | :--- |
-| **Passer en mode Headless** | `sudo systemctl isolate multi-user.target` |
+| **Mode Headless** (libère ~1.5 Go) | `sudo systemctl isolate multi-user.target` |
 | **Relancer l'interface graphique** | `sudo systemctl isolate graphical.target` |
 | **Vérifier la RAM libre** | `free -m` |
 
 ---
 
-## 7. Résumé de l'Architecture Finale Validée
+## 9. Récapitulatif des Fichiers Modifiés
 
-```
-Micro (4 canaux PDM)
-    ↓ [XVF3800 DSP : Beamforming + NS + AEC]
-    ↓ [USB Audio IEC958 → parecord 2ch 16kHz]
-    ↓ [Extraction canal Gauche → Mono 16kHz]
-    ↓ [webrtcvad (VAD) → Faster-Whisper (STT)]
-    ↓ [LLM Ollama]
-    ↓ [Piper TTS → /tmp/robot.wav]
-    ↓ [paplay → PulseAudio Sink ReSpeaker]
-    ↓ [DAC interne XVF3800 → Ampli JST (numid=3,4,5,6)]
-Haut-parleur JST 5W
-```
+| Fichier | Modification clé |
+| :--- | :--- |
+| `code/scripts/behaviors/test_audio_loop.py` | Script de test autonome : réveil complet, calibration dynamique, détection hybride |
+| `code/dbot/audio/tts.py` | `LocalTTS` : activation automatique ampli JST dans `__init__()`, sortie via fichier temp + paplay |
+| `code/dbot/audio/stt.py` | `LocalSTT` : capture stéréo, extraction mono, WebRTCVAD mode 1 |
