@@ -76,7 +76,6 @@ def main():
     tts = LocalTTS(alsa_hw=alsa_hw, pulse_sink=sink_name)
     # Mode 1 = moins agressif que mode 3, détecte mieux la parole sans NoMachine
     vad = webrtcvad.Vad(1)
-    RMS_SPEECH_THRESHOLD = 500  # Seuil d'amplitude RMS : si > 500, on considère que c'est de la parole
 
     # --- CALIBRATION ---
     print("\n⏳ Calibration (Silence 2s)...")
@@ -100,6 +99,23 @@ def main():
     # Offset de 10% (au lieu de 15%) pour être plus sensible sans NoMachine
     trigger_ratio = min(noise_ratio + 0.10, 0.90)
     print(f"✅ Bruit: {noise_ratio*100:.0f}% -> Seuil: {trigger_ratio*100:.0f}%")
+
+    # Calibration du seuil RMS : mesure du bruit de fond
+    proc2 = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    rms_samples = []
+    for _ in range(int(1.0 * 1000 / FRAME_MS)):  # 1 seconde de mesure
+        frame = proc2.stdout.read(FRAME_SIZE * 4)
+        if not frame: break
+        mono = b''.join([frame[i:i+2] for i in range(0, len(frame), 4)])
+        count = len(mono) // 2
+        shorts = struct.unpack('<' + 'h' * count, mono)
+        rms = math.sqrt(sum(s*s for s in shorts) / count) if count > 0 else 0
+        rms_samples.append(rms)
+    proc2.terminate(); proc2.wait()
+    noise_rms = sum(rms_samples) / len(rms_samples) if rms_samples else 300
+    # Seuil = 3x le bruit de fond (au minimum 300)
+    RMS_SPEECH_THRESHOLD = max(noise_rms * 3.0, 300)
+    print(f"✅ Bruit de fond RMS: {noise_rms:.0f} -> Seuil parole: {RMS_SPEECH_THRESHOLD:.0f}")
 
     # --- BOUCLE ---
     print("\n🎤 Parlez maintenant !")
