@@ -32,19 +32,27 @@ class LocalTTS:
         print(f"🗣️ [D-Bot dit] : {text}")
         
         try:
-            # La commande piper génère du RAW audio à 22050 Hz (format standard des modèles medium).
-            piper_cmd = ["piper", "-m", self.voice_model_path, "--output_raw"]
-            
-            # On demande à aplay de lire ce flux brut tout de suite sur la sortie audio du ReSpeaker.
-            aplay_cmd = ["aplay", "-r", "22050", "-f", "S16_LE", "-t", "raw", "-D", self.alsa_hw]
+            # Commande de lecture : on utilise -D seulement si alsa_hw est spécifié et non None
+            aplay_cmd = ["aplay", "-r", "22050", "-f", "S16_LE", "-t", "raw"]
+            if self.alsa_hw:
+                aplay_cmd.extend(["-D", self.alsa_hw])
             
             # echo text | piper ... | aplay ...
             p1 = subprocess.Popen(["echo", text], stdout=subprocess.PIPE)
             p2 = subprocess.Popen(piper_cmd, stdin=p1.stdout, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-            p3 = subprocess.Popen(aplay_cmd, stdin=p2.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            p3 = subprocess.Popen(aplay_cmd, stdin=p2.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
             
-            # On attend que la lecture soit complètement terminée avant de rendre la main au script principal
-            p3.wait()
+            # On attend que la lecture soit complètement terminée
+            _, stderr = p3.communicate()
+            
+            # Fallback si ALSA direct échoue (Device busy)
+            if p3.returncode != 0 and self.alsa_hw:
+                print("ℹ️ [TTS] Périphérique ALSA occupé, bascule sur la sortie par défaut (PulseAudio)...")
+                aplay_cmd_fallback = ["aplay", "-r", "22050", "-f", "S16_LE", "-t", "raw"]
+                p1 = subprocess.Popen(["echo", text], stdout=subprocess.PIPE)
+                p2 = subprocess.Popen(piper_cmd, stdin=p1.stdout, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+                p3 = subprocess.Popen(aplay_cmd_fallback, stdin=p2.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                p3.wait()
             
         except FileNotFoundError:
             print("❌ [TTS] Erreur : La commande 'piper' ou 'aplay' est introuvable. Avez-vous installé piper-tts ?")
