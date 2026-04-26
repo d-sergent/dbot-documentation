@@ -55,6 +55,14 @@ def main():
         print("❌ ReSpeaker introuvable."); return
 
     print(f"✅ Micro: {source_name}\n✅ HP: {alsa_hw}\n✅ Sink Pulse: {sink_name}")
+
+    # --- RÉVEIL FORCÉ ---
+    print("⚡ Réveil forcé de PulseAudio...")
+    subprocess.run(["pactl", "set-source-mute", source_name, "false"], stderr=subprocess.DEVNULL)
+    subprocess.run(["pactl", "set-source-volume", source_name, "100%"], stderr=subprocess.DEVNULL)
+    if sink_name:
+        subprocess.run(["pactl", "set-sink-mute", sink_name, "false"], stderr=subprocess.DEVNULL)
+        subprocess.run(["pactl", "set-sink-volume", sink_name, "100%"], stderr=subprocess.DEVNULL)
     
     stt = LocalSTT(model_size="base", device="cuda")
     tts = LocalTTS(alsa_hw=alsa_hw, pulse_sink=sink_name)
