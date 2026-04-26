@@ -251,10 +251,57 @@ def speak(text, voice_model_path, pulse_sink=None):
 
 ---
 
-## 9. Récapitulatif des Fichiers Modifiés
+## 10. Accélération GPU pour le STT (Whisper)
+
+### Le Problème
+Par défaut, la commande `pip install ctranslate2` sur Jetson (architecture ARM64) installe une version **CPU-only**. 
+*   **Symptôme** : Message `⚠ [STT] Problème CUDA détecté : This CTranslate2 package was not compiled with CUDA support`.
+*   **Impact** : Transcription 3 à 5 fois plus lente, forte charge CPU sur les cœurs Cortex-A78.
+
+### La Solution : Compilation depuis les Sources
+Pour exploiter le GPU de l'Orin Nano, il est impératif de compiler le moteur avec les flags NVIDIA.
+
+#### 1. Configuration des chemins (Permanent)
+Vérifiez que CUDA est dans votre environnement :
+```bash
+echo 'export PATH=/usr/local/cuda/bin:$PATH' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+source ~/.bashrc
+```
+
+#### 2. Procédure de Compilation
+```bash
+cd ~/dbot
+git clone --recursive https://github.com/OpenNMT/CTranslate2.git
+cd CTranslate2
+mkdir build && cd build
+
+# CRITIQUE : Désactiver MKL (Intel) et activer CUDA/CUDNN
+cmake -DWITH_CUDA=ON -DWITH_CUDNN=ON -DWITH_MKL=OFF -DOPENMP_RUNTIME=COMP ..
+
+make -j$(nproc)
+sudo make install
+```
+
+#### 3. Installation du module Python
+```bash
+cd ../python
+pip install . --force-reinstall
+```
+
+### Liens de compatibilité (Si nécessaire)
+Si `CTranslate2` cherche des versions plus anciennes de bibliothèques (ex: cherche v8 alors que JetPack 6 a la v9) :
+```bash
+sudo ln -sf /usr/lib/aarch64-linux-gnu/libcublas.so.12 /usr/lib/aarch64-linux-gnu/libcublas.so.11
+sudo ln -sf /usr/lib/aarch64-linux-gnu/libcudnn.so.9 /usr/lib/aarch64-linux-gnu/libcudnn.so.8
+```
+
+---
+
+## 11. Résumé des Fichiers Modifiés
 
 | Fichier | Modification clé |
 | :--- | :--- |
-| `code/scripts/behaviors/test_audio_loop.py` | Script de test autonome : réveil complet, calibration dynamique, détection hybride |
-| `code/dbot/audio/tts.py` | `LocalTTS` : activation automatique ampli JST dans `__init__()`, sortie via fichier temp + paplay |
-| `code/dbot/audio/stt.py` | `LocalSTT` : capture stéréo, extraction mono, WebRTCVAD mode 1 |
+| `code/scripts/behaviors/test_audio_loop.py` | Script de test autonome : réveil complet, calibration dynamique, détection hybride. |
+| `code/dbot/audio/tts.py` | `LocalTTS` : activation automatique ampli JST dans `__init__()`. |
+| `code/dbot/audio/stt.py` | `LocalSTT` : gestion du fallback CPU si le GPU échoue. |
