@@ -184,19 +184,89 @@ Dans les paramètres de l'extension Roo Code (icône en forme de robot) :
 
 ---
 
-## 11. Diagnostic Rapide
+---
+
+## 11. Accès Web via MCP (Tavily)
+
+En 2026, les modèles locaux (Ollama) ne peuvent pas accéder à Internet seuls. On utilise le **Model Context Protocol (MCP)** pour leur donner un accès web. Bien que Brave Search soit une option, **Tavily** est recommandé pour la robotique car il filtre les résultats spécifiquement pour les agents IA.
+
+### A. Configuration du serveur MCP
+Ouvrez votre fichier `~/.continue/config.json` et ajoutez la section `mcpServers` (elle sera partagée entre vos sessions) :
+
+```json
+{
+  "mcpServers": [
+    {
+      "name": "tavily-search",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-tavily"],
+      "env": {
+        "TAVILY_API_KEY": "VOTRE_CLE_TAVILY_ICI"
+      }
+    }
+  ]
+}
+```
+
+### B. Usage
+Dans le chat de Continue ou Roo Code, tapez `@tavily` suivi de votre question technique.
+*   *Exemple* : `@tavily compare les performances des capteurs ToF VL53L1X vs VL53L5CX pour un robot bipède.`
+
+---
+
+## 12. Indexation de la Codebase (LanceDB)
+
+L'indexation permet à l'IA de connaître l'intégralité de votre projet D-Bot (scripts, docs, schémas XML) sans copier-coller.
+
+### A. Configuration des Embeddings
+Dans `config.json`, assurez-vous d'utiliser un modèle d'embedding performant et léger :
+
+```json
+"embeddingsProvider": {
+  "provider": "ollama",
+  "model": "nomic-embed-text"
+}
+```
+*Note : Si le modèle n'est pas présent, faites `ollama pull nomic-embed-text` sur votre Session IA.*
+
+### B. Activation du Context Provider
+Vérifiez que le provider `codebase` est actif :
+
+```json
+{
+  "contextProviders": [
+    {
+      "name": "codebase",
+      "params": {
+        "nRetrieve": 25,
+        "nSkip": 0
+      }
+    },
+    { "name": "docs" }
+  ]
+}
+```
+
+### C. Stratégie Multi-Session pour l'Index
+*   **Indexation Initiale** : Lancez-la depuis votre **Session IA**. Elle profitera de toute la RAM et de l'accélération GPU pour créer les vecteurs beaucoup plus vite.
+*   **Utilisation** : Sur votre **Session Standard**, l'index sera disponible instantanément car le dossier `~/.continue` (qui contient la base LanceDB) est partagé.
+
+---
+
+## 13. Diagnostic Rapide
 
 *   **VS Code ne voit aucune extension** : Le lien symbolique est mort ou pointe vers un dossier inexistant. Vérifiez avec `ls -la ~/.vscode/extensions`.
 *   **Erreur "Permission Denied"** : Lancez le script `/Users/Shared/fix_ia_perms.sh`.
 *   **Ollama Error (Connection Refused)** : Vérifiez que `ollama serve` tourne bien sur l'une de vos deux sessions.
+*   **MCP Error / Tavily muet** : Vérifiez votre clé d'API et assurez-vous que `node/npx` est installé sur votre machine.
 *   **Lenteur extrême** : Vérifiez si Ollama ne tourne pas en double. Tapez `lsof -i :11434` pour voir qui occupe le port.
 
 ---
 
-## 12. Résumé des Fichiers Modifiés
+## 14. Résumé des Fichiers Modifiés
 
 | Fichier | Modification clé |
 | :--- | :--- |
 | `code/scripts/behaviors/test_audio_loop.py` | Script de test autonome : réveil complet, calibration dynamique. |
 | `code/dbot/audio/tts.py` | `LocalTTS` : activation automatique ampli JST. |
-| `annexes/ia/48_Configuration_VSCode_MultiSession_IA.md` | Guide complet multi-session (Extensions + Settings + Ollama). |
+| `annexes/ia/48_Configuration_VSCode_MultiSession_IA.md` | Guide complet multi-session (Extensions + Settings + Ollama + MCP/Tavily + LanceDB). |
