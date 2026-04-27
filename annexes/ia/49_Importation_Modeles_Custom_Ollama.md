@@ -106,3 +106,32 @@ models:
 | **"Error: FROM requires a valid file"** | Vérifiez le chemin du fichier GGUF. Utilisez des guillemets si le chemin contient des espaces. |
 | **Lenteur extrême** | Vérifiez que vous n'avez pas pris un modèle trop gros (ex: 120B) pour vos 64 Go de RAM. |
 | **Réponses incohérentes** | Le modèle a besoin d'un prompt spécifique. Vérifiez la page Hugging Face du modèle original. |
+
+---
+
+## 9. Nettoyage et Suppression
+
+Tester des modèles volumineux (72B, 110B) peut rapidement saturer votre SSD. Voici comment faire le ménage proprement.
+
+### A. Lister les modèles installés
+Pour voir ce qui prend de la place :
+```bash
+ollama list
+```
+
+### B. Supprimer un modèle
+```bash
+# Syntaxe : ollama rm <nom_du_modele>
+ollama rm qwen-3.6-custom
+```
+
+### C. Vérifier l'espace libéré
+Le dossier de stockage d'Ollama sur Mac se trouve dans `~/.ollama/models`. Vous pouvez vérifier que la taille du dossier a bien diminué.
+
+---
+
+## 10. Résumé des Fichiers Modifiés
+
+| Fichier | Modification clé |
+| :--- | :--- |
+| `annexes/ia/49_Importation_Modeles_Custom_Ollama.md` | Guide complet : Importation GGUF, Modelfile et Suppression. |
