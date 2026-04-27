@@ -106,7 +106,24 @@ chmod +x /Users/Shared/fix_ia_perms.sh
 
 ---
 
-## 7. Optimisation Spécifique à la Session IA
+## 7. Étape 6 : Partage des Réglages Utilisateur (settings.json)
+
+Pour que vos thèmes, raccourcis clavier et surtout vos **clés d'API** soient identiques partout, nous allons lier le fichier de configuration principal de VS Code.
+
+```bash
+# 1. Depuis la session qui a vos réglages préférés :
+cp ~/Library/Application\ Support/Code/User/settings.json /Users/Shared/vscode-common/settings.json
+
+# 2. Sur LES DEUX sessions (Standard et IA) :
+# Supprimer l'ancien fichier local
+rm ~/Library/Application\ Support/Code/User/settings.json
+# Créer le lien vers le fichier partagé
+ln -s /Users/Shared/vscode-common/settings.json ~/Library/Application\ Support/Code/User/settings.json
+```
+
+---
+
+## 8. Optimisation Spécifique à la Session IA
 
 Dans votre `.zshrc` (ou `.bashrc`) de la **Session IA uniquement**, ajoutez cette ligne pour forcer Ollama à exploiter toute la puissance du M1 Max :
 
@@ -116,16 +133,14 @@ export OLLAMA_NUM_GPU=999
 
 ---
 
-## 8. Règles d'Or pour éviter la Corruption
+## 9. Règles d'Or pour éviter la Corruption
 
 | Action | Règle à suivre |
 | :--- | :--- |
-| **Modification Config** | Ne jamais ouvrir les menus de réglages de Continue/Roo Code sur les deux sessions en même temps. |
+| **Modification Config** | Ne jamais ouvrir les menus de réglages (UI ou JSON) de VS Code sur les deux sessions en même temps. |
 | **Mises à jour** | Faire l'update d'une extension sur une session pendant que VS Code est FERMÉ sur l'autre. |
-| **Settings Sync** | **Désactiver** la synchronisation Cloud de Microsoft (GitHub Sync) sur au moins une session pour éviter les conflits avec les liens locaux. |
-| **settings.json** | Garder les `settings.json` indépendants (dans `~/Library/...`) pour avoir des thèmes ou des polices différents. |
-
----
+| **Settings Sync** | **Désactiver impérativement** la synchronisation Cloud de Microsoft (GitHub Sync). Le lien symbolique local fait déjà tout le travail plus proprement. |
+| **Expérience** | Tout changement (thème, police, clé API) est désormais **instantané** sur les deux sessions. |
 
 ---
 
@@ -175,3 +190,13 @@ Dans les paramètres de l'extension Roo Code (icône en forme de robot) :
 *   **Erreur "Permission Denied"** : Lancez le script `/Users/Shared/fix_ia_perms.sh`.
 *   **Ollama Error (Connection Refused)** : Vérifiez que `ollama serve` tourne bien sur l'une de vos deux sessions.
 *   **Lenteur extrême** : Vérifiez si Ollama ne tourne pas en double. Tapez `lsof -i :11434` pour voir qui occupe le port.
+
+---
+
+## 12. Résumé des Fichiers Modifiés
+
+| Fichier | Modification clé |
+| :--- | :--- |
+| `code/scripts/behaviors/test_audio_loop.py` | Script de test autonome : réveil complet, calibration dynamique. |
+| `code/dbot/audio/tts.py` | `LocalTTS` : activation automatique ampli JST. |
+| `annexes/ia/48_Configuration_VSCode_MultiSession_IA.md` | Guide complet multi-session (Extensions + Settings + Ollama). |
