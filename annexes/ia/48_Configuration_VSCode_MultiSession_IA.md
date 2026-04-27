@@ -127,8 +127,51 @@ export OLLAMA_NUM_GPU=999
 
 ---
 
-## 9. Diagnostic Rapide
+---
+
+## 10. Configuration d'Ollama (Le Moteur Local)
+
+Pour que vos extensions IA fonctionnent, Ollama doit être opérationnel. Dans un setup multi-session, il faut suivre une règle de "Serveur Unique".
+
+### A. Démarrage du Serveur
+Ollama ne peut pas tourner en deux exemplaires sur la même machine (conflit sur le port `11434`).
+*   **Recommandation** : Lancez Ollama uniquement sur votre **Session IA**.
+*   **Faut-il le démarrer à l'avance ?** : **Oui.** Soit via l'application Ollama, soit via la commande `ollama serve` dans un terminal de la session IA. Les extensions (Continue/Roo Code) ne lancent pas le serveur automatiquement, elles ne font que s'y connecter.
+*   **Accès depuis la Session Standard** : Comme les deux sessions partagent la même IP locale (`localhost`), VS Code sur la session Standard verra l'Ollama lancé sur la session IA sans configuration supplémentaire.
+
+### B. Configuration dans Continue (`config.json`)
+Puisque nous avons lié le dossier `~/.continue`, la modification faite sur une session sera répercutée sur l'autre.
+Ajoutez vos modèles dans la section `models` :
+
+```json
+{
+  "models": [
+    {
+      "title": "Ollama - Llama 3",
+      "provider": "ollama",
+      "model": "llama3",
+      "apiBase": "http://localhost:11434"
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "Starcoder 2",
+    "provider": "ollama",
+    "model": "starcoder2:3b"
+  }
+}
+```
+
+### C. Configuration dans Roo Code
+Dans les paramètres de l'extension Roo Code (icône en forme de robot) :
+1.  **API Provider** : Sélectionnez `Ollama`.
+2.  **Base URL** : Gardez `http://localhost:11434`.
+3.  **Model ID** : Tapez le nom exact (ex: `codestral` ou `llama3`).
+
+---
+
+## 11. Diagnostic Rapide
 
 *   **VS Code ne voit aucune extension** : Le lien symbolique est mort ou pointe vers un dossier inexistant. Vérifiez avec `ls -la ~/.vscode/extensions`.
 *   **Erreur "Permission Denied"** : Lancez le script `/Users/Shared/fix_ia_perms.sh`.
-*   **Lenteur extrême** : Vérifiez si Ollama ne tourne pas en double sur les deux sessions (partage de port 11434). Il est préférable de lancer Ollama sur une seule session et d'y accéder via l'autre.
+*   **Ollama Error (Connection Refused)** : Vérifiez que `ollama serve` tourne bien sur l'une de vos deux sessions.
+*   **Lenteur extrême** : Vérifiez si Ollama ne tourne pas en double. Tapez `lsof -i :11434` pour voir qui occupe le port.
