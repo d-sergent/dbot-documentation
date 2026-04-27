@@ -1,0 +1,134 @@
+# 48 - Configuration VS Code Multi-Session & Partage IA
+
+> **Document de référence — Configuration Bipède D-Bot**
+> Ce guide détaille comment partager les extensions et les données IA (Continue, Roo Code) entre deux sessions macOS (ex: Session Standard et Session IA) pour maximiser les performances du M1 Max (64 Go RAM) tout en gardant des environnements étanches.
+
+---
+
+## 1. Principe de l'Architecture
+
+L'idée est de déporter les dossiers lourds de VS Code vers un espace commun accessible par tous les utilisateurs de la machine, puis de créer des **liens symboliques (`symlinks`)** pour faire croire à chaque session que les fichiers sont chez elle.
+
+*   **Avantage 1** : Une seule mise à jour d'extension pour toutes les sessions.
+*   **Avantage 2** : L'indexation de la codebase (LanceDB) est partagée (l'IA "apprend" partout en même temps).
+*   **Avantage 3** : Isolation des ressources (la session IA peut saturer le GPU/RAM sans impacter le reste).
+
+---
+
+## 2. Étape 1 : Création de l'Espace Commun
+
+Ouvrez un terminal et créez le dossier qui hébergera les données partagées.
+
+```bash
+# Créer le dossier parent
+sudo mkdir -p /Users/Shared/vscode-common
+
+# Donner la propriété au groupe 'staff' (tous les utilisateurs standards)
+sudo chown -R :staff /Users/Shared/vscode-common
+sudo chmod -R 775 /Users/Shared/vscode-common
+```
+
+---
+
+## 3. Étape 2 : Migration des Extensions (Session Principale)
+
+Lancez ces commandes depuis votre session où VS Code est déjà configuré.
+
+```bash
+# 1. Déplacer les extensions actuelles vers l'espace commun
+sudo mv ~/.vscode/extensions /Users/Shared/vscode-common/
+
+# 2. Créer le lien symbolique pour que VS Code les retrouve
+ln -s /Users/Shared/vscode-common/extensions ~/.vscode/extensions
+
+# 3. Vérifier le lien
+ls -la ~/.vscode/extensions
+# Devrait pointer vers -> /Users/Shared/vscode-common/extensions
+```
+
+---
+
+## 4. Étape 3 : Liaison de la Session IA
+
+Connectez-vous à votre **Session IA** et liez-la au même dossier.
+
+```bash
+# 1. Supprimer le dossier d'extensions vide (s'il existe)
+rm -rf ~/.vscode/extensions
+
+# 2. Créer le même lien symbolique
+ln -s /Users/Shared/vscode-common/extensions ~/.vscode/extensions
+```
+
+---
+
+## 5. Étape 4 : Partage du "Cerveau" IA (Continue / Roo Code)
+
+Pour que l'indexation de vos fichiers (RAG) soit partagée entre vos sessions, déplacez les données de configuration de vos outils IA.
+
+```bash
+# Depuis la session qui a déjà les données :
+sudo mv ~/.continue /Users/Shared/vscode-common/continue-data
+
+# Sur LES DEUX sessions (Standard et IA) :
+rm -rf ~/.continue
+ln -s /Users/Shared/vscode-common/continue-data ~/.continue
+```
+
+*Note : Faites la même chose pour `~/.roo-code` si vous utilisez cette extension.*
+
+---
+
+## 6. Étape 5 : Script d'Automatisation des Permissions
+
+Pour éviter les erreurs de lecture/écriture entre sessions, créez ce script de maintenance.
+
+```bash
+# Créer le script
+sudo nano /Users/Shared/fix_ia_perms.sh
+```
+
+Copiez-y le contenu suivant :
+```bash
+#!/bin/bash
+# Fix-Permissions pour l'environnement VS Code Partagé
+sudo chown -R :staff /Users/Shared/vscode-common
+sudo chmod -R 775 /Users/Shared/vscode-common
+# Ajout d'un ACL pour l'héritage des droits
+sudo chmod -R +a "group:staff allow list,add_file,search,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity" /Users/Shared/vscode-common
+echo "✅ Permissions synchronisées pour le projet Robot."
+```
+
+Rendez-le exécutable :
+```bash
+chmod +x /Users/Shared/fix_ia_perms.sh
+```
+
+---
+
+## 7. Optimisation Spécifique à la Session IA
+
+Dans votre `.zshrc` (ou `.bashrc`) de la **Session IA uniquement**, ajoutez cette ligne pour forcer Ollama à exploiter toute la puissance du M1 Max :
+
+```bash
+export OLLAMA_NUM_GPU=999
+```
+
+---
+
+## 8. Règles d'Or pour éviter la Corruption
+
+| Action | Règle à suivre |
+| :--- | :--- |
+| **Modification Config** | Ne jamais ouvrir les menus de réglages de Continue/Roo Code sur les deux sessions en même temps. |
+| **Mises à jour** | Faire l'update d'une extension sur une session pendant que VS Code est FERMÉ sur l'autre. |
+| **Settings Sync** | **Désactiver** la synchronisation Cloud de Microsoft (GitHub Sync) sur au moins une session pour éviter les conflits avec les liens locaux. |
+| **settings.json** | Garder les `settings.json` indépendants (dans `~/Library/...`) pour avoir des thèmes ou des polices différents. |
+
+---
+
+## 9. Diagnostic Rapide
+
+*   **VS Code ne voit aucune extension** : Le lien symbolique est mort ou pointe vers un dossier inexistant. Vérifiez avec `ls -la ~/.vscode/extensions`.
+*   **Erreur "Permission Denied"** : Lancez le script `/Users/Shared/fix_ia_perms.sh`.
+*   **Lenteur extrême** : Vérifiez si Ollama ne tourne pas en double sur les deux sessions (partage de port 11434). Il est préférable de lancer Ollama sur une seule session et d'y accéder via l'autre.
