@@ -1,36 +1,32 @@
 # 50 - Optimisation du Workflow LLM Local (M1 Max 64 Go)
 
 > **Document de référence — Intelligence Artificielle D-Bot**
-> Ce guide recense toutes les techniques d'optimisation pour maximiser l'intelligence et la fluidité des LLM locaux sur le Mac M1 Max, dans le cadre de la stack **VS Code + Continue + Ollama**.
+> Ce guide recense toutes les techniques d'optimisation pour maximiser l'intelligence et la fluidité des LLM locaux sur le Mac M1 Max, dans le cadre de la stack **VS Code + Continue**.
 
 ---
 
 ## 1. Contexte : Les Contraintes de la Stack
 
 La stack en place est fixe :
-**Session dédiée IA → macOS → VS Code → Continue → Ollama**
+**Session dédiée IA → macOS → VS Code → Continue → Moteur d'inférence**
 
-Chaque couche impose des contraintes. Le tableau suivant liste toutes les techniques disponibles et leur compatibilité réelle avec cette stack.
-
-| # | Technique | Compatible | Effort | Gain Estimé |
-| :--- | :--- | :--- | :--- | :--- |
-| A | **MLX (moteur natif Apple)** | ⚠️ Partiel (via serveur) | Moyen | +50% vitesse |
-| B | **Contrôle du contexte (num_ctx)** | ✅ Oui | 1 ligne Modelfile | RAM maîtrisée |
-| C | **Préfixe de Cache (auto)** | ✅ Automatique | Garder VS Code ouvert | -50% temps 1er token |
-| D | **Décodage Spéculatif** | ⚠️ Via LM Studio ou llama-server | Moyen | 2-4x vitesse |
-| E | **GPTCache (chatbot.py)** | ⚠️ Partiel (scripts Python) | Code custom | ~0ms sur répétitions |
-| F | **Session macOS dédiée IA** | ✅ Déjà en place | — | +8-12 Go de RAM |
+| # | Technique | Ollama | LM Studio | llama-server |
+| :--- | :--- | :---: | :---: | :---: |
+| A | MLX (moteur natif Apple) | ⚠️ Via serveur | ✅ Natif | ❌ |
+| B | KV Cache quantizé | ❌ | ✅ Q8_0 | ✅ |
+| C | Préfixe de Cache (auto) | ✅ | ✅ | ✅ |
+| D | Décodage Spéculatif | ❌ | ✅ | ✅ |
+| E | Swap automatique de modèles (JIT) | ✅ | ✅ | ❌ (1 modèle) |
+| F | Session macOS dédiée IA | ✅ (déjà en place) | ✅ | ✅ |
 
 ---
 
-## 2. Techniques Directement Compatibles avec Continue/Ollama
+## 2. Techniques Disponibles avec Ollama (Stack actuelle)
 
 ### B. Contrôle du Contexte via num_ctx ✅
 
 > [!IMPORTANT]
-> Les paramètres `cache_type_k` et `cache_type_v` **ne sont PAS supportés** par le Modelfile d'Ollama. Seul `num_ctx` contrôle la RAM du KV cache dans Ollama.
-
-**Principe :** La RAM du KV cache est strictement proportionnelle au nombre de tokens de contexte. Réduire `num_ctx` est le seul levier disponible dans Ollama pour contrôler la RAM.
+> Les paramètres `cache_type_k` et `cache_type_v` **ne sont PAS supportés** dans Ollama. Seul `num_ctx` contrôle la RAM du KV cache.
 
 ```dockerfile
 # Modelfile Ollama valide pour DeepSeek R1 70B
@@ -41,8 +37,7 @@ Tu es l'assistant technique du robot bipède D-Bot.
 Tes réponses sont concises et orientées code Python/ROS2.
 """
 
-# Seuls paramètres valides dans un Modelfile Ollama :
-PARAMETER num_ctx 32768       # Contexte 32k : ~52 Go RAM totale
+PARAMETER num_ctx 32768
 PARAMETER temperature 0.3
 PARAMETER top_p 0.9
 PARAMETER stop "<|im_start|>"
@@ -50,7 +45,7 @@ PARAMETER stop "<|im_end|>"
 PARAMETER stop "<|endoftext|>"
 ```
 
-**Impact RAM selon num_ctx (DeepSeek R1 70B Q4, KV cache fp16 Ollama) :**
+**Impact RAM selon num_ctx (KV cache fp16 Ollama) :**
 
 | Contexte | KV Cache | RAM Totale | Statut |
 | :--- | :--- | :--- | :--- |
@@ -60,58 +55,15 @@ PARAMETER stop "<|endoftext|>"
 | 65 536 | ~20 Go | **~62 Go** | ❌ Swap probable |
 | ~~131 072 (défaut)~~ | ~~40 Go~~ | ~~**~102 Go**~~ | ❌ Crash |
 
----
+### C. Préfixe de Cache ✅
 
-### C. Préfixe de Cache (Prompt Caching) ✅
+Ollama met en cache le calcul du `SYSTEM` prompt si VS Code reste ouvert. Les questions suivantes ne recalculent pas ce préfixe.
 
-**Principe :** Si vous gardez VS Code ouvert, Ollama met en cache le calcul de votre `SYSTEM` prompt. Les questions suivantes ne le recalculent pas.
+> **Règle d'or :** Ne fermez pas VS Code entre deux sessions de travail.
 
-> ⚠️ **Règle d'or** : Ne fermez pas VS Code sans raison entre deux sessions de travail.
+### E. GPTCache (Scripts Python uniquement) ⚠️
 
----
-
-## 3. Techniques Partiellement Compatibles
-
-### A. MLX — Le Moteur Natif Apple ⚠️
-
-**Principe :** MLX est le framework d'inférence Apple, optimisé pour la RAM unifiée M-series (zero-copy CPU↔GPU). Il surpasse Ollama sur la vitesse des longs contextes.
-
-**Utilisation avec Continue :** Lancer MLX comme serveur OpenAI-compatible, puis pointer Continue dessus.
-
-```bash
-# Installation
-pip install mlx-lm
-
-# Lancement du serveur (modèles sur huggingface.co/mlx-community)
-mlx_lm.server --model mlx-community/Qwen2.5-32B-Instruct-4bit
-```
-
-```yaml
-# config.yaml Continue
-models:
-  - name: "Qwen 32B (MLX Natif)"
-    provider: openai
-    model: qwen
-    apiBase: "http://localhost:8080/v1"
-    apiKey: "not-needed"
-```
-
----
-
-### D. Décodage Spéculatif ⚠️
-
-**Principe :** Un petit modèle rapide (ex: `1.5B`) devine les prochains tokens, le grand modèle (ex: `70B`) les valide en parallèle. Résultat : **2 à 4x plus de tokens par seconde** à qualité identique.
-
-Non disponible dans Ollama. Deux alternatives (voir sections 5 et 6).
-
----
-
-### E. GPTCache (Scripts Python) ⚠️
-
-Intercepte les appels LLM avant qu'ils n'atteignent le modèle. Si une question similaire a déjà été répondue, retourne le cache en millisecondes.
-
-**Non compatible avec Continue** (appels internes opaques).
-**Compatible avec votre `chatbot_local.py`** (appels directs à l'API Ollama).
+Non compatible avec Continue (appels internes opaques). Compatible avec `chatbot_local.py`.
 
 ```python
 # pip install gptcache
@@ -122,26 +74,16 @@ cache.init()
 
 ---
 
-## 4. Récapitulatif des Actions Prioritaires
+## 3. Dépasser les Limites d'Ollama : llama-server
 
-1. **[Priorité 1]** Contrôler `num_ctx` dans vos Modelfiles Ollama (seul levier RAM valide).
-2. **[Priorité 2]** Garder VS Code ouvert entre les sessions → cache préfixe automatique.
-3. **[Priorité 3]** Migrer vers LM Studio ou llama-server pour débloquer le décodage spéculatif (voir sections 5 et 6).
-4. **[Futur]** Surveiller Ollama : la quantification du KV cache est dans leur roadmap.
-
----
-
-## 5. Dépasser les Limites d'Ollama : llama-server + Script Shell
-
-### Comparatif Ollama vs llama-server
+### Comparatif
 
 | Fonctionnalité | Ollama | llama-server |
 | :--- | :---: | :---: |
-| Contrôle du contexte | ✅ | ✅ |
-| KV Cache quantizé (--cache-type-k q8_0) | ❌ | ✅ |
+| KV Cache quantizé (`--cache-type-k q8_0`) | ❌ | ✅ |
 | Flash Attention | Auto | ✅ Explicite |
-| Décodage Spéculatif (--model-draft) | ❌ | ✅ |
-| API OpenAI-compatible (Continue) | ✅ | ✅ |
+| Décodage Spéculatif (`--model-draft`) | ❌ | ✅ |
+| Swap JIT multi-modèles | ✅ | ❌ (1 modèle par instance) |
 
 ### Installation
 
@@ -152,30 +94,22 @@ brew install llama.cpp
 ### Le Script Maître `/Users/Shared/IA/launch_ia.sh`
 
 ```bash
-# Usage
-./launch_ia.sh [MODE] [DRAFT]
-
-# Exemples
 ./launch_ia.sh rapide            # 16k tokens, ~47 Go RAM
 ./launch_ia.sh quotidien         # 32k tokens, ~49 Go RAM (recommandé)
 ./launch_ia.sh documentation oui # 48k tokens + décodage spéculatif
 ./launch_ia.sh maximum           # 64k tokens, ~55 Go RAM ⚠️
 ```
 
-Le script applique automatiquement :
-- `--cache-type-k q8_0` / `--cache-type-v q8_0` → KV Cache ÷ 2
-- `--flash-attn` → +20% de vitesse
-- `--n-gpu-layers 999` → tout sur GPU Metal
-- `--model-draft` → décodage spéculatif si `DRAFT=oui`
+Applique automatiquement : `--cache-type-k q8_0`, `--flash-attn`, `--n-gpu-layers 999`, `--model-draft`.
 
-### Tableau des Profils (llama-server, KV Cache q8_0)
+### Profils llama-server (KV Cache q8_0)
 
-| Profil | Contexte | KV Cache (q8_0) | RAM Totale | Statut |
-| :--- | :--- | :--- | :--- | :--- |
-| **rapide** | 16 384 | ~2.5 Go | **~47 Go** | ✅ Confortable |
-| **quotidien** | 32 768 | ~5 Go | **~49 Go** | ✅ **Recommandé** |
-| **documentation** | 49 152 | ~7.5 Go | **~52 Go** | ✅ Session dédiée |
-| **maximum** | 65 536 | ~10 Go | **~55 Go** | ⚠️ Apps fermées |
+| Profil | Contexte | RAM Totale | Statut |
+| :--- | :--- | :--- | :--- |
+| rapide | 16 384 | **~47 Go** | ✅ |
+| quotidien | 32 768 | **~49 Go** | ✅ **Recommandé** |
+| documentation | 49 152 | **~52 Go** | ✅ |
+| maximum | 65 536 | **~55 Go** | ⚠️ |
 
 ### Connecter Continue à llama-server
 
@@ -190,31 +124,102 @@ models:
 
 ---
 
-## 6. Alternative Graphique : LM Studio (Recommandé)
+## 4. Alternative Graphique : LM Studio (Recommandé)
 
-### Pourquoi LM Studio et non llmster ?
+### Pourquoi LM Studio plutôt que llmster ?
 
-`llmster` est le daemon headless de LM Studio. Il libère ~500 Mo de RAM en fermant l'interface graphique. Cependant, **llmster ne supporte pas le décodage spéculatif** via la CLI `lms`.
+`llmster` (daemon headless de LM Studio) libère ~500 Mo en fermant l'interface. Mais il **ne supporte pas le décodage spéculatif**. Or ce dernier apporte 2 à 4x plus de tokens/seconde — un gain sans commune mesure.
 
-Or le décodage spéculatif apporte **2 à 4x plus de tokens par seconde** — un gain bien supérieur aux 500 Mo économisés.
-
-**Conclusion : préconiser LM Studio GUI plutôt que llmster.**
-
-| Critère | LM Studio GUI | llmster (lms CLI) |
+| Critère | LM Studio GUI | llmster (CLI) |
 | :--- | :---: | :---: |
 | Décodage spéculatif | ✅ | ❌ |
 | KV Cache Q8_0 | ✅ | ✅ |
-| Flash Attention | ✅ | ✅ |
-| RAM économisée vs l'autre | — | ~500 Mo |
-| Gain vitesse (spéculatif) | **+200 à +400%** | — |
+| MLX natif | ✅ | ✅ |
+| JIT swap multi-modèles | ✅ | ✅ |
+| RAM économisée | — | ~500 Mo |
+| Gain vitesse spéculatif | **+200 à 400%** | — |
+
+**Conclusion : LM Studio GUI est recommandé.**
+
+---
+
+### LM Studio swape-t-il les modèles automatiquement (comme Ollama) ?
+
+**Oui, via le "Just in Time (JIT) Model Loading".**
+
+Quand Continue demande un modèle différent (ex: l'autocomplete utilise `starcoder2:3b` et le chat `deepseek-r1:70b`), LM Studio charge automatiquement le bon modèle et décharge l'ancien si la RAM est insuffisante.
+
+**À activer dans l'onglet Server :**
+- ✅ **"Just in Time Model Loading"**
+- ✅ **"Auto Unload Unused JIT Models"**
+
+**Limite importante :** Le décodage spéculatif ne s'applique qu'au **modèle principal pré-chargé**. Les modèles chargés via JIT en bénéficient pas.
+
+**Stratégie config.yaml recommandée :**
+```yaml
+models:
+  # Modèle principal : pré-chargé, bénéficie du spéculatif
+  - name: "DeepSeek R1 70B"
+    provider: openai
+    model: deepseek-r1-70b
+    apiBase: "http://localhost:1234/v1"
+    apiKey: "lm-studio"
+
+  # Modèle léger : chargé à la demande via JIT
+  - name: "Qwen 27B (rapide)"
+    provider: openai
+    model: qwen2.5-27b
+    apiBase: "http://localhost:1234/v1"
+    apiKey: "lm-studio"
+
+tabAutocompleteModel:
+  name: "Starcoder2 3B"
+  provider: openai
+  model: starcoder2-3b
+  apiBase: "http://localhost:1234/v1"
+  apiKey: "lm-studio"
+```
+
+---
+
+### MLX dans LM Studio : Quel format selon la taille du modèle ?
+
+LM Studio peut utiliser deux backends :
+
+| Format | Backend | Spéculatif | Gain vitesse |
+| :--- | :--- | :--- | :--- |
+| `.gguf` | llama.cpp | ✅ | Référence |
+| `.safetensors` (MLX) | Apple MLX | ❌ | +30 à 50% |
+
+**Règle : spéculatif (2-4x) > MLX seul (30-50%). Ne pas mettre les gros modèles en MLX.**
+
+| Modèle | Format recommandé | Raison |
+| :--- | :--- | :--- |
+| **DeepSeek R1 70B** | GGUF Q4_K_M | Spéculatif disponible → gain maximal |
+| **Qwen 3.6 27B** | MLX 4-bit | Déjà fluide, MLX natif plus rapide |
+| **Qwen 3.6 35B MoE** | GGUF Q8 | Meilleure disponibilité en GGUF |
+| **Starcoder2 3B (autocomplete)** | MLX 4-bit | Légèreté, MLX parfait |
+| **nomic-embed-text** | MLX | Embedding Apple Silicon natif |
+
+**Modèles MLX disponibles :** `huggingface.co/mlx-community`
+```
+mlx-community/Qwen2.5-32B-Instruct-4bit
+mlx-community/Qwen2.5-14B-Instruct-4bit
+mlx-community/starcoder2-3b-4bit
+```
+
+> [!TIP]
+> Pour le DeepSeek R1 70B : **GGUF + spéculatif reste toujours plus rapide que MLX seul**. Ne le convertissez pas en MLX.
+
+---
 
 ### Procédure LM Studio (Configuration Optimale)
 
-**1 — Télécharger** LM Studio sur **[lmstudio.ai](https://lmstudio.ai)** (version macOS Apple Silicon).
+**1 —** Télécharger LM Studio sur **[lmstudio.ai](https://lmstudio.ai)** (macOS Apple Silicon).
 
-**2 — Charger le modèle** dans l'onglet "My Models" → sélectionner le GGUF → "Load".
+**2 —** Charger le modèle principal (onglet "My Models" → GGUF → "Load").
 
-**3 — Configurer le serveur** (onglet "Developer" > "Server") :
+**3 —** Configurer le serveur (onglet "Developer" > "Server") :
 
 | Paramètre | Valeur | Impact |
 | :--- | :--- | :--- |
@@ -224,30 +229,23 @@ Or le décodage spéculatif apporte **2 à 4x plus de tokens par seconde** — u
 | **Flash Attention** | Activé | +20% vitesse |
 | **Speculative Decoding** | Activé | **+200 à 400% vitesse** |
 | **Draft Model** | `qwen2.5-1.5b-q4` | Prédictions rapides |
+| **Just in Time Loading** | Activé | Swap automatique de modèles |
+| **Auto Unload Unused Models** | Activé | Libère RAM des modèles inactifs |
 
-**4 — Démarrer le serveur** → API sur `http://localhost:1234/v1`
+**4 —** Cliquer "Start Server" → API sur `http://localhost:1234/v1`
 
-**5 — Connecter Continue (config.yaml) :**
-```yaml
-models:
-  - name: "DeepSeek R1 70B (LM Studio + Spéculatif)"
-    provider: openai
-    model: deepseek-r1
-    apiBase: "http://localhost:1234/v1"
-    apiKey: "lm-studio"
-```
+**5 —** Réduire LM Studio dans le Dock — le serveur continue de tourner.
 
-> [!NOTE]
-> Une fois le serveur démarré, réduire LM Studio dans le Dock. Le serveur continue de tourner. Les ~500 Mo de l'interface sont largement compensés par le gain du décodage spéculatif.
+---
 
-### Récapitulatif — Quel outil choisir ?
+## 5. Récapitulatif — Quel outil choisir ?
 
 | Scénario | Outil recommandé |
 | :--- | :--- |
-| **Maximum performance** (toutes options) | `launch_ia.sh` (llama-server) |
-| **Simplicité + décodage spéculatif** | **LM Studio GUI** |
-| **Simple production sans spéculatif** | `lms load` + `lms server start` (llmster) |
-| **Tests et exploration** | LM Studio GUI |
+| **Maximum performance** (KV q8 + spéculatif + contrôle fin) | `launch_ia.sh` (llama-server) |
+| **Simplicité + spéculatif + JIT swap + MLX** | **LM Studio GUI** ✅ |
+| **Production légère sans spéculatif** | `lms load` + `lms server start` |
+| **Tests et exploration de modèles** | LM Studio GUI |
 
 ---
 
