@@ -34,13 +34,13 @@ L'architecture est simplifiée au maximum pour garantir performance et stabilit�
 
 Pour optimiser les 64 Go de RAM, la stack exploite plusieurs modèles simultanément, configurés dans le fichier `config.yaml` de l'extension Continue. 
 
-### A. Les Modèles Experts (Code & Architecture)
+### A. Le "Sweet Spot" (Équilibre Fluidité / Intelligence)
 Il est fortement recommandé d'utiliser les modèles certifiés de la [bibliothèque officielle Ollama](https://ollama.com/library) pour garantir la compatibilité avec les outils (Tool Calling / Tavily).
 
 *   **L'Expert MoE (Efficacité Agentique)** : `Qwen 3.6 35B-A3B`
     *   **Architecture** : Mixture of Experts (35B total, seulement 3B actifs par token).
     *   **Performances** : **73.4%** sur SWE-bench Verified.
-    *   **RAM requise (Q8_0)** : ~36 Go (Laisse de la place pour le système).
+    *   **RAM requise (Q8_0)** : ~36 Go (Laisse beaucoup de place pour le contexte RAG).
     *   **Installation** : `ollama pull qwen3.6:35b-a3b-q8_0`
 
 *   **L'Expert Dense (Raisonnement Brut)** : `Qwen 3.6 27B`
@@ -49,7 +49,28 @@ Il est fortement recommandé d'utiliser les modèles certifiés de la [biblioth�
     *   **RAM requise (Q8_0)** : ~29 Go (Fluidité absolue sur M1 Max).
     *   **Installation** : `ollama pull qwen3.6:27b-q8_0`
 
-### B. Les Modèles Utilitaires
+### B. La "Limite Absolue" (Raisonnement Extrême)
+Pour pousser les 64 Go de RAM dans leurs retranchements (max ~48 Go allouables au GPU sans swap), la limite est un modèle de 70B en 4-bit (Q4_K_M). Ils sont plus lents (5-10 tokens/sec) mais d'une logique inégalable pour l'ingénierie logicielle.
+
+*   **Le Génie du Raisonnement** : `DeepSeek-R1-Distill-Llama-70B`
+    *   **Architecture** : Modèle "Chain-of-Thought" (réfléchit avant de répondre).
+    *   **Performances** : **~85%** sur SWE-bench Verified (Surpasse largement Qwen 3.6 27B).
+    *   **RAM requise (Q4_K_M)** : ~42 Go.
+    *   **Installation** : `ollama pull deepseek-r1:70b`
+
+*   **Le Couteau Suisse Ultime** : `Llama 3.3 70B`
+    *   **Architecture** : Modèle dense de référence.
+    *   **Performances** : **~75%** sur SWE-bench Verified. Ne perd jamais le fil.
+    *   **RAM requise (Q4_K_M)** : ~41 Go.
+    *   **Installation** : `ollama pull llama3.3:70b`
+
+*   **Le Monstre du Code** : `Qwen 2.5 72B Instruct`
+    *   **Architecture** : Modèle dense spécialisé code.
+    *   **Performances** : **~77%** sur SWE-bench Verified.
+    *   **RAM requise (Q4_K_M)** : ~43 Go.
+    *   **Installation** : `ollama pull qwen2.5:72b`
+
+### C. Les Modèles Utilitaires
 *   **L'Assistant Rapide** : `Llama 3 8B`. Pour des questions basiques sans charger le GPU. (`ollama pull llama3`)
 *   **Le Vectoriseur** : `nomic-embed-text`. Tourne en tâche de fond pour l'indexation LanceDB de la codebase. (`ollama pull nomic-embed-text`)
 *   **L'Autocomplete** : `Starcoder 2 3B`. Prédit la prochaine ligne de code pendant la frappe. (`ollama pull starcoder2:3b`)
