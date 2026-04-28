@@ -36,6 +36,13 @@ Bienvenue dans la documentation technique du projet de robot humanoïde D-Bot. C
 
 ## 🛠️ ANNEXES & GUIDES DE DEBUG
 *Guides d'interfaçage ponctuel et configurations de bas niveau.*
+
+### Environnement de Développement IA
+*L'architecture de la station de travail pour coder le robot avec l'aide des LLM locaux.*
+- **[Architecture IA (VS Code, Continue, Ollama)](./annexes/ia/02_Architecture_IA_VSCode_Continue.md)** : La stack complète de l'ingénieur robotique.
+- **[Configuration VS Code Multi-Session & Partage IA](./annexes/ia/48_Configuration_VSCode_MultiSession_IA.md)** : Partager les extensions, LanceDB et settings.json entre sessions macOS.
+- **[Importation de Modèles Custom (LM Studio → Ollama)](./annexes/ia/49_Importation_Modeles_Custom_Ollama.md)** : Utiliser les derniers GGUF (Qwen 3.6, etc.) dans Ollama.
+
 ### Actionneurs RobStride
 #### Configuration Initiale
 - 31. **[Guide Debug RS-05 — Module EL05 & MotorStudio](./annexes/robstride/configuration_initiale/31_Guide_Debug_RS05_MotorStudio.md)** : Câblage CAN, DIP switches, procédure Wanptek, et connexion logicielle MotorStudio.
@@ -59,5 +66,4 @@ Bienvenue dans la documentation technique du projet de robot humanoïde D-Bot. C
 
 
 ---
-*Documentation réorganisée en Mars 2026 pour optimiser la clarté et l'indexation IA.*
-*Documentation exhaustive générée et auditée en Février/Mars 2026.*
+*Documentation réorganisée en Mars/Avril 2026 pour optimiser la clarté et l'intégration de la nouvelle architecture IA basée sur VS Code.*
