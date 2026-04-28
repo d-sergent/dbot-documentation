@@ -58,6 +58,12 @@ Pour pousser les 64 Go de RAM dans leurs retranchements (max ~48 Go allouables a
     *   **RAM requise (Q4_K_M)** : ~42 Go.
     *   **Installation** : `ollama pull deepseek-r1:70b`
 
+*   **L'Alternative Non-Censurée** : `R1-1776 70B`
+    *   **Architecture** : Version "decensored" de DeepSeek-R1 par Perplexity AI (aucune limite de réponse).
+    *   **Performances** : **~85%** sur SWE-bench Verified (Logique intacte).
+    *   **RAM requise (Q4_K_M)** : ~42 Go.
+    *   **Installation** : `ollama pull r1-1776:70b` (Source: [ollama.com/library/r1-1776](https://ollama.com/library/r1-1776))
+
 *   **Le Couteau Suisse Ultime** : `Llama 3.3 70B`
     *   **Architecture** : Modèle dense de référence.
     *   **Performances** : **~75%** sur SWE-bench Verified. Ne perd jamais le fil.
