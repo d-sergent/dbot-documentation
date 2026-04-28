@@ -32,12 +32,27 @@ L'architecture est simplifiée au maximum pour garantir performance et stabilit�
 
 ## 3. Le "Cerveau" : Gestion Multi-Modèles
 
-Pour optimiser les 64 Go de RAM, la stack exploite plusieurs modèles simultanément, configurés dans le fichier `config.yaml` de l'extension Continue :
+Pour optimiser les 64 Go de RAM, la stack exploite plusieurs modèles simultanément, configurés dans le fichier `config.yaml` de l'extension Continue. 
 
-1.  **L'Expert Code (Lourd)** : `Qwen 3.6 35B` (MoE) ou `27B` (Dense). Utilisé pour résoudre les bugs complexes de ROS2.
-2.  **L'Assistant Rapide (Léger)** : `Llama 3 8B`. Utilisé pour des questions rapides sans faire chauffer la machine.
-3.  **Le Vectoriseur** : `nomic-embed-text`. Un tout petit modèle qui tourne en tâche de fond pour alimenter LanceDB.
-4.  **L'Autocomplete** : `Starcoder 2 3B`. Prédit la prochaine ligne de code pendant la frappe.
+### A. Les Modèles Experts (Code & Architecture)
+Il est fortement recommandé d'utiliser les modèles certifiés de la [bibliothèque officielle Ollama](https://ollama.com/library) pour garantir la compatibilité avec les outils (Tool Calling / Tavily).
+
+*   **L'Expert MoE (Efficacité Agentique)** : `Qwen 3.6 35B-A3B`
+    *   **Architecture** : Mixture of Experts (35B total, seulement 3B actifs par token).
+    *   **Performances** : **73.4%** sur SWE-bench Verified.
+    *   **RAM requise (Q8_0)** : ~36 Go (Laisse de la place pour le système).
+    *   **Installation** : `ollama pull qwen3.6:35b-a3b-q8_0`
+
+*   **L'Expert Dense (Raisonnement Brut)** : `Qwen 3.6 27B`
+    *   **Architecture** : Modèle dense (tous les paramètres sont actifs).
+    *   **Performances** : **77.2%** sur SWE-bench Verified (Logique supérieure).
+    *   **RAM requise (Q8_0)** : ~29 Go (Fluidité absolue sur M1 Max).
+    *   **Installation** : `ollama pull qwen3.6:27b-q8_0`
+
+### B. Les Modèles Utilitaires
+*   **L'Assistant Rapide** : `Llama 3 8B`. Pour des questions basiques sans charger le GPU. (`ollama pull llama3`)
+*   **Le Vectoriseur** : `nomic-embed-text`. Tourne en tâche de fond pour l'indexation LanceDB de la codebase. (`ollama pull nomic-embed-text`)
+*   **L'Autocomplete** : `Starcoder 2 3B`. Prédit la prochaine ligne de code pendant la frappe. (`ollama pull starcoder2:3b`)
 
 ---
 
