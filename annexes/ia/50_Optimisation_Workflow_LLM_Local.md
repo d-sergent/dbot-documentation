@@ -163,4 +163,156 @@ Pour la stack actuelle (VS Code + Continue + Ollama), les actions à faire **mai
 
 ---
 
+## 5. Calibrage DeepSeek R1 70B Q4 — Le Problème du KV Cache Géant
+
+### Le Bug : Pourquoi 102 Go au lieu de 42 Go ?
+
+Le modèle `deepseek-r1:70b-llama-distill-q4_K_M` charge par défaut une fenêtre de contexte de **131 072 tokens (128k)**. Le KV Cache associé est aussi volumineux que le modèle lui-même :
+
+| Composant | Calcul | Taille |
+| :--- | :--- | :--- |
+| **Poids du modèle** (Q4_K_M) | — | ~42 Go |
+| **KV Cache** (131k tokens, fp16 défaut) | 2 × 80 couches × 8 têtes × 128 dim × 131072 tokens × 2 octets | **~45 Go** |
+| **Overhead système** | — | ~10 Go |
+| **TOTAL observé** | | **~102 Go** |
+
+**La règle clé :** La RAM du KV Cache est **strictement proportionnelle** au nombre de tokens de contexte. Couper le contexte par 4 divise le KV Cache par 4.
+
+---
+
+### Les 4 Modelfiles Calibrés pour M1 Max 64 Go
+
+> [!IMPORTANT]
+> Le paramètre `cache_type_k q8_0` est **obligatoire** pour les contextes ≥ 32k afin d'éviter de dépasser la RAM disponible.
+
+#### 🎯 Profil "Code Concentré" — 16k tokens (~46 Go RAM)
+*Usage : Debug de fonctions, questions ponctuelles, échanges courts. Le plus fluide.*
+
+```dockerfile
+FROM deepseek-r1:70b-llama-distill-q4_K_M
+
+SYSTEM """
+Tu es l'assistant technique du robot bipède D-Bot.
+Tes réponses sont concises et orientées code Python/ROS2.
+"""
+
+# Contexte 16k : idéal pour la majorité des tâches de développement
+PARAMETER num_ctx 16384
+PARAMETER cache_type_k q8_0
+PARAMETER cache_type_v q8_0
+PARAMETER temperature 0.3
+PARAMETER top_p 0.9
+PARAMETER stop "<|im_start|>"
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<|endoftext|>"
+```
+
+```bash
+ollama create deepseek-r1-16k -f Modelfile_16k
+```
+**RAM estimée : ~46 Go** ✅ Confortable (laisse 10+ Go pour le système)
+
+---
+
+#### 🎯 Profil "Architecture Système" — 32k tokens (~49 Go RAM)
+*Usage : Lecture d'un module complet, analyse d'une centaine de fichiers Python.*
+
+```dockerfile
+FROM deepseek-r1:70b-llama-distill-q4_K_M
+
+SYSTEM """
+Tu es l'assistant technique du robot bipède D-Bot.
+Tes réponses sont concises et orientées code Python/ROS2.
+"""
+
+# Contexte 32k : pour analyser plusieurs fichiers simultanément
+PARAMETER num_ctx 32768
+PARAMETER cache_type_k q8_0
+PARAMETER cache_type_v q8_0
+PARAMETER temperature 0.3
+PARAMETER top_p 0.9
+PARAMETER stop "<|im_start|>"
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<|endoftext|>"
+```
+
+```bash
+ollama create deepseek-r1-32k -f Modelfile_32k
+```
+**RAM estimée : ~49 Go** ✅ Bon équilibre (recommandé pour usage quotidien)
+
+---
+
+#### 🎯 Profil "Lecture Documentation" — 48k tokens (~52 Go RAM)
+*Usage : Ingestion de la documentation D-Bot complète, analyse de logs ROS2 longs.*
+
+```dockerfile
+FROM deepseek-r1:70b-llama-distill-q4_K_M
+
+SYSTEM """
+Tu es l'assistant technique du robot bipède D-Bot.
+Tes réponses sont concises et orientées code Python/ROS2.
+"""
+
+# Contexte 48k : pour des tâches de lecture intensive de documentation
+PARAMETER num_ctx 49152
+PARAMETER cache_type_k q8_0
+PARAMETER cache_type_v q8_0
+PARAMETER temperature 0.3
+PARAMETER top_p 0.9
+PARAMETER stop "<|im_start|>"
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<|endoftext|>"
+```
+
+```bash
+ollama create deepseek-r1-48k -f Modelfile_48k
+```
+**RAM estimée : ~52 Go** ✅ Fonctionnel en session dédiée IA
+
+---
+
+#### 🎯 Profil "Projet Complet" — 64k tokens (~55 Go RAM)
+*Usage : Contexte maximal raisonnable. Ingestion du projet entier. Réservé à la session dédiée IA.*
+
+```dockerfile
+FROM deepseek-r1:70b-llama-distill-q4_K_M
+
+SYSTEM """
+Tu es l'assistant technique du robot bipède D-Bot.
+Tes réponses sont concises et orientées code Python/ROS2.
+"""
+
+# Contexte 64k : maximum recommandé sur M1 Max 64 Go en session dédiée
+# ⚠️ Fermer Chrome, Slack et toutes les apps tierces avant de lancer
+PARAMETER num_ctx 65536
+PARAMETER cache_type_k q8_0
+PARAMETER cache_type_v q8_0
+PARAMETER temperature 0.3
+PARAMETER top_p 0.9
+PARAMETER stop "<|im_start|>"
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<|endoftext|>"
+```
+
+```bash
+ollama create deepseek-r1-64k -f Modelfile_64k
+```
+**RAM estimée : ~55 Go** ⚠️ Nécessite la session dédiée IA + toutes apps fermées
+
+---
+
+### Tableau de Synthèse des 4 Profils
+
+| Profil | num_ctx | KV Cache (q8_0) | RAM Totale | Utilisation |
+| :--- | :--- | :--- | :--- | :--- |
+| **16k** "Code Concentré" | 16 384 | ~2.5 Go | **~46 Go** ✅ | Questions courtes, debug |
+| **32k** "Architecture" | 32 768 | ~5 Go | **~49 Go** ✅ | Usage quotidien recommandé |
+| **48k** "Documentation" | 49 152 | ~7.5 Go | **~52 Go** ✅ | Lecture de fichiers longs |
+| **64k** "Projet Complet" | 65 536 | ~10 Go | **~55 Go** ⚠️ | Session dédiée obligatoire |
+| ~~**128k (défaut)**~~ | ~~131 072~~ | ~~45 Go~~ | ~~**102 Go** ❌~~ | Impossible sur 64 Go |
+
+---
+
 *Document créé en Avril 2026 — Architecture IA D-Bot.*
+
