@@ -249,4 +249,76 @@ mlx-community/starcoder2-3b-4bit
 
 ---
 
+## 6. Technologie à Surveiller : SGLang
+
+### Qu'est-ce que SGLang ?
+
+**SGLang** (Structured Generation Language) est un moteur d'inférence haute performance créé par l'équipe **LMSYS** (Berkeley), les mêmes qui ont créé Vicuna et le benchmark Chatbot Arena. Il est conçu comme une alternative de niveau production à `vLLM` et `llama.cpp`, avec une innovation centrale unique : **RadixAttention**.
+
+### La Technologie Clé : RadixAttention
+
+Les moteurs classiques allouent un bloc KV cache indépendant par requête. SGLang utilise un **arbre Radix partagé** qui détecte automatiquement les préfixes communs entre toutes les requêtes simultanées et les mutualise.
+
+**Gain mesuré : jusqu'à 6.4x plus de requêtes traitées par seconde** sur des workloads avec contextes partagés — comme votre usage D-Bot où le SYSTEM prompt est identique pour chaque question.
+
+### Fonctionnalités Uniques (Absentes des Autres Moteurs)
+
+**1 — Génération Structurée Ultra-rapide (xGrammar)**
+Force la sortie du modèle à respecter un schéma JSON ou regex, jusqu'à **10x plus rapide** que les méthodes classiques. Très pertinent pour les commandes robot :
+
+```python
+# SGLang garantit un JSON valide en sortie — idéal pour D-Bot
+{"action": "move_left", "speed": 0.5, "duration": 2.0}
+```
+
+**2 — Pipeline Python Natif**
+SGLang propose un DSL Python pour des workflows d'inférence complexes (appels parallèles, branchements conditionnels, tool use) :
+
+```python
+@sgl.function
+def robot_decision(s, sensor_data):
+    s += sgl.system("Tu es le cerveau de D-Bot.")
+    s += sgl.user(f"Données capteurs : {sensor_data}")
+    s += sgl.assistant(sgl.gen("analyse", max_tokens=100))
+    s += sgl.user("Décision motrice ?")
+    s += sgl.assistant(sgl.gen("decision", choices=["avancer", "reculer", "stop"]))
+```
+
+**3 — API OpenAI-compatible**
+Le serveur SGLang écoute sur `http://localhost:30000/v1` — Continue et Roo Code peuvent s'y connecter exactement comme avec Ollama ou LM Studio.
+
+### État de Compatibilité Mac M1 (Avril 2026)
+
+| Fonctionnalité | État sur M1 Max |
+| :--- | :--- |
+| Backend Apple Silicon | ⚠️ Via MLX (expérimental) |
+| RadixAttention sur MLX | ❌ Pas encore porté |
+| Génération structurée (JSON) | ✅ Disponible |
+| Décodage spéculatif | ⚠️ Partiel |
+| Performance vs llama.cpp | ❌ Encore inférieure sur M1 |
+| API OpenAI-compatible | ✅ `localhost:30000/v1` |
+
+> [!NOTE]
+> SGLang est optimisé pour les GPU NVIDIA (H100, A100). Le backend MLX pour Apple Silicon est actif mais encore expérimental en 2026. Les gains de RadixAttention ne sont pas encore disponibles sur M1.
+
+### Verdict pour D-Bot
+
+| Scénario | Recommandation |
+| :--- | :--- |
+| **Moteur d'inférence principal (Mac)** | ❌ Pas encore — llama.cpp/LM Studio restent supérieurs |
+| **Génération de commandes JSON robot** | ✅ Pertinent dès maintenant (côté client Python) |
+| **Workloads serveur sur GPU NVIDIA** | ✅ Excellent choix (Jetson AGX Orin par exemple) |
+| **Surveillance et adoption future** | ✅ Technologie à intégrer dans 6-12 mois |
+
+> [!TIP]
+> Si vous développez des scripts comportementaux Python pour D-Bot (ex: `chatbot_local.py`) qui génèrent des commandes structurées pour les moteurs RobStride, la **bibliothèque cliente SGLang** peut être utilisée dès maintenant en se connectant à votre LM Studio ou llama-server existant.
+
+```bash
+# Installation du client SGLang (sans le serveur complet)
+pip install sglang
+```
+
+---
+
 *Document créé en Avril 2026 — Architecture IA D-Bot.*
+
