@@ -154,27 +154,47 @@ Ollama ne peut pas tourner en deux exemplaires sur la même machine (conflit sur
 *   **Faut-il le démarrer à l'avance ?** : **Oui.** Soit via l'application Ollama, soit via la commande `ollama serve` dans un terminal de la session IA. Les extensions (Continue/Roo Code) ne lancent pas le serveur automatiquement, elles ne font que s'y connecter.
 *   **Accès depuis la Session Standard** : Comme les deux sessions partagent la même IP locale (`localhost`), VS Code sur la session Standard verra l'Ollama lancé sur la session IA sans configuration supplémentaire.
 
-### B. Configuration dans Continue (`config.json`)
-Puisque nous avons lié le dossier `~/.continue`, la modification faite sur une session sera répercutée sur l'autre.
-Ajoutez vos modèles dans la section `models` :
+### B. Configuration dans Continue (`config.yaml`)
 
-```json
-{
-  "models": [
-    {
-      "title": "Ollama - Llama 3",
-      "provider": "ollama",
-      "model": "llama3",
-      "apiBase": "http://localhost:11434"
-    }
-  ],
-  "tabAutocompleteModel": {
-    "title": "Starcoder 2",
-    "provider": "ollama",
-    "model": "starcoder2:3b"
-  }
-}
+Puisque nous avons lié le dossier `~/.continue`, la modification faite sur une session sera répercutée sur l'autre. Vous pouvez configurer plusieurs modèles pour jongler entre **Intelligence** (modèle lourd) et **Rapidité** (modèle léger).
+
+Ajoutez vos modèles dans la section `models` de votre `config.yaml` :
+
+```yaml
+models:
+  # 1. Modèle Expert (Code complexe & Architecture)
+  - name: Qwen 3.6 35B Expert
+    provider: ollama
+    model: qwen-expert:latest
+    roles:
+      - chat
+      - edit
+      - apply
+
+  # 2. Modèle Rapide (Questions simples & Chat)
+  - name: Llama 3 8B (Fast)
+    provider: ollama
+    model: llama3:latest
+    roles:
+      - chat
+
+  # 3. Modèle Custom (Importé via Hugging Face)
+  - name: Qwen 3.6 27B Dense
+    provider: ollama
+    model: qwen-3.6-custom
+    roles:
+      - chat
+      - edit
+      - apply
+
+# Configuration de l'Autocomplete (complétion de code)
+tabAutocompleteModel:
+  title: Starcoder 2
+  provider: ollama
+  model: starcoder2:3b
 ```
+
+*Note : Vous pouvez changer de modèle à tout moment via le sélecteur situé en bas du panneau Continue dans VS Code.*
 
 ### C. Configuration dans Roo Code
 Dans les paramètres de l'extension Roo Code (icône en forme de robot) :
