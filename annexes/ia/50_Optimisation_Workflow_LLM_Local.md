@@ -156,10 +156,131 @@ response = openai.ChatCompletion.create(
 
 Pour la stack actuelle (VS Code + Continue + Ollama), les actions à faire **maintenant** par ordre de priorité :
 
-1. **[Priorité 1]** Ajouter `cache_type_k q8_0` / `cache_type_v q8_0` dans vos Modelfiles → Gain immédiat sur le contexte.
-2. **[Priorité 2]** Ne pas fermer VS Code entre les sessions → Cache préfixe automatique.
-3. **[Priorité 3]** Tester MLX comme backend alternatif (mode avancé) si la vitesse devient un frein.
-4. **[Futur]** Surveiller l'évolution d'Ollama : le support du décodage spéculatif est dans leur roadmap.
+1. **[Priorité 1]** Contrôler `num_ctx` via un Modelfile Ollama (seul paramètre valide pour la RAM).
+2. **[Priorité 2]** Garder VS Code ouvert entre les sessions → Cache préfixe automatique.
+3. **[Priorité 3]** Migrer vers `llama-server` pour débloquer le KV cache quantizé et le décodage spéculatif (voir section 5).
+4. **[Futur]** Surveiller Ollama : la quantification du KV cache est dans leur roadmap.
+
+---
+
+## 5. Dépasser les Limites d'Ollama : llama-server + Script Shell
+
+### Pourquoi passer à llama-server ?
+
+Ollama est une abstraction pratique mais qui cache les paramètres les plus puissants de `llama.cpp`. Le tableau ci-dessous résume les différences :
+
+| Fonctionnalité | Ollama (Modelfile) | llama-server direct |
+| :--- | :---: | :---: |
+| Contrôle du contexte (`num_ctx`) | ✅ | ✅ |
+| KV Cache quantizé (`--cache-type-k q8_0`) | ❌ | ✅ |
+| Flash Attention (`--flash-attn`) | Auto | ✅ Explicite |
+| Décodage Spéculatif (`--model-draft`) | ❌ | ✅ |
+| API OpenAI-compatible (Continue) | ✅ | ✅ |
+
+`llama-server` expose exactement la même API OpenAI-compatible qu'Ollama sur `localhost:8080/v1`. **Continue dans VS Code ne voit aucune différence**, mais les performances sont supérieures.
+
+---
+
+### Installation de llama.cpp
+
+```bash
+# Via Homebrew — compile automatiquement avec Metal (GPU M1)
+brew install llama.cpp
+```
+
+---
+
+### Le Script Maître `/Users/Shared/IA/launch_ia.sh`
+
+Un script unique avec 4 profils sélectionnables. Il applique automatiquement toutes les optimisations :
+
+```bash
+# Usage
+./launch_ia.sh [MODE] [DRAFT]
+
+# Exemples
+./launch_ia.sh rapide            # 16k tokens, ~47 Go RAM
+./launch_ia.sh quotidien         # 32k tokens, ~49 Go RAM (recommandé)
+./launch_ia.sh documentation oui # 48k tokens + décodage spéculatif
+./launch_ia.sh maximum           # 64k tokens, ~55 Go RAM ⚠️
+```
+
+Le script se trouve dans `/Users/Shared/IA/launch_ia.sh` et applique :
+- `--cache-type-k q8_0` / `--cache-type-v q8_0` → KV Cache divisé par 2
+- `--flash-attn` → +20% de vitesse
+- `--n-gpu-layers 999` → tout sur le GPU Metal
+- `--model-draft` → décodage spéculatif si `DRAFT=oui`
+
+---
+
+### Tableau des Profils (avec KV Cache q8_0 — llama-server)
+
+| Profil | Contexte | KV Cache (q8_0) | RAM Totale | Statut |
+| :--- | :--- | :--- | :--- | :--- |
+| **rapide** | 16 384 | ~2.5 Go | **~47 Go** | ✅ Confortable |
+| **quotidien** | 32 768 | ~5 Go | **~49 Go** | ✅ **Recommandé** |
+| **documentation** | 49 152 | ~7.5 Go | **~52 Go** | ✅ Session dédiée |
+| **maximum** | 65 536 | ~10 Go | **~55 Go** | ⚠️ Toutes apps fermées |
+| ~~128k (Ollama défaut)~~ | ~~131 072~~ | ~~45 Go~~ | ~~**~102 Go**~~ | ❌ Crash |
+
+> [!NOTE]
+> Avec Ollama (KV cache fp16 non compressible), le profil 48k atteint ~57 Go et le 64k ~62 Go. Avec llama-server et `--cache-type-k q8_0`, ces mêmes profils descendent à ~52 Go et ~55 Go.
+
+---
+
+### Connecter Continue à llama-server (config.yaml)
+
+Remplacez le provider `ollama` par un provider `openai` pointant vers le serveur local :
+
+```yaml
+models:
+  - name: "DeepSeek R1 70B (llama-server)"
+    provider: openai
+    model: deepseek-r1          # Le serveur ignore ce champ
+    apiBase: "http://localhost:8080/v1"
+    apiKey: "not-needed"
+```
+
+---
+
+## 6. Alternative Graphique : LM Studio / llmster
+
+**LLMster est le moteur headless de LM Studio** — les deux font la même chose, LM Studio ajoute une interface graphique par-dessus.
+
+### Avantages de LM Studio pour votre usage
+
+- Interface graphique pour choisir le modèle, le contexte et la quantification du KV cache.
+- **Décodage spéculatif intégré** : sélection graphique du modèle draft.
+- Expose une API OpenAI-compatible sur `localhost:1234` → **Continue s'y connecte de la même façon**.
+- Inclut un moniteur de RAM en temps réel pendant l'inférence.
+
+### Procédure
+
+1. Télécharger LM Studio sur **[lmstudio.ai](https://lmstudio.ai)**.
+2. Dans l'onglet **"My Models"**, charger votre GGUF (ex: `deepseek-r1-70b-q4_K_M.gguf`).
+3. Dans l'onglet **"Server"**, configurer :
+   - `Context Length` : 32768
+   - `KV Cache Quantization` : Q8_0
+   - `Speculative Decoding` : activer + sélectionner le draft model
+4. Cliquer sur **"Start Server"** → API disponible sur `http://localhost:1234/v1`.
+5. Dans votre `config.yaml` Continue :
+
+```yaml
+models:
+  - name: "DeepSeek R1 70B (LM Studio)"
+    provider: openai
+    model: deepseek-r1
+    apiBase: "http://localhost:1234/v1"
+    apiKey: "lm-studio"
+```
+
+> [!TIP]
+> LM Studio est idéal si vous ne voulez pas gérer un script shell. llama-server via le script est préférable si vous voulez un démarrage rapide en une commande depuis le terminal de la session dédiée IA.
+
+---
+
+*Document créé en Avril 2026 — Architecture IA D-Bot.*
+
 
 ---
 
