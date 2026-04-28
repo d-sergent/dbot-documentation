@@ -106,7 +106,35 @@ models:
 
 ---
 
-## 7. Diagnostic Rapide
+## 7. Gérer les Modèles Officiels et le "Tool Calling"
+
+Si vous utilisez un fichier GGUF manuel, les outils avancés (comme la recherche web Tavily via `@tavily`) ne fonctionneront pas par défaut dans Continue. Ollama a besoin d'un `TEMPLATE` interne très complexe pour comprendre les outils, qui est absent des GGUF bruts.
+
+Pour utiliser les "Tools", voici les 3 options :
+
+### Option 1 : Le catalogue officiel Ollama (Recommandée)
+C'est la méthode la plus sûre. Les modèles du catalogue incluent déjà le code nécessaire pour les outils.
+Pour trouver les modèles disponibles, allez sur **[ollama.com/library](https://ollama.com/library)** dans votre navigateur (il n'y a pas de commande de recherche dans le terminal).
+```bash
+# Exemple de téléchargement d'un modèle officiel
+ollama pull qwen2.5:32b
+```
+
+### Option 2 : Le pont direct Hugging Face
+Ollama peut désormais télécharger directement depuis Hugging Face sans passer par LM Studio. Il parvient parfois à auto-détecter le bon template pour les outils.
+```bash
+ollama run hf.co/bartowski/Qwen2.5-32B-Instruct-GGUF
+```
+
+### Option 3 : Copier le Template officiel (Expert)
+Si vous tenez absolument à votre fichier GGUF manuel :
+1. Téléchargez la version officielle la plus proche : `ollama pull qwen2.5`
+2. Affichez son code interne : `ollama show --modelfile qwen2.5`
+3. Copiez l'immense bloc `TEMPLATE """ ... """` qui s'affiche et collez-le dans votre propre `Modelfile`.
+
+---
+
+## 8. Diagnostic Rapide
 
 | Erreur | Solution |
 | :--- | :--- |
