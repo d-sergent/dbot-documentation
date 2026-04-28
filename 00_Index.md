@@ -42,6 +42,7 @@ Bienvenue dans la documentation technique du projet de robot humanoïde D-Bot. C
 - **[Architecture IA (VS Code, Continue, Ollama)](./annexes/ia/02_Architecture_IA_VSCode_Continue.md)** : La stack complète de l'ingénieur robotique.
 - **[Configuration VS Code Multi-Session & Partage IA](./annexes/ia/48_Configuration_VSCode_MultiSession_IA.md)** : Partager les extensions, LanceDB et settings.json entre sessions macOS.
 - **[Importation de Modèles Custom (LM Studio → Ollama)](./annexes/ia/49_Importation_Modeles_Custom_Ollama.md)** : Utiliser les derniers GGUF (Qwen 3.6, etc.) dans Ollama.
+- **[Optimisation du Workflow LLM Local](./annexes/ia/50_Optimisation_Workflow_LLM_Local.md)** : KV Cache, MLX, décodage spéculatif et GPTCache — ce qui marche avec Continue/Ollama.
 
 ### Actionneurs RobStride
 #### Configuration Initiale
