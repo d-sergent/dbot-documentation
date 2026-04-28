@@ -55,8 +55,14 @@ Tu as accès aux schémas du robot et aux capteurs Jetson.
 """
 
 # 3. Les paramètres de comportement
+# 'temperature' (0.0 à 1.0) : Définit la créativité. 0.3 est idéal pour du code technique.
 PARAMETER temperature 0.3
+# 'top_p' : Filtre de vocabulaire. 0.9 empêche l'IA d'utiliser des termes hors sujet.
 PARAMETER top_p 0.9
+# 'stop' : Les mots clés qui disent à l'IA d'arrêter de parler.
+# Ces 3 tokens sont obligatoires pour éviter le bug de "boucle" sur les modèles Qwen/Mistral.
+PARAMETER stop "<|im_start|>"
+PARAMETER stop "<|im_end|>"
 PARAMETER stop "<|endoftext|>"
 ```
 
@@ -71,7 +77,8 @@ Ouvrez un terminal et lancez la compilation du modèle :
 ollama create qwen-3.6-custom -f Modelfile
 ```
 
-Ollama va lire le fichier GGUF, intégrer vos paramètres et créer une entrée dans sa base de données interne.
+Ollama va lire le fichier GGUF, intégrer vos paramètres et créer une entrée dans sa base de données interne. 
+*Note : Si le modèle existe déjà (par exemple après avoir modifié vos paramètres), relancer exactement la même commande écrasera la version précédente et mettra le modèle à jour instantanément.*
 
 ---
 
