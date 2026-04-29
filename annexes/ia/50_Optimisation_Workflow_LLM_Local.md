@@ -236,6 +236,20 @@ mlx-community/starcoder2-3b-4bit
 
 **5 —** Réduire LM Studio dans le Dock — le serveur continue de tourner.
 
+### Dépannage : Erreur "No LM Runtime found" (Multi-Session)
+
+Si vous utilisez LM Studio sur une **session macOS différente** de celle où il a été installé, vous rencontrerez l'erreur :
+`Failed to load the model: No LM Runtime found for model format 'gguf' (ou 'safetensors')!`
+
+**Explication :** L'application est installée globalement, mais les moteurs d'inférence (runtimes) sont téléchargés silencieusement dans un dossier caché propre à chaque utilisateur (`~/.cache/lm-studio/`). La nouvelle session n'a donc pas le moteur.
+
+**Solution (Méthode 1) :**
+1. Ouvrez LM Studio sur la nouvelle session Admin.
+2. Cliquez sur l'icône **Dossier (Local Models)** ou **Paramètres** (engrenage) sur la barre latérale gauche.
+3. Cherchez la section **"Runtimes"** (souvent située dans le panneau de gauche ou sous Advanced).
+4. Cliquez sur le bouton **"Update"** ou **"Download Runtimes"**.
+5. Une fois le téléchargement du moteur terminé, votre modèle GGUF / MLX se chargera normalement.
+
 ---
 
 ## 5. Récapitulatif — Quel outil choisir ?
