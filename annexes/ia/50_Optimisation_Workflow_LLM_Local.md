@@ -250,9 +250,39 @@ Si vous utilisez LM Studio sur une **session macOS différente** de celle où il
 4. Cliquez sur le bouton **"Update"** ou **"Download Runtimes"**.
 5. Une fois le téléchargement du moteur terminé, votre modèle GGUF / MLX se chargera normalement.
 
+## 5. Workflow Optimal : Architecture Multi-Agents
+
+Pour maximiser l'efficacité sur M1 Max 64 Go, la stratégie recommandée est de séparer les rôles entre deux modèles spécialisés dans vos extensions VS Code (Continue / Roo Code).
+
+### A. Le Pattern "Agent vs Spécialiste"
+
+| Rôle | Modèle Recommandé | Atout | Usage |
+| :--- | :--- | :--- | :--- |
+| **L'Agent (Outils)** | **Qwen 2.5 32B Instruct** | Fiabilité JSON / Tools | Filesystem, Git, MCP, Recherche Web. |
+| **Le Spécialiste** | **DeepSeek R1 70B** | Raisonnement pur | Algorithmes complexes, Debug critique, Architecture. |
+
+### B. Déroulement du Workflow dans VS Code
+
+Le contexte (fichiers lus, logs, résultats web) est lié au **fil de discussion du chat** et non au modèle.
+
+1. **Exploration (Agent)** : Utilisez Qwen pour fouiller le code, utiliser MCP et rassembler le contexte.
+2. **Réflexion (Spécialiste)** : Switchez sur DeepSeek R1. Il reçoit tout l'historique et résout le problème complexe sans avoir à gérer les outils (qu'il maîtrise moins bien).
+3. **Exécution (Agent)** : Revenez sur Qwen pour appliquer les modifications, tester et faire le commit Git.
+
+### C. Comportement Technique de LM Studio (JIT & Spéculatif)
+
+Ce workflow exploite la gestion dynamique de la RAM dans LM Studio :
+
+*   **DeepSeek (Pré-chargé)** : Doit être configuré comme modèle principal avec le **Décodage Spéculatif** activé (vitesse x2 à x4).
+*   **Qwen (JIT Loading)** : Chargé automatiquement par LM Studio lors de l'appel API de VS Code. Le décodage spéculatif est alors ignoré (gain de RAM), ce qui est acceptable car Qwen 32B est déjà rapide nativement.
+*   **Contrainte de RAM** : Le swap automatique évite la saturation de vos 64 Go en n'essayant pas de faire tourner les deux modèles simultanément.
+
+> [!WARNING]
+> **Latence de Swap** : Chaque changement de modèle dans le menu déroulant de VS Code déclenche un échange de ~40 Go en RAM. Comptez **10 à 20 secondes** de pause avant que le nouveau modèle ne réponde.
+
 ---
 
-## 5. Récapitulatif — Quel outil choisir ?
+## 6. Récapitulatif — Quel outil choisir ?
 
 | Scénario | Outil recommandé |
 | :--- | :--- |
@@ -263,7 +293,7 @@ Si vous utilisez LM Studio sur une **session macOS différente** de celle où il
 
 ---
 
-## 6. Technologie à Surveiller : SGLang
+## 7. Technologie à Surveiller : SGLang
 
 ### Qu'est-ce que SGLang ?
 
