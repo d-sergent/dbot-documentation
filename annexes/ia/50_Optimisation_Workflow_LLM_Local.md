@@ -158,21 +158,24 @@ Quand Continue demande un modèle différent (ex: l'autocomplete utilise `starco
 **Stratégie config.yaml recommandée :**
 ```yaml
 models:
-  # Modèle principal : pré-chargé, bénéficie du spéculatif
-  - name: "DeepSeek R1 70B"
+  # L'Agent de terrain (Chargé en JIT via MLX natif, très fiable pour les outils)
+  - name: "Agent (Qwen 3.6 35B MLX)"
     provider: openai
-    model: deepseek-r1-70b
+    model: "mlx-community/Qwen3.6-35B-4bit"
     apiBase: "http://localhost:1234/v1"
     apiKey: "lm-studio"
+    roles: [chat, edit]
 
-  # Modèle léger : chargé à la demande via JIT
-  - name: "Qwen 27B (rapide)"
+  # Le Spécialiste (Pré-chargé, bénéficie du décodage spéculatif)
+  - name: "Expert (DeepSeek R1 70B)"
     provider: openai
-    model: qwen2.5-27b
+    model: "deepseek-r1-70b"
     apiBase: "http://localhost:1234/v1"
     apiKey: "lm-studio"
+    roles: [chat]
 
 tabAutocompleteModel:
+  # Autocomplete ultra-léger via JIT
   name: "Starcoder2 3B"
   provider: openai
   model: starcoder2-3b
@@ -196,20 +199,14 @@ LM Studio peut utiliser deux backends :
 | Modèle | Format recommandé | Raison |
 | :--- | :--- | :--- |
 | **DeepSeek R1 70B** | GGUF Q4_K_M | Spéculatif disponible → gain maximal |
-| **Qwen 3.6 27B** | MLX 4-bit | Déjà fluide, MLX natif plus rapide |
-| **Qwen 3.6 35B MoE** | GGUF Q8 | Meilleure disponibilité en GGUF |
-| **Starcoder2 3B (autocomplete)** | MLX 4-bit | Légèreté, MLX parfait |
+| **Qwen 3.6 35B** | **MLX 4-bit** | Fiabilité outils, MLX natif plus rapide |
+| **Qwen 3.6 27B** | MLX 4-bit | Alternative ultra-rapide |
+| **Starcoder2 3B** | MLX 4-bit | Légèreté, MLX parfait |
 | **nomic-embed-text** | MLX | Embedding Apple Silicon natif |
 
-**Modèles MLX disponibles :** `huggingface.co/mlx-community`
-```
-mlx-community/Qwen2.5-32B-Instruct-4bit
-mlx-community/Qwen2.5-14B-Instruct-4bit
-mlx-community/starcoder2-3b-4bit
-```
-
-> [!TIP]
-> Pour le DeepSeek R1 70B : **GGUF + spéculatif reste toujours plus rapide que MLX seul**. Ne le convertissez pas en MLX.
+> [!IMPORTANT]
+> **Pourquoi 4-bit et non 8-bit ?**
+> Sur 64 Go de RAM, un modèle 35B en 8-bit pèse ~35 Go. Lors d'un swap JIT avec DeepSeek R1 (40 Go), vous dépasserez les 64 Go, provoquant un ralentissement massif (Swap disque). Le **4-bit (~20 Go)** permet un switch fluide.
 
 ---
 
@@ -217,7 +214,7 @@ mlx-community/starcoder2-3b-4bit
 
 **1 —** Télécharger LM Studio sur **[lmstudio.ai](https://lmstudio.ai)** (macOS Apple Silicon).
 
-**2 —** Charger le modèle principal (onglet "My Models" → GGUF → "Load").
+**2 —** Charger le modèle principal (onglet "My Models" → **DeepSeek R1 GGUF** → "Load").
 
 **3 —** Configurer le serveur (onglet "Developer" > "Server") :
 
@@ -228,7 +225,7 @@ mlx-community/starcoder2-3b-4bit
 | **KV Cache Quantization** | `Q8_0` | RAM KV ÷ 2 |
 | **Flash Attention** | Activé | +20% vitesse |
 | **Speculative Decoding** | Activé | **+200 à 400% vitesse** |
-| **Draft Model** | `qwen2.5-1.5b-q4` | Prédictions rapides |
+| **Draft Model** | `qwen1.5b-q4` | Prédictions rapides |
 | **Just in Time Loading** | Activé | Swap automatique de modèles |
 | **Auto Unload Unused Models** | Activé | Libère RAM des modèles inactifs |
 
@@ -252,33 +249,31 @@ Si vous utilisez LM Studio sur une **session macOS différente** de celle où il
 
 ## 5. Workflow Optimal : Architecture Multi-Agents
 
-Pour maximiser l'efficacité sur M1 Max 64 Go, la stratégie recommandée est de séparer les rôles entre deux modèles spécialisés dans vos extensions VS Code (Continue / Roo Code).
+Pour maximiser l'efficacité sur M1 Max 64 Go, la stratégie recommandée est de séparer les rôles entre deux modèles spécialisés.
 
-### A. Le Pattern "Agent vs Spécialiste"
+### A. Le Pattern "Agent de terrain vs Spécialiste"
 
-| Rôle | Modèle Recommandé | Atout | Usage |
+| Rôle | Modèle | Atout | Usage |
 | :--- | :--- | :--- | :--- |
-| **L'Agent (Outils)** | **Qwen 2.5 32B Instruct** | Fiabilité JSON / Tools | Filesystem, Git, MCP, Recherche Web. |
-| **Le Spécialiste** | **DeepSeek R1 70B** | Raisonnement pur | Algorithmes complexes, Debug critique, Architecture. |
+| **L'Agent (Outils)** | **Qwen 3.6 35B MLX** | Fiabilité JSON / Tools | Filesystem, Git, MCP, Recherche Web, Application de code. |
+| **Le Spécialiste** | **DeepSeek R1 70B GGUF** | Raisonnement pur | Algorithmes complexes, Debug critique, Architecture. |
 
-### B. Déroulement du Workflow dans VS Code
+### B. Déroulement du Workflow "Relais" dans VS Code
 
 Le contexte (fichiers lus, logs, résultats web) est lié au **fil de discussion du chat** et non au modèle.
 
-1. **Exploration (Agent)** : Utilisez Qwen pour fouiller le code, utiliser MCP et rassembler le contexte.
-2. **Réflexion (Spécialiste)** : Switchez sur DeepSeek R1. Il reçoit tout l'historique et résout le problème complexe sans avoir à gérer les outils (qu'il maîtrise moins bien).
-3. **Exécution (Agent)** : Revenez sur Qwen pour appliquer les modifications, tester et faire le commit Git.
+1. **Phase d'Exploration (Agent)** : Utilisez Qwen pour fouiller le code, utiliser MCP et rassembler le contexte.
+2. **Phase de Réflexion (Spécialiste)** : Switchez sur DeepSeek R1 dans VS Code. Il reçoit tout l'historique et résout le problème complexe sans avoir à gérer les outils (qu'il maîtrise moins bien).
+3. **Phase d'Exécution (Agent)** : Revenez sur Qwen pour appliquer les modifications, tester et faire le commit Git.
 
-### C. Comportement Technique de LM Studio (JIT & Spéculatif)
+### C. Synergie Technique (JIT & Spéculatif)
 
-Ce workflow exploite la gestion dynamique de la RAM dans LM Studio :
+Ce workflow exploite la gestion dynamique de LM Studio :
+*   **DeepSeek (Brain)** : Pré-chargé avec son modèle **Draft** → génération instantanée de la pensée.
+*   **Qwen (Hands)** : Chargé à la demande via **JIT**. Le format MLX 4-bit garantit un chargement éclair et une exécution native sans saturer les 64 Go de RAM.
 
-*   **DeepSeek (Pré-chargé)** : Doit être configuré comme modèle principal avec le **Décodage Spéculatif** activé (vitesse x2 à x4).
-*   **Qwen (JIT Loading)** : Chargé automatiquement par LM Studio lors de l'appel API de VS Code. Le décodage spéculatif est alors ignoré (gain de RAM), ce qui est acceptable car Qwen 32B est déjà rapide nativement.
-*   **Contrainte de RAM** : Le swap automatique évite la saturation de vos 64 Go en n'essayant pas de faire tourner les deux modèles simultanément.
-
-> [!WARNING]
-> **Latence de Swap** : Chaque changement de modèle dans le menu déroulant de VS Code déclenche un échange de ~40 Go en RAM. Comptez **10 à 20 secondes** de pause avant que le nouveau modèle ne réponde.
+> [!TIP]
+> Ce workflow "Multi-Modèles" est la configuration la plus avancée possible en local en 2026. Il permet d'allier la puissance de raisonnement d'un 70B à la fiabilité technique d'un agent spécialisé 35B.
 
 ---
 
