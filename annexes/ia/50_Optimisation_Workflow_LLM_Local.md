@@ -124,7 +124,27 @@ models:
 
 ---
 
-## 4. Alternative Graphique : LM Studio (Recommandé)
+## 4. Le Choix de la Quantification (GGUF)
+
+Pour les modèles de 70B+ (comme DeepSeek R1), le choix du format `.gguf` est crucial pour équilibrer RAM et vitesse sur M1 Max.
+
+### A. Comparatif des formats 4-bit
+
+| Format | Taille (70B) | bpw | Atout sur M1 Max |
+| :--- | :--- | :--- | :--- |
+| **Q4_K_M** | **~42.5 Go** | 4.85 | ✅ **Recommandé** : Kernels Metal ultra-optimisés. |
+| **IQ4_NL** | ~40.1 Go | 4.50 | ❌ Kernels Metal moins matures, plus lent. |
+| **IQ4_XS** | ~37.9 Go | 4.25 | ❌ À réserver aux Mac < 32 Go RAM. |
+
+### B. Pourquoi privilégier le Q4_K_M sur 64 Go ?
+
+1.  **Optimisation Metal** : Les kernels de `llama.cpp` pour le format **Q4_K_M** sont les plus anciens et les mieux optimisés pour les puces Apple. Ils offrent une vitesse de lecture de prompt (*prefill*) et de génération plus stable que les formats `IQ`.
+2.  **Qualité de Raisonnement** : Le format `Q4_K_M` garde les couches les plus sensibles du modèle à une précision supérieure (5-6 bits). Pour un modèle de raisonnement (DeepSeek R1), cela réduit les erreurs dans la chaîne de pensée.
+3.  **RAM disponible** : Avec 64 Go, l'économie de 4 Go offerte par l'IQ4_XS n'est pas nécessaire. Il vaut mieux utiliser ces 4 Go pour garantir une meilleure intelligence et des kernels GPU plus rapides.
+
+---
+
+## 5. Alternative Graphique : LM Studio (Recommandé)
 
 ### Pourquoi LM Studio plutôt que llmster ?
 
@@ -247,7 +267,7 @@ Si vous utilisez LM Studio sur une **session macOS différente** de celle où il
 4. Cliquez sur le bouton **"Update"** ou **"Download Runtimes"**.
 5. Une fois le téléchargement du moteur terminé, votre modèle GGUF / MLX se chargera normalement.
 
-## 5. Workflow Optimal : Architecture Multi-Agents
+## 6. Workflow Optimal : Architecture Multi-Agents
 
 Pour maximiser l'efficacité sur M1 Max 64 Go, la stratégie recommandée est de séparer les rôles entre deux modèles spécialisés.
 
@@ -277,7 +297,7 @@ Ce workflow exploite la gestion dynamique de LM Studio :
 
 ---
 
-## 6. Récapitulatif — Quel outil choisir ?
+## 7. Récapitulatif — Quel outil choisir ?
 
 | Scénario | Outil recommandé |
 | :--- | :--- |
@@ -288,7 +308,7 @@ Ce workflow exploite la gestion dynamique de LM Studio :
 
 ---
 
-## 7. Technologie à Surveiller : SGLang
+## 8. Technologie à Surveiller : SGLang
 
 ### Qu'est-ce que SGLang ?
 
