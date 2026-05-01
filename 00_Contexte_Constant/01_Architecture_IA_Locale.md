@@ -22,26 +22,30 @@ Pour optimiser le contexte de l'IA (le "KV Cache") et éviter de saturer la mém
 
 ---
 
-## 2. Stratégie des Modèles (Le Duo LM Studio)
+## 2. Stratégie des Modèles (Le Duo LM Studio / MLX)
 
-Pour concilier vitesse d'interaction MCP (outils) et profondeur de réflexion mécanique, nous adoptons une stratégie à deux modèles. Voici les liens exacts vers les meilleurs forks "Hugging Face" optimisés pour les Mac M1 Max sous LM Studio.
+Pour concilier vitesse d'interaction MCP (outils) et profondeur de réflexion mécanique, nous adoptons une stratégie à deux modèles. Voici les meilleures options optimisées pour un Mac M1 Max (64 Go).
 
-### A. Le "Scout" (Rapide, Spécialiste Outils MCP & Code)
-*   **Rôle :** Interface quotidienne, requêtes RAG, recherches Web (Tavily), exécution d'outils. Il doit être extrêmement rigoureux sur le format JSON des outils.
-*   **Modèles recommandés (Recherchez ces noms exacts dans LM Studio) :**
-    1.  **Option Mistral (Le plus fiable pour le MCP) :** 
-        `bartowski/Mistral-Small-24B-Instruct-2501-GGUF` (Privilégiez la version `Q4_K_M` ou `Q5_K_M`).
-    2.  **Option Qwen (Le meilleur pour le code pur) :** 
-        `mlx-community/Qwen2.5-Coder-14B-Instruct-4bit` (Version MLX native pour Apple Silicon, ultra rapide).
+### A. Le "Scout" / L'Exécuteur (Rapide, Spécialiste Outils MCP & Code)
+*   **Rôle :** Interface quotidienne, requêtes RAG, recherches Web (Tavily), exécution d'outils. Il doit être extrêmement rigoureux sur le format JSON des outils et rapide. Ne possède pas de balise `<think>`.
+*   **Modèles recommandés :**
+    1.  **L'Agent Ultime (35B/27B) :** 
+        `mlx-community/Qwen3.6-35B-4bit` (ou la variante 27B). Le sommet pour l'usage intensif d'outils (MCP) avec une excellente culture générale, tout en restant très rapide grâce au format MLX natif Apple.
+    2.  **Le Sprinter (14B) :** 
+        `mlx-community/Qwen2.5-Coder-14B-Instruct-4bit`. Ultra rapide et agréable au quotidien, parfait pour du code pur ou des tâches simples.
+    3.  **L'Option Mistral (24B) :** 
+        `bartowski/Mistral-Small-24B-Instruct-2501-GGUF` (`Q4_K_M`). L'alternative européenne, très fiable et rigoureuse.
 
-### B. L'"Architecte" (Raisonnement Profond & Cinématique)
-*   **Rôle :** Résolution de problèmes complexes (physique, conception du D-Bot, logique mathématique).
-*   **Spécificité :** Utilise la logique "Chain of Thought" (`<think>...</think>`). Il prendra 10 à 20 secondes à répondre, mais sa réflexion sera digne d'un bureau d'études.
-*   **Modèles recommandés (Recherchez ces noms exacts dans LM Studio) :**
-    1.  **L'Équilibre Parfait (32B) :** 
-        `bartowski/DeepSeek-R1-Distill-Llama-32B-GGUF` (Version `Q4_K_M` ~19GB de VRAM). C'est le sommet de la réflexion locale actuelle.
-    2.  **La Variante Qwen (32B) :**
-        `bartowski/DeepSeek-R1-Distill-Qwen-32B-GGUF` (Excellent si le problème est fortement lié à du code logiciel complexe).
+### B. L'"Architecte" (Raisonnement Profond, Mécanique & Cinématique)
+*   **Rôle :** Résolution de problèmes d'ingénierie complexes (calculs de couple, choix de matériaux, physique, conception du D-Bot).
+*   **Spécificité :** Utilise la logique "Chain of Thought" (`<think>...</think>`). Il prendra son temps pour éviter les hallucinations mathématiques.
+*   **Modèles recommandés :**
+    1.  **L'Équilibre Parfait Physique/Calculs (32B) :** 
+        `bartowski/DeepSeek-R1-Distill-Qwen-32B-GGUF` (Version `Q4_K_M` ~19GB). Le meilleur ratio Vitesse/Intelligence. (Note : Llama n'existe pas en 32B natif, c'est l'architecture Qwen qui domine cette catégorie).
+    2.  **L'Encyclopédie Industrielle & Matériaux (70B MLX) :**
+        `mlx-community/deepseek-r1-distill-llama-70b-4bit`. Le "Graal" pour brainstormer sur l'usinage CNC ou des choix structurels complexes. Le format MLX permet à ce monstre de tourner de manière fluide sur M1 Max, moyennant environ 40 Go de RAM unifiée.
+    3.  **L'Alternative Généraliste (27B) :**
+        `bartowski/gemma-2-27b-it-GGUF`. Sans balise think, mais doté d'une culture académique redoutable pour lier l'électronique et la mécanique, sans être aussi lourd qu'un 70B.
 
 ---
 
