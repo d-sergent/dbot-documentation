@@ -49,9 +49,16 @@ Pour concilier vitesse d'interaction MCP (outils) et profondeur de réflexion m�
 
 ---
 
-## 3. Workflow & Intégration Cloud (Hybride)
-*   Le travail quotidien, la recherche documentaire et la génération de code se font à 100% en local et gratuitement via **LM Studio + MCP** avec les modèles "Scout".
-*   **Escalade Cloud :** Lors de "Checkpoints" majeurs du projet (ex: validation de l'architecture de la cheville ou du multi-room audio), une session sera ouverte avec un modèle cloud (Claude 3.5 Sonnet / Opus / GPT-4o) pour une revue d'expert.
+## 3. Workflow (Le "Relais" Local & Escalade Cloud)
+
+### A. Le Relais Local (Résoudre le problème DeepSeek + MCP)
+Les modèles de "Raisonnement" (DeepSeek R1) génèrent une balise `<think>` qui les rend instables lorsqu'ils essaient d'appeler directement des outils (JSON). L'architecture repose donc sur un **Relais** :
+1. **L'Éclaireur (Qwen 35B) :** Utilisez-le en premier pour lancer des recherches Web (Tavily) ou fouiller vos notes (MCP Filesystem/RAG). Il rassemble les données brutes dans le chat avec fiabilité.
+2. **L'Architecte (DeepSeek R1 / Llama 70B) :** Changez de modèle **sans fermer la conversation**. Demandez à l'Architecte d'analyser le contexte fraîchement récupéré par l'Éclaireur pour résoudre le problème d'ingénierie (calcul, réflexion physique). L'Architecte est le "Cerveau", le MCP/Qwen sont les "Mains".
+
+### B. L'Escalade Cloud (Hybride)
+*   Le travail quotidien, la documentation et la réflexion se font à 100% en local.
+*   **Escalade :** Lors de "Checkpoints" majeurs (ex: validation finale de l'architecture d'un membre), une session sera ouverte avec un modèle cloud (Claude 3.5 Sonnet / Opus) pour une revue de conception par un expert externe.
 
 ---
 
