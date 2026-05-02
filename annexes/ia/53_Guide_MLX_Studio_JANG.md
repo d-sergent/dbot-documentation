@@ -37,7 +37,30 @@ Bien que LM Studio supporte basiquement le format MLX, **MLX Studio** est constr
 
 ---
 
-## 3. Configuration & Intégration (Continue / Roo Code)
+## 3. Optimisation : Le Décodage Spéculatif (Draft Models)
+
+Le décodage spéculatif permet de doubler (voire tripler) la vitesse de génération en utilisant un tout petit modèle ("Draft") qui "devine" les prochains mots, pendant que le gros modèle ("Target") ne fait que vérifier l'exactitude. 
+
+**Règle d'or :** Le modèle brouillon doit **obligatoirement** faire partie de la même "famille" (même Tokenizer) que le modèle principal. 
+
+Voici les recommandations basées sur les retours d'utilisateurs Apple Silicon (M-Series) :
+
+### A. Pour le DeepSeek-R1-Llama-70B
+C'est sur ce mastodonte que le décodage spéculatif est le plus vital.
+*   **Draft Model idéal :** `mlx-community/Llama-3.2-1B-Instruct` (ou la version 3B).
+*   *Pourquoi ?* Le DeepSeek 70B est basé sur l'architecture Llama 3. Le petit 1B va générer la syntaxe de base instantanément, et le 70B validera les concepts mécaniques complexes.
+
+### B. Pour le DeepSeek-R1-Qwen-32B
+*   **Draft Model idéal :** `mlx-community/Qwen2.5-0.5B-Instruct` (ou 1.5B).
+*   *Pourquoi ?* Le 0.5B est minuscule (moins de 1 Go de RAM). Le coût en mémoire (overhead) est invisible et la vitesse s'envole.
+
+### C. Ce qu'il ne faut PAS faire (Les pièges)
+*   **Sur le Mistral-119B JANG :** Ne tentez **pas** le décodage spéculatif. C'est déjà un modèle MoE (qui n'utilise que 6B paramètres actifs) et son format JANG est particulier. Ajouter un modèle brouillon ralentirait le système.
+*   **Sur le Mistral-Small 24B :** Il est déjà si rapide sur un M1 Max (50+ tok/s) que le coût de gestion de deux modèles en mémoire unifiée annule souvent le gain de vitesse. Le faire tourner seul est plus efficace.
+
+---
+
+## 4. Configuration & Intégration (Continue / Roo Code)
 
 L'objectif est d'utiliser MLX Studio comme "Moteur Industriel" caché en arrière-plan, exactement comme LM Studio, pour qu'il réponde aux requêtes MCP de l'interface VS Code.
 
