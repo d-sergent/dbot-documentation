@@ -108,6 +108,20 @@ J'ai remplacé le `chat_template` dans le fichier `tokenizer_config.json` du mod
 *   **Fichier modifié :** `/Users/davidsergent/.cache/huggingface/hub/mlx-community/DeepSeek-R1-Distill-Qwen-32B-4bit/tokenizer_config.json`
 *   **Réglage vMLX :** Assurez-vous que le **"Tool Call Parser"** est réglé sur **`qwen`** ou **`auto`** dans les paramètres du serveur MLX Studio pour ce modèle.
 
+### D. Répertoire des Fichiers de Configuration Patchés
+En cas de réinstallation ou de mise à jour des modèles, voici les fichiers critiques qui ont été modifiés manuellement pour assurer la stabilité :
+
+*   **Mistral-Small-24B-Abliterated (Tools Fix) :**
+    `/Users/davidsergent/.cache/huggingface/hub/KYUNGYONG/Mistral-Small-24B-Instruct-2501-abliterated-4bit/tokenizer_config.json`
+*   **Mistral-Small-119B JANG (Context & Tools Fix) :**
+    `/Users/davidsergent/.cache/huggingface/hub/JANGQ-AI/Mistral-Small-4-119B-A6B-JANG_2L/tokenizer_config.json`
+*   **DeepSeek-R1-Distill-Qwen-32B (Tools Patch) :**
+    `/Users/davidsergent/.cache/huggingface/hub/mlx-community/DeepSeek-R1-Distill-Qwen-32B-4bit/tokenizer_config.json`
+*   **DeepSeek-R1-Distill-Llama-70B (Context Fix) :**
+    `/Users/davidsergent/.cache/huggingface/hub/mlx-community/DeepSeek-R1-Distill-Llama-70B-4bit/config.json`
+*   **Qwen3.5-122B-A10B-JANG (Context Fix) :**
+    `/Users/davidsergent/.cache/huggingface/hub/JANGQ-AI/Qwen3.5-122B-A10B-JANG_2S/config.json`
+
 ---
 
 ## 6. Synthèse des Recommandations Finales (Mai 2026)
