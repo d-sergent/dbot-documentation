@@ -111,8 +111,10 @@ J'ai remplacé le `chat_template` dans le fichier `tokenizer_config.json` du mod
 ### D. Répertoire des Fichiers de Configuration Patchés
 En cas de réinstallation ou de mise à jour des modèles, voici les fichiers critiques qui ont été modifiés manuellement pour assurer la stabilité :
 
-*   **Mistral-Small-24B-Abliterated (Tools Fix) :**
-    `/Users/davidsergent/.cache/huggingface/hub/KYUNGYONG/Mistral-Small-24B-Instruct-2501-abliterated-4bit/tokenizer_config.json`
+*   **Devstral-Small-24B (Code & Tools Patch) :**
+    `/Users/davidsergent/.cache/huggingface/hub/mlx-community/mistralai_Devstral-Small-2-24B-Instruct-2512-MLX-4Bit/tokenizer_config.json`
+*   **Mistral-Small-3.2-24B (8-bit High Precision) :**
+    `/Users/davidsergent/.cache/huggingface/hub/mlx-community/Mistral-Small-3.2-24B-Instruct-2506-8bit/tokenizer_config.json`
 *   **Mistral-Small-119B JANG (Context Fix) :**
     `/Users/davidsergent/.cache/huggingface/hub/JANGQ-AI/Mistral-Small-4-119B-A6B-JANG_2L/config.json`
 *   **Mistral-Small-119B JANG (Tools Fix) :**
@@ -132,9 +134,9 @@ En cas de réinstallation ou de mise à jour des modèles, voici les fichiers cr
 | :--- | :--- | :--- | :--- |
 | **Brainstorming & Vision** | `Mistral-Small-119B JANG` | **8k** (8 192) | No SSD Cache |
 | **Ingénierie (Maths/Physique)** | `DeepSeek-R1-Llama-70B` | **32k** (32 768) | **Draft :** Llama-3.2-1B |
-| **Code & MCP (VS Code)** | `Mistral-Small-24B-Abliterated` | **32k** (32 768) | Standalone |
+| **Code & MCP (VS Code)** | `Devstral-Small-24B` | **32k** (32 768) | **New 2512 Patch** |
 | **Raisonnement & Outils** | `DeepSeek-R1-Qwen-32B` | **32k** (32 768) | **Patch Tooling** |
 
 > [!TIP]
-> Sur un M1 Max 64 Go, privilégiez le **Mistral-24B-Abliterated** pour vos agents autonomes (Roo Code / Continue). Pour des tâches nécessitant un haut niveau de raisonnement technique avec accès aux outils, le **DeepSeek-R1-Qwen-32B** patché est votre meilleure option.
+> Sur un M1 Max 64 Go, privilégiez le **Devstral-Small-24B** pour vos agents autonomes (Roo Code / Continue). C'est le modèle le plus équilibré et le plus stable pour le développement local en 2026.
 
