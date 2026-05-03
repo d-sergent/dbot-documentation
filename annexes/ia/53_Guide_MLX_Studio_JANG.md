@@ -128,12 +128,12 @@ En cas de réinstallation ou de mise à jour des modèles, voici les fichiers cr
 
 ## 6. Synthèse des Recommandations Finales (Mai 2026)
 
-| Usage | Modèle Recommandé | Config Spéciale |
-| :--- | :--- | :--- |
-| **Brainstorming & Vision** | `Mistral-Small-119B JANG` | Context 8k (Fixé), No SSD Cache |
-| **Ingénierie (Maths/Physique)** | `DeepSeek-R1-Llama-70B` | **Draft :** Llama-3.2-1B |
-| **Code & MCP (VS Code)** | `Mistral-Small-24B-Abliterated` | Context 32k, Standalone |
-| **Raisonnement & Outils** | `DeepSeek-R1-Qwen-32B` | **Patch Tooling**, **Draft :** Qwen-0.5B |
+| Usage | Modèle Recommandé | Contexte (Tokens) | Config Spéciale |
+| :--- | :--- | :--- | :--- |
+| **Brainstorming & Vision** | `Mistral-Small-119B JANG` | **8k** (8 192) | No SSD Cache |
+| **Ingénierie (Maths/Physique)** | `DeepSeek-R1-Llama-70B` | **32k** (32 768) | **Draft :** Llama-3.2-1B |
+| **Code & MCP (VS Code)** | `Mistral-Small-24B-Abliterated` | **32k** (32 768) | Standalone |
+| **Raisonnement & Outils** | `DeepSeek-R1-Qwen-32B` | **32k** (32 768) | **Patch Tooling** |
 
 > [!TIP]
 > Sur un M1 Max 64 Go, privilégiez le **Mistral-24B-Abliterated** pour vos agents autonomes (Roo Code / Continue). Pour des tâches nécessitant un haut niveau de raisonnement technique avec accès aux outils, le **DeepSeek-R1-Qwen-32B** patché est votre meilleure option.
