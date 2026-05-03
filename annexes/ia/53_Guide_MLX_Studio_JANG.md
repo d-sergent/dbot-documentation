@@ -113,7 +113,9 @@ En cas de réinstallation ou de mise à jour des modèles, voici les fichiers cr
 
 *   **Mistral-Small-24B-Abliterated (Tools Fix) :**
     `/Users/davidsergent/.cache/huggingface/hub/KYUNGYONG/Mistral-Small-24B-Instruct-2501-abliterated-4bit/tokenizer_config.json`
-*   **Mistral-Small-119B JANG (Context & Tools Fix) :**
+*   **Mistral-Small-119B JANG (Context Fix) :**
+    `/Users/davidsergent/.cache/huggingface/hub/JANGQ-AI/Mistral-Small-4-119B-A6B-JANG_2L/config.json`
+*   **Mistral-Small-119B JANG (Tools Fix) :**
     `/Users/davidsergent/.cache/huggingface/hub/JANGQ-AI/Mistral-Small-4-119B-A6B-JANG_2L/tokenizer_config.json`
 *   **DeepSeek-R1-Distill-Qwen-32B (Tools Patch) :**
     `/Users/davidsergent/.cache/huggingface/hub/mlx-community/DeepSeek-R1-Distill-Qwen-32B-4bit/tokenizer_config.json`
