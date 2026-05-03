@@ -2,12 +2,25 @@ from faster_whisper import WhisperModel
 import time
 import os
 
+
+class STTError(Exception):
+    """Exception personnalisée pour les erreurs de transcription (STT)."""
+    pass
+
+
 class LocalSTT:
     """
     Système de transcription vocale (Speech-to-Text) 100% hors-ligne.
     Utilise 'faster-whisper' en CUDA (GPU) pour une vitesse d'inférence en temps réel.
+
+    Args:
+        model_size (str): Taille du modèle Whisper ("tiny", "base", "small", "medium", "large").
+        device (str): Device pour l'inference ("cuda" ou "cpu").
+
+    Returns:
+        None: Initialise le modèle Whisper pour la transcription.
     """
-    def __init__(self, model_size="small", device="cuda"):
+    def __init__(self, model_size: str = "small", device: str = "cuda"):
         # Sur la Jetson Orin Nano, on utilise le GPU ("cuda") avec des calculs en float16 pour économiser la RAM
         print(f"⏳ [STT] Chargement du réseau neuronal auditif '{model_size}' sur le GPU...")
         start = time.time()
@@ -23,16 +36,21 @@ class LocalSTT:
                 self.model = WhisperModel(model_size, device="cpu", compute_type="int8")
                 print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes (Mode CPU) !")
             else:
-                print(f"❌ [STT] Erreur critique lors du chargement de Whisper: {e}")
+                raise STTError(f"Erreur critique lors du chargement de Whisper: {e}")
 
     def transcribe(self, audio_file_path: str) -> str:
         """
         Analyse un fichier audio et le transforme en texte.
         Retourne une chaîne de caractères vide si seul du silence ou du bruit est détecté.
+
+        Args:
+            audio_file_path (str): Chemin vers le fichier audio à transcrire.
+
+        Returns:
+            str: Texte transcrit ou chaîne vide en cas d'erreur/silence.
         """
         if not os.path.exists(audio_file_path):
-            print(f"❌ [STT] Fichier audio introuvable : {audio_file_path}")
-            return ""
+            raise STTError(f"Fichier audio introuvable : {audio_file_path}")
 
         start_time = time.time()
         try:
@@ -48,8 +66,8 @@ class LocalSTT:
             
             return clean_text
         except Exception as e:
-            print(f"❌ [STT] Échec de la retranscription : {e}")
-            return ""
+            raise STTError(f"Échec de la retranscription : {e}")
+
 
 if __name__ == "__main__":
     # Test unitaire de chargement simple

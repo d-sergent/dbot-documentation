@@ -1,10 +1,24 @@
 import subprocess
 import os
 
+class TTSError(Exception):
+    """
+    Exception levée en cas d'erreur dans le module TTS.
+    """
+    pass
+
 class LocalTTS:
     """
     Système de synthèse vocale 100% hors-ligne utilisant Piper.
     Piper est ultra rapide et léger sur les processeurs ARM.
+    
+    Args:
+        voice_model_path (str, optional): Chemin vers le modèle vocal Piper. 
+            Si None, utilise le chemin par défaut pour le français.
+        alsa_hw (str, optional): Configuration ALSA pour le ReSpeaker. 
+            Par défaut : "plughw:2,0".
+        pulse_sink (str, optional): Sink PulseAudio à utiliser. 
+            Si None, utilise le sink par défaut.
     """
     def __init__(self, voice_model_path=None, alsa_hw="plughw:2,0", pulse_sink=None):
         self.alsa_hw = alsa_hw
@@ -16,21 +30,35 @@ class LocalTTS:
             self.voice_model_path = voice_model_path
             
         if not os.path.exists(self.voice_model_path):
-            print(f"⚠ [TTS] AVERTISSEMENT : Le modèle vocal n'a pas été trouvé ici : {self.voice_model_path}")
+            raise TTSError(f"[TTS] Le modèle vocal n'a pas été trouvé ici : {self.voice_model_path}")
 
         # CRITIQUE : Activer l'amplificateur JST du ReSpeaker.
         # PulseAudio ne le fait JAMAIS automatiquement (registres ALSA numid=3,4,5,6).
         # Sans ces commandes, le haut-parleur reste muet même si PulseAudio fonctionne.
         # Voir doc : 45_Configuration_Audio_ReSpeaker_XVF3800.md — Section 3
-        subprocess.run(["amixer", "-c", "0", "cset", "numid=3", "on"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        subprocess.run(["amixer", "-c", "0", "cset", "numid=4", "on"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        subprocess.run(["amixer", "-c", "0", "cset", "numid=5", "60"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        subprocess.run(["amixer", "-c", "0", "cset", "numid=6", "60"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        try:
+            subprocess.run(["amixer", "-c", "0", "cset", "numid=3", "on"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["amixer", "-c", "0", "cset", "numid=4", "on"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["amixer", "-c", "0", "cset", "numid=5", "60"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["amixer", "-c", "0", "cset", "numid=6", "60"],  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except Exception as e:
+            raise TTSError(f"[TTS] Échec de l'activation de l'amplificateur JST : {e}")
             
         print(f"🔊 [TTS] Initialisé avec la voix : {os.path.basename(self.voice_model_path)}")
 
     def speak(self, text: str):
-        if not text: return
+        """
+        Génère un fichier audio à partir d'un texte et le joue via PulseAudio.
+        
+        Args:
+            text (str): Texte à synthétiser.
+        
+        Raises:
+            TTSError: Si le texte est vide ou si une erreur survient lors de la génération.
+        """
+        if not text:
+            raise TTSError("[TTS] Le texte à synthétiser est vide.")
+        
         import tempfile
         print(f"🗣️ [D-Bot dit] : {text}")
         
@@ -48,7 +76,10 @@ class LocalTTS:
 
             # 3. Génération du son vers le fichier (Piper crée un WAV propre par défaut)
             gen_cmd = f'echo "{text}" | piper -m {self.voice_model_path} --output_file {temp_wav}'
-            subprocess.run(gen_cmd, shell=True, stderr=subprocess.DEVNULL, env=env)
+            result = subprocess.run(gen_cmd, shell=True, stderr=subprocess.DEVNULL, env=env)
+            
+            if result.returncode != 0:
+                raise TTSError("[TTS] Échec de la génération du fichier audio (Piper).")
 
             # 4. Lecture du fichier
             if os.path.exists(temp_wav) and os.path.getsize(temp_wav) > 0:
@@ -60,13 +91,17 @@ class LocalTTS:
                 subprocess.run(play_cmd, env=env)
                 os.remove(temp_wav)
             else:
-                print("❌ [TTS] Erreur : Le fichier audio n'a pas pu être généré.")
-            
+                raise TTSError("[TTS] Le fichier audio généré est vide ou inexistant.")
+                
         except Exception as e:
-            print(f"❌ [TTS] Erreur : {e}")
+            raise TTSError(f"[TTS] Erreur lors de la synthèse vocale : {e}")
 
 if __name__ == "__main__":
     # Test unitaire autonome de la voix
     print("\n--- Test Voix Locale (Piper) ---")
     tts = LocalTTS()
-    tts.speak("Bonjour, ma carte vocale locale fonctionne parfaitement à une fréquence de 22050 hertz.")
+    try:
+        tts.speak("Bonjour, ma carte vocale locale fonctionne parfaitement à une fréquence de 22050 hertz.")
+        print("✅ [TTS] Test réussi.")
+    except TTSError as e:
+        print(f"❌ [TTS] Test échoué : {e}")
