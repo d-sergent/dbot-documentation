@@ -80,3 +80,45 @@ models:
 
 **Workflow Relais :** 
 Gardez LM Studio allumé avec votre **Qwen 35B (L'Exécuteur)** sur le port `1234` pour gérer les requêtes MCP avec fiabilité. Basculez sur le modèle **MLX Studio** directement dans le menu déroulant de *Continue* quand vous avez besoin d'une analyse profonde.
+
+---
+
+## 5. Résolution des problèmes (Troubleshooting)
+
+### A. Freezes et SSD Swap (Modèles JANG)
+Si un modèle comme le Mistral-119B ou le Qwen-122B fait "freezer" votre Mac, c'est que MLX Studio essaie d'allouer une fenêtre de contexte trop large (souvent 1 million de tokens par défaut), ce qui sature la RAM et déclenche le swap SSD.
+
+**La Solution "Hard" (Bridage manuel) :**
+Puisque l'interface ne propose pas toujours de réglage de "Context Length", j'ai bridé manuellement les modèles dans leurs fichiers de configuration respectifs :
+*   **Action :** Modification de `"max_position_embeddings"` de `1048576` vers **`8192`**.
+*   **Modèles patchés :**
+    *   `Mistral-Small-119B` : [config.json](file:///Users/davidsergent/.cache/huggingface/hub/JANGQ-AI/Mistral-Small-4-119B-A6B-JANG_2L/config.json)
+    *   `Qwen3.5-122B` : [config.json](file:///Users/davidsergent/.cache/huggingface/hub/JANGQ-AI/Qwen3.5-122B-A10B-JANG_2S/config.json)
+
+### B. Erreurs de Template (Role Alternation)
+Certains modèles sont extrêmement stricts sur l'alternance des rôles User/Assistant. J'ai patché les fichiers `chat_template.jinja` et `tokenizer_config.json` pour supprimer les alertes `TemplateError` bloquantes.
+
+---
+
+### C. Support des Outils (Tooling) sur DeepSeek-R1-32B
+Par défaut, le template de chat du modèle DeepSeek-R1 Distill (Qwen) ne supporte pas nativement la variable `tools`, ce qui provoque des avertissements et une utilisation dégradée des outils MCP.
+
+**Le Correctif (Patch de Template) :**
+J'ai remplacé le `chat_template` dans le fichier `tokenizer_config.json` du modèle 32B pour inclure la logique XML `<tools>` et `<tool_call>`.
+*   **Fichier modifié :** `/Users/davidsergent/.cache/huggingface/hub/mlx-community/DeepSeek-R1-Distill-Qwen-32B-4bit/tokenizer_config.json`
+*   **Réglage vMLX :** Assurez-vous que le **"Tool Call Parser"** est réglé sur **`qwen`** ou **`auto`** dans les paramètres du serveur MLX Studio pour ce modèle.
+
+---
+
+## 6. Synthèse des Recommandations Finales (Mai 2026)
+
+| Usage | Modèle Recommandé | Config Spéciale |
+| :--- | :--- | :--- |
+| **Brainstorming & Vision** | `Mistral-Small-119B JANG` | Context 8k (Fixé), No SSD Cache |
+| **Ingénierie (Maths/Physique)** | `DeepSeek-R1-Llama-70B` | **Draft :** Llama-3.2-1B |
+| **Code & MCP (VS Code)** | `Mistral-Small-24B-Abliterated` | Context 32k, Standalone |
+| **Raisonnement & Outils** | `DeepSeek-R1-Qwen-32B` | **Patch Tooling**, **Draft :** Qwen-0.5B |
+
+> [!TIP]
+> Sur un M1 Max 64 Go, privilégiez le **Mistral-24B-Abliterated** pour vos agents autonomes (Roo Code / Continue). Pour des tâches nécessitant un haut niveau de raisonnement technique avec accès aux outils, le **DeepSeek-R1-Qwen-32B** patché est votre meilleure option.
+
