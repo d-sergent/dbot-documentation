@@ -15,9 +15,6 @@ Ce document résume la configuration finale et aboutie de l'infrastructure élec
 - **Topologie de Puissance** : **ÉTOILE impérative**. Aucun chaînage de puissance sur les XT30 des moteurs (risque de fonte immédiate).
 - **Régulation** : DC-DC 48V → 5V stable pour Jetson et Spresense.
 
-## 3. Bus de Données (Control)
-- **Bus CAN** : 1 Mbps. Topologie en cascade (Daisy-chain) autorisée pour les données uniquement.
-- **Câblage** : Paires torsadées blindées pour limiter les EMI des moteurs.
 
 ## 4. Capteurs & Temps Réel
 - **FSR (Pieds)** : 4 capteurs par pied, pont diviseur 10kΩ.

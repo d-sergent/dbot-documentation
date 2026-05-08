@@ -25,9 +25,3 @@ L'épaule utilise une architecture **"Stacked Perpendicular"** (empilement séri
 - **Capacité de portage** : Jusqu'à 5 kg en continu à bras tendu, 10 kg en pic.
 - **Vigilance** : Le moteur Pitch (RS-04) supporte seul la chaîne Roll+Yaw+Bras. Refroidissement passif obligatoire.
 
----
-### 🔗 Études Complètes
-- **[27 — Étude Architecture Épaule D-Bot](../27_Etude_Epaule_Architecture.md)**
-- **[16 — Conclusions Architecture Finale](../16_Conclusions_Architecture_DBot.md)**
-
-*Dernière mise à jour : Mars 2026*
