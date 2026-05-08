@@ -151,7 +151,7 @@ Extérieur    Crâne PETG-CF    Anneau TPU 95A     ReSpeaker PCB
 - **Capture Audio Robuste (VAD)** : Pour éviter les instabilités du driver USB sur Jetson, le pipeline Python n'utilise plus PyAudio mais capture le flux via `parecord` (PulseAudio) :
   ```bash
   # Test de capture propre via PulseAudio
-  parecord --device=alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800...iec958-stereo --format=s16le --channels=1 --rate=16000 test.wav
+  parecord --device=alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800...iec958-stereo --format=s16le --channels=6 --rate=16000 test.wav
   ```
 - **Test Indépendant du Haut-Parleur** : Pour envoyer un signal vers l'amplificateur JST tout en contournant les interférences de NoMachine :
   ```bash

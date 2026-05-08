@@ -61,7 +61,7 @@ Voici la stratégie d'ingénierie optimisée composant par composant.
 
   4. **Insertion de la Goupille Mécanindus** :
      - Enfoncer une **goupille élastique (roll pin) Ø3mm en acier** à l'aide d'un marteau et d'un chasse-goupille. Elle doit forcer légèrement (principe de la goupille élastique).
-     - **Résistance au cisaillement** : ~6 300 N (~630 kg) en double cisaillement, soit un **coefficient de sécurité de 5×** pour un robot de 39 kg à l'impact en course.
+     - **Résistance au cisaillement** : ~6 300 N (~630 kg) en double cisaillement, soit un **coefficient de sécurité de 5×** pour un robot de 40.2 kg à l'impact en course.
      - **Résultat** : Pour séparer le tibia du cardan, il faudrait littéralement cisailler l'acier de la goupille (plusieurs tonnes de force). C'est la garantie absolue que rien ne bougera, même en cas de chute ou de saut.
 
   > [!TIP]

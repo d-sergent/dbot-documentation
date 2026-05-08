@@ -3,7 +3,7 @@
 > **Série Biomécanique :**
 > - [15a] [Locomotion Baseline](./15a_Analyse_Locomotion_Baseline.md)
 > - [15b] [Configurations Moteurs & Évolutions](./15b_Configurations_Moteurs.md)
-> - [15c] [Révision Configuration Cardan 39 kg](./15c_Revision_Cardan_39kg.md)
+> - [15c] [Révision Configuration Cardan 40.2 kg](./15c_Revision_Cardan_40_2kg.md)
 > - [15d] [Genou & Course — Solutions](./15d_Genou_et_Course.md)
 > - [15e] [Alternatives Moteurs Genou](./15e_Alternatives_Moteurs_Genou.md)
 > - [15f] **Portage de Charges & Marche** ← *vous êtes ici*

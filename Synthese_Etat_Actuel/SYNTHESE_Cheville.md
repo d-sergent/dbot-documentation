@@ -20,14 +20,14 @@ La cheville abandonne le montage direct pour une architecture différentielle d�
 - **Structure** : Montage par bagues d'arrêt et axes 12.9 pour encaisser les 120 N.m.
 
 ## 4. Performances & Limites
-- **Marge Statique** : **+167%** (120 N.m dispo vs 38.3 N.m requis pour 39 kg).
+- **Marge Statique** : **+167%** (120 N.m dispo vs 39.4 N.m requis pour 40.2 kg).
 - **Vitesse** : Capacité de marche rapide jusqu'à 6-9 km/h théoriques.
 - **Stabilité** : Couple de Roll exceptionnel (×8 vs K-Bot) pour le rattrapage d'équilibre.
 
 ---
 ### 🔗 Études Complètes
 - **[20 — Étude Cheville Cardan](../20_Etude_Cheville_Cardan.md)**
-- **[15c — Révision Cardan (Impact 39 kg)](../15c_Revision_Cardan_39kg.md)**
+- **[15c — Révision Cardan (Impact 40.2 kg)](../15c_Revision_Cardan_40_2kg.md)**
 - **[16 — Conclusions Architecture Finale](../16_Conclusions_Architecture_DBot.md)**
 
 *Dernière mise à jour : Mars 2026*

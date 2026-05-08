@@ -1,6 +1,6 @@
 # 14 - Cinématique & Choix Moteurs
 
-Ce document détaille l'architecture cinématique du D-Bot (**Standard 24 DOF**) et les spécifications techniques des actionneurs **RobStride**.
+Ce document détaille l'architecture cinématique du D-Bot (**Standard 26 DOF**) et les spécifications techniques des actionneurs **RobStride**.
 
 ## 1. Configuration K-Bot Standard (20 DOF)
 
@@ -50,7 +50,7 @@ Le K-Bot standard est un robot humanoïde open-source de taille réelle dévelop
 | **RS-02** | 2 | 405g | 0.81 kg | Yaw épaules |
 | **RS-00** | 2 | 310g | 0.62 kg | Poignets |
 | **RS-05** | 2 | 191g | 0.38 kg | Cou Pan/Tilt |
-| **TOTAL** | **24** | — | **~20.37 kg** | **Ensemble du corps robotisé** |
+| **TOTAL** | **26** | — | **~20.37 kg** | **Ensemble du corps robotisé** |
 
 ---
 
@@ -64,7 +64,7 @@ Le **D-Bot** étend le K-Bot de 20 à **24 DOF** avec trois ajouts. Voir [Analys
 | **Cou Tilt** (Pitch) | RS-05 | 1 | 5.5 N.m | Inclinaison tête |
 | **Poignet Roll** 🆕 | RS-00 | 2 (ajout) | 14 N.m | **Orientation main** (compact, puissant) |
 
-**Total D-Bot** : 20 (Base) + 2 (Tête) + 2 (Chevilles Roll) = **24 moteurs**.
+**Total D-Bot** : 20 (Base) + 2 (Tête) + 2 (Poignets) + 2 (Chevilles Roll) = **26 moteurs**.
 
 > [!NOTE]
 > **Mécanisme de cheville D-Bot (Cardan + 2×RS-03)** : La cheville du K-Bot (RS-02) était insuffisante pour la marche dynamique. Le D-Bot la remplace par une architecture de cardan à deux axes concourants (DIN 808) pilotée par deux moteurs RS-03 via des bielles croisées. Ce différentiel mécanique offre 120 N.m en Pitch et Roll sans ajouter de masse distale (les moteurs sont haut dans le tibia).
@@ -121,8 +121,8 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 *   **Saut de performance brutal** : RS-03 → 60 N.m (880g) ; RS-04 → **120 N.m** (1420g, +61% poids).
 *   **Usage Épaule D-Bot** : Option Hybride retenue avec un **RS-04 en Pitch** (pour la force frontale) et un **RS-03 en Roll** (suffisant pour le latéral). **Attention** : Peut briser des pièces PLA/PETG standard → Utiliser **PETG-CF (100% remplissage)** ou **Alu 6061 CNC**.
 
-#### Analyse Thermique Statique (Charge de 39 kg)
-Pour maintenir le robot de 39 kg debout avec les genoux légèrement fléchis ("crouch stance" - posture d'équilibre), chaque hanche et genou requiert environ **20 N.m** de couple de maintien permanent (holding torque). 
+#### Analyse Thermique Statique (Charge de 40.2 kg)
+Pour maintenir le robot de 40.2 kg debout avec les genoux légèrement fléchis ("crouch stance" - posture d'équilibre), chaque hanche et genou requiert environ **20.6 N.m** de couple de maintien permanent (holding torque).
 *   **Si on utilise le RS-03** (Résistance interne 0.39 Ω, Constante K_t 2.36 N.m/A) : Le moteur demande ~8.5 A continus. La dissipation thermique par effet Joule ($P=R \cdot I^2$) s'élève à **~28 Watts**. Le moteur est à 100% de son couple nominal et surchauffera rapidement jusqu'à la coupure de sécurité.
 *   **Si on utilise le RS-04** (Résistance interne 0.16 Ω, Constante K_t 2.10 N.m/A) : Le moteur demande ~9.5 A. La dissipation thermique chute à **~14.5 Watts**. Le moteur n'est qu'à 50% de son nominal, dissipe deux fois moins de chaleur et possède 61% de masse métallique en plus pour absorber ces calories.
 **Verdict** : Le **RS-04** est obligatoire pour les hanches et genoux pour prévenir l'effondrement thermique. Le RS-03 (plus léger de 540g) reste le compromis idéal pour les chevilles. (L'utilisation de nos plaques d'interface aluminium fraisées CNC est critique pour ponctionner les 14.5W restants).
@@ -145,7 +145,7 @@ Même le RS-04 dissipe 14.5W au repos. Puisque les moteurs QDD n'ont pas de fric
 | Hanche Pitch + Genou | RS-04 | 4 | 120 N.m | Portance totale dynamique |
 | Cheville (Pitch/Roll) | RS-03 | 4 | 120 N.m (Cardan) | Propulsion via bielles et cardan DIN 808 (2× RS-03 par cheville) |
 
-**Total moteurs D-Bot** : 2 (Cou) + 2 (Poignets) + 2 (Coudes) + 2 (Yaws) + 4 (Epaules) + 4 (Hanches R/Y) + 4 (Hanches/Genoux P) + 4 (Chevilles) = **24 moteurs**.
+**Total moteurs D-Bot** : 2 (Cou) + 2 (Poignets) + 2 (Coudes) + 2 (Yaws) + 4 (Epaules) + 4 (Hanches R/Y) + 4 (Hanches/Genoux P) + 4 (Chevilles) = **26 moteurs**.
 
 > [!NOTE]
 > **Décisions Architecturales Finales** : Le tableau ci-dessus reflète les conclusions de l'**option de performance maximale** (architecture V2). L'ancienne configuration cheville (RS-02/RS-00) a été remplacée par l'architecture Cardan (2× RS-03), et le coude (RS-02) par le RS-06. (Voir Documents 15 et 16).
@@ -172,7 +172,7 @@ Tous les moteurs partagent le même protocole :
 
 | Robot | DOF | DOF/Jambe | Cheville | Méca. Cheville | Couple max jambe | Poids | Actionneurs | Prix |
 | :--- | :---: | :---: | :---: | :--- | :---: | :---: | :--- | :---: |
-| **D-Bot (notre)** | **24** | **6** | **2 (P+R)** | **Série QDD** | **120 N.m** (RS-04) | ~38 kg | QDD RobStride 9:1 | ~$5k |
+| **D-Bot (notre)** | **26** | **6** | **2 (P+R)** | **Série QDD** | **120 N.m** (RS-04) | ~40.2 kg | QDD RobStride 9:1 | ~$5k |
 | K-Bot (base) | 20 | 5 | 1 (P) | Tirant (linkage) | 120 N.m (RS-04) | ~34 kg | QDD RobStride 9:1 | ~$4k |
 | **Unitree G1** | 23 | **6** | **2** | **Parallèle RSU** | **120 N.m** | 35-47 kg | QDD propriétaire | ~$16k |
 | **Tesla Optimus** | 28+ | 6 | 2 | **Parallèle SPU** | **180 N.m** rotary / 8000N linéaire | ~73 kg | Harmonic + Linéaire | N/A |

@@ -2,13 +2,13 @@
 
 > *Document créé Avril 2026 — Validé en conditions réelles sur Jetson Orin Nano + NoMachine.*
 
-Ce document détaille l'installation logicielle et matérielle de la caméra **Luxonis OAK-D Pro** sur la Jetson Orin Nano, ainsi que la configuration du framework `depthai`.
+Ce document détaille l'installation logicielle et matérielle de la caméra **Luxonis OAK-D Pro (Fixed Focus)** sur la Jetson Orin Nano, ainsi que la configuration du framework `depthai`.
 
 ---
 
 ## 1. Comprendre l'OAK-D Pro et DepthAI
 
-L'OAK-D Pro n'est pas une simple webcam, c'est une **caméra intelligente**. Elle intègre son propre processeur (VPU Intel Movidius MyriadX) qui exécute directement :
+L'OAK-D Pro (Fixed Focus) n'est pas une simple webcam, c'est une **caméra intelligente**. Elle intègre son propre processeur (VPU Intel Movidius MyriadX) qui exécute directement :
 - Le calcul de la carte de profondeur (stéréo-vision)
 - Les réseaux de neurones (détection de visages, objets, pose)
 - L'encodage vidéo

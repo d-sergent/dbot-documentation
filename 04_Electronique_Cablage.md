@@ -23,7 +23,7 @@ Le bus CAN (Controller Area Network) est le protocole de communication entre la 
 - **CAN_H** et **CAN_L** : la paire différentielle (signal)
 - **GND** : la masse commune — **critique**, sans elle le signal "flotte" et génère des erreurs "Bus Off"
 
-Tous les moteurs d'un même bus sont **chaînés en série** (daisy-chain), du premier au dernier. Le dernier moteur doit porter une **résistance de terminaison 120 Ω**.
+Tous les moteurs d'un même bus sont **chaînés en série (daisy-chain)**, du premier au dernier, **SAUF les moteurs RS-05 du cou qui utilisent une topologie en étoile (bus dédié) car ils ne disposent que d'un seul port CAN**. Le dernier moteur de chaque bus CAN en daisy-chain doit porter une **résistance de terminaison 120 Ω**, **SAUF pour le bus du cou (RS-05) où les câbles < 30cm ne nécessitent aucune terminaison**.
 
 ---
 
@@ -295,7 +295,7 @@ Le 48V de chaque moteur doit impérativement rejoindre la barre de distribution 
 L'architecture de distribution du D-Bot suit le modèle hiérarchique utilisé par les robots humanoïdes industriels (Unitree H1/G1, Tesla Optimus) : un **busbar central compact** dans le torse qui alimente **des lignes "tronc" fusionnées par zone**, chacune aboutissant à un **splitter local** dans chaque membre.
 
 > [!NOTE]
-> **Pourquoi pas un busbar géant à 27 bornes ?** Avec 24 moteurs + 3 convertisseurs, un busbar unique dans le torse serait un nœud de 27 paires de câbles — ingérable, lourd, et sans isolation de fautes. En découpant en zones avec des splitters locaux, on obtient :
+> **Pourquoi pas un busbar géant à 29 bornes ?** Avec 26 moteurs + 3 convertisseurs, un busbar unique dans le torse serait un nœud de 29 paires de câbles — ingérable, lourd, et sans isolation de fautes. En découpant en zones avec des splitters locaux, on obtient :
 > - Seulement **7 câbles "tronc"** qui quittent le torse (au lieu de 27)
 > - **Protection fusible par zone** → un court-circuit dans une jambe ne coupe pas les bras
 > - **Déconnexion rapide** d'un membre entier via un seul connecteur XT60
@@ -349,7 +349,7 @@ L'architecture de distribution du D-Bot suit le modèle hiérarchique utilisé p
 | **Jambe G** | RS-04 × 2 + RS-03 × 3 + RS-02 | 6 | **50A** | **12 AWG** | XT60 |
 | **Jambe D** | (idem) | 6 | **50A** | **12 AWG** | XT60 |
 | **Cou / Tête** | RS-05 × 2 | 2 | **5A** | **18 AWG** | XT30 |
-| **Logique** | DC-DC 48V→5V (Spresense) + DC-DC 48V→19V (Jetson) | 0 | **5A** | **18 AWG** | fils vissés |
+| **Logique** | DC-DC 48V→5V (Spresense) + DC-DC 48V→19V (Jetson Orin Nano Super 8GB, 67 TOPS) | 0 | **5A** | **18 AWG** | fils vissés |
 | **E-Stop** | Bouton arrêt d'urgence NC | — | — | — | panneau |
 | **TOTAL bornes sur busbar central** | | | | | **7 paires (+/-)** |
 

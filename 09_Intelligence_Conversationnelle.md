@@ -27,7 +27,7 @@ Bâtir une IA locale sur les 8 Go d'une Jetson comporte quelques pièges majeurs
 
 ### A. Le Problème du "Micro Muet" (Hardware)
 **Problème** : Le micro du ReSpeaker XVF-3800 enregistrait toujours un "silence absolu" sous Linux (malgré des LEDs réactives au bruit) via `arecord`, ce qui bloquait indéfiniment la fonction `.listen()` du VAD.
-**Solution** : Le port **USB-C** de la Jetson Orin Nano (destiné au mode Recovery) a un bug matériel connu avec les flux Audio entrants isochrones. La puce ne transmet que des Zéros. **Il faut toujours brancher le microphone matériel sur un des gros ports USB-A (bleus) à l'arrière.**
+**Solution** : Le port **USB-C** de la Jetson Orin Nano (destiné au mode Recovery) a un bug matériel connu avec les flux Audio entrants isochrones. La puce ne transmet que des Zéros. **Il faut toujours brancher le microphone matériel sur le port **USB-A (bleu)** à l'arrière.**
 
 ### B. Le Crash "Error 500 : Llama runner terminated"
 **Problème** : Lors du chargement du modèle `Qwen2.5:3b`, Ollama s'arrêtait immédiatement en balançant une erreur de serveur 500, un Go Panic, ou une impossibilité d'allouer un buffer CUDA0.

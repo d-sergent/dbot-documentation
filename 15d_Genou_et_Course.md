@@ -3,7 +3,7 @@
 > **Série Biomécanique :**
 > - [15a] [Locomotion Baseline](./15a_Analyse_Locomotion_Baseline.md)
 > - [15b] [Configurations Moteurs & Évolutions](./15b_Configurations_Moteurs.md)
-> - [15c] [Révision Configuration Cardan 39 kg](./15c_Revision_Cardan_39kg.md)
+> - [15c] [Révision Configuration Cardan 40.2 kg](./15c_Revision_Cardan_40_2kg.md)
 > - [15d] **Genou — Analyse & Solution GT3** ← *vous êtes ici*
 > - [15e] [Alternatives Moteurs Genou](./15e_Alternatives_Moteurs_Genou.md)
 > - [15f] [Portage de Charges & Marche](./15f_Portage_Charges_et_Marche.md)
@@ -32,13 +32,13 @@ F_impact    = pic à l'atterrissage (contact du pied)
 
 | Facteur | Contribution | Levier disponible |
 | :--- | :---: | :---: |
-| **Masse du robot** (39 kg) | Élevée | Faible (difficile à réduire) |
+| **Masse du robot** (40.2 kg) | Élevée | Faible (difficile à réduire) |
 | **Bras de levier cuisse** (0.18 m) | Modérée | Moyen (géométrie fixe) |
 | **Facteur dynamique** (×1.5) | Modérée | Fort (algorithme) |
 | **Facteur d'impact** (×1.7) | Élevée | Fort (mécanique + algorithme) |
 | **Couple disponible RS-04** (120 N.m) | N/A | Moyen (amplification) |
 
-**Déficit à combler : 172 − 120 = 52 N.m** (soit +43% au-dessus de la capacité RS-04)
+**Déficit à combler : 177.5 − 120 = 57.5 N.m** (soit +48% au-dessus de la capacité RS-04)
 
 ---
 
@@ -320,4 +320,4 @@ CONFIGURATION GT3 (S6) :
 
 ---
 
-*Document fusionné en Avril 2026 (anciens 15d + 15g) — Analyse basée sur τ_genou_course = 172 N.m (39 kg, 4 km/h, facteur ×2.5), limite RS-04 = 120 N.m. Architecture hanche F-A-R (Pitch→Roll→Yaw) adoptée — RS-04 Knee et RS-04 Hip Pitch dans des zones distinctes (bassin vs haut cuisse).*
+*Document fusionné en Avril 2026 (anciens 15d + 15g) — Analyse basée sur τ_genou_course = 177.5 N.m (40.2 kg, 4 km/h, facteur ×2.5), limite RS-04 = 120 N.m. Architecture hanche F-A-R (Pitch→Roll→Yaw) adoptée — RS-04 Knee et RS-04 Hip Pitch dans des zones distinctes (bassin vs haut cuisse).*

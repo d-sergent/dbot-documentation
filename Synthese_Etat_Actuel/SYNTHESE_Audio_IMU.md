@@ -9,7 +9,7 @@ Ce document résume les décisions finales arrêtées pour l'architecture audio 
 
 ## 2. Hardware Audio (Simplifié V1)
 Le robot utilise une architecture centralisée USB :
-- **Module Micros** : Seeed **ReSpeaker XVF-3800** (4 micros MEMS, DoA 360°, AEC matériel).
+- **Module Micros** : Seeed **ReSpeaker XVF-3800** (4 micros MEMS, 6 canaux (4 micros + 2 référence), DoA 360°, AEC matériel).
 - **Haut-Parleur** : 5W / 8Ω (Connecteur JST sur ReSpeaker).
 - **Interfaces** : USB vers Jetson (Audio), JST vers HP.
 

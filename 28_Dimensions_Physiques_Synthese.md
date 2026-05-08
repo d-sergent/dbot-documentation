@@ -40,7 +40,7 @@ Il sert de point de référence unique (Source of Truth) pour la modélisation C
 
 ## 4. Tête et Capteurs
 - **Hauteur totale Tête + Cou** : **250 mm** (25 cm) - *Hypothèse figer*.
-- **OAK-D Pro (Vision)** : Entraxe de fixation de 75 mm (vis M3). Encastrement ~98x30 mm.
+- **OAK-D Pro (Fixed Focus - Vision)** : Entraxe de fixation de 75 mm (vis M3). Encastrement ~98x30 mm.
 - **Cou (Double RS-05)** : La superposition des moteurs s'inscrit dans l'enveloppe globale de 250 mm allouée à la tête et au cou.
 
 ## 5. Synthèse des Incertitudes (À définir pour la construction)

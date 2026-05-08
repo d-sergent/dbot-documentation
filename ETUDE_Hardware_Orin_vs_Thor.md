@@ -1,3 +1,6 @@
+> [!WARNING]
+> **Ce document est une étude comparative.** Le matériel installé sur le D-Bot est le **Jetson Orin Nano Super 8GB (67 TOPS)**, et NON les modèles AGX Orin ou AGX Thor décrits ci-dessous.
+
 # Étude Matérielle : Orin vs Thor (Horizon 2026-2027)
 
 ## 1. Comparatif des Générations

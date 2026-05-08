@@ -96,9 +96,9 @@ Pour un **bipède de 1.35 m marchant à 2-3 km/h en intérieur**, les contrainte
 
 | Config | Caméras | FOV combiné | GPU Jetson Orin | Faisabilité |
 | :--- | :---: | :---: | :---: | :---: |
-| OAK-D Pro seul | 1 stéréo | ~80° depth | ~15% GPU | ✅ Trivial |
-| OAK-D Pro + 1 cam arrière | 2 unités | ~160° | ~30% GPU | ✅ Réaliste |
-| OAK-D Pro + 2 cam latérales | 3 unités | ~240° | ~50% GPU | ⚠️ Lourd |
+| OAK-D Pro (FF) seul | 1 stéréo | ~80° depth | ~15% GPU | ✅ Trivial |
+| OAK-D Pro (FF) + 1 cam arrière | 2 unités | ~160° | ~30% GPU | ✅ Réaliste |
+| OAK-D Pro (FF) + 2 cam latérales | 3 unités | ~240° | ~50% GPU | ⚠️ Lourd |
 | 4-6 caméras (style Figure 02) | 4-6 | 360° | >70% GPU | ❌ Hors budget GPU |
 
 La vision pure est insuffisante à notre niveau : pas assez de puissance IA pour du visual SLAM end-to-end, sensible aux conditions de lumière et aux surfaces sans texture.
@@ -117,7 +117,7 @@ La vision pure est insuffisante à notre niveau : pas assez de puissance IA pour
                     │   TÊTE D-BOT     │    ← 2 DOF (2× RS-05 : Pitch + Yaw)
                     │   (orientable)   │       Gaze Control actif (VOR)
                     │  ┌────────────┐  │
-                    │  │ OAK-D Pro  │  │  ← Depth Camera : 80° cone, 640×480 pixels
+                    │  │ OAK-D Pro (FF)  │  │  ← Depth Camera : 80° cone, 640×480 pixels
                     │  │ (stéréo)   │  │     Nuage de points DENSE (près, 0-10m)
                     │  └────────────┘  │     Orientation active → regarde où il faut
                     └────────┬─────────┘

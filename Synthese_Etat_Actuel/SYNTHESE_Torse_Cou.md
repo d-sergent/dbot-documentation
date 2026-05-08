@@ -17,7 +17,7 @@ Le torse et le cou utilisent des moteurs compacts pour la précision de la perce
 ## 3. Structure Torse
 - **Squelette** : Tubes 6060 + Nœuds d'aluminium **6061-T6** usinés sur CNC C500.
 - **Design** : Architecture ouverte facilitant le refroidissement de l'électronique de contrôle (Jetson Orin Nano).
-- **Masse totale robot** : **~39.4 kg** (Scenario B "Option Hybride").
+- **Masse totale robot** : **40.2 kg** (Scenario B "Option Hybride").
 
 ## 4. Intégration URDF
 - **Nommage** : Harmonisé pour export Fusion 360 direct.

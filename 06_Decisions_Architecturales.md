@@ -25,7 +25,7 @@ Ce document recense les choix techniques structurants effectués durant la phase
     - Pas de contrainte mécanique de câble articulé.
     - Position stable (pas de vibrations du cou Pan/Tilt) = meilleur SLAM.
     - L'inclinaison de 10-20° compense le décalage par rapport au sol.
-*   **Compensation** : L'OAK-D Pro (vision stéréo) dans la tête complète le champ de vision frontal quand les bras sont levés.
+*   **Compensation** : L'OAK-D Pro (Fixed Focus - vision stéréo) dans la tête complète le champ de vision frontal quand les bras sont levés.
 
 ## 4. Matériaux et Fixations
 *   **Visserie** : Standardisation sur **DIN 912** (Cylindrique) Inox A2.

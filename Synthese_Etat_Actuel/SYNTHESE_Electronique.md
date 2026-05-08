@@ -13,7 +13,7 @@ Ce document résume la configuration finale et aboutie de l'infrastructure élec
 ## 2. Distribution (PDB)
 - **Carte** : **Matek PDB-HEX** pour gérer les forts courants du bus 48V.
 - **Topologie de Puissance** : **ÉTOILE impérative**. Aucun chaînage de puissance sur les XT30 des moteurs (risque de fonte immédiate).
-- **Régulation** : DC-DC 48V → 5V stable pour Jetson et Spresense.
+- **Régulation** : DC-DC 48V → 19V (Jetson) et 48V → 5V (Spresense).
 
 
 ## 4. Capteurs & Temps Réel
