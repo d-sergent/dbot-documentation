@@ -39,23 +39,60 @@ L'audit interroge le graphe pour détecter les contradictions techniques entre l
 # Audit de Haute Précision (via Tencent/OpenRouter) : Force une nouvelle réflexion sans cache
 /opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/check_integrity.py" --provider openrouter --model tencent/hy3-preview:free --clear-cache
 ```
-Le résultat est généré dans `annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md`.
 
-### Faire corriger les anomalies automatiquement par l'IA
-Plutôt que de chercher et corriger les incohérences vous-même, nous avons mis en place un flux de travail "Human-in-the-loop".
+**Résultats générés :**
+- `annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md` : Rapport d'audit complet
+- `annexes/Outils_de_Travail/RAG/AUDIT_QUESTION_REPONSE.json` : Questions structurées avec IDs
 
-1. **Lancez l'Assistant de Résolution :**
+### Structure du fichier AUDIT_QUESTION_REPONSE.json
+Le fichier JSON contient une structure claire avec :
+```json
+[
+  {
+    "id": 1,
+    "section": "Nom de la section",
+    "question": "Texte de la question",
+    "answer": "Réponse à remplir"
+  }
+]
+```
+
+### Workflow de Résolution des Anomalies
+Plutôt que de chercher et corriger les incohérences vous-même, nous avons mis en place un flux de travail "Human-in-the-loop" avec structure JSON.
+
+**Nouveau workflow :**
+
+1. **Générer l'audit :**
+   ```bash
+   /opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/check_integrity.py" --provider openrouter
+   ```
+   → Crée `AUDIT_INTEGRITE.md` et `AUDIT_QUESTION_REPONSE.json`
+
+2. **Remplir les réponses :**
+   - Éditer le fichier `AUDIT_QUESTION_REPONSE.json`
+   - Remplir le champ `"answer"` pour chaque question
+   - Le nombre de questions évolue automatiquement selon l'audit
+
+3. **Générer le prompt de correction :**
    ```bash
    /opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/resolve_audit.py"
    ```
-2. **Répondez aux questions :** Le script va lire l'audit et vous poser les questions soulevées l'une après l'autre dans le terminal.
-3. **Copiez le Prompt :** À la fin, l'outil génère un prompt ultra-sécurisé.
-4. **Collez-le dans l'interface de l'IA de votre choix :** Le prompt est agnostique, vous pouvez tester différentes IA pour voir laquelle fait le meilleur plan d'ingénierie :
-   *   **Antigravity** : Collez simplement le prompt dans le chat.
-   *   **Continue (VS Code)** : Permet de choisir n'importe quel modèle (Local ou OpenRouter) pour faire les modifications.
-   *   **vMLX Studio** : À condition que le serveur MCP y soit actif.
-   
+   → Lit `AUDIT_QUESTION_REPONSE.json` avec questions + réponses
+   → Génère `PROMPT_CORRECTION.md`
+   → Affiche le prompt prêt à être utilisé
+
+4. **Collez le prompt dans l'interface de l'IA de votre choix :**
+   - **Antigravity** : Collez simplement le prompt dans le chat
+   - **Continue (VS Code)** : Permet de choisir n'importe quel modèle (Local ou OpenRouter) pour faire les modifications
+   - **vMLX Studio** : À condition que le serveur MCP y soit actif
+
 *L'IA va alors chercher les fichiers, préparer un plan de modification dans `PLAN_CORRECTION.md`, et **attendre votre validation ("OK")** avant de toucher à la documentation.*
+
+**Avantages du nouveau système :**
+- ✅ Le nombre de questions évolue automatiquement selon l'audit
+- ✅ Structure claire : `id`, `section`, `question`, `answer`
+- ✅ Modification facile : éditez simplement le JSON pour changer une réponse
+- ✅ Traçabilité : chaque question a un ID unique
 
 ## 🤖 3. Interrogation de la base (Synthesis)
 
@@ -80,7 +117,7 @@ Pour utiliser les outils D-Bot (RAG, calculs, recherche) directement dans l'inte
 Dans les réglages de vMLX (Config MCP), renseignez le chemin suivant :
 `/Users/davidsergent/.cache/mcp/mcp-config.json`
 
-## 🛠️ 4. Maintenance et Logs
+## ⚠️ 5. Maintenance et Logs
 
 - **Logs d'indexation** : Consultables dans `code/rag/rag_indexing.log`. 
 - **Format du Log** : 
@@ -88,7 +125,7 @@ Dans les réglages de vMLX (Config MCP), renseignez le chemin suivant :
     - `🔵 [MODELE] OK:X ERR:Y -> ⚠️ QUOTA` : Quota atteint pour ce modèle, bascule automatique.
 - **Hash des fichiers** : Situé dans `lightrag_dbot_db/indexed_files.json`.
 
-## 🛠️ 5. Diagnostic et Maintenance
+## ⚠️ 6. Diagnostic et Maintenance
 
 ### Tester la connectivité OpenRouter
 Si vous avez un doute sur la disponibilité d'un modèle gratuit ou sur la validité de votre clé API :
@@ -97,5 +134,4 @@ Si vous avez un doute sur la disponibilité d'un modèle gratuit ou sur la valid
 ```
 
 ---
-**Dernière mise à jour** : 2026-05-08 (Standardisation Python 3.11 & OpenRouter Multi-modèles)
-
+**Dernière mise à jour** : 2026-05-08 (Ajout workflow JSON structuré AUDIT_QUESTION_REPONSE.json)

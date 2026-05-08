@@ -2,6 +2,7 @@ import asyncio
 import os
 import argparse
 import json
+import re
 from lightrag import LightRAG, QueryParam
 from lightrag.utils import EmbeddingFunc
 from fastembed import TextEmbedding
@@ -16,6 +17,7 @@ load_dotenv()
 BASE_DIR = "/Users/Shared/Mon Google Drive Physique/Documentation"
 WORKING_DIR = os.environ.get("RAG_DB_PATH", "/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db")
 REPORT_PATH = os.path.join(BASE_DIR, "annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md")
+QUESTIONS_JSON_PATH = os.path.join(BASE_DIR, "annexes/Outils_de_Travail/RAG/AUDIT_QUESTION_REPONSE.json")
 
 # ─── Fonctions Embedding ──────────────────────
 _embed_model = None
@@ -72,7 +74,7 @@ async def get_llm_func(args):
     return llm_func
 
 # ─── Définition des Audits ─────────────────────────────────────────────────────
-QA_PROMPT = "\n\nIMPORTANT: Pour chaque incohérence ou chiffre divergent identifié, propose une question précise à poser à l'utilisateur pour valider la correction (format: 'Question : ...')."
+QA_PROMPT = "\n\nIMPORTANT: Pour chaque incohérence ou chiffre divergent identifié, tu dois d'abord lister clairement les noms des fichiers sources qui se contredisent. Ensuite, tu DOIS obligatoirement générer une question précise pour l'utilisateur. Tu dois formater cette question EXACTEMENT de cette manière sur une nouvelle ligne : '**Question :** [Ta question ici]'. Ne rajoute aucun texte après la question."
 
 AUDITS = {
     "1. Squelette (Masse & Moteurs)": 
@@ -87,6 +89,59 @@ AUDITS = {
     "4. Perception & IA": 
         "Vérifie si les spécifications de la caméra OAK-D, de l'IMU principale et de la Jetson Orin Nano sont identiques partout. Note les divergences sur le matériel audio." + QA_PROMPT,
 }
+
+def extract_questions_from_report(report_path):
+    """Extrait les questions du rapport d'audit généré"""
+    questions = []
+    
+    if not os.path.exists(report_path):
+        return questions
+    
+    with open(report_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    
+    # Split by sections (## headers)
+    sections = re.split(r'\n##+ ', content)
+    
+    for section in sections:
+        lines = section.split('\n')
+        if not lines:
+            continue
+        
+        # Get section title from first line
+        section_title = lines[0].strip().replace('#', '').strip()
+        
+        # Find all questions in this section
+        for line in lines:
+            stripped = line.strip()
+            # Match various question formats
+            if 'Question' in stripped and ':' in stripped:
+                # Extract question text
+                match = re.search(r'Question\s*:\s*\*\*?\s*(.*)', stripped)
+                if match:
+                    q_text = match.group(1).strip()
+                    if q_text:
+                        questions.append({
+                            "section": section_title,
+                            "question": q_text,
+                            "answer": ""  # To be filled by user/AI
+                        })
+    
+    return questions
+
+def generate_questions_json(report_path, json_path):
+    """Génère le fichier JSON structuré avec les questions"""
+    questions = extract_questions_from_report(report_path)
+    
+    # Add IDs
+    for i, q in enumerate(questions, 1):
+        q["id"] = i
+    
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(questions, f, ensure_ascii=False, indent=2)
+    
+    print(f"📝 Fichier JSON généré : {json_path} ({len(questions)} questions)")
+    return questions
 
 async def run_audit(args):
     if not os.path.exists(WORKING_DIR):
@@ -118,7 +173,7 @@ async def run_audit(args):
         f.write(f"> **Date de génération** : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write(f"> **Modèle utilisé** : `{args.provider}` ({args.model or 'default'})\n\n")
         f.write("Ce rapport est généré automatiquement via le système **Graph-RAG**.\n\n")
-
+        
         for title, query in AUDITS.items():
             print(f"Analyse en cours : {title}...")
             f.write(f"## {title}\n")
@@ -130,8 +185,11 @@ async def run_audit(args):
                 print(f"❌ Erreur sur {title}: {e}")
                 f.write(f"❌ Erreur lors de cet audit : {e}\n\n---\n\n")
             print(f"Terminé : {title}")
-
+    
     print(f"\n✅ Rapport d'intégrité généré : {REPORT_PATH}")
+    
+    # Générer le fichier JSON structuré avec les questions
+    generate_questions_json(REPORT_PATH, QUESTIONS_JSON_PATH)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

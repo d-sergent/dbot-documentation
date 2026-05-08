@@ -1,239 +1,298 @@
 # 🛡️ Rapport d'Intégrité de la Documentation D-Bot
-> **Date de génération** : 2026-05-08 18:33:11
+> **Date de génération** : 2026-05-08 21:39:01
 > **Modèle utilisé** : `openrouter` (tencent/hy3-preview:free)
 
 Ce rapport est généré automatiquement via le système **Graph-RAG**.
 
 ## 1. Squelette (Masse & Moteurs)
-Les données présentées ci-dessous sont extraites du Graphe de Connaissances (KG) et des fragments de documents du projet D-Bot, en distinguant la plateforme D-Bot (projet actuel) de K-Bot (plateforme prédécesseur open-source). Toutes les informations sont strictement limitées au contenu fourni dans le contexte.
+# Tableau Comparatif Masse Totale & Nombre de Moteurs RobStride (D-Bot)
 
-### Tableau comparatif : Masse Totale et Nombre de Moteurs RobStride
+| Source Document / Entité KG | Masse Totale (D-Bot) | Nombre de Moteurs RobStride | Notes |
+| :--- | :--- | :--- | :--- |
+| **Entité KG : D-Bot** | 38-39 kg (cible), 39.4 kg (cible), 40.2 kg (référence) | 24 (majoritaire), 26 (autre record) | Confirme l'utilisation d'actionneurs QDD RobStride, mentionne une contradiction sur le nombre de moteurs. |
+| **annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md** | 38-39 kg (KG), 39 kg (15_Analyse_Biomecanique.md), ~39.4 kg (Synthese_Torse_Cou.md) | 24 (majoritaire) | Synthèse des contradictions de masse et de nombre de moteurs entre documents. |
+| **01_Synthese_Projet.md (version 5-DOF)** | 38-39 kg | 24 | Mentionne 24 moteurs RobStride + 16 servomoteurs Dynamixel pour les mains. |
+| **01_Synthese_Projet.md (version 6-DOF)** | 40.2 kg | 26 | Spécification finale 6-DOF : 2 (cou) + 6 (bras G) + 6 (bras D) + 12 (jambes) = 26 moteurs. |
+| **14_Cinematique_Moteurs.md** | Non spécifié | 24 | Base K-Bot (20 moteurs) + 2 (cou) + 2 (poignets) = 24 moteurs totaux. |
+| **04_Electronique_Cablage.md** (cité dans AUDIT_INTEGRITE.md) | Non spécifié | 24 | Décomposition : 2 (cou) + 5 (bras G) + 5 (bras D) + 12 (jambes) = 24 moteurs. |
+| **15_Analyse_Biomecanique.md** (cité dans AUDIT_INTEGRITE.md) | 39 kg | Non spécifié | Référence à la "Révision Cardan 39 kg". |
+| **Synthese_Torse_Cou.md** (cité dans AUDIT_INTEGRITE.md) | ~39.4 kg | Non spécifié | Scénario B Option Hybride. |
+| **Relation KG : D-Bot ↔ RobStride** | - | 24 vs 26 | Confirme explicitement la divergence entre 24 et 26 moteurs. |
 
-| Source / Document | Robot | Masse Totale | Nombre total de Moteurs RobStride | Notes / Contexte |
-| :--- | :--- | :--- | :--- | :--- |
-| Graphe de Connaissances (Entité D-Bot) | D-Bot | 38-39 kg (cible), 39 kg, 39.4 kg, 40.2 kg (calcul Juin 2026, architecture 6-DOF) | 24 | Description générale du projet : 24 DOF, actionneurs QDD RobStride. |
-| Graphe de Connaissances (Entité K-Bot) | K-Bot | ~20.37 kg ou ~34 kg | 10 ou 20 | Plateforme précédente : 20 DOF standard, 10 moteurs de jambe dans les phases initiales. |
-| `annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md` | D-Bot | 38-39 kg (KG), 39 kg (`15_Analyse_Biomecanique.md`), ~39.4 kg (`Synthese_Torse_Cou.md`) | 24 (`01_Synthese_Projet.md`, `04_Electronique_Cablage.md`) | Rapport d'audit automatique identifiant les incohérences de documentation. |
-| `annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md` | K-Bot | ~20.37 kg ou ~34 kg | 10 ou 20 | Données K-Bot extraites du KG pour comparaison avec D-Bot. |
-| `01_Synthese_Projet.md` (version initiale) | D-Bot | Non spécifié | 24 (membres, cou) + 16 servomoteurs Dynamixel (mains D-Hand) | 24 moteurs RobStride pour les membres et le cou, 16 Dynamixel pour les mains. |
-| `01_Synthese_Projet.md` (version 6-DOF) | D-Bot | 40.2 kg (calcul Juin 2026) | 26 (2 cou + 6 bras G + 6 bras D + 12 jambes) | Architecture 6-DOF par bras, masse révisée à 40.2 kg. |
-| `04_Electronique_Cablage.md` | D-Bot | Non spécifié | 24 (2 cou + 5 bras G + 5 bras D + 12 jambes) | Décompte par bus CAN, total validé à 24 moteurs. |
-| Document de benchmark industriel (sans nom de fichier explicite) | D-Bot | ~38 kg | 24 | Comparatif avec les robots haut de gamme, 24 DOF. |
+# Contradictions Identifiées
 
----
+## 1. Contradiction sur la Masse Totale du D-Bot
+Les fichiers sources suivants présentent des valeurs divergentes pour la masse totale du D-Bot :
+- annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md
+- 01_Synthese_Projet.md (version 5-DOF)
+- 01_Synthese_Projet.md (version 6-DOF)
+- 15_Analyse_Biomecanique.md
+- Synthese_Torse_Cou.md
+- Entité Knowledge Graph : D-Bot
 
-### Contradictions identifiées
+**Question :** Quelle est la masse totale exacte cible pour la version finale du D-Bot : 39 kg (arrondi/cible), 39.4 kg (calcul précis du Scenario B) ou 40.2 kg (calcul juin 2026 pour l'architecture 6-DOF) ?
 
-Toutes les contradictions ci-dessous concernent la plateforme D-Bot, sauf mention contraire pour K-Bot.
+## 2. Contradiction sur le Nombre Total de Moteurs RobStride du D-Bot
+Les fichiers sources suivants présentent des valeurs divergentes pour le nombre total de moteurs RobStride :
+- Entité Knowledge Graph : D-Bot
+- Relation Knowledge Graph : D-Bot ↔ RobStride
+- annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md
+- 01_Synthese_Projet.md (version 5-DOF)
+- 01_Synthese_Projet.md (version 6-DOF)
+- 14_Cinematique_Moteurs.md
+- 04_Electronique_Cablage.md
 
-#### 1. Divergence sur la Masse Totale du D-Bot
-Plusieurs valeurs sont rapportées selon les sources :
-- ~38 kg (benchmark industriel, Entité D-Bot du KG)
-- 39 kg (Entité D-Bot du KG, `15_Analyse_Biomecanique.md`)
-- ~39.4 kg (`Synthese_Torse_Cou.md`, scénario B hybride)
-- 40.2 kg (`01_Synthese_Projet.md` version 6-DOF, calcul Juin 2026)
+**Question :** Le nombre total de moteurs RobStride pour le D-Bot final est-il de 24 (architecture 5-DOF par bras) ou 26 (architecture 6-DOF par bras) ?
 
-**Question :** Quelle est la masse totale exacte cible pour la version finale du D-Bot : ~38 kg, 39 kg (arrondi/cible initiale), 39.4 kg (calcul précis du Scenario B) ou 40.2 kg (calcul Juin 2026 pour l'architecture 6-DOF) ?
+## 3. Contradiction sur le Nombre de Moteurs par Jambe
+Les fichiers sources suivants présentent des valeurs divergentes pour le nombre de moteurs RobStride alloués aux jambes :
+- 04_Electronique_Cablage.md
+- annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md
+- 14_Cinematique_Moteurs.md
 
-#### 2. Divergence sur le Nombre Total de Moteurs RobStride du D-Bot
-Deux comptages principaux sont en conflit :
-- 24 moteurs (Entité D-Bot du KG, version initiale de `01_Synthese_Projet.md`, `04_Electronique_Cablage.md`, benchmark industriel) : décomposé en 2 (cou) + 5 (bras G) + 5 (bras D) + 12 (jambes)
-- 26 moteurs (version 6-DOF de `01_Synthese_Projet.md`) : décomposé en 2 (cou) + 6 (bras G) + 6 (bras D) + 12 (jambes)
-
-Cette divergence provient du nombre de moteurs par bras : 5 par bras dans les versions initiales, 6 par bras dans l'architecture 6-DOF.
-
-**Question :** Le comptage final des moteurs RobStride est-il de 24 (5 moteurs par bras) ou 26 (6 moteurs par bras pour l'architecture 6-DOF) ? Confirmez-vous que les 16 servomoteurs Dynamixel des mains D-Hand ne sont pas inclus dans ce comptage ?
-
-#### 3. Divergence sur le Nombre de Moteurs par Bras
-- Versions initiales : 5 moteurs par bras (total 10 pour les deux bras)
-- Version 6-DOF : 6 moteurs par bras (total 12 pour les deux bras)
-
-**Question :** Le bras du D-Bot final utilise-t-il 5 ou 6 moteurs RobStride par bras (pour l'architecture 6-DOF) ?
-
-#### 4. Confusion entre les Masses D-Bot et K-Bot
-K-Bot (plateforme précédente) a une masse de ~20.37 kg ou ~34 kg, tandis que D-Bot a une masse de ~38-40.2 kg. Le rapport d'audit signale un risque de mélanger les deux plateformes.
-
-**Question :** Confirmez-vous que la masse de ~39-40.2 kg s'applique exclusivement au D-Bot, et que les valeurs de ~20.37 kg ou ~34 kg correspondent uniquement à la plateforme K-Bot ?
-
-#### 5. Incohérence résolue sur le Décompte de Moteurs des Jambes
-Le rapport d'audit initial signalait une contradiction entre les 12 moteurs de jambes (`04_Electronique_Cablage.md`) et un calcul théorique de 14 moteurs (3 hanche F-A-R + 2 genou + 2 cheville par jambe). Les documents ultérieurs clarifient que le genou utilise 1 moteur par jambe (et non 2), soit 3 (hanche) + 1 (genou) + 2 (cheville) = 6 moteurs par jambe, 12 au total pour les deux jambes, ce qui résout l'incohérence.
-
-**Question :** Le décompte de 12 moteurs pour les jambes (6 par jambe : 3 hanche F-A-R + 1 genou + 2 cheville Cardan) est-il le chiffre final validé ?
-
----
+**Question :** Le décompte de 12 moteurs pour les jambes (6 par jambe) est-il correct, ou faut-il ajuster ce nombre pour refléter l'architecture F-A-R à la hanche et les actionneurs de la cheville (ce qui pourrait porter le total à 14 ou 16 moteurs RobStride pour les jambes) ?
 
 ### References
 
 - [1] annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md
 - [2] 01_Synthese_Projet.md
-- [3] 04_Electronique_Cablage.md
-- [4] annexes/robstride/configuration_initiale/32_Configuration_ID_Limites_Cou.md
-- [5] 5. Benchmark Industrie — D-Bot vs Robots Haut de Gamme
+- [3] 14_Cinematique_Moteurs.md
+- [4] 04_Electronique_Cablage.md
+- [5] 15_Analyse_Biomecanique.md
 
 ---
 
 ## 2. Cinématique (Moteurs par Axe)
-# Vérification de la cohérence des modèles de moteurs par articulation
+### Vérification de la cohérence des modèles de moteurs par articulation
 
-Nous avons analysé l'ensemble des données du Knowledge Graph et des Document Chunks pour valider la cohérence des modèles de moteurs RobStride associés à chaque articulation (Épaule, Coude, Poignet, Hanche, Genou, Cheville) dans la documentation du projet D-Bot. Plusieurs incohérences, chiffres divergents et références à d'anciens modèles ont été identifiés, avec des questions de validation associées pour chaque point.
+J'ai analysé l'ensemble du Knowledge Graph et des Document Chunks fournis pour valider les modèles de moteurs associés à chaque articulation (Épaule, Coude, Poignet, Hanche, Genou, Cheville), identifier les contradictions et signaler les anciens modèles encore présents.
 
-## Épaule (Shoulder)
-Les modèles d'épaule Roll (X) et Yaw (Z) sont cohérents dans l'ensemble de la documentation :
-- **Épaule Roll (X)** : RS-03 (60 N.m de couple pic), confirmé par la documentation biomécanique initiale et la synthèse des moteurs totaux.
-- **Épaule Yaw (Z)** : RS-02 (17 N.m de couple pic), cohérent sur toutes les sources. Une question de validation est nécessaire pour ce modèle, car son couple est nettement inférieur à celui du RS-03 utilisé pour le Roll.
+---
 
-Une incohérence majeure concerne l'**Épaule Pitch (Y)** :
-- La documentation biomécanique initiale (15_Analyse_Biomecanique.md) liste le RS-03 (60 N.m) pour cet axe.
-- La synthèse des moteurs totaux et l'entité Knowledge Graph RS-04 indiquent que le RS-04 (120 N.m) est le modèle utilisé pour l'Épaule Pitch.
-- Un chiffre divergent de couple est associé : 60 N.m vs 120 N.m.
+#### Épaule (Shoulder)
+Aucun modèle de moteur spécifique n'est explicitement associé à l'épaule dans les documents consultés. Les servomoteurs RS-02, RS-03, RS-04 et RS-06 sont mentionnés comme utilisés dans les membres (limbs) du robot, mais aucune attribution claire à l'épaule n'est faite.
 
-**Question :** Le modèle de moteur pour l'Épaule Pitch (Y) est-il le RS-03 (60 N.m, comme indiqué dans la documentation biomécanique initiale) ou le RS-04 (120 N.m, comme indiqué dans la synthèse des moteurs totaux et l'entité RS-04) ?
-**Question :** Le choix du RS-02 pour l'Épaule Yaw (17 N.m) est-il validé malgré sa faible puissance par rapport au RS-03 utilisé pour le Roll, ou convient-il de passer au RS-03 pour plus de marge de sécurité ?
+---
 
-## Coude (Elbow)
-Une incohérence directe est présente pour le **Coude Pitch (Y)** :
-- La documentation biomécanique initiale liste le RS-02 (17 N.m) pour cet axe.
-- La synthèse des moteurs totaux et la section Composition du Bras indiquent que le RS-06 (36 N.m) est le modèle retenu.
-- Le couple associé diverge : 17 N.m vs 36 N.m.
+#### Coude (Elbow)
+Le modèle **RS-06** (version 0.6.0.11) est cohérentment identifié comme le moteur de pitch du coude dans le document `Synthese_Etat_Actuel/SYNTHESE_Bras_AvantBras.md`. Ce modèle bénéficie de mises à jour en Avril 2026 (planificateur de vitesse adaptatif, remontées d'erreurs CANopen exclusives) et ne présente aucune contradiction documentaire.
 
-**Question :** Le modèle de moteur pour le Coude Pitch (Y) est-il le RS-02 (17 N.m, documentation biomécanique initiale) ou le RS-06 (36 N.m, synthèse des moteurs totaux) ?
+---
 
-## Poignet (Wrist)
-Les modèles de poignet sont cohérents dans l'ensemble de la documentation :
-- **Poignet Roll (Z)** : RS-00 (14 N.m de couple pic), confirmé par toutes les sources.
-- Les axes Poignet Pitch et Yaw ne sont pas implémentés dans la version V1, donc aucune incohérence n'est à signaler pour ces derniers.
+#### Poignet (Wrist)
+Le modèle **RS-00** est listé comme moteur de pitch du poignet dans `Synthese_Etat_Actuel/SYNTHESE_Bras_AvantBras.md`. Cependant, ce modèle n'est pas inclus dans les mises à jour de moteurs d'Avril 2026, et une référence à l'ancienne révision RS00.27 est faite dans les notes de mise à jour. L'entité Sn du Knowledge Graph mentionne également que les RS-00 sont destinés aux poignets, mais ce modèle semble être une version ancienne par rapport aux gammes RS-03 (v0.3.1.41), RS-04 (v0.4.1.29), RS-05 (v0.5.0.13) et RS-06 (v0.6.0.11) qui bénéficient de mises à jour régulières.
 
-## Hanche (Hip)
-Tous les modèles de hanche sont cohérents et validés par plusieurs sources :
-- **Hanche Pitch (Y)** : RS-04 (120 N.m de couple pic), utilisé pour la propulsion et le levage du fémur.
-- **Hanche Roll (X) et Yaw (Z)** : RS-03 (60 N.m de couple pic), dédiés à la stabilité latérale et à la rotation.
-Aucune référence à d'anciens modèles n'a été identifiée pour cette articulation.
+Fichiers sources en contradiction :
+- `Synthese_Etat_Actuel/SYNTHESE_Bras_AvantBras.md`
+- Notes de mise à jour des moteurs Avril 2026 (chunk sans nom de fichier, contenu débutant par "sur les bras/cuisses.\n\n### RS03 Actuel (v0.3.1.41)...")
+- Knowledge Graph (entité Sn)
 
-## Genou (Knee)
-Le modèle de genou est cohérent dans l'ensemble de la documentation :
-- **Genou Pitch** : RS-04 (120 N.m de couple pic), identifié comme facteur limitant pour la course et nécessitant la solution de transmission GT3 (S6) en évolution V2.
-Les alternatives (RS-02, RS-03, RS-06) sont listées pour des mises à niveau mais ne sont pas présentées comme des modèles actuels, donc aucune incohérence n'est à signaler.
+**Question :** Le moteur RS-00 (révision 0.0.27) est-il toujours le modèle actuel pour le poignet (Poignet Pitch) malgré l'absence de mises à jour dans les notes de version Avril 2026, ou doit-il être remplacé par un modèle plus récent ?
 
-## Cheville (Ankle)
-L'architecture actuelle de la cheville est le système Cardan avec 2× RS-03 par articulation (120 N.m de couple total), mais des références à d'anciens modèles persistent :
-- L'ancienne configuration avec RS-02/RS-00 est mentionnée dans plusieurs documents, bien qu'elle ait été remplacée par l'architecture Cardan.
-- L'entité RS-04 indique par erreur que ce modèle est utilisé pour la cheville, ce qui est obsolète.
+---
 
-**Question :** Souhaitez-vous supprimer toutes les références aux anciennes configurations de cheville (RS-02/RS-00) et corriger les mentions de RS-04 pour l'articulation, sachant que l'architecture actuelle est strictement Cardan avec 2× RS-03 ?
+#### Hanche (Hip)
+Les modèles **RS-04** (pitch, version 0.4.1.29) et **RS-03** (roll et yaw, version 0.3.1.41) sont cohérents entre tous les documents consultés. L'architecture F-A-R (Pitch→Roll→Yaw) adoptée en Avril 2026 référence explicitement ces modèles, qui bénéficient tous deux de mises à jour fonctionnelles en Avril 2026. Aucune contradiction n'est identifiée.
 
-## Autres chiffres divergents
-Une incohérence de spécification poids est présente pour le moteur RS-04 :
-- La majorité des sources indiquent un poids de 1420g.
-- Certaines parties de la documentation listent un poids de 120.0g, ce qui est physiquement impossible pour un actionneur de 120 N.m.
+---
 
-**Question :** Le poids du moteur RS-04 doit-il être corrigé à 1420g partout pour supprimer l'incohérence avec la valeur de 120g présente dans certaines parties de la documentation ?
+#### Genou (Knee)
+Le modèle **RS-04** est associé au vilebrequin de la transmission GT3 du genou dans les chunks de leviers biomécaniques, ce qui est cohérent avec la documentation `15d_Genou_et_Course.md` référencée dans `15_Analyse_Biomecanique.md`. Les modèles RS-02, RS-03 et RS-06 sont listés uniquement comme alternatives de mise à niveau dans `15e_Alternatives_Moteurs_Genou.md`, sans contradiction avec l'usage actuel du RS-04.
+
+---
+
+#### Cheville (Ankle)
+Le modèle **RS-03** (2 unités) est associé à l'architecture de cheville cardan dans `15c_Revision_Cardan_39kg.md` (référencé dans `15_Analyse_Biomecanique.md`). Ce modèle bénéficie de mises à jour en Avril 2026, et aucune contradiction n'est identifiée.
+
+---
+
+#### Incohérence supplémentaire : Attribution du RS-05 (Cou vs Poignet)
+L'entité Sn du Knowledge Graph mentionne que les RS-05 sont destinés aux poignets et au cou, mais l'entité Rs05 du Knowledge Graph et le document `32_Configuration_ID_Limites_Cou.md` restreignent l'usage du RS-05 au cou (Neck) et aux applications Pan-Tilt. Le document `Synthese_Etat_Actuel/SYNTHESE_Bras_AvantBras.md` confirme par ailleurs que le poignet utilise le RS-00, pas le RS-05.
+
+Fichiers sources en contradiction :
+- Knowledge Graph (entité Sn)
+- Knowledge Graph (entité Rs05)
+- `Synthese_Etat_Actuel/SYNTHESE_Bras_AvantBras.md`
+- `32_Configuration_ID_Limites_Cou.md`
+
+**Question :** Le moteur RS-05 est-il exclusivement réservé au cou (Neck) comme indiqué dans l'entité Rs05 et le document 32_Configuration_ID_Limites_Cou.md, ou doit-il également être utilisé pour les poignets comme mentionné dans l'entité Sn du Knowledge Graph ?
+
+---
+
+#### Anciens modèles encore présents
+- **RS-02** : Utilisé comme moteur de supination (rotation de l'avant-bras) dans `Synthese_Etat_Actuel/SYNTHESE_Bras_AvantBras.md`. Ce modèle partage un bug (Sn bug) avec le RS-01 selon l'entité Sn, n'est pas inclus dans les mises à jour Avril 2026, et est listé uniquement comme alternative de mise à niveau pour le genou.
+
+Fichiers sources en contradiction :
+- `Synthese_Etat_Actuel/SYNTHESE_Bras_AvantBras.md`
+- `15_Analyse_Biomecanique.md` (référence `15e_Alternatives_Moteurs_Genou.md`)
+- Knowledge Graph (entité Sn)
+
+**Question :** Le moteur RS-02 est-il toujours le modèle actuel pour la supination de l'avant-bras, ou doit-il être remplacé par un modèle plus récent (RS-03, RS-04, RS-06) comme suggéré par son absence des mises à jour Avril 2026 ?
+
+---
 
 ### References
-
-- [1] Synthese_Etat_Actuel/SYNTHESE_Hanche.md
-- [2] 15_Analyse_Biomecanique.md
-- [3] 16_Conclusions_Architecture_DBot.md
-- [4] 15d_Genou_et_Course.md
-- [5] 15g_Solution_S6_Courroie_GT3_Genou.md
 
 ---
 
 ## 3. Électronique (Bus & Puissance)
-# Vérification de cohérence : Alimentation et Bus CAN
+Voici le résultat de la vérification de cohérence entre les documents de synthèse, le guide électronique (04_Electronique_Cablage.md) et les guides de test, portant sur la tension d'alimentation et le nombre de moteurs par bus CAN.
 
-Cette analyse compare la cohérence des informations entre les documents de synthèse (y compris le rapport de vérification de cohérence, les conclusions d'architecture finales) et le guide électronique (Doc 04 : *04_Electronique_Cablage.md*) pour deux domaines clés : l'alimentation (tension batterie) et le bus CAN (nombre de moteurs par bus).
+Plusieurs points sont cohérents entre les sources : les tests sur banc utilisent une tension de 24V pour les moteurs Robstride, conformément au guide de test (33_Test_Multi_Moteurs_CAN_Banc.md) et aux documents de configuration du cou. La Jetson Orin Nano est spécifiée pour recevoir une alimentation en 19V dans le guide électronique et les fiches techniques matérielles. Le système final D-Bot suit la norme de tension K-Bot de 48V (13S NMC), comme indiqué dans la synthèse et les entités de la base de connaissances. Le bus CAN fonctionne à une vitesse de 1 Mbps, partagé entre la Jetson et les 24 moteurs Robstride répartis sur 5 bus dédiés, ce qui est cohérent entre le guide électronique et les spécifications du projet.
 
 ## 1. Alimentation (Tension Batterie)
 
-### Points de cohérence identifiés
-Les documents sont globalement cohérents sur les tensions de base. Le guide électronique Doc 04 précise que le processeur principal (NVIDIA Jetson Orin Nano) est alimenté en **19V DC**, tandis que tous les moteurs Robstride sont alimentés en **24V** via le bus CAN, avec un câblage en parallèle sur une alimentation de laboratoire dédiée (Wanptek DPS605U). Cette configuration est validée par les guides de test : le document Doc 33 (*33_Test_Multi_Moteurs_CAN_Banc.md*) confirme une tension de 24V pour les deux moteurs RS-05 du cou, avec une limite de courant de 3.0A pour l'ensemble.
+Une incohérence majeure concerne l'alimentation de la Jetson Orin Nano :
+- Fichiers sources contradictoires :
+  - 04_Electronique_Cablage.md indique une alimentation de 19V DC pour la Jetson.
+  - Synthese_Etat_Actuel/SYNTHESE_Electronique.md indique une régulation DC-DC 48V → 5V pour la Jetson et la Spresense, incompatible avec la plage de tension de 19V requise pour la Jetson Orin Nano.
 
-Le rapport de synthèse de cohérence note qu'aucune incohérence majeure n'existe sur la tension de base, l'architecture séparée (19V Jetson / 24V moteurs) étant logique si les deux composants sont alimentés par des sources distinctes ou via un régulateur dédié.
-
-### Incohérences et chiffres divergents
-Une divergence notable apparaît entre le guide électronique et le graphe de connaissances D-Bot : ce dernier mentionne une alimentation globale de **48V** pour les 24 actionneurs QDD Robstride, contre 24V dans Doc 04. Par ailleurs, une nuance non validée subsiste : il n'est pas précisé si le système final utilisera une batterie unique de 24V avec régulateur pour la Jetson, ou maintiendra des alimentations séparées.
-
-#### Questions de validation
-- Question : Le système final de D-Bot utilise-t-il une alimentation 19V pour la Jetson et 24V pour les moteurs (comme indiqué dans le guide électronique Doc 04), ou prévoyez-vous d'utiliser l'alimentation 48V mentionnée dans le graphe de connaissances, avec régulation en aval pour les composants ?
-- Question : Souhaitez-vous alimenter l'ensemble du système (Jetson incluse) depuis une batterie unique de 24V via un régulateur, ou maintenir des sources d'alimentation séparées (19V pour la Jetson, 24V dédiés aux moteurs) ?
+**Question :** Le document de synthèse indique une régulation 48V → 5V pour la Jetson, tandis que le guide électronique (04_Electronique_Cablage.md) et les spécifications matérielles de la Jetson Orin Nano imposent une alimentation en 19V : souhaitez-vous corriger la synthèse pour indiquer une régulation 48V → 19V pour la Jetson ?
 
 ## 2. Bus CAN (Nombre de moteurs par bus)
 
-### Points de cohérence identifiés
-Le guide électronique Doc 04 établit une règle de capacité théorique de **5 à 6 moteurs par bus CAN** à 1 Mbps, calculée sur la base de trames de 130 bits par moteur, une boucle de contrôle à 1 kHz, et une marge pour les acquittements. Cette règle est cohérente avec les tests du document Doc 33, qui valide le fonctionnement simultané de 2 moteurs RS-05 (Pan + Tilt) sur le Bus 1 (cou) à 1 Mbps.
+Première incohérence : règle de topologie du bus CAN
+- Fichiers sources contradictoires :
+  - 04_Electronique_Cablage.md interdit formellement toute topologie en étoile (Y) et impose une topologie en daisy-chain (série) pour tous les bus CAN.
+  - Doc 42 (Guide de configuration du cou) et 33_Test_Multi_Moteurs_CAN_Banc.md imposent une topologie en étoile pour le bus du cou (moteurs RS-05), ces derniers ne disposant que d'un port CAN et ne pouvant être chaînés en série.
 
-Les conclusions d'architecture finales (*16_Conclusions_Architecture_DBot.md*) confirment le décompte total de 24 moteurs Robstride, ce qui correspond aux spécifications du graphe de connaissances D-Bot.
+**Question :** Le guide électronique (04_Electronique_Cablage.md) interdit formellement toute topologie en étoile pour le bus CAN, mais les documents spécifiques au cou (Doc 42) et le guide de test (33_Test_Multi_Moteurs_CAN_Banc.md) imposent une topologie en étoile pour les moteurs RS-05 : souhaitez-vous modifier le guide électronique pour autoriser une exception de topologie en étoile pour les bus utilisant des moteurs à port CAN unique ?
 
-### Incohérences et chiffres divergents
-Plusieurs contradictions techniques apparaissent entre la théorie du guide électronique et la réalité physique des moteurs :
+Deuxième incohérence : règle de résistance de terminaison
+- Fichiers sources contradictoires :
+  - 04_Electronique_Cablage.md impose une résistance de terminaison 120 Ω sur le dernier moteur de chaque bus CAN en daisy-chain.
+  - Doc 42 indique qu'aucune résistance de terminaison n'est nécessaire pour le bus du cou si les longueurs de câbles sont inférieures à 30 cm, contredisant la règle générale du guide électronique.
 
-1. **Topologie de câblage** : Doc 04 impose une topologie en chaîne (daisy-chain) pour tous les moteurs d'un bus, avec une résistance de terminaison de 120 Ω sur le dernier moteur. Or, les documents Doc 33 et Doc 42 (*42_Configuration_CAN_InnoMaker_RS05.md*) confirment que les moteurs RS-05 du cou ne disposent que d'un seul port CAN, rendant la chaîne daisy-chain impossible. La topologie obligatoire est donc une étoile (star) via un splitter CAN, ce qui contredit directement la règle de Doc 04.
-2. **Résistances de terminaison** : Doc 04 exige une résistance de 120 Ω sur le dernier moteur de chaque bus. Doc 42 valide que pour les câbles courts (< 30 cm, cas du cou), ces résistances sont inutiles, contredisant la règle universelle de Doc 04.
-3. **Applicabilité du quota de moteurs** : La règle des 5-6 moteurs par bus s'applique aux moteurs en daisy-chain. Il n'est pas précisé si les moteurs RS-05 (en étoile) comptent dans ce quota, ou s'ils utilisent un bus dédié (Bus 1) indépendant de la chaîne principale des membres.
-4. **Répartition des bus** : La version initiale de Doc 04 mentionne un "Bus Bras G" (bras gauche) avec 5 moteurs, mais une version ultérieure remplace les bus des bras par des "Bus Jambe G" et "Bus Jambe D" (jambes gauche et droite) avec 6 moteurs chacun, sans mention des bus pour les membres supérieurs.
-5. **Bus centralisé vs bus dédiés** : Le graphe de connaissances D-Bot mentionne une "communication centralisée par bus CAN 2.0B", mais les documents Doc 33 et Doc 42 confirment que le cou utilise un bus dédié (Bus 1) en étoile, séparé du bus principal des membres.
+**Question :** Le guide électronique (04_Electronique_Cablage.md) impose une résistance de terminaison 120 Ω sur le dernier moteur de chaque bus, tandis que le Doc 42 indique qu'aucune terminaison n'est nécessaire pour le bus cou si les câbles sont < 30 cm : souhaitez-vous appliquer la règle de terminaison du guide électronique à l'ensemble du robot, ou valider l'exception pour les câbles courts < 30 cm ?
 
-#### Questions de validation
-- Question : Le bus CAN centralisé décrit dans la Doc 04 (5-6 moteurs en série) doit-il inclure les moteurs du cou (RS-05), ou le cou dispose-t-il d'un bus CAN dédié (Bus 1) indépendant de la chaîne principale des membres ?
-- Question : Souhaitez-vous appliquer la règle de terminaison de 120 Ω (Doc 04) à l'ensemble du robot, ou acceptez-vous l'exception validée pour les câbles courts (< 30 cm) où les terminaisons sont omises (Doc 42) ?
-- Question : Pour la documentation finale, souhaitez-vous modifier le schéma global (Doc 04) pour préciser que les RS-05 utilisent une topologie en étoile (splitter CAN) au lieu de la chaîne daisy-chain, en raison de leur port CAN unique ?
-- Question : Les moteurs des bras (épaules, coudes, poignets) sont-ils répartis sur les bus des jambes (Bus Jambe G/D) comme indiqué dans la version mise à jour de la Doc 04, ou disposent-ils de bus dédiés avec un quota de 5-6 moteurs par bus ?
-- Question : La mention d'un bus CAN centralisé dans le graphe de connaissances D-Bot correspond-elle à une architecture logique, malgré l'utilisation physique d'un bus dédié (Bus 1) en topologie étoile pour le cou ?
+Troisième incohérence : capacité par bus et délimitation du bus centralisé
+- Fichiers sources contradictoires :
+  - 04_Electronique_Cablage.md décrit un bus CAN centralisé unique avec une limite de 5-6 moteurs par bus en topologie daisy-chain.
+  - Doc 42 et 33_Test_Multi_Moteurs_CAN_Banc.md indiquent que le bus du cou (Bus CAN 1) est un bus dédié indépendant de la chaîne principale des membres, et ne compte pas dans le quota de 5-6 moteurs du bus centralisé.
+
+**Question :** Le guide électronique (04_Electronique_Cablage.md) décrit un bus CAN centralisé unique avec 5-6 moteurs en série, mais les documents spécifiques au cou (Doc 42) et le guide de test (33_Test_Multi_Moteurs_CAN_Banc.md) indiquent que le cou dispose d'un bus CAN dédié (Bus 1) indépendant de la chaîne principale : souhaitez-vous modifier le guide électronique pour préciser que les moteurs RS-05 utilisent un bus dédié distinct du bus centralisé des membres ?
 
 ### References
 
-- [1] 04_Electronique_Cablage.md
-- [2] 33_Test_Multi_Moteurs_CAN_Banc.md
-- [3] 42_Configuration_CAN_InnoMaker_RS05.md
-- [4] 16_Conclusions_Architecture_DBot.md
-- [5] Synthèse de Vérification de Cohérence (Syntheses, Guide Électronique et Guides de Test)
+* [1] 04_Electronique_Cablage.md
+* [2] 33_Test_Multi_Moteurs_CAN_Banc.md
+* [3] Synthese_Etat_Actuel/SYNTHESE_Electronique.md
+* [4] Vérification de cohérence (Synthèses, Guide Électronique, Guides de Test)
+* [5] Doc 42 (Guide de configuration du cou)
 
 ---
 
 ## 4. Perception & IA
-# Vérification de la cohérence des spécifications matérielles
+Les spécifications de la caméra OAK-D Pro, de l'IMU principale et de la Jetson Orin Nano ne sont pas toutes identiques partout. Des divergences sont identifiées sur la version de l'OAK-D Pro, l'IMU intégrée, le modèle de Jetson installé et sa puissance de calcul. L'IMU principale (BMI270) est la seule à présenter des spécifications totalement cohérentes entre tous les documents.
 
 ## 1. Caméra OAK-D Pro
-Les spécifications de la caméra OAK-D Pro ne sont pas totalement identiques d'un document à l'autre. La majorité des sources (`SYNTHESE_Audio_IMU.md`, `07_Vision_IA.md`) confirment l'utilisation de la version **Fixed Focus (FF)**, avec un poids de 91g, une portée de profondeur de 70cm à 12m, un capteur RGB de 12 MP et une IMU BNO085 intégrée de 9 axes. Le document `07_Vision_IA.md` mentionne également l'OAK-D SR comme alternative non retenue (portée 30cm-1m, 60g), sans impact sur la configuration finale.
+Les spécifications de la caméra OAK-D Pro présentent les points de cohérence et de divergence suivants :
 
-Une divergence majeure subsiste concernant l'IMU BNO085 : la synthèse système indique que ce composant est un capteur distinct situé dans la tête du robot pour la stabilisation du regard, tandis que les spécifications officielles de l'OAK-D Pro confirment son intégration native dans la caméra.
+### Spécifications cohérentes
+Le poids de l'OAK-D Pro FF est confirmé à 91 g (0,091 kg) dans les documents `SYNTHESE_Audio_IMU.md`, `07_Vision_IA.md` et les annexes de calcul de masse. L'utilisation de la version Fixed Focus (FF) est confirmée par `SYNTHESE_Audio_IMU.md` et `07_Vision_IA.md`.
 
-Question : L'IMU BNO085 mentionnée pour la stabilisation du regard dans la tête est-elle celle intégrée à l'OAK-D Pro, ou s'agit-il d'un capteur IMU supplémentaire ajouté spécifiquement pour la stabilisation ?
+### Divergences identifiées
+#### Divergence 1 : Version de l'OAK-D Pro
+Fichiers sources contradictoires :
+- `SYNTHESE_Audio_IMU.md`
+- `07_Vision_IA.md`
+- `51_Installation_OAK_D_DepthAI.md`
 
-## 2. Jetson Orin Nano
-Les spécifications de la Jetson Orin Nano présentent plusieurs divergences. Le modèle validé et acheté est la version **8 Go**, pesant 0,3 kg, avec une consommation de 10W à 15W, selon `ETUDE_Hardware_Orin_vs_Thor.md`. Cependant, `SYNTHESE_Audio_IMU.md` attribue 67 TOPS à la "Jetson Orin Nano Super", une valeur correspondant au mode performance de la version 8 Go, mais le document d'étude matériel ne mentionne pas explicitement la variante "Super". Par ailleurs, l'étude matériel compare la configuration actuelle à la Jetson AGX Orin (64 Go, 275 TOPS) et la Jetson AGX Thor (128 Go, 2070 TFLOPS), des modèles haut de gamme non utilisés dans l'architecture actuelle du D-Bot.
+Le document de synthèse et l'étude de vision confirment la version Fixed Focus (FF), tandis que le guide d'installation ne précise pas la version (FF ou SR) et se contente de mentionner l'OAK-D Pro générique. Le tableau comparatif de `07_Vision_IA.md` liste l'OAK-D SR comme alternative non sélectionnée.
 
-Question : La carte mère installée est-elle bien la Jetson Orin Nano 8 Go (et non une AGX Orin 64 Go) ?
-Question : Le modèle exact est-il la "Jetson Orin Nano Super" (67 TOPS) ou la version standard 8 Go ?
+**Question :** Quelle est la version exacte de l'OAK-D Pro installée (Fixed Focus ou Standard) ?
 
-## 3. IMU Principale (BNO085 pour la stabilisation du regard)
-Comme mentionné précédemment, l'IMU BNO085 fait l'objet d'une contradiction directe entre les documents : elle est soit intégrée à l'OAK-D Pro, soit un capteur externe distinct. Aucune autre divergence n'est identifiée sur les autres IMU du système (BMI270 pour l'équilibre du torse, LiDAR Unitree L2 pour l'odométrie).
+#### Divergence 2 : IMU intégrée
+Fichiers sources contradictoires :
+- `SYNTHESE_Audio_IMU.md`
+- `07_Vision_IA.md`
+
+Le document de synthèse indique que l'IMU BNO085 est située dans la tête pour la stabilisation du regard, tandis que le tableau comparatif de l'étude de vision indique que l'OAK-D Pro possède une IMU BNO085 9 axes intégrée.
+
+**Question :** L'IMU BNO085 mentionnée dans la tête est-elle celle intégrée à l'OAK-D Pro, ou s'agit-il d'un capteur IMU supplémentaire ajouté spécifiquement pour le SLAM ?
+
+## 2. IMU principale
+L'IMU principale pour l'équilibre bipède est le Bosch BMI270 situé dans le torse, avec une fréquence de 416 Hz. Cette spécification est cohérente entre `SYNTHESE_Audio_IMU.md`, `07_Vision_IA.md` et les guides d'intégration de capteurs. Aucune divergence n'est identifiée sur ce composant.
+
+L'IMU BNO085 (OAK-D, tête, 100 Hz pour la stabilisation du regard et le SLAM) présente la même divergence que mentionnée en section 1.2.
+
+## 3. Jetson Orin Nano
+Les spécifications de la Jetson Orin Nano présentent les points suivants :
+
+### Spécifications cohérentes
+La capacité RAM de 8 Go est confirmée par `SYNTHESE_Audio_IMU.md` et `ETUDE_Hardware_Orin_vs_Thor.md`. Le poids de 0,3 kg et la plage de puissance de 10W à 15W sont cohérents entre les données du graphe de connaissances et les annexes de masse.
+
+### Divergences identifiées
+#### Divergence 1 : Modèle installé et capacité RAM
+Fichiers sources contradictoires :
+- `SYNTHESE_Audio_IMU.md`
+- `ETUDE_Hardware_Orin_vs_Thor.md`
+
+Le document de synthèse confirme l'utilisation de la Jetson Orin Nano 8 Go, validée en conditions réelles. L'étude matérielle compare cette configuration à la Jetson AGX Orin (64 Go) et à la Jetson AGX Thor (128 Go), et discute d'une évolution vers des architectures plus lourdes.
+
+**Question :** La carte mère installée est-elle bien la Jetson Orin Nano 8 Go (et non une AGX Orin 64 Go) ?
+
+#### Divergence 2 : Puissance de calcul (TOPS)
+Fichiers sources contradictoires :
+- `SYNTHESE_Audio_IMU.md`
+- `01_Synthese_Projet.md`
+- `ETUDE_Hardware_Orin_vs_Thor.md`
+
+Le document de synthèse et la synthèse du projet attribuent 67 TOPS à la Jetson Orin Nano Super. L'étude matérielle liste des puissances de 275 TOPS pour l'AGX Orin et 2070 TFLOPS pour l'AGX Thor, qui correspondent à des modèles différents.
+
+**Question :** Le modèle exact est-il la "Jetson Orin Nano Super" (67 TOPS) ou la version standard ?
 
 ## 4. Divergences sur le matériel audio
-Le domaine audio présente le plus grand nombre d'incohérences, liées au module ReSpeaker XVF-3800, aux interfaces logicielles et aux configurations de canaux.
+Plusieurs incohérences sont identifiées sur l'architecture audio du D-Bot :
 
-### 4.1 Nombre de microphones et canaux audio
-Les informations sur le ReSpeaker XVF-3800 sont contradictoires :
-- Les entités Knowledge Graph et `SYNTHESE_Audio_IMU.md` indiquent que le module dispose de 4 micros MEMS, tandis qu'une autre entité Knowledge Graph attribue 6 microphones à la gamme Respeaker générale.
-- Le script `test_audio.py` initialise 6 canaux (4 micros + 2 canaux de référence/traités) et détecte dynamiquement le nombre de canaux réels via `maxInputChannels`.
-- Le script `test_arecord_vad.py` utilise une configuration mono (1 canal) via l'interface ALSA.
-- Le script `test_audio_loop.py` utilise une configuration stéréo (2 canaux) via PulseAudio.
+### Divergence 1 : Nombre de microphones et canaux audio
+Fichiers sources contradictoires :
+- `SYNTHESE_Audio_IMU.md`
+- `test_audio.py`
+- `test_arecord_vad.py`
+- `test_audio_loop.py`
 
-Question : Le ReSpeaker XVF-3800 est-il configuré avec 4 micros MEMS (canaux 6 incluant les références) ou 6 micros au total ?
-Question : Le nombre de canaux audio actifs est-il de 1 (mono), 2 (stéréo) ou 6 (complet) ?
+Le document de synthèse indique que le ReSpeaker XVF-3800 possède 4 micros MEMS. Le script `test_audio.py` initialise 6 canaux (4 micros + 2 canaux de référence/traités), `test_arecord_vad.py` utilise une configuration mono (1 canal) et `test_audio_loop.py` utilise une configuration stéréo (2 canaux).
 
-### 4.2 Problème de "Micro Muet" (enregistrement silencieux)
-Les documents de dépannage liés à la Jetson Orin notent que le ReSpeaker enregistre un silence absolu sous Linux via `arecord` en raison d'un bug du port USB-C de la Jetson, la solution étant de brancher le module sur un port USB-A (bleu). `SYNTHESE_Audio_IMU.md` ne mentionne pas ce problème, et aucune information ne confirme le type de port utilisé actuellement.
+**Question :** Le nombre de canaux audio actifs est-il de 1 (mono), 2 (stéréo) ou 6 (complet) ?
 
-Question : Le ReSpeaker XVF-3800 est-il actuellement branché sur un port USB-A (bleu) ou USB-C de la Jetson ?
+### Divergence 2 : Problème de "Micro Muet"
+Fichiers sources contradictoires :
+- `SYNTHESE_Audio_IMU.md`
+- `ETUDE_Hardware_Orin_vs_Thor.md`
+- Document de dépannage "Les Défis"
 
-### 4.3 Interface audio (ALSA vs PulseAudio)
-- `SYNTHESE_Audio_IMU.md` indique une intégration native dans ROS2 via PulseAudio.
-- Plusieurs scripts de test utilisent directement l'interface ALSA (`arecord`, `plughw:X,0`) ou mélangent les deux approches : `test_audio_loop.py` utilise PulseAudio pour la détection des périphériques et l'enregistrement (`parecord`), mais configure l'amplificateur JST via ALSA (`amixer`).
+Le document de synthèse ne mentionne pas ce problème, tandis que les documents de dépannage décrivent un enregistrement de silence absolu par le ReSpeaker via `arecord` dû à un bug du port USB-C de la Jetson Orin Nano, dont la solution est de brancher le micro sur un port USB-A (bleu).
 
-Question : L'architecture audio utilise-t-elle PulseAudio comme routeur principal (comme indiqué dans la synthèse) ou ALSA directement ?
+**Question :** Le ReSpeaker XVF-3800 est-il actuellement branché sur un port USB-A (bleu) ou USB-C de la Jetson ?
+
+### Divergence 3 : Interface audio (ALSA vs PulseAudio)
+Fichiers sources contradictoires :
+- `SYNTHESE_Audio_IMU.md`
+- `test_arecord_vad.py`
+- `test_audio_loop.py`
+- `test_audio.py`
+
+Le document de synthèse indique une intégration native dans ROS2 via PulseAudio. Cependant, `test_arecord_vad.py` utilise ALSA via la commande `arecord`, `test_audio_loop.py` utilise PulseAudio via `parecord`, et `test_audio.py` utilise PyAudio (qui s'appuie par défaut sur ALSA sous Linux).
+
+**Question :** L'architecture audio utilise-t-elle PulseAudio comme routeur principal (comme indiqué dans la synthèse) ou ALSA directement ?
+
+### Divergence 4 : Activation de l'amplificateur JST
+Fichiers sources contradictoires :
+- Documentation système PulseAudio (graphe de connaissances)
+- Script de configuration PulseAudio
+
+Le graphe de connaissances indique que PulseAudio ne peut pas activer automatiquement les amplificateurs matériels, nécessitant une configuration explicite. Le script de configuration utilise cependant des commandes ALSA (`amixer`) pour activer l'amplificateur JST du ReSpeaker.
+
+**Question :** L'amplificateur JST du ReSpeaker est-il activé via ALSA (amixer) ou via PulseAudio ?
 
 ### References
+
+* [1] SYNTHESE_Audio_IMU.md
+* [2] 07_Vision_IA.md
+* [3] 51_Installation_OAK_D_DepthAI.md
+* [4] ETUDE_Hardware_Orin_vs_Thor.md
+* [5] test_audio.py
 
 ---
 
