@@ -89,7 +89,7 @@ Le couple pharaonique des moteurs RS-04 (Hanches et Genoux) génère des efforts
 3.  **Visserie Acier 12.9** : Remplacez l'inox A2 standard par de la visserie de classe **12.9** (Acier bruni) sécurisée avec du frein-filet **Loctite 243** (Bleu) pour anticiper les chocs de la course.
 4.  **Inserts et Rondelles** : Le serrage sur plastique requiert systématiquement de larges rondelles d'appui.
 
-### Intégration Robstride 05 (RS-05) - Cou / Poignets
+### Intégration Robstride 05 (RS-05) - Cou
 *   **Ancrage** : Le couple de pointe (5.5 Nm) est élevé pour du plastique.
     *   Utilisez des **vis M4 x 12mm Acier 12.9 (Noir)** pour fixer le corps moteur au châssis. L'Inox est trop "mou" pour ces zones de force pure si vous démontez souvent.
 *   **Longueur de vis** : Règle d'or = Épaisseur pièce plastique + (Profondeur trou moteur - 1mm).
@@ -103,7 +103,7 @@ Le couple pharaonique des moteurs RS-04 (Hanches et Genoux) génère des efforts
 
 
 ### Architecture Articulaire : Montage en Chape (Simple Soutien) vs Double Soutien
-Pour le design mécanique des jonctions de genou et de hanche du D-Bot (39 kg), deux écoles d'ingénierie s'affrontent :
+Pour le design mécanique des jonctions de genou et de hanche du D-Bot (40.2 kg), deux écoles d'ingénierie s'affrontent :
 1.  **Le Double Soutien (Hyperstatique / Cage)** : Consiste à enfermer le RS-04 dans une cage avec deux gros roulements externes soutenant l'axe de chaque côté du stator pour totalement isoler le moteur. *Risque Majeur* : L'alignement des deux roulements externes avec les roulements internes du moteur doit être parfait au micron près. Le moindre défaut de concentricité lors d'un assemblage génère des contraintes internes qui ruineront le moteur par friction.
 2.  **Montage en Chape Rigide (Recommandé)** : C'est le standard de l'industrie (ex: Unitree Go2). Le stator du moteur D-Bot est fixé d'un côté. L'axe de sortie (rotor) traverse le membre et est supporté par **un seul** roulement à l'extrémité opposée (montage en porte-à-faux supporté).
     *   **Mise en œuvre D-Bot** : Utilisez un support en Aluminium 7075 usiné à la CNC C500. Du côté opposé au moteur, insérez un roulement étanche à section fine **6807-2RS** (pour laisser passer les câbles XT30/CAN de 35mm). L'ensemble doit être lié par une entretoise transversale extrêmement rigide assurant la coaxialité parfaite.
@@ -139,5 +139,22 @@ Les deux moteurs **RS-03** (60 N.m chacun) sont fixés **en haut du tibia** (pas
 *   **Capteurs FSR** : 4× FSR 402 dans la semelle du pied (mesure du CoP).
 *   **Semelle** : PA12-CF + patin TPU/caoutchouc 2mm pour le grip.
 
-> Pour le détail complet (fournisseurs, montage, cinématique) : **[Étude Cheville Cardan](./20_Etude_Cheville_Cardan.md)** | **[Révision 39 kg](./15c_Revision_Cardan_39kg.md)**
+> Pour le détail complet (fournisseurs, montage, cinématique) : **[Étude Cheville Cardan](./20_Etude_Cheville_Cardan.md)** | **[Révision 40.2 kg](./15c_Revision_Cardan_40_2kg.md)**
 
+---
+
+## 5. Intégration de l'Avant-Bras (Architecture "Forearm Supination")
+
+> 🆕 **Mise à jour Mai 2026** : L'architecture du bras a été revue pour s'aligner sur le standard biomimétique (Tesla Optimus Gen 3). Le mouvement de rotation de l'avant-bras (Roll/Supination) est désormais assuré par un moteur **RS-02 situé au coude**, juste après le RS-06.
+
+### Le défi du découplage mécanique (Coude)
+Si l'avant-bras complet (main + charge) est fixé directement sur l'axe de sortie du RS-02, les roulements internes du moteur vont s'écraser sous la contrainte radiale (couple de flexion estimé à >10 N.m pour une charge de 5 kg). Le secret de cette architecture réside dans le **découplage des efforts** :
+
+1. **La Structure (Poids)** : La coque rotative de l'avant-bras (en PETG-CF ou tube Carbone) doit être montée sur un **large roulement annulaire externe** (Thin-Section Bearing ou palier lisse) solidaire du bloc coude fixe. Ce grand roulement encaisse 100% des contraintes de flexion transversale.
+2. **Le Moteur (Rotation)** : Le moteur RS-02 est logé au centre de ce roulement. Son axe est relié à la coque rotative uniquement via un accouplement (ex: joint flexible ou Spline) qui ne transmet **que le couple de torsion** (rotation pure), le protégeant totalement du poids du bras.
+
+### Avantages de l'assemblage
+- **Suppression du Crosstalk** : Les moteurs de la main (D-Hand) tournent *avec* l'avant-bras, empêchant les tendons de se vriller lors d'une rotation du poignet.
+- **Poignet Compact** : L'extrémité distale du bras ne contient plus qu'un seul moteur (RS-00 pour le Pitch), réduisant l'inertie et offrant un design très fin.
+
+> Voir l'étude de référence : **[22b — Étude Poignet Tesla Optimus](./22b_Etude_Poignet_Tesla_Optimus.md)**
