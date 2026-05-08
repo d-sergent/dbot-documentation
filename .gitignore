@@ -13,4 +13,10 @@ Icon?
 __pycache__/
 *.py[cod]
 *$py.class
-open-webui-env/
+
+# Secrets
+.env
+code/rag/rag_indexing.log
+
+# IDE / Extensions
+.continue/

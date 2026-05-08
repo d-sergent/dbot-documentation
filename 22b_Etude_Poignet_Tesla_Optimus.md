@@ -130,17 +130,17 @@ Dans notre schéma précédent, nous avons placé le **RS-00 (14 N.m pic, 5 N.m 
 > [!WARNING]
 > Avec 4.9 N.m requis pour une charge de 5kg déportée, on sature à **~100% le couple nominal** du RS-00 (5 N.m). S'il doit maintenir cette position, le moteur va chauffer rapidement.
 
-**Alternative recommandée : Le RobStride RS-02**
-Dans l'architecture du D-Bot, le **RS-02 (17 N.m pic, 6 N.m nom, 405g)** est déjà le moteur attitré pour la rotation de l'épaule (Shoulder Yaw). La cinématique de l'avant-bras (Forearm Supination) subit des contraintes très similaires à celles de l'épaule.
+**Choix d'implémentation officiel : Le RobStride RS-02**
+Dans l'architecture actuelle du D-Bot, le **RS-02 (17 N.m pic, 6 N.m nom, 405g)** est validé comme moteur de Supination. Ce choix s'aligne sur la standardisation du robot, le RS-02 étant déjà utilisé pour la rotation de l'épaule (Shoulder Yaw). La cinématique de l'avant-bras subit des contraintes très similaires à celles de l'épaule.
 
 | Moteur | Couple Nom. | Couple Pic | Poids | Verdict pour Supination (Coude) |
 | :--- | :---: | :---: | :---: | :--- |
-| **RS-00** | 5 N.m | 14 N.m | 310g | ⚠️ Limite thermique sur charge déportée |
-| **RS-02** | 6 N.m | **17 N.m** | **405g** | ✅ **Recommandé** (Excellente marge de sécurité) |
-| **RS-03** | 20 N.m | 60 N.m | 880g | ❌ Inutile et trop lourd (+570g de masse distale) |
+| **RS-00** | 5 N.m | 14 N.m | 310g | ❌ Refusé (Limite thermique sur charge déportée) |
+| **RS-02** | 6 N.m | **17 N.m** | **405g** | ✅ **CHOIX D'IMPLÉMENTATION ACTUEL** |
+| **RS-03** | 20 N.m | 60 N.m | 880g | ❌ Refusé (Inutile et trop lourd) |
 
 > [!IMPORTANT]
-> **Recommandation finale** : Remplacer le RS-00 par un **RS-02** pour le moteur de Supination situé au coude. L'impact est de seulement **+95g** sur le poids du bras, mais vous gagnez une marge de sécurité vitale et 17 N.m de couple de torsion en pic. Cela rendra la préhension latérale d'outils (perceuse, marteau) parfaitement inébranlable. Le poignet distal (Pitch), quant à lui, restera bien équipé du RS-00 (310g) pour minimiser l'inertie en bout de bras.
+> **Décision d'Architecture** : Le **RS-02** est officiellement retenu pour le moteur de Supination situé au coude. L'impact de **+95g** par rapport au RS-00 est largement compensé par le gain critique de 17 N.m de couple de torsion en pic. Cela garantit que la préhension latérale d'outils lourds (perceuse, marteau) sera inébranlable. Le poignet distal (Pitch), quant à lui, est équipé du petit RS-00 (310g) pour maintenir une faible inertie en bout de bras.
 
 ---
 

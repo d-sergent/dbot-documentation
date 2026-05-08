@@ -1,10 +1,14 @@
-#!/usr/bin/env python3
+#!/opt/homebrew/bin/python3.11
 import asyncio
 import argparse
 import sys
 import os
 import openai
 import numpy as np
+from dotenv import load_dotenv
+
+# Charger les variables d'environnement
+load_dotenv()
 
 try:
     from lightrag import LightRAG, QueryParam
@@ -33,26 +37,49 @@ async def fastembed_func(texts: list[str]) -> np.ndarray:
 
 embedding_func = EmbeddingFunc(embedding_dim=1024, max_token_size=8192, func=fastembed_func)
 
-async def llm_func(prompt, system_prompt=None, history_messages=[], **kwargs):
-    client = openai.AsyncOpenAI(base_url=VMLX_BASE_URL, api_key="none")
-    messages = []
-    if system_prompt:
-        messages.append({"role": "system", "content": system_prompt})
-    messages.extend(history_messages)
-    messages.append({"role": "user", "content": prompt})
-    
-    allowed = ["max_tokens", "temperature", "top_p", "response_format"]
-    clean_kwargs = {k: v for k, v in kwargs.items() if k in allowed}
-    
-    response = await client.chat.completions.create(model=VMLX_MODEL, messages=messages, **clean_kwargs)
-    return response.choices[0].message.content
+def get_llm_func(provider: str, target_model: str):
+    async def llm_func(prompt, system_prompt=None, history_messages=[], **kwargs):
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.extend(history_messages)
+        messages.append({"role": "user", "content": prompt})
+        
+        allowed = ["max_tokens", "temperature", "top_p", "response_format"]
+        clean_kwargs = {k: v for k, v in kwargs.items() if k in allowed}
+        
+        if provider == "local":
+            client = openai.AsyncOpenAI(base_url=VMLX_BASE_URL, api_key="none")
+            response = await client.chat.completions.create(model=target_model, messages=messages, **clean_kwargs)
+            return response.choices[0].message.content
+            
+        elif provider == "openrouter":
+            or_key = os.environ.get("OPENROUTER_API_KEY")
+            if not or_key:
+                raise ValueError("OPENROUTER_API_KEY manquante dans le .env")
+            client = openai.AsyncOpenAI(base_url="https://openrouter.ai/api/v1", api_key=or_key)
+            response = await client.chat.completions.create(
+                model=target_model, 
+                messages=messages, 
+                extra_headers={"HTTP-Referer": "https://github.com/d-bot"},
+                **clean_kwargs
+            )
+            return response.choices[0].message.content
+            
+    return llm_func
 
 async def main():
     parser = argparse.ArgumentParser(description="Interroge la documentation D-Bot via le RAG")
     parser.add_argument("query", type=str, help="La question à poser au RAG")
     parser.add_argument("--mode", type=str, choices=["naive", "local", "global", "hybrid"], default="naive", help="Mode de recherche (naive = le plus rapide)")
     parser.add_argument("--search-only", action="store_true", help="Retourne uniquement les morceaux de texte trouvés, sans synthèse LLM")
+    parser.add_argument("--provider", type=str, choices=["local", "openrouter"], default="local", help="Fournisseur d'IA pour la réponse (defaut: local)")
+    parser.add_argument("--model", type=str, help="Modèle à utiliser (surcharge le défaut du provider)")
     args = parser.parse_args()
+
+    # Sélection automatique du modèle par défaut selon le provider si non spécifié
+    if not args.model:
+        args.model = VMLX_MODEL if args.provider == "local" else "tencent/hy3-preview:free"
 
     # Redirige les prints des bibliothèques vers stderr pour garder stdout propre
     old_stdout = sys.stdout
@@ -62,7 +89,7 @@ async def main():
         print(f"❌ Base introuvable à {DB_PATH}", file=sys.stderr)
         sys.exit(1)
 
-    rag = LightRAG(working_dir=DB_PATH, llm_model_func=llm_func, embedding_func=embedding_func)
+    rag = LightRAG(working_dir=DB_PATH, llm_model_func=get_llm_func(args.provider, args.model), embedding_func=embedding_func)
     await rag.initialize_storages()
     
     # Restaure stdout pour le vrai résultat
@@ -71,7 +98,6 @@ async def main():
     try:
         if args.search_only:
             # Récupère uniquement les données structurées (retrieval seul)
-            # aquery_data retourne un dictionnaire avec 'status', 'data' (chunks, entities, relationships)
             result = await rag.aquery_data(args.query, param=QueryParam(mode=args.mode))
             if result.get("status") == "success":
                 data = result.get("data", {})

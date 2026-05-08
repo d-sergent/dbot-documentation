@@ -14,8 +14,16 @@ Ajoute les nouveaux fichiers ou les modifications du jour à la mémoire du robo
 
 ### 2. Poser une question technique en ligne de commande
 Idéal pour une réponse ultra-rapide sans ouvrir d'interface.
+
 ```bash
+# Recherche pure (affiche les extraits sans utiliser de LLM)
 /opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/ask_rag.py" "Votre question" --search-only
+
+# Synthèse avec un modèle local (Qwen)
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/ask_rag.py" "Votre question" --provider local
+
+# Synthèse via OpenRouter avec Tencent Hunyuan 3 (Puissant et gratuit)
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/ask_rag.py" "Votre question" --provider openrouter --model tencent/hy3-preview:free
 ```
 
 ---
