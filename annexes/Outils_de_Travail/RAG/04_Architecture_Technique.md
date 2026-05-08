@@ -2,6 +2,32 @@
 
 Ce document détaille le fonctionnement "sous le capot" du système pour assurer sa pérennité technique.
 
+Ce document détaille le fonctionnement "sous le capot" du système pour assurer sa pérennité technique.
+
+---
+
+## 🏗️ Pourquoi cette Architecture ?
+
+### Le problème du RAG classique pour D-Bot
+Un RAG vectoriel classique (Qdrant ou LanceDB seul) répond bien à "qu'est-ce que dit la doc sur les bras ?", mais est **aveugle aux relations de cause à effet** entre documents différents. Si votre fichier `27_Etude_Epaule_Architecture.md` indique une masse de bras de 1.2 kg, et que `15d_Genou_et_Course.md` décrit les exigences de couple pour courir, un RAG classique ne fera jamais le lien entre ces deux informations.
+
+### La solution : LightRAG (Graph RAG)
+LightRAG combine deux types de mémoire :
+1. **Vectorielle** : Recherche par similarité sémantique.
+2. **Graphe de connaissances** : Relations entité → entité.
+
+Lors de l'indexation, le système extrait des **entités** (composants, masses, couples, vitesses...) et leurs **relations** (impacte, limite, requiert, détermine...). Ces relations sont stockées dans un graphe qui permet des analyses d'impact croisées.
+
+```
+Exemple de graphe extrait de votre documentation :
+
+[Bras Robot] ──pèse──> [1.2 kg]
+[Masse Bras]  ──contribue_à──> [Masse Totale Robot]
+[Masse Totale]──détermine──> [Couple Requis Cheville]
+[Couple Requis]──limite──> [Vitesse de Course Max]
+[Vitesse Course]──contraint──> [Moteur Genou RS06]
+```
+
 ---
 
 ## 🧩 Les 3 couches de recherche
