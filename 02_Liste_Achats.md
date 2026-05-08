@@ -48,8 +48,6 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 | **Robstride 04** | 1 (**✅ Acheté**) | **120 Nm** | Épaule Pitch (Force levage frontal) |
 | **Robstride 03** | 1 (**✅ Acheté**) | **60 Nm** | Épaule Roll (Écartement latéral) |
 | **Robstride 06** | 1 (**✅ Acheté**) | **36 Nm** | Coude |
-| **Robstride 02** | 1 (**✅ Acheté**) | **17 Nm** | Épaule Yaw |
-| **Robstride 00** | 1 (**✅ Acheté**) | 14 Nm | Poignet Roll |
 
 ### Phase 3 : Deuxième Bras (5 DOF identiques)
 *Même configuration que Phase 2, symétriquement.*

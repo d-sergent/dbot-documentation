@@ -17,11 +17,6 @@ Le K-Bot standard est un robot humanoïde open-source de taille réelle dévelop
 
 | Articulation | Moteur | IDs<br/>(G/D) | Couple<br/>Pic | Couple<br/>Nom. | Poids | Fonction |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Épaule Pitch** | **RS-04** | 11 / 21 | 120 N.m | 40 N.m | 1420g | Lever le bras frontalement |
-| **Épaule Roll** | **RS-03** | 12 / 22 | 60 N.m | 20 N.m | 880g | Écarter le bras |
-| **Épaule Yaw** | RS-02 | 13 / 23 | 17 N.m | 6 N.m | 405g | Rotation interne |
-| **Coude Pitch** | RS-02 | 14 / 24 | 17 N.m | 6 N.m | 405g | Flexion |
-| **Poignet Roll** | RS-00 | 15 / 25 | 14 N.m | 5 N.m | 310g | Orientation fine |
 
 **Total par bras** : 3 kg environ  
 **Total 2 bras** : 10 moteurs (4× RS-03 + 4× RS-02 + 2× RS-00)

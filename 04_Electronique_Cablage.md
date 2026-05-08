@@ -42,8 +42,6 @@ Tous les moteurs d'un même bus sont **chaînés en série** (daisy-chain), du p
 | Bus CAN | Moteurs | Nb | % bande passante |
 | :--- | :--- | :---: | :---: |
 | **Bus Cou** | RS-05 Pan + RS-05 Tilt | **2** | ~26% ✅ |
-| **Bus Bras G** | RS-04, RS-03, RS-02, RS-06, RS-00 | **5** | ~65% ✅ |
-| **Bus Bras D** | RS-04, RS-03, RS-02, RS-06, RS-00 | **5** | ~65% ✅ |
 | **Bus Jambe G** | RS-04 ×2, RS-03 ×4 | **6** | ~78% ✅ |
 | **Bus Jambe D** | RS-04 ×2, RS-03 ×4 | **6** | ~78% ✅ |
 
