@@ -20,11 +20,16 @@ class LocalTTS:
     def __init__(self, voice_model_path=None, pulse_sink=None):
         self.pulse_sink = pulse_sink
         self.card_id = self._detect_respeaker_card()
-        
+
+        # Chemin de la voix — priorité : argument > variable env > défaut
+        # Voir Doc 48 pour le catalogue des voix disponibles
         if voice_model_path is None:
-            self.voice_model_path = os.path.expanduser("~/.local/share/piper-voices/fr_FR-upmc-medium.onnx")
-        else:
-            self.voice_model_path = voice_model_path
+            voice_model_path = os.environ.get(
+                "PIPER_VOICE",
+                os.path.expanduser("~/.local/share/piper-voices/fr_FR-upmc-medium.onnx")
+            )
+        self.voice_model_path = voice_model_path
+
             
         if not os.path.exists(self.voice_model_path):
             raise TTSError(f"[TTS] Modèle vocal introuvable : {self.voice_model_path}")
