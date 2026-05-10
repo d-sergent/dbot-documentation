@@ -29,7 +29,8 @@ def test_arecord_vad():
     print("  D-Bot — Test VAD via 'arecord' direct")
     print("==================================================")
 
-    vad = webrtcvad.Vad(3)
+    # Mode 1 est plus robuste pour le ReSpeaker hors NoMachine
+    vad = webrtcvad.Vad(1)
     alsa_dev = get_respeaker_alsa_device()
     print(f"🔌 Carte matérielle ciblée : {alsa_dev}")
     
