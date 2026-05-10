@@ -18,18 +18,24 @@ La voix par défaut est `fr_FR-upmc-medium.onnx`.
 
 ---
 
-## 2. Catalogue des Voix Françaises Disponibles
+## 2. Catalogue Complet des Voix Françaises
 
-| Identifiant | Genre | Qualité | Vitesse | Usage recommandé |
-| :--- | :---: | :---: | :---: | :--- |
-| `fr_FR-upmc-medium` | Féminin | ⭐⭐⭐ | Rapide | Voix actuelle (défaut) |
-| `fr_FR-siwis-medium` | Féminin | ⭐⭐⭐⭐ | Moyenne | Voix naturelle, conversations |
-| `fr_FR-siwis-low` | Féminin | ⭐⭐ | Très rapide | Si latence critique |
-| `fr_FR-gilles-low` | Masculin | ⭐⭐ | Très rapide | Voix robot grave |
-| `fr_FR-mls-medium` | Masculin | ⭐⭐⭐ | Rapide | Voix neutre masculine |
+> Source : [voices.json officiel Piper](https://huggingface.co/rhasspy/piper-voices/resolve/main/voices.json) — Mis à jour le 10/05/2026.
+
+Il existe **7 voix françaises** (`fr_FR`) dans le dépôt officiel Piper :
+
+| Identifiant | Genre | Qualité | Vitesse | Taille | Usage recommandé |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| `fr_FR-upmc-medium` | Féminin | ⭐⭐⭐ | Rapide | ~45 Mo | ✅ Voix actuelle (défaut) |
+| `fr_FR-siwis-medium` | Féminin | ⭐⭐⭐⭐ | Moyenne | ~60 Mo | ⭐ Recommandée — naturelle |
+| `fr_FR-siwis-low` | Féminin | ⭐⭐ | Très rapide | ~30 Mo | Si latence critique (<0.3s) |
+| `fr_FR-tom-medium` | Masculin | ⭐⭐⭐⭐ | Moyenne | ~60 Mo | Voix masculine naturelle |
+| `fr_FR-mls-medium` | Masculin | ⭐⭐⭐ | Rapide | ~45 Mo | Voix masculine neutre |
+| `fr_FR-mls_1840-low` | Masculin | ⭐⭐ | Très rapide | ~30 Mo | Voix masculine légère |
+| `fr_FR-gilles-low` | Masculin | ⭐⭐ | Très rapide | ~30 Mo | Effet "robot" prononcé |
 
 > [!TIP]
-> Pour D-Bot, la voix `fr_FR-siwis-medium` offre le meilleur équilibre naturalité/latence. La voix `fr_FR-gilles-low` donne un effet "voix de robot" plus prononcé si souhaité.
+> **Pour D-Bot :** `fr_FR-siwis-medium` (féminin naturel) ou `fr_FR-tom-medium` (masculin naturel) offrent le meilleur rendu conversationnel. `fr_FR-gilles-low` est à essayer si vous voulez un effet "voix de robot" délibéré.
 
 ---
 
@@ -49,22 +55,44 @@ wget "$BASE/fr/fr_FR/<NOM_VOIX>.onnx"
 wget "$BASE/fr/fr_FR/<NOM_VOIX>.onnx.json"
 ```
 
-### Exemples concrets
+### Télécharger TOUTES les voix en une seule commande
 
 ```bash
 cd ~/.local/share/piper-voices/
+BASE="https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR"
 
-# Voix féminine naturelle (recommandée)
-wget "https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx"
-wget "https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx.json"
+for f in \
+  "siwis/medium/fr_FR-siwis-medium" \
+  "siwis/low/fr_FR-siwis-low" \
+  "tom/medium/fr_FR-tom-medium" \
+  "mls/medium/fr_FR-mls-medium" \
+  "mls_1840/low/fr_FR-mls_1840-low" \
+  "gilles/low/fr_FR-gilles-low"
+do
+  wget -nc "$BASE/$f.onnx"
+  wget -nc "$BASE/$f.onnx.json"
+done
 
-# Voix masculine grave
-wget "https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/gilles/low/fr_FR-gilles-low.onnx"
-wget "https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/gilles/low/fr_FR-gilles-low.onnx.json"
+echo "✅ Toutes les voix françaises téléchargées dans ~/.local/share/piper-voices/"
 ```
 
 > [!NOTE]
-> Chaque voix pèse entre **30 Mo** (low) et **65 Mo** (medium). Toutes fonctionnent hors-ligne une fois téléchargées.
+> L'option `-nc` (no-clobber) évite de re-télécharger les fichiers déjà présents. Espace total nécessaire : **~360 Mo** pour les 7 voix.
+
+### Télécharger une voix individuelle
+
+```bash
+cd ~/.local/share/piper-voices/
+BASE="https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR"
+
+# Féminin — siwis medium (recommandée)
+wget "$BASE/siwis/medium/fr_FR-siwis-medium.onnx"
+wget "$BASE/siwis/medium/fr_FR-siwis-medium.onnx.json"
+
+# Masculin — tom medium
+wget "$BASE/tom/medium/fr_FR-tom-medium.onnx"
+wget "$BASE/tom/medium/fr_FR-tom-medium.onnx.json"
+```
 
 ---
 
@@ -90,8 +118,8 @@ PIPER_VOICE=~/.local/share/piper-voices/fr_FR-siwis-medium.onnx \
   python3 ~/dbot/code/scripts/behaviors/chatbot_local_v2.py
 ```
 
-> [!IMPORTANT]
-> Cette méthode nécessite que `tts.py` soit mis à jour pour lire `PIPER_VOICE` (voir section 6).
+> [!TIP]
+> `tts.py` lit déjà `PIPER_VOICE` nativement depuis la mise à jour du 10/05/2026.
 
 ### Méthode 2 — Argument au constructeur (dans le code)
 
