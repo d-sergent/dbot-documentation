@@ -52,9 +52,11 @@ class AudioIO:
         Enregistre l'audio en stéréo (pour éviter le bug driver) et convertit en mono pour le STT.
         """
         try:
+            # On force la durée en entier car arecord peut rejeter les décimales
+            d = int(duration)
             # On enregistre en stéréo (-c 2) à 16kHz, puis sox convertit en mono pour le robot
-            cmd = f"arecord -D {self.alsa_device} -f S16_LE -r 16000 -c 2 -d {duration} | sox -t wav - -c 1 {output_file}"
-            subprocess.run(cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
+            cmd = f"arecord -D {self.alsa_device} -f S16_LE -r 16000 -c 2 -d {d} | sox -t wav - -c 1 {output_file}"
+            subprocess.run(cmd, shell=True, check=True)
             print(f"🎤 [AudioIO] Enregistrement terminé : {output_file}")
             return True
         except Exception as e:
