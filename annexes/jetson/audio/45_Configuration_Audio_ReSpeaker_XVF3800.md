@@ -135,47 +135,35 @@ pulseaudio -k && pulseaudio --start
 
 ---
 
-## 6. Architecture Logicielle Validée (Pipeline Python)
+## 6. Architecture Logicielle Officielle (Pipeline Python)
 
-### A. Détection des Périphériques
+> [!IMPORTANT]
+> **VÉRITÉ TERRAIN (Mai 2026) :** Bien que PulseAudio soit utile pour la lecture (`paplay`), la capture via `parecord` s'est révélée instable sur Jetson Orin Nano. 
+> **La méthode officielle recommandée est l'utilisation de ALSA direct (`arecord`)** pour garantir la stabilité du flux et le respect du mode stéréo.
+
+### A. Détection Dynamique du Périphérique
 ```python
-import subprocess
-
-def get_pulse_device_names():
-    source, sink = None, None
-    out = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
-    for line in out.splitlines():
-        if ("XVF3800" in line or "reSpeaker" in line) and "input" in line and ".monitor" not in line:
-            source = line.split()[1]
-    out = subprocess.check_output(["pactl", "list", "short", "sinks"], text=True)
-    for line in out.splitlines():
-        if "XVF3800" in line or "reSpeaker" in line:
-            sink = line.split()[1]
-    return source, sink
+def detect_respeaker_card():
+    try:
+        out = subprocess.check_output(["arecord", "-l"], text=True)
+        for line in out.splitlines():
+            if "reSpeaker" in line or "XVF3800" in line:
+                return line.split("carte ")[1].split(":")[0].strip()
+    except Exception:
+        return "0" # Fallback
 ```
 
-### B. Capture Audio — CRITIQUE : 2 canaux + extraction mono
+### B. Capture Audio — CRITIQUE : ALSA Direct + Stéréo
 ```python
-# Le ReSpeaker est déclaré stéréo (2ch). Capturer en mono provoque amplitude = 128.
-cmd = ["parecord", f"--device={source_name}", "--format=s16le",
-       "--channels=2",   # OBLIGATOIRE
-       "--rate=16000", "--raw"]
-proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-
-FRAME_SIZE = 480  # 16000 Hz × 30ms
-while True:
-    frame_stereo = proc.stdout.read(FRAME_SIZE * 4)   # 4 octets = 2ch × 2 octets/sample
-    # Extraction canal gauche pour le VAD (webrtcvad attend du mono)
-    mono_frame = b''.join([frame_stereo[i:i+2] for i in range(0, len(frame_stereo), 4)])
-    # Calcul RMS pour détection hybride
-    import struct, math
-    shorts = struct.unpack("<" + "h" * (len(mono_frame)//2), mono_frame)
-    rms = math.sqrt(sum(s*s for s in shorts) / len(shorts))
-    # Détection hybride : VAD (mode 1) OU seuil RMS calibré
-    is_speech = vad.is_speech(mono_frame, 16000) or (rms > RMS_SPEECH_THRESHOLD)
+# OBLIGATOIRE : Capturer en 2 canaux (stéréo) pour éviter le gel du signal à 128.
+# On utilise arecord avec le device plughw:X,0 pour court-circuiter PulseAudio.
+d = int(duration)
+cmd = f"arecord -D plughw:{card_id},0 -f S16_LE -r 16000 -c 2 -d {d} | sox -t wav - -c 1 {output_file}"
+subprocess.run(cmd, shell=True, check=True)
 ```
 
-### C. Calibration Dynamique (VAD + RMS)
+### C. Détection de Voix (VAD)
+Utiliser `webrtcvad` en mode **1** pour plus de robustesse aux bruits ambiants de la Jetson.
 ```python
 # Phase 1 : calibration VAD (2 secondes de silence)
 noise_ratio = nb_frames_speech / nb_frames_total
