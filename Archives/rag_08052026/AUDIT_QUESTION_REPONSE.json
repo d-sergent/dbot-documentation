@@ -1,0 +1,110 @@
+[
+  {
+    "section": "1. Contradiction sur la Masse Totale du D-Bot",
+    "question": "Quelle est la masse totale exacte cible pour la version finale du D-Bot : 39 kg (arrondi/cible), 39.4 kg (calcul précis du Scenario B) ou 40.2 kg (calcul juin 2026 pour l'architecture 6-DOF) ?",
+    "answer": "40.2 kg",
+    "id": 1
+  },
+  {
+    "section": "2. Contradiction sur le Nombre Total de Moteurs RobStride du D-Bot",
+    "question": "Le nombre total de moteurs RobStride pour le D-Bot final est-il de 24 (architecture 5-DOF par bras) ou 26 (architecture 6-DOF par bras) ?",
+    "answer": "26 car il y a 6 DOF par bras",
+    "id": 2
+  },
+  {
+    "section": "3. Contradiction sur le Nombre de Moteurs par Jambe",
+    "question": "Le décompte de 12 moteurs pour les jambes (6 par jambe) est-il correct, ou faut-il ajuster ce nombre pour refléter l'architecture F-A-R à la hanche et les actionneurs de la cheville (ce qui pourrait porter le total à 14 ou 16 moteurs RobStride pour les jambes) ?",
+    "answer": "oui, j'avoue en pas comprendre la question au sujet de la cheville et le F-A-R car il y a bien 6 moteurs par jambes : 3 au niveau de la hanche , 1 au genous et 2 au niveau de la cheville",
+    "id": 3
+  },
+  {
+    "section": "Poignet (Wrist)",
+    "question": "Le moteur RS-00 (révision 0.0.27) est-il toujours le modèle actuel pour le poignet (Poignet Pitch) malgré l'absence de mises à jour dans les notes de version Avril 2026, ou doit-il être remplacé par un modèle plus récent ?",
+    "answer": "RS-00 est bien le moteur qui gere le pitch au niveau du poignet",
+    "id": 4
+  },
+  {
+    "section": "Incohérence supplémentaire : Attribution du RS-05 (Cou vs Poignet)",
+    "question": "Le moteur RS-05 est-il exclusivement réservé au cou (Neck) comme indiqué dans l'entité Rs05 et le document 32_Configuration_ID_Limites_Cou.md, ou doit-il également être utilisé pour les poignets comme mentionné dans l'entité Sn du Knowledge Graph ?",
+    "answer": "Je pense qu'il y a une erreur car le RS-05 n'est pas mentionné dans les moteurs du poignet. Il n'est mentionné que pour le cou.",
+    "id": 5
+  },
+  {
+    "section": "Anciens modèles encore présents",
+    "question": "Le moteur RS-02 est-il toujours le modèle actuel pour la supination de l'avant-bras, ou doit-il être remplacé par un modèle plus récent (RS-03, RS-04, RS-06) comme suggéré par son absence des mises à jour Avril 2026 ?",
+    "answer": "RS-02 est bien le moteur qui gere la supination au niveau de l'avant-bras",
+    "id": 6
+  },
+  {
+    "section": "1. Alimentation (Tension Batterie)",
+    "question": "Le document de synthèse indique une régulation 48V → 5V pour la Jetson, tandis que le guide électronique (04_Electronique_Cablage.md) et les spécifications matérielles de la Jetson Orin Nano imposent une alimentation en 19V : souhaitez-vous corriger la synthèse pour indiquer une régulation 48V → 19V pour la Jetson ?",
+    "answer": "Oui, il faut corriger la synthèse pour indiquer une régulation 48V → 19V pour la Jetson car la carte mere est une Jetson Orin Nano",
+    "id": 7
+  },
+  {
+    "section": "2. Bus CAN (Nombre de moteurs par bus)",
+    "question": "Le guide électronique (04_Electronique_Cablage.md) interdit formellement toute topologie en étoile pour le bus CAN, mais les documents spécifiques au cou (Doc 42) et le guide de test (33_Test_Multi_Moteurs_CAN_Banc.md) imposent une topologie en étoile pour les moteurs RS-05 : souhaitez-vous modifier le guide électronique pour autoriser une exception de topologie en étoile pour les bus utilisant des moteurs à port CAN unique ?",
+    "answer": "Oui, il faut autoriser une exception de topologie en étoile pour les bus utilisant des moteurs à port CAN unique car c'est nécessaire pour le cou car les moteurs RS-05 ont tous un port CAN unique.",
+    "id": 8
+  },
+  {
+    "section": "2. Bus CAN (Nombre de moteurs par bus)",
+    "question": "Le guide électronique (04_Electronique_Cablage.md) impose une résistance de terminaison 120 Ω sur le dernier moteur de chaque bus, tandis que le Doc 42 indique qu'aucune terminaison n'est nécessaire pour le bus cou si les câbles sont < 30 cm : souhaitez-vous appliquer la règle de terminaison du guide électronique à l'ensemble du robot, ou valider l'exception pour les câbles courts < 30 cm ?",
+    "answer": "Oui, il faut appliquer la règle de terminaison du guide électronique à l'ensemble du robot sauf pour le bus du cou car les câbles sont courts < 30 cm.",
+    "id": 9
+  },
+  {
+    "section": "2. Bus CAN (Nombre de moteurs par bus)",
+    "question": "Le guide électronique (04_Electronique_Cablage.md) décrit un bus CAN centralisé unique avec 5-6 moteurs en série, mais les documents spécifiques au cou (Doc 42) et le guide de test (33_Test_Multi_Moteurs_CAN_Banc.md) indiquent que le cou dispose d'un bus CAN dédié (Bus 1) indépendant de la chaîne principale : souhaitez-vous modifier le guide électronique pour préciser que les moteurs RS-05 utilisent un bus dédié distinct du bus centralisé des membres ?",
+    "answer": "Oui, il faut modifier le guide électronique pour préciser que les moteurs RS-05 utilisent un bus dédié distinct du bus centralisé des membres car c'est nécessaire pour le cou car les moteurs RS-05 ont tous un port CAN unique.",
+    "id": 10
+  },
+  {
+    "section": "Divergence 1 : Version de l'OAK-D Pro",
+    "question": "Quelle est la version exacte de l'OAK-D Pro installée (Fixed Focus ou Standard) ?",
+    "answer": "Fixed Focus",
+    "id": 11
+  },
+  {
+    "section": "Divergence 2 : IMU intégrée",
+    "question": "L'IMU BNO085 mentionnée dans la tête est-elle celle intégrée à l'OAK-D Pro, ou s'agit-il d'un capteur IMU supplémentaire ajouté spécifiquement pour le SLAM ?",
+    "answer": "il est integré a l'OAK-D Pro",
+    "id": 12
+  },
+  {
+    "section": "Divergence 1 : Modèle installé et capacité RAM",
+    "question": "La carte mère installée est-elle bien la Jetson Orin Nano 8 Go (et non une AGX Orin 64 Go) ?",
+    "answer": "C'est une Jetson Orin Nano Super 8 Go",
+    "id": 13
+  },
+  {
+    "section": "Divergence 2 : Puissance de calcul (TOPS)",
+    "question": "Le modèle exact est-il la \"Jetson Orin Nano Super\" (67 TOPS) ou la version standard ?",
+    "answer": "Il dispose de 67 TOPS",
+    "id": 14
+  },
+  {
+    "section": "Divergence 1 : Nombre de microphones et canaux audio",
+    "question": "Le nombre de canaux audio actifs est-il de 1 (mono), 2 (stéréo) ou 6 (complet) ?",
+    "answer": "il y a 4 micros sur le respeaker xvf-3800, mais 6 canaux si on compte la partie cancelation echo et le son produit par les moteurs",
+    "id": 15
+  },
+  {
+    "section": "Divergence 2 : Problème de \"Micro Muet\"",
+    "question": "Le ReSpeaker XVF-3800 est-il actuellement branché sur un port USB-A (bleu) ou USB-C de la Jetson ?",
+    "answer": "sur le port USB A , le bleu",
+    "id": 16
+  },
+  {
+    "section": "Divergence 3 : Interface audio (ALSA vs PulseAudio)",
+    "question": "L'architecture audio utilise-t-elle PulseAudio comme routeur principal (comme indiqué dans la synthèse) ou ALSA directement ?",
+    "answer": "je ne sais pas repondre a cette question car je ne sais pas ce que c'est",
+    "id": 17
+  },
+  {
+    "section": "Divergence 4 : Activation de l'amplificateur JST",
+    "question": "L'amplificateur JST du ReSpeaker est-il activé via ALSA (amixer) ou via PulseAudio ?",
+    "answer": "je ne sais pas repondre a cette question car je ne sais pas ce que c'est",
+    "id": 18
+  }
+]
