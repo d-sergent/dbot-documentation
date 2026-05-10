@@ -159,16 +159,33 @@ Le module **audio** du projet **D-Bot** était initialement composé de quatre f
 
 ## **3. Glossaire des Scripts et Modules Audio**
 
-### **A. Les Organes de D-Bot (`code/dbot/audio/`)**
-*   **`audio_io.py` (Le Système Nerveux)** : C'est le module central qui gère le matériel. Il détecte le ReSpeaker, allume l'amplificateur et assure que l'enregistrement se fait en stéréo (pour éviter les bugs) tout en livrant un son mono propre au robot. **C'est le fichier à utiliser pour tout enregistrement ou lecture.**
-*   **`stt.py` (Les Oreilles)** : Ce module contient l'intelligence de reconnaissance vocale (Faster-Whisper). Il prend un fichier son et le transforme en texte. Il est optimisé pour utiliser la puce graphique (GPU) de la Jetson.
-*   **`tts.py` (La Bouche)** : Ce module gère la synthèse vocale (Piper). Il prend un texte et le transforme en une voix humaine chaleureuse diffusée sur le haut-parleur.
+> [!NOTE]
+> Le code audio est organisé selon deux axes : **Bibliothèques** (code du robot) vs **Scripts** (outils humains), et **Génération v1** (ALSA stable) vs **Génération v2** (SDK USB officiel).
 
-### **B. Les Outils de Diagnostic (`code/scripts/audio/`)**
-*   **`test_audio_io.py`** : Permet de vérifier d'un coup si le robot entend et parle (Enregistre 5s et rejoue immédiatement).
-*   **`benchmark_stt.py`** : Mesure la vitesse de compréhension du robot. Utile pour vérifier que l'accélération GPU est bien active.
-*   **`benchmark_tts.py`** : Mesure la vitesse de parole du robot.
-*   **`test_arecord_vad.py`** : Teste la capacité du robot à détecter quand quelqu'un commence à parler (VAD), utile pour calibrer la sensibilité du micro.
+### **A. Bibliothèques du Robot (`code/dbot/audio/`) — Ne jamais lancer directement**
+
+#### Stack v1 — ALSA (Référence stable, validée 10/05/2026)
+*   **`audio_io.py`** : Capture ALSA stéréo → mono (sox). Détection auto de carte. Activation ampli JST. **Méthode officielle de capture.**
+*   **`stt.py`** : Faster-Whisper GPU. Transcription français. Fallback CPU automatique.
+*   **`tts.py`** : Piper-TTS. Génération vocale + lecture paplay. Détection dynamique de carte.
+
+#### Stack v2 — SDK USB (Validée 10/05/2026, firmware 2.6)
+*   **`respeaker_sdk.py`** : Interface USB directe avec le chip XMOS. Lit le **DOA** (0-359°) et le **VAD matériel** on-chip. Nécessite `pip install pyusb` + règle udev.
+*   **`audio_io_v2.py`** : Comme `audio_io.py` mais déclenchement par VAD matériel. Expose le DOA via callback (prêt pour le cou Pan/Tilt).
+
+### **B. Outils de Diagnostic (`code/scripts/audio/`) — À lancer manuellement**
+*   **`test_audio_io.py`** : Valide la stack v1 (enregistre 5s et relit).
+*   **`benchmark_stt.py`** : Mesure la latence Whisper GPU (référence : 1.5s).
+*   **`test_arecord_vad.py`** : Teste la détection de parole logicielle (webrtcvad mode 1).
+*   **`test_respeaker_sdk.py`** : Valide le SDK v2 (connexion USB, firmware, DOA, VAD matériel).
+
+### **C. Comportements du Robot (`code/scripts/behaviors/`) — Scripts de vie autonome**
+*   **`chatbot_local.py`** (v1) : Boucle conversationnelle complète (VAD parecord + Whisper + Qwen + Piper). Logique VAD hybride de référence. *Peut être instable sans NoMachine (parecord).*
+*   **`chatbot_local_v2.py`** ✅ **(v2 — Recommandé)** : Même boucle avec **VAD matériel** et **DOA** via SDK USB. Stable sans NoMachine. Version de production.
+*   **`test_audio_loop.py`** (v1) : Test de boucle STT-TTS sans LLM. Référence pour la logique VAD hybride + calibration RMS.
+*   **`test_chatbot.py`** 🏛 **(Gen 1 — Prototype historique)** : Premier prototype Cloud (Google STT + gTTS). **Nécessite Internet. Conservé comme témoin du premier jour du projet uniquement.**
+
+
 
 
 ---
