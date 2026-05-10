@@ -1,10 +1,10 @@
 # 08 - Architecture Audio (XVF-3800)
 
 ## 1. Cerveau IA (Jetson Orin Nano Super)
-Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Nano Super** (67 TOPS). Grâce à ses *Tensor Cores*, le robot fait tourner la suite logicielle **NVIDIA Riva** intégralement en local (sans serveur cloud, latence quasi nulle) :
-- **ASR (Speech-to-Text)** : Compréhension de la parole.
-- **NLP** : Analyse de l'intention humaine.
-- **TTS (Text-to-Speech)** : Voix de synthèse naturelle.
+Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Nano Super** (67 TOPS). Grâce à ses *Tensor Cores* et une compilation optimisée de **CTranslate2**, le robot fait tourner sa suite logicielle intégralement en local :
+- **ASR (Speech-to-Text)** : **Faster-Whisper** (modèle Small, accélération CUDA).
+- **LLM** : **Ollama / vMLX** (modèle Qwen 3B/7B).
+- **TTS (Text-to-Speech)** : **Piper-TTS** (voix ONNX, latence ultra-faible).
 
 > *Marge Processeur : La marche, la vision OAK-D et l'audio IA consomment environ 52% du processeur au maximum, laissant 48% de marge de sécurité.*
 
@@ -147,15 +147,15 @@ Extérieur    Crâne PETG-CF    Anneau TPU 95A     ReSpeaker PCB
 > [!IMPORTANT]
 > **Guide de Configuration Détaillé** : Pour le dépannage des grésillements et l'activation du haut-parleur sur Jetson, consultez l'annexe [45 - Configuration Audio ReSpeaker](./annexes/jetson/installation/45_Configuration_Audio_ReSpeaker_XVF3800.md).
 
-- **Routage Audio (ALSA/PulseAudio)** : Le ReSpeaker est reconnu nativement. Pour une capture propre, il est **impératif** d'utiliser le profil **"Entrée Stéréo numérique (IEC958)"** dans PulseAudio.
-- **Capture Audio Robuste (VAD)** : Pour éviter les instabilités du driver USB sur Jetson, le pipeline Python n'utilise plus PyAudio mais capture le flux via `parecord` (PulseAudio) :
+- **Routage Audio (ALSA/PulseAudio)** : Le ReSpeaker est reconnu nativement. Pour une capture propre, il est **impératif** d'utiliser un flux **stéréo (2ch)**.
+- **Capture Audio Robuste (ALSA Direct)** : Pour éviter les instabilités de PulseAudio sur Jetson, le pipeline Python utilise `arecord` directement sur le hardware :
   ```bash
-  # Test de capture propre via PulseAudio
-  parecord --device=alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800...iec958-stereo --format=s16le --channels=6 --rate=16000 test.wav
+  # Test de capture propre via ALSA direct (Méthode officielle)
+  arecord -D plughw:0,0 -f S16_LE -r 16000 -c 2 -d 5 /tmp/test.wav
   ```
-- **Test Indépendant du Haut-Parleur** : Pour envoyer un signal vers l'amplificateur JST tout en contournant les interférences de NoMachine :
+- **Test Indépendant du Haut-Parleur** : Pour envoyer un signal vers l'amplificateur JST :
   ```bash
-  pasuspender -- aplay -D plughw:0,0 /usr/share/sounds/alsa/Front_Center.wav
+  paplay /usr/share/sounds/alsa/Front_Center.wav
   ```
 - **Démutage et Volume Matériel (ALSA)** : Pour forcer l'activation de l'amplificateur JST (souvent muté sur l'index 1 par défaut) :
   ```bash

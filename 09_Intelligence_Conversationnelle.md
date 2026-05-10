@@ -11,7 +11,7 @@ Ce document détaille l'intégration d'une boucle conversationnelle autonome (sa
 Pour atteindre une latence de réponse humaine (3 à 6 secondes) sans l'aide du Cloud, l'architecture suivante a été sélectionnée après plusieurs essais :
 
 1. **Écoute Automatique (VAD)** :
-   La librairie standard `SpeechRecognition` scanne le bruit ambiant. Lorsqu'elle détecte une voix humaine (Voice Activity Detection), elle ouvre un flux micro, enregistre la phrase jusqu'au prochain silence, et l'envoie au STT.
+   La librairie `webrtcvad` scanne le flux audio entrant. Lorsqu'elle détecte une voix humaine (Voice Activity Detection mode 1), elle déclenche l'enregistrement via le module `code/dbot/audio/audio_io.py`.
 2. **Speech-to-Text (STT) - Les Oreilles** :
    **Faster-Whisper (modèle "small")**. Retranscrit l'audio en texte français.
 3. **Large Language Model (LLM) - Le Cerveau** :
@@ -39,10 +39,9 @@ Bâtir une IA locale sur les 8 Go d'une Jetson comporte quelques pièges majeurs
 4. Ajout vital d'un espace **SWAP (fichier d'échange) de 10 Go** sur le SSD NVMe (`sudo fallocate -l 10G /swapfile ...`). Ce fichier permet à Ubuntu de déporter temporairement les processus inutiles sur le disque pour libérer un grand bloc complet de RAM physique pour CUDA.
 5. Activation du profil de performance maximale de la Jetson : `sudo nvpmodel -m 0`.
 
-### C. L'incompatibilité de CTranslate2 (Erreur CUDA STT)
-**Problème** : Au lancement du code Python pour `faster-whisper`, la console crachait : `This CTranslate2 package was not compiled with CUDA support`.
-**Cause** : Le raccourci `pip install faster-whisper` télécharge un paquet standard prévu pour processeurs ARM génériques, il n'incorpore pas les particularités matérielles de la série NVIDIA Jetson. Recompiler manuellement le support CUDA prenait des heures.
-**Solution** : Création d'un système de *Fallback* intelligent dans le code (`code/dbot/audio/stt.py`). Face à l'erreur CUDA, D-Bot abandonne le GPU et charge son oreille sur le **CPU (Cortex-A78)** exclusif de la Jetson, avec une quantification matérielle `int8`. Le résultat : le STT reste ultra-rapide (1 à 2 sec) tout en libérant miraculeusement la puce graphique de sa charge, permettant au "Cerveau" (Ollama) de prendre tout le relai !
+### C. L'optimisation de CTranslate2 (Succès CUDA STT)
+**Problème initial** : Au lancement du code Python pour `faster-whisper`, la console affichait que CUDA n'était pas supporté par le paquet `pip` standard.
+**Solution (Validée Mai 2026)** : Le moteur `CTranslate2` a été recompilé manuellement sur la Jetson avec les flags NVIDIA. Le résultat est spectaculaire : le STT (modèle Small) est désormais entièrement accéléré par le GPU, offrant une latence de transcription inférieure à 1.5s pour une phrase de 5s. Cette accélération libère le CPU pour d'autres tâches critiques comme la marche.
 
 ---
 
