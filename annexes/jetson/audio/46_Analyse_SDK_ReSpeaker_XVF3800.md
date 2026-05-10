@@ -2,6 +2,13 @@
 
 *Date d'analyse : 10 Mai 2026 — Basé sur les sources officielles Seeed Studio*
 
+> [!IMPORTANT]
+> **VALIDÉ le 10/05/2026** : La stack v2 (SDK pyusb) a été testée avec succès sur la Jetson Orin Nano.
+> - Firmware détecté : **v2.6**
+> - DOA fonctionnel : **93°** (angle de la voix en temps réel)
+> - VAD matériel : **Déclenchement automatique à la parole**
+> - Boucle complète : **VAD → Capture → Lecture ✅**
+
 ---
 
 ## Sources de Référence
