@@ -176,4 +176,55 @@ curl -s https://huggingface.co/rhasspy/piper-voices/resolve/main/voices.json | \
 
 ---
 
-*Document créé le 10/05/2026*
+## 8. Piper est-il le Meilleur Choix ? — Comparatif TTS (Mai 2026)
+
+*Analyse réalisée le 10/05/2026 à partir des benchmarks disponibles sur Jetson Orin Nano.*
+
+### Tableau Comparatif
+
+| Critère | **Piper** ✅ (actuel) | **Kokoro** | **XTTS v2** |
+| :--- | :---: | :---: | :---: |
+| **Qualité voix FR** | ⭐⭐⭐ Claire | ⭐⭐⭐⭐ Humaine | ⭐⭐⭐⭐⭐ Pro |
+| **Latence Jetson Orin Nano** | **< 0.3s** ✅ | ~0.5-1s ✅ | **2-5s** ❌ |
+| **RAM consommée** | ~50 Mo | ~200 Mo | ~1.5 Go GPU |
+| **CPU seul possible** | ✅ Oui | ✅ Oui | ❌ GPU requis |
+| **Français natif (voix dédiées)** | ✅ 7 voix | ⚠️ Limité | ✅ Multilingue |
+| **Installation** | Triviale | Modérée | Complexe |
+| **Licence** | MIT | Apache 2.0 | CPML (restrictive) |
+| **Usage D-Bot** | ✅ Production | 🧪 À tester | ❌ Trop lent |
+
+### Verdict
+
+> [!IMPORTANT]
+> **Piper est le bon choix pour la production D-Bot.** La latence < 0.3s est un avantage décisif pour une conversation fluide. Avec les voix `fr_FR-siwis-medium` ou `fr_FR-tom-medium`, la qualité est très acceptable pour un robot compagnon.
+
+**Pourquoi pas XTTS ?**
+2 à 5 secondes de synthèse sur Jetson Orin Nano = incompatible avec une conversation fluide. L'objectif de latence totale < 3 secondes (VAD → STT → LLM → TTS) ne peut pas être respecté.
+
+**Pourquoi Kokoro pourrait être intéressant ?**
+Si la voix Piper est jugée trop robotique après tests réels, Kokoro offre une prosodie plus naturelle avec une latence ~1s (acceptable). Son support du français est cependant encore limité en 2026.
+
+### Tester Kokoro (optionnel)
+
+```bash
+pip install kokoro soundfile
+```
+
+```python
+from kokoro import KPipeline
+import soundfile as sf
+
+pipeline = KPipeline(lang_code='f')  # 'f' = français
+generator = pipeline("Bonjour, je suis D-Bot.", voice='ff_siwis')
+for i, (_, _, audio) in enumerate(generator):
+    sf.write('/tmp/kokoro_test.wav', audio, 24000)
+    break
+# Écouter : paplay /tmp/kokoro_test.wav
+```
+
+> [!NOTE]
+> Si la qualité Kokoro en français est insuffisante, restez sur Piper `fr_FR-siwis-medium`. La décision peut être révisée à chaque nouvelle release de Kokoro.
+
+---
+
+*Document créé le 10/05/2026 — Comparatif TTS ajouté le 10/05/2026*
