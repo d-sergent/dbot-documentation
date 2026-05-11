@@ -22,7 +22,8 @@ class LocalSTT:
     """
     def __init__(self, model_size: str = "small", device: str = "cuda"):
         # Sélection automatique du type de calcul optimal selon le device
-        compute_type = "float16" if device == "cuda" else "int8"
+        # Sur CPU, float32 est le plus compatible si int8 échoue
+        compute_type = "float16" if device == "cuda" else "float32"
         
         print(f"⏳ [STT] Chargement du réseau neuronal auditif '{model_size}' sur {device.upper()}...")
         start = time.time()
@@ -31,10 +32,10 @@ class LocalSTT:
             self.model = WhisperModel(model_size, device=device, compute_type=compute_type)
             print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes ({device.upper()}) !")
         except Exception as e:
-            if "CUDA support" in str(e) or "CUDA" in str(e) or "float16" in str(e):
+            if "CUDA support" in str(e) or "CUDA" in str(e) or "compute type" in str(e):
                 print(f"⚠ [STT] Mode {device.upper()} / {compute_type} indisponible ou incompatible.")
-                print(f"⚠ [STT] Repli sur CPU / INT8 (Cortex-A78)...")
-                self.model = WhisperModel(model_size, device="cpu", compute_type="int8")
+                print(f"⚠ [STT] Repli sur CPU / FLOAT32 (Cortex-A78)...")
+                self.model = WhisperModel(model_size, device="cpu", compute_type="float32")
                 print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes (Mode Secours CPU) !")
             else:
                 raise STTError(f"Erreur critique lors du chargement de Whisper: {e}")
