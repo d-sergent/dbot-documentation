@@ -93,14 +93,17 @@ class AudioIOv2:
 
     def record_audio(self, duration: float, output_file: str) -> bool:
         """
-        Enregistre l'audio en stéréo (obligatoire pour XVF3800) et convertit en mono via sox.
-        Méthode validée — Doc 45 Section 6B.
+        Enregistre l'audio via PulseAudio (parecord) pour éviter le conflit avec
+        arecord qui reçoit 'device busy' quand PulseAudio verrouille le matériel.
+        Méthode validée — Doc 45.
         """
         try:
-            # CRITIQUE : Le ReSpeaker XVF3800 exige -c 2 (stéréo) via plughw.
-            # sox extrait ensuite le canal gauche (voix traitée par le DSP XMOS).
-            cmd = (f"arecord -D {self.alsa_device} -f S16_LE -r 16000 "
-                   f"-c 2 -d {int(duration)} | sox -t wav - -c 1 {output_file}")
+            # parecord passe par PulseAudio (pas de conflit matériel)
+            # --channels=2 obligatoire pour le ReSpeaker XVF3800
+            # sox convertit ensuite en mono pour Whisper
+            cmd = (f"parecord --channels=2 --format=s16le --rate=16000 "
+                   f"--raw -d {int(duration)} | "
+                   f"sox -t raw -r 16000 -e signed -b 16 -c 2 - -c 1 {output_file}")
             subprocess.run(cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
             print(f"🎤 [AudioIO v2] Enregistrement : {output_file}")
             return True
