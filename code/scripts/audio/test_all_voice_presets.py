@@ -18,13 +18,15 @@ def main():
     print("🎙️  D-Bot : Test comparatif des presets vocaux\n")
     
     # 1. Génération de la phrase de référence
-    sentence = "Bonjour, je suis le robot D-Bot. Quel preset préférez-vous pour mon identité vocale ?"
+    sentence = "Bonjour, je suis le robot D-Bot. Voici un test de mon identité vocale avec différents presets."
     ref_path = "/tmp/reference_voice.wav"
     
-    print(f"⏳ Génération de la voix Piper (Référence)...")
+    # On récupère la voix via l'env pour pouvoir tester du masculin facilement
+    voice_env = os.environ.get("PIPER_VOICE", "fr_FR-upmc-medium.onnx")
+    print(f"⏳ Génération de la voix Piper ({os.path.basename(voice_env)})...")
+    
     try:
         tts = LocalTTS()
-        # On utilise juste la génération, pas la lecture immédiate
         tts.generate_wav(sentence, ref_path)
         print("✅ Référence générée.\n")
     except Exception as e:

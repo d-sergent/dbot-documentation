@@ -209,6 +209,29 @@ PRESETS = {
             )
         )
     },
+
+    "08_dbot_heavy": {
+        "desc": "Voix lourde et puissante — Pitch bas + Boost Basses",
+        "fn": lambda a, sr: normalize(
+            eq_shelf(
+                pitch_shift_simple(a, sr, semitones=-4),
+                sr, low_gain_db=8, high_gain_db=-2
+            )
+        )
+    },
+
+    "09_cyborg_male": {
+        "desc": "Cyborg masculin — Pitch -2.5 + Ring Mod + Chorus",
+        "fn": lambda a, sr: normalize(
+            chorus(
+                ring_modulator(
+                    pitch_shift_simple(a, sr, semitones=-2.5),
+                    sr, freq=50, depth=0.25
+                ),
+                sr, depth_ms=10, rate_hz=0.5, wet=0.3
+            )
+        )
+    },
 }
 
 # ──────────────────────────────────────────────
