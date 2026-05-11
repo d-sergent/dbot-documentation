@@ -68,10 +68,14 @@ def main():
         sys.exit(1)
 
     # --- INITIALISATION IA ---
+    # Les valeurs peuvent être surchargées par variables d'environnement
+    voice_model = os.environ.get("PIPER_VOICE", "fr_FR-siwis-medium.onnx")
+    llm_model   = os.environ.get("DBOT_LLM_MODEL", "nemotron-mini:4b")
     try:
         stt   = LocalSTT(model_size="small", device="cuda")
-        tts   = LocalTTS()
-        brain = DbotBrain(model_name="qwen2.5:3b")
+        tts   = LocalTTS(voice_model_path=voice_model)
+        brain = DbotBrain(model_name=llm_model)
+        print(f"   (Pour changer le modèle : DBOT_LLM_MODEL=<nom> python3 chatbot_local_v2.py)")
     except Exception as e:
         print(f"\n❌ Erreur initialisation IA : {e}")
         sys.exit(1)
