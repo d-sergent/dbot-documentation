@@ -245,6 +245,10 @@ def speak(text, voice_model_path, pulse_sink=None):
 | **Vérifier la RAM libre** | `free -m` |
 | **Surveiller CPU/GPU/RAM** | `tegrastats` ou `jtop` |
 | **Alléger le STT** (si OOM persiste) | Passer `model_size="tiny"` dans `LocalSTT` |
+| **Forcer STT sur CPU/GPU** | `DBOT_STT_DEVICE=cpu` ou `cuda` |
+
+> [!TIP]
+> **Recommandation D-Bot (Orin Nano 8GB)** : Utilisez `DBOT_STT_DEVICE=cpu` (défaut). Cela laisse 100% du GPU libre pour Ollama, ce qui permet d'utiliser des modèles de 3B ou 4B sans aucun crash. La transcription sur CPU est instantanée grâce aux 6 cœurs ARM.
 
 ---
 
