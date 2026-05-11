@@ -279,6 +279,36 @@ PRESETS = {
             )
         )
     },
+
+    "13_deep_clean_8": {
+        "desc": "Grave Pur — Pitch -8 + Bass Boost (sans vocodeur)",
+        "fn": lambda a, sr: normalize(
+            eq_shelf(
+                pitch_shift_simple(a, sr, semitones=-8),
+                sr, low_gain_db=12, high_gain_db=-6
+            )
+        )
+    },
+
+    "14_deep_clean_10": {
+        "desc": "Grave Pur — Pitch -10 + Bass Boost (sans vocodeur)",
+        "fn": lambda a, sr: normalize(
+            eq_shelf(
+                pitch_shift_simple(a, sr, semitones=-10),
+                sr, low_gain_db=15, high_gain_db=-6
+            )
+        )
+    },
+
+    "15_deep_clean_12": {
+        "desc": "Abyssal Pur — Pitch -12 + Bass Boost extrême (sans vocodeur)",
+        "fn": lambda a, sr: normalize(
+            eq_shelf(
+                pitch_shift_simple(a, sr, semitones=-12),
+                sr, low_gain_db=18, high_gain_db=-6
+            )
+        )
+    },
 }
 
 # ──────────────────────────────────────────────
