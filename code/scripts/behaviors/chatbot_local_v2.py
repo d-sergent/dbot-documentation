@@ -69,7 +69,8 @@ def main():
 
     # --- INITIALISATION IA ---
     # Les valeurs peuvent être surchargées par variables d'environnement
-    voice_model = os.environ.get("PIPER_VOICE", "fr_FR-siwis-medium.onnx")
+    _default_voice = os.path.expanduser("~/.local/share/piper-voices/fr_FR-siwis-medium.onnx")
+    voice_model = os.environ.get("PIPER_VOICE", _default_voice)
     llm_model   = os.environ.get("DBOT_LLM_MODEL", "nemotron-mini:4b")
     try:
         stt   = LocalSTT(model_size="small", device="cuda")
