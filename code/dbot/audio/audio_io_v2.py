@@ -130,17 +130,19 @@ class AudioIOv2:
 
     def record_audio(self, duration: float, output_file: str) -> bool:
         """
-        Enregistre l'audio via PulseAudio (parecord) en pointant explicitement
-        vers la source micro ReSpeaker (pas le monitor).
+        Enregistre l'audio via PulseAudio (parecord).
+        Note : parecord n'a pas d'option -d, on utilise 'timeout' pour limiter la durée.
         """
         try:
             device_arg = f"--device={self.pulse_source}" if getattr(self, 'pulse_source', None) else ""
-            cmd = (f"parecord {device_arg} --channels=2 --format=s16le --rate=16000 "
-                   f"--raw -d {int(duration)} | "
+            # 'timeout N' arrête parecord après N secondes (parecord n'a pas d'option -d)
+            cmd = (f"timeout {int(duration)} parecord {device_arg} "
+                   f"--channels=2 --format=s16le --rate=16000 --raw | "
                    f"sox -t raw -r 16000 -e signed -b 16 -c 2 - -c 1 {output_file}")
-            subprocess.run(cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
+            subprocess.run(cmd, shell=True, stderr=subprocess.DEVNULL)
+            # Note : pas de check=True car timeout retourne exit code 124 à expiration (normal)
             print(f"🎤 [AudioIO v2] Enregistrement : {output_file}")
-            return True
+            return os.path.exists(output_file) and os.path.getsize(output_file) > 1000
         except Exception as e:
             raise AudioIOv2Error(f"Échec enregistrement : {e}")
 
