@@ -68,17 +68,22 @@ def main():
         sys.exit(1)
 
     # --- INITIALISATION IA ---
-    # Les valeurs peuvent être surchargées par variables d'environnement
+    # Configuration via variables d'environnement
     _default_voice = os.path.expanduser("~/.local/share/piper-voices/fr_FR-siwis-medium.onnx")
     voice_model = os.environ.get("PIPER_VOICE", _default_voice)
     llm_model   = os.environ.get("DBOT_LLM_MODEL", "nemotron-mini")
+    stt_device  = os.environ.get("DBOT_STT_DEVICE", "cpu") # 'cpu' ou 'cuda'
+
     try:
-        # NOTE : On force le STT sur CPU pour laisser le GPU libre à Ollama.
-        # Sur Jetson 8GB, avoir les deux sur GPU provoque un cudaMalloc failed.
-        stt   = LocalSTT(model_size="small", device="cpu")
+        print(f"⏳ [STT] Chargement du réseau neuronal auditif 'small' sur {stt_device.upper()}...")
+        stt   = LocalSTT(model_size="small", device=stt_device)
         tts   = LocalTTS(voice_model_path=voice_model)
         brain = DbotBrain(model_name=llm_model)
-        print(f"   (Pour changer : DBOT_LLM_MODEL=<nom> python3 chatbot_local_v2.py)")
+        
+        print(f"✅ [STT] Oreilles prêtes ({stt_device.upper()})")
+        print(f"🔊 [TTS] Initialisé avec la voix : {os.path.basename(voice_model)}")
+        print(f"🧠 [Cerveau] Initialisé — Modèle : {llm_model}")
+        print(f"   (Variables : DBOT_LLM_MODEL, DBOT_STT_DEVICE=cpu|cuda, PIPER_VOICE)")
     except Exception as e:
         print(f"\n❌ Erreur initialisation IA : {e}")
         sys.exit(1)
