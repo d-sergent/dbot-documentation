@@ -59,6 +59,28 @@ class LocalTTS:
         except Exception as e:
             print(f"⚠ [TTS] Avertissement : Impossible d'initialiser l'ampli via amixer : {e}")
 
+    def generate_wav(self, text: str, output_path: str):
+        """
+        Génère un fichier WAV à partir d'un texte sans le jouer.
+        
+        Args:
+            text (str): Le texte à synthétiser.
+            output_path (str): Le chemin de destination du fichier .wav.
+        """
+        if not text:
+            return
+        
+        try:
+            # Génération Piper
+            gen_cmd = f'echo "{text}" | piper -m {self.voice_model_path} --output_file {output_path}'
+            subprocess.run(gen_cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
+            
+            if not os.path.exists(output_path) or os.path.getsize(output_path) == 0:
+                raise TTSError("[TTS] Le fichier audio généré est vide ou inexistant.")
+                
+        except Exception as e:
+            raise TTSError(f"[TTS] Erreur lors de la génération WAV : {e}")
+
     def speak(self, text: str):
         """
         Génère un fichier audio à partir d'un texte et le joue via paplay (PulseAudio).
