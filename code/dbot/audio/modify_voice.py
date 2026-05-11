@@ -309,6 +309,36 @@ PRESETS = {
             )
         )
     },
+
+    "16_deep_clean_4": {
+        "desc": "Homme Posé — Pitch -4 + Bass Boost léger",
+        "fn": lambda a, sr: normalize(
+            eq_shelf(
+                pitch_shift_simple(a, sr, semitones=-4),
+                sr, low_gain_db=6, high_gain_db=-2
+            )
+        )
+    },
+
+    "17_deep_clean_5_5": {
+        "desc": "Grave Affirmé — Pitch -5.5 + Bass Boost moyen",
+        "fn": lambda a, sr: normalize(
+            eq_shelf(
+                pitch_shift_simple(a, sr, semitones=-5.5),
+                sr, low_gain_db=8, high_gain_db=-3
+            )
+        )
+    },
+
+    "18_deep_clean_7": {
+        "desc": "Grave Profond — Pitch -7 + Bass Boost marqué",
+        "fn": lambda a, sr: normalize(
+            eq_shelf(
+                pitch_shift_simple(a, sr, semitones=-7),
+                sr, low_gain_db=10, high_gain_db=-4
+            )
+        )
+    },
 }
 
 # ──────────────────────────────────────────────
