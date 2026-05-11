@@ -70,6 +70,10 @@ Le suffixe `iec958` désigne le profil PulseAudio (numérique S/PDIF). Le DSP XM
 | **`aplay -D plughw:0,0` → "Périphérique occupé"** | PulseAudio verrouille le matériel | Ne jamais utiliser `hw:` — toujours passer par PulseAudio (`paplay` ou `aplay` sans `-D`) |
 | **`webrtcvad.Error: Error while processing frame`** | Frame stéréo (1920 octets) passée au VAD qui attend du mono (960 octets) | Extraire le canal gauche : `mono = b''.join([frame[i:i+2] for i in range(0, len(frame), 4)])` |
 | **Faux positifs de détection (parole détectée sans parler)** | Seuil RMS fixe trop bas par rapport au bruit amplifié à 150% | Calibrer le seuil dynamiquement : `seuil = max(rms_fond × 3.0, 300)` |
+| **`arecord -D plughw:X,0` → exit status 2 (device busy)** | PulseAudio verrouille exclusivement le device ALSA quand NoMachine est absent | Utiliser `parecord` à la place (passe par PulseAudio) |
+| **`parecord` enregistre un fichier vide (0.09s de transcription)** | `parecord` n'a pas d'option `-d` pour la durée — elle est ignorée silencieusement | Utiliser `timeout N parecord ...` pour limiter la durée |
+| **Source réveillée = "monitor" au lieu du micro** | La détection par mot-clé `iec958` matchait aussi `alsa_output...iec958.monitor` | Exclure les sources se terminant par `.monitor` dans la détection |
+| **Source micro SUSPENDED sans NoMachine malgré le fix `/etc/pulse/default.pa.d/`** | Sur Ubuntu 20.04 Jetson, les fichiers `.d/` sont lus **avant** `default.pa` — `unload-module` n'a aucun effet | Commenter directement la ligne dans `default.pa` : `sudo sed -i 's/^load-module module-suspend-on-idle/### DBOT FIX.../'` |
 
 ---
 
