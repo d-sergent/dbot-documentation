@@ -232,6 +232,36 @@ PRESETS = {
             )
         )
     },
+
+    "10_vocodeur_dark_3": {
+        "desc": "Vocodeur sombre — Pitch -3 + High-Cut",
+        "fn": lambda a, sr: normalize(
+            eq_shelf(
+                vocoder_approx(pitch_shift_simple(a, sr, semitones=-3), sr, bands=12, wet=0.8),
+                sr, high_gain_db=-12
+            )
+        )
+    },
+
+    "11_vocodeur_dark_4_5": {
+        "desc": "Vocodeur sombre — Pitch -4.5 + High-Cut",
+        "fn": lambda a, sr: normalize(
+            eq_shelf(
+                vocoder_approx(pitch_shift_simple(a, sr, semitones=-4.5), sr, bands=12, wet=0.8),
+                sr, high_gain_db=-15
+            )
+        )
+    },
+
+    "12_vocodeur_dark_6": {
+        "desc": "Vocodeur sombre — Pitch -6 + High-Cut (Très lourd)",
+        "fn": lambda a, sr: normalize(
+            eq_shelf(
+                vocoder_approx(pitch_shift_simple(a, sr, semitones=-6), sr, bands=12, wet=0.85),
+                sr, high_gain_db=-18
+            )
+        )
+    },
 }
 
 # ──────────────────────────────────────────────
