@@ -126,12 +126,13 @@ def telephone_filter(audio, sr):
     sos = butter(4, [300 / nyq, 3400 / nyq], btype='band', output='sos')
     return sosfilt(sos, audio)
 
-def vocoder_approx(audio, sr, bands=8, wet=0.6):
-    """Vocodeur simplifié par banque de filtres."""
+def vocoder_approx(audio, sr, bands=8, wet=0.6, carrier_pitch=0):
+    """Vocodeur simplifié. carrier_pitch décale les fréquences porteuses (en demi-tons)."""
     nyq = sr / 2
     freqs = np.logspace(np.log10(80), np.log10(8000), bands + 1)
     out = np.zeros_like(audio)
     t = np.arange(len(audio)) / sr
+    factor = 2 ** (carrier_pitch / 12.0)
     for i in range(bands):
         lo, hi = freqs[i] / nyq, freqs[i + 1] / nyq
         lo, hi = np.clip(lo, 0.001, 0.999), np.clip(hi, 0.001, 0.999)
@@ -140,8 +141,10 @@ def vocoder_approx(audio, sr, bands=8, wet=0.6):
         sos = butter(2, [lo, hi], btype='band', output='sos')
         band = sosfilt(sos, audio)
         env = uniform_filter1d(np.abs(band), size=int(sr * 0.02))
-        carrier_freq = (freqs[i] + freqs[i + 1]) / 2
+        carrier_freq = ((freqs[i] + freqs[i + 1]) / 2) * factor
         carrier = np.sin(2 * np.pi * carrier_freq * t)
+        # Ajout d'harmoniques pour que les très basses fréquences restent audibles
+        carrier += 0.3 * np.sin(2 * np.pi * carrier_freq * 2 * t) 
         out += env * carrier
     return (1 - wet) * audio + wet * normalize(out, 0.7)
 
@@ -247,32 +250,32 @@ PRESETS = {
         )
     },
 
-    "10_vocodeur_dark_3": {
-        "desc": "Vocodeur sombre — Pitch -3 + High-Cut + Bass Boost",
+    "10_vocodeur_dark_8": {
+        "desc": "Vocodeur sombre — Pitch -8 + Bass Boost",
         "fn": lambda a, sr: normalize(
             eq_shelf(
-                vocoder_approx(pitch_shift_simple(a, sr, semitones=-3), sr, bands=12, wet=0.8),
-                sr, low_gain_db=10, high_gain_db=-15
+                vocoder_approx(pitch_shift_simple(a, sr, semitones=-3), sr, bands=12, wet=0.85, carrier_pitch=-8),
+                sr, low_gain_db=12, high_gain_db=-15
             )
         )
     },
 
-    "11_vocodeur_dark_4_5": {
-        "desc": "Vocodeur sombre — Pitch -4.5 + High-Cut + Bass Boost",
+    "11_vocodeur_dark_10": {
+        "desc": "Vocodeur sombre — Pitch -10 + Bass Boost",
         "fn": lambda a, sr: normalize(
             eq_shelf(
-                vocoder_approx(pitch_shift_simple(a, sr, semitones=-4.5), sr, bands=12, wet=0.8),
-                sr, low_gain_db=12, high_gain_db=-18
+                vocoder_approx(pitch_shift_simple(a, sr, semitones=-4), sr, bands=12, wet=0.85, carrier_pitch=-10),
+                sr, low_gain_db=15, high_gain_db=-18
             )
         )
     },
 
-    "12_vocodeur_dark_6": {
-        "desc": "Vocodeur sombre — Pitch -6 + High-Cut + Bass Boost (Lourd)",
+    "12_vocodeur_dark_12": {
+        "desc": "Vocodeur Abyssal — Pitch -12 (Octave inférieure) + Bass Boost extrême",
         "fn": lambda a, sr: normalize(
             eq_shelf(
-                vocoder_approx(pitch_shift_simple(a, sr, semitones=-6), sr, bands=12, wet=0.85),
-                sr, low_gain_db=15, high_gain_db=-22
+                vocoder_approx(pitch_shift_simple(a, sr, semitones=-5), sr, bands=14, wet=0.9, carrier_pitch=-12),
+                sr, low_gain_db=18, high_gain_db=-22
             )
         )
     },
