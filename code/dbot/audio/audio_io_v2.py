@@ -104,9 +104,15 @@ class AudioIOv2:
             )
             source_name = None
             for line in result.splitlines():
-                if "respeaker" in line.lower() or "xvf3800" in line.lower() or "iec958" in line.lower():
-                    source_name = line.split()[1]
-                    break
+                parts = line.split()
+                if len(parts) >= 2:
+                    name = parts[1]
+                    # Exclure les sources "monitor" (loopback du HP, pas le micro)
+                    if name.endswith('.monitor'):
+                        continue
+                    if ("respeaker" in name.lower() or "xvf3800" in name.lower() or "iec958" in name.lower()):
+                        source_name = name
+                        break
             if source_name:
                 subprocess.run(["pactl", "suspend-source", source_name, "0"],
                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -114,23 +120,22 @@ class AudioIOv2:
                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 subprocess.run(["pactl", "set-source-volume", source_name, "150%"],
                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                print(f"✅ [AudioIO v2] Source micro réveillée : {source_name.split('.')[-1][:40]}")
+                self.pulse_source = source_name  # Mémoriser pour parecord
+                print(f"✅ [AudioIO v2] Source micro réveillée : ...{source_name[-45:]}")
             else:
+                self.pulse_source = None
                 print("⚠ [AudioIO v2] Source ReSpeaker non trouvée dans PulseAudio")
         except Exception as e:
             print(f"⚠ [AudioIO v2] Erreur réveil source PulseAudio : {e}")
 
     def record_audio(self, duration: float, output_file: str) -> bool:
         """
-        Enregistre l'audio via PulseAudio (parecord) pour éviter le conflit avec
-        arecord qui reçoit 'device busy' quand PulseAudio verrouille le matériel.
-        Méthode validée — Doc 45.
+        Enregistre l'audio via PulseAudio (parecord) en pointant explicitement
+        vers la source micro ReSpeaker (pas le monitor).
         """
         try:
-            # parecord passe par PulseAudio (pas de conflit matériel)
-            # --channels=2 obligatoire pour le ReSpeaker XVF3800
-            # sox convertit ensuite en mono pour Whisper
-            cmd = (f"parecord --channels=2 --format=s16le --rate=16000 "
+            device_arg = f"--device={self.pulse_source}" if getattr(self, 'pulse_source', None) else ""
+            cmd = (f"parecord {device_arg} --channels=2 --format=s16le --rate=16000 "
                    f"--raw -d {int(duration)} | "
                    f"sox -t raw -r 16000 -e signed -b 16 -c 2 - -c 1 {output_file}")
             subprocess.run(cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
