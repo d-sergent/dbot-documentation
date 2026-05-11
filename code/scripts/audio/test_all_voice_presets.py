@@ -33,11 +33,11 @@ def main():
         print(f"❌ Erreur Piper : {e}")
         return
 
-    # 2. Application des presets via modify_voice.py
-    print(f"⏳ Application des 7 presets DSP...")
+    # 2. Application des presets via modify_voice.py (uniquement les sombres 10, 11, 12)
+    print(f"⏳ Application des presets Dark Vocoder (10, 11, 12)...")
     try:
-        # On appelle le script modify_voice.py en tant que module ou process
-        # Ici on le lance via subprocess pour valider le fonctionnement en ligne de commande
+        # On peut passer des filtres ou simplement laisser le script tout générer
+        # mais ici on va juste informer l'utilisateur de n'écouter que ceux-là
         cmd = [sys.executable, "code/dbot/audio/modify_voice.py", ref_path]
         subprocess.run(cmd, check=True)
     except Exception as e:

@@ -62,17 +62,31 @@ def bandpass(audio, sr, low=300, high=8000):
     return sosfilt(sos, audio)
 
 def pitch_shift_simple(audio, sr, semitones=0):
-    """Pitch shift approché par resample + time-stretch (sans librosa)."""
+    """Pitch shift granulaire (robotique) — ne change pas la durée."""
     if semitones == 0:
         return audio
-    ratio = 2 ** (semitones / 12)
-    # Resample (change pitch + durée)
-    n_new = int(len(audio) / ratio)
-    indices = np.linspace(0, len(audio) - 1, n_new)
-    shifted = np.interp(indices, np.arange(len(audio)), audio)
-    # Remettre à la durée originale (tempo-stretch naïf)
-    indices2 = np.linspace(0, len(shifted) - 1, len(audio))
-    return np.interp(indices2, np.arange(len(shifted)), shifted)
+    
+    factor = 2 ** (semitones / 12.0)
+    grain_size = int(sr * 0.03)  # Grains de 30ms
+    overlap = grain_size // 2
+    
+    out = np.zeros_like(audio)
+    for i in range(0, len(audio) - grain_size, overlap):
+        grain = audio[i:i+grain_size]
+        # Resample le grain
+        n_new = int(grain_size / factor)
+        indices = np.linspace(0, grain_size - 1, n_new)
+        resampled_grain = np.interp(indices, np.arange(grain_size), grain)
+        
+        # Ajuster la taille pour le mixage
+        if len(resampled_grain) > grain_size:
+            resampled_grain = resampled_grain[:grain_size]
+        else:
+            resampled_grain = np.pad(resampled_grain, (0, grain_size - len(resampled_grain)))
+            
+        out[i:i+grain_size] += resampled_grain * np.hanning(grain_size)
+    
+    return out
 
 def add_reverb(audio, sr, room=0.3, wet=0.25):
     """Reverb simple par convolution avec IR synthétique."""
@@ -234,31 +248,31 @@ PRESETS = {
     },
 
     "10_vocodeur_dark_3": {
-        "desc": "Vocodeur sombre — Pitch -3 + High-Cut",
+        "desc": "Vocodeur sombre — Pitch -3 + High-Cut + Bass Boost",
         "fn": lambda a, sr: normalize(
             eq_shelf(
                 vocoder_approx(pitch_shift_simple(a, sr, semitones=-3), sr, bands=12, wet=0.8),
-                sr, high_gain_db=-12
+                sr, low_gain_db=10, high_gain_db=-15
             )
         )
     },
 
     "11_vocodeur_dark_4_5": {
-        "desc": "Vocodeur sombre — Pitch -4.5 + High-Cut",
+        "desc": "Vocodeur sombre — Pitch -4.5 + High-Cut + Bass Boost",
         "fn": lambda a, sr: normalize(
             eq_shelf(
                 vocoder_approx(pitch_shift_simple(a, sr, semitones=-4.5), sr, bands=12, wet=0.8),
-                sr, high_gain_db=-15
+                sr, low_gain_db=12, high_gain_db=-18
             )
         )
     },
 
     "12_vocodeur_dark_6": {
-        "desc": "Vocodeur sombre — Pitch -6 + High-Cut (Très lourd)",
+        "desc": "Vocodeur sombre — Pitch -6 + High-Cut + Bass Boost (Lourd)",
         "fn": lambda a, sr: normalize(
             eq_shelf(
                 vocoder_approx(pitch_shift_simple(a, sr, semitones=-6), sr, bands=12, wet=0.85),
-                sr, high_gain_db=-18
+                sr, low_gain_db=15, high_gain_db=-22
             )
         )
     },
