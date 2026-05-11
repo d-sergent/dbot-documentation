@@ -96,9 +96,22 @@ class LocalTTS:
                 temp_wav = tf.name
 
             # Génération Piper
-            gen_cmd = f'echo "{text}" | piper -m {self.voice_model_path} --output_file {temp_wav}'
-            subprocess.run(gen_cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
+            self.generate_wav(text, temp_wav)
             
+            # --- POST-TRAITEMENT DSP (D-Bot Voice FX) ---
+            # Par défaut, on utilise le preset 16 (Homme Grave Posé)
+            fx_preset = os.environ.get("DBOT_VOICE_FX", "16")
+            if fx_preset:
+                try:
+                    import soundfile as sf
+                    from .modify_voice import apply_fx
+                    
+                    audio, sr = sf.read(temp_wav)
+                    audio_fx = apply_fx(audio, sr, fx_preset)
+                    sf.write(temp_wav, audio_fx, sr)
+                except Exception as efx:
+                    print(f"⚠ [TTS] Erreur application FX ({fx_preset}) : {efx}")
+
             # Lecture PulseAudio
             if os.path.exists(temp_wav) and os.path.getsize(temp_wav) > 0:
                 play_cmd = ["paplay", temp_wav]

@@ -219,12 +219,32 @@ Le module **audio** du projet **D-Bot** était initialement composé de quatre f
 
 ## **6. Fichiers à Consulter**
 
-- `code/dbot/audio/stt.py`
-- `code/dbot/audio/tts.py`
-- `code/dbot/audio/audio_io.py`
-- `code/scripts/audio/benchmark_stt.py`
-- `code/scripts/audio/benchmark_tts.py`
-- `code/scripts/audio/test_audio_io.py`
+- `code/dbot/audio/respeaker_sdk.py` : Driver bas niveau (SDK XMOS XVF3800).
+- `code/dbot/audio/audio_io_v2.py` : Pipeline capture audio matériel (VAD/DOA).
+- `code/dbot/audio/modify_voice.py` : Moteur DSP de post-traitement pour l'identité vocale.
+- `code/scripts/behaviors/chatbot_local_v2.py` : Version standard de production.
+
+## Configuration de l'Identité Vocale (Mai 2026)
+
+Le D-Bot supporte désormais un post-traitement DSP en temps réel. Deux personnalités ont été retenues :
+
+1.  **Robot Sombre (Preset 11)** : Vocodeur profond, pitch -10 demi-tons, boost des basses.
+2.  **IA Posée (Preset 16)** : Voix masculine naturelle, pitch -4 demi-tons, grave affirmé.
+
+### Comment changer la voix ?
+Il suffit de définir la variable d'environnement `DBOT_VOICE_FX` avant de lancer le chatbot :
+
+```bash
+# Pour la voix Robotique Sombre
+export DBOT_VOICE_FX=11
+python3 code/scripts/behaviors/chatbot_local_v2.py
+
+# Pour la voix Humaine Grave
+export DBOT_VOICE_FX=16
+python3 code/scripts/behaviors/chatbot_local_v2.py
+```
+
+*Note : Le preset 16 est désormais activé par défaut. Pour utiliser la voix Piper brute (sans aucun effet), définissez `export DBOT_VOICE_FX=none`.*
 
 ---
 
