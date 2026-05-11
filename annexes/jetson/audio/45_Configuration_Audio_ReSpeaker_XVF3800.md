@@ -241,8 +241,10 @@ def speak(text, voice_model_path, pulse_sink=None):
 | Action | Commande |
 | :--- | :--- |
 | **Mode Headless** (libère ~1.5 Go) | `sudo systemctl isolate multi-user.target` |
-| **Relancer l'interface graphique** | `sudo systemctl isolate graphical.target` |
+| **Purger le cache RAM** (avant lancement) | `sudo sync && echo 3 | sudo tee /proc/sys/vm/drop_caches` |
 | **Vérifier la RAM libre** | `free -m` |
+| **Surveiller CPU/GPU/RAM** | `tegrastats` ou `jtop` |
+| **Alléger le STT** (si OOM persiste) | Passer `model_size="tiny"` dans `LocalSTT` |
 
 ---
 
