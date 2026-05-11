@@ -93,60 +93,62 @@ class AudioIOv2:
 
     def record_audio(self, duration: float, output_file: str) -> bool:
         """
-        Enregistre l'audio en stéréo et convertit en mono pour le STT.
-        Identique à la v1 (méthode validée).
-
-        Args:
-            duration (float): Durée en secondes.
-            output_file (str): Chemin du fichier WAV de sortie.
+        Enregistre l'audio traité (Canal 0) directement en mono.
         """
         try:
-            d = int(duration)
-            cmd = (f"arecord -D {self.alsa_device} -f S16_LE -r 16000 "
-                   f"-c 2 -d {d} | sox -t wav - -c 1 {output_file}")
-            subprocess.run(cmd, shell=True, check=True)
+            # On force -c 1 pour ne prendre que le premier canal (audio traité par le XMOS)
+            cmd = (f"arecord -D {self.alsa_device} -f S16_LE -r 16000 -c 1 -d {int(duration)} {output_file}")
+            subprocess.run(cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
             print(f"🎤 [AudioIO v2] Enregistrement : {output_file}")
             return True
         except Exception as e:
             raise AudioIOv2Error(f"Échec enregistrement : {e}")
 
     def record_on_speech(self, output_file: str,
-                         silence_timeout: float = 1.5,
+                         silence_timeout: float = 1.0,
                          max_duration: float = 10.0) -> bool:
         """
-        Enregistre seulement quand une parole est détectée par le VAD matériel.
-
-        La capture démarre dès que le chip XMOS signale une parole (VAD=1)
-        et s'arrête après `silence_timeout` secondes de silence.
-
-        Args:
-            output_file (str): Chemin du fichier WAV de sortie.
-            silence_timeout (float): Durée de silence avant d'arrêter (défaut 1.5s).
-            max_duration (float): Durée max d'enregistrement (défaut 10s).
-
-        Returns:
-            bool: True si de la parole a été enregistrée.
+        Enregistre dynamiquement : s'arrête quand le silence est détecté.
         """
         if not self.sdk_available:
-            print("⚠ [AudioIO v2] SDK indisponible, enregistrement fixe de 5s.")
             return self.record_audio(5, output_file)
 
         print("👂 [AudioIO v2] Attente de la parole (VAD matériel)...")
-        last_doa = 0
-
-        # Attendre que la parole commence
+        
+        # 1. Attendre le début de la parole
         while True:
-            doa, is_speech = self.sdk.get_doa_and_vad()
+            _, is_speech = self.sdk.get_doa_and_vad()
             if is_speech:
-                last_doa = doa
-                if self.doa_callback:
-                    self.doa_callback(doa)
-                print(f"🗣️  [AudioIO v2] Parole détectée — Direction : {doa}°")
                 break
-            time.sleep(0.05)
+            time.sleep(0.02)
 
-        # Enregistrer jusqu'au silence
-        return self.record_audio(min(max_duration, 8), output_file)
+        # 2. Lancer arecord en arrière-plan (sans durée fixe -d)
+        print(f"🗣️  [AudioIO v2] Enregistrement en cours...")
+        cmd = f"arecord -D {self.alsa_device} -f S16_LE -r 16000 -c 1 {output_file}"
+        process = subprocess.Popen(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+        start_time = time.time()
+        last_speech_time = time.time()
+
+        try:
+            # 3. Surveiller le VAD pour détecter la fin
+            while (time.time() - start_time) < max_duration:
+                doa, is_speech = self.sdk.get_doa_and_vad()
+                
+                if is_speech:
+                    last_speech_time = time.time()
+                
+                # Si silence depuis plus de silence_timeout, on arrête
+                if (time.time() - last_speech_time) > silence_timeout:
+                    break
+                
+                time.sleep(0.1)
+        finally:
+            # Arrêter arecord proprement
+            process.terminate()
+            process.wait()
+
+        return os.path.exists(output_file) and os.path.getsize(output_file) > 4000
 
     def play_audio(self, input_file: str) -> bool:
         """Lit un fichier audio via PulseAudio (paplay)."""
