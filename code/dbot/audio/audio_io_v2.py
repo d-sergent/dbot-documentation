@@ -108,47 +108,26 @@ class AudioIOv2:
                          silence_timeout: float = 1.0,
                          max_duration: float = 10.0) -> bool:
         """
-        Enregistre dynamiquement : s'arrête quand le silence est détecté.
+        Attend la détection de parole par le VAD matériel,
+        puis enregistre un segment audio de durée fixe.
         """
         if not self.sdk_available:
             return self.record_audio(5, output_file)
 
         print("👂 [AudioIO v2] Attente de la parole (VAD matériel)...")
-        
-        # 1. Attendre le début de la parole
+
+        # Attendre que la parole commence
         while True:
-            _, is_speech = self.sdk.get_doa_and_vad()
+            doa, is_speech = self.sdk.get_doa_and_vad()
             if is_speech:
+                if self.doa_callback:
+                    self.doa_callback(doa)
                 break
-            time.sleep(0.02)
+            time.sleep(0.05)
 
-        # 2. Lancer arecord en arrière-plan (sans durée fixe -d)
-        print(f"🗣️  [AudioIO v2] Enregistrement en cours...")
-        cmd = f"arecord -D {self.alsa_device} -f S16_LE -r 16000 -c 1 {output_file}"
-        process = subprocess.Popen(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-        start_time = time.time()
-        last_speech_time = time.time()
-
-        try:
-            # 3. Surveiller le VAD pour détecter la fin
-            while (time.time() - start_time) < max_duration:
-                doa, is_speech = self.sdk.get_doa_and_vad()
-                
-                if is_speech:
-                    last_speech_time = time.time()
-                
-                # Si silence depuis plus de silence_timeout, on arrête
-                if (time.time() - last_speech_time) > silence_timeout:
-                    break
-                
-                time.sleep(0.1)
-        finally:
-            # Arrêter arecord proprement
-            process.terminate()
-            process.wait()
-
-        return os.path.exists(output_file) and os.path.getsize(output_file) > 4000
+        # Enregistrer un segment fixe (5 secondes — suffisant pour une phrase)
+        print("🗣️  [AudioIO v2] Enregistrement en cours...")
+        return self.record_audio(5, output_file)
 
     def play_audio(self, input_file: str) -> bool:
         """Lit un fichier audio via PulseAudio (paplay)."""
