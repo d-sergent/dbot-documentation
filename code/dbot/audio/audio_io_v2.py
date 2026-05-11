@@ -93,11 +93,14 @@ class AudioIOv2:
 
     def record_audio(self, duration: float, output_file: str) -> bool:
         """
-        Enregistre l'audio traité (Canal 0) directement en mono.
+        Enregistre l'audio en stéréo (obligatoire pour XVF3800) et convertit en mono via sox.
+        Méthode validée — Doc 45 Section 6B.
         """
         try:
-            # On force -c 1 pour ne prendre que le premier canal (audio traité par le XMOS)
-            cmd = (f"arecord -D {self.alsa_device} -f S16_LE -r 16000 -c 1 -d {int(duration)} {output_file}")
+            # CRITIQUE : Le ReSpeaker XVF3800 exige -c 2 (stéréo) via plughw.
+            # sox extrait ensuite le canal gauche (voix traitée par le DSP XMOS).
+            cmd = (f"arecord -D {self.alsa_device} -f S16_LE -r 16000 "
+                   f"-c 2 -d {int(duration)} | sox -t wav - -c 1 {output_file}")
             subprocess.run(cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
             print(f"🎤 [AudioIO v2] Enregistrement : {output_file}")
             return True
