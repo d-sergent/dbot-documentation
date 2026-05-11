@@ -77,7 +77,8 @@ class AudioIOv2:
         return "0"
 
     def _initialize_hardware(self):
-        """Active l'amplificateur JST du ReSpeaker."""
+        """Active l'amplificateur JST et réveille la source PulseAudio (Doc 45 §4)."""
+        # 1. Amplificateur JST
         try:
             subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=3", "on"],
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -90,6 +91,34 @@ class AudioIOv2:
             print(f"✅ [AudioIO v2] Ampli JST activé (Carte {self.card_id})")
         except Exception as e:
             print(f"⚠ [AudioIO v2] Erreur init ampli : {e}")
+
+        # 2. Réveil de la source PulseAudio (CRITIQUE sans NoMachine — Doc 45 §4)
+        # Sans NoMachine, PulseAudio suspend le micro → signal constant → silence
+        try:
+            # Désactiver la mise en veille automatique
+            subprocess.run(["pactl", "unload-module", "module-suspend-on-idle"],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            # Identifier la source ReSpeaker dynamiquement
+            result = subprocess.check_output(
+                ["pactl", "list", "short", "sources"], text=True
+            )
+            source_name = None
+            for line in result.splitlines():
+                if "respeaker" in line.lower() or "xvf3800" in line.lower() or "iec958" in line.lower():
+                    source_name = line.split()[1]
+                    break
+            if source_name:
+                subprocess.run(["pactl", "suspend-source", source_name, "0"],
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-source-mute", source_name, "false"],
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-source-volume", source_name, "150%"],
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                print(f"✅ [AudioIO v2] Source micro réveillée : {source_name.split('.')[-1][:40]}")
+            else:
+                print("⚠ [AudioIO v2] Source ReSpeaker non trouvée dans PulseAudio")
+        except Exception as e:
+            print(f"⚠ [AudioIO v2] Erreur réveil source PulseAudio : {e}")
 
     def record_audio(self, duration: float, output_file: str) -> bool:
         """
