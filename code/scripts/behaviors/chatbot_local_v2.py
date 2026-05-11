@@ -73,7 +73,9 @@ def main():
     voice_model = os.environ.get("PIPER_VOICE", _default_voice)
     llm_model   = os.environ.get("DBOT_LLM_MODEL", "nemotron-mini")
     try:
-        stt   = LocalSTT(model_size="small", device="cuda")
+        # NOTE : On force le STT sur CPU pour laisser le GPU libre à Ollama.
+        # Sur Jetson 8GB, avoir les deux sur GPU provoque un cudaMalloc failed.
+        stt   = LocalSTT(model_size="small", device="cpu")
         tts   = LocalTTS(voice_model_path=voice_model)
         brain = DbotBrain(model_name=llm_model)
         print(f"   (Pour changer : DBOT_LLM_MODEL=<nom> python3 chatbot_local_v2.py)")
