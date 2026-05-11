@@ -117,20 +117,22 @@ amixer -c 0 cset numid=6 60    # PCM Playback Volume Droit  (0-100)
 
 ## 5. Fix Permanent : Désactiver `module-suspend-on-idle` au Démarrage
 
-Sans ce fix, il faut exécuter `pactl unload-module module-suspend-on-idle` à chaque redémarrage de PulseAudio.
+> [!CAUTION]
+> **Sur Jetson (Ubuntu 20.04)**, les fichiers dans `default.pa.d/` sont traités **avant** `default.pa`. Un `unload-module` dans un fichier `.d/` n'a aucun effet car le module est rechargé ensuite par `default.pa`. 
+> **La méthode correcte est de commenter directement la ligne dans `default.pa`.**
 
 ```bash
-# Créer un fichier de configuration PulseAudio qui supprime ce module au démarrage
-sudo mkdir -p /etc/pulse/default.pa.d
-sudo tee /etc/pulse/default.pa.d/no-suspend-on-idle.conf << 'EOF'
-### Fix D-Bot : désactive la mise en veille automatique des périphériques audio
-### Sans ce fix, le micro ReSpeaker reste en état SUSPENDED hors session NoMachine
-### et retourne un signal constant (non réactif à la voix).
-unload-module module-suspend-on-idle
-EOF
+# Commenter la ligne incriminée dans le fichier principal PulseAudio
+sudo sed -i 's/^load-module module-suspend-on-idle/### DBOT FIX: load-module module-suspend-on-idle/' /etc/pulse/default.pa
+
+# Vérifier que la modification est correcte (doit afficher la ligne commentée)
+grep "suspend-on-idle" /etc/pulse/default.pa
 
 # Redémarrer PulseAudio pour appliquer
 pulseaudio -k && pulseaudio --start
+
+# Vérifier que le module est bien absent (doit retourner vide)
+pactl list modules short | grep suspend
 ```
 
 ---
