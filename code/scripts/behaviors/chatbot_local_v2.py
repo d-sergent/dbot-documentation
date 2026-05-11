@@ -71,7 +71,7 @@ def main():
     # Configuration via variables d'environnement
     _default_voice = os.path.expanduser("~/.local/share/piper-voices/fr_FR-siwis-medium.onnx")
     voice_model = os.environ.get("PIPER_VOICE", _default_voice)
-    llm_model   = os.environ.get("DBOT_LLM_MODEL", "nemotron-mini")
+    llm_model   = os.environ.get("DBOT_LLM_MODEL", "qwen2.5:0.5b")
     stt_device  = os.environ.get("DBOT_STT_DEVICE", "cuda") # On repasse en CUDA
     stt_model   = os.environ.get("DBOT_STT_MODEL", "tiny")  # 'tiny' pour économiser 1 Go de RAM
 
@@ -83,8 +83,11 @@ def main():
         
         print(f"✅ [STT] Oreilles prêtes ({stt_device.upper()})")
         print(f"🔊 [TTS] Initialisé avec la voix : {os.path.basename(voice_model)}")
-        print(f"🧠 [Cerveau] Initialisé — Modèle : {llm_model}")
-        print(f"   (Variables : DBOT_LLM_MODEL, DBOT_STT_DEVICE, DBOT_STT_MODEL=tiny|small)")
+        if os.environ.get("OPENROUTER_API_KEY"):
+            print(f"🧠 [Cerveau] Mode Hybride activé (Cloud: OpenRouter, Secours: {llm_model})")
+        else:
+            print(f"🧠 [Cerveau] Mode 100% Local activé (Modèle: {llm_model})")
+        print(f"   (Variables : OPENROUTER_API_KEY, DBOT_LLM_MODEL, DBOT_STT_DEVICE, DBOT_STT_MODEL)")
     except Exception as e:
         print(f"\n❌ Erreur initialisation IA : {e}")
         sys.exit(1)

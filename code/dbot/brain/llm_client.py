@@ -19,6 +19,8 @@ Référence : annexes/jetson/installation/47_Cerveau_IA_Ollama_LLM.md
 import ollama
 import os
 import time
+import requests
+import json
 
 try:
     from ddgs import DDGS
@@ -27,10 +29,13 @@ except ImportError:
     HAS_DDGS = False
     print("⚠ [Cerveau] ddgs non installé. Recherche web désactivée. Lancez : pip3 install ddgs")
 
+# --- CONFIGURATION HYBRIDE ---
+# Cloud (Primaire)
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
+OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "nvidia/nemotron-3-super-120b-a12b:free")
 
-# Modèle par défaut recommandé (Mai 2026) — voir Doc 47 pour le comparatif
-# Peut être surchargé via la variable d'environnement DBOT_LLM_MODEL
-DEFAULT_MODEL = os.environ.get("DBOT_LLM_MODEL", "nemotron-mini")
+# Local (Secours)
+DEFAULT_MODEL = os.environ.get("DBOT_LLM_MODEL", "qwen2.5:0.5b")
 
 
 def perform_web_search(query: str) -> str:
@@ -113,8 +118,14 @@ class DbotBrain:
             "utilise ton outil search_web si tu as le moindre doute."
         )
         self.reset_memory()
-        print(f"🧠 [Cerveau] Initialisé — Modèle : {self.model_name}")
-        print(f"   (Pour changer : DBOT_LLM_MODEL=<nom> python3 chatbot_local_v2.py)")
+        
+        if OPENROUTER_API_KEY:
+            print(f"🧠 [Cerveau] Mode HYBRIDE activé.")
+            print(f"   ☁️  Cloud (Primaire) : {OPENROUTER_MODEL}")
+            print(f"   🏠 Local (Secours)  : {self.model_name}")
+        else:
+            print(f"🧠 [Cerveau] Mode 100% LOCAL. Modèle : {self.model_name}")
+            print(f"   💡 (Pour activer l'hybride : export OPENROUTER_API_KEY='sk-or-...')")
 
     def reset_memory(self):
         """Remet la conversation à zéro (garde le prompt système)."""
@@ -123,37 +134,79 @@ class DbotBrain:
         ]
 
     def generate_response(self, user_text: str) -> str:
-        """
-        Génère une réponse à partir du texte utilisateur.
-
-        Processus :
-          1. Appel au LLM — il répond ou demande à utiliser un outil (web search).
-          2. Si Function Calling : exécute la recherche et rappelle le LLM.
-          3. Retourne la réponse finale.
-
-        Args:
-            user_text (str): Phrase de l'utilisateur transcrite par Whisper.
-
-        Returns:
-            str: Réponse du robot à synthétiser via TTS.
-        """
+        """Génère une réponse (Cloud en priorité, Local en secours)."""
         self.chat_history.append({"role": "user", "content": user_text})
 
-        try:
-            start_time = time.time()
+        if OPENROUTER_API_KEY:
+            try:
+                return self._call_openrouter()
+            except Exception as e:
+                print(f"⚠ [Cerveau] Échec Cloud ({e}). Bascule sur le réseau local...")
+                return self._call_ollama()
+        else:
+            return self._call_ollama()
 
-            # Acte 1 : Le LLM répond ou demande l'outil
+    def _call_openrouter(self) -> str:
+        """Appel à l'API OpenRouter (Compatible OpenAI)"""
+        start_time = time.time()
+        headers = {
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+            "HTTP-Referer": "https://github.com/d-sergent/dbot",
+            "X-Title": "D-Bot",
+            "Content-Type": "application/json"
+        }
+        
+        data = {
+            "model": OPENROUTER_MODEL,
+            "messages": self.chat_history,
+            "tools": [WEB_SEARCH_TOOL]
+        }
+        
+        response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=data, timeout=15)
+        response.raise_for_status()
+        msg = response.json()['choices'][0]['message']
+        
+        # Gestion du Function Calling (Outils)
+        if msg.get('tool_calls'):
+            self.chat_history.append(msg)
+            for tool in msg['tool_calls']:
+                if tool['function']['name'] == 'search_web':
+                    args = json.loads(tool['function']['arguments'])
+                    query_arg = args.get('query')
+                    search_result = perform_web_search(query_arg)
+                    self.chat_history.append({
+                        'role': 'tool',
+                        'content': search_result,
+                        'name': 'search_web',
+                        'tool_call_id': tool['id']
+                    })
+            
+            # 2ème appel avec le résultat de la recherche
+            data["messages"] = self.chat_history
+            response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=data, timeout=15)
+            response.raise_for_status()
+            msg = response.json()['choices'][0]['message']
+            
+        elapsed = time.time() - start_time
+        ai_text = msg.get('content', '') or ""
+        self.chat_history.append({"role": "assistant", "content": ai_text})
+        print(f"☁️  [Cerveau] Réponse Cloud en {elapsed:.2f}s ({OPENROUTER_MODEL})")
+        return ai_text
+
+    def _call_ollama(self) -> str:
+        """Appel au serveur Ollama local sur la Jetson"""
+        start_time = time.time()
+        try:
             response = ollama.chat(
                 model=self.model_name,
                 messages=self.chat_history,
                 tools=[WEB_SEARCH_TOOL]
             )
 
-            # L'IA veut-elle utiliser la recherche web ?
-            if response['message'].get('tool_calls'):
-                self.chat_history.append(response['message'])
-
-                for tool in response['message']['tool_calls']:
+            msg = response['message']
+            if msg.get('tool_calls'):
+                self.chat_history.append(msg)
+                for tool in msg['tool_calls']:
                     if tool['function']['name'] == 'search_web':
                         query_arg = tool['function']['arguments'].get('query')
                         search_result = perform_web_search(query_arg)
@@ -163,23 +216,20 @@ class DbotBrain:
                             'name': 'search_web'
                         })
 
-                # Acte 2 : Le LLM lit les résultats et formule la réponse finale
                 response = ollama.chat(
                     model=self.model_name,
                     messages=self.chat_history
                 )
+                msg = response['message']
 
             elapsed = time.time() - start_time
-            ai_text = response['message']['content']
+            ai_text = msg['content']
             self.chat_history.append({"role": "assistant", "content": ai_text})
-
-            print(f"🧠 [Cerveau] Réponse en {elapsed:.2f}s ({self.model_name})")
+            print(f"🏠 [Cerveau] Réponse Locale en {elapsed:.2f}s ({self.model_name})")
             return ai_text
-
         except Exception as e:
             print(f"❌ [Cerveau] Erreur Ollama : {e}")
-            print("   💡 Vérifiez que 'ollama serve' est actif (voir Doc 47)")
-            return "Une interférence vient de perturber mon réseau neuronal."
+            return "Mes deux réseaux neuronaux sont actuellement inaccessibles."
 
     def trim_memory(self, max_messages: int = 10):
         """
