@@ -101,7 +101,7 @@ class LocalTTS:
             # --- POST-TRAITEMENT DSP (D-Bot Voice FX) ---
             # Par défaut, on utilise le preset 16 (Homme Grave Posé)
             fx_preset = os.environ.get("DBOT_VOICE_FX", "16")
-            if fx_preset:
+            if fx_preset and fx_preset.lower() != "none":
                 try:
                     import soundfile as sf
                     from .modify_voice import apply_fx
@@ -109,6 +109,8 @@ class LocalTTS:
                     audio, sr = sf.read(temp_wav)
                     audio_fx = apply_fx(audio, sr, fx_preset)
                     sf.write(temp_wav, audio_fx, sr)
+                except ImportError as e_imp:
+                    print(f"⚠ [TTS] Module manquant pour FX ({fx_preset}) : {e_imp}")
                 except Exception as efx:
                     print(f"⚠ [TTS] Erreur application FX ({fx_preset}) : {efx}")
 
