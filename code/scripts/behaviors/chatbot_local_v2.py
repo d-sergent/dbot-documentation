@@ -71,12 +71,12 @@ def main():
     # Les valeurs peuvent être surchargées par variables d'environnement
     _default_voice = os.path.expanduser("~/.local/share/piper-voices/fr_FR-siwis-medium.onnx")
     voice_model = os.environ.get("PIPER_VOICE", _default_voice)
-    llm_model   = os.environ.get("DBOT_LLM_MODEL", "nemotron-mini:4b")
+    llm_model   = os.environ.get("DBOT_LLM_MODEL", "nemotron-mini")
     try:
         stt   = LocalSTT(model_size="small", device="cuda")
         tts   = LocalTTS(voice_model_path=voice_model)
         brain = DbotBrain(model_name=llm_model)
-        print(f"   (Pour changer le modèle : DBOT_LLM_MODEL=<nom> python3 chatbot_local_v2.py)")
+        print(f"   (Pour changer : DBOT_LLM_MODEL=<nom> python3 chatbot_local_v2.py)")
     except Exception as e:
         print(f"\n❌ Erreur initialisation IA : {e}")
         sys.exit(1)
