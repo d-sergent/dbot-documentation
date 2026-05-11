@@ -21,20 +21,21 @@ class LocalSTT:
         None: Initialise le modèle Whisper pour la transcription.
     """
     def __init__(self, model_size: str = "small", device: str = "cuda"):
-        # Sur la Jetson Orin Nano, on utilise le GPU ("cuda") avec des calculs en float16 pour économiser la RAM
-        print(f"⏳ [STT] Chargement du réseau neuronal auditif '{model_size}' sur le GPU...")
+        # Sélection automatique du type de calcul optimal selon le device
+        compute_type = "float16" if device == "cuda" else "int8"
+        
+        print(f"⏳ [STT] Chargement du réseau neuronal auditif '{model_size}' sur {device.upper()}...")
         start = time.time()
         
         try:
-            self.model = WhisperModel(model_size, device=device, compute_type="float16")
-            print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes (Accélération GPU) !")
+            self.model = WhisperModel(model_size, device=device, compute_type=compute_type)
+            print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes ({device.upper()}) !")
         except Exception as e:
-            if "CUDA support" in str(e) or "CUDA" in str(e):
-                print(f"⚠ [STT] Accélération GPU indisponible (CTranslate2 non compilé pour CUDA).")
-                print(f"⚠ [STT] Passage sur le CPU (Cortex-A78)...")
-                # Sur CPU, on utilise 'int8' pour un calcul très rapide sans perte de compréhension
+            if "CUDA support" in str(e) or "CUDA" in str(e) or "float16" in str(e):
+                print(f"⚠ [STT] Mode {device.upper()} / {compute_type} indisponible ou incompatible.")
+                print(f"⚠ [STT] Repli sur CPU / INT8 (Cortex-A78)...")
                 self.model = WhisperModel(model_size, device="cpu", compute_type="int8")
-                print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes (Mode CPU) !")
+                print(f"✅ [STT] Oreilles prêtes en {time.time() - start:.1f} secondes (Mode Secours CPU) !")
             else:
                 raise STTError(f"Erreur critique lors du chargement de Whisper: {e}")
 
