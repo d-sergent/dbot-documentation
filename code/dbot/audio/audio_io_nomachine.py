@@ -66,27 +66,51 @@ class AudioIONoMachine:
         return "0"
 
     def _initialize_hardware(self):
-        """Ampli JST + Réveil Source PulseAudio."""
+        """Ampli JST + Réveil Source et Sink PulseAudio (Conforme Doc 45 §4)."""
         try:
+            # 1. Amplificateur JST
             subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=3", "on"], stdout=subprocess.DEVNULL)
             subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=4", "on"], stdout=subprocess.DEVNULL)
-            print(f"✅ [AudioIO NoMachine] Ampli JST activé.")
+            subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=5", "70"], stdout=subprocess.DEVNULL)
+            subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=6", "70"], stdout=subprocess.DEVNULL)
+            print(f"✅ [AudioIO NoMachine] Ampli JST activé (Carte {self.card_id}).")
             
-            # Réveil Source
             subprocess.run(["pactl", "unload-module", "module-suspend-on-idle"], stdout=subprocess.DEVNULL)
+            
+            # 2. Réveil Source (Micro)
             sources = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
             self.pulse_source = None
             for line in sources.splitlines():
-                if ("iec958-stereo" in line or "Mic_Array" in line) and ".monitor" not in line:
+                if ("XVF3800" in line or "ReSpeaker" in line or "iec958" in line) and ".monitor" not in line:
                     self.pulse_source = line.split()[1]
                     break
             
             if self.pulse_source:
                 subprocess.run(["pactl", "suspend-source", self.pulse_source, "0"], stdout=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-source-mute", self.pulse_source, "false"], stdout=subprocess.DEVNULL)
                 subprocess.run(["pactl", "set-source-volume", self.pulse_source, "150%"], stdout=subprocess.DEVNULL)
-                print(f"✅ [AudioIO NoMachine] Source réveillée : {self.pulse_source}")
+                print(f"✅ [AudioIO NoMachine] Micro réveillé : {self.pulse_source}")
+            else:
+                print("⚠ [AudioIO NoMachine] Micro ReSpeaker INTROUVABLE dans PulseAudio.")
+                
+            # 3. Réveil Sink (Haut-parleur)
+            sinks = subprocess.check_output(["pactl", "list", "short", "sinks"], text=True)
+            for line in sinks.splitlines():
+                if "XVF3800" in line or "ReSpeaker" in line:
+                    self.pulse_sink = line.split()[1]
+                    break
+            
+            if self.pulse_sink:
+                subprocess.run(["pactl", "suspend-sink", self.pulse_sink, "0"], stdout=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-sink-mute", self.pulse_sink, "false"], stdout=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-sink-volume", self.pulse_sink, "100%"], stdout=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-default-sink", self.pulse_sink], stdout=subprocess.DEVNULL)
+                print(f"✅ [AudioIO NoMachine] Haut-parleur réveillé : {self.pulse_sink}")
+            else:
+                print("⚠ [AudioIO NoMachine] Haut-parleur ReSpeaker INTROUVABLE dans PulseAudio.")
+                
         except Exception as e:
-            print(f"⚠ [AudioIO NoMachine] Erreur init : {e}")
+            print(f"⚠ [AudioIO NoMachine] Erreur init matérielle : {e}")
 
     def record_audio(self, duration: float, output_file: str) -> bool:
         """Enregistre via PulseAudio (parecord)."""
