@@ -35,6 +35,18 @@ Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les rouleme
 > [!CAUTION]
 > **Joints 2RS Obligatoires** : Achetez exclusivement des versions "2RS" (Joints d'étanchéité en caoutchouc). Vos pièces en PA12-CF vont générer une fine poussière de carbone très abrasive qui détruira des roulements métalliques ouverts (ZZ) en quelques heures.
 
+### Accouplements à Bride (Pour moteurs QDD plats RS-02 / RS-00)
+Pour réaliser le découplage des efforts et reproduire une cinématique de type "Spline Coupling" (voir Doc 23), voici les références industrielles compatibles avec la face plate des moteurs Robstride.
+
+*   **KTR BoWex FLE-PA (La solution industrielle idéale)** : Accouplement à denture avec bride en nylon. Conçu pour se visser sur des volants plats. Encaisse des couples monstrueux, autorise le glissement axial et le désalignement.
+    *   *Acheter chez* : [KTR France (Catalogue Direct)](https://www.ktr.com/fr/produits/details/produits/accouplements/accouplements-a-frette/bowex-fle-pa/)
+*   **Douilles Cannelées à Embase (La mécanique rigide)** : Flanged Spline Nuts. Création d'une liaison coulissante (Spline) pure 100% métallique. Idéal pour un démontage rapide.
+    *   *Acheter chez* : [MISUMI Europa (Série Arbres et Douilles cannelés)](https://www.misumi-europe.com/fr/vona2/mech_design/M0100000000/M0103000000/M0103030000/)
+*   **Moyeu à Bride Rigide (La méthode de prototypage rapide)** : Rigid Flange Shaft Coupling. Permet de créer un arbre cylindrique classique à partir des 6 trous M4 du RS-02. Vous pouvez ensuite utiliser un accouplement Oldham ou flector standard du commerce.
+    *   *Où trouver* : Amazon France, Boutiques CNC / Modélisme (Cherchez `Flange Coupling Connector`).
+
+> **Astuce d'intégration** : Le cercle de perçage (Bolt Circle) du RS-02 n'est pas standardisé pour ces composants. Prévoyez d'imprimer en 3D ou de découper au laser une **plaque d'adaptation (Adapter Plate)** de 3 à 5 mm d'épaisseur pour lier les trous du moteur à ceux de l'accouplement acheté.
+
 ---
 
 ## 2. Moteurs & Actionneurs (Par Phase)
