@@ -161,21 +161,21 @@ class AudioIOv2:
 
     def record_audio(self, duration: float, output_file: str) -> bool:
         """
-        Enregistre l'audio via PulseAudio (parecord).
-        Note : parecord n'a pas d'option -d, on utilise 'timeout' pour limiter la durée.
+        Enregistre l'audio via ALSA direct (arecord) — Recommandation Doc 45 §6.B.
         """
         try:
-            device_arg = f"--device={self.pulse_source}" if getattr(self, 'pulse_source', None) else ""
-            # 'timeout N' arrête parecord après N secondes (parecord n'a pas d'option -d)
-            cmd = (f"timeout {int(duration)} parecord {device_arg} "
-                   f"--channels=2 --format=s16le --rate=16000 --raw | "
-                   f"sox -t raw -r 16000 -e signed -b 16 -c 2 - -c 1 {output_file}")
-            subprocess.run(cmd, shell=True, stderr=subprocess.DEVNULL)
-            # Note : pas de check=True car timeout retourne exit code 124 à expiration (normal)
-            print(f"🎤 [AudioIO v2] Enregistrement : {output_file}")
+            # Utilisation de plughw pour contourner PulseAudio (stable sur Orin Nano)
+            d = int(duration)
+            # Commande officielle Doc 45 : arecord 2ch -> sox mono
+            cmd = (f"arecord -D {self.alsa_device} -f S16_LE -r 16000 -c 2 -d {d} | "
+                   f"sox -t wav - -c 1 {output_file}")
+            
+            subprocess.run(cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
+            print(f"🎤 [AudioIO v2] Enregistrement : {output_file} (via ALSA)")
             return os.path.exists(output_file) and os.path.getsize(output_file) > 1000
         except Exception as e:
-            raise AudioIOv2Error(f"Échec enregistrement : {e}")
+            print(f"❌ [AudioIO v2] Échec enregistrement ALSA : {e}")
+            return False
 
     def record_on_speech(self, output_file: str,
                          silence_timeout: float = 1.0,
