@@ -135,14 +135,20 @@ class AudioIOv2:
             cmd = "pactl list short sources"
             output = subprocess.check_output(cmd, shell=True).decode()
             for line in output.split('\n'):
-                if "Mic_Array" in line or "iec958-stereo" in line:
+                if "Mic_Array" in line or "XVF3800" in line or "usb" in line:
                     if ".monitor" in line: continue # Ignorer les loopbacks
                     source_name = line.split()[1]
                     print(f"✅ [AudioIO v2] Source PulseAudio trouvée : {source_name}")
                     self.source_name = source_name
                     return True
-        except Exception:
-            print("⚠ [AudioIO v2] PulseAudio indisponible. Tentative ALSA...")
+            
+            # DIAGNOSTIC : Si on arrive ici, on n'a rien trouvé. Affichons ce que voit PulseAudio.
+            print("🚨 [DIAGNOSTIC] Le micro n'a pas été trouvé dans PulseAudio. Voici les sources disponibles :")
+            print("--------------------------------------------------")
+            print(output)
+            print("--------------------------------------------------")
+        except Exception as e:
+            print(f"⚠ [AudioIO v2] Erreur pactl : {e}")
 
         # 2. Fallback ALSA Direct (hw:0,0 ou plughw:0,0)
         # On vérifie si la carte 0 ou 1 est le ReSpeaker
