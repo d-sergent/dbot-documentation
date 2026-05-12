@@ -30,5 +30,5 @@ amixer -c 0 cset numid=4 on
 amixer -c 0 cset numid=5 60
 amixer -c 0 cset numid=6 60
 
-echo "🤖 [D-Bot] Lancement du Chatbot v2 (Mode Développement)..."
-python3 code/scripts/behaviors/chatbot_local_v2.py
+echo "🤖 [D-Bot] Lancement du Chatbot v2 (Mode NoMachine / PulseAudio)..."
+python3 code/scripts/behaviors/chatbot_nomachine_v2.py

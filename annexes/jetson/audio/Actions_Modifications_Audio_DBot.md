@@ -270,6 +270,28 @@ cat /var/log/dbot/audio/*.log
 
 ---
 
-**Auteur** : [Assistant IA]
-**Date** : [À compléter]
-**Version** : 1.0
+---
+
+## **8. Architecture à Double Voie (12 mai 2026)**
+
+Pour éliminer les régressions entre les tests NoMachine et la production, le code audio a été scindé en deux branches physiques :
+
+### **A. Branche PRODUCTION (Autonome)**
+- **Script de lancement** : `code/scripts/audio/start_autonomous.sh`
+- **Comportement** : `chatbot_autonomous_v2.py`
+- **Moteur Audio** : `audio_io_autonomous.py`
+- **Méthode** : ALSA Direct (`arecord` / `aplay` via `plughw:0,0`).
+- **Avantage** : Stabilité absolue, aucune dépendance sur PulseAudio ou GDM. C'est le mode "Vérité Terrain".
+
+### **B. Branche DÉVELOPPEMENT (NoMachine)**
+- **Script de lancement** : `code/scripts/audio/start_nomachine.sh`
+- **Comportement** : `chatbot_nomachine_v2.py`
+- **Moteur Audio** : `audio_io_nomachine.py`
+- **Méthode** : PulseAudio (`parecord` / `paplay`).
+- **Spécificité** : Intègre un système d'**Auto-Healing** qui détecte et répare automatiquement le serveur PulseAudio si NoMachine corrompt le socket de session.
+
+---
+
+**Auteur** : Antigravity (IA)
+**Dernière mise à jour** : 12 mai 2026
+**Version** : 1.1 (Séparation des modes Autonome/NoMachine)

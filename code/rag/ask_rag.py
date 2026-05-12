@@ -79,7 +79,7 @@ async def main():
 
     # Sélection automatique du modèle par défaut selon le provider si non spécifié
     if not args.model:
-        args.model = VMLX_MODEL if args.provider == "local" else "tencent/hy3-preview:free"
+        args.model = VMLX_MODEL if args.provider == "local" else "nvidia/nemotron-3-super-120b-a12b:free"
 
     # Redirige les prints des bibliothèques vers stderr pour garder stdout propre
     old_stdout = sys.stdout
