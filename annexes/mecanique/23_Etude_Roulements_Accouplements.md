@@ -95,4 +95,4 @@ Puisque le RS-02 présente une face plate, on doit utiliser des accouplements di
 
 ### Visualisation de l'Assemblage (Oldham à Bride)
 
-![Assemblage Mécanique QDD RS-02 avec Plaque d'Adaptation, Moyeu à Bride et Accouplement Oldham](./assets/robstride_oldham_assembly.png)
+![Assemblage Mécanique QDD RS-02 avec Plaque d'Adaptation, Moyeu à Bride et Accouplement Oldham](./assets/robstride_oldham_annotated.png)
