@@ -110,23 +110,54 @@ class AudioIOv2:
                     # Exclure les sources "monitor" (loopback du HP, pas le micro)
                     if name.endswith('.monitor'):
                         continue
-                    if ("respeaker" in name.lower() or "xvf3800" in name.lower() or "iec958" in name.lower()):
-                        source_name = name
-                        break
-            if source_name:
-                subprocess.run(["pactl", "suspend-source", source_name, "0"],
+            
+            if self._find_respeaker_source():
+                subprocess.run(["pactl", "suspend-source", self.source_name, "0"],
                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                subprocess.run(["pactl", "set-source-mute", source_name, "false"],
+                subprocess.run(["pactl", "set-source-mute", self.source_name, "false"],
                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                subprocess.run(["pactl", "set-source-volume", source_name, "150%"],
+                subprocess.run(["pactl", "set-source-volume", self.source_name, "150%"],
                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                self.pulse_source = source_name  # Mémoriser pour parecord
-                print(f"✅ [AudioIO v2] Source micro réveillée : ...{source_name[-45:]}")
+                self.pulse_source = self.source_name
+                print(f"✅ [AudioIO v2] Source micro réveillée : ...{self.pulse_source[-45:]}")
             else:
                 self.pulse_source = None
                 print("⚠ [AudioIO v2] Source ReSpeaker non trouvée dans PulseAudio")
         except Exception as e:
             print(f"⚠ [AudioIO v2] Erreur réveil source PulseAudio : {e}")
+
+    def _find_respeaker_source(self):
+        """Trouve le micro ReSpeaker (PulseAudio ou ALSA)."""
+        print("🔍 [AudioIO v2] Recherche du micro ReSpeaker...")
+        
+        # 1. Tentative PulseAudio
+        try:
+            cmd = "pacmd list-sources | grep -e 'name:' -e 'index:'"
+            output = subprocess.check_output(cmd, shell=True).decode()
+            for line in output.split('\n'):
+                if "Mic_Array" in line or "iec958-stereo" in line:
+                    source_name = line.split('<')[1].split('>')[0]
+                    print(f"✅ [AudioIO v2] Source PulseAudio trouvée : {source_name}")
+                    self.source_name = source_name
+                    return True
+        except Exception:
+            print("⚠ [AudioIO v2] PulseAudio indisponible (Conflit NoMachine ?). Tentative ALSA...")
+
+        # 2. Fallback ALSA Direct (hw:0,0 ou plughw:0,0)
+        # On vérifie si la carte 0 ou 1 est le ReSpeaker
+        try:
+            cmd = "arecord -l"
+            output = subprocess.check_output(cmd, shell=True).decode()
+            if "XVF3800" in output or "ReSpeaker" in output:
+                # Souvent c'est la carte 0 sur Orin Nano
+                print("✅ [AudioIO v2] ReSpeaker détecté via ALSA (Direct Hardware)")
+                self.source_name = "plughw:0,0" # Utilisation du plugin de conversion
+                return True
+        except Exception:
+            pass
+            
+        print("❌ [AudioIO v2] Micro ReSpeaker introuvable.")
+        return False
 
     def record_audio(self, duration: float, output_file: str) -> bool:
         """
