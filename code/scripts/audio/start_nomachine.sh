@@ -21,9 +21,8 @@ else
     echo "⚠ Attention : Fichier .env non trouvé."
 fi
 
-echo "🖥️  [D-Bot] Passage en mode Graphique (graphical.target)..."
-sudo systemctl isolate graphical.target
-sleep 1
+echo "🖥️  [D-Bot] Lancement dans l'environnement NoMachine actuel..."
+# Le passage en graphical.target est retiré car il réinitialise GDM et bloque la carte son ALSA.
 
 echo "🔊 [D-Bot] Activation de l'amplificateur matériel..."
 amixer -c 0 cset numid=3 on
