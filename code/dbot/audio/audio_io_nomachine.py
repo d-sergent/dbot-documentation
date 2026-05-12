@@ -46,13 +46,19 @@ class AudioIONoMachine:
             print(f"⚠ [AudioIO NoMachine] SDK USB indisponible ({e}).")
 
     def _ensure_pulseaudio(self):
-        """Répare le serveur audio si NoMachine a corrompu le socket."""
+        """Force la connexion au serveur audio physique de la Jetson au lieu du virtuel NoMachine."""
+        # Si on est dans un terminal NoMachine, PULSE_SERVER force l'audio vers le réseau (nx_voice_out)
+        pulse_server = os.environ.get("PULSE_SERVER", "")
+        if "nx/devices" in pulse_server or "PULSE_SERVER" in os.environ:
+            print("⚠ [AudioIO NoMachine] Redirection audio NX détectée. Destruction de la bulle pour récupérer le matériel...")
+            del os.environ["PULSE_SERVER"]
+        
+        # Test de connexion au vrai serveur physique
         try:
             subprocess.check_output("pactl info", shell=True, stderr=subprocess.STDOUT)
+            print("✅ [AudioIO NoMachine] Connecté au serveur de son physique de la Jetson.")
         except subprocess.CalledProcessError:
-            print("⚠ [AudioIO NoMachine] PulseAudio injoignable. Réparation en cours...")
-            if "PULSE_SERVER" in os.environ:
-                del os.environ["PULSE_SERVER"]
+            print("⚠ [AudioIO NoMachine] Le vrai PulseAudio est injoignable. Lancement...")
             subprocess.run("pulseaudio --start", shell=True, stderr=subprocess.DEVNULL)
             time.sleep(2)
 
