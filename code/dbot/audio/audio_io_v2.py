@@ -130,18 +130,19 @@ class AudioIOv2:
         """Trouve le micro ReSpeaker (PulseAudio ou ALSA)."""
         print("🔍 [AudioIO v2] Recherche du micro ReSpeaker...")
         
-        # 1. Tentative PulseAudio
+        # 1. Tentative PulseAudio (avec pactl, compatible NoMachine)
         try:
-            cmd = "pacmd list-sources | grep -e 'name:' -e 'index:'"
+            cmd = "pactl list short sources"
             output = subprocess.check_output(cmd, shell=True).decode()
             for line in output.split('\n'):
                 if "Mic_Array" in line or "iec958-stereo" in line:
-                    source_name = line.split('<')[1].split('>')[0]
+                    if ".monitor" in line: continue # Ignorer les loopbacks
+                    source_name = line.split()[1]
                     print(f"✅ [AudioIO v2] Source PulseAudio trouvée : {source_name}")
                     self.source_name = source_name
                     return True
         except Exception:
-            print("⚠ [AudioIO v2] PulseAudio indisponible (Conflit NoMachine ?). Tentative ALSA...")
+            print("⚠ [AudioIO v2] PulseAudio indisponible. Tentative ALSA...")
 
         # 2. Fallback ALSA Direct (hw:0,0 ou plughw:0,0)
         # On vérifie si la carte 0 ou 1 est le ReSpeaker
@@ -161,20 +162,28 @@ class AudioIOv2:
 
     def record_audio(self, duration: float, output_file: str) -> bool:
         """
-        Enregistre l'audio via ALSA direct (arecord) — Recommandation Doc 45 §6.B.
+        Enregistre l'audio (Bascule intelligente PulseAudio / ALSA).
         """
         try:
-            # Utilisation de plughw pour contourner PulseAudio (stable sur Orin Nano)
             d = int(duration)
-            # Commande officielle Doc 45 : arecord 2ch -> sox mono
-            cmd = (f"arecord -D {self.alsa_device} -f S16_LE -r 16000 -c 2 -d {d} | "
-                   f"sox -t wav - -c 1 {output_file}")
+            
+            # Si le nom ne contient pas 'hw:', c'est une source PulseAudio (ex: alsa_input...)
+            if "hw:" not in self.source_name:
+                cmd = (f"timeout {d} parecord --device={self.source_name} "
+                       f"--channels=2 --format=s16le --rate=16000 --raw | "
+                       f"sox -t raw -r 16000 -e signed -b 16 -c 2 - -c 1 {output_file}")
+                log_msg = "via PulseAudio"
+            else:
+                # Fallback ALSA direct (sans PulseAudio)
+                cmd = (f"arecord -D {self.source_name} -f S16_LE -r 16000 -c 2 -d {d} | "
+                       f"sox -t wav - -c 1 {output_file}")
+                log_msg = "via ALSA"
             
             subprocess.run(cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
-            print(f"🎤 [AudioIO v2] Enregistrement : {output_file} (via ALSA)")
+            print(f"🎤 [AudioIO v2] Enregistrement : {output_file} ({log_msg})")
             return os.path.exists(output_file) and os.path.getsize(output_file) > 1000
         except Exception as e:
-            print(f"❌ [AudioIO v2] Échec enregistrement ALSA : {e}")
+            print(f"❌ [AudioIO v2] Échec enregistrement : {e}")
             return False
 
     def record_on_speech(self, output_file: str,
