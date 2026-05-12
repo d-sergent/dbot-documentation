@@ -31,29 +31,24 @@ Le suffixe `iec958` désigne le profil PulseAudio (numérique S/PDIF). Le DSP XM
 ## 2. Comportement Selon l'État de NoMachine
 
 > [!IMPORTANT]
-> **NoMachine modifie profondément l'état de PulseAudio.** Le robot doit fonctionner **sans NoMachine** en production. Les différences de comportement sont documentées ici.
+> **NoMachine modifie profondément l'état de PulseAudio.** Il crée une "bulle virtuelle" qui intercepte l'audio. L'architecture a été scindée en double voie (Autonome vs NoMachine) pour gérer ce comportement.
 
-### Avec NoMachine connecté
-| Élément | État |
-| :--- | :--- |
-| Source micro | `RUNNING` — audio live reçu immédiatement |
-| Source par défaut PulseAudio | **`nx_remapped_out`** (micro du Mac distant !) |
-| Amplitude de fond | ~200 RMS |
-| Amplitude voix | ~400–900 RMS |
-| VAD (mode 3) | Fonctionne normalement |
+### A. Le Piège de la Bulle Virtuelle NoMachine (Découverte Mai 2026)
+Quand NoMachine est actif, il modifie la variable d'environnement `PULSE_SERVER` du terminal (ex: `PULSE_SERVER=~/.nx/devices/.../native.socket`).
+*   **Conséquence** : Les commandes PulseAudio (`pactl`, `parecord`, `paplay`) se connectent au serveur virtuel de NoMachine, qui **masque totalement les cartes matérielles physiques ALSA** (`XVF3800` est introuvable). L'audio est entièrement déporté vers le client distant (Mac/PC).
+*   **Solution (Auto-Healing)** : Le module `audio_io_nomachine.py` exécute `del os.environ["PULSE_SERVER"]`. Cela détruit la bulle NoMachine pour le processus Python en cours, forçant la reconnexion au vrai serveur physique PulseAudio de la Jetson.
 
-### Sans NoMachine (Production / Robot Autonome)
-| Élément | État |
-| :--- | :--- |
-| Source micro | **`SUSPENDED`** — retourne un signal constant (~600 RMS) |
-| Source par défaut PulseAudio | ReSpeaker (correct) |
-| Amplitude de fond | ~600–900 RMS (signal figé, ne varie PAS) |
-| Amplitude voix | Identique au fond — la voix ne "monte" pas |
-| VAD (mode 3) | Ne détecte rien (signal constant perçu comme non-parole) |
-
+### B. Le Danger de `graphical.target`
 > [!CAUTION]
-> **PIÈGE :** Sans NoMachine, l'amplitude de fond peut être de ~880 RMS. Si le seuil de détection est codé en dur (ex: 500), il y a des faux positifs. Si le seuil est trop haut (ex: 1877 = 3×626), la voix ne dépasse jamais le bruit de fond car le signal est FIGÉ.
-> La solution n'est pas d'ajuster le seuil : c'est de **sortir la source de l'état SUSPENDED**.
+> Ne jamais utiliser `sudo systemctl isolate graphical.target` dans un script de lancement NoMachine (ex: `start_nomachine.sh`). Cela redémarre GDM, ce qui tue le serveur PulseAudio en cours, verrouille la carte son ALSA et corrompt définitivement la session NoMachine active.
+
+### C. Sans NoMachine (Production / Robot Autonome)
+| Élément | État |
+| :--- | :--- |
+| **Méthode** | Utilisation exclusive de **ALSA Direct** (`audio_io_autonomous.py`) |
+| **Microphone** | `arecord -D plughw:0,0` |
+| **Haut-parleur** | `aplay -D plughw:0,0` |
+| **Avantage** | Bypasse PulseAudio et GDM, stabilité absolue en condition Headless (`multi-user.target`). |
 
 ---
 
@@ -75,6 +70,7 @@ Le suffixe `iec958` désigne le profil PulseAudio (numérique S/PDIF). Le DSP XM
 | **Source réveillée = "monitor" au lieu du micro** | La détection par mot-clé `iec958` matchait aussi `alsa_output...iec958.monitor` | Exclure les sources se terminant par `.monitor` dans la détection |
 | **`aplay/arecord` → "Device busy" + `pactl` vide** | L'utilisateur **`gdm`** (GNOME) a verrouillé la carte au démarrage | `sudo systemctl isolate multi-user.target` pour libérer le matériel |
 | **Source micro SUSPENDED sans NoMachine malgré le fix `/etc/pulse/default.pa.d/`** | Sur Ubuntu 20.04 Jetson, les fichiers `.d/` sont lus **avant** `default.pa` — `unload-module` n'a aucun effet | Commenter directement la ligne dans `default.pa` : `sudo sed -i 's/^load-module module-suspend-on-idle/### DBOT FIX.../'` |
+| **Silence total sous NoMachine (Lecture/Capture inopérantes)** | La "bulle NoMachine" (socket NX via `PULSE_SERVER`) masque les périphériques matériels PulseAudio. | Supprimer la variable avant exécution : `del os.environ["PULSE_SERVER"]`. |
 
 ---
 
