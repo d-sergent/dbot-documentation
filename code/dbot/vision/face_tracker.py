@@ -39,9 +39,11 @@ class FaceTracker:
         xout_det.setStreamName("det")
         
         # Configuration Caméras
-        cam_rgb.setPreviewSize(300, 300) # Requis par le modèle face-detection
+        cam_rgb.setPreviewSize(300, 300) # Requis pour l'IA
+        cam_rgb.setVideoSize(640, 360)   # Plein champ (Wide FOV) optimisé pour le Web
         cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
         cam_rgb.setInterleaved(False)
+        cam_rgb.setFps(30)
         
         mono_left.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
         mono_left.setBoardSocket(dai.CameraBoardSocket.LEFT)
@@ -53,7 +55,6 @@ class FaceTracker:
         stereo.setDepthAlign(dai.CameraBoardSocket.RGB)
         
         # Configuration IA Spatiale
-        # Note: On suppose que le blob est téléchargeable ou présent
         spatial_det.setBlobPath(self._get_model_path())
         spatial_det.setConfidenceThreshold(self.confidence_threshold)
         spatial_det.inputDepth.setBlocking(False)
@@ -68,7 +69,8 @@ class FaceTracker:
         cam_rgb.preview.link(spatial_det.input)
         stereo.depth.link(spatial_det.inputDepth)
         
-        spatial_det.passthrough.link(xout_rgb.input)
+        # CHANGEMENT CRITIQUE : On envoie la VIDÉO (Plein champ) au lieu de la preview
+        cam_rgb.video.link(xout_rgb.input)
         spatial_det.out.link(xout_det.input)
 
     def _get_model_path(self):
