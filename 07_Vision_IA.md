@@ -60,6 +60,16 @@ Pour un encastrement parfait dans le visage du robot :
 > 👉 Pour l'étude technique complète du LiDAR, son montage sur le torse et la stratégie de fusion : **[19 — Perception Spatiale & LiDAR](./19_Perception_Spatiale_LiDAR.md)**.
 
 
-## 3. Stack Logicielle (NVIDIA Isaac)
-- **Isaac ROS** : Utilise les moteurs de deep learning de la Jetson pour traiter le flux OAK-D en temps réel.
-- **Isaac Gym** : Utilisé pour l'apprentissage par renforcement de la marche (Deep RL), en important l'URDF mis à jour avec la masse de l'OAK-D (91g).
+## 3. Implémentation Logicielle (Mai 2026)
+Le système de vision est désormais structuré autour de deux modules Python cœurs :
+- **`code/dbot/vision/oak_camera.py`** : Gère l'accès bas niveau à la caméra, le flux RGB et le contrôle des projecteurs IR (Vision Nocturne).
+- **`code/dbot/vision/face_tracker.py`** : Implémente le **Spatial Face Detection**. Le calcul de la position 3D (X, Y, Z) est fait intégralement sur le VPU de l'OAK-D, ne consommant aucune ressource sur la Jetson.
+
+### 3.1 Stack Logicielle
+- **API** : DepthAI v2 (Stable).
+- **Modèle IA** : `face-detection-retail-0005` (Optimisé OpenVINO).
+- **Fusion** : Intégration prévue dans **Isaac ROS** pour la navigation et la stabilisation du regard.
+
+### 3.2 Scripts de démarrage
+- **`start_look_autonomous.sh`** : Lance le robot en mode détection pure (Headless).
+- **`start_look_nomachine.sh`** : Lance le robot avec retour vidéo temps réel.

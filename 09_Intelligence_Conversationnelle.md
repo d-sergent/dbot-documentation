@@ -1,104 +1,67 @@
-# 09. Intelligence Conversationnelle (100% Locale)
+# 09. Intelligence Conversationnelle (Architecture Hybride Cloud/Edge)
 
-*Dernière mise à jour : 20 Avril 2026*
+*Dernière mise à jour : 12 Mai 2026*
 
-Ce document détaille l'intégration d'une boucle conversationnelle autonome (sans API Cloud) sur le robot D-Bot, alimentée par son ordinateur de bord : la **NVIDIA Jetson Orin Nano Super 8Go**. La contrainte principale était de faire rentrer trois modèles d'Intelligence Artificielle de pointe (STT, LLM, TTS) dans un budget strict de 8 Go de RAM unifiée.
+Ce document détaille l'intégration de la boucle conversationnelle de D-Bot, basée sur une architecture **Hybride** : une intelligence Cloud ultra-rapide en priorité (Gemini), avec une autonomie locale totale en secours (Ollama). Cette approche permet de libérer la RAM de la **NVIDIA Jetson Orin Nano** pour les tâches de marche et de vision.
 
 ---
 
-## 1. Architecture Logicielle et Choix Technologiques
+## 1. Architecture Logicielle "Cerveau Déporté"
 
-Pour atteindre une latence de réponse humaine (3 à 6 secondes) sans l'aide du Cloud, l'architecture suivante a été sélectionnée après plusieurs essais :
+Pour atteindre une latence de réponse quasi-instantanée (< 1 seconde) tout en conservant une intelligence de haut niveau, l'architecture suivante est utilisée :
 
-1. **Écoute Automatique (VAD)** :
-   La librairie `webrtcvad` scanne le flux audio entrant. Lorsqu'elle détecte une voix humaine (Voice Activity Detection mode 1), elle déclenche l'enregistrement via le module `code/dbot/audio/audio_io.py`.
+1. **Écoute et VAD Matériel (ReSpeaker XVF3800)** :
+   Le traitement de la voix (réduction de bruit, annulation d'écho) est fait sur le VPU du ReSpeaker. Le signal propre est détecté par le script `code/dbot/audio/audio_io_v2.py`.
 2. **Speech-to-Text (STT) - Les Oreilles** :
-   **Faster-Whisper (modèle "small")**. Retranscrit l'audio en texte français.
+   **Faster-Whisper (modèle "small")** sur **CUDA**. Grâce au gain de RAM permis par le cloud, nous utilisons le modèle `small` qui offre une précision bien supérieure au modèle `tiny`. Latence : ~1.2s.
 3. **Large Language Model (LLM) - Le Cerveau** :
-   **Ollama + Qwen2.5:3B**. Le modèle quantizé d'Alibaba (Qwen) à 3 Milliards de paramètres offre actuellement le meilleur rapport Qualité du Français / Vitesse / Consommation RAM. Le client `code/dbot/brain/llm_client.py` lui injecte un "Prompt Système" strict pour qu'il garde sa personnalité de D-Bot et fasse des réponses courtes de 2 ou 3 lignes.
+   *   **Primaire (Cloud)** : **Google Gemini 3.1 Flash Lite**. Choisi pour sa latence record et sa gratuité. Géré par `code/dbot/brain/llm_client.py`.
+   *   **Secours (Local)** : **Ollama + Qwen2.5:0.5b**. Si le WiFi est coupé, le robot bascule sur ce modèle ultra-léger pour rester capable de répondre.
 4. **Text-to-Speech (TTS) - La Bouche** :
-   **Piper-TTS** (avec la voix `fr_FR-upmc-medium.onnx`). Ce moteur VITS nécessite moins de 100 Mo de RAM et parle presque instantanément sur architecture ARM64. Le flux généré est envoyé en RAW directement dans l'amplificateur matériel du robot.
+   **Piper-TTS** (voix `fr_FR-siwis-medium.onnx`). Synthèse vocale neuronale ultra-rapide (< 100ms).
 
 ---
 
-## 2. Les Défis (et leurs Solutions)
+## 2. Défis Résolus et Optimisations (Jetson Orin Nano)
 
-Bâtir une IA locale sur les 8 Go d'une Jetson comporte quelques pièges majeurs rencontrés lors du développement :
+### A. Le Conflit Audio GDM (Headless)
+**Problème** : En mode autonome (SSH), le micro ReSpeaker était souvent "occupé" ou invisible.
+**Cause** : L'interface graphique Ubuntu (GDM) verrouille les périphériques audio au démarrage, même si personne n'est connecté.
+**Solution** : Désactivation de GDM via `sudo systemctl isolate multi-user.target`. Cela libère à la fois le matériel audio et **1.5 Go de RAM**.
 
-### A. Le Problème du "Micro Muet" (Hardware)
-**Problème** : Le micro du ReSpeaker XVF-3800 enregistrait toujours un "silence absolu" sous Linux (malgré des LEDs réactives au bruit) via `arecord`, ce qui bloquait indéfiniment la fonction `.listen()` du VAD.
-**Solution** : Le port **USB-C** de la Jetson Orin Nano (destiné au mode Recovery) a un bug matériel connu avec les flux Audio entrants isochrones. La puce ne transmet que des Zéros. **Il faut toujours brancher le microphone matériel sur le port **USB-A (bleu)** à l'arrière.**
-
-### B. Le Crash "Error 500 : Llama runner terminated"
-**Problème** : Lors du chargement du modèle `Qwen2.5:3b`, Ollama s'arrêtait immédiatement en balançant une erreur de serveur 500, un Go Panic, ou une impossibilité d'allouer un buffer CUDA0.
-**Cause** : Le modèle de 1,9 Go essayait d'allouer un énorme bloc dans la mémoire unifiée CUDA de la Jetson. Or, le bureau `NoMachine`, l'interface `GNOME` d'Ubuntu et d'autres outils fragmentaient déjà 5 à 6 Go des 8 Go totaux.
-**Solution** :
-1. Fermeture complète de l'application NoMachine (qui utilise énormément la VRAM/RAM).
-2. Forçage du mode "Terminal/Console pure" (tue le processeur d'interface graphique) : `sudo systemctl isolate multi-user.target` *(Note : pour réactiver le bureau plus tard, utilisez la commande inverse `sudo systemctl isolate graphical.target`)*.
-3. Purge des caches Linux : `sudo sysctl -w vm.drop_caches=3`.
-4. Ajout vital d'un espace **SWAP (fichier d'échange) de 10 Go** sur le SSD NVMe (`sudo fallocate -l 10G /swapfile ...`). Ce fichier permet à Ubuntu de déporter temporairement les processus inutiles sur le disque pour libérer un grand bloc complet de RAM physique pour CUDA.
-5. Activation du profil de performance maximale de la Jetson : `sudo nvpmodel -m 0`.
-
-### C. L'optimisation de CTranslate2 (Succès CUDA STT)
-**Problème initial** : Au lancement du code Python pour `faster-whisper`, la console affichait que CUDA n'était pas supporté par le paquet `pip` standard.
-**Solution (Validée Mai 2026)** : Le moteur `CTranslate2` a été recompilé manuellement sur la Jetson avec les flags NVIDIA. Le résultat est spectaculaire : le STT (modèle Small) est désormais entièrement accéléré par le GPU, offrant une latence de transcription inférieure à 1.5s pour une phrase de 5s. Cette accélération libère le CPU pour d'autres tâches critiques comme la marche.
+### B. Optimisation de la Latence Cloud
+**Problème** : Les modèles gratuits d'OpenRouter (ex: Nemotron 120B) présentaient des latences de 4 à 8 secondes.
+**Solution** : Utilisation de l'**API Native Gemini** avec le modèle **3.1 Flash Lite**. La réponse arrive en moins de 500ms, permettant une conversation fluide et naturelle.
 
 ---
 
-## 3. La Boucle Interactive Finale
+## 3. Capacité d'Action (Function Calling)
 
-L'assemblage a culminé dans un unique script : `code/scripts/behaviors/chatbot_local.py`.
-
-Le cycle est le suivant :
-1. **Écoute Active** : Le robot est silencieux et guette.
-2. L'humain parle -> **Capture WAV temp**
-3. **STT (CPU)** transcrit l'audio.
-4. L'humain arrête de parler -> **LLM (GPU)** analyse le texte.
-5. Le LLM répond -> **TTS (CPU)** synthétise l'onde.
-6. Transmission directe à ALSA (ampli matériel i2s) -> **ReSpeaker JST Speaker**.
-7. Le système efface les anciens messages de la mémoire (pour rester léger) et recommence à guetter.
-
-**Validation Finale** : Le système fonctionne avec le module WiFi éteint (mode avion), ce qui prouve l'intégrale autonomisation de la réflexion du D-Bot.
+D-Bot utilise le **Function Calling natif** de Gemini pour interagir avec son environnement :
+*   **Web Search** : Le robot peut décider de chercher sur internet via DuckDuckGo s'il ne connaît pas une information récente.
+*   **Perception Spatiale** : (En cours) Capacité à demander une analyse visuelle via l'OAK-D pour identifier son interlocuteur.
 
 ---
 
-## 4. Augmentation Cognitive (Tool Use / Function Calling)
+## 4. Mode d'Emploi (Démarrage Automatisé)
 
-Bien que le robot soit conçu pour fonctionner 100% hors-ligne, une capacité matérielle avancée de *"Function Calling"* a été intégrée à son Cerveau (`llm_client.py`) pour lui permettre d'interagir avec le monde extérieur (ex: Internet) de manière autonome.
+Plus besoin de lancer plusieurs terminaux. Tout est automatisé via des scripts robustes :
 
-### Le Principe
-Le modèle `Qwen2.5:3B` est entraîné pour l'utilisation d'outils. Si un humain lui pose une question sur un événement récent qu'il ignore :
-1. Le LLM évalue scrupuleusement ses propres connaissances. S'il n'est pas sûr, il refuse d'halluciner la réponse.
-2. Il génère un ordre JSON système demandant l'utilisation formelle de l'outil `search_web` sur certains mots clés.
-3. Notre code Python intercepte cet ordre, met la voix en pause, et exécute en sous-marin une recherche via la librairie légère `ddgs` (DuckDuckGo).
-4. Python extrait les résumés des 2 premiers articles et les glisse discrètement dans la "mémoire court terme" du robot.
-5. L'IA lit ces faits objectifs ultra-récents et formule finalement sa réponse à voix haute.
-
-**Bénéfice Architectural** : Cette intégration de DuckDuckGo sert de "Preuve de Concept" (Proof of Concept). Puisque le cerveau LLM sait désormais invoquer des fonctions Python locales, il pourra dans le futur utiliser de la même manière des outils physiques comme `lever_bras_gauche()` ou `evaluer_batterie()`.
-
----
-
-## 5. Mode d'Emploi (Démarrage Rapide)
-
-Si vous venez de démarrer la Jetson, voici la procédure stricte pour réveiller le robot :
-
-**1. Libérer la RAM (Crucial)**
-Fermez les interfaces graphiques gourmandes :
+**1. Mode Autonome (Le robot en liberté)**
+Ce script coupe l'interface graphique, optimise la RAM, configure l'audio et lance l'IA :
 ```bash
-sudo systemctl isolate multi-user.target
-sudo sysctl -w vm.drop_caches=3
+./code/scripts/audio/start_autonomous.sh
 ```
 
-**2. Allumer le Cerveau (Ollama)**
-Dans un premier terminal, lancez le serveur IA en tâche de fond :
+**2. Mode Développement (Avec écran NoMachine)**
+Pour travailler sur le code tout en ayant le retour visuel de la caméra :
 ```bash
-ollama serve
+./code/scripts/audio/start_nomachine.sh
 ```
 
-**3. Lancer la Boucle d'Écoute**
-Dans un second terminal, exécutez le script principal :
-```bash
-cd ~/dbot
-python3 code/scripts/behaviors/chatbot_local.py
-```
-*(Patientez le temps du chargement des modèles, puis parlez au robot dès l'apparition du message `Je vous écoute...`).*
+---
+
+## 5. Fichiers Sources de Référence
+*   `code/dbot/brain/llm_client.py` : Logique hybride Gemini/Ollama.
+*   `code/dbot/audio/stt.py` : Transcription Faster-Whisper sur CUDA.
+*   `code/scripts/behaviors/chatbot_local_v2.py` : Script principal de la boucle conversationnelle.

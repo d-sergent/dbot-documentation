@@ -1,9 +1,9 @@
 # 08 - Architecture Audio (XVF-3800)
 
 ## 1. Cerveau IA (Jetson Orin Nano Super)
-Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Nano Super** (67 TOPS). Grâce à ses *Tensor Cores* et une compilation optimisée de **CTranslate2**, le robot fait tourner sa suite logicielle intégralement en local :
+Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Nano Super** (67 TOPS). Elle utilise une architecture **Hybride Cloud/Edge** pour maximiser les performances :
 - **ASR (Speech-to-Text)** : **Faster-Whisper** (modèle Small, accélération CUDA).
-- **LLM** : **Ollama / vMLX** (modèle Qwen 3B/7B).
+- **Cerveau (LLM)** : **Google Gemini 3.1 Flash Lite** (Cloud ultra-rapide) + Fallback local **Ollama** (Qwen 0.5B).
 - **TTS (Text-to-Speech)** : **Piper-TTS** (voix ONNX, latence ultra-faible).
 
 > *Marge Processeur : La marche, la vision OAK-D et l'audio IA consomment environ 52% du processeur au maximum, laissant 48% de marge de sécurité.*
@@ -147,12 +147,8 @@ Extérieur    Crâne PETG-CF    Anneau TPU 95A     ReSpeaker PCB
 > [!IMPORTANT]
 > **Guide de Configuration Détaillé** : Pour le dépannage des grésillements et l'activation du haut-parleur sur Jetson, consultez l'annexe [45 - Configuration Audio ReSpeaker](./annexes/jetson/installation/45_Configuration_Audio_ReSpeaker_XVF3800.md).
 
-- **Routage Audio (ALSA/PulseAudio)** : Le ReSpeaker est reconnu nativement. Pour une capture propre, il est **impératif** d'utiliser un flux **stéréo (2ch)**.
-- **Capture Audio Robuste (ALSA Direct)** : Pour éviter les instabilités de PulseAudio sur Jetson, le pipeline Python utilise `arecord` directement sur le hardware :
-  ```bash
-  # Test de capture propre via ALSA direct (Méthode officielle)
-  arecord -D plughw:0,0 -f S16_LE -r 16000 -c 2 -d 5 /tmp/test.wav
-  ```
+- **Routage Audio (PulseAudio Headless)** : Contrairement à `arecord` direct, nous utilisons **PulseAudio** avec un script de réveil automatique (`start_autonomous.sh`). Cela permet de partager la carte entre plusieurs processus (AudioIO + TTS) tout en bénéficiant de l'AEC matériel.
+- **Capture Audio (parecord)** : Le pipeline Python (`audio_io_v2.py`) utilise désormais `parecord` avec détection dynamique de la source `iec958-stereo`.
 - **Test Indépendant du Haut-Parleur** : Pour envoyer un signal vers l'amplificateur JST :
   ```bash
   paplay /usr/share/sounds/alsa/Front_Center.wav
