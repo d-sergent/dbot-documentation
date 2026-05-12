@@ -92,3 +92,7 @@ Puisque le RS-02 présente une face plate, on doit utiliser des accouplements di
    *   *Avantage* : Excellente tolérance aux désalignements radiaux, très utile si la concentricité entre le RS-02 et le roulement externe n'est pas parfaite à 100%.
 
 > **Note d'assemblage** : Le cercle de perçage (Bolt Circle) du RS-02 n'étant pas un standard universel pour les fabricants d'accouplements, il est souvent nécessaire de concevoir une fine **plaque d'adaptation (Adapter Plate)** usinée en aluminium de 3 à 5 mm d'épaisseur pour relier les trous du RS-02 à ceux de l'accouplement COTS choisi.
+
+### Visualisation de l'Assemblage (Oldham à Bride)
+
+![Assemblage Mécanique QDD RS-02 avec Plaque d'Adaptation, Moyeu à Bride et Accouplement Oldham](/Users/Shared/Mon Google Drive Physique/Documentation/annexes/mecanique/assets/robstride_oldham_assembly.png)
