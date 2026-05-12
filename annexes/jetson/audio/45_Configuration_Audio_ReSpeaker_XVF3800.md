@@ -73,6 +73,7 @@ Le suffixe `iec958` désigne le profil PulseAudio (numérique S/PDIF). Le DSP XM
 | **`arecord -D plughw:X,0` → exit status 2 (device busy)** | PulseAudio verrouille exclusivement le device ALSA quand NoMachine est absent | Utiliser `parecord` à la place (passe par PulseAudio) |
 | **`parecord` enregistre un fichier vide (0.09s de transcription)** | `parecord` n'a pas d'option `-d` pour la durée — elle est ignorée silencieusement | Utiliser `timeout N parecord ...` pour limiter la durée |
 | **Source réveillée = "monitor" au lieu du micro** | La détection par mot-clé `iec958` matchait aussi `alsa_output...iec958.monitor` | Exclure les sources se terminant par `.monitor` dans la détection |
+| **`aplay/arecord` → "Device busy" + `pactl` vide** | L'utilisateur **`gdm`** (GNOME) a verrouillé la carte au démarrage | `sudo systemctl isolate multi-user.target` pour libérer le matériel |
 | **Source micro SUSPENDED sans NoMachine malgré le fix `/etc/pulse/default.pa.d/`** | Sur Ubuntu 20.04 Jetson, les fichiers `.d/` sont lus **avant** `default.pa` — `unload-module` n'a aucun effet | Commenter directement la ligne dans `default.pa` : `sudo sed -i 's/^load-module module-suspend-on-idle/### DBOT FIX.../'` |
 
 ---
@@ -240,7 +241,7 @@ def speak(text, voice_model_path, pulse_sink=None):
 
 | Action | Commande |
 | :--- | :--- |
-| **Mode Headless** (libère ~1.5 Go) | `sudo systemctl isolate multi-user.target` |
+| **Mode Headless** (Libère ~1.5 Go + Audio GDM) | `sudo systemctl isolate multi-user.target` |
 | **Purger le cache RAM** (avant lancement) | `sudo sync && echo 3 | sudo tee /proc/sys/vm/drop_caches` |
 | **Vérifier la RAM libre** | `free -m` |
 | **Surveiller CPU/GPU/RAM** | `tegrastats` ou `jtop` |
