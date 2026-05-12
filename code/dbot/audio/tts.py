@@ -114,20 +114,13 @@ class LocalTTS:
                 except Exception as efx:
                     print(f"⚠ [TTS] Erreur application FX ({fx_preset}) : {efx}")
 
-            # Lecture (Bascule intelligente PulseAudio -> ALSA)
+            # Lecture PulseAudio
             if os.path.exists(temp_wav) and os.path.getsize(temp_wav) > 0:
-                try:
-                    # 1. Tentative avec PulseAudio (Mieux pour le mixage)
-                    play_cmd = ["paplay", temp_wav]
-                    if self.pulse_sink:
-                        play_cmd.extend(["--device", self.pulse_sink])
-                    subprocess.run(play_cmd, check=True, stderr=subprocess.DEVNULL)
-                except Exception:
-                    # 2. Fallback ALSA direct si PulseAudio est refusé (ex: NoMachine / graphical.target reset)
-                    print("⚠ [TTS] PulseAudio refusé, lecture de secours via ALSA Direct...")
-                    aplay_cmd = ["aplay", "-D", f"plughw:{self.card_id},0", temp_wav]
-                    subprocess.run(aplay_cmd, check=True, stderr=subprocess.DEVNULL)
+                play_cmd = ["paplay", temp_wav]
+                if self.pulse_sink:
+                    play_cmd.extend(["--device", self.pulse_sink])
                 
+                subprocess.run(play_cmd, check=True)
                 os.remove(temp_wav)
             else:
                 raise TTSError("[TTS] Le fichier audio généré est vide.")

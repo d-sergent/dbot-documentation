@@ -76,110 +76,75 @@ class AudioIOv2:
             pass
         return "0"
 
-    def _ensure_pulseaudio(self):
-        """Auto-healing NoMachine (Nettoyage du socket mort avant toute autre action)."""
-        try:
-            subprocess.check_output("pactl info", shell=True, stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError:
-            print("⚠ [AudioIO v2] PulseAudio injoignable (Socket NoMachine mort ?). Tentative de réparation...")
-            if "PULSE_SERVER" in os.environ:
-                del os.environ["PULSE_SERVER"]
-            subprocess.run("pulseaudio --start", shell=True, stderr=subprocess.DEVNULL)
-            time.sleep(2) # Laisser le temps au démon de démarrer
-
     def _initialize_hardware(self):
         """Active l'amplificateur JST et réveille la source PulseAudio (Doc 45 §4)."""
-        # 0. Réparation immédiate de PulseAudio
-        self._ensure_pulseaudio()
-
         # 1. Amplificateur JST
         try:
-            subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=3", "on"], stdout=subprocess.DEVNULL)
-            subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=4", "on"], stdout=subprocess.DEVNULL)
-            subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=5", "70"], stdout=subprocess.DEVNULL)
-            subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=6", "70"], stdout=subprocess.DEVNULL)
+            subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=3", "on"],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=4", "on"],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=5", "70"],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=6", "70"],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             print(f"✅ [AudioIO v2] Ampli JST activé (Carte {self.card_id})")
         except Exception as e:
             print(f"⚠ [AudioIO v2] Erreur init ampli : {e}")
 
-        # 2. Réveil de la source PulseAudio
+        # 2. Réveil de la source PulseAudio (CRITIQUE sans NoMachine — Doc 45 §4)
+        # Sans NoMachine, PulseAudio suspend le micro → signal constant → silence
         try:
-            subprocess.run(["pactl", "unload-module", "module-suspend-on-idle"], stdout=subprocess.DEVNULL)
-            
-            if self._find_respeaker_source():
-                subprocess.run(["pactl", "suspend-source", self.source_name, "0"], stdout=subprocess.DEVNULL)
-                subprocess.run(["pactl", "set-source-mute", self.source_name, "false"], stdout=subprocess.DEVNULL)
-                subprocess.run(["pactl", "set-source-volume", self.source_name, "150%"], stdout=subprocess.DEVNULL)
-                self.pulse_source = self.source_name
-                print(f"✅ [AudioIO v2] Source micro réveillée : ...{self.pulse_source[-45:]}")
+            # Désactiver la mise en veille automatique
+            subprocess.run(["pactl", "unload-module", "module-suspend-on-idle"],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            # Identifier la source ReSpeaker dynamiquement
+            result = subprocess.check_output(
+                ["pactl", "list", "short", "sources"], text=True
+            )
+            source_name = None
+            for line in result.splitlines():
+                parts = line.split()
+                if len(parts) >= 2:
+                    name = parts[1]
+                    # Exclure les sources "monitor" (loopback du HP, pas le micro)
+                    if name.endswith('.monitor'):
+                        continue
+                    if ("respeaker" in name.lower() or "xvf3800" in name.lower() or "iec958" in name.lower()):
+                        source_name = name
+                        break
+            if source_name:
+                subprocess.run(["pactl", "suspend-source", source_name, "0"],
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-source-mute", source_name, "false"],
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-source-volume", source_name, "150%"],
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                self.pulse_source = source_name  # Mémoriser pour parecord
+                print(f"✅ [AudioIO v2] Source micro réveillée : ...{source_name[-45:]}")
             else:
                 self.pulse_source = None
                 print("⚠ [AudioIO v2] Source ReSpeaker non trouvée dans PulseAudio")
         except Exception as e:
-            print(f"⚠ [AudioIO v2] Erreur globale réveil PulseAudio : {e}")
-
-    def _find_respeaker_source(self):
-        """Trouve le micro ReSpeaker (PulseAudio ou ALSA)."""
-        print("🔍 [AudioIO v2] Recherche du micro ReSpeaker...")
-        
-        # 1. Tentative PulseAudio (avec pactl, compatible NoMachine)
-        try:
-            cmd = "pactl list short sources"
-            output = subprocess.check_output(cmd, shell=True).decode()
-            for line in output.split('\n'):
-                if "Mic_Array" in line or "XVF3800" in line or "usb" in line:
-                    if ".monitor" in line: continue
-                    source_name = line.split()[1]
-                    print(f"✅ [AudioIO v2] Source PulseAudio trouvée : {source_name}")
-                    self.source_name = source_name
-                    return True
-            
-            print("🚨 [DIAGNOSTIC] Le micro n'a pas été trouvé dans PulseAudio. Voici les sources disponibles :")
-            print(output)
-        except Exception as e:
-            print(f"⚠ [AudioIO v2] Erreur pactl : {e}")
-
-        # 2. Fallback ALSA Direct (hw:0,0 ou plughw:0,0)
-        # On vérifie si la carte 0 ou 1 est le ReSpeaker
-        try:
-            cmd = "arecord -l"
-            output = subprocess.check_output(cmd, shell=True).decode()
-            if "XVF3800" in output or "ReSpeaker" in output:
-                # Souvent c'est la carte 0 sur Orin Nano
-                print("✅ [AudioIO v2] ReSpeaker détecté via ALSA (Direct Hardware)")
-                self.source_name = "plughw:0,0" # Utilisation du plugin de conversion
-                return True
-        except Exception:
-            pass
-            
-        print("❌ [AudioIO v2] Micro ReSpeaker introuvable.")
-        return False
+            print(f"⚠ [AudioIO v2] Erreur réveil source PulseAudio : {e}")
 
     def record_audio(self, duration: float, output_file: str) -> bool:
         """
-        Enregistre l'audio (Bascule intelligente PulseAudio / ALSA).
+        Enregistre l'audio via PulseAudio (parecord).
+        Note : parecord n'a pas d'option -d, on utilise 'timeout' pour limiter la durée.
         """
         try:
-            d = int(duration)
-            
-            # Si le nom ne contient pas 'hw:', c'est une source PulseAudio (ex: alsa_input...)
-            if "hw:" not in self.source_name:
-                cmd = (f"timeout {d} parecord --device={self.source_name} "
-                       f"--channels=2 --format=s16le --rate=16000 --raw | "
-                       f"sox -t raw -r 16000 -e signed -b 16 -c 2 - -c 1 {output_file}")
-                log_msg = "via PulseAudio"
-            else:
-                # Fallback ALSA direct (sans PulseAudio)
-                cmd = (f"arecord -D {self.source_name} -f S16_LE -r 16000 -c 2 -d {d} | "
-                       f"sox -t wav - -c 1 {output_file}")
-                log_msg = "via ALSA"
-            
-            subprocess.run(cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
-            print(f"🎤 [AudioIO v2] Enregistrement : {output_file} ({log_msg})")
+            device_arg = f"--device={self.pulse_source}" if getattr(self, 'pulse_source', None) else ""
+            # 'timeout N' arrête parecord après N secondes (parecord n'a pas d'option -d)
+            cmd = (f"timeout {int(duration)} parecord {device_arg} "
+                   f"--channels=2 --format=s16le --rate=16000 --raw | "
+                   f"sox -t raw -r 16000 -e signed -b 16 -c 2 - -c 1 {output_file}")
+            subprocess.run(cmd, shell=True, stderr=subprocess.DEVNULL)
+            # Note : pas de check=True car timeout retourne exit code 124 à expiration (normal)
+            print(f"🎤 [AudioIO v2] Enregistrement : {output_file}")
             return os.path.exists(output_file) and os.path.getsize(output_file) > 1000
         except Exception as e:
-            print(f"❌ [AudioIO v2] Échec enregistrement : {e}")
-            return False
+            raise AudioIOv2Error(f"Échec enregistrement : {e}")
 
     def record_on_speech(self, output_file: str,
                          silence_timeout: float = 1.0,
