@@ -130,6 +130,16 @@ class AudioIOv2:
         """Trouve le micro ReSpeaker (PulseAudio ou ALSA)."""
         print("🔍 [AudioIO v2] Recherche du micro ReSpeaker...")
         
+        # 0. Auto-healing NoMachine (Nettoyage du socket mort)
+        try:
+            subprocess.check_output("pactl info", shell=True, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError:
+            print("⚠ [AudioIO v2] PulseAudio injoignable (Socket NoMachine mort ?). Tentative de réparation...")
+            if "PULSE_SERVER" in os.environ:
+                del os.environ["PULSE_SERVER"]
+            subprocess.run("pulseaudio --start", shell=True, stderr=subprocess.DEVNULL)
+            time.sleep(1) # Laisser le temps au démon de démarrer
+        
         # 1. Tentative PulseAudio (avec pactl, compatible NoMachine)
         try:
             cmd = "pactl list short sources"
@@ -142,11 +152,8 @@ class AudioIOv2:
                     self.source_name = source_name
                     return True
             
-            # DIAGNOSTIC : Si on arrive ici, on n'a rien trouvé. Affichons ce que voit PulseAudio.
             print("🚨 [DIAGNOSTIC] Le micro n'a pas été trouvé dans PulseAudio. Voici les sources disponibles :")
-            print("--------------------------------------------------")
             print(output)
-            print("--------------------------------------------------")
         except Exception as e:
             print(f"⚠ [AudioIO v2] Erreur pactl : {e}")
 
