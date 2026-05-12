@@ -147,8 +147,9 @@ Extérieur    Crâne PETG-CF    Anneau TPU 95A     ReSpeaker PCB
 > [!IMPORTANT]
 > **Guide de Configuration Détaillé** : Pour le dépannage des grésillements et l'activation du haut-parleur sur Jetson, consultez l'annexe [45 - Configuration Audio ReSpeaker](./annexes/jetson/installation/45_Configuration_Audio_ReSpeaker_XVF3800.md).
 
-- **Routage Audio (PulseAudio Headless)** : Contrairement à `arecord` direct, nous utilisons **PulseAudio** avec un script de réveil automatique (`start_autonomous.sh`). Cela permet de partager la carte entre plusieurs processus (AudioIO + TTS) tout en bénéficiant de l'AEC matériel.
-- **Capture Audio (parecord)** : Le pipeline Python (`audio_io_v2.py`) utilise désormais `parecord` avec détection dynamique de la source `iec958-stereo`.
+- **Routage Audio Mixte (ALSA / PulseAudio)** : Le système utilise une approche hybride pour garantir une stabilité maximale, même lorsque NoMachine bloque les ports audio.
+- **Capture Audio (Les Oreilles)** : Le pipeline Python (`audio_io_v2.py`) capture la voix via **ALSA Direct (`arecord plughw:0,0`)** et un pipe `sox` pour le mono. Cela court-circuite totalement PulseAudio et garantit un flux constant à 16kHz sans les conflits de l'interface graphique.
+- **Lecture Audio (La Bouche)** : Le TTS (Piper) continue d'utiliser **PulseAudio (`paplay`)** car il permet un meilleur mixage logiciel et une gestion du volume simplifiée sans verrouiller le matériel ALSA de façon exclusive.
 - **Test Indépendant du Haut-Parleur** : Pour envoyer un signal vers l'amplificateur JST :
   ```bash
   paplay /usr/share/sounds/alsa/Front_Center.wav

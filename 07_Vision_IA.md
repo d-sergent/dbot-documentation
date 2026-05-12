@@ -65,11 +65,26 @@ Le système de vision est désormais structuré autour de deux modules Python c�
 - **`code/dbot/vision/oak_camera.py`** : Gère l'accès bas niveau à la caméra, le flux RGB et le contrôle des projecteurs IR (Vision Nocturne).
 - **`code/dbot/vision/face_tracker.py`** : Implémente le **Spatial Face Detection**. Le calcul de la position 3D (X, Y, Z) est fait intégralement sur le VPU de l'OAK-D, ne consommant aucune ressource sur la Jetson.
 
-### 3.1 Stack Logicielle
-- **API** : DepthAI v2 (Stable).
-- **Modèle IA** : `face-detection-retail-0005` (Optimisé OpenVINO).
-- **Fusion** : Intégration prévue dans **Isaac ROS** pour la navigation et la stabilisation du regard.
+### 3.1 Stack Logicielle et Dépendances
+- **API** : **DepthAI v2.24.0 obligatoire**. L'API 3.x (expérimentale) casse la compatibilité avec le réseau de détection spatiale (`MobileNetSpatialDetectionNetwork`).
+  ```bash
+  pip3 install depthai==2.24.0 --force-reinstall
+  ```
+- **Modèle IA** : `face-detection-retail-0005`. Doit être téléchargé et compilé spécifiquement via l'outil officiel :
+  ```bash
+  python3 -m pip install blobconverter
+  python3 -c "import blobconverter; blobconverter.from_zoo(name='face-detection-retail-0005', shaves=4, output_dir='/home/david/dbot/models', version='2021.4')"
+  ```
 
-### 3.2 Scripts de démarrage
-- **`start_look_autonomous.sh`** : Lance le robot en mode détection pure (Headless).
-- **`start_look_nomachine.sh`** : Lance le robot avec retour vidéo temps réel.
+### 3.2 Gestion du Champ de Vision (FOV)
+Pour conserver le **vrai champ de vision grand angle (81°)** du capteur Sony IMX378 de l'OAK-D, il ne faut **pas** régler la caméra sur 1080p (ce qui provoque un *Center Crop*).
+La stratégie implémentée dans `face_tracker.py` est :
+1. Capturer l'image complète en **4K** (`THE_4_K`).
+2. Utiliser l'ISP interne pour réduire à **640x360** (`setIspScale(1, 6)`).
+Cela offre une image 16:9 parfaite sans surcharge USB, pendant que l'IA tourne en parallèle sur un crop de 300x300.
+
+### 3.3 Mode de Débogage Visuel (Serveur Web)
+L'affichage classique via `cv2.imshow` pose des problèmes de crash OpenGL/Qt (`qt.qpa.xcb`) lorsqu'il est utilisé à travers NoMachine ou SSH.
+Pour contourner cela, le script de démo intègre un **Serveur Web MJPEG (Flask)**.
+- **Lancement** : `./code/scripts/behaviors/start_look_nomachine.sh` (qui appelle le script Python avec le flag `--web`).
+- **Visualisation** : Depuis n'importe quel navigateur sur le réseau à l'adresse `http://<IP_JETSON>:5000`.
