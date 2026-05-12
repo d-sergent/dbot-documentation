@@ -61,3 +61,34 @@ Ils possèdent un grand trou central (Hollow Bore) pour passer les câbles du po
 
 ### Conclusion pour la Conception du D-Bot
 Si vous avez le budget et l'espace, l'achat d'une **Hollow Rotary Platform** nue (sans moteur) dans laquelle vous insérez votre RS-02 est la voie la plus professionnelle. La plateforme encaissera 100% des contraintes du bras de levier, et vous offrira un passage de câble parfait pour les tendons et les fils de la main.
+
+---
+
+## 4. Cas Spécifique : Moteurs QDD (Type Robstride RS-02)
+
+Les moteurs quasi-directs (QDD) comme le Robstride RS-02 ou les moteurs Unitree possèdent déjà un réducteur planétaire et un roulement de sortie haute capacité intégrés. De plus, ils n'ont **pas d'arbre de transmission cylindrique**, mais une **bride plate taraudée** (ex: 6x M4).
+
+L'utilisation d'une *Hollow Rotary Platform* externe devient alors redondante et inadaptée (double réduction). 
+
+Pour reproduire le schéma de découplage absolu (ex: Tesla Optimus) où un grand roulement externe (Slewing Ring) encaisse le bras de levier et le moteur ne transmet que le couple via un accouplement cannelé (Spline Coupling), il faut adapter la face plate du QDD.
+
+### Solutions COTS pour Moteurs QDD (Accouplements à Bride)
+
+Puisque le RS-02 présente une face plate, on doit utiliser des accouplements dits **"Flange-Mounted" (Montage sur Bride)** :
+
+1. **L'Accouplement à Denture avec Bride (Curved-Tooth Gear Coupling)**
+   *   *Exemple COTS* : **KTR BoWex® FLE-PA**.
+   *   *Principe* : Une bride en nylon renforcé se visse sur la face plate du RS-02. Elle possède des cannelures internes. Le bras robotique est équipé du moyeu en acier avec des dents externes bombées.
+   *   *Avantage* : Transmet un couple extrême, tolère un léger désalignement grâce aux dents bombées, et autorise un glissement axial libre. C'est la solution industrielle parfaite pour imiter le "Spline Coupling" de la photo de référence.
+
+2. **Le Moyeu Cannelé à Bride (Flanged Spline Nut)**
+   *   *Exemple COTS* : Catalogue **MISUMI** ou **THK** (Série d'écrous cannelés à embase).
+   *   *Principe* : Une douille métallique avec une base plate à visser se fixe sur le RS-02. Elle s'emboîte dans un arbre cannelé standard (Involute Spline Shaft).
+   *   *Avantage* : Connexion métallique très rigide, idéale pour les démontages rapides (Quick-Disconnect).
+
+3. **Accouplement Oldham à Demi-Moyeu Plat (Flange Hub Oldham)**
+   *   *Exemple COTS* : **R+W Couplings** ou **KTR**.
+   *   *Principe* : Remplacement du moyeu de serrage habituel par un disque plat percé, à visser sur le RS-02.
+   *   *Avantage* : Excellente tolérance aux désalignements radiaux, très utile si la concentricité entre le RS-02 et le roulement externe n'est pas parfaite à 100%.
+
+> **Note d'assemblage** : Le cercle de perçage (Bolt Circle) du RS-02 n'étant pas un standard universel pour les fabricants d'accouplements, il est souvent nécessaire de concevoir une fine **plaque d'adaptation (Adapter Plate)** usinée en aluminium de 3 à 5 mm d'épaisseur pour relier les trous du RS-02 à ceux de l'accouplement COTS choisi.
