@@ -40,8 +40,13 @@ class FaceTracker:
         
         # Configuration Caméras
         cam_rgb.setPreviewSize(300, 300) # Requis pour l'IA
-        cam_rgb.setVideoSize(640, 360)   # Plein champ (Wide FOV) optimisé pour le Web
-        cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
+        
+        # Pour le VRAI Grand Angle sur OAK-D (IMX378), il faut utiliser 4K et downscale, 
+        # sinon le 1080p fait un "center crop" (zoom).
+        cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_4_K)
+        cam_rgb.setIspScale(1, 6) # Divise 4K (3840x2160) par 6 -> 640x360
+        cam_rgb.setVideoSize(640, 360)
+        
         cam_rgb.setInterleaved(False)
         cam_rgb.setFps(30)
         
