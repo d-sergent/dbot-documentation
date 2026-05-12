@@ -15,6 +15,15 @@ import time
 import requests
 import json
 
+# Tentative de chargement du .env pour les clés API (Cloud)
+env_path = os.path.join(os.path.dirname(__file__), "../../../.env")
+if os.path.exists(env_path):
+    with open(env_path, "r") as f:
+        for line in f:
+            if "=" in line and not line.startswith("#"):
+                k, v = line.strip().split("=", 1)
+                os.environ[k] = v
+
 try:
     from ddgs import DDGS
     HAS_DDGS = True

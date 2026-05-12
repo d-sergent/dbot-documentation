@@ -83,8 +83,8 @@ def main():
         
         print(f"✅ [STT] Oreilles prêtes ({stt_device.upper()})")
         print(f"🔊 [TTS] Initialisé avec la voix : {os.path.basename(voice_model)}")
-        if os.environ.get("OPENROUTER_API_KEY"):
-            print(f"🧠 [Cerveau] Mode Hybride activé (Cloud: OpenRouter, Secours: {llm_model})")
+        if os.environ.get("GEMINI_API_KEY"):
+            print(f"🧠 [Cerveau] Mode Hybride activé (Cloud: Gemini, Secours: {llm_model})")
         else:
             print(f"🧠 [Cerveau] Mode 100% Local activé (Modèle: {llm_model})")
         print(f"   (Variables : OPENROUTER_API_KEY, DBOT_LLM_MODEL, DBOT_STT_DEVICE, DBOT_STT_MODEL)")
