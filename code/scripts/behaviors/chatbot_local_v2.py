@@ -73,7 +73,7 @@ def main():
     voice_model = os.environ.get("PIPER_VOICE", _default_voice)
     llm_model   = os.environ.get("DBOT_LLM_MODEL", "qwen2.5:0.5b")
     stt_device  = os.environ.get("DBOT_STT_DEVICE", "cuda") # On repasse en CUDA
-    stt_model   = os.environ.get("DBOT_STT_MODEL", "tiny")  # 'tiny' pour économiser 1 Go de RAM
+    stt_model   = os.environ.get("DBOT_STT_MODEL", "small")  # 'small' est maintenant possible grâce au gain de RAM OpenRouter
 
     try:
         print(f"⏳ [STT] Chargement du réseau neuronal auditif '{stt_model}' sur {stt_device.upper()}...")
