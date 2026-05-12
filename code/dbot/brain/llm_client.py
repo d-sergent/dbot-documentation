@@ -15,14 +15,24 @@ import time
 import requests
 import json
 
-# Tentative de chargement du .env pour les clés API (Cloud)
-env_path = os.path.join(os.path.dirname(__file__), "../../../.env")
-if os.path.exists(env_path):
-    with open(env_path, "r") as f:
-        for line in f:
-            if "=" in line and not line.startswith("#"):
-                k, v = line.strip().split("=", 1)
-                os.environ[k] = v
+# Recherche dynamique du fichier .env (remonte jusqu'à 4 niveaux de parents)
+def load_env_robust():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    for _ in range(5):
+        env_path = os.path.join(current_dir, ".env")
+        if os.path.exists(env_path):
+            with open(env_path, "r") as f:
+                for line in f:
+                    if "=" in line and not line.startswith("#"):
+                        k, v = line.strip().split("=", 1)
+                        os.environ[k.strip()] = v.strip()
+            return True
+        parent = os.path.dirname(current_dir)
+        if parent == current_dir: break
+        current_dir = parent
+    return False
+
+load_env_robust()
 
 try:
     from ddgs import DDGS
