@@ -123,3 +123,25 @@ Beaucoup de concepteurs font l'erreur d'acheter des accouplements à mâchoires 
 **Analyse de la Tolérance :**
 *   **Modèle D30 L40** : Autorise **14.8 N.m** en couple maximal absolu. En cas de choc mécanique ou de rattrapage d'erreur PID à pleine puissance, le moteur enverra 17 N.m. Le croisillon en élastomère se déchirera ou le moyeu glissera.
 *   **Modèle D40 L50** : Autorise **20 N.m** en couple maximal absolu. C'est la taille requise. Il offre une marge de sécurité de 3 N.m au-dessus du pic absolu du RS-02, garantissant l'intégrité de l'articulation sous lourde charge dynamique.
+
+---
+
+### 6. Matrice de Dimensionnement pour toute la Gamme Robstride
+
+Si vous souhaitez appliquer ce principe de découplage (Moteur -> Plaque -> Moyeu à Bride -> Accouplement -> Palier) à plusieurs articulations du robot, voici le dimensionnement strict requis pour chaque moteur.
+
+> ⚠️ **Avertissement de Conception (Poids/Volume)** : Plus on monte en gamme, plus le couple devient industriel. Un accouplement pour 120 N.m (Taille D80) pèse plus d'1 kg et mesure 8 cm de large. Pour les hanches et les épaules (RS-04 / RS-03), il est souvent préférable de **visser la structure directement sur la bride du moteur** (Montage Direct), car le roulement interne du QDD est spécifiquement conçu pour supporter ces lourdes charges sans accouplement externe. Réservez les accouplements aux longs segments (avant-bras).
+
+| Moteur Robstride | Couple Pic (Peak) | Usage Typique | Taille Accouplement Mâchoires (Plum) | Tolérance Max (Pic) | Mots-clés de recherche (Amazon / CNC) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **RS-02** | 17 N.m | Poignet / Supination | **D40 L50** (Aluminium) | ~ 20 N.m | `Plum coupling D40 L50` |
+| **RS-06** | 36 N.m | Coude (Flexion) | **D55 L66** (Aluminium) | ~ 95 N.m | `Accouplement flexible D55 L66` |
+| **RS-03** | 60 N.m | Épaule (Roll) | **D65 L90** (Aluminium) | ~ 190 N.m | `Jaw coupling D65 CNC` |
+| **RS-04** | 120 N.m | Épaule (Pitch) | **D80 L114** (Acier/Alu) | ~ 300 N.m | `Coupling D80 acier L114` |
+
+#### Liens d'achat fiables (Livraison France) :
+1.  **Pour les petites tailles (D40 pour RS-02)** : Très courants sur **Amazon France** sous les marques de composants CNC (ex: *sourcing map*, *DollaTek*).
+2.  **Pour les tailles industrielles (D55, D65, D80)** : Amazon ne stocke pas toujours ces volumes. Tournez-vous vers :
+    *   **Dold Mechatronics** (Boutique CNC Allemande très prisée en France) : Chercher *"Accouplement à griffes (Jaw Coupling)"*.
+    *   **KTR France** (Série ROTEX) : Le standard industriel européen absolu.
+    *   **MISUMI Europa** : Recherche *"Accouplement à Mâchoires"*.
