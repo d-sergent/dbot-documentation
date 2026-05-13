@@ -104,3 +104,22 @@ Puisque le RS-02 présente une face plate, on doit utiliser des accouplements di
 ### Visualisation de l'Assemblage (Oldham à Bride)
 
 ![Assemblage Mécanique QDD RS-02 avec Plaque d'Adaptation, Moyeu à Bride et Accouplement Oldham](./assets/robstride_flat_oldham_annotated.png)
+
+---
+
+### 5. Dimensionnement Critique de l'Accouplement (Cas du "Plum / Jaw Coupling")
+
+Si vous optez pour la méthode d'assemblage "Moyeu à Bride + Accouplement" à l'aide de pièces génériques achetées sur internet (ex: AliExpress ou Amazon), **le dimensionnement physique de la pièce est critique**.
+
+Le moteur **Robstride RS-02** produit :
+*   Couple Nominal : **6 N.m**
+*   Couple de Pic (Max Torque) : **17 N.m**
+
+Beaucoup de concepteurs font l'erreur d'acheter des accouplements à mâchoires de taille **D30 L40** (Diamètre extérieur 30mm, Longueur 40mm). Voici pourquoi c'est un risque de rupture :
+
+![Tableau de spécifications d'accouplements Plum / Jaw](./assets/accouplement_jaw_specs.png)
+*(Source : [Fiche produit de référence AliExpress](https://fr.aliexpress.com/item/1005010485423495.html))*
+
+**Analyse de la Tolérance :**
+*   **Modèle D30 L40** : Autorise **14.8 N.m** en couple maximal absolu. En cas de choc mécanique ou de rattrapage d'erreur PID à pleine puissance, le moteur enverra 17 N.m. Le croisillon en élastomère se déchirera ou le moyeu glissera.
+*   **Modèle D40 L50** : Autorise **20 N.m** en couple maximal absolu. C'est la taille requise. Il offre une marge de sécurité de 3 N.m au-dessus du pic absolu du RS-02, garantissant l'intégrité de l'articulation sous lourde charge dynamique.
