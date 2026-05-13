@@ -29,6 +29,21 @@ L'accouplement devient indispensable pour éviter la **sur-contrainte mécanique
 
 > **Synthèse D-Bot** : Les gros actionneurs (RS-04, RS-03) aux hanches et épaules seront en **Montage Direct**. Les segments longs sujets à flexion ou nécessitant un support en chape (Avant-bras, Cou) utiliseront le **Montage Découplé**.
 
+### 💡 L'Épiphanie de Conception : Viser le "100% Cantilever"
+La stratégie la plus moderne (utilisée sur les robots quadrupèdes et les bras industriels légers) consiste à **fuir systématiquement le montage en chape (en U)** pour le remplacer par un montage en **porte-à-faux simple (Cantilever)**.
+
+1.  **Zéro Hyperstatisme** : En éliminant le palier opposé, on s'affranchit totalement des tolérances d'usinage ou d'impression 3D. Le moteur est le seul et unique maître de l'axe. Aucun risque de friction parasite.
+2.  **Exploitation maximale du QDD** : Le lourd roulement à rouleaux croisés (Cross Roller Bearing) intégré au moteur Robstride est conçu *précisément* pour encaisser seul ce moment de flexion. 
+3.  **Conséquence** : Si l'on adopte cette approche pour les flexions principales (Épaules, Coude), le bras en "L" qui tient le moteur devra être extrêmement rigide (Aluminium CNC épais ou Carbone). En contrepartie, **le seul endroit où l'accouplement flexible restera obligatoire sera la rotation axiale longue (ex: Supination)**.
+
+**Comparatif Visuel (Cas des moteurs plats sans arbre sortant) :**
+
+![Montage Cantilever (Recommandé)](./assets/qdd_cantilever_mount.png)
+*✅ **Montage Cantilever (Recommandé)** : Le moteur porte tout. Architecture minimaliste, zéro hyperstatisme. Exige une équerre rigide (Alu).*
+
+![Montage en Chape (Risqué)](./assets/qdd_clevis_mount.png)
+*⚠️ **Montage en Chape (U-Bracket)** : Le bras est tenu des deux côtés. Utile si la structure est souple (Plastique), mais nécessite un alignement parfait sous peine de détruire le moteur.*
+
 ---
 
 ## 1. La Solution du Roulement Annulaire (Slewing Ring / Thin Section)
