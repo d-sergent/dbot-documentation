@@ -4,6 +4,14 @@ Cette étude fait suite à l'analyse de l'architecture biomimétique (Doc 22b) n
 
 ---
 
+## 0. Spécifications Techniques : Robstride RS-02
+
+Voici les caractéristiques officielles de l'actionneur utilisé pour le coude (Supination) :
+
+![Fiche Technique Robstride RS-02](./assets/robstride_02_datasheet.png)
+
+---
+
 ## 1. La Solution du Roulement Annulaire (Slewing Ring / Thin Section)
 
 Le principe fondamental du "découplage" en robotique est de ne jamais laisser l'arbre d'un servomoteur supporter le poids ou le bras de levier d'un membre (moment de flexion). 
