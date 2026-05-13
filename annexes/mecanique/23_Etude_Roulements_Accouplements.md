@@ -12,6 +12,25 @@ Voici les caractéristiques officielles de l'actionneur utilisé pour le coude (
 
 ---
 
+## Principes Architecturaux : Montage Direct vs Découplé
+
+Avant de concevoir l'assemblage d'un actionneur QDD (Quasi-Direct Drive comme les Robstride), il faut trancher entre un montage direct ou l'utilisation d'un accouplement. Ce choix ne dépend pas uniquement de la limite de couple, mais de la **géométrie des efforts** (hyperstatisme) et des besoins en **rigidité**.
+
+### 🟢 Montage Direct (Vissé sur la bride du moteur)
+C'est la méthode reine pour les **grosses articulations** (Hanches, Genoux, Épaules Pitch/Roll).
+*   **Besoin de Rigidité (Zero Compliance)** : Les algorithmes d'équilibre (PID, Contrôle d'impédance) exigent une structure "raide". Un accouplement ajoute un effet ressort qui fait trembler le robot ou retarde ses réactions. Le montage direct offre une rigidité mécanique infinie.
+*   **Compacité (Bras de levier court)** : Un gros accouplement écarte le bras de plusieurs centimètres, créant un levier néfaste sur le torse. Le montage direct garde le poids au plus près du centre de gravité.
+*   **Porte-à-faux simple (Cantilever)** : Si le bras n'est soutenu *que* par le moteur (sans appui de l'autre côté), le roulement à rouleaux croisés géant intégré au QDD est spécifiquement conçu pour encaisser ce moment de flexion.
+
+### 🔴 Montage Découplé (Accouplement flexible + Roulement externe)
+L'accouplement devient indispensable pour éviter la **sur-contrainte mécanique (Hyperstatisme)** ou isoler les flexions parasites.
+*   **Le Montage en "Chape" (en U)** : Si l'articulation est tenue par le moteur d'un côté et par un palier passif de l'autre. Le moindre défaut d'alignement géométrique (0.1 mm) lors de la fabrication CNC/3D fera "forcer" l'axe du moteur contre le palier. L'accouplement flexible absorbe cette erreur de concentricité, sauvant les roulements internes.
+*   **La Rotation Axiale Longue (ex: Avant-bras / Supination)** : Lorsqu'un long segment tubulaire soulève une charge, il flambe (plie) très légèrement. Si le moteur est en prise directe, cette flexion "tord" la bride du rotor. L'accouplement permet au segment de plier librement dans son palier externe massif tout en transmettant la torsion au moteur sans friction axiale.
+
+> **Synthèse D-Bot** : Les gros actionneurs (RS-04, RS-03) aux hanches et épaules seront en **Montage Direct**. Les segments longs sujets à flexion ou nécessitant un support en chape (Avant-bras, Cou) utiliseront le **Montage Découplé**.
+
+---
+
 ## 1. La Solution du Roulement Annulaire (Slewing Ring / Thin Section)
 
 Le principe fondamental du "découplage" en robotique est de ne jamais laisser l'arbre d'un servomoteur supporter le poids ou le bras de levier d'un membre (moment de flexion). 
