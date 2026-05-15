@@ -29,7 +29,7 @@ graph TD
     BUSBAR --> MOT["26x Moteurs RobStride"]
     BUSBAR --> B19["Buck 48V/19V 5A"]
     BUSBAR --> B12["Buck 48V/12V 5A"]
-    BUSBAR --> B05["Buck 48V/5V 5A"]
+    BUSBAR --> B05["Buck 48V/5V 5A (Always-On)"]
 
     %% Distribution 19V
     B19 --> JET["Jetson Orin Nano"]
@@ -40,10 +40,10 @@ graph TD
     B12 --> DYN_G["Main G (8x Dynamixel)"]
     B12 --> DYN_D["Main D (8x Dynamixel)"]
 
-    %% Distribution 5V (Always-On)
+    %% Distribution 5V
     B05 --> SPR["Sony Spresense"]
 
-    %% Régulations Locales 3.3V (Option B)
+    %% Régulations Locales 3.3V
     B05 --> LDO_P["LDO 3.3V (Chevilles)"]
     LDO_P --> FSR["Capteurs FSR"]
 
