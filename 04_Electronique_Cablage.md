@@ -41,12 +41,15 @@ graph TD
     %% Distribution 5V (Always-On)
     B05 --> SPR["Sony Spresense"]
 
-    %% Régulations Locales 3.3V
-    DYN --> LDO_A["LDO 3.3V (Avant-bras)"]
-    LDO_A --> EFLESH["Capteurs eFlesh"]
-    
+    %% Régulations Locales 3.3V (Option B)
     B05 --> LDO_P["LDO 3.3V (Chevilles)"]
     LDO_P --> FSR["Capteurs FSR"]
+
+    %% Flux Data & Power USB (Micro-Hubs)
+    HUB -. "USB 5V + Data" .-> ESP_G["Micro-Hub ESP32-S3 (G)"]
+    HUB -. "USB 5V + Data" .-> ESP_D["Micro-Hub ESP32-S3 (D)"]
+    ESP_G --> EFLESH_G["eFlesh G (Tactile)"]
+    ESP_D --> EFLESH_D["eFlesh D (Tactile)"]
 
     %% Flux Data USB Directs
     JET -. "USB 3.2" .-> OAK["OAK-D Pro"]
@@ -289,7 +292,7 @@ Le D-Bot utilise des tensions régulées pour tous ses composants hors moteurs R
 *   **IMU Torse** : BMI270 (équilibre).
 *   **Source** : 
     *   **Pour le torse** : Régulation 3.3V interne de la Spresense.
-    *   **Pour les mains (eFlesh)** : **Micro-Hub USB local (type ESP32-S3)** situé dans l'avant-bras. Il est alimenté directement par le **bus USB 5V** (Hub Industriel), ce qui simplifie le câblage. Le 3.3V final est régulé sur le PCB du Micro-Hub.
+    *   **Pour les mains (eFlesh)** : **Micro-Hub USB local (type ESP32-S3)**. Il puise son énergie dans le **5V du bus USB** (Hub Industriel) et régule lui-même le 3.3V pour ses 16 capteurs MLX90393. Aucune alimentation externe 12V ou 48V n'est nécessaire pour le tactile.
     *   **Pour les pieds (FSR)** : **Régulateur local (5V → 3.3V)** situé dans la **cheville ou le pied**, repiquant le **5V Always-On** du Buck Logique.
 
 ---
