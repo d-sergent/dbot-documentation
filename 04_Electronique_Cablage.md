@@ -165,16 +165,23 @@ Jetson Orin Nano
 Le D-Bot possède plus de 9 périphériques USB. Pour garantir la stabilité des communications moteurs face aux interférences électromagnétiques (EMI) du bus 48V, l'architecture repose sur une hiérarchie stricte.
 
 #### Hiérarchie du Hub USB
-Un **Hub USB 3.0 Industriel (Boîtier métal)** est centralisé dans le torse. Il doit être **alimenté par le rail 12V régulé** (Buck 48V→12V) pour ne pas saturer l'étage de puissance de la Jetson.
+Un **Hub USB 3.0 Industriel (Boîtier métal) de 10 ports minimum** est centralisé dans le torse. Il doit être **alimenté par le rail 12V régulé** (Buck 48V→12V) pour ne pas saturer l'étage de puissance de la Jetson.
 
-**Périphériques connectés au Hub :**
+**Modèles 10 ports recommandés :**
+*   **StarTech.com ST103008U2C** : Top industriel, bornier d'alimentation 7-24V (idéal pour branchement direct sur le Buck 12V), protection ESD 15kV.
+*   **Sabrent HB-BU10** : 10 ports avec interrupteurs individuels (très utile pour isoler un bus CAN en test), boîtier aluminium.
+*   **Orico Industrial 10-Port** : Boîtier métal, alimentation robuste, bon rapport qualité/prix.
+
+**Périphériques connectés au Hub (9 ports occupés) :**
 1.  **CANable Pro n°1** (Bras G)
 2.  **CANable Pro n°2** (Bras D)
 3.  **CANable Pro n°3** (Jambe G)
 4.  **CANable Pro n°4** (Jambe D)
-5.  **U2D2 n°1** (Main G)
-6.  **U2D2 n°2** (Main D)
-7.  **Sony Spresense** (Watchdog)
+5.  **U2D2 G** (Main G)
+6.  **U2D2 D** (Main D)
+7.  **Micro-Hub G** (Tactile eFlesh G)
+8.  **Micro-Hub D** (Tactile eFlesh D)
+9.  **Sony Spresense** (Watchdog / FSR)
 
 #### Le "Cluster CAN" (Intégration Physique)
 Pour minimiser l'encombrement et simplifier le câblage, les 4 modules **CANable Pro** sont regroupés dans un support imprimé en 3D :
