@@ -708,20 +708,44 @@ Distance PDB (bassin/torse) → moteur, par conducteur :
 
 ---
 
-## 4c. Séquence de Validation — Wanptek → Batterie
+## 4.3 Séquence de Validation — Wanptek → Batterie
 
-La Wanptek DPS605U peut alimenter le busbar directement, exactement comme la batterie le ferait :
+La Wanptek DPS605U peut alimenter le busbar directement, exactement comme la batterie le ferait.
 
-```
-Wanptek (+) ──── Borne (+) busbar   ← fil 14 AWG, 30-50 cm
-Wanptek (-) ──── Borne (-) busbar
-                     │
-                     ├── Pigtail XT30 → Moteur 1
-                     ├── Pigtail XT30 → Moteur 2
-                     └── Buck 48V→12V → Dynamixel (main)
-```
+---
 
-La limite est le **courant maximum de la Wanptek : 5A**. Voici les zones de validité :
+## 4.4 Guide de Test sur Banc (Alimentation Labo)
+
+Ce guide détaille la procédure pour mettre sous tension le "cerveau" du robot en toute sécurité sans utiliser la batterie.
+
+### 1. Configuration de la Wanptek (À VIDE)
+Avant de brancher quoi que ce soit au robot :
+1.  Allumer la Wanptek.
+2.  Régler la tension sur **48.0 V**.
+3.  Régler la limite de courant (**OCP**) sur **3.0 A**. 
+    *   *Note : 3A suffisent pour la Jetson, le Hub, la Spresense et les Solénoïdes. Cela protège vos circuits en cas de court-circuit.*
+4.  Éteindre la sortie (Bouton `Output` sur OFF).
+
+### 2. Branchement Physique
+1.  Relier la borne **(+) Rouge** de la Wanptek à la borne **(+)** de votre Busbar.
+2.  Relier la borne **(-) Noire** de la Wanptek à la borne **(-)** de votre Busbar.
+    *   *Attention : Ne rien brancher sur la borne verte (Terre).*
+3.  **Alimentation Spresense (Simplification Test)** : Pour ces tests, branchez simplement la Spresense au **Hub USB Industriel** via son câble Micro-USB. Le Hub étant alimenté par le rail 12V, il fournira l'énergie nécessaire à la Spresense.
+
+### 3. Séquence d'Allumage
+1.  Vérifier visuellement qu'aucun fil nu ne touche le châssis en aluminium.
+2.  Activer l'**Output** de la Wanptek.
+3.  **Vérification immédiate** :
+    *   La Wanptek doit afficher une consommation de ~0.2A à ~0.5A au repos.
+    *   Les LEDs des convertisseurs Buck (19V, 12V) doivent s'allumer.
+    *   La Jetson Orin Nano doit commencer son boot.
+    *   La Spresense doit s'allumer (LED Power).
+
+### 4. Limites de ce montage
+*   **Moteurs** : Vous pouvez laisser les bus CAN branchés pour scanner les IDs.
+*   **Mouvement** : **INTERDIT**. Si vous demandez un mouvement brusque à un RS-04, la Wanptek dépassera les 3A et se coupera par sécurité (OCP). C'est le comportement attendu.
+
+---
 
 ### Composition du Bras — Rappel (Pourquoi pas de "test bras complet" avec Wanptek)
 
