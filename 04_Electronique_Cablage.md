@@ -274,7 +274,8 @@ Le D-Bot utilise des tensions régulées pour tous ses composants hors moteurs R
 *   **IMU Torse** : BMI270 (équilibre).
 *   **Source** : 
     *   **Pour le torse** : Régulation 3.3V interne de la Spresense.
-    *   **Pour les mains (eFlesh)** : **Régulateur LDO local (12V → 3.3V)** situé dans la paume, repiquant l'alimentation 12V des servos Dynamixel. Cela évite d'amener un fil 3.3V fragile à travers tout le bras.
+    *   **Pour les mains (eFlesh)** : **Régulateur LDO local (12V → 3.3V)** situé dans l'**avant-bras**, repiquant l'alimentation 12V des servos Dynamixel.
+    *   **Pour les pieds (FSR)** : **Régulateur local (48V → 3.3V)** situé dans la **cheville ou le pied**, repiquant le 48V des moteurs. Cela protège le signal analogique des FSR contre les parasites induits par les longs câbles de puissance.
 
 ---
 
