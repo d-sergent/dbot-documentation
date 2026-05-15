@@ -37,7 +37,7 @@ graph TD
     %% Rails de Puissance
     BUSBAR --> MOT["26x Moteurs RobStride"]
     BUSBAR --> B19["Buck 48V/19V 5A"]
-    BUSBAR --> B12["Buck 48V/12V 5A"]
+    BUSBAR --> B12["Buck 48V/12V 10A"]
     BUSBAR --> B05["Buck 48V/5V 5A (Always-On)"]
 
     %% Distribution 19V
