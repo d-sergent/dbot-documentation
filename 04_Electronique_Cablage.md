@@ -269,10 +269,12 @@ Le D-Bot utilise des tensions régulées pour tous ses composants hors moteurs R
 *   **Accessoires USB** : ReSpeaker, OAK-D Pro (via Jetson), Hub USB.
 *   **Source** : Buck DC-DC 48V→5V 5A (Always-On).
 
-#### Rail 3.3V : Capteurs Fins
-*   **Capteurs eFlesh** : 9 à 16 magnétomètres MLX90393. **< 0.1 A**.
-*   **IMU Torse** : BMI270. **< 0.01 A**.
-*   **Source** : Régulation locale 3.3V (via Spresense ou LDO Multiplexeur I2C).
+#### Rail 3.3V : Capteurs Fins & Tactile
+*   **Capteurs eFlesh (Mains)** : 9 à 16 magnétomètres MLX90393 par main.
+*   **IMU Torse** : BMI270 (équilibre).
+*   **Source** : 
+    *   **Pour le torse** : Régulation 3.3V interne de la Spresense.
+    *   **Pour les mains (eFlesh)** : **Régulateur LDO local (12V → 3.3V)** situé dans la paume, repiquant l'alimentation 12V des servos Dynamixel. Cela évite d'amener un fil 3.3V fragile à travers tout le bras.
 
 ---
 
