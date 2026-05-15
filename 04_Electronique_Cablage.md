@@ -21,41 +21,41 @@ Le schéma ci-dessous illustre la distribution de puissance depuis le rail 48V e
 ```mermaid
 graph TD
     %% Source Energie
-    BAT[Batterie 13S 48V] --> FUS[Fusible 80A / E-Stop]
-    FUS --> BUSBAR[BUSBAR CENTRAL 48V]
+    BAT["Batterie 13S 48V"] --> FUS["Fusible 80A / E-Stop"]
+    FUS --> BUSBAR["BUSBAR CENTRAL 48V"]
 
     %% Rails de Puissance
-    BUSBAR --> MOT[26x Moteurs RobStride]
-    BUSBAR --> B19[Buck 48V/19V 5A]
-    BUSBAR --> B12[Buck 48V/12V 5A]
-    BUSBAR --> B05[Buck 48V/5V 5A]
+    BUSBAR --> MOT["26x Moteurs RobStride"]
+    BUSBAR --> B19["Buck 48V/19V 5A"]
+    BUSBAR --> B12["Buck 48V/12V 5A"]
+    BUSBAR --> B05["Buck 48V/5V 5A"]
 
     %% Distribution 19V
-    B19 --> JET[Jetson Orin Nano]
+    B19 --> JET["Jetson Orin Nano"]
 
     %% Distribution 12V
-    B12 --> HUB[Hub USB Industriel]
-    B12 --> SOL[2x Solénoïdes Tête]
+    B12 --> HUB["Hub USB Industriel"]
+    B12 --> SOL["2x Solénoïdes Tête"]
 
     %% Distribution 5V (Always-On)
-    B05 --> SPR[Sony Spresense]
+    B05 --> SPR["Sony Spresense"]
 
     %% Flux Data USB Directs
-    JET -. USB 3.2 .-> OAK[OAK-D Pro]
-    JET -. USB 2.0 .-> RES[ReSpeaker XVF-3800]
-    JET -. USB 2.0 .-> INN[InnoMaker - Bus Cou]
+    JET -. "USB 3.2" .-> OAK["OAK-D Pro"]
+    JET -. "USB 2.0" .-> RES["ReSpeaker XVF-3800"]
+    JET -. "USB 2.0" .-> INN["InnoMaker - Bus Cou"]
 
     %% Flux Data via Hub
-    JET -. USB 3.0 .-> HUB
-    HUB -. USB .-> SPR
-    HUB -. USB .-> CAN1[CANable 1 - Bras G]
-    HUB -. USB .-> CAN2[CANable 2 - Bras D]
-    HUB -. USB .-> CAN3[CANable 3 - Jambe G]
-    HUB -. USB .-> CAN4[CANable 4 - Jambe D]
-    HUB -. USB .-> U2D2[2x U2D2 - Mains]
+    JET -. "USB 3.0" .-> HUB
+    HUB -. "USB" .-> SPR
+    HUB -. "USB" .-> CAN1["CANable 1 - Bras G"]
+    HUB -. "USB" .-> CAN2["CANable 2 - Bras D"]
+    HUB -. "USB" .-> CAN3["CANable 3 - Jambe G"]
+    HUB -. "USB" .-> CAN4["CANable 4 - Jambe D"]
+    HUB -. "USB" .-> U2D2["2x U2D2 - Mains"]
 
     %% Pilotage Spécifique
-    SPR -. GPIO 3.3V .-> SOL
+    SPR -. "GPIO 3.3V" .-> SOL
 ```
 
 ---
