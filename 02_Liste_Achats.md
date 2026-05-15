@@ -151,7 +151,8 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 | **Protection Inductive** | **Diode 1N4007** | 2 | Protection contre les pics de tension solénoïdes. |
 | **Composants passifs** | Résistances 220Ω et 10kΩ | 1 lot | Pour la commande de Gate des MOSFETs. |
 | **Buck 12V (Torse)** | Buck DC-DC 60V In / 12V 5A Out | 1 | **Mutualisé** : Alimentation Hub USB + Solénoïdes Tête. |
-| **Régulateurs Locaux** | **AMS1117-3.3** (LDO 3.3V 800mA) | 4 | **Crucial** : Alimente eFlesh et FSR localement. Le boîtier SOT-223 est requis pour dissiper les ~0.5W de chaleur dus à la chute de tension (12V->3.3V). |
+| **Régulateurs Locaux** | **AMS1117-3.3** (LDO 3.3V 800mA) | 4 | **Crucial** : Alimente FSR localement. |
+| **Micro-Hubs Tactiles** | **ESP32-S3-DevKitC-1** (ou similaire) | 2 | **Option B** : Acquisition eFlesh USB pour les mains. |
 
 ### Interface CAN & Câbles
 *   **Adaptateur USB-CAN** : **InnoMaker USB2CAN-C**

@@ -63,8 +63,14 @@ graph TD
     HUB -. "USB" .-> U2D2["2x U2D2 - Mains"]
 
     %% Pilotage Spécifique
-    SPR -. "Driver MOSFET" .-> SOL
+    JET -. "Driver MOSFET" .-> SOL
     FSR -. "Signal Analogique" .-> SPR
+
+    %% Tactile eFlesh (Option B)
+    HUB -. "USB" .-> ESP_G["Micro-Hub ESP32-S3 (G)"]
+    HUB -. "USB" .-> ESP_D["Micro-Hub ESP32-S3 (D)"]
+    ESP_G --> EFLESH_G["eFlesh G"]
+    ESP_D --> EFLESH_D["eFlesh D"]
 ```
 
 ---
@@ -283,8 +289,8 @@ Le D-Bot utilise des tensions régulées pour tous ses composants hors moteurs R
 *   **IMU Torse** : BMI270 (équilibre).
 *   **Source** : 
     *   **Pour le torse** : Régulation 3.3V interne de la Spresense.
-    *   **Pour les mains (eFlesh)** : **Régulateur LDO local (12V → 3.3V)** situé dans l'**avant-bras**, repiquant l'alimentation 12V des servos Dynamixel.
-    *   **Pour les pieds (FSR)** : **Régulateur local (5V → 3.3V)** situé dans la **cheville ou le pied**, repiquant le **5V Always-On** du Buck Logique. Cela garantit un signal analogique propre et ratiométrique avec l'ADC de la Spresense.
+    *   **Pour les mains (eFlesh)** : **Micro-Hub USB local (type ESP32-S3)** situé dans l'avant-bras. Il est alimenté directement par le **bus USB 5V** (Hub Industriel), ce qui simplifie le câblage. Le 3.3V final est régulé sur le PCB du Micro-Hub.
+    *   **Pour les pieds (FSR)** : **Régulateur local (5V → 3.3V)** situé dans la **cheville ou le pied**, repiquant le **5V Always-On** du Buck Logique.
 
 ---
 
@@ -942,9 +948,9 @@ Un étage de puissance est nécessaire pour chaque solénoïde.
                           │
        Masse GND (-) ─────┴─────────────────────────────── [Source MOSFET]
                                                             │
-       Pin Spresense ───── [Résistance 220Ω] ────────────── [Gate MOSFET]
+       Pin JETSON ──────── [Résistance 220Ω] ────────────── [Gate MOSFET]
                                                             │
        Masse GND (-) ───── [Résistance 10kΩ] ───────────────┘
 ```
 
-**Note d'implémentation** : Soudez ces composants sur une petite plaque de prototypage (veroboard) fixée à proximité de la Spresense. Les solénoïdes sont raccordés via des connecteurs JST-XH pour faciliter le démontage.
+**Note d'implémentation** : Soudez ces composants sur une petite plaque de prototypage fixée à proximité de la Jetson. Le pilotage se fait via la librairie `Jetson.GPIO` (Python) ou directement via le driver de périphériques ROS 2.
