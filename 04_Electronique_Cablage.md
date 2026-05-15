@@ -8,7 +8,8 @@ L'architecture repose sur un bus CAN centralisé et des liaisons USB High-Speed.
 *   **Rôle** : Orchestrateur ROS2, Vision IA, Planification de mouvement.
 *   **Ports Physiques (Jetson Orin Nano Super)** :
     *   **Port 1 (Haut)** : **OAK-D Pro** (Liaison directe USB 3.2 — Flux 4K/Profondeur).
-    *   **Port 2 (Bas)** : **Hub USB Industriel Alimenté** (Moteurs & Capteurs TR).
+    *   **Port 2 (Bas)** : **Hub USB Industriel Alimenté (10 Ports)**.
+        *   *Raison* : Supporte 4x CANable, 2x U2D2 (Mains G/D), 2x Micro-Hubs eFlesh et la Spresense.
     *   **Port 3 (Intérieur)** : **ReSpeaker XVF-3800** (Liaison directe — Latence Audio).
     *   **Port 4 (Intérieur)** : **InnoMaker USB2CAN** (Liaison directe — Bus Cou).
 
@@ -34,9 +35,10 @@ graph TD
     B19 --> JET["Jetson Orin Nano"]
 
     %% Distribution 12V
-    B12 --> HUB["Hub USB Industriel"]
+    B12 --> HUB["Hub USB Industriel (10 Ports)"]
     B12 --> SOL["2x Solénoïdes Tête"]
-    B12 --> DYN["Mains (16x Dynamixel)"]
+    B12 --> DYN_G["Main G (8x Dynamixel)"]
+    B12 --> DYN_D["Main D (8x Dynamixel)"]
 
     %% Distribution 5V (Always-On)
     B05 --> SPR["Sony Spresense"]
@@ -45,13 +47,25 @@ graph TD
     B05 --> LDO_P["LDO 3.3V (Chevilles)"]
     LDO_P --> FSR["Capteurs FSR"]
 
-    %% Flux Data & Power USB (Micro-Hubs)
-    HUB -. "USB 5V + Data" .-> ESP_G["Micro-Hub ESP32-S3 (G)"]
-    HUB -. "USB 5V + Data" .-> ESP_D["Micro-Hub ESP32-S3 (D)"]
-    ESP_G --> EFLESH_G["eFlesh G (Tactile)"]
-    ESP_D --> EFLESH_D["eFlesh D (Tactile)"]
+    %% Flux Data & Power USB (Membres)
+    HUB -. "USB" .-> ESP_G["Micro-Hub eFlesh G"]
+    HUB -. "USB" .-> ESP_D["Micro-Hub eFlesh D"]
+    HUB -. "USB" .-> U2D2_G["U2D2 Main G"]
+    HUB -. "USB" .-> U2D2_D["U2D2 Main D"]
+    
+    ESP_G --> EFLESH_G["eFlesh G"]
+    ESP_D --> EFLESH_D["eFlesh D"]
+    U2D2_G -. "TTL" .-> DYN_G
+    U2D2_D -. "TTL" .-> DYN_D
 
-    %% Flux Data USB Directs
+    %% Flux Data USB (Bus CAN)
+    HUB -. "USB" .-> CAN1["CANable 1 - Bras G"]
+    HUB -. "USB" .-> CAN2["CANable 2 - Bras D"]
+    HUB -. "USB" .-> CAN3["CANable 3 - Jambe G"]
+    HUB -. "USB" .-> CAN4["CANable 4 - Jambe D"]
+    HUB -. "USB" .-> SPR
+
+    %% Flux Data USB Directs (Jetson)
     JET -. "USB 3.2" .-> OAK["OAK-D Pro"]
     JET -. "USB 2.0" .-> RES["ReSpeaker XVF-3800"]
     JET -. "USB 2.0" .-> INN["InnoMaker - Bus Cou"]
