@@ -12,6 +12,15 @@ L'architecture repose sur un bus CAN centralisé et des liaisons USB High-Speed.
         *   *Raison* : Supporte 4x CANable, 2x U2D2 (Mains G/D), 2x Micro-Hubs eFlesh et la Spresense.
     *   **Port 3 (Intérieur)** : **ReSpeaker XVF-3800** (Liaison directe — Latence Audio).
     *   **Port 4 (Intérieur)** : **InnoMaker USB2CAN** (Liaison directe — Bus Cou).
+    *   **Port 5 (Optionnel)** : **Caméra USB Poignet** (Vision macro pour manipulation).
+
+---
+
+### 1.1 Stratégie de Perception Multi-Couches
+Le D-Bot utilise trois niveaux de vision pour garantir sa sécurité et son agilité :
+1.  **Vision Longue Distance (OAK-D Pro)** : Cartographie, reconnaissance faciale, évitement d'obstacles distants.
+2.  **Vision Réflexe de Sol (Spresense Cam)** : Placée au bassin, elle surveille l'angle mort de 1m devant les pieds. Traitement local ultra-rapide pour arrêt d'urgence.
+3.  **Localisation Absolue (GNSS)** : Antenne active reliée à la Spresense pour le positionnement extérieur et la synchro temporelle.
 
 ---
 
