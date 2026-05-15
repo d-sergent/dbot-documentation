@@ -47,47 +47,30 @@ graph TD
     B05 --> LDO_P["LDO 3.3V (Chevilles)"]
     LDO_P --> FSR["Capteurs FSR"]
 
-    %% Flux Data & Power USB (Membres)
-    HUB -. "USB" .-> ESP_G["Micro-Hub eFlesh G"]
-    HUB -. "USB" .-> ESP_D["Micro-Hub eFlesh D"]
-    HUB -. "USB" .-> U2D2_G["U2D2 Main G"]
-    HUB -. "USB" .-> U2D2_D["U2D2 Main D"]
-    
-    ESP_G --> EFLESH_G["eFlesh G"]
-    ESP_D --> EFLESH_D["eFlesh D"]
-    U2D2_G -. "TTL" .-> DYN_G
-    U2D2_D -. "TTL" .-> DYN_D
-
-    %% Flux Data USB (Bus CAN)
-    HUB -. "USB" .-> CAN1["CANable 1 - Bras G"]
-    HUB -. "USB" .-> CAN2["CANable 2 - Bras D"]
-    HUB -. "USB" .-> CAN3["CANable 3 - Jambe G"]
-    HUB -. "USB" .-> CAN4["CANable 4 - Jambe D"]
-    HUB -. "USB" .-> SPR
-
     %% Flux Data USB Directs (Jetson)
     JET -. "USB 3.2" .-> OAK["OAK-D Pro"]
     JET -. "USB 2.0" .-> RES["ReSpeaker XVF-3800"]
     JET -. "USB 2.0" .-> INN["InnoMaker - Bus Cou"]
-
-    %% Flux Data via Hub
     JET -. "USB 3.0" .-> HUB
-    HUB -. "USB" .-> SPR
+
+    %% Flux Data USB via HUB (10 Ports)
     HUB -. "USB" .-> CAN1["CANable 1 - Bras G"]
     HUB -. "USB" .-> CAN2["CANable 2 - Bras D"]
     HUB -. "USB" .-> CAN3["CANable 3 - Jambe G"]
     HUB -. "USB" .-> CAN4["CANable 4 - Jambe D"]
-    HUB -. "USB" .-> U2D2["2x U2D2 - Mains"]
+    HUB -. "USB" .-> SPR
+    HUB -. "USB" .-> U2D2_G["U2D2 Main G"]
+    HUB -. "USB" .-> U2D2_D["U2D2 Main D"]
+    HUB -. "USB" .-> ESP_G["Micro-Hub eFlesh G"]
+    HUB -. "USB" .-> ESP_D["Micro-Hub eFlesh D"]
 
-    %% Pilotage Spécifique
-    JET -. "Driver MOSFET" .-> SOL
-    FSR -. "Signal Analogique" .-> SPR
-
-    %% Tactile eFlesh (Option B)
-    HUB -. "USB" .-> ESP_G["Micro-Hub ESP32-S3 (G)"]
-    HUB -. "USB" .-> ESP_D["Micro-Hub ESP32-S3 (D)"]
+    %% Signaux & Feedback
     ESP_G --> EFLESH_G["eFlesh G"]
     ESP_D --> EFLESH_D["eFlesh D"]
+    U2D2_G -. "TTL" .-> DYN_G
+    U2D2_D -. "TTL" .-> DYN_D
+    JET -. "Signal Driver" .-> SOL
+    FSR -. "Signal Analogique" .-> SPR
 ```
 
 ---
@@ -252,6 +235,9 @@ ___
     *   *Évolutabilité* : Headers Arduino compatibles pour ajouter des shields ou multiplexeurs I2C.
 *   **Alternative LTE** : Si le robot doit sortir en extérieur (hors Wi-Fi), une **LTE Extension Board** aurait pu être envisagée, mais la Standard Board est ici privilégiée pour l'accès direct aux entrées analogiques (ADC) nécessaires aux capteurs FSR.
 *   **Liaison Jetson** : Via USB (Port principal micro-USB de la Spresense). La Spresense apparaît comme un périphérique série (`/dev/ttyUSBx`) pour le monitoring et la configuration.
+*   **Alimentation Dual-Source** :
+    *   **Phase Test (USB)** : La carte est auto-alimentée par son port Micro-USB.
+    *   **Phase Production (Always-On)** : Pour rester active robot "éteint" (Watchdog), elle est alimentée en 5V (via le **Buck 48V→5V**) sur ses broches **VIN / GND**. La commutation entre USB et VIN est gérée automatiquement par la carte.
 
 ---
 
