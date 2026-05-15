@@ -54,17 +54,29 @@ Le K-Bot standard est un robot humanoïde open-source de taille réelle dévelop
 
 ---
 
-### 🤖 ÉVOLUTION D-BOT (24 DOF — "D-Bot Performance")
+### 🤖 ÉVOLUTION D-BOT (26 DOF — "D-Bot Performance")
 
-Le **D-Bot** étend le K-Bot de 20 à **24 DOF** avec trois ajouts. Voir [Analyse Biomécanique](./15_Analyse_Biomecanique.md) pour la justification détaillée de chaque upgrade.
+Le **D-Bot** ne se contente pas d'ajouter des moteurs, il change de catégorie de performance. On distingue deux types de modifications par rapport au standard K-Scale :
 
-| Ajout D-Bot | Moteur | Quantité | Couple Pic | Fonction |
+#### 1. Nouveaux Degrés de Liberté (Additions DOF)
+*Ces moteurs ajoutent des mouvements inexistants sur le K-Bot standard.*
+
+| Ajout DOF | Moteur | Qté | Couple Pic | Fonction |
 | :--- | :---: | :---: | :---: | :--- |
-| **Cou Pan** (Yaw) | RS-05 | 1 | 5.5 N.m | Rotation horizontale tête |
-| **Cou Tilt** (Pitch) | RS-05 | 1 | 5.5 N.m | Inclinaison tête |
-| **Poignet Roll** 🆕 | RS-00 | 2 (ajout) | 14 N.m | **Orientation main** (compact, puissant) |
+| **Tête (Pan/Tilt)** | RS-05 | 2 | 5.5 N.m | Vision active & Interaction sociale |
+| **Supination Avant-Bras** | RS-02 | 2 | 17 N.m | **Forearm Roll** (Biomimétique Tesla) |
+| **Cheville Roll** | RS-03 | 2 | 60 N.m | Équilibre latéral & terrain irrégulier |
 
-**Total D-Bot** : 20 (Base) + 2 (Tête) + 2 (Poignets) + 2 (Chevilles Roll) = **26 moteurs**.
+#### 2. Upgrades de Puissance (Évolutions Moteurs)
+*Ces moteurs remplacent les modèles standards pour augmenter les capacités de portage et de course.*
+
+| Articulation | K-Bot (Std) | D-Bot (Perf) | Gain Couple | Bénéfice |
+| :--- | :---: | :---: | :---: | :--- |
+| **Épaule Pitch** | RS-03 | **RS-04** | **+100%** | Portage frontal (5 kg → 10 kg) |
+| **Coude Pitch** | RS-02 | **RS-06** | **+110%** | Manipulation bras plié |
+| **Cheville Pitch** | RS-02 | **RS-03** | **+250%** | Propulsion & Course (Cardan) |
+
+**Total D-Bot** : 20 (Base K-Bot) + 6 (Nouveaux DOF) = **26 DOF**.
 
 > [!NOTE]
 > **Mécanisme de cheville D-Bot (Cardan + 2×RS-03)** : La cheville du K-Bot (RS-02) était insuffisante pour la marche dynamique. Le D-Bot la remplace par une architecture de cardan à deux axes concourants (DIN 808) pilotée par deux moteurs RS-03 via des bielles croisées. Ce différentiel mécanique offre 120 N.m en Pitch et Roll sans ajouter de masse distale (les moteurs sont haut dans le tibia).
@@ -85,16 +97,16 @@ Les moteurs QDD tels que les **RobStride** de notre inventaire sont devenus le s
 Voici les données techniques consolidées pour l'ensemble de la gamme RobStride (Février 2025).  
 *Prix officiels RobStride ou sources vérifiées (OpenELAB, AiFitLab) - Hors taxes/livraison.*
 
-| Modèle | Pic<br/>(N.m) | Nom.<br/>(N.m) | Vmax<br/>(RPM) | Poids<br/>(g) | Dim.<br/>(mm) | Ratio | Prix<br/>($) | Volt.<br/>(V) | Usage D-Bot |
+| Modèle | Pic<br/>(N.m) | Nom.<br/>(N.m) | V.Nom/Max<br/>(RPM) | Poids<br/>(g) | Dim.<br/>(mm) | Ratio | Prix<br/>($) | Volt.<br/>(V) | Usage D-Bot |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **RS-05** | **5.5** | 1.6 | 480 | **191** | 46×46×44 | 7.75:1 | **$120** | 48V (15-60V) | **Cou**, Doigts (futur) |
-| **RS-00** | **14.0** | 5.0 | 315 | **310** | 57×57×51 | 10:1 | **$135** | 48V (24-60V) | **Poignet** (Compact, fort couple) |
-| **RS-01** | **17.0** | 6.0 | 350 | **380** | 78.5×78.5×40 | 7.75:1 | **$140** | 36V (24-48V) | Alternative RS-02 (36V) |
-| **RS-02** | **17.0** | 6.0 | 410 | **405** | 78.5×78.5×45.5 | 7.75:1 | **$160** | 48V (24-60V) | **Coude**, Biceps, Poignet |
-| **RS-06** | **36.0** | 11.0 | 480 | **621** | 88×88×49 | 9:1 | **$230** | 48V (15-60V) | Entre-deux (Épaule légère) |
-| **RS-03** | **60.0** | 20.0 | 195 | **880** | 106×106×56 | 9:1 | **$250** | 48V (15-60V) | **Épaule**, Hanche rot. |
-| **RS-04** | **120.0** | 40.0 | 200 | **1420** | 120×120×56 | 9:1 | **$280** | 48V (15-60V) | **Hanche**, Genou, Cheville |
-| *Unitree GO-M8* | *23.7* | *~8.0* | *286* | *530* | *96.5×96.5×42.3* | *6.33:1* | *$369* | *24V (12-30V)* | *Alternative (Non CAN)* |
+| **RS-05** | **5.5** | 1.6 | 100 / 480 | **191** | 46×46×44 | 7.75:1 | **$120** | 48V (15-60V) | **Cou**, Doigts (futur) |
+| **RS-00** | **14.0** | 5.0 | 260 / 315 | **310** | 57×57×51 | 10:1 | **$135** | 48V (24-60V) | **Poignet** (Compact, fort couple) |
+| **RS-01** | **17.0** | 6.0 | 275 / 315 | **380** | 78.5×78.5×40 | 7.75:1 | **$140** | 36V (24-48V) | Alternative RS-02 (36V) |
+| **RS-02** | **17.0** | 6.0 | 360 / 410 | **405** | 78.5×78.5×45.5 | 7.75:1 | **$160** | 48V (24-60V) | **Coude**, Biceps, Poignet |
+| **RS-06** | **36.0** | 11.0 | — / 480 | **621** | 88×88×49 | 9:1 | **$230** | 48V (15-60V) | Entre-deux (Épaule légère) |
+| **RS-03** | **60.0** | 20.0 | 180 / 195 | **880** | 106×106×56 | 9:1 | **$250** | 48V (15-60V) | **Épaule**, Hanche rot. |
+| **RS-04** | **120.0** | 40.0 | 167 / 200 | **1420** | 120×120×56 | 9:1 | **$280** | 48V (15-60V) | **Hanche**, Genou, Cheville |
+| *Unitree GO-M8* | *23.7* | *~8.0* | *— / 286* | *530* | *96.5×96.5×42.3* | *6.33:1* | *$369* | *24V (12-30V)* | *Alternative (Non CAN)* |
 
 ### Analyse Comparative
 
@@ -102,9 +114,15 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 *   **RS-05** : Ultraléger (191g), idéal pour le cou où chaque gramme compte. Couple modeste (5.5 N.m) mais suffisant pour orientation.
 *   **RS-00** : Plus dense (310g, +62%) mais délivre **2,5× plus de couple** (14 N.m). Parfait pour un poignet devant porter des charges sans fléchir.
 
-#### RS-01 vs RS-02 (Moteurs Moyens)
-*   **Même couple** (17 N.m pic), mais **RS-01** optimisé pour **36V** (idéal pour batteries LiPo 8S), plus compact en profondeur (40mm vs 45.5mm).
-*   **RS-02** : Conçu pour **48V**, marginalement plus lourd (+25g). Standard pour D-Bot aux coudes/biceps.
+#### RS-01 vs RS-02 (Moteurs Moyens) : Élimination du RS-01
+*   **Comparaison Mécanique (Avantage RS-01)** : Le RS-01 est un chef-d'œuvre de compacité. À couple égal (17 N.m), il est **plus léger (-25g)** et surtout **plus fin (-5.5mm)** que le RS-02.
+*   **Comparaison Électrique (Le Défaut Éliminatoire)** : L'électronique du RS-01 plafonne à **48V max**. L'électronique du RS-02 encaisse **60V max** (parfait pour le bus 12S du D-Bot qui monte à 50.4V en pleine charge).
+
+> [!WARNING]
+> **Élimination Définitive du RS-01 (Incompatible 12S)** : Brancher un RS-01 sur le bus 12S (50.4V) du D-Bot est un risque de destruction matérielle immédiat. Lors d'un freinage régénératif, le pic de tension dépassera les 52V, ce qui détruira l'ESC du RS-01 (calibré à 48V max). 
+> *   Adapter le robot en 10S (42V max) pour sauver le RS-01 amputerait la vitesse globale du robot de ~16%, détruisant ses capacités futures de course (Sprinting). 
+> *   Créer un bus 36V dédié alourdirait le robot de centaines de grammes (convertisseur DC-DC lourd + circuit de dissipation).
+> **Conclusion : Le RS-01 est définitivement abandonné pour le D-Bot. Le RS-02 reste le seul standard valide et sécurisé pour les couples moyens (Supination, Épaule Yaw).**
 
 #### RS-06 (Intermédiaire Nouveau)
 *   **Niche** : Entre RS-02 (17 N.m) et RS-03 (60 N.m). Avec **36 N.m** et 621g, c'est un compromis pour des articulations nécessitant plus que du RS-02 sans le poids du RS-03.
@@ -132,7 +150,7 @@ Même le RS-04 dissipe 14.5W au repos. Puisque les moteurs QDD n'ont pas de fric
 1.  **SVS Électromagnétique (Solenoid Pin Lock)** : Usinage dans la plaque d'interface en aluminium d'un logement pour un micro-solénoïde tubulaire. Lorsque le robot passe en mode "Stand-by" (posture parfaitement définie), le solénoïde pousse une broche de métal (pin) dans un trou borgne du rotor du RS-04. L'articulation est verrouillée mécaniquement. L'alimentation du RS-04 peut être coupée à 0A sans que le robot ne s'effondre.
 2.  **SVS Servo-Cliquet (Ratchet & Pawl)** : Remplacement de la broche par un cliquet hélicoïdal sur la couronne du moteur, engagé par un micro-servo. Ce système plus robuste limite la flexion mais autorise librement le mouvement d'extension (pour se relever).
 
-### Choix pour le D-Bot — Répartition Complète (24 DOF)
+### Choix pour le D-Bot — Répartition Complète (26 DOF)
 | Zone | Moteur | Quantité | Couple Pic | Justification |
 | :--- | :---: | :---: | :---: | :--- |
 | Cou (Pan/Tilt) | RS-05 | 2 | 5.5 N.m | Légèreté critique (tête avec OAK-D Pro ~100g, LiDAR L2 sur le torse) |
@@ -145,7 +163,7 @@ Même le RS-04 dissipe 14.5W au repos. Puisque les moteurs QDD n'ont pas de fric
 | Hanche Pitch + Genou | RS-04 | 4 | 120 N.m | Portance totale dynamique |
 | Cheville (Pitch/Roll) | RS-03 | 4 | 120 N.m (Cardan) | Propulsion via bielles et cardan DIN 808 (2× RS-03 par cheville) |
 
-**Total moteurs D-Bot** : 2 (Cou) + 2 (Poignets) + 2 (Coudes) + 2 (Yaws) + 4 (Epaules) + 4 (Hanches R/Y) + 4 (Hanches/Genoux P) + 4 (Chevilles) = **26 moteurs**.
+**Total moteurs D-Bot** : 2 (Cou) + 2 (Poignets P) + 2 (Supinations) + 2 (Coudes) + 2 (Yaws) + 4 (Epaules P+R) + 4 (Hanches R/Y) + 4 (Hanches/Genoux P) + 4 (Chevilles P/R) = **26 moteurs**.
 
 > [!NOTE]
 > **Décisions Architecturales Finales** : Le tableau ci-dessus reflète les conclusions de l'**option de performance maximale** (architecture V2). L'ancienne configuration cheville (RS-02/RS-00) a été remplacée par l'architecture Cardan (2× RS-03), et le coude (RS-02) par le RS-06. (Voir Documents 15 et 16).
@@ -181,7 +199,7 @@ Tous les moteurs partagent le même protocole :
 | **Agility Digit** | 28 | 5 | 2 | **SEA** (élastique) | N/A | 65 kg | Series-Elastic | ~$300k+ |
 
 > [!NOTE]
-> **Positionnement D-Bot** : Avec 24 DOF, 6 DOF/jambe et 2 DOF cheville, le D-Bot est au niveau du Unitree G1 en terme d'architecture cinématique, pour un budget 3× inférieur. Le principal écart est le type de mécanisme de cheville (série vs parallèle).
+> **Positionnement D-Bot** : Avec 26 DOF, 6 DOF/jambe et 6 DOF/bras, le D-Bot est au niveau du Unitree G1 (23 DOF) et se rapproche du Tesla Optimus en terme d'architecture cinématique.
 
 ### 4.2 Mécanismes de Cheville — Les 4 Approches
 

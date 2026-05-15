@@ -136,11 +136,12 @@ Dans l'architecture actuelle du D-Bot, le **RS-02 (17 N.m pic, 6 N.m nom, 405g)*
 | Moteur | Couple Nom. | Couple Pic | Poids | Verdict pour Supination (Coude) |
 | :--- | :---: | :---: | :---: | :--- |
 | **RS-00** | 5 N.m | 14 N.m | 310g | ❌ Refusé (Limite thermique sur charge déportée) |
+| **RS-01** | **6 N.m** | **17 N.m** | **380g** | ❌ **ÉLIMINÉ (Incompatible Batterie 12S)** |
 | **RS-02** | 6 N.m | **17 N.m** | **405g** | ✅ **CHOIX D'IMPLÉMENTATION ACTUEL** |
 | **RS-03** | 20 N.m | 60 N.m | 880g | ❌ Refusé (Inutile et trop lourd) |
 
-> [!IMPORTANT]
-> **Décision d'Architecture** : Le **RS-02** est officiellement retenu pour le moteur de Supination situé au coude. L'impact de **+95g** par rapport au RS-00 est largement compensé par le gain critique de 17 N.m de couple de torsion en pic. Cela garantit que la préhension latérale d'outils lourds (perceuse, marteau) sera inébranlable. Le poignet distal (Pitch), quant à lui, est équipé du petit RS-00 (310g) pour maintenir une faible inertie en bout de bras.
+> [!WARNING]
+> **Élimination Définitive du RS-01** : Bien que le RS-01 soit mécaniquement supérieur au RS-02 pour la supination (gain de 25g et 5.5mm d'épaisseur), il est **définitivement banni** de l'architecture du D-Bot. Le RS-01 est optimisé pour 36V et son électronique plafonne à 48V maximum. Sur le bus 12S du robot (qui monte à 50.4V pleine charge), le moindre pic de freinage régénératif fera claquer son ESC. Le **RS-02** (tolérance 60V) est le seul choix sûr pour cette articulation.
 
 ---
 

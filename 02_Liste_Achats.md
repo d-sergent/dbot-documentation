@@ -80,10 +80,12 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 | **Dynamixel XC430-W240-T** | 8 | **1.9 Nm** | Canaux de Force (Pouces, Index, Majeurs, Paumes) |
 | **Dynamixel XC330-T288-T** | 8 | **1.0 Nm** | Canaux de Précision (Oppositions, Abductions, Annulaires, Auriculaires) |
 | **U2D2** (USB↔Dynamixel) | 2 | — | Interface bus TTL (1 par main) |
-| **Buck 48V→12V 5A** | 2 | — | Alimentation servos main depuis bus 48V. **⚠️ Entrée ≥ 60V obligatoire** (batterie = 54.6V chargée). Recherche : `"DC DC converter 48V 12V 5A 60W"`. ~10-18 €/pièce |
-| **Kit Tactile eFlesh** | 2 | — | Silicone Ecoflex 00-30, 10× MLX90393, 10× aimants N52 par main |
+| **Buck 48V→12V 10A** | 2 | — | Alimentation servos main. **⚠️ 10A requis** pour pics de grip (9.1A total). |
+| **Poulies Ø12mm Alu 7075** | 16 | — | Poulies CNC avec roulement MR84ZZ intégré (Usinage C500). |
+| **Tresse Dyneema Ø0.6mm** | 2 | — | Bobines de 50m (Résistance ~25-50kg). Pré-étirée conseillée. |
+| **Kit Tactile eFlesh** | 2 | — | Silicone Ecoflex 00-30, **9× MLX90393**, 9× aimants N52 par main (5 doigts + 4 paume). Projet open-source : [e-flesh.com](https://e-flesh.com) |
 
-> **Note** : Voir [Étude Main Robotique](./21_Etude_Main_Robotique.md) pour l'architecture D-Hand Premium.
+> **Note** : Voir [Étude Main Robotique](./21_Etude_Main_Robotique.md) pour l'architecture D-Hand Hybrid consolidée.
 
 ### Autres Composants Électroniques
 | Composant | Modèle | Quantité | Note |
@@ -96,8 +98,8 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 | Câbles de Puissance | **Rouleaux Silicone 14 AWG et 18 AWG** | 1 lot | (**✅ Achetés**) Rouge + Noir. 14 AWG (troncs/gros moteurs), 18 AWG (rouleau 30m pour petits moteurs). |
 | Alimentation Labo | **Wanptek DPS605U** (60V/5A) | 1 (**✅ Achetée**) | Indispensable Phases 1-4 (48V). Limite 3A pour RS-04/05 (voir [§4c](./04_Electronique_Cablage.md#4c-séquence-de-validation--wanptek--batterie)). Manuel : [dps605U.pdf](./manuels/dps605U.pdf). |
 | Interface CAN — Bus Cou | **InnoMaker USB2CAN-C** | 1 (**✅ Acheté**) | Bus Cou : RS-05 Pan + Tilt (2 moteurs). Manuel : [usb2can.pdf](./manuels/usb2can.pdf). |
-| Interface CAN — Bus Membres | **CANable Pro** (isolation galvanique 2.5kV, firmware candleLight) | 4 (à acheter) | 1 par membre (Bras G, Bras D, Jambe G, Jambe D). Achat progressif possible. Sources : [openlightlabs.com](https://openlightlabs.com) ~45 USD, AliExpress `"CANable Pro isolated 2.5kV"` ~20-35€, [Tindie](https://tindie.com) ~30-40€. Vérifier la mention **"2.5kV galvanic isolation"**. |
-| Hub USB | **Hub USB alimenté multi-ports** | 1 (à choisir) | Choix différé — à déterminer après liste complète des périphériques Jetson (CAN ×5, U2D2 ×2, module de debug, Spresense, OAK-D...). |
+| Interface CAN — Bus Membres | **CANable Pro** (isolation galvanique 2.5kV, firmware candleLight) | 4 (**✅ Achetés**) | 1 par membre (Bras G, Bras D, Jambe G, Jambe D). Isolation 2.5kV validée. |
+| Hub USB | **Hub USB 3.0 Industriel Alimenté (7+ ports)** | 1 | Modèle recommandé : **Sabrent Aluminum 7-Port** ou **StarTech Metal Hub**. Alimenté sur le rail 12V (via Buck) pour stabiliser les 5 bus CAN + Spresense + 2× U2D2. |
 | Module de Debug | **Module de Debug RobStride (Isolation Galvanique)** | 1 (**✅ Acheté**) | Config/debug uniquement via RobStride Studio. 1 seul suffit pour tous les moteurs. |
 
 > **Note** : Vérifiez bien que les moteurs arrivent avec leurs câbles d'alimentation (XT60) et data (JST-GH). Sinon, commander séparément.
@@ -144,6 +146,11 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 | **Batterie Phase 2 (production)** | **Pack sur-mesure 48V 13S NMC, forme optimisée** | ~400-700 €. À commander quand le torse CAO est figé : [OZO Electric](mailto:batteries@ozo-electric.com) ou [Save My Battery](https://www.savemybattery.fr) ou [Neogy](https://www.neogy.fr). |
 | **Chargeur 13S** | **54.6V CC/CV 4-5A** | Chargeur dédié Li-ion 13S NMC (souvent livré avec la batterie VAE). |
 | ~~**LiDAR**~~ | ~~**Unitree L2**~~ | ⚠️ **Repoussé à la V2**. SLAM assuré par l'OAK-D Pro en V1. Voir [Analyse LiDAR](./19_Perception_Spatiale_LiDAR.md). |
+| **Solénoïdes de Blocage** | [LEX-SOLEN-04 (Push Pull 12V)](https://www.lextronic.fr/solenoide-electroaimant-12v-lexsolen04-58749.html) | 2 (**✅ Achetés**) | Verrouillage statique du Tilt de tête (Parking Brake). |
+| **Driver Solénoïde** | **MOSFET IRLZ44N** (Logic Level) | 2 | Pilotage puissance via Spresense. |
+| **Protection Inductive** | **Diode 1N4007** | 2 | Protection contre les pics de tension solénoïdes. |
+| **Composants passifs** | Résistances 220Ω et 10kΩ | 1 lot | Pour la commande de Gate des MOSFETs. |
+| **Buck 12V (Torse)** | Buck DC-DC 60V In / 12V 5A Out | 1 | **Mutualisé** : Alimentation Hub USB + Solénoïdes Tête. |
 
 ### Interface CAN & Câbles
 *   **Adaptateur USB-CAN** : **InnoMaker USB2CAN-C**

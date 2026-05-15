@@ -117,9 +117,8 @@ import aiohttp
 MODELS_ROTATION = [
     {"name": "models/gemini-2.5-flash", "type": "gemini"},
     {"name": "models/gemini-3.1-flash-lite", "type": "gemini"},
-    {"name": "models/gemini-2.0-flash", "type": "gemini"},
-    {"name": "models/gemini-2.0-flash-lite", "type": "gemini"},
-    {"name": "meta-llama/llama-3.3-70b-instruct:free", "type": "openrouter"}
+    {"name": "nvidia/nemotron-3-super-120b-a12b:free", "type": "openrouter"},
+    {"name": "openrouter/owl-alpha", "type": "openrouter"}
 ]
 model_cycle = cycle(MODELS_ROTATION)
 # Au lieu de tuer un modèle après 3 erreurs, on le met en "pause" jusqu'à un certain timestamp
@@ -158,7 +157,7 @@ async def get_llm_func(args):
     
     if args.provider == "local":
         base_url = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8080/v1")
-        model = os.environ.get("VMLX_MODEL", "JANGQ-AI/Qwen3.6-35B-A3B-JANGTQ4")
+        model = os.environ.get("VMLX_MODEL", "dealignai/Nemotron-3-Nano-Omni-30B-A3B-JANGTQ4-CRACK")
         logger.info(f"🔗 Mode LOCAL : vMLX sur {base_url}")
         
         async def llm_local(prompt, system_prompt=None, history_messages=[], **kwargs):

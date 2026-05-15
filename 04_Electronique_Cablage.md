@@ -6,10 +6,57 @@ L'architecture repose sur un bus CAN centralisé et des liaisons USB High-Speed.
 ### Cerveau Principal (NVIDIA Jetson Orin Nano)
 *   **Alimentation** : 19V DC (via Jack ou XT60 régulé).
 *   **Rôle** : Orchestrateur ROS2, Vision IA, Planification de mouvement.
-*   **Ports** :
-    *   **USB A** -> **InnoMaker USB2CAN** (Contrôle Moteurs)
-    *   **USB C** -> **OAK-D Pro** (Vision Stéréo + IA)
-    *   **USB A** -> **Sony Spresense** (Audio / Capteurs TR)
+*   **Ports Physiques (Jetson Orin Nano Super)** :
+    *   **Port 1 (Haut)** : **OAK-D Pro** (Liaison directe USB 3.2 — Flux 4K/Profondeur).
+    *   **Port 2 (Bas)** : **Hub USB Industriel Alimenté** (Moteurs & Capteurs TR).
+    *   **Port 3 (Intérieur)** : **ReSpeaker XVF-3800** (Liaison directe — Latence Audio).
+    *   **Port 4 (Intérieur)** : **InnoMaker USB2CAN** (Liaison directe — Bus Cou).
+
+---
+
+### 1.1 Diagramme de Branchement (Flux Énergie & Data)
+
+Le schéma ci-dessous illustre la distribution de puissance depuis le rail 48V et la hiérarchie des données USB/CAN.
+
+```mermaid
+graph TD
+    %% Source Energie
+    BAT[Batterie 13S 48V] --> FUS[Fusible 80A / E-Stop]
+    FUS --> BUSBAR[BUSBAR CENTRAL 48V]
+
+    %% Rails de Puissance
+    BUSBAR --> MOT[26x Moteurs RobStride]
+    BUSBAR --> B19[Buck 48V/19V 5A]
+    BUSBAR --> B12[Buck 48V/12V 5A]
+    BUSBAR --> B05[Buck 48V/5V 5A]
+
+    %% Distribution 19V
+    B19 --> JET[Jetson Orin Nano]
+
+    %% Distribution 12V
+    B12 --> HUB[Hub USB Industriel]
+    B12 --> SOL[2x Solénoïdes Tête]
+
+    %% Distribution 5V (Always-On)
+    B05 --> SPR[Sony Spresense]
+
+    %% Flux Data USB Directs
+    JET -. USB 3.2 .-> OAK[OAK-D Pro]
+    JET -. USB 2.0 .-> RES[ReSpeaker XVF-3800]
+    JET -. USB 2.0 .-> INN[InnoMaker - Bus Cou]
+
+    %% Flux Data via Hub
+    JET -. USB 3.0 .-> HUB
+    HUB -. USB .-> SPR
+    HUB -. USB .-> CAN1[CANable 1 - Bras G]
+    HUB -. USB .-> CAN2[CANable 2 - Bras D]
+    HUB -. USB .-> CAN3[CANable 3 - Jambe G]
+    HUB -. USB .-> CAN4[CANable 4 - Jambe D]
+    HUB -. USB .-> U2D2[2x U2D2 - Mains]
+
+    %% Pilotage Spécifique
+    SPR -. GPIO 3.3V .-> SOL
+```
 
 ---
 
@@ -42,6 +89,8 @@ Tous les moteurs d'un même bus sont **chaînés en série (daisy-chain)**, du p
 | Bus CAN | Moteurs | Nb | % bande passante |
 | :--- | :--- | :---: | :---: |
 | **Bus Cou** | RS-05 Pan + RS-05 Tilt | **2** | ~26% ✅ |
+| **Bus Bras G** | 3 épaule, 1 coude, 1 sup., 1 poignet | **6** | ~78% ✅ |
+| **Bus Bras D** | 3 épaule, 1 coude, 1 sup., 1 poignet | **6** | ~78% ✅ |
 | **Bus Jambe G** | RS-04 ×2, RS-03 ×4 | **6** | ~78% ✅ |
 | **Bus Jambe D** | RS-04 ×2, RS-03 ×4 | **6** | ~78% ✅ |
 
@@ -64,10 +113,10 @@ Trois options ont été évaluées :
 | Adaptateur | Bus | Moteurs | Statut |
 | :--- | :--- | :--- | :--- |
 | **InnoMaker USB2CAN-C** | Bus Cou | RS-05 Pan + RS-05 Tilt | ✅ Acheté |
-| **CANable Pro n°1** | Bus Bras G | 5 moteurs RS | À acheter |
-| **CANable Pro n°2** | Bus Bras D | 5 moteurs RS | À acheter |
-| **CANable Pro n°3** | Bus Jambe G | 6 moteurs RS | À acheter |
-| **CANable Pro n°4** | Bus Jambe D | 6 moteurs RS | À acheter |
+| **CANable Pro n°1** | Bus Bras G | 6 moteurs RS (3 épaule, 1 coude, 1 supination, 1 poignet) | ✅ Achetés |
+| **CANable Pro n°2** | Bus Bras D | 6 moteurs RS (3 épaule, 1 coude, 1 supination, 1 poignet) | ✅ Achetés |
+| **CANable Pro n°3** | Bus Jambe G | 6 moteurs RS | ✅ Achetés |
+| **CANable Pro n°4** | Bus Jambe D | 6 moteurs RS | ✅ Achetés |
 
 > **Note** : 4 CANable Pro sont nécessaires pour les membres. Si le budget est contraint, un 1er achat de 3 CANable Pro suffit pour les 2 bras + 1 jambe (Phase 2-3), le 4e s'achète en Phase 4 avec les jambes.
 
@@ -81,19 +130,42 @@ Le **CANable Pro** est la version avec **isolation galvanique 2.5kV** du CANable
 > [!WARNING]
 > Sur AliExpress, vérifier que la fiche mentionne explicitement **"2.5kV galvanic isolation"**. Les CANable 2.0 standard (sans isolation) sont souvent vendus sous le même nom.
 
-```
+```text
 Jetson Orin Nano
-    └── Hub USB (modèle à choisir après liste complète des périphériques)
-         ├── InnoMaker USB2CAN-C (✅ Acheté) → Bus Cou    (RS-05 ×2)
-         ├── CANable Pro n°1    (à acheter) → Bus Bras G (RS-04/03/02/06/00)
-         ├── CANable Pro n°2    (à acheter) → Bus Bras D (idem)
-         ├── CANable Pro n°3    (à acheter) → Bus Jambe G (RS-04 ×2 + RS-03 ×4)
-         └── CANable Pro n°4    (à acheter) → Bus Jambe D (idem)
-
-Dynamixel (Mains) :
-    └── Hub USB → U2D2 Main G  (TTL, indépendant CAN)
-    └── Hub USB → U2D2 Main D  (TTL, indépendant CAN)
+    ├── Port 4 (Direct) : InnoMaker USB2CAN-C (✅ Acheté) → Bus Cou (RS-05 ×2)
+    └── Port 2 (Hub Industriel Alimenté)
+         ├── CANable Pro n°1 (✅ Acheté) → Bus Bras G (6 moteurs)
+         ├── CANable Pro n°2 (✅ Acheté) → Bus Bras D (6 moteurs)
+         ├── CANable Pro n°3 (✅ Acheté) → Bus Jambe G (6 moteurs)
+         ├── CANable Pro n°4 (✅ Acheté) → Bus Jambe D (6 moteurs)
+         ├── Sony Spresense (✅ Achetée) → Watchdog / Capteurs
+         ├── U2D2 n°1 (Main G) → Dynamixel TTL
+         └── U2D2 n°2 (Main D) → Dynamixel TTL
 ```
+
+---
+
+### 2.5 Architecture USB & Hub de Données
+
+Le D-Bot possède plus de 9 périphériques USB. Pour garantir la stabilité des communications moteurs face aux interférences électromagnétiques (EMI) du bus 48V, l'architecture repose sur une hiérarchie stricte.
+
+#### Hiérarchie du Hub USB
+Un **Hub USB 3.0 Industriel (Boîtier métal)** est centralisé dans le torse. Il doit être **alimenté par le rail 12V régulé** (Buck 48V→12V) pour ne pas saturer l'étage de puissance de la Jetson.
+
+**Périphériques connectés au Hub :**
+1.  **CANable Pro n°1** (Bras G)
+2.  **CANable Pro n°2** (Bras D)
+3.  **CANable Pro n°3** (Jambe G)
+4.  **CANable Pro n°4** (Jambe D)
+5.  **U2D2 n°1** (Main G)
+6.  **U2D2 n°2** (Main D)
+7.  **Sony Spresense** (Watchdog)
+
+#### Le "Cluster CAN" (Intégration Physique)
+Pour minimiser l'encombrement et simplifier le câblage, les 4 modules **CANable Pro** sont regroupés dans un support imprimé en 3D :
+*   **Format** : Montage vertical en "peigne" avec un espacement de 5mm pour la ventilation.
+*   **Liaison Hub** : Utilisation de câbles USB-C vers USB-A blindés et courts (**30 cm**).
+*   **Départ Bus** : Les paires torsadées CAN (H/L/GND) partent de ce point central vers les ouvertures des épaules et du bassin.
 
 ---
 
@@ -142,14 +214,17 @@ ___
 *   Agit comme un capteur USB3.
 *   Intègre une **IMU (BNO085/BMI270)** — **utilisée uniquement pour la stabilisation du regard**, pas pour l'équilibre du corps (voir [18 — Stratégie IMU](./18_Strategie_IMU_Fusion.md)).
 
-### Sony Spresense (Audio & I/O)
+### Sony Spresense (Watchdog & I/O)
 *   **Carte Extension Choisie** : **Standard Board** (CXD5602PWBEXT1).
-    *   *Raison* : Permet de brancher jusqu'à **8 microphones numériques** pour le Beamforming (localisation de la voix).
-    *   *Évolutabilité* : Headers Arduino compatibles pour ajouter des shields futurs.
-*   **Alternative LTE** : Si le robot doit sortir en extérieur (hors Wi-Fi), une **LTE Extension Board** aurait été préférée, mais la Standard offre plus de flexibilité I/O audio pour un robot social.
-*   **Liaison Jetson** : Via USB (Port principal micro-USB de la Spresense). La Spresense apparaît comme un périphérique série (`/dev/ttyUSBx`) ou Audio USB selon le sketch chargé.
+    *   *Raison* : Offre 6 entrées analogiques (ADC) cruciales pour les **8 capteurs FSR** (pieds), la surveillance batterie et les thermistances moteurs.
+    *   *Évolutabilité* : Headers Arduino compatibles pour ajouter des shields ou multiplexeurs I2C.
+*   **Alternative LTE** : Si le robot doit sortir en extérieur (hors Wi-Fi), une **LTE Extension Board** aurait pu être envisagée, mais la Standard Board est ici privilégiée pour l'accès direct aux entrées analogiques (ADC) nécessaires aux capteurs FSR.
+*   **Liaison Jetson** : Via USB (Port principal micro-USB de la Spresense). La Spresense apparaît comme un périphérique série (`/dev/ttyUSBx`) pour le monitoring et la configuration.
 
 ---
+
+### Circuit de commande des solénoïdes (Tête)
+Pour piloter les 2 solénoïdes (12V) via la Spresense (GPIO 3.3V), utiliser un étage de puissance à MOSFET canal N (ex: IRLZ44N) avec diode de roue libre (1N4007) pour protéger contre les pics de tension à la coupure.
 
 ### Mise sous tension (Sécurité Wanptek)
 Pour les premiers tests moteurs (Banc d'essai) :
@@ -171,7 +246,37 @@ Pour les premiers tests moteurs (Banc d'essai) :
 
 ## 4. Alimentation & Batterie
 
-### Spécifications Système
+### 4.1 Inventaire des Tensions Secondaires (Non-48V)
+
+Le D-Bot utilise des tensions régulées pour tous ses composants hors moteurs RobStride. Voici le bilan des besoins pour la version V1.
+
+#### Rail 19V : Calculateur IA
+*   **Composant** : NVIDIA Jetson Orin Nano Super.
+*   **Tension** : 19V DC.
+*   **Intensité** : ~5.0 A Peak (inclut l'alimentation des périphériques USB : OAK-D Pro, ReSpeaker, HP).
+*   **Source** : Buck DC-DC 48V→19V (95W).
+
+#### Rail 12V : Mains et Verrouillage Tête
+*   **Main Gauche** : 8× Dynamixel (XC430/XC330). **~9.1 A Peak**. (Buck 48V→12V 10A local).
+*   **Main Droite** : 8× Dynamixel (XC430/XC330). **~9.1 A Peak**. (Buck 48V→12V 10A local).
+*   **Accessoires Torse (12V Central)** :
+    *   **Hub USB Industriel** : Alimentation stable requise. **~2.0 A**.
+    *   **Tête (Solenoides)** : 2× LEX-SOLEN-04. **1.2 A**.
+    *   **Source** : Buck 48V→12V 5A central (mutualisé Hub + Solénoïdes).
+
+#### Rail 5V : Logique Always-On & Capteurs
+*   **Sony Spresense** : Watchdog et Power Management. **~1.0 A**.
+*   **Accessoires USB** : ReSpeaker, OAK-D Pro (via Jetson), Hub USB.
+*   **Source** : Buck DC-DC 48V→5V 5A (Always-On).
+
+#### Rail 3.3V : Capteurs Fins
+*   **Capteurs eFlesh** : 9 à 16 magnétomètres MLX90393. **< 0.1 A**.
+*   **IMU Torse** : BMI270. **< 0.01 A**.
+*   **Source** : Régulation locale 3.3V (via Spresense ou LDO Multiplexeur I2C).
+
+---
+
+### 4.2 Alimentation & Batterie (Spécifications)
 *   **Tension nominale** : **46.8V** (13S Li-ion NMC) — Standard K-Bot.
 *   **Tension max (charge)** : 54.6V (13S NMC, chargeur CC/CV dédié).
 *   **Connecteur principal** : **Anderson SB50** (anti-spark) ou **XT90-S**.
@@ -344,8 +449,8 @@ L'architecture de distribution du D-Bot suit le modèle hiérarchique utilisé p
 
 | Zone | Moteurs / Charges | N° moteurs | Fusible | AWG tronc | Connecteur tronc |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **Bras G** | RS-04 + RS-03 + RS-02 + RS-06 + RS-00 + Buck→12V | 5 + 1 | **30A** | **14 AWG** | XT60 |
-| **Bras D** | (idem) | 5 + 1 | **30A** | **14 AWG** | XT60 |
+| **Bras G** | 6 moteurs RS + Buck→12V | 6 + 1 | **30A** | **14 AWG** | XT60 |
+| **Bras D** | 6 moteurs RS + Buck→12V | 6 + 1 | **30A** | **14 AWG** | XT60 |
 | **Jambe G** | RS-04 × 2 + RS-03 × 3 + RS-02 | 6 | **50A** | **12 AWG** | XT60 |
 | **Jambe D** | (idem) | 6 | **50A** | **12 AWG** | XT60 |
 | **Cou / Tête** | RS-05 × 2 | 2 | **5A** | **18 AWG** | XT30 |
@@ -778,3 +883,32 @@ Les FSR sont des résistances variables (Infini à vide -> ~1kΩ appuyé). La Sp
     *   Option A : Mettre les FSR Avant en parallèle (moyenne) et Arrière en parallèle. = 2 fils par pied.
     *   Option B : Utiliser un multiplexeur I2C (ex: ADS1115) pour lire 4 canaux supplémentaires.
     *   *Reco Prototype* : Option A (Suffisant pour savoir si le poids est sur les pointes ou les talons).
+
+---
+
+## 6. Pilotage des Solénoïdes (Blocage Tête)
+
+Le blocage de la tête (Tilt) est assuré par deux solénoïdes **LEX-SOLEN-04** (12V, 0.6A chacun). Ils fonctionnent en mode **"Power to Unlock"** (alimentés pour débloquer, verrouillés par ressort au repos).
+
+### Schéma Électronique du Driver (MOSFET)
+
+Un étage de puissance est nécessaire pour chaque solénoïde.
+
+**Composants par solénoïde :**
+*   **MOSFET N** : **IRLZ44N** (Logic Level, compatible 3.3V/5V).
+*   **Diode** : **1N4007** (Flyback/Roue libre).
+*   **Résistances** : 220 Ω (Gate) + 10 kΩ (Pull-down).
+
+```text
+       Rail 12V (+) ──────┬────── [Solénoïde] ──────┬────── [Drain MOSFET]
+                          │                         │
+                    [Diode 1N4007] <──(Sens bloqué)──┘
+                          │
+       Masse GND (-) ─────┴─────────────────────────────── [Source MOSFET]
+                                                            │
+       Pin Spresense ───── [Résistance 220Ω] ────────────── [Gate MOSFET]
+                                                            │
+       Masse GND (-) ───── [Résistance 10kΩ] ───────────────┘
+```
+
+**Note d'implémentation** : Soudez ces composants sur une petite plaque de prototypage (veroboard) fixée à proximité de la Spresense. Les solénoïdes sont raccordés via des connecteurs JST-XH pour faciliter le démontage.

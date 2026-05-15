@@ -240,7 +240,7 @@ SÉQUENCE DE MONTAGE — HUB RÉDUIT Ø20mm + 6804-2RS
    - Serrer 6× vis M4 à ~1.5 N.m
         ↓
 4. Installer le sous-ensemble [CARTER + ROULEMENT] par le dessus :
-   - La bague intérieure s'emmanche sur le Ø20mm du tube hub
+   - La bague intérieure s'emmanche on le Ø20mm du tube hub
      jusqu'à l'épaulement butée basse (ajustement H7/k6)
    - Insérer les vis du carter SANS serrer (jeux Ø3.5mm)
         ↓
@@ -293,7 +293,7 @@ Le roulement 6804-2RS reprenant la totalité des charges statiques, le RS-05 ne 
 ## 7. BOM — Récapitulatif Achat (Solution 4 — Prototype Validé)
 
 | Composant | Référence | Qté | Prix Unit. | Fournisseur |
-| :--- | :--- | :---: | :---: | :--- |
+| :--- | :--- | :--- | :---: | :---: | :--- |
 | Roulement radial étanche | **6804-2RS** (Ø20×Ø32×7mm) | 1 | ~3-5 € | SKF, NSK, Amazon |
 | Tube Hub | Al 6061 Ø20 × 12-15mm hauteur (CNC) | 1 | Usinage maison | Stock alu |
 | Carter fixe (bague) | Al 6061, alésage Ø32mm H7 (CNC) | 1 | Usinage maison | Stock alu |
@@ -335,12 +335,6 @@ On utilise **le roulement lui-même comme gabarit d'alignement** lors du montage
 > L'analyse dimensionnelle a confirmé l'impossibilité d'un montage coplanaire (espace radial de 5.25 mm insuffisant pour tout roulement standard). La solution retenue réduit le tube-hub à Ø20mm de sorte que le roulement 6804-2RS (Ø20×Ø32×7mm) rentre largement dans l'enveloppe du moteur (marge de 4.75 mm par côté). Le carter fixe reprend **100% des charges statiques** (poids de la tête, moments de basculement). Le RS-05 ne fournit que le couple de Roll pur, avec une marge nominale de ×2.3.
 >
 > Le prototype a également confirmé que le 6804-2RS est plus avantageux que le 6802-2RS initialement modélisé : hub plus rigide, usinage du carter simplifié (paroi d'au moins 3 mm), et capacité radiale doublée (~3.0 kN vs ~1.6 kN).
-
----
-
----
-
-*Dernière mise à jour : Mars 2026. Voir aussi : [30_URDF_Cou_Neck.md](./30_URDF_Cou_Neck.md) pour la préparation URDF de ce sous-assemblage.*
 
 ---
 
@@ -424,3 +418,62 @@ Ce tableau consigne les interventions logicielles sur les moteurs du sous-ensemb
 | :--- | :--- | :--- | :--- | :--- |
 | **31 Mars 2026** | **Cou (Roll & Pitch)** | Mise à jour système | **0.5.0.9** | Actualisation via MotorStudio v1.0.3. Calibration du zéro effectuée après flash. |
 
+---
+
+## 12. Système de Verrouillage Statique du Tilt (Parking Brake)
+
+> ✅ **Mise à jour (Mai 2026)** : Intégration de deux solénoïdes de type **LEX-SOLEN-04** pour immobiliser mécaniquement l'axe de Tilt (Pitch) lorsque le robot est hors tension ou en mode veille prolongée.
+
+### 12.1 Justification Technique
+Le moteur RobStride RS-05 est un actionneur **Quasi-Direct Drive (QDD)** avec un faible ratio de réduction (10:1). Cette architecture le rend naturellement **backdrivable**. 
+*   **Problème** : Lorsque les moteurs ne sont plus alimentés (sécurité, arrêt d'urgence ou veille), le poids de la tête (~2 kg) provoque un basculement passif du Tilt (Pitch) sous l'effet de la gravité.
+*   **Solution** : L'utilisation de solénoïdes de blocage permet de "parquer" la tête dans une position stable sans consommer l'énergie des moteurs RS-05.
+
+### 12.2 Spécifications du Solénoïde (LEX-SOLEN-04)
+*   **Type** : Push-Pull linéaire avec ressort de rappel.
+*   **Tension** : 12 VDC (Alimentation via le rail 12V de la PDB).
+*   **Puissance / Courant** : 7.2 W / 0.6 A.
+*   **Course** : 8 mm.
+*   **Dimensions** : 50 x 16 x 19 mm.
+
+### 12.3 Intégration Mécanique
+Le système repose sur l'engagement d'une goupille (plongeur du solénoïde) dans une interface solidaire du mouvement de Tilt.
+
+*   **Montage** : Les solénoïdes sont fixés sur le **Palier Fixe Arrière** (ou sur une platine dédiée fixée au torse).
+*   **Interface de blocage** : La goupille vient s'insérer dans un perçage situé sur le **bras arrière du bracket en U (Yoke Mount)**.
+*   **Position de "Parking"** : Généralement configurée pour bloquer la tête à l'horizontale (θ = 0°).
+
+### 12.4 Pilotage Électronique
+*   **Contrôle** : Commande via GPIO de la **Sony Spresense** (ou Jetson Orin Nano) à travers un étage de puissance (MOSFET ou relais statique).
+*   **Logique de Sécurité (Recommandée)** :
+    *   **Normally Locked** : Utiliser le ressort de rappel du solénoïde pour maintenir la goupille en position "Verrouillée".
+    *   **Power to Unlock** : Alimenter le solénoïde uniquement lors des phases de mouvement pour rétracter la goupille. Cela garantit que la tête reste bloquée en cas de coupure de courant totale.
+
+### 12.5 Workflow Logiciel (ROS 2)
+Le contrôle des solénoïdes doit être synchronisé avec le contrôleur de trajectoire du moteur RS-05 (Tilt). 
+
+#### Séquence de mouvement type :
+1.  **Requête de mouvement** (Action Goal ROS 2).
+2.  **Déverrouillage** : Le `Solenoid_Node` active le MOSFET (Power to Unlock). 
+    *   *Attente : 50ms* (temps de réponse mécanique du plongeur).
+3.  **Mouvement** : Le moteur RS-05 exécute sa trajectoire.
+4.  **Arrivée / Maintien** : Une fois la position atteinte et stabilisée :
+    *   Si la position correspond à un point de parking → **Verrouillage** (Power Off).
+    *   Sinon → Maintenir déverrouillé si des micro-ajustements sont prévus.
+
+#### Positions de Verrouillage (Statiques) :
+*   **P1 (Neutre / Horizon)** : θ = 0°. Position pour le transport ou le repos.
+*   **P2 (Vision Marche)** : θ = -15°. Position optimisée pour la vision au sol par l'OAK-D Pro (détection d'obstacles à ~2m) tout en gardant une posture stable.
+
+### 12.6 Bilan Électrique et Consolidation 12V
+Pour simplifier le câblage, les besoins 12V du haut du corps sont regroupés sur un **Buck central dédié (48V→12V 5A)** situé dans le torse ou la base du cou.
+
+| Composant | Tension | Courant (Peak) | Note |
+| :--- | :--- | :--- | :--- |
+| **Solénoïdes (x2)** | 12 V | 1.2 A | Parking Brake (Verrouillage tête) |
+| **Hub USB Industriel** | 12 V | 2.5 A | Alimentation stable des bus CAN et Spresense |
+| **TOTAL** | — | **~3.7 A** | **Marge de 25% sur un Buck 5A** ✅ |
+
+---
+
+*Dernière mise à jour : Mai 2026. Voir aussi : [30_URDF_Cou_Neck.md](./30_URDF_Cou_Neck.md) pour la préparation URDF.*

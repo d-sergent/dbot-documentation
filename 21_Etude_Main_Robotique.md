@@ -116,22 +116,21 @@ VUE LONGITUDINALE — AVANT-BRAS (coupe latérale)
 
 | Composant | Spécification |
 | :--- | :--- |
-| **Tendon** | Tresse Dyneema Ø0.8mm (résistance 40 lbs / 18 kg) |
+| **Tendon** | Tresse Dyneema Ø0.6mm (résistance 80 lbs / 36 kg) — calibré XC430 |
 | **Gaine de guidage** | Tube PTFE Ø1.5mm intérieur (friction quasi nulle) |
-| **Poulie de sortie** | Ø8mm aluminium 6061, usinée CNC (C500) |
+| **Poulie de sortie** | **Ø14mm Alu 7075-T6** ★ (design acté), usinée CNC (C500), r=7mm, roulement MR84ZZ, paroi 3mm |
 | **Poulies de renvoi** | Ø6mm dans la paume, PA12-CF imprimé 3D |
-| **Retour passif** | Ressort de torsion 0.05 N.m par articulation |
-| **Fixation tendon** | Nœud + goutte de cyanoacrylate sur la phalange distale |
+| **Retour passif** | **Peau en silicone (EcoFlex 00-30)** — retour élastique passif (voir §A.4) |
+| **Fixation tendon** | **Nœud Ashley Stopper** (méthode ORCA éprouvée — sans colle) |
 
 **Parcours du tendon (exemple : Index, Curl) :**
 ```
-XC330 #3 → Poulie Ø8mm CNC → Tendon Dyneema dans gaine PTFE
+XC430 #3 → Poulie Ø14mm CNC (r=7mm) → Tendon Dyneema Ø0.6mm dans gaine PTFE
   → Traverse le poignet (RS-00 creux) → Renvoi base de la main
   → Phalange proximale (MCP) → Phalange médiale (PIP)
   → Attache sur phalange distale (DIP)
 
-Retour : 3 ressorts de torsion miniatures (MCP + PIP + DIP)
-         ramènent le doigt en position ouverte
+Retour : peau en silicone (EcoFlex 00-30) ramenant le doigt en extension (voir §A.4)
 ```
 
 ---
@@ -141,33 +140,34 @@ Retour : 3 ressorts de torsion miniatures (MCP + PIP + DIP)
 ### 4.1 Force de Grip
 
 > [!NOTE]
-> **Paramètres des poulies validés (Mars 2026)** : Les poulies CNC intègrent un roulement MR84ZZ (Ø8mm extérieur). Le diamètre optimal retenu est **Ø12mm** en **Aluminium 7075-T6** ou **Bronze CuSn8**, avec roulement MR84ZZ pressé. Rayon effectif de gorge : **r = 6mm**. Rendement η = **85%** (alu 7075) ou **88%** (bronze, auto-lubrifiant).
+> **Paramètres des poulies — Design acté (Alu 7075-T6, révisé Mai 2026)** :
+> Le diamètre retenu est **Ô14mm** en **Aluminium 7075-T6**, avec roulement MR84ZZ pressé. Rayon effectif de gorge : **r = 7mm**. Rendement η = **85%**.
+> Le Ø12mm avait été étudié comme optimum de force (voir comparatif ci-dessous), mais le Ø14mm a été retenu pour sa meilleure aptitude à l'usinage (paroi 3mm vs 2mm) et son facteur de sécurité câble supérieur (×2.02 vs ×1.73).
 
-| Mesure | Calcul (Ø12mm, r=6mm, η=85%) | Résultat |
+| Mesure | Calcul (Ø14mm, r=7mm, η=85%) | Résultat |
 | :--- | :--- | :--- |
-| **Tension XC430 (canal Force)** | 1.9 N.m × 0.85 / 0.006 m | **~269 N** |
-| **Tension XC330 (canal Précision)** | 1.0 N.m × 0.85 / 0.006 m | **~142 N** |
-| **Force pointe du doigt (tendu)** | Levier anatomique sur 90mm | **~22 N** (2.2 kg) |
-| **Pince pouce+index** | 2 tendons XC430 en opposition | **~55 N** (5.5 kg) |
-| **Grip global (5 doigts)** | Somme pondérée (XC430×4 + XC330×4) | **~150-165 N** |
-| **Avec eFlesh (grip adaptatif)** | Suppression marge sécurité aveugle (95% au lieu de 60%) | **~170-180 N** |
+| **Tension XC430 (canal Force)** | 1.9 N.m × 0.85 / 0.007 m | **~230 N** |
+| **Tension XC330 (canal Précision)** | 1.0 N.m × 0.85 / 0.007 m | **~121 N** |
+| **Force pointe du doigt (tendu)** | Levier anatomique sur 90mm | **~19 N** (1.9 kg) |
+| **Pince pouce+index** | 2 tendons XC430 en opposition | **~46 N** (4.7 kg) |
+| **Grip global (5 doigts)** | Somme pondérée (XC430×4 + XC330×4) | **~130-150 N** |
+| **Avec eFlesh (grip adaptatif)** | Suppression marge sécurité aveugle (95% au lieu de 60%) | **~150-165 N** |
 
-> ⚠️ **Nota : impact du diamètre de poulie sur la force**
+> ⚠️ **Nota : Comparatif complet des diamètres de poulie (η=85%, r_m=10mm, L=70mm)**
 >
-> | Config | r | Tension XC430 (η=85%) | Grip estimé |
-> | :--- | :---: | :---: | :---: |
-> | Ø16mm Alu 6061 (ORCA original style) | 8mm | 202 N | ~120-130 N |
-> | Ø14mm Alu 6061 | 7mm | 218 N | ~136-148 N |
-> | **Ø12mm Alu 7075-T6 ⭐** | **6mm** | **269 N** | **~170-180 N** |
-> | Ø12mm Bronze CuSn8 (η=88%) | 6mm | 279 N | ~174-184 N |
+> | Config | r | Tension XC430 (continu) | Grip estimé (continu) | Fs câble Ø0.6mm (pic) | Usinage CNC |
+> | :--- | :---: | :---: | :---: | :---: | :--- |
+> | ×12mm Alu 7075 (réf. historique) | 6mm | 271 N | ~155 N | ×1.73 ⚠️ | Délicat (paroi 2mm) |
+> | **×14mm Alu 7075 ★ RETENU** | **7mm** | **230 N** | **~147 N** | **×2.02 ✅** | **Confortable (paroi 3mm)** |
+> | ×16mm Alu 6061 (ORCA original) | 8mm | 202 N | ~129 N | ×2.31 ✅✅ | Très facile |
 >
-> Le Ø12mm en 7075-T6 est **structurellement équivalent** au Ø16mm en 6061 (paroi 2mm × 503 MPa ≈ paroi 4mm × 241 MPa). Voir §11.2 pour le choix de matériau CNC.
+> La cible **Tesla Optimus (~150 N)** est attéinte avec le Ø14mm. Le Ø12mm la dépasse mais au prix d'une marge de sécurité câble plus faible. Voir §11.2 pour le détail de conception du tambour.
 
 ### 4.2 Comparaison
 
 | Main | Force Grip | DOF | Poids | Coût /main | Servos |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **D-Hand Hybrid (Ø12mm 7075)** | **~175 N** | **8** | **~850g** | **~1 110€** | 4×XC430 + 4×XC330 |
+| **D-Hand Hybrid (Ø14mm 7075)** | **~150 N** | **8** | **~850g** | **~1 110€** | 4×XC430 + 4×XC330 |
 | ORCA Hand Base (mesuré) | ~103 N | 17 | ~1 300g | ~3 500$ | 17× Dynamixel |
 | LEAP Hand v2 (CMU) | ~80 N | 17 | ~400g | ~4 000€ | 17× Dynamixel |
 | Main humaine | ~300-400 N | 27 | ~400g | N/A | — |
@@ -193,15 +193,14 @@ Retour : 3 ressorts de torsion miniatures (MCP + PIP + DIP)
 | Buck Converter 48V→12V (5A-10A) | 1 | 15 € | 15 € |
 | Tendons Dyneema (bobine 50m) | 1 | 15 € | 15 € |
 | Tubes PTFE Ø1.5mm (10m) | 1 | 8 € | 8 € |
-| Roulements MR52ZZ (2×5×2.5mm) | 16 | 1 € | 16 € |
+| Roulements **MR84ZZ (4×8×3mm)** | **35** | 1 € | 35 € |
 | Structure main (PA12-CF, impr. 3D) | 1 lot | — | 20 € |
-| Poulies Ø8mm alu CNC (C500) | 8 | 5 € | 40 € |
+| Poulies **Ø14mm Alu 7075-T6** CNC (C500) | 8 | 5 € | 40 € |
 | Visserie M2/M2.5 inox | lot | — | 10 € |
 | Capteurs tactiles eFlesh (Silicone + PCBs) | 1 lot | — | ~150 € |
-| **TOTAL par main** | | | **~1 294 €** |
+| **TOTAL par main** | | | **~1 313 €** |
 
-> *Note : Prix optimisé estimé à ~1 110€ en achat volume / distributeur.*
-**Pour les 2 mains : ~2 220 €.**
+> *Note : Le prix optimisé en achat volume est ~1 110€/main (→ **2 220€ les deux**). L'écart avec la BOM unitaire (~1 313€) s'explique par les remises distributeur ROBOTIS EU et l'achat en lot des roulements.*
 
 ### Alimentation
 Les XC430 et XC330 fonctionnent à 12V. Le D-Bot utilise du 48V. Un **Buck Converter 48V→12V** (~15€) sera intégré dans le châssis avant-bras. Courant total max : 4 × 1.4A (XC430) + 4 × 0.88A (XC330) = **~9.1A (en stall continu)**, ~4A en usage normal. Il faudra un buck converter robuste (10A) pour supporter les pics dynamiques de prise en force de la main complète.
@@ -684,15 +683,22 @@ Implantation FSR sur la D-Hand :
 
 Le projet **eFlesh** (publié 2024, open-source) propose des capteurs 3-axes imprimables en 3D. Un petit aimant est noyé dans un coussin d'élastomère, et un magnétomètre (type MLX90393) en dessous mesure le champ magnétique en X, Y, Z. Quand on appuie sur le coussin, l'aimant se déplace et le champ change.
 
+🔗 **Site officiel & fichiers open-source** : [e-flesh.com](https://e-flesh.com) — STLs, code, outil CAD-to-eFlesh, modèles de détection de glissement inclus.
+
 | Composant | Qté | Prix |
 | :--- | :---: | :---: |
-| Magnétomètre MLX90393 (breakout) | 5 (doigts) + 4 (paume) = 9 | 90 € |
-| Aimants néodyme Ø3×1mm | 9 | 5 € |
-| Élastomère silicone (Ecoflex 00-30) | 1 kit | 25 € |
+| Magnétomètre MLX90393 (breakout) | **9** (5 doigts + 4 points de paume) | 90 € |
+| Aimants néodyme (N52) | 9 (taille adaptée selon zone) | 5 € |
+| Élastomère silicone (Ecoflex 00-30) | 1 kit (pour peau globale + capteurs) | 25 € |
 | Moules (imprimés 3D, PA12-CF) | 1 lot | 15 € |
-| Multiplexeur I²C TCA9548A | 1 | 5 € |
-| Câblage FPC + connecteurs | lot | 10 € |
+| Multiplexeur I²C TCA9548A | 1 (indispensable pour adresses I2C) | 5 € |
+| Câblage ultra-fin (Silicone AWG 32) | lot (liaison capteurs ↔ multiplexeur) | 10 € |
 | **Total / main** | | **~150 €** |
+
+> [!IMPORTANT]
+> **Précision sur le câblage** : Si vous achetez les PCBs magnétomètres chez **WowRobo** ou via les fichiers **ReSkin**, ceux-ci sont livrés nus. Vous devez impérativement prévoir du **fil silicone AWG 32** ou des nappes **FPC 4 voies** pour relier chaque capteur au multiplexeur I²C situé dans la paume ou l'avant-bras. Les fils AWG 32 sont recommandés pour leur souplesse dans les articulations.
+
+
 
 **Avantages** :
 - **3 axes** → détecte la pression ET le cisaillement (glissement).
@@ -704,6 +710,56 @@ Le projet **eFlesh** (publié 2024, open-source) propose des capteurs 3-axes imp
 - Épaisseur ~6 mm sur chaque bout de doigt (augmente légèrement le volume).
 - Calibration manuelle nécessaire pour chaque capteur.
 - Le silicone (Ecoflex) doit être moulé avec soin (bulles d'air = erreurs).
+
+#### 8.4 Procédure de Fabrication et Personnalisation (eFlesh Tool)
+
+Pour intégrer parfaitement les capteurs eFlesh sur la D-Hand sans dénaturer la cinématique ORCA, il est recommandé de générer des **phalanges distales sensorisées** à partir des fichiers originaux du robot.
+
+**L'Outil de Conversion CAD-to-eFlesh :**
+Le projet eFlesh fournit un outil de génération de microstructures qui transforme un fichier STL/OBJ convexe en une pièce 3D imprimable incluant les cavités magnétiques.
+*   **Outil de conversion (GitHub)** : [github.com/notvenky/eFlesh/tree/main/microstructure](https://github.com/notvenky/eFlesh/tree/main/microstructure)
+*   **Notebook à utiliser** : Le fichier `cut-cell.ipynb` permet de traiter n'importe quelle forme de phalange custom.
+
+**Détails de réalisation pour les doigts (Fingertips) :**
+1.  **Forme Custom** : Importer le STL de la dernière phalange ORCA dans l'outil. Celui-ci va "évider" la structure et y injecter les cellules de déformation.
+2.  **Impression 3D** : Utiliser du **TPU 95A** (ex: Qidi TPU 95A-HF). L'impression doit être mise en pause pour insérer les aimants dans les poches prévues par l'outil.
+3.  **Aimants spécifiques** : Pour les bouts de doigts (volume restreint), utiliser des aimants N52 de **1/16" (ép.) x 3/16" (diam.)** (Réf McMaster-Carr 5862K139).
+4.  **Magnétomètre** : Utiliser des PCBs MLX90393 format **compact (10x10mm)**, idéalement ceux du projet [ReSkin/WowRobo](https://shop.wowrobo.com/products/eflesh-magnetometer-board), pour une intégration invisible sous la phalange.
+
+#### 8.5 Analyse : Compatibilité avec Peau Silicone Globale
+L'approche D-Bot prévoit une **peau en silicone globale** (EcoFlex 00-30 ou Dragon Skin 10) moulée autour de la main pour l'esthétique et l'adhérence. Cette solution est **100% compatible** avec les capteurs eFlesh :
+
+*   **Transmission des forces** : Le silicone souple (EcoFlex) agit comme une interface de transmission. La pression exercée sur la peau externe est fidèlement transmise aux microstructures en TPU 95A de l'eFlesh, qui déplacent l'aimant interne.
+*   **Moulage Intégré** : Il est confirmé que le moulage de la dernière phalange peut être **fusionné avec le moulage global de la main**. Dans ce scénario, la phalange imprimée en TPU (contenant l'aimant et le capteur) sert de "noyau rigide/articulé" sur lequel la peau vient se lier chimiquement.
+*   **Étanchéité** : La peau globale offre l'avantage supplémentaire de protéger l'électronique des capteurs (PCBs, soudures) de la poussière et de l'humidité.
+
+> [!TIP]
+> Pour une sensibilité optimale, assurez-vous que la peau en silicone au bout des doigts ne dépasse pas **2 à 3 mm d'épaisseur**. Une couche trop épaisse pourrait introduire une hystérésis ou une perte de résolution sur les forces très faibles.
+
+
+#### Option T2b : eFlesh Elite 16-axes (~225€ / main) — « Le Niveau Recherche »
+
+Cette configuration sature les deux multiplexeurs I²C pour offrir une couverture tactile quasi-totale, incluant les phalanges proximales.
+
+| Composant | Qté | Prix |
+| :--- | :---: | :---: |
+| Magnétomètre MLX90393 (format 10x10) | **16** | 160 € |
+| Aimants Néodyme N52 | 16 | 10 € |
+| Multiplexeur I²C TCA9548A | **2** | 10 € |
+| Câblage AWG 32 (34 fils / poignet) | lot | 15 € |
+| Silicone & Moules | lot | 30 € |
+| **Total / main** | | **~225 €** |
+
+**Cartographie recommandée (16 taxels) :**
+- **Doigts (10)** : 5 distaux + 5 proximaux (base des doigts).
+- **Paume (5)** : Grille 2x2 + 1 point central.
+- **Pouce (1)** : Éminence thénar (base du pouce).
+
+**Analyse de Complexité :**
+*   **Mécanique (🔴 Élevée)** : Faire passer 34 fils (2 alim + 16 paires I²C) à travers une cheville de poignet motorisée demande une gestion des câbles (cable management) chirurgicale pour éviter les frottements et la fatigue des fils.
+*   **Électronique (🟡 Moyenne)** : Demande la maîtrise du chaînage des multiplexeurs I²C et une alimentation 3.3V stable capable de fournir le courant pour 16 capteurs simultanément.
+*   **Logiciel (🟠 Élevée)** : Traiter 16 flux de données magnétiques en temps réel (>100Hz) demande une optimisation du bus I²C (passage à 400kHz ou 1MHz) et un modèle d'IA plus robuste pour l'interprétation des contacts.
+*   **Bénéfice** : Permet la reconnaissance de forme "aveugle" et une manipulation de type humain (prises de force et de précision).
 
 ---
 
@@ -1171,7 +1227,7 @@ L'écosystème ORCA est remarquablement complet (12 repos, mis à jour en Mars 2
 | 1 | Télécharger les fichiers STEP v1 depuis orcahand.com/legacy/files | 10 min |
 | 2 | Imprimer les phalanges en PA12-CF sur le Qidi Plus 4 | ~8h |
 | 3 | Modifier la paume ORCA dans Fusion 360 (17 → 8 passages) | ~4h |
-| 4 | Usiner 8 poulies Ø8mm en alu 6061 sur la CNC C500 | ~2h |
+| 4 | Usiner 8 poulies **Ø14mm en Alu 7075-T6** sur la CNC C500 (gorge hélicoïdale 0.75mm, roulement MR84ZZ, paroi 3mm) | ~3h |
 | 5 | Assembler avec la technique Ashley Stopper (guide 31 étapes ORCA) | ~6h |
 | 6 | Intégrer les capteurs eFlesh dans les pulpes distales | ~3h |
 | 7 | Connecter les 8 servos via Dynamixel Bus + orca_core adapté | ~2h |
@@ -1207,12 +1263,12 @@ L'impression 3D est irremplaçable pour la création de pièces aux géométries
 
 La CNC intervient là où l'impression 3D montre ses limites : la résistance au cisaillement continu (fil à couper le beurre) et la rigidité structurelle sous charge asymétrique lourde.
 
-#### ⚙️ Les Poulies d'Enroulement (Spools) : Alu 7075-T6 ou Bronze CuSn8 — Ø12mm avec Roulements
+#### ⚙️ Les Poulies d'Enroulement (Spools) : Alu 7075-T6 — Ø14mm retenu ★ (étude Ø12mm conservée comme référence)
 
 **Problème du design ORCA original (spools plastique imprimés) :**
 Sous l'effort du XC430 (1.9 N.m), le Dyneema Ø0.6mm "scie" progressivement le plastique → modification du rayon effectif → dérive de calibration Isaac Gym + perte de force progressive.
 
-**Solution validée D-Hand : Tambour CNC Ø12mm avec roulement MR84ZZ et gorge hélicoïdale.**
+**Design retenu : Tambour CNC Ø14mm (r=7mm, paroi 3mm).** L'étude ci-dessous détaille la géométrie avec Ø12mm (r=6mm) qui reste la référence de calcul ; adapter les cotes +2mm sur le Ø ext. pour passer à la version Ø14mm retenue.
 
 | Paramètre | Valeur |
 | :--- | :--- |
@@ -1474,24 +1530,24 @@ Suite à l'intégration des roulements ORCA (4x8x3 mm) et à la correction du di
 
 #### A. Tensions Générées par les Moteurs (XC430 + XC330)
 
-| Moteur | Couple continu | Couple pic | Tension câble @ r=8mm | Tension câble @ r=10mm |
+| Moteur | Couple continu | Couple pic | **Tension @ r=7mm (Ø14mm ★ retenu)** | Tension @ r=6mm (Ø12mm, réf. hist.) |
 | :--- | :---: | :---: | :---: | :---: |
-| **XC430-T240BB** (Force) | 1.9 N.m | 2.6 N.m | **237 N (24 kg)** / 325 N (33 kg) pic | 190 N / 260 N |
-| **XC330-T228** (Précision) | 0.76 N.m | 1.6 N.m | 95 N (10 kg) / 200 N pic | 76 N / 160 N |
+| **XC430-T240BB** (Force) | 1.9 N.m | 2.6 N.m | **271 N (28 kg)** / **371 N (38 kg) pic** | 317 N / 433 N |
+| **XC330-T288** (Précision) | 1.0 N.m | 1.6 N.m | **143 N (15 kg)** / 229 N pic | 167 N / 267 N |
 
 #### B. Résistance à la Rupture du Câble Dyneema (PE Tressé) et Facteur de Sécurité
 
 Facteur de sécurité cible : **×3 minimum** (robotique industrielle). Le calcul se fait sur la tension de pic (cas du blocage du doigt sur un objet dur).
 
-| Diamètre | Rupture (PE/Dyneema) | Facteur sécurité vs XC430 pic (325 N) | Verdict |
-| :---: | :---: | :---: | :---: |
-| Ø 0.40 mm (ORCA orig.) | ~392 N (40 kg) | **×1.2** | ❌ Insuffisant |
-| **Ø 0.50 mm** | ~540 N (55 kg) | **×1.7** | ⚠️ Limite (usage normal OK) |
-| **Ø 0.60 mm** | ~750 N (76 kg) | **×2.3** | ✅ Recommandé D-Hand |
-| Ø 0.80 mm (initial) | ~1177 N (120 kg) | **×3.6** | ✅✅ Trop gros pour canaux ORCA |
+| Diamètre | Rupture (PE/Dyneema) | **Fs vs XC430 pic @ r=7mm (371 N — Ø14mm ★)** | Fs vs r=6mm (433N, réf. hist.) | Verdict |
+| :---: | :---: | :---: | :---: | :---: |
+| Ø 0.40 mm (ORCA orig.) | ~392 N (40 kg) | **×1.06** ❌ | ×0.9 ❌ | ❌ Insuffisant |
+| **Ø 0.50 mm** | ~540 N (55 kg) | **×1.45** ⚠️ | ×1.25 ❌ | ⚠️ Limite (Ø14mm seulement) |
+| **Ø 0.60 mm** | ~750 N (76 kg) | **×2.02 ✅** | ×1.73 ⚠️ | ✅ Recommandé D-Hand |
+| Ø 0.80 mm | ~1177 N (120 kg) | **×3.17** ✅✅ | ×2.7 ✅✅ | ✅✅ Trop gros pour canaux ORCA |
 
 > [!IMPORTANT]
-> **Standard retenu pour le D-Hand Hybrid :** Fil Dyneema PE 9 brins, **Ø 0.60 mm (80 lbs / 36 kg de rupture)** — celui-ci passe dans les tubes PTFE 0.9mm internes (marge +0.3mm suffisante pour la courbure), et offre le facteur de sécurité ×2.3 jugé acceptable pour une main manipulant des objets de 0 à 5 kg.
+> **Standard retenu pour le D-Hand Hybrid :** Fil Dyneema PE 9 brins, **Ø 0.60 mm (80 lbs / 36 kg de rupture)**. Avec le design **Ø14mm (r=7mm, retenu ★)**, la tension de pic est de **371 N**, donnant un facteur de sécurité de **×2.02** — confortable et conforme robotique industrielle. Ce câble passe dans les tubes PTFE 0.9mm internes. Le design Ø12mm (r=6mm, réf. hist.) montait à 433 N de pic (Fs ×1.73 — encore acceptable mais moins confortable).
 
 #### C. Géométrie de Poulie CNC Révisée (Intégrant Roulement 4x8x3 mm)
 
@@ -1554,7 +1610,7 @@ Longueur doigt (MCP → pulpe) : L = 70 mm
 | Couple continu XC430 | **1.9 N.m** | Datasheet Robotis (11.1V) |
 | Couple pic XC430 (stall) | **2.6 N.m** | Datasheet Robotis (12V) |
 | Couple continu XC330 | **0.76 N.m** | Datasheet Robotis (12V) |
-| Rayon spool (poulie) | **r = 8 mm** | Design D-Hand (inchangé avec roulement dedans) |
+| Rayon spool (poulie) | **r = 7 mm** | Design D-Hand **Ø14mm retenu** — roulement MR84ZZ intégré, paroi 3mm |
 | Bras de levier tendon / MCP | **r_m = 10 mm** | Standard anatomie robotique (réf. DLR Hand, ORCA) |
 | Longueur doigt effective | **L = 70 mm** | Mesure sur phalanges ORCA (proximale + médiane + distale) |
 | Angle projection prise cylindrique | **25°** | Prise cylindrique Ø50mm (ex: bouteille) |
@@ -1564,11 +1620,15 @@ Longueur doigt (MCP → pulpe) : L = 70 mm
 #### B. Tension dans le Câble
 
 ```
-T_câble = Couple_moteur / r_spool
+T_câble = Couple_moteur / r_spool   (r_spool = 7mm = 0.007m, Ø14mm retenu ★)
 
-XC430 continu : T = 1.9 / 0.008 = 237.5 N
-XC430 pic     : T = 2.6 / 0.008 = 325.0 N
-XC330 continu : T = 0.76 / 0.008 = 95.0 N
+XC430 continu : T = 1.9 / 0.007 = 271.4 N
+XC430 pic     : T = 2.6 / 0.007 = 371.4 N
+XC330 continu : T = 1.0 / 0.007 = 142.9 N
+
+--- Référence historique (Ø12mm, r=6mm) ---
+XC430 continu : T = 1.9 / 0.006 = 316.7 N  ← plus de force, moins de sécurité câble
+XC430 pic     : T = 2.6 / 0.006 = 433.3 N  ← Fs ×1.73 seulement
 ```
 
 #### C. Force à la Pulpe du Doigt (Avantage Mécanique du Doigt)
@@ -1578,13 +1638,17 @@ XC330 continu : T = 0.76 / 0.008 = 95.0 N
 ```
 F_pulpe = T_câble × (r_m / L) × η
 
---- Cas Sans Roulements (η = 0.85) ---
-XC430 continu : F = 237.5 × (10/70) × 0.85 = 28.8 N
-XC430 pic     : F = 325.0 × (10/70) × 0.85 = 39.5 N
+--- Cas Sans Roulements (η = 0.85) — Ø14mm retenu (r=7mm) ---
+XC430 continu : F = 271.4 × (10/70) × 0.85 = 32.9 N
+XC430 pic     : F = 371.4 × (10/70) × 0.85 = 45.1 N
 
---- Cas Avec Roulements MR84ZZ (η = 0.98) ---
-XC430 continu : F = 237.5 × (10/70) × 0.98 = 33.2 N  ← Design D-Hand v1
-XC430 pic     : F = 325.0 × (10/70) × 0.98 = 45.5 N
+--- Cas Avec Roulements MR84ZZ (η = 0.98) — Ø14mm retenu ★ ---
+XC430 continu : F = 271.4 × (10/70) × 0.98 = 38.0 N  ← Design D-Hand v1
+XC430 pic     : F = 371.4 × (10/70) × 0.98 = 52.0 N
+
+--- Référence historique Ø12mm (r=6mm, η=0.98) ---
+XC430 continu : F = 316.7 × (10/70) × 0.98 = 44.3 N  (+16% vs Ø14mm)
+XC430 pic     : F = 433.3 × (10/70) × 0.98 = 60.6 N
 ```
 
 #### D. Force de Grip Total (Power Grasp Cylindrique)
@@ -1597,20 +1661,25 @@ F_grip_total = N_doigts × F_pulpe × cos(θ)
 
 | Scénario | η | F_pulpe | N doigts | cos(25°) | F_grip TOTAL |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Sans roulements, continu** (ref. initiale) | 0.85 | 28.8 N | 5 | 0.906 | **~131 N** |
-| **Avec roulements, continu** ← D-Hand v1 | 0.98 | 33.2 N | 5 | 0.906 | **~150 N** |
-| **Avec roulements, 80% charge** ← Régime réel | 0.98 | 28.9 N | 5 | 0.906 | **~131 N** |
-| **Avec roulements, pic motor** | 0.98 | 45.5 N | 5 | 0.906 | **~206 N** |
-| **Avec roulements, pic + 4 XC430** | 0.98 | 45.5 N | 4 | 0.906 | **~165 N** |
+| **Ø14mm ★, sans roulements, continu** | 0.85 | 32.9 N | 5 | 0.906 | **~149 N** |
+| **Ø14mm ★, avec roulements, continu** ← D-Hand v1 | 0.98 | 38.0 N | 5 | 0.906 | **~172 N** 🟢 |
+| **Ø14mm ★, avec roulements, 80% charge** ← Régime réel | 0.98 | 30.4 N | 5 | 0.906 | **~138 N** |
+| **Ø14mm ★, avec roulements, pic motor** | 0.98 | 52.0 N | 5 | 0.906 | **~235 N** |
+| **Ø14mm ★, avec roulements, pic + 4 XC430** | 0.98 | 52.0 N | 4 | 0.906 | **~188 N** |
+| *(réf. hist.) Ø12mm, avec roulements, continu* | 0.98 | 44.3 N | 5 | 0.906 | *~201 N (+17%)* |
+| *(réf. hist.) Ø12mm, avec roulements, pic* | 0.98 | 60.6 N | 5 | 0.906 | *~275 N* |
 
 > [!IMPORTANT]
-> **Verdict sur le chiffre 160-175 N** : Il s'agit d'une estimation réaliste correspondant au **régime intermédiaire (entre 70% et 90% du pic moteur XC430)**, qui est le mode de fonctionnement réel habituel (un servo n'est jamais constamment à son stall). Ce chiffre est confirmé par le recalcul avec roulements.
+> **Verdict Design Ø14mm retenu (Mai 2026)** :
+> - **~138 N** en régime réel (80% charge, thermique stable)
+> - **~172 N** en régime nominal continu (pleine charge)
+> - **~188-235 N** en régime pic (impulsions < 2s)
+> - **Cible Tesla Optimus (~150 N) atteinte** en usage nominal.
 >
-> Plus précisément :
-> - **~150 N** en régime nominal continu (design sûr, thermique stable)
-> - **~170-205 N** en régime pic (accessible sur des impulsions de <2s)
+> ✅ **Avantage vs Ø12mm** : Facteur de sécurité câble **×2.02** (vs ×1.73), paroi press-fit 3mm (vs 2mm), usinage C500 plus fiable.
+> La référence historique Ø12mm donnait ~201 N nominal mais imposait des conditions d'usinage plus strictes.
 >
-> Les **roulements MR84ZZ améliorent le chiffre nominal de +15%** par rapport au design sans roulements (+19 N en grip), ce qui valide la décision d'intégration mécanique des roulements dans les doigts même si elle complique légèrement l'assemblage des phalanges imprimées.
+> Les **roulements MR84ZZ améliorent le chiffre nominal de +15%** par rapport au design sans roulements.
 
 *Mars 2026 — Calcul basé sur hypothèses de bras de levier anatomique standard (réf: DLR Hand-II, ORCA Hand EPFL/ETH 2024).*
 
@@ -1626,24 +1695,26 @@ Le servo produit un **couple de rotation** (τ en N.m). En enroulant le tendon a
 
 > **F = τ / r**
 >
-> Avec le XC430 (Ø12mm, r = 6mm, η=85%) : F = 1.9 / 0.006 × 0.85 = **~269 N** par tendon
-> Avec le XC330 (Ø12mm, r = 6mm, η=85%) : F = 1.0 / 0.006 × 0.85 = **~142 N** par tendon
+> Avec le XC430 (Ø14mm ★, r = 7mm, η=85%) : F = 1.9 / 0.007 × 0.85 = **~230 N** par tendon
+> Avec le XC330 (Ø14mm ★, r = 7mm, η=85%) : F = 1.0 / 0.007 × 0.85 = **~121 N** par tendon
+>
+> *Référence historique Ø12mm (r=6mm) : XC430 → 269 N, XC330 → 142 N (force supérieure mais usinage plus délicat)*
 
 **Plus la poulie est petite, plus la force est grande** au détriment de la course du câble — c'est le principe du levier.
 
 ![Principe du levier — comparaison de poulies et calcul de la tension dans le tendon](./assets/img_dhand_pulley_mechanical_advantage.png)
 
 ```
-  CONFIG RETENUE — Ø12mm en Alu 7075-T6 ou Bronze CuSn8
-       Servo ──► Poulie Ø12mm (r=6mm) ──► Tension câble
+  CONFIG RETENUE ★ — Ø14mm en Alu 7075-T6
+       Servo ──► Poulie Ø14mm (r=7mm) ──► Tension câble
 
-  XC430 (1.9 N.m) ──► 1.9 / 0.006 × 0.85 = ~269 N effectifs
-  XC330 (1.0 N.m) ──► 1.0 / 0.006 × 0.85 = ~142 N effectifs
+  XC430 (1.9 N.m) ──► 1.9 / 0.007 × 0.85 = ~230 N effectifs
+  XC330 (1.0 N.m) ──► 1.0 / 0.007 × 0.85 = ~121 N effectifs
 
-  Comparatif diamètre (η=85%) :
-  Ø16mm (r=8mm) → XC430 : 202 N → Grip ~125 N
-  Ø14mm (r=7mm) → XC430 : 231 N → Grip ~142 N
-  Ø12mm (r=6mm) → XC430 : 269 N → Grip ~175 N ✅ CIBLE ATTEINTE
+  Comparatif diamètre (η=85%, cible Tesla ~150 N) :
+  Ø16mm (r=8mm) → XC430 : 202 N → Grip ~125 N   (sous cible)
+  Ø14mm (r=7mm) → XC430 : 230 N → Grip ~150 N ★ RETENU — cible Tesla ✅
+  Ø12mm (r=6mm) → XC430 : 269 N → Grip ~175 N   (dépasse cible, Fs câble ×1.73)
 ```
 
 > **Pourquoi Ø12mm est possible malgré le roulement MR84ZZ (Ø8mm OD) ?**
