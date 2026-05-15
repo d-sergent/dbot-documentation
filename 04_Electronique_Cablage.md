@@ -45,7 +45,7 @@ graph TD
     DYN --> LDO_A["LDO 3.3V (Avant-bras)"]
     LDO_A --> EFLESH["Capteurs eFlesh"]
     
-    BUSBAR --> LDO_P["LDO 3.3V (Chevilles)"]
+    B05 --> LDO_P["LDO 3.3V (Chevilles)"]
     LDO_P --> FSR["Capteurs FSR"]
 
     %% Flux Data USB Directs
@@ -284,7 +284,7 @@ Le D-Bot utilise des tensions régulées pour tous ses composants hors moteurs R
 *   **Source** : 
     *   **Pour le torse** : Régulation 3.3V interne de la Spresense.
     *   **Pour les mains (eFlesh)** : **Régulateur LDO local (12V → 3.3V)** situé dans l'**avant-bras**, repiquant l'alimentation 12V des servos Dynamixel.
-    *   **Pour les pieds (FSR)** : **Régulateur local (48V → 3.3V)** situé dans la **cheville ou le pied**, repiquant le 48V des moteurs. Cela protège le signal analogique des FSR contre les parasites induits par les longs câbles de puissance.
+    *   **Pour les pieds (FSR)** : **Régulateur local (5V → 3.3V)** situé dans la **cheville ou le pied**, repiquant le **5V Always-On** du Buck Logique. Cela garantit un signal analogique propre et ratiométrique avec l'ADC de la Spresense.
 
 ---
 
