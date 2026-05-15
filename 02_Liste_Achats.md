@@ -155,18 +155,18 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 | **Régulateurs Locaux** | **AMS1117-3.3** (LDO 3.3V 800mA) | 4 | **Crucial** : Alimente FSR localement. |
 | **Micro-Hubs Tactiles** | **ESP32-S3-DevKitC-1** (ou similaire) | 2 | **Option B** : Acquisition eFlesh USB pour les mains. |
 
-### Interface CAN & Câbles
-*   **Adaptateur USB-CAN** : **InnoMaker USB2CAN-C**
-    *   *Critique* : Basé sur firmware `gs_usb` (compatible Linux natif).
-*   **Module de Debug** : **R-Link**
-    *   Un seul module USB vers CAN suffit pour paramétrer tous les moteurs via *RobStride Studio*. Exiger l'**Isolation Galvanique** pour protéger le PC de la tension 48V.
-| **Antenne GPS Active** | **Molex 1330980515** ou compatible U.FL 3.3V | 1 | Antenne GNSS active haute sensibilité pour le "Home positionning". |
-| **Caméra Spresense** | **Sony ISX012** (Standard Camera Board) | 1 | "Floor-View" : Placée en bas du torse pour la détection d'obstacles au sol. |
-| **Caméra Poignet** | **Module Caméra USB 1080p Autofocus** (38x38mm) | 1 | **Optionnel** : Pour la manipulation de précision (via Hub USB). |
-| **Connecteurs Data** | **JST-GH 1.25mm** (Marque Holybro recommandée pour la qualité). | 1 lot | Câblage signal propre pour capteurs et bus. |
-    *   Acheter des câbles "tout faits" si possible pour éviter de sertir du 1.25mm.
-*   **Connecteurs Puissance** : **XT60** (Jaune).
-*   **Câble Bus CAN** : Utiliser impérativement des **paires torsadées** pour CAN_H / CAN_L.
+### Interface CAN & Perception
+
+| Composant | Référence / Modèle | Qté | Usage |
+| :--- | :--- | :---: | :--- |
+| **Adaptateur USB-CAN** | **InnoMaker USB2CAN-C** | 1 | Bus Cou (basé sur firmware `gs_usb`). |
+| **Module de Debug** | **R-Link** | 1 | Paramétrage moteurs via *RobStride Studio*. |
+| **Antenne GPS Active** | **Molex 1330980515** (U.FL 3.3V) | 1 | Localisation GNSS "Home positionning". |
+| **Caméra Spresense** | **Sony ISX012** (Standard) | 1 | Vision "Floor-View" anti-obstacles au pied. |
+| **Caméra Poignet** | **USB 1080p Autofocus** | 1 | **Optionnel** : Vision macro manipulation. |
+| **Connecteurs Data** | **JST-GH 1.25mm** (Holybro) | 1 lot | Signal (Préférer câbles pré-sertis). |
+| **Connecteurs Pui.** | **XT60** (Jaune) | 1 lot | Alimentation générale et batteries. |
+| **Câble Bus CAN** | **Paires Torsadées** | 1 lot | Indispensable pour l'immunité aux parasites. |
 
 ---
 
