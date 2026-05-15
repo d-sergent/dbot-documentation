@@ -24,7 +24,7 @@ Le D-Bot utilise trois niveaux de vision pour garantir sa sécurité et son agil
 
 ---
 
-### 1.1 Diagramme de Branchement (Flux Énergie & Data)
+### 1.2 Diagramme de Branchement (Flux Énergie & Data)
 
 Le schéma ci-dessous illustre la distribution de puissance depuis le rail 48V et la hiérarchie des données USB/CAN.
 
@@ -212,8 +212,8 @@ Pour minimiser l'encombrement et simplifier le câblage, les 4 modules **CANable
 CANable/InnoMaker
       │
    Moteur ID-1 ── Moteur ID-2 ── ... ── Moteur ID-N
-                                               │
-                                      [Résistance 120 Ω]
+                                                │
+                                       [Résistance 120 Ω]
 ```
 
 **Règles :**
@@ -261,7 +261,7 @@ ___
 ---
 
 ### Circuit de commande des solénoïdes (Tête)
-Pour piloter les 2 solénoïdes (12V) via la Spresense (GPIO 3.3V), utiliser un étage de puissance à MOSFET canal N (ex: IRLZ44N) avec diode de roue libre (1N4007) pour protéger contre les pics de tension à la coupure.
+Pour piloter les 2 solénoïdes (12V) via la Jetson (GPIO 3.3V), utiliser un module Dual MOSFET D4184 avec diodes de roue libre (1N4007) (voir Section 6 pour le schéma détaillé).
 
 ### Mise sous tension (Sécurité Wanptek)
 Pour les premiers tests moteurs (Banc d'essai) :
@@ -293,13 +293,19 @@ Le D-Bot utilise des tensions régulées pour tous ses composants hors moteurs R
 *   **Intensité** : ~5.0 A Peak (inclut l'alimentation des périphériques USB : OAK-D Pro, ReSpeaker, HP).
 *   **Source** : Buck DC-DC 48V→19V (95W).
 
-#### Rail 12V : Mains et Verrouillage Tête
-*   **Main Gauche** : 8× Dynamixel (XC430/XC330). **~9.1 A Peak**. (Buck 48V→12V 10A local).
-*   **Main Droite** : 8× Dynamixel (XC430/XC330). **~9.1 A Peak**. (Buck 48V→12V 10A local).
-*   **Accessoires Torse (12V Central)** :
-    *   **Hub USB Industriel** : Alimentation stable requise. **~2.0 A**.
-    *   **Tête (Solenoides)** : 2× LEX-SOLEN-04. **1.2 A**.
-    *   **Source** : Buck 48V→12V 5A central (mutualisé Hub + Solénoïdes).
+#### Rails 12V : Logique et Puissance Actionneurs
+Pour garantir la stabilité du système, le réseau 12V est divisé en deux rails isolés :
+
+1.  **Rail 12V Logique (10A)** : 
+    *   **Usage** : Hub USB Industriel (60W), Solénoïdes de tête (2A), accessoires torse.
+    *   **Source** : Buck DC-DC 60V In / 12V 10A Out (type Mean Well DDR-120C-12 ou Homelylife).
+    *   *Raison* : Ce rail reste "propre" (sans parasites moteurs) pour éviter les déconnexions USB.
+
+2.  **Rail 12V Puissance (20A)** :
+    *   **Usage** : 16× moteurs Dynamixel des mains (XC430/XC330).
+    *   **Intensité** : ~18.2 A Peak total ($16 \times 1.14A$).
+    *   **Source** : Buck DC-DC 60V In / 12V 20A Out.
+    *   *Raison* : Supporte les appels de courant massifs lors des saisies d'objets sans faire chuter la tension de la Jetson.
 
 #### Rail 5V : Logique Always-On & Capteurs
 *   **Sony Spresense** : Watchdog et Power Management. **~1.0 A**.
