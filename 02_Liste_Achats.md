@@ -147,9 +147,8 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 | **Chargeur 13S** | **54.6V CC/CV 4-5A** | Chargeur dédié Li-ion 13S NMC (souvent livré avec la batterie VAE). |
 | ~~**LiDAR**~~ | ~~**Unitree L2**~~ | ⚠️ **Repoussé à la V2**. SLAM assuré par l'OAK-D Pro en V1. Voir [Analyse LiDAR](./19_Perception_Spatiale_LiDAR.md). |
 | **Solénoïdes de Blocage** | [LEX-SOLEN-04 (Push Pull 12V)](https://www.lextronic.fr/solenoide-electroaimant-12v-lexsolen04-58749.html) | 2 (**✅ Achetés**) | Verrouillage statique du Tilt de tête (Parking Brake). |
-| **Driver Solénoïde** | **MOSFET IRLZ44N** (Logic Level) | 2 | Pilotage puissance via Spresense. |
-| **Protection Inductive** | **Diode 1N4007** | 2 | Protection contre les pics de tension solénoïdes. |
-| **Composants passifs** | Résistances 220Ω et 10kΩ | 1 lot | Pour la commande de Gate des MOSFETs. |
+| **Driver Solénoïde** | **Module Relais MOSFET double (PWM)** | 1 | Carte pré-assemblée (IRF520 ou similaire) pour piloter les 2 solénoïdes depuis la Jetson sans soudure. |
+| **Composants passifs** | *Intégrés au module MOSFET* | — | Les diodes de roue libre et résistances sont souvent déjà sur la carte. |
 | **Buck 12V (Logique)** | **Buck DC-DC 60V In / 12V 10A Out** | 1 | Alimentation Hub USB (5A) + Solénoïdes Tête (2A). |
 | **Buck 12V (Puissance)** | **Buck DC-DC 60V In / 12V 20A Out** | 1 | **Dédié** : Alimentation des 16x Dynamixel des mains. |
 | **Hub USB Central** | **10 Ports USB 3.0 Alimenté** | 1 | **Minimum 10 ports**. Modèles : **StarTech ST103008U2C** (Top) ou **Sabrent HB-BU10** (Compact). |
