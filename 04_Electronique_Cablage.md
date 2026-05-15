@@ -37,17 +37,20 @@ graph TD
     %% Rails de Puissance
     BUSBAR --> MOT["26x Moteurs RobStride"]
     BUSBAR --> B19["Buck 48V/19V 5A"]
-    BUSBAR --> B12["Buck 48V/12V 10A"]
+    BUSBAR --> B12_LOG["Buck 48V/12V 10A (Logique)"]
+    BUSBAR --> B12_PWR["Buck 48V/12V 20A (Puissance)"]
     BUSBAR --> B05["Buck 48V/5V 5A (Always-On)"]
 
     %% Distribution 19V
     B19 --> JET["Jetson Orin Nano"]
 
-    %% Distribution 12V
-    B12 --> HUB["Hub USB Industriel (10 Ports)"]
-    B12 --> SOL["2x Solénoïdes Tête"]
-    B12 --> DYN_G["Main G (8x Dynamixel)"]
-    B12 --> DYN_D["Main D (8x Dynamixel)"]
+    %% Distribution 12V (Logique)
+    B12_LOG --> HUB["Hub USB Industriel (10 Ports)"]
+    B12_LOG --> SOL["2x Solénoïdes Tête"]
+
+    %% Distribution 12V (Puissance Mains)
+    B12_PWR --> DYN_G["Main G (8x Dynamixel)"]
+    B12_PWR --> DYN_D["Main D (8x Dynamixel)"]
 
     %% Distribution 5V
     B05 --> SPR["Sony Spresense"]

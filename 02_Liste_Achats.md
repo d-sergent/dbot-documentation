@@ -150,7 +150,8 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 | **Driver Solénoïde** | **MOSFET IRLZ44N** (Logic Level) | 2 | Pilotage puissance via Spresense. |
 | **Protection Inductive** | **Diode 1N4007** | 2 | Protection contre les pics de tension solénoïdes. |
 | **Composants passifs** | Résistances 220Ω et 10kΩ | 1 lot | Pour la commande de Gate des MOSFETs. |
-| **Buck 12V (Torse)** | **Buck DC-DC 60V In / 12V 10A Out** | 1 | **Mutualisé** : Alimentation Hub USB (5A) + Solénoïdes Tête (2A). |
+| **Buck 12V (Logique)** | **Buck DC-DC 60V In / 12V 10A Out** | 1 | Alimentation Hub USB (5A) + Solénoïdes Tête (2A). |
+| **Buck 12V (Puissance)** | **Buck DC-DC 60V In / 12V 20A Out** | 1 | **Dédié** : Alimentation des 16x Dynamixel des mains. |
 | **Hub USB Central** | **10 Ports USB 3.0 Alimenté** | 1 | **Minimum 10 ports**. Modèles : **StarTech ST103008U2C** (Top) ou **Sabrent HB-BU10** (Compact). |
 | **Régulateurs Locaux** | **AMS1117-3.3** (LDO 3.3V 800mA) | 4 | **Crucial** : Alimente FSR localement. |
 | **Micro-Hubs Tactiles** | **ESP32-S3-DevKitC-1** (ou similaire) | 2 | **Option B** : Acquisition eFlesh USB pour les mains. |
