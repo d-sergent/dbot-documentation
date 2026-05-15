@@ -36,9 +36,17 @@ graph TD
     %% Distribution 12V
     B12 --> HUB["Hub USB Industriel"]
     B12 --> SOL["2x Solénoïdes Tête"]
+    B12 --> DYN["Mains (16x Dynamixel)"]
 
     %% Distribution 5V (Always-On)
     B05 --> SPR["Sony Spresense"]
+
+    %% Régulations Locales 3.3V
+    DYN --> LDO_A["LDO 3.3V (Avant-bras)"]
+    LDO_A --> EFLESH["Capteurs eFlesh"]
+    
+    BUSBAR --> LDO_P["LDO 3.3V (Chevilles)"]
+    LDO_P --> FSR["Capteurs FSR"]
 
     %% Flux Data USB Directs
     JET -. "USB 3.2" .-> OAK["OAK-D Pro"]
@@ -55,7 +63,8 @@ graph TD
     HUB -. "USB" .-> U2D2["2x U2D2 - Mains"]
 
     %% Pilotage Spécifique
-    SPR -. "GPIO 3.3V" .-> SOL
+    SPR -. "Driver MOSFET" .-> SOL
+    FSR -. "Signal Analogique" .-> SPR
 ```
 
 ---
