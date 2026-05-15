@@ -954,28 +954,47 @@ Les FSR sont des résistances variables (Infini à vide -> ~1kΩ appuyé). La Sp
 
 Le blocage de la tête (Tilt) est assuré par deux solénoïdes **LEX-SOLEN-04** (12V, 0.6A chacun). Ils fonctionnent en mode **"Power to Unlock"** (alimentés pour débloquer, verrouillés par ressort au repos).
 
-### Schéma Électronique du Driver (MOSFET)
+### 6.1 Schéma Électronique du Driver (Module D4184)
 
-Un étage de puissance est nécessaire pour chaque solénoïde.
+Afin d'éviter les soudures complexes et de garantir une commutation parfaite avec la logique 3.3V de la Jetson, nous utilisons un **Module de commande Dual MOSFET D4184**.
 
-**Composants par solénoïde :**
-*   **MOSFET N** : **IRLZ44N** (Logic Level, compatible 3.3V/5V).
-*   **Diode** : **1N4007** (Flyback/Roue libre).
-*   **Résistances** : 220 Ω (Gate) + 10 kΩ (Pull-down).
+> [!WARNING]
+> **Protection Inductive Obligatoire** : Les modules D4184 vendus dans le commerce ne possèdent pas de diode de roue libre. **Il est vital de visser une diode 1N4007 en parallèle de chaque solénoïde** directement dans le bornier du module, faute de quoi les pics de tension (back-EMF) détruiront le MOSFET et la Jetson.
+
+**Schéma de câblage (Banc de Test & Robot Final) :**
 
 ```text
-       Rail 12V (+) ──────┬────── [Solénoïde] ──────┬────── [Drain MOSFET]
-                          │                         │
-                    [Diode 1N4007] <──(Sens bloqué)──┘
-                          │
-       Masse GND (-) ─────┴─────────────────────────────── [Source MOSFET]
-                                                            │
-       Pin JETSON ──────── [Résistance 220Ω] ────────────── [Gate MOSFET]
-                                                            │
-       Masse GND (-) ───── [Résistance 10kΩ] ───────────────┘
+                                +---------------------------+
+[Buck 12V Homelylife / Mean Well]                           |
+   (+) 12V -------------------> | VIN+                      |
+   (-) GND -------------------> | VIN-     MODULE D4184     |
+                                |                           |
+[Jetson Orin Nano]              |                           |
+   Pin GPIO (ex: Pin 32) -----> | PWM (Signal)              |
+   Masse (GND) ---------------> | GND (Masse)               |
+                                +---------------------------+
+                                  | OUT+            | OUT-
+                                  |                 |
+                                  +-------+---------+
+                                  |       |         |
+                                [Diode 1N4007]      |
+                                (Anneau gris vers OUT+)
+                                  |       |         |
+                                  |  [Solénoïde 1]  |
+                                  |                 |
+                                  +-------+---------+
+                                  |       |         |
+                                [Diode 1N4007]      |
+                                (Anneau gris vers OUT+)
+                                  |       |         |
+                                  |  [Solénoïde 2]  |
+                                  |                 |
+                                  +-----------------+
 ```
 
-**Note d'implémentation** : Soudez ces composants sur une petite plaque de prototypage fixée à proximité de la Jetson. Le pilotage se fait via la librairie `Jetson.GPIO` (Python) ou directement via le driver de périphériques ROS 2.
+> [!TIP]
+> **Test sur table (Homelylife 10A)** : Pour valider le code d'activation des solénoïdes avant montage, vous pouvez utiliser un convertisseur DC-DC générique (ex: Homelylife 48V/12V 10A étanche). Il est amplement suffisant pour fournir les 2A nécessaires aux solénoïdes. Les deux solénoïdes sont branchés en parallèle sur l'unique sortie `OUT` du module MOSFET, ce qui signifie qu'un seul signal de la Jetson débloquera/bloquera tout le cou simultanément.
+
 
 ## 7. Algorithmes de Perception Collaborative
 
