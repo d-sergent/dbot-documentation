@@ -261,7 +261,7 @@ Le module de debug CAN-to-USB utilise la puce série **GD32F303** (la même puce
 | **Manuel EL05-EN** (officiel) | https://lsleg.feishu.cn/wiki/Hkp4wjuXmiYxpRkFc2HciqOpnNh | Manuel complet 40 pages (Feishu, nécessite compte) |
 | **Driver CH340** | https://www.wch.cn/download/CH341SER_EXE.html | Si module non reconnu par Windows |
 | **Seeed Studio Wiki** | https://wiki.seeedstudio.com/robstride_actuator_modules/ | Tutoriel complémentaire |
-| **Doc 04** | [04_Electronique_Cablage.md](./04_Electronique_Cablage.md) | Architecture CAN et Sécurité |
+| **Doc 04** | [04_Electronique_Cablage.md](../../../02_Electronique_et_Energie/STUDY_Electronique_Historique.md) | Architecture CAN et Sécurité |
 
 ---
 
