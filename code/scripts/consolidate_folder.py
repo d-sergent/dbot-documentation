@@ -226,6 +226,15 @@ async def consolidate(folder_rel_path, force_local=False, local_url=None):
     # 7. Sauvegarder le résultat
     output_name = f"FINAL_CONSOLIDE_{folder_path.name}.md"
     output_path = folder_path / output_name
+    
+    if output_path.exists():
+        backup_name = f"FINAL_CONSOLIDE_{folder_path.name}_PREVIOUS.md"
+        backup_path = folder_path / backup_name
+        if backup_path.exists():
+            backup_path.unlink()
+        output_path.rename(backup_path)
+        print(f"🔄 Version précédente archivée sous : {backup_path.name}")
+        
     output_path.write_text(result, encoding="utf-8")
     
     print(f"✅ Consolidation terminée ! Fichier créé : {output_path}")
