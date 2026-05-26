@@ -111,7 +111,7 @@ Cette section présente la validation mathématique rigoureuse des caractéristi
     *   **Motivation :** Le RS-06 (11 N·m) est le facteur limitant identifié au point 10. Le RS-03 (20 N·m, +82% de couple) offre un upgrade intermédiaire réaliste.
     *   **Impact masse :** +259 g par bras (621 g → 880 g). Masse totale bras : 5.8 kg → 6.1 kg (+4.5%).
     *   **Impact coût :** +$50 par bras ($200 → $250), soit +$100 pour le robot complet.
-    *   **Impact structurel :** Le Ø76 mm du RS-03 déborde du profil du tube avant-bras (Ø25-30 mm) → redesign du bracket coude nécessaire (adaptation Ø76→Ø30 mm, usinage CNC).
+    *   **Impact structurel :** L'empreinte de 106 × 106 mm du RS-03 déborde plus largement du profil du tube avant-bras (Ø25-30 mm) que celle du RS-06 (88 × 88 mm) → redesign du bracket coude nécessaire (adaptation platine 106 mm → insert Ø30 mm, usinage CNC).
     *   **Résultats recalculés :**
 
     | Scénario | V1 (RS-06) Continu | V1.1 (RS-03) Continu | V1.1 (RS-03) Pic | Gain |
