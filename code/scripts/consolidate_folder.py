@@ -72,31 +72,43 @@ async def call_openrouter(model_name, system_prompt, user_prompt, data_content):
                 raise Exception(f"Réponse API inattendue : {data}")
             return data["choices"][0]["message"]["content"]
 
-async def call_gemini(system_prompt, user_prompt, data_content):
-    """Appelle l'API Gemini (Google AI Studio)."""
+async def call_gemini(system_prompt, user_prompt, data_content, model="gemini-2.5-pro"):
+    """Appelle l'API Gemini (Google AI Studio) avec support de systemInstruction et fallback."""
     if not GEMINI_API_KEY: return None
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
     
-    # Format spécifique Gemini
+    # Format spécifique Gemini avec systemInstruction pour une meilleure adhésion aux règles
     payload = {
         "contents": [{
-            "parts": [{"text": f"{system_prompt}\n\n{user_prompt}\n\n--- DONNÉES SOURCES ---\n\n{data_content}"}]
+            "parts": [{"text": f"{user_prompt}\n\n--- DONNÉES SOURCES ---\n\n{data_content}"}]
         }],
-        "generationConfig": {"temperature": 0.1}
+        "systemInstruction": {
+            "parts": [{"text": system_prompt}]
+        },
+        "generationConfig": {"temperature": 0.2}
     }
     
-    print(f"🚀 Tentative avec Gemini Pro (via Google AI Studio)...")
+    print(f"🚀 Tentative avec {model} (via Google AI Studio)...")
     async with aiohttp.ClientSession() as session:
         async with session.post(url, headers=headers, json=payload) as resp:
             if resp.status != 200:
                 err_text = await resp.text()
-                print(f"⚠️ Erreur Gemini ({resp.status}): {err_text}")
+                print(f"⚠️ Erreur Gemini {model} ({resp.status}): {err_text}")
+                if model == "gemini-2.5-pro":
+                    # Fallback sur flash si pro échoue (ex: quota ou indisponibilité)
+                    return await call_gemini(system_prompt, user_prompt, data_content, model="gemini-2.5-flash")
                 return None
             data = await resp.json()
             try:
-                return data["candidates"][0]["content"]["parts"][0]["text"]
+                content = data["candidates"][0]["content"]["parts"][0]["text"]
+                # Détection d'une éventuelle boucle infinie de tirets
+                if "----------------------------------------------------------------------------------------------------" in content:
+                    print("⚠️ Détection d'une boucle infinie de tirets dans la réponse. Réessai...")
+                    if model == "gemini-2.5-pro":
+                        return await call_gemini(system_prompt, user_prompt, data_content, model="gemini-2.5-flash")
+                return content
             except (KeyError, IndexError):
                 print(f"⚠️ Format de réponse Gemini invalide : {data}")
                 return None
@@ -169,7 +181,7 @@ def extract_prompts(folder_rel_path, folder_name):
     except IndexError:
         raise Exception("Format du fichier PROMPT_Consolidation_Technique.md invalide.")
 
-async def consolidate(folder_rel_path, force_local=False, local_url=None):
+async def consolidate(folder_rel_path, force_local=False, force_gemini=False, local_url=None):
     root = Path("/Users/Shared/Mon Google Drive Physique/Documentation")
     folder_path = root / folder_rel_path
     
@@ -190,14 +202,21 @@ async def consolidate(folder_rel_path, force_local=False, local_url=None):
     
     result = None
     
-    # 3. Mode LOCAL prioritaire si demandé
-    if force_local:
+    # 3. Mode GEMINI prioritaire si demandé
+    if force_gemini:
+        result = await call_gemini(system_prompt, user_prompt, data_content)
+        if not result:
+            print("❌ Échec de Gemini 2.5 Flash (via Google AI Studio). Fin du script (Mode --gemini activé).")
+            return
+
+    # 4. Mode LOCAL prioritaire si demandé (seulement si pas déjà résolu)
+    if not result and force_local:
         result = await call_local_llm(local_url, system_prompt, user_prompt, data_content)
         if not result:
             print("❌ Échec du modèle local. Fin du script (Mode --local activé).")
             return
 
-    # 4. Fallback Cloud (OpenRouter) - Uniquement si PAS de mode local forcé
+    # 5. Fallback Cloud (OpenRouter) - Uniquement si PAS de mode local/gemini forcé
     if not result:
         for model_name in MODELS_FALLBACK:
             try:
@@ -208,14 +227,14 @@ async def consolidate(folder_rel_path, force_local=False, local_url=None):
                 print(f"⚠️ Échec avec {model_name} : {e}")
                 continue
             
-    # 5. Fallback ultime sur Gemini - Uniquement si PAS de mode local forcé
-    if not result:
+    # 6. Fallback ultime sur Gemini - Uniquement si pas déjà forcé en étape 3
+    if not result and not force_gemini:
         try:
             result = await call_gemini(system_prompt, user_prompt, data_content)
         except Exception:
             pass
             
-    # 6. Fallback final sur Local si pas déjà tenté
+    # 7. Fallback final sur Local si pas déjà tenté
     if not result and not force_local:
         result = await call_local_llm(local_url, system_prompt, user_prompt, data_content)
             
@@ -223,7 +242,7 @@ async def consolidate(folder_rel_path, force_local=False, local_url=None):
         print("❌ Tous les modèles ont échoué.")
         return
         
-    # 7. Sauvegarder le résultat
+    # 8. Sauvegarder le résultat
     output_name = f"FINAL_CONSOLIDE_{folder_path.name}.md"
     output_path = folder_path / output_name
     
@@ -242,6 +261,7 @@ async def consolidate(folder_rel_path, force_local=False, local_url=None):
 if __name__ == "__main__":
     import sys
     force_local = "--local" in sys.argv
+    force_gemini = "--gemini" in sys.argv
     
     # Extraction du port si spécifié (ex: --port 8007)
     custom_port = "8001"
@@ -253,9 +273,9 @@ if __name__ == "__main__":
             pass
     
     local_url = f"http://127.0.0.1:{custom_port}/v1"
-    path_args = [a for a in sys.argv[1:] if a not in ["--local", "--port", custom_port]]
+    path_args = [a for a in sys.argv[1:] if a not in ["--local", "--gemini", "--port", custom_port]]
     
     if len(path_args) < 1:
-        print("Usage: python3 consolidate_folder.py <chemin_relatif_dossier> [--local] [--port 8007]")
+        print("Usage: python3 consolidate_folder.py <chemin_relatif_dossier> [--gemini] [--local] [--port 8007]")
     else:
-        asyncio.run(consolidate(path_args[0], force_local=force_local, local_url=local_url))
+        asyncio.run(consolidate(path_args[0], force_local=force_local, force_gemini=force_gemini, local_url=local_url))

@@ -1,6 +1,6 @@
 # 22b — Étude : Poignet Tesla Optimus & Architecture Biomimétique
 
-> **Contexte** : Ce document fait suite à l'étude `22_Etude_Poignet_DOF`. Il détaille l'approche d'ingénierie biomimétique utilisée par le Tesla Optimus Gen 3 et évalue une nouvelle proposition d'architecture pour le D-Bot s'en inspirant fortement.
+> **Contexte** : Ce document fait suite à l'étude `22_Etude_Poignet_DOF`. Il détaille l'approche d'ingénierie biomimétique utilisée par le Tesla Optimus Gen 3 et évalue une nouvelle proposition d'architecture pour le D-Bot en partant de la version v0.5 s'en inspirant fortement.
 
 ---
 
@@ -145,9 +145,21 @@ Dans l'architecture actuelle du D-Bot, le **RS-02 (17 N.m pic, 6 N.m nom, 405g)*
 
 ---
 
-## 4. Conclusion
+## 4. Conclusion & Architecture Cible V1
 
 L'approche de déplacer le Roll au coude pour faire de la Supination est un **bond en avant architectural** pour le D-Bot. 
 
 Elle résout le défi esthétique, simplifie le guidage des tendons de la main, et rapproche la cinématique du standard des robots de pointe (Tesla, Figure, ALOHA). Puisque le bras n'est pas encore usiné, c'est **le moment idéal** pour adopter cette géométrie. 
 Le design du bras devrait maintenant se concentrer sur la création d'une coque rotative (tube carbone ou structure Alu allégée) guidée par un palier au niveau du coude.
+
+### 4.1 Spécifications cibles pour la V1 (Décisions validées)
+
+Suite aux conclusions de cette étude comparative, la configuration cible de la **V1** est officiellement arrêtée comme suit :
+* **Coude Supination (Roll)** : Moteur **RobStride RS-02** (17 N.m pic, 6 N.m continu) fixé sur le bloc coude, entraînant la coque externe de l'avant-bras. Ce choix garantit la marge thermique requise et la compatibilité avec la batterie 12S (jusqu'à 60V).
+* **Poignet (Pitch)** : Un unique moteur **RobStride RS-00** (14 N.m pic, 5 N.m continu) à l'extrémité distale de l'avant-bras. Le moteur de Roll du poignet est éliminé car redondant avec la supination du coude.
+* **Bilan cinématique bras V1 (6 DOF)** :
+  * Épaule : 3 DOF (Pitch, Roll, Yaw)
+  * Coude Pitch : 1 DOF
+  * Coude Supination / Forearm Roll : 1 DOF
+  * Poignet Pitch : 1 DOF
+* **Bénéfice d'encombrement** : Le poignet distal ne mesure plus que **57 mm** de longueur de moteur (au lieu des 114 mm cumulés d'un poignet 2 DOF en série), éliminant définitivement l'effet "tuyau" inesthétique.

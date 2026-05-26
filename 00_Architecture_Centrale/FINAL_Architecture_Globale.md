@@ -169,7 +169,7 @@ ARCHITECTURE GT3 COUDE (Évolution V3) :
 
 **Évolution V4** : Phalanges Alu 7075 CNC (C500) pour durabilité maximale.
 
-> Voir : [Étude Main Robotique](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Main_D_Hand.md)
+> Voir : [Étude Main Robotique](../01_Mecanique_et_Chassis/Bras_et_Mains/00_Archives_Recherche/STUDY_Main_D_Hand.md)
 
 ---
 

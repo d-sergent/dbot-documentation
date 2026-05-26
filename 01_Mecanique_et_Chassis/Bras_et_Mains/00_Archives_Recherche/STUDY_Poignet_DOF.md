@@ -1,16 +1,18 @@
 # 22 — Étude : Poignet D-Bot — DOF, Encombrement & Recommandation
 
-> **Contexte** : Ce document consolide l'analyse comparative des DOF de poignet (réalisée en Mai 2026) et l'étude d'intégration mécanique d'un RS-00 Pitch supplémentaire dans l'avant-bras. Il aboutit à une **recommandation définitive** pour la V1 du D-Bot.
+> **Contexte** : Ce document part d'une solution D-bot V0 calquée sur l'architecture du K-bot robot opensource servant de base d'etude. Il consolide l'analyse comparative des DOF de poignet (réalisée en Mai 2026) et l'étude des améliorations possibles notamment en évaluant l'intégration mécanique d'un RS-00 Pitch supplémentaire dans l'avant-bras. Il aboutit à une **recommandation définitive** pour la V1 du D-Bot. Dans ce document nous parlerons de la version V0.5 en cours d'étude progressive.
 
 ---
 
 ## Partie 1 — Analyse Comparative (DOF Poignet dans l'industrie)
 
-### 1.1 État des lieux : D-Bot V1 vs Concurrents
+### 1.1 État des lieux : D-Bot V0 vs Concurrents
+
+La ver
 
 | Robot | DOF Poignet | Axes | Moteurs Poignet | Statut |
 | :--- | :---: | :--- | :--- | :--- |
-| **D-Bot V1** | **1** | Roll uniquement (RS-00) | 1× RS-00 (14 N.m, 310g) | ✅ En production |
+| **D-Bot V0** | **1** | Roll uniquement (RS-00) | 1× RS-00 (14 N.m, 310g) | ✅ En production |
 | **OpenArm** | **3** | Roll + Pitch + Yaw | 3× DM-J4310 (7 N.m pic) | Open-source |
 | **Tesla Optimus Gen3** | **2** | Pitch + Yaw *(le Roll est assuré par l'avant-bras)* | 2 moteurs dédiés (brevets Oct. 2024) | Production |
 | **Unitree G1 Standard** | **0** | Aucun (bras 5-DOF) | — | Limité |
@@ -21,7 +23,7 @@
 
 Extrait de **[25_Compatibilite_IA_Isaac_Gym.md](../../03_Intelligence_et_Logiciel/STUDY_Simulation_Isaac_Gym.md)** :
 
-| Axe | Action | Statut IA | D-Bot V1 |
+| Axe | Action | Statut IA | D-Bot V0 |
 | :--- | :--- | :---: | :---: |
 | **Wrist Roll (Z)** | Tourner une poignée de porte | 🟢 **Obligatoire** | ✅ RS-00 |
 | **Wrist Pitch (Y)** | Casser le poignet bas/haut | 🟡 **Recommandé** | ❌ |
@@ -116,7 +118,7 @@ VUE LONGITUDINALE PROPOSÉE — AVANT-BRAS (22 cm total)
 ### 2.4 Hypothèse retenue : U2D2 Power Hub déporté vers le torse ou l'épaule
 
 > [!IMPORTANT]
-> **Décision d'architecture préalable** : Le U2D2 Power Hub (contrôleur Dynamixel, 40×18×16mm) et le câblage associé seront positionnés soit dans le **torse**, soit dans la partie **humerus entre l'épaule et le coude**. Seul le **Buck converter 48V→12V** reste dans l'avant-bras. Cette décision est indépendante du nombre de DOF choisi et libère **~35 mm** dans l'avant-bras dès la V1.
+> **Décision d'architecture préalable** : Le U2D2 Power Hub (contrôleur Dynamixel, 40×18×16mm) et le câblage associé seront positionnés soit dans le **torse**, soit dans la partie **humerus entre l'épaule et le coude**. Seul le **Buck converter 48V→12V** reste dans l'avant-bras. Cette décision est indépendante du nombre de DOF choisi et libère **~35 mm** dans l'avant-bras dès la V0.5.
 
 Avec cette hypothèse, le budget spatial réel de l'avant-bras pour l'électronique n'est plus 75 mm mais :
 ```
@@ -181,37 +183,36 @@ Empiler 3 moteurs RS-00 en série (Roll → Pitch → Yaw) crée une "colonne ve
 **Approche Tesla Optimus — Poignet offset + routage tendons intelligent :**
 Tesla n'empile pas 3 moteurs. La « magie » est que le **Roll de l'avant-bras** (Elbow Yaw / Supination-Pronation) est réalisé en amont (niveau coude) avec un moteur plus puissant, ce qui permet de n'avoir que **2 petits moteurs au poignet** dans un boîtier compact.
 
-**Approche envisageable pour D-Bot :**
-Plutôt que d'ajouter un 3ème RS-00 en série au poignet, on pourrait déplacer le **RS-02 Épaule Yaw** vers le **Coude Yaw (Supination)** — ce que votre document 25 appelle "Elbow Yaw" (classé 🟡 Optionnel). Cette redistribution permettrait d'avoir :
+**Approche envisageable pour D-Bot (Roadmap V1/V2) :**
+Plutôt que d'empiler plusieurs moteurs au poignet, la solution biomimétique ultime consiste à déplacer l'axe de rotation en amont. En déplaçant le **RS-02 Épaule Yaw** vers le **Coude Yaw (Supination)** — ce que votre document 25 appelle "Elbow Yaw" — et en **supprimant le moteur de Roll au poignet** (pour éviter tout doublon de Roll), on obtient :
 
 ```
-  Architecture alternative ("Tesla-like") :
+  Architecture cible "Tesla-like" V1/V2 (6 DOF total) :
 
   RS-04 Épaule Pitch
   RS-03 Épaule Roll
-  RS-02 Épaule Yaw   →  déplacé au coude = Forearm Supination
+  RS-02 Coude Supination  (Forearm Supination - remplace le Roll de poignet)
   RS-06 Coude Pitch
-  RS-00 Poignet Pitch   (nouveau)
-  RS-00 Poignet Roll    (existant)
-  → Bras 6 DOF — même architecture que Tesla Optimus !
+  RS-00 Poignet Pitch
+  (Optionnel V2 : RS-00 Poignet Yaw pour avoir Pitch+Yaw au poignet comme Optimus)
 ```
 
 > [!NOTE]
-> Cette alternative "Tesla-like" présente l'avantage de garder un **poignet de seulement 2 RS-00** (Roll + Pitch, ~114mm), visuellement acceptable, tout en gagnant la Supination de l'avant-bras (RS-02 au coude). Cependant, elle implique une refonte de l'épaule : le Yaw d'épaule est remplacé par le Forearm Yaw. C'est une **décision d'architecture majeure** à évaluer en V2.
+> Cette alternative "Tesla-like" élimine complètement la redondance cinématique (pas de double Roll) et allège l'extrémité du bras. Le poignet V1 ne contient plus qu'**un seul moteur RS-00 (Pitch)**, le rendant extrêmement compact (57 mm seulement !). En V2, on peut ajouter le **Yaw** pour obtenir un poignet 2 DOF (Pitch+Yaw) identique à celui de Tesla Optimus. Cette transition majeure impliquant une refonte du coude et de l'épaule, elle est planifiée pour la V1/V2 après validation de la V0.5.
 
-### 2.8 Verdict esthétique pour la V1
+### 2.8 Verdict esthétique pour la V0.5
 
 | Architecture | DOF | Esthétique poignet | Complexité refonte |
 | :--- | :---: | :---: | :---: |
-| **V1 actuelle (1 DOF)** | 5 bras | ✅ Très compact | Aucune |
-| **V1.1 +Pitch (2 DOF)** | 6 bras | ✅ Acceptable (~114mm poignet) | Faible |
+| **V0 actuelle (1 DOF)** | 5 bras | ✅ Très compact | Aucune |
+| **V0.5 +Pitch (2 DOF)** | 6 bras | ✅ Acceptable (~114mm poignet) | Faible |
 | **3 DOF série naïf** | 7 bras | ❌ "Tuyau" 171mm, peu humanoïde | Moyenne |
-| **3 DOF Tesla-like** | 6 bras* | ✅ Compact (même que V1.1) | **Élevée (refonte épaule)** |
+| **3 DOF Tesla-like** | 6 bras* | ✅ Compact (même que V0.5) | **Élevée (refonte épaule)** |
 
 *Tesla-like = 6 DOF bras avec redistribution Épaule Yaw → Forearm Supination
 
 > [!TIP]
-> Pour la V1, la contrainte esthétique **plaide clairement pour 2 DOF au poignet** (Roll + Pitch). C'est le choix de Tesla Optimus, d'Unitree G1-EDU, et c'est cohérent avec l'architecture actuelle du D-Bot sans refonte majeure.
+> Pour la V0.5, la contrainte esthétique **plaide clairement pour 2 DOF au poignet** (Roll + Pitch). C'est le choix de Tesla Optimus, d'Unitree G1-EDU, et c'est cohérent avec l'architecture actuelle du D-Bot sans refonte majeure.
 
 ---
 
@@ -292,10 +293,10 @@ Un avant-bras humain moyen mesure environ **24-26 cm** (coude → poignet), ce q
 | **Coût** | 0€ | ~100€/bras | ~110€/bras | ~200€/bras |
 | **Masse ajoutée/bras** | 0g | 310g | 360g | 620g |
 
-### 4.2 🏆 Recommandation
+### 4.2 🏆 Recommandation à ce stade
 
 > [!IMPORTANT]
-> **Recommandation V1 : Option B — Ajouter le RS-00 Pitch, conserver 220 mm, déporter le U2D2.**
+> **Recommandation V0.5 : Option B — Ajouter le RS-00 Pitch, conserver 220 mm, déporter le U2D2.**
 
 **Justification en 5 points :**
 
@@ -309,10 +310,10 @@ Un avant-bras humain moyen mesure environ **24-26 cm** (coude → poignet), ce q
 
 5. **La route vers le 3-DOF reste ouverte** : Si un Wrist Yaw est souhaité en V2, allonger à 240mm + ajouter un 3ème RS-00 sera faisable. Mais il faudra alors étudier une architecture "Tesla-like" (redistribution Épaule Yaw → Forearm Supination) pour conserver un poignet compact et esthétique.
 
-### 4.3 Architecture cible V1.1
+### 4.3 Architecture cible V0.5
 
 ```
-CHAÎNE CINÉMATIQUE BRAS D-BOT V1.1 (6 DOF)
+CHAÎNE CINÉMATIQUE BRAS D-BOT V0.5 (6 DOF)
 
 ÉPAULE              ÉPAULE          ÉPAULE         COUDE          POIGNET         POIGNET     MAIN
 RS-04 Pitch    RS-03 Roll     RS-02 Yaw      RS-06 Pitch    RS-00 Roll    RS-00 Pitch  D-Hand 8DOF
@@ -324,24 +325,27 @@ Main inchangée : 8 DOF
 Total membre supérieur : 14 DOF par bras (contre 13 actuellement)
 ```
 
-### 4.4 Nouvelle disposition de l'avant-bras (240 mm)
+### 4.4 Nouvelle disposition de l'avant-bras V0.5 (Option B - 220 mm)
 
 ```
-VUE LONGITUDINALE — AVANT-BRAS V1.1 (240 mm)
+VUE LONGITUDINALE — AVANT-BRAS V0.5 (Option B - 220 mm)
 
   COUDE (RS-06)                                              POIGNET
-  ←───────────────────────── 240 mm ─────────────────────────────→
+  ←───────────────────────── 220 mm ─────────────────────────────→
   │                                                               │
   │  ┌──────────┐  ┌──────────┐  ┌───────────┐  ┌────────────┐  │
   │  │ 4× XC430 │  │ 4× XC330 │  │  RS-00    │  │  Électro.  │  │
-  │  │ 93mm     │  │ 52mm     │  │  PITCH    │  │  ~38mm     │  │
-  │  │ 57×68mm  │  │ 40×52mm  │  │  57mm     │  │  Buck+câbl │  │
+  │  │ 93mm     │  │ 52mm     │  │  PITCH    │  │  ~18mm     │  │
+  │  │ 57×68mm  │  │ 40×52mm  │  │  57mm     │  │  Buck      │  │
   │  └──────────┘  └──────────┘  └───────────┘  └────────────┘  │
-  │  ← 93mm →      ← 52mm →      ← 57mm →        ← 38mm →      │
+  │  ← 93mm →      ← 52mm →      ← 57mm →        ← 18mm →      │
                                        ↑
                                   RS-00 Pitch ici
                                   (Ø50mm < Ø80mm ✅)
 ```
+
+> [!TIP]
+> Cette configuration respecte parfaitement la longueur de 220 mm d'origine. Si les tests physiques d'intégration montraient des contraintes d'espace ou de routage trop complexes sur l'électronique de l'avant-bras, le passage à la longueur anthropomorphe de **240 mm** (Option C, offrant 38 mm d'espace électronique) constituerait notre solution de secours validée.
 
 **RS-00 Roll** reste à l'extrémité distale (il constitue l'articulation du poignet proprement dite, entre l'avant-bras et la main).
 
@@ -355,7 +359,7 @@ VUE LONGITUDINALE — AVANT-BRAS V1.1 (240 mm)
 | Buck converter ultra-compact (Pololu D24V90F12 ou équiv.) | 2 | ~15 € | **~30 €** |
 | Câbles CAN supplémentaires | 2 | ~5 € | **~10 €** |
 | Gaines PTFE supplémentaires (~100mm/tendon × 8) | 1 lot | ~5 € | **~5 €** |
-| **Total V1.1 — Option B (2 bras)** | | | **~245 €** |
+| **Total V0.5 — Option B (2 bras)** | | | **~245 €** |
 
 **Note** : Le U2D2 Power Hub est déporté dans le torse/épaule — pas de coût supplémentaire (déplacement, pas d'achat). Un câble de bus Dynamixel légèrement plus long peut être nécessaire (~5€).
 

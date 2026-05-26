@@ -34,7 +34,7 @@ Le module **Perception & Sensors** regroupe :
 | **LiDAR 3D** | **Unitree L2** (sans IMU) | 360° × 96° FOV ; 64 k pts/s ; 5,55 Hz ; Poids 230 g ; Dimensions 75 × 75 × 65 mm ; IP52 ; Prix ≈ 419 $ (≈ 380 €) | USB‑C 3.0 (vers Jetson) | 230 g | ~419 $ |
 | **IMU torse** | **Bosch BMI270** (Add‑on Spresense) | Accél ± 16 g ; Gyro ± 2000 °/s ; 416 Hz (SPI) ; 6 axes ; 2 mm × 2 mm package | SPI via Spresense → Jetson (serial/USB) | ~5 g | [À COMPLÉTER] |
 | **IMU tête** | **BNO085** (intégré OAK‑D) | 9 axes (accél ± 16 g, gyro ± 2000 °/s, magn ± 1300 µT) ; 100 Hz ; Fusion on‑chip | I2C via OAK‑D (exposé sur ROS2) | – (intégré) | – |
-| **Moteurs du cou** | **RS‑05** (pan + tilt) | 12 V DC ; 2,5 Nm (max) ; 21 rad/s (max) ; Réduction 30:1 ; 2 mm vis M2 pour fixation | PWM via Jetson GPIO | – | [À COMPLÉTER] |
+| **Moteurs du cou** | **RS‑05** (pan + tilt) | 48 V DC nominal (15-60V) ; 1.6 N·m (nom) / 5.5 N·m (pic) ; 12.57 rad/s (120 rpm) max physique / 3.14 rad/s opérationnel ; Direct Drive (ratio joint 1:1, moteur interne 9:1) ; Fixation 4×M3 (stator) / 6×M4 (rotor) | Bus CAN (1 Mbps) | – | RobStride |
 | **Câbles USB** (flexibles, spiralés) | – | USB‑3 (30‑40 cm) ; blindé ; résistance aux torsions du cou | – | – | [À COMPLÉTER] |
 | **Silent‑blocks TPU** (anti‑vibration) | – | TPU 95A ; Ø 6 mm × 3 mm ; 4 pcs pour L2 ; 1 pcs pour ReSpeaker | – | – | [À COMPLÉTER] |
 | **Anneau TPU anti‑vibration** (ReSpeaker) | – | TPU 95A ; Ø ≈ 70 mm × 3 mm ; 4 vis M2 nylon ; 4 plots de fixation | – | – | [À COMPLÉTER] |
@@ -54,8 +54,8 @@ Le module **Perception & Sensors** regroupe :
 | 3 | **OAK‑D Pro FF** | Caméra depth + IMU | 1 | Luxonis (distributeur officiel) | 399 € | 399 € |
 | 4 | **Unitree L2** | LiDAR 3D (sans IMU) | 1 | Unitree (revendeur officiel) | 419 $ ≈ 380 € | 380 € |
 | 5 | **BMI270 Add‑on** | IMU torse (SPI) | 1 | Switch Science / Bosch | [À COMPLÉTER] | [À COMPLÉTER] |
-| 6 | **RS‑05** (pan) | Moteur cou – pan | 1 | [À COMPLÉTER] | [À COMPLÉTER] | [À COMPLÉTER] |
-| 7 | **RS‑05** (tilt) | Moteur cou – tilt | 1 | [À COMPLÉTER] | [À COMPLÉTER] | [À COMPLÉTER] |
+| 6 | **RS‑05** (pan) | Moteur cou – pan | 1 | RobStride | [À COMPLÉTER] | [À COMPLÉTER] |
+| 7 | **RS‑05** (tilt) | Moteur cou – tilt | 1 | RobStride | [À COMPLÉTER] | [À COMPLÉTER] |
 | 8 | **Câble USB‑3 flex** | 30 cm, spiralé, blindé | 2 | [À COMPLÉTER] | [À COMPLÉTER] | [À COMPLÉTER] |
 | 9 | **Silent‑blocks TPU** | Anti‑vibration LiDAR | 4 | [À COMPLÉTER] | [À COMPLÉTER] | [À COMPLÉTER] |
 |10| **Anneau TPU** | Support ReSpeaker (3 mm) | 1 | [À COMPLÉTER] | [À COMPLÉTER] | [À COMPLÉTER] |
@@ -78,7 +78,7 @@ Le module **Perception & Sensors** regroupe :
 | **OAK‑D Pro mount** | `oakd_head_mount.step` | ✅ Validé | Fixation M3, entraxe 75 mm, inclinaison -10° à -15°. |
 | **Unitree L2 mount** | `lidar_torso_mount.step` | ✅ Validé | 4 silent‑blocks TPU, vis M3, repère TF statique. |
 | **BMI270 add‑on** | `bmi270_spresense_addon.step` | ✅ Validé | PCB 20 × 20 mm, connecteur SPI. |
-| **Cou (2 × RS‑05)** | `cou_rs05_assembly.step` | ✅ Validé | 2 DOF, 2 vis M2 nylon pour chaque moteur. |
+| **Cou (2 × RS‑05)** | `cou_rs05_assembly.step` | ✅ Validé | 2 DOF, montage direct‑drive (avec support externe roulement 6804-2RS et vis M3/M4). |
 | **Câblage USB** | `cable_usb_flex.iam` (Inventor) | ✅ Validé | Longueur 30 cm, courbure maximale 30 mm. |
 | **Simulation dynamique** | `dynamic_vibration_simulation.fbd` (Ansys) | ✅ Validé | Vérifie que les vibrations du cou n’excèdent pas 5 mm s⁻¹ sur le ReSpeaker. |
 
@@ -98,7 +98,7 @@ Le module **Perception & Sensors** regroupe :
 | **5.6** | **Montage du LiDAR L2** – placer le L2 sur le support torse, insérer 4 silent‑blocks TPU, fixer avec vis M3 + rondelles en caoutchouc. | Vérifier que le L2 est **exactement horizontal** (plan XY) pour éviter le biais de scan. |
 | **5.7** | **Fixation du BMI270** – souder le PCB add‑on sur la Spresense, insérer dans le même logement que le L2 (co‑localisation). | Câble SPI doit être **court (< 2 cm)** pour éviter les interférences. |
 | **5.8** | **Câblage USB** – passer les deux câbles USB 3 (OAK‑D, L2) à travers le cou via le conduit de 18 mm prévu. Utiliser le câble spiralé pour absorber les rotations. | Vérifier la **torsion maximale** du câble (< 180°) avant de fixer les serre‑câbles. |
-| **5.9** | **Montage des moteurs du cou (RS‑05)** – fixer chaque moteur avec 4 vis M2 nylon, aligner les axes de rotation avec le centre de masse de la tête. | S’assurer que le **jeu axial** < 0,2 mm pour éviter le jeu mécanique. |
+| **5.9** | **Montage des moteurs du cou (RS‑05)** – fixer le stator de chaque moteur via 4 vis M3 et coupler le rotor au hub via 6 vis M4 (voir procédure mécanique cou Doc 29/FINAL). Aligner les axes de rotation avec le centre de masse de la tête. | S’assurer que le **jeu axial** < 0,2 mm pour éviter le jeu mécanique. |
 | **5.10** | **Calibration logicielle** – exécuter le script `45_Configuration_Audio_ReSpeaker_XVF3800.md` puis le node ROS2 `audio/doa`. Vérifier que le topic `/audio/doa` publie des angles cohérents. | En cas de valeurs aberrantes, vérifier l’étanchéité des trous et la présence de la mousse acoustique. |
 | **5.11** | **Calibration VOR** – lancer le node `gaze_stabilizer` (voir § 9.4) et ajuster les gains `vor_gain_pitch` / `vor_gain_yaw` via le paramètre ROS2. | La réponse doit être < 30 ms (latence totale du système). |
 | **5.12** | **Test SLAM** – lancer le launch ROS2 `rtabmap_ros` avec les topics `/lidar/cloud`, `/oakd/depth`, `/imu/data`. Vérifier la cohérence de la carte et la stabilité du pose. | Si le nuage de points du L2 montre du bruit excessif, appliquer le filtre *Statistical Outlier Removal* (PCL). |

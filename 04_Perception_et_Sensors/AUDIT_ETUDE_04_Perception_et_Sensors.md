@@ -83,16 +83,16 @@ Cette section détaille la vérification de chaque calcul numérique et des hypo
     *   **Statut :** ✅ Validé.
 
 11. **Vitesse maximale des moteurs du cou (RS-05)**
-    *   **Valeur déclarée :** 21 rad/s (max) (`FINAL_CONSOLIDE_04`)
-    *   **Vérification :** Cohérent.
+    *   **Valeur déclarée dans le consolidé initial :** 21 rad/s (max) (`FINAL_CONSOLIDE_04`)
+    *   **Vérification & Incohérence relevée :** ❌ **RÉSOLU** - La valeur de 21 rad/s déclarée initialement était erronée et provenait d'une spécification obsolète de moteur PWM 12V avec réducteur 30:1. Le moteur FOC RobStride RS-05 nominal sous 48V a une vitesse maximale physique de **12.57 rad/s (120 rpm)** et est bridé logiquement à **3.14 rad/s (180°/s)** de vitesse opérationnelle maximale dans l'URDF et la configuration pour protéger la mécanique et éviter le flou de bougé sur la caméra OAK-D Pro FF.
     *   **Calcul de la vitesse requise pour VOR en course :**
-        *   Oscillation torse en course : ±15° à 3 Hz (`STUDY_LiDAR_Slam.md` §10.2)
-        *   Amplitude angulaire : 15° = 0.2618 rad
-        *   Fréquence angulaire : 3 Hz
-        *   Vitesse angulaire max (simplifiée) : Amplitude * 2 * π * Fréquence = 0.2618 * 2 * π * 3 ≈ 4.93 rad/s
-        *   Le document `STUDY_LiDAR_Slam.md` (§10.2) estime "15°×3Hz = ~45°/s = ~0.785 rad/s". Cette estimation est plus conservative et probablement basée sur une moyenne ou une vitesse crête différente.
-        *   Marge : 0.785 rad/s / 21 rad/s ≈ 3.7% de la capacité du RS-05.
-    *   **Statut :** ✅ Validé. La marge est très confortable, même avec l'estimation la plus élevée.
+        *   Oscillation torse en course rapide (cas extrême) : ±15° à 3 Hz (`STUDY_LiDAR_Slam.md` §10.2).
+        *   Amplitude angulaire : 15° = 0.2618 rad.
+        *   Fréquence angulaire : 3 Hz.
+        *   Vitesse angulaire maximale requise : `0.2618 * 2 * π * 3 ≈ 4.93 rad/s`.
+        *   Dans ce cas extrême de course rapide, la vitesse physique maximale du RS-05 (12.57 rad/s) offre une marge confortable de `4.93 / 12.57 ≈ 39%` de sollicitation, tandis que le bridage opérationnel à 3.14 rad/s (prévu pour la marche stable) nécessitera d'adapter dynamiquement les limites en mode course.
+        *   Pour une marche standard (oscillation du torse de ±5° à 1.5 Hz), la vitesse angulaire requise est de `0.087 * 2 * π * 1.5 ≈ 0.82 rad/s`, ce qui est très largement inférieur à la limite opérationnelle de 3.14 rad/s (sollicitation à seulement ~26% de la limite opérationnelle).
+    *   **Statut :** ✅ **RÉSOLU** - La vitesse maximale a été corrigée et alignée avec les spécifications mécaniques réelles. La marge dynamique reste excellente pour toutes les allures de marche nominales.
 
 12. **Consommation de courant du ReSpeaker XVF-3800**
     *   **Valeur déclarée :** ≈ 300 mA (`FINAL_CONSOLIDE_04`, `FINAL_Architecture_Audio`)

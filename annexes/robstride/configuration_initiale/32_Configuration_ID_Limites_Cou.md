@@ -13,7 +13,7 @@ Par défaut, tous les moteurs RobStride sortent d'usine avec l'**ID=1**. Pour fa
 ### Stratégie recommandée
 | ID | Fonction | Axe |
 | :---: | :--- | :--- |
-| **1** | **Pan** | Roll du cou (inclinaison latérale) |
+| **1** | **Pan** | Yaw du cou (rotation gauche/droite) |
 | **2** | **Tilt** | Pitch du cou (inclinaison avant/arrière) |
 
 ### Procédure de changement (UN moteur à la fois)
@@ -53,7 +53,7 @@ Pour éviter que les câbles ne s'arrachent ou que la structure ne vienne buter 
 Si votre version de firmware (ex: **0.5.0.9**) le permet, saisissez les valeurs directement dans les registres du moteur via MotorStudio.
 
 **Valeurs cibles :**
-- **Pan (Roll)** : ±40° (soit ±0.698 rad)
+- **Pan (Yaw)** : ±40° (soit ±0.698 rad)
 - **Tilt (Pitch)** : ±30° (soit ±0.524 rad)
 
 | Registre / Champ | Valeur Pan (ID 1) | Valeur Tilt (ID 2) | Unité |
