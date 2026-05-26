@@ -198,17 +198,72 @@ En tenant l'objet **près du corps** (bras le long du torse, coude fléchi à 90
 *   **Charge au coude (continu) :** $8.06 / (9.81 \times 0.200) = \mathbf{4.1 kg}$
 *   **Charge au coude (pic) :** $33.06 / (9.81 \times 0.200) = \mathbf{16.9 kg}$
 
-#### Comparaison avec l'État de l'Art
+#### Comparaison avec l'État de l'Art (Configuration V1 — RS-06 au Coude)
 
 | Robot | Charge Max (bras tendu) | Charge Max (proche corps) | Masse Bras |
 | :--- | :---: | :---: | :---: |
-| **D-Bot (ce design)** | **2.1 kg continu / 8.5 kg pic** | **4.1 kg continu / 16.9 kg pic** | ~5.8 kg |
+| **D-Bot V1 (RS-06 au coude)** | **2.1 kg continu / 8.5 kg pic** | **4.1 kg continu / 16.9 kg pic** | ~5.8 kg |
 | Tesla Optimus Gen 2 | ~4.5 kg (annoncé) | ~9 kg (estimé) | ~7 kg (estimé) |
 | Figure 01 | ~2.3 kg (estimé) | N/A | ~6 kg (estimé) |
 | Unitree G1 | ~2 kg (annoncé) | ~5 kg (estimé) | ~4.5 kg |
 | Humain moyen | ~3–5 kg (tenu longtemps) | ~15–25 kg | ~4–5 kg |
 
-> Le D-Bot se positionne dans la moyenne haute des humanoïdes actuels. Le facteur limitant au coude pourra être résolu en V2 par un passage au **RS-04 (40 N·m)** au coude ou par l'ajout d'un réducteur harmonique, si les cas d'usage nécessitent de porter plus de 3 kg bras tendu.
+---
+
+#### ⚡ Alternative V1.1 : Remplacement du RS-06 par un RS-03 au Coude
+
+Le RS-06 (11 N·m) est le facteur limitant clair. Le **RS-03** (20 N·m nominal / 60 N·m pic) représente un upgrade intermédiaire réaliste avant le RS-04 (40 N·m), avec un impact masse/coût modéré.
+
+**Différentiel RS-06 → RS-03 :**
+
+| Paramètre | RS-06 (actuel) | RS-03 (alternative) | Delta |
+| :--- | :---: | :---: | :---: |
+| Couple nominal | 11 N·m | **20 N·m** | **+82%** |
+| Couple pic | 36 N·m | **60 N·m** | +67% |
+| Masse | 621 g | 880 g | **+259 g** |
+| Dimensions (Ø × L) | Ø52 × 57 mm | Ø76 × 48 mm | Ø +24 mm, L −9 mm |
+| Prix | ~$200 | ~$250 | +$50 / bras |
+| Interface | CAN 1 Mbps | CAN 1 Mbps | Identique |
+
+**Impacts structurels :**
+*   Masse du coude : 1100 g → **1359 g** (+259 g)
+*   Masse totale du bras : 5815 g → **~6074 g** (+259 g, soit +4.5%)
+*   Diamètre du RS-03 (Ø76 mm) vs tube avant-bras (Ø25-30 mm) : le RS-03 déborde du profil du tube. L'insert alu du coude devra intégrer un épaulement d'adaptation Ø76→Ø30 mm. C'est faisable en CNC mais nécessite un redesign du bracket coude.
+
+**Recalcul de la capacité de portage (RS-03 au coude) :**
+
+**Coude Pitch (RS-03, 20 N·m nominal / 60 N·m pic)**
+
+*   Masse distale (avant-bras + main) : $m_{distal} = 1.50 kg$ (inchangée)
+*   Couple gravitaire distal : $\tau_{distal} = 1.50 \times 9.81 \times 0.200 = 2.94 N.m$ (inchangé)
+*   Couple restant pour la charge (nominal) : $\tau_{charge} = 20.0 - 2.94 = 17.06 N.m$
+*   **Charge max bras tendu (continu) :** $m_{max} = 17.06 / (9.81 \times 0.398) = \mathbf{4.37 kg}$
+*   **Charge max bras tendu (pic) :** $m_{max,pic} = (60.0 - 2.94) / (9.81 \times 0.398) = \mathbf{14.6 kg}$
+
+**Épaule Pitch (RS-04, 40 N·m — impact de la masse additionnelle) :**
+
+*   Nouvelle masse distale : $m_{distal} = 0.25 + 1.359 + 1.20 + 0.30 = 3.11 kg$ (était 2.85 kg)
+*   Nouveau couple gravitaire : $\tau_{bras} = 3.11 \times 9.81 \times 0.250 = 7.63 N.m$ (était 6.99)
+*   Couple restant : $\tau_{charge} = 40.0 - 7.63 = 32.37 N.m$
+*   **Charge max épaule bras tendu (continu) :** $m_{max} = 32.37 / (9.81 \times 0.698) = \mathbf{4.73 kg}$ (était 4.82 kg, −2%)
+*   Impact négligeable : les +259 g ne réduisent la capacité de l'épaule que de 90 g de charge utile.
+
+**Postures réalistes avec RS-03 :**
+*   Coude fléchi à 45° : $17.06 / (9.81 \times 0.398 \times 0.707) = \mathbf{6.18 kg}$ continu
+*   Proche corps (coude 90°, charge à 200 mm) : $17.06 / (9.81 \times 0.200) = \mathbf{8.69 kg}$ continu
+*   Proche corps en pic : $(60.0 - 2.94) / (9.81 \times 0.200) = \mathbf{29.1 kg}$ pic
+
+#### Tableau Comparatif V1 (RS-06) vs V1.1 (RS-03)
+
+| Scénario | V1 (RS-06) Continu | V1 (RS-06) Pic | V1.1 (RS-03) Continu | V1.1 (RS-03) Pic | Gain |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Bras tendu à 90°** | 2.1 kg | 8.5 kg | **4.4 kg** | **14.6 kg** | **×2.1** |
+| **Coude fléchi 45°** | 2.9 kg | 12.0 kg | **6.2 kg** | **21.8 kg** | **×2.1** |
+| **Proche corps (coude 90°)** | 4.1 kg | 16.9 kg | **8.7 kg** | **29.1 kg** | **×2.1** |
+
+**Coût de l'upgrade :** +$50 par bras (+$100 pour le robot complet), +259 g par bras.
+
+> 💡 **Recommandation :** Le passage au RS-03 au coude est un upgrade **hautement rentable** : pour seulement +259 g et +$50/bras, la capacité de portage est **plus que doublée** (×2.1) dans toutes les postures. Le D-Bot passerait de 2.1 kg à **4.4 kg** bras tendu en continu, le plaçant au niveau du Tesla Optimus Gen 2 (~4.5 kg) tout en restant 1 kg plus léger. Le seul effort requis est un **redesign du bracket coude** pour adapter le Ø76 mm du RS-03. Cette modification est recommandée pour une V1.1 et fait l'objet d'un point de décision utilisateur.
 
 ---
 

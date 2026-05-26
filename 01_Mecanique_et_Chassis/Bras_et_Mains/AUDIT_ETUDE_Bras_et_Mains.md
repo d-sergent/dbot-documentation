@@ -107,6 +107,23 @@ Cette section présente la validation mathématique rigoureuse des caractéristi
     *   **Validation :** ✅ **VALIDÉ** — Les performances de portage sont cohérentes avec le dimensionnement des moteurs et la masse du bras. Le RS-06 au coude est un choix d'optimisation poids/coût. Un upgrade vers le RS-04 (40 N·m) au coude en V2 quadruplerait la capacité de portage à bras tendu si nécessaire.
     *   **Criticité :** 🟡 (limitation structurelle connue et documentée, acceptable pour les cas d'usage V1)
 
+11. **Alternative V1.1 : Remplacement du RS-06 par un RS-03 au coude**
+    *   **Motivation :** Le RS-06 (11 N·m) est le facteur limitant identifié au point 10. Le RS-03 (20 N·m, +82% de couple) offre un upgrade intermédiaire réaliste.
+    *   **Impact masse :** +259 g par bras (621 g → 880 g). Masse totale bras : 5.8 kg → 6.1 kg (+4.5%).
+    *   **Impact coût :** +$50 par bras ($200 → $250), soit +$100 pour le robot complet.
+    *   **Impact structurel :** Le Ø76 mm du RS-03 déborde du profil du tube avant-bras (Ø25-30 mm) → redesign du bracket coude nécessaire (adaptation Ø76→Ø30 mm, usinage CNC).
+    *   **Résultats recalculés :**
+
+    | Scénario | V1 (RS-06) Continu | V1.1 (RS-03) Continu | V1.1 (RS-03) Pic | Gain |
+    | :--- | :---: | :---: | :---: | :---: |
+    | Bras tendu à 90° | 2.1 kg | **4.4 kg** | 14.6 kg | **×2.1** |
+    | Coude fléchi 45° | 2.9 kg | **6.2 kg** | 21.8 kg | **×2.1** |
+    | Proche corps (coude 90°) | 4.1 kg | **8.7 kg** | 29.1 kg | **×2.1** |
+
+    *   **Impact sur l'épaule :** Négligeable (−2%, soit −90 g de charge utile). Le RS-04 absorbe aisément les +259 g.
+    *   **Validation :** ✅ **RECOMMANDÉ** — Le RS-03 au coude est un upgrade hautement rentable (×2.1 de capacité de portage pour +259 g et +$50). Place le D-Bot au niveau du Tesla Optimus Gen 2 (~4.5 kg) tout en restant 1 kg plus léger. Point de décision utilisateur.
+    *   **Criticité :** 🟢 (amélioration optionnelle à fort impact, aucun risque technique supplémentaire)
+
 ---
 
 ## 2. Carte des Dépendances Inter-Membres
