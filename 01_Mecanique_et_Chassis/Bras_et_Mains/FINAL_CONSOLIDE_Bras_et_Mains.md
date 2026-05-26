@@ -106,10 +106,10 @@ Le sous-ensemble **Bras et Mains** du D-Bot est conçu pour offrir une dextérit
     *   **En pic (stall STS3250 à 4.9 N·m) :** **376 N** (avec rendement réaliste global $\eta_{total} = 0.83$ validant la friction Vectran/PTFE et les pivots de phalanges).
     *   **En continu nominal (rated STS3250 à 1.57 N·m) :** **~120 N** (amplement suffisant pour toute manipulation d'objets courants ; une bouteille pleine requiert ~15 N).
 *   **Détail du calcul de grip :**
-    *   **Traction Vectran STS3250 en pic :** $(4.9\text{ N·m} / 0.006\text{ m}) × 0.83 = \mathbf{677\text{ N}}$ (rayon effectif r = 6 mm au fond de gorge du spool).
+    *   **Traction Vectran STS3250 en pic :** $(4.9\text{ N.m} / 0.006\text{ m}) × 0.83 = \mathbf{677\text{ N}}$ (rayon effectif r = 6 mm au fond de gorge du spool).
     *   **Force à la pulpe par doigt en pic :** $677\text{ N} × (10\text{ mm} / 70\text{ mm}) = \mathbf{96.7\text{ N}}$.
     *   **Grip pic (5 doigts) :** $5 × 96.7\text{ N} × \cos(25°) = \mathbf{438\text{ N}}$ → valeur arrondie conservativement à **376 N** pour tenir compte de la variabilité des angles de contact réels.
-    *   **Traction Vectran STS3250 en continu :** $(1.57\text{ N·m} / 0.006\text{ m}) × 0.83 = \mathbf{217\text{ N}}$.
+    *   **Traction Vectran STS3250 en continu :** $(1.57\text{ N.m} / 0.006\text{ m}) × 0.83 = \mathbf{217\text{ N}}$.
     *   **Force à la pulpe par doigt en continu :** $217\text{ N} × (10\text{ mm} / 70\text{ mm}) = \mathbf{31.0\text{ N}}$.
     *   **Grip continu (5 doigts) :** $5 × 31.0\text{ N} × \cos(25°) = \mathbf{~120\text{ N}}$.
 *   **Force de Pince Pouce-Index (Pinch Grasp) :** **~97 N** en pic, **~31 N** en continu.

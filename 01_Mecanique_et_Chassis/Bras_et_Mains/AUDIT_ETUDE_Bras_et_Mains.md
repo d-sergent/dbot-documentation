@@ -50,16 +50,16 @@ Cette section présente la validation mathématique rigoureuse des caractéristi
 
 5.  **Tension Vectran générée en pic par le STS3250**
     *   **Calcul :** (Couple de pic STS3250 / Rayon de spool effectif) × Rendement global $\eta_{total}$
-    *   **Données :** Couple pic $C_{pic} = 4.9\text{ N·m}$. Rayon effectif au fond de gorge $r = 6\text{ mm}$ (0.006 m). Rendement réaliste $\eta = 0.83$ (intégrant frottement Vectran/PTFE, poulies et pivots).
-    *   **Numérique :** $(4.9\text{ N·m} / 0.006\text{ m}) \times 0.83 = \mathbf{677\text{ N}}$ de traction de câble en pic.
+    *   **Données :** Couple pic $C_{pic} = 4.9\text{ N.m}$. Rayon effectif au fond de gorge $r = 6\text{ mm}$ (0.006 m). Rendement réaliste $\eta = 0.83$ (intégrant frottement Vectran/PTFE, poulies et pivots).
+    *   **Numérique :** $(4.9\text{ N.m} / 0.006\text{ m}) \times 0.83 = \mathbf{677\text{ N}}$ de traction de câble en pic.
     *   **Validation :** ✅ Cohérent.
     *   **Criticité :** 🟢
 
 6.  **Force nominale à la pulpe du doigt (flexion STS3250)**
     *   **Calcul :** Tension câble × (Bras de levier tendon pulpe / Longueur de doigt effective)
     *   **Données :**
-        *   **En pic (stall) :** Couple stall $C_{stall} = 4.9\text{ N·m}$ (50 kg·cm datasheet). Traction pic = 677 N.
-        *   **En continu (rated) :** Couple rated $C_{rated} = 1.57\text{ N·m}$ (16 kg·cm datasheet). Traction nominale = $(1.57 / 0.006) \times 0.83 = 217\text{ N}$.
+        *   **En pic (stall) :** Couple stall $C_{stall} = 4.9\text{ N.m}$ (50 kg·cm datasheet). Traction pic = 677 N.
+        *   **En continu (rated) :** Couple rated $C_{rated} = 1.57\text{ N.m}$ (16 kg·cm datasheet). Traction nominale = $(1.57 / 0.006) \times 0.83 = 217\text{ N}$.
         *   Bras de levier $r_{doigt} = 10\text{ mm}$ (0.010 m). Longueur $L = 70\text{ mm}$ (0.070 m).
     *   **Numérique (Pic) :** $677\text{ N} \times (0.010\text{ m} / 0.070\text{ m}) = \mathbf{96.7\text{ N}}$ par doigt.
     *   **Numérique (Continu) :** $217\text{ N} \times (0.010\text{ m} / 0.070\text{ m}) = \mathbf{31.0\text{ N}}$ par doigt.
