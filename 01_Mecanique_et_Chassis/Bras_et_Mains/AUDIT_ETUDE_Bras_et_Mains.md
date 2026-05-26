@@ -89,6 +89,24 @@ Cette section présente la validation mathématique rigoureuse des caractéristi
     *   **Validation :** ✅ **VALIDÉ avec réserve** - Le Fs de 1.26 en pic extrême est acceptable pour des charges brèves de stall. Le bridage firmware (registre « Max Torque » Feetech limité à 70–80%) ramène la traction de pic effective sous 550 N → Fs > 1.55. En continu, le Fs de 3.94 est excellentissime. L'avantage majeur du Vectran sur le Dyneema est l'absence totale de fluage, éliminant le recalibrage périodique des tendons.
     *   **Criticité :** 🟡 (bridage firmware obligatoire pour maintenir Fs > 1.5 en pic)
 
+10. **Capacité de portage du bras (analyse statique par articulation)**
+    *   **Méthode :** Calcul du couple résiduel disponible à chaque articulation après soustraction du couple gravitaire des segments distaux, en position bras tendu à 90° (pire cas).
+    *   **Masses distales :** Main = 300 g, Avant-bras (servos + RS-00 + DROK + structure) = 1200 g, Coude (RS-06 + RS-02 + bracket) = 1100 g, Humérus = 250 g. Total bras = **~5.8 kg**.
+    *   **Distances articulaires :** Épaule→Coude = 300 mm, Coude→Poignet = 278 mm, Poignet→Centre de préhension = 120 mm.
+    *   **Résultats par articulation :**
+
+    | Articulation | Moteur | Couple Nominal | Couple gravitaire distal | Charge Continue (bras tendu) | Charge Pic (bras tendu) |
+    | :--- | :--- | :---: | :---: | :---: | :---: |
+    | Poignet Pitch | RS-00 (5 N·m) | 5 N·m | 0.18 N·m | **4.1 kg** | 11.7 kg |
+    | **Coude Pitch** | **RS-06 (11 N·m)** | **11 N·m** | **2.94 N·m** | **2.1 kg** 🔴 | **8.5 kg** |
+    | Épaule Pitch | RS-04 (40 N·m) | 40 N·m | 6.99 N·m | **4.8 kg** | 16.5 kg |
+
+    *   **Facteur limitant identifié :** 🔴 **Le coude (RS-06, 11 N·m)** est le goulot d'étranglement. À bras tendu horizontalement, la charge continue maximale est de **~2.1 kg**. En pic, **~8.5 kg**.
+    *   **Postures réalistes :** Coude fléchi à 45° → **~2.9 kg continu**. Objet tenu près du corps (coude 90°, charge à 200 mm) → **~4.1 kg continu / ~16.9 kg pic**.
+    *   **Comparaison :** D-Bot (2.1 kg bras tendu) se situe au niveau du Unitree G1 (~2 kg) et du Figure 01 (~2.3 kg estimé). Le Tesla Optimus Gen 2 annonce ~4.5 kg mais utilise un bras ~1.2 kg plus lourd.
+    *   **Validation :** ✅ **VALIDÉ** — Les performances de portage sont cohérentes avec le dimensionnement des moteurs et la masse du bras. Le RS-06 au coude est un choix d'optimisation poids/coût. Un upgrade vers le RS-04 (40 N·m) au coude en V2 quadruplerait la capacité de portage à bras tendu si nécessaire.
+    *   **Criticité :** 🟡 (limitation structurelle connue et documentée, acceptable pour les cas d'usage V1)
+
 ---
 
 ## 2. Carte des Dépendances Inter-Membres
