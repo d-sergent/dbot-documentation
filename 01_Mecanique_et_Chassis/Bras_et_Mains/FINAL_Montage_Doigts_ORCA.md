@@ -4,7 +4,7 @@
 > **Vidéo de montage officielle :** [YouTube — Assemblage ORCA (t=3s)](https://youtu.be/va7ZUgVrn84?t=3)
 > **Vidéo de présentation :** [YouTube — Release ORCA Hand](https://www.youtube.com/watch?v=WNtlUViSrPg)
 >
-> ⚠️ *Ce guide est localement traduit et adapté pour la D-Hand Hybrid (8 DOF). Les étapes concernant la motorisation ORCA (17 servos Feetech dans la tour imprimée, étapes 08 à 25) sont mentionnées mais non détaillées, car remplacées par notre architecture Dynamixel CNC.*
+> ⚠️ *Ce guide est localement traduit et adapté pour la D-Hand Hybrid (8 DOF). Les étapes concernant la motorisation ORCA (17 servos Feetech dans la tour imprimée, étapes 08 à 25) sont mentionnées mais non détaillées, car remplacées par notre architecture **Feetech Hybrid Premium** (5× STS3250 + 3× HL-3915) avec spools CNC usinés.*
 
 ---
 
@@ -34,7 +34,7 @@ Le **Nœud Ashley Stopper** (aussi appelé "Oysterman's Stopper") est utilisé m
 ![Knot step 7](Images_ORCA/Assembly_2_00_About_tendons_and_knots_substep_07.png)
 
 > [!NOTE]
-> *Adaptation D-Hand :* Le matériau officiel ORCA est du Dyneema Ø0.40–0.41 mm. **La D-Hand Hybrid utilise du Dyneema Ø0.60 mm** pour compenser le couple 2× supérieur des moteurs XC430 (voir Section 11.7 du document 21_Etude_Main_Robotique.md).
+> *Adaptation D-Hand :* Le matériau officiel ORCA est du Dyneema Ø0.40–0.41 mm. **La D-Hand Hybrid Premium utilise du Vectran LCP Ø0.80 mm** (fluage quasi nul, résistance à la rupture ~950 N) pour supporter le couple 2× supérieur des STS3250 (50 kg·cm stall) et éliminer le recalibrage périodique.
 
 ---
 
@@ -78,7 +78,7 @@ Prenez **2 tendons de 50 cm** (sans nœuds initiaux) et insérez-les sur le cot�
 ## Étape 04 — Coulée de la Peau en Silicone (Skin Casting)
 
 > [!IMPORTANT]
-> **Cette étape est mécaniquement obligatoire, pas seulement cosmétique.** Comme expliqué dans 21_Etude_Main_Robotique.md (Section 11.6), l'ORCA n'utilise **aucun ressort métallique**. C'est l'élasticité naturelle de la peau en silicone qui assure le **retour passif des doigts en position ouverte** quand le moteur relâche le câble fléchisseur.
+> **Cette étape est mécaniquement obligatoire, pas seulement cosmétique.** L'ORCA n'utilise **aucun ressort métallique**. C'est l'élasticité naturelle de la peau en silicone qui assure le **retour passif primaire des doigts en position ouverte** quand le moteur relâche le câble fléchisseur. La D-Hand ajoute un **ressort à lame en PA12-CF** comme sécurité secondaire anti-fatigue (voir §2.4 du GUIDE_COMPLET).
 
 Imprimez les moules négatifs (ORCA_Molds.zip dans `Ressources 3D/ORCA_Hand`). Coulez-y un silicone de type EcoFlex 00-30 ou Dragon Skin 10. Laissez polymériser selon les instructions du fabricant (généralement 4h à température ambiante). Démoulez avec précaution.
 
@@ -120,13 +120,13 @@ Faites passer tous les tendons du pouce à travers le grand canal d'accès prév
 ## Étape 26 — Enroulement des Tendons sur les Spools (Poulies CNC)
 
 > [!NOTE]
-> *Adaptation D-Hand :* L'ORCA enroule les tendons sur les spools plastiques fixés sur les servos Feetech. **Sur la D-Hand,** les tendons s'enroulent sur nos **poulies CNC usinées en aluminium (Ø16mm, gorge 0.8mm, roulement MR84ZZ intégré)** montées sur les axes des moteurs XC430/XC330.
+> *Adaptation D-Hand :* L'ORCA enroule les tendons sur les spools plastiques fixés sur les servos Feetech. **Sur la D-Hand Hybrid Premium,** les tendons Vectran LCP Ø0.80mm s'enroulent sur nos **poulies CNC usinées en aluminium 7075-T6 (Ø14mm, gorge hélicoïdale 0.75mm, 1.5 tour, roulement MR84ZZ intégré)** montées sur les axes des moteurs STS3250/HL-3915. Le tendon est bridé par vis sans tête M1.6 radiale (aucun nœud).
 
 Procédure générique :
 - Saisir le tendon libre qui sort de la paume (côté avant-bras).
-- L'introduire dans l'encoche de la poulie alu.
-- Faire tourner le moteur dans le sens d'enroulement (sens anti-horaire pour les moteurs D-Bot) jusqu'à ce que le jeu dans le tendon soit éliminé.
-- Bloquer par un point de colle mécanique sur la fixation de tendon ou un vis de bridage (selon la conception finale de notre paume en alu).
+- L'introduire dans la gorge hélicoïdale de la poulie CNC.
+- Faire 1.5 tour d'enroulement dans la gorge.
+- Tirer fermement pour établir une pré-tension de 10–15 N, puis serrer la vis sans tête M1.6 pour brider le câble (voir §Étape 7 du GUIDE_COMPLET).
 
 ![Spool step 1](Images_ORCA/Assembly_2_26_Tendon_spooling_substep_01.png)
 ![Spool step 2](Images_ORCA/Assembly_2_26_Tendon_spooling_substep_18.png)

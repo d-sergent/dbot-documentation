@@ -27,8 +27,8 @@ Voici la liste exacte des composants, fixations et matières premières nécessa
 | :--- | :--- | :---: | :--- |
 | **Servomoteur de Force** | **Feetech STS3250** (12V, 50 kg.cm stall, coreless, boîtier alu CNC, pignons acier, TTL) | **5** | Actionnement en flexion/serrage des 5 doigts. |
 | **Servomoteur de Précision** | **Feetech HL-3915** (12V, 14.2 kg.cm stall, coreless, boîtier alu CNC, mode force matérielle, TTL) | **3** | Opposition du pouce, abduction index, curl palmaire. |
-| **Convertisseur Buck** | **Pololu D24V150F12** (Entrée 48V / Sortie 12V synchrone, 15A continu / 20A pic, efficacité 95%) | **1** | Alimentation stable du bus de servomoteurs 12V. |
-| **Plaque de Dissipation** | **Gap Pad Bergquist 5000S35** (Épaisseur 0.5 mm) | **1** | Couplage thermique entre le convertisseur et le tube carbone/alu. |
+| **Convertisseur Buck** | **DROK 48V→12V 25A** (Entrée 30–60V / Sortie 12V fixe, 25A max / 20A continu, efficacité 96%, boîtier alu IP67, 74×74×32mm) | **1** | Alimentation stable du bus de servomoteurs 12V depuis le bus 48V principal. |
+| **Fusible Réarmable** | **PTC 15A** | **1** | Protection surcourant du rail 12V entre le DROK et le bus servo. |
 
 ### 1.2 Structure & Quincaillerie Mécanique
 | Désignation | Référence / Spécifications | Qté | Emplacement |
@@ -44,8 +44,8 @@ Voici la liste exacte des composants, fixations et matières premières nécessa
 ### 1.3 Matières Premières & Consommables
 | Désignation | Marque / Spécifications | Rôle |
 | :--- | :--- | :--- |
-| **Fil de Flexion (Tendon)** | Dyneema tressé PE 9 brins **Ø 0.80 mm** (Rupture 1177 N) ou **Ø 0.60 mm** (Rupture 750 N) | Lignes de flexion en force (STS3250) |
-| **Fil de Précision (Tendon)** | Vectran ou Dyneema tressé **Ø 0.60 mm** | Lignes de précision sans fluage (HL-3915) |
+| **Fil de Flexion (Tendon)** | Vectran LCP tressé **Ø 0.80 mm** (Rupture ~950 N, fluage quasi nul, stabilité thermique 330°C) | Tendons standardisés pour toutes les lignes (force et précision) |
+| **Fil de Précision (Tendon)** | Vectran LCP tressé **Ø 0.80 mm** (identique aux tendons de force) | Lignes de précision identiques, simplification du stock |
 | **Filament d'Impression** | **PA12-CF** (Nylon chargé à 15% de fibres de carbone) | Impression 3D des phalanges et doigts. |
 | **Silicone de Moulage** | **Smooth-On EcoFlex 00-30** ou **Dragon Skin 10** | Coulée de la peau élastique pour retour passif. |
 | **Matériau Paume** | Bloc d'**Aluminium 6061-T6** | Usinage CNC du châssis principal (Palm Block). |
@@ -108,12 +108,38 @@ L'ORCA/D-Hand n'ayant pas de ressorts physiques, **la peau en silicone assure l'
 6.  Coulez le silicone lentement par le bas du moule pour chasser l'air. Laissez polymériser pendant 4 heures à 22°C (ou 30 minutes au four à 60°C).
 7.  Démoulez délicatement en évitant de déchirer les zones minces au niveau des articulations.
 
+### 2.4 Impression 3D des Ressorts à Lame PA12-CF (Sécurité anti-fatigue)
+Chaque doigt reçoit un ressort à lame imprimé en PA12-CF qui agit comme **sécurité de rappel secondaire** en cas de dégradation du silicone après des milliers de cycles à haute charge.
+
+*   **Dimensions :** Épaisseur **0.5 mm** × Largeur **3 mm** × Longueur **25 mm**.
+*   **Géométrie :** Lame légèrement incurvée (épaisseur constante, profil en arc de 5° au repos). L'extrémité proximale se clipse dans un logement dédié du dos de la phalange proximale (MCP). L'extrémité distale s'insère dans une fente du dos de la phalange médiane (PIP).
+*   **Orientation d'impression :** À plat sur le lit (couches **perpendiculaires** à l'axe de flexion). Cela maximise la résistance à la fatigue en flexion et empêche la délamination.
+*   **Infill :** 100% rectiligne (pièce fonctionnellement pleine).
+*   **Hauteur de couche :** 0.08 mm (pour la précision de l'épaisseur de 0.5 mm sur seulement ~6 couches).
+*   **Post-traitement :** Poncer légèrement les arêtes avec du papier abrasif grain 600 pour éviter les amorces de fissure.
+*   **Quantité :** Imprimer **10 pièces** par main (5 doigts × 2 pour avoir des spares).
+*   **Poids additionnel :** ~2 g par doigt (10 g total par main, négligeable).
+
+```
+               SCHÉMA DU RESSORT À LAME PA12-CF (VUE LATÉRALE)
+
+        Logement MCP (proximal)               Fente PIP (distal)
+              ┌────┐                             ┌────┐
+              │    │                             │    │
+    ────────┴────┴─────╮            ╭─────┴────┴───────
+                         ╰════════════╯
+                      Arc de 5° au repos
+                      Épaisseur 0.5mm × Largeur 3mm
+                      Longueur totale : 25mm
+```
+
 ---
 
 ## 🔩 3. Assemblage Mécanique Étape par Étape
 
 ### Étape 1 : Préparation et Pré-tensionnement des Tendons
-1.  **Coupe nette :** Coupez vos tendons (Dyneema Ø0.80 mm pour la flexion, Vectran Ø0.60 mm pour la précision) à une longueur d'environ **0.6 m** à l'aide d'une lame de scalpel neuve sous tension. *Ne jamais utiliser de ciseaux sous peine d'ébouriffer les fibres.*
+1.  **Coupe nette :** Coupez vos tendons (Vectran LCP Ø0.80 mm pour toutes les lignes, force et précision) à une longueur d'environ **0.6 m** à l'aide d'une lame de scalpel neuve sous tension. *Ne jamais utiliser de ciseaux sous peine d'ébouriffer les fibres. Le Vectran LCP est plus difficile à couper que le Dyneema — utilisez une lame neuve et bien affilée.*
+    > ⚠️ **Note UV :** Le Vectran est sensible aux UV. Conservez la bobine dans un sac opaque. Les tendons une fois routés à l'intérieur du doigt (tubes PTFE, paume alu, tube carbone) sont parfaitement protégés.
 2.  **Bridage distal sans nœud :** À une extrémité du câble, insérez un manchon en cuivre de Ø1.5 mm. Repliez le câble en créant une micro-boucle (épissure Brummel si possible) et **sertissez le manchon de manière ferme** à l'aide d'une pince à sertir technique.
 3.  *Alternative pour prototype :* Si vous utilisez des nœuds, réalisez un **Nœud Ashley Stopper** serré à la pince à bec plat, en laissant une queue de sécurité de 5 mm.
 
@@ -129,7 +155,7 @@ L'ORCA/D-Hand n'ayant pas de ressorts physiques, **la peau en silicone assure l'
 3.  Vérifiez que le manchon serti (ou le nœud Ashley) vient se loger parfaitement dans le renfoncement de la pulpe. Tirez fermement pour valider l'ancrage.
 4.  Marquez au feutre de couleur le rôle de chaque tendon à sa sortie à la base du doigt :
     *   **Tendon Inférieur = Fléchisseur** (Serrage, unique tendon requis relié au spool moteur).
-    *   *Note sur l'extension :* Dans cette architecture révisée sous-actionnée à 8 DOF, **les tendons d'extension supérieure sont complètement supprimés**. L'extension et la réouverture du doigt sont assurées de manière 100% passive par l'élasticité de la peau en silicone coulée (Étape 2.3).
+    *   *Note sur l'extension :* Dans cette architecture révisée sous-actionnée à 8 DOF, **les tendons d'extension supérieure sont complètement supprimés**. L'extension et la réouverture du doigt sont assurées de manière passive par l'élasticité de la peau en silicone coulée (Étape 2.3) et renforcées par le **ressort à lame PA12-CF** (Étape 2.4) clipé sur le dos de la phalange.
 
 ### Étape 4 : Assemblage de la Paume CNC (Palm Block)
 1.  Insérez les tubes PTFE de guidage dans les 8 canaux de la paume en alu.
@@ -183,12 +209,12 @@ Le raccordement entre la main (paume CNC) et la motorisation (avant-bras) s'effe
 
 L'intégration électronique de la D-Hand V1 a été simplifiée pour n'utiliser qu'un seul bus de données et assurer une fiabilité thermique maximale.
 
-### 5.1 Raccordement et Dissipation du Convertisseur Buck 12V
-Pour éviter tout risque de surchauffe à l'intérieur de l'avant-bras fermé :
-1.  Appliquez un morceau de **Gap Pad thermique Bergquist 5000S35** de 0.5 mm sur le dos plat du PCB du convertisseur **Pololu D24V150F12**.
-2.  Vissez le convertisseur contre la plaque de montage en aluminium usinée de l'avant-bras. Cette plaque doit être en contact structurel direct avec le tube principal en carbone.
-3.  Raccordez l'alimentation principale (Batterie 48V du robot) sur l'entrée du Buck.
-4.  Raccordez la sortie 12V stabilisée sur le bus d'alimentation des servomoteurs.
+### 5.1 Raccordement et Dissipation du Convertisseur Buck DROK 48V→12V
+Le convertisseur DROK est un module compact en boîtier alu IP67 (étanche) qui ne nécessite pas de Gap Pad :
+1.  Fixez le module **DROK 48V→12V 25A** directement sur la plaque de montage en aluminium de l'avant-bras à l'aide de 4 vis M3 (trous de montage intégrés au boîtier). Le contact métal-métal assure la conduction thermique.
+2.  Raccordez l'alimentation principale (Batterie 48V du robot) sur l'entrée du DROK (fils rouges +/noirs -).
+3.  Raccordez la sortie 12V stabilisée sur le bus d'alimentation des servomoteurs.
+4.  Insérez un **fusible réarmable PTC de 15A** sur le fil + de la sortie 12V, entre le DROK et le premier servomoteur de la chaîne.
 
 ### 5.2 Chaînage des Servomoteurs (Bus Unique SCServo)
 Les moteurs Feetech partagent tous le même protocole de communication série TTL half-duplex.
