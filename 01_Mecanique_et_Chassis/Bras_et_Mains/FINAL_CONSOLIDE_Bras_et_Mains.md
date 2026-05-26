@@ -221,14 +221,14 @@ Le RS-06 (11 N·m) est le facteur limitant clair. Le **RS-03** (20 N·m nominal 
 | Couple nominal | 11 N·m | **20 N·m** | **+82%** |
 | Couple pic | 36 N·m | **60 N·m** | +67% |
 | Masse | 621 g | 880 g | **+259 g** |
-| Dimensions (H × L × Ép.) | 88 × 88 × 49 mm | **106 × 106 × 56 mm** | **+18 × +18 × +7 mm** |
+| Dimensions (Ø × L) | Ø88 × 49 mm | **Ø106 × 56 mm** | **Ø +18 mm, L +7 mm** |
 | Prix | ~$200 | ~$250 | +$50 / bras |
 | Interface | CAN 1 Mbps | CAN 1 Mbps | Identique |
 
 **Impacts structurels :**
 *   Masse du coude : 1100 g → **1359 g** (+259 g)
 *   Masse totale du bras : 5815 g → **~6074 g** (+259 g, soit +4.5%)
-*   Encombrement du RS-03 (106 × 106 mm) vs tube avant-bras (Ø25-30 mm) : le RS-03 déborde plus largement du profil du tube que le RS-06 (88 × 88 mm). L'insert alu du coude devra intégrer un épaulement d'adaptation et une platine de fixation plus large pour accueillir l'entraxe et le gabarit de 106 mm du RS-03. C'est faisable en CNC mais nécessite un redesign du bracket coude (adaptation 106 mm → Ø30 mm).
+*   Diamètre du RS-03 (Ø106 mm) vs tube avant-bras (Ø25-30 mm) : le RS-03 déborde plus largement du profil du tube que le RS-06 (Ø88 mm). L'insert alu du coude devra intégrer un épaulement d'adaptation Ø106→Ø30 mm. C'est faisable en CNC mais nécessite un redesign du bracket coude.
 
 **Recalcul de la capacité de portage (RS-03 au coude) :**
 
@@ -263,7 +263,7 @@ Le RS-06 (11 N·m) est le facteur limitant clair. Le **RS-03** (20 N·m nominal 
 
 **Coût de l'upgrade :** +$50 par bras (+$100 pour le robot complet), +259 g par bras.
 
-> 💡 **Recommandation :** Le passage au RS-03 au coude est un upgrade **hautement rentable** : pour seulement +259 g et +$50/bras, la capacité de portage est **plus que doublée** (×2.1) dans toutes les postures. Le D-Bot passerait de 2.1 kg à **4.4 kg** bras tendu en continu, le plaçant au niveau du Tesla Optimus Gen 2 (~4.5 kg) tout en restant 1 kg plus léger. Le seul effort requis est un **redesign du bracket coude** pour adapter l'empreinte de 106 mm du RS-03 (vs 88 mm pour le RS-06). Cette modification est recommandée pour une V1.1 et fait l'objet d'un point de décision utilisateur.
+> 💡 **Recommandation :** Le passage au RS-03 au coude est un upgrade **hautement rentable** : pour seulement +259 g et +$50/bras, la capacité de portage est **plus que doublée** (×2.1) dans toutes les postures. Le D-Bot passerait de 2.1 kg à **4.4 kg** bras tendu en continu, le plaçant au niveau du Tesla Optimus Gen 2 (~4.5 kg) tout en restant 1 kg plus léger. Le seul effort requis est un **redesign du bracket coude** pour adapter le Ø106 mm du RS-03 (vs Ø88 mm pour le RS-06). Cette modification est recommandée pour une V1.1 et fait l'objet d'un point de décision utilisateur.
 
 ---
 
