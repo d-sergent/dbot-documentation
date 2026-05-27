@@ -5,12 +5,14 @@ Fusion 360 Script: Generate Bionic 3D Torse for D-Bot (Option C - Split-Monocoqu
 Ce script s'exécute directement dans Fusion 360 (Utilitaires -> Scripts et compléments).
 Il génère automatiquement la structure 3D bionique ultra-détaillée de l'Option C :
 - 1 Composant parent : D-Bot_Torso_Option_C_Bionic
-- 1 Composant Pelvis_PA12CF hallow de 300x220x140 mm avec structures triangulaires (truss) et supports RS-04 hanches.
-- 1 Composant Thorax_PA12CF hallow de 300x220x140 mm avec structure en X (truss), colliers d'épaules et col du cou.
+- 1 Composant Pelvis_PA12CF hollow de 300x220x140 mm avec structures triangulaires (truss) et supports RS-04 hanches.
+- 1 Composant Thorax_PA12CF hollow de 300x220x140 mm avec structure en X (truss), colliers d'épaules et col du cou.
 - 1 Composant Carbon_Tubes de Ø25 mm reliant le bassin au thorax.
 - 1 Composant Central_Equip_Mount avec 4 brides de serrage et une platine allégée porte-batterie/Jetson.
 
 Toutes les cotes sont converties en centimètres (cm), l'unité native de l'API de Fusion 360.
+Toutes les découpes de parois (truss) sont réalisées par extrusions symétriques depuis les plans centraux,
+garantissant un fonctionnement 100% robuste sans dépendre des normales de plans décalés.
 """
 
 import adsk.core, adsk.fusion, traceback
@@ -73,14 +75,14 @@ def run(context):
         extrudes_pelvis.add(extInput_pelvis)
         
         # B. Poche Interne d'Évidement (Épaisseur paroi = 1.5 cm)
-        # Création d'un plan décalé à Z = 14 pour faire une extrusion-coupe vers le bas
+        # Plan décalé à Z = 14
         planeInput_p = planes_pelvis.createInput()
         planeInput_p.setByOffset(xyPlane_pelvis, adsk.core.ValueInput.createByReal(h_pelvis))
         topPlane_pelvis = planes_pelvis.add(planeInput_p)
         
         sketch_pocket_pelvis = sketches_pelvis.add(topPlane_pelvis)
         lines_pocket = sketch_pocket_pelvis.sketchCurves.sketchLines
-        pocket_w = w - 3.0 # Paroi de 1.5 cm sur les côtés
+        pocket_w = w - 3.0 # Paroi de 1.5 cm
         pocket_d = d - 3.0
         lines_pocket.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0))
         lines_pocket.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0))
@@ -107,14 +109,10 @@ def run(context):
         extInput_holes_pelvis.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_pelvis))
         extrudes_pelvis.add(extInput_holes_pelvis)
         
-        # D. Évidements Bioniques Frontaux (Truss triangles)
-        # Création du plan de face avant à Y = -11 cm
-        planeInput_ff = planes_pelvis.createInput()
-        planeInput_ff.setByOffset(comp_pelvis.xZConstructionPlane, adsk.core.ValueInput.createByReal(-d/2.0))
-        frontPlane_pelvis = planes_pelvis.add(planeInput_ff)
-        
-        sketch_truss_pf = sketches_pelvis.add(frontPlane_pelvis)
+        # D. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0)
+        sketch_truss_pf = sketches_pelvis.add(comp_pelvis.xZConstructionPlane)
         lines_tpf = sketch_truss_pf.sketchCurves.sketchLines
+        
         # Triangle gauche
         lines_tpf.addByTwoPoints(adsk.core.Point3D.create(-13.5, 1.5, 0), adsk.core.Point3D.create(-13.5, 12.5, 0))
         lines_tpf.addByTwoPoints(adsk.core.Point3D.create(-13.5, 12.5, 0), adsk.core.Point3D.create(-2.0, 7.0, 0))
@@ -137,10 +135,34 @@ def run(context):
             profs_truss_pf.add(sketch_truss_pf.profiles.item(i))
             
         extInput_truss_pf = extrudes_pelvis.createInput(profs_truss_pf, adsk.fusion.FeatureOperations.CutFeatureOperation)
-        extInput_truss_pf.setDistanceExtent(False, adsk.core.ValueInput.createByReal(2.0)) # Coupe de 2 cm
+        extInput_truss_pf.setSymmetricExtent(adsk.core.ValueInput.createByReal(12.0), False) # Coupe à 12 cm de chaque côté, traversant Y = ±11 cm
         extrudes_pelvis.add(extInput_truss_pf)
         
-        # E. Supports Moteurs RS-04 de Hanches (Brides verticales sous le Pelvis, Z: 0 à -3 cm)
+        # E. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0)
+        sketch_truss_pl = sketches_pelvis.add(comp_pelvis.yZConstructionPlane)
+        lines_tpl = sketch_truss_pl.sketchCurves.sketchLines
+        # Triangle haut-gauche
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 12.5, 0), adsk.core.Point3D.create(0, 12.5, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 12.5, 0), adsk.core.Point3D.create(-9.5, 3.0, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 3.0, 0), adsk.core.Point3D.create(-9.5, 12.5, 0))
+        # Triangle haut-droit
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(9.5, 12.5, 0), adsk.core.Point3D.create(0, 12.5, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 12.5, 0), adsk.core.Point3D.create(9.5, 3.0, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(9.5, 3.0, 0), adsk.core.Point3D.create(9.5, 12.5, 0))
+        # Triangle bas central
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-8.0, 1.5, 0), adsk.core.Point3D.create(8.0, 1.5, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(8.0, 1.5, 0), adsk.core.Point3D.create(0, 10.0, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 10.0, 0), adsk.core.Point3D.create(-8.0, 1.5, 0))
+        
+        profs_truss_pl = adsk.core.ObjectCollection.create()
+        for i in range(sketch_truss_pl.profiles.count):
+            profs_truss_pl.add(sketch_truss_pl.profiles.item(i))
+            
+        extInput_truss_pl = extrudes_pelvis.createInput(profs_truss_pl, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        extInput_truss_pl.setSymmetricExtent(adsk.core.ValueInput.createByReal(16.0), False) # Coupe à 16 cm de chaque côté, traversant X = ±15 cm
+        extrudes_pelvis.add(extInput_truss_pl)
+        
+        # F. Supports Moteurs RS-04 de Hanches (Brides verticales sous le Pelvis, Z: 0 à -3 cm)
         sketch_hip_mounts = sketches_pelvis.add(xyPlane_pelvis)
         circles_hip = sketch_hip_mounts.sketchCurves.sketchCircles
         lines_hip = sketch_hip_mounts.sketchCurves.sketchLines
@@ -159,12 +181,9 @@ def run(context):
         lines_hip.addByTwoPoints(adsk.core.Point3D.create(6.5, 5.0, 0), adsk.core.Point3D.create(15.5, 5.0, 0))
         lines_hip.addByTwoPoints(adsk.core.Point3D.create(15.5, 5.0, 0), adsk.core.Point3D.create(15.5, 0, 0))
         
-        # Extrusion descendante
         profs_hip = adsk.core.ObjectCollection.create()
         for i in range(sketch_hip_mounts.profiles.count):
-            # Ne sélectionner que les profils de paroi (éviter de remplir l'intérieur Ø70)
-            prof = sketch_hip_mounts.profiles.item(i)
-            profs_hip.add(prof)
+            profs_hip.add(sketch_hip_mounts.profiles.item(i))
             
         extInput_hip = extrudes_pelvis.createInput(profs_hip, adsk.fusion.FeatureOperations.JoinFeatureOperation)
         extInput_hip.setDistanceExtent(False, adsk.core.ValueInput.createByReal(-3.0)) # Extrude vers le bas de 30 mm
@@ -180,7 +199,7 @@ def run(context):
         xyPlane_thorax = comp_thorax.xYConstructionPlane
         planes_thorax = comp_thorax.constructionPlanes
         
-        # A. Création du plan de base décalé pour le Thorax (Z = 28 cm)
+        # A. Plan de base du Thorax (Z = 28 cm)
         planeInput_tb = planes_thorax.createInput()
         planeInput_tb.setByOffset(xyPlane_thorax, adsk.core.ValueInput.createByReal(h_pelvis + gap))
         basePlane_thorax = planes_thorax.add(planeInput_tb)
@@ -226,12 +245,8 @@ def run(context):
         extInput_holes_thorax.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_thorax))
         extrudes_thorax.add(extInput_holes_thorax)
         
-        # E. Évidements Bioniques Frontaux (Truss en X sur le Torse, Z: 29.5 à 40.5)
-        planeInput_tf = planes_thorax.createInput()
-        planeInput_tf.setByOffset(comp_thorax.xZConstructionPlane, adsk.core.ValueInput.createByReal(-d/2.0))
-        frontPlane_thorax = planes_thorax.add(planeInput_tf)
-        
-        sketch_truss_tf = sketches_thorax.add(frontPlane_thorax)
+        # E. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0, Z: 29.5 à 40.5)
+        sketch_truss_tf = sketches_thorax.add(comp_thorax.xZConstructionPlane)
         lines_ttf = sketch_truss_tf.sketchCurves.sketchLines
         # Triangle gauche
         lines_ttf.addByTwoPoints(adsk.core.Point3D.create(-13.5, 29.5, 0), adsk.core.Point3D.create(-13.5, 40.5, 0))
@@ -255,10 +270,34 @@ def run(context):
             profs_truss_tf.add(sketch_truss_tf.profiles.item(i))
             
         extInput_truss_tf = extrudes_thorax.createInput(profs_truss_tf, adsk.fusion.FeatureOperations.CutFeatureOperation)
-        extInput_truss_tf.setDistanceExtent(False, adsk.core.ValueInput.createByReal(2.0))
+        extInput_truss_tf.setSymmetricExtent(adsk.core.ValueInput.createByReal(12.0), False)
         extrudes_thorax.add(extInput_truss_tf)
         
-        # F. Supports Épaules Gauche/Droite (RS-04 Épaules, Ø90 ext, Ø70 int, dépasse de 3 cm, Z: 35)
+        # F. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0, Z: 29.5 à 40.5)
+        sketch_truss_tl = sketches_thorax.add(comp_thorax.yZConstructionPlane)
+        lines_ttl = sketch_truss_tl.sketchCurves.sketchLines
+        # Triangle haut-gauche
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 40.5, 0), adsk.core.Point3D.create(0, 40.5, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 40.5, 0), adsk.core.Point3D.create(-9.5, 31.0, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 31.0, 0), adsk.core.Point3D.create(-9.5, 40.5, 0))
+        # Triangle haut-droit
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(9.5, 40.5, 0), adsk.core.Point3D.create(0, 40.5, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 40.5, 0), adsk.core.Point3D.create(9.5, 31.0, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(9.5, 31.0, 0), adsk.core.Point3D.create(9.5, 40.5, 0))
+        # Triangle bas central
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-8.0, 29.5, 0), adsk.core.Point3D.create(8.0, 29.5, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(8.0, 29.5, 0), adsk.core.Point3D.create(0, 38.0, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 38.0, 0), adsk.core.Point3D.create(-8.0, 29.5, 0))
+        
+        profs_truss_tl = adsk.core.ObjectCollection.create()
+        for i in range(sketch_truss_tl.profiles.count):
+            profs_truss_tl.add(sketch_truss_tl.profiles.item(i))
+            
+        extInput_truss_tl = extrudes_thorax.createInput(profs_truss_tl, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        extInput_truss_tl.setSymmetricExtent(adsk.core.ValueInput.createByReal(16.0), False)
+        extrudes_thorax.add(extInput_truss_tl)
+        
+        # G. Supports Épaules Gauche/Droite (RS-04 Épaules, Ø90 ext, Ø70 int, dépasse de 3 cm, Z: 35)
         # Plan latéral gauche X = -15 cm
         planeInput_ls = planes_thorax.createInput()
         planeInput_ls.setByOffset(comp_thorax.yZConstructionPlane, adsk.core.ValueInput.createByReal(-w/2.0))
@@ -295,7 +334,7 @@ def run(context):
         extInput_rs.setDistanceExtent(False, adsk.core.ValueInput.createByReal(3.0)) # Extrude vers l'extérieur (droite)
         extrudes_thorax.add(extInput_rs)
         
-        # G. Passage du Cou / Tête (Collet supérieur, Z: 42 à 44)
+        # H. Passage du Cou / Tête (Collet supérieur, Z: 42 à 44)
         planeInput_tc = planes_thorax.createInput()
         planeInput_tc.setByOffset(xyPlane_thorax, adsk.core.ValueInput.createByReal(h_pelvis + gap + h_thorax))
         topPlane_thorax = planes_thorax.add(planeInput_tc)
