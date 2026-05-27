@@ -74,42 +74,7 @@ def run(context):
         extInput_pelvis.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_pelvis))
         extrudes_pelvis.add(extInput_pelvis)
         
-        # B. Poche Interne d'Évidement (Épaisseur paroi = 1.5 cm)
-        # Plan décalé à Z = 14
-        planeInput_p = planes_pelvis.createInput()
-        planeInput_p.setByOffset(xyPlane_pelvis, adsk.core.ValueInput.createByReal(h_pelvis))
-        topPlane_pelvis = planes_pelvis.add(planeInput_p)
-        
-        sketch_pocket_pelvis = sketches_pelvis.add(topPlane_pelvis)
-        lines_pocket = sketch_pocket_pelvis.sketchCurves.sketchLines
-        pocket_w = w - 3.0 # Paroi de 1.5 cm
-        pocket_d = d - 3.0
-        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0))
-        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0))
-        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0))
-        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0))
-        
-        prof_pocket_pelvis = sketch_pocket_pelvis.profiles.item(0)
-        extInput_pocket_pelvis = extrudes_pelvis.createInput(prof_pocket_pelvis, adsk.fusion.FeatureOperations.CutFeatureOperation)
-        extInput_pocket_pelvis.setDistanceExtent(False, adsk.core.ValueInput.createByReal(-12.5)) # Laisse un fond de 1.5 cm
-        extrudes_pelvis.add(extInput_pocket_pelvis)
-        
-        # C. 4 Trous pour les Tubes Carbone (Z: 0 à 14)
-        sketch_holes_pelvis = sketches_pelvis.add(xyPlane_pelvis)
-        circles_holes_pelvis = sketch_holes_pelvis.sketchCurves.sketchCircles
-        for ox in offsets_x:
-            for oy in offsets_y:
-                circles_holes_pelvis.addByCenterRadius(adsk.core.Point3D.create(ox, oy, 0), tube_radius)
-                
-        profs_holes_pelvis = adsk.core.ObjectCollection.create()
-        for i in range(sketch_holes_pelvis.profiles.count):
-            profs_holes_pelvis.add(sketch_holes_pelvis.profiles.item(i))
-            
-        extInput_holes_pelvis = extrudes_pelvis.createInput(profs_holes_pelvis, adsk.fusion.FeatureOperations.CutFeatureOperation)
-        extInput_holes_pelvis.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_pelvis))
-        extrudes_pelvis.add(extInput_holes_pelvis)
-        
-        # D. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0)
+        # B. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0)
         sketch_truss_pf = sketches_pelvis.add(comp_pelvis.xZConstructionPlane)
         lines_tpf = sketch_truss_pf.sketchCurves.sketchLines
         
@@ -138,7 +103,7 @@ def run(context):
         extInput_truss_pf.setSymmetricExtent(adsk.core.ValueInput.createByReal(12.0), False) # Coupe à 12 cm de chaque côté, traversant Y = ±11 cm
         extrudes_pelvis.add(extInput_truss_pf)
         
-        # E. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0)
+        # C. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0)
         sketch_truss_pl = sketches_pelvis.add(comp_pelvis.yZConstructionPlane)
         lines_tpl = sketch_truss_pl.sketchCurves.sketchLines
         # Triangle haut-gauche
@@ -161,6 +126,41 @@ def run(context):
         extInput_truss_pl = extrudes_pelvis.createInput(profs_truss_pl, adsk.fusion.FeatureOperations.CutFeatureOperation)
         extInput_truss_pl.setSymmetricExtent(adsk.core.ValueInput.createByReal(16.0), False) # Coupe à 16 cm de chaque côté, traversant X = ±15 cm
         extrudes_pelvis.add(extInput_truss_pl)
+
+        # D. Poche Interne d'Évidement (Épaisseur paroi = 1.5 cm)
+        # Plan décalé à Z = 14
+        planeInput_p = planes_pelvis.createInput()
+        planeInput_p.setByOffset(xyPlane_pelvis, adsk.core.ValueInput.createByReal(h_pelvis))
+        topPlane_pelvis = planes_pelvis.add(planeInput_p)
+        
+        sketch_pocket_pelvis = sketches_pelvis.add(topPlane_pelvis)
+        lines_pocket = sketch_pocket_pelvis.sketchCurves.sketchLines
+        pocket_w = w - 3.0 # Paroi de 1.5 cm
+        pocket_d = d - 3.0
+        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0))
+        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0))
+        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0))
+        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0))
+        
+        prof_pocket_pelvis = sketch_pocket_pelvis.profiles.item(0)
+        extInput_pocket_pelvis = extrudes_pelvis.createInput(prof_pocket_pelvis, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        extInput_pocket_pelvis.setDistanceExtent(False, adsk.core.ValueInput.createByReal(-12.5)) # Laisse un fond de 1.5 cm
+        extrudes_pelvis.add(extInput_pocket_pelvis)
+        
+        # E. 4 Trous pour les Tubes Carbone (Z: 0 à 14)
+        sketch_holes_pelvis = sketches_pelvis.add(xyPlane_pelvis)
+        circles_holes_pelvis = sketch_holes_pelvis.sketchCurves.sketchCircles
+        for ox in offsets_x:
+            for oy in offsets_y:
+                circles_holes_pelvis.addByCenterRadius(adsk.core.Point3D.create(ox, oy, 0), tube_radius)
+                
+        profs_holes_pelvis = adsk.core.ObjectCollection.create()
+        for i in range(sketch_holes_pelvis.profiles.count):
+            profs_holes_pelvis.add(sketch_holes_pelvis.profiles.item(i))
+            
+        extInput_holes_pelvis = extrudes_pelvis.createInput(profs_holes_pelvis, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        extInput_holes_pelvis.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_pelvis))
+        extrudes_pelvis.add(extInput_holes_pelvis)
         
         # F. Supports Moteurs RS-04 de Hanches (Brides verticales sous le Pelvis, Z: 0 à -3 cm)
         sketch_hip_mounts = sketches_pelvis.add(xyPlane_pelvis)
@@ -217,35 +217,7 @@ def run(context):
         extInput_thorax.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_thorax))
         extrudes_thorax.add(extInput_thorax)
         
-        # C. Poche Interne d'Évidement du Thorax (Z: 28 à 41, laisse paroi 1.5 cm)
-        sketch_pocket_thorax = sketches_thorax.add(basePlane_thorax)
-        lines_pt = sketch_pocket_thorax.sketchCurves.sketchLines
-        lines_pt.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0))
-        lines_pt.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0))
-        lines_pt.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0))
-        lines_pt.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0))
-        
-        prof_pocket_thorax = sketch_pocket_thorax.profiles.item(0)
-        extInput_pocket_thorax = extrudes_thorax.createInput(prof_pocket_thorax, adsk.fusion.FeatureOperations.CutFeatureOperation)
-        extInput_pocket_thorax.setDistanceExtent(False, adsk.core.ValueInput.createByReal(12.5)) # Laisse 1.5 cm au plafond
-        extrudes_thorax.add(extInput_pocket_thorax)
-        
-        # D. 4 Trous pour les Tubes Carbone (Z: 28 à 42)
-        sketch_holes_thorax = sketches_thorax.add(basePlane_thorax)
-        circles_holes_thorax = sketch_holes_thorax.sketchCurves.sketchCircles
-        for ox in offsets_x:
-            for oy in offsets_y:
-                circles_holes_thorax.addByCenterRadius(adsk.core.Point3D.create(ox, oy, 0), tube_radius)
-                
-        profs_holes_thorax = adsk.core.ObjectCollection.create()
-        for i in range(sketch_holes_thorax.profiles.count):
-            profs_holes_thorax.add(sketch_holes_thorax.profiles.item(i))
-            
-        extInput_holes_thorax = extrudes_thorax.createInput(profs_holes_thorax, adsk.fusion.FeatureOperations.CutFeatureOperation)
-        extInput_holes_thorax.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_thorax))
-        extrudes_thorax.add(extInput_holes_thorax)
-        
-        # E. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0, Z: 29.5 à 40.5)
+        # C. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0, Z: 29.5 à 40.5)
         sketch_truss_tf = sketches_thorax.add(comp_thorax.xZConstructionPlane)
         lines_ttf = sketch_truss_tf.sketchCurves.sketchLines
         # Triangle gauche
@@ -273,7 +245,7 @@ def run(context):
         extInput_truss_tf.setSymmetricExtent(adsk.core.ValueInput.createByReal(12.0), False)
         extrudes_thorax.add(extInput_truss_tf)
         
-        # F. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0, Z: 29.5 à 40.5)
+        # D. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0, Z: 29.5 à 40.5)
         sketch_truss_tl = sketches_thorax.add(comp_thorax.yZConstructionPlane)
         lines_ttl = sketch_truss_tl.sketchCurves.sketchLines
         # Triangle haut-gauche
@@ -296,6 +268,34 @@ def run(context):
         extInput_truss_tl = extrudes_thorax.createInput(profs_truss_tl, adsk.fusion.FeatureOperations.CutFeatureOperation)
         extInput_truss_tl.setSymmetricExtent(adsk.core.ValueInput.createByReal(16.0), False)
         extrudes_thorax.add(extInput_truss_tl)
+
+        # E. Poche Interne d'Évidement du Thorax (Z: 28 à 41, laisse paroi 1.5 cm)
+        sketch_pocket_thorax = sketches_thorax.add(basePlane_thorax)
+        lines_pt = sketch_pocket_thorax.sketchCurves.sketchLines
+        lines_pt.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0))
+        lines_pt.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0))
+        lines_pt.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0))
+        lines_pt.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0))
+        
+        prof_pocket_thorax = sketch_pocket_thorax.profiles.item(0)
+        extInput_pocket_thorax = extrudes_thorax.createInput(prof_pocket_thorax, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        extInput_pocket_thorax.setDistanceExtent(False, adsk.core.ValueInput.createByReal(12.5)) # Laisse 1.5 cm au plafond
+        extrudes_thorax.add(extInput_pocket_thorax)
+        
+        # F. 4 Trous pour les Tubes Carbone (Z: 28 à 42)
+        sketch_holes_thorax = sketches_thorax.add(basePlane_thorax)
+        circles_holes_thorax = sketch_holes_thorax.sketchCurves.sketchCircles
+        for ox in offsets_x:
+            for oy in offsets_y:
+                circles_holes_thorax.addByCenterRadius(adsk.core.Point3D.create(ox, oy, 0), tube_radius)
+                
+        profs_holes_thorax = adsk.core.ObjectCollection.create()
+        for i in range(sketch_holes_thorax.profiles.count):
+            profs_holes_thorax.add(sketch_holes_thorax.profiles.item(i))
+            
+        extInput_holes_thorax = extrudes_thorax.createInput(profs_holes_thorax, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        extInput_holes_thorax.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_thorax))
+        extrudes_thorax.add(extInput_holes_thorax)
         
         # G. Supports Épaules Gauche/Droite (RS-04 Épaules, Ø90 ext, Ø70 int, dépasse de 3 cm, Z: 35)
         # Plan latéral gauche X = -15 cm
