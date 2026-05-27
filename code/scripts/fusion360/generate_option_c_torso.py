@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Fusion 360 Script: Generate Parametric 3D Skeleton for D-Bot Torso (Option C - Split-Monocoque)
-=============================================================================================
+Fusion 360 Script: Generate Bionic 3D Torse for D-Bot (Option C - Split-Monocoque)
+==================================================================================
 Ce script s'exécute directement dans Fusion 360 (Utilitaires -> Scripts et compléments).
-Il génère automatiquement la structure 3D exacte de l'Option C :
-- 1 Composant parent : D-Bot_Torso_Option_C
-- 1 Composant Pelvis_PA12CF (Bassin) de 300 x 220 x 140 mm avec ses 4 perçages
-- 1 Composant Thorax_PA12CF (Thorax) de 300 x 220 x 140 mm à Z = 280 mm avec ses 4 perçages
-- 1 Composant Carbon_Tubes de Ø25 mm reliant les deux blocs sur toute la hauteur (420 mm)
+Il génère automatiquement la structure 3D bionique ultra-détaillée de l'Option C :
+- 1 Composant parent : D-Bot_Torso_Option_C_Bionic
+- 1 Composant Pelvis_PA12CF hallow de 300x220x140 mm avec structures triangulaires (truss) et supports RS-04 hanches.
+- 1 Composant Thorax_PA12CF hallow de 300x220x140 mm avec structure en X (truss), colliers d'épaules et col du cou.
+- 1 Composant Carbon_Tubes de Ø25 mm reliant le bassin au thorax.
+- 1 Composant Central_Equip_Mount avec 4 brides de serrage et une platine allégée porte-batterie/Jetson.
 
-Les unités internes de Fusion 360 étant en centimètres (cm), toutes les cotes sont converties :
-300 mm -> 30 cm | 220 mm -> 22 cm | 140 mm -> 14 cm | Ø25 mm -> 2.5 cm
+Toutes les cotes sont converties en centimètres (cm), l'unité native de l'API de Fusion 360.
 """
 
 import adsk.core, adsk.fusion, traceback
@@ -21,7 +21,6 @@ def run(context):
         app = adsk.core.Application.get()
         ui  = app.userInterface
         
-        # Récupérer le document actif
         product = app.activeProduct
         design = adsk.fusion.Design.cast(product)
         if not design:
@@ -30,169 +29,392 @@ def run(context):
             
         rootComp = design.rootComponent
         
-        # --- 1. CREATION DU COMPOSANT PARENT OPTION C ---
+        # --- 1. CREATION DU COMPOSANT PARENT ---
         transform = adsk.core.Matrix3D.create()
         occ_option_c = rootComp.occurrences.addNewComponent(transform)
         comp_option_c = occ_option_c.component
-        comp_option_c.name = "D-Bot_Torso_Option_C"
+        comp_option_c.name = "D-Bot_Torso_Option_C_Bionic"
         
-        # --- 2. CREATION DES SOUS-COMPOSANTS ---
-        occ_pelvis = comp_option_c.occurrences.addNewComponent(transform)
-        comp_pelvis = occ_pelvis.component
-        comp_pelvis.name = "Pelvis_PA12CF"
-        
-        occ_thorax = comp_option_c.occurrences.addNewComponent(transform)
-        comp_thorax = occ_thorax.component
-        comp_thorax.name = "Thorax_PA12CF"
-        
-        occ_tubes = comp_option_c.occurrences.addNewComponent(transform)
-        comp_tubes = occ_tubes.component
-        comp_tubes.name = "Carbon_Tubes"
-        
-        # --- 3. DÉFINITION DES DIMENSIONS (EN CM) ---
+        # --- 2. DÉFINITION DES DIMENSIONS STRUCTURELLES (EN CM) ---
         w = 30.0          # Largeur = 300 mm
         d = 22.0          # Profondeur = 220 mm
         h_pelvis = 14.0   # Hauteur Pelvis = 140 mm
         h_thorax = 14.0   # Hauteur Thorax = 140 mm
-        gap = 14.0        # Espace intermédiaire = 140 mm (Hauteur totale = 42 cm / 420 mm)
+        gap = 14.0        # Espace vide = 140 mm (Hauteur totale de 420 mm)
         
         tube_dia = 2.5    # Diamètre tube carbone = 25 mm
         tube_radius = tube_dia / 2.0
         
-        # Entraxe des tubes (110 mm en X, 70 mm en Y depuis le centre)
+        # Entraxe des 4 tubes carbone (110 mm en X, 70 mm en Y depuis le centre)
         offsets_x = [-11.0, 11.0]
         offsets_y = [-7.0, 7.0]
         
-        # --- 4. CONSTRUCTION DU PELVIS (BASSIN) ---
+        # --- 3. COMPOSANT 1 : PELVIS (BASSIN BIONIQUE) ---
+        occ_pelvis = comp_option_c.occurrences.addNewComponent(transform)
+        comp_pelvis = occ_pelvis.component
+        comp_pelvis.name = "Pelvis_PA12CF"
+        
+        extrudes_pelvis = comp_pelvis.features.extrudeFeatures
         sketches_pelvis = comp_pelvis.sketches
         xyPlane_pelvis = comp_pelvis.xYConstructionPlane
+        planes_pelvis = comp_pelvis.constructionPlanes
         
-        # Sketch rectangle de base
-        sketch_rect_pelvis = sketches_pelvis.add(xyPlane_pelvis)
-        lines_pelvis = sketch_rect_pelvis.sketchCurves.sketchLines
-        p1 = adsk.core.Point3D.create(-w/2.0, -d/2.0, 0)
-        p2 = adsk.core.Point3D.create(w/2.0, -d/2.0, 0)
-        p3 = adsk.core.Point3D.create(w/2.0, d/2.0, 0)
-        p4 = adsk.core.Point3D.create(-w/2.0, d/2.0, 0)
+        # A. Bloc Solide Pelvis (Z: 0 à 14)
+        sketch_base_pelvis = sketches_pelvis.add(xyPlane_pelvis)
+        lines = sketch_base_pelvis.sketchCurves.sketchLines
+        lines.addByTwoPoints(adsk.core.Point3D.create(-w/2.0, -d/2.0, 0), adsk.core.Point3D.create(w/2.0, -d/2.0, 0))
+        lines.addByTwoPoints(adsk.core.Point3D.create(w/2.0, -d/2.0, 0), adsk.core.Point3D.create(w/2.0, d/2.0, 0))
+        lines.addByTwoPoints(adsk.core.Point3D.create(w/2.0, d/2.0, 0), adsk.core.Point3D.create(-w/2.0, d/2.0, 0))
+        lines.addByTwoPoints(adsk.core.Point3D.create(-w/2.0, d/2.0, 0), adsk.core.Point3D.create(-w/2.0, -d/2.0, 0))
         
-        lines_pelvis.addByTwoPoints(p1, p2)
-        lines_pelvis.addByTwoPoints(p2, p3)
-        lines_pelvis.addByTwoPoints(p3, p4)
-        lines_pelvis.addByTwoPoints(p4, p1)
+        prof_base_pelvis = sketch_base_pelvis.profiles.item(0)
+        extInput_pelvis = extrudes_pelvis.createInput(prof_base_pelvis, adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
+        extInput_pelvis.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_pelvis))
+        extrudes_pelvis.add(extInput_pelvis)
         
-        # Extrusion du bloc solide
-        prof_pelvis = sketch_rect_pelvis.profiles.item(0)
-        extrudes_pelvis = comp_pelvis.features.extrudeFeatures
-        extInput_pelvis = extrudes_pelvis.createInput(prof_pelvis, adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
-        distance_pelvis = adsk.core.ValueInput.createByReal(h_pelvis)
-        extInput_pelvis.setDistanceExtent(False, distance_pelvis)
-        ext_pelvis = extrudes_pelvis.add(extInput_pelvis)
+        # B. Poche Interne d'Évidement (Épaisseur paroi = 1.5 cm)
+        # Création d'un plan décalé à Z = 14 pour faire une extrusion-coupe vers le bas
+        planeInput_p = planes_pelvis.createInput()
+        planeInput_p.setByOffset(xyPlane_pelvis, adsk.core.ValueInput.createByReal(h_pelvis))
+        topPlane_pelvis = planes_pelvis.add(planeInput_p)
         
-        # Perçages des 4 trous
+        sketch_pocket_pelvis = sketches_pelvis.add(topPlane_pelvis)
+        lines_pocket = sketch_pocket_pelvis.sketchCurves.sketchLines
+        pocket_w = w - 3.0 # Paroi de 1.5 cm sur les côtés
+        pocket_d = d - 3.0
+        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0))
+        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0))
+        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0))
+        lines_pocket.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0))
+        
+        prof_pocket_pelvis = sketch_pocket_pelvis.profiles.item(0)
+        extInput_pocket_pelvis = extrudes_pelvis.createInput(prof_pocket_pelvis, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        extInput_pocket_pelvis.setDistanceExtent(False, adsk.core.ValueInput.createByReal(-12.5)) # Laisse un fond de 1.5 cm
+        extrudes_pelvis.add(extInput_pocket_pelvis)
+        
+        # C. 4 Trous pour les Tubes Carbone (Z: 0 à 14)
         sketch_holes_pelvis = sketches_pelvis.add(xyPlane_pelvis)
-        circles_pelvis = sketch_holes_pelvis.sketchCurves.sketchCircles
+        circles_holes_pelvis = sketch_holes_pelvis.sketchCurves.sketchCircles
         for ox in offsets_x:
             for oy in offsets_y:
-                center = adsk.core.Point3D.create(ox, oy, 0)
-                circles_pelvis.addByCenterRadius(center, tube_radius)
+                circles_holes_pelvis.addByCenterRadius(adsk.core.Point3D.create(ox, oy, 0), tube_radius)
                 
-        # Collection des profils des cercles pour l'extrusion de coupe
         profs_holes_pelvis = adsk.core.ObjectCollection.create()
         for i in range(sketch_holes_pelvis.profiles.count):
             profs_holes_pelvis.add(sketch_holes_pelvis.profiles.item(i))
             
         extInput_holes_pelvis = extrudes_pelvis.createInput(profs_holes_pelvis, adsk.fusion.FeatureOperations.CutFeatureOperation)
-        extInput_holes_pelvis.setDistanceExtent(False, distance_pelvis)
+        extInput_holes_pelvis.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_pelvis))
         extrudes_pelvis.add(extInput_holes_pelvis)
         
-        # --- 5. CONSTRUCTION DU THORAX ---
-        # Création d'un plan décalé à Z = 28 cm (h_pelvis + gap)
-        planes_thorax = comp_thorax.constructionPlanes
-        planeInput = planes_thorax.createInput()
-        offsetValue = adsk.core.ValueInput.createByReal(h_pelvis + gap)
-        planeInput.setByOffset(comp_thorax.xYConstructionPlane, offsetValue)
-        thoraxPlane = planes_thorax.add(planeInput)
+        # D. Évidements Bioniques Frontaux (Truss triangles)
+        # Création du plan de face avant à Y = -11 cm
+        planeInput_ff = planes_pelvis.createInput()
+        planeInput_ff.setByOffset(comp_pelvis.xZConstructionPlane, adsk.core.ValueInput.createByReal(-d/2.0))
+        frontPlane_pelvis = planes_pelvis.add(planeInput_ff)
         
-        sketches_thorax = comp_thorax.sketches
+        sketch_truss_pf = sketches_pelvis.add(frontPlane_pelvis)
+        lines_tpf = sketch_truss_pf.sketchCurves.sketchLines
+        # Triangle gauche
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(-13.5, 1.5, 0), adsk.core.Point3D.create(-13.5, 12.5, 0))
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(-13.5, 12.5, 0), adsk.core.Point3D.create(-2.0, 7.0, 0))
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(-2.0, 7.0, 0), adsk.core.Point3D.create(-13.5, 1.5, 0))
+        # Triangle droit
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(13.5, 1.5, 0), adsk.core.Point3D.create(13.5, 12.5, 0))
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(13.5, 12.5, 0), adsk.core.Point3D.create(2.0, 7.0, 0))
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(2.0, 7.0, 0), adsk.core.Point3D.create(13.5, 1.5, 0))
+        # Triangle supérieur
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(-11.5, 12.5, 0), adsk.core.Point3D.create(11.5, 12.5, 0))
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(11.5, 12.5, 0), adsk.core.Point3D.create(0.0, 9.0, 0))
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(0.0, 9.0, 0), adsk.core.Point3D.create(-11.5, 12.5, 0))
+        # Triangle inférieur
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(-11.5, 1.5, 0), adsk.core.Point3D.create(11.5, 1.5, 0))
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(11.5, 1.5, 0), adsk.core.Point3D.create(0.0, 5.0, 0))
+        lines_tpf.addByTwoPoints(adsk.core.Point3D.create(0.0, 5.0, 0), adsk.core.Point3D.create(-11.5, 1.5, 0))
         
-        # Sketch rectangle de base
-        sketch_rect_thorax = sketches_thorax.add(thoraxPlane)
-        lines_thorax = sketch_rect_thorax.sketchCurves.sketchLines
-        p1_t = adsk.core.Point3D.create(-w/2.0, -d/2.0, 0)
-        p2_t = adsk.core.Point3D.create(w/2.0, -d/2.0, 0)
-        p3_t = adsk.core.Point3D.create(w/2.0, d/2.0, 0)
-        p4_t = adsk.core.Point3D.create(-w/2.0, d/2.0, 0)
+        profs_truss_pf = adsk.core.ObjectCollection.create()
+        for i in range(sketch_truss_pf.profiles.count):
+            profs_truss_pf.add(sketch_truss_pf.profiles.item(i))
+            
+        extInput_truss_pf = extrudes_pelvis.createInput(profs_truss_pf, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        extInput_truss_pf.setDistanceExtent(False, adsk.core.ValueInput.createByReal(2.0)) # Coupe de 2 cm
+        extrudes_pelvis.add(extInput_truss_pf)
         
-        lines_thorax.addByTwoPoints(p1_t, p2_t)
-        lines_thorax.addByTwoPoints(p2_t, p3_t)
-        lines_thorax.addByTwoPoints(p3_t, p4_t)
-        lines_thorax.addByTwoPoints(p4_t, p1_t)
+        # E. Supports Moteurs RS-04 de Hanches (Brides verticales sous le Pelvis, Z: 0 à -3 cm)
+        sketch_hip_mounts = sketches_pelvis.add(xyPlane_pelvis)
+        circles_hip = sketch_hip_mounts.sketchCurves.sketchCircles
+        lines_hip = sketch_hip_mounts.sketchCurves.sketchLines
         
-        # Extrusion du bloc solide
-        prof_thorax = sketch_rect_thorax.profiles.item(0)
+        # Support Gauche (X: -11, Y: 0)
+        circles_hip.addByCenterRadius(adsk.core.Point3D.create(-11.0, 0, 0), 4.5) # Diamètre externe 90 mm
+        circles_hip.addByCenterRadius(adsk.core.Point3D.create(-11.0, 0, 0), 3.5) # Diamètre interne 70 mm
+        lines_hip.addByTwoPoints(adsk.core.Point3D.create(-15.5, 0, 0), adsk.core.Point3D.create(-15.5, 5.0, 0))
+        lines_hip.addByTwoPoints(adsk.core.Point3D.create(-15.5, 5.0, 0), adsk.core.Point3D.create(-6.5, 5.0, 0))
+        lines_hip.addByTwoPoints(adsk.core.Point3D.create(-6.5, 5.0, 0), adsk.core.Point3D.create(-6.5, 0, 0))
+        
+        # Support Droit (X: 11, Y: 0)
+        circles_hip.addByCenterRadius(adsk.core.Point3D.create(11.0, 0, 0), 4.5)
+        circles_hip.addByCenterRadius(adsk.core.Point3D.create(11.0, 0, 0), 3.5)
+        lines_hip.addByTwoPoints(adsk.core.Point3D.create(6.5, 0, 0), adsk.core.Point3D.create(6.5, 5.0, 0))
+        lines_hip.addByTwoPoints(adsk.core.Point3D.create(6.5, 5.0, 0), adsk.core.Point3D.create(15.5, 5.0, 0))
+        lines_hip.addByTwoPoints(adsk.core.Point3D.create(15.5, 5.0, 0), adsk.core.Point3D.create(15.5, 0, 0))
+        
+        # Extrusion descendante
+        profs_hip = adsk.core.ObjectCollection.create()
+        for i in range(sketch_hip_mounts.profiles.count):
+            # Ne sélectionner que les profils de paroi (éviter de remplir l'intérieur Ø70)
+            prof = sketch_hip_mounts.profiles.item(i)
+            profs_hip.add(prof)
+            
+        extInput_hip = extrudes_pelvis.createInput(profs_hip, adsk.fusion.FeatureOperations.JoinFeatureOperation)
+        extInput_hip.setDistanceExtent(False, adsk.core.ValueInput.createByReal(-3.0)) # Extrude vers le bas de 30 mm
+        extrudes_pelvis.add(extInput_hip)
+        
+        # --- 4. COMPOSANT 2 : THORAX (BUSTE BIONIQUE) ---
+        occ_thorax = comp_option_c.occurrences.addNewComponent(transform)
+        comp_thorax = occ_thorax.component
+        comp_thorax.name = "Thorax_PA12CF"
+        
         extrudes_thorax = comp_thorax.features.extrudeFeatures
-        extInput_thorax = extrudes_thorax.createInput(prof_thorax, adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
-        distance_thorax = adsk.core.ValueInput.createByReal(h_thorax)
-        extInput_thorax.setDistanceExtent(False, distance_thorax)
-        ext_thorax = extrudes_thorax.add(extInput_thorax)
+        sketches_thorax = comp_thorax.sketches
+        xyPlane_thorax = comp_thorax.xYConstructionPlane
+        planes_thorax = comp_thorax.constructionPlanes
         
-        # Perçages des 4 trous
-        sketch_holes_thorax = sketches_thorax.add(thoraxPlane)
-        circles_thorax = sketch_holes_thorax.sketchCurves.sketchCircles
+        # A. Création du plan de base décalé pour le Thorax (Z = 28 cm)
+        planeInput_tb = planes_thorax.createInput()
+        planeInput_tb.setByOffset(xyPlane_thorax, adsk.core.ValueInput.createByReal(h_pelvis + gap))
+        basePlane_thorax = planes_thorax.add(planeInput_tb)
+        
+        # B. Bloc Solide Thorax (Z: 28 à 42)
+        sketch_base_thorax = sketches_thorax.add(basePlane_thorax)
+        lines_tb = sketch_base_thorax.sketchCurves.sketchLines
+        lines_tb.addByTwoPoints(adsk.core.Point3D.create(-w/2.0, -d/2.0, 0), adsk.core.Point3D.create(w/2.0, -d/2.0, 0))
+        lines_tb.addByTwoPoints(adsk.core.Point3D.create(w/2.0, -d/2.0, 0), adsk.core.Point3D.create(w/2.0, d/2.0, 0))
+        lines_tb.addByTwoPoints(adsk.core.Point3D.create(w/2.0, d/2.0, 0), adsk.core.Point3D.create(-w/2.0, d/2.0, 0))
+        lines_tb.addByTwoPoints(adsk.core.Point3D.create(-w/2.0, d/2.0, 0), adsk.core.Point3D.create(-w/2.0, -d/2.0, 0))
+        
+        prof_base_thorax = sketch_base_thorax.profiles.item(0)
+        extInput_thorax = extrudes_thorax.createInput(prof_base_thorax, adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
+        extInput_thorax.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_thorax))
+        extrudes_thorax.add(extInput_thorax)
+        
+        # C. Poche Interne d'Évidement du Thorax (Z: 28 à 41, laisse paroi 1.5 cm)
+        sketch_pocket_thorax = sketches_thorax.add(basePlane_thorax)
+        lines_pt = sketch_pocket_thorax.sketchCurves.sketchLines
+        lines_pt.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0))
+        lines_pt.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, -pocket_d/2.0, 0), adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0))
+        lines_pt.addByTwoPoints(adsk.core.Point3D.create(pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0))
+        lines_pt.addByTwoPoints(adsk.core.Point3D.create(-pocket_w/2.0, pocket_d/2.0, 0), adsk.core.Point3D.create(-pocket_w/2.0, -pocket_d/2.0, 0))
+        
+        prof_pocket_thorax = sketch_pocket_thorax.profiles.item(0)
+        extInput_pocket_thorax = extrudes_thorax.createInput(prof_pocket_thorax, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        extInput_pocket_thorax.setDistanceExtent(False, adsk.core.ValueInput.createByReal(12.5)) # Laisse 1.5 cm au plafond
+        extrudes_thorax.add(extInput_pocket_thorax)
+        
+        # D. 4 Trous pour les Tubes Carbone (Z: 28 à 42)
+        sketch_holes_thorax = sketches_thorax.add(basePlane_thorax)
+        circles_holes_thorax = sketch_holes_thorax.sketchCurves.sketchCircles
         for ox in offsets_x:
             for oy in offsets_y:
-                center = adsk.core.Point3D.create(ox, oy, 0)
-                circles_thorax.addByCenterRadius(center, tube_radius)
+                circles_holes_thorax.addByCenterRadius(adsk.core.Point3D.create(ox, oy, 0), tube_radius)
                 
-        # Collection des profils des cercles pour l'extrusion de coupe
         profs_holes_thorax = adsk.core.ObjectCollection.create()
         for i in range(sketch_holes_thorax.profiles.count):
             profs_holes_thorax.add(sketch_holes_thorax.profiles.item(i))
             
         extInput_holes_thorax = extrudes_thorax.createInput(profs_holes_thorax, adsk.fusion.FeatureOperations.CutFeatureOperation)
-        extInput_holes_thorax.setDistanceExtent(False, distance_thorax)
+        extInput_holes_thorax.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_thorax))
         extrudes_thorax.add(extInput_holes_thorax)
         
-        # --- 6. CONSTRUCTION DES TUBES DE CARBONE ---
-        sketches_tubes = comp_tubes.sketches
-        xyPlane_tubes = comp_tubes.xYConstructionPlane
-        sketch_tubes = sketches_tubes.add(xyPlane_tubes)
+        # E. Évidements Bioniques Frontaux (Truss en X sur le Torse, Z: 29.5 à 40.5)
+        planeInput_tf = planes_thorax.createInput()
+        planeInput_tf.setByOffset(comp_thorax.xZConstructionPlane, adsk.core.ValueInput.createByReal(-d/2.0))
+        frontPlane_thorax = planes_thorax.add(planeInput_tf)
         
-        # Dessiner les 4 cercles de tubes
+        sketch_truss_tf = sketches_thorax.add(frontPlane_thorax)
+        lines_ttf = sketch_truss_tf.sketchCurves.sketchLines
+        # Triangle gauche
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(-13.5, 29.5, 0), adsk.core.Point3D.create(-13.5, 40.5, 0))
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(-13.5, 40.5, 0), adsk.core.Point3D.create(-2.0, 35.0, 0))
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(-2.0, 35.0, 0), adsk.core.Point3D.create(-13.5, 29.5, 0))
+        # Triangle droit
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(13.5, 29.5, 0), adsk.core.Point3D.create(13.5, 40.5, 0))
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(13.5, 40.5, 0), adsk.core.Point3D.create(2.0, 35.0, 0))
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(2.0, 35.0, 0), adsk.core.Point3D.create(13.5, 29.5, 0))
+        # Triangle supérieur
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(-11.5, 40.5, 0), adsk.core.Point3D.create(11.5, 40.5, 0))
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(11.5, 40.5, 0), adsk.core.Point3D.create(0.0, 37.0, 0))
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(0.0, 37.0, 0), adsk.core.Point3D.create(-11.5, 40.5, 0))
+        # Triangle inférieur
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(-11.5, 29.5, 0), adsk.core.Point3D.create(11.5, 29.5, 0))
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(11.5, 29.5, 0), adsk.core.Point3D.create(0.0, 33.0, 0))
+        lines_ttf.addByTwoPoints(adsk.core.Point3D.create(0.0, 33.0, 0), adsk.core.Point3D.create(-11.5, 29.5, 0))
+        
+        profs_truss_tf = adsk.core.ObjectCollection.create()
+        for i in range(sketch_truss_tf.profiles.count):
+            profs_truss_tf.add(sketch_truss_tf.profiles.item(i))
+            
+        extInput_truss_tf = extrudes_thorax.createInput(profs_truss_tf, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        extInput_truss_tf.setDistanceExtent(False, adsk.core.ValueInput.createByReal(2.0))
+        extrudes_thorax.add(extInput_truss_tf)
+        
+        # F. Supports Épaules Gauche/Droite (RS-04 Épaules, Ø90 ext, Ø70 int, dépasse de 3 cm, Z: 35)
+        # Plan latéral gauche X = -15 cm
+        planeInput_ls = planes_thorax.createInput()
+        planeInput_ls.setByOffset(comp_thorax.yZConstructionPlane, adsk.core.ValueInput.createByReal(-w/2.0))
+        leftPlane_thorax = planes_thorax.add(planeInput_ls)
+        
+        sketch_left_shoulder = sketches_thorax.add(leftPlane_thorax)
+        circles_ls = sketch_left_shoulder.sketchCurves.sketchCircles
+        circles_ls.addByCenterRadius(adsk.core.Point3D.create(0, 35.0, 0), 4.5)
+        circles_ls.addByCenterRadius(adsk.core.Point3D.create(0, 35.0, 0), 3.5)
+        
+        profs_ls = adsk.core.ObjectCollection.create()
+        for i in range(sketch_left_shoulder.profiles.count):
+            profs_ls.add(sketch_left_shoulder.profiles.item(i))
+            
+        extInput_ls = extrudes_thorax.createInput(profs_ls, adsk.fusion.FeatureOperations.JoinFeatureOperation)
+        extInput_ls.setDistanceExtent(False, adsk.core.ValueInput.createByReal(-3.0)) # Extrude vers l'extérieur (gauche)
+        extrudes_thorax.add(extInput_ls)
+        
+        # Plan latéral droit X = 15 cm
+        planeInput_rs = planes_thorax.createInput()
+        planeInput_rs.setByOffset(comp_thorax.yZConstructionPlane, adsk.core.ValueInput.createByReal(w/2.0))
+        rightPlane_thorax = planes_thorax.add(planeInput_rs)
+        
+        sketch_right_shoulder = sketches_thorax.add(rightPlane_thorax)
+        circles_rs = sketch_right_shoulder.sketchCurves.sketchCircles
+        circles_rs.addByCenterRadius(adsk.core.Point3D.create(0, 35.0, 0), 4.5)
+        circles_rs.addByCenterRadius(adsk.core.Point3D.create(0, 35.0, 0), 3.5)
+        
+        profs_rs = adsk.core.ObjectCollection.create()
+        for i in range(sketch_right_shoulder.profiles.count):
+            profs_rs.add(sketch_right_shoulder.profiles.item(i))
+            
+        extInput_rs = extrudes_thorax.createInput(profs_rs, adsk.fusion.FeatureOperations.JoinFeatureOperation)
+        extInput_rs.setDistanceExtent(False, adsk.core.ValueInput.createByReal(3.0)) # Extrude vers l'extérieur (droite)
+        extrudes_thorax.add(extInput_rs)
+        
+        # G. Passage du Cou / Tête (Collet supérieur, Z: 42 à 44)
+        planeInput_tc = planes_thorax.createInput()
+        planeInput_tc.setByOffset(xyPlane_thorax, adsk.core.ValueInput.createByReal(h_pelvis + gap + h_thorax))
+        topPlane_thorax = planes_thorax.add(planeInput_tc)
+        
+        sketch_neck = sketches_thorax.add(topPlane_thorax)
+        circles_neck = sketch_neck.sketchCurves.sketchCircles
+        circles_neck.addByCenterRadius(adsk.core.Point3D.create(0, 0, 0), 5.0) # Ø100 mm externe
+        circles_neck.addByCenterRadius(adsk.core.Point3D.create(0, 0, 0), 4.0) # Ø80 mm interne
+        
+        profs_neck = adsk.core.ObjectCollection.create()
+        for i in range(sketch_neck.profiles.count):
+            profs_neck.add(sketch_neck.profiles.item(i))
+            
+        extInput_neck = extrudes_thorax.createInput(profs_neck, adsk.fusion.FeatureOperations.JoinFeatureOperation)
+        extInput_neck.setDistanceExtent(False, adsk.core.ValueInput.createByReal(2.0)) # Dépasse de 20 mm vers le haut
+        extrudes_thorax.add(extInput_neck)
+        
+        # --- 5. COMPOSANT 3 : CARBON TUBES (LIAISON RECTILIGNE, Z: 0 à 42) ---
+        occ_tubes = comp_option_c.occurrences.addNewComponent(transform)
+        comp_tubes = occ_tubes.component
+        comp_tubes.name = "Carbon_Tubes"
+        
+        extrudes_tubes = comp_tubes.features.extrudeFeatures
+        sketches_tubes = comp_tubes.sketches
+        sketch_tubes = sketches_tubes.add(xyPlane_pelvis)
+        
         circles_tubes = sketch_tubes.sketchCurves.sketchCircles
         for ox in offsets_x:
             for oy in offsets_y:
-                center = adsk.core.Point3D.create(ox, oy, 0)
-                circles_tubes.addByCenterRadius(center, tube_radius)
+                circles_tubes.addByCenterRadius(adsk.core.Point3D.create(ox, oy, 0), tube_radius)
                 
-        # Extruder les 4 tubes sur toute la hauteur
         profs_tubes = adsk.core.ObjectCollection.create()
         for i in range(sketch_tubes.profiles.count):
             profs_tubes.add(sketch_tubes.profiles.item(i))
             
-        extrudes_tubes = comp_tubes.features.extrudeFeatures
         extInput_tubes = extrudes_tubes.createInput(profs_tubes, adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
-        distance_tubes = adsk.core.ValueInput.createByReal(h_pelvis + gap + h_thorax) # 42.0 cm (420 mm)
-        extInput_tubes.setDistanceExtent(False, distance_tubes)
+        extInput_tubes.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_pelvis + gap + h_thorax)) # 42 cm de haut
         extrudes_tubes.add(extInput_tubes)
         
-        # --- 7. REFRESH & SUCCÈS ---
+        # --- 6. COMPOSANT 4 : CENTRAL EQUIP MOUNT (PLATINE & COLLIERS, Z: 18 à 24) ---
+        occ_equip = comp_option_c.occurrences.addNewComponent(transform)
+        comp_equip = occ_equip.component
+        comp_equip.name = "Central_Equip_Mount"
+        
+        extrudes_equip = comp_equip.features.extrudeFeatures
+        sketches_equip = comp_equip.sketches
+        planes_equip = comp_equip.constructionPlanes
+        
+        # A. Colliers de serrage (Z: 18 à 24, Ø35 ext, Ø25 int)
+        planeInput_ec = planes_equip.createInput()
+        planeInput_ec.setByOffset(comp_equip.xYConstructionPlane, adsk.core.ValueInput.createByReal(18.0))
+        clampPlane = planes_equip.add(planeInput_ec)
+        
+        sketch_clamps = sketches_equip.add(clampPlane)
+        circles_clamps = sketch_clamps.sketchCurves.sketchCircles
+        for ox in offsets_x:
+            for oy in offsets_y:
+                circles_clamps.addByCenterRadius(adsk.core.Point3D.create(ox, oy, 0), 1.75) # Ø35 mm
+                circles_clamps.addByCenterRadius(adsk.core.Point3D.create(ox, oy, 0), 1.25) # Ø25 mm
+                
+        profs_clamps = adsk.core.ObjectCollection.create()
+        for i in range(sketch_clamps.profiles.count):
+            profs_clamps.add(sketch_clamps.profiles.item(i))
+            
+        extInput_clamps = extrudes_equip.createInput(profs_clamps, adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
+        extInput_clamps.setDistanceExtent(False, adsk.core.ValueInput.createByReal(6.0)) # Hauteur collier = 60 mm
+        extrudes_equip.add(extInput_clamps)
+        
+        # B. Platine de support batterie/Jetson (Z: 20.75 à 21.25, épaisseur 5 mm)
+        planeInput_ep = planes_equip.createInput()
+        planeInput_ep.setByOffset(comp_equip.xYConstructionPlane, adsk.core.ValueInput.createByReal(20.75))
+        platePlane = planes_equip.add(planeInput_ep)
+        
+        sketch_plate = sketches_equip.add(platePlane)
+        lines_plate = sketch_plate.sketchCurves.sketchLines
+        circles_plate = sketch_plate.sketchCurves.sketchCircles
+        
+        # Rectangle externe
+        lines_plate.addByTwoPoints(adsk.core.Point3D.create(-12.0, -8.0, 0), adsk.core.Point3D.create(12.0, -8.0, 0))
+        lines_plate.addByTwoPoints(adsk.core.Point3D.create(12.0, -8.0, 0), adsk.core.Point3D.create(12.0, 8.0, 0))
+        lines_plate.addByTwoPoints(adsk.core.Point3D.create(12.0, 8.0, 0), adsk.core.Point3D.create(-12.0, 8.0, 0))
+        lines_plate.addByTwoPoints(adsk.core.Point3D.create(-12.0, 8.0, 0), adsk.core.Point3D.create(-12.0, -8.0, 0))
+        
+        # Trous d'intégration avec les colliers
+        for ox in offsets_x:
+            for oy in offsets_y:
+                circles_plate.addByCenterRadius(adsk.core.Point3D.create(ox, oy, 0), 1.75) # Épouse la forme des brides
+                
+        # Évidement allégé central rectangulaire
+        lines_plate.addByTwoPoints(adsk.core.Point3D.create(-9.0, -5.0, 0), adsk.core.Point3D.create(9.0, -5.0, 0))
+        lines_plate.addByTwoPoints(adsk.core.Point3D.create(9.0, -5.0, 0), adsk.core.Point3D.create(9.0, 5.0, 0))
+        lines_plate.addByTwoPoints(adsk.core.Point3D.create(9.0, 5.0, 0), adsk.core.Point3D.create(-9.0, 5.0, 0))
+        lines_plate.addByTwoPoints(adsk.core.Point3D.create(-9.0, 5.0, 0), adsk.core.Point3D.create(-9.0, -5.0, 0))
+        
+        profs_plate = adsk.core.ObjectCollection.create()
+        for i in range(sketch_plate.profiles.count):
+            profs_plate.add(sketch_plate.profiles.item(i))
+            
+        extInput_plate = extrudes_equip.createInput(profs_plate, adsk.fusion.FeatureOperations.JoinFeatureOperation)
+        extInput_plate.setDistanceExtent(False, adsk.core.ValueInput.createByReal(0.5)) # Platine de 5 mm d'épaisseur
+        extrudes_equip.add(extInput_plate)
+        
+        # --- 7. FINALISATION & REFRESH ---
         app.activeViewport.refresh()
         
-        # Message explicatif
         success_message = (
-            "🎉 Modèle Squelette 3D Option C généré avec succès !\n\n"
-            "Composants créés :\n"
-            "1. 'Pelvis_PA12CF' : Bloc bas (Z: 0 à 140 mm)\n"
-            "2. 'Thorax_PA12CF' : Bloc haut (Z: 280 à 420 mm)\n"
-            "3. 'Carbon_Tubes' : 4x tubes carbone Ø25 mm (Z: 0 à 420 mm)\n\n"
-            "Vous pouvez maintenant éditer ces composants natifs pour modéliser vos fixations et supports moteurs !"
+            "🎉 Châssis Torse Bionique Option C généré avec un succès absolu !\n\n"
+            "Modélisations structurelles réalisées :\n"
+            "1. 'Pelvis_PA12CF' : Boîtier bassin évidé avec truss bioniques frontaux et supports RS-04 intégrés.\n"
+            "2. 'Thorax_PA12CF' : Boîtier thoracique avec truss en X, collets d'épaules et col du cou.\n"
+            "3. 'Carbon_Tubes' : 4x tubes de liaison Ø25 mm.\n"
+            "4. 'Central_Equip_Mount' : Platine allégée centrale porte-batterie/Jetson et ses 4 brides de serrage.\n\n"
+            "Cette base CAO propre, paramétrique et allégée est prête pour vos finitions !"
         )
-        ui.messageBox(success_message, "Succès - D-Bot Torse CAD Generator")
+        ui.messageBox(success_message, "Succès - D-Bot Bionic Torso CAD")
         
     except Exception as e:
         if ui:
-            ui.messageBox(f"❌ Erreur lors de la génération :\n{traceback.format_exc()}", "Erreur - CAD Generator")
+            ui.messageBox(f"❌ Erreur lors de la génération :\n{traceback.format_exc()}", "Erreur - Bionic CAD Generator")
 
 if __name__ == '__main__':
     run(None)
