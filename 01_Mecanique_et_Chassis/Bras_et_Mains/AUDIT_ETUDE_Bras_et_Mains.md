@@ -91,37 +91,37 @@ Cette section présente la validation mathématique rigoureuse des caractéristi
 
 10. **Capacité de portage du bras (analyse statique par articulation)**
     *   **Méthode :** Calcul du couple résiduel disponible à chaque articulation après soustraction du couple gravitaire des segments distaux, en position bras tendu à 90° (pire cas).
-    *   **Masses distales :** Main = 300 g, Avant-bras (servos + RS-00 + DROK + structure) = 1200 g, Coude (RS-06 + RS-02 + bracket) = 1100 g, Humérus = 250 g. Total bras = **~5.8 kg**.
+    *   **Masses distales :** Main = 300 g, Avant-bras (servos + RS-00 + DROK + plaque isogrid + coques 3D) = 1520 g, Coude (RS-06 + RS-02 + bracket) = 1100 g, Humérus = 250 g. Total bras = **~6.1 kg**.
     *   **Distances articulaires :** Épaule→Coude = 300 mm, Coude→Poignet = 278 mm, Poignet→Centre de préhension = 120 mm.
     *   **Résultats par articulation :**
 
     | Articulation | Moteur | Couple Nominal | Couple gravitaire distal | Charge Continue (bras tendu) | Charge Pic (bras tendu) |
     | :--- | :--- | :---: | :---: | :---: | :---: |
-    | Poignet Pitch | RS-00 (5 N·m) | 5 N·m | 0.18 N·m | **4.1 kg** | 11.7 kg |
-    | **Coude Pitch** | **RS-06 (11 N·m)** | **11 N·m** | **2.94 N·m** | **2.1 kg** 🔴 | **8.5 kg** |
-    | Épaule Pitch | RS-04 (40 N·m) | 40 N·m | 6.99 N·m | **4.8 kg** | 16.5 kg |
+    | Poignet Pitch | RS-00 (5 N.m) | 5 N.m | 0.18 N.m | **4.1 kg** | 11.7 kg |
+    | **Coude Pitch** | **RS-06 (11 N.m)** | **11 N.m** | **3.07 N.m** | **2.0 kg** 🔴 | **8.4 kg** |
+    | Épaule Pitch | RS-04 (40 N.m) | 40 N.m | 7.93 N.m | **4.7 kg** | 16.4 kg |
 
-    *   **Facteur limitant identifié :** 🔴 **Le coude (RS-06, 11 N·m)** est le goulot d'étranglement. À bras tendu horizontalement, la charge continue maximale est de **~2.1 kg**. En pic, **~8.5 kg**.
-    *   **Postures réalistes :** Coude fléchi à 45° → **~2.9 kg continu**. Objet tenu près du corps (coude 90°, charge à 200 mm) → **~4.1 kg continu / ~16.9 kg pic**.
-    *   **Comparaison :** D-Bot (2.1 kg bras tendu) se situe au niveau du Unitree G1 (~2 kg) et du Figure 01 (~2.3 kg estimé). Le Tesla Optimus Gen 2 annonce ~4.5 kg mais utilise un bras ~1.2 kg plus lourd.
-    *   **Validation :** ✅ **VALIDÉ** — Les performances de portage sont cohérentes avec le dimensionnement des moteurs et la masse du bras. Le RS-06 au coude est un choix d'optimisation poids/coût. Un upgrade vers le RS-04 (40 N·m) au coude en V2 quadruplerait la capacité de portage à bras tendu si nécessaire.
+    *   **Facteur limitant identifié :** 🔴 **Le coude (RS-06, 11 N.m)** est le goulot d'étranglement. À bras tendu horizontalement, la charge continue maximale est de **~2.0 kg**. En pic, **~8.4 kg**.
+    *   **Postures réalistes :** Coude fléchi à 45° → **~2.9 kg continu**. Objet tenu près du corps (coude 90°, charge à 200 mm) → **~4.0 kg continu / ~16.8 kg pic**.
+    *   **Comparaison :** D-Bot (2.0 kg bras tendu) se situe au niveau du Unitree G1 (~2 kg) et du Figure 01 (~2.3 kg estimé). Le Tesla Optimus Gen 2 annonce ~4.5 kg mais utilise un bras ~1.2 kg plus lourd.
+    *   **Validation :** ✅ **VALIDÉ** — Les performances de portage sont cohérentes avec le dimensionnement des moteurs et la masse du bras. Le RS-06 au coude est un choix d'optimisation poids/coût. Un upgrade vers le RS-04 (40 N.m) au coude en V2 quadruplerait la capacité de portage à bras tendu si nécessaire.
     *   **Criticité :** 🟡 (limitation structurelle connue et documentée, acceptable pour les cas d'usage V1)
 
 11. **Alternative V1.1 : Remplacement du RS-06 par un RS-03 au coude**
-    *   **Motivation :** Le RS-06 (11 N·m) est le facteur limitant identifié au point 10. Le RS-03 (20 N·m, +82% de couple) offre un upgrade intermédiaire réaliste.
-    *   **Impact masse :** +259 g par bras (621 g → 880 g). Masse totale bras : 5.8 kg → 6.1 kg (+4.5%).
+    *   **Motivation :** Le RS-06 (11 N.m) est le facteur limitant identifié au point 10. Le RS-03 (20 N.m, +82% de couple) offre un upgrade intermédiaire réaliste.
+    *   **Impact masse :** +259 g par bras (621 g → 880 g). Masse totale bras : 6.1 kg → 6.4 kg (+4.2%).
     *   **Impact coût :** +$50 par bras ($200 → $250), soit +$100 pour le robot complet.
     *   **Impact structurel :** Le Ø106 mm du RS-03 déborde plus largement du profil du tube avant-bras (Ø25-30 mm) que le Ø88 mm du RS-06 → redesign du bracket coude nécessaire (adaptation Ø106→Ø30 mm, usinage CNC).
     *   **Résultats recalculés :**
 
     | Scénario | V1 (RS-06) Continu | V1.1 (RS-03) Continu | V1.1 (RS-03) Pic | Gain |
     | :--- | :---: | :---: | :---: | :---: |
-    | Bras tendu à 90° | 2.1 kg | **4.4 kg** | 14.6 kg | **×2.1** |
-    | Coude fléchi 45° | 2.9 kg | **6.2 kg** | 21.8 kg | **×2.1** |
-    | Proche corps (coude 90°) | 4.1 kg | **8.7 kg** | 29.1 kg | **×2.1** |
+    | Bras tendu à 90° | 2.0 kg | **4.3 kg** | 14.6 kg | **x2.1** |
+    | Coude fléchi 45° | 2.9 kg | **6.1 kg** | 20.6 kg | **x2.1** |
+    | Proche corps (coude 90°) | 4.0 kg | **8.6 kg** | 29.0 kg | **x2.1** |
 
-    *   **Impact sur l'épaule :** Négligeable (−2%, soit −90 g de charge utile). Le RS-04 absorbe aisément les +259 g.
-    *   **Validation :** ✅ **RECOMMANDÉ** — Le RS-03 au coude est un upgrade hautement rentable (×2.1 de capacité de portage pour +259 g et +$50). Place le D-Bot au niveau du Tesla Optimus Gen 2 (~4.5 kg) tout en restant 1 kg plus léger. Point de décision utilisateur.
+    *   **Impact sur l'épaule :** Négligeable (-2%, soit -100 g de charge utile). Le RS-04 absorbe aisément les +259 g.
+    *   **Validation :** ✅ **RECOMMANDÉ** — Le RS-03 au coude est un upgrade hautement rentable (x2.1 de capacité de portage pour +259 g et +$50). Place le D-Bot au niveau du Tesla Optimus Gen 2 (~4.5 kg) tout en restant 1 kg plus léger. Point de décision utilisateur.
     *   **Criticité :** 🟢 (amélioration optionnelle à fort impact, aucun risque technique supplémentaire)
 
 ---

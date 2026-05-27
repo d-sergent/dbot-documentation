@@ -124,85 +124,80 @@ Le sous-ensemble **Bras et Mains** du D-Bot est conçu pour offrir une dextérit
 
 ### 2.6 Capacité de Portage du Bras (Analyse par Articulation)
 
-Cette section calcule la charge maximale que le bras peut soutenir en tenant compte du couple de chaque articulation, de la masse des segments distaux et de la géométrie du bras en position critique (bras tendu horizontalement à 90°, pire cas statique).
-
 #### Bilan de Masse des Segments (par bras)
 
 | Segment | Composants | Masse Estimée |
 | :--- | :--- | :---: |
 | **Main (D-Hand)** | Paume alu CNC + 5 phalanges PA12-CF + peau silicone + poulies + roulements + capteurs FSR + câblage | ~300 g |
-| **Avant-Bras (contenu)** | 8 servos Feetech (480 g) + RS-00 (310 g) + DROK buck (150 g) + tube carbone + inserts alu + goupilles + câblage | ~1200 g |
+| **Avant-Bras (contenu)** | 8 servos Feetech (480 g) + RS-00 (310 g) + DROK buck (150 g) + plaque alu isogrid + coques 3D (450 g) + câblage + visserie (130 g) | ~1520 g |
 | **Coude** | RS-06 (621 g) + RS-02 Supination (405 g) + bracket alu | ~1100 g |
 | **Humérus** | Tube carbone Ø35-40mm + inserts alu + câblage | ~250 g |
 | **Épaule** | RS-04 (1420 g) + RS-03 (880 g) + RS-02 (405 g) + brackets (220 g) + visserie (40 g) | ~2965 g |
-| **TOTAL Bras Complet** | | **~5815 g** (~5.8 kg) |
+| **TOTAL Bras Complet** | | **~6135 g** (~6.1 kg) |
 
 #### Longueurs des Segments (distances articulaires)
 
 | Segment | Distance | Valeur |
 | :--- | :--- | :---: |
-| Épaule (Pitch) → Coude (Pitch) | $L_1$ (humérus fonctionnel) | **300 mm** |
-| Coude (Pitch) → Poignet (Pitch) | $L_2$ (avant-bras fonctionnel) | **278 mm** |
-| Poignet (Pitch) → Centre de Préhension | $L_3$ (main) | **120 mm** |
+| Épaule (Pitch) → Coude (Pitch) | L_1 (humérus fonctionnel) | **300 mm** |
+| Coude (Pitch) → Poignet (Pitch) | L_2 (avant-bras fonctionnel) | **278 mm** |
+| Poignet (Pitch) → Centre de Préhension | L_3 (main) | **120 mm** |
 
 #### Analyse du Facteur Limitant (Bras Tendu à 90°, Pire Cas Statique)
 
-Le bras tendu horizontalement avec une charge dans la main représente le **pire cas statique**. Chaque articulation doit compenser la gravité sur tous les segments et la charge situés en aval.
+Le bras tendu horizontalement avec une charge dans la main représente le pire cas statique. Chaque articulation doit compenser la gravité sur tous les segments et la charge situés en aval.
 
-**1. Poignet Pitch (RS-00, 5 N·m nominal / 14 N·m pic)**
+**1. Poignet Pitch (RS-00, 5 N.m nominal / 14 N.m pic)**
 
-*   Masse distale (main seule) : $m_{main} = 0.30 kg$
-*   Couple gravitaire de la main : $\tau_{main} = 0.30 \times 9.81 \times 0.060 = 0.18 N.m$ (CdM de la main à ~60 mm du poignet)
-*   Couple restant pour la charge (nominal) : $\tau_{charge} = 5.0 - 0.18 = 4.82 N.m$
-*   **Charge max au centre de préhension (nominal continu) :** $m_{max} = 4.82 / (9.81 \times 0.120) = \mathbf{4.1 kg}$
-*   **Charge max en pic :** $m_{max,pic} = (14.0 - 0.18) / (9.81 \times 0.120) = \mathbf{11.7 kg}$
+*   Masse distale (main seule) : m_main = 0.30 kg
+*   Couple gravitaire de la main : Couple_main = 0.30 * 9.81 * 0.060 = 0.18 N.m (CdM de la main à ~60 mm du poignet)
+*   Couple restant pour la charge (nominal) : Couple_charge = 5.0 - 0.18 = 4.82 N.m
+*   **Charge max au centre de préhension (nominal continu) :** m_max = 4.82 / (9.81 * 0.120) = **4.1 kg**
+*   **Charge max en pic :** m_max,pic = (14.0 - 0.18) / (9.81 * 0.120) = **11.7 kg**
 
-**2. Coude Pitch (RS-06, 11 N·m nominal / 36 N·m pic) — FACTEUR LIMITANT**
+**2. Coude Pitch (RS-06, 11 N.m nominal / 36 N.m pic) — FACTEUR LIMITANT**
 
-*   Masse distale (avant-bras + main) : $m_{distal} = 1.20 + 0.30 = 1.50 kg$
-*   Centre de masse distal à ~200 mm du coude (pondéré entre avant-bras à 139 mm et main à 398 mm)
-*   Couple gravitaire du bras distal : $\tau_{distal} = 1.50 \times 9.81 \times 0.200 = 2.94 N.m$
-*   Distance coude → centre de préhension : $L_2 + L_3 = 0.278 + 0.120 = 0.398 m$
-*   Couple restant pour la charge (nominal) : $\tau_{charge} = 11.0 - 2.94 = 8.06 N.m$
-*   **Charge max au centre de préhension (nominal continu) :** $m_{max} = 8.06 / (9.81 \times 0.398) = \mathbf{2.06 kg}$
-*   **Charge max en pic :** $m_{max,pic} = (36.0 - 2.94) / (9.81 \times 0.398) = \mathbf{8.47 kg}$
+*   Masse distale (avant-bras + main) : m_distal = 1.52 + 0.30 = 1.82 kg
+*   Centre de masse distal à ~172 mm du coude (pondéré entre avant-bras à 139 mm et main à 338 mm)
+*   Couple gravitaire du bras distal : Couple_distal = 1.82 * 9.81 * 0.172 = 3.07 N.m
+*   Distance coude -> centre de préhension : L_2 + L_3 = 0.278 + 0.120 = 0.398 m
+*   Couple restant pour la charge (nominal) : Couple_charge = 11.0 - 3.07 = 7.93 N.m
+*   **Charge max au centre de préhension (nominal continu) :** m_max = 7.93 / (9.81 * 0.398) = **2.0 kg**
+*   **Charge max en pic :** m_max,pic = (36.0 - 3.07) / (9.81 * 0.398) = **8.4 kg**
 
-**3. Épaule Pitch (RS-04, 40 N·m nominal / 120 N·m pic)**
+**3. Épaule Pitch (RS-04, 40 N.m nominal / 120 N.m pic)**
 
-*   Masse distale (humérus + coude + avant-bras + main) : $m_{distal} = 0.25 + 1.10 + 1.20 + 0.30 = 2.85 kg$
-*   Centre de masse du bras complet : ~250 mm de l'épaule (pondéré)
-*   Couple gravitaire du bras : $\tau_{bras} = 2.85 \times 9.81 \times 0.250 = 6.99 N.m$
-*   Distance épaule → centre de préhension : $L_1 + L_2 + L_3 = 0.300 + 0.278 + 0.120 = 0.698 m$
-*   Couple restant pour la charge (nominal) : $\tau_{charge} = 40.0 - 6.99 = 33.01 N.m$
-*   **Charge max au centre de préhension (nominal continu) :** $m_{max} = 33.01 / (9.81 \times 0.698) = \mathbf{4.82 kg}$
-*   **Charge max en pic :** $m_{max,pic} = (120.0 - 6.99) / (9.81 \times 0.698) = \mathbf{16.5 kg}$
+*   Masse distale (humérus + coude + avant-bras + main) : m_distal = 0.25 + 1.10 + 1.52 + 0.30 = 3.17 kg
+*   Centre de masse du bras complet : ~255 mm de l'épaule (pondéré)
+*   Couple gravitaire du bras : Couple_bras = 3.17 * 9.81 * 0.255 = 7.93 N.m
+*   Distance épaule -> centre de préhension : L_1 + L_2 + L_3 = 0.300 + 0.278 + 0.120 = 0.698 m
+*   Couple restant pour la charge (nominal) : Couple_charge = 40.0 - 7.93 = 32.07 N.m
+*   **Charge max au centre de préhension (nominal continu) :** m_max = 32.07 / (9.81 * 0.698) = **4.7 kg**
+*   **Charge max en pic :** m_max,pic = (120.0 - 7.93) / (9.81 * 0.698) = **16.4 kg**
 
 #### Tableau Récapitulatif des Capacités de Portage
 
 | Articulation | Moteur | Couple Nominal | Charge Nominale Continue | Charge Pic | **Limitant ?** |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **Poignet Pitch** | RS-00 | 5 N·m | **4.1 kg** | 11.7 kg | ⚠️ Non, surclassé par coude |
-| **Coude Pitch** | RS-06 | 11 N·m | **2.1 kg** | 8.5 kg | 🔴 **OUI — FACTEUR LIMITANT** |
-| **Épaule Pitch** | RS-04 | 40 N·m | **4.8 kg** | 16.5 kg | ✅ Marge confortable |
-| **Épaule Roll** | RS-03 | 20 N·m | **~1.9 kg** (bras latéral) | ~6.4 kg | ⚠️ Limitant en abduction latérale |
+| **Poignet Pitch** | RS-00 | 5 N.m | **4.1 kg** | 11.7 kg | ⚠️ Non, surclassé par coude |
+| **Coude Pitch** | RS-06 | 11 N.m | **2.0 kg** | 8.4 kg | 🔴 **OUI — FACTEUR LIMITANT** |
+| **Épaule Pitch** | RS-04 | 40 N.m | **4.7 kg** | 16.4 kg | ✅ Marge confortable |
+| **Épaule Roll** | RS-03 | 20 N.m | **~1.8 kg** (bras latéral) | ~6.2 kg | ⚠️ Limitant en abduction latérale |
 
-> ⚠️ **Le coude (RS-06) est le facteur limitant du bras en position tendue horizontalement**. La charge maximale soutenue en continu est de **~2 kg bras tendu à l'horizontale**. En pratique, le coude est rarement à 90° avec le bras tendu : dans les postures naturelles de manipulation (coude fléchi), le bras de levier diminue considérablement et la capacité de portage augmente proportionnellement.
+> ⚠️ **Le coude (RS-06) est le facteur limitant du bras en position tendue horizontalement**. La charge maximale soutenue en continu est de **~2.0 kg bras tendu à l'horizontale**. En pratique, le coude est rarement à 90° avec le bras tendu : dans les postures naturelles de manipulation (coude fléchi), le bras de levier diminue considérablement et la capacité de portage augmente proportionnellement.
 
 #### Capacité en Posture Réaliste (Coude Fléchi à 45°)
 
-En posture naturelle de manipulation (coude fléchi à 45°), le bras de levier gravitaire est réduit par $\cos(45°) = 0.707$ :
-*   **Charge au coude (continu) :** $8.06 / (9.81 \times 0.398 \times 0.707) = \mathbf{2.92 kg}$
-*   **Charge au coude (pic) :** $33.06 / (9.81 \times 0.398 \times 0.707) = \mathbf{11.97 kg}$
+En posture naturelle de manipulation (coude fléchi à 45°), le bras de levier gravitaire est réduit par cos(45°) = 0.707 :
+*   **Charge au coude (continu) :** 7.93 / (9.81 * 0.398 * 0.707) = **2.9 kg**
+*   **Charge au coude (pic) :** (36.0 - 3.07) / (9.81 * 0.398 * 0.707) = **11.9 kg**
 
 En tenant l'objet **près du corps** (bras le long du torse, coude fléchi à 90°, charge à ~200 mm du coude) :
-*   **Charge au coude (continu) :** $8.06 / (9.81 \times 0.200) = \mathbf{4.1 kg}$
-*   **Charge au coude (pic) :** $33.06 / (9.81 \times 0.200) = \mathbf{16.9 kg}$
-
 #### Comparaison avec l'État de l'Art (Configuration V1 — RS-06 au Coude)
 
 | Robot | Charge Max (bras tendu) | Charge Max (proche corps) | Masse Bras |
 | :--- | :---: | :---: | :---: |
-| **D-Bot V1 (RS-06 au coude)** | **2.1 kg continu / 8.5 kg pic** | **4.1 kg continu / 16.9 kg pic** | ~5.8 kg |
+| **D-Bot V1 (RS-06 au coude)** | **2.0 kg continu / 8.4 kg pic** | **4.0 kg continu / 16.8 kg pic** | ~6.1 kg |
 | Tesla Optimus Gen 2 | ~4.5 kg (annoncé) | ~9 kg (estimé) | ~7 kg (estimé) |
 | Figure 01 | ~2.3 kg (estimé) | N/A | ~6 kg (estimé) |
 | Unitree G1 | ~2 kg (annoncé) | ~5 kg (estimé) | ~4.5 kg |
@@ -212,14 +207,14 @@ En tenant l'objet **près du corps** (bras le long du torse, coude fléchi à 90
 
 #### ⚡ Alternative V1.1 : Remplacement du RS-06 par un RS-03 au Coude
 
-Le RS-06 (11 N·m) est le facteur limitant clair. Le **RS-03** (20 N·m nominal / 60 N·m pic) représente un upgrade intermédiaire réaliste avant le RS-04 (40 N·m), avec un impact masse/coût modéré.
+Le RS-06 (11 N.m) est le facteur limitant clair. Le **RS-03** (20 N.m nominal / 60 N.m pic) représente un upgrade intermédiaire réaliste avant le RS-04 (40 N.m), avec un impact masse/coût modéré.
 
 **Différentiel RS-06 → RS-03 :**
 
 | Paramètre | RS-06 (actuel) | RS-03 (alternative) | Delta |
 | :--- | :---: | :---: | :---: |
-| Couple nominal | 11 N·m | **20 N·m** | **+82%** |
-| Couple pic | 36 N·m | **60 N·m** | +67% |
+| Couple nominal | 11 N.m | **20 N.m** | **+82%** |
+| Couple pic | 36 N.m | **60 N.m** | +67% |
 | Masse | 621 g | 880 g | **+259 g** |
 | Dimensions (Ø × L) | Ø88 × 49 mm | **Ø106 × 56 mm** | **Ø +18 mm, L +7 mm** |
 | Prix | ~$200 | ~$250 | +$50 / bras |
@@ -227,39 +222,39 @@ Le RS-06 (11 N·m) est le facteur limitant clair. Le **RS-03** (20 N·m nominal 
 
 **Impacts structurels :**
 *   Masse du coude : 1100 g → **1359 g** (+259 g)
-*   Masse totale du bras : 5815 g → **~6074 g** (+259 g, soit +4.5%)
+*   Masse totale du bras : 6135 g → **~6394 g** (+259 g, soit +4.2%)
 *   Diamètre du RS-03 (Ø106 mm) vs tube avant-bras (Ø25-30 mm) : le RS-03 déborde plus largement du profil du tube que le RS-06 (Ø88 mm). L'insert alu du coude devra intégrer un épaulement d'adaptation Ø106→Ø30 mm. C'est faisable en CNC mais nécessite un redesign du bracket coude.
 
 **Recalcul de la capacité de portage (RS-03 au coude) :**
 
-**Coude Pitch (RS-03, 20 N·m nominal / 60 N·m pic)**
+**Coude Pitch (RS-03, 20 N.m nominal / 60 N.m pic)**
 
-*   Masse distale (avant-bras + main) : $m_{distal} = 1.50 kg$ (inchangée)
-*   Couple gravitaire distal : $\tau_{distal} = 1.50 \times 9.81 \times 0.200 = 2.94 N.m$ (inchangé)
-*   Couple restant pour la charge (nominal) : $\tau_{charge} = 20.0 - 2.94 = 17.06 N.m$
-*   **Charge max bras tendu (continu) :** $m_{max} = 17.06 / (9.81 \times 0.398) = \mathbf{4.37 kg}$
-*   **Charge max bras tendu (pic) :** $m_{max,pic} = (60.0 - 2.94) / (9.81 \times 0.398) = \mathbf{14.6 kg}$
+*   Masse distale (avant-bras + main) : m_distal = 1.82 kg
+*   Couple gravitaire distal : Couple_distal = 1.82 * 9.81 * 0.172 = 3.07 N.m
+*   Couple restant pour la charge (nominal) : Couple_charge = 20.0 - 3.07 = 16.93 N.m
+*   **Charge max bras tendu (continu) :** m_max = 16.93 / (9.81 * 0.398) = **4.3 kg**
+*   **Charge max bras tendu (pic) :** m_max,pic = (60.0 - 3.07) / (9.81 * 0.398) = **14.6 kg**
 
-**Épaule Pitch (RS-04, 40 N·m — impact de la masse additionnelle) :**
+**Épaule Pitch (RS-04, 40 N.m — impact de la masse additionnelle) :**
 
-*   Nouvelle masse distale : $m_{distal} = 0.25 + 1.359 + 1.20 + 0.30 = 3.11 kg$ (était 2.85 kg)
-*   Nouveau couple gravitaire : $\tau_{bras} = 3.11 \times 9.81 \times 0.250 = 7.63 N.m$ (était 6.99)
-*   Couple restant : $\tau_{charge} = 40.0 - 7.63 = 32.37 N.m$
-*   **Charge max épaule bras tendu (continu) :** $m_{max} = 32.37 / (9.81 \times 0.698) = \mathbf{4.73 kg}$ (était 4.82 kg, −2%)
-*   Impact négligeable : les +259 g ne réduisent la capacité de l'épaule que de 90 g de charge utile.
+*   Nouvelle masse distale : m_distal = 0.25 + 1.10 + 1.52 + 0.30 = 3.17 kg
+*   Nouveau couple gravitaire : Couple_bras = 3.17 * 9.81 * 0.255 = 7.93 N.m
+*   Couple restant : Couple_charge = 40.0 - 7.93 = 32.07 N.m
+*   **Charge max épaule bras tendu (continu) :** m_max = 32.07 / (9.81 * 0.698) = **4.7 kg** (était 4.8 kg, −2%)
+*   Impact négligeable : les +259 g ne réduisent la capacité de l'épaule que de 100 g de charge utile.
 
 **Postures réalistes avec RS-03 :**
-*   Coude fléchi à 45° : $17.06 / (9.81 \times 0.398 \times 0.707) = \mathbf{6.18 kg}$ continu
-*   Proche corps (coude 90°, charge à 200 mm) : $17.06 / (9.81 \times 0.200) = \mathbf{8.69 kg}$ continu
-*   Proche corps en pic : $(60.0 - 2.94) / (9.81 \times 0.200) = \mathbf{29.1 kg}$ pic
+*   Coude fléchi à 45° : 16.93 / (9.81 * 0.398 * 0.707) = **6.1 kg** continu
+*   Proche corps (coude 90°, charge à 200 mm) : 16.93 / (9.81 * 0.200) = **8.6 kg** continu
+*   Proche corps en pic : (60.0 - 3.07) / (9.81 * 0.200) = **29.0 kg** pic
 
 #### Tableau Comparatif V1 (RS-06) vs V1.1 (RS-03)
 
 | Scénario | V1 (RS-06) Continu | V1 (RS-06) Pic | V1.1 (RS-03) Continu | V1.1 (RS-03) Pic | Gain |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Bras tendu à 90°** | 2.1 kg | 8.5 kg | **4.4 kg** | **14.6 kg** | **×2.1** |
-| **Coude fléchi 45°** | 2.9 kg | 12.0 kg | **6.2 kg** | **21.8 kg** | **×2.1** |
-| **Proche corps (coude 90°)** | 4.1 kg | 16.9 kg | **8.7 kg** | **29.1 kg** | **×2.1** |
+| **Bras tendu à 90°** | 2.0 kg | 8.4 kg | **4.3 kg** | **14.6 kg** | **×2.1** |
+| **Coude fléchi 45°** | 2.9 kg | 11.9 kg | **6.1 kg** | **20.6 kg** | **×2.1** |
+| **Proche corps (coude 90°)** | 4.0 kg | 16.8 kg | **8.6 kg** | **29.0 kg** | **×2.1** |
 
 **Coût de l'upgrade :** +$50 par bras (+$100 pour le robot complet), +259 g par bras.
 
