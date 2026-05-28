@@ -100,6 +100,11 @@ def run(context):
             profs_truss_pf.add(sketch_truss_pf.profiles.item(i))
             
         extInput_truss_pf = extrudes_pelvis.createInput(profs_truss_pf, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        # Définition explicite des corps cibles pour contourner les échecs de détection automatique
+        targets_pf = adsk.core.ObjectCollection.create()
+        for body in comp_pelvis.bRepBodies:
+            targets_pf.add(body)
+        extInput_truss_pf.targetBodies = targets_pf
         extInput_truss_pf.setSymmetricExtent(adsk.core.ValueInput.createByReal(12.0), False) # Coupe à 12 cm de chaque côté, traversant Y = ±11 cm
         extrudes_pelvis.add(extInput_truss_pf)
         
@@ -124,6 +129,11 @@ def run(context):
             profs_truss_pl.add(sketch_truss_pl.profiles.item(i))
             
         extInput_truss_pl = extrudes_pelvis.createInput(profs_truss_pl, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        # Définition explicite des corps cibles pour contourner les échecs de détection automatique
+        targets_pl = adsk.core.ObjectCollection.create()
+        for body in comp_pelvis.bRepBodies:
+            targets_pl.add(body)
+        extInput_truss_pl.targetBodies = targets_pl
         extInput_truss_pl.setSymmetricExtent(adsk.core.ValueInput.createByReal(16.0), False) # Coupe à 16 cm de chaque côté, traversant X = ±15 cm
         extrudes_pelvis.add(extInput_truss_pl)
 
@@ -242,6 +252,11 @@ def run(context):
             profs_truss_tf.add(sketch_truss_tf.profiles.item(i))
             
         extInput_truss_tf = extrudes_thorax.createInput(profs_truss_tf, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        # Définition explicite des corps cibles pour contourner les échecs de détection automatique
+        targets_tf = adsk.core.ObjectCollection.create()
+        for body in comp_thorax.bRepBodies:
+            targets_tf.add(body)
+        extInput_truss_tf.targetBodies = targets_tf
         extInput_truss_tf.setSymmetricExtent(adsk.core.ValueInput.createByReal(12.0), False)
         extrudes_thorax.add(extInput_truss_tf)
         
@@ -266,6 +281,11 @@ def run(context):
             profs_truss_tl.add(sketch_truss_tl.profiles.item(i))
             
         extInput_truss_tl = extrudes_thorax.createInput(profs_truss_tl, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        # Définition explicite des corps cibles pour contourner les échecs de détection automatique
+        targets_tl = adsk.core.ObjectCollection.create()
+        for body in comp_thorax.bRepBodies:
+            targets_tl.add(body)
+        extInput_truss_tl.targetBodies = targets_tl
         extInput_truss_tl.setSymmetricExtent(adsk.core.ValueInput.createByReal(16.0), False)
         extrudes_thorax.add(extInput_truss_tl)
 
