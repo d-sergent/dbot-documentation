@@ -6,6 +6,21 @@ L'objectif est d'identifier des bases de travail solides (designs de torse) pour
 
 ---
 
+## 🎨 0. Visualisation & Style de Design
+
+Voici une comparaison visuelle générée en haute définition des deux philosophies de design majeures pour les torses humanoïdes de pointe :
+
+````carousel
+![Design Fourier N1 Style](media/design_fourier_n1_style.png)
+<!-- slide -->
+![Design Asimov v1 Style](media/design_asimov_v1_style.png)
+````
+
+*   **À gauche (Fourier N1 Style)** : Une esthétique "produit commercial" ultra-lisse et bionique. Les panneaux de carénage enveloppent entièrement la structure, l'électronique et le câblage sont dissimulés, et les actionneurs intégrés (moteurs couples) sont noyés dans la ligne générale du robot.
+*   **À droite (Asimov v1 Style)** : Une esthétique "châssis de laboratoire" squelettique et technique. La structure externe en aluminium usiné CNC 7075 et en pièces de jonction foncées en Nylon PA12 (MJF) est entièrement apparente. Les moteurs brushless, les engrenages et les cartes électroniques sont visibles et faciles d'accès pour la maintenance.
+
+---
+
 ## 🇨🇳 1. Les Robots Humanoïdes Chinois
 
 ### A. **Fourier N1 (Nexus Open Ecosystem Initiative)**
@@ -49,6 +64,7 @@ L'objectif est d'identifier des bases de travail solides (designs de torse) pour
   * URDF et simulateur MuJoCo intégrés
 * **Où les trouver** : [Virgileboat/lerobot-humanoid-hardware](https://github.com/Virgileboat/lerobot-humanoid-hardware)
 * **Points Forts pour le Torse** : Il partage la même philosophie que l'Option C de votre D-Bot (boîtiers modulaires imprimés en 3D reliés par des tubes). C'est la base la plus rapide à modifier et directement imprimable sur votre Qidi Plus 4 sans adaptations géométriques complexes.
+* **Précision** : La version matérielle actuelle se concentre uniquement sur la partie bipède (jambes et bassin). La partie haute (torse complet, bras) est prévue dans la feuille de route à venir.
 
 ### B. **Berkeley Humanoid Lite (UC Berkeley)**
 * **Développeur** : UC Berkeley Hybrid Robotics Lab
