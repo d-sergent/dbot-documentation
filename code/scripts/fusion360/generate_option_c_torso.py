@@ -72,7 +72,7 @@ def run(context):
         prof_base_pelvis = sketch_base_pelvis.profiles.item(0)
         extInput_pelvis = extrudes_pelvis.createInput(prof_base_pelvis, adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
         extInput_pelvis.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_pelvis))
-        extrudes_pelvis.add(extInput_pelvis)
+        ext_pelvis = extrudes_pelvis.add(extInput_pelvis)
         
         # B. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0)
         sketch_truss_pf = sketches_pelvis.add(comp_pelvis.xZConstructionPlane)
@@ -221,6 +221,8 @@ def run(context):
         prof_base_thorax = sketch_base_thorax.profiles.item(0)
         extInput_thorax = extrudes_thorax.createInput(prof_base_thorax, adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
         extInput_thorax.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_thorax))
+        ext_thorax = extrudes_thorax.add(extInput_thorax)
+        
         # C. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0, Z: 29.5 à 40.5)
         sketch_truss_tf = sketches_thorax.add(comp_thorax.xZConstructionPlane)
         lines_ttf = sketch_truss_tf.sketchCurves.sketchLines
