@@ -106,18 +106,18 @@ def run(context):
         # C. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0)
         sketch_truss_pl = sketches_pelvis.add(comp_pelvis.yZConstructionPlane)
         lines_tpl = sketch_truss_pl.sketchCurves.sketchLines
-        # Triangle haut-gauche
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-9.5, -12.5, 0), adsk.core.Point3D.create(0, -12.5, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, -12.5, 0), adsk.core.Point3D.create(-9.5, -3.0, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-9.5, -3.0, 0), adsk.core.Point3D.create(-9.5, -12.5, 0))
+        # Triangle haut-gauche (Coordonnées Z directes positives sur le plan YZ)
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 12.5, 0), adsk.core.Point3D.create(0, 12.5, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 12.5, 0), adsk.core.Point3D.create(-9.5, 3.0, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 3.0, 0), adsk.core.Point3D.create(-9.5, 12.5, 0))
         # Triangle haut-droit
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(9.5, -12.5, 0), adsk.core.Point3D.create(0, -12.5, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, -12.5, 0), adsk.core.Point3D.create(9.5, -3.0, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(9.5, -3.0, 0), adsk.core.Point3D.create(9.5, -12.5, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(9.5, 12.5, 0), adsk.core.Point3D.create(0, 12.5, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 12.5, 0), adsk.core.Point3D.create(9.5, 3.0, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(9.5, 3.0, 0), adsk.core.Point3D.create(9.5, 12.5, 0))
         # Triangle bas central
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-8.0, -1.5, 0), adsk.core.Point3D.create(8.0, -1.5, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(8.0, -1.5, 0), adsk.core.Point3D.create(0, -10.0, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, -10.0, 0), adsk.core.Point3D.create(-8.0, -1.5, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-8.0, 1.5, 0), adsk.core.Point3D.create(8.0, 1.5, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(8.0, 1.5, 0), adsk.core.Point3D.create(0, 10.0, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 10.0, 0), adsk.core.Point3D.create(-8.0, 1.5, 0))
         
         profs_truss_pl = adsk.core.ObjectCollection.create()
         for i in range(sketch_truss_pl.profiles.count):
@@ -248,18 +248,18 @@ def run(context):
         # D. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0, Z: 29.5 à 40.5)
         sketch_truss_tl = sketches_thorax.add(comp_thorax.yZConstructionPlane)
         lines_ttl = sketch_truss_tl.sketchCurves.sketchLines
-        # Triangle haut-gauche
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-9.5, -40.5, 0), adsk.core.Point3D.create(0, -40.5, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, -40.5, 0), adsk.core.Point3D.create(-9.5, -31.0, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-9.5, -31.0, 0), adsk.core.Point3D.create(-9.5, -40.5, 0))
+        # Triangle haut-gauche (Coordonnées Z directes positives sur le plan YZ)
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 40.5, 0), adsk.core.Point3D.create(0, 40.5, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 40.5, 0), adsk.core.Point3D.create(-9.5, 31.0, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 31.0, 0), adsk.core.Point3D.create(-9.5, 40.5, 0))
         # Triangle haut-droit
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(9.5, -40.5, 0), adsk.core.Point3D.create(0, -40.5, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, -40.5, 0), adsk.core.Point3D.create(9.5, -31.0, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(9.5, -31.0, 0), adsk.core.Point3D.create(9.5, -40.5, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(9.5, 40.5, 0), adsk.core.Point3D.create(0, 40.5, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 40.5, 0), adsk.core.Point3D.create(9.5, 31.0, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(9.5, 31.0, 0), adsk.core.Point3D.create(9.5, 40.5, 0))
         # Triangle bas central
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-8.0, -29.5, 0), adsk.core.Point3D.create(8.0, -29.5, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(8.0, -29.5, 0), adsk.core.Point3D.create(0, -38.0, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, -38.0, 0), adsk.core.Point3D.create(-8.0, -29.5, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-8.0, 29.5, 0), adsk.core.Point3D.create(8.0, 29.5, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(8.0, 29.5, 0), adsk.core.Point3D.create(0, 38.0, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 38.0, 0), adsk.core.Point3D.create(-8.0, 29.5, 0))
         
         profs_truss_tl = adsk.core.ObjectCollection.create()
         for i in range(sketch_truss_tl.profiles.count):
