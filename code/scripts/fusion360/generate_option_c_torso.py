@@ -74,7 +74,36 @@ def run(context):
         extInput_pelvis.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_pelvis))
         ext_pelvis = extrudes_pelvis.add(extInput_pelvis)
         
-        # B. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0)
+        # B. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0)
+        sketch_truss_pl = sketches_pelvis.add(comp_pelvis.yZConstructionPlane)
+        lines_tpl = sketch_truss_pl.sketchCurves.sketchLines
+        # Triangle haut-gauche (Coordonnées Z directes positives sur le plan YZ)
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 12.5, 0), adsk.core.Point3D.create(0, 12.5, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 12.5, 0), adsk.core.Point3D.create(-9.5, 3.0, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 3.0, 0), adsk.core.Point3D.create(-9.5, 12.5, 0))
+        # Triangle haut-droit
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(9.5, 12.5, 0), adsk.core.Point3D.create(0, 12.5, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 12.5, 0), adsk.core.Point3D.create(9.5, 3.0, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(9.5, 3.0, 0), adsk.core.Point3D.create(9.5, 12.5, 0))
+        # Triangle bas central
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-8.0, 1.5, 0), adsk.core.Point3D.create(8.0, 1.5, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(8.0, 1.5, 0), adsk.core.Point3D.create(0, 10.0, 0))
+        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 10.0, 0), adsk.core.Point3D.create(-8.0, 1.5, 0))
+        
+        profs_truss_pl = adsk.core.ObjectCollection.create()
+        for i in range(sketch_truss_pl.profiles.count):
+            profs_truss_pl.add(sketch_truss_pl.profiles.item(i))
+            
+        extInput_truss_pl = extrudes_pelvis.createInput(profs_truss_pl, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        # Définition explicite des corps cibles pour contourner les échecs de détection automatique
+        targets_pl = adsk.core.ObjectCollection.create()
+        for body in comp_pelvis.bRepBodies:
+            targets_pl.add(body)
+        extInput_truss_pl.targetBodies = targets_pl
+        extInput_truss_pl.setSymmetricExtent(adsk.core.ValueInput.createByReal(16.0), False) # Coupe à 16 cm de chaque côté, traversant X = ±15 cm
+        extrudes_pelvis.add(extInput_truss_pl)
+        
+        # C. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0)
         sketch_truss_pf = sketches_pelvis.add(comp_pelvis.xZConstructionPlane)
         lines_tpf = sketch_truss_pf.sketchCurves.sketchLines
         
@@ -107,35 +136,6 @@ def run(context):
         extInput_truss_pf.targetBodies = targets_pf
         extInput_truss_pf.setSymmetricExtent(adsk.core.ValueInput.createByReal(12.0), False) # Coupe à 12 cm de chaque côté, traversant Y = ±11 cm
         extrudes_pelvis.add(extInput_truss_pf)
-        
-        # C. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0)
-        sketch_truss_pl = sketches_pelvis.add(comp_pelvis.yZConstructionPlane)
-        lines_tpl = sketch_truss_pl.sketchCurves.sketchLines
-        # Triangle haut-gauche (Coordonnées Z directes positives sur le plan YZ)
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 12.5, 0), adsk.core.Point3D.create(0, 12.5, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 12.5, 0), adsk.core.Point3D.create(-9.5, 3.0, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 3.0, 0), adsk.core.Point3D.create(-9.5, 12.5, 0))
-        # Triangle haut-droit
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(9.5, 12.5, 0), adsk.core.Point3D.create(0, 12.5, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 12.5, 0), adsk.core.Point3D.create(9.5, 3.0, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(9.5, 3.0, 0), adsk.core.Point3D.create(9.5, 12.5, 0))
-        # Triangle bas central
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(-8.0, 1.5, 0), adsk.core.Point3D.create(8.0, 1.5, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(8.0, 1.5, 0), adsk.core.Point3D.create(0, 10.0, 0))
-        lines_tpl.addByTwoPoints(adsk.core.Point3D.create(0, 10.0, 0), adsk.core.Point3D.create(-8.0, 1.5, 0))
-        
-        profs_truss_pl = adsk.core.ObjectCollection.create()
-        for i in range(sketch_truss_pl.profiles.count):
-            profs_truss_pl.add(sketch_truss_pl.profiles.item(i))
-            
-        extInput_truss_pl = extrudes_pelvis.createInput(profs_truss_pl, adsk.fusion.FeatureOperations.CutFeatureOperation)
-        # Définition explicite des corps cibles pour contourner les échecs de détection automatique
-        targets_pl = adsk.core.ObjectCollection.create()
-        for body in comp_pelvis.bRepBodies:
-            targets_pl.add(body)
-        extInput_truss_pl.targetBodies = targets_pl
-        extInput_truss_pl.setSymmetricExtent(adsk.core.ValueInput.createByReal(16.0), False) # Coupe à 16 cm de chaque côté, traversant X = ±15 cm
-        extrudes_pelvis.add(extInput_truss_pl)
 
         # D. Poche Interne d'Évidement (Épaisseur paroi = 1.5 cm)
         # Plan décalé à Z = 14
@@ -227,7 +227,36 @@ def run(context):
         extInput_thorax.setDistanceExtent(False, adsk.core.ValueInput.createByReal(h_thorax))
         ext_thorax = extrudes_thorax.add(extInput_thorax)
         
-        # C. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0, Z: 29.5 à 40.5)
+        # C. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0, Z: 29.5 à 40.5)
+        sketch_truss_tl = sketches_thorax.add(comp_thorax.yZConstructionPlane)
+        lines_ttl = sketch_truss_tl.sketchCurves.sketchLines
+        # Triangle haut-gauche (Coordonnées Z directes positives sur le plan YZ)
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 40.5, 0), adsk.core.Point3D.create(0, 40.5, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 40.5, 0), adsk.core.Point3D.create(-9.5, 31.0, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 31.0, 0), adsk.core.Point3D.create(-9.5, 40.5, 0))
+        # Triangle haut-droit
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(9.5, 40.5, 0), adsk.core.Point3D.create(0, 40.5, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 40.5, 0), adsk.core.Point3D.create(9.5, 31.0, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(9.5, 31.0, 0), adsk.core.Point3D.create(9.5, 40.5, 0))
+        # Triangle bas central
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-8.0, 29.5, 0), adsk.core.Point3D.create(8.0, 29.5, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(8.0, 29.5, 0), adsk.core.Point3D.create(0, 38.0, 0))
+        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 38.0, 0), adsk.core.Point3D.create(-8.0, 29.5, 0))
+        
+        profs_truss_tl = adsk.core.ObjectCollection.create()
+        for i in range(sketch_truss_tl.profiles.count):
+            profs_truss_tl.add(sketch_truss_tl.profiles.item(i))
+            
+        extInput_truss_tl = extrudes_thorax.createInput(profs_truss_tl, adsk.fusion.FeatureOperations.CutFeatureOperation)
+        # Définition explicite des corps cibles pour contourner les échecs de détection automatique
+        targets_tl = adsk.core.ObjectCollection.create()
+        for body in comp_thorax.bRepBodies:
+            targets_tl.add(body)
+        extInput_truss_tl.targetBodies = targets_tl
+        extInput_truss_tl.setSymmetricExtent(adsk.core.ValueInput.createByReal(16.0), False)
+        extrudes_thorax.add(extInput_truss_tl)
+
+        # D. Évidements Bioniques Frontaux/Dorsaux (Symmetric Cut depuis le plan XZ à Y = 0, Z: 29.5 à 40.5)
         sketch_truss_tf = sketches_thorax.add(comp_thorax.xZConstructionPlane)
         lines_ttf = sketch_truss_tf.sketchCurves.sketchLines
         # Triangle gauche (Coordonnées Y de l'esquisse négatives pour correspondre à Z positif en 3D)
@@ -259,35 +288,6 @@ def run(context):
         extInput_truss_tf.targetBodies = targets_tf
         extInput_truss_tf.setSymmetricExtent(adsk.core.ValueInput.createByReal(12.0), False)
         extrudes_thorax.add(extInput_truss_tf)
-        
-        # D. Évidements Bioniques Latéraux Gauche/Droite (Symmetric Cut depuis le plan YZ à X = 0, Z: 29.5 à 40.5)
-        sketch_truss_tl = sketches_thorax.add(comp_thorax.yZConstructionPlane)
-        lines_ttl = sketch_truss_tl.sketchCurves.sketchLines
-        # Triangle haut-gauche (Coordonnées Z directes positives sur le plan YZ)
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 40.5, 0), adsk.core.Point3D.create(0, 40.5, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 40.5, 0), adsk.core.Point3D.create(-9.5, 31.0, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-9.5, 31.0, 0), adsk.core.Point3D.create(-9.5, 40.5, 0))
-        # Triangle haut-droit
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(9.5, 40.5, 0), adsk.core.Point3D.create(0, 40.5, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 40.5, 0), adsk.core.Point3D.create(9.5, 31.0, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(9.5, 31.0, 0), adsk.core.Point3D.create(9.5, 40.5, 0))
-        # Triangle bas central
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(-8.0, 29.5, 0), adsk.core.Point3D.create(8.0, 29.5, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(8.0, 29.5, 0), adsk.core.Point3D.create(0, 38.0, 0))
-        lines_ttl.addByTwoPoints(adsk.core.Point3D.create(0, 38.0, 0), adsk.core.Point3D.create(-8.0, 29.5, 0))
-        
-        profs_truss_tl = adsk.core.ObjectCollection.create()
-        for i in range(sketch_truss_tl.profiles.count):
-            profs_truss_tl.add(sketch_truss_tl.profiles.item(i))
-            
-        extInput_truss_tl = extrudes_thorax.createInput(profs_truss_tl, adsk.fusion.FeatureOperations.CutFeatureOperation)
-        # Définition explicite des corps cibles pour contourner les échecs de détection automatique
-        targets_tl = adsk.core.ObjectCollection.create()
-        for body in comp_thorax.bRepBodies:
-            targets_tl.add(body)
-        extInput_truss_tl.targetBodies = targets_tl
-        extInput_truss_tl.setSymmetricExtent(adsk.core.ValueInput.createByReal(16.0), False)
-        extrudes_thorax.add(extInput_truss_tl)
 
         # E. Poche Interne d'Évidement du Thorax (Z: 28 à 41, laisse paroi 1.5 cm)
         sketch_pocket_thorax = sketches_thorax.add(basePlane_thorax)
