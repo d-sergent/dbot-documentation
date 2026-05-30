@@ -4,18 +4,20 @@ Ce document centralise toutes les hypothèses de dimensions physiques, longueurs
 
 Il sert de point de référence unique (Source of Truth) pour la modélisation CAO et la commande numérique.
 
-## 1. Dimensions Globales et Torse (Hypothèse V1)
+## 1. Dimensions Globales et Torse (Révision Hybride Asimov v1 - Mai 2026)
 
 | Paramètre | Valeur | Statut |
 | :--- | :---: | :--- |
-| **Hauteur Totale** | **~1.47 m** | Cible (recalculée avec torse 420 mm) |
-| **Torse (Hauteur Épaule → Hanche)** | **420 mm** | ✅ Hypothèse V1 |
-| **Torse (Largeur, Droite ↔ Gauche)** | **300 mm** | ✅ Hypothèse V1 |
-| **Torse (Profondeur, Avant ↔ Arrière)** | **220 mm** | ✅ Hypothèse V1 |
-| Largeur d'Épaules (Entraxe RS-04 Pitch) | ~300 mm | Déterminée par la cage alu |
-| Largeur de Bassin (Entraxe RS-04 Hanche) | ~300 mm | Déterminée par la cage alu |
+| **Hauteur Totale** | **~1.55 m** | 🔄 Ajustée de ~1.47 m à ~1.55 m (dû au scale +18% du torse, +75.6 mm et intégration du module Waist) |
+| **Degrés de Liberté Torse** | **1 DOF Actif (Waist Yaw)** | 🔄 Intégration active du moteur **RobStride RS-03** et de la liaison rotative Asimov v1 (+18 %) sous la plaque inférieure du torse. |
+| **Torse (Hauteur Épaule ➔ Hanche)** | **495,60 mm** (cinématique) | 🔄 Ajustée (+18% de 420 mm) suite à l'agrandissement |
+| **Torse (Hauteur Coque Physique)** | **432,67 mm** (coque nue) | 🔄 Scalée à +18% en CAO pour l'intégration des moteurs RS-04 |
+| **Torse (Largeur de Coque)** | **295,00 mm** (coque nue) | 🔄 Scalée à +18% en CAO (anciennement 250 mm) |
+| **Torse (Profondeur de Coque)** | **259,60 mm** (coque nue) | 🔄 Scalée à +18% en CAO (anciennement 220 mm) |
+| **Largeur d'Épaules (Entraxe RS-04 Pitch)** | **~378 mm** | 🔄 Ajustée (+18% de ~320 mm) avec déport des moteurs RS-04 |
+| **Largeur de Bassin (Entraxe RS-04 Hanche)** | **~378 mm** | 🔄 Ajustée (+18% de ~320 mm) avec déport moteurs |
 
-> Voir [29_Etude_Squelette_Torse_Alu.md](../01_Mecanique_et_Chassis/STUDY_Squelette_Torse.md) pour l'étude structurale complète de la cage aluminium.
+> Voir le [Guide de Fabrication Hybride Torse Asimov](../01_Mecanique_et_Chassis/Torse/GUIDE_Fabrication_Torse_Asimov_Hybride.md) pour la méthode de split FDM, renforts CNC et intégration de la bague moteur RS-03.
 
 ## 2. Membres Inférieurs (Jambes)
 *Données déduites de `15a_Analyse_Locomotion_Baseline.md`.*
