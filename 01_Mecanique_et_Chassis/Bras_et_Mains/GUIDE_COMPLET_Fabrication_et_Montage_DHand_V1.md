@@ -12,6 +12,8 @@
 
 Ce manuel rassemble et unifie l'intégralité des instructions, méthodes, tolérances et références nécessaires pour fabriquer et assembler la main robotique **D-Hand V1 Révisée**. 
 
+> 🔗 **Référence Officielle (ORCA Hand) :** L'architecture originelle de cette main, ainsi que les méthodes détaillées pour le moulage de la peau en silicone et l'intégration des capteurs FSR, sont librement consultables sur le site officiel du projet *Soft Robotics Lab* de l'ETH Zurich : **[https://orca.ethz.ch/](https://orca.ethz.ch/)**.
+
 Basée sur une architecture hybride haut de gamme à **8 Degrés de Liberté (8 DOF)** sous-actionnée, cette conception combine le meilleur de l'ingénierie mécanique : de la puissance brute via des servomoteurs **Feetech STS3250** (50 kg.cm), de la précision fine grâce aux servos **Feetech HL-3915** avec mode force constante, un squelette ultra-robuste en **PA12-CF** (Nylon Carbone) et une paume en **Aluminium 6061-T6** usinée CNC.
 
 Ce guide est conçu pour vous accompagner pas-à-pas de l'achat des matières premières à la calibration logicielle finale sur votre banc d'essai.
@@ -37,7 +39,7 @@ Voici la liste exacte des composants, fixations et matières premières nécessa
 | **Roulements Moyen** | **6x13x5 mm** (double flasque étanche) | **2** | Pivot de la base du pouce. |
 | **Axes Cylindriques** | Goupilles cylindriques en acier rectifié **2 × 6 mm** | **20** | Verrouillage des chapes de phalanges (MCP/PIP/DIP). |
 | **Axes Longs** | Axes en Inox rectifié **3 × 55 mm** | **4** | Axes principaux de montage de la base des doigts. |
-| **Aimants Néodyme** | *EXCLUS / NON REQUIS* | **0** | Aucun aimant requis en V1 (FSR 402) ni en V2 (AnySkin). |
+| **Aimants Néodyme** | **N48 ronds (Ø 3 mm × 1.0 mm d'épaisseur - Supermagnete S-03-01-N)** | **8** | Insérés dans l'infill TPU (5 pulpes doigts + 3 pads paume). |
 | **Tubes de Guidage** | Tube Téflon **PTFE 0.9 mm (ID) / 1.5 mm (OD)** | 2 m | Acheminement interne courbe des tendons. |
 | **Manchons de Sertissage** | Manchons en cuivre ou aluminium **Ø 1.5 mm** | **25** | Sécurisation mécanique des lignes sans nœuds. |
 
@@ -46,16 +48,20 @@ Voici la liste exacte des composants, fixations et matières premières nécessa
 | :--- | :--- | :--- |
 | **Fil de Flexion (Tendon)** | Vectran LCP tressé **Ø 0.80 mm** (Rupture ~950 N, fluage quasi nul, stabilité thermique 330°C) | Tendons standardisés pour toutes les lignes (force et précision) |
 | **Fil de Précision (Tendon)** | Vectran LCP tressé **Ø 0.80 mm** (identique aux tendons de force) | Lignes de précision identiques, simplification du stock |
-| **Filament d'Impression** | **PA12-CF** (Nylon chargé à 15% de fibres de carbone) | Impression 3D des phalanges et doigts. |
-| **Silicone de Moulage** | **Smooth-On EcoFlex 00-30** ou **Dragon Skin 10** | Coulée de la peau élastique pour retour passif. |
+| **Filament d'Impression** | **PA12-CF** (Nylon chargé à 15% de fibres de carbone) | Impression 3D des phalanges rigides et squelette du doigt. |
+| **Filament Flexible** | **Qidi TPU 95A-HF** (ou TPU 98A) | Gainage de protection élastique, retour passif, pulpes et pads paume. |
+| **Silicone de Moulage** | *SUPPRIMÉ / NON REQUIS* | Remplacé avantageusement par le gainage imprimé en TPU. |
+| **Colle d'Assemblage** | **Loctite Super Glue Gel** (Gel cyanoacrylate rapide) | Collage instantané des aimants de maintien sur les coques en PLA. |
 | **Matériau Paume** | Bloc d'**Aluminium 6061-T6** | Usinage CNC du châssis principal (Palm Block). |
 | **Matériau Poulies** | Rond d'**Aluminium 7075-T6** ou Bronze CuSn8 | Usinage CNC des 8 spools d'enroulement. |
 
 ### 1.4 Tactile Sensing (Système de Préhension)
 | Désignation | Spécifications | Qté | Rôle |
 | :--- | :--- | :---: | :--- |
-| **Capteurs V1 (Simples)** | **FSR 402** (Capteurs analogiques fins, épaisseur <0.3 mm) | **5** | Intégration immédiate sous la pulpe des doigts. |
-| **Capteurs V2 (3 Axes)** | **AnySkin** (Peau magnétique 2.0 mm + 5 magnétomètres 3 axes) | 5 | Évolution logicielle fine sans recalibration (V2). |
+| **Capteurs V1 (eFlesh)** | **Magnétomètre MLX90393** (3 axes, sur micro-PCB WowRobo) | **8** | Capteurs de champ magnétique (5 doigts + 3 paume en triangle). |
+| **Micro-Hub Tactile** | **ESP32-S3 USB local** (reçoit les 2 bus I2C natifs des 8 MLX90393) | **1** | Achemine les données eFlesh formatées vers le Jetson via USB CDC. |
+| **Capteurs FSR 402** | *SUPPRIMÉS / EN RETRAIT* | **0** | Remplacés par la détection eFlesh 3 axes plus riche. |
+| **Capteurs V2 (3 Axes)** | **AnySkin** (Peau silicone magnétique 2.0 mm + 5 magnétomètres 3 axes) | 5 | Évolution logicielle future sans recalibration (V2, uniquement sur doigts). |
 
 ---
 
@@ -71,14 +77,29 @@ Le Nylon Carbone (PA12-CF) est obligatoire pour sa grande rigidité axiale et so
 *   **Lit chauffant :** 80°C avec colle PVP ou Magigoo PA.
 *   **Post-traitement crucial :** Le PA12-CF est extrêmement hygroscopique. **Séchez le filament à 80°C pendant 12h** avant impression. Une fois imprimées, laissez les pièces reposer 24h à 50% d'humidité pour qu'elles retrouvent leur flexibilité nominale (évite le côté cassant post-impression).
 
-### 2.2 Usinage CNC de la Paume et des Poulies (NestWorks C500)
-L'utilisation de pièces usinées CNC résout définitivement les problèmes de déformation sous charge de compression axiale.
+### 2.2 Fabrication de la Paume (Palm Block) & DFM (Design for Manufacturing)
+La paume de la main D-Hand Hybrid révisée est une pièce structurelle majeure qui abrite le routage des câbles. 
 
-#### A. Le Châssis Paume (Palm Block) — Aluminium 6061-T6
-*   **Fraisage :** Réalisez l'usinage en 2 posages sur la C500. Portez une attention particulière aux alésages destinés à recevoir les axes inox 3x55 mm.
-*   **Finition :** Ébavurez soigneusement toutes les arêtes intérieures. Une arête vive sur le trajet d'un tendon Dyneema provoquera sa rupture par cisaillement en quelques cycles. Passez un fil de polissage ou du papier abrasif grain 1000 dans tous les canaux de guidage.
+> [!IMPORTANT]
+> **Simplification des canaux (Transition 17 ➔ 8 moteurs) :**
+> L'adoption de la gaine élastique en TPU pour l'extension passive a permis de **supprimer tous les tendons de rappel (ouverture)**. De plus, notre architecture n'exploite plus que **8 servomoteurs actifs** (5 flexion, 3 précision). 
+> *   **Action CAO :** Sous Fusion 360, **supprimez ou bouchez tous les canaux de guidage inutiles** du modèle d'origine (conçu pour 17 câbles). Nous ne conservons que **8 canaux actifs**. Cela simplifie radicalement le routage et augmente considérablement le volume de matière solide du bloc de paume, décuplant sa résistance mécanique.
 
-#### B. Les 8 Poulies d'Enroulement (Spools) — Aluminium 7075-T6 (ou Bronze)
+#### A. Méthode standard recommandée : L'Impression 3D en PA12-CF (Qidi Plus 4)
+L'impression additive est la seule méthode capable de fabriquer des canaux courbes internes fermés dans un bloc monobloc sans aucun support. Le PA12-CF (Nylon Carbone) offre un excellent coefficient de glissement naturel pour les tubes PTFE et une résistance mécanique phénoménale.
+*   **Hauteur de couche :** 0.12 mm ou 0.16 mm.
+*   **Remplissage (Infill) :** **100% rectiligne** (obligatoire pour éviter tout écrasement structurel sous la compression axiale des 8 gaines PTFE sous tension).
+*   **Buse :** Acier trempé ou rubis de 0.4 mm. Température : 285°C.
+*   **Post-traitement :** Ebavurez les entrées et sorties de canaux. Insérez les tubes PTFE 0.9x1.5 mm.
+
+#### B. Méthode alternative pour information : L'Usinage CNC en Aluminium 6061-T6 (Split-Palm)
+Si vous choisissez l'usinage sur votre NestWorks C500 pour des raisons d'esthétique métal et de rigidité absolue, **un bloc monobloc est strictement inusinable** car une fraiseuse ne peut pas percer des canaux courbes fermés à l'intérieur d'un métal plein.
+*   **Conception CAO en "Coquilles assemblées" (Split-Palm) :** Vous devez utiliser la version CAO découpée en deux moitiés (coquille palmaire et coquille dorsale) le long du plan médian des canaux.
+*   **Usinage :** Les canaux fermés deviennent alors des **rainures ouvertes en 2,5D** sur les faces internes des deux coquilles, facilement usinables à l'aide d'une fraise hémisphérique (ball-nose) sur la C500.
+*   **Finition :** Polissez méticuleusement les rainures au papier grain 1000 pour éliminer toute arête vive susceptible de cisailler les tendons.
+*   **Assemblage :** Insérez les gaines PTFE dans les rainures, puis vissez les deux coquilles ensemble à l'aide de vis M3 transversales et de goupilles de centrage en acier pour reconstituer les canaux étanches.
+
+### 2.3 Les 8 Poulies d'Enroulement (Spools) — Aluminium 7075-T6 (ou Bronze)
 Ces pièces requièrent une précision d'horlogerie (tolérances H7/g6) :
 *   **Tambour d'enroulement :** Diamètre extérieur de Ø14 mm. Usinez une **gorge hélicoïdale en U de 0.75 mm de large et 0.6 mm de profondeur** avec un pas (pitch) de 0.7 mm sur exactement **1.5 tour**.
 *   **Alésage Central :** Ø8 mm en tolérance H7 pour un emboîtement en force (press-fit) du roulement de guidage MR84ZZ.
@@ -98,27 +119,23 @@ Ces pièces requièrent une précision d'horlogerie (tolérances H7/g6) :
        └──────────────────────────────────────────────────────┘
 ```
 
-### 2.3 Coulage de la Peau Élastique en Silicone (Retour Passif)
-L'ORCA/D-Hand n'ayant pas de ressorts physiques, **la peau en silicone assure l'extension (l'ouverture) passive des doigts**.
-1.  Nettoyez les moules négatifs (moules imprimés en PLA ou PETG).
-2.  Appliquez un agent de démoulage (Ease Release 200).
-3.  Mélangez le silicone (EcoFlex 00-30 ou Dragon Skin 10) à parts égales (1A:1B en poids).
-4.  Passez le mélange dans une cloche à vide (débullage) pendant 5 minutes.
-5.  Positionnez les phalanges assemblées du doigt bien droites dans le moule à l'aide des piges de centrage.
-6.  Coulez le silicone lentement par le bas du moule pour chasser l'air. Laissez polymériser pendant 4 heures à 22°C (ou 30 minutes au four à 60°C).
-7.  Démoulez délicatement en évitant de déchirer les zones minces au niveau des articulations.
+### 2.3 Impression 3D des Gaines Articulaires et Pulpes eFlesh en TPU (Ressort de Rappel & Protection)
+L'ORCA/D-Hand n'ayant pas de ressorts métalliques, **le gainage externe continu imprimé en TPU 95A/98A assure l'extension (l'ouverture) passive des doigts et loge le système eFlesh**. Ce procédé élimine tout besoin de moulage de silicone chimique.
 
-### 2.4 Impression 3D des Ressorts à Lame PA12-CF (Sécurité anti-fatigue)
-Chaque doigt reçoit un ressort à lame imprimé en PA12-CF qui agit comme **sécurité de rappel secondaire** en cas de dégradation du silicone après des milliers de cycles à haute charge.
+*   **Matériau :** Qidi TPU 95A-HF ou TPU 98A (séché à 65°C pendant 12h dans la Qidi Box).
+*   **Tranchage (Slicing) Multi-Zones dans QIDI Studio :**
+    *   **Zone d'articulation et dos du doigt (Effet ressort) :** Remplissage (Infill) à **100%** pour maximiser le couple de rappel et éviter le fluage lors des flexions répétées.
+    *   **Zone de la pulpe tactile (eFlesh) :** Infill **Gyroïde à 8%** (comportement de mousse ultra-souple et sensible, équivalente à un silicone Shore 15A).
+    *   **Parois externes :** 2 périmètres (épaisseur de coque de 0.8 mm) pour assurer l'étanchéité tout en transmettant fidèlement les efforts.
+*   **Insertion de l'aimant (Pause d'impression) :**
+    *   Le modèle intègre une cavité cylindrique fermée de 3.2 mm (diamètre) x 1.6 mm (profondeur) dans l'infill de la pulpe.
+    *   Insérez une commande de pause (`M600` ou pause via le slicer) à la hauteur de couche exacte précédant la fermeture de la cavité.
+    *   L'imprimante s'arrête et dégage la tête. Insérez l'aimant néodyme N52 (polarité Nord tournée vers l'intérieur du doigt).
+    *   Relancez l'impression pour emprisonner l'aimant hermétiquement dans le TPU sans colle.
 
-*   **Dimensions :** Épaisseur **0.5 mm** × Largeur **3 mm** × Longueur **25 mm**.
-*   **Géométrie :** Lame légèrement incurvée (épaisseur constante, profil en arc de 5° au repos). L'extrémité proximale se clipse dans un logement dédié du dos de la phalange proximale (MCP). L'extrémité distale s'insère dans une fente du dos de la phalange médiane (PIP).
-*   **Orientation d'impression :** À plat sur le lit (couches **perpendiculaires** à l'axe de flexion). Cela maximise la résistance à la fatigue en flexion et empêche la délamination.
-*   **Infill :** 100% rectiligne (pièce fonctionnellement pleine).
-*   **Hauteur de couche :** 0.08 mm (pour la précision de l'épaisseur de 0.5 mm sur seulement ~6 couches).
-*   **Post-traitement :** Poncer légèrement les arêtes avec du papier abrasif grain 600 pour éviter les amorces de fissure.
-*   **Quantité :** Imprimer **10 pièces** par main (5 doigts × 2 pour avoir des spares).
-*   **Poids additionnel :** ~2 g par doigt (10 g total par main, négligeable).
+### 2.4 Ressorts à Lame PA12-CF — SUPPRIMÉS (Obsolets)
+> [!NOTE]
+> Grâce à l'utilisation du gainage élastomère en TPU 95A/98A à 100% de remplissage au niveau des articulations, la force de rappel élastique est hautement dynamique, durable et largement supérieure à celle du silicone. **Les ressorts à lame secondaires en PA12-CF de 0.5 mm sont officiellement supprimés de l'architecture**, simplifiant l'assemblage et épurant le profil dorsal des doigts.
 
 ```
                SCHÉMA DU RESSORT À LAME PA12-CF (VUE LATÉRALE)
@@ -141,7 +158,10 @@ Chaque doigt reçoit un ressort à lame imprimé en PA12-CF qui agit comme **sé
 1.  **Coupe nette :** Coupez vos tendons (Vectran LCP Ø0.80 mm pour toutes les lignes, force et précision) à une longueur d'environ **0.6 m** à l'aide d'une lame de scalpel neuve sous tension. *Ne jamais utiliser de ciseaux sous peine d'ébouriffer les fibres. Le Vectran LCP est plus difficile à couper que le Dyneema — utilisez une lame neuve et bien affilée.*
     > ⚠️ **Note UV :** Le Vectran est sensible aux UV. Conservez la bobine dans un sac opaque. Les tendons une fois routés à l'intérieur du doigt (tubes PTFE, paume alu, tube carbone) sont parfaitement protégés.
 2.  **Bridage distal sans nœud :** À une extrémité du câble, insérez un manchon en cuivre de Ø1.5 mm. Repliez le câble en créant une micro-boucle (épissure Brummel si possible) et **sertissez le manchon de manière ferme** à l'aide d'une pince à sertir technique.
-3.  *Alternative pour prototype :* Si vous utilisez des nœuds, réalisez un **Nœud Ashley Stopper** serré à la pince à bec plat, en laissant une queue de sécurité de 5 mm.
+    > 💡 **Astuce de Sourcing (Pêche Sportive) :** Pour trouver facilement et à très bas coût ces manchons ultra-fins et la pince en France, recherchez du matériel de gréement de pêche aux carnassiers :
+    > *   **Les manchons :** Sont vendus sous le nom de **"Sleeves de pêche"** simples ou doubles de **1.2 mm ou 1.5 mm** (cuivre ou laiton). Disponibles par paquets de 50 pour moins de 4 € chez Decathlon, Pecheur.com ou Amazon.fr.
+    > *   **La pince :** Recherchez une **"Pince à sleeves de pêche"** (Crimping Tool) avec empreintes de micro-compression rondes (0.1 à 2 mm). Compter entre 10 € et 15 € sur Amazon.fr ou boutiques de pêche.
+3.  *Alternative pour prototype :* Si vous utilisez des nœuds, réalisez un **Nœud Ashley Stopper** serré à la pince à bec plat, en laissant une queue de sécurité de 5 mm. Une micro-goutte de **Loctite Super Glue Gel** sur le nœud et sur les 5 mm de fil restants est indispensable pour figer les fibres glissantes du Vectran.
 
 ### Étape 2 : Assemblage des Phalanges
 1.  Prenez les phalanges en PA12-CF préalablement ébavurées.
@@ -155,7 +175,7 @@ Chaque doigt reçoit un ressort à lame imprimé en PA12-CF qui agit comme **sé
 3.  Vérifiez que le manchon serti (ou le nœud Ashley) vient se loger parfaitement dans le renfoncement de la pulpe. Tirez fermement pour valider l'ancrage.
 4.  Marquez au feutre de couleur le rôle de chaque tendon à sa sortie à la base du doigt :
     *   **Tendon Inférieur = Fléchisseur** (Serrage, unique tendon requis relié au spool moteur).
-    *   *Note sur l'extension :* Dans cette architecture révisée sous-actionnée à 8 DOF, **les tendons d'extension supérieure sont complètement supprimés**. L'extension et la réouverture du doigt sont assurées de manière passive par l'élasticité de la peau en silicone coulée (Étape 2.3) et renforcées par le **ressort à lame PA12-CF** (Étape 2.4) clipé sur le dos de la phalange.
+    *   *Note sur l'extension :* Dans cette architecture révisée sous-actionnée à 8 DOF, **les tendons d'extension supérieure sont complètement supprimés**. L'extension et la réouverture complète du doigt sont assurées de manière passive par l'élasticité dynamique de la gaine externe en TPU 95A/98A (imprimée à l'Étape 2.3). La lame de rappel est inutile.
 
 ### Étape 4 : Assemblage de la Paume CNC (Palm Block)
 1.  Insérez les tubes PTFE de guidage dans les 8 canaux de la paume en alu.
@@ -224,11 +244,53 @@ Les moteurs Feetech partagent tous le même protocole de communication série TT
     *   **ID 6 à 8 :** HL-3915 (Opposition Pouce, Abduction Index, Curl Palmaire)
 3.  Raccordez l'extrémité de la chaîne à un unique adaptateur **USB-to-UART TTL (Feetech URT-1)** relié au calculateur principal du bras.
 
-### 5.3 Montage des Capteurs Tactiles FSR 402 (Phase V1)
-1.  Collez la face adhésive double face du capteur **FSR 402** directement sur la pulpe rigide en PA12-CF de chaque doigt.
-2.  Acheminez les deux fils extra-fins de chaque capteur le long des canaux latéraux prévus sur le dos des doigts.
-3.  Coulez la peau silicone (Étape 2.3) directement par-dessus le FSR 402. Le capteur est ainsi parfaitement encapsulé et protégé de l'usure, tout en bénéficiant de la répartition de pression qu'offre le silicone.
-4.  Raccordez les 5 paires de fils FSR à un module convertisseur analogique-numérique (ADC) **ADS1115** ou multiplexeur **CD4051** situé dans la paume ou l'avant-bras, puis envoyez les valeurs de pression via le bus de contrôle.
+### 5.3 Montage des Capteurs Tactiles eFlesh en TPU (Phase V1 Actuelle)
+L'ORCA/D-Hand V1 intègre désormais le système tactile magnétique 3-axes **eFlesh**, développé par le Pinto Lab de NYU. Ce système mesure à la fois les forces de compression (pression normale) et de cisaillement (friction latérale), permettant la détection fine du glissement d'objets.
+
+#### A. Ressources Officielles & Logistique d'Achat (WowRobo vs Standard)
+*   **Documentation du projet :**
+    *   **Dépôt GitHub eFlesh :** [https://github.com/notvenky/eFlesh](https://github.com/notvenky/eFlesh)
+    *   **Site Officiel de Documentation :** [https://e-flesh.github.io](https://e-flesh.github.io)
+    *   **Référence Scientifique :** arXiv:2506.09994 (*"eFlesh: Highly customizable Magnetic Touch Sensing using Cut-Cell Microstructures"*).
+*   **Ce qu'il faut acheter obligatoirement chez WowRobo :**
+    *   **16× [eFlesh Magnetometer Board](https://shop.wowrobo.com/products/eflesh-magnetometer-board)** (8 par main : 5 doigts + 3 paume en triangle) + *2 unités de spares recommandées*. Ce PCB intègre le capteur MLX90393 dans un format ultra-réduit adapté aux phalanges. Les commandes sont généralement expédiées sous 3 jours (TVA d'importation applicable à la livraison pour l'Europe).
+*   **Ce qu'il faut acheter ailleurs (Amazon, Lextronic, Supermagnete) :**
+    *   **16× Aimants N52 ronds (Ø 3 mm × 1.5 mm d'épaisseur)** (8 par main).
+    *   **2× Cartes de développement ESP32-S3** ultra-compactes (ex: *Seeed XIAO ESP32-S3* ou *Adafruit QT Py S3*).
+    *   **1× Bobine de micro-fil émaillé** (Ø 0.15 mm ou 0.20 mm) ou micro-nappes FFC extra-plates pour le câblage interne des canaux.
+
+#### B. Directives de Conception CAD (Lissage Esthétique & Évacuation d'Air)
+Pour préserver une esthétique anthropomorphe haut de gamme (sans les structures nid d'abeille ouvertes présentées pour la recherche) et assurer une étanchéité parfaite à l'eau et à la poussière, suivez ces règles de design CAO :
+1.  **Finition de Gaine Lisse (Coque continue) :** Dans votre slicer (QIDI Studio), configurez le tranchage de la gaine en TPU avec **2 périmètres externes pleins (épaisseur de paroi de 0.8 mm)**. Cela masque entièrement l'infill gyroïde à 8% à l'intérieur, offrant un aspect externe lisse et continu identique à une peau en silicone.
+2.  **Lissage de Surface :** Pour combler les stries d'impression FDM, passez brièvement un décapeur thermique modéré (180°C à 10 cm) sur la coque TPU ou appliquez une micro-couche de vernis élastomère polyuréthane fluide pour obtenir un fini gomme mate haut de gamme.
+3.  **Évitement de l'Effet Coussin d'Air (Venting Hole) :** Une coque de TPU hermétique emprisonne l'air, ce qui augmente artificiellement la rigidité de la pulpe tactile et ralentit le retour élastique. Pour y remédier, modélisez un **micro-canal de purge d'air de 0.8 mm** caché à la base de la phalange PA12-CF. Lors de la compression du doigt, l'air s'échappe de manière fluide vers le squelette interne sans aucune résistance pneumatique.
+4.  **Logement Aimant & Capteur :**
+    *   **Squelette PA12-CF :** Évidement rectangulaire de 10 × 12 mm pour fixer le PCB MLX90393 WowRobo.
+    *   **Gaine TPU :** Cavité de Ø 3.2 mm × 1.6 mm pour l'aimant N52.
+    *   **Distance d'Air-Gap :** Conservez une distance d'air-gap de **3.0 à 4.0 mm** au repos entre l'aimant et le capteur. Moins de 2.0 mm provoquera une saturation magnétique ; plus de 6.0 mm entraînera une perte de résolution.
+
+#### C. Routage & Adressage I2C Dual (Sans Multiplexeur)
+Le capteur MLX90393 dispose de 2 pins d'adresse (AD0/AD1) permettant au maximum 4 adresses sur une seule ligne physique. Pour connecter 8 capteurs par main (5 doigts + 3 paume) sans ajouter de puce de multiplexage encombrante, nous utilisons les deux bus I2C natifs de l'**ESP32-S3** :
+
+```
+             SCHÉMA DU DOUBLE BUS I2C DIRECT SUR L'ESP32-S3 (8 CANAUX)
+             
+                  ┌─────────────────────────────────────────┐
+                  │           ESP32-S3 Micro-Hub            │
+                  └───────────┬─────────────────┬───────────┘
+                              │                 │
+           [ BUS I2C N°1 (GPIO 1/2) ]         [ BUS I2C N°2 (GPIO 5/6) ]
+                    │                                 │
+     ┌──────────┬───┴──────┬──────────┐       ┌──────────┬───┴──────┬──────────┐
+     ▼          ▼          ▼          ▼       ▼          ▼          ▼          ▼
+  [Index]    [Majeur]  [Annul.]   [Auric.] [Pouce]   [Palm-A]   [Palm-B]   [Palm-C]
+   Addr:      Addr:      Addr:      Addr:    Addr:      Addr:      Addr:      Addr:
+   0x0C       0x0D       0x0E       0x0F     0x0C       0x0D       0x0E       0x0F
+```
+
+1.  **Soudure :** Soudez les micro-fils émaillés émergeant des 8 phalanges/coussinets sur les bus I2C respectifs de l'ESP32-S3 (Bus 1 = Doigts externes, Bus 2 = Pouce + Triangle de Paume).
+2.  **Configuration des adresses :** Reliez les pastilles d'adresse AD0/AD1 à GND ou VCC sur chaque PCB WowRobo pour attribuer la bonne adresse (0x0C à 0x0F).
+3.  **Acquisition (ESP32-S3 Firmware) :** Flashez l'ESP32-S3 avec le code fourni dans `/arduino` du dépôt eFlesh. Il interroge les deux bus en parallèle à **100 Hz** et transmet le flux unifié ($B_x, B_y, B_z$ pour les 8 capteurs) en USB CDC vers le Jetson pour le calcul de force MLP en temps réel.
 
 ---
 

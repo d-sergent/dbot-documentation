@@ -13,7 +13,7 @@ Le sous-ensemble **Bras et Mains** du D-Bot est conçu pour offrir une dextérit
     *   **Total Membre Supérieur :** 14 DOF.
 *   **Architecture "Forearm Supination" (Tesla-like) :** Le mouvement de rotation de l'avant-bras (Supination/Pronation) est assuré par un moteur dédié (RS-02) au niveau du coude, plutôt qu'au poignet. Cette approche biomimétique élimine le vrillage des tendons de la main, réduit l'inertie distale et permet un poignet plus compact et esthétique.
 *   **Main D-Hand Hybrid Premium :** Combinaison de **5 servomoteurs Feetech STS3250** (flexion en force) et **3 servomoteurs Feetech HL-3915** (axes de précision avec mode force matérielle) pour un grip effectif réel de **376 N en pic** (120 N en continu nominal) et 8 DOF complets. L'actionnement est déporté dans l'avant-bras via des tendons Vectran LCP (fluage quasi nul).
-*   **Capteurs Tactiles :** Intégration de capteurs analogiques ultra-fins FSR 402 sous la peau silicone des doigts (V1 immédiate), évoluant logiquement vers des capteurs magnétiques 3-axes AnySkin sans recalibration (V2).
+*   **Capteurs Tactiles :** Intégration de capteurs tactiles eFlesh 3-axes basés sur une structure TPU à infill gyroïde 8% et aimants N52 (V1 immédiate), évoluant vers AnySkin (V2).
 *   **Structure :** Utilisation de tubes en fibre de carbone pour l'humérus et l'avant-bras, avec des inserts en aluminium CNC et des goupilles Mécanindus pour les raccordements. Cette solution optimise le rapport poids/rigidité et réduit l'inertie.
 
 ---
@@ -75,9 +75,8 @@ Le sous-ensemble **Bras et Mains** du D-Bot est conçu pour offrir une dextérit
     *   **Roulement intégré :** MR84ZZ (4x8x3 mm) pressé en force H7 dans le spool.
 *   **Poulies de renvoi (Paume) :** Ø6 mm, PA12-CF imprimé 3D avec micro-roulements MR84ZZ intégrés.
 *   **Ancrage distal (pulpe) :** **Sertissage mécanique via manchon en cuivre de Ø1.5 mm** ou **épissure Brummel** étanche (conservation de 90-95% de la rupture).
-*   **Retour passif des doigts (système dual) :**
-    *   **Primaire :** Peau en silicone (EcoFlex 00-30 ou Dragon Skin 10) moulée sur les phalanges assurant le rappel élastique.
-    *   **Secondaire (sécurité anti-fatigue) :** Ressort à lame en **PA12-CF** imprimé 3D, intégré dans le canal dorsal de chaque phalange proximale. Dimensions : épaisseur 0.5 mm × largeur 3 mm × longueur 25 mm, imprimé à plat (couches ⊥ à la flexion), infill 100%. Ce ressort garantit l'ouverture du doigt même en cas de dégradation du silicone après des milliers de cycles à haute charge (couple STS3250 = 2× celui de l'ORCA originale). Poids additionnel : ~2 g par doigt.
+*   **Retour passif des doigts (système intégré) :**
+    *   Assuré par la gaine élastomère externe imprimée en **TPU 95A/98A** continu (avec remplissage à 100% au niveau des articulations), qui offre une force de rappel élastique nerveuse, durable et largement supérieure à celle du silicone. **Le silicone moulé et la lame de rappel secondaire en PA12-CF de 0.5 mm sont officiellement supprimés**, simplifiant radicalement le montage géométrique et épurant le profil du doigt.
 
 ---
 
@@ -276,10 +275,11 @@ Le RS-06 (11 N.m) est le facteur limitant clair. Le **RS-03** (20 N.m nominal / 
 | RobStride RS-00 (Poignet Pitch) | 1 | RobStride | ~$135 | ~$135 |
 | **8x Servomoteurs Feetech Hybrid** | 1 set | Feetech (SCServo TTL) | **415 €** (total) | **415 €** |
 | Buck Converter DROK 48V→12V 25A (IP67) | 1 | Amazon.fr / Droking.com | ~25 € | ~25 € |
-| Multiplexeur Analogique CD4051 | 1 | Adafruit | 5 € | 5 € |
-| Capteurs analogiques pulpes FSR 402 | 5 | Interlink | 8 € | 40 € |
+| **Micro-Hub ESP32-S3 local** (eFlesh) | 1 | Adafruit / AliExpress | 15 € | 15 € |
+| **Magnétomètres MLX90393 (sur micro-PCB)** | 8 | WowRobo / shop.wowrobo.com | 5 € | 40 € |
+| **Aimants N48 ronds (Ø3 × 1.0 mm, S-03-01-N)** | 8 | Supermagnete | 0.22 € | 2 € |
 | Fusible réarmable PTC 15A (rail 12V) | 1 | Mouser / Farnell | ~3 € | ~3 € |
-| **TOTAL Moteurs & Électronique (par bras)** | | | | **~2013 €** |
+| **TOTAL Moteurs & Électronique (par bras)** | | | | **~2026 €** |
 
 ### 3.2 Matériaux Structurels & Quincaillerie (par bras)
 
@@ -290,16 +290,17 @@ Le RS-06 (11 N.m) est le facteur limitant clair. Le **RS-03** (20 N.m nominal / 
 | Aluminium 6061-T6 (Brackets, Inserts, Paume CNC) | ~1 kg | NestWorks | ~40 €/kg | ~40 € |
 | Aluminium 7075-T6 (Poulies CNC) | ~50 g | NestWorks | ~5 € | ~5 € |
 | Filament PA12-CF (Phalanges) | ~100 g | Qidi Tech | ~3 € | ~3 € |
-| Filament PLA (Moules silicone) | ~50 g | Qidi Tech | ~1 € | ~1 € |
-| Silicone EcoFlex 00-30 / Dragon Skin 10 | 1 kit | Smooth-On | ~25 € | ~25 € |
+| **Filament Flexible TPU 95A-HF / 98A** | ~100 g | Qidi Tech | ~5 € | ~5 € |
+| Silicone de moulage / PLA pour moules | *SUPPRIMÉ* | - | 0 € | 0 € |
 | Vectran tressé LCP Ø0.80mm (bobine 50m) | 1 | English Braids / Cousin Trestec | ~35 € | ~35 € |
 | Tubes PTFE Ø0.9 × Ø1.5 mm (10m) | 1 | McMaster-Carr | ~8 € | ~8 € |
 | Roulements MR84ZZ (4x8x3mm) | 35 | SKF | ~1 € | ~35 € |
 | Roulements 6x13x5 mm | 2 | SKF | ~2 € | ~4 € |
 | Goupilles cylindriques 2x6 mm (acier) | 20 | Mécanindus | ~0.5 € | ~10 € |
 | Axes Inox 3x55 mm | 4 | McMaster-Carr | ~1 € | ~4 € |
-| Colle époxy structurelle 3M DP490 | 1 cart. | 3M | ~30 € | ~30 € |
-| **TOTAL Matériaux & Quincaillerie (par bras)** | | | | **~245 €** |
+| Colle époxy structurelle 3M DP490 | 1 cart. | 3M | ~30 € | ~30 € | Idéale pour coller le carbone, le métal et les aimants de coques sur le PA12-CF et le PLA. |
+| **Colle Loctite Super Glue Gel** | 1 tube | Supermarché / Amazon | ~5 € | ~5 € | Idéale pour coller instantanément les aimants sur les coques esthétiques en PLA. |
+| **TOTAL Matériaux & Quincaillerie (par bras)** | | | | **~229 €** |
 
 ### 3.3 Fournisseurs Vectran LCP Ø0.80mm (depuis la France)
 
@@ -313,9 +314,9 @@ Le RS-06 (11 N.m) est le facteur limitant clair. Le **RS-03** (20 N.m nominal / 
 
 ### 3.4 Coût Total Estimé (par bras)
 
-*   **Total Moteurs & Électronique :** ~2013 €
-*   **Total Matériaux & Quincaillerie :** ~245 €
-*   **TOTAL GÉNÉRAL ESTIMÉ PAR BRAS : ~2258 €** (Économie de **~1070 €** sur le robot complet par rapport au design Dynamixel initial).
+*   **Total Moteurs & Électronique :** ~2026 €
+*   **Total Matériaux & Quincaillerie :** ~229 €
+*   **TOTAL GÉNÉRAL ESTIMÉ PAR BRAS : ~2255 €** (Économie de **~1076 €** sur le robot complet par rapport au design Dynamixel initial).
 
 ---
 
