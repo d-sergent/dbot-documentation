@@ -287,7 +287,7 @@ Le RS-06 (11 N.m) est le facteur limitant clair. Le **RS-03** (20 N.m nominal / 
 | :--- | :---: | :--- | :---: | :---: |
 | Tube Carbone Humérus (Ø35-40mm) | 1 | Composite-Works | ~$25 | ~$25 |
 | Tube Carbone Avant-Bras (Ø25-30mm) | 1 | Composite-Works | ~$20 | ~$20 |
-| Aluminium 6061-T6 (Brackets, Inserts, Paume CNC) | ~1 kg | NestWorks | ~40 €/kg | ~40 € |
+| Aluminium 6061-T6 (Brackets, Inserts) | ~1 kg | NestWorks | ~40 €/kg | ~40 € |
 | Aluminium 7075-T6 (Poulies CNC) | ~50 g | NestWorks | ~5 € | ~5 € |
 | Filament PA12-CF (Phalanges) | ~100 g | Qidi Tech | ~3 € | ~3 € |
 | **Filament Flexible TPU 95A-HF / 98A** | ~100 g | Qidi Tech | ~5 € | ~5 € |
@@ -323,8 +323,8 @@ Le RS-06 (11 N.m) est le facteur limitant clair. Le **RS-03** (20 N.m nominal / 
 ## 4. État de la Conception (CAD & Simulation)
 
 *   **Phalanges et Paume (Base) :** Les fichiers STEP/STL de la main ORCA v1 sont modifiés dans Fusion 360 pour adapter la paume aux 8 canaux de guidage et intégrer les poulies CNC et roulements MR84ZZ.
-*   **Phalanges distales :** Adaptées pour intégrer les capteurs FSR 402 sous la pulpe et la peau silicone élastique.
-*   **Usinage CNC (C500) :** Spools à vis de blocage radial en Aluminium 7075-T6, paume en Aluminium 6061-T6, et inserts carbone/alu.
+*   **Phalanges distales :** Adaptées pour intégrer les capteurs eFlesh (aimants N48 et magnétomètres MLX90393) sous la gaine en TPU.
+*   **Usinage CNC (C500) :** Spools à vis de blocage radial en Aluminium 7075-T6 (ou Bronze) et inserts carbone/alu.
 *   **Simulation dynamique :** Modèles URDF/MJCF adaptés pour refléter l'architecture 8 DOF sous-actionnée Feetech dans Isaac Gym (`orca-gym`), permettant la validation des politiques d'apprentissage par renforcement (RL).
 
 ---

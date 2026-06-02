@@ -14,7 +14,7 @@ Ce manuel rassemble et unifie l'intégralité des instructions, méthodes, tolé
 
 > 🔗 **Référence Officielle (ORCA Hand) :** L'architecture originelle de cette main, ainsi que les méthodes détaillées pour le moulage de la peau en silicone et l'intégration des capteurs FSR, sont librement consultables sur le site officiel du projet *Soft Robotics Lab* de l'ETH Zurich : **[https://orca.ethz.ch/](https://orca.ethz.ch/)**.
 
-Basée sur une architecture hybride haut de gamme à **8 Degrés de Liberté (8 DOF)** sous-actionnée, cette conception combine le meilleur de l'ingénierie mécanique : de la puissance brute via des servomoteurs **Feetech STS3250** (50 kg.cm), de la précision fine grâce aux servos **Feetech HL-3915** avec mode force constante, un squelette ultra-robuste en **PA12-CF** (Nylon Carbone) et une paume en **Aluminium 6061-T6** usinée CNC.
+Basée sur une architecture hybride haut de gamme à **8 Degrés de Liberté (8 DOF)** sous-actionnée, cette conception combine le meilleur de l'ingénierie mécanique : de la puissance brute via des servomoteurs **Feetech STS3250** (50 kg.cm), de la précision fine grâce aux servos **Feetech HL-3915** avec mode force constante, et un squelette ainsi qu'une paume ultra-robustes en **PA12-CF** (Nylon Carbone) imprimés en 3D.
 
 Ce guide est conçu pour vous accompagner pas-à-pas de l'achat des matières premières à la calibration logicielle finale sur votre banc d'essai.
 
@@ -52,7 +52,6 @@ Voici la liste exacte des composants, fixations et matières premières nécessa
 | **Filament Flexible** | **Qidi TPU 95A-HF** (ou TPU 98A) | Gainage de protection élastique, retour passif, pulpes et pads paume. |
 | **Silicone de Moulage** | *SUPPRIMÉ / NON REQUIS* | Remplacé avantageusement par le gainage imprimé en TPU. |
 | **Colle d'Assemblage** | **Loctite Super Glue Gel** (Gel cyanoacrylate rapide) | Collage instantané des aimants de maintien sur les coques en PLA. |
-| **Matériau Paume** | Bloc d'**Aluminium 6061-T6** | Usinage CNC du châssis principal (Palm Block). |
 | **Matériau Poulies** | Rond d'**Aluminium 7075-T6** ou Bronze CuSn8 | Usinage CNC des 8 spools d'enroulement. |
 
 ### 1.4 Tactile Sensing (Système de Préhension)
