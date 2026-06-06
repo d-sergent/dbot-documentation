@@ -35,21 +35,22 @@ Voici la liste exacte des composants, fixations et matières premières nécessa
 ### 1.2 Structure & Quincaillerie Mécanique
 | Désignation | Référence / Spécifications | Qté | Emplacement |
 | :--- | :--- | :---: | :--- |
-| **Micro-roulements** | **MR84ZZ** (Acier, étanche double flasque, 4 × 8 × 3 mm) | **35** | Pivots des phalanges et roulettes de paume. |
+| **Micro-roulements** | **MR84ZZ** (Acier, étanche double flasque, 4 × 8 × 3 mm) | **36** | Pivots des phalanges (24 pour les 4 doigts, 4 pour le pouce) et contre-paliers des spools (8). |
 | **Roulements Moyen** | **6x13x5 mm** (double flasque étanche) | **2** | Pivot de la base du pouce. |
 | **Axes Cylindriques** | Goupilles cylindriques en acier rectifié **2 × 6 mm** | **20** | Verrouillage des chapes de phalanges (MCP/PIP/DIP). |
 | **Axes Longs** | Axes en Inox rectifié **3 × 55 mm** | **4** | Axes principaux de montage de la base des doigts. |
 | **Aimants Néodyme** | **N48 ronds (Ø 3 mm × 1.0 mm d'épaisseur - Supermagnete S-03-01-N)** | **8** | Insérés dans l'infill TPU (5 pulpes doigts + 3 pads paume). |
-| **Tubes de Guidage** | Tube Téflon **PTFE 0.9 mm (ID) / 1.5 mm (OD)** | 2 m | Acheminement interne courbe des tendons. |
+| **Tubes de Guidage** | Tube Téflon **PTFE 1.2 mm (ID) / 1.6 mm (OD)** | 2 m | Acheminement interne courbe (adapté pour câble Ø 1.0 mm, acheté en bobine de 10 m). |
 | **Manchons de Sertissage** | Manchons en cuivre ou aluminium **Ø 1.5 mm** | **25** | Sécurisation mécanique des lignes sans nœuds. |
 
 ### 1.3 Matières Premières & Consommables
 | Désignation | Marque / Spécifications | Rôle |
 | :--- | :--- | :--- |
-| **Fil de Flexion (Tendon)** | Vectran LCP tressé **Ø 0.80 mm** (Rupture ~950 N, fluage quasi nul, stabilité thermique 330°C) | Tendons standardisés pour toutes les lignes (force et précision) |
-| **Fil de Précision (Tendon)** | Vectran LCP tressé **Ø 0.80 mm** (identique aux tendons de force) | Lignes de précision identiques, simplification du stock |
-| **Filament d'Impression** | **PA12-CF** (Nylon chargé à 15% de fibres de carbone) | Impression 3D des phalanges rigides et squelette du doigt. |
-| **Filament Flexible** | **Qidi TPU 95A-HF** (ou TPU 98A) | Gainage de protection élastique, retour passif, pulpes et pads paume. |
+| **Fil de Flexion (Tendon)** | Dyneema DM20 tressé **Ø 1.0 mm** (Rupture ~980 N, fluage quasi nul / zero-creep, frottement bas, bobine de 50 m achetée) | Tendons de force standardisés (force et précision) pour éliminer le recalibrage. |
+| **Fil de Précision (Tendon)** | Dyneema DM20 tressé **Ø 1.0 mm** (identique aux tendons de force) | Lignes de précision identiques, simplification du stock. |
+| **Fil de Retour (Tendon Élastique)** | **Fil élastique mono-brin 100% Polyuréthane (TPU) de Ø 0.8 mm (Beadalon Elasticity)**. ✅ **Reçu (en stock)** | Rappel d'extension passif principal des doigts, placé dans les canaux dorsaux d'origine (libres). |
+| **Filament d'Impression** | **PA12-CF** (Nylon chargé à 15% de fibres de carbone). ✅ **Reçu (4 kg en stock)** | Impression 3D des phalanges rigides et squelette du doigt. |
+| **Filament Flexible** | **Qidi TPU 95A-HF** (ou TPU 98A) | Gainage de protection élastique, rappel élastique secondaire (gaine), pulpes et pads paume. |
 | **Silicone de Moulage** | *SUPPRIMÉ / NON REQUIS* | Remplacé avantageusement par le gainage imprimé en TPU. |
 | **Colle d'Assemblage** | **Loctite Super Glue Gel** (Gel cyanoacrylate rapide) | Collage instantané des aimants de maintien sur les coques en PLA. |
 | **Matériau Poulies** | Rond d'**Aluminium 7075-T6** ou Bronze CuSn8 | Usinage CNC des 8 spools d'enroulement. |
@@ -61,6 +62,29 @@ Voici la liste exacte des composants, fixations et matières premières nécessa
 | **Micro-Hub Tactile** | **ESP32-S3 USB local** (reçoit les 2 bus I2C natifs des 8 MLX90393) | **1** | Achemine les données eFlesh formatées vers le Jetson via USB CDC. |
 | **Capteurs FSR 402** | *SUPPRIMÉS / EN RETRAIT* | **0** | Remplacés par la détection eFlesh 3 axes plus riche. |
 | **Capteurs V2 (3 Axes)** | **AnySkin** (Peau silicone magnétique 2.0 mm + 5 magnétomètres 3 axes) | 5 | Évolution logicielle future sans recalibration (V2, uniquement sur doigts). |
+
+### 1.5 Choix de Conception : Tresse Dyneema DM20 1.0 mm (Zéro-Fluage)
+Suite à des analyses de frottement et de résistance mécanique, nous avons opté pour l'utilisation d'une **tresse Dyneema DM20 de 1.0 mm** de diamètre (achetée en bobine de 50 m) au lieu du Vectran 0.80 mm initial.
+*   **Pourquoi le DM20 ?** Cette fibre associe le très faible coefficient de frottement du Dyneema classique (0.08 à 0.12 contre le PTFE) à la stabilité dimensionnelle du Vectran (zéro-creep, pas d'allongement permanent sous tension constante). Cela élimine définitivement les besoins de recalibrage de la main.
+*   **Pourquoi 1.0 mm ?** Les moteurs Feetech STS3250 génèrent une tension de pic de 677 N en blocage. Une tresse DM20 de 1.0 mm (MBS d'environ 980 N, ou 882 N après sertissage à 90%) assure un facteur de sécurité confortable (Fs de pic de 1.30, et supérieur à 1.6 avec limitation électronique du couple en firmware). Les tresses DM20 n'existant pas en 0.8 mm (uniquement sous forme de fils à surlier torsadés qui se défont sous tension), le diamètre 1.0 mm est le minimum requis en tresse 12 fuseaux.
+*   **Impact sur le guidage :** Le passage libre d'un câble de 1.0 mm nécessite des gaines **PTFE de 1.2 mm ID / 1.6 mm OD** (au lieu de 0.9 x 1.5 mm) pour offrir 0.2 mm de jeu mécanique et éviter tout coincement ou frottement dans les courbes des phalanges.
+
+### 1.6 Choix de Conception : Mécanisme de Retour Passif (Tendons Élastiques Dorsaux)
+L'ORCA V1 d'origine est un système actif antagoniste à 17 moteurs (flexion et extension actives). La main **D-Hand V1 est sous-actionnée à 8 moteurs** (flexion active par fil Dyneema, sans moteurs d'extension). L'ouverture des doigts doit donc être assurée de manière passive. 
+
+Pour vaincre le frottement du câble de flexion et assurer une réouverture franche et dynamique, nous implémentons un **système de tendons élastiques dorsaux passifs**, s'inspirant du concept éprouvé de la main Pisa/IIT SoftHand.
+
+*   **Intégration sans modification CAO :** Le fil élastique de Ø 0.8 mm est passé directement dans les canaux dorsaux des phalanges PA12-CF. Ces canaux d'origine ORCA accueillent le fil de 0.8 mm avec un jeu mécanique excellent et un frottement minimal sans aucun alésage requis (contrairement au fil de 1.0 mm qui risquerait de frotter ou nécessiterait un perçage fragilisant les parois des phalanges en PA12-CF).
+*   **Matériau validé :**
+    *   **Fil élastique mono-brin 100% Polyuréthane (TPU) de Ø 0.8 mm** (de marque *Beadalon Elasticity*, *Griffin* ou *The Beadsmith*). C'est un élastomère thermoplastique plein extrêmement résistant, qui ne s'effiloche pas, offre un excellent glissement et possède une mémoire de forme parfaite (zéro fluage sous tension).
+    *   *Pourquoi le 0.8 mm est supérieur au 1.0 mm ?* 
+        1.  **Géométrie :** Il coulisse avec du jeu dans les canaux dorsaux d'origine sans aucun risque de coincement.
+        2.  **Rendement moteur :** Il offre une force de rappel de **~2 N au repos** et **~5 N en flexion complète**. C'est amplement suffisant pour redresser le doigt (couple de rappel 1.6x supérieur au couple gravitaire du doigt), tout en réduisant l'effort résistant opposé au moteur STS3250 lors des flexions (consommation électrique et échauffement moteur réduits).
+*   **Où acheter immédiatement depuis la France :**
+    *   Disponible en stock avec livraison 24/48h sur les sites français de loisirs créatifs comme **Perles & Co** (perlesandco.com), **France Perles** ou sur **Amazon.fr** (rechercher *« fil élastique polyuréthane 0.8mm perles »* ou *« Beadalon Elasticity 0.8mm »*). Une bobine de 25 m ou 100 m coûte environ 3 à 6 €.
+*   **Impact sur les Degrés de Liberté (DOF) :**
+    *   Cette solution **n'ajoute aucun DOF supplémentaire** à la main. Le système conserve ses 8 DOF actifs (contrôlés par les servos).
+    *   Le tendon élastique agit comme un **antagoniste passif (ressort)**. Il convertit la structure lâche (qui serait indéterminée et molle une fois le câble de flexion relâché) en un mécanisme stable, complétant l'élasticité de la gaine TPU externe. Il apporte une compliance passive qui permet aux doigts d'épouser naturellement les formes complexes des objets saisis.
 
 ---
 
@@ -118,8 +142,8 @@ Ces pièces requièrent une précision d'horlogerie (tolérances H7/g6) :
        └──────────────────────────────────────────────────────┘
 ```
 
-### 2.3 Impression 3D des Gaines Articulaires et Pulpes eFlesh en TPU (Ressort de Rappel & Protection)
-L'ORCA/D-Hand n'ayant pas de ressorts métalliques, **le gainage externe continu imprimé en TPU 95A/98A assure l'extension (l'ouverture) passive des doigts et loge le système eFlesh**. Ce procédé élimine tout besoin de moulage de silicone chimique.
+### 2.3 Impression 3D des Gaines Articulaires et Pulpes eFlesh en TPU (Rappel Élastique Secondaire & Protection)
+Le gainage externe continu imprimé en TPU 95A/98A assure l'étanchéité, la protection du système tactile eFlesh, et sert de **rappel élastique secondaire** pour l'extension des doigts. Ce procédé élimine tout besoin de moulage de silicone chimique.
 
 *   **Matériau :** Qidi TPU 95A-HF ou TPU 98A (séché à 65°C pendant 12h dans la Qidi Box).
 *   **Tranchage (Slicing) Multi-Zones dans QIDI Studio :**
@@ -132,35 +156,40 @@ L'ORCA/D-Hand n'ayant pas de ressorts métalliques, **le gainage externe continu
     *   L'imprimante s'arrête et dégage la tête. Insérez l'aimant néodyme N52 (polarité Nord tournée vers l'intérieur du doigt).
     *   Relancez l'impression pour emprisonner l'aimant hermétiquement dans le TPU sans colle.
 
-### 2.4 Ressorts à Lame PA12-CF — SUPPRIMÉS (Obsolets)
-> [!NOTE]
-> Grâce à l'utilisation du gainage élastomère en TPU 95A/98A à 100% de remplissage au niveau des articulations, la force de rappel élastique est hautement dynamique, durable et largement supérieure à celle du silicone. **Les ressorts à lame secondaires en PA12-CF de 0.5 mm sont officiellement supprimés de l'architecture**, simplifiant l'assemblage et épurant le profil dorsal des doigts.
+### 2.4 Le Mécanisme de Retour Passif Principal : Les Tendons Élastiques Dorsaux
+Le rappel principal d'extension est assuré par un cordon élastique technique mono-brin de Ø 1.0 mm (PU thermofusible ou fil élastique de bijouterie) logé dans les canaux supérieurs (dorsaux) des phalanges en PA12-CF. Ces canaux, initialement prévus pour les tendons extenseurs actifs d'ORCA, guident parfaitement le cordon.
 
 ```
-               SCHÉMA DU RESSORT À LAME PA12-CF (VUE LATÉRALE)
-
-        Logement MCP (proximal)               Fente PIP (distal)
-              ┌────┐                             ┌────┐
-              │    │                             │    │
-    ────────┴────┴─────╮            ╭─────┴────┴───────
-                         ╰════════════╯
-                      Arc de 5° au repos
-                      Épaisseur 0.5mm × Largeur 3mm
-                      Longueur totale : 25mm
+                  SCHÉMA DU RETOUR PASSIF DORSAL (VUE LATÉRALE)
+                  
+                  [Cordon Élastique Dorsal Ø1.0 mm] (Rappel principal)
+                  ┌──────────────────────────────────────────────┐
+                  │                                              │
+      MCP         ▼             PIP                              ▼          DIP
+     ┌───┐                     ┌───┐                                       ┌───┐
+     │   │═════════════════════│   │═══════════════════════════════════════│   │ [Ancrage distal]
+     │   │  (Passage dorsal)   │   │  (Passage dorsal)                     │   │ (Sertissage/Nœud)
+     └───┘                     └───┘                                       └───┘
+       ▲                         ▲                                           ▲
+       └─────────────────────────┴───────────────────────────────────────────┘
+                           [Tubes PTFE de guidage interne]
 ```
+
+*   **Fonctionnement :** Lors de la flexion active (le servo tire sur le Dyneema DM20 palmar), le doigt s'enroule et étire le cordon élastique dorsal. Lorsque le moteur relâche la tension, l'énergie élastique accumulée tire sur la phalange distale pour réaligner le doigt à 180°.
+*   **Avantage :** Ce système isole la force de rappel dans les canaux de guidage, évitant la fatigue structurelle prématurée de la gaine TPU externe et garantissant un retour complet même en présence de frictions dans les articulations.
 
 ---
 
 ## 🔩 3. Assemblage Mécanique Étape par Étape
 
 ### Étape 1 : Préparation et Pré-tensionnement des Tendons
-1.  **Coupe nette :** Coupez vos tendons (Vectran LCP Ø0.80 mm pour toutes les lignes, force et précision) à une longueur d'environ **0.6 m** à l'aide d'une lame de scalpel neuve sous tension. *Ne jamais utiliser de ciseaux sous peine d'ébouriffer les fibres. Le Vectran LCP est plus difficile à couper que le Dyneema — utilisez une lame neuve et bien affilée.*
-    > ⚠️ **Note UV :** Le Vectran est sensible aux UV. Conservez la bobine dans un sac opaque. Les tendons une fois routés à l'intérieur du doigt (tubes PTFE, paume alu, tube carbone) sont parfaitement protégés.
+1.  **Coupe nette :** Coupez vos tendons (Dyneema DM20 Ø1.0 mm pour toutes les lignes, force et précision) à une longueur d'environ **0.6 m** à l'aide d'une lame de scalpel neuve sous tension. *Le Dyneema DM20 est très résistant — utilisez une lame neuve bien affilée pour une coupe nette sans effilochage.*
+    > 💡 **Note UV :** Contrairement au Vectran, le Dyneema DM20 présente une excellente résistance aux UV. L'acheminement interne protège toutefois le câble contre l'usure mécanique externe.
 2.  **Bridage distal sans nœud :** À une extrémité du câble, insérez un manchon en cuivre de Ø1.5 mm. Repliez le câble en créant une micro-boucle (épissure Brummel si possible) et **sertissez le manchon de manière ferme** à l'aide d'une pince à sertir technique.
     > 💡 **Astuce de Sourcing (Pêche Sportive) :** Pour trouver facilement et à très bas coût ces manchons ultra-fins et la pince en France, recherchez du matériel de gréement de pêche aux carnassiers :
     > *   **Les manchons :** Sont vendus sous le nom de **"Sleeves de pêche"** simples ou doubles de **1.2 mm ou 1.5 mm** (cuivre ou laiton). Disponibles par paquets de 50 pour moins de 4 € chez Decathlon, Pecheur.com ou Amazon.fr.
     > *   **La pince :** Recherchez une **"Pince à sleeves de pêche"** (Crimping Tool) avec empreintes de micro-compression rondes (0.1 à 2 mm). Compter entre 10 € et 15 € sur Amazon.fr ou boutiques de pêche.
-3.  *Alternative pour prototype :* Si vous utilisez des nœuds, réalisez un **Nœud Ashley Stopper** serré à la pince à bec plat, en laissant une queue de sécurité de 5 mm. Une micro-goutte de **Loctite Super Glue Gel** sur le nœud et sur les 5 mm de fil restants est indispensable pour figer les fibres glissantes du Vectran.
+3.  *Alternative pour prototype :* Si vous utilisez des nœuds, réalisez un **Nœud Ashley Stopper** serré à la pince à bec plat, en laissant une queue de sécurité de 5 mm. Une micro-goutte de **Loctite Super Glue Gel** sur le nœud et sur les 5 mm de fil restants est indispensable pour figer les fibres extrêmement glissantes du Dyneema DM20.
 
 ### Étape 2 : Assemblage des Phalanges
 1.  Prenez les phalanges en PA12-CF préalablement ébavurées.
@@ -169,18 +198,34 @@ L'ORCA/D-Hand n'ayant pas de ressorts métalliques, **le gainage externe continu
 4.  Alignez parfaitement les trous et insérez les goupilles cylindriques en acier rectifié **2x6 mm** à l'aide d'un petit maillet en plastique. La goupille doit affleurer de chaque côté de la phalange sans dépasser.
 
 ### Étape 3 : Routage des Tendons dans les Doigts
-1.  Insérez des segments de tube Téflon **PTFE [0.9 × 1.5 mm]** dans les canaux internes courbes prévus dans les phalanges. Les tubes PTFE doivent dépasser de 1 mm à chaque extrémité pour éviter tout contact direct du câble avec le PA12-CF.
-2.  Passez le tendon préparé à l'étape 1 depuis la pulpe distale vers la base du doigt à l'aide de brucelles.
-3.  Vérifiez que le manchon serti (ou le nœud Ashley) vient se loger parfaitement dans le renfoncement de la pulpe. Tirez fermement pour valider l'ancrage.
-4.  Marquez au feutre de couleur le rôle de chaque tendon à sa sortie à la base du doigt :
-    *   **Tendon Inférieur = Fléchisseur** (Serrage, unique tendon requis relié au spool moteur).
-    *   *Note sur l'extension :* Dans cette architecture révisée sous-actionnée à 8 DOF, **les tendons d'extension supérieure sont complètement supprimés**. L'extension et la réouverture complète du doigt sont assurées de manière passive par l'élasticité dynamique de la gaine externe en TPU 95A/98A (imprimée à l'Étape 2.3). La lame de rappel est inutile.
+1.  **Préparation des guidages :**
+    *   **Canal Fléchisseur (Palmar) :** Insérez des segments de tube Téflon **PTFE [1.2 × 1.6 mm]** dans les canaux internes inférieurs courbes des phalanges. Les tubes PTFE doivent dépasser de 1 mm à chaque extrémité pour éviter tout contact direct du câble avec le PA12-CF.
+    *   **Canal Extenseur (Dorsal) :** Laissez le fil élastique en TPU/silicone glisser directement dans les canaux supérieurs en PA12-CF (le PA12-CF a un excellent coefficient de friction naturel avec le TPU).
+2.  **Routage du tendon de flexion (Dyneema) :**
+    *   Passez le tendon Dyneema DM20 Ø1.0 mm préparé à l'Étape 1 depuis la pulpe distale à travers le canal inférieur vers la base du doigt à l'aide de brucelles.
+    *   Vérifiez que le manchon serti distal vient se loger parfaitement dans le renfoncement de la pulpe. Tirez fermement pour valider l'ancrage.
+3.  **Routage du tendon de retour élastique (Dorsal) :**
+    *   Coupez une longueur d'environ **20 cm** de fil élastique de Ø 0.8 mm (fil TPU ou silicone).
+    *   Réalisez un nœud d'arrêt ou sertissez un manchon à une extrémité. Logez cette butée dans la cavité dorsale supérieure de la phalange distale.
+    *   Faites passer le cordon élastique à travers les canaux dorsaux des articulations DIP, PIP et MCP à l'aide de brucelles jusqu'à ce qu'il ressorte à la base du doigt.
+4.  **Tensionnement du retour passif :**
+    *   Tirez sur le cordon élastique dorsal pour appliquer un pré-étirement (allongement de 20 à 30 % de sa longueur au repos, correspondant à une force de **2 N à 2.5 N**).
+    *   Sous cette tension, le doigt doit se redresser complètement (180°) et offrir une résistance élastique ferme lorsqu'on le plie manuellement.
+    *   Bloquez temporairement le cordon à la base du doigt. L'ancrage définitif se fera lors du montage sur la paume (Étape 4).
+5.  **Identification des lignes :**
+    *   **Tendon Inférieur = Fléchisseur** (Câble Dyneema DM20 Ø1.0 mm qui rejoindra les moteurs de l'avant-bras).
+    *   **Tendon Supérieur = Retour Passif** (Fil élastique Ø0.8 mm ancré localement sur la paume).
+    *   *Note sur l'extension active :* Dans cette architecture révisée sous-actionnée à 8 DOF, **aucun câble d'extension active ne traverse le poignet vers l'avant-bras**, simplifiant drastiquement le routage à travers le poignet RS-00.
 
-### Étape 4 : Assemblage de la Paume CNC (Palm Block)
-1.  Insérez les tubes PTFE de guidage dans les 8 canaux de la paume en alu.
+### Étape 4 : Assemblage de la Paume CNC (Palm Block) et Ancrage des Élastiques
+1.  Insérez les tubes PTFE de guidage (1.2 x 1.6 mm) uniquement pour les **8 canaux fléchisseurs actifs** de la paume (alésés au préalable à 1.6 mm). Les canaux d'extension d'origine ORCA dans la paume sont inutilisés pour le passage vers le poignet.
 2.  Montez les doigts sur la paume en alignant les bases de doigts avec les chapes de la paume.
 3.  Insérez les axes longs en inox rectifié **3x55 mm** pour traverser l'assemblage complet de la paume et verrouiller les 5 doigts.
 4.  Sécurisez les axes longs à l'aide de micro-circlips ou de points de frein-filet faible sur les filetages d'extrémité.
+5.  **Ancrage et réglage des élastiques de retour :**
+    *   Tirez sur les extrémités libres des 5 cordons élastiques dorsaux émergeant de la base des doigts.
+    *   Fixez-les fermement sur la paume. *Astuce :* Passez le cordon dans le logement taraudé de la paume et bridez-le avec une vis sans tête M2, ou sertissez un manchon en cuivre contre la face d'entrée de la paume pour le bloquer en tension.
+    *   Vérifiez que chaque doigt se rouvre de manière autonome et vive après une flexion manuelle complète. Ajustez la tension individuellement si nécessaire en desserrant le bridage.
 
 ---
 
@@ -208,7 +253,7 @@ Le raccordement entre la main (paume CNC) et la motorisation (avant-bras) s'effe
 ### Étape 5 : Routage à travers le poignet creux
 1.  Regroupez les 8 tendons sortant de la paume.
 2.  Faites-les glisser délicatement à l'intérieur du poignet creux de pronosupination **RS-00**. Veillez à ce que les câbles ne se croisent pas et ne s'entortillent pas lors de cette étape.
-3.  Une fois les câbles sortis du poignet à l'intérieur du tube carbone de l'avant-bras, distribuez-les vers leurs moteurs respectifs.
+3.  Une fois les câbles sortis du poignet à l'intérieur de la structure d'avant-bras (entre la plaque alu isogrid et les coques), distribuez-les vers leurs moteurs respectifs.
 
 ### Étape 6 : Montage des Poulies (Spools) sur les Moteurs
 1.  Montez les 8 spools en aluminium CNC sur les arbres cannelés des servomoteurs **STS3250** et **HL-3915**.

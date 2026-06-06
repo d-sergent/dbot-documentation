@@ -78,9 +78,14 @@ Prenez **2 tendons de 50 cm** (sans nœuds initiaux) et insérez-les sur le cot�
 ## Étape 04 — Coulée de la Peau en Silicone (Skin Casting)
 
 > [!IMPORTANT]
-> **Cette étape est mécaniquement obligatoire, pas seulement cosmétique.** L'ORCA n'utilise **aucun ressort métallique**. C'est l'élasticité naturelle de la peau en silicone qui assure le **retour passif primaire des doigts en position ouverte** quand le moteur relâche le câble fléchisseur. La D-Hand ajoute un **ressort à lame en PA12-CF** comme sécurité secondaire anti-fatigue (voir §2.4 du GUIDE_COMPLET).
+> **Divergence cinématique majeure ORCA vs D-Hand :**
+> L'ORCA V1 d'origine est une main active antagoniste à 17 moteurs : chaque articulation dispose de deux tendons actifs (un fléchisseur et un extenseur) enroulés en sens inverse sur le même spool moteur. L'extension y est donc **active**.
+>
+> La D-Hand V1 étant sous-actionnée (8 moteurs actifs de flexion uniquement), elle requiert un **mécanisme de retour passif**. Celui-ci est assuré par un **tendon élastique dorsal en polyuréthane/silicone** logé dans le canal supérieur d'origine (prévu initialement pour l'extenseur d'ORCA), complété par l'élasticité de la gaine externe en TPU (voir §2.3 et §3 du GUIDE_COMPLET).
+>
+> **Cette étape de coulée silicone (ou gaine TPU) est obligatoire** pour protéger l'eFlesh et apporter un rappel élastique secondaire.
 
-Imprimez les moules négatifs (ORCA_Molds.zip dans `Ressources 3D/ORCA_Hand`). Coulez-y un silicone de type EcoFlex 00-30 ou Dragon Skin 10. Laissez polymériser selon les instructions du fabricant (généralement 4h à température ambiante). Démoulez avec précaution.
+Imprimez les moules négatifs (ORCA_Molds.zip dans `Ressources 3D/ORCA_Hand`). Coulez-y un silicone de type EcoFlex 00-30 ou Dragon Skin 10 (si option silicone retenue) ou utilisez la gaine TPU Qidi (option standard D-Hand). Laissez polymériser selon les instructions du fabricant (généralement 4h à température ambiante). Démoulez avec précaution.
 
 ---
 
@@ -147,8 +152,8 @@ uv run python scripts/calibrate.py orca_core/models/orcahand_v1_right
 
 Vérifiez que :
 - Chaque doigt peut se fermer et s'ouvrir complètement sans accroc.
-- La peau en silicone ramène correctement les doigts en position ouverte quand la tension est relâchée.
-- L'eFlesh est correctement sécurisé sous la peau silicone à la pulpe de chaque doigt.
+- Le tendon élastique dorsal (couplé à la gaine TPU ou peau silicone) ramène correctement les doigts en position ouverte complète quand la tension du tendon de flexion est relâchée.
+- L'eFlesh est correctement sécurisé sous l'enveloppe à la pulpe de chaque doigt.
 
 ![Finish 1](Images_ORCA/Assembly_2_31_Complete_Assembly_substep_01.png)
 

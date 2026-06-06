@@ -12,7 +12,7 @@ L'architecture du membre supérieur du D-Bot est définitivement gelée en confi
 | :------------------------ | :-------------------------- | :-------- |
 | **Architecture Bras :** "Forearm Supination" (Tesla-like) | Moteur RS-02 déplacé au coude pour la supination, RS-00 Pitch au poignet. Élimine le vrillage des tendons de la main, réduit drastiquement l'inertie distale et assure des proportions anthropomorphes. | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `00_Archives_Recherche/STUDY_Poignet_Optimus.md` |
 | **Main Hybrid Premium :** 8 DOF (5x Feetech STS3250 + 3x HL-3915) | Élimine les faiblesses de la baseline Dynamixel. Les STS3250 coreless tout-alu (50 kg·cm) apportent un grip d'acier (376 N). Les HL-3915 apportent un mode force constant matériel pour le dosage de préhension fine. | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `00_Archives_Recherche/RECO_FINALE_Architecture_Main_DBot_V1_REVISEE.md` |
-| **Structure Hybride :** Carbone / Alu 6061-T6 CNC | Tubes carbone (Ø35-40mm humérus, Ø25-30mm avant-bras) collés (3M DP490) sur inserts alu usinés, sécurisés par goupilles Mécanindus. Rigidité maximale, inertie distale minimale. | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `00_Archives_Recherche/STUDY_Structure_Bras_Carbone.md` |
+| **Structure Hybride :** Carbone / Alu 6061-T6 Isogrid | Humérus en tube carbone (Ø35-40mm). Avant-bras en plaque alu 6061-T6 Isogrid et coques structurelles PA12-CF vissées (boîte de torsion). Liaison par inserts alu et goupilles Mécanindus. | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `00_Archives_Recherche/etude_comparative_tube_carbone_vs_isogrid_alu.md` |
 | **Verrous Mécaniques Tendons :** Sans Nœuds Simples | Vectran LCP Ø0.80mm (rupture ~950 N, fluage quasi nul) pincé par vis sans tête M1.6 sur spools CNC Ø14mm (1.5 tour) et serti à la pulpe via manchon cuivre Ø1.5mm. Élimine le point de cisaillement du nœud Ashley et le fluage du Dyneema. | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `GUIDE_COMPLET_Fabrication_et_Montage_DHand_V1.md` |
 | **Régulation Thermique :** Buck DROK 48V→12V 25A IP67 | Convertisseur DROK synchrone (efficacité 96%, boîtier alu étanche, entrée 30–60V) compatible directement avec le bus batterie 48V nominal. Dissipation ~4–6W facilement évacuée par le boîtier alu. Fusible PTC 15A sur le rail 12V. | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `GUIDE_COMPLET_Fabrication_et_Montage_DHand_V1.md` |
 | **Capteurs Tactiles :** eFlesh / FSR 402 sous silicone | Intégration immédiate de FSR 402 minces sous peau silicone élastique (assurant le retour passif), évoluant vers AnySkin (magnétique 3-axes). | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `GUIDE_COMPLET_Fabrication_et_Montage_DHand_V1.md` |
@@ -43,14 +43,14 @@ Cette section présente la validation mathématique rigoureuse des caractéristi
     *   **Criticité :** 🟢
 
 4.  **Calcul de la longueur et proportions de l'avant-bras**
-    *   **Données :** Tube carbone = 200 mm. RS-02 Supination au coude = 78 mm. RS-00 Pitch au poignet = 57 mm.
-    *   **Longueur fonctionnelle coude ➔ poignet :** 78 mm (moteur supination) + 200 mm (tube avant-bras) = **278 mm**.
-    *   **Validation :** ✅ **RÉSOLU & VALIDÉ** - L'incohérence historique de longueur est résolue. La longueur fonctionnelle de 278 mm s'insère parfaitement dans les proportions anthropomorphes d'un bras de robot de 170 cm. Les 200 mm de tube abritent le bloc compact de 8 servos (90 mm sur double couche) et le RS-00 Pitch (57 mm), laissant 53 mm libres pour le raccordement et le Buck converter.
+    *   **Données :** Châssis avant-bras (plaque Isogrid) = 200 mm. RS-02 Supination au coude = 78 mm. RS-00 Pitch au poignet = 57 mm.
+    *   **Longueur fonctionnelle coude ➔ poignet :** 78 mm (moteur supination) + 200 mm (châssis avant-bras) = **278 mm**.
+    *   **Validation :** ✅ **RÉSOLU & VALIDÉ** - L'incohérence historique de longueur est résolue. La longueur fonctionnelle de 278 mm s'insère parfaitement dans les proportions anthropomorphes d'un bras de robot de 170 cm. Les 200 mm de la plaque Isogrid abritent le bloc compact de 8 servos (90 mm sur double couche) et le RS-00 Pitch (57 mm), laissant 53 mm libres pour le raccordement et le Buck converter.
     *   **Criticité :** 🟢
 
-5.  **Tension Vectran générée en pic par le STS3250**
+5.  **Tension Dyneema générée en pic par le STS3250**
     *   **Calcul :** (Couple de pic STS3250 / Rayon de spool effectif) × Rendement global $\eta_{total}$
-    *   **Données :** Couple pic $C_{pic} = 4.9\text{ N.m}$. Rayon effectif au fond de gorge $r = 6\text{ mm}$ (0.006 m). Rendement réaliste $\eta = 0.83$ (intégrant frottement Vectran/PTFE, poulies et pivots).
+    *   **Données :** Couple pic $C_{pic} = 4.9\text{ N.m}$. Rayon effectif au fond de gorge $r = 6\text{ mm}$ (0.006 m). Rendement réaliste $\eta = 0.83$ (intégrant frottement Dyneema/PTFE, poulies et pivots).
     *   **Numérique :** $(4.9\text{ N.m} / 0.006\text{ m}) \times 0.83 = \mathbf{677\text{ N}}$ de traction de câble en pic.
     *   **Validation :** ✅ Cohérent.
     *   **Criticité :** 🟢
@@ -68,9 +68,9 @@ Cette section présente la validation mathématique rigoureuse des caractéristi
 
 7.  **Force de Grip Réelle (Power Grasp cylindrique)**
     *   **Calcul :** Nombre de doigts fléchisseurs (Pouce, Index, Majeur, Annulaire, Auriculaire = 5) × Force à la pulpe en flexion × cos(Angle de projection de préhension $\approx 25^\circ$)
-    *   **Numérique (Pic) :** $5 \times 96.7\text{ N} \times \cos(25^\circ) = 483.5\text{ N} \times 0.906 = \mathbf{438\text{ N}}$ bruts → arrondi conservativement à **376 N** pour tenir compte de la variabilité des angles de contact réels et de la prise cylindrique non idéale.
-    *   **Numérique (Continu) :** $5 \times 31.0\text{ N} \times \cos(25^\circ) = 155\text{ N} \times 0.906 = \mathbf{~120\text{ N}}$ réels en continu.
-    *   **Validation :** ✅ **RÉSOLU & VALIDÉ** - La force de grip pic de **376 N** est confirmée. Le grip continu de **120 N** est amplement suffisant pour toute manipulation d'objets courants (une bouteille d'eau pleine requiert ~15 N de grip). Le D-Bot se positionne parmi les meilleurs standards mondiaux de sa catégorie.
+    *   **Numérique (Pic) :** $5 \times 96.7\text{ N} \times \cos(25^\circ) = 483.5\text{ N} \times 0.906 = \mathbf{438\text{ N}}$ (valeur physique réelle pour r = 6 mm).
+    *   **Numérique (Continu) :** $5 \times 31.0\text{ N} \times \cos(25^\circ) = 155\text{ N} \times 0.906 = \mathbf{140\text{ N}}$ (valeur physique réelle pour r = 6 mm).
+    *   **Validation :** ✅ **RÉSOLU & VALIDÉ** - La force de grip pic de **438 N** et le grip continu de **140 N** sont validés. Le grip continu est amplement suffisant pour toute manipulation d'objets courants (une bouteille d'eau pleine requiert ~15 N de grip). Le D-Bot se positionne parmi les meilleurs standards mondiaux de sa catégorie.
     *   **Criticité :** 🟢
 
 8.  **Dissipation thermique du Buck Converter DROK 48V→12V 25A**
@@ -82,47 +82,47 @@ Cette section présente la validation mathématique rigoureuse des caractéristi
     *   **Validation :** ✅ **RÉSOLU & VALIDÉ** - Le convertisseur DROK 48V→12V (entrée 30–60V, boîtier alu IP67, efficacité 96%) est directement compatible avec le bus batterie 48V nominal. Le boîtier alu massif (74×74×32mm) évacue passivement les 4–6W de chaleur résiduelle, maintenant le système froid sous 50°C. Un fusible PTC 15A sur le rail 12V protège l'ensemble.
     *   **Criticité :** 🟢
 
-9.  **Facteur de Sécurité du câble Vectran LCP Ø0.80mm**
+9.  **Facteur de Sécurité du câble Dyneema DM20 Ø1.0mm**
     *   **Calcul :** Résistance effective à la rupture du câble / Traction maximale de pic
-    *   **Données :** Résistance brute Vectran tressé Ø0.80mm ~950 N (conservatif, variable selon constructeur). Sertissage cuivre préservant 90% = 855 N. Traction crête en pic = 677 N (à r = 6 mm).
-    *   **Numérique :** $Fs_{pic} = 855\text{ N} / 677\text{ N} = \mathbf{1.26}$. En continu : $Fs_{continu} = 855\text{ N} / 217\text{ N} = \mathbf{3.94}$.
-    *   **Validation :** ✅ **VALIDÉ avec réserve** - Le Fs de 1.26 en pic extrême est acceptable pour des charges brèves de stall. Le bridage firmware (registre « Max Torque » Feetech limité à 70–80%) ramène la traction de pic effective sous 550 N → Fs > 1.55. En continu, le Fs de 3.94 est excellentissime. L'avantage majeur du Vectran sur le Dyneema est l'absence totale de fluage, éliminant le recalibrage périodique des tendons.
+    *   **Données :** Résistance brute Dyneema DM20 Ø1.0mm ~980 N (conservatif). Sertissage cuivre préservant 90% = 882 N. Traction crête en pic = 677 N (à r = 6 mm).
+    *   **Numérique :** $Fs_{pic} = 882\text{ N} / 677\text{ N} = \mathbf{1.30}$. En continu : $Fs_{continu} = 882\text{ N} / 217\text{ N} = \mathbf{4.06}$.
+    *   **Validation :** ✅ **VALIDÉ avec réserve** - Le Fs de 1.30 en pic extrême est acceptable pour des charges brèves de stall. Le bridage firmware (registre « Max Torque » Feetech limité à 70–80%) ramène la traction de pic effective sous 550 N → Fs > 1.60. En continu, le Fs de 4.06 est excellentissime.
     *   **Criticité :** 🟡 (bridage firmware obligatoire pour maintenir Fs > 1.5 en pic)
 
 10. **Capacité de portage du bras (analyse statique par articulation)**
     *   **Méthode :** Calcul du couple résiduel disponible à chaque articulation après soustraction du couple gravitaire des segments distaux, en position bras tendu à 90° (pire cas).
-    *   **Masses distales :** Main = 300 g, Avant-bras (servos + RS-00 + DROK + plaque isogrid + coques 3D) = 1520 g, Coude (RS-06 + RS-02 + bracket) = 1100 g, Humérus = 250 g. Total bras = **~6.1 kg**.
+    *   **Masses distales :** Main = 300 g, Avant-bras (servos + RS-00 + DROK + plaque isogrid + coques 3D) = 1520 g, Coude (RS-03 + RS-02 + bracket) = 1359 g, Humérus = 250 g. Total bras = **~6.4 kg** (avec l'épaule).
     *   **Distances articulaires :** Épaule→Coude = 300 mm, Coude→Poignet = 278 mm, Poignet→Centre de préhension = 120 mm.
-    *   **Résultats par articulation :**
+    *   **Résultats par articulation (Configuration nominale RS-03) :**
 
     | Articulation | Moteur | Couple Nominal | Couple gravitaire distal | Charge Continue (bras tendu) | Charge Pic (bras tendu) |
     | :--- | :--- | :---: | :---: | :---: | :---: |
-    | Poignet Pitch | RS-00 (5 N.m) | 5 N.m | 0.18 N.m | **4.1 kg** | 11.7 kg |
-    | **Coude Pitch** | **RS-06 (11 N.m)** | **11 N.m** | **3.07 N.m** | **2.0 kg** 🔴 | **8.4 kg** |
-    | Épaule Pitch | RS-04 (40 N.m) | 40 N.m | 7.93 N.m | **4.7 kg** | 16.4 kg |
+    | Poignet Pitch | RS-00 (5 N.m) | 5 N.m | 0.18 N.m | **4.1 kg** 🔴 | 11.7 kg |
+    | Coude Pitch | RS-03 (20 N.m) | 20 N.m | 3.07 N.m | **4.3 kg** | 14.6 kg |
+    | Épaule Pitch | RS-04 (40 N.m) | 40 N.m | 8.58 N.m | **4.59 kg** | 16.2 kg |
 
-    *   **Facteur limitant identifié :** 🔴 **Le coude (RS-06, 11 N.m)** est le goulot d'étranglement. À bras tendu horizontalement, la charge continue maximale est de **~2.0 kg**. En pic, **~8.4 kg**.
-    *   **Postures réalistes :** Coude fléchi à 45° → **~2.9 kg continu**. Objet tenu près du corps (coude 90°, charge à 200 mm) → **~4.0 kg continu / ~16.8 kg pic**.
-    *   **Comparaison :** D-Bot (2.0 kg bras tendu) se situe au niveau du Unitree G1 (~2 kg) et du Figure 01 (~2.3 kg estimé). Le Tesla Optimus Gen 2 annonce ~4.5 kg mais utilise un bras ~1.2 kg plus lourd.
-    *   **Validation :** ✅ **VALIDÉ** — Les performances de portage sont cohérentes avec le dimensionnement des moteurs et la masse du bras. Le RS-06 au coude est un choix d'optimisation poids/coût. Un upgrade vers le RS-04 (40 N.m) au coude en V2 quadruplerait la capacité de portage à bras tendu si nécessaire.
-    *   **Criticité :** 🟡 (limitation structurelle connue et documentée, acceptable pour les cas d'usage V1)
+    *   **Facteur limitant identifié (Axe Pitch) :** 🔴 **Le poignet pitch (RS-00, 5 N.m)** est le goulot d'étranglement en flexion frontale avec **4.1 kg** continu. Le coude pitch (4.3 kg) et l'épaule pitch (4.59 kg) sont extrêmement proches, créant un alignement de charge très homogène.
+    *   **Postures réalistes :** Coude fléchi à 45° → **~6.1 kg continu** (limité au coude). Objet tenu près du corps (coude 90°, charge à 200 mm) → **~8.6 kg continu / ~29.0 kg pic**.
+    *   **Comparaison :** D-Bot (4.3 kg bras tendu) se situe au niveau du Tesla Optimus Gen 2 (~4.5 kg annoncé) tout en étant 600 g plus léger.
+    *   **Validation :** ✅ **VALIDÉ** — Les performances de portage avec le RS-03 au coude sont excellentes et répondent aux exigences de manipulation lourde. La structure alu isogrid de l'avant-bras et le bracket de coude sont adaptés en CAO pour le Ø106 mm du RS-03.
+    *   **Criticité :** 🟢 (les marges sont confortables)
 
-11. **Alternative V1.1 : Remplacement du RS-06 par un RS-03 au coude**
-    *   **Motivation :** Le RS-06 (11 N.m) est le facteur limitant identifié au point 10. Le RS-03 (20 N.m, +82% de couple) offre un upgrade intermédiaire réaliste.
-    *   **Impact masse :** +259 g par bras (621 g → 880 g). Masse totale bras : 6.1 kg → 6.4 kg (+4.2%).
-    *   **Impact coût :** +$50 par bras ($200 → $250), soit +$100 pour le robot complet.
-    *   **Impact structurel :** Le Ø106 mm du RS-03 déborde plus largement du profil du tube avant-bras (Ø25-30 mm) que le Ø88 mm du RS-06 → redesign du bracket coude nécessaire (adaptation Ø106→Ø30 mm, usinage CNC).
-    *   **Résultats recalculés :**
+11. **Alternative Étudiée : Version RS-06 au coude**
+    *   **Motivation :** Le moteur RS-06 (11 N.m nominal / 36 N.m pic, Ø88 mm) a été étudié comme alternative plus légère (-259 g) et plus économique (-$50/bras).
+    *   **Impact structurel et de portage :**
+        *   Masse du coude réduite à 1100 g (RS-06 621 g + RS-02 405 g + bracket 74 g). Masse totale du bras : ~6.1 kg.
+        *   Capacité de portage réduite à **~2.0 kg continu / ~8.4 kg pic** bras tendu (baisse de plus de 50%).
+    *   **Résultats comparatifs :**
 
-    | Scénario | V1 (RS-06) Continu | V1.1 (RS-03) Continu | V1.1 (RS-03) Pic | Gain |
-    | :--- | :---: | :---: | :---: | :---: |
-    | Bras tendu à 90° | 2.0 kg | **4.3 kg** | 14.6 kg | **x2.1** |
-    | Coude fléchi 45° | 2.9 kg | **6.1 kg** | 20.6 kg | **x2.1** |
-    | Proche corps (coude 90°) | 4.0 kg | **8.6 kg** | 29.0 kg | **x2.1** |
+    | Scénario | Alternative Étudiée (RS-06) | Choix Définitif (RS-03) | Gain en capacité |
+    | :--- | :---: | :---: | :---: |
+    | Bras tendu à 90° | 2.0 kg | **4.3 kg** | **x2.1** |
+    | Coude fléchi 45° | 2.9 kg | **6.1 kg** | **x2.1** |
+    | Proche corps (coude 90°) | 4.0 kg | **8.6 kg** | **x2.1** |
 
-    *   **Impact sur l'épaule :** Négligeable (-2%, soit -100 g de charge utile). Le RS-04 absorbe aisément les +259 g.
-    *   **Validation :** ✅ **RECOMMANDÉ** — Le RS-03 au coude est un upgrade hautement rentable (x2.1 de capacité de portage pour +259 g et +$50). Place le D-Bot au niveau du Tesla Optimus Gen 2 (~4.5 kg) tout en restant 1 kg plus léger. Point de décision utilisateur.
-    *   **Criticité :** 🟢 (amélioration optionnelle à fort impact, aucun risque technique supplémentaire)
+    *   **Conclusion et Décision :**
+        *   **Le moteur RS-03 est définitivement sélectionné** au détriment du RS-06. Bien qu'il apporte un surpoids de 259 g et un surcoût de $50/bras, doubler la capacité utile du bras (de 2.0 kg à 4.3 kg) justifie pleinement ce choix pour un robot humanoïde de cette taille.
+    *   **Criticité :** 🟢 (décision stratégique finalisée, documentée et intégrée dans le design structurel).
 
 ---
 
@@ -130,7 +130,7 @@ Cette section présente la validation mathématique rigoureuse des caractéristi
 
 Le module "Bras et Mains" présente des couplages étroits avec le reste de l'architecture humanoïde :
 
-*   **[Masse totale du bras et de la main (~5.4 kg)]** ➔ **[Torse & Balance locomotrice bipède]** : L'inertie du bras en balancement dynamique lors de la course bipède influe directement sur les couples compensateurs requis aux hanches (RS-04) et aux chevilles. Le gain de poids distocervical allège la charge globale.
+*   **[Masse totale du bras et de la main (~6.4 kg avec l'épaule)]** ➔ **[Torse & Balance locomotrice bipède]** : L'inertie du bras en balancement dynamique lors de la course bipède influe directement sur les couples compensateurs requis aux hanches (RS-04) et aux chevilles. Le gain de poids distocervical allège la charge globale.
 *   **[Consommation électrique de la main (8.5A rated / 12A grip soutenu / 25.5A stall théorique sous 12V)]** ➔ **[Power Distribution Board (PDB) & Batterie]** : Le dimensionnement du bus 48V principal prend en compte les appels de courant des 8 servos SCServo TTL de la main via le Buck DROK 25A. Le bridage firmware limite le courant réel à <15A.
 *   **[Protocole SCServo TTL (Single-Bus à 3 Mbps)]** ➔ **[Jetson Orin Nano / Carte Mère]** : La main révisée n'utilise qu'un seul bus de commande et une seule interface USB-to-UART (URT-1), allégeant les ports de communication de la Jetson et simplifiant le code du pilote ROS2 par rapport aux architectures hybrides mixtes.
 *   **[Retour d'effort FSR 402 / eFlesh]** ➔ **[Calculateur IA Jetson (FOC / RL)]** : Les données tactiles de la pulpe des doigts alimentent le pipeline d'apprentissage par renforcement pour le contrôle de préhension agile et l'évitement du glissement d'objets.
@@ -171,6 +171,6 @@ L'audit formalise la résolution complète de tous les points jugés bloquants o
 
 ★★★★☆ — **La conception mécanique et électrique du module Bras et Mains est mature et rigoureusement validée. Elle est prête pour le prototypage physique final qui confirmera le passage à ★★★★★.**
 
-Grâce à la refonte majeure adoptant l'architecture unifiée Feetech Hybrid Premium et les tendons Vectran LCP, l'ingénierie du membre supérieur surclasse l'ensemble des baselines précédentes. Le robot D-Bot bénéficie d'une force de préhension hors du commun (376 N pic, 120 N continu), d'une sécurité structurelle de transmission solide (Fs = 1.26 pic bridé à >1.55, Fs = 3.94 continu), d'une électronique thermiquement protégée (DROK IP67, fusible PTC), et d'un bus de communication unifié, le tout pour un budget hautement optimisé (~2258 € par bras). Le passage au Vectran élimine le recalibrage périodique des tendons.
+Grâce à la refonte majeure adoptant l'architecture unifiée Feetech Hybrid Premium, l'avant-bras Isogrid à coques, et les tendons Dyneema DM20, l'ingénierie du membre supérieur surclasse l'ensemble des baselines précédentes. Le robot D-Bot bénéficie d'une force de préhension hors du commun (438 N pic, 140 N continu), d'une sécurité structurelle de transmission solide (Fs = 1.30 pic bridé à >1.60, Fs = 4.06 continu), d'une électronique thermiquement protégée par conduction (DROK IP67), et d'un bus de communication unifié, le tout pour un budget hautement optimisé (~2258 € par bras).
 
 **Version V1.2 — Mai 2026. Corrections : DROK 48V→12V, Vectran LCP standardisé, couples datasheets, rayon spool r=6mm, poids servos corrigés.**
