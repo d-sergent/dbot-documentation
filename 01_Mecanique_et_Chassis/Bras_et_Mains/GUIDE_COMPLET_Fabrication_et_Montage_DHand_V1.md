@@ -113,7 +113,7 @@ L'impression additive est la seule méthode capable de fabriquer des canaux cour
 *   **Hauteur de couche :** 0.12 mm ou 0.16 mm.
 *   **Remplissage (Infill) :** **100% rectiligne** (obligatoire pour éviter tout écrasement structurel sous la compression axiale des 8 gaines PTFE sous tension).
 *   **Buse :** Acier trempé ou rubis de 0.4 mm. Température : 285°C.
-*   **Post-traitement :** Ebavurez les entrées et sorties de canaux. Insérez les tubes PTFE 0.9x1.5 mm.
+*   **Post-traitement :** Ebavurez les entrées et sorties de canaux. Insérez les tubes PTFE 1.2x1.6 mm.
 
 #### B. Méthode alternative pour information : L'Usinage CNC en Aluminium 6061-T6 (Split-Palm)
 Si vous choisissez l'usinage sur votre NestWorks C500 pour des raisons d'esthétique métal et de rigidité absolue, **un bloc monobloc est strictement inusinable** car une fraiseuse ne peut pas percer des canaux courbes fermés à l'intérieur d'un métal plein.
@@ -151,18 +151,18 @@ Le gainage externe continu imprimé en TPU 95A/98A assure l'étanchéité, la pr
     *   **Zone de la pulpe tactile (eFlesh) :** Infill **Gyroïde à 8%** (comportement de mousse ultra-souple et sensible, équivalente à un silicone Shore 15A).
     *   **Parois externes :** 2 périmètres (épaisseur de coque de 0.8 mm) pour assurer l'étanchéité tout en transmettant fidèlement les efforts.
 *   **Insertion de l'aimant (Pause d'impression) :**
-    *   Le modèle intègre une cavité cylindrique fermée de 3.2 mm (diamètre) x 1.6 mm (profondeur) dans l'infill de la pulpe.
+    *   Le modèle intègre une cavité cylindrique fermée de 3.2 mm (diamètre) x 1.1 mm (profondeur) dans l'infill de la pulpe.
     *   Insérez une commande de pause (`M600` ou pause via le slicer) à la hauteur de couche exacte précédant la fermeture de la cavité.
     *   L'imprimante s'arrête et dégage la tête. Insérez l'aimant néodyme N52 (polarité Nord tournée vers l'intérieur du doigt).
     *   Relancez l'impression pour emprisonner l'aimant hermétiquement dans le TPU sans colle.
 
 ### 2.4 Le Mécanisme de Retour Passif Principal : Les Tendons Élastiques Dorsaux
-Le rappel principal d'extension est assuré par un cordon élastique technique mono-brin de Ø 1.0 mm (PU thermofusible ou fil élastique de bijouterie) logé dans les canaux supérieurs (dorsaux) des phalanges en PA12-CF. Ces canaux, initialement prévus pour les tendons extenseurs actifs d'ORCA, guident parfaitement le cordon.
+Le rappel principal d'extension est assuré par un cordon élastique technique mono-brin de Ø 0.8 mm (Beadalon Elasticity) logé dans les canaux supérieurs (dorsaux) des phalanges en PA12-CF. Ces canaux, initialement prévus pour les tendons extenseurs actifs d'ORCA, guident parfaitement le cordon.
 
 ```
                   SCHÉMA DU RETOUR PASSIF DORSAL (VUE LATÉRALE)
                   
-                  [Cordon Élastique Dorsal Ø1.0 mm] (Rappel principal)
+                  [Cordon Élastique Dorsal Ø0.8 mm] (Rappel principal)
                   ┌──────────────────────────────────────────────┐
                   │                                              │
       MCP         ▼             PIP                              ▼          DIP
@@ -200,12 +200,12 @@ Le rappel principal d'extension est assuré par un cordon élastique technique m
 ### Étape 3 : Routage des Tendons dans les Doigts
 1.  **Préparation des guidages :**
     *   **Canal Fléchisseur (Palmar) :** Insérez des segments de tube Téflon **PTFE [1.2 × 1.6 mm]** dans les canaux internes inférieurs courbes des phalanges. Les tubes PTFE doivent dépasser de 1 mm à chaque extrémité pour éviter tout contact direct du câble avec le PA12-CF.
-    *   **Canal Extenseur (Dorsal) :** Laissez le fil élastique en TPU/silicone glisser directement dans les canaux supérieurs en PA12-CF (le PA12-CF a un excellent coefficient de friction naturel avec le TPU).
+    *   **Canal Extenseur (Dorsal) :** Laissez le fil élastique en TPU glisser directement dans les canaux supérieurs en PA12-CF (le PA12-CF a un excellent coefficient de friction naturel avec le TPU).
 2.  **Routage du tendon de flexion (Dyneema) :**
     *   Passez le tendon Dyneema DM20 Ø1.0 mm préparé à l'Étape 1 depuis la pulpe distale à travers le canal inférieur vers la base du doigt à l'aide de brucelles.
     *   Vérifiez que le manchon serti distal vient se loger parfaitement dans le renfoncement de la pulpe. Tirez fermement pour valider l'ancrage.
 3.  **Routage du tendon de retour élastique (Dorsal) :**
-    *   Coupez une longueur d'environ **20 cm** de fil élastique de Ø 0.8 mm (fil TPU ou silicone).
+    *   Coupez une longueur d'environ **20 cm** de fil élastique de Ø 0.8 mm (fil TPU Beadalon).
     *   Réalisez un nœud d'arrêt ou sertissez un manchon à une extrémité. Logez cette butée dans la cavité dorsale supérieure de la phalange distale.
     *   Faites passer le cordon élastique à travers les canaux dorsaux des articulations DIP, PIP et MCP à l'aide de brucelles jusqu'à ce qu'il ressorte à la base du doigt.
 4.  **Tensionnement du retour passif :**
@@ -299,7 +299,7 @@ L'ORCA/D-Hand V1 intègre désormais le système tactile magnétique 3-axes **eF
 *   **Ce qu'il faut acheter obligatoirement chez WowRobo :**
     *   **16× [eFlesh Magnetometer Board](https://shop.wowrobo.com/products/eflesh-magnetometer-board)** (8 par main : 5 doigts + 3 paume en triangle) + *2 unités de spares recommandées*. Ce PCB intègre le capteur MLX90393 dans un format ultra-réduit adapté aux phalanges. Les commandes sont généralement expédiées sous 3 jours (TVA d'importation applicable à la livraison pour l'Europe).
 *   **Ce qu'il faut acheter ailleurs (Amazon, Lextronic, Supermagnete) :**
-    *   **16× Aimants N52 ronds (Ø 3 mm × 1.5 mm d'épaisseur)** (8 par main).
+    *   **16× Aimants N48 ronds (Ø 3 mm × 1.0 mm d'épaisseur)** (8 par main - Supermagnete S-03-01-N).
     *   **2× Cartes de développement ESP32-S3** ultra-compactes (ex: *Seeed XIAO ESP32-S3* ou *Adafruit QT Py S3*).
     *   **1× Bobine de micro-fil émaillé** (Ø 0.15 mm ou 0.20 mm) ou micro-nappes FFC extra-plates pour le câblage interne des canaux.
 
@@ -310,7 +310,7 @@ Pour préserver une esthétique anthropomorphe haut de gamme (sans les structure
 3.  **Évitement de l'Effet Coussin d'Air (Venting Hole) :** Une coque de TPU hermétique emprisonne l'air, ce qui augmente artificiellement la rigidité de la pulpe tactile et ralentit le retour élastique. Pour y remédier, modélisez un **micro-canal de purge d'air de 0.8 mm** caché à la base de la phalange PA12-CF. Lors de la compression du doigt, l'air s'échappe de manière fluide vers le squelette interne sans aucune résistance pneumatique.
 4.  **Logement Aimant & Capteur :**
     *   **Squelette PA12-CF :** Évidement rectangulaire de 10 × 12 mm pour fixer le PCB MLX90393 WowRobo.
-    *   **Gaine TPU :** Cavité de Ø 3.2 mm × 1.6 mm pour l'aimant N52.
+    *   **Gaine TPU :** Cavité de Ø 3.2 mm × 1.1 mm (profondeur réduite pour éviter le flottement de l'aimant N48 de 1.0 mm).
     *   **Distance d'Air-Gap :** Conservez une distance d'air-gap de **3.0 à 4.0 mm** au repos entre l'aimant et le capteur. Moins de 2.0 mm provoquera une saturation magnétique ; plus de 6.0 mm entraînera une perte de résolution.
 
 #### C. Routage & Adressage I2C Dual (Sans Multiplexeur)
