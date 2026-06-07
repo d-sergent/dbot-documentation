@@ -104,9 +104,9 @@ Le Nylon Carbone (PA12-CF) est obligatoire pour sa grande rigidité axiale et so
 La paume de la main D-Hand Hybrid révisée est une pièce structurelle majeure qui abrite le routage des câbles. 
 
 > [!IMPORTANT]
-> **Simplification des canaux (Transition 17 ➔ 8 moteurs) :**
-> L'adoption de la gaine élastique en TPU pour l'extension passive a permis de **supprimer tous les tendons de rappel (ouverture)**. De plus, notre architecture n'exploite plus que **8 servomoteurs actifs** (5 flexion, 3 précision). 
-> *   **Action CAO :** Sous Fusion 360, **supprimez ou bouchez tous les canaux de guidage inutiles** du modèle d'origine (conçu pour 17 câbles). Nous ne conservons que **8 canaux actifs**. Cela simplifie radicalement le routage et augmente considérablement le volume de matière solide du bloc de paume, décuplant sa résistance mécanique.
+> **Simplification et réutilisation des canaux (Transition 17 ➔ 8 moteurs + 5 retours passifs) :**
+> L'adoption de la gaine élastique en TPU pour l'extension passive a permis de supprimer les moteurs d'extension active, mais le rappel d'extension principal est assuré par des tendons élastiques dorsaux de Ø 0.8 mm. Afin de centraliser leur tensionnement à la base de la main, ces élastiques traversent entièrement la paume.
+> *   **Action CAO :** Sous Fusion 360, conservez **13 canaux ouverts** (8 canaux actifs pour les tendons fléchisseurs de Ø 1.0 mm guidés par gaines PTFE, et 5 canaux supérieurs/dorsaux pour les élastiques de retour de Ø 0.8 mm). Supprimez ou bouchez uniquement les **4 canaux restants** totalement inutilisés du modèle d'origine ORCA v1 (conçu pour 17 câbles). Cela renforce la rigidité mécanique du bloc de paume tout en garantissant un routage interne propre.
 
 #### A. Méthode standard recommandée : L'Impression 3D en PA12-CF (Qidi Plus 4)
 L'impression additive est la seule méthode capable de fabriquer des canaux courbes internes fermés dans un bloc monobloc sans aucun support. Le PA12-CF (Nylon Carbone) offre un excellent coefficient de glissement naturel pour les tubes PTFE et une résistance mécanique phénoménale.
@@ -153,7 +153,7 @@ Le gainage externe continu imprimé en TPU 95A/98A assure l'étanchéité, la pr
 *   **Insertion de l'aimant (Pause d'impression) :**
     *   Le modèle intègre une cavité cylindrique fermée de 3.2 mm (diamètre) x 1.1 mm (profondeur) dans l'infill de la pulpe.
     *   Insérez une commande de pause (`M600` ou pause via le slicer) à la hauteur de couche exacte précédant la fermeture de la cavité.
-    *   L'imprimante s'arrête et dégage la tête. Insérez l'aimant néodyme N52 (polarité Nord tournée vers l'intérieur du doigt).
+    *   L'imprimante s'arrête et dégage la tête. Insérez l'aimant néodyme N48 (polarité Nord tournée vers l'intérieur du doigt).
     *   Relancez l'impression pour emprisonner l'aimant hermétiquement dans le TPU sans colle.
 
 ### 2.4 Le Mécanisme de Retour Passif Principal : Les Tendons Élastiques Dorsaux
@@ -208,24 +208,26 @@ Le rappel principal d'extension est assuré par un cordon élastique technique m
     *   Coupez une longueur d'environ **20 cm** de fil élastique de Ø 0.8 mm (fil TPU Beadalon).
     *   Réalisez un nœud d'arrêt ou sertissez un manchon à une extrémité. Logez cette butée dans la cavité dorsale supérieure de la phalange distale.
     *   Faites passer le cordon élastique à travers les canaux dorsaux des articulations DIP, PIP et MCP à l'aide de brucelles jusqu'à ce qu'il ressorte à la base du doigt.
-4.  **Tensionnement du retour passif :**
+4.  **Tensionnement provisoire du retour passif :**
     *   Tirez sur le cordon élastique dorsal pour appliquer un pré-étirement (allongement de 20 à 30 % de sa longueur au repos, correspondant à une force de **2 N à 2.5 N**).
     *   Sous cette tension, le doigt doit se redresser complètement (180°) et offrir une résistance élastique ferme lorsqu'on le plie manuellement.
-    *   Bloquez temporairement le cordon à la base du doigt. L'ancrage définitif se fera lors du montage sur la paume (Étape 4).
+    *   Bloquez temporairement le cordon à la base du doigt à l'aide d'une pince de maintien. L'ancrage définitif se fera après passage à travers la paume (Étape 4).
 5.  **Identification des lignes :**
     *   **Tendon Inférieur = Fléchisseur** (Câble Dyneema DM20 Ø1.0 mm qui rejoindra les moteurs de l'avant-bras).
-    *   **Tendon Supérieur = Retour Passif** (Fil élastique Ø0.8 mm ancré localement sur la paume).
+    *   **Tendon Supérieur = Retour Passif** (Fil élastique Ø0.8 mm qui traverse entièrement la paume et est ancré/ajusté à l'entrée du poignet).
     *   *Note sur l'extension active :* Dans cette architecture révisée sous-actionnée à 8 DOF, **aucun câble d'extension active ne traverse le poignet vers l'avant-bras**, simplifiant drastiquement le routage à travers le poignet RS-00.
 
-### Étape 4 : Assemblage de la Paume CNC (Palm Block) et Ancrage des Élastiques
-1.  Insérez les tubes PTFE de guidage (1.2 x 1.6 mm) uniquement pour les **8 canaux fléchisseurs actifs** de la paume (alésés au préalable à 1.6 mm). Les canaux d'extension d'origine ORCA dans la paume sont inutilisés pour le passage vers le poignet.
+### Étape 4 : Assemblage de la Paume (Palm Block) et Guidage des Élastiques
+1.  Insérez les tubes PTFE de guidage (1.2 x 1.6 mm) uniquement pour les **8 canaux fléchisseurs actifs** de la paume (alésés au préalable à 1.6 mm). Les 5 canaux supérieurs de la paume restent libres (sans PTFE) pour servir de canaux de traversée pour les élastiques de retour de Ø 0.8 mm.
 2.  Montez les doigts sur la paume en alignant les bases de doigts avec les chapes de la paume.
 3.  Insérez les axes longs en inox rectifié **3x55 mm** pour traverser l'assemblage complet de la paume et verrouiller les 5 doigts.
 4.  Sécurisez les axes longs à l'aide de micro-circlips ou de points de frein-filet faible sur les filetages d'extrémité.
-5.  **Ancrage et réglage des élastiques de retour :**
-    *   Tirez sur les extrémités libres des 5 cordons élastiques dorsaux émergeant de la base des doigts.
-    *   Fixez-les fermement sur la paume. *Astuce :* Passez le cordon dans le logement taraudé de la paume et bridez-le avec une vis sans tête M2, ou sertissez un manchon en cuivre contre la face d'entrée de la paume pour le bloquer en tension.
-    *   Vérifiez que chaque doigt se rouvre de manière autonome et vive après une flexion manuelle complète. Ajustez la tension individuellement si nécessaire en desserrant le bridage.
+5.  **Routage et tensionnement des élastiques à l'entrée du poignet :**
+    *   Faites passer les 5 cordons élastiques émergeant du dos des doigts à travers les 5 canaux supérieurs respectifs du bloc de paume. Utilisez un fil de tirage ou des brucelles fines pour les faire ressortir à l'arrière de la paume, au niveau de l'interface paume/poignet (entrée du poignet).
+    *   **Système de blocage et réglage centralisé :** À l'entrée du poignet (interface arrière de la paume), faites passer les cordons dans la plaquette de serrage dédiée (un peigne de tensionnement ou plaque d'arrêt dotée de micro-vis de pression M2.5/M3 ou de serre-câbles à vis).
+    *   Appliquez la pré-tension nominale sur chaque élastique (allongement de 20 à 30 % pour obtenir une force de rappel de **2 N à 2.5 N**), puis serrez la vis de pression correspondante de la plaquette de serrage pour bloquer le cordon.
+    *   *Avantage mécanique majeur :* Ce design regroupe tous les réglages de tension à l'entrée du poignet. Il est possible de régler finement le rappel de chaque doigt de manière indépendante en desserrant simplement la vis associée à la base de la main, sans aucun démontage des doigts ni de la paume.
+    *   Vérifiez que chaque doigt se rouvre de manière autonome et vive après une flexion manuelle complète. Ajustez la tension individuellement si nécessaire en agissant directement sur la vis de réglage correspondante.
 
 ---
 
@@ -308,10 +310,16 @@ Pour préserver une esthétique anthropomorphe haut de gamme (sans les structure
 1.  **Finition de Gaine Lisse (Coque continue) :** Dans votre slicer (QIDI Studio), configurez le tranchage de la gaine en TPU avec **2 périmètres externes pleins (épaisseur de paroi de 0.8 mm)**. Cela masque entièrement l'infill gyroïde à 8% à l'intérieur, offrant un aspect externe lisse et continu identique à une peau en silicone.
 2.  **Lissage de Surface :** Pour combler les stries d'impression FDM, passez brièvement un décapeur thermique modéré (180°C à 10 cm) sur la coque TPU ou appliquez une micro-couche de vernis élastomère polyuréthane fluide pour obtenir un fini gomme mate haut de gamme.
 3.  **Évitement de l'Effet Coussin d'Air (Venting Hole) :** Une coque de TPU hermétique emprisonne l'air, ce qui augmente artificiellement la rigidité de la pulpe tactile et ralentit le retour élastique. Pour y remédier, modélisez un **micro-canal de purge d'air de 0.8 mm** caché à la base de la phalange PA12-CF. Lors de la compression du doigt, l'air s'échappe de manière fluide vers le squelette interne sans aucune résistance pneumatique.
-4.  **Logement Aimant & Capteur :**
+4.  **Logement Aimant & Capteur (Dimensionnement Physique eFlesh) :**
     *   **Squelette PA12-CF :** Évidement rectangulaire de 10 × 12 mm pour fixer le PCB MLX90393 WowRobo.
-    *   **Gaine TPU :** Cavité de Ø 3.2 mm × 1.1 mm (profondeur réduite pour éviter le flottement de l'aimant N48 de 1.0 mm).
-    *   **Distance d'Air-Gap :** Conservez une distance d'air-gap de **3.0 à 4.0 mm** au repos entre l'aimant et le capteur. Moins de 2.0 mm provoquera une saturation magnétique ; plus de 6.0 mm entraînera une perte de résolution.
+    *   **Gaine TPU :** Cavité de Ø 3.2 mm × 1.1 mm (ajustée à 1.1 mm de profondeur pour maintenir fermement l'aimant N48 de 1.0 mm et éviter tout flottement ou basculement lors des compressions de la pulpe).
+    *   **Air-Gap Nominal :** Conservez une distance d'air-gap (espace libre) de **3.0 à 4.0 mm** au repos entre la face inférieure de l'aimant et le silicium du capteur MLX90393.
+    *   **Justification Physique & Non-saturation :** 
+        *   Un aimant néodyme N48 certifié de Ø 3 × 1.0 mm (force d'adhérence de ~190 g) possède une aimantation rémanente $B_r \approx 1.4\text{ T}$.
+        *   À une distance d'air-gap de **3.0 à 4.0 mm**, le flux magnétique axial (axe Z) reçu par le capteur se situe dans une plage idéale de **14 mT à 28 mT**.
+        *   Cette plage s'insère parfaitement au centre de la zone de détection dynamique linéaire du MLX90393 (configuré en gain moyen pour une dynamique de ±50 mT).
+        *   *Sécurité mécanique :* Si l'air-gap était inférieur à 2.0 mm, le flux dépasserait 50 mT lors de fortes pressions, entraînant une saturation du capteur (écrêtage de la mesure). Si l'air-gap était supérieur à 6.0 mm, le signal faiblirait sous les 5 mT, dégradant le rapport signal/bruit et la résolution de la force tactile mesurée.
+
 
 #### C. Routage & Adressage I2C Dual (Sans Multiplexeur)
 Le capteur MLX90393 dispose de 2 pins d'adresse (AD0/AD1) permettant au maximum 4 adresses sur une seule ligne physique. Pour connecter 8 capteurs par main (5 doigts + 3 paume) sans ajouter de puce de multiplexage encombrante, nous utilisons les deux bus I2C natifs de l'**ESP32-S3** :

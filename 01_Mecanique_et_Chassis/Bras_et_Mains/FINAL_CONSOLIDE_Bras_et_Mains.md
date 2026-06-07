@@ -76,7 +76,7 @@ Le sous-ensemble **Bras et Mains** du D-Bot est conçu pour offrir une dextérit
 *   **Poulies de renvoi (Paume) :** Ø6 mm, PA12-CF imprimé 3D avec micro-roulements MR84ZZ intégrés.
 *   **Ancrage distal (pulpe) :** **Sertissage mécanique via manchon en cuivre de Ø1.5 mm** ou **épissure Brummel** étanche (conservation de 90-95% de la rupture).
 *   **Retour passif des doigts (système intégré) :**
-    *   Assuré par un **système hybride** : du **fil élastique mono-brin 100% Polyuréthane (TPU) de Ø 0.8 mm** (bijouterie technique) logé dans les canaux supérieurs d'origine (rappel d'extension principal de 2 N à 2.5 N) complété par la **gaine élastomère externe en TPU 95A/98A** (rappel secondaire et étanchéité). Le silicone moulé et les lames en PA12-CF de 0.5 mm sont officiellement supprimés de l'architecture.
+    *   Assuré par un **système hybride** : du **fil élastique mono-brin 100% Polyuréthane (TPU) de Ø 0.8 mm** (bijouterie technique) logé dans les canaux supérieurs d'origine. Ces élastiques de retour traversent entièrement la paume par les 5 canaux supérieurs de celle-ci et sont **bridés et tensionnés au niveau d'une plaquette de serrage centralisée à l'entrée du poignet** (rappel d'extension principal de 2 N à 2.5 N). Le tout est complété par la **gaine élastomère externe en TPU 95A/98A** (rappel secondaire et étanchéité). Le silicone moulé et les lames en PA12-CF de 0.5 mm sont officiellement supprimés de l'architecture.
 
 ---
 
