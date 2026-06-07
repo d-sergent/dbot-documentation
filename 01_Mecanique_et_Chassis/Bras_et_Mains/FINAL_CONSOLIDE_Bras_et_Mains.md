@@ -67,7 +67,11 @@ Le sous-ensemble **Bras et Mains** du D-Bot est conçu pour offrir une dextérit
 ### 2.3 Système de Tendons et Guidage (Main)
 
 *   **Tendon Universel (×8) :** Tresse **Dyneema DM20 Ø1.0 mm** (résistance à la rupture brute ~900–1000 N, fluage quasi nul sous charge statique, frottement très bas de 0.08 à 0.12, bobine de 50 m achetée). Le DM20 est standardisé sur toutes les lignes (force et précision) pour allier le glissement du Dyneema et la stabilité dimensionnelle du Vectran sans nécessiter de retensionnement.
-*   **Gaine de guidage (pour tendons fléchisseurs DM20) :** Tube PTFE Ø1.2 mm intérieur / Ø1.6 mm extérieur (alésage CAO et mécanique ajusté à 1.6 mm). Les tendons de retour élastiques TPU dorsaux (passifs) coulissent directement dans les canaux supérieurs de la structure PA12-CF, sans nécessiter de gaine PTFE.
+*   **Gaine de guidage (pour tendons fléchisseurs DM20) :** Deux variantes de tube PTFE sont en cours de test comparatif pour déterminer le meilleur compromis jeu/frottement avec le câble Dyneema DM20 de Ø 1.0 mm :
+    *   **Option A :** Tube PTFE **Ø 1.2 mm ID / Ø 1.6 mm OD** (jeu de 0.2 mm, ratio ×1.2 — serré, alésage CAO à 1.6 mm). ✅ **Reçu** (5 m en stock).
+    *   **Option B (recommandée) :** Tube PTFE **Ø 1.5 mm ID / Ø 1.9 mm OD** (jeu de 0.5 mm, ratio ×1.5 — identique à l'ORCA v1 d'origine, alésage CAO à 1.9 mm). ✅ **Reçu** (5 m en stock).
+    *   *Décision finale :* À valider sur prototype après test d'enfilage et de frottement dans les courbes de la paume. 5 m supplémentaires de la taille retenue seront à commander pour la seconde main.
+    *   Les tendons de retour élastiques TPU dorsaux (passifs) coulissent directement dans les canaux supérieurs de la structure PA12-CF, sans nécessiter de gaine PTFE.
 *   **Poulie d'enroulement (Spool) :** Ø14 mm en Aluminium 7075-T6 usinée CNC (NestWorks C500).
     *   **Rayon effectif au fond de gorge :** r = 6 mm (Ø12 mm au fond de gorge, flasques à Ø14 mm).
     *   **Gorge :** Profil en U de 0.75 mm de large et 0.6 mm de profondeur, pitch hélicoïdal de 0.7 mm/tour sur exactly 1.5 tour.
@@ -243,7 +247,8 @@ Une alternative consistant à utiliser le moteur **RobStride RS-06** (11 N.m nom
 | **Filament Flexible TPU 95A-HF / 98A** | ~100 g | Qidi Tech | ~5 € | ~5 € | |
 | **Fil élastique TPU Ø0.8 mm (5m)** | 1 | Perles & Co / Amazon.fr | ~3 € | ~3 € | Tendon de retour passif dorsal de bijouterie (Beadalon). ✅ **Reçu** (en stock). |
 | Dyneema DM20 tressé Ø1.0mm (bobine 50m) | 1 | Liros (D-Pro Static) / Mastrant-M | ~35 € | ~35 € |
-| Tubes PTFE Ø1.2 × Ø1.6 mm (10m) | 1 | McMaster-Carr / Fournisseur Labo | ~8 € | ~8 € | Uniquement pour le guidage des 8 tendons fléchisseurs actifs en Dyneema DM20 (les élastiques de retour passif coulissent directement dans la structure). |
+| Tubes PTFE Ø1.2 × Ø1.6 mm (5m) | 1 | PTFE Tube Shop / AliExpress | ~5 € | ~5 € | ✅ **Reçu** (5 m). Option A de test (jeu serré ×1.2 avec Dyneema Ø1.0 mm). |
+| Tubes PTFE Ø1.5 × Ø1.9 mm (5m) | 1 | PTFE Tube Shop / AliExpress | ~5 € | ~5 € | ✅ **Reçu** (5 m). Option B de test recommandée (jeu confortable ×1.5, identique ORCA v1). |
 | Roulements MR84ZZ (4x8x3mm) | 36 | SKF | ~1 € | ~36 € | 24 pour les articulations des 4 doigts, 4 pour le pouce, et 8 pour les contre-paliers des spools. ✅ **Commandé** (100 unités commandées sur AliExpress). |
 | Roulements 6x13x5 mm | 2 | SKF | ~2 € | ~4 € |
 | Goupilles cylindriques 2x6 mm (acier) | 20 | Mécanindus | ~0.5 € | ~10 € |

@@ -40,7 +40,8 @@ Voici la liste exacte des composants, fixations et matières premières nécessa
 | **Axes Cylindriques** | Goupilles cylindriques en acier rectifié **2 × 6 mm** | **20** | Verrouillage des chapes de phalanges (MCP/PIP/DIP). |
 | **Axes Longs** | Axes en Inox rectifié **3 × 55 mm** | **4** | Axes principaux de montage de la base des doigts. |
 | **Aimants Néodyme** | **N48 ronds (Ø 3 mm × 1.0 mm d'épaisseur - Supermagnete S-03-01-N)** | **8** | Insérés dans l'infill TPU (5 pulpes doigts + 3 pads paume). |
-| **Tubes de Guidage** | Tube Téflon **PTFE 1.2 mm (ID) / 1.6 mm (OD)** | 2 m | Acheminement interne courbe (adapté pour câble Ø 1.0 mm, acheté en bobine de 10 m). |
+| **Tubes de Guidage (Option A)** | Tube Téflon **PTFE 1.2 mm (ID) / 1.6 mm (OD)** | ~4 m | ✅ **Reçu** (5 m en stock). Option serrée (jeu 0.2 mm, ratio ×1.2). |
+| **Tubes de Guidage (Option B — recommandée)** | Tube Téflon **PTFE 1.5 mm (ID) / 1.9 mm (OD)** | ~4 m | ✅ **Reçu** (5 m en stock). Option confortable (jeu 0.5 mm, ratio ×1.5, identique ORCA v1). |
 | **Manchons de Sertissage** | Manchons en cuivre ou aluminium **Ø 1.5 mm** | **25** | Sécurisation mécanique des lignes sans nœuds. |
 
 ### 1.3 Matières Premières & Consommables
@@ -113,7 +114,7 @@ L'impression additive est la seule méthode capable de fabriquer des canaux cour
 *   **Hauteur de couche :** 0.12 mm ou 0.16 mm.
 *   **Remplissage (Infill) :** **100% rectiligne** (obligatoire pour éviter tout écrasement structurel sous la compression axiale des 8 gaines PTFE sous tension).
 *   **Buse :** Acier trempé ou rubis de 0.4 mm. Température : 285°C.
-*   **Post-traitement :** Ebavurez les entrées et sorties de canaux. Insérez les tubes PTFE 1.2x1.6 mm.
+*   **Post-traitement :** Ebavurez les entrées et sorties de canaux. Insérez les tubes PTFE (Option A : 1.2×1.6 mm ou Option B : 1.5×1.9 mm — alésage CAO à ajuster selon l'option retenue).
 
 #### B. Méthode alternative pour information : L'Usinage CNC en Aluminium 6061-T6 (Split-Palm)
 Si vous choisissez l'usinage sur votre NestWorks C500 pour des raisons d'esthétique métal et de rigidité absolue, **un bloc monobloc est strictement inusinable** car une fraiseuse ne peut pas percer des canaux courbes fermés à l'intérieur d'un métal plein.
@@ -199,7 +200,7 @@ Le rappel principal d'extension est assuré par un cordon élastique technique m
 
 ### Étape 3 : Routage des Tendons dans les Doigts
 1.  **Préparation des guidages :**
-    *   **Canal Fléchisseur (Palmar) :** Insérez des segments de tube Téflon **PTFE [1.2 × 1.6 mm]** dans les canaux internes inférieurs courbes des phalanges. Les tubes PTFE doivent dépasser de 1 mm à chaque extrémité pour éviter tout contact direct du câble avec le PA12-CF.
+    *   **Canal Fléchisseur (Palmar) :** Insérez des segments de tube Téflon **PTFE** (Option A : **1.2 × 1.6 mm** ou Option B : **1.5 × 1.9 mm**) dans les canaux internes inférieurs courbes des phalanges. Les tubes PTFE doivent dépasser de 1 mm à chaque extrémité pour éviter tout contact direct du câble avec le PA12-CF.
     *   **Canal Extenseur (Dorsal) :** Laissez le fil élastique en TPU glisser directement dans les canaux supérieurs en PA12-CF (le PA12-CF a un excellent coefficient de friction naturel avec le TPU).
 2.  **Routage du tendon de flexion (Dyneema) :**
     *   Passez le tendon Dyneema DM20 Ø1.0 mm préparé à l'Étape 1 depuis la pulpe distale à travers le canal inférieur vers la base du doigt à l'aide de brucelles.
@@ -218,7 +219,7 @@ Le rappel principal d'extension est assuré par un cordon élastique technique m
     *   *Note sur l'extension active :* Dans cette architecture révisée sous-actionnée à 8 DOF, **aucun câble d'extension active ne traverse le poignet vers l'avant-bras**, simplifiant drastiquement le routage à travers le poignet RS-00.
 
 ### Étape 4 : Assemblage de la Paume (Palm Block) et Guidage des Élastiques
-1.  Insérez les tubes PTFE de guidage (1.2 x 1.6 mm) uniquement pour les **8 canaux fléchisseurs actifs** de la paume (alésés au préalable à 1.6 mm). Les 5 canaux supérieurs de la paume restent libres (sans PTFE) pour servir de canaux de traversée pour les élastiques de retour de Ø 0.8 mm.
+1.  Insérez les tubes PTFE de guidage (Option A : 1.2×1.6 mm ou Option B : 1.5×1.9 mm) uniquement pour les **8 canaux fléchisseurs actifs** de la paume (alésés au préalable au diamètre extérieur du tube retenu). Les 5 canaux supérieurs de la paume restent libres (sans PTFE) pour servir de canaux de traversée pour les élastiques de retour de Ø 0.8 mm.
 2.  Montez les doigts sur la paume en alignant les bases de doigts avec les chapes de la paume.
 3.  Insérez les axes longs en inox rectifié **3x55 mm** pour traverser l'assemblage complet de la paume et verrouiller les 5 doigts.
 4.  Sécurisez les axes longs à l'aide de micro-circlips ou de points de frein-filet faible sur les filetages d'extrémité.
