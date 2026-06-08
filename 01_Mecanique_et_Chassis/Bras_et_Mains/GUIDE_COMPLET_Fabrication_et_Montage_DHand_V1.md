@@ -99,7 +99,27 @@ Le Nylon Carbone (PA12-CF) est obligatoire pour sa grande rigidité axiale et so
 *   **Remplissage (Infill) :** 100% rectiligne ou gyroïde sur les zones de pivots (MCP/PIP/DIP) ; 40% sur le reste du corps.
 *   **Buse :** Acier trempé ou Rubis de 0.4 mm (obligatoire pour le filament abrasif carbone). Température : 285°C.
 *   **Lit chauffant :** 80°C avec colle PVP ou Magigoo PA.
-*   **Post-traitement crucial :** Le PA12-CF est extrêmement hygroscopique. **Séchez le filament à 80°C pendant 12h** avant impression. Une fois imprimées, laissez les pièces reposer 24h à 50% d'humidité pour qu'elles retrouvent leur flexibilité nominale (évite le côté cassant post-impression).
+*   **Séchage indispensable :** Le PA12-CF est extrêmement hygroscopique. **Séchez le filament à 80°C pendant 12h** avant impression. Une fois imprimées, laissez les pièces reposer 24h à 50% d'humidité pour qu'elles retrouvent leur flexibilité nominale. Un filament humide génère des bulles et du suintement (stringing) qui bouchent irrémédiablement les canaux internes.
+
+> [!IMPORTANT]
+> **Réglages Slicer Anti-Obstruction des Canaux (OrcaSlicer / QidiSlicer - Interface en Anglais) :**
+> Pour éviter que les canaux de routage des phalanges ne soient bouchés par des supports ou rétrécis par la rétraction naturelle du Nylon, appliquez strictement les réglages suivants :
+> 1. **Bloquer les supports internes :** 
+>    * Ne laissez jamais le slicer générer de structures de support à l'intérieur des canaux de Ø 1.6 mm ou 1.9 mm.
+>    * **Méthode :** Cochez **Don't support bridges** sous l'onglet `Support` -> section `Filament/Part relation`. Si des supports externes sont nécessaires pour le corps des phalanges (ex: sous les axes), utilisez des **Support Blockers** : faites un clic droit sur le modèle dans la vue 3D, sélectionnez `Add Support Blocker` (Boîte ou Cylindre) et positionnez les volumes sur les orifices d'entrée/sortie des canaux pour exclure toute génération de support à cet endroit.
+> 2. **Compensation des diamètres de trous (Hole Compensation) :**
+>    * Les contours circulaires FDM ont tendance à se resserrer sous la tension du filament.
+>    * **Réglage :** Allez dans l'onglet `Quality` -> section `Precision` -> Réglez **X-Y hole compensation** sur **+0.15 mm** (ou +0.10 mm au minimum). Cela compense la contraction thermique et assure le bon diamètre de passage pour les tubes PTFE.
+> 3. **Calibration du débit (Flow Calibration) :**
+>    * Une sur-extrusion minime fermera le canal. Calibrez précisément le débit de votre PA12-CF.
+>    * **Réglage :** Profil de filament -> onglet `Filament` -> ajustez le **Flow ratio** (généralement calé entre 0.96 et 0.99 pour le PA12-CF après calibration).
+> 4. **Vitesse et pontage des parois :**
+>    * Pour éviter l'affaissement ("sagging") du plafond des canaux :
+>    * **Réglages :** Onglet `Speed` -> Réglez **Inner wall** à 40-50 mm/s. Dans la section `Speed` -> `Bridges` -> Réglez **Internal bridge speed** à 25-30 mm/s.
+
+*   **Ajustement et ébavurage des canaux :**
+    *   **Alésage manuel :** Avant d'insérer les tubes PTFE, passez manuellement un foret de précision (de Ø 1.6 mm pour l'Option A, ou Ø 1.9 mm pour l'Option B) à travers les canaux imprimés. Tournez le foret **à la main uniquement** (sans outil électroportatif) pour araser en douceur les lignes de couches ou les micro-bavures internes.
+    *   **Biseautage du PTFE :** Taillez légèrement en chanfrein (biseau à 45°) l'extrémité extérieure du tube PTFE au cutter pour l'aider à glisser sans accrocher les stries de couches.
 
 ### 2.2 Fabrication de la Paume (Palm Block) & DFM (Design for Manufacturing)
 La paume de la main D-Hand Hybrid révisée est une pièce structurelle majeure qui abrite le routage des câbles. 
@@ -114,7 +134,10 @@ L'impression additive est la seule méthode capable de fabriquer des canaux cour
 *   **Hauteur de couche :** 0.12 mm ou 0.16 mm.
 *   **Remplissage (Infill) :** **100% rectiligne** (obligatoire pour éviter tout écrasement structurel sous la compression axiale des 8 gaines PTFE sous tension).
 *   **Buse :** Acier trempé ou rubis de 0.4 mm. Température : 285°C.
-*   **Post-traitement :** Ebavurez les entrées et sorties de canaux. Insérez les tubes PTFE (Option A : 1.2×1.6 mm ou Option B : 1.5×1.9 mm — alésage CAO à ajuster selon l'option retenue).
+*   **Post-traitement & Insertion PTFE :** 
+    *   Ébavurez les entrées et sorties de canaux.
+    *   Appliquez les mêmes **Réglages Slicer Anti-Obstruction** que pour les doigts (voir §2.1) : notamment la compensation **X-Y hole compensation** de **+0.15 mm** et l'utilisation de **Support Blockers** sur les orifices pour empêcher tout dépôt de support interne.
+    *   Faites un alésage manuel doux des canaux avec un foret adapté (Ø 1.6 mm ou 1.9 mm selon l'option choisie) avant d'insérer les tubes PTFE (Option A : 1.2×1.6 mm ou Option B : 1.5×1.9 mm).
 
 #### B. Méthode alternative pour information : L'Usinage CNC en Aluminium 6061-T6 (Split-Palm)
 Si vous choisissez l'usinage sur votre NestWorks C500 pour des raisons d'esthétique métal et de rigidité absolue, **un bloc monobloc est strictement inusinable** car une fraiseuse ne peut pas percer des canaux courbes fermés à l'intérieur d'un métal plein.
