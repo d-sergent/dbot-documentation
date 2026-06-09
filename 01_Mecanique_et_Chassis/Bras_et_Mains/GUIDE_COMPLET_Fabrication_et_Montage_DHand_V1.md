@@ -323,7 +323,25 @@ L'ORCA/D-Hand V1 intègre désormais le système tactile magnétique 3-axes **eF
     *   **Site Officiel de Documentation :** [https://e-flesh.github.io](https://e-flesh.github.io)
     *   **Référence Scientifique :** arXiv:2506.09994 (*"eFlesh: Highly customizable Magnetic Touch Sensing using Cut-Cell Microstructures"*).
 *   **Ce qu'il faut acheter obligatoirement chez WowRobo :**
-    *   **16× [eFlesh Magnetometer Board](https://shop.wowrobo.com/products/eflesh-magnetometer-board)** (8 par main : 5 doigts + 3 paume en triangle) + *2 unités de spares recommandées*. Ce PCB intègre le capteur MLX90393 dans un format ultra-réduit adapté aux phalanges. Les commandes sont généralement expédiées sous 3 jours (TVA d'importation applicable à la livraison pour l'Europe).
+    *   **16× [eFlesh Magnetometer Board](https://shop.wowrobo.com/products/eflesh-magnetometer-board)** (8 par main : 5 doigts + 3 paume en triangle) + *2 unités de spares recommandées*. Ce PCB intègre le capteur MLX90393 dans un format ultra-réduit adapté aux phalanges (10 × 10 mm).
+*   **Clarification sur les Formats de PCB WowRobo :**
+    *   **Format Solo (eFlesh Doigt - 10 × 10 mm) :** Comporte un unique capteur MLX90393. C'est le format requis pour se loger individuellement sous la pulpe étroite de chaque phalange de doigt (D-Hand V1).
+    *   **Format Array (ReSkin/AnySkin Patch - 20 × 20 mm + Languette 9 × 9 mm) :** Comporte 5 magnétomètres MLX90393 disposés en croix (puces marquées `393A / S895 / 8553`). Ce format est idéal pour la **paume de la main** (Palm Block) ou pour des surfaces tactiles larges, mais il est trop volumineux pour être intégré dans les doigts.
+    
+    ![WowRobo 5-Magnetometer Array PCB](/Users/davidsergent/.gemini/antigravity-ide/brain/ee02a0a9-cc0e-4cec-ba5d-bc241d7d624b/media__1781032802219.jpg)
+
+    > [!WARNING]
+    > **Découpe des 4 œillets de fixation du PCB 5-capteurs (Array) :**
+    *   **Faisabilité :** Il est **envisageable de couper les 4 œillets métallisés des coins** car aucune piste active (alimentation ou signal) ne traverse ces zones (les pistes vertes claires s'arrêtent bien avant les cercles de fixation).
+    *   **Méthode de découpe (Sans casser le PCB) :** 
+        *   *À proscrire absolument :* L'utilisation d'une pince coupante ou d'une cisaille. La force d'écrasement va fissurer le substrat en fibre de verre (FR4) et sectionner les pistes internes multicouches invisibles, rendant définitivement le capteur HS.
+        *   *Méthode recommandée :* Utilisez un outil rotatif (type Dremel) équipé d'un mini-disque diamant ou renforcé. Coupez lentement à l'extérieur de la zone active des composants. *Sécurité : Portez un masque de type FFP2 car la poussière d'époxy/fibre de verre est irritante pour les voies respiratoires.*
+        *   *Méthode manuelle :* Fixez délicatement le PCB dans un étau (avec des mors souples en bois ou protégés par du carton) et coupez les coins avec une scie de bijoutier ou une scie à métaux à denture très fine, puis ébavurez au papier de verre grain 600.
+        *   *Vérification :* Contrôlez au multimètre (test de continuité) qu'aucun court-circuit n'est apparu entre VCC et GND après découpe (des micro-bavures de cuivre peuvent ponter les plans internes sur la tranche coupée).
+    *   **Connecteurs à acheter :**
+        *   L'embase mâle blanche soudée sur la languette du PCB est un connecteur **JST SH à 4 broches horizontales au pas de 1.0 mm** (compatible avec les standards *SparkFun Qwiic* et *Adafruit STEMMA QT*).
+        *   Achetez des câbles **JST SH 4 pins femelles** pré-sertis (nommés « Qwiic cables » ou « STEMMA QT cables »), par exemple avec des fils nus de l'autre côté pour faciliter les soudures vers votre micro-hub ESP32-S3. Ne tentez pas de sertir ces connecteurs microscopiques manuellement sans la pince d'usine dédiée (> 200€).
+
 *   **Ce qu'il faut acheter ailleurs (Amazon, Lextronic, Supermagnete) :**
     *   **16× Aimants N48 ronds (Ø 3 mm × 1.0 mm d'épaisseur)** (8 par main - Supermagnete S-03-01-N).
     *   **2× Cartes de développement ESP32-S3** ultra-compactes (ex: *Seeed XIAO ESP32-S3* ou *Adafruit QT Py S3*).
