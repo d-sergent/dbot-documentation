@@ -14,10 +14,11 @@
    - [Guide pas-à-pas EasyEDA](#23-easyeda)
    - [Fichier CPL (placement)](#24-cpl)
    - [Checklist DFM avant commande](#25-dfm)
-3. [Partie B — Analyse : 1 ou 5 capteurs en paume ?](#3-analyse-paume)
+3. [Partie B — Analyse : 1 ou 5 capteurs ?](#3-analyse-paume)
 4. [Partie C — IMU vs Capteurs Plantaires : la fausse alternative](#4-imu-vs-pied)
 5. [Partie D — Plan complet de recyclage des 20 PCBs WowRobo](#5-recyclage)
 6. [Architecture I2C globale du robot](#6-i2c-global)
+7. [**Partie E — Quel aimant pour quel emplacement ?**](#7-aimants) ⭐ *Nouveau*
 
 ---
 
@@ -25,9 +26,15 @@
 
 Le PCB eFlesh WowRobo acheté (**20 × 20 mm** + 5×5mm languette connecteur) est un **Array 5-capteurs** (5× MLX90393 disposés en croix) conçu pour la paume. Il est physiquement impossible de le fixer sur une phalange distale de 12–15 mm de large.
 
-**Inventaire matériel initial :**
-- **20× PCBs WowRobo** (20×20mm, 5× MLX90393 chacun)
-- **Aimants néodyme Ø3mm × 1mm** (quantité à préciser) — N48 ou N52
+**Inventaire matériel — Aimants disponibles (Supermagnete) :**
+
+| Référence | Désignation | Grade | Force | Qté | Idéal pour |
+|:---|:---|:---:|:---:|:---:|:---|
+| **S-03-01-N** | Disque Ø3mm × 1mm | N48 | 190 g | **40** | Doigts, avant-bras |
+| **S-08-03-N** | Disque Ø8mm × 3mm | N45 | 1.5 kg | **40** | Semelle pieds, torse |
+| **W-05-N** | Cube 5mm × 5mm × 5mm | N42 | 1.1 kg | **10** | Paume (2 PCBs/main) |
+
+> **Voir Partie E** pour l'analyse complète de quel aimant utiliser à quel endroit, avec calculs de champ magnétique.
 
 **Décision d'architecture :**
 
@@ -754,3 +761,183 @@ Usage :
 
 *Document généré juin 2026 — À mettre à jour après réception et test des PCBs JLCPCB.*  
 *Références : GUIDE_COMPLET_Fabrication_et_Montage_DHand_V1.md §5.3 | FINAL_CONSOLIDE_Jambes_et_Pieds.md §3*
+
+---
+
+## 7. Partie E — Quel Aimant pour Quel Emplacement ? {#7-aimants}
+
+> *Analyse physique complète des 3 types d'aimants disponibles (Supermagnete) appliquée aux emplacements du robot.*
+
+### E.1 — Inventaire et Caractéristiques des Aimants
+
+| Référence | Forme | Dimensions | Grade | Br (T) | Force pull | Qté |
+|:---|:---|:---|:---:|:---:|:---:|:---:|
+| **S-03-01-N** | Disque | Ø3mm × 1mm | N48 | 1.43 T | 190 g | 40 |
+| **S-08-03-N** | Disque | Ø8mm × 3mm | N45 | 1.34 T | 1.5 kg | 40 |
+| **W-05-N** | Cube | 5×5×5mm | N42 | 1.32 T | 1.1 kg | 10 |
+
+> [!NOTE]
+> La force "pull" indiquée par Supermagnete est la force d'attraction au contact direct (air-gap = 0). Elle **n'est pas** la force exercée à la distance de travail (3–10mm). Ce qui compte ici est le **champ magnétique Bz à distance de travail**, calculé ci-dessous.
+
+---
+
+### E.2 — Rappel : Plages Utiles du MLX90393 (Gain Programmable)
+
+Le MLX90393 a un gain **entièrement programmable** via le registre `GAIN_SEL`. Cela change la plage de mesure :
+
+| GAIN_SEL | Sensibilité XY (µT/LSB) | Plage ≈ XY | Sensibilité Z (µT/LSB) | Plage ≈ Z |
+|:---:|:---:|:---:|:---:|:---:|
+| 0 (max) | 0.805 | ±26 mT | 1.468 | ±48 mT |
+| 2 (défaut) | 0.483 | ±16 mT | 0.881 | ±29 mT |
+| 4 | 0.322 | ±11 mT | 0.587 | ±19 mT |
+| 5 | 0.268 | ±9 mT | 0.489 | ±16 mT |
+| **7 (min)** | **0.161** | **±5 mT** | **0.294** | **±10 mT** |
+
+> [!WARNING]
+> Ces valeurs correspondent à **RES=0** (résolution standard 16 bits). Si vous passez en RES=1 ou RES=2 (oversampling), les valeurs µT/LSB doublent ou quadruplent — la résolution de mesure s'améliore mais la plage se réduit.
+>
+> **Règle d'or :** Le champ magnétique au repos (aimant non comprimé) doit être dans la **plage 10–40% du plein fond d'échelle** pour laisser de la marge lors de la déflexion.
+
+En pratique, les 3 plages utiles pour notre système :
+- **GAIN_SEL=2** (défaut Adafruit) → plage utile Bz ≈ **±29 mT** → bon pour champs faibles (S-03-01-N à 3-4mm)
+- **GAIN_SEL=5** → plage utile Bz ≈ **±16 mT** → bon pour champs forts avec reconfiguration
+- **GAIN_SEL=7** (min gain) → plage utile Bz ≈ **±10 mT** mais XY très sensible → à éviter pour notre usage
+
+Repère de saturation effectif pour le calcul : **~50 mT** correspond à la limite haute sûre avec GAIN_SEL entre 2 et 5.
+
+---
+
+### E.3 — Calcul du Champ Magnétique par Aimant et par Distance
+
+> *Formule utilisée : B(z) = (Br/2) × [(z+L)/√(R²+(z+L)²) − z/√(R²+z²)], aimant disque ou cube équivalent.*
+
+#### Tableau complet Bz(mT) vs distance air-gap
+
+```
+                         AIR-GAP (distance aimant → surface capteur MLX90393)
+Aimant               2mm    3mm    4mm    5mm    6mm    7mm    8mm   10mm   12mm
+─────────────────────────────────────────────────────────────────────────────────
+S-03-01-N Ø3×1mm    68     30     15      9      5      4      3      1      1
+  (N48, Br=1.43T)   ✅G7   ✅OK   ✅OK   ✅OK   ⚠️W   ⚠️W   ⚠️W   ⚠️W   ⚠️W
+
+S-08-03-N Ø8×3mm   224    155    108     76     55     40     30     18     12
+  (N45, Br=1.34T)   ❌SAT  ⚠️H   ⚠️H   ⚠️H   ✅G7   ✅G7   ✅OK  ✅OK  ✅OK
+
+W-05-N Cube 5mm    230    142     90     60     42     30     23     13      9
+  (N42, Br=1.32T)   ❌SAT  ⚠️H   ⚠️H   ✅G7   ✅OK   ✅OK   ✅OK  ✅OK  ✅OK
+─────────────────────────────────────────────────────────────────────────────────
+LÉGENDE :
+  ❌SAT   Sature le MLX90393 (> ~210 mT), signal invalide, à proscrire
+  ⚠️H    Nécessite GAIN_SEL ≥ 5 pour ne pas saturer (> 50 mT)
+  ✅G7    Idéal GAIN_SEL=7 (plage ~30-70 mT), très bon signal dynamique
+  ✅OK    Idéal GAIN_SEL=2 défaut (plage ~10-30 mT), fonctionnement optimal
+  ⚠️W    Champ trop faible (< 5 mT), rapport signal/bruit insuffisant
+```
+
+---
+
+### E.4 — Recommandation par Emplacement
+
+#### 🖐 Bouts de Doigts — Phalanges Distales (air-gap TPU : 3–4 mm)
+
+| Aimant | Bz @3mm | Bz @4mm | Verdict |
+|:---|:---:|:---:|:---|
+| **S-03-01-N** ✅ | **30 mT** | **15 mT** | ✅ **PARFAIT** — signal au cœur de la plage, GAIN_SEL=2 défaut |
+| W-05-N ❌ | 142 mT | 90 mT | ❌ Sature avec n'importe quel gain — physiquement inadapté |
+| S-08-03-N ❌ | 155 mT | 108 mT | ❌ Sature avec n'importe quel gain — physiquement inadapté |
+
+> [!IMPORTANT]
+> **Doigts → uniquement S-03-01-N (Ø3×1mm).** Les grands aimants sont physiquement incompatibles avec un air-gap de 3–4mm sur un bout de doigt : ils saturent le capteur à 100% et la mesure est invalide.
+
+**Configuration :** 1 aimant S-03-01-N par doigt, noyé dans le capuchon TPU, face Nord vers le capteur. Air-gap TPU nominal 3.5mm. GAIN_SEL=2 (défaut Adafruit).
+
+---
+
+#### ✋ Paume (2 PCBs WowRobo, air-gap TPU : 5–7 mm)
+
+| Aimant | Bz @5mm | Bz @7mm | Verdict |
+|:---|:---:|:---:|:---|
+| S-03-01-N ⚠️ | 9 mT | 4 mT | ⚠️ Trop faible à partir de 6mm, SNR marginal |
+| **W-05-N** ✅ | **60 mT** | **30 mT** | ✅ **IDÉAL** — signal fort, plage optimale, cube facile à coller |
+| S-08-03-N ⚠️ | 76 mT | 40 mT | ✅ Utilisable mais nécessite GAIN_SEL ajusté + risque si TPU se comprime |
+
+> [!IMPORTANT]
+> **Paume → W-05-N (cube 5mm).** Le cube a l'avantage d'une face plane facile à coller dans le TPU. À 5–7mm d'air-gap, il fournit un signal entre 30 et 60 mT — au centre de la plage utile avec GAIN_SEL=7. Vous avez exactement 10 cubes pour les 10 positions (2 PCBs × 5 capteurs × 2 mains) — **parfaite adéquation stock/besoin.**
+
+**Configuration :** 1 cube W-05-N par capteur MLX90393 (10 cubes total pour les 2 paumes), noyé dans la couche TPU palmaire (Shore 85A), face magnétique vers le capteur. Air-gap nominal 6mm. GAIN_SEL=7 (faible gain).
+
+---
+
+#### 🦶 Semelle Plantaire (4 PCBs WowRobo par pied, air-gap variable selon charge)
+
+C'est le cas le plus complexe : le TPU **se comprime** sous le poids du robot.
+
+```
+  État du pied         Air-gap TPU    Champ S-03-01-N   Champ S-08-03-N   Champ W-05-N
+  ──────────────────   ────────────   ───────────────   ───────────────   ────────────
+  Sans charge (debout)    8 mm           3 mT ⚠️W          30 mT ✅OK        23 mT ✅OK
+  Mi-charge (marche)      5 mm           9 mT ✅OK          76 mT ⚠️H        60 mT ✅G7
+  Pleine charge (impact) 2-3 mm         30-68 mT ✅        155 mT ⚠️H       142 mT ⚠️H
+```
+
+**Analyse :**
+- **S-03-01-N** sans charge : signal de seulement **3 mT** → proche du bruit → **impossible de détecter si le pied est posé ou en l'air**
+- **S-08-03-N** sans charge : **30 mT** → signal clair → on sait que le pied existe même sans pression
+- **S-08-03-N** en pleine charge : **155 mT** → nécessite GAIN_SEL ajusté, mais **mesurable** avec GAIN_SEL=7 (plage ±210 mT)
+- **W-05-N** en pleine charge : **142 mT** → similaire, borderline mais mesurable
+
+> [!IMPORTANT]
+> **Semelle plantaire → S-08-03-N (Ø8×3mm).** C'est le seul aimant qui maintient un **signal utilisable à l'état non-chargé** (pied en l'air pendant la phase swing) tout en restant dans la plage du capteur à pleine charge. Le S-03-01-N est trop faible au repos.
+>
+> **Réglage GAIN_SEL :** Utiliser GAIN_SEL=5 ou 6 (plage ~50–130 mT) pour couvrir le spectre complet sans-charge/pleine-charge. Le firmware devrait idéalement auto-calibrer le gain à l'initialisation selon la charge au sol.
+
+**Configuration :** 1 aimant S-08-03-N par capteur (20 aimants par pied, 40 total pour 2 pieds). Air-gap TPU nominal 7–8mm. GAIN_SEL=5 (plage ajustée pour couvrir 30→130 mT).
+
+> [!WARNING]
+> 40 aimants S-08-03-N consomment votre **stock complet** de ce type. Prévoyez 5–10 pièces supplémentaires en spare (0.31€/pièce).
+
+---
+
+#### 💪 Avant-bras (1 PCB WowRobo par bras, air-gap TPU : 3–5 mm)
+
+| Aimant | Bz @4mm | Verdict |
+|:---|:---:|:---|
+| **S-03-01-N** ✅ | **15 mT** | ✅ Parfait — même configuration que les doigts |
+
+**Configuration :** 5 aimants S-03-01-N par avant-bras (10 total), TPU 4mm, GAIN_SEL=2.
+
+---
+
+#### 🫁 Torse / Poitrine (2 PCBs WowRobo, air-gap TPU : 6–8 mm)
+
+| Aimant | Bz @7mm | Verdict |
+|:---|:---:|:---|
+| **S-08-03-N** ✅ | **40 mT** | ✅ Signal fort même avec TPU épais (protection thoracique) |
+| W-05-N | 30 mT | ✅ Utilisable si vous manquez de S-08-03-N (cubes déjà alloués à la paume) |
+
+**Configuration :** 10 aimants S-08-03-N (ou W-05-N) pour le torse, TPU 7mm, GAIN_SEL=7.
+
+---
+
+### E.5 — Tableau Récapitulatif Final
+
+| Emplacement | Aimant recommandé | Air-gap | GAIN_SEL | Bz repos | Aimants utilisés |
+|:---|:---|:---:|:---:|:---:|:---:|
+| Doigts ×10 (5/main×2) | **S-03-01-N** Ø3×1mm | 3.5 mm | 2 (défaut) | ~25 mT | **10** |
+| Paume ×2 (×5 cap.) | **W-05-N** Cube 5mm | 6 mm | 7 | ~42 mT | **10** |
+| Pieds ×2 (×20 cap.) | **S-08-03-N** Ø8×3mm | 7–8 mm | 5 | ~30 mT | **40** |
+| Avant-bras ×2 (×5 cap.) | **S-03-01-N** Ø3×1mm | 4 mm | 2 (défaut) | ~15 mT | **10** |
+| Torse ×1 (×10 cap.) | **S-08-03-N** Ø8×3mm | 7 mm | 7 | ~40 mT | **10** |
+
+#### Bilan stock aimants
+
+| Référence | Stock | Utilisés | Spare |
+|:---|:---:|:---:|:---:|
+| S-03-01-N (Ø3×1mm) | 40 | 10 (doigts) + 10 (avant-bras) = **20** | **20** ✅ |
+| S-08-03-N (Ø8×3mm) | 40 | 40 (pieds) + 10 (torse) = **50** | **-10** ⚠️ Commander 10 supplémentaires |
+| W-05-N (Cube 5mm) | 10 | 10 (paumes) = **10** | **0** — stock exact |
+
+> [!WARNING]
+> **Il manque 10 aimants S-08-03-N** pour compléter le système (40 pieds + 10 torse = 50, stock = 40). Commandez 10 à 15 pièces supplémentaires chez Supermagnete (ref S-08-03-N, ~0.31€/pièce).
+>
+> **Alternative :** Utiliser les W-05-N en spare sur le torse (à 7mm, ils fournissent 30 mT, acceptable avec GAIN_SEL=7). Dans ce cas, le stock S-08-03-N suffit pour les pieds uniquement.
