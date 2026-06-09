@@ -344,8 +344,25 @@ Pour préserver une esthétique anthropomorphe haut de gamme (sans les structure
         *   Cette plage s'insère parfaitement au centre de la zone de détection dynamique linéaire du MLX90393 (configuré en gain moyen pour une dynamique de ±50 mT).
         *   *Sécurité mécanique :* Si l'air-gap était inférieur à 2.0 mm, le flux dépasserait 50 mT lors de fortes pressions, entraînant une saturation du capteur (écrêtage de la mesure). Si l'air-gap était supérieur à 6.0 mm, le signal faiblirait sous les 5 mT, dégradant le rapport signal/bruit et la résolution de la force tactile mesurée.
 
+#### C. Étude Physique & Dimensionnement du "Mini-eFlesh" (Aimants Ø 3 × 1.0 mm N48)
+L'utilisation d'aimants fins de Ø 3 × 1.0 mm au lieu des aimants massifs recommandés dans le projet académique d'origine (Pinto Lab de NYU) permet de lever le principal verrou d'intégration sur un doigt anthropomorphe :
 
-#### C. Routage & Adressage I2C Dual (Sans Multiplexeur)
+1.  **Réduction de l'Épaisseur (Faisabilité CAO) :**
+    *   Le système eFlesh universitaire utilise des cellules en TPU cubiques massives de 8.0 mm de côté.
+    *   Avec des aimants de 1.0 mm d'épaisseur, la cellule TPU est aplatie à **~3.8 mm d'épaisseur** au total (1.2 mm de pulpe supérieure, 1.0 mm pour l'aimant en force, 0.8 mm de course d'écrasement/air-gap, et 0.8 mm de plancher).
+    *   Avec le PCB du magnétomètre (~1.6 mm avec le chip), l'épaisseur totale du capteur n'est que de **~5.4 mm**.
+2.  **Préservation Structurelle du Squelette (PA12-CF) :**
+    *   Sur une phalange distale de 12.0 mm d'épaisseur (limite anthropomorphe), intégrer un eFlesh classique de 8.0 mm ne laisserait que 2.0 à 4.0 mm de matière structurelle. Sous l'immense tension du tendon (pic de 581 N sous STS3250), la phalange se briserait au niveau du pivot.
+    *   Le **Mini-eFlesh** de 5.4 mm d'épaisseur préserve **6.6 mm de cœur structurel en PA12-CF**. Les parois entourant les axes en acier de 2.0 mm et les roulements MR84ZZ restent extrêmement rigides et sécurisées.
+3.  **Loi Cubique de la Distance ($1/d^3$) & Qualité de Signal :**
+    *   Un petit aimant N48 de Ø 3 × 1.0 mm génère un champ magnétique intrinsèquement plus faible qu'un gros bloc N52.
+    *   Néanmoins, la force du champ décroît avec le cube de la distance ($1/d^3$). En réduisant l'épaisseur de la cellule, la distance au repos entre l'aimant et le silicium du magnétomètre passe de 5.0 mm à seulement 2.0 mm (facteur de réduction de 2.5×).
+    *   Le champ magnétique perçu à courte distance est multiplié par $(2.5)^3 \approx 15.6$ fois, ce qui compense largement la perte de volume de l'aimant. Le rapport signal/bruit sur le MLX90393 reste optimal.
+4.  **Découplage entre la Force de Mesure et la Force d'Attraction (190g) :**
+    *   La spécification commerciale de l'aimant d'une force d'adhérence de ~190g (1.86 N sur plaque d'acier) **ne limite en aucun cas la plage de force mesurable** par le capteur. L'aimant n'est qu'un émetteur de champ magnétique passif.
+    *   La plage de mesure (ex: 0 à 50 N) est gouvernée exclusivement par la **rigidité mécanique de l'élastomère (TPU 95A)** de la cellule. Pour mesurer des forces élevées, il suffit d'augmenter l'épaisseur des parois internes de la cellule TPU ou la densité de son infill gyroïde afin de limiter l'écrasement. Le capteur mesurera fidèlement la déformation mécanique de ce ressort en TPU.
+
+#### D. Routage & Adressage I2C Dual (Sans Multiplexeur)
 Le capteur MLX90393 dispose de 2 pins d'adresse (AD0/AD1) permettant au maximum 4 adresses sur une seule ligne physique. Pour connecter 8 capteurs par main (5 doigts + 3 paume) sans ajouter de puce de multiplexage encombrante, nous utilisons les deux bus I2C natifs de l'**ESP32-S3** :
 
 ```
