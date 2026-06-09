@@ -155,7 +155,86 @@ Cette configuration a été validée par les études biomécaniques (15c, 15d,
 | **Study_Mecanismes_Cheville** | Comparatif mécanismes de cheville | Analyse des 4 approches (direct‑drive, tirant, hybride, parallèle). |
 | **Study_Structure_Femur_Hybride** | Conception fémur hybride | Iso‑grid + PA12‑CF recommandé. |
 
----  
 
-**Document généré le 16 mai 2026 – Version V1.0**  
-*Toutes les valeurs proviennent des sources listées ci‑dessus. Toute donnée manquante est indiquée comme **[À COMPLÉTER]** et figure dans la section 6.*
+**Document généré le 16 mai 2026 – Version V1.0**  
+*Toutes les valeurs proviennent des sources listées ci‑dessus. Toute donnée manquante est indiquée comme **[À COMPLÉTER]** et figure dans la section 6.*
+
+---
+
+## 8. Capteurs Tactiles Plantaires — Semelle Intelligente (Ajout V1.1)
+
+> **Référence complète :** `Documentation/03_Electronique_Capteurs/GUIDE_PCB_MLX90393_et_Recyclage_WowRobo.md` §4 et §5.2
+
+### 8.1 Décision d'Architecture
+
+**4× PCBs WowRobo eFlesh** (20×20mm, 5× MLX90393 chacun) sont intégrés dans chaque semelle plantaire, exploitant le stock existant de PCBs WowRobo excédentaires par rapport au besoin de la main.
+
+### 8.2 Les Capteurs Plantaires sont-ils Utiles si le Robot a un IMU ?
+
+> **Réponse : OUI — ils sont complémentaires et irremplaçables l'un par l'autre.**
+
+L'IMU et les capteurs plantaires ne mesurent pas la même chose :
+
+| Capteur | Ce qu'il mesure | Ce qu'il ne peut PAS mesurer |
+|:---|:---|:---|
+| **IMU** | Orientation/accélération du **corps** (torse) | Ce qui se passe sous les pieds |
+| **Capteurs plantaires** | Forces au point de **contact sol** | L'orientation globale du corps |
+
+**Limitations critiques de l'IMU seul :**
+
+1. **Dérive gyroscopique** (1–5°/heure) → après 10 min de marche, erreur de 1.5° → moment déstabilisant de ~10 N·m. Les capteurs plantaires fournissent une référence absolue au sol qui corrige cette dérive.
+2. **Terrain non-plat** : L'IMU voit le torse pencher mais ne sait pas si c'est une montée normale ou une chute imminente. Le capteur plantaire voit immédiatement la sur-charge du talon ou un CoP hors zone de stabilité.
+3. **Détection de glissement** : Détectable en **< 10ms** par les capteurs plantaires (vecteur cisaillement Bx/By), vs **200–500ms** de délai pour l'IMU (la chute est déjà amorcée).
+
+> **Tous les robots bipèdes de référence** (Atlas, Digit, H1, Figure 01) utilisent les deux types de capteurs simultanément. L'IMU seul ne suffit pas pour un bipède performant.
+
+### 8.3 Nouvelles Entrées BOM (par pied)
+
+| Réf. | Désignation | Quantité | Fournisseur | Prix |
+|---|---|---|---|---|
+| **TAC‑01** | PCB eFlesh WowRobo (20×20mm, 5× MLX90393) | 4 | WowRobo (stock existant) | 0 € (déjà acheté) |
+| **TAC‑02** | Aimants néodyme Ø3mm × 1mm (N48) | 20 | Supermagnete (S-03-01-N) | ~3.4 € |
+| **TAC‑03** | ESP32-S3 micro (Seeed XIAO S3 ou équivalent) | 1 | Seeed Studio | ~8 € |
+| **TAC‑04** | Câbles JST-SH 4P 1.0mm 300mm (I2C) | 4 | GoTronic / AliExpress | ~4 € |
+| **TAC‑05** | TPU Shore 85A/95A (semelle gyroïde 8%) | ~50g | Filament Qidi | ~2 € |
+
+**Surpoids total par pied : ~29 g** (PCBs ~8g + aimants ~1g + câbles ~5g + TPU semelle ~15g)
+
+### 8.4 Disposition des 4 PCBs dans la Semelle (120×80mm)
+
+```
+         ← 80mm →
+    ┌───────────────────────────┐  ↑
+    │  [PCB#3 Métatarse Médial] │  │
+    │  [PCB#4 Métatarse Latéral]│  │  120mm
+    │                           │  │
+    │  [PCB#2 Voûte Plantaire]  │  │
+    │                           │  │
+    │  [PCB#1 Talon Calcanéum]  │  │
+    └───────────────────────────┘  ↓
+```
+
+### 8.5 Centre de Pression (CoP) — Principe de Calcul
+
+Avec 4 PCBs (20 capteurs magnétiques au total), l'ESP32-S3 calcule le CoP en temps réel :
+
+```
+CoP_x = Σ(F_i × x_i) / Σ(F_i)
+CoP_y = Σ(F_i × y_i) / Σ(F_i)
+```
+
+où F_i est la force normale estimée de chaque PCB (norme du vecteur Bz), et (x_i, y_i) sont les coordonnées de chaque PCB dans le repère de la semelle.
+
+**Données transmises au Jetson (USB CDC) :**
+- CoP_x, CoP_y (position du centre de pression, mm)
+- GRF_z (force de réaction verticale estimée, N)
+- Vecteur de cisaillement (Bx, By) → détection de glissement
+- Phase de contact (talon / flat / toe-off)
+
+### 8.6 Câblage I2C Pied
+
+```
+ESP32-S3 Pied (dans boîtier PA12-CF, bas du tibia)
+├── Bus I2C N°1 → PCB#1 (Talon) + PCB#2 (Voûte)
+└── Bus I2C N°2 → PCB#3 (Métat. Médial) + PCB#4 (Métat. Latéral)
+```

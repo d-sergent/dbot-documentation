@@ -326,9 +326,9 @@ L'ORCA/D-Hand V1 intègre désormais le système tactile magnétique 3-axes **eF
     *   **2× [eFlesh Magnetometer Board](https://shop.wowrobo.com/products/eflesh-magnetometer-board)** (1 par main pour la paume) + *1 unité de spare*. Ce PCB est en réalité un **Array multicapteurs (ReSkin/AnySkin Patch)** mesurant 20 × 20 mm et comportant 5 magnétomètres MLX90393 disposés en croix. C'est le seul format commercialisé par WowRobo.
 *   **Clarification sur l'inexistence du format "Solo" officiel :**
     *   **Constat :** Il n'existe aucun module "eFlesh Solo" (10 × 10 mm) commercialisé par WowRobo ou par le Pinto Lab de NYU. Les publications académiques utilisent l'Array de 5 capteurs pour la reconstruction vectorielle ou fabriquent des prototypes sur mesure.
-    *   **Alternative pour les Doigts (Format individuel) :** Pour équiper individuellement les 5 doigts (qui n'ont pas la place d'accueillir la plaque de 20 × 20 mm), vous devez vous procurer des micro-modules génériques à un seul magnétomètre :
-        *   **GY-90393 / CJMCU-90393 :** C'est un micro-breakout générique (MLX90393 unique) mesurant environ 15 × 15 mm ou moins selon les versions. Il est disponible pour 2 à 3 € sur AliExpress, Amazon ou eBay.
-        *   *Option custom :* Télécharger les fichiers KiCad/Gerber open-source du projet ReSkin (1 capteur) sur le site de CMU/Meta et les faire assembler chez JLCPCB.
+    *   **Solution retenue pour les Doigts (Format individuel) :** PCB custom **10 × 10 mm** fabriqué via **JLCPCB PCBA** avec 1 seul MLX90393 (boîtier QFN-16, 3×3mm) + composants passifs minimaux (2 condensateurs, connecteur JST-SH). Coût estimé : ~30–40 € pour 5 pièces assemblées, délai ~10 jours.
+        > **⚠️ Note :** Les modules GY-90393 / CJMCU-90393 (~26×26mm ou ~15×15mm selon vendeur) ont été étudiés mais rejetés car trop volumineux et peu fiables sur les dimensions annoncées. Le PCB custom est la seule solution garantissant un format ≤ 12mm compatible avec la phalange distale de l'ORCA V1.
+        > **📄 Guide complet JLCPCB :** Voir `Documentation/03_Electronique_Capteurs/GUIDE_PCB_MLX90393_et_Recyclage_WowRobo.md` — contient le schéma électrique, BOM, guide EasyEDA pas-à-pas, CPL et checklist DFM complète.
 
     ![WowRobo 5-Magnetometer Array PCB](/Users/davidsergent/.gemini/antigravity-ide/brain/ee02a0a9-cc0e-4cec-ba5d-bc241d7d624b/media__1781032802219.jpg)
 
