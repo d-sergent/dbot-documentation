@@ -322,12 +322,14 @@ L'ORCA/D-Hand V1 intègre désormais le système tactile magnétique 3-axes **eF
     *   **Dépôt GitHub eFlesh :** [https://github.com/notvenky/eFlesh](https://github.com/notvenky/eFlesh)
     *   **Site Officiel de Documentation :** [https://e-flesh.github.io](https://e-flesh.github.io)
     *   **Référence Scientifique :** arXiv:2506.09994 (*"eFlesh: Highly customizable Magnetic Touch Sensing using Cut-Cell Microstructures"*).
-*   **Ce qu'il faut acheter obligatoirement chez WowRobo :**
-    *   **16× [eFlesh Magnetometer Board](https://shop.wowrobo.com/products/eflesh-magnetometer-board)** (8 par main : 5 doigts + 3 paume en triangle) + *2 unités de spares recommandées*. Ce PCB intègre le capteur MLX90393 dans un format ultra-réduit adapté aux phalanges (10 × 10 mm).
-*   **Clarification sur les Formats de PCB WowRobo :**
-    *   **Format Solo (eFlesh Doigt - 10 × 10 mm) :** Comporte un unique capteur MLX90393. C'est le format requis pour se loger individuellement sous la pulpe étroite de chaque phalange de doigt (D-Hand V1).
-    *   **Format Array (ReSkin/AnySkin Patch - 20 × 20 mm + Languette 9 × 9 mm) :** Comporte 5 magnétomètres MLX90393 disposés en croix (puces marquées `393A / S895 / 8553`). Ce format est idéal pour la **paume de la main** (Palm Block) ou pour des surfaces tactiles larges, mais il est trop volumineux pour être intégré dans les doigts.
-    
+*   **Ce qu'il faut acheter chez WowRobo :**
+    *   **2× [eFlesh Magnetometer Board](https://shop.wowrobo.com/products/eflesh-magnetometer-board)** (1 par main pour la paume) + *1 unité de spare*. Ce PCB est en réalité un **Array multicapteurs (ReSkin/AnySkin Patch)** mesurant 20 × 20 mm et comportant 5 magnétomètres MLX90393 disposés en croix. C'est le seul format commercialisé par WowRobo.
+*   **Clarification sur l'inexistence du format "Solo" officiel :**
+    *   **Constat :** Il n'existe aucun module "eFlesh Solo" (10 × 10 mm) commercialisé par WowRobo ou par le Pinto Lab de NYU. Les publications académiques utilisent l'Array de 5 capteurs pour la reconstruction vectorielle ou fabriquent des prototypes sur mesure.
+    *   **Alternative pour les Doigts (Format individuel) :** Pour équiper individuellement les 5 doigts (qui n'ont pas la place d'accueillir la plaque de 20 × 20 mm), vous devez vous procurer des micro-modules génériques à un seul magnétomètre :
+        *   **GY-90393 / CJMCU-90393 :** C'est un micro-breakout générique (MLX90393 unique) mesurant environ 15 × 15 mm ou moins selon les versions. Il est disponible pour 2 à 3 € sur AliExpress, Amazon ou eBay.
+        *   *Option custom :* Télécharger les fichiers KiCad/Gerber open-source du projet ReSkin (1 capteur) sur le site de CMU/Meta et les faire assembler chez JLCPCB.
+
     ![WowRobo 5-Magnetometer Array PCB](/Users/davidsergent/.gemini/antigravity-ide/brain/ee02a0a9-cc0e-4cec-ba5d-bc241d7d624b/media__1781032802219.jpg)
 
     > [!WARNING]
@@ -338,14 +340,17 @@ L'ORCA/D-Hand V1 intègre désormais le système tactile magnétique 3-axes **eF
         *   *Méthode recommandée :* Utilisez un outil rotatif (type Dremel) équipé d'un mini-disque diamant ou renforcé. Coupez lentement à l'extérieur de la zone active des composants. *Sécurité : Portez un masque de type FFP2 car la poussière d'époxy/fibre de verre est irritante pour les voies respiratoires.*
         *   *Méthode manuelle :* Fixez délicatement le PCB dans un étau (avec des mors souples en bois ou protégés par du carton) et coupez les coins avec une scie de bijoutier ou une scie à métaux à denture très fine, puis ébavurez au papier de verre grain 600.
         *   *Vérification :* Contrôlez au multimètre (test de continuité) qu'aucun court-circuit n'est apparu entre VCC et GND après découpe (des micro-bavures de cuivre peuvent ponter les plans internes sur la tranche coupée).
-    *   **Connecteurs à acheter :**
-        *   L'embase mâle blanche soudée sur la languette du PCB est un connecteur **JST SH à 4 broches horizontales au pas de 1.0 mm** (compatible avec les standards *SparkFun Qwiic* et *Adafruit STEMMA QT*).
-        *   Achetez des câbles **JST SH 4 pins femelles** pré-sertis (nommés « Qwiic cables » ou « STEMMA QT cables »), par exemple avec des fils nus de l'autre côté pour faciliter les soudures vers votre micro-hub ESP32-S3. Ne tentez pas de sertir ces connecteurs microscopiques manuellement sans la pince d'usine dédiée (> 200€).
 
-*   **Ce qu'il faut acheter ailleurs (Amazon, Lextronic, Supermagnete) :**
+*   **Ce qu'il faut acheter ailleurs (Amazon, Lextronic, GoTronic, Supermagnete) :**
+    *   **10× Micro-breakouts magnétomètres GY-90393** (5 par main pour les bouts de doigts, mesurant environ 15x15mm).
     *   **16× Aimants N48 ronds (Ø 3 mm × 1.0 mm d'épaisseur)** (8 par main - Supermagnete S-03-01-N).
     *   **2× Cartes de développement ESP32-S3** ultra-compactes (ex: *Seeed XIAO ESP32-S3* ou *Adafruit QT Py S3*).
     *   **1× Bobine de micro-fil émaillé** (Ø 0.15 mm ou 0.20 mm) ou micro-nappes FFC extra-plates pour le câblage interne des canaux.
+    *   **Câbles de liaison JST-SH 4 broches femelles (Pas de 1.0 mm) :** Pour connecter les embases mâles blanches des PCB WowRobo sans sertissage manuel.
+        *   **Option 1 (France) - GoTronic :** [Cordon Qwiic femelle-femelle 100 mm](https://www.gotronic.fr/art-faisceau-qwiic-flexible-100-mm-prt-14427-26829.htm) ou [Cordon Qwiic vers fils nus dénudés](https://www.gotronic.fr/art-faisceau-qwiic-vers-fils-nus-prt-14426-26798.htm) (recommandé).
+        *   **Option 2 (France) - Lextronic :** [Câble STEMMA QT femelle-femelle 100 mm](https://www.lextronic.fr/cordon-stemma-qt-qwiic-femelle-femelle-100-mm-57688.html) ou [Câble STEMMA QT vers fils dénudés](https://www.lextronic.fr/cordon-stemma-qt-qwiic-vers-fils-denudes-57689.html).
+        *   **Option 3 (France) - Kubii :** [Cordon Adafruit STEMMA QT femelle-femelle 100 mm](https://www.kubii.com/fr/cables-nappes/3739-cordon-adafruit-stemma-qt-100mm-4054-3272496302914.html).
+        *   **Option 4 (Alternative économique) - Amazon.fr :** Rechercher *"Câble JST SH 1.0mm 4 broches"* (packs de 10/20 câbles femelles pré-sertis avec fils de couleurs).
 
 #### B. Directives de Conception CAD (Lissage Esthétique & Évacuation d'Air)
 Pour préserver une esthétique anthropomorphe haut de gamme (sans les structures nid d'abeille ouvertes présentées pour la recherche) et assurer une étanchéité parfaite à l'eau et à la poussière, suivez ces règles de design CAO :
@@ -353,8 +358,9 @@ Pour préserver une esthétique anthropomorphe haut de gamme (sans les structure
 2.  **Lissage de Surface :** Pour combler les stries d'impression FDM, passez brièvement un décapeur thermique modéré (180°C à 10 cm) sur la coque TPU ou appliquez une micro-couche de vernis élastomère polyuréthane fluide pour obtenir un fini gomme mate haut de gamme.
 3.  **Évitement de l'Effet Coussin d'Air (Venting Hole) :** Une coque de TPU hermétique emprisonne l'air, ce qui augmente artificiellement la rigidité de la pulpe tactile et ralentit le retour élastique. Pour y remédier, modélisez un **micro-canal de purge d'air de 0.8 mm** caché à la base de la phalange PA12-CF. Lors de la compression du doigt, l'air s'échappe de manière fluide vers le squelette interne sans aucune résistance pneumatique.
 4.  **Logement Aimant & Capteur (Dimensionnement Physique eFlesh) :**
-    *   **Squelette PA12-CF :** Évidement rectangulaire de 10 × 12 mm pour fixer le PCB MLX90393 WowRobo.
-    *   **Gaine TPU :** Cavité de Ø 3.2 mm × 1.1 mm (ajustée à 1.1 mm de profondeur pour maintenir fermement l'aimant N48 de 1.0 mm et éviter tout flottement ou basculement lors des compressions de la pulpe).
+    *   **Squelette PA12-CF (Doigts) :** Évidement rectangulaire de 10 × 12 mm (ou 12 × 15 mm à ajuster selon le modèle de carte générique GY-90393 retenue) pour fixer le micro-PCB de bout de doigt.
+    *   **Squelette PA12-CF (Paume) :** Évidement carré de 20 × 20 mm pour intégrer le PCB Array 5-capteurs de WowRobo.
+    *   **Gaine TPU (Doigts) :** Cavité de Ø 3.2 mm × 1.1 mm (ajustée à 1.1 mm de profondeur pour maintenir fermement l'aimant N48 de 1.0 mm et éviter tout flottement ou basculement lors des compressions de la pulpe).
     *   **Air-Gap Nominal :** Conservez une distance d'air-gap (espace libre) de **3.0 à 4.0 mm** au repos entre la face inférieure de l'aimant et le silicium du capteur MLX90393.
     *   **Justification Physique & Non-saturation :** 
         *   Un aimant néodyme N48 certifié de Ø 3 × 1.0 mm (force d'adhérence de ~190 g) possède une aimantation rémanente $B_r \approx 1.4\text{ T}$.
