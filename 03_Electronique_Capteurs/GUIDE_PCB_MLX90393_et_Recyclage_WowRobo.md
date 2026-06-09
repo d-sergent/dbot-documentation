@@ -277,53 +277,184 @@ Avant de soumettre votre commande sur JLCPCB, vérifiez ces points :
 | **Détection orientation de l'objet** | ❌ | ✅ |
 | **Détection glissement directionnel** | ✅ limité | ✅✅ |
 
-#### Le problème spécifique des aimants Ø3×1mm sur la paume
+---
 
-La paume a une surface de contact utile d'environ **60×80mm**. Chaque capteur MLX90393 ne "voit" qu'un aimant placé dans un rayon de **3–5mm** au-dessus de lui. Avec des aimants de Ø3mm×1mm :
+### B.0 — Pré-requis : Clarification des deux questions distinctes
+
+La question initiale portait sur deux sujets différents qui sont souvent confondus :
+
+| Question | Sujet | Réponse dans |
+|:---|:---|:---|
+| **Q1** | 1 capteur MLX90393 par doigt (PCB 10×10mm) au lieu de 5 — impact sur les doigts ? | **Section B.1** |
+| **Q2** | Utiliser plusieurs PCBs WowRobo (5 capteurs chacun) sur la paume — est-ce utile ? | **Section B.2** |
+
+---
+
+### B.1 — Conséquences du passage à 1 capteur par doigt (5 → 1)
+
+#### Ce que perd-on avec 1 seul capteur par bout de doigt ?
+
+En théorie, un array de 5 capteurs par doigt offre une meilleure **résolution spatiale**. Mais en pratique, pour une phalange distale de 12–15mm, le bilan est radicalement différent.
+
+#### Le problème physique : le diaphonie magnétique (crosstalk)
+
+Sur un bout de doigt de **12mm de large**, 5 aimants de Ø3mm espacés de 3–4mm se trouveraient à une distance les uns des autres inférieure à leur diamètre. La physique est implacable :
 
 ```
-   Zone de sensibilité d'un capteur MLX90393 avec aimant Ø3×1mm :
+   Phalange distale (12mm de large) avec 5 aimants Ø3mm :
    
-   ┌─────────────────────────────────────────┐
-   │                                         │
-   │   Rayon de sensibilité : ~3 à 5 mm     │
-   │   Résolution spatiale : ~6 à 10 mm²    │
-   │                                         │
-   │   Pour couvrir la paume (60×80mm),     │
-   │   il faudrait environ 40 à 100 capteurs │
-   │                                         │
-   │   5 capteurs → couvrent ~5% de la      │
-   │   surface palmaire totale               │
-   └─────────────────────────────────────────┘
+   ┌──────────────────────────────────┐
+   │ ●   ●   ●   ●   ●               │  ← 5 aimants, espacement ~1.5mm entre bords
+   │  ↘ ↗ ↘ ↗ ↘ ↗ ↘ ↗              │
+   │   Champs magnétiques qui se      │
+   │   CHEVAUCHENT et s'annulent !    │
+   └──────────────────────────────────┘
+   
+   Résultat : chaque capteur MLX90393 mesure un mélange
+   des champs de son propre aimant ET des 4 voisins.
+   La mesure est corrompue et inutilisable sans calibration
+   complexe spécifique à chaque capteur.
 ```
 
-#### Verdict sur la paume multi-capteurs
+Le champ magnétique d'un aimant Ø3×1mm se propage sur un rayon de **5 à 8mm**. Avec 5 aimants sur 12mm, chaque capteur perçoit **3 à 4 aimants voisins simultanément**. C'est un problème connu (crosstalk matriciel) qui nécessite des matrices de découplage complexes ou des réseaux de neurones dédiés — pour un gain fonctionnel marginal sur une si petite surface.
+
+#### Ce que conserve 1 seul capteur par bout de doigt
 
 > [!IMPORTANT]
-> **Conclusion : OUI, il est judicieux d'utiliser les 5 capteurs du PCB WowRobo pour la paume — mais avec une configuration adaptée.**
+> **Un seul MLX90393 par bout de doigt donne 3 mesures indépendantes : Bx, By, Bz.**
+> Ces 3 composantes suffisent pour reconstruire un **vecteur de force 3D complet**.
 
-**Pourquoi 5 capteurs apportent une vraie valeur :**
+| Mesure | Ce qu'elle détecte | Utilité pour la préhension |
+|:---|:---|:---|
+| **Bz** (axial, normal) | Force de compression verticale | ⭐⭐⭐⭐⭐ Intensité de serrage |
+| **Bx** (latéral) | Cisaillement horizontal | ⭐⭐⭐⭐⭐ Glissement gauche/droite |
+| **By** (antéro-post.) | Cisaillement avant/arrière | ⭐⭐⭐⭐⭐ Glissement haut/bas |
 
-1. **Localisation du contact :** Avec 5 magnétomètres en croix (centre + 4 cardinaux à ~8mm d'écart), le logiciel peut interpoler la **position centroïde** d'un objet en contact avec la paume, même si l'objet est plus grand que la zone de détection d'un seul capteur.
+**Ce que ces 3 valeurs permettent :**
+- ✅ Détecter si l'objet est en contact ou non
+- ✅ Mesurer la force de serrage (Bz)
+- ✅ Détecter un glissement imminent (variation rapide de Bx/By)
+- ✅ Estimer la direction du glissement
+- ✅ Différencier contact latéral vs frontal
 
-2. **Détection d'orientation :** Un objet posé en biais sur la paume active plusieurs capteurs différentiellement. L'analyse des vecteurs Bx/By de chaque capteur permet de calculer l'**angle d'incidence** de l'objet — essentiel pour un ajustement de préhension.
+**Ce qu'on ne peut PAS faire avec 1 capteur :**
+- ❌ Localiser précisément *où* sur la pulpe du doigt est le contact (pas de résolution spatiale)
+- ❌ Distinguer 2 contacts simultanés sur la même pulpe
 
-3. **Redondance et robustesse :** Si un capteur tombe en panne, les 4 autres continuent à fonctionner.
+#### Verdict pour les doigts : 1 capteur est le BON choix
 
-**La vraie limitation : couverture surfacique insuffisante**
+> [!NOTE]
+> **Conclusion : Le passage à 1 capteur par bout de doigt n'est PAS une dégradation — c'est la solution physiquement correcte pour cette taille.**
+>
+> La recherche (eFlesh, ReSkin, AnySkin) utilise des arrays multi-capteurs sur des surfaces de **20×20mm minimum**. En dessous de cette taille, le crosstalk magnétique dégrade les mesures au point de rendre les capteurs supplémentaires inutiles voire contreproductifs.
+>
+> **Un seul capteur 3 axes sur la phalange distale est exactement ce qu'utilisent les systèmes tactiles commerciaux les plus performants** (ex: SynTouch BioTac, Digit-Tactip) pour les bouts de doigts de robots.
 
-Avec des aimants de Ø3mm, la **plage de détection n'est pas uniforme sur toute la paume**. Les zones sans aimant (en dehors des 5 positions) ne seront pas détectées. C'est une limitation réelle mais acceptable pour une V1.
+#### Tableau de synthèse : impact réel sur les capacités de la main
 
-**Recommandation adaptée :**
+| Capacité de la main | Avec 5 cap./doigt (théorique) | Avec 1 cap./doigt (retenu) | Impact réel |
+|:---|:---:|:---:|:---|
+| Détection de contact | ✅ | ✅ | **Aucun** |
+| Force de serrage | ✅✅ | ✅✅ | **Aucun** |
+| Détection de glissement | ✅✅✅ | ✅✅ | **Mineur** (direction ± 30°) |
+| Localisation du contact sur la pulpe | ✅ partielle | ❌ | Absent — mais non critique |
+| Robustesse aux pannes | ✅✅ | ✅ | Moins de redondance |
+| **Faisabilité physique** | ❌ (crosstalk) | ✅✅✅ | **Critique** |
+| **Coût** | 5× | 1× | **-80%** |
 
-| Configuration | Aimants | Couverture | Qualité de mesure |
-|:---|:---|:---|:---|
-| **Option A — Usage direct** (recommandé V1) | 5 aimants Ø3×1mm noyés dans le TPU en face de chaque capteur | ~5% de la paume | ✅ Suffisant pour la détection de contact palmar grossier |
-| **Option B — Aimants plus grands** | 5 aimants Ø6×2mm à la place de Ø3×1mm | ~15% de la paume | ✅✅ Meilleure sensibilité, champ plus étendu |
-| **Option C — PCB + TPU étendu** (recommandé V2) | PCB WowRobo + couche TPU gyroïde sur toute la paume (60×80mm) avec matrice de petits aimants | ~60% de la paume | ✅✅✅ Approche vraie "peau tactile" |
+---
+
+### B.2 — Utiliser plusieurs PCBs WowRobo (5 capteurs chacun) sur la paume
+
+#### La vraie question : 1 ou plusieurs PCBs WowRobo sur la paume ?
+
+La paume humaine fait environ **60 × 80 mm** de surface de contact utile. Un seul PCB WowRobo (20×20mm avec 5 MLX90393) ne couvre qu'une zone de 20×20mm, soit environ **8% de la surface palmaire**.
+
+```
+   Vue de la paume (60×80mm) avec différentes configurations :
+
+   OPTION A : 1 PCB (actuel)      OPTION B : 2 PCBs         OPTION C : 3 PCBs
+   ┌──────────────────────┐       ┌──────────────────────┐  ┌──────────────────────┐
+   │                      │       │  ┌────┐   ┌────┐     │  │  ┌────┐   ┌────┐   │
+   │       ┌────┐         │       │  │PCB1│   │PCB2│     │  │  │PCB1│   │PCB2│   │
+   │       │PCB1│         │       │  │ 5× │   │ 5× │     │  │  │ 5× │   │ 5× │   │
+   │       │ 5× │         │       │  │cap.│   │cap.│     │  │  │cap.│   │cap.│   │
+   │       │cap.│         │       │  └────┘   └────┘     │  │  └────┘   └────┘   │
+   │       └────┘         │       │                       │  │                    │
+   │                      │       │       ┌────┐          │  │       ┌────┐       │
+   │  8% couverture       │       │       │    │ vide     │  │       │PCB3│       │
+   │  5 capteurs          │       │  16%  │    │          │  │       │ 5× │       │
+   │                      │       │  10 cap.   │          │  │  24%  │cap.│       │
+   └──────────────────────┘       └──────────────────────┘  │  15 cap.   └────┘  │
+                                                             └──────────────────────┘
+```
+
+#### Analyse coût/bénéfice de chaque configuration
+
+| Config | PCBs utilisés | MLX90393 | Couverture | Capacités supplémentaires | PCBs spare restants |
+|:---|:---:|:---:|:---:|:---|:---:|
+| **A — 1 PCB/paume** | 2 (total) | 10 | ~8% | Contact grossier, force, orientation | **16 spare** |
+| **B — 2 PCBs/paume** | 4 (total) | 20 | ~16% | + Localisation zone (avant/arrière paume) | **14 spare** |
+| **C — 3 PCBs/paume** | 6 (total) | 30 | ~24% | + Détection de plusieurs contacts simultanés | **12 spare** |
+
+#### Ce que l'ajout d'un 2ème et 3ème PCB apporte réellement
+
+**2ème PCB WowRobo sur la paume (de Option A à Option B) :**
+- Permet de distinguer un contact dans la **zone thénar** (base du pouce) vs **zone hypothénar** (côté auriculaire)
+- Détecte si un objet touche simultanément deux zones distinctes de la paume
+- Indispensable pour les objets longs (stylo, tube) où l'orientation est critique
+- **Gain pratique : élevé** pour les tâches de manipulation fine
+
+**3ème PCB WowRobo sur la paume (de Option B à Option C) :**
+- Ajoute la zone centrale de la paume (voûte)
+- Permet une triangulation plus précise de la position du contact
+- **Gain pratique : modéré** — la différence est surtout utile pour des tâches de recherche avancée
+
+#### Recommandation finale paume
+
+> [!IMPORTANT]
+> **La recommandation est de passer à 2 PCBs WowRobo par paume (Option B).**
+>
+> Avec votre stock de 20 PCBs, utiliser 4 pour les paumes (2 par paume) au lieu de 2 n'impacte pas significativement les autres usages : vous aurez encore 14 spare après paumes + pieds + avant-bras + torse.
+
+**Disposition recommandée des 2 PCBs sur la paume (60×80mm) :**
+
+```
+              ← 60mm →
+         ┌────────────────────┐  ↑
+         │  ┌────┐   ┌────┐   │  │
+         │  │PCB1│   │PCB2│   │  │  80mm
+         │  │Méta│   │Zone│   │  │
+         │  │carpes   thénar  │  │
+         │  └────┘   └────┘   │  │
+         │                    │  │
+         └────────────────────┘  ↓
+              ↑ 5 doigts
+```
+- **PCB 1** — Zone métacarpienne (bas des doigts 2–4) : 20mm d'offset depuis la base des doigts
+- **PCB 2** — Zone thénar/hypothénar (base du pouce et côté auriculaire) : symétrique
+
+#### Bilan PCBs révisé avec 2 PCBs/paume
+
+| Emplacement | PCBs |
+|:---|:---:|
+| Paumes (×2, 2 PCBs chacune) | **4** |
+| Pieds (×2, 4 PCBs chacun) | **8** |
+| Avant-bras (×2) | **2** |
+| Torse | **2** |
+| **Sous-total utilisé** | **16** |
+| **Spare** | **4** |
+| **Total** | **20** |
 
 > [!TIP]
-> **Pour la V1** : Utilisez les aimants Ø3×1mm que vous avez déjà. La mesure ne sera pas "carte de pression complète" mais sera suffisante pour détecter si un objet est bien tenu, et dans quelle direction il exerce une force. C'est la même approche que celle du Pinto Lab (NYU) dans les publications originales d'eFlesh.
+> Avec 4 spare (au lieu de 6 précédemment), vous avez encore une marge confortable pour remplacer des PCBs endommagés. Et la paume devient bien plus capable.
+
+#### Adressage I2C avec 2 PCBs WowRobo sur la même paume
+
+Les 5 MLX90393 de chaque PCB WowRobo partagent des adresses fixes internes. Avec 2 PCBs sur le même bus I2C, il y a **conflit d'adresses**. Solutions :
+
+1. **Solution simple — Bus I2C séparés :** PCB1 paume sur Bus I2C N°1 de l'ESP32-S3, PCB2 paume sur Bus I2C N°2 (le bus pouce est alors sur Bus N°1 en parallèle — OK si < 4 adresses par bus)
+2. **Solution robuste — Multiplexeur TCA9548A** : Un seul composant (TSSOP-24, ~1€ chez JLCPCB) crée 8 canaux I2C isolés. 1 canal par PCB WowRobo → aucun conflit possible
 
 ---
 
