@@ -170,15 +170,19 @@ Ces pièces requièrent une précision d'horlogerie (tolérances H7/g6) :
 Le gainage externe continu imprimé en TPU 95A/98A assure l'étanchéité, la protection du système tactile eFlesh, et sert de **rappel élastique secondaire** pour l'extension des doigts. Ce procédé élimine tout besoin de moulage de silicone chimique.
 
 *   **Matériau :** Qidi TPU 95A-HF ou TPU 98A (séché à 65°C pendant 12h dans la Qidi Box).
-*   **Tranchage (Slicing) Multi-Zones dans QIDI Studio :**
-    *   **Zone d'articulation et dos du doigt (Effet ressort) :** Remplissage (Infill) à **100%** pour maximiser le couple de rappel et éviter le fluage lors des flexions répétées.
-    *   **Zone de la pulpe tactile (eFlesh) :** Infill **Gyroïde à 8%** (comportement de mousse ultra-souple et sensible, équivalente à un silicone Shore 15A).
-    *   **Parois externes :** 2 périmètres (épaisseur de coque de 0.8 mm) pour assurer l'étanchéité tout en transmettant fidèlement les efforts.
+*   **Méthode Hybride de Fabrication (Microstructure eFlesh + Zones Structurelles) :**
+    La gaine TPU du doigt combine **deux types de remplissage** dans une seule pièce monolithique, fusionnée dans Fusion 360 :
+    *   **Zone tactile (pulpe inférieure — eFlesh) :** Microstructure **cut-cell** générée par le pipeline eFLESH (`cut-cell.ipynb`). Cette lattice paramétrique assure un déplacement isotrope de l'aimant (même réponse en X, Y, Z) et élimine les biais d'anisotropie qui fausseraient la mesure de cisaillement Bx/By du MLX90393. **L'infill slicer standard (gyroïde, grille, etc.) est INTERDIT dans cette zone.**
+    *   **Zone d'articulation, ongle et dos du doigt :** Remplissage (Infill) slicer à **100% rectiligne** pour maximiser le couple de rappel et éviter le fluage lors des flexions répétées.
+    *   **Parois externes :** 2 périmètres (épaisseur de coque de 0.8 mm) pour assurer l'étanchéité tout en transmettant fidèlement les efforts. La peau lisse extérieure de la zone tactile est générée par le pipeline eFLESH (paramètre `skin_thickness = 1.0 mm`).
+
+    > 📄 **Procédure complète détaillée :** Voir `Documentation/03_Electronique_Capteurs/GUIDE_PCB_MLX90393_et_Recyclage_WowRobo.md` **§2.6** — Workflow hybride Fusion 360, pipeline eFLESH en 4 stages, paramètres de tranchage multi-zone OrcaSlicer, et justification physique de la microstructure cut-cell.
+
 *   **Insertion de l'aimant (Pause d'impression) :**
-    *   Le modèle intègre une cavité cylindrique fermée de 3.2 mm (diamètre) x 1.1 mm (profondeur) dans l'infill de la pulpe.
-    *   Insérez une commande de pause (`M600` ou pause via le slicer) à la hauteur de couche exacte précédant la fermeture de la cavité.
-    *   L'imprimante s'arrête et dégage la tête. Insérez l'aimant néodyme N48 (polarité Nord tournée vers l'intérieur du doigt).
-    *   Relancez l'impression pour emprisonner l'aimant hermétiquement dans le TPU sans colle.
+    *   La poche d'aimant est générée automatiquement par le Stage 2 du pipeline eFLESH (`create_pouch.py` dans Blender ou TinkerCAD), avec des dimensions précises de Ø3.2 mm × 1.1 mm de profondeur.
+    *   Insérez une commande de pause (`M601` Qidi ou `M600` Marlin) à la couche exacte identifiée dans l'aperçu OrcaSlicer.
+    *   L'imprimante s'arrête. **Attendez 1 à 2 minutes**, puis insérez l'aimant néodyme N48 (avec double pastille isolante en tissu de verre 3M 69), pôle Nord vers l'intérieur.
+    *   Relancez l'impression pour emprisonner l'aimant hermétiquement dans le TPU.
 
 ### 2.4 Le Mécanisme de Retour Passif Principal : Les Tendons Élastiques Dorsaux
 Le rappel principal d'extension est assuré par un cordon élastique technique mono-brin de Ø 0.8 mm (Beadalon Elasticity) logé dans les canaux supérieurs (dorsaux) des phalanges en PA12-CF. Ces canaux, initialement prévus pour les tendons extenseurs actifs d'ORCA, guident parfaitement le cordon.
@@ -354,13 +358,13 @@ L'ORCA/D-Hand V1 intègre désormais le système tactile magnétique 3-axes **eF
 
 #### B. Directives de Conception CAD (Lissage Esthétique & Évacuation d'Air)
 Pour préserver une esthétique anthropomorphe haut de gamme (sans les structures nid d'abeille ouvertes présentées pour la recherche) et assurer une étanchéité parfaite à l'eau et à la poussière, suivez ces règles de design CAO :
-1.  **Finition de Gaine Lisse (Coque continue) :** Dans votre slicer (QIDI Studio), configurez le tranchage de la gaine en TPU avec **2 périmètres externes pleins (épaisseur de paroi de 0.8 mm)**. Cela masque entièrement l'infill gyroïde à 8% à l'intérieur, offrant un aspect externe lisse et continu identique à une peau en silicone.
+1.  **Finition de Gaine Lisse (Coque continue) :** La peau lisse extérieure de la zone tactile est assurée par le paramètre `skin_thickness` du pipeline eFLESH (1.0 mm), complétée par **2 périmètres externes** du slicer (0.8 mm). Cela masque entièrement la microstructure cut-cell interne, offrant un aspect externe lisse et continu identique à une peau en silicone.
 2.  **Lissage de Surface :** Pour combler les stries d'impression FDM, passez brièvement un décapeur thermique modéré (180°C à 10 cm) sur la coque TPU ou appliquez une micro-couche de vernis élastomère polyuréthane fluide pour obtenir un fini gomme mate haut de gamme.
 3.  **Évitement de l'Effet Coussin d'Air (Venting Hole) :** Une coque de TPU hermétique emprisonne l'air, ce qui augmente artificiellement la rigidité de la pulpe tactile et ralentit le retour élastique. Pour y remédier, modélisez un **micro-canal de purge d'air de 0.8 mm** caché à la base de la phalange PA12-CF. Lors de la compression du doigt, l'air s'échappe de manière fluide vers le squelette interne sans aucune résistance pneumatique.
 4.  **Logement Aimant & Capteur (Dimensionnement Physique eFlesh) :**
     *   **Squelette PA12-CF (Doigts) :** Évidement rectangulaire de 10 × 12 mm (ou 12 × 15 mm à ajuster selon le modèle de carte générique GY-90393 retenue) pour fixer le micro-PCB de bout de doigt.
     *   **Squelette PA12-CF (Paume) :** Évidement carré de 20 × 20 mm pour intégrer le PCB Array 5-capteurs de WowRobo.
-    *   **Gaine TPU (Doigts) :** Cavité de Ø 3.2 mm × 1.1 mm (ajustée à 1.1 mm de profondeur pour maintenir fermement l'aimant N48 de 1.0 mm et éviter tout flottement ou basculement lors des compressions de la pulpe).
+    *   **Gaine TPU (Doigts) :** La poche d'aimant de Ø 3.2 mm × 1.1 mm est générée automatiquement par le pipeline eFLESH (Stage 2 — `create_pouch.py`). L'ajustement à 1.1 mm de profondeur maintient fermement l'aimant N48 de 1.0 mm tout en évitant tout flottement ou basculement lors des compressions de la pulpe.
     *   **Air-Gap Nominal :** Conservez une distance d'air-gap (espace libre) de **3.0 à 4.0 mm** au repos entre la face inférieure de l'aimant et le silicium du capteur MLX90393.
     *   **Justification Physique & Non-saturation :** 
         *   Un aimant néodyme N48 certifié de Ø 3 × 1.0 mm (force d'adhérence de ~190 g) possède une aimantation rémanente $B_r \approx 1.4\text{ T}$.
@@ -384,7 +388,7 @@ L'utilisation d'aimants fins de Ø 3 × 1.0 mm au lieu des aimants massifs recom
     *   Le champ magnétique perçu à courte distance est multiplié par $(2.5)^3 \approx 15.6$ fois, ce qui compense largement la perte de volume de l'aimant. Le rapport signal/bruit sur le MLX90393 reste optimal.
 4.  **Découplage entre la Force de Mesure et la Force d'Attraction (190g) :**
     *   La spécification commerciale de l'aimant d'une force d'adhérence de ~190g (1.86 N sur plaque d'acier) **ne limite en aucun cas la plage de force mesurable** par le capteur. L'aimant n'est qu'un émetteur de champ magnétique passif.
-    *   La plage de mesure (ex: 0 à 50 N) est gouvernée exclusivement par la **rigidité mécanique de l'élastomère (TPU 95A)** de la cellule. Pour mesurer des forces élevées, il suffit d'augmenter l'épaisseur des parois internes de la cellule TPU ou la densité de son infill gyroïde afin de limiter l'écrasement. Le capteur mesurera fidèlement la déformation mécanique de ce ressort en TPU.
+    *   La plage de mesure (ex: 0 à 50 N) est gouvernée exclusivement par la **rigidité mécanique de l'élastomère (TPU 95A)** de la cellule cut-cell. Pour mesurer des forces élevées, il suffit d'augmenter le module d'Young `E` dans la fonction `def young(k)` du notebook `cut-cell.ipynb` afin de rigidifier les poutres de la lattice et limiter l'écrasement. Le capteur mesurera fidèlement la déformation mécanique de cette structure en TPU.
 
 #### D. Routage & Adressage I2C Dual (Sans Multiplexeur)
 Le capteur MLX90393 dispose de 2 pins d'adresse (AD0/AD1) permettant au maximum 4 adresses sur une seule ligne physique. Pour connecter 8 capteurs par main (5 doigts + 3 paume) sans ajouter de puce de multiplexage encombrante, nous utilisons les deux bus I2C natifs de l'**ESP32-S3** :

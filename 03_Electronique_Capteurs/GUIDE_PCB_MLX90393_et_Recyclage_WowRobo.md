@@ -14,11 +14,18 @@
    - [Guide pas-à-pas EasyEDA](#23-easyeda)
    - [Fichier CPL (placement)](#24-cpl)
    - [Checklist DFM avant commande](#25-dfm)
+   - [Génération CAO et fabrication eFlesh Custom](#26-eflesh-cad)
 3. [Partie B — Analyse : 1 ou 5 capteurs ?](#3-analyse-paume)
 4. [Partie C — IMU vs Capteurs Plantaires : la fausse alternative](#4-imu-vs-pied)
 5. [Partie D — Plan complet de recyclage des 20 PCBs WowRobo](#5-recyclage)
 6. [Architecture I2C globale du robot](#6-i2c-global)
 7. [**Partie E — Quel aimant pour quel emplacement ?**](#7-aimants) ⭐ *Nouveau*
+   - [E.1 — Inventaire et Caractéristiques des Aimants](#e1-inventaire)
+   - [E.2 — Rappel : Plages Utiles du MLX90393](#e2-plages)
+   - [E.3 — Calcul du Champ Magnétique par Distance](#e3-calculs)
+   - [E.4 — Recommandation par Emplacement](#e4-reco)
+   - [E.5 — Tableau Récapitulatif Final](#e5-recap)
+   - [E.6 — Risque de Démagnétisation Thermique (TPU chaud)](#e6-thermique)
 
 ---
 
@@ -265,6 +272,272 @@ Avant de soumettre votre commande sur JLCPCB, vérifiez ces points :
 
 ---
 
+### 2.6 — Procédure Hybride de Génération CAO et Fabrication eFlesh Custom {#26-eflesh-cad}
+
+Le framework open-source **eFlesh** (développé par le Pinto Lab de NYU) fournit un outil de CAO algorithmique pour générer des capteurs tactiles s'adaptant à n'importe quelle géométrie convexe (comme le bout d'un doigt custom pour la main DHand V1).
+
+> [!CAUTION]
+> **Pourquoi la microstructure cut-cell est INDISPENSABLE (et l'infill slicer INTERDIT) dans la zone tactile :**
+>
+> La microstructure cut-cell d'eFLESH n'est **pas** un simple remplissage. C'est une **lattice paramétrique ingénieurée** qui remplit 3 rôles impossibles à reproduire par un infill gyroïde ou grille standard du slicer :
+>
+> 1. **Isotropie de déformation** : Un gyroïde ou un grid-infill standard a une rigidité fortement anisotrope (le comportement mécanique varie selon l'axe de la force appliquée — typiquement 2× à 3× plus rigide en Z qu'en XY). Les cut-cells sont conçues pour donner une **réponse isotrope** identique en X, Y et Z, ce qui est critique pour la mesure 3 axes du MLX90393. Sans cela, les composantes Bx et By du champ magnétique sont biaisées et la force de cisaillement est mal estimée (erreur de 30 à 60%).
+> 2. **Contrôle du déplacement de l'aimant** : La lattice cut-cell guide le mouvement de l'aimant de manière prédictible et reproductible. Chaque cellule agit comme un micro-ressort calibré. Le réseau de neurones MLP de reconstruction de force (fourni dans le dépôt eFLESH) est entraîné *spécifiquement* sur cette réponse mécanique. Utiliser un infill slicer reviendrait à changer la suspension d'une voiture sans recalibrer l'ABS.
+> 3. **Variation spatiale de rigidité** : Via le paramètre `E` (module d'Young) couche par couche dans `cut-cell.ipynb` (`def young(k)`), on peut rendre la zone directement sous l'aimant plus souple (meilleure sensibilité) et les zones périphériques plus rigides (meilleur maintien structurel).
+
+#### Problématique de la pièce TPU du doigt D-Hand
+
+La pièce TPU complète du doigt a **plusieurs fonctions distinctes** :
+
+```
+       Vue latérale de la gaine TPU du doigt (coupe)
+       
+       ┌──────────────────────────────────┐
+       │  ZONE C — Ongle / Dos du doigt   │  ← Infill 100% solide
+       │  (rigidité, rappel élastique)     │     (PAS de microstructure)
+       ├──────────────────────────────────┤
+       │  ZONE B — Logement phalange      │  ← Canal d'insertion PA12-CF
+       │  PA12-CF + glissière PCB         │     Infill 100% solide
+       ├──────────────────────────────────┤
+       │  ZONE A — Pulpe tactile          │  ← MICROSTRUCTURE CUT-CELL
+       │  (aimant + lattice eFlesh)        │     Générée par le pipeline
+       │  ┌─ Peau lisse extérieure ─┐     │
+       │  │ ┌── Cut-cell lattice ──┐│     │
+       │  │ │  ┌── Poche aimant ──┐││     │
+       │  │ │  │   ●  S-03-01-N   │││     │
+       │  │ │  └──────────────────┘││     │
+       │  │ └──────────────────────┘│     │
+       │  └─────────────────────────┘     │
+       └──────────────────────────────────┘
+            ↓ Face vers le magnétomètre (PCB)
+```
+
+**Le défi** : Respecter la microstructure cut-cell dans la **Zone A** (seule zone tactile) tout en conservant un infill 100% solide dans les **Zones B et C** (structurelles), le tout en **une seule pièce monolithique**.
+
+---
+
+#### A. Le Pipeline Officiel eFLESH en 4 Stages
+
+Le processus CAD2eFlesh se décompose en **4 étapes séquentielles** :
+
+##### Stage 1 — CAD-to-Lattice (Notebook `cut-cell.ipynb`)
+
+Convertit la géométrie d'entrée (OBJ/STL) en lattice de microstructures cut-cell.
+
+> [!IMPORTANT]
+> **Contrainte d'entrée :** L'outil exige un mesh d'entrée **convexe**. La gaine complète du doigt (concave, avec logement PA12-CF) ne peut PAS être traitée directement. → Solution : extraire uniquement la géométrie de la Zone A (pulpe) en volume convexe simplifié.
+
+##### Stage 2 — Ajout des Poches d'Aimants (Blender ou TinkerCAD)
+
+Creuse dans la lattice les cavités cylindriques pour les aimants.
+
+**Deux méthodes :**
+- **Option 1 — Blender** (recommandée pour la précision) :
+  ```bash
+  blender -b -P create_pouch.py
+  ```
+  Paramètres dans `create_pouch.py` :
+  ```python
+  input_path = "/path/to/lattice_output.obj"
+  output_path = "/path/to/lattice_with_pouch.obj"
+  list_of_magnets = [
+      [3.2, 1.1, [X_center, Y_center, Z_center]],
+      # [diamètre_pouce_mm, profondeur_mm, [X, Y, Z_du_centre]]
+  ]
+  ```
+- **Option 2 — TinkerCAD** (méthode en ligne, plus simple) :
+  Utilisez le workplane TinkerCAD partagé dans le dépôt (ne pas éditer l'original, faire une copie).
+
+##### Stage 3 — Ajout du Slot (logement PCB)
+
+Ajout de la fente d'insertion pour le PCB magnétomètre (10×10mm custom ou glissière pour le câble FPC).
+
+##### Stage 4 — Tranchage et Impression 3D (OrcaSlicer)
+
+Le STL final généré est tranché et imprimé en TPU 95A.
+
+---
+
+#### B. La Peau Lisse Extérieure : Pipeline eFLESH vs. Post-opération Fusion 360
+
+> [!IMPORTANT]
+> **Question clé :** Le pipeline eFLESH génère-t-il nativement une coque lisse au-dessus de la microstructure cut-cell ?
+>
+> **Réponse : Partiellement.** Le notebook `cut-cell.ipynb` prend un paramètre de **`skin thickness`** (épaisseur de paroi externe) typiquement réglé entre **1.0 et 1.2 mm**. Cela produit une enveloppe solide autour de la lattice dans le STL de sortie. **Cependant :**
+> - Cette peau est générée uniquement autour du **volume convexe d'entrée** (la Zone A)
+> - Elle ne s'étend PAS aux Zones B et C (logement PA12-CF, ongle) qui ne font pas partie du mesh d'entrée
+> - La jonction entre la peau de la Zone A et les parois solides des Zones B/C nécessite un **travail de fusion dans Fusion 360**
+
+**Configuration du paramètre `skin thickness` dans `cut-cell.ipynb` :**
+```python
+# Dans la section de configuration du notebook :
+skin_thickness = 1.0  # mm — épaisseur de la coque TPU lisse autour de la lattice
+                       # Valeur recommandée : 1.0 mm (2 périmètres de 0.4 mm + overlap)
+                       # Minimum absolu : 0.8 mm (fragile, risque de perçage)
+                       # Maximum conseillé : 1.5 mm (réduit la sensibilité tactile)
+```
+
+**Résultat dans le STL exporté :**
+```
+     Coupe transversale du STL généré par le pipeline eFLESH
+     
+     ┌─────────────────────────────────────┐
+     │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│ ← Peau lisse extérieure (skin_thickness)
+     │▓  ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐  ▓│
+     │▓  │ │ │ │ │ │ │ │ │ │ │ │ │ │  ▓│ ← Cut-cell lattice (air + poutres TPU)
+     │▓  └─┘ └─┘ └─┘ └─┘ └─┘ └─┘ └─┘  ▓│
+     │▓   ┌──────── POCHE ────────┐     ▓│ ← Cavité aimant Ø3.2 × 1.1mm
+     │▓   │    ● S-03-01-N ●      │     ▓│
+     │▓   └───────────────────────┘     ▓│
+     │▓  ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐  ▓│ ← Lattice sous l'aimant (plus souple)
+     │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│ ← Peau lisse inférieure (face capteur)
+     └─────────────────────────────────────┘
+            → SLOT PCB 10×10mm ←
+```
+
+Le slicer (OrcaSlicer) doit être configuré avec **Infill 0%** ou **100% solide** (le remplissage interne est déjà dans la géométrie STL, pas besoin d'infill slicer). Les **2 périmètres externes du slicer** s'ajoutent à la peau existante du STL.
+
+---
+
+#### C. Workflow Hybride Complet dans Fusion 360 (Méthode Recommandée)
+
+Fusion 360 est idéal car il permet de **combiner** (Combine → Join) deux corps solides en un seul corps monolithique imprimable, éliminant tout problème de jonction.
+
+##### Étape 1 — Préparation dans Fusion 360 : Séparation en corps
+
+1. Ouvrez le modèle STEP/F3D complet de la gaine TPU du doigt D-Hand V1
+2. Utilisez **Modify → Split Body** avec un plan de coupe placé à la limite supérieure de la zone tactile (pulpe)
+3. Vous obtenez **2 corps** :
+   - **Corps A (Zone tactile)** : Le volume de la pulpe uniquement (face inférieure du doigt). Simplifiez-le en **enveloppe convexe** si nécessaire (`Mesh → Compute Convex Hull` ou manuellement en lissant les concavités)
+   - **Corps B (Zone structurelle)** : L'ongle, le dos du doigt, le logement de la phalange PA12-CF, la gaine articulaire
+4. **Exportez le Corps A au format OBJ** (Mesh → Export → OBJ) pour le pipeline eFLESH
+
+##### Étape 2 — Pipeline eFLESH sur le Corps A (Ubuntu / WSL2)
+
+1. Transférez le fichier `corps_A_pulpe.obj` sur votre machine Linux (ou WSL2 sur Mac via UTM/Parallels)
+2. Ouvrez `cut-cell.ipynb` dans Jupyter et configurez :
+   ```python
+   input_surface = "corps_A_pulpe.obj"
+   cell_size = 3.0    # mm — adapté à l'épaisseur de la pulpe (~3.8 mm)
+   skin_thickness = 1.0  # mm — peau lisse autour de la lattice
+   
+   # Variation spatiale de rigidité par couche (k=0 = couche du bas)
+   def young(k):
+       if k == 0:       # Couche plancher (face capteur) — rigide
+           return 2.0   # MPa
+       elif k == 1:     # Couche sous l'aimant — souple (max sensibilité)
+           return 0.5   # MPa
+       elif k == 2:     # Couche aimant — médium
+           return 1.0   # MPa
+       else:            # Couches supérieures — progressivement plus rigide
+           return 1.5   # MPa
+   ```
+3. Exécutez toutes les cellules → export du STL lattice
+4. Ajoutez les poches d'aimants via `create_pouch.py` (Blender) :
+   ```python
+   list_of_magnets = [
+       [3.2, 1.1, [X_pulpe, Y_pulpe, Z_poche]],  # 1 aimant S-03-01-N
+   ]
+   ```
+5. Exportez le **`corps_A_eflesh_final.stl`**
+
+##### Étape 3 — Fusion dans Fusion 360 (Soudure des 2 corps)
+
+1. **Importez** le `corps_A_eflesh_final.stl` dans Fusion 360 :
+   - `Insert → Insert Mesh` → sélectionnez le STL
+   - Si nécessaire, convertissez en B-Rep : `Mesh → Convert Mesh` (ou conservez en mesh si la conversion échoue à cause de la complexité de la lattice)
+2. **Positionnez** le Corps A eFLESH à l'emplacement exact de la Zone A d'origine :
+   - Utilisez `Move/Copy` avec les coordonnées absolues ou `Align` avec les faces de jonction
+   - Vérifiez visuellement que la peau extérieure du Corps A s'aligne avec la paroi extérieure du Corps B
+3. **Créez la zone de transition (overlap)** :
+   - Allongez le Corps A de **0.5 à 1.0 mm dans la zone de chevauchement** avec le Corps B
+   - Cela crée un overlap intentionnel de matière à l'interface, éliminant tout défaut de collage inter-couches
+4. **Fusionnez les deux corps** :
+   - `Modify → Combine` → **Operation : Join** → Body 1 = Corps B, Tool Body = Corps A mesh
+   - *Si la fusion mesh/BRep échoue :* Exportez les deux corps en STL séparés et fusionnez-les via `Mesh → Merge Bodies` ou dans un logiciel externe (Meshmixer, Blender Boolean Union)
+5. **Lissage de la jonction** (optionnel mais recommandé) :
+   - Appliquez un **congé (Fillet)** de 0.3 à 0.5 mm sur l'arête de jonction entre les deux zones pour éviter toute concentration de contrainte
+   - Vérifiez visuellement dans la vue Section Analysis que la peau extérieure est continue
+
+> [!TIP]
+> **Astuce Fusion 360 pour la peau lisse :** Si la peau lisse générée par le pipeline eFLESH (`skin_thickness`) est insuffisante ou présente des artefacts de voxelisation (escaliers), vous pouvez la renforcer dans Fusion 360 **après la fusion** en appliquant un `Shell` de 0.4 mm sur les faces extérieures de la zone tactile, ou simplement en comptant sur les **2 périmètres du slicer** (0.8 mm) qui s'ajoutent automatiquement lors du tranchage.
+
+##### Étape 4 — Export et Tranchage Multi-Zone dans OrcaSlicer
+
+1. **Export STL** : `File → Export → STL` (format binaire pour fichier plus léger)
+2. **Import dans OrcaSlicer** en tant que pièce unique
+3. **Configuration multi-zone** (fonctionnalité OrcaSlicer "Modifier") :
+   - Clic droit sur la pièce → **"Add Modifier" → "Height Range"**
+   - **Zone A (hauteur de la pulpe tactile)** :
+     - Infill : **0%** (la microstructure est dans la géométrie — le slicer ne doit rien ajouter dans les cellules d'air)
+     - Périmètres (walls) : **2** (0.8 mm) pour renforcer la peau extérieure
+     - Top/Bottom layers : **0** (la peau est dans le STL, pas besoin de couches pleines supplémentaires au-dessus de la lattice)
+   - **Zones B et C (ongle, gaine articulaire, logement PA12-CF)** :
+     - Infill : **100% rectiligne** (rigidité maximale pour le rappel élastique et le maintien du squelette)
+     - Périmètres : **3** (1.2 mm)
+4. **Matériau** : TPU 95A (Qidi TPU 95A-HF), séché à 65°C pendant 12h
+5. **Orientation** : Face arrière (logement PA12-CF) vers le bas sur le plateau
+
+---
+
+#### D. Procédure d'insertion et de scellage de l'aimant
+
+1. **Identification de la couche de pause** : Dans l'aperçu OrcaSlicer, identifiez la couche exacte qui **ferme le dessus de la poche d'aimant** générée par le pipeline eFLESH. Cette couche est visible comme une surface plate au-dessus de la cavité cylindrique.
+2. **Ajout de la pause** : Clic droit sur le slider de couche dans Preview → **"Add Pause"** à cette couche. OrcaSlicer insère automatiquement la commande G-code `M601` (Qidi) ou `M600` (Marlin).
+3. **Lancement de l'impression** en TPU 95A.
+4. **Attente thermique (Pause)** : Lorsque l'imprimante se met en pause, **attendez 1 à 2 minutes**. Cela permet à la buse de s'éloigner (fin du rayonnement thermique direct) et au plastique du logement de descendre à la température stabilisée du plateau (50-60 °C).
+5. **Insertion double pastille (SANS froid)** :
+   * Prenez un aimant **S-03-01-N** (Ø3×1mm) à température ambiante, préalablement équipé de ses pastilles adhésives isolantes en **Tissu de verre 3M 69** (ou Kapton) collées sur ses deux faces (voir section E.6).
+   * Insérez rapidement l'aimant dans sa cavité avec le **pôle Nord orienté vers le bas** (vers le magnétomètre) à l'aide d'une pince non-magnétique (laiton ou plastique).
+6. **Reprise** : Relancez l'impression. La buse va extruder le TPU chaud directement sur la pastille supérieure isolante, scellant l'aimant hermétiquement sans l'exposer au pic thermique direct de 220 °C.
+7. **Intégration électronique** : Après refroidissement complet, glissez le PCB custom de 10×10 mm dans la glissière inférieure et scellez l'entrée avec un cordon de silicone flexible pour l'étanchéité.
+
+---
+
+#### E. Installation de l'outil de CAO eFlesh (Linux / Ubuntu requis)
+
+> [!WARNING]
+> **Mac M1/M2/M3** : L'outil eFLESH nécessite un environnement **Linux x86_64** pour la compilation des outils C++ CGAL. Sur Mac Apple Silicon, utilisez **UTM** (VM Ubuntu gratuite), **Parallels Desktop** (VM Ubuntu), ou **Docker** avec une image Ubuntu. WSL2 n'est disponible que sur Windows.
+
+1. **Prérequis système :**
+   Installez les bibliothèques de traitement géométrique 3D requises :
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y build-essential cmake libgmp-dev libmpfr-dev libcgal-dev libeigen3-dev libsuitesparse-dev libboost-all-dev
+   ```
+2. **Récupération du dépôt eFlesh :**
+   Clonez le dépôt en incluant les sous-modules nécessaires :
+   ```bash
+   git clone --recurse-submodules https://github.com/notvenky/eFlesh.git
+   cd eFlesh
+   ```
+3. **Configuration de l'environnement Python :**
+   Créez et activez l'environnement de dépendances via Conda :
+   ```bash
+   conda env create -f env.yml
+   conda activate eflesh
+   ```
+4. **Compilation des inflateurs de microstructure :**
+   ```bash
+   cd microstructure/microstructure_inflators
+   chmod +x build.sh
+   ./build.sh                # Utilise 12 cœurs CPU par défaut
+   # ./build.sh cpu_nodes=4  # Si votre VM a moins de cœurs
+   ```
+5. **Vérification** : Les notebooks `regular.ipynb` et `cut-cell.ipynb` doivent pouvoir s'exécuter sans erreur depuis `microstructure/microstructure_inflators/`.
+
+#### F. Ressources et Liens Officiels
+
+| Ressource | Lien |
+|:---|:---|
+| **Dépôt GitHub eFlesh** | [github.com/notvenky/eFlesh](https://github.com/notvenky/eFlesh) |
+| **Documentation CAD2eFlesh** | [microstructure/README.md](https://github.com/notvenky/eFlesh/blob/main/microstructure/README.md) |
+| **Paper ArXiv** | [arXiv:2506.09994](https://arxiv.org/abs/2506.09994) |
+| **Site officiel** | [e-flesh.com](https://e-flesh.com) |
+| **PCB Magnetometer (WowRobo)** | [shop.wowrobo.com/products/eflesh-magnetometer-board](https://shop.wowrobo.com/products/eflesh-magnetometer-board) |
+
+---
+
 ## 3. Partie B — Analyse : 1 ou 5 Capteurs en Paume ? {#3-analyse-paume}
 
 ### Question posée
@@ -377,29 +650,44 @@ Le champ magnétique d'un aimant Ø3×1mm se propage sur un rayon de **5 à 8mm*
 
 La paume humaine fait environ **60 × 80 mm** de surface de contact utile. Un seul PCB WowRobo (20×20mm avec 5 MLX90393) ne couvre qu'une zone de 20×20mm, soit environ **8% de la surface palmaire**.
 
-```
-   Vue de la paume (60×80mm) avec différentes configurations :
+#### Ce que l'ajout d'un 2ème PCB apporte réellement
 
-   OPTION A : 1 PCB (actuel)      OPTION B : 2 PCBs         OPTION C : 3 PCBs
-   ┌──────────────────────┐       ┌──────────────────────┐  ┌──────────────────────┐
-   │                      │       │  ┌────┐   ┌────┐     │  │  ┌────┐   ┌────┐   │
-   │       ┌────┐         │       │  │PCB1│   │PCB2│     │  │  │PCB1│   │PCB2│   │
-   │       │PCB1│         │       │  │ 5× │   │ 5× │     │  │  │ 5× │   │ 5× │   │
-   │       │ 5× │         │       │  │cap.│   │cap.│     │  │  │cap.│   │cap.│   │
-   │       │cap.│         │       │  └────┘   └────┘     │  │  └────┘   └────┘   │
-   │       └────┘         │       │                       │  │                    │
-   │                      │       │       ┌────┐          │  │       ┌────┐       │
-   │  8% couverture       │       │       │    │ vide     │  │       │PCB3│       │
-   │  5 capteurs          │       │  16%  │    │          │  │       │ 5× │       │
-   │                      │       │  10 cap.   │          │  │  24%  │cap.│       │
-   └──────────────────────┘       └──────────────────────┘  │  15 cap.   └────┘  │
-                                                             └──────────────────────┘
-```
+**Option B (2 PCBs par paume) :**
+- Permet de distinguer un contact dans la **zone thénar** (base du pouce) vs **zone métacarpienne** (base des autres doigts).
+- Utile pour les objets de géométries complexes afin d'identifier plus finement le type de contact.
+- **Cependant**, le gain pratique pour la préhension robotique générale reste modéré, car la paume sert de butée de force, tandis que la manipulation précise est gérée par les bouts de doigts.
 
-#### Analyse coût/bénéfice de chaque configuration
+#### Recommandation finale pour la paume
 
-| Config | PCBs utilisés | MLX90393 | Couverture | Capacités supplémentaires | PCBs spare restants |
-|:---|:---:|:---:|:---:|:---|:---:|
+> [!IMPORTANT]
+> **La recommandation finale est d'utiliser 1 seul PCB WowRobo par paume (Option A).**
+>
+> **Pourquoi ce choix ?**
+> 1. **Complexité électronique évitée :** Les 5 capteurs de chaque PCB WowRobo ont des adresses I2C fixes. Avec 1 seul PCB, il n'y a aucun conflit. Avec 2 PCBs sur le même bus, les adresses entrent en conflit direct, ce qui impose d'utiliser un multiplexeur I2C (type TCA9548A) ou de dédier des GPIOs pour un second bus I2C par main.
+> 2. **Simplicité mécanique :** Le châssis de la main DHand V1 dispose d'un évidement de 20×20 mm parfaitement adapté pour un seul PCB. Intégrer deux PCBs exigerait de modifier et ré-imprimer la structure en PA12-CF de la main et de redessiner la coque TPU souple de la paume.
+> 3. **Optimisation des stocks (Spare) :** Utiliser 1 PCB par paume (2 au total pour les deux mains) laisse **6 PCBs WowRobo de rechange (spare)** en réserve, ce qui est très confortable en cas de panne sur les pieds ou le torse.
+
+#### Si vous choisissez l'Option B (2 PCBs par paume) malgré tout :
+* **Câblage :** Vous devez utiliser un multiplexeur TCA9548A ou câbler les deux cartes sur des bus I2C distincts de l'ESP32.
+* **CAO :** Vous devez adapter le fichier STEP de la paume pour y insérer deux logements de 20×20 mm.
+
+**Disposition recommandée du PCB unique sur la paume (60×80mm) :**
+
+Le PCB central doit être implanté au cœur de la zone de contact principale (creux de la main, légèrement décalé vers la base métacarpienne des doigts 2-3-4). Cela correspond précisément à l'évidement de 20×20 mm prévu sur les plans de la main DHand V1.
+
+#### Bilan d'utilisation des PCBs WowRobo (avec 1 PCB/paume)
+
+| Emplacement | PCBs requis |
+|:---|:---:|
+| Paumes (×2, 1 PCB par main) | **2** |
+| Pieds (×2, 4 PCBs par pied) | **8** |
+| Avant-bras (×2, 1 par bras) | **2** |
+| Torse | **2** |
+| **Sous-total utilisé** | **14** |
+| **Spare (réserve)** | **6** |
+| **Total** | **20** |
+
+---|:---:|:---:|:---:|:---|:---:|
 | **A — 1 PCB/paume** | 2 (total) | 10 | ~8% | Contact grossier, force, orientation | **16 spare** |
 | **B — 2 PCBs/paume** | 4 (total) | 20 | ~16% | + Localisation zone (avant/arrière paume) | **14 spare** |
 | **C — 3 PCBs/paume** | 6 (total) | 30 | ~24% | + Détection de plusieurs contacts simultanés | **12 spare** |
@@ -768,7 +1056,7 @@ Usage :
 
 > *Analyse physique complète des 3 types d'aimants disponibles (Supermagnete) appliquée aux emplacements du robot.*
 
-### E.1 — Inventaire et Caractéristiques des Aimants
+### E.1 — Inventaire et Caractéristiques des Aimants {#e1-inventaire}
 
 | Référence | Forme | Dimensions | Grade | Br (T) | Force pull | Qté |
 |:---|:---|:---|:---:|:---:|:---:|:---:|
@@ -781,33 +1069,34 @@ Usage :
 
 ---
 
-### E.2 — Rappel : Plages Utiles du MLX90393 (Gain Programmable)
+### E.2 — Rappel : Plages Utiles du MLX90393 (Gain Programmable) {#e2-plages}
 
-Le MLX90393 a un gain **entièrement programmable** via le registre `GAIN_SEL`. Cela change la plage de mesure :
+Le MLX90393 possède un gain d'amplification interne **entièrement programmable** via le registre `GAIN_SEL` (de 0 à 7). Plus le gain d'amplification est faible, plus la plage de mesure physique est grande :
 
-| GAIN_SEL | Sensibilité XY (µT/LSB) | Plage ≈ XY | Sensibilité Z (µT/LSB) | Plage ≈ Z |
-|:---:|:---:|:---:|:---:|:---:|
-| 0 (max) | 0.805 | ±26 mT | 1.468 | ±48 mT |
-| 2 (défaut) | 0.483 | ±16 mT | 0.881 | ±29 mT |
-| 4 | 0.322 | ±11 mT | 0.587 | ±19 mT |
-| 5 | 0.268 | ±9 mT | 0.489 | ±16 mT |
-| **7 (min)** | **0.161** | **±5 mT** | **0.294** | **±10 mT** |
+| GAIN_SEL | Type de Gain | Sensibilité Z (µT/LSB) | Plage Max Mesurable Z | Usage recommandé |
+|:---:|:---:|:---:|:---:|:---|
+| **0** | Amplification Min | 1.468 | **±48 mT** (plage max) | Champs très forts (25 à 45 mT) |
+| **2 (défaut)** | Amplification Moyenne | 0.881 | **±29 mT** | Champs moyens (12 à 25 mT) |
+| **4** | Amplification Moyenne | 0.587 | **±19 mT** | Champs faibles-moyens (8 à 15 mT) |
+| **5** | Amplification Forte | 0.489 | **±16 mT** | Champs faibles (6 à 12 mT) |
+| **7** | Amplification Max | 0.294 | **±10 mT** (plage min) | Champs très faibles (< 6 mT) |
 
 > [!WARNING]
-> Ces valeurs correspondent à **RES=0** (résolution standard 16 bits). Si vous passez en RES=1 ou RES=2 (oversampling), les valeurs µT/LSB doublent ou quadruplent — la résolution de mesure s'améliore mais la plage se réduit.
+> Ces valeurs correspondent à **RES=0** (résolution standard 16 bits). Si vous augmentez `RES`, les valeurs µT/LSB augmentent (ce qui améliore la résolution numérique mais réduit proportionnellement la plage de mesure).
 >
-> **Règle d'or :** Le champ magnétique au repos (aimant non comprimé) doit être dans la **plage 10–40% du plein fond d'échelle** pour laisser de la marge lors de la déflexion.
+> **Règle d'or :** Le champ magnétique au repos (aimant non comprimé) doit être dans la **plage 30–60% de la plage maximale** configurée afin de conserver une marge dynamique de détection lors de la compression sans risquer la saturation.
 
-En pratique, les 3 plages utiles pour notre système :
-- **GAIN_SEL=2** (défaut Adafruit) → plage utile Bz ≈ **±29 mT** → bon pour champs faibles (S-03-01-N à 3-4mm)
-- **GAIN_SEL=5** → plage utile Bz ≈ **±16 mT** → bon pour champs forts avec reconfiguration
-- **GAIN_SEL=7** (min gain) → plage utile Bz ≈ **±10 mT** mais XY très sensible → à éviter pour notre usage
+En pratique, pour notre système :
+- **Champs forts (Bz > 25 mT)** → Configurer **GAIN_SEL=0** (plage ±48 mT) pour éviter la saturation du CAN.
+- **Champs moyens (Bz ≈ 12–25 mT)** → Configurer **GAIN_SEL=2** (défaut Adafruit, plage ±29 mT).
+- **Champs faibles (Bz < 8 mT)** → Configurer **GAIN_SEL=5 ou 7** pour amplifier le signal et augmenter le SNR.
 
-Repère de saturation effectif pour le calcul : **~50 mT** correspond à la limite haute sûre avec GAIN_SEL entre 2 et 5.
+> [!IMPORTANT]
+> **Limite physique de la plaque Hall :** Indépendamment du gain programmé, la plaque à effet Hall sature physiquement autour de **~50 mT**. Tout champ magnétique supérieur à cette limite donnera une mesure saturée ou erronée, quel que soit le `GAIN_SEL`.
 
 ---
 
-### E.3 — Calcul du Champ Magnétique par Aimant et par Distance
+### E.3 — Calcul du Champ Magnétique par Aimant et par Distance {#e3-calculs}
 
 > *Formule utilisée : B(z) = (Br/2) × [(z+L)/√(R²+(z+L)²) − z/√(R²+z²)], aimant disque ou cube équivalent.*
 
@@ -818,25 +1107,26 @@ Repère de saturation effectif pour le calcul : **~50 mT** correspond à la limi
 Aimant               2mm    3mm    4mm    5mm    6mm    7mm    8mm   10mm   12mm
 ─────────────────────────────────────────────────────────────────────────────────
 S-03-01-N Ø3×1mm    68     30     15      9      5      4      3      1      1
-  (N48, Br=1.43T)   ✅G7   ✅OK   ✅OK   ✅OK   ⚠️W   ⚠️W   ⚠️W   ⚠️W   ⚠️W
+  (N48, Br=1.43T)   ❌SAT  ✅G0   ✅G2   ✅G5   ✅G7   ⚠️W    ⚠️W    ⚠️W    ⚠️W
 
 S-08-03-N Ø8×3mm   224    155    108     76     55     40     30     18     12
-  (N45, Br=1.34T)   ❌SAT  ⚠️H   ⚠️H   ⚠️H   ✅G7   ✅G7   ✅OK  ✅OK  ✅OK
+  (N45, Br=1.34T)   ❌SAT  ❌SAT  ❌SAT  ❌SAT  ❌SAT  ✅G0   ✅G0   ✅G2   ✅G5
 
 W-05-N Cube 5mm    230    142     90     60     42     30     23     13      9
-  (N42, Br=1.32T)   ❌SAT  ⚠️H   ⚠️H   ✅G7   ✅OK   ✅OK   ✅OK  ✅OK  ✅OK
+  (N42, Br=1.32T)   ❌SAT  ❌SAT  ❌SAT  ❌SAT  ✅G0   ✅G0   ✅G2   ✅G5   ✅G5
 ─────────────────────────────────────────────────────────────────────────────────
 LÉGENDE :
-  ❌SAT   Sature le MLX90393 (> ~210 mT), signal invalide, à proscrire
-  ⚠️H    Nécessite GAIN_SEL ≥ 5 pour ne pas saturer (> 50 mT)
-  ✅G7    Idéal GAIN_SEL=7 (plage ~30-70 mT), très bon signal dynamique
-  ✅OK    Idéal GAIN_SEL=2 défaut (plage ~10-30 mT), fonctionnement optimal
-  ⚠️W    Champ trop faible (< 5 mT), rapport signal/bruit insuffisant
+  ❌SAT   Sature physiquement le capteur (> 45-50 mT), mesure impossible
+  ✅G0    Champ fort (25-45 mT), requiert GAIN_SEL=0 ou 1 (gain min / plage max)
+  ✅G2    Champ moyen (12-25 mT), idéal GAIN_SEL=2 ou 3 (défaut)
+  ✅G5    Champ faible (6-12 mT), idéal GAIN_SEL=4 ou 5
+  ✅G7    Champ très faible (4-6 mT), idéal GAIN_SEL=6 ou 7 pour un meilleur SNR
+  ⚠️W    Champ insuffisant (< 4 mT), signal noyé dans le bruit de fond
 ```
 
 ---
 
-### E.4 — Recommandation par Emplacement
+### E.4 — Recommandation par Emplacement {#e4-reco}
 
 #### 🖐 Bouts de Doigts — Phalanges Distales (air-gap TPU : 3–4 mm)
 
@@ -853,18 +1143,20 @@ LÉGENDE :
 
 ---
 
-#### ✋ Paume (2 PCBs WowRobo, air-gap TPU : 5–7 mm)
+#### ✋ Paume (1 PCB WowRobo par main, air-gap TPU : 5–7 mm)
 
 | Aimant | Bz @5mm | Bz @7mm | Verdict |
 |:---|:---:|:---:|:---|
-| S-03-01-N ⚠️ | 9 mT | 4 mT | ⚠️ Trop faible à partir de 6mm, SNR marginal |
-| **W-05-N** ✅ | **60 mT** | **30 mT** | ✅ **IDÉAL** — signal fort, plage optimale, cube facile à coller |
-| S-08-03-N ⚠️ | 76 mT | 40 mT | ✅ Utilisable mais nécessite GAIN_SEL ajusté + risque si TPU se comprime |
+| S-03-01-N ⚠️ | 9 mT | 4 mT | ⚠️ Trop faible au-delà de 5 mm. Alternative possible uniquement à 4.5 mm d'air-gap avec GAIN_SEL=2 |
+| **W-05-N** ✅ | **60 mT** | **30 mT** | ✅ **IDÉAL** — mais requiert un air-gap ≥ 6 mm et GAIN_SEL=0 pour éviter la saturation |
+| S-08-03-N ❌ | 76 mT | 40 mT | ❌ Sature le capteur à 5 mm. Risque élevé de saturation lors de l'écrasement de la paume |
 
 > [!IMPORTANT]
-> **Paume → W-05-N (cube 5mm).** Le cube a l'avantage d'une face plane facile à coller dans le TPU. À 5–7mm d'air-gap, il fournit un signal entre 30 et 60 mT — au centre de la plage utile avec GAIN_SEL=7. Vous avez exactement 10 cubes pour les 10 positions (2 PCBs × 5 capteurs × 2 mains) — **parfaite adéquation stock/besoin.**
+> **Paume → W-05-N (cube 5mm).** Le cube a l'avantage d'une face plane facile à coller dans le TPU. À 6–7 mm d'air-gap, il fournit un signal fort et stable (30 à 42 mT) — ce qui est parfait à condition de configurer le capteur sur le gain d'amplification minimal **GAIN_SEL=0 (plage ±48 mT)**.
+> 
+> **Avertissement de conception :** À 5 mm de distance, le champ atteint 60 mT et sature la plaque Hall (limite ~50 mT). Il faut donc s'assurer que l'épaisseur du TPU et de l'air-gap maintient une distance minimale de **6 mm (idéalement 6.5 mm nominal)** au repos, et intégrer des butées mécaniques rigides pour limiter l'écrasement sous forte charge à 5.5 mm minimum.
 
-**Configuration :** 1 cube W-05-N par capteur MLX90393 (10 cubes total pour les 2 paumes), noyé dans la couche TPU palmaire (Shore 85A), face magnétique vers le capteur. Air-gap nominal 6mm. GAIN_SEL=7 (faible gain).
+**Configuration :** 1 cube W-05-N par capteur MLX90393 (10 cubes total pour les 2 paumes - 5 par main), noyé dans la couche TPU palmaire (Shore 85A). Air-gap nominal de 6.5 mm. **Configuration logicielle requise : GAIN_SEL=0 (gain min / plage max)**.
 
 ---
 
@@ -873,28 +1165,25 @@ LÉGENDE :
 C'est le cas le plus complexe : le TPU **se comprime** sous le poids du robot.
 
 ```
-  État du pied         Air-gap TPU    Champ S-03-01-N   Champ S-08-03-N   Champ W-05-N
-  ──────────────────   ────────────   ───────────────   ───────────────   ────────────
-  Sans charge (debout)    8 mm           3 mT ⚠️W          30 mT ✅OK        23 mT ✅OK
-  Mi-charge (marche)      5 mm           9 mT ✅OK          76 mT ⚠️H        60 mT ✅G7
-  Pleine charge (impact) 2-3 mm         30-68 mT ✅        155 mT ⚠️H       142 mT ⚠️H
+  État du pied         Air-gap TPU    Champ S-03-01-N   Champ S-08-03-N (air-gap accru)
+  ──────────────────   ────────────   ───────────────   ───────────────────────────────
+  Sans charge (debout)    10 mm           1 mT ⚠️W          18 mT ✅G2 (GAIN_SEL=2 ou 3)
+  Mi-charge (marche)       8 mm           3 mT ⚠️W          30 mT ✅G0 (GAIN_SEL=0 ou 1)
+  Pleine charge (impact)   7 mm           4 mT ⚠️W          40 mT ✅G0 (GAIN_SEL=0, max)
+  Forte compression       < 6 mm          5-9 mT ✅G7       > 55 mT ❌SAT (saturation)
 ```
 
 **Analyse :**
-- **S-03-01-N** sans charge : signal de seulement **3 mT** → proche du bruit → **impossible de détecter si le pied est posé ou en l'air**
-- **S-08-03-N** sans charge : **30 mT** → signal clair → on sait que le pied existe même sans pression
-- **S-08-03-N** en pleine charge : **155 mT** → nécessite GAIN_SEL ajusté, mais **mesurable** avec GAIN_SEL=7 (plage ±210 mT)
-- **W-05-N** en pleine charge : **142 mT** → similaire, borderline mais mesurable
+- **S-03-01-N** : Même à 7 mm de compression, le champ est de seulement **4 mT** (proche du bruit). Au repos (10 mm), il est de **1 mT** (impossible de détecter le contact). Cet aimant est donc **totalement inadapté** pour la semelle.
+- **S-08-03-N (Ø8×3mm)** : En augmentant l'air-gap nominal au repos à **10 mm**, on obtient un champ de **18 mT** (très propre avec `GAIN_SEL=2`). Lors de l'impact, le TPU se comprime (l'air-gap descend à 7 mm), le champ monte à **40 mT**, ce qui reste mesurable à `GAIN_SEL=0` sans saturer le capteur.
+- **Risque de saturation** : Si le TPU s'écrase au-delà de 3 mm (air-gap < 6.5 mm), le champ dépassera 50 mT et saturera physiquement le capteur. Il est donc **critique de concevoir une butée mécanique rigide** dans la semelle pour limiter l'écrasement maximal du TPU à 7 mm de distance aimant-capteur.
 
 > [!IMPORTANT]
-> **Semelle plantaire → S-08-03-N (Ø8×3mm).** C'est le seul aimant qui maintient un **signal utilisable à l'état non-chargé** (pied en l'air pendant la phase swing) tout en restant dans la plage du capteur à pleine charge. Le S-03-01-N est trop faible au repos.
+> **Semelle plantaire → S-08-03-N (Ø8×3mm) avec air-gap de 10 mm au repos.** C'est la seule configuration qui maintient un signal clair au repos (18 mT) tout en évitant la saturation lors de la compression de la semelle (jusqu'à 7 mm d'air-gap, Bz = 40 mT).
 >
-> **Réglage GAIN_SEL :** Utiliser GAIN_SEL=5 ou 6 (plage ~50–130 mT) pour couvrir le spectre complet sans-charge/pleine-charge. Le firmware devrait idéalement auto-calibrer le gain à l'initialisation selon la charge au sol.
+> **Réglage GAIN_SEL :** Configurer à **GAIN_SEL=0 (gain min / plage max)** ou implémenter un auto-gain dynamique pour s'adapter à la charge.
 
-**Configuration :** 1 aimant S-08-03-N par capteur (20 aimants par pied, 40 total pour 2 pieds). Air-gap TPU nominal 7–8mm. GAIN_SEL=5 (plage ajustée pour couvrir 30→130 mT).
-
-> [!WARNING]
-> 40 aimants S-08-03-N consomment votre **stock complet** de ce type. Prévoyez 5–10 pièces supplémentaires en spare (0.31€/pièce).
+**Configuration :** 1 aimant S-08-03-N par capteur (20 aimants par pied, 40 total pour 2 pieds). Air-gap TPU nominal de 10 mm au repos, limité par butée rigide à 7 mm lors des impacts. GAIN_SEL=0.
 
 ---
 
@@ -919,15 +1208,15 @@ C'est le cas le plus complexe : le TPU **se comprime** sous le poids du robot.
 
 ---
 
-### E.5 — Tableau Récapitulatif Final
+### E.5 — Tableau Récapitulatif Final {#e5-recap}
 
-| Emplacement | Aimant recommandé | Air-gap | GAIN_SEL | Bz repos | Aimants utilisés |
-|:---|:---|:---:|:---:|:---:|:---:|
-| Doigts ×10 (5/main×2) | **S-03-01-N** Ø3×1mm | 3.5 mm | 2 (défaut) | ~25 mT | **10** |
-| Paume ×2 (×5 cap.) | **W-05-N** Cube 5mm | 6 mm | 7 | ~42 mT | **10** |
-| Pieds ×2 (×20 cap.) | **S-08-03-N** Ø8×3mm | 7–8 mm | 5 | ~30 mT | **40** |
-| Avant-bras ×2 (×5 cap.) | **S-03-01-N** Ø3×1mm | 4 mm | 2 (défaut) | ~15 mT | **10** |
-| Torse ×1 (×10 cap.) | **S-08-03-N** Ø8×3mm | 7 mm | 7 | ~40 mT | **10** |
+| Emplacement | Aimant recommandé | Air-gap (repos) | GAIN_SEL | Bz repos | Butée / Sécurité | Aimants utilisés |
+|:---|:---|:---:|:---:|:---:|:---|:---:|
+| Doigts ×10 (5/main×2) | **S-03-01-N** Ø3×1mm | 3.5 mm | 2 (défaut) | ~22 mT | N/A | **10** |
+| Paume ×2 (×5 cap.) | **W-05-N** Cube 5mm | 6.5 mm | 0 (min gain) | ~36 mT | Butée à 5.5 mm | **10** |
+| Pieds ×2 (×20 cap.) | **S-08-03-N** Ø8×3mm | 10.0 mm | 0 (min gain) | ~18 mT | Butée à 7.0 mm | **40** |
+| Avant-bras ×2 (×5 cap.) | **S-03-01-N** Ø3×1mm | 4.0 mm | 2 (défaut) | ~15 mT | N/A | **10** |
+| Torse ×1 (×10 cap.) | **S-08-03-N** Ø8×3mm | 8.0 mm | 2 (défaut) | ~30 mT | N/A | **10** |
 
 #### Bilan stock aimants
 
@@ -938,6 +1227,42 @@ C'est le cas le plus complexe : le TPU **se comprime** sous le poids du robot.
 | W-05-N (Cube 5mm) | 10 | 10 (paumes) = **10** | **0** — stock exact |
 
 > [!WARNING]
-> **Il manque 10 aimants S-08-03-N** pour compléter le système (40 pieds + 10 torse = 50, stock = 40). Commandez 10 à 15 pièces supplémentaires chez Supermagnete (ref S-08-03-N, ~0.31€/pièce).
->
-> **Alternative :** Utiliser les W-05-N en spare sur le torse (à 7mm, ils fournissent 30 mT, acceptable avec GAIN_SEL=7). Dans ce cas, le stock S-08-03-N suffit pour les pieds uniquement.
+> **Il manque 10 aimants S-08-03-N** pour équiper complètement le torse en plus des pieds.
+> 
+> **Alternative sans commande supplémentaire :** Si vous ne souhaitez pas commander de nouveaux aimants, vous pouvez utiliser les 20 aimants **S-03-01-N** restants en spare pour le Torse en adaptant l'air-gap à **4.5 mm** au lieu de 8 mm (Bz repos ≈ 12 mT) et en configurant le gain à **GAIN_SEL=4** (plage ±19 mT). Cela fonctionne parfaitement et utilise 100% de votre stock actuel sans coût additionnel !
+
+---
+
+### E.6 — Risque de Démagnétisation Thermique lors de l'Impression 3D (TPU chaud) {#e6-thermique}
+
+> [!CAUTION]
+> **Risque critique de perte d'aimantation :** Les aimants néodyme standards (grades N42, N45, N48 de votre stock) ont une température maximale de fonctionnement de **80 °C**. Au-delà de cette température, ils subissent une perte irréversible de leur champ magnétique. Lors de l'impression 3D en TPU, le plastique est extrudé à **220–235 °C**. Déposer du TPU fondu directement sur un aimant inséré in-situ (via une pause d'impression) risque de le démagnétiser partiellement ou totalement, rendant le capteur tactile inopérant.
+
+#### Mécanismes physiques du risque thermique :
+1. **Température maximale de travail (80 °C) :** Limite au-delà de laquelle l'aimant perd définitivement une partie de son intensité magnétique par désalignement des domaines magnétiques (pertes irréversibles).
+2. **Température de Curie (310 °C) :** Seuil de désaimantation totale et instantanée.
+3. **Faible inertie thermique :** Les petits aimants Ø3×1 mm possèdent une masse infime (~0.05 g). La buse d'imprimante chauffée à 220 °C qui passe au-dessus ou dépose du filament en fusion à proximité immédiate peut les faire monter à plus de 100 °C en une fraction de seconde par conduction.
+
+#### Solutions et bonnes pratiques de fabrication :
+
+1. **Option 1 — Insertion mécanique après impression :**
+   * **Principe :** Concevoir les coques ou pulpes en TPU avec une fente d'insertion latérale ou un logement ouvert vers l'extérieur (légèrement sous-dimensionné d'environ 0.1 mm pour un ajustement serré).
+   * **Avantage :** L'aimant est inséré à température ambiante une fois la pièce entièrement refroidie. Aucun risque thermique.
+   * **Fixation :** L'élasticité naturelle du TPU suffit à emprisonner l'aimant. Si nécessaire, sécuriser avec une goutte de colle cyanoacrylate flexible (ex: Loctite 480 ou Super Glue Gel) ou une pointe de silicone.
+
+2. **Option 2 — Protocole d'Insertion In-Situ Sécurisé (Double pastille isolante - SANS froid) — (Recommandée) :**
+   * **Principe :** Afin d'éviter tout risque de condensation d'eau (qui nuit à l'adhérence inter-couches du TPU et génère des bulles de vapeur sous l'effet de la buse à 220 °C), les aimants sont maintenus à température ambiante. La protection thermique est assurée par deux pastilles isolantes collées en dessous et au-dessus de l'aimant.
+   * **Matériaux recommandés :**
+     * **Choix A — Le Ruban Kapton (Polyimide) :** Très fin (0.05 mm), résiste jusqu'à 260 °C (pointe à 400 °C). Offre un excellent écran thermique de contact. Le TPU chaud y adhère bien.
+     * **Choix B (Recommandé - Meilleur isolant) — Le Ruban en Tissu de Verre (ex: 3M 69 ou équivalent) :** Plus épais (0.15–0.20 mm), composé de fibres de verre tissées résistantes à 200 °C+. Sa structure fibreuse offre une isolation thermique bien supérieure au Kapton et permet une adhérence mécanique exceptionnelle du TPU dans les mailles du tissu.
+   * **Préparation de l'aimant (à l'avance) :**
+     * Collez une pastille de ruban isolant (Kapton ou Tissu de verre) découpée au diamètre de l'aimant sur **les deux faces** (dessous et dessus) de l'aimant.
+     * *Note : L'épaisseur cumulée (~0.1 à 0.3 mm) s'insère parfaitement dans la tolérance de la cavité (prévue à 1.1 mm de profondeur pour un aimant de 1.0 mm dans la gaine).*
+   * **La Pause d'Impression :** Une fois la pause activée, attendez 1 à 2 minutes avant d'insérer l'aimant. Cela permet à la buse de s'éloigner (arrêt du rayonnement thermique direct) et au plastique fraîchement imprimé de descendre à la température stabilisée du plateau (50-60 °C).
+   * **Insertion :** Insérez l'aimant double-pastille (à température ambiante, parfaitement sec) dans son logement à l'aide d'une pince non-magnétique (plastique ou laiton) et relancez immédiatement l'impression. Le plastique chaud sera extrudé directement sur la pastille isolante supérieure, protégeant l'aimant du pic thermique.
+   * **Où acheter les matériaux :**
+     * **Ruban Kapton :** Disponible sur *Amazon.fr* (rechercher "Ruban adhésif Kapton haute température", ~5-8€ le rouleau) ou dans les boutiques d'impression 3D.
+     * **Ruban Tissu de Verre 3M 69 :** Disponible sur *Amazon.fr* ou *RS-Components* (rechercher "Ruban adhésif tissu de verre 3M 69", ~15-20€ le rouleau). Un rouleau de 19 mm de large suffit pour des centaines de pastilles.
+
+3. **Option 3 — Choix d'aimants de grade haute température :**
+   * Remplacer les aimants de grade **N** (80 °C max) par des aimants de grade **SH** (jusqu'à 150 °C) ou **EH** (jusqu'à 200 °C). *Attention : les aimants fournis dans votre stock actuel sont de grade N.*
