@@ -442,6 +442,10 @@ Importez les deux STL dans OrcaSlicer et tranchez-les séparément :
 2. **Micro-soudure thermique (Étanchéité & Solidité) :** Avec la panne fine d'un fer à souder réglé à **200°C**, réalisez une micro-soudure plastique périphérique le long de la ligne de jonction des deux pièces en TPU. Cette fusion locale crée un joint étanche et indestructible.
 3. **Enfilage sur la Phalange :** Glissez le gant TPU assemblé sur la phalange PA12-CF. Le sous-dimensionnement de 2-3% va forcer le TPU à se tendre uniformément.
 4. **Verrouillage final :** Insérez une petite vis M2 à la base du doigt pour ancrer définitivement la chaussette en TPU à la phalange rigide. En cas de maintenance (capteur ou peau déchirée), il suffira de retirer cette vis pour enfiler une nouvelle gaine.
+5. **Ancrage du tendon et non-interférence magnétique :** 
+   * Le tendon de flexion (Dyneema Ø1.0 mm) est bridé à son extrémité distale par un manchon de sertissage (sleeve) en **Aluminium** ou en **Cuivre** (longueur de 4.0 à 5.0 mm).
+   * **Contrainte magnétique :** L'usage de manchons ferromagnétiques (acier ou inox) est strictement interdit afin de ne pas fausser les mesures du capteur MLX90393.
+   * **Intégration Fusion 360 :** Modélisez un lamage cylindrique de **Ø 2.8 mm et de 5.5 mm de profondeur** dans la phalange PA12-CF pour noyer entièrement le manchon écrasé. Il restera invisible et n'interférera ni avec l'aimant ni avec la gaine externe en TPU.
 
 ---
 
