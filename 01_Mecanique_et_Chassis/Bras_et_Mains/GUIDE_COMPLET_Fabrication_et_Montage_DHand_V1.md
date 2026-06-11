@@ -237,17 +237,18 @@ Le rappel principal d'extension est assuré par un cordon élastique technique m
 2.  **Routage du tendon de flexion (Dyneema) :**
     *   Passez le tendon Dyneema DM20 Ø1.0 mm préparé à l'Étape 1 depuis la pulpe distale à travers le canal inférieur vers la base du doigt à l'aide de brucelles.
     *   Vérifiez que le manchon serti distal vient se loger parfaitement dans le renfoncement de la pulpe. Tirez fermement pour valider l'ancrage.
-3.  **Routage du tendon de retour élastique (Dorsal) :**
-    *   Coupez une longueur d'environ **20 cm** de fil élastique de Ø 0.8 mm (fil TPU Beadalon).
-    *   Réalisez un nœud d'arrêt ou sertissez un manchon à une extrémité. Logez cette butée dans la cavité dorsale supérieure de la phalange distale.
+3.  **Routage du tendon de retour élastique (Dorsal - Ligne Séparée) :**
+    *   *Note de divergence:* Contrairement à l'ORCA d'origine qui utilise une boucle de Dyneema continue pour l'aller (flexion) et le retour (extension active), la D-Hand utilise **deux lignes physiques distinctes de matériaux différents** : la flexion active est en Dyneema DM20 1.0 mm (extrême résistance) et l'extension passive est en fil élastique TPU 0.8 mm (mémoire de forme). Elles ne forment pas une boucle continue et ont des ancrages distaux séparés.
+    *   Coupez une longueur d'environ **25 cm** de fil élastique de Ø 0.8 mm (fil TPU Beadalon).
+    *   Réalisez un nœud d'arrêt simple ou sertissez un manchon à une extrémité. Logez cette butée dans la cavité dorsale supérieure de la phalange distale.
     *   Faites passer le cordon élastique à travers les canaux dorsaux des articulations DIP, PIP et MCP à l'aide de brucelles jusqu'à ce qu'il ressorte à la base du doigt.
 4.  **Tensionnement provisoire du retour passif :**
-    *   Tirez sur le cordon élastique dorsal pour appliquer un pré-étirement (allongement de 20 à 30 % de sa longueur au repos, correspondant à une force de **2 N à 2.5 N**).
+    *   Tirez sur le cordon élastique dorsal pour appliquer un pré-étirement (allongement correspondant à une force de **2 N à 2.5 N**).
     *   Sous cette tension, le doigt doit se redresser complètement (180°) et offrir une résistance élastique ferme lorsqu'on le plie manuellement.
-    *   Bloquez temporairement le cordon à la base du doigt à l'aide d'une pince de maintien. L'ancrage définitif se fera après passage à travers la paume (Étape 4).
+    *   Bloquez temporairement le cordon à la base du doigt à l'aide d'une pince de maintien. L'ancrage définitif se fera à la base de la paume (Étape 4) avant l'articulation du poignet.
 5.  **Identification des lignes :**
-    *   **Tendon Inférieur = Fléchisseur** (Câble Dyneema DM20 Ø1.0 mm qui rejoindra les moteurs de l'avant-bras).
-    *   **Tendon Supérieur = Retour Passif** (Fil élastique Ø0.8 mm qui traverse entièrement la paume et est ancré/ajusté à l'entrée du poignet).
+    *   **Tendon Inférieur = Fléchisseur** (Câble Dyneema DM20 Ø1.0 mm qui traverse le poignet pour rejoindre les moteurs de l'avant-bras).
+    *   **Tendon Supérieur = Retour Passif** (Fil élastique TPU Ø0.8 mm qui s'ancre statiquement à la base de la paume / Carpals, sans traverser le poignet pour éviter les couplages cinématiques parasites).
     *   *Note sur l'extension active :* Dans cette architecture révisée sous-actionnée à 8 DOF, **aucun câble d'extension active ne traverse le poignet vers l'avant-bras**, simplifiant drastiquement le routage à travers le poignet RS-00.
 
 ### Étape 4 : Assemblage de la Paume (Palm Block) et Guidage des Élastiques
@@ -255,12 +256,19 @@ Le rappel principal d'extension est assuré par un cordon élastique technique m
 2.  Montez les doigts sur la paume en alignant les bases de doigts avec les chapes de la paume.
 3.  Insérez les axes longs en inox rectifié **3x55 mm** pour traverser l'assemblage complet de la paume et verrouiller les 5 doigts.
 4.  Sécurisez les axes longs à l'aide de micro-circlips ou de points de frein-filet faible sur les filetages d'extrémité.
-5.  **Routage et tensionnement des élastiques à l'entrée du poignet :**
-    *   Faites passer les 5 cordons élastiques émergeant du dos des doigts à travers les 5 canaux supérieurs respectifs du bloc de paume. Utilisez un fil de tirage ou des brucelles fines pour les faire ressortir à l'arrière de la paume, au niveau de l'interface paume/poignet (entrée du poignet).
-    *   **Système de blocage et réglage centralisé :** À l'entrée du poignet (interface arrière de la paume), faites passer les cordons dans la plaquette de serrage dédiée (un peigne de tensionnement ou plaque d'arrêt dotée de micro-vis de pression M2.5/M3 ou de serre-câbles à vis).
-    *   Appliquez la pré-tension nominale sur chaque élastique (allongement de 20 à 30 % pour obtenir une force de rappel de **2 N à 2.5 N**), puis serrez la vis de pression correspondante de la plaquette de serrage pour bloquer le cordon.
-    *   *Avantage mécanique majeur :* Ce design regroupe tous les réglages de tension à l'entrée du poignet. Il est possible de régler finement le rappel de chaque doigt de manière indépendante en desserrant simplement la vis associée à la base de la main, sans aucun démontage des doigts ni de la paume.
-    *   Vérifiez que chaque doigt se rouvre de manière autonome et vive après une flexion manuelle complète. Ajustez la tension individuellement si nécessaire en agissant directement sur la vis de réglage correspondante.
+5.  **Routage et tensionnement statique des élastiques dans la paume (Carpals) :**
+        *   Faites passer les 5 cordons élastiques TPU Ø0.8 mm émergeant du dos des doigts à travers les 5 canaux supérieurs respectifs de la paume (Carpals). Utilisez des brucelles pour les faire ressortir à l'arrière de la paume (avant la rotule du poignet).
+        *   **Système de blocage par vis de pression M3 :** La paume comporte 5 filetages transversaux M3 croisant perpendiculairement les canaux des élastiques. Nous utilisons des **vis sans tête (set screws) M3 × 4 mm à bout plat** pour pincer et bloquer l'élastique en position sans le cisailler.
+        *   **Méthode de la masse suspendue (Mesure facile des 2 N) :**
+            Pour appliquer une tension constante et parfaitement calibrée de 2 N sans appareil de mesure complexe :
+            1.  Suspendez l'assemblage de la main verticalement (bout des doigts vers le haut, poignet vers le bas, face arrière de la paume horizontale face au sol).
+            2.  Laissez pendre verticalement le cordon élastique TPU Ø0.8 mm sortant du canal de la paume.
+            3.  Suspendez une **masse étalon de 200 grammes** (par exemple, un petit flacon contenant exactement 200 ml d'eau, ou un sachet de vis pesant 200 g) à l'extrémité de l'élastique à l'aide d'une pince crocodile ou d'un nœud rapide.
+            4.  La gravité appliquant une force de traction verticale exacte de **1.96 N** (~2 N), l'élastique s'étire à la tension idéale.
+            5.  Pendant que la masse pend librement, vissez fermement la **vis sans tête M3** latérale pour bloquer l'élastique.
+            6.  Détachez la masse et coupez le surplus de fil élastique à ras du canal de la paume.
+        *   *Avantage mécanique et découplage :* En bloquant l'élastique directement dans la paume (Carpals) avant le poignet, les mouvements du poignet n'influent pas sur la tension de rappel des doigts (zéro couplage cinématique parasite). De plus, le réglage reste accessible individuellement en desserrant simplement la vis M3 concernée.
+        *   Vérifiez que chaque doigt se rouvre de manière autonome et vive après une flexion manuelle complète. Ajustez individuellement si nécessaire en desserrant la vis M3, en suspendant à nouveau la masse de 200g et en resserrant.
 
 ---
 

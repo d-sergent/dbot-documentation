@@ -38,9 +38,15 @@ Le **Nœud Ashley Stopper** (aussi appelé "Oysterman's Stopper") est utilisé m
 
 ---
 
-## Étape 01 — Routage du Tendon de la Pulpe Distale (Fingertip)
+## Étape 01 — Routage des Tendons de la Pulpe Distale (Fingertip)
 
-Passez un tendon d'environ **0.5 m de long** avec un nœud Ashley Stopper à une extrémité par le trou situé sur le côté de l'assemblage IP (phalange distale). Suivez précisément les images pour l'ordre de passage dans les canaux internes. Vérifiez que le nœud est bien encastré dans le logement interne en tirant fermement.
+> ⚠️ **Divergence de Câblage D-Hand vs ORCA :**
+> *   **ORCA d'origine (BOM du PDF) :** Utilise un câble unique de Dyneema 0.40 mm replié en boucle de 1.5 m avec 2 nœuds Ashley au bout du doigt. Le même câble fait l'aller-retour : un brin sert de fléchisseur (bas) et l'autre d'extenseur (haut).
+> *   **D-Hand V1 (Notre Choix) :** Nous n'utilisons **PAS** de boucle continue du même fil. La flexion (active, 50 kg·cm) et l'extension (passive) ont des contraintes opposées. Nous utilisons **deux lignes indépendantes de matériaux différents** :
+>     1.  **Tendon Fléchisseur (Bas) :** Un brin unique de **Dyneema DM20 Ø1.0 mm**, ancré à la pointe par un manchon (sleeve) en aluminium ou cuivre Ø1.5 mm noyé dans un lamage de Ø2.8 x 5.5 mm. Il descend par le canal inférieur vers l'avant-bras.
+>     2.  **Tendon Extenseur / Retour Passif (Haut) :** Un brin unique de **fil élastique TPU Ø0.8 mm**, ancré au bout du doigt par un nœud simple ou un manchon et descendant par le canal supérieur.
+
+Pour le fléchisseur, passez le brin de Dyneema DM20 Ø1.0 mm (avec son manchon alu préalablement serti à l'extrémité) à travers le canal inférieur de la phalange. Tirez fermement pour loger le manchon dans son évidement. Pour l'extenseur, enfilez le fil élastique TPU Ø0.8 mm dans le canal supérieur et sécurisez-le par un nœud d'arrêt au bout du doigt.
 
 *Répétez pour tous les doigts, y compris le pouce.*
 
@@ -79,11 +85,22 @@ Prenez **2 tendons de 50 cm** (sans nœuds initiaux) et insérez-les sur le cot�
 
 > [!IMPORTANT]
 > **Divergence cinématique majeure ORCA vs D-Hand :**
-> L'ORCA V1 d'origine est une main active antagoniste à 17 moteurs : chaque articulation dispose de deux tendons actifs (un fléchisseur et un extenseur) enroulés en sens inverse sur le même spool moteur. L'extension y est donc **active**.
+> L'ORCA V1 d'origine est une main active antagoniste à 17 moteurs : chaque articulation dispose de deux tendons actifs (un fléchisseur et un extenseur) enroulés en sens inverse sur le même spool moteur. L'extension y est donc **active** et traverse le poignet.
 >
-> La D-Hand V1 étant sous-actionnée (8 moteurs actifs de flexion uniquement), elle requiert un **mécanisme de retour passif**. Celui-ci est assuré par un **tendon élastique dorsal en polyuréthane/silicone** logé dans le canal supérieur d'origine (prévu initialement pour l'extenseur d'ORCA), complété par l'élasticité de la gaine externe en TPU (voir §2.3 et §3 du GUIDE_COMPLET).
+> La D-Hand V1 étant sous-actionnée (8 moteurs actifs de flexion uniquement), elle requiert un **mécanisme de retour passif**. Celui-ci est assuré par un **tendon élastique dorsal en polyuréthane/silicone (Beadalon Ø0.8 mm)** logé dans le canal supérieur d'origine, complété par l'élasticité de la gaine externe en TPU.
 >
-> **Cette étape de coulée silicone (ou gaine TPU) est obligatoire** pour protéger l'eFlesh et apporter un rappel élastique secondaire.
+> **Règle d'Ancrage et Découplage du Poignet :**
+> L'élastique dorsal ne doit **pas** traverser le poignet vers l'avant-bras pour éviter tout couplage parasite lors des mouvements du poignet. Il est **ancré statiquement à la base de la paume (dans la pièce Carpals)** à l'aide d'une vis sans tête M3 latérale faisant office de pince-câble.
+>
+> **Méthode simple pour mesurer la pré-tension de 2 N (200 g) :**
+> Pour calibrer précisément et facilement la tension de rappel de chaque doigt sans appareil de mesure complexe :
+> 1. Suspendez la main verticalement (doigts vers le haut, poignet vers le bas, paume horizontale).
+> 2. Laissez pendre le fil élastique TPU de 0.8 mm à la sortie de son canal sous la paume (Carpals).
+> 3. Attachez une **masse de 200 grammes** (par exemple, une petite bouteille contenant exactement 200 ml d'eau, ou un poids de 200 g) à l'extrémité libre de l'élastique à l'aide d'une pince ou d'un nœud.
+> 4. Laissez la gravité appliquer la tension (la masse de 200g exerce exactement une force de traction verticale de **1.96 N**, soit environ 2 N).
+> 5. Pendant que la masse est suspendue et applique la tension idéale, serrez fermement la **vis sans tête M3** latérale dans la pièce Carpals pour bloquer l'élastique. Coupez le surplus de fil à ras.
+>
+> **Cette étape de gainage TPU et de mise sous tension des élastiques (2 N) est obligatoire** pour assurer une ouverture de doigt franche et dynamique.
 
 Imprimez les moules négatifs (ORCA_Molds.zip dans `Ressources 3D/ORCA_Hand`). Coulez-y un silicone de type EcoFlex 00-30 ou Dragon Skin 10 (si option silicone retenue) ou utilisez la gaine TPU Qidi (option standard D-Hand). Laissez polymériser selon les instructions du fabricant (généralement 4h à température ambiante). Démoulez avec précaution.
 
@@ -92,8 +109,8 @@ Imprimez les moules négatifs (ORCA_Molds.zip dans `Ressources 3D/ORCA_Hand`). C
 ## Étape 05 — Assemblage Final du Doigt
 
 Vous pouvez code-couleur vos tendons au marqueur pour vous repérer.
-- Le tendon **extenseur** (celui qui ouvre le doigt) passe par le **trou supérieur** de l'assemblage PP.
-- Le tendon **fléchisseur** (celui qui fermera le doigt, relié au spool moteur) passe par le **trou inférieur**.
+- Le tendon **extenseur passif** (fil élastique TPU Ø0.8 mm qui ouvre le doigt) passe par le **trou supérieur** de l'assemblage PP et s'ancrera statiquement dans la paume (Carpals) à l'aide de la vis M3 sous tension de 2 N (méthode de la masse suspendue de 200g).
+- Le tendon **fléchisseur actif** (câble Dyneema DM20 Ø1.0 mm qui ferme le doigt) passe par le **trou inférieur** de l'assemblage PP, traverse le poignet et rejoint les spools des moteurs de l'avant-bras.
 
 Emboîtez l'assemblage de la phalange distale sur l'assemblage PP en l'enfonçant jusqu'au déclic d'emboîtement. Les roulements **MR84ZZ** (4×8×3 mm) s'emboîtent à ce stade dans les logements de la phalange pour y éliminer toute friction axiale.
 
