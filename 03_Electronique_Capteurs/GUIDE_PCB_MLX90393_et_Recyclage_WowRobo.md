@@ -399,98 +399,63 @@ Le slicer (OrcaSlicer) doit être configuré avec **Infill 0%** ou **100% solide
 
 ---
 
-#### C. Workflow Hybride Complet dans Fusion 360 (Méthode Recommandée)
+#### C. Workflow Hybride de Découpe, Tranchage et Impression (Optimal FDM)
 
-Fusion 360 est idéal car il permet de **combiner** (Combine → Join) deux corps solides en un seul corps monolithique imprimable, éliminant tout problème de jonction.
+Afin d'éviter tout surplomb interne dans le tunnel de la phalange PA12-CF (Zone B) qui exigerait des supports en TPU impossibles à retirer, le doigt est divisé en **deux fichiers STL distincts** imprimés dans leurs orientations optimales respectives, puis assemblés.
 
-##### Étape 1 — Préparation dans Fusion 360 : Séparation en corps
+##### Étape 1 — Découpe et Dimensionnement CAO dans Fusion 360
 
-1. Ouvrez le modèle STEP/F3D complet de la gaine TPU du doigt D-Hand V1
-2. Utilisez **Modify → Split Body** avec un plan de coupe placé à la limite supérieure de la zone tactile (pulpe)
-3. Vous obtenez **2 corps** :
-   - **Corps A (Zone tactile)** : Le volume de la pulpe uniquement (face inférieure du doigt). Simplifiez-le en **enveloppe convexe** si nécessaire (`Mesh → Compute Convex Hull` ou manuellement en lissant les concavités)
-   - **Corps B (Zone structurelle)** : L'ongle, le dos du doigt, le logement de la phalange PA12-CF, la gaine articulaire
-4. **Exportez le Corps A au format OBJ** (Mesh → Export → OBJ) pour le pipeline eFLESH
+1. Ouvrez le modèle de la gaine TPU du doigt D-Hand V1.
+2. Utilisez **Modify → Split Body** avec un outil de coupe (plan horizontal) pour diviser le modèle au niveau de la jonction entre la pulpe tactile et le reste du doigt.
+3. Vous obtenez **2 corps distincts** :
+   * **Corps A (Pulpe tactile)** : Le volume de la pulpe uniquement (face inférieure). Si la géométrie est complexe, simplifiez le dos en surface plane pour faciliter l'assemblage ultérieur. Exportez en OBJ pour eFLESH.
+   * **Corps B (Gant structurel)** : Contient l'ongle, le dos du doigt et surtout le **tunnel de logement de la phalange PA12-CF**.
+4. **Optimisation dimensionnelle du Corps B (Gant) :**
+   * **Ajustement serré (Snug Fit) :** Le TPU étant très élastique, réduisez l'échelle ou ajustez le profil interne du tunnel de la phalange avec un **sous-dimensionnement de 2% à 3%** (par exemple, si la phalange fait 10mm de large, le tunnel interne du gant fera 9.7 à 9.8mm). Cela permettra au TPU d'enserrer fermement la phalange en PA12-CF sous tension élastique, éliminant tout jeu ou glissement tactile.
+   * **Verrouillage mécanique :** Modélisez un passage transversal (Ø2.1mm) à la base du gant (hors zone tactile active) aligné avec un trou correspondant dans la phalange PA12-CF pour permettre un verrouillage par vis/axe M2.
 
-##### Étape 2 — Pipeline eFLESH sur le Corps A (Ubuntu / WSL2)
+##### Étape 2 — Pipeline eFLESH sur le Corps A (Pulpe)
 
-1. Transférez le fichier `corps_A_pulpe.obj` sur votre machine Linux (ou WSL2 sur Mac via UTM/Parallels)
-2. Ouvrez `cut-cell.ipynb` dans Jupyter et configurez :
-   ```python
-   input_surface = "corps_A_pulpe.obj"
-   cell_size = 3.0    # mm — adapté à l'épaisseur de la pulpe (~3.8 mm)
-   skin_thickness = 1.0  # mm — peau lisse autour de la lattice
-   
-   # Variation spatiale de rigidité par couche (k=0 = couche du bas)
-   def young(k):
-       if k == 0:       # Couche plancher (face capteur) — rigide
-           return 2.0   # MPa
-       elif k == 1:     # Couche sous l'aimant — souple (max sensibilité)
-           return 0.5   # MPa
-       elif k == 2:     # Couche aimant — médium
-           return 1.0   # MPa
-       else:            # Couches supérieures — progressivement plus rigide
-           return 1.5   # MPa
-   ```
-3. Exécutez toutes les cellules → export du STL lattice
-4. Ajoutez les poches d'aimants via `create_pouch.py` (Blender) :
-   ```python
-   list_of_magnets = [
-       [3.2, 1.1, [X_pulpe, Y_pulpe, Z_poche]],  # 1 aimant S-03-01-N
-   ]
-   ```
-5. Exportez le **`corps_A_eflesh_final.stl`**
+1. Transférez le fichier `corps_A_pulpe.obj` sur votre machine Linux/WSL2.
+2. Configurez et exécutez `cut-cell.ipynb` (voir paramètres §2.6.B).
+3. Insérez le logement d'aimant Ø3.2 × 1.1 mm avec `create_pouch.py` dans Blender.
+4. Exportez le fichier final **`corps_A_eflesh_final.stl`**.
 
-##### Étape 3 — Fusion dans Fusion 360 (Soudure des 2 corps)
+##### Étape 3 — Paramètres de Tranchage et Orientations d'Impression dans OrcaSlicer
 
-1. **Importez** le `corps_A_eflesh_final.stl` dans Fusion 360 :
-   - `Insert → Insert Mesh` → sélectionnez le STL
-   - Si nécessaire, convertissez en B-Rep : `Mesh → Convert Mesh` (ou conservez en mesh si la conversion échoue à cause de la complexité de la lattice)
-2. **Positionnez** le Corps A eFLESH à l'emplacement exact de la Zone A d'origine :
-   - Utilisez `Move/Copy` avec les coordonnées absolues ou `Align` avec les faces de jonction
-   - Vérifiez visuellement que la peau extérieure du Corps A s'aligne avec la paroi extérieure du Corps B
-3. **Créez la zone de transition (overlap)** :
-   - Allongez le Corps A de **0.5 à 1.0 mm dans la zone de chevauchement** avec le Corps B
-   - Cela crée un overlap intentionnel de matière à l'interface, éliminant tout défaut de collage inter-couches
-4. **Fusionnez les deux corps** :
-   - `Modify → Combine` → **Operation : Join** → Body 1 = Corps B, Tool Body = Corps A mesh
-   - *Si la fusion mesh/BRep échoue :* Exportez les deux corps en STL séparés et fusionnez-les via `Mesh → Merge Bodies` ou dans un logiciel externe (Meshmixer, Blender Boolean Union)
-5. **Lissage de la jonction** (optionnel mais recommandé) :
-   - Appliquez un **congé (Fillet)** de 0.3 à 0.5 mm sur l'arête de jonction entre les deux zones pour éviter toute concentration de contrainte
-   - Vérifiez visuellement dans la vue Section Analysis que la peau extérieure est continue
+Importez les deux STL dans OrcaSlicer et tranchez-les séparément :
 
-> [!TIP]
-> **Astuce Fusion 360 pour la peau lisse :** Si la peau lisse générée par le pipeline eFLESH (`skin_thickness`) est insuffisante ou présente des artefacts de voxelisation (escaliers), vous pouvez la renforcer dans Fusion 360 **après la fusion** en appliquant un `Shell` de 0.4 mm sur les faces extérieures de la zone tactile, ou simplement en comptant sur les **2 périmètres du slicer** (0.8 mm) qui s'ajoutent automatiquement lors du tranchage.
+1. **Tranchage de la Pulpe (Corps A)** :
+   * **Orientation :** À plat sur le dos (poche d'aimant ouverte vers le haut).
+   * **Supports :** Aucun requis.
+   * **Remplissage :** **0% d'infill** (le fichier généré par eFLESH intègre déjà les alvéoles de la microstructure).
+   * **Coque (Walls) :** 2 périmètres (0.8 mm) pour renforcer la peau lisse (`skin_thickness`).
+2. **Tranchage du Gant structurel (Corps B)** :
+   * **Orientation :** **Verticalement** (debout sur sa base, bout du doigt vers le haut).
+   * **Supports :** Aucun requis. Le canal interne de la phalange étant vertical, il est imprimé proprement en "cheminée". Le sommet interne du tunnel doit comporter un angle de transition à $\ge 45^\circ$ pour être auto-supporté.
+   * **Remplissage :** **100% rectiligne** (rigidité maximale pour le retour passif).
+   * **Paramètres thermiques :** Vitesse lente (15-20 mm/s) et refroidissement actif élevé pour garantir l'absence de déformations sur la cheminée verticale en TPU.
 
-##### Étape 4 — Export et Tranchage Multi-Zone dans OrcaSlicer
+##### Étape 4 — Assemblage et Montage sur la Phalange
 
-1. **Export STL** : `File → Export → STL` (format binaire pour fichier plus léger)
-2. **Import dans OrcaSlicer** en tant que pièce unique
-3. **Configuration multi-zone** (fonctionnalité OrcaSlicer "Modifier") :
-   - Clic droit sur la pièce → **"Add Modifier" → "Height Range"**
-   - **Zone A (hauteur de la pulpe tactile)** :
-     - Infill : **0%** (la microstructure est dans la géométrie — le slicer ne doit rien ajouter dans les cellules d'air)
-     - Périmètres (walls) : **2** (0.8 mm) pour renforcer la peau extérieure
-     - Top/Bottom layers : **0** (la peau est dans le STL, pas besoin de couches pleines supplémentaires au-dessus de la lattice)
-   - **Zones B et C (ongle, gaine articulaire, logement PA12-CF)** :
-     - Infill : **100% rectiligne** (rigidité maximale pour le rappel élastique et le maintien du squelette)
-     - Périmètres : **3** (1.2 mm)
-4. **Matériau** : TPU 95A (Qidi TPU 95A-HF), séché à 65°C pendant 12h
-5. **Orientation** : Face arrière (logement PA12-CF) vers le bas sur le plateau
+1. **Collage TPU-to-TPU :** Enduisez l'interface plane entre la pulpe (Corps A) et le gant (Corps B) avec de la **colle polyuréthane flexible** (ex: Loctite Vinyl/Plastic ou Shoe Goo) ou de la cyanoacrylate gel. Assemblez fermement et laissez polymériser.
+2. **Micro-soudure thermique (Étanchéité & Solidité) :** Avec la panne fine d'un fer à souder réglé à **200°C**, réalisez une micro-soudure plastique périphérique le long de la ligne de jonction des deux pièces en TPU. Cette fusion locale crée un joint étanche et indestructible.
+3. **Enfilage sur la Phalange :** Glissez le gant TPU assemblé sur la phalange PA12-CF. Le sous-dimensionnement de 2-3% va forcer le TPU à se tendre uniformément.
+4. **Verrouillage final :** Insérez une petite vis M2 à la base du doigt pour ancrer définitivement la chaussette en TPU à la phalange rigide. En cas de maintenance (capteur ou peau déchirée), il suffira de retirer cette vis pour enfiler une nouvelle gaine.
 
 ---
 
 #### D. Procédure d'insertion et de scellage de l'aimant
 
-1. **Identification de la couche de pause** : Dans l'aperçu OrcaSlicer, identifiez la couche exacte qui **ferme le dessus de la poche d'aimant** générée par le pipeline eFLESH. Cette couche est visible comme une surface plate au-dessus de la cavité cylindrique.
-2. **Ajout de la pause** : Clic droit sur le slider de couche dans Preview → **"Add Pause"** à cette couche. OrcaSlicer insère automatiquement la commande G-code `M601` (Qidi) ou `M600` (Marlin).
-3. **Lancement de l'impression** en TPU 95A.
-4. **Attente thermique (Pause)** : Lorsque l'imprimante se met en pause, **attendez 1 à 2 minutes**. Cela permet à la buse de s'éloigner (fin du rayonnement thermique direct) et au plastique du logement de descendre à la température stabilisée du plateau (50-60 °C).
-5. **Insertion double pastille (SANS froid)** :
-   * Prenez un aimant **S-03-01-N** (Ø3×1mm) à température ambiante, préalablement équipé de ses pastilles adhésives isolantes en **Tissu de verre 3M 69** (ou Kapton) collées sur ses deux faces (voir section E.6).
-   * Insérez rapidement l'aimant dans sa cavité avec le **pôle Nord orienté vers le bas** (vers le magnétomètre) à l'aide d'une pince non-magnétique (laiton ou plastique).
-6. **Reprise** : Relancez l'impression. La buse va extruder le TPU chaud directement sur la pastille supérieure isolante, scellant l'aimant hermétiquement sans l'exposer au pic thermique direct de 220 °C.
-7. **Intégration électronique** : Après refroidissement complet, glissez le PCB custom de 10×10 mm dans la glissière inférieure et scellez l'entrée avec un cordon de silicone flexible pour l'étanchéité.
+1. **Identification de la couche de pause** : Dans l'aperçu de la pulpe (Corps A) sur OrcaSlicer, identifiez la couche qui referme le dessus de la poche d'aimant cylindrique.
+2. **Ajout de la pause** : Faites un clic droit sur la règle de hauteur de couche dans Preview → **"Add Pause"** (G-code `M601`).
+3. **Lancement de l'impression** de la pulpe en TPU 95A.
+4. **Attente thermique (Pause)** : À la pause automatique, attendez 1 à 2 minutes pour éloigner le rayonnement thermique de la buse et refroidir légèrement le plateau à 50-60°C.
+5. **Insertion thermique protégée** :
+   * Insérez l'aimant **S-03-01-N** (Ø3×1mm) préalablement isolé sur ses deux faces avec des pastilles de ruban en tissu de verre 3M 69 (ou Kapton).
+   * Utilisez une pince amagnétique et placez le **pôle Nord orienté vers le bas** (vers le magnétomètre).
+6. **Reprise d'impression** : Relancez l'impression. La buse va imprimer la peau de fermeture directement sur la protection thermique en tissu de verre.
+7. **Intégration du PCB** : Glissez le PCB custom de 10×10 mm dans la fente réceptrice sous le doigt et étanchéifiez au silicone flexible.
 
 ---
 

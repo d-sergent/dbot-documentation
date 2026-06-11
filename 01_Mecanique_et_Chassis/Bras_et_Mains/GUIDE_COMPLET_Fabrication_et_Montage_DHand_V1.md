@@ -170,19 +170,22 @@ Ces pièces requièrent une précision d'horlogerie (tolérances H7/g6) :
 Le gainage externe continu imprimé en TPU 95A/98A assure l'étanchéité, la protection du système tactile eFlesh, et sert de **rappel élastique secondaire** pour l'extension des doigts. Ce procédé élimine tout besoin de moulage de silicone chimique.
 
 *   **Matériau :** Qidi TPU 95A-HF ou TPU 98A (séché à 65°C pendant 12h dans la Qidi Box).
-*   **Méthode Hybride de Fabrication (Microstructure eFlesh + Zones Structurelles) :**
-    La gaine TPU du doigt combine **deux types de remplissage** dans une seule pièce monolithique, fusionnée dans Fusion 360 :
-    *   **Zone tactile (pulpe inférieure — eFlesh) :** Microstructure **cut-cell** générée par le pipeline eFLESH (`cut-cell.ipynb`). Cette lattice paramétrique assure un déplacement isotrope de l'aimant (même réponse en X, Y, Z) et élimine les biais d'anisotropie qui fausseraient la mesure de cisaillement Bx/By du MLX90393. **L'infill slicer standard (gyroïde, grille, etc.) est INTERDIT dans cette zone.**
-    *   **Zone d'articulation, ongle et dos du doigt :** Remplissage (Infill) slicer à **100% rectiligne** pour maximiser le couple de rappel et éviter le fluage lors des flexions répétées.
-    *   **Parois externes :** 2 périmètres (épaisseur de coque de 0.8 mm) pour assurer l'étanchéité tout en transmettant fidèlement les efforts. La peau lisse extérieure de la zone tactile est générée par le pipeline eFLESH (paramètre `skin_thickness = 1.0 mm`).
+*   **Méthode d'Impression Séparée et Assemblage en Chaussette (Microstructure eFlesh + Glove) :**
+    Pour éviter l'effondrement ou la présence de supports internes impossibles à retirer dans le tunnel de la phalange PA12-CF, la gaine TPU du doigt est imprimée en **deux parties distinctes**, puis assemblée physiquement :
+    *   **Partie tactile (Zone A — pulpe inférieure) :** Imprimée **à plat sur le plateau** (poche d'aimant vers le haut) pour permettre l'insertion de l'aimant lors de la pause d'impression. Contient la microstructure **cut-cell** générée par le pipeline eFLESH. *L'infill slicer standard est interdit dans cette zone.*
+    *   **Gant structurel (Zone B & C — logement phalange et ongle) :** Imprimé **verticalement** (debout, base sur le plateau). Dans cette orientation, le tunnel interne de la phalange est vertical (comme une cheminée) et s'imprime de façon impeccable sans aucun support interne.
+    *   **Assemblage des deux pièces TPU :** La pulpe (Zone A) et le gant (Zone B & C) sont collés hors de l'os à l'aide d'une colle polyuréthane flexible ou d'une micro-soudure thermique périphérique (fusion au fer à souder à 200°C), créant un gant étanche et extrêmement solide.
+    *   **Montage et serrage sur la phalange PA12-CF :** 
+        *   **Ajustement serré (Snug Fit) :** Le tunnel interne du gant TPU est modélisé avec un **sous-dimensionnement de 2% à 3%** par rapport à la phalange rigide PA12-CF. Le TPU s'étire à l'enfilage pour enserrer fermement l'os et éliminer tout glissement parasite.
+        *   **Verrouillage axial :** Une petite vis M2 transversale à la base du doigt (ou une lèvre clipsable en TPU) verrouille mécaniquement le gant en position pour éviter qu'il ne se déchausse lors des saisies.
 
-    > 📄 **Procédure complète détaillée :** Voir `Documentation/03_Electronique_Capteurs/GUIDE_PCB_MLX90393_et_Recyclage_WowRobo.md` **§2.6** — Workflow hybride Fusion 360, pipeline eFLESH en 4 stages, paramètres de tranchage multi-zone OrcaSlicer, et justification physique de la microstructure cut-cell.
+    > 📄 **Procédure complète détaillée :** Voir `Documentation/03_Electronique_Capteurs/GUIDE_PCB_MLX90393_et_Recyclage_WowRobo.md` **§2.6** — Workflow de découpe CAO, orientation d'impression optimale de chaque pièce, et méthode d'assemblage/séchage.
 
-*   **Insertion de l'aimant (Pause d'impression) :**
-    *   La poche d'aimant est générée automatiquement par le Stage 2 du pipeline eFLESH (`create_pouch.py` dans Blender ou TinkerCAD), avec des dimensions précises de Ø3.2 mm × 1.1 mm de profondeur.
-    *   Insérez une commande de pause (`M601` Qidi ou `M600` Marlin) à la couche exacte identifiée dans l'aperçu OrcaSlicer.
-    *   L'imprimante s'arrête. **Attendez 1 à 2 minutes**, puis insérez l'aimant néodyme N48 (avec double pastille isolante en tissu de verre 3M 69), pôle Nord vers l'intérieur.
-    *   Relancez l'impression pour emprisonner l'aimant hermétiquement dans le TPU.
+*   **Insertion de l'aimant (Pause d'impression sur la pulpe) :**
+    *   La poche d'aimant (Ø3.2 mm × 1.1 mm) est générée automatiquement sur le fichier de la pulpe seule par le Stage 2 du pipeline eFLESH (`create_pouch.py`).
+    *   Insérez une commande de pause (`M601` Qidi ou `M600` Marlin) à la couche de fermeture de la poche sur l'aperçu du slicer.
+    *   Lors de la pause, **attendez 1 à 2 minutes** pour stabiliser la température du plateau, puis insérez l'aimant néodyme N48 (avec double pastille isolante en tissu de verre 3M 69), pôle Nord vers le bas.
+    *   Relancez l'impression pour emprisonner hermétiquement l'aimant sous les dernières couches de la pulpe.
 
 ### 2.4 Le Mécanisme de Retour Passif Principal : Les Tendons Élastiques Dorsaux
 Le rappel principal d'extension est assuré par un cordon élastique technique mono-brin de Ø 0.8 mm (Beadalon Elasticity) logé dans les canaux supérieurs (dorsaux) des phalanges en PA12-CF. Ces canaux, initialement prévus pour les tendons extenseurs actifs d'ORCA, guident parfaitement le cordon.
