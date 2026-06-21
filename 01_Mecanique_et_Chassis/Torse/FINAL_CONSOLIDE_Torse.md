@@ -1,6 +1,6 @@
 # 🦾 **Spécifications Finales – Torse Hybride et Liaison Taille (D‑Bot) – Version V1.x**  
 
-*Document de référence unique pour les modules **Torse** et **Taille (Waist)** du robot humanoïde D‑Bot (40,2 kg). Toutes les dimensions et spécifications découlent de l'intégration de la coque organique et de la liaison rotative de l'Asimov v1 (mises à l'échelle à +18 %), adaptées aux actionneurs RobStride et aux capacités de fabrication de notre atelier (Imprimante FDM Qidi Plus 4 + CNC C500).*
+*Document de référence unique pour les modules **Torse** et **Taille (Waist)** du robot humanoïde D‑Bot (40,4 kg). Toutes les dimensions et spécifications découlent de l'intégration de la coque organique et de la liaison rotative de l'Asimov v1 (mises à l'échelle à +18 %), adaptées aux actionneurs RobStride et aux capacités de fabrication de notre atelier (Imprimante FDM Qidi Plus 4 + CNC C500).*
 
 ---
 
@@ -8,7 +8,7 @@
 
 Le châssis du torse adopte une **architecture monocoque bionique hybride** inspirée de l'Asimov v1.
 * **Le Torse Rigide :** Pour maximiser la rigidité structurelle et obtenir des **brides d'épaules 100 % monoblocs (cercles continus à 360°)**, le torse est divisé horizontalement au niveau du ventre (découpe de fabrication FDM). À l'assemblage, les deux moitiés (le Thorax en haut, la coque abdominale en bas) sont verrouillées de manière **100 % rigide** par un emboîtement périphérique serré (Lap Joint de 3 mm), des bossages de vissage internes, et **deux lattes en aluminium CNC de 5 mm de la colonne vertébrale interne**. Chaque moitié est imprimée d'un seul tenant en orientant son **dos à plat sur le plateau** (FDM PA12-CF).
-* **La Liaison Active Waist Yaw (1 DoF) :** Située immédiatement sous la plaque en aluminium inférieure du torse rigide, cette liaison active permet la rotation en lacet de la taille (dissociation du buste et du bassin). Elle est animée par un moteur **RobStride RS-03** (60 N.m pic / 20 N.m nom.) accouplé à un roulement à section fine de grand diamètre (scale +18 % de l'Asimov v1) reprenant l'intégralité des moments de flexion.
+* **La Liaison Active Waist Yaw (1 DoF) :** Située immédiatement sous la plaque en aluminium inférieure du torse rigide, cette liaison active permet la rotation en lacet de la taille (dissociation du buste et du bassin). Elle est animée par un moteur **RobStride RS-06** (36 N.m pic / 11 N.m nom.) accouplé à un roulement à section fine de grand diamètre (scale +18 % de l'Asimov v1) reprenant l'intégralité des moments de flexion.
 
 ### A. Dimensions Clés du Torse
 
@@ -22,7 +22,7 @@ Le châssis du torse adopte une **architecture monocoque bionique hybride** insp
 
 ## 2. Spécifications Matérielles Validées (Architecture Hybride & Waist Yaw Actif)
 
-Pour garantir une rigidité structurelle absolue sous les efforts des bras (moteurs RS-04 à 120 N.m), le buste est consolidé par un squelette métallique interne usiné sur la CNC C500. La rotation dynamique est quant à elle assurée par le module Waist d'Asimov v1 mis à l'échelle et équipé du moteur RobStride RS-03.
+Pour garantir une rigidité structurelle absolue sous les efforts des bras (moteurs RS-04 à 120 N.m), le buste est consolidé par un squelette métallique interne usiné sur la CNC C500. La rotation dynamique est quant à elle assurée par le module Waist d'Asimov v1 mis à l'échelle et équipé du moteur RobStride RS-06.
 
 | **Composant** | **Qté** | **Dimensions / Fichier** | **Matériau** | **Masse (Est.)** | **Mise en Œuvre & Rôle** |
 | :--- | :---: | :--- | :--- | :---: | :--- |
@@ -30,12 +30,12 @@ Pour garantir une rigidité structurelle absolue sous les efforts des bras (mote
 | **Flasques d'Épaules** | 2 | Épaisseur : 5 mm *(CNC)* | **Aluminium 6061-T6** | ~223 g | 🔄 Logés dans des poches internes de la coque (agrandies). Reçoivent les vis des moteurs RS-04 (120 N.m) pour dissiper la chaleur et bloquer le cisaillement. |
 | **Plaques de Structure Torse** | 2 | Supérieure (Cou) & Inférieure (Taille) | **Aluminium 6061-T6** | ~780 g | 🔄 Armatures horizontales d'origine Asimov v1 (scale +18 %, plaques de 5 et 6 mm). Maintiennent la cohérence rigide et tridimensionnelle du torse en prenant les coques en sandwich. |
 | **Lattes de la Colonne** | 2 | Profil plat 5 mm *(CNC)* | **Aluminium 6061-T6** | ~130 g | 🔄 Attelles verticales reliant rigidement la plaque supérieure (cou) à la plaque inférieure (taille) à l'intérieur de la coque pour bloquer toute flexion. |
-| **Moteur Waist Yaw** | 1 | RobStride RS-03 (CAN-FD) | **Brushless QDD** | ~880 g | 🔄 Actionneur de lacet de la taille (60 N.m pic / 20 N.m nom.). Standardisé sur l'ID 21, assure la rotation dynamique de la Waist Plate par rapport au bassin. |
-| **Bague d'Adaptation CNC** | 1 | Épaisseur radiale : 4,8 mm *(CNC)* | **Aluminium 6061-T6** | ~110 g | 🔄 Bague d'adaptation pour encastrer le RS-03 (106 mm) dans le logement d'Asimov mis à l'échelle à +18 % (115,6 mm). |
+| **Moteur Waist Yaw** | 1 | RobStride RS-06 (CAN-FD) | **Brushless QDD** | ~621 g | 🔄 Actionneur de lacet de la taille (36 N.m pic / 11 N.m nom.). Standardisé sur l'ID 21, assure la rotation dynamique de la Waist Plate par rapport au bassin. |
+| **Bague d'Adaptation CNC** | 1 | Épaisseur radiale : 13,8 mm *(CNC)* | **Aluminium 6061-T6** | ~350 g | 🔄 Bague d'adaptation pour encastrer le RS-06 (88 mm) dans le logement d'Asimov mis à l'échelle à +18 % (115,6 mm). |
 | **Roulement de la Taille** | 1 | Section fine Ø110 mm (scale +18%) | **Acier Roulement** | ~280 g | 🔄 Roulement à section fine de grand diamètre d'Asimov v1 reprenant l'intégralité des moments de flexion axiaux/radiaux du buste. |
 | **Inserts Filetés** | 30 | Filetage M4 (Ruthex) | **Laiton** | ~18 g | Insérés à chaud dans les coques PA12-CF pour le vissage rigide des bossages d'assemblage et fixations internes. |
 | **Boulonnerie Interne** | — | M4 / M5 classe 10.9 | **Acier noir** | ~85 g | Vis d'accouplement de la liaison rotative, des plaques alu et des lattes de colonne. |
-| **Masse Totale Buste + Waist** | — | — | — | **~4 146 g** | 🔄 Masse incluant le torse hybride 100 % rigide, l'armature métallique de structure, le moteur RobStride RS-03 et le roulement de grand diamètre. |
+| **Masse Totale Buste + Waist** | — | — | — | **~4 127 g** | 🔄 Masse incluant le torse hybride 100 % rigide, l'armature métallique de structure, le moteur RobStride RS-06 et le roulement de grand diamètre. |
 
 ---
 
@@ -44,9 +44,9 @@ Pour garantir une rigidité structurelle absolue sous les efforts des bras (mote
 | **Référence** | **Désignation** | **Quantité** | **Fournisseur** | **Spécifications Techniques** |
 | :--- | :--- | :---: | :--- | :--- |
 | **FIL-PA12CF** | Filament PA12-CF (Nylon Carbone) - Bobine 1kg | 2 | Qidi / Extrudr | Diamètre 1.75 mm, buse carbure obligatoire. **2 bobines strictement nécessaires** (masse imprimée de ~1.64 kg, total ~1.9 kg avec supports/purges). |
-| **MOT-RS03** | Moteur RobStride RS-03 (CAN-FD) | 1 | RobStride / OpenELAB | Actionneur quasi-direct (QDD) 48V, couple de pointe **60 N.m**, diamètre 106 mm. |
+| **MOT-RS06** | Moteur RobStride RS-06 (CAN-FD) | 1 | RobStride / OpenELAB | Actionneur quasi-direct (QDD) 48V, couple de pointe **36 N.m**, diamètre 88 mm. |
 | **ALU-6061-5** | Tôle d'aluminium 6061-T6 - Épaisseur 5 mm | 1 | Métal Maker / Source locale | 🔄 Format 250 x 200 mm pour les flasques d'épaules, la plaque supérieure (cou) et les lattes CNC. |
-| **ALU-6061-6** | Tôle d'aluminium 6061-T6 - Épaisseur 6 mm | 1 | Métal Maker / Source locale | 🔄 Format 320 x 280 mm pour la plaque de structure inférieure (Waist Plate) et la bague d'adaptation CNC (épaisseur 6 mm ou bloc). |
+| **ALU-6061-6** | Tôle d'aluminium 6061-T6 - Épaisseur 6 mm | 1 | Métal Maker / Source locale | 🔄 Format 320 x 280 mm pour la plaque de structure inférieure (Waist Plate) et la bague d'adaptation CNC (épaisseur 13,8 mm ou bloc). |
 | **BRG-FINE110** | Roulement à section fine Ø110 mm (interne) | 1 | AliExpress / Misumi | Roulement mince à billes à quatre points de contact (scale +18 % de l'Asimov v1). |
 | **INSERT-M4** | Inserts filetés à chaud M4 x 8.1 mm | 40 | Ruthex | Laiton, moletage croisé, pose au fer à souder à 260°C. |
 | **SCREW-M4** | Vis CHC M4, longueurs diverses (12 à 24 mm) | 40 | Bricovis | Acier classe 10.9 minimum. |

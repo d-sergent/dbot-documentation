@@ -83,8 +83,8 @@ Cette section détaille l'estimation masse-par-poste du D-Hand v1 (Scénario A :
 
 | Composant | Quantité | Masse unitaire | Masse totale | Source / Hypothèse |
 | :--- | :---: | :---: | :---: | :--- |
-| **Servomoteur XC430-T240BB-T** | 4 | 65 g | **260 g** | Datasheet Robotis (source confirmée) |
-| **Servomoteur XC330-T228-T** | 4 | 23 g | **92 g** | Datasheet Robotis (source confirmée) |
+| **Servomoteur Feetech STS3250** | 5 | 74.5 g | **372.5 g** | Datasheet Feetech (source confirmée) |
+| **Servomoteur Feetech HL-3915** | 3 | 35.8 g | **107.4 g** | Datasheet Feetech (source confirmée) |
 | **Phalanges doigts (3 par doigt × 4 doigts)** | 12 | ~1.5 g | **~18 g** | PA12-CF 1.01 g/cm³, volume creux ~1.5 cm³ |
 | **Phalanges pouce (3 phalanges)** | 3 | ~2.0 g | **~6 g** | Pouce légèrement plus massif |
 | **Paume CNC (Palm Block, Alu 6061)** | 1 | — | **~270 g** | 100 cm³ effectif × 2.70 g/cm³ |
@@ -98,7 +98,7 @@ Cette section détaille l'estimation masse-par-poste du D-Hand v1 (Scénario A :
 | **Vis & Quincaillerie restante** | — | — | **~10 g** | Estimation forfaitaire (M2, M4) |
 | **Câblage Dynamixel (bus daisy-chain)** | — | — | **~15 g** | Fils inter-servo (~30cm total, AWG26) |
 | **Capteurs eFlesh (3 axes, 5 doigts)** | 5 | ~5 g | **~25 g** | Estimation module PCB + câble FFC étroit |
-| **TOTAL D-HAND HYBRID v1** | | | **~785 g** | |
+| **TOTAL D-HAND HYBRID v1** | | | **~913 g** | |
 
 ### 7.3 Comparatif de Poids avec l'ORCA et les Concurrents
 
@@ -106,7 +106,7 @@ Cette section détaille l'estimation masse-par-poste du D-Hand v1 (Scénario A :
 | :--- | :---: | :--- |
 | **ORCA Hand Base (17 DOF)** | ~1 300 g | 17× Dynamixel, paume imprimée + tour |
 | **ORCA Hand Lite (9 DOF)** | ~650 g | 9× Feetech, plus léger |
-| **D-Hand Hybrid v1 (8 DOF)** | **~785 g** | Paume alu (plus lourde que ORCA), mais moteurs réduits de 17 → 8 |
+| **D-Hand Hybrid v1 (8 DOF)** | **~913 g** | Paume alu (plus lourde que ORCA), mais moteurs réduits de 17 → 8 |
 | **Tesla Optimus Gen3** | ~800 g (estimé) | Architecture propriétaire non publiée |
 
 > [!NOTE]
@@ -114,16 +114,16 @@ Cette section détaille l'estimation masse-par-poste du D-Hand v1 (Scénario A :
 
 ### 7.4 Impact sur le Bras (Section 3 du document)
 
-La D-Hand Hybrid v1 est montée à l'extrémité du bras via le poignet RS-00. Le **bras de levier dynamique** lors d'une extension horizontale complète est (axe épaule → pulpe) :
+Le **couple résistant** que les moteurs d'épaule doivent supporter dû au seul poids de la main (913 g ≈ 8.95 N) :
 
 - Bras : 250 mm + Avant-bras : 220 mm + Main : 250 mm = **720 mm = 0.72 m**
 
-Le **couple résistant** que les moteurs d'épaule doivent supporter dû au seul poids de la main (785 g ≈ 7.7 N) :
+Le **couple résistant** que les moteurs d'épaule doivent supporter dû au seul poids de la main (913 g ≈ 8.95 N) :
 
 ```
-M_shoulder = F × l = 7.7 N × 0.72 m = 5.5 N.m
+M_shoulder = F × l = 8.95 N × 0.72 m = 6.44 N.m
 ```
 
-Ce couple de 5.5 N.m s'ajoute au poids de l'avant-bras et du bras propre et reste dans les capacités normales des moteurs d'épaule (RS-04 ou équivalent).
+Ce couple de 6.44 N.m s'ajoute au poids de l'avant-bras et du bras propre et reste dans les capacités normales des moteurs d'épaule (RS-04 ou équivalent).
 
 *Estimation D-Hand Hybrid v1, Mars 2026.*

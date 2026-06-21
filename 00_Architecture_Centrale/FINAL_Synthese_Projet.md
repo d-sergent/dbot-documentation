@@ -5,7 +5,7 @@ Le projet consiste à construire un robot humanoïde baptisé **D-Bot**.
 Il s'agit d'une **évolution majeure** de la plateforme open-source **K-Bot**, améliorée avec des actionneurs modernes et une intelligence embarquée avancée. Ce n'est pas un simple fork, mais une refonte complète de l'architecture électronique et motrice.
 
 ### Améliorations Clés (vs K-Bot Original)
-Le D-Bot repose sur un système de **26 moteurs RobStride** (membres, cou) et **16 servomoteurs Dynamixel purs** (mains tactiles D-Hand Hybrid à 8 DOF chacune), une vision IA **Luxonis OAK-D Pro** (le LiDAR Unitree L2 étant réservé pour la V2), le tout piloté par une **NVIDIA Jetson Orin Nano Super** (67 TOPS) et une **Sony Spresense**.
+Le D-Bot repose sur un système de **27 moteurs RobStride** (membres, cou, taille) et **16 servomoteurs Feetech** (mains tactiles D-Hand Hybrid à 8 DOF chacune), une vision IA **Luxonis OAK-D Pro** (le LiDAR Unitree L2 étant réservé pour la V2), le tout piloté par une **NVIDIA Jetson Orin Nano Super** (67 TOPS) et une **Sony Spresense**.
 
 ## 2. Feuille de Route (Roadmap)
 Le projet est découpé en 4 phases distinctes pour valider chaque étape critique.
@@ -17,8 +17,8 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 
 ### Phase 2 : Premier Bras (6-DOF)
 *   **Objectif** : Validation mécanique et manipulation.
-*   **Moteurs** : 6 Moteurs Robstride (RS-04, RS-03, RS-06, RS-02, RS-02 supination, RS-00) et **D-Hand Hybrid**.
-    *   *Note : Les moteurs sont en cours d'achat/validation.*
+*   **Moteurs** : 6 Moteurs Robstride (1x RS-04, 2x RS-03, 2x RS-02, 1x RS-00) et **D-Hand Hybrid**.
+    *   *Note : Les moteurs sont achetés ou à commander selon la BOM.*
 *   **Budget Est.** : ~3 000 € (Bras + Main).
 
 ### Phase 3 : Deuxième Bras
@@ -32,13 +32,14 @@ Le projet est découpé en 4 phases distinctes pour valider chaque étape critiq
 ## 3. Architecture Matérielle
 L'architecture repose sur une séparation claire entre la puissance de calcul (IA) et le contrôle temps réel (Moteurs/Capteurs bas niveau).
 
-### Spécifications Globales (Version Finale 6-DOF)
+### Spécifications Globales (Version Finale 6-DOF / 27-DOF)
 | Paramètre | Valeur | Source / Validation |
 | :--- | :--- | :--- |
-| **Masse Totale** | **40.2 kg** | Calcul Juin 2026 (Architecture 6-DOF) |
-| **Nb Moteurs RobStride** | **26** | 2 (Cou) + 6 (Bras G) + 6 (Bras D) + 12 (Jambes) |
-| **Nb Servomoteurs Dynamixel**| **16** | 2 mains D-Hand Hybrid |
-| **Moteur Coude** | **RS-06** | Choisi pour le couple (36 N.m) |
+| **Masse Totale** | **40.4 kg** | Calcul Juin 2026 (Architecture 27-DOF) |
+| **Nb Moteurs RobStride** | **27** | 2 (Cou) + 6 (Bras G) + 6 (Bras D) + 12 (Jambes) + 1 (Taille) |
+| **Nb Servomoteurs Feetech**| **16** | 2 mains D-Hand Hybrid |
+| **Moteur Coude** | **RS-03** | Choisi pour le couple accru (60 N.m) |
+| **Moteur Taille (Waist)** | **RS-06** | Choisi pour le lacet actif (36 N.m) |
 
 ## 4. Stratégie de Fabrication
 L'utilisation d'une **Makera Carvera (CNC + 4ème axe)** combinée à une **Qidi X-Max 3 (Impression 3D Industrielle)** permet de mixer les matériaux.

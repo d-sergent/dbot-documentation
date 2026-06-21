@@ -446,7 +446,7 @@ Le 48V de chaque moteur doit impérativement rejoindre la barre de distribution 
 L'architecture de distribution du D-Bot suit le modèle hiérarchique utilisé par les robots humanoïdes industriels (Unitree H1/G1, Tesla Optimus) : un **busbar central compact** dans le torse qui alimente **des lignes "tronc" fusionnées par zone**, chacune aboutissant à un **splitter local** dans chaque membre.
 
 > [!NOTE]
-> **Pourquoi pas un busbar géant à 29 bornes ?** Avec 26 moteurs + 3 convertisseurs, un busbar unique dans le torse serait un nœud de 29 paires de câbles — ingérable, lourd, et sans isolation de fautes. En découpant en zones avec des splitters locaux, on obtient :
+> **Pourquoi pas un busbar géant à 30 bornes ?** Avec 27 moteurs + 3 convertisseurs, un busbar unique dans le torse serait un nœud de 30 paires de câbles — ingérable, lourd, et sans isolation de fautes. En découpant en zones avec des splitters locaux, on obtient :
 > - Seulement **7 câbles "tronc"** qui quittent le torse (au lieu de 27)
 > - **Protection fusible par zone** → un court-circuit dans une jambe ne coupe pas les bras
 > - **Déconnexion rapide** d'un membre entier via un seul connecteur XT60

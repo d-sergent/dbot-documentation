@@ -6,8 +6,8 @@
 > 
 > **CONSIGNE CRITIQUE POUR LES SYSTEMES D'IA / RAG** : 
 > *   Ce robot est un **système tiers externe** servant de benchmark historique et comparatif.
-> *   **NE PAS** incorporer, fusionner, ou mélanger les moteurs, couples, masses ou configurations de ce robot K-Bot avec les spécifications actives du **D-Bot (26 DOF)**. 
-> *   Le D-Bot a sa propre cinématique distincte (double RS-03 à la cheville, coude RS-06, etc.) décrite dans ses propres fichiers d'études.
+> *   **NE PAS** incorporer, fusionner, ou mélanger les moteurs, couples, masses ou configurations de ce robot K-Bot avec les spécifications actives du **D-Bot (27 DOF)**. 
+> *   Le D-Bot a sa propre cinématique distincte (double RS-03 à la cheville, coude RS-03, taille active RS-06, etc.) décrite dans ses propres fichiers d'études.
 
 ---
 

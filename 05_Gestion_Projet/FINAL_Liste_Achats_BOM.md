@@ -54,38 +54,84 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 ### Phase 1 : Tête / Torse (Aucun Moteur)
 *   Focus uniquement sur les capteurs et l'intelligence.
 
-### Phase 2 : Premier Bras (5 DOF)
+### Phase 2 : Premier Bras (6 DOF)
 | Modèle | Quantité | Couple (Peak) | Usage |
 | :--- | :--- | :--- | :--- |
 | **Robstride 04** | 1 (**✅ Acheté**) | **120 Nm** | Épaule Pitch (Force levage frontal) |
-| **Robstride 03** | 1 (**✅ Acheté**) | **60 Nm** | Épaule Roll (Écartement latéral) |
-| **Robstride 06** | 1 (**✅ Acheté**) | **36 Nm** | Coude |
+| **Robstride 03** | 2 (**✅ Achetés**) | **60 Nm** | Épaule Roll + Coude Pitch |
+| **Robstride 02** | 2 (**1× ✅ Acheté** / 1× à commander) | **17 Nm** | Épaule Yaw (1× ✅ Acheté) + Supination Avant-Bras (1× à commander) |
+| **Robstride 00** | 1 (**✅ Acheté**) | **14 Nm** | Poignet Pitch |
+| **Robstride 06** | 0 | **36 Nm** | (Le RS-06 acheté a été relocalisé comme actuateur actif pour la Taille/Waist Yaw) |
 
-### Phase 3 : Deuxième Bras (5 DOF identiques)
-*Même configuration que Phase 2, symétriquement.*
+### Phase 3 : Deuxième Bras (6 DOF identiques)
+| Modèle | Quantité | Couple (Peak) | Usage |
+| :--- | :--- | :--- | :--- |
+| **Robstride 04** | 1 (**✅ Acheté**) | **120 Nm** | Épaule Pitch |
+| **Robstride 03** | 2 (**1× ✅ Acheté** / 1× à commander) | **60 Nm** | Épaule Roll (1× ✅ Acheté) + Coude Pitch (1× à commander) |
+| **Robstride 02** | 2 | **17 Nm** | Épaule Yaw + Supination Avant-Bras (À commander) |
+| **Robstride 00** | 1 | **14 Nm** | Poignet Pitch (À commander) |
 
-### Phase 4 : Jambes + Cou (14 DOF)
+### Phase 4 : Jambes + Cou + Taille (15 DOF)
 | Modèle | Quantité | Couple (Peak) | Usage |
 | :--- | :--- | :--- | :--- |
 | **Robstride 04** | 4 | **120 Nm** | Hanches Pitch + Genoux |
 | **Robstride 03** | 4 | **60 Nm** | Hanches Roll/Yaw |
 | **Robstride 03** | 4 | **60 Nm** | Chevilles Pitch+Roll (**2× par cheville**, architecture cardan + bielles) |
-| **Robstride 05** | 2 (**✅ Achetés**) | **5.5 Nm** | Cou Pan/Tilt |
+| **Robstride 05** | 2 (**✅ Achetés & Montés**) | **5.5 Nm** | Cou Pan/Tilt |
+| **Robstride 06** | 1 (**✅ Acheté & Monté**) | **36 Nm** | Taille (Waist Yaw) |
 
 > **Note** : Architecture cheville = Cardan DIN 808 + 2× RS-03 par cheville (différentiel Pitch/Roll). Voir [Étude Cheville](../01_Mecanique_et_Chassis/Jambes_et_Pieds/STUDY_Cheville_Cardan.md) pour le détail.
 
 ### Phase 5 : Mains (16 DOF — 8 par main)
-| Modèle | Quantité | Couple (Peak) | Usage |
-| :--- | :--- | :--- | :--- |
-| **Dynamixel XC430-W240-T** | 8 | **1.9 Nm** | Canaux de Force (Pouces, Index, Majeurs, Paumes) |
-| **Dynamixel XC330-T288-T** | 8 | **1.0 Nm** | Canaux de Précision (Oppositions, Abductions, Annulaires, Auriculaires) |
-| **U2D2** (USB↔Dynamixel) | 2 | — | Interface bus TTL (1 par main) |
-| **Buck 48V→12V 10A** | 2 | — | Alimentation servos main. **⚠️ 10A requis** pour pics de grip (9.1A total). |
-| **Poulies Ø12mm Alu 7075** | 16 | — | Poulies CNC avec roulement MR84ZZ intégré (Usinage C500). |
-| **Tresse Dyneema Ø0.6mm** | 2 | — | Bobines de 50m (Résistance ~25-50kg). Pré-étirée conseillée. |
-| **Kit Tactile eFlesh** | 2 | — | Silicone Ecoflex 00-30, **9× MLX90393**, 9× aimants N52 par main (5 doigts + 4 paume). Projet open-source : [e-flesh.com](https://e-flesh.com) |
+Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une quincaillerie de haute précision pour le passage des tendons, des capteurs tactiles magnétiques 3 axes (eFlesh) et des consommables spécifiques. Les quantités indiquées ci-dessous correspondent au **robot complet (2 mains)**.
+
+#### 5.1 Motorisation & Alimentation
+| Composant | Modèle | Quantité | Note |
+| :--- | :--- | :---: | :--- |
+| **Servo de Force (flexion)** | **Feetech STS3250** (12V, 4.9 Nm) | 10 | **✅ Achetés** : 5 par main, flexion/serrage, SCServo TTL. |
+| **Servo de Précision (opposition)** | **Feetech HL-3915** (12V, 1.39 Nm) | 6 | **✅ Achetés** : 3 par main, opposition pouce, abduction, SCServo TTL. |
+| **Debug Feetech** | **Module URT-2 (USB-TTL SCServo)** | 2 | **1× ✅ Acheté** (sur 2 requis pour le robot complet) : Interface de com série TTL. |
+| **Alimentation Servos** | **DROK 48V→12V 25A (IP67)** | 2 | **✅ Achetés** : 1 par bras, monté sur l'avant-bras pour dissipation thermique. |
+| **Fusible Réarmable** | **PTC 15A** | 2 | 1 par main, protection surcourant de la ligne 12V. À commander. |
+
+#### 5.2 Quincaillerie & Guidage Mécanique
+| Composant | Modèle | Quantité | Note |
+| :--- | :--- | :---: | :--- |
+| **Poulies d'Enroulement** | **Poulies Ø14mm Alu 7075** | 16 | 8 par main, usinage CNC (C500) avec roulement MR84ZZ intégré. |
+| **Micro-roulements** | **MR84ZZ** (4 × 8 × 3 mm) | 72 | 36 par main (24 joints + 8 spools + 4 base pouce). **✅ Commandés** (lot 100pcs AliExpress). |
+| **Roulements Moyen** | **6 × 13 × 5 mm** | 4 | 2 par main, pivot de base du pouce. À commander. |
+| **Axes Chapes** | **Goupilles acier rectifié 2 × 6 mm** | 40 | 20 par main, blocage des chapes MCP/PIP/DIP. À commander. |
+| **Axes Support Doigts** | **Axes inox rectifié 3 × 55 mm** | 8 | 4 par main, axes principaux de montage. À commander. |
+| **Tubes de Guidage PTFE 1.9** | **PTFE Ø1.5 mm (ID) / 1.9 mm (OD)** | 1 (5m) | **✅ Acheté (5m)** : Guidage nominal (Option B). |
+| **Tubes de Guidage PTFE 1.6** | **PTFE Ø1.2 mm (ID) / 1.6 mm (OD)** | 1 (5m) | **✅ Acheté (5m)** : Guidage alternatif plus fin. |
+
+#### 5.3 Système Tactile eFlesh (Grip Intel)
+| Composant | Modèle | Quantité | Note |
+| :--- | :--- | :---: | :--- |
+| **PCB Paume eFlesh** | **WowRobo eFlesh Array** (5× MLX90393) | 4 | **✅ Achetés** (lot global de 20) : 2 arrays par paume (Option B). |
+| **PCB Doigt eFlesh** | **PCB Custom 10 × 10 mm (ou 10 × 14 mm)** | 10 | 5 par main (1 par doigt), avec 1× MLX90393. À faire fabriquer (JLCPCB PCBA). |
+| **Micro-Hub Tactile** | **Seeed Studio XIAO ESP32-S3 (Pack 3PCS)** | 1 (pack) | **✅ Acheté (Pack 3PCS)** : Permet d'équiper les 2 mains (1 par main) + 1 carte de secours/banc d'essai. I2C vers USB. |
+| **Cordon Data** | **Câble JST-SH 4 broches (STEMMA QT / Qwiic)** | 16 | 8 par main, femelle-femelle, longueur 100mm. À commander. |
+| **Aimants Doigts** | **Néodyme S-03-01-N (Disque Ø3 × 1 mm)** | 10 | 5 par main, insérés dans la pulpe TPU. **✅ Achetés** (lot global de 40). |
+| **Aimants Paume** | **Néodyme W-05-N (Cube 5 × 5 × 5 mm)** | 4 | 2 par main, insérés dans la paume TPU. **✅ Achetés** (lot global de 10). |
+
+#### 5.4 Tendons & Retours Passifs
+| Composant | Modèle | Quantité | Note |
+| :--- | :--- | :---: | :--- |
+| **Tendon Actif (Flexion)** | **Tresse Dyneema DM20 Ø1.0 mm** | 1 | Bobine de 50m. Résistance ~980 N, zéro fluage (zéro-creep). À commander. |
+| **Tendon Passif (Retour)** | **Cordon élastique TPU Ø0.8 mm** | 1 | Bobine de 25m (Beadalon Elasticity). **✅ Reçu** (en stock). |
+| **Manchons de Sertissage** | **Sleeves Ø1.5 mm (Alu ou Cuivre)** | 50 | 25 par main. Amagnétiques pour éviter les perturbations. À commander. |
+| **Vis de Pression** | **Vis sans tête M3 × 4 mm (bout plat)** | 10 | 5 par main, bridage mécanique des élastiques dans la paume. À commander. |
+
+#### 5.5 Outils & Consommables Spécifiques
+| Composant | Modèle | Quantité | Note |
+| :--- | :--- | :---: | :--- |
+| **Pince à sertir** | **Pince à sleeves de pêche** (0.1–2 mm) | 1 | Pour la micro-compression des manchons sans endommager la tresse. À commander. |
+| **Colle Structurelle** | **3M DP490 (Époxy bicomposant)** | 1 cart. | Pour l'assemblage carbone/métal de la structure. À commander. |
+| **Colle Rapide** | **Loctite Super Glue Gel** | 1 tube | Pour le maintien instantané des aimants et des nœuds. À commander. |
 
 > **Note** : Voir [Étude Main Robotique](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Main_D_Hand.md) pour l'architecture D-Hand Hybrid consolidée.
+
 
 ### Autres Composants Électroniques
 | Composant | Modèle | Quantité | Note |
@@ -150,7 +196,7 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 | **Driver Solénoïde** | **Module Dual MOSFET D4184 (Logic Level)** | 1 | Indispensable : Ce modèle réagit bien au 3.3V de la Jetson (évite la surchauffe vs IRF520). |
 | **Protection Inductive** | **Diode 1N4007** | 2 | **CRITIQUE** : À visser sur les borniers en parallèle du solénoïde pour absorber le pic de coupure. |
 | **Buck 12V (Logique)** | **Buck DC-DC 60V In / 12V 10A Out** | 1 | Alimentation Hub USB (5A) + Solénoïdes Tête (2A). |
-| **Buck 12V (Puissance)** | **Buck DC-DC 60V In / 12V 20A Out** | 1 | **Dédié** : Alimentation des 16x Dynamixel des mains. |
+| **Buck 12V (Puissance)** | **Convertisseur DROK 48V→12V 25A (IP67)** | 2 | **Dédié** : 1 convertisseur par bras (2 au total) pour alimenter les 16x servomoteurs Feetech des mains. |
 | **Hub USB Central** | **10 Ports USB 3.0 Alimenté** | 1 | **Minimum 10 ports**. Modèles : **StarTech ST103008U2C** (Top) ou **Sabrent HB-BU10** (Compact). |
 | **Régulateurs Locaux** | **AMS1117-3.3** (LDO 3.3V 800mA) | 4 | **Crucial** : Alimente FSR localement. |
 | **Micro-Hubs Tactiles** | **ESP32-S3-DevKitC-1** (ou similaire) | 2 | **Option B** : Acquisition eFlesh USB pour les mains. |

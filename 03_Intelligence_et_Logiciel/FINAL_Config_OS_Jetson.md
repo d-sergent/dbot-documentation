@@ -66,7 +66,7 @@ L'objectif est d'avoir un système réactif où la vision influence directement 
 2.  **kbot_motor_control** : Lit `/cmd_vel` ou `/joint_states` et envoie les trames CAN brutes aux moteurs.
 3.  **kbot_audio** : Interface avec le **ReSpeaker XVF-3800**. Reçoit la direction du son (DoA) et publie une cible pour la tête (`/head_target`).
 4.  **kbot_balance** : Contrôleur d'équilibre. Lit `/imu/balance` (BMI270 torse) + `/joint_states` (encodeurs moteurs) et publie les corrections de couple sur les hanches/chevilles.
-5.  **kbot_joint_states** : Publie les positions/vitesses/couples des 26 moteurs via les encodeurs 14-bit RobStride intégrés (`/joint_states`).
+5.  **kbot_joint_states** : Publie les positions/vitesses/couples des 27 moteurs via les encodeurs 14-bit RobStride intégrés (`/joint_states`).
 
 ### Idées Algorithmiques
 *   **Beamforming (Audio)** : Géré matériellement par le **ReSpeaker XVF-3800** pour orienter la tête vers celui qui parle.

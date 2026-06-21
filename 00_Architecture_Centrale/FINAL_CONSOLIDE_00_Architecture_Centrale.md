@@ -7,12 +7,13 @@ Toutes les valeurs proviennent des sources indiquées. En cas de contradiction, 
 
 ## 1. Vue d’Ensemble (Version Actuelle)
 
-Le D‑Bot V1.x est un humanoïde de **≈ 1,47 m** de haut, **≈ 40,2 kg** au repos, doté de **26 moteurs RobStride** (QDD) et **8 servomoteurs Dynamixel** (D‑Hand Hybrid).  
+Le D‑Bot V1.x est un humanoïde de **≈ 1,55 m** de haut (avec le module Waist), **≈ 40,4 kg** au repos, doté de **27 moteurs RobStride** (QDD) et **16 servomoteurs Feetech** (D‑Hand Hybrid Premium).  
 
 Architecture mécanique principale :  
 
 * **Cou** – 2 × RS‑05 (pan/tilt).  
-* **Bras (×2)** – épaule : RS‑04 (Pitch) + RS‑03 (Roll) + RS‑02 (Yaw) ; coude : RS‑06 (Pitch) + RS‑02 (Supination) ; poignet : RS‑00 (Pitch).  
+* **Bras (×2)** – épaule : RS‑04 (Pitch) + RS‑03 (Roll) + RS‑02 (Yaw) ; coude : **RS‑03** (Pitch) + RS‑02 (Supination) ; poignet : RS‑00 (Pitch).  
+* **Taille (Waist)** – 1 × RS‑06 (Waist Yaw).  
 * **Jambes (×2)** – hanche : RS‑04 (Pitch) + RS‑03 (Roll) + RS‑03 (Yaw) ; genou : RS‑04 (Pitch) + courroie GT3 2.5:1 → 300 N·m effectif ; cheville : **Cardan DIN 808** + **2 × RS‑03** (différentiel) → 120 N·m effectif en Pitch et Roll.  
 
 Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈ 9:1) et **back‑drivable**.  
@@ -25,20 +26,21 @@ Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈�
 
 | Zone / Articulation | Moteur | Qté | Couple nominal (N·m) | Couple pic (N·m) | Réduction mécanique | Couple effectif (N·m) | Statut |
 |---------------------|--------|-----|----------------------|------------------|----------------------|-----------------------|--------|
-| **Cou** (Pan/Tilt) | RS‑05 | 2 | 1.6 | 5.5 | – | 5.5 | ✅ V1 |
+| **Cou** (Pan/Tilt) | RS‑05 | 2 | 1.6 | 5.5 | – | 5.5 | ✅ Achetés & Montés |
 | **Épaule Pitch** | RS‑04 | 2 | 40 | 120 | – | 120 | ✅ V1 |
 | **Épaule Roll** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 |
 | **Épaule Yaw** | RS‑02 | 2 | 6 | 17 | – | 17 | ✅ V1 |
-| **Coude Pitch** | RS‑06 | 2 | 11 | 36 | – | 36 | ✅ V1 |
+| **Coude Pitch** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 |
 | **Supination Avant‑bras** | RS‑02 | 2 | 6 | 17 | – | 17 | ✅ V1 (nouveau) |
 | **Poignet Pitch** | RS‑00 | 2 | 5 | 14 | – | 14 | ✅ V1 |
+| **Waist Yaw (Taille)** | RS‑06 | 1 | 11 | 36 | – | 36 | ✅ Acheté & Monté |
 | **Hanche Pitch** | RS‑04 | 2 | 40 | 120 | – | 120 | ✅ V1 |
 | **Hanche Roll** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 |
 | **Hanche Yaw** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 |
 | **Genou Pitch** | RS‑04 + GT3 2.5:1 | 2 | 40 | 120 | 2.5 : 1 (courroie) | **300** | ✅ V1 |
 | **Cheville Pitch** | 2 × RS‑03 (cardan) | 4 | 20 | 60 | Cardan DIN 808 (différentiel) | **120** | ✅ V1 |
 | **Cheville Roll** | 2 × RS‑03 (cardan) | 4 | 20 | 60 | Cardan DIN 808 (différentiel) | **120** | ✅ V1 |
-| **Main – D‑Hand Hybrid** | XC430 (4) + XC330 (4) | 8 | – | – | – | ~175 N grip | ✅ V1 |
+| **Main – D‑Hand Hybrid Premium** | 5× STS3250 + 3× HL-3915 | 16 | – | – | – | ~438 N pic / 140 N nom. | ✅ V1 |
 
 > **Note** : Le couple effectif de la cheville provient du différentiel : chaque RS‑03 fournit 60 N·m → 120 N·m combinés (Pitch + Roll).  
 
@@ -48,11 +50,11 @@ Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈�
 |--------|-----|--------------------|------------------|
 | RS‑05 | 2 | 191 | **382** |
 | RS‑04 | 6 | 1 420 | **8 520** |
-| RS‑03 | 10 | 880 | **8 800** |
-| RS‑06 | 2 | 621 | **1 242** |
+| RS‑03 | 12 | 880 | **10 560** |
+| RS‑06 | 1 | 621 | **621** |
 | RS‑02 | 4 | 405 | **1 620** |
 | RS‑00 | 2 | 310 | **620** |
-| **TOTAL MOTEURS** | **26** | – | **21 184 g ≈ 21.18 kg** |
+| **TOTAL MOTEURS** | **27** | – | **22 323 g ≈ 22.32 kg** |
 
 ---  
 
@@ -63,10 +65,10 @@ Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈�
 
 | Réf. | Désignation | Qté | Fournisseur | Référence fournisseur | Prix unitaire (EUR) | Remarques |
 |------|--------------|-----|-------------|-----------------------|---------------------|-----------|
-| **M‑01** | RS‑05 – Cou Pan/Tilt | 2 | RobStride | RS‑05‑V1 | 210 € | 5.5 N·m pic |
+| **M‑01** | RS‑05 – Cou Pan/Tilt | 2 | RobStride | RS‑05‑V1 | 210 € | 5.5 N·m pic (✅ Achetés & Montés) |
 | **M‑02** | RS‑04 – Épaule Pitch / Hanche Pitch / Genou Pitch | 6 | RobStride | RS‑04‑V1 | 340 € | 120 N·m pic |
-| **M‑03** | RS‑03 – Épaule Roll / Hanche Roll & Yaw / Cheville | 10 | RobStride | RS‑03‑V1 | 190 € | 60 N·m pic |
-| **M‑04** | RS‑06 – Coude Pitch | 2 | RobStride | RS‑06‑V1 | 260 € | 36 N·m pic |
+| **M‑03** | RS‑03 – Épaule Roll / Coude Pitch / Hanche Roll & Yaw / Cheville | 12 | RobStride | RS‑03‑V1 | 190 € | 60 N·m pic |
+| **M‑04** | RS‑06 – Taille (Waist Yaw) | 1 | RobStride | RS‑06‑V1 | 260 € | 36 N·m pic (✅ Acheté & Monté) |
 | **M‑05** | RS‑02 – Épaule Yaw / Supination | 4 | RobStride | RS‑02‑V1 | 150 € | 17 N·m pic |
 | **M‑06** | RS‑00 – Poignet Pitch | 2 | RobStride | RS‑00‑V1 | 130 € | 14 N·m pic |
 | **M‑07** | Cardan DIN 808 – Série G (12 mm) | 2 | Michaud Chailly | A5‑473‑12 | 45 € | Acier C45 |
@@ -74,8 +76,8 @@ Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈�
 | **M‑09** | Rotules Igus EBRM‑05 | 8 | Igus | EBRM‑05 | 12 € | – |
 | **M‑10** | Courroie GT3 2.5 : 1 (S6) | 2 | Gates | GT3‑S6‑2.5 | 8 € | Genou |
 | **M‑11** | Pignons aluminium (pour GT3) | 4 | [À COMPLÉTER] | – | – | – |
-| **M‑12** | Dynamixel XC430‑W240‑T | 4 | Robotis | XC430‑W240‑T | 45 € | Force |
-| **M‑13** | Dynamixel XC330‑T288‑T | 4 | Robotis | XC330‑T288‑T | 30 € | Précision |
+| **M‑12** | Feetech STS3250 | 10 | Feetech | STS3250 | 50 € | Force (5 par main, flexion/serrage, Coreless) — **✅ Achetés** |
+| **M‑13** | Feetech HL-3915 | 6 | Feetech | HL-3915 | 55 € | Précision/Force matérielle (3 par main, Coreless) — **✅ Achetés** |
 | **M‑14** | eFlesh tactile 3‑axes (5 doigts) | 5 | [À COMPLÉTER] | – | – | – |
 | **M‑15** | Batterie Li‑ion NMC 48 V 10 Ah | 1 | [À COMPLÉTER] | – | – | 2.3 kg |
 | **M‑16** | Jetson Orin Nano 8 GB | 1 | NVIDIA | Orin‑Nano‑8GB | 650 € | – |

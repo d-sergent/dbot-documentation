@@ -103,7 +103,7 @@ Le couple pharaonique des moteurs RS-04 (Hanches et Genoux) génère des efforts
 
 
 ### Architecture Articulaire : Montage en Chape (Simple Soutien) vs Double Soutien
-Pour le design mécanique des jonctions de genou et de hanche du D-Bot (40.2 kg), deux écoles d'ingénierie s'affrontent :
+Pour le design mécanique des jonctions de genou et de hanche du D-Bot (40.4 kg), deux écoles d'ingénierie s'affrontent :
 1.  **Le Double Soutien (Hyperstatique / Cage)** : Consiste à enfermer le RS-04 dans une cage avec deux gros roulements externes soutenant l'axe de chaque côté du stator pour totalement isoler le moteur. *Risque Majeur* : L'alignement des deux roulements externes avec les roulements internes du moteur doit être parfait au micron près. Le moindre défaut de concentricité lors d'un assemblage génère des contraintes internes qui ruineront le moteur par friction.
 2.  **Montage en Chape Rigide (Recommandé)** : C'est le standard de l'industrie (ex: Unitree Go2). Le stator du moteur D-Bot est fixé d'un côté. L'axe de sortie (rotor) traverse le membre et est supporté par **un seul** roulement à l'extrémité opposée (montage en porte-à-faux supporté).
     *   **Mise en œuvre D-Bot** : Utilisez un support en Aluminium 7075 usiné à la CNC C500. Du côté opposé au moteur, insérez un roulement étanche à section fine **6807-2RS** (pour laisser passer les câbles XT30/CAN de 35mm). L'ensemble doit être lié par une entretoise transversale extrêmement rigide assurant la coaxialité parfaite.
@@ -114,7 +114,7 @@ L'assemblage des roulements à section fine sur l'axe en aluminium de la chape d
 2.  **La Gorge de Décharge** : La CNC laissera toujours un rayon (congé d'outil) à la base de l'épaulement, ce qui crée un faux-rond repoussant le roulement. Usinez une toute petite gorge de décharge dans cet angle pour garantir que le roulement plaque à plat contre le mur de l'épaulement.
 3.  **Rétention par le Haut (Le Piège)** :
     *   *Cou / Bras (Léger)* : Le blocage par un simple **Circlips** (anneau élastique) suffit amplement. Assurez-vous d'usiner la gorge à la largeur exacte du roulement (+0.05 mm) pour éviter tout "cliquetis" qui éroderait l'axe en alu.
-    *   *Genoux / Hanches (Lourd 39 kg)* : Un choc latéral brutal peut faire sauter un circlips de sa gorge. Sur ces gros points névralgiques, remplacez-le par un **Écrou à encoches (Écrou KM)** ou une grosse entretoise pleine vissée en bout d'arbre. C'est plus lourd, mais indestructible.
+    *   *Genoux / Hanches (Lourd 40.4 kg)* : Un choc latéral brutal peut faire sauter un circlips de sa gorge. Sur ces gros points névralgiques, remplacez-le par un **Écrou à encoches (Écrou KM)** ou une grosse entretoise pleine vissée en bout d'arbre. C'est plus lourd, mais indestructible.
 
 ---
 
@@ -139,13 +139,13 @@ Les deux moteurs **RS-03** (60 N.m chacun) sont fixés **en haut du tibia** (pas
 *   **Capteurs FSR** : 4× FSR 402 dans la semelle du pied (mesure du CoP).
 *   **Semelle** : PA12-CF + patin TPU/caoutchouc 2mm pour le grip.
 
-> Pour le détail complet (fournisseurs, montage, cinématique) : **[Étude Cheville Cardan](Jambes_et_Pieds/STUDY_Cheville_Cardan.md)** | **[Révision 40.2 kg](Jambes_et_Pieds/STUDY_Revision_Cardan.md)**
+> Pour le détail complet (fournisseurs, montage, cinématique) : **[Étude Cheville Cardan](Jambes_et_Pieds/STUDY_Cheville_Cardan.md)** | **[Révision 40.4 kg](Jambes_et_Pieds/STUDY_Revision_Cardan.md)**
 
 ---
 
 ## 5. Intégration de l'Avant-Bras (Architecture "Forearm Supination")
 
-> 🆕 **Mise à jour Mai 2026** : L'architecture du bras a été revue pour s'aligner sur le standard biomimétique (Tesla Optimus Gen 3). Le mouvement de rotation de l'avant-bras (Roll/Supination) est désormais assuré par un moteur **RS-02 situé au coude**, juste après le RS-06.
+> 🆕 **Mise à jour Juin 2026** : L'architecture du bras a été revue pour s'aligner sur le standard biomimétique (Tesla Optimus Gen 3). Le mouvement de rotation de l'avant-bras (Roll/Supination) est désormais assuré par un moteur **RS-02 situé au coude**, juste après le RS-03.
 
 ### Le défi du découplage mécanique (Coude)
 Si l'avant-bras complet (main + charge) est fixé directement sur l'axe de sortie du RS-02, les roulements internes du moteur vont s'écraser sous la contrainte radiale (couple de flexion estimé à >10 N.m pour une charge de 5 kg). Le secret de cette architecture réside dans le **découplage des efforts** :

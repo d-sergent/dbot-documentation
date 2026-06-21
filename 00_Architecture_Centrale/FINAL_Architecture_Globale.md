@@ -14,12 +14,13 @@ Ce document présente uniquement les **décisions définitives** pour le D-Bot. 
 | **Genou Pitch** | **RS-04** + Courroie GT3 2.5:1 (S6) | 300 N.m | ✅ V1 |
 | **Hanche Pitch + Yaw** | **RS-04** (pitch) + **RS-03** (roll/yaw) | 120 / 60 N.m | ✅ V1 |
 | **Épaule** | **RS-04** (Pitch) + **RS-03** (Roll) + **RS-02** (Yaw) | 120 / 60 / 17 N.m | ✅ V1 |
-| **Coude Pitch** | **RS-06** | 36 N.m | ✅ V1 |
+| **Coude Pitch** | **RS-03** | 60 N.m | ✅ V1 |
 | **Supination Avant-Bras** | **RS-02** | 17 N.m | 🆕 V1 (Doc 22b) |
 | **Poignet Pitch** | **RS-00** | 5 N.m | ✅ V1 |
-| **Main** | **D-Hand Hybrid** (4× XC430 + 4× XC330 + tactile) | ~175 N grip | ✅ V1 |
-| **Cou** | **RS-05** (×2) | 5.5 N.m | ✅ V1 |
-| **Masse totale** | **40.2 kg** | Squelette Alu + Hybrid Épaules + D-Hand + GT3 | Référence |
+| **Waist Yaw (Taille)** | **RS-06** | 36 N.m | ✅ Acheté & Monté |
+| **Main** | **D-Hand Hybrid Premium** (5× STS3250 + 3× HL-3915 + tactile) | ~438 N pic / 140 N nom. | ✅ V1 |
+| **Cou** | **RS-05** (×2) | 5.5 N.m | ✅ Achetés & Montés |
+| **Masse totale** | **40.4 kg** | Squelette Alu + Hybrid Épaules + D-Hand + GT3 + Waist | Référence |
 | **Vitesse marche** | **~5 km/h** (marge XL) | — | Estimé |
 | **Course V1** | **~6-8 km/h** (mid-foot strike) | — | V1 logiciel |
 
@@ -82,18 +83,18 @@ Fournisseurs : Cardan **Michaud Chailly** A5-473-12, bielles carbone 3K Ø10/8mm
 
 ---
 
-## 4. Bras — RS-04 / RS-03 / RS-06 / RS-02 / RS-00 ⭐ UPGRADE HYBRIDE
+## 4. Bras — RS-04 / RS-03 / RS-02 / RS-00 ⭐ UPGRADE HYBRIDE
 
-**Décision : Épaule Pitch RS-04 + Épaule Roll RS-03 + Coude RS-06 + Supination RS-02 + Poignet RS-00 (Architecture "Forearm Supination" — Biomimétique Tesla Optimus Gen 3).**
+**Décision : Épaule Pitch RS-04 + Épaule Roll RS-03 + Coude RS-03 + Supination RS-02 + Poignet RS-00 (Architecture "Forearm Supination" — Biomimétique Tesla Optimus Gen 3).**
 
-> 🆕 **Changement vs K-Bot** : L'épaule Pitch passe de RS-03 (60 N.m, 880g) à **RS-04 (120 N.m, 1420g)** pour ×2.5 de portage frontal. L'épaule Roll reste en **RS-03** (suffisant en latéral). Le coude passe de RS-02 (17 N.m) à **RS-06 (36 N.m)** pour ×2 de flexion. Un **RS-02 de Supination** est ajouté directement après le RS-06 : il fait pivoter l'avant-bras entier (architecture biomimétique, voir [Doc 22b](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Poignet_Optimus.md)). Le **RS-00** est redéfini uniquement comme moteur de **Poignet Pitch** (extrémité distale).
+> 🆕 **Changement vs K-Bot** : L'épaule Pitch passe de RS-03 (60 N.m, 880g) à **RS-04 (120 N.m, 1420g)** pour ×2.5 de portage frontal. L'épaule Roll reste en **RS-03** (suffisant en latéral). Le coude passe de RS-02 (17 N.m) à **RS-03 (60 N.m)** pour ×3.5 de flexion (décision validée fin mai 2026 pour doubler la capacité de portage à 4.3 kg continu). Un **RS-02 de Supination** est ajouté directement après le RS-03 : il fait pivoter l'avant-bras entier (architecture biomimétique, voir [Doc 22b](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Poignet_Optimus.md)). Le **RS-00** est redéfini uniquement comme moteur de **Poignet Pitch** (extrémité distale).
 
 | Articulation | Moteur | Couple Pic | Couple Nom. | Masse | Notes |
 | :--- | :---: | :---: | :---: | :---: | :--- |
 | Épaule Pitch | **RS-04** | **120 N.m** | 40 N.m | 1420g | |
 | Épaule Roll | **RS-03** | 60 N.m | 20 N.m | 880g | |
 | Épaule Yaw | **RS-02** | 17 N.m | 6 N.m | 405g | |
-| Coude Pitch | **RS-06** | **36 N.m** | 11 N.m | 621g | |
+| Coude Pitch | **RS-03** | **60 N.m** | 20 N.m | 880g | |
 | **Supination Avant-Bras** | **RS-02** | **17 N.m** | 6 N.m | 405g | 🆕 Biomimétique (Doc 22b) |
 | Poignet Pitch | **RS-00** | 14 N.m | 5 N.m | 310g | (Pitch uniquement) |
 
@@ -103,12 +104,12 @@ Fournisseurs : Cardan **Michaud Chailly** A5-473-12, bielles carbone 3K Ø10/8mm
 | :--- | :---: | :---: | :---: |
 | **Bras tendu (frontal), continu** | ~33 N.m | Pitch RS-04 (40 N.m nom.) | ✅ **~5 kg** continu |
 | **Bras tendu (frontal), pic** | ~55 N.m | Pitch RS-04 (120 N.m pic) | ✅ **~10 kg** pic |
-| **Bras plié 90°, sécurité** | ~30 N.m | Coude RS-06 (36 N.m nom.) | ✅ **~8-10 kg** sécurité |
+| **Bras plié 90°, sécurité** | ~30 N.m | Coude **RS-03** (20 N.m nom.) | ✅ **~14-16 kg** sécurité |
 
 > [!TIP]
 > **Portage à 2 bras (charge symétrique)** : chaque moteur ne porte que la moitié de la charge. Les capacités sont doublées : ~**10 kg continu** bras tendus frontaux, ~**16-20 kg continu** bras pliés à 90°. La limite devient alors l'équilibre du robot (centre de gravité) et la tenue du genou (GT3 → 300 N.m), pas les moteurs de bras.
 
-> ⚠️ **Impact sur la masse du robot** : Cette configuration hybride amène la masse totale à **~40.2 kg** (avant allégement 3D, LiDAR V2 décompté). Le genou RS-04 opère à ~101% de sa capacité à 2-3 km/h, permettant une marche sécurisée à 2 km/h. Voir §9 et §11 pour la stratégie d'allégement 3D.
+> ⚠️ **Impact sur la masse du robot** : L'activation de la taille en RS-06 et le coude en RS-03 amènent la masse totale à **~40.4 kg** (avant allégement 3D, LiDAR V2 décompté). Le genou RS-04 opère à ~100% de sa capacité à 2-3 km/h, permettant une marche sécurisée à 2 km/h. Voir §9 et §11 pour la stratégie d'allégement 3D.
 
 ### 🔮 Évolution Future — GT3 Coude (Non déployée en V1)
 
@@ -117,55 +118,55 @@ Fournisseurs : Cardan **Michaud Chailly** A5-473-12, bielles carbone 3K Ø10/8mm
 
 Par analogie avec la **Solution S6 GT3 du genou** (RS-04 remonté dans le fémur → 300 N.m), il serait possible d'appliquer le même principe au coude :
 
-**Principe** : Relocaliser le RS-06 depuis le coude vers **l'humérus** (zone entre épaule et coude), et le relier à l'axe du coude par une courroie GT3. L'avant-bras (qui contient les 8 servos Dynamixel de la D-Hand) n'est **pas concerné** par cet encombrement.
+**Principe** : Relocaliser le RS-03 depuis le coude vers **l'humérus** (zone entre épaule et coude), et le relier à l'axe du coude par une courroie GT3. L'avant-bras (qui contient les 16 servomoteurs Feetech de la D-Hand) n'est **pas concerné** par cet encombrement.
 
 ```
 ARCHITECTURE GT3 COUDE (Évolution V3) :
 
 [ÉPAULE]
    │
-[HUMÉRUS] — RS-06 Coude RELOCALISÉ + Pignon petit
+[HUMÉRUS] — RS-03 Coude RELOCALISÉ + Pignon petit
    │          ← Courroie GT3 9mm (~200mm entraxe)
-[COUDE]   — Grand pignon = AXE COUDE (remplace RS-06 direct)
+[COUDE]   — Grand pignon = AXE COUDE (remplace RS-03 direct)
    │
-[AVANT-BRAS] — 8× Dynamixels D-Hand (inchangé)
+[AVANT-BRAS] — 16× Servos Feetech D-Hand (inchangé)
 ```
 
 **Bénéfices calculés (ratio 2:1) :**
 
-| Paramètre | RS-06 Direct (V1) | GT3 2:1 (V3) |
+| Paramètre | RS-03 Direct (V1) | GT3 2:1 (V3) |
 |:---|:---:|:---:|
-| **Couple coude nominal** | 11 N.m | **22 N.m** (+100%) |
-| **Couple coude pic** | 36 N.m | **72 N.m** |
-| **Portage bras plié, 1 bras** | ~8-10 kg | **~15 kg continu** |
-| **Portage bras plié, 2 bras** | ~16-20 kg | **~30 kg continu** |
-| **Masse retirée du coude** | 0g | −621g (RS-06) + 160g (GT3) = **−461g** distaux ⭐ |
+| **Couple coude nominal** | 20 N.m | **40 N.m** (+100%) |
+| **Couple coude pic** | 60 N.m | **120 N.m** |
+| **Portage bras plié, 1 bras** | ~14-16 kg | **~30 kg continu** |
+| **Portage bras plié, 2 bras** | ~28-32 kg | **~60 kg continu** |
+| **Masse retirée du coude** | 0g | −880g (RS-03) + 160g (GT3) = **−720g** distaux ⭐ |
 | **Coût** | 0€ | ~53€ (même BOM que GT3 genou) |
 
-> La réduction de masse distale (−461g au coude) améliore aussi la dynamique des gestes rapides et réduit la sollicitation du RS-04 Pitch lors des accélérations du bras.
+> La réduction de masse distale (−720g au coude) améliore aussi la dynamique des gestes rapides et réduit la sollicitation du RS-04 Pitch lors des accélérations du bras.
 
-**Raison du report en V3** : absence de déficit critique de couple (RS-06 à ~83% en pic pour 10 kg, non problématique en usage courant). La complexité mécanique n'est pas justifiée avant validation des cas d'usage opérationnels concrets.
+**Raison du report en V3** : absence de déficit critique de couple (RS-03 à ~50% en pic pour 10 kg, non problématique en usage courant). La complexité mécanique n'est pas justifiée avant validation des cas d'usage opérationnels concrets.
 
 
 > Voir : [Analyse portage §3](./15a_Analyse_Locomotion_Baseline.md) | [Comparatif Option Hybride](./15b_Configurations_Moteurs.md)
 
 ---
 
-## 5. Main — D-Hand Hybrid (4× XC430 + 4× XC330 + eFlesh)
+## 5. Main — D-Hand Hybrid Premium (5× STS3250 + 3× HL-3915 + eFlesh)
 
-**Décision : Architecture tandem déporté mixte, servos XC430 (force) et XC330 (précision) dans l'avant-bras.**
+**Décision : Architecture tandem déporté mixte, servos STS3250 (force) et HL-3915 (précision) dans l'avant-bras.**
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| Servos | 4× **Dynamixel XC430-W240-T** (force) + 4× **XC330-T288-T** (précision) |
-| Emplacement | Avant-bras (14.5 cm sur 22 cm dispo), 352g de moteurs |
+| Servos | 5× **Feetech STS3250** (force) + 3× **HL-3915** (précision/force matérielle) |
+| Emplacement | Avant-bras (14.5 cm sur 20 cm dispo), 480g de moteurs |
 | DOF actifs | 8 (Pouce ×2, Index ×2, Majeur, Annulaire, Auriculaire, Paume) |
-| Force grip | **~175 N effectifs** (niveau Tesla Optimus) |
+| Force grip | **~438 N pic / 140 N continu** (niveau Tesla Optimus Gen 2) |
 | Tactile | **Options T2 (eFlesh 3-axes)** sur la pulpe des doigts |
-| Poids total (Main + Avant-bras) | **~785g** |
-| Tendons | Dyneema Ø0.8mm-1.0mm, gaines PTFE, poulies CNC Ø8mm |
+| Poids total (Main + Avant-bras) | **~913g** |
+| Tendons | Dyneema DM20 Ø1.0mm, gaines PTFE, poulies CNC Ø12mm (au fond de gorge) |
 | Coût par main | ~**1 110 €** (Servos + BOM + eFlesh) |
-| Protocole | Dynamixel 2.0 TTL, ROS 2, SDK Python |
+| Protocole | SCServo TTL, ROS 2, SDK SCServo |
 
 **Évolution V4** : Phalanges Alu 7075 CNC (C500) pour durabilité maximale.
 
@@ -196,16 +197,16 @@ ARCHITECTURE GT3 COUDE (Évolution V3) :
 
 | Métrique | Estimation | Config |
 | :--- | :---: | :---: |
-| **Masse totale** | **40.2 kg** | Squelette Alu + Hybrid Épaules + D-Hand + GT3 |
-| **DOF total** | 28 corps RobStride + 2×8 mains Dynamixel = **44 DOF actifs** | V1 complet |
+| **Masse totale** | **40.4 kg** | Squelette Alu + Hybrid Épaules + D-Hand + GT3 + Waist |
+| **DOF total** | 27 corps RobStride + 16 mains Feetech = **43 DOF actifs** | V1 complet |
 | **Vitesse marche sécurisée** | **~5 km/h** (à vide) | Marge genou 300 N.m |
 | **Vitesse marche max** | **~7 km/h** | Limite physique RS-04 (Vitesse) |
 | **Vitesse course (V1 algo)** | **~6-8 km/h** | Marge couple XL (Course pic OK) |
 | **Vitesse course (V3 tirant genou)** | ~10 km/h | Mécanisme future "Atlas" |
 | **Charge utile (Portage marchant)**| **~20 kg** (à 2.5 km/h) | Utilisation genou ~65% (GT3) |
 | **Charge utile (Bras tendu frontal)**| **~5 kg** (en continu) | Limite épaule RS-04 |
-| **Charge utile (Bras plié 90°)** | **~10 kg** (sécurité) | Limite coude RS-06 |
-| **Grip main (force)** | **~175 N effectifs** | Hybrid XC430/XC330 |
+| **Charge utile (Bras plié 90°)** | **~14-16 kg** (sécurité) | Limite coude RS-03 |
+| **Grip main (force)** | **~438 N pic / 140 N nom.** | Hybrid STS3250/HL-3915 |
 | **Autonomie** | **~1.5h - 3h** | NMC 48V 10Ah (extensible ×2) |
 
 ---
@@ -219,14 +220,14 @@ ARCHITECTURE GT3 COUDE (Évolution V3) :
 > - **Stabilité** : Les marges de couple permettent de corriger les perturbations d'équilibre bien plus agressivement.
 
 > [!IMPORTANT]
-> **✅ Coude RS-06 + Supination RS-02 (Architecture Forearm Supination)** : Le coude RS-06 (36 N.m) assure la flexion du bras. Le RS-02 ajouté immédiatement après assure la rotation de l'avant-bras entier (Supination/Pronation). Cette architecture biomimétique (inspirée du Tesla Optimus Gen 3) élimine le crosstalk des tendons de la D-Hand, rend le poignet compact (RS-00 Pitch uniquement), et abaisse l'inertie distale. Voir [Doc 22b](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Poignet_Optimus.md).
+> **✅ Coude RS-03 + Supination RS-02 (Architecture Forearm Supination)** : Le coude RS-03 (60 N.m) assure la flexion du bras. Le RS-02 ajouté immédiatement après assure la rotation de l'avant-bras entier (Supination/Pronation). Cette architecture biomimétique (inspirée du Tesla Optimus Gen 3) élimine le crosstalk des tendons de la D-Hand, rend le poignet compact (RS-00 Pitch uniquement), et abaisse l'inertie distale. Voir [Doc 22b](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Poignet_Optimus.md).
 
 > [!TIP]
 > **Démarrer par le gripper.** Un gripper simple (1× STS3215, 30€) permet de valider le bus RS-00 du poignet et l'intégration mécanique de la main **avant** d'investir ~1 110€ dans la D-Hand Hybrid.
 
 ---
 
-*Conclusions établies en Mars 2026, mises à jour Mai 2026. Architecture D-Bot V1 stabilisée — **Option Hybride + Forearm Supination** : RS-04 Pitch + RS-03 Roll épaules + RS-06 coude + **RS-02 Supination** + RS-00 Poignet Pitch + Cardan DIN 808 + 2×RS-03 chevilles + D-Hand Hybrid. **28 moteurs RobStride.** Masse moteurs de référence : 21.18 kg.*
+*Conclusions établies en Mars 2026, mises à jour Juin 2026. Architecture D-Bot V1 stabilisée — **Option Hybride + Forearm Supination** : RS-04 Pitch + RS-03 Roll épaules + RS-03 coude + **RS-02 Supination** + RS-00 Poignet Pitch + Cardan DIN 808 + 2×RS-03 chevilles + RS-06 Waist Yaw + D-Hand Hybrid Premium. **27 moteurs RobStride.** Masse moteurs de référence : 22.32 kg.*
 
 ---
 
@@ -238,11 +239,11 @@ ARCHITECTURE GT3 COUDE (Évolution V3) :
 | :--- | :--- | :---: | :---: | :---: |
 | **RS-05** | Cou Pan + Tilt | 2 | 191g | **382g** |
 | **RS-04** | Épaule Pitch (×2) + Hanche Pitch (×2) + Genou (×2) | 6 | 1420g | **8 520g** |
-| **RS-03** | Épaule Roll (×2) + Hanche Roll (×2) + Hanche Yaw (×2) + Cheville Cardan (×4) | 10 | 880g | **8 800g** |
-| **RS-06** | Coude Pitch (×2) | 2 | 621g | **1 242g** |
+| **RS-03** | Épaule Roll (×2) + Coude Pitch (×2) + Hanche Roll (×2) + Hanche Yaw (×2) + Cheville Cardan (×4) | 12 | 880g | **10 560g** |
+| **RS-06** | Taille (Waist Yaw) | 1 | 621g | **621g** |
 | **RS-02** | Épaule Yaw (×2) + **Supination Avant-Bras (×2)** 🆕 | 4 | 405g | **1 620g** |
 | **RS-00** | Poignet Pitch (×2) | 2 | 310g | **620g** |
-| **TOTAL MOTEURS (28)** | | **28** | | **21 184g = 21.18 kg** |
+| **TOTAL MOTEURS (27)** | | **27** | | **22 323g = 22.32 kg** |
 
 ### 9.2 Masse Structurelle Estimée
 
@@ -277,14 +278,14 @@ ARCHITECTURE GT3 COUDE (Évolution V3) :
 | Scénario | Moteurs | Structure | **Total** | Impact genou 2-3 km/h |
 | :--- | :---: | :---: | :---: | :---: |
 | **A — Option D Révisée (2× RS-04 épaules)** | 22.26 kg | ~17.0 kg | **~39.3 kg** | ✅ ~118/300 N.m (39%) |
-| **B — Option Hybride (Adoptée)** | **21.18 kg** | ~18.83 kg | **~40.01 kg** | ✅ ~120/300 N.m (~40%) |
-| **C — Scénario B + allégement 3D** | **21.18 kg** | ~15.33 kg | **~36.51 kg** | ✅ ~110/300 N.m (37%) — marge XL |
+| **B — Option Hybride (Adoptée)** | **22.32 kg** | ~18.08 kg | **~40.4 kg** | ✅ ~120/300 N.m (~40%) |
+| **C — Scénario B + allégement 3D** | **22.32 kg** | ~14.58 kg | **~36.9 kg** | ✅ ~110/300 N.m (37%) — marge XL |
 
 > [!NOTE]
-> Le Scénario B converge désormais naturellement vers la cible officielle de **~40.2 kg** : l'ajout des 2× RS-02 de Supination (+810g) est cohérent avec les estimations de Juin 2026.
+> Le Scénario B converge désormais naturellement vers la cible officielle de **~40.4 kg** : l'intégration active du RS-06 à la taille (Waist Yaw) et du RS-03 aux coudes (+1.14 kg de motorisation totale) porte le total moteurs à 22.32 kg.
 
 > [!TIP]
-> **Objectif cible réaliste** : Le scénario C + allégement modéré (structure à ~15 kg) amène le robot autour de **36.5 kg**. À cette masse, le genou RS-04 opère avec une réserve de puissance monumentale (>60%) → **marche et course sans aucune contrainte thermique**.
+> **Objectif cible réaliste** : Le scénario C + allégement modéré (structure à ~14.6 kg) amène le robot autour de **36.9 kg**. À cette masse, le genou RS-04 opère avec une réserve de puissance monumentale (>60%) → **marche et course sans aucune contrainte thermique**.
 
 ---
 

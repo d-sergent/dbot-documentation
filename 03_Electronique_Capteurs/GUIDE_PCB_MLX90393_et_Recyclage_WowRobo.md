@@ -178,7 +178,7 @@ Connectez les fils selon le schéma de la section 2.1 :
 2. Une nouvelle fenêtre s'ouvre avec les composants non placés
 3. **Définissez les dimensions du PCB :**
    - Cliquez sur **Board Outline** (contour)
-   - Tracez un rectangle de **10mm × 10mm**
+   - Tracez un rectangle de **10mm × 10mm** (ou **10mm × 14mm** pour l'alternative avec fixation par vis)
    - Dans les propriétés, réglez Thickness à **0.8mm** (plus léger, plus fin)
 
 #### Étape 6 : Placer les composants sur le PCB
@@ -189,6 +189,12 @@ Ordre de placement recommandé :
 3. **C2 (10µF)** → à 1mm à droite de C1
 4. **R1, R2** → sur le bord gauche du PCB (si inclus)
 5. **J1 (connecteur JST)** → sur le bord droit ou bas du PCB, **en dehors** des 10mm si possible (le connecteur peut dépasser légèrement)
+
+> 💡 **Alternative : Design 10 × 14 mm avec trous de fixation**
+> Comme la contrainte majeure est la largeur (12-15 mm) et non la longueur, vous pouvez étendre le PCB à **14 mm de long**.
+> - Maintenez le capteur U1 à **X=5, Y=5** pour qu'il reste aligné avec l'aimant au bout du doigt.
+> - Utilisez la zone allongée en bas (Y=10 à Y=14) pour loger confortablement le connecteur JST SH.
+> - Ajoutez **4 trous de montage de Ø1.2 à 1.7 mm** (pour vis M1.2 ou M1.6) dans les 4 coins, ou seulement 2 trous dans les coins inférieurs. Ce format rectangulaire rend la fixation vissée parfaitement **faisable et robuste**.
 
 #### Étape 7 : Tracer les pistes (Routing)
 
@@ -240,7 +246,7 @@ J1,9.50,5.00,Top,270
 Avant de soumettre votre commande sur JLCPCB, vérifiez ces points :
 
 #### Dimensions et couches
-- [ ] Taille du PCB : **10mm × 10mm** exactement
+- [ ] Taille du PCB : **10mm × 10mm** (ou **10mm × 14mm** selon la version choisie)
 - [ ] Épaisseur : **0.8mm** (sélectionner dans les options JLCPCB)
 - [ ] Nombre de couches : **2** (Top + Bottom)
 - [ ] Couleur du masque de soudure : **Noir** (recommandé pour discrétion)
@@ -459,7 +465,7 @@ Importez les deux STL dans OrcaSlicer et tranchez-les séparément :
    * Insérez l'aimant **S-03-01-N** (Ø3×1mm) préalablement isolé sur ses deux faces avec des pastilles de ruban en tissu de verre 3M 69 (ou Kapton).
    * Utilisez une pince amagnétique et placez le **pôle Nord orienté vers le bas** (vers le magnétomètre).
 6. **Reprise d'impression** : Relancez l'impression. La buse va imprimer la peau de fermeture directement sur la protection thermique en tissu de verre.
-7. **Intégration du PCB** : Glissez le PCB custom de 10×10 mm dans la fente réceptrice sous le doigt et étanchéifiez au silicone flexible.
+7. **Intégration du PCB** : Glissez le PCB custom de 10×10 mm dans la fente réceptrice (ou vissez la version 10×14 mm) sous le doigt et étanchéifiez au silicone flexible.
 
 ---
 

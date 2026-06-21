@@ -1,6 +1,6 @@
 # 14 - Cinématique & Choix Moteurs
 
-Ce document détaille l'architecture cinématique du D-Bot (**Standard 26 DOF**) et les spécifications techniques des actionneurs **RobStride**.
+Ce document détaille l'architecture cinématique du D-Bot (**Standard 27 DOF**) et les spécifications techniques des actionneurs **RobStride**.
 
 ## 1. Configuration K-Bot Standard (20 DOF)
 
@@ -40,21 +40,21 @@ Le K-Bot standard est un robot humanoïde open-source de taille réelle dévelop
 
 ---
 
-### 🔢 INVENTAIRE K-BOT STANDARD
+### 🔢 INVENTAIRE MOTEURS D-BOT V1 (27 DOF)
 
 | Modèle | Quantité | Poids Unit. | Poids Total | Usage Principal |
 | :---: | :---: | :---: | :---: | :--- |
-| **RS-04** | 6 | 1420g | 8.52 kg | Hanches Pitch + Genoux + **Épaules Pitch** |
-| **RS-03** | 10 | 880g | 8.80 kg | **Épaules Roll** + Rotations hanches + Chevilles Cardan |
-| **RS-06** | 2 | 621g | 1.24 kg | Coudes |
-| **RS-02** | 2 | 405g | 0.81 kg | Yaw épaules |
-| **RS-00** | 2 | 310g | 0.62 kg | Poignets |
-| **RS-05** | 2 | 191g | 0.38 kg | Cou Pan/Tilt |
-| **TOTAL** | **26** | — | **~20.37 kg** | **Ensemble du corps robotisé** |
+| **RS-04** | 6 | 1420g | 8.52 kg | Hanches Pitch (2) + Genoux (2) + Épaules Pitch (2) |
+| **RS-03** | 12 | 880g | 10.56 kg | Épaules Roll (2) + Coudes Pitch (2) + Hanches Roll/Yaw (4) + Chevilles (4) |
+| **RS-06** | 1 | 621g | 0.62 kg | Taille (Waist Yaw) (1 active) |
+| **RS-02** | 4 | 405g | 1.62 kg | Épaules Yaw (2) + Supinations (2) |
+| **RS-00** | 2 | 310g | 0.62 kg | Poignets Pitch (2) |
+| **RS-05** | 2 | 191g | 0.38 kg | Cou Pan/Tilt (2) |
+| **TOTAL** | **27** | — | **~22.32 kg** | **Ensemble du corps robotisé** |
 
 ---
 
-### 🤖 ÉVOLUTION D-BOT (26 DOF — "D-Bot Performance")
+### 🤖 ÉVOLUTION D-BOT (27 DOF — "D-Bot Performance")
 
 Le **D-Bot** ne se contente pas d'ajouter des moteurs, il change de catégorie de performance. On distingue deux types de modifications par rapport au standard K-Scale :
 
@@ -66,6 +66,7 @@ Le **D-Bot** ne se contente pas d'ajouter des moteurs, il change de catégorie d
 | **Tête (Pan/Tilt)** | RS-05 | 2 | 5.5 N.m | Vision active & Interaction sociale |
 | **Supination Avant-Bras** | RS-02 | 2 | 17 N.m | **Forearm Roll** (Biomimétique Tesla) |
 | **Cheville Roll** | RS-03 | 2 | 60 N.m | Équilibre latéral & terrain irrégulier |
+| **Waist Yaw (Taille)** | RS-06 | 1 | 36 N.m | Lacet actif de la taille (dissociation buste/bassin) |
 
 #### 2. Upgrades de Puissance (Évolutions Moteurs)
 *Ces moteurs remplacent les modèles standards pour augmenter les capacités de portage et de course.*
@@ -73,10 +74,10 @@ Le **D-Bot** ne se contente pas d'ajouter des moteurs, il change de catégorie d
 | Articulation | K-Bot (Std) | D-Bot (Perf) | Gain Couple | Bénéfice |
 | :--- | :---: | :---: | :---: | :--- |
 | **Épaule Pitch** | RS-03 | **RS-04** | **+100%** | Portage frontal (5 kg → 10 kg) |
-| **Coude Pitch** | RS-02 | **RS-06** | **+110%** | Manipulation bras plié |
+| **Coude Pitch** | RS-02 | **RS-03** | **+252%** | Manipulation bras plié |
 | **Cheville Pitch** | RS-02 | **RS-03** | **+250%** | Propulsion & Course (Cardan) |
 
-**Total D-Bot** : 20 (Base K-Bot) + 6 (Nouveaux DOF) = **26 DOF**.
+**Total D-Bot** : 20 (Base K-Bot) + 7 (Nouveaux DOF) = **27 DOF**.
 
 > [!NOTE]
 > **Mécanisme de cheville D-Bot (Cardan + 2×RS-03)** : La cheville du K-Bot (RS-02) était insuffisante pour la marche dynamique. Le D-Bot la remplace par une architecture de cardan à deux axes concourants (DIN 808) pilotée par deux moteurs RS-03 via des bielles croisées. Ce différentiel mécanique offre 120 N.m en Pitch et Roll sans ajouter de masse distale (les moteurs sont haut dans le tibia).
@@ -150,12 +151,13 @@ Même le RS-04 dissipe 14.5W au repos. Puisque les moteurs QDD n'ont pas de fric
 1.  **SVS Électromagnétique (Solenoid Pin Lock)** : Usinage dans la plaque d'interface en aluminium d'un logement pour un micro-solénoïde tubulaire. Lorsque le robot passe en mode "Stand-by" (posture parfaitement définie), le solénoïde pousse une broche de métal (pin) dans un trou borgne du rotor du RS-04. L'articulation est verrouillée mécaniquement. L'alimentation du RS-04 peut être coupée à 0A sans que le robot ne s'effondre.
 2.  **SVS Servo-Cliquet (Ratchet & Pawl)** : Remplacement de la broche par un cliquet hélicoïdal sur la couronne du moteur, engagé par un micro-servo. Ce système plus robuste limite la flexion mais autorise librement le mouvement d'extension (pour se relever).
 
-### Choix pour le D-Bot — Répartition Complète (26 DOF)
+### Choix pour le D-Bot — Répartition Complète (27 DOF)
 | Zone | Moteur | Quantité | Couple Pic | Justification |
 | :--- | :---: | :---: | :---: | :--- |
 | Cou (Pan/Tilt) | RS-05 | 2 | 5.5 N.m | Légèreté critique (tête avec OAK-D Pro ~100g, LiDAR L2 sur le torse) |
-| Poignet Roll | RS-00 | 2 | 14 N.m | Compact, fort couple pour manipulation fine |
-| Coude Pitch | RS-06 | 2 | 36 N.m | Force intermédiaire pour manipulation bras plié |
+| Taille (Waist Yaw) | RS-06 | 1 | 36 N.m | Lacet actif de la taille |
+| Poignet Pitch | RS-00 | 2 | 14 N.m | Compact, fort couple pour manipulation fine |
+| Coude Pitch | RS-03 | 2 | 60 N.m | Force accrue pour manipulation bras plié |
 | Épaule Yaw | RS-02 | 2 | 17 N.m | Rotation de l'humérus proximale |
 | Épaule Pitch | **RS-04** | 2 | 120 N.m | Force pour porte-à-faux bras tendu |
 | Épaule Roll | **RS-03** | 2 | 60 N.m | Écartement latéral bras |
@@ -163,7 +165,7 @@ Même le RS-04 dissipe 14.5W au repos. Puisque les moteurs QDD n'ont pas de fric
 | Hanche Pitch + Genou | RS-04 | 4 | 120 N.m | Portance totale dynamique |
 | Cheville (Pitch/Roll) | RS-03 | 4 | 120 N.m (Cardan) | Propulsion via bielles et cardan DIN 808 (2× RS-03 par cheville) |
 
-**Total moteurs D-Bot** : 2 (Cou) + 2 (Poignets P) + 2 (Supinations) + 2 (Coudes) + 2 (Yaws) + 4 (Epaules P+R) + 4 (Hanches R/Y) + 4 (Hanches/Genoux P) + 4 (Chevilles P/R) = **26 moteurs**.
+**Total moteurs D-Bot** : 2 (Cou) + 1 (Taille) + 2 (Poignets P) + 2 (Supinations) + 2 (Coudes) + 2 (Yaws) + 4 (Epaules P+R) + 4 (Hanches R/Y) + 4 (Hanches/Genoux P) + 4 (Chevilles P/R) = **27 moteurs**.
 
 > [!NOTE]
 > **Décisions Architecturales Finales** : Le tableau ci-dessus reflète les conclusions de l'**option de performance maximale** (architecture V2). L'ancienne configuration cheville (RS-02/RS-00) a été remplacée par l'architecture Cardan (2× RS-03), et le coude (RS-02) par le RS-06. (Voir Documents 15 et 16).
@@ -190,7 +192,7 @@ Tous les moteurs partagent le même protocole :
 
 | Robot | DOF | DOF/Jambe | Cheville | Méca. Cheville | Couple max jambe | Poids | Actionneurs | Prix |
 | :--- | :---: | :---: | :---: | :--- | :---: | :---: | :--- | :---: |
-| **D-Bot (notre)** | **26** | **6** | **2 (P+R)** | **Série QDD** | **120 N.m** (RS-04) | ~40.2 kg | QDD RobStride 9:1 | ~$5k |
+| **D-Bot (notre)** | **27** | **6** | **2 (P+R)** | **Série QDD** | **120 N.m** (RS-04) | ~40.4 kg | QDD RobStride 9:1 | ~$5k |
 | K-Bot (base) | 20 | 5 | 1 (P) | Tirant (linkage) | 120 N.m (RS-04) | ~34 kg | QDD RobStride 9:1 | ~$4k |
 | **Unitree G1** | 23 | **6** | **2** | **Parallèle RSU** | **120 N.m** | 35-47 kg | QDD propriétaire | ~$16k |
 | **Tesla Optimus** | 28+ | 6 | 2 | **Parallèle SPU** | **180 N.m** rotary / 8000N linéaire | ~73 kg | Harmonic + Linéaire | N/A |
@@ -199,7 +201,7 @@ Tous les moteurs partagent le même protocole :
 | **Agility Digit** | 28 | 5 | 2 | **SEA** (élastique) | N/A | 65 kg | Series-Elastic | ~$300k+ |
 
 > [!NOTE]
-> **Positionnement D-Bot** : Avec 26 DOF, 6 DOF/jambe et 6 DOF/bras, le D-Bot est au niveau du Unitree G1 (23 DOF) et se rapproche du Tesla Optimus en terme d'architecture cinématique.
+> **Positionnement D-Bot** : Avec 27 DOF (dont Waist Yaw en RS-06), 6 DOF/jambe et 6 DOF/bras, le D-Bot surclasse le Unitree G1 (23 DOF) et se rapproche de la structure cinématique du Tesla Optimus.
 
 ### 4.2 Mécanismes de Cheville — Les 4 Approches
 

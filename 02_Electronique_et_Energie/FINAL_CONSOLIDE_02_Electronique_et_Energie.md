@@ -28,7 +28,7 @@ L’architecture électrique du D‑Bot repose sur :
 | **Bus‑bar central** | Bus‑bar laiton étamé 8 bornes (double) | 48 V | 80 A total | Point de distribution central | [À COMPLÉTER] fabricant exact |
 | **Convertisseur 48 V → 19 V** | Buck isolé, 48 → 19 V, 5 A, 95 W | 48 V | 5 A | Alimente Jetson Orin Nano Super | Modèle exact non indiqué – à préciser |
 | **Convertisseur 48 V → 12 V Logique** | Buck 60 V in / 12 V out, 10 A (type Mean Well DDR‑120C‑12 ou Homelylife) | 48 V | 10 A | Hub USB Industriel, solénoïdes tête | Fournisseur à confirmer |
-| **Convertisseur 48 V → 12 V Puissance** | Buck 60 V in / 12 V out, 20 A | 48 V | 20 A | 16 × Dynamixel (XC430/XC330) | Fournisseur à confirmer |
+| **Convertisseur 48 V → 12 V Puissance** | Buck 60 V in / 12 V out, 20 A (ou DROK 25A par bras) | 48 V | 20 A | 16 × Feetech (STS3250/HL-3915) | Fournisseur à confirmer |
 | **Convertisseur 48 V → 5 V** | Buck isolé, 5 A, 25 W | 48 V | 5 A | Spresense, hub USB, accessoires | Fournisseur à confirmer |
 | **Hub USB 3.0 Industriel (10 ports)** | StarTech ST103008U2C ou Sabrent HB‑BU10 (aluminium, alimentation 7‑24 V) | 12 V (alimenté par rail 12 V Logique) | 10 A total (≈ 1 A/port) | Centralise les périphériques USB | Modèle exact à valider |
 | **Adaptateur CAN USB InnoMaker** | InnoMaker USB2CAN‑C (isolé 2.5 kV) | 48 V bus | – | Bus Cou (2 × RS‑05) | Acheté, firmware candleLight |
@@ -38,7 +38,7 @@ L’architecture électrique du D‑Bot repose sur :
 | **Solénoïdes tête** | LEX‑SOLEN‑04, 12 V, 0,6 A chacun | 12 V | 0,6 A | Blocage/déblocage tête | 2 unités |
 | **Sony Spresense Standard Board** | CXD5602PWBEXT1, 6 ADC, 3,3 V I/O | 5 V (Always‑On) | 1 A (typ.) | Watchdog, lecture FSR, IMU, UART | Achetée |
 | **IMU BMI270** | SparkFun BMI270 Breakout (SEN‑22397) | 3,3 V (via Spresense) | – | Équilibre bipède (416 Hz) | Connecté I2C Qwiic |
-| **Dynamixel XC430 / XC330** | Servomoteur TTL, 12 V, 1,14 A (max) | 12 V Puissance | 1,14 A (max) | Actionneurs mains (16 unités) | Alimentés via buck 12 V Puissance |
+| **Feetech STS3250 / HL-3915** | Servomoteur TTL, 12 V, 1.5 A (max) | 12 V Puissance | 1.5 A (max) | Actionneurs mains (16 unités) | Alimentés via buck 12 V Puissance (ou DROK 25A) |
 | **Moteurs RobStride (QDD)** | Voir tableau [3.1] ci‑dessous | 48 V (15‑60 V admissible) | Voir tableau [3.1] | Actionneurs membres (26 unités) | Tous connectés au bus CAN |
 | **Micro‑Hub eFlesh (ESP32‑S3)** | ESP32‑S3 USB‑Hub, régulation 5 → 3,3 V | 5 V (USB Hub) | – | Gestion 9‑16 × MLX90393 (tactile) par main | Aucun rail externe requis |
 | **Capteurs MLX90393** | Magnétomètre 3‑axis, 0‑5 V | 3,3 V (via micro‑hub) | – | Tactile eFlesh (mains) | 9‑16 par main |

@@ -9,7 +9,7 @@ L'architecture électrique du D-Bot repose sur une source principale 48V (Batter
 | **48V Raw** | 26x Moteurs RobStride | 46.8V nom. | 80A Peak | Batterie Directe / E-Stop |
 | **19V IA** | Jetson Orin Nano Super | 19.0V | 5A (95W) | Buck 48V→19V |
 | **12V Logic**| Hub USB, Solénoïdes | 12.0V | 10A (120W) | Buck 48V→12V (Logic) |
-| **12V Power**| 16x Dynamixel (Mains) | 12.0V | 20A (240W) | Buck 48V→12V (Power) |
+| **12V Power**| 16x Servomoteurs Feetech (Mains) | 12.0V | 20A (240W) | Buck 48V→12V (Power) |
 | **5V Always**| Spresense, Capteurs | 5.0V | 5A (25W) | Buck 48V→5V |
 
 ## 2. Détails par Rail
@@ -25,9 +25,9 @@ L'architecture électrique du D-Bot repose sur une source principale 48V (Batter
 *   **Raison** : Ce rail reste "propre" (sans parasites moteurs) pour garantir la stabilité des connexions USB.
 
 ### Rail 12V Puissance (20A)
-*   **Usage** : 16× moteurs Dynamixel des mains (XC430/XC330).
-*   **Intensité** : ~18.2 A Peak total ($16 \times 1.14A$).
-*   **Source** : Buck DC-DC 60V In / 12V 20A Out.
+*   **Usage** : 16× servomoteurs Feetech des mains (STS3250/HL-3915).
+*   **Intensité** : ~18.2 A Peak total (estimé à 20A max sous charge).
+*   **Source** : Buck DC-DC 60V In / 12V 20A Out (ou DROK 25A par bras).
 *   **Raison** : Supporte les appels de courant massifs lors des saisies d'objets sans faire chuter la tension de la Jetson.
 
 ### Rail 5V : Logique Always-On & Capteurs

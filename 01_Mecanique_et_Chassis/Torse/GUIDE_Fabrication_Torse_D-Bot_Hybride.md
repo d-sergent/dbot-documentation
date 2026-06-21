@@ -41,7 +41,7 @@ Vue de Face (Plan Frontal)                    Vue de Dessus (Plan Transversal)
     │     ╚════╤════╝          │              │      │      │
     └── Waist Plate (6mm) ─────┘              └──────┤──────┘
                │                                     │
-          RS-03 Waist Yaw                        VENTRE
+          RS-06 Waist Yaw                        VENTRE
 ```
 
 ### C. Rigidité comparée
@@ -73,7 +73,7 @@ Vue de Face (Plan Frontal)                    Vue de Dessus (Plan Transversal)
 ### B. Motif Isogrid Optimisé pour la Torsion (Nervures à ±45°)
 
 > [!IMPORTANT]
-> Le motif isogrid classique (triangles équilatéraux, nervures à 0°/60°/−60°) est optimisé pour la compression et la flexion. Pour améliorer **spécifiquement la résistance en torsion Yaw** (sollicitée par le RS-03 de la taille à 60 N.m), le motif doit être adapté :
+> Le motif isogrid classique (triangles équilatéraux, nervures à 0°/60°/−60°) est optimisé pour la compression et la flexion. Pour améliorer **spécifiquement la résistance en torsion Yaw** (sollicitée par le RS-06 de la taille à 36 N.m), le motif doit être adapté :
 
 **Motif recommandé : Nervures diagonales à ±45° (motif losange/diamant)**
 
@@ -568,20 +568,20 @@ La diode Schottky MBR4060PT dissipe **P = I × V_forward = 20A × 0.45V = 9W** e
 | **Épaisseur** | 6 mm |
 | **Origine** | BOM Asimov v1 (scale +18%) |
 | **Rôle** | Fermeture du bas du torse rigide + ancrage bas de la plaque isogrid + interface de liaison avec le roulement de grand diamètre du module Waist Yaw actif |
-| **Usinage** | CNC C500, profil extérieur + alésage central pour axe RS-03 |
+| **Usinage** | CNC C500, profil extérieur + alésage central pour axe RS-06 |
 
 ---
 
-## 10. Liaison Active Waist Yaw (RobStride RS-03)
+## 10. Liaison Active Waist Yaw (RobStride RS-06)
 
-La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (scale +18%), adapté pour le moteur **RobStride RS-03** :
+La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (scale +18%), adapté pour le moteur **RobStride RS-06** :
 
 | Paramètre | Valeur |
 |:---|:---|
-| **Moteur** | RobStride RS-03 (60 N.m pic / 20 N.m nom., Ø106 mm, 880 g) |
+| **Moteur** | RobStride RS-06 (36 N.m pic / 11 N.m nom., Ø88 mm, 621 g) |
 | **ID CAN-FD** | 21 |
 | **Logement Asimov v1** | Conçu pour Cubemars AK80 (Ø98 mm) → Ø115,6 mm après scale +18% |
-| **Bague d'adaptation CNC** | Ø int. 106 mm / Ø ext. 115,6 mm → épaisseur radiale 4,8 mm, alu 6061-T6 |
+| **Bague d'adaptation CNC** | Ø int. 88 mm / Ø ext. 115,6 mm → épaisseur radiale 13,8 mm, alu 6061-T6 |
 | **Roulement** | Section fine Ø110 mm (scale +18%), billes à 4 points de contact |
 | **Accouplement** | Stator fixé au pelvis inférieur / Rotor accouplé au centre de la Waist Plate du torse rigide |
 
@@ -597,7 +597,7 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 4. ☐ Modéliser le **nœud d'intersection** plaque/traverse (bloc CNC alu)
 5. ☐ Dessiner les **2 paniers batterie** latéraux + coulisses centrales sur la plaque isogrid
 6. ☐ Réaliser le **split rigide abdominal** avec bandeau de renfort, Lap Joint de 3 mm et tolérances
-7. ☐ Modéliser la **bague d'adaptation CNC** pour le RS-03 (4,8 mm d'épaisseur radiale)
+7. ☐ Modéliser la **bague d'adaptation CNC** pour le RS-06 (13,8 mm d'épaisseur radiale)
 8. ☐ Vérifier les **dégagements internes** (paniers + squelette + câblage)
 
 ### Phase 2 — Usinage CNC (C500)
@@ -607,7 +607,7 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 3. ☐ Usiner le nœud d'intersection plaque/traverse (bloc alu 6061-T6)
 4. ☐ Usiner la plaque supérieure de cou (alu 6061-T6, 5 mm) — scale +18% d'Asimov v1
 5. ☐ Usiner la Waist Plate (alu 6061-T6, 6 mm) — scale +18% d'Asimov v1
-6. ☐ Usiner la bague d'adaptation RS-03 (alu 6061-T6)
+6. ☐ Usiner la bague d'adaptation RS-06 (alu 6061-T6)
 7. ☐ Couper le tube carbone Ø30 mm à ~260 mm + chanfreiner les extrémités
 
 ### Phase 3 — Impression 3D (Qidi Plus 4)
@@ -642,10 +642,10 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 
 ### Phase 6 — Assemblage de la Liaison Waist Yaw
 
-1. ☐ Monter la bague d'adaptation alu CNC sur le corps du RS-03
+1. ☐ Monter la bague d'adaptation alu CNC sur le corps du RS-06
 2. ☐ Encastrer le moteur dans le pelvis inférieur
 3. ☐ Poser le roulement à section fine Ø110 mm sous la Waist Plate
-4. ☐ Accoupler le rotor du RS-03 au centre de la Waist Plate
+4. ☐ Accoupler le rotor du RS-06 au centre de la Waist Plate
 5. ☐ Câbler le bus CAN-FD (ID 21) et la puissance 48V vers la PDB
 
 ---
