@@ -1,6 +1,6 @@
 # 🛠️ Guide de Fabrication Hybride : Torse D-Bot (Architecture Cruciforme + FDM PA12-CF + CNC Alu)
 
-*Ce document remplace le [GUIDE_Fabrication_Torse_Asimov_Hybride.md](./GUIDE_Fabrication_Torse_Asimov_Hybride.md) (archivé). Il intègre l'architecture cruciforme interne (plaque isogrid sagittale + traverse carbone), les 2 paniers batterie latéraux avec hot-swap, l'orientation d'impression verticale, et les cylindres d'épaule en aluminium.*
+*Ce document remplace le [GUIDE_Fabrication_Torse_Asimov_Hybride.md](./GUIDE_Fabrication_Torse_Asimov_Hybride.md) (archivé). Il intègre l'architecture cruciforme interne (plaque isogrid sagittale + traverse carbone), les 2 paniers batterie latéraux avec hot-swap, l'orientation d'impression verticale, et les manchons d'épaule en aluminium.*
 
 > [!NOTE]
 > **Évolution architecturale majeure (Mai 2026)** : Le torse passe d'une coque PA12-CF porteuse primaire à une **coque secondaire allégée** habillant un **squelette métallique cruciforme** qui reprend l'intégralité des efforts structurels.
@@ -18,8 +18,8 @@ Le torse du D-Bot est basé sur la coque organique de l'Asimov v1 (mise à l'éc
 | **Structure porteuse** | Coque PA12-CF seule (6 périmètres, 35% infill) | **Squelette alu/carbone cruciforme** |
 | **Rôle de la coque** | Primaire (porte tous les efforts) | **Secondaire** (protection, forme, transmission locale) |
 | **Colonne vertébrale** | 2 lattes alu latérales (irréalisable) | **1 plaque isogrid sagittale** (dos→ventre, toute la hauteur) |
-| **Traverse épaules** | Aucune | **Tube carbone Ø30mm** reliant les 2 cylindres d'épaule |
-| **Flasques épaules** | Disques plats alu 5mm | **Cylindres + fond alu 5mm** (contact latéral + fond) |
+| **Traverse épaules** | Aucune | **Tube carbone Ø30mm** reliant les 2 brides de liaison d'épaule |
+| **Flasques épaules** | Disques plats alu 5mm | **Manchon ouvert alu + bride de liaison CNC** (montage direct) |
 | **Batterie** | 1 panier coulissant central | **2 paniers latéraux** (G + D) avec hot-swap |
 | **Orientation impression** | Dos au plateau (horizontal) | **Verticale** (debout sur le plan de coupe) |
 
@@ -31,7 +31,7 @@ Vue de Face (Plan Frontal)                    Vue de Dessus (Plan Transversal)
     ┌── Plaque Alu Cou (5mm) ──┐                 DOS (ouvert)
     │           │               │                     │
 ┌───┤     Tube Carbone Ø30mm   ├───┐          ┌──────┤──────┐
-│Cyl│◄──────── │ ──────────────►│Cyl│          │Bat.G │Bat.D │
+│Mch│◄──────── │ ──────────────►│Mch│          │Bat.G │Bat.D │
 │Alu│     ╔════╧════╗          │Alu│          │      │      │
 │ G │     ║ Plaque  ║          │ D │          │  ┌───┼───┐  │
 └───┤     ║ Isogrid ║          ├───┘          │  │Iso│   │  │
@@ -122,7 +122,7 @@ Vue de Face (Plan Frontal)                    Vue de Dessus (Plan Transversal)
 | **Longueur** | ~260 mm (entraxe des cylindres d'épaule) |
 | **Masse** | ~70 g |
 | **Rigidité torsionnelle** | J ≈ 52 000 mm⁴ (×15 par rapport à une plaque de 5 mm de même largeur) |
-| **Fixation aux cylindres** | Emmanché dans un collier alu CNC usiné de chaque côté, serré par 2 vis M4 |
+| **Fixation aux épaules** | Emmanché dans la bride de liaison alu CNC de chaque côté, serré par 2 vis M4 (pincement) |
 | **Fixation à la plaque isogrid** | Traverse le plan sagittal via un **nœud d'intersection** (collier CNC alu) boulonné |
 
 ### B. Nœud d'Intersection Plaque/Traverse
@@ -132,71 +132,174 @@ Le tube carbone traverse la plaque isogrid sagittale au niveau des épaules. Un 
 ```
 Vue en Coupe (plan horizontal au niveau des épaules)
 
-    Cylindre Alu G         Nœud d'intersection         Cylindre Alu D
+    Manchon/Moteur G       Nœud d'intersection         Manchon/Moteur D
     ┌─────────┐           ┌────┬────┐                  ┌─────────┐
     │         │           │    │    │                   │         │
     │  RS-04  ├───────────┤Tube│Carb├───────────────────┤  RS-04  │
     │         │           │    │one │                   │         │
     └─────────┘           └────┴────┘                  └─────────┘
                                │
-                          Plaque Isogrid
-                          (vue en coupe)
+                           Plaque Isogrid
+                           (vue en coupe)
 ```
+![Détail du nœud d'intersection et du serrage par pincement](./media/noeud_intersection_serrage.png)
+
+*Vue détaillée du nœud d'intersection : le tube en carbone traverse le bloc alu CNC. Le serrage par pincement est assuré par la fente de serrage supérieure resserrée par 4 vis CHC M4. La base du nœud est fixée sur la plaque isogrid sagittale.*
 
 Le nœud est un bloc alu usiné CNC (~80 g) avec :
-- Un **alésage traversant** de Ø30 mm (+0,05 mm pour ajustement glissant du tube carbone)
-- 4 **perçages de serrage M4** pour brider le tube dans l'alésage (2 de chaque côté de la plaque)
-- Une **base plate** boulonnée sur la plaque isogrid (4 vis M4)
+- Un **alésage traversant** de Ø30 mm (+0,05 mm pour ajustement glissant du tube carbone).
+- **Principe de serrage par alésage fendu (pincement) :** Le nœud est fendu longitudinalement sur sa partie supérieure (fente d'usinage de $1,5\text{ mm}$ de large débouchant dans l'alésage).
+- 4 **perçages transversaux pour vis CHC M4** (2 de chaque côté de la plaque isogrid, orientés perpendiculairement à la fente) permettant de resserrer élastiquement l'alésage alu. Le serrage applique une pression uniforme sur les $360^\circ$ du tube carbone par friction, évitant tout point de pression localisé qui pourrait fracturer ou délaminer les fibres.
+- Une **base plate** boulonnée directement sur la plaque isogrid sagittale (4 vis M4).
+
+### C. Bride de Liaison Tube Carbone / Stator Moteur (Pièce ③ — Usiné CNC)
+
+Pour coupler la traverse en carbone à l'ensemble épaule, une **bride de liaison CNC** en aluminium 6061-T6 est utilisée de chaque côté. Elle sert de transition rigide entre le tube de carbone Ø30 mm et la face arrière du stator du moteur RS-04.
+
+![Détail de la fixation du tube carbone sur la bride alu](./media/bride_tube_carbone.png)
+
+*Vue détaillée de la bride de liaison : le tube en carbone ($\varnothing 30 \times 26\text{ mm}$) est renforcé par un **bouchon interne de renfort** ($\varnothing 26\text{ mm}$) collé à l'époxy. L'ensemble s'insère dans l'alésage de la bride alu CNC, bridé mécaniquement par une **goupille élastique traversante** ($\varnothing 3\text{ mm}$) et sécurisé sans jeu par un collier fendu à 2 vis M4.*
+
+#### Modes de Fixation (Axial et Rotation)
+
+| Liaison | Fixation Axiale (Translation) | Fixation en Rotation |
+|:---|:---|:---|
+| **Tube Carbone ↔ Bride alu** | **Obstacle mécanique** : Goupille élastique traversante (Mécanindus) $\varnothing 3\text{ mm}$ travaillant en double cisaillement — bloque toute translation axiale (arrachement et compression) de manière positive et définitive. La friction du collier fendu (2 vis M4) complète pour éliminer les micro-jeux. | **Obstacle mécanique** : La goupille verrouille la rotation de façon positive. Le serrage par pincement (collier fendu M4) élimine tout micro-jeu angulaire (backlash) par friction. Le bouchon de renfort creux empêche l'écrasement du tube sous l'effet du serrage M4. |
+| **Bride alu ↔ Stator Moteur** | **Serrage mécanique** via les 8 vis M5 traversant le collet PA12-CF et la bride, plaquant le stator contre le lip du manchon. | **Obstacle mécanique** via les 8 vis CHC M5 dans leurs taraudages borgnes du stator (encastrement rigide). |
+
+#### Spécifications de la goupille et du bouchon de renfort
+* **Bouchon interne de renfort :** Manchon cylindrique **creux** (pour optimiser la masse) de $\varnothing 26\text{ mm}$ extérieur (ajustement glissant serré H7/h6) et $\varnothing 16-20\text{ mm}$ intérieur, d'une longueur de $30\text{ mm}$. Usiné en alu 6061-T6 ou imprimé en PA12-CF (100% de remplissage). Il est inséré et collé à l'époxy structurale à l'extrémité du tube. Son rôle est d'empêcher l'écrasement ou la délamination des fibres sous la contrainte du collier fendu ou de la goupille.
+* **Perçage transversal :** Le trou transversal de $\varnothing 3\text{ mm}$ pour la goupille doit être percé à une distance de **$12\text{ mm}$** du bord d'extrémité du tube carbone (règle standard de $3 \times d$ pour éviter la rupture par cisaillement de l'arête du composite).
+* **Goupille élastique :** Goupille de type Mécanindus (fendue en acier trempé) de $\varnothing 3\text{ mm} \times 35\text{ mm}$ (dépassant légèrement de chaque côté de la bride). Résistance au double cisaillement supérieure à $6300\text{ N}$ ($\approx 630\text{ kg}$).
 
 ---
 
-## 4. Cylindres d'Épaules (Aluminium 6061-T6)
+## 4. Manchon d'Épaule (Aluminium 6061-T6) et Collet PA12-CF
 
-### A. Concept : Cylindre + Fond (au lieu d'un disque plat)
+### A. Concept : Manchon alu ouvert + Lip avant + Collet PA12-CF enveloppant
 
-Chaque logement cylindrique d'épaule dans la coque PA12-CF reçoit un **cylindre alu complet** (paroi latérale + fond) qui vient se loger dans le renfoncement cylindrique du collet :
+> [!IMPORTANT]
+> **Révision architecturale (Juin 2026)** : L'ancien concept de « cylindre + fond plat 5 mm » puis « manchon à 2 rebords » est remplacé par un **manchon ouvert à l'arrière** avec uniquement un **lip avant**. Ce design est le seul qui permette l'assemblage : le moteur RS-04 **glisse par l'arrière** dans le manchon, et les **vis M5 se vissent directement dans les taraudages borgnes du stator** sans traverser d'aluminium côté arrière.
+
+Chaque logement d'épaule est un assemblage de **3 couches** :
+
+1. **Manchon alu 6061-T6** — manchon cylindrique ouvert à l'arrière, avec un **lip avant uniquement** (butée axiale)
+2. **Collet PA12-CF** — poche imprimée dans la coque du torse, enveloppant le manchon alu + moteur, avec un **rebord arrière** portant les trous de passage pour les vis et les câbles
+3. **Résine époxy JB Weld** — film de collage structural entre le manchon alu et le collet PA12-CF
+
+Les **câbles du moteur** (puissance XT30 + CAN) sortent par un **canal** dans le rebord PA12-CF arrière, vers l'**intérieur du torse**. Le **tube carbone Ø30 mm est purement structural** et ne sert **pas** au passage de câbles.
+
+### B. Le Manchon Aluminium (Pièce ① — Usiné CNC)
+
+Le manchon alu est un **simple tube ouvert à l'arrière** avec un **lip intérieur côté avant** :
 
 ```
-Coupe Axiale du Collet d'Épaule
+Vue en coupe axiale — Manchon Alu 6061-T6
 
-    ┌──── Coque PA12-CF ────┐
-    │                        │
-    │   ┌── Cylindre Alu ──┐ │
-    │   │                  │ │    ← Contact latéral (paroi alu 3mm)
-    │   │   ┌──────────┐   │ │       sur toute la hauteur (~30mm)
-    │   │   │  RS-04   │   │ │
-    │   │   │  Moteur   │   │ │
-    │   │   │  120 N.m  │   │ │
-    │   │   └──────────┘   │ │
-    │   │      FOND ALU    │ │    ← Contact fond (5mm)
-    │   └──────────────────┘ │
-    │                        │
-    └────────────────────────┘
+                     AVANT (vers le bras)
+                            ↑
+    ┌────────────────────────────────────────────┐
+    │       LIP AVANT (butée axiale, 3mm)        │  ← Anneau alu plat, dépasse de ~2-3mm
+    │       (empêche le moteur de sortir         │     vers l'intérieur au-delà du corps moteur
+    │        vers l'extérieur lors du serrage)   │
+    ├────┐                                  ┌────┤
+    │    │                                  │    │
+    │    │     PAROI CYLINDRIQUE (3mm)       │    │  ← Manchon, contact latéral 360°
+    │    │     (enveloppe le corps moteur)   │    │     collé résine époxy sur le collet PA12-CF
+    │    │                                  │    │
+    │    │                                  │    │
+    └────┘                                  └────┘
+                            ↓
+              ARRIÈRE : COMPLÈTEMENT OUVERT
+              (le moteur glisse par ici)
 ```
 
-### B. Spécifications
+> [!CAUTION]
+> **PAS d'anneau arrière sur le manchon alu.** Un manchon fermé aux deux extrémités (lip avant + anneau arrière) rendrait l'insertion du moteur **impossible**. L'arrière doit rester **complètement ouvert** pour permettre le montage.
+
+#### Spécifications du manchon alu
 
 | Paramètre | Valeur |
 |:---|:---|
-| **Matériau** | Aluminium 6061-T6 |
-| **Diamètre extérieur** | Diamètre du collet PA12-CF **−0,2 mm** (retrait de tolérance FDM) |
-| **Épaisseur de paroi** | 3 mm |
-| **Épaisseur du fond** | 5 mm |
-| **Hauteur du cylindre** | ~30 mm (pas besoin de couvrir toute la profondeur du collet de 68,44 mm) |
-| **Masse unitaire** | ~175 g |
-| **Fixation du moteur** | Le RS-04 se visse directement dans le fond alu du cylindre (taraudages M5) |
-| **Rattrapage de jeu** | Appliquer un film de résine époxy chargée aluminium (JB Weld ou Loctite EA 3463) entre le cylindre alu et la paroi PA12-CF lors de l'assemblage |
-| **Trou d'évent** | Percer un trou de Ø2 mm au fond du cylindre pour éviter l'effet piston lors de l'insertion |
+| **Matériau** | Aluminium 6061-T6 (usinage CNC ou tournage) |
+| **Forme** | Manchon cylindrique **ouvert à l'arrière**, avec **lip avant uniquement** |
+| **Diamètre extérieur** | Diamètre du collet PA12-CF **−0,2 mm** (tolérance FDM) |
+| **Épaisseur de paroi cylindrique** | 3 mm |
+| **Lip avant** | Anneau plat de **3 mm** d'épaisseur, dépassant de 2-3 mm vers l'intérieur au-delà du corps du moteur. Sert de **butée axiale** empêchant le moteur de sortir vers l'extérieur lors du serrage des vis |
+| **Arrière** | **Complètement ouvert** — pas d'anneau, pas de fond. La face arrière du stator est exposée |
+| **Trou d'évent** | 1× Ø2 mm dans la paroi cylindrique pour éviter l'effet piston lors de l'insertion du moteur |
+| **Masse unitaire estimée** | ~100 g |
 
-### C. Avantages du cylindre vs disque plat
+### C. Le Collet PA12-CF (Pièce ② — Intégré à la coque imprimée)
 
-| Critère | Disque plat (ancien) | Cylindre + fond (nouveau) |
-|:---|:---|:---|
-| **Surface de contact** | Fond uniquement | Fond **+** paroi latérale (×3 surface) |
-| **Résistance à l'ovalisation** | ❌ Aucune | ✅ Le cylindre corsetise le PA12-CF |
-| **Dissipation thermique** | Faible | ✅ Contact 360° |
-| **Centrage moteur** | Pilote RS-04 seul | ✅ Double centrage (pilote + cylindre) |
-| **Reprise du couple de réaction** | Vis seules | ✅ Friction sur toute la surface cylindrique |
+Le collet PA12-CF est directement intégré à la coque du torse (imprimé d'un seul tenant). Il enveloppe la **totalité** de l'assemblage (manchon alu + moteur) :
+
+| Paramètre | Valeur |
+|:---|:---|
+| **Matériau** | PA12-CF (coque torse, impression FDM) |
+| **Forme** | Poche cylindrique ouverte côté avant (la bride rotor dépasse) |
+| **Paroi latérale** | Enveloppe le manchon alu sur toute sa hauteur. Interstice ~0,2 mm rempli de **résine époxy JB Weld** |
+| **Côté avant** | S'arrête au niveau du lip alu avant (la bride du rotor reste accessible) |
+| **Rebord arrière** | Anneau PA12-CF qui se positionne **derrière la face arrière du stator** (pas derrière l'alu, qui est ouvert). Comporte : |
+| | — 8× **trous de passage Ø7-8 mm** alignés avec les taraudages du stator (pour accès clé Allen) |
+| | — **Lamage de 1 mm** côté intérieur pour noyer les têtes de vis CHC M5 |
+| | — **Canal en U** pour le passage des câbles XT30 + CAN |
+| **Rôle structural** | Fournit l'appui arrière des vis (la tête de vis repose sur le rebord), protège l'arrière du moteur, guide les câbles |
+
+### D. Chemin de Fixation et Routage Câbles
+
+> [!IMPORTANT]
+> **Chemin des vis M5** :
+> 
+> `Intérieur du torse → tête CHC M5 dans lamage PA12-CF → trou lisse Ø7-8 du rebord PA12-CF → DIRECTEMENT dans taraudage borgne M5 du stator RS-04`
+> 
+> **Il n'y a PAS d'aluminium dans le chemin des vis côté arrière.** Le manchon alu est ouvert à l'arrière. Les vis traversent uniquement le rebord PA12-CF puis se vissent directement dans les 8 taraudages borgnes de la face arrière du stator.
+>
+> Le serrage plaque le stator contre le lip alu avant via la réaction axiale des vis : `tête vis → rebord PA12-CF → stator → lip alu avant`.
+
+> [!NOTE]
+> **Chemin des câbles** :
+> 
+> `Connecteurs stator (face arrière) → canal en U du rebord PA12-CF → intérieur du torse → routage le long de la plaque isogrid → PDB Matek + bus CAN`
+> 
+> Le **tube carbone Ø30 mm est exclusivement structural** : il ne sert pas de conduit pour les câbles.
+
+### E. Séquence d'Assemblage
+
+```
+Étape 1 : Coller le manchon alu dans le collet PA12-CF (résine époxy JB Weld)
+          → Le manchon est inséré par l'avant dans le collet PA12-CF
+          → Laisser polymériser 24h
+
+Étape 2 : Insérer le RS-04 par l'arrière du collet
+          → Le moteur glisse dans le manchon alu
+          → Il bute contre le lip avant (stator vers l'arrière, rotor vers l'avant)
+          → Les câbles sortent par le canal en U du rebord PA12-CF
+
+Étape 3 : Fixer les vis CHC M5 × 8 depuis l'intérieur du torse
+          → Vis passent par les trous Ø7-8 du rebord PA12-CF
+          → Se vissent dans les taraudages borgnes du stator
+          → Appliquer Loctite 243 sur chaque vis
+```
+
+### F. Illustration Technique — Coupe Axiale Corrigée
+
+![Coupe axiale corrigée : manchon alu ouvert à l'arrière, vis se vissant directement dans les taraudages du stator RS-04, câbles routés par le canal PA12-CF](./media/coupe_axiale_epaule_finale.png)
+
+*Coupe axiale corrigée montrant le design assemblable : le manchon alu (gris) est un simple tube avec lip avant, **ouvert à l'arrière**. Le moteur RS-04 (noir) glisse par l'arrière. Les vis CHC M5 (rouge) se vissent **directement dans les taraudages borgnes du stator** en ne traversant que le rebord PA12-CF. Les câbles (bleu) sortent par le canal en U vers l'intérieur du torse. Aucun aluminium dans le chemin des vis côté arrière.*
+
+### G. Avantages de l'architecture manchon ouvert + lip avant
+
+| Critère | Description |
+|:---|:---|
+| **Assemblabilité** | ✅ Le moteur glisse par l'arrière — montage et démontage possibles |
+| **Chemin de vis** | ✅ Vis → PA12-CF → taraudages stator (direct, sans intermédiaire alu) |
+| **Butée axiale** | ✅ Le lip avant empêche le moteur de sortir lors du serrage |
+| **Maintien latéral** | ✅ Paroi cylindrique alu 360° collée au PA12-CF |
+| **Dissipation thermique** | ✅ Contact 360° entre corps moteur et manchon alu |
+| **Résistance à l'ovalisation** | ✅ Le manchon corsetise le PA12-CF |
+| **Passage câbles** | ✅ Canal en U dans le rebord PA12-CF |
+| **Maintenance** | ✅ Retrait du moteur possible en dévissant 8 vis depuis l'intérieur |
 
 ---
 
@@ -204,7 +307,7 @@ Coupe Axiale du Collet d'Épaule
 
 ### A. Pourquoi l'orientation change
 
-Avec le squelette cruciforme reprenant tous les efforts structurels, la coque PA12-CF n'est plus la structure porteuse primaire. Le risque de délamination inter-couche au niveau des collerettes d'épaule est **compensé** par les cylindres alu internes. Cela autorise l'impression **verticale** (le torse debout), ce qui élimine massivement les supports.
+Avec le squelette cruciforme reprenant tous les efforts structurels, la coque PA12-CF n'est plus la structure porteuse primaire. Le risque de délamination inter-couche au niveau des collerettes d'épaule est **compensé** par les manchons alu internes. Cela autorise l'impression **verticale** (le torse debout), ce qui élimine massivement les supports.
 
 ### B. Orientation pour chaque demi-torse
 
@@ -232,7 +335,7 @@ Avec le squelette cruciforme reprenant tous les efforts structurels, la coque PA
 ```
                     ┌─────────────┐  ← Cou (sommet)
                     │      │      │
-               ┌────┤  Collets    ├────┐  ← Cylindres d'épaule
+               ┌────┤  Collets    ├────┐  ← Manchons d'épaule
                │    │  d'épaule   │    │     (porte-à-faux)
                │    │             │    │
                     │  Thorax     │
@@ -269,12 +372,12 @@ Avec le squelette cruciforme reprenant tous les efforts structurels, la coque PA
 |:---|:---|:---|
 | **Collerettes** : cercles continus | ✅ 100% continus (cercles dans le plan XY) | 🟡 Couches coupent le cercle → arcs de ~80% par couche |
 | **Résistance collet en hoop stress** | ✅ Excellent (fibres le long du cercle) | 🟡 Moyen (fibres coupent le cercle) |
-| **Compensation par cylindre alu** | N/A (pas de cylindre dans l'ancien design) | ✅ **Le cylindre alu reprend 100% du hoop stress** |
+| **Compensation par manchon alu** | N/A (pas de manchon dans l'ancien design) | ✅ **Le manchon alu reprend 100% du hoop stress** |
 | **Résistance axiale du collet** | 🟡 Inter-couche (faible) | ✅ Le long des fibres (fort) |
 | **Support nécessaire** | ❌ Massif | ✅ **Minimal** |
 
 > [!IMPORTANT]
-> L'impression verticale n'est **viable que parce que les cylindres alu internes reprennent les charges** du collet. Sans le squelette cruciforme, cette orientation serait dangereuse. C'est l'architecture cruciforme qui débloque cette orientation avantageuse.
+> L'impression verticale n'est **viable que parce que les manchons alu internes reprennent les charges** du collet. Sans le squelette cruciforme, cette orientation serait dangereuse. C'est l'architecture cruciforme qui débloque cette orientation avantageuse.
 
 ---
 
@@ -310,7 +413,7 @@ La coque étant désormais secondaire (le squelette porte les efforts), les para
 ### B. Zone d'Épaule : Modifier Volume (Renforcement Local)
 
 > [!CAUTION]
-> **Les collerettes d'épaules restent à paramètres MAXIMAUX.** Même avec les cylindres alu, la coque PA12-CF doit résister localement au serrage radial du RS-04 et transmettre les efforts au cylindre. Il faut créer un **Modifier Volume** dans le slicer pour surcharger les paramètres dans cette zone.
+> **Les collerettes d'épaules restent à paramètres MAXIMAUX.** Même avec les manchons alu, la coque PA12-CF doit résister localement au serrage radial du RS-04 et transmettre les efforts au manchon. Il faut créer un **Modifier Volume** dans le slicer pour surcharger les paramètres dans cette zone.
 
 #### Procédure détaillée OrcaSlicer / Qidi Print (en anglais, pas à pas) :
 
@@ -593,7 +696,7 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 
 1. ☐ Mettre à l'échelle (+18%) les fichiers originaux du torse et de la taille Asimov v1
 2. ☐ Modéliser la **plaque isogrid sagittale** (motif ±45°) en 2 parties avec éclisse de jonction
-3. ☐ Modéliser les **2 cylindres d'épaule** (paroi 3 mm + fond 5 mm)
+3. ☐ Modéliser les **2 manchons d'épaule** (paroi 3 mm, ouverts à l'arrière, avec lip avant) et les **2 brides de liaison**
 4. ☐ Modéliser le **nœud d'intersection** plaque/traverse (bloc CNC alu)
 5. ☐ Dessiner les **2 paniers batterie** latéraux + coulisses centrales sur la plaque isogrid
 6. ☐ Réaliser le **split rigide abdominal** avec bandeau de renfort, Lap Joint de 3 mm et tolérances
@@ -603,12 +706,12 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 ### Phase 2 — Usinage CNC (C500)
 
 1. ☐ Usiner les 2 demi-plaques isogrid sagittales (alu 6061-T6, 5 mm)
-2. ☐ Usiner les 2 cylindres d'épaule (alu 6061-T6, tournage + fraisage)
+2. ☐ Usiner les 2 manchons d'épaule (ouverts à l'arrière, lip avant) et les 2 brides de liaison (alu 6061-T6)
 3. ☐ Usiner le nœud d'intersection plaque/traverse (bloc alu 6061-T6)
 4. ☐ Usiner la plaque supérieure de cou (alu 6061-T6, 5 mm) — scale +18% d'Asimov v1
 5. ☐ Usiner la Waist Plate (alu 6061-T6, 6 mm) — scale +18% d'Asimov v1
 6. ☐ Usiner la bague d'adaptation RS-06 (alu 6061-T6)
-7. ☐ Couper le tube carbone Ø30 mm à ~260 mm + chanfreiner les extrémités
+7. ☐ Couper le tube carbone Ø30 mm à ~260 mm, usiner les 2 bouchons internes de renfort, et chanfreiner les extrémités
 
 ### Phase 3 — Impression 3D (Qidi Plus 4)
 
@@ -622,13 +725,13 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 ### Phase 4 — Assemblage du Torse Rigide
 
 1. ☐ Poser les inserts filetés M4 en laiton (Ruthex) dans les coques PA12-CF au fer à souder (260°C)
-2. ☐ Insérer les **cylindres alu d'épaule** dans les collets PA12-CF (avec film de résine époxy JB Weld pour rattrapage de jeu)
+2. ☐ Insérer les **manchons alu d'épaule** dans les collets PA12-CF (avec film de résine époxy JB Weld pour rattrapage de jeu)
 3. ☐ Assembler les 2 demi-plaques isogrid sagittales avec l'éclisse M4 (4 vis)
-4. ☐ Insérer le tube carbone Ø30mm dans le nœud d'intersection et serrer les 4 vis M4
-5. ☐ Fixer la plaque isogrid au nœud et aux cylindres d'épaule
+4. ☐ Insérer le tube carbone Ø30mm avec ses bouchons de renfort collés dans le nœud d'intersection (4 vis M4) et dans les brides de liaison de chaque côté (2 vis M4 + goupilles élastiques Ø3mm traversantes)
+5. ☐ Fixer la plaque isogrid au nœud et aux brides de liaison
 6. ☐ Fixer la plaque de cou (haut) et la Waist Plate (bas) sur les extrémités de la plaque isogrid
 7. ☐ Assembler le Thorax et l'Abdomen via le Lap Joint + vis M4 des bossages internes
-8. ☐ Monter les moteurs RobStride RS-04 dans les cylindres alu (taraudages M5 dans le fond)
+8. ☐ Insérer les moteurs RS-04 dans les manchons alu par l'arrière, serrer les vis CHC M5 depuis l'intérieur du torse (vis → rebord PA12-CF → bride alu → taraudages stator). Router les câbles XT30/CAN par les encoches vers l'intérieur du torse.
 9. ☐ Appliquer de la **Loctite 243** sur toutes les vis métalliques
 
 ### Phase 5 — Assemblage Batteries + Hot-Swap
@@ -658,7 +761,7 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 
 3. **Traverse d'épaule** : Tube carbone Ø30 mm (léger, rigide, isolant thermique) ou barre isogrid alu (conductrice thermique, plus lourde) ?
 
-4. **Profondeur du cylindre alu d'épaule** : Confirmer la hauteur utile du cylindre (30 mm recommandé, collet total = 68,44 mm après scale).
+4. **Profondeur du manchon alu d'épaule** : Confirmer la hauteur utile du manchon (30 mm recommandé, collet total = 68,44 mm après scale).
 
 5. **Circuit hot-swap** : Diodes Schottky (V1, simple, 9W de pertes) ou MOSFET Ideal Diode (V2, <0.5W, plus complexe) ?
 

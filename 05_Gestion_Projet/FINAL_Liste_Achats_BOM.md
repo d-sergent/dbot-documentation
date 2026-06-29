@@ -91,7 +91,7 @@ Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une q
 | **Servo de Force (flexion)** | **Feetech STS3250** (12V, 4.9 Nm) | 10 | **✅ Achetés** : 5 par main, flexion/serrage, SCServo TTL. |
 | **Servo de Précision (opposition)** | **Feetech HL-3915** (12V, 1.39 Nm) | 6 | **✅ Achetés** : 3 par main, opposition pouce, abduction, SCServo TTL. |
 | **Debug Feetech** | **Module URT-2 (USB-TTL SCServo)** | 2 | **1× ✅ Acheté** (sur 2 requis pour le robot complet) : Interface de com série TTL. |
-| **Alimentation Servos** | **DROK 48V→12V 25A (IP67)** | 2 | **✅ Achetés** : 1 par bras, monté sur l'avant-bras pour dissipation thermique. |
+| **Alimentation Servos** | **DROK 48V→12V 25A (IP67)** | 2 | **✅ Reçus** : 1 par bras, monté sur l'avant-bras pour dissipation thermique. |
 | **Fusible Réarmable** | **PTC 15A** | 2 | 1 par main, protection surcourant de la ligne 12V. À commander. |
 
 #### 5.2 Quincaillerie & Guidage Mécanique
@@ -196,7 +196,7 @@ Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une q
 | **Driver Solénoïde** | **Module Dual MOSFET D4184 (Logic Level)** | 1 | Indispensable : Ce modèle réagit bien au 3.3V de la Jetson (évite la surchauffe vs IRF520). |
 | **Protection Inductive** | **Diode 1N4007** | 2 | **CRITIQUE** : À visser sur les borniers en parallèle du solénoïde pour absorber le pic de coupure. |
 | **Buck 12V (Logique)** | **Buck DC-DC 60V In / 12V 10A Out** | 1 | Alimentation Hub USB (5A) + Solénoïdes Tête (2A). |
-| **Buck 12V (Puissance)** | **Convertisseur DROK 48V→12V 25A (IP67)** | 2 | **Dédié** : 1 convertisseur par bras (2 au total) pour alimenter les 16x servomoteurs Feetech des mains. |
+| **Buck 12V (Puissance)** | **Convertisseur DROK 48V→12V 25A (IP67)** | 2 | **Dédié** : 1 convertisseur par bras (2 au total) pour alimenter les 16x servomoteurs Feetech des mains. **✅ Reçus** |
 | **Hub USB Central** | **10 Ports USB 3.0 Alimenté** | 1 | **Minimum 10 ports**. Modèles : **StarTech ST103008U2C** (Top) ou **Sabrent HB-BU10** (Compact). |
 | **Régulateurs Locaux** | **AMS1117-3.3** (LDO 3.3V 800mA) | 4 | **Crucial** : Alimente FSR localement. |
 | **Micro-Hubs Tactiles** | **ESP32-S3-DevKitC-1** (ou similaire) | 2 | **Option B** : Acquisition eFlesh USB pour les mains. |

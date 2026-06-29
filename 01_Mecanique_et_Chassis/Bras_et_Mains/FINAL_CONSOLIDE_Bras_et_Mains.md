@@ -229,7 +229,7 @@ Une alternative consistant à utiliser le moteur **RobStride RS-06** (11 N.m nom
 | RobStride RS-02 (Coude Supination) | 1 | RobStride | ~$170 | ~$170 | À commander |
 | RobStride RS-00 (Poignet Pitch) | 1 | RobStride | ~$135 | ~$135 | À commander |
 | **8x Servomoteurs Feetech Hybrid** | 1 set | Feetech (SCServo TTL) | **415 €** (total) | **415 €** | ✅ **Commandé** (2 sets commandés) |
-| Buck Converter DROK 48V→12V 25A (IP67) | 1 | Amazon.fr / Droking.com | ~25 € | ~25 € | ✅ **Commandé** (2 unités commandées) |
+| Buck Converter DROK 48V→12V 25A (IP67) | 1 | Amazon.fr / Droking.com | ~25 € | ~25 € | ✅ **Reçu** (2 unités reçues) |
 | **Micro-Hub ESP32-S3 local** (eFlesh) | 1 | Adafruit / AliExpress | 15 € | 15 € | À commander |
 | **Magnétomètres MLX90393 (sur micro-PCB)** | 8 | WowRobo / shop.wowrobo.com | 5 € | 40 € | ✅ **Commandé** (20 unités commandées) |
 | **Aimants N48 ronds (Ø3 × 1.0 mm, S-03-01-N)** | 8 | Supermagnete | 0.22 € | 2 € | ✅ **Commandé** (aimants commandés) |
