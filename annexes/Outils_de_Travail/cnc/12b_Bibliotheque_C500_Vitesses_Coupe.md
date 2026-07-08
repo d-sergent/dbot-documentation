@@ -45,15 +45,39 @@ Pour les articulations majeures du D-Bot, vos roulements doivent s'insérer en f
 
 ---
 
-## 4. Sécurité & Précision : Filetage M3 (Thread Milling)
+## 4. Sécurité & Précision : Fraisage de Filetage M3 & M4 (Thread Milling)
 
-Pour vos fixations de cou et d'articulations, le pire cauchemar est de briser un taraud manuel (HSS) dans une pièce usinée durant 4 heures. La méthode "Pro" pour la C500 est le **Fraisage de filet** (Thread Milling) :
+Le taraudage mécanique rigide n'est pas possible sur la broche haute vitesse 800W de la C500 (manque de couple synchrone à bas régime). Pour vos fixations, la méthode standard et sécurisée est le **fraisage de filet (Thread Milling)** par interpolation hélicoïdale.
 
-1. **L'Outil** : Achetez une **Micro-fraise à fileter M3 à 1 dent (Single Point)** en carbure avec revêtement DLC (trouvable chez *CncFraises* en France, à queue de 4mm pour s'adapter à vos collets).
-2. **Le Perçage** : L'outil demande un avant-trou parfait. Utilisez un foret en carbure de **2.5 mm** avant de passer la fraise à fileter.
-   *   *Force* : La broche 800W de la C500 peinerait avec une fraise multi-dents, le modèle à 1 dent coupe en douceur.
-   *   *Sécurité* : La fraise tourne sans forcer et ne reste jamais bloquée.
-   *   *Ajustement* : Vous pouvez régler finement l'offset (compensation au centième près) dans Fusion 360 pour obtenir un couple de serrage M3 exactement comme vous le souhaitez.
+### A. Spécifications des Outils et Perçages
+
+| Filetage cible | Ø Avant-trou (Foret) | Outil recommandé (DLC Single Point) | Pas de vis |
+| :--- | :---: | :--- | :---: |
+| **M3** | **Ø2,5 mm** | Micro-fraise à fileter queue de 4 mm (Ex: *CncFraises* M3) | 0,5 mm |
+| **M4** | **Ø3,3 mm** | Fraise à fileter queue de 4 mm (Ex: M4/M5) | 0,7 mm |
+
+*Note sur l'outil* : Privilégiez les fraises à **1 seule dent (Single Point)** en carbure revêtues DLC. Contrairement aux fraises multi-dents, elles répartissent l'effort de coupe au minimum, évitant le broutement sur la broche 800W.
+
+### B. Méthode pas à pas dans Fusion 360 (Espace Manufacture)
+
+1. **Création de l'outil dans la Tool Library** :
+   - Définir l'outil comme **Thread Mill**.
+   - Entrer le diamètre de la queue (ex: 4 mm) et le diamètre effectif de la dent coupante.
+   - Spécifier le pas (Pitch) : **0,5 mm pour M3** / **0,7 mm pour M4**.
+
+2. **Stratégie CAM (Trajectoire)** :
+   - Créer une opération **2D > Thread**.
+   - Sélectionner les faces intérieures des trous pré-percés (Ø2,5 pour M3 / Ø3,3 pour M4).
+   - **Direction de coupe** : Choisir **Climb Milling** (Avalant) avec une trajectoire **Bottom-to-Top** (du bas vers le haut). La fraise plonge au centre à vide jusqu'à la profondeur maximale, effectue une entrée en arc de cercle, fait son interpolation hélicoïdale en montant, puis ressort au centre. Cela évite le tassement des copeaux au fond.
+   - **Compensation d'usure (Compensation Type)** : Régler sur **In Control** ou **Wear**. Cela vous permettra d'ajuster le diamètre de coupe directement sur le contrôleur de la machine sans réexporter le G-code (idéal pour ajuster la friction de vissage).
+
+3. **Paramètres de Coupe Recommandés (C500)** :
+   - **Spindle Speed** : **12 000 tr/min**.
+   - **Feed Rate (Avance linéaire)** : **300 mm/min** (la vitesse linéaire au point de contact est faible sur de petits Ø, réduisez l'avance pour éviter la casse de la pointe).
+   - **Passes multiples (Multiple Passes)** : Pour le M3/M4 dans de l'aluminium 6061-T6, **une seule passe** de finition suffit. Si la matière est plus dure (7075-T6), activez 2 passes (Ébauche + Finition).
+
+4. **Vérification** :
+   - Inspectez la simulation dans Fusion 360 : la fraise ne doit jamais heurter le bord de l'avant-trou lors de sa plongée verticale.
 
 ---
 

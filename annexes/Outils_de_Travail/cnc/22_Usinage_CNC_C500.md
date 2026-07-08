@@ -1,6 +1,6 @@
 # 22 — Usinage CNC : NestWorks C500
 
-Afin d'usiner les composants vitaux du robot humanoïde D-Bot (y compris les brackets moteurs, l'avant-bras et la série d'actuateurs cycloïdaux de la *D-Hand*), le projet s'appuie **exclusivement** sur la **[CNC NestWorks C500 (Kickstarter)](https://www.kickstarter.com/projects/959480926/nestworks-c500-next-gen-smartest-cnc-with-industrial-power?ref=6kxkib&gad_source=1&gad_campaignid=23219605599&gbraid=0AAAABB43OIjDJ9r7f4_PShKb-aiRTG1WU&gclid=Cj0KCQiA5I_NBhDVARIsAOrqIsarYDgeND2akM2atrgBpf3fPrG1im0h9fJHcixW_bDDwAAOqZZsyK4aAvDOEALw_wcB)**.
+Afin d'y usiner les composants vitaux du robot humanoïde D-Bot (y compris les brackets moteurs, l'avant-bras et la série d'actuateurs cycloïdaux de la *D-Hand*), le projet s'appuie **exclusivement** sur la **[CNC NestWorks C500](https://www.nestworks.ai/)** (voir aussi la [campagne Kickstarter](https://www.kickstarter.com/projects/959480926/nestworks-c500-next-gen-smartest-cnc-with-industrial-power)).
 
 Cette fraiseuse professionnelle "Desktop" est la machine de référence unique pour tout l'aluminium du robot, offrant une synergie parfaite avec notre impression 3D (Qidi).
 
