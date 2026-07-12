@@ -28,7 +28,7 @@ TILT_MAX_RAD = math.radians( 30)   # +0.524 rad
 # ── Vitesses et Couples par Défaut ─────────────────────────
 NECK_DEFAULT_KP  = 20.0    # Gain proportionnel position
 NECK_DEFAULT_KD  =  0.5    # Gain dérivé vitesse
-NECK_SPEED_LIMIT = math.radians(60)   # 60°/s max en opération normale
+NECK_SPEED_LIMIT = math.radians(20)   # 20°/s max (limite de sécurité conservatrice)
 
 # ── Alimentation (référence Wanptek) ──────────────────────
 POWER_VOLTAGE    = 24.0   # Volts

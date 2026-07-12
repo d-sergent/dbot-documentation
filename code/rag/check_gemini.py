@@ -1,4 +1,4 @@
-import google.generativeai as genai
+from google import genai
 import os
 from dotenv import load_dotenv
 
@@ -11,13 +11,13 @@ def check_gemini():
         return
 
     print(f"🔑 Clé trouvée (se termine par ...{api_key[-4:]})")
-    genai.configure(api_key=api_key)
+    client = genai.Client(api_key=api_key)
 
     print("\n--- Modèles Disponibles ---")
     try:
-        models = genai.list_models()
+        models = client.models.list()
         for m in models:
-            if "generateContent" in m.supported_generation_methods:
+            if m.supported_actions and "generateContent" in m.supported_actions:
                 print(f"✅ {m.name} (Pris en charge)")
     except Exception as e:
         print(f"❌ Erreur lors du listage des modèles : {e}")
@@ -25,8 +25,10 @@ def check_gemini():
 
     print("\n--- Test de Génération (Free Tier Check) ---")
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        response = model.generate_content("Bonjour, es-tu opérationnel ? Réponds par 'OUI'.")
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents="Bonjour, es-tu opérationnel ? Réponds par 'OUI'."
+        )
         print(f"🤖 Réponse : {response.text.strip()}")
         print("✅ Le Free Tier semble actif et fonctionnel.")
     except Exception as e:

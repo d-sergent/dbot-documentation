@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/opt/homebrew/bin/python3.11
 import argparse
 import asyncio
 import json
@@ -117,21 +117,28 @@ import aiohttp
 MODELS_ROTATION = [
     {"name": "models/gemini-2.5-flash", "type": "gemini"},
     {"name": "models/gemini-3.1-flash-lite", "type": "gemini"},
+    {"name": "tencent/hy3:free", "type": "openrouter"},
+    {"name": "nvidia/nemotron-3-ultra-550b-a55b:free", "type": "openrouter"},
     {"name": "nvidia/nemotron-3-super-120b-a12b:free", "type": "openrouter"},
-    {"name": "openrouter/owl-alpha", "type": "openrouter"}
+    {"name": "google/gemma-4-31b-it:free", "type": "openrouter"},
+    {"name": "google/gemma-4-26b-a4b-it:free", "type": "openrouter"}
 ]
 model_cycle = cycle(MODELS_ROTATION)
 # Au lieu de tuer un modèle après 3 erreurs, on le met en "pause" jusqu'à un certain timestamp
 stats = {m["name"]: {"success": 0, "failures": 0, "locked_until": 0} for m in MODELS_ROTATION}
 
 # ─── Imports LLM / Embedding ──────────────────────────────────────────────────
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="fastembed")
+
 try:
     from lightrag import LightRAG, QueryParam
     from lightrag.llm.openai import openai_complete_if_cache
     from lightrag.utils import EmbeddingFunc
     from fastembed import TextEmbedding
     import numpy as np
-    import google.generativeai as genai
+    from google import genai
+    from google.genai import types as genai_types
 except ImportError as e:
     logger.error(f"Dépendance manquante : {e}")
     sys.exit(1)
@@ -184,7 +191,13 @@ async def get_llm_func(args):
                     if resp.status != 200:
                         raise Exception(f"HTTP_{resp.status}")
                     data = await resp.json()
-                    return data["choices"][0]["message"]["content"]
+                    if "error" in data:
+                        err_info = data["error"]
+                        raise Exception(f"OpenRouter_{err_info.get('code', 'Error')}: {err_info.get('message', 'Unknown error')}")
+                    choices = data.get("choices")
+                    if not choices:
+                        raise Exception("OpenRouter response missing 'choices'")
+                    return choices[0]["message"]["content"]
 
         async def llm_openrouter(prompt, system_prompt=None, history_messages=[], **kwargs):
             return await call_openrouter_fixed(target_model, prompt, system_prompt)
@@ -193,7 +206,7 @@ async def get_llm_func(args):
 
     elif args.provider == "online":
         logger.info(f"🚀 Round-Robin Online Parallélisé ({len(MODELS_ROTATION)} modèles)")
-        genai.configure(api_key=api_key)
+        client = genai.Client(api_key=api_key)
         
         async def call_openrouter(model_name, prompt, system_prompt):
             or_key = os.environ.get("OPENROUTER_API_KEY")
@@ -208,73 +221,83 @@ async def get_llm_func(args):
                     if resp.status != 200:
                         raise Exception(f"HTTP_{resp.status}")
                     data = await resp.json()
-                    return data["choices"][0]["message"]["content"]
+                    if "error" in data:
+                        err_info = data["error"]
+                        raise Exception(f"OpenRouter_{err_info.get('code', 'Error')}: {err_info.get('message', 'Unknown error')}")
+                    choices = data.get("choices")
+                    if not choices:
+                        raise Exception("OpenRouter response missing 'choices'")
+                    return choices[0]["message"]["content"]
         
         async def llm_online_round_robin(prompt, system_prompt=None, history_messages=[], **kwargs):
             full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
             loop = asyncio.get_event_loop()
             
-            for _ in range(len(MODELS_ROTATION)):
-                model_cfg = next(model_cycle)
-                model_name = model_cfg["name"]
-                model_type = model_cfg["type"]
-                s = stats[model_name]
-                log_id = model_name.split('/')[-1]
-                
+            while True:
+                unlocked_model_found = False
                 now = time.time()
                 
-                # Si le modèle est verrouillé (pause), on le saute
-                if now < s["locked_until"]:
-                    continue
-                
-                try:
-                    if model_type == "gemini":
-                        # Google bloque pour toute la journée, donc après 3 erreurs on bloque pour 12 heures
-                        if s["failures"] >= 3:
-                            s["locked_until"] = now + 43200
-                            continue
-                            
-                        model = genai.GenerativeModel(model_name)
-                        response = await loop.run_in_executor(
-                            None, 
-                            lambda: model.generate_content(
-                                full_prompt,
-                                generation_config=genai.types.GenerationConfig(
-                                    max_output_tokens=kwargs.get("max_tokens", 4096),
-                                    temperature=kwargs.get("temperature", 0.1)
+                for _ in range(len(MODELS_ROTATION)):
+                    model_cfg = next(model_cycle)
+                    model_name = model_cfg["name"]
+                    model_type = model_cfg["type"]
+                    s = stats[model_name]
+                    log_id = model_name.split('/')[-1]
+                    
+                    if now < s["locked_until"]:
+                        continue
+                    
+                    unlocked_model_found = True
+                    try:
+                        if model_type == "gemini":
+                            # Google bloque pour toute la journée, donc après 3 erreurs on bloque pour 12 heures
+                            if s["failures"] >= 3:
+                                s["locked_until"] = now + 43200
+                                continue
+                                
+                            response = await loop.run_in_executor(
+                                None, 
+                                lambda: client.models.generate_content(
+                                    model=model_name,
+                                    contents=full_prompt,
+                                    config=genai_types.GenerateContentConfig(
+                                        max_output_tokens=kwargs.get("max_tokens", 4096),
+                                        temperature=kwargs.get("temperature", 0.1)
+                                    )
                                 )
                             )
-                        )
-                        result_text = response.text
+                            result_text = response.text
+                        
+                        elif model_type == "openrouter":
+                            # Appel HTTP pur pour OpenRouter (0 log parasite de LightRAG)
+                            result_text = await call_openrouter(model_name, prompt, system_prompt)
+     
+                        s["success"] += 1
+                        logger.info(f"🔵 [{log_id}] OK:{s['success']} ERR:{s['failures']} -> ✅ OK")
+                        await asyncio.sleep(2) 
+                        return result_text
                     
-                    elif model_type == "openrouter":
-                        # Appel HTTP pur pour OpenRouter (0 log parasite de LightRAG)
-                        result_text = await call_openrouter(model_name, prompt, system_prompt)
-
-                    s["success"] += 1
-                    logger.info(f"🔵 [{log_id}] OK:{s['success']} ERR:{s['failures']} -> ✅ OK")
-                    await asyncio.sleep(2) 
-                    return result_text
-                
-                except Exception as e:
-                    err_msg = str(e).lower()
-                    if "429" in err_msg or "http_429" in err_msg or "quota" in err_msg or "http_402" in err_msg:
+                    except Exception as e:
+                        err_msg = str(e)
                         s["failures"] += 1
-                        # Pénalité "intelligente" : 
+                        # Pénalité "intelligente" :
                         # - OpenRouter : pause de 60 secondes car le quota se régénère
                         # - Gemini : après chaque erreur, on augmente la pénalité
                         penalty = 60 if model_type == "openrouter" else 300 * s["failures"]
                         s["locked_until"] = now + penalty
                         
-                        logger.warning(f"🔵 [{log_id}] OK:{s['success']} ERR:{s['failures']} -> ⚠️ PAUSE ({penalty}s)")
+                        logger.warning(f"🔵 [{log_id}] OK:{s['success']} ERR:{s['failures']} -> ⚠️ PAUSE ({penalty}s) | Erreur: {err_msg[:100]}")
+                        now = time.time()
                         continue
-                    else:
-                        logger.error(f"🔵 [{log_id}] -> ❌ {err_msg[:50]}...")
-                        raise ValueError("LLM_ERROR") from None
-
-            logger.error("🚨 TOUS LES MODELES ONLINE SONT EN PAUSE/EPUISEES !")
-            await asyncio.sleep(30)
-            raise ValueError("QUOTA_WAIT") from None
+                
+                if not unlocked_model_found:
+                    now = time.time()
+                    remaining_times = [s["locked_until"] - now for m in MODELS_ROTATION if s["locked_until"] > now]
+                    sleep_time = min(remaining_times) if remaining_times else 10
+                    sleep_time = max(5.0, min(30.0, sleep_time))
+                    
+                    logger.warning(f"🚨 TOUS LES MODELES ONLINE SONT EN PAUSE. Attente de {sleep_time:.1f}s...")
+                    await asyncio.sleep(sleep_time)
         
         return llm_online_round_robin
 

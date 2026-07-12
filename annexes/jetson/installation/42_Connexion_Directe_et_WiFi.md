@@ -58,8 +58,12 @@ sudo nmcli device wifi connect "<NOM_DU_WIFI>" password "<MOT_DE_PASSE>"
 `sudo nmcli device wifi connect "Livebox-ABCD" password "1234567890"`
 
 ### Étape 4 : Vérifier la connexion et trouver la nouvelle IP
-Une fois connecté, vérifiez l'état de la connexion et lisez l'adresse IP attribuée par le réseau Wi-Fi :
+Une fois connecté, vérifiez l'état de la connexion et lisez l'adresse IP attribuée par le réseau Wi-Fi (l'interface s'appelle généralement `wlan0` ou `wlP1p1s0` sur Jetson Orin) :
 ```bash
-ip a s wlan0
+# Pour voir toutes les interfaces et chercher la carte Wi-Fi :
+ip a
+
+# Ou cibler directement si vous connaissez le nom (ex: wlan0 ou wlP1p1s0) :
+ip a s wlP1p1s0
 ```
 Cherchez la ligne contenant `inet 192.168.X.X`. C'est la nouvelle adresse IP Wi-Fi de votre Jetson ! Vous pouvez maintenant débrancher le câble USB/Ethernet et vous connecter sans fil.

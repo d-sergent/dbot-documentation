@@ -19,6 +19,7 @@ from dbot.config import (
     NECK_PAN_ID, NECK_TILT_ID,
     PAN_MIN_RAD, PAN_MAX_RAD,
     TILT_MIN_RAD, TILT_MAX_RAD,
+    NECK_SPEED_LIMIT,
 )
 from dbot.motors.can_bus import get_bus, close_bus
 
@@ -77,25 +78,76 @@ class NeckController:
     def look_at(self, pan_deg: float = 0.0, tilt_deg: float = 0.0) -> None:
         """
         Envoie une consigne de regard en degrés.
-        Les bornes mécaniques sont appliquées automatiquement.
+        Les bornes mécaniques et de vitesse sont appliquées automatiquement.
 
         Args:
             pan_deg:  Rotation gauche/droite en degrés (+= droite)
             tilt_deg: Inclinaison en degrés (+= bas)
         """
-        pan_rad  = self.clamp_pan(math.radians(pan_deg))
-        tilt_rad = self.clamp_tilt(math.radians(tilt_deg))
-        if NECK_PAN_ID in self.active_motors:
-            self._client.write_param(NECK_PAN_ID,  'loc_ref', pan_rad)
-        if NECK_TILT_ID in self.active_motors:
-            self._client.write_param(NECK_TILT_ID, 'loc_ref', tilt_rad)
+        pan_rad  = math.radians(pan_deg)
+        tilt_rad = math.radians(tilt_deg)
+        self.look_at_rad(pan_rad, tilt_rad)
 
     def look_at_rad(self, pan_rad: float = 0.0, tilt_rad: float = 0.0) -> None:
-        """Idem look_at() mais en radians."""
+        """
+        Envoie des consignes de position en radians avec interpolation linéaire (LERP)
+        pour limiter la vitesse de déplacement physique au niveau logiciel.
+        """
+        target_pan = self.clamp_pan(pan_rad)
+        target_tilt = self.clamp_tilt(tilt_rad)
+
+        # 1. Lire la position actuelle estimée
+        curr_pan = 0.0
+        curr_tilt = 0.0
+        
         if NECK_PAN_ID in self.active_motors:
-            self._client.write_param(NECK_PAN_ID,  'loc_ref', self.clamp_pan(pan_rad))
+            try:
+                curr_pan = self._client.read_param(NECK_PAN_ID, 'mechpos')
+            except Exception:
+                curr_pan = target_pan # Fallback si échec de lecture
+                
         if NECK_TILT_ID in self.active_motors:
-            self._client.write_param(NECK_TILT_ID, 'loc_ref', self.clamp_tilt(tilt_rad))
+            try:
+                curr_tilt = self._client.read_param(NECK_TILT_ID, 'mechpos')
+            except Exception:
+                curr_tilt = target_tilt # Fallback si échec de lecture
+
+        # 2. Calculer les distances de mouvement
+        delta_pan = target_pan - curr_pan
+        delta_tilt = target_tilt - curr_tilt
+        max_delta = max(abs(delta_pan), abs(delta_tilt))
+
+        # Si le mouvement est trop faible, envoi direct pour éviter l'interpolation
+        if max_delta < 0.005:
+            if NECK_PAN_ID in self.active_motors:
+                self._client.write_param(NECK_PAN_ID, 'loc_ref', target_pan)
+            if NECK_TILT_ID in self.active_motors:
+                self._client.write_param(NECK_TILT_ID, 'loc_ref', target_tilt)
+            return
+
+        # 3. Calculer la trajectoire interpolée
+        total_time = max_delta / NECK_SPEED_LIMIT
+        time_step = 0.02  # Fréquence d'envoi de 50 Hz (toutes les 20 ms)
+        steps = int(total_time / time_step)
+
+        if steps <= 1:
+            if NECK_PAN_ID in self.active_motors:
+                self._client.write_param(NECK_PAN_ID, 'loc_ref', target_pan)
+            if NECK_TILT_ID in self.active_motors:
+                self._client.write_param(NECK_TILT_ID, 'loc_ref', target_tilt)
+            return
+
+        for step in range(1, steps + 1):
+            t = step / steps
+            interp_pan = curr_pan + delta_pan * t
+            interp_tilt = curr_tilt + delta_tilt * t
+
+            if NECK_PAN_ID in self.active_motors:
+                self._client.write_param(NECK_PAN_ID, 'loc_ref', interp_pan)
+            if NECK_TILT_ID in self.active_motors:
+                self._client.write_param(NECK_TILT_ID, 'loc_ref', interp_tilt)
+            
+            time.sleep(time_step)
 
     def center(self) -> None:
         """Recentre la tête à 0°, 0°."""

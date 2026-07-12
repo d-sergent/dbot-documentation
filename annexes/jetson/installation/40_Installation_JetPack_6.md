@@ -36,7 +36,7 @@ Pour l'initialisation de la carte, il est obligatoire d'avoir un accès physique
 4. Suivez l'assistant de configuration Ubuntu (oem-config) :
    - Acceptez les licences NVIDIA.
    - Choisissez la langue et le fuseau horaire.
-   - Créez votre nom d'utilisateur (ex: `dbot`) et votre mot de passe administrateur. **Mémorisez bien ce mot de passe, il est crucial pour le bus CAN et ROS2.**
+   - Créez votre nom d'utilisateur (ex: `david`) et votre mot de passe administrateur. **Mémorisez bien ce mot de passe, il est crucial pour le bus CAN et ROS2.**
    - Configurez la taille de la partition (RootFS) au maximum allouable.
 
 Une fois que vous arrivez sur le bureau Ubuntu 22.04 classique, l'installation de base est terminée. Il faut maintenant configurer les accès distants pour pouvoir remettre le robot en mode serveur aveugle (Headless). Voir l'annexe [41_Acces_Distant_NoMachine](./41_Acces_Distant_NoMachine.md).

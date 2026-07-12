@@ -55,6 +55,17 @@ def clamp_tilt(angle_rad: float) -> float:
 
 Confirme que les 2 moteurs sont joignables avant tout test. **Validé en conditions réelles.**
 
+Le script d'automatisation est disponible dans le dépôt à l'adresse suivante : [detect_motors.py](../../../Code/scripts/motors/detect_motors.py).
+
+### Lancement depuis la Jetson :
+```bash
+cd ~/dbot/Code
+export PYTHONPATH=.
+python3 scripts/motors/detect_motors.py
+```
+
+*(Code brut sous-jacent :)*
+
 ```python
 import can
 import robstride
@@ -69,6 +80,25 @@ with can.Bus(interface='socketcan', channel='can0') as bus:
         except Exception as e:
             print(f"❌ Moteur ID:{motor_id} ({role}) introuvable : {e}")
 ```
+
+---
+
+## 1.5. Script de Calibration du Zéro Mécanique
+
+Permet de définir la position physique actuelle de la tête comme référence `0.0` rad (regard droit devant et horizontal) et de la sauvegarder dans la ROM/Flash des moteurs de cou (Pan et Tilt).
+
+Le script d'automatisation est disponible dans le dépôt à l'adresse suivante : [calib_neck_zero.py](../../../Code/scripts/motors/calib_neck_zero.py).
+
+### Lancement depuis la Jetson :
+1. Éteignez ou déconnectez les moteurs (`Disable`) pour pouvoir orienter librement et manuellement la tête dans sa position neutre idéale.
+2. Une fois la tête parfaitement droite, lancez le script depuis le dossier `Code` de la Jetson :
+   ```bash
+   cd ~/dbot/Code
+   export PYTHONPATH=.
+   python3 scripts/motors/calib_neck_zero.py
+   ```
+3. Suivez l'invite de commande et validez avec `y`. Le script enverra la commande CAN `ZeroPos` (Instruction `6` du protocole RobStride) avec le paramètre d'écriture en ROM.
+4. Une fois calibré, le script activera brièvement les moteurs en mode position pour vérifier que la tête se maintient d'elle-même à cette nouvelle position `0.0` rad.
 
 ---
 
@@ -204,6 +234,17 @@ with can.Bus(interface='socketcan', channel='can0') as bus:
 ## 4. Script Séquence "Regard" — Simulation Comportement Robot
 
 Enchaîne automatiquement : gauche → droite → haut → bas → centre. Utile pour valider la fluidité du mouvement combiné.
+
+Le script d'automatisation exécutant cette séquence est disponible dans le dépôt : [test_neck.py](../../../Code/scripts/motors/test_neck.py).
+
+### Lancement depuis la Jetson :
+```bash
+cd ~/dbot/Code
+export PYTHONPATH=.
+python3 scripts/motors/test_neck.py
+```
+
+*(Code brut sous-jacent :)*
 
 ```python
 import can

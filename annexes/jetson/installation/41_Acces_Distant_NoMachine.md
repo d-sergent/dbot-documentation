@@ -11,12 +11,12 @@ Il y a deux moyens de se connecter à la Jetson, selon votre besoin :
 
 ## 2. Préparation sur la Jetson (Côté Serveur)
 
-**A. Trouver l'adresse IP de la Jetson**
+**A. Trouver l'adresse IP ou le nom d'hôte de la Jetson**
 Sur la Jetson, ouvrez un terminal et tapez :
 ```bash
 ip a
 ```
-Notez l'adresse IP (elle ressemble souvent à `192.168.1.X` ou `10.0.0.X`).
+Notez l'adresse IP (elle ressemble souvent à `192.168.1.X` ou `10.0.0.X`). Par défaut, la Jetson est également accessible via son nom d'hôte local : **`ubuntu.local`**.
 *Conseil : Fixez cette adresse IP dans l'interface de votre Box Internet/Routeur pour qu'elle ne change jamais.*
 
 **B. Installer et Configurer NoMachine Server**
@@ -32,11 +32,13 @@ Notez l'adresse IP (elle ressemble souvent à `192.168.1.X` ou `10.0.0.X`).
 ## 3. Configuration sur le Mac (Côté Client)
 
 **A. Connexion SSH simple**
-Sur votre Mac, ouvrez le Terminal et tapez (remplacez `dbot` par votre nom d'utilisateur et `IP_JETSON` par l'IP trouvée précédemment) :
+Sur votre Mac, ouvrez le Terminal et tapez (remplacez `david` par votre nom d'utilisateur et `IP_JETSON` par l'IP ou le nom d'hôte `ubuntu.local` trouvé précédemment) :
 ```bash
-ssh dbot@IP_JETSON
+ssh david@IP_JETSON
+# ou en direct :
+ssh david@ubuntu.local
 ```
-Le mot de passe de compte vous sera demandé. Vous êtes maintenant connecté.
+Le mot de passe de votre compte vous sera demandé. Vous êtes maintenant connecté.
 
 **B. Connexion au Bureau (NoMachine)**
 1. Téléchargez et installez **NoMachine for Mac** sur votre MacBook.
@@ -48,7 +50,7 @@ Le mot de passe de compte vous sera demandé. Vous êtes maintenant connecté.
    - **Port** : 4000 (par défaut)
 4. Double-cliquez sur la nouvelle icône "D-Bot Jetson".
 5. Une fenêtre vous demande vos identifiants. Entrez :
-   - **Nom d'utilisateur** : (ex: `dbot`)
+   - **Nom d'utilisateur** : `david` (ou l'utilisateur configuré)
    - **Mot de passe** : (Le mot de passe d'administration de la Jetson)
 6. Acceptez le certificat de sécurité.
 7. Vous avez maintenant accès au bureau du robot en temps réel !
