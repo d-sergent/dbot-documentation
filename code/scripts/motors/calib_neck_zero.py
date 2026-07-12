@@ -23,6 +23,29 @@ from dbot.motors.can_bus import get_bus, close_bus
 from robstride.client import MotorMsg
 
 
+def drain_bus(bus):
+    """Reads and discards all pending messages in the CAN bus queue to avoid command desync."""
+    while True:
+        msg = bus.recv(timeout=0.005)
+        if msg is None:
+            break
+
+
+def safe_disable(client: robstride.Client, motor_id: int):
+    drain_bus(client.bus)
+    client.disable(motor_id)
+
+
+def safe_enable(client: robstride.Client, motor_id: int):
+    drain_bus(client.bus)
+    client.enable(motor_id)
+
+
+def safe_read_param(client: robstride.Client, motor_id: int, param: str):
+    drain_bus(client.bus)
+    return client.read_param(motor_id, param)
+
+
 def set_motor_zero(client: robstride.Client, motor_id: int):
     """
     Sends command 6 (ZeroPos) to the motor to set current position as zero.
@@ -30,7 +53,7 @@ def set_motor_zero(client: robstride.Client, motor_id: int):
     """
     # Disable first (mandatory for zero calibration)
     print(f"  Ensuring motor ID {motor_id} is disabled...")
-    client.disable(motor_id)
+    safe_disable(client, motor_id)
     time.sleep(0.1)
 
     print(f"  Sending zero calibration command to ID {motor_id}...")
@@ -77,7 +100,7 @@ def main():
         print("Checking motor presence...")
         for mid in [1, 2]:
             try:
-                client.read_param(mid, 'run_mode')
+                safe_read_param(client, mid, 'run_mode')
             except Exception:
                 role = "Pan" if mid == 1 else "Tilt"
                 print(f"❌ Motor ID {mid} ({role}) is not responding. Cannot calibrate.")
@@ -99,15 +122,15 @@ def main():
         time.sleep(0.5)
         
         # Enable to test holding torque
-        client.enable(1)
-        client.enable(2)
+        safe_enable(client, 1)
+        safe_enable(client, 2)
         print("  Holding torque active at 0.0 rad. Tête figée au neutre.")
         
         time.sleep(3.0)
         
         # Disable
-        client.disable(1)
-        client.disable(2)
+        safe_disable(client, 1)
+        safe_disable(client, 2)
         print("  Motors disabled. Head is free.")
         print("\n🎉 Zero calibration successfully completed!")
 
@@ -115,8 +138,8 @@ def main():
         print(f"\n❌ Calibration failed: {e}")
         # Make sure to disable motors in case of failure
         try:
-            client.disable(1)
-            client.disable(2)
+            safe_disable(client, 1)
+            safe_disable(client, 2)
         except Exception:
             pass
     finally:
