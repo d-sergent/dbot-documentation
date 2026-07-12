@@ -204,7 +204,7 @@ class NeckController:
 
         # 3. Calculer la trajectoire interpolée
         total_time = max_delta / NECK_SPEED_LIMIT
-        time_step = 0.02  # Fréquence d'envoi de 50 Hz (toutes les 20 ms)
+        time_step = 0.01  # Fréquence d'envoi de 100 Hz (toutes les 10 ms) pour une meilleure fluidité
         steps = int(total_time / time_step)
 
         if steps <= 1:
