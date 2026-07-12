@@ -6,7 +6,7 @@
 
 ## Prérequis (Docs 32 & 42 terminées)
 
-- [x] Moteur Pan : **ID=1**, Zéro calibré, limites ±0.698 rad flashées en firmware
+- [x] Moteur Pan : **ID=1**, Zéro calibré, limites ±0.873 rad flashées en firmware
 - [x] Moteur Tilt : **ID=2**, Zéro calibré, limites ±0.524 rad flashées en firmware
 - [x] InnoMaker USB2CAN-C détecté (`lsusb` → `ID 1d50:606f`)
 - [x] Interface `can1` UP à 1 Mbps (`sudo ip link set can1 type can bitrate 1000000 && sudo ip link set can1 up`)
@@ -23,8 +23,8 @@
 import math
 
 # ── Limites mécaniques cou (Doc 32 §3) ────────────────────
-PAN_MIN_RAD  = -0.698   # Pan  ID:1 — -40°
-PAN_MAX_RAD  =  0.698   # Pan  ID:1 — +40°
+PAN_MIN_RAD  = -0.873   # Pan  ID:1 — -50°
+PAN_MAX_RAD  =  0.873   # Pan  ID:1 — +50°
 TILT_MIN_RAD = -0.524   # Tilt ID:2 — -30°
 TILT_MAX_RAD =  0.524   # Tilt ID:2 — +30°
 
@@ -116,7 +116,7 @@ import time
 import math
 
 # ── Limites mécaniques (Doc 32 §3) ────────────────────────
-PAN_MIN_RAD, PAN_MAX_RAD   = -0.698, 0.698
+PAN_MIN_RAD, PAN_MAX_RAD   = -0.873, 0.873
 TILT_MIN_RAD, TILT_MAX_RAD = -0.524, 0.524
 
 def clamp_pan(v):  return max(PAN_MIN_RAD,  min(PAN_MAX_RAD,  v))
@@ -167,7 +167,7 @@ import time
 import math
 
 # ── Limites mécaniques (Doc 32 §3) ────────────────────────
-PAN_MIN_RAD, PAN_MAX_RAD   = -0.698, 0.698   # ±40°
+PAN_MIN_RAD, PAN_MAX_RAD   = -0.873, 0.873   # ±50°
 TILT_MIN_RAD, TILT_MAX_RAD = -0.524, 0.524   # ±30°
 
 def clamp_pan(v):  return max(PAN_MIN_RAD,  min(PAN_MAX_RAD,  v))
@@ -253,7 +253,7 @@ import time
 import math
 
 # ── Limites mécaniques (Doc 32 §3) ────────────────────────
-PAN_MIN_RAD, PAN_MAX_RAD   = -0.698, 0.698
+PAN_MIN_RAD, PAN_MAX_RAD   = -0.873, 0.873
 TILT_MIN_RAD, TILT_MAX_RAD = -0.524, 0.524
 
 def clamp_pan(v):  return max(PAN_MIN_RAD,  min(PAN_MAX_RAD,  v))
@@ -381,7 +381,7 @@ Reporter les limites dans le fichier URDF (cf. Doc 32 §3.2) pour que MoveIt2 pl
 ```xml
 <!-- Joint Pan (ID:1) -->
 <joint name="neck_pan" type="revolute">
-  <limit lower="-0.698" upper="0.698" effort="5.5" velocity="10.0"/>
+  <limit lower="-0.873" upper="0.873" effort="5.5" velocity="10.0"/>
 </joint>
 
 <!-- Joint Tilt (ID:2) -->
@@ -396,7 +396,7 @@ Reporter les limites dans le fichier URDF (cf. Doc 32 §3.2) pour que MoveIt2 pl
 
 | Moteur | ID | Axe | Limite Min | Limite Max | Source |
 | :--- | :---: | :--- | :---: | :---: | :--- |
-| **Pan** | 1 | Rotation gauche/droite | -40° (-0.698 rad) | +40° (+0.698 rad) | Doc 32 §3 |
+| **Pan** | 1 | Rotation gauche/droite | -50° (-0.873 rad) | +50° (+0.873 rad) | Doc 32 §3 |
 | **Tilt** | 2 | Inclinaison avant/arrière | -30° (-0.524 rad) | +30° (+0.524 rad) | Doc 32 §3 |
 
 > [!WARNING]
