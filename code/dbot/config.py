@@ -35,8 +35,8 @@ NECK_TILT_ID = 2   # Tilt : inclinaison avant/arrière
 # ── Limites Mécaniques Cou (Doc 32 §3) ────────────────────
 # Ces valeurs sont également flashées en firmware via MotorStudio.
 # Les fonctions clamp_* doivent être appliquées à chaque couche logicielle.
-PAN_MIN_RAD  = math.radians(-50)   # -0.873 rad
-PAN_MAX_RAD  = math.radians( 50)   # +0.873 rad
+PAN_MIN_RAD  = math.radians(-80)   # -1.396 rad
+PAN_MAX_RAD  = math.radians( 80)   # +1.396 rad
 TILT_MIN_RAD = math.radians(-30)   # -0.524 rad
 TILT_MAX_RAD = math.radians( 30)   # +0.524 rad
 

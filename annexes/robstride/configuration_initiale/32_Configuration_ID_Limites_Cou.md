@@ -53,13 +53,13 @@ Pour éviter que les câbles ne s'arrachent ou que la structure ne vienne buter 
 Si votre version de firmware (ex: **0.5.0.9**) le permet, saisissez les valeurs directement dans les registres du moteur via MotorStudio.
 
 **Valeurs cibles :**
-- **Pan (Yaw)** : ±50° (soit ±0.873 rad)
+- **Pan (Yaw)** : ±80° (soit ±1.396 rad)
 - **Tilt (Pitch)** : ±30° (soit ±0.524 rad)
 
 | Registre / Champ | Valeur Pan (ID 1) | Valeur Tilt (ID 2) | Unité |
 | :--- | :---: | :---: | :--- |
-| **Min Position** (Limit Low) | -0.873 | -0.524 | Radians |
-| **Max Position** (Limit High) | +0.873 | +0.524 | Radians |
+| **Min Position** (Limit Low) | -1.396 | -0.524 | Radians |
+| **Max Position** (Limit High) | +1.396 | +0.524 | Radians |
 
 > **Action** : Une fois saisies, cliquer impérativement sur **"Save"**. Le moteur refusera désormais toute commande `pos` au-delà de ces valeurs, même en cas de bug du contrôleur principal.
 
@@ -71,7 +71,7 @@ Ces limites doivent être reportées dans le fichier URDF du robot (voir Doc 30)
 ```xml
 <!-- Extrait URDF - Joint Pan -->
 <joint name="neck_pan" type="revolute">
-  <limit lower="-0.873" upper="0.873" effort="5.5" velocity="10.0"/>
+  <limit lower="-1.396" upper="1.396" effort="5.5" velocity="10.0"/>
 </joint>
 
 <!-- Extrait URDF - Joint Tilt -->
