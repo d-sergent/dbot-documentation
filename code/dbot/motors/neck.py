@@ -216,8 +216,12 @@ class NeckController:
 
         for step in range(1, steps + 1):
             t = step / steps
-            interp_pan = curr_pan + delta_pan * t
-            interp_tilt = curr_tilt + delta_tilt * t
+            # Profil d'accélération et de décélération progressif (cosine interpolation)
+            # Élimine le jerk infini au démarrage et à l'arrêt pour éviter les secousses physiques
+            t_smooth = (1.0 - math.cos(math.pi * t)) / 2.0
+            
+            interp_pan = curr_pan + delta_pan * t_smooth
+            interp_tilt = curr_tilt + delta_tilt * t_smooth
 
             if NECK_PAN_ID in self.active_motors:
                 self._client.write_param(NECK_PAN_ID, 'loc_ref', interp_pan)
