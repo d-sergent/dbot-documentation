@@ -24,6 +24,82 @@ from dbot.config import (
 from dbot.motors.can_bus import get_bus, close_bus
 
 
+import struct
+
+def drain_bus(bus):
+    """Reads and discards all pending messages in the CAN bus queue to avoid command desync."""
+    while True:
+        msg = bus.recv(timeout=0.005)
+        if msg is None:
+            break
+
+
+class RobustClient(robstride.Client):
+    """
+    Subclass of robstride.Client that filters out CAN messages from other motor IDs
+    instead of throwing 'Invalid motor ID received' exceptions due to queue congestion.
+    """
+    def _recv_matching(self, expected_msg_type: int, expected_motor_id: int, timeout=1.0):
+        start_time = time.time()
+        while (time.time() - start_time) < timeout:
+            resp = self.bus.recv(timeout=0.05)
+            if not resp:
+                continue
+            if resp.is_error_frame:
+                continue
+            
+            msg_type, msg_motor_id, host_id = self._parse_resp_abitration_id(resp.arbitration_id)
+            if msg_type == expected_msg_type and msg_motor_id == expected_motor_id and host_id == self.host_can_id:
+                return resp
+        raise Exception(f"No response from motor {expected_motor_id} for command type {expected_msg_type} (Timeout)")
+
+    def enable(self, motor_id: int, motor_model=1):
+        drain_bus(self.bus)
+        self.bus.send(self._rs_msg(robstride.MotorMsg.Enable, self.host_can_id, motor_id, [0, 0, 0, 0, 0, 0, 0, 0]))
+        resp = self._recv_matching(robstride.MotorMsg.Feedback.value, motor_id)
+        return self._parse_feedback_resp(resp, motor_id, motor_model)
+
+    def disable(self, motor_id: int, motor_model=1):
+        drain_bus(self.bus)
+        self.bus.send(self._rs_msg(robstride.MotorMsg.Disable, self.host_can_id, motor_id, [0, 0, 0, 0, 0, 0, 0, 0]))
+        resp = self._recv_matching(robstride.MotorMsg.Feedback.value, motor_id)
+        return self._parse_feedback_resp(resp, motor_id, motor_model)
+
+    def read_param(self, motor_id: int, param_id: int | str):
+        drain_bus(self.bus)
+        p_id = self._normalize_param_id(param_id)
+        data = [p_id & 0xFF, p_id >> 8, 0, 0, 0, 0, 0, 0]
+        self.bus.send(self._rs_msg(robstride.MotorMsg.ReadParam, self.host_can_id, motor_id, data))
+        resp = self._recv_matching(robstride.MotorMsg.ReadParam.value, motor_id)
+        
+        resp_param_id = struct.unpack('<H', resp.data[:2])[0]
+        if resp_param_id != p_id:
+            raise Exception('Invalid param id')
+
+        if p_id == 0x7005:
+            value = robstride.RunMode(int(resp.data[4]))
+        else:
+            value = struct.unpack('<f', resp.data[4:])[0]
+        return value
+
+    def write_param(self, motor_id: int, param_id: int | str, param_value: float | robstride.RunMode | int, motor_model=1):
+        drain_bus(self.bus)
+        p_id = self._normalize_param_id(param_id)
+        data = bytes([p_id & 0xFF, p_id >> 8, 0, 0])
+        if p_id == 0x7005:
+            if isinstance(param_value, robstride.RunMode):
+                int_value = int(param_value.value)
+            elif isinstance(param_value, int):
+                int_value = param_value
+            data += bytes([int_value, 0, 0, 0])
+        else:
+            data += struct.pack('<f', param_value)
+
+        self.bus.send(self._rs_msg(robstride.MotorMsg.WriteParam, self.host_can_id, motor_id, data))
+        resp = self._recv_matching(robstride.MotorMsg.Feedback.value, motor_id)
+        return self._parse_feedback_resp(resp, motor_id, motor_model)
+
+
 class NeckController:
     """
     Contrôle les 2 moteurs RS-05 du cou (Pan ID:1, Tilt ID:2).
@@ -31,7 +107,7 @@ class NeckController:
     """
 
     def __init__(self):
-        self._client = robstride.Client(get_bus())
+        self._client = RobustClient(get_bus())
         self._enabled = False
         self.active_motors = []  # Liste des IDs détectés
 
