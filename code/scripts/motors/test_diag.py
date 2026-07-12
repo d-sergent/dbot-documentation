@@ -30,9 +30,16 @@ def main():
         role = "Pan" if motor_id == 1 else "Tilt"
         print(f"\n--- Test Moteur ID:{motor_id} ({role}) ---")
         try:
-            # Essai de lecture simple du mode de fonctionnement
+            # Essai de lecture simple du mode de fonctionnement et des gains
             mode = rs.read_param(motor_id, 'run_mode')
-            print(f"✅ Moteur ID:{motor_id} répond ! Mode = {mode}")
+            loc_kp = rs.read_param(motor_id, 'loc_kp')
+            spd_kp = rs.read_param(motor_id, 'spd_kp')
+            spd_ki = rs.read_param(motor_id, 'spd_ki')
+            print(f"✅ Moteur ID:{motor_id} répond !")
+            print(f"  Mode   = {mode}")
+            print(f"  loc_kp = {loc_kp}")
+            print(f"  spd_kp = {spd_kp}")
+            print(f"  spd_ki = {spd_ki}")
         except Exception as e:
             print(f"  ❌ Échec de lecture directe : {e}")
             print(f"  → Tentative d'activation pour diagnostic...")
