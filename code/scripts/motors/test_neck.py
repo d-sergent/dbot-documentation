@@ -16,7 +16,7 @@ from dbot.motors.neck import NeckController
 
 SEQUENCE = [
     ("Centre",        0,   0, 1.5),
-    ("Tilt +25° (Arrière)", 0,   25, 4.0),
+    ("Tilt +30° (Arrière)", 0,   30, 4.5),
     ("Centre final",  0,   0, 1.5),
 ]
 
