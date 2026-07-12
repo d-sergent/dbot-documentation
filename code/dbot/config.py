@@ -8,8 +8,23 @@ dans les modules individuels.
 
 import math
 
+def _detect_can_channel() -> str:
+    """Détecte dynamiquement l'interface réseau CAN gérée par le driver gs_usb (InnoMaker)."""
+    import os
+    try:
+        for iface in os.listdir('/sys/class/net'):
+            if iface.startswith('can'):
+                driver_path = f'/sys/class/net/{iface}/device/driver'
+                if os.path.exists(driver_path):
+                    driver_link = os.readlink(driver_path)
+                    if 'gs_usb' in driver_link:
+                        return iface
+    except Exception:
+        pass
+    return 'can1'  # Fallback de secours
+
 # ── Bus CAN ────────────────────────────────────────────────
-CAN_CHANNEL = 'can1'
+CAN_CHANNEL = _detect_can_channel()
 CAN_BITRATE = 1_000_000   # 1 Mbps (standard RobStride)
 
 # ── IDs Moteurs ────────────────────────────────────────────
