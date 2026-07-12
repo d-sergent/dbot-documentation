@@ -9,7 +9,7 @@ dans les modules individuels.
 import math
 
 # ── Bus CAN ────────────────────────────────────────────────
-CAN_CHANNEL = 'can0'
+CAN_CHANNEL = 'can1'
 CAN_BITRATE = 1_000_000   # 1 Mbps (standard RobStride)
 
 # ── IDs Moteurs ────────────────────────────────────────────
