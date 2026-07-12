@@ -9,7 +9,7 @@
 - [x] Moteur Pan : **ID=1**, Zéro calibré, limites ±0.698 rad flashées en firmware
 - [x] Moteur Tilt : **ID=2**, Zéro calibré, limites ±0.524 rad flashées en firmware
 - [x] InnoMaker USB2CAN-C détecté (`lsusb` → `ID 1d50:606f`)
-- [x] Interface `can0` UP à 1 Mbps (`sudo ip link set can0 type can bitrate 1000000 && sudo ip link set can0 up`)
+- [x] Interface `can1` UP à 1 Mbps (`sudo ip link set can1 type can bitrate 1000000 && sudo ip link set can1 up`)
 - [x] Librairie Python installée (`pip3 install robstride`)
 
 ---
@@ -70,7 +70,7 @@ python3 scripts/motors/detect_motors.py
 import can
 import robstride
 
-with can.Bus(interface='socketcan', channel='can0') as bus:
+with can.Bus(interface='socketcan', channel='can1') as bus:
     rs = robstride.Client(bus)
 
     for motor_id, role in [(1, 'Pan'), (2, 'Tilt')]:
@@ -129,7 +129,7 @@ TARGET_RAD = math.radians(TARGET_DEG)
 # Appliquer les limites selon le moteur testé
 target_safe = clamp_pan(TARGET_RAD) if MOTOR_ID == 1 else clamp_tilt(TARGET_RAD)
 
-with can.Bus(interface='socketcan', channel='can0') as bus:
+with can.Bus(interface='socketcan', channel='can1') as bus:
     rs = robstride.Client(bus)
 
     rs.write_param(MOTOR_ID, 'run_mode', robstride.RunMode.Position)
@@ -175,7 +175,7 @@ def clamp_tilt(v): return max(TILT_MIN_RAD, min(TILT_MAX_RAD, v))
 
 ANGLE_RAD = clamp_pan(math.radians(20))  # 20° — dans les limites des 2 moteurs
 
-with can.Bus(interface='socketcan', channel='can0') as bus:
+with can.Bus(interface='socketcan', channel='can1') as bus:
     rs = robstride.Client(bus)
 
     # Détection préalable
@@ -286,7 +286,7 @@ SEQUENCE = [
     ("Centre final",   0,   0),
 ]
 
-with can.Bus(interface='socketcan', channel='can0') as bus:
+with can.Bus(interface='socketcan', channel='can1') as bus:
     rs = robstride.Client(bus)
 
     for mid in [1, 2]:
@@ -317,7 +317,7 @@ import robstride
 import time
 import math
 
-with can.Bus(interface='socketcan', channel='can0') as bus:
+with can.Bus(interface='socketcan', channel='can1') as bus:
     rs = robstride.Client(bus)
 
     print("Surveillance temps réel — Ctrl+C pour arrêter\n")

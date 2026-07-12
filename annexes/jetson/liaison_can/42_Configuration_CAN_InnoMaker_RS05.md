@@ -77,13 +77,13 @@ Résultat attendu :
 Bus 001 Device 004: ID 1d50:606f OpenMoko, Inc. Geschwister Schneider CAN adapter
 ```
 
-### 3.2. Présence de l'interface réseau `can0`
+### 3.2. Présence de l'interface réseau `can1`
 
 ```bash
 ip link show
 ```
 
-Vérifiez que `can0` apparaît dans la liste. C'est l'InnoMaker (l'interface interne de la Jetson est `can1`).
+Vérifiez que `can1` apparaît dans la liste. C'est l'InnoMaker (l'interface interne de la Jetson est `can0`).
 
 ---
 
@@ -92,31 +92,31 @@ Vérifiez que `can0` apparaît dans la liste. C'est l'InnoMaker (l'interface int
 Le RS-05 fonctionne à **1 Mbps**. À chaque démarrage, l'interface doit être activée :
 
 ```bash
-sudo ip link set can0 type can bitrate 1000000
-sudo ip link set can0 up
+sudo ip link set can1 type can bitrate 1000000
+sudo ip link set can1 up
 ```
 
 Vérification :
 ```bash
-ip link show can0
+ip link show can1
 # Attendu : state UP
 ```
 
 ### Persistance au Démarrage (optionnel)
 
-Pour que `can0` se lève automatiquement à chaque boot :
+Pour que `can1` se lève automatiquement à chaque boot :
 
 ```bash
-sudo nano /etc/network/interfaces.d/can0
+sudo nano /etc/network/interfaces.d/can1
 ```
 
 Contenu à coller :
 ```
-auto can0
-iface can0 inet manual
-    pre-up /sbin/ip link set can0 type can bitrate 1000000
-    up /sbin/ip link set can0 up
-    down /sbin/ip link set can0 down
+auto can1
+iface can1 inet manual
+    pre-up /sbin/ip link set can1 type can bitrate 1000000
+    up /sbin/ip link set can1 up
+    down /sbin/ip link set can1 down
 ```
 
 ---
@@ -148,7 +148,7 @@ import can
 import robstride
 import time
 
-with can.Bus(interface='socketcan', channel='can0') as bus:
+with can.Bus(interface='socketcan', channel='can1') as bus:
     rs = robstride.Client(bus)
 
     for motor_id in [1, 2]:
@@ -189,7 +189,7 @@ import can
 import robstride
 import time
 
-with can.Bus(interface='socketcan', channel='can0') as bus:
+with can.Bus(interface='socketcan', channel='can1') as bus:
     rs = robstride.Client(bus)
     MOTOR_ID = 1  # Adaptez selon l'ID configuré
 
@@ -233,7 +233,7 @@ import math
 ANGLE_DEG = 20
 ANGLE_RAD = math.radians(ANGLE_DEG)  # 0.349 rad
 
-with can.Bus(interface='socketcan', channel='can0') as bus:
+with can.Bus(interface='socketcan', channel='can1') as bus:
     rs = robstride.Client(bus)
 
     # Détection des 2 moteurs
@@ -317,9 +317,9 @@ with can.Bus(interface='socketcan', channel='can0') as bus:
 
 | Symptôme | Cause Probable | Solution |
 | :--- | :--- | :--- |
-| **`can0` absent dans `ip link`** | Driver non chargé | `sudo modprobe gs_usb` |
+| **`can1` absent dans `ip link`** | Driver non chargé | `sudo modprobe gs_usb` |
 | **`candump` vide au boot moteur** | Câblage incorrect ou alim absente | Vérifier alim 24-48V et couleurs Rouge=CANH, Noir=CANL |
 | **Erreur `Bus-off`** | Câble trop long sans terminaison | Souder 120 Ω entre Rouge et Noir sur le câble JST si câbles > 30cm |
-| **`OSError: [Errno 100]`** | Interface réseau à l'état DOWN | `sudo ip link set can0 up` |
+| **`OSError: [Errno 100]`** | Interface réseau à l'état DOWN | `sudo ip link set can1 up` |
 | **`No response from motor`** | Moteur non alimenté ou ID incorrect | Vérifier l'alim 24-48V, tester ID 1 et 2 |
 | **Mauvais CAN ID reçu** | Conflit d'ID sur le bus | Reconfigurer les IDs via RobStride MotorStudio sur PC |
