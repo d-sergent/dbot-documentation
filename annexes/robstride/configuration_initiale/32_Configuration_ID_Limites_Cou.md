@@ -83,7 +83,21 @@ Ces limites doivent être reportées dans le fichier URDF du robot (voir Doc 30)
 ---
 
 ### Niveau 3 — Butées Mécaniques (Safety)
-En dernier recours, des butées physiques (plots en aluminium ou impressions 3D renforcées) doivent être présentes à ±45° (Pan) et ±35° (Tilt). Elles ne doivent jamais être atteintes en fonctionnement normal, mais servent de "fusible" mécanique en cas de défaillance totale de l'électronique.
+En dernier recours, des butées physiques (plots en aluminium ou impressions 3D renforcées) doivent être présentes à ±85° (Pan) et ±35° (Tilt). Elles ne doivent jamais être atteintes en fonctionnement normal, mais servent de "fusible" mécanique en cas de défaillance totale de l'électronique.
+
+---
+
+### Niveau 4 — Réglages de Rigidité sous Charge (PID)
+Lors des tests en situation réelle avec tous les accessoires montés sur la tête (~2 kg), les gains d'usine par défaut se sont révélés trop souples (effet "ressort mou"), provoquant des saccades d'inertie sur le Pan et des oscillations verticales sur le Tilt. 
+
+Les gains optimisés suivants doivent être injectés dans la RAM des moteurs RS-05 à l'allumage via le contrôleur (ou enregistrés en ROM via MotorStudio) :
+
+| Paramètre | Valeur d'Usine | Valeur Validée (2 kg charge) | Action mécanique |
+| :--- | :---: | :---: | :--- |
+| **loc_kp** (Position Loop) | 30.0 | **50.0** | Augmente la rigidité de maintien en position et réduit le retard de suivi. |
+| **spd_kp** (Speed Loop P) | 1.0 | **3.0** | Triple l'amortissement dynamique pour éliminer les oscillations d'inertie. |
+| **spd_ki** (Speed Loop I) | 0.02 | **0.05** | Annule l'erreur statique générée par la gravité (effet de porte-à-faux du Tilt). |
+| **limit_spd** (Firmware Limit) | — | **3.0 × vitesse cible** | Évite le conflit d'écrêtage de vitesse provoqué par le jitter de la Jetson. |
 
 ---
 

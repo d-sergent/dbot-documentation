@@ -401,3 +401,24 @@ Reporter les limites dans le fichier URDF (cf. Doc 32 §3.2) pour que MoveIt2 pl
 
 > [!WARNING]
 > Ces limites doivent être appliquées à **chaque couche** : firmware moteur (flashé via MotorStudio), scripts Python (`clamp_pan` / `clamp_tilt`), nœud ROS2, et URDF. La défaillance d'une seule couche peut créer une contrainte mécanique sur les câbles ou la structure du cou.
+
+---
+
+## Réglages d'Asservissement & Fluidité (Validés sous Charge de 2 kg)
+
+Lors de la calibration finale sur le robot assemblé, les réglages d'usine par défaut ont été optimisés pour éliminer les micro-saccades induites par l'inertie de la tête lestée de ses caméras et capteurs.
+
+### 1. Gains d'Asservissement (PID)
+Les gains suivants doivent être injectés à l'activation des moteurs pour garantir la rigidité du cou :
+
+| Gain | Registre RobStride | Valeur par Défaut | Valeur Validée (Charge) | Effet sur le comportement |
+| :--- | :---: | :---: | :---: | :--- |
+| **loc_kp** | `0x701E` | 30.0 | **50.0** | Supprime la mollesse ("effet ressort") sur le Pan et le Tilt. |
+| **spd_kp** | `0x701F` | 1.0 | **3.0** | Amortit activement les rebonds d'inertie lors des accélérations. |
+| **spd_ki** | `0x7020` | 0.02 | **0.05** | Annule la dérive du Tilt provoquée par le porte-à-faux. |
+
+### 2. Stratégie d'Interpolation Logicielle
+Pour éviter les chocs mécaniques d'accélération (Jerk infini) et compenser la gigue de communication (Jitter), la bibliothèque de contrôle implémente :
+* **Fréquence de 100 Hz** (`time_step = 0.01` s) : adoucit l'enchaînement des micro-consignes.
+* **Interpolation Cosinusoïdale (Cosine Interpolation / Smoothstep)** : génère des accélérations et des freinages en douceur (forme en cloche), évitant le broutement au démarrage et à l'arrêt.
+* **Marge matérielle de vitesse (Hardware Headroom)** : La limite de vitesse matérielle écrite dans le registre `limit_spd` est configurée à **3.0 × la vitesse logicielle cible** (soit 90°/s pour une consigne de 30°/s), évitant tout conflit d'écrêtage de vitesse.
