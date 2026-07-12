@@ -40,9 +40,10 @@ PAN_MAX_RAD  = math.radians( 80)   # +1.396 rad
 TILT_MIN_RAD = math.radians(-30)   # -0.524 rad
 TILT_MAX_RAD = math.radians( 30)   # +0.524 rad
 
-# ── Vitesses et Couples par Défaut ─────────────────────────
-NECK_DEFAULT_KP  = 20.0    # Gain proportionnel position
-NECK_DEFAULT_KD  =  0.5    # Gain dérivé vitesse
+# ── Configuration Asservissement Cou (Rigidité sous charge) ─
+NECK_LOC_KP      = 50.0    # Gain proportionnel position (par défaut 30.0) -> rigidité
+NECK_SPD_KP      =  3.0    # Gain proportionnel vitesse (par défaut 1.0) -> amortissement
+NECK_SPD_KI      =  0.05   # Gain intégral vitesse (par défaut 0.02)
 NECK_SPEED_LIMIT = math.radians(30.0)  # 30°/s max (vitesse nominale optimisée pour l'asservissement)
 
 # ── Alimentation (référence Wanptek) ──────────────────────
