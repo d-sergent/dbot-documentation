@@ -16,10 +16,10 @@ CHECKS = {
         "expect": "1d50:606f",
         "fix": "Brancher le câble USB de l'InnoMaker",
     },
-    "Interface CAN0": {
-        "cmd": "ip link show can0",
-        "expect": "can0",
-        "fix": "sudo ip link set can0 type can bitrate 1000000 && sudo ip link set can0 up",
+    "Interface CAN1 (InnoMaker)": {
+        "cmd": "ip link show can1",
+        "expect": "can1",
+        "fix": "sudo ip link set can1 type can bitrate 1000000 && sudo ip link set can1 up",
     },
     "OAK-D Pro": {
         "cmd": "lsusb",

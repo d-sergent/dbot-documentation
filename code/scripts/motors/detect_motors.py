@@ -23,7 +23,7 @@ def main():
         client = robstride.Client(bus)
     except Exception as e:
         print(f"❌ Error initializing CAN bus: {e}")
-        print("Please check that the interface 'can0' is UP and configured at 1 Mbps.")
+        print("Please check that the interface 'can1' is UP and configured at 1 Mbps.")
         sys.exit(1)
 
     print("Scanning IDs 1 to 30...")
@@ -57,7 +57,7 @@ def main():
         print("  2. Is the current limit (3.0A) or OCP blocking?")
         print("  3. Are the XT30 power cables properly plugged into the motors?")
         print("  4. Are the CANH and CANL wires connected and terminated (60 ohms total)?")
-        print("  5. Is the InnoMaker USB adapter plugged into the host and is 'can0' active?")
+        print("  5. Is the InnoMaker USB adapter plugged into the host and is 'can1' active?")
 
     close_bus()
 
