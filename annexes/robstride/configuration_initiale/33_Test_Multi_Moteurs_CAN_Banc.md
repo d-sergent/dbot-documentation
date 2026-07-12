@@ -21,8 +21,8 @@ Les deux moteurs alimentés **en parallèle** sur une seule Wanptek. Les câbles
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| **Tension** | 24.0V |
-| **Limite courant** | **3.0A** (1.5A × 2 moteurs avec marge) |
+| **Tension** | 48.0V (Tension nominale robot, 24.0V acceptée sur banc) |
+| **Limite courant** | **5.0A** (recommandée sous charge réelle, 3.0A sur banc) |
 | **Mode OCP** | ✅ Activé |
 
 > En holding (Enable sans mouvement), les 2 RS-05 tirent ~200–400 mA au total. Sur un mouvement de tête modéré, comptez 500 mA à 1.5A au total. La limite à 3A vous protège des court-circuits sans couper intempestivement.

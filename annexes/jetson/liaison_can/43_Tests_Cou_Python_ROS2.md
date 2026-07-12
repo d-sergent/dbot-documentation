@@ -43,7 +43,7 @@ def clamp_tilt(angle_rad: float) -> float:
 
 | Paramètre | Valeur |
 | :--- | :--- |
-| **Tension** | 24.0 V |
+| **Tension** | 48.0 V (tension nominale sous charge, 24.0 V toléré sur banc) |
 | **Limite courant** | **5.0 A** (2 moteurs en simultané) |
 | **Mode OCP** | ✅ Activé |
 
