@@ -20,7 +20,8 @@ def main():
     print(f"Initialisation du bus CAN sur l'interface : {CAN_CHANNEL} ({CAN_BITRATE / 1e6:.1f} Mbps)...")
     try:
         bus = can.interface.Bus(interface='socketcan', channel=CAN_CHANNEL, bitrate=CAN_BITRATE)
-        rs = robstride.Client(bus)
+        from dbot.motors.neck import RobustClient
+        rs = RobustClient(bus)
     except Exception as e:
         print(f"❌ Impossible d'ouvrir l'interface CAN '{CAN_CHANNEL}' : {e}")
         sys.exit(1)
