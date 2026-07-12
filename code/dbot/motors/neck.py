@@ -135,6 +135,8 @@ class NeckController:
         """Active les moteurs détectés en mode Position."""
         for mid in self.active_motors:
             self._client.write_param(mid, 'run_mode', robstride.RunMode.Position)
+            # Double sécurité : injecter la limite de vitesse de sécurité directement en matériel (dans la RAM du moteur)
+            self._client.write_param(mid, 'limit_spd', NECK_SPEED_LIMIT)
         
         if self.active_motors:
             time.sleep(0.05)
