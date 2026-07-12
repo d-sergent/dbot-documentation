@@ -22,8 +22,7 @@ from dbot.config import (
     NECK_SPEED_LIMIT,
 )
 from dbot.motors.can_bus import get_bus, close_bus
-
-
+from robstride.client import MotorMsg
 import struct
 
 def drain_bus(bus):
@@ -55,22 +54,22 @@ class RobustClient(robstride.Client):
 
     def enable(self, motor_id: int, motor_model=1):
         drain_bus(self.bus)
-        self.bus.send(self._rs_msg(robstride.MotorMsg.Enable, self.host_can_id, motor_id, [0, 0, 0, 0, 0, 0, 0, 0]))
-        resp = self._recv_matching(robstride.MotorMsg.Feedback.value, motor_id)
+        self.bus.send(self._rs_msg(MotorMsg.Enable, self.host_can_id, motor_id, [0, 0, 0, 0, 0, 0, 0, 0]))
+        resp = self._recv_matching(MotorMsg.Feedback.value, motor_id)
         return self._parse_feedback_resp(resp, motor_id, motor_model)
 
     def disable(self, motor_id: int, motor_model=1):
         drain_bus(self.bus)
-        self.bus.send(self._rs_msg(robstride.MotorMsg.Disable, self.host_can_id, motor_id, [0, 0, 0, 0, 0, 0, 0, 0]))
-        resp = self._recv_matching(robstride.MotorMsg.Feedback.value, motor_id)
+        self.bus.send(self._rs_msg(MotorMsg.Disable, self.host_can_id, motor_id, [0, 0, 0, 0, 0, 0, 0, 0]))
+        resp = self._recv_matching(MotorMsg.Feedback.value, motor_id)
         return self._parse_feedback_resp(resp, motor_id, motor_model)
 
     def read_param(self, motor_id: int, param_id: int | str):
         drain_bus(self.bus)
         p_id = self._normalize_param_id(param_id)
         data = [p_id & 0xFF, p_id >> 8, 0, 0, 0, 0, 0, 0]
-        self.bus.send(self._rs_msg(robstride.MotorMsg.ReadParam, self.host_can_id, motor_id, data))
-        resp = self._recv_matching(robstride.MotorMsg.ReadParam.value, motor_id)
+        self.bus.send(self._rs_msg(MotorMsg.ReadParam, self.host_can_id, motor_id, data))
+        resp = self._recv_matching(MotorMsg.ReadParam.value, motor_id)
         
         resp_param_id = struct.unpack('<H', resp.data[:2])[0]
         if resp_param_id != p_id:
@@ -95,8 +94,8 @@ class RobustClient(robstride.Client):
         else:
             data += struct.pack('<f', param_value)
 
-        self.bus.send(self._rs_msg(robstride.MotorMsg.WriteParam, self.host_can_id, motor_id, data))
-        resp = self._recv_matching(robstride.MotorMsg.Feedback.value, motor_id)
+        self.bus.send(self._rs_msg(MotorMsg.WriteParam, self.host_can_id, motor_id, data))
+        resp = self._recv_matching(MotorMsg.Feedback.value, motor_id)
         return self._parse_feedback_resp(resp, motor_id, motor_model)
 
 
