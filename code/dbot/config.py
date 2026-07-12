@@ -46,7 +46,7 @@ NECK_DEFAULT_KD  =  0.5    # Gain dérivé vitesse
 NECK_SPEED_LIMIT = math.radians(10.0)  # 10°/s max (limite de sécurité très lente pour premier test)
 
 # ── Alimentation (référence Wanptek) ──────────────────────
-POWER_VOLTAGE    = 24.0   # Volts
+POWER_VOLTAGE    = 48.0   # Volts (Tension nominale des RS-05)
 POWER_CURRENT_NECK = 5.0  # Ampères — limite pour 2× RS-05
 
 # ── Vision (OAK-D Pro) ─────────────────────────────────────
