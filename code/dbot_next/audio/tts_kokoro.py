@@ -179,3 +179,7 @@ class KokoroTTS:
         except Exception:
             pass
         return "0"
+
+    def get_voices(self) -> list[str]:
+        """Retourne la liste des noms de voix disponibles dans le modèle."""
+        return list(self.kokoro.voices.keys())
