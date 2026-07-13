@@ -79,7 +79,7 @@ def main():
     print("✅ Amplificateur JST activé.")
     
     stt = LocalSTT(model_size="base", device="cpu")
-    tts = LocalTTS(alsa_hw=alsa_hw, pulse_sink=sink_name)
+    tts = LocalTTS(pulse_sink=sink_name)
     # Mode 1 = moins agressif que mode 3, détecte mieux la parole sans NoMachine
     vad = webrtcvad.Vad(1)
 
