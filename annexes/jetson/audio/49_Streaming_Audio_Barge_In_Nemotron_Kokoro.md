@@ -58,8 +58,8 @@ mkdir -p ~/.local/share/kokoro
 cd ~/.local/share/kokoro
 
 # Télécharger le modèle ONNX (v1.0) et les matrices de voix
-wget https://github.com/thewh1teagle/kokoro-onnx/releases/download/v1.0.0/kokoro-v1.0.onnx
-wget https://github.com/thewh1teagle/kokoro-onnx/releases/download/v1.0.0/voices-v1.0.bin
+wget https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx
+wget https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin
 ```
 
 ---
