@@ -40,7 +40,10 @@ sudo apt-get update
 sudo apt-get install -y portaudio19-dev libsndfile1 ffmpeg
 
 # 2. Installation des packages Python requis
-pip3 install sounddevice kokoro-onnx onnxruntime-gpu soundfile
+pip3 install sounddevice kokoro-onnx soundfile
+
+# 3. Installation spécifique de onnxruntime-gpu (via l'index Jetson AI Lab de NVIDIA pour JP6)
+pip3 install --extra-index-url https://pypi.jetson-ai-lab.dev onnxruntime-gpu
 ```
 
 ---
