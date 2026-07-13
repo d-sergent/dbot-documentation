@@ -28,11 +28,9 @@ echo "🚀 [D-Bot] Passage en mode Headless (multi-user.target)..."
 sudo systemctl isolate multi-user.target
 sleep 2
 
-echo "🔊 [D-Bot] Initialisation PulseAudio..."
+echo "🔊 [D-Bot] Arrêt de PulseAudio (Libération de la carte ALSA)..."
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 pulseaudio -k
-sleep 1
-pulseaudio --start --exit-idle-time=-1
 sleep 2
 
 echo "🎤 [D-Bot] Réveil du micro ReSpeaker..."
