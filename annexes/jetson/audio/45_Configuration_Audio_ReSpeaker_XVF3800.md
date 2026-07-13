@@ -9,7 +9,7 @@
 
 | Composant | Connexion | Remarque |
 | :--- | :--- | :--- |
-| **ReSpeaker XVF3800** | Port **USB-A Bleu (USB 3.0)** de la Jetson | NE PAS utiliser USB-C ou USB 2.0 (instabilités isochrones) |
+| **ReSpeaker XVF3800** | Port **USB-A (USB 3.2 Gen 2)** de la Jetson | NE PAS utiliser le port USB-C (instabilités d'alimentation/transmission). Note : Les ports USB-A physiques du kit Jetson sont noirs mais supportent l'USB 3.2 Gen 2. |
 | **Haut-parleur JST 5W** | Port **JST 1.25mm** sur la carte ReSpeaker | Bénéficie de l'AEC (Annulation d'Écho) matérielle |
 
 ### Comment le ReSpeaker apparaît dans Linux

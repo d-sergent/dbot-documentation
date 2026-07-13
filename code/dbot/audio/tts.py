@@ -43,7 +43,10 @@ class LocalTTS:
             out = subprocess.check_output(["arecord", "-l"], text=True)
             for line in out.splitlines():
                 if "reSpeaker" in line or "XVF3800" in line:
-                    return line.split("carte ")[1].split(":")[0].strip()
+                    if "carte" in line:
+                        return line.split("carte ")[1].split(":")[0].strip()
+                    elif "card" in line:
+                        return line.split("card ")[1].split(":")[0].strip()
         except Exception:
             return "0"
         return "0"

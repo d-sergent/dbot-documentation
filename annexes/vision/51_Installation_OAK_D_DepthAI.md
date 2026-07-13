@@ -25,7 +25,7 @@ Le framework logiciel s'appelle **DepthAI**. La version installée est la **3.5.
 > L'OAK-D Pro nécessite un port **SuperSpeed USB 3.0** pour transférer les flux haute résolution.
 
 1. Utilisez le câble **USB-C vers USB-A** fourni avec la caméra.
-2. Branchez le côté USB-A sur l'un des ports **bleus** (USB 3.2 Gen 2) de la Jetson Orin Nano.
+2. Branchez le côté USB-A sur l'un des ports USB-A (USB 3.2 Gen 2) de la Jetson Orin Nano. Note : Bien que ces ports physiques soient de couleur noire sur le kit Jetson officiel, ils supportent tous l'USB 3.2 Gen 2.
 3. Vérifiez la reconnaissance sous Linux :
    ```bash
    lsusb | grep 03e7

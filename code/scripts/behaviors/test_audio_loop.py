@@ -78,7 +78,7 @@ def main():
     subprocess.run(["amixer", "-c", "0", "cset", "numid=6", "60"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
     print("✅ Amplificateur JST activé.")
     
-    stt = LocalSTT(model_size="base", device="cuda")
+    stt = LocalSTT(model_size="base", device="cpu")
     tts = LocalTTS(alsa_hw=alsa_hw, pulse_sink=sink_name)
     # Mode 1 = moins agressif que mode 3, détecte mieux la parole sans NoMachine
     vad = webrtcvad.Vad(1)
