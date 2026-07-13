@@ -73,22 +73,26 @@ class KokoroTTS:
                 return path
         return None
 
-    def generate_wav(self, text: str, output_path: str, voice: str = "ff_siwis", speed: float = 1.0) -> bool:
+    def generate_wav(self, text: str, output_path: str, voice = "ff_siwis", speed: float = 1.0, lang: Optional[str] = None) -> bool:
         """
         Synthétise le texte et l'écrit au format WAV.
         
         Args:
-            text (str): Texte en français à synthétiser.
+            text (str): Texte à synthétiser.
             output_path (str): Chemin du fichier WAV généré.
-            voice (str): Nom de la voix (ex: 'ff_siwis' pour le français).
+            voice: Nom de la voix (str) ou vecteur numpy d'embedding (mix).
             speed (float): Vitesse d'élocution.
+            lang (str, optional): Code langue forcé (ex: 'fr-fr', 'en-us').
         """
         if not text:
             return False
             
         try:
-            # Choix automatique du code langue selon la voix choisie (f* pour French, a* pour American...)
-            lang = "fr-fr" if voice.startswith("f") else "en-us"
+            if not lang:
+                if isinstance(voice, str):
+                    lang = "fr-fr" if voice.startswith("f") else "en-us"
+                else:
+                    lang = "fr-fr"
             
             samples, sample_rate = self.kokoro.create(
                 text=text,
@@ -101,7 +105,7 @@ class KokoroTTS:
         except Exception as e:
             raise TTSError(f"Erreur d'inférence Kokoro-ONNX : {e}")
 
-    def speak(self, text: str, voice: str = "ff_siwis", speed: float = 1.0):
+    def speak(self, text: str, voice = "ff_siwis", speed: float = 1.0, lang: Optional[str] = None):
         """
         Génère et joue l'audio de manière synchrone en s'adaptant à l'environnement audio actuel.
         """
@@ -114,7 +118,7 @@ class KokoroTTS:
             temp_wav = tf.name
             
         try:
-            if self.generate_wav(text, temp_wav, voice=voice, speed=speed):
+            if self.generate_wav(text, temp_wav, voice=voice, speed=speed, lang=lang):
                 played = False
                 
                 # 1. Tenter la lecture via PulseAudio si le serveur est actif
