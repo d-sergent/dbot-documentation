@@ -3,9 +3,12 @@
 # D-Bot : Démarrage en Mode AUTONOME (Headless)
 # =================================================================
 
+# Détermination du dossier du script (chemin absolu)
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+
 # Recherche et export du fichier .env pour les clés API
 ENV_FILE=""
-SEARCH_DIR=$(dirname "$0")
+SEARCH_DIR="$SCRIPT_DIR"
 for i in {1..4}; do
     if [ -f "$SEARCH_DIR/.env" ]; then
         ENV_FILE="$SEARCH_DIR/.env"
@@ -49,4 +52,4 @@ amixer -c 0 cset numid=5 60
 amixer -c 0 cset numid=6 60
 
 echo "🤖 [D-Bot] Lancement du Chatbot v2 (Mode AUTONOME / ALSA Direct)..."
-python3 code/scripts/behaviors/chatbot_autonomous_v2.py
+python3 "$SCRIPT_DIR/../behaviors/chatbot_autonomous_v2.py"
