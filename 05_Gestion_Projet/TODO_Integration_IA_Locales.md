@@ -96,18 +96,10 @@ Ce document répertorie les tâches et évolutions nécessaires pour l'intégrat
   - Modifier [llm_client.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot/brain/llm_client.py) pour qu'il puisse basculer dynamiquement entre l'adresse IP locale (localhost) et l'adresse IP du serveur compagnon.
 - [ ] **Streaming et transport de flux** :
   - Adapter le script de vision pour envoyer les requêtes de localisation (bounding boxes) au modèle de vision (VLM) hébergé à distance, ou tester la transmission des images clés pour l'inférence.
-- [ ] **Benchmark comparatif de latence** :
-  - Mesurer et comparer précisément :
-    - Temps de réponse (Time to First Token)
-    - Débit de génération (Tokens/sec)
-    - Stabilité de connexion et sensibilité au jitter Wi-Fi.
+- ### 🎙️ Phase 9 : Voix Personnalisée D-Bot — F5-TTS Français en Serveur Local (Mac)
+*(Solution C finale — Clonage avec F5-TTS déporté sur Mac, client ultra-léger et fallback Kokoro sur Jetson)*
 
----
-
-### 🎙️ Phase 9 : Voix Personnalisée D-Bot — CosyVoice 2 en Serveur Local (Mac M2)
-*(Solution C — Clonage zéro-shot avec serveur TTS déporté sur Mac, client ultra-léger sur Jetson)*
-
-**Objectif** : Donner à D-Bot une voix unique et reconnaissable en français (masculine ou sur mesure), tout en conservant une latence acceptable pour la conversation (~500-800 ms/phrase). Le Mac M2 héberge le serveur TTS de clonage de voix ; la Jetson Orin Nano reste libérée de cette charge.
+**Objectif** : Donner à D-Bot une voix unique, naturelle et reconnaissable en français (timbre issu du sample "La CAF"), tout en conservant une latence acceptable. Le Mac (M1 Max Pro) héberge le serveur TTS F5-TTS accéléré par le GPU (MPS) ; la Jetson Orin Nano reste libérée de cette charge.
 
 ---
 
@@ -115,11 +107,11 @@ Ce document répertorie les tâches et évolutions nécessaires pour l'intégrat
 
 ```
 ┌─────────────────────────┐         LAN Wi-Fi (~10-50 ms)         ┌───────────────────────────────────┐
-│   Jetson Orin Nano      │  ─── HTTP POST /synthesize ────────►  │   Mac M2 (Serveur TTS CosyVoice)  │
+│   Jetson Orin Nano      │  ─── HTTP POST /synthesize ────────►  │   Mac M1 Max (Serveur F5-TTS)     │
 │                         │                                        │                                   │
-│  dbot_next :            │  ◄── audio/wav (streaming chunks) ───  │   CosyVoice 2 (0.5B)              │
-│  - STT (Nemotron)       │                                        │   + voix de référence encodée     │
-│  - LLM (Ollama/Gemini)  │                                        │   + API FastAPI/HTTP              │
+│  dbot_next :            │  ◄── audio/wav (streaming/fichier) ──  │   F5-TTS (Français)               │
+│  - STT (Nemotron)       │                                        │   + voix de référence CAF         │
+│  - LLM (Ollama/Gemini)  │                                        │   + API FastAPI/HTTP (7860)       │
 │  - Client TTS léger     │                                        │                                   │
 │  - Kokoro (fallback)    │                                        └───────────────────────────────────┘
 └─────────────────────────┘
@@ -129,161 +121,73 @@ Ce document répertorie les tâches et évolutions nécessaires pour l'intégrat
 1. L'utilisateur parle → Nemotron transcrit (Jetson)
 2. Le LLM génère une réponse phrase par phrase (streaming)
 3. Chaque phrase est envoyée en POST HTTP au Mac
-4. Le Mac CosyVoice génère l'audio WAV avec la voix clonée (~300-700 ms)
-5. Le WAV est renvoyé à la Jetson et joué via aplay/paplay
-6. Si le Mac est inaccessible → Kokoro local prend le relais automatiquement
+4. Le Mac F5-TTS génère l'audio WAV avec la voix clonée (~1.5s - 3s)
+5. Le WAV est renvoyé à la Jetson et joué via `aplay`
+6. Si le Mac est inaccessible → Kokoro local (Jetson GPU) prend le relais automatiquement
 
 ---
 
-#### 📦 Étape 1 — Installation de CosyVoice 2 sur le Mac M2
+#### 📦 Étape 1 — Installation de F5-TTS sur le Mac
 
-- [ ] **Créer un environnement Python dédié** :
+- [x] **Créer l'environnement et installer les dépendances** :
   ```bash
-  # Sur le Mac M2
-  python3 -m venv ~/.venvs/cosyvoice
+  python3.11 -m venv ~/.venvs/cosyvoice
   source ~/.venvs/cosyvoice/bin/activate
+  pip install f5-tts fastapi uvicorn soundfile torch torchaudio torchcodec setuptools<=80.10.2
   ```
 
-- [ ] **Installer les dépendances** :
-  ```bash
-  pip install cosyvoice2-eu fastapi uvicorn soundfile torch
-  ```
-  *(Le paquet `cosyvoice2-eu` est le fork optimisé pour le français/allemand de CosyVoice 2.)*
-
-- [ ] **Valider que CosyVoice fonctionne** :
+- [x] **Vérifier l'accès au GPU Apple Silicon (MPS)** :
   ```python
-  # test_cosyvoice.py — à lancer sur le Mac
-  from cosyvoice2_eu import CosyVoice2
-  import soundfile as sf
-  
-  model = CosyVoice2("iic/CosyVoice2-0.5B")
-  
-  # Test avec voix de référence (10-15s de parole propre dans un fichier .wav)
-  for chunk in model.inference_zero_shot(
-      "Bonjour, je suis D-Bot, votre assistant robotique.",
-      "Texte exact prononcé dans le fichier de référence...",
-      open("ma_voix_reference.wav", "rb").read(),
-      stream=True
-  ):
-      sf.write("/tmp/test_output.wav", chunk["tts_speech"].numpy(), 22050)
+  import torch
+  assert torch.backends.mps.is_available(), "MPS non disponible !"
   ```
 
 ---
 
-#### 🎤 Étape 2 — Préparer la Voix de Référence
+#### 🎤 Étape 2 — Voix de Référence et Modèle Français
 
-Le clonage de voix nécessite un **fichier audio de référence** de 10 à 15 secondes, propre (sans bruit de fond), avec le locuteur qui parle de manière naturelle et continue.
+- [x] **Télécharger et valider la voix de référence** :
+  * Fichier source : `/Users/davidsergent/Downloads/LA-CAF-MIX-RADIO.mp3`
+  * Texte de référence associé :
+    > "Vous avez déclaré être sans ressources et vous toucher à ce titre plusieurs aides de votre CAF. C'est étrange car l'Ursafe nous dit que vous êtes cadres supérieurs. En CDI, curieux, non ?"
 
-- [ ] **Choisir et enregistrer la voix de référence** :
-  - Option A : Enregistrer sa propre voix via QuickTime Player ou Audacity (Mac).
-  - Option B : Extraire un passage d'un livre audio français libre de droits (LibriVox).
-  - Option C : Utiliser un clip d'un acteur (usage personnel uniquement).
-
-- [ ] **Formater le fichier audio de référence** :
-  ```bash
-  # Convertir en WAV mono, 22050 Hz (format attendu par CosyVoice)
-  ffmpeg -i source_audio.mp3 -ac 1 -ar 22050 reference_voice.wav
-  ```
-
-- [ ] **Stocker le fichier de référence et son texte** :
-  - Placer `reference_voice.wav` dans `~/cosyvoice_server/`
-  - Écrire dans `reference_text.txt` le contenu **exact** prononcé dans le fichier audio (nécessaire pour la qualité du clonage).
+- [x] **Télécharger le checkpoint F5-TTS français (RASPIAUDIO)** :
+  * Fichier de poids : `model_last_reduced.pt` (téléchargé et mis en cache via `cached_path`)
+  * Vocabulaire : `vocab.txt` (téléchargé et mis en cache)
 
 ---
 
 #### 🌐 Étape 3 — Créer le Serveur FastAPI sur le Mac
 
-- [ ] **Créer le script du serveur** dans `Code/dbot_next/tts_server/` :
+Le script du serveur est opérationnel dans le dépôt :
+👉 **[server_f5tts.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot_next/tts_server/server_f5tts.py)**
 
-  **`server_cosyvoice.py`** :
-  ```python
-  """
-  Serveur TTS CosyVoice 2 — A déployer sur le Mac M2
-  Expose une API HTTP POST /synthesize sur le réseau LAN local.
-  """
-  from fastapi import FastAPI, HTTPException
-  from fastapi.responses import StreamingResponse
-  from pydantic import BaseModel
-  from cosyvoice2_eu import CosyVoice2
-  import soundfile as sf
-  import numpy as np
-  import io, os
-  
-  app = FastAPI(title="D-Bot TTS Server")
-  
-  # Chemin vers le fichier de référence de voix et son texte
-  VOICE_REF_WAV  = os.path.expanduser("~/cosyvoice_server/reference_voice.wav")
-  VOICE_REF_TEXT = open(os.path.expanduser("~/cosyvoice_server/reference_text.txt")).read().strip()
-  SAMPLE_RATE    = 22050
-  
-  # Chargement du modèle au démarrage (une seule fois)
-  print("⏳ [TTS Server] Chargement de CosyVoice 2...")
-  model = CosyVoice2("iic/CosyVoice2-0.5B")
-  ref_audio = open(VOICE_REF_WAV, "rb").read()
-  print("✅ [TTS Server] Prêt à synthétiser.")
-  
-  class SynthRequest(BaseModel):
-      text: str
-      language: str = "fr"
-  
-  @app.post("/synthesize")
-  async def synthesize(req: SynthRequest):
-      """Synthétise du texte en audio WAV avec la voix de référence clonée."""
-      if not req.text.strip():
-          raise HTTPException(status_code=400, detail="Texte vide.")
-      try:
-          audio_chunks = []
-          for chunk in model.inference_zero_shot(
-              req.text, VOICE_REF_TEXT, ref_audio, stream=True
-          ):
-              audio_chunks.append(chunk["tts_speech"].numpy())
-          audio = np.concatenate(audio_chunks)
-          buf = io.BytesIO()
-          sf.write(buf, audio, SAMPLE_RATE, format="WAV")
-          buf.seek(0)
-          return StreamingResponse(buf, media_type="audio/wav")
-      except Exception as e:
-          raise HTTPException(status_code=500, detail=str(e))
-  
-  if __name__ == "__main__":
-      import uvicorn
-      uvicorn.run(app, host="0.0.0.0", port=7860)
-  ```
-
-- [ ] **Lancer le serveur** (à faire avant de démarrer D-Bot) :
+- [ ] **Lancement automatique du serveur au démarrage (Optionnel)** :
   ```bash
   source ~/.venvs/cosyvoice/bin/activate
-  python ~/cosyvoice_server/server_cosyvoice.py
-  # Serveur accessible sur http://<ip-du-mac>:7860
-  ```
-
-- [ ] **Vérifier le bon fonctionnement depuis le Mac lui-même** :
-  ```bash
-  curl -X POST http://localhost:7860/synthesize \
-    -H "Content-Type: application/json" \
-    -d '{"text": "Test de synthèse vocale sur le serveur local."}' \
-    --output /tmp/test_server.wav && afplay /tmp/test_server.wav
+  python "/Users/Shared/Mon Google Drive Physique/Documentation/Code/dbot_next/tts_server/server_f5tts.py"
+  # Serveur accessible sur le port 7860
   ```
 
 ---
 
 #### 🤖 Étape 4 — Créer le Client TTS sur la Jetson
 
-- [ ] **Créer `Code/dbot_next/audio/tts_cosyvoice_client.py`** :
+- [ ] **Créer `Code/dbot_next/audio/tts_f5tts_client.py`** :
 
   ```python
   """
-  Client TTS CosyVoice — A déployer sur la Jetson Orin Nano.
-  Envoie les phrases au serveur Mac M2 et joue l'audio reçu.
-  Repli automatique sur Kokoro si le serveur est inaccessible.
+  Client TTS F5-TTS — A déployer sur la Jetson Orin Nano.
+  Envoie les phrases au serveur Mac M1 Max et joue l'audio reçu.
+  Repli automatique sur Kokoro local si le serveur est inaccessible.
   """
   import os, requests, tempfile, subprocess
   from dbot_next.audio.tts_kokoro import KokoroTTS
   
   TTS_SERVER_URL = os.getenv("DBOT_TTS_SERVER", "http://192.168.68.XXX:7860")
-  TIMEOUT_S      = 5.0  # Si pas de réponse en 5s, bascule vers Kokoro
+  TIMEOUT_S      = 6.0  # Temps max avant bascule automatique sur Kokoro
   
-  class CosyVoiceClient:
+  class F5TTSClient:
       def __init__(self, server_url: str = TTS_SERVER_URL):
           self.server_url = server_url.rstrip("/")
           self._fallback  = None
@@ -291,10 +195,10 @@ Le clonage de voix nécessite un **fichier audio de référence** de 10 à 15 se
   
       def _check_server(self) -> bool:
           try:
-              r = requests.get(f"{self.server_url}/docs", timeout=2)
-              return r.status_code == 200
+              r = requests.get(f"{self.server_url}/status", timeout=2)
+              return r.status_code == 200 and r.json().get("status") == "ready"
           except Exception:
-              print(f"⚠ [CosyVoice Client] Serveur {self.server_url} inaccessible → repli sur Kokoro.")
+              print(f"⚠ [F5-TTS Client] Serveur {self.server_url} inaccessible → repli sur Kokoro.")
               return False
   
       def _get_fallback(self) -> KokoroTTS:
@@ -309,7 +213,7 @@ Le clonage de voix nécessite un **fichier audio de référence** de 10 à 15 se
               try:
                   r = requests.post(
                       f"{self.server_url}/synthesize",
-                      json={"text": text, "language": "fr"},
+                      json={"text": text},
                       timeout=TIMEOUT_S
                   )
                   if r.status_code == 200:
@@ -320,26 +224,25 @@ Le clonage de voix nécessite un **fichier audio de référence** de 10 à 15 se
                       os.remove(tmp_path)
                       return
               except Exception as e:
-                  print(f"⚠ [CosyVoice Client] Erreur serveur ({e}) → repli Kokoro.")
+                  print(f"⚠ [F5-TTS Client] Erreur serveur ({e}) → repli Kokoro.")
                   self._server_ok = False
           # Repli local sur Kokoro
           self._get_fallback().speak(text)
   ```
 
-- [ ] **Configurer l'adresse IP du Mac dans le fichier `.env`** :
+- [ ] **Configurer l'adresse IP du Mac dans le fichier `.env` de la Jetson** :
   ```bash
   # Ajouter dans ~/dbot/code/.env :
   DBOT_TTS_SERVER=http://192.168.68.XXX:7860
   ```
-  *(Remplacer XXX par l'IP LAN de votre Mac, visible depuis la Jetson)*
 
-- [ ] **Modifier `async_conversation.py`** pour utiliser `CosyVoiceClient` à la place de `KokoroTTS` :
+- [ ] **Modifier `async_conversation.py`** pour utiliser `F5TTSClient` :
   ```python
   # Dans dbot_next/brain/async_conversation.py
   # Remplacer : self.tts = KokoroTTS()
   # Par :
-  from dbot_next.audio.tts_cosyvoice_client import CosyVoiceClient
-  self.tts = CosyVoiceClient()
+  from dbot_next.audio.tts_f5tts_client import F5TTSClient
+  self.tts = F5TTSClient()
   ```
 
 ---
@@ -348,10 +251,9 @@ Le clonage de voix nécessite un **fichier audio de référence** de 10 à 15 se
 
 - [ ] **Test du serveur depuis la Jetson** :
   ```bash
-  # Depuis la Jetson, remplacer XXX par l'IP du Mac
   curl -X POST http://192.168.68.XXX:7860/synthesize \
     -H "Content-Type: application/json" \
-    -d '{"text": "Bonjour, ceci est un test de voix clonée depuis la Jetson."}' \
+    -d '{"text": "Bonjour, ceci est un test de voix F5-TTS déportée."}' \
     --output /tmp/test_lan.wav && aplay /tmp/test_lan.wav
   ```
 
@@ -359,18 +261,12 @@ Le clonage de voix nécessite un **fichier audio de référence** de 10 à 15 se
   ```bash
   time curl -X POST http://192.168.68.XXX:7860/synthesize \
     -H "Content-Type: application/json" \
-    -d '{"text": "Quelle est la latence de synthèse sur le réseau local ?"}' \
+    -d '{"text": "Test de vitesse."}' \
     --output /tmp/test_latency.wav
-  # Objectif : < 800 ms total
+  # Objectif : < 3.0s total après warm-up
   ```
 
-- [ ] **Test du repli automatique sur Kokoro** : Couper le serveur Mac et vérifier que D-Bot bascule sur Kokoro sans erreur ni plantage.
-
-- [ ] **Test de la boucle conversationnelle complète** :
-  ```bash
-  bash dbot_next/scripts/run_bot_next.sh
-  # Vérifier que la voix clonée est bien utilisée pour toutes les réponses dynamiques.
-  ```
+- [ ] **Test du repli automatique sur Kokoro** : Couper le serveur sur le Mac et vérifier que D-Bot bascule sur Kokoro local sans erreur.
 
 ---
 
@@ -378,13 +274,16 @@ Le clonage de voix nécessite un **fichier audio de référence** de 10 à 15 se
 
 | Paramètre | Valeur |
 |---|---|
-| Modèle | CosyVoice 2 (`iic/CosyVoice2-0.5B`) via paquet `cosyvoice2-eu` |
-| Matériel serveur | Mac M2 (Apple Silicon, MPS backend) |
-| RAM requise Mac | ~4-5 Go |
-| Latence estimée Mac M2 | ~300-700 ms/phrase |
-| Latence réseau LAN | ~10-50 ms |
-| **Latence totale perçue** | **~500-800 ms/phrase** |
-| Audio de référence | WAV mono, 22050 Hz, 10-15 secondes minimum |
-| Port du serveur | 7860 (modifiable via variable d'env) |
-| Fallback automatique | Kokoro-ONNX GPU sur la Jetson si serveur inaccessible |
+| Modèle | F5-TTS Français (`RASPIAUDIO/F5-French-MixedSpeakers-reduced`) |
+| Matériel serveur | Mac M1 Max (GPU MPS) |
+| RAM requise Mac | ~1.5 Go |
+| Latence moyenne Mac | ~2.0s - 3.5s par phrase (avec `nfe_step=16`) |
+| Transport LAN Wi-Fi | ~10-50 ms |
+| Audio de référence | `LA-CAF-MIX-RADIO.mp3` |
+| Fallback automatique | Kokoro local ONNX (GPU Jetson Orin Nano) |
 
+- [ ] **Test de la boucle conversationnelle complète** :
+  ```bash
+  bash dbot_next/scripts/run_bot_next.sh
+  # Vérifier que la voix clonée est bien utilisée pour toutes les réponses dynamiques.
+  ```
