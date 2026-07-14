@@ -161,6 +161,12 @@ async def conversation_endpoint(websocket: WebSocket):
                     
                     # Permet à l'event loop d'exécuter d'autres tâches (comme la réception d'interruption)
                     await asyncio.sleep(0.005)
+                
+                # Envoi du marqueur de fin de phrase audio
+                if not state.is_interrupted:
+                    await websocket.send_json({
+                        "type": "audio_end"
+                    })
                     
             if state.is_interrupted:
                 print("🛑 Traitement interrompu au milieu de la réponse.")

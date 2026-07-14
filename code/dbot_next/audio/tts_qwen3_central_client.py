@@ -146,9 +146,26 @@ class Qwen3CentralClient:
                         pass
                 self.play_process = None
 
-    def write_audio_chunk(self, data: bytes):
-        """Écrit un chunk audio PCM sur l'entrée standard du lecteur."""
+    def close_playback_stream(self):
+        """Ferme l'entrée standard du processus pour vider le buffer et terminer proprement la phrase."""
         with self.lock:
+            if self.play_process:
+                try:
+                    if self.play_process.stdin:
+                        self.play_process.stdin.close()
+                except Exception:
+                    pass
+                # On met à None pour que la phrase suivante ouvre un nouveau processus
+                self.play_process = None
+
+    def write_audio_chunk(self, data: bytes, sample_rate: int = 24000):
+        """Écrit un chunk audio PCM sur l'entrée standard du lecteur (démarre le processus si besoin)."""
+        with self.lock:
+            # Si le processus de lecture n'existe pas ou s'est arrêté, on en lance un nouveau
+            # pour cette phrase spécifique
+            if not self.play_process or (hasattr(self.play_process, 'poll') and self.play_process.poll() is not None):
+                self.start_playback_stream(sample_rate)
+                
             if self.play_process and self.play_process.stdin:
                 try:
                     self.play_process.stdin.write(data)
@@ -175,9 +192,7 @@ class Qwen3CentralClient:
             print("⚠ Impossible d'envoyer le prompt : non connecté.")
             return
             
-        # Démarre le lecteur audio pour recevoir le flux
-        self.start_playback_stream()
-        
+        # La lecture audio démarrera d'elle-même dynamiquement à la réception du premier chunk
         await self.websocket.send(json.dumps({
             "text": text
         }))
@@ -212,7 +227,10 @@ class Qwen3CentralClient:
                     sample_rate = payload.get("sample_rate", 24000)
                     
                     audio_bytes = base64.b64decode(base64_data)
-                    self.write_audio_chunk(audio_bytes)
+                    self.write_audio_chunk(audio_bytes, sample_rate)
+                    
+                elif msg_type == "audio_end":
+                    self.close_playback_stream()
                     
                 elif msg_type == "end_of_response":
                     self.stop_playback_stream()
