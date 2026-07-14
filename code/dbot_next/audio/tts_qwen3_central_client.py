@@ -21,7 +21,7 @@ class Qwen3CentralClient:
         
         # Processus de lecture audio en cours
         self.play_process = None
-        self.lock = threading.Lock()
+        self.lock = threading.RLock()
         
         # Callbacks utilisateur
         self.on_text_received = None
