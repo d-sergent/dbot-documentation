@@ -52,6 +52,19 @@ class Qwen3CentralClient:
         except Exception:
             return False
 
+    def detect_respeaker_sink(self) -> Optional[str]:
+        """Détecte dynamiquement le nom du sink PulseAudio du ReSpeaker."""
+        try:
+            out = subprocess.check_output(["pactl", "list", "short", "sinks"], text=True)
+            for line in out.splitlines():
+                if "reSpeaker" in line or "XVF3800" in line or "usb-Seeed" in line:
+                    parts = line.split()
+                    if len(parts) > 1:
+                        return parts[1]
+        except Exception:
+            pass
+        return None
+
     def start_playback_stream(self, sample_rate: int = 24000):
         """Démarre un processus aplay ou paplay persistant pour lire l'audio en continu."""
         with self.lock:
@@ -86,17 +99,26 @@ class Qwen3CentralClient:
 
             if use_pulse:
                 # Utilisation de paplay (PulseAudio) pour la lecture de flux brut
-                play_cmd = ["paplay", "--raw", "--channels=1", f"--rate={sample_rate}", "--format=s16le", "/dev/stdin"]
+                play_cmd = ["paplay", "--raw", "--channels=1", f"--rate={sample_rate}", "--format=s16le"]
+                sink_name = self.detect_respeaker_sink()
+                if sink_name:
+                    print(f"🔊 [Client Audio] Utilisation du sink PulseAudio : {sink_name}")
+                    play_cmd.extend(["--device", sink_name])
+                else:
+                    print("🔊 [Client Audio] Aucun sink ReSpeaker spécifique détecté, utilisation du sink par défaut.")
+                play_cmd.append("/dev/stdin")
             else:
                 # Utilisation de aplay (ALSA Direct) sur la carte audio détectée
                 play_cmd = ["aplay", "-D", f"plughw:{card_id},0", "-t", "raw", "-c", "1", "-r", str(sample_rate), "-f", "S16_LE", "-"]
+                print(f"🔊 [Client Audio] Lecture via ALSA Direct sur carte : {card_id}")
                 
+            print(f"📣 Exécution commande audio : {' '.join(play_cmd)}")
             try:
+                # On ne redirige plus stderr vers DEVNULL pour afficher les erreurs ALSA/Pulse dans la console SSH
                 self.play_process = subprocess.Popen(
                     play_cmd,
                     stdin=subprocess.PIPE,
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL
+                    stdout=subprocess.DEVNULL
                 )
             except Exception as e:
                 print(f"❌ [Central Client] Erreur lors du lancement de la lecture audio : {e}")
