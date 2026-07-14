@@ -74,7 +74,7 @@ class Qwen3CentralClient:
         return None
 
     def _play_audio_sync(self, audio_data: bytes, sample_rate: int):
-        """Joue un bloc complet d'audio (une phrase) de manière synchrone dans un thread de l'exécuteur."""
+        """Joue un bloc complet d'audio (une phrase) en écrivant un WAV temporaire pour éviter les blocages de pipe."""
         if not audio_data:
             return
 
@@ -98,41 +98,56 @@ class Qwen3CentralClient:
             time.sleep(duration)
             return
 
-        if use_pulse:
-            play_cmd = ["paplay", "--raw", "--channels=1", f"--rate={sample_rate}", "--format=s16le"]
-            sink_name = self.detect_respeaker_sink()
-            if sink_name:
-                print(f"🔊 [Client Audio] Utilisation du sink PulseAudio : {sink_name}")
-                play_cmd.extend(["--device", sink_name])
-            else:
-                print("🔊 [Client Audio] Aucun sink ReSpeaker spécifique détecté, utilisation du sink par défaut.")
-            play_cmd.append("/dev/stdin")
-        else:
-            play_cmd = ["aplay", "-D", f"plughw:{card_id},0", "-t", "raw", "-c", "1", "-r", str(sample_rate), "-f", "S16_LE", "-"]
-            print(f"🔊 [Client Audio] Lecture via ALSA Direct sur carte : {card_id}")
+        import tempfile
+        import wave
 
-        print(f"📣 Exécution commande audio : {' '.join(play_cmd)}")
+        # 1. Création d'un fichier WAV temporaire
+        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tf:
+            temp_wav_path = tf.name
+
         try:
-            # On lance le processus avec Popen classique (extrêmement fiable pour l'écriture brute)
+            # Écriture des données au format WAV standard
+            with wave.open(temp_wav_path, 'wb') as wav_file:
+                wav_file.setnchannels(1)      # Mono
+                wav_file.setsampwidth(2)      # 16-bit = 2 octets
+                wav_file.setframerate(sample_rate)
+                wav_file.writeframes(audio_data)
+
+            if use_pulse:
+                play_cmd = ["paplay"]
+                sink_name = self.detect_respeaker_sink()
+                if sink_name:
+                    print(f"🔊 [Client Audio] Utilisation du sink PulseAudio : {sink_name}")
+                    play_cmd.extend(["--device", sink_name])
+                else:
+                    print("🔊 [Client Audio] Aucun sink ReSpeaker spécifique détecté, utilisation du sink par défaut.")
+                play_cmd.append(temp_wav_path)
+            else:
+                play_cmd = ["aplay", "-D", f"plughw:{card_id},0", temp_wav_path]
+                print(f"🔊 [Client Audio] Lecture via ALSA Direct sur carte : {card_id}")
+
+            print(f"📣 Exécution commande audio : {' '.join(play_cmd)}")
+            
+            # Lancement du processus de lecture de fichier
             process = subprocess.Popen(
                 play_cmd,
-                stdin=subprocess.PIPE,
-                stdout=subprocess.DEVNULL
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL
             )
             self.play_process = process
             
-            # Écriture des données audio
-            if process.stdin:
-                process.stdin.write(audio_data)
-                process.stdin.flush()
-                process.stdin.close()
-                
-            # Attente de la fin de lecture physique
+            # Attente de la fin de lecture physique du fichier
             process.wait()
         except Exception as e:
             print(f"❌ [Client Audio] Erreur de lecture : {e}")
         finally:
             self.play_process = None
+            # Nettoyage du fichier temporaire
+            try:
+                if os.path.exists(temp_wav_path):
+                    os.remove(temp_wav_path)
+            except Exception:
+                pass
 
     async def _play_audio_data(self, audio_data: bytes, sample_rate: int):
         """Joue un bloc complet d'audio (une phrase) de manière non bloquante pour l'event loop."""
