@@ -19,17 +19,20 @@ class Qwen3CentralClient:
         self.uri = f"ws://{self.host}:{self.port}/conversation"
         self.websocket = None
         
-        # Processus de lecture audio en cours
-        self.play_process = None
-        self.lock = threading.RLock()
+        # File d'attente de lecture asynchrone pour éviter les chevauchements
+        self.playback_queue = asyncio.Queue()
+        self.worker_task = None
         
+        # Buffer de la phrase en cours de réception
+        self.current_sentence_audio = bytearray()
+        
+        # Processus de lecture audio actif
+        self.play_process = None
+        self._is_connected = False
+
         # Callbacks utilisateur
         self.on_text_received = None
         self.on_response_end = None
-        
-        # Boucle d'event loop pour l'audio asynchrone
-        self.loop = None
-        self._is_connected = False
 
     def detect_respeaker_card(self) -> str:
         """Détecte la carte ReSpeaker ou XVF3800 pour ALSA (insensible à la casse)."""
@@ -69,109 +72,78 @@ class Qwen3CentralClient:
             pass
         return None
 
-    def start_playback_stream(self, sample_rate: int = 24000):
-        """Démarre un processus aplay ou paplay persistant pour lire l'audio en continu."""
-        with self.lock:
-            if self.play_process:
-                self.stop_playback_stream()
-                
-            # Éviter la redirection audio virtuelle de NoMachine (bulle NX)
-            os.environ.pop("PULSE_SERVER", None)
-                
-            # Détection de l'absence de lecteurs Linux (ex: macOS)
-            use_pulse = self.is_pulse_running()
-            card_id = None
-            if not use_pulse:
-                try:
-                    card_id = self.detect_respeaker_card()
-                except Exception:
-                    pass
+    async def _play_audio_data(self, audio_data: bytes, sample_rate: int):
+        """Joue un bloc complet d'audio (une phrase) de manière asynchrone via aplay/paplay."""
+        if not audio_data:
+            return
 
-            # Si aucun lecteur n'est disponible (ex: macOS de test), on simule
-            # pour pouvoir récupérer les chunks audio dans les callbacks sans planter
-            import platform
-            if platform.system() == "Darwin" or (not use_pulse and card_id is None):
-                print("ℹ [Client Audio] Aucun périphérique audio physique détecté. Mode simulation (DummyProcess) activé.")
-                class DummyProcess:
-                    def __init__(self):
-                        class DummyStdin:
-                            def write(self, d): pass
-                            def flush(self): pass
-                        self.stdin = DummyStdin()
-                    def terminate(self): pass
-                    def kill(self): pass
-                    def wait(self, timeout=None): pass
-                
-                self.play_process = DummyProcess()
-                return
-
-            if use_pulse:
-                # Utilisation de paplay (PulseAudio) pour la lecture de flux brut
-                play_cmd = ["paplay", "--raw", "--channels=1", f"--rate={sample_rate}", "--format=s16le"]
-                sink_name = self.detect_respeaker_sink()
-                if sink_name:
-                    print(f"🔊 [Client Audio] Utilisation du sink PulseAudio : {sink_name}")
-                    play_cmd.extend(["--device", sink_name])
-                else:
-                    print("🔊 [Client Audio] Aucun sink ReSpeaker spécifique détecté, utilisation du sink par défaut.")
-                play_cmd.append("/dev/stdin")
-            else:
-                # Utilisation de aplay (ALSA Direct) sur la carte audio détectée
-                play_cmd = ["aplay", "-D", f"plughw:{card_id},0", "-t", "raw", "-c", "1", "-r", str(sample_rate), "-f", "S16_LE", "-"]
-                print(f"🔊 [Client Audio] Lecture via ALSA Direct sur carte : {card_id}")
-                
-            print(f"📣 Exécution commande audio : {' '.join(play_cmd)}")
+        # Éviter la redirection audio virtuelle de NoMachine (bulle NX)
+        os.environ.pop("PULSE_SERVER", None)
+            
+        use_pulse = self.is_pulse_running()
+        card_id = None
+        if not use_pulse:
             try:
-                # On ne redirige plus stderr vers DEVNULL pour afficher les erreurs ALSA/Pulse dans la console SSH
-                self.play_process = subprocess.Popen(
-                    play_cmd,
-                    stdin=subprocess.PIPE,
-                    stdout=subprocess.DEVNULL
-                )
-            except Exception as e:
-                print(f"❌ [Central Client] Erreur lors du lancement de la lecture audio : {e}")
-                self.play_process = None
+                card_id = self.detect_respeaker_card()
+            except Exception:
+                pass
 
-    def stop_playback_stream(self):
-        """Arrête instantanément la lecture audio en cours (interruption matérielle)."""
-        with self.lock:
-            if self.play_process:
-                try:
-                    self.play_process.terminate()
-                    self.play_process.wait(timeout=0.2)
-                except Exception:
-                    try:
-                        self.play_process.kill()
-                    except Exception:
-                        pass
-                self.play_process = None
+        # Si aucun lecteur n'est disponible (ex: macOS de test), on simule la durée
+        import platform
+        if platform.system() == "Darwin" or (not use_pulse and card_id is None):
+            # 2 octets par sample (S16_LE)
+            duration = len(audio_data) / (2 * sample_rate)
+            await asyncio.sleep(duration)
+            return
 
-    def close_playback_stream(self):
-        """Ferme l'entrée standard du processus pour vider le buffer et terminer proprement la phrase."""
-        with self.lock:
-            if self.play_process:
-                try:
-                    if self.play_process.stdin:
-                        self.play_process.stdin.close()
-                except Exception:
-                    pass
-                # On met à None pour que la phrase suivante ouvre un nouveau processus
-                self.play_process = None
+        if use_pulse:
+            play_cmd = ["paplay", "--raw", "--channels=1", f"--rate={sample_rate}", "--format=s16le"]
+            sink_name = self.detect_respeaker_sink()
+            if sink_name:
+                play_cmd.extend(["--device", sink_name])
+            play_cmd.append("/dev/stdin")
+        else:
+            play_cmd = ["aplay", "-D", f"plughw:{card_id},0", "-t", "raw", "-c", "1", "-r", str(sample_rate), "-f", "S16_LE", "-"]
 
-    def write_audio_chunk(self, data: bytes, sample_rate: int = 24000):
-        """Écrit un chunk audio PCM sur l'entrée standard du lecteur (démarre le processus si besoin)."""
-        with self.lock:
-            # Si le processus de lecture n'existe pas ou s'est arrêté, on en lance un nouveau
-            # pour cette phrase spécifique
-            if not self.play_process or (hasattr(self.play_process, 'poll') and self.play_process.poll() is not None):
-                self.start_playback_stream(sample_rate)
+        try:
+            # On lance le processus de lecture asynchrone
+            process = await asyncio.create_subprocess_exec(
+                *play_cmd,
+                stdin=asyncio.subprocess.PIPE,
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.DEVNULL
+            )
+            self.play_process = process
+            
+            # Écriture des données audio sur stdin
+            if process.stdin:
+                process.stdin.write(audio_data)
+                await process.stdin.drain()
+                process.stdin.close()
                 
-            if self.play_process and self.play_process.stdin:
-                try:
-                    self.play_process.stdin.write(data)
-                    self.play_process.stdin.flush()
-                except Exception as e:
-                    print(f"⚠ [Central Client] Erreur d'écriture audio : {e}")
+            # Attente de la fin de lecture
+            await process.wait()
+        except Exception as e:
+            print(f"❌ [Client Audio] Erreur de lecture : {e}")
+        finally:
+            self.play_process = None
+
+    async def _playback_worker(self):
+        """Worker en tâche de fond qui dépile les phrases et les joue séquentiellement."""
+        while True:
+            try:
+                item = await self.playback_queue.get()
+                if item is None:
+                    self.playback_queue.task_done()
+                    break
+                
+                audio_data, sample_rate = item
+                await self._play_audio_data(audio_data, sample_rate)
+                self.playback_queue.task_done()
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                print(f"❌ [Playback Worker] Erreur inattendue : {e}")
 
     async def connect(self):
         """Se connecte au serveur WebSocket sur le Mac."""
@@ -180,7 +152,9 @@ class Qwen3CentralClient:
             self.websocket = await websockets.connect(self.uri)
             self._is_connected = True
             print("✅ Connecté au serveur central.")
-            # Lance le récepteur en tâche de fond
+            
+            # Lance le worker de lecture et la boucle de réception
+            self.worker_task = asyncio.create_task(self._playback_worker())
             asyncio.create_task(self._receive_loop())
         except Exception as e:
             print(f"❌ Échec de la connexion au serveur central : {e}")
@@ -192,14 +166,29 @@ class Qwen3CentralClient:
             print("⚠ Impossible d'envoyer le prompt : non connecté.")
             return
             
-        # La lecture audio démarrera d'elle-même dynamiquement à la réception du premier chunk
         await self.websocket.send(json.dumps({
             "text": text
         }))
 
     async def interrupt(self):
-        """Envoie un signal d'interruption immédiat au serveur central et coupe le haut-parleur."""
-        self.stop_playback_stream()
+        """Interrompt instantanément la lecture et vide la file d'attente."""
+        # 1. Vide la file d'attente
+        while not self.playback_queue.empty():
+            try:
+                self.playback_queue.get_nowait()
+                self.playback_queue.task_done()
+            except asyncio.QueueEmpty:
+                break
+                
+        # 2. Tue le processus de lecture actuel
+        if self.play_process:
+            try:
+                self.play_process.terminate()
+            except Exception:
+                pass
+            self.play_process = None
+            
+        # 3. Envoie le signal d'interruption au serveur
         if self._is_connected and self.websocket:
             try:
                 await self.websocket.send(json.dumps({
@@ -207,6 +196,12 @@ class Qwen3CentralClient:
                 }))
             except Exception as e:
                 print(f"⚠ Échec envoi interruption : {e}")
+
+    async def _wait_for_playback_done(self):
+        """Attend la fin de lecture de toutes les phrases en cours et notifie."""
+        await self.playback_queue.join()
+        if self.on_response_end:
+            self.on_response_end()
 
     async def _receive_loop(self):
         """Boucle de réception continue des messages du serveur."""
@@ -225,17 +220,22 @@ class Qwen3CentralClient:
                 elif msg_type == "audio":
                     base64_data = payload.get("data", "")
                     sample_rate = payload.get("sample_rate", 24000)
-                    
                     audio_bytes = base64.b64decode(base64_data)
-                    self.write_audio_chunk(audio_bytes, sample_rate)
+                    self.current_sentence_audio.extend(audio_bytes)
                     
                 elif msg_type == "audio_end":
-                    self.close_playback_stream()
+                    if self.current_sentence_audio:
+                        sample_rate = payload.get("sample_rate", 24000)
+                        self.playback_queue.put_nowait((bytes(self.current_sentence_audio), sample_rate))
+                        self.current_sentence_audio = bytearray()
                     
                 elif msg_type == "end_of_response":
-                    self.stop_playback_stream()
-                    if self.on_response_end:
-                        self.on_response_end()
+                    if self.current_sentence_audio:
+                        self.playback_queue.put_nowait((bytes(self.current_sentence_audio), 24000))
+                        self.current_sentence_audio = bytearray()
+                    
+                    # On attend que la file d'attente de lecture soit vide avant de finir
+                    asyncio.create_task(self._wait_for_playback_done())
                         
         except websockets.exceptions.ConnectionClosed:
             print("🔌 Connexion fermée par le serveur.")
@@ -246,6 +246,12 @@ class Qwen3CentralClient:
 
     def close(self):
         """Ferme proprement la connexion et la lecture."""
-        self.stop_playback_stream()
+        if self.worker_task:
+            self.worker_task.cancel()
+        if self.play_process:
+            try:
+                self.play_process.terminate()
+            except Exception:
+                pass
         if self.websocket:
             asyncio.run_coroutine_threadsafe(self.websocket.close(), asyncio.get_event_loop())
