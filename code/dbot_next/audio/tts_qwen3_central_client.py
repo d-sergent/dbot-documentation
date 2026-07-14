@@ -5,6 +5,7 @@ import base64
 import asyncio
 import subprocess
 import threading
+from typing import Optional
 import websockets
 
 class Qwen3CentralClient:
