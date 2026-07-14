@@ -48,9 +48,9 @@ async def main():
     
     await client.send_prompt(test_phrase)
     
-    # 3. Attente de la fin de lecture (timeout de 40s pour laisser le temps de lire toutes les phrases)
+    # 3. Attente de la fin de lecture (timeout de 120s pour laisser le temps de lire toutes les phrases)
     try:
-        await asyncio.wait_for(response_finished.wait(), timeout=40.0)
+        await asyncio.wait_for(response_finished.wait(), timeout=120.0)
     except asyncio.TimeoutError:
         print("⚠ Timeout : pas de réponse reçue ou lecture bloquée.")
         
