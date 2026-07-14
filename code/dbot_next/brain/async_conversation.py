@@ -2,7 +2,8 @@
 async_conversation.py — Orchestrateur conversationnel asynchrone et interruptible (Barge-In).
 ========================================================================================
 - Boucle d'écoute ASR en tâche de fond via sounddevice et Nemotron-3.5-ASR.
-- Inférence LLM (Gemini/Ollama) et synthèse TTS (Kokoro) en continu.
+- Inférence LLM (Gemini/Ollama) et synthèse TTS (Qwen3-TTS ou Kokoro) en continu.
+- Connexion centralisée sur le Mac compagnon avec repli local automatique (ASR -> Ollama -> Kokoro).
 - Gestion d'un automate d'états pour interrompre le robot dès que l'utilisateur parle.
 """
 
@@ -11,6 +12,7 @@ import sys
 import time
 import threading
 import queue
+import asyncio
 import numpy as np
 from typing import Optional
 
@@ -18,6 +20,7 @@ from typing import Optional
 from dbot_next.audio.audio_io_streaming import AudioIOStreaming
 from dbot_next.audio.stt_streaming import StreamingSTTNemotron
 from dbot_next.audio.tts_kokoro import KokoroTTS
+from dbot_next.audio.tts_qwen3_central_client import Qwen3CentralClient
 from dbot_next.brain.llm_client_streaming import DbotBrainStreaming
 
 class AsyncConversationManager:
@@ -50,9 +53,6 @@ class AsyncConversationManager:
             interrupt_callback=self.trigger_interrupt
         )
         
-        self.tts = KokoroTTS()
-        self.brain = DbotBrainStreaming(model_name=model_llm)
-        
         # Stockage de la transcription courante
         self.current_transcript = ""
         self.silence_start_time = None
@@ -62,8 +62,56 @@ class AsyncConversationManager:
         self.asr_thread: Optional[threading.Thread] = None
         self.llm_tts_thread: Optional[threading.Thread] = None
         
-        # Queue de tâches LLM à traiter
+        # Queue de tâches LLM à traiter (uniquement pour le mode local)
         self.pending_transcripts = queue.Queue()
+
+        # Config de la connexion centralisée
+        self.mac_ip = os.environ.get("DBOT_MAC_IP", "127.0.0.1")
+        self.use_central = False
+        
+        # Démarrage de l'event loop asyncio dans un thread séparé
+        self.loop = asyncio.new_event_loop()
+        self.async_thread = threading.Thread(target=self._run_async_loop, daemon=True)
+        self.async_thread.start()
+
+        # Tentative de connexion au serveur central du Mac
+        print(f"🔌 Tentative de connexion au serveur Mac compagnon ({self.mac_ip})...")
+        self.central_client = Qwen3CentralClient(host=self.mac_ip, port=8001)
+        
+        # On attend la connexion de façon synchrone avec un timeout court
+        fut = asyncio.run_coroutine_threadsafe(self.central_client.connect(), self.loop)
+        try:
+            fut.result(timeout=2.0)
+            if self.central_client._is_connected:
+                self.use_central = True
+                self.central_client.on_text_received = self.handle_central_text
+                self.central_client.on_response_end = self.handle_central_end
+                print("✨ [D-Bot Next] Serveur centralisé activé avec succès.")
+        except Exception:
+            pass
+
+        if not self.use_central:
+            print("⚠ [D-Bot Next] Serveur central injoignable. Activation de la stack locale (Ollama + KokoroTTS).")
+            self.tts = KokoroTTS()
+            self.brain = DbotBrainStreaming(model_name=model_llm)
+
+    def _run_async_loop(self):
+        """Démarre la boucle d'event loop asyncio pour le WebSocket client."""
+        asyncio.set_event_loop(self.loop)
+        self.loop.run_forever()
+
+    def handle_central_text(self, content: str):
+        """Callback appelé lorsque le serveur central envoie du texte."""
+        with self.lock:
+            if self.state in ["thinking", "listening"]:
+                self.state = "speaking"
+        print(f"🤖 [D-Bot (Central)] : {content}")
+
+    def handle_central_end(self):
+        """Callback appelé à la fin de la réponse centralisée."""
+        with self.lock:
+            self.state = "idle"
+        print("\n👀 À l'écoute...\n")
 
     def trigger_interrupt(self):
         """Déclenche une interruption immédiate du robot."""
@@ -71,7 +119,12 @@ class AsyncConversationManager:
             if self.state in ["thinking", "speaking"]:
                 print("\n🚨 [Automate] Interruption demandée (Barge-In ou Mot-clé) !")
                 self.interrupted.set()
-                self.tts.stop_speaking()
+                
+                if self.use_central:
+                    asyncio.run_coroutine_threadsafe(self.central_client.interrupt(), self.loop)
+                else:
+                    self.tts.stop_speaking()
+                    
                 self.state = "listening"
                 self.stt.reset()
                 self.current_transcript = ""
@@ -85,19 +138,34 @@ class AsyncConversationManager:
         self.asr_thread = threading.Thread(target=self._asr_loop, daemon=True)
         self.asr_thread.start()
         
-        # Démarrage du thread de traitement de dialogue
-        self.llm_tts_thread = threading.Thread(target=self._dialogue_loop, daemon=True)
-        self.llm_tts_thread.start()
-        
+        # Démarrage du thread de traitement de dialogue (uniquement si local)
+        if not self.use_central:
+            self.llm_tts_thread = threading.Thread(target=self._dialogue_loop, daemon=True)
+            self.llm_tts_thread.start()
+            
         print("\n🤖 [D-Bot Next] Système prêt et à l'écoute ! (Appuyez sur Ctrl+C pour quitter)\n")
-        self.tts.speak("Système de streaming initialisé. Je vous écoute.")
+        
+        if self.use_central:
+            # Message vocal d'accueil
+            asyncio.run_coroutine_threadsafe(
+                self.central_client.send_prompt("Bonjour, système de streaming centralisé initialisé et prêt."),
+                self.loop
+            )
+        else:
+            self.tts.speak("Système de streaming local initialisé. Je vous écoute.")
 
     def stop(self):
         """Arrête proprement l'orchestrateur."""
         print("🤖 [D-Bot Next] Arrêt du système...")
         self.stop_requested.set()
-        self.tts.stop_speaking()
+        
+        if self.use_central:
+            self.central_client.close()
+        else:
+            self.tts.stop_speaking()
+            
         self.audio.close()
+        self.loop.call_soon_threadsafe(self.loop.stop)
 
     def _asr_loop(self):
         """Boucle d'écoute continue en tâche de fond."""
@@ -118,7 +186,10 @@ class AsyncConversationManager:
                         if self.state in ["thinking", "speaking"]:
                             print("\n🗣️  [VAD] Parole détectée pendant la réponse. Interruption...")
                             self.interrupted.set()
-                            self.tts.stop_speaking()
+                            if self.use_central:
+                                asyncio.run_coroutine_threadsafe(self.central_client.interrupt(), self.loop)
+                            else:
+                                self.tts.stop_speaking()
                         self.state = "listening"
                         self.stt.reset()
                         self.current_transcript = ""
@@ -143,14 +214,22 @@ class AsyncConversationManager:
                             clean_text = self.current_transcript.strip()
                             if len(clean_text) > 2:
                                 print(f"\n👤 Vous : '{clean_text}'")
-                                self.pending_transcripts.put(clean_text)
+                                if self.use_central:
+                                    # Envoi direct au serveur central
+                                    asyncio.run_coroutine_threadsafe(
+                                        self.central_client.send_prompt(clean_text),
+                                        self.loop
+                                    )
+                                else:
+                                    # Envoi à la queue locale
+                                    self.pending_transcripts.put(clean_text)
                             else:
                                 self.state = "idle"
                             self.current_transcript = ""
                             self.silence_start_time = None
 
     def _dialogue_loop(self):
-        """Boucle de traitement dialogue (LLM -> TTS)."""
+        """Boucle de traitement dialogue locale (LLM -> TTS)."""
         while not self.stop_requested.is_set():
             try:
                 # Attente d'un texte transcrit
@@ -161,7 +240,7 @@ class AsyncConversationManager:
             # Reset du signal d'interruption
             self.interrupted.clear()
             
-            print("⏳ [Dialogue] Génération de la réponse...")
+            print("⏳ [Dialogue] Génération de la réponse locale...")
             try:
                 # Streaming LLM
                 response_stream = self.brain.generate_response_stream(user_text)
@@ -194,6 +273,16 @@ class AsyncConversationManager:
                     self.state = "idle"
                     
             self.pending_transcripts.task_done()
+
+if __name__ == "__main__":
+    manager = AsyncConversationManager()
+    try:
+        manager.start()
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        manager.stop()
+
 
 if __name__ == "__main__":
     manager = AsyncConversationManager()

@@ -40,7 +40,7 @@ class DbotBrainStreaming(DbotBrain):
 
     def _stream_gemini(self, text: str) -> Generator[str, None, None]:
         """Appel streaming à l'API Gemini via SSE."""
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:streamGenerateContent?key={GEMINI_API_KEY}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:streamGenerateContent?key={GEMINI_API_KEY}&alt=sse"
         
         content = [{"role": "user", "parts": [{"text": self.system_prompt + "\n\n" + text}]}]
         payload = {

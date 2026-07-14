@@ -287,3 +287,89 @@ Le script du serveur est opérationnel dans le dépôt :
   bash dbot_next/scripts/run_bot_next.sh
   # Vérifier que la voix clonée est bien utilisée pour toutes les réponses dynamiques.
   ```
+
+---
+
+### 🎙️ Phase 10 : Centralisation de l'Intelligence en Streaming (Gemini + Qwen3-TTS VoiceDesign MLX)
+*(Solution Finale Sélectionnée — Inférence déportée sur Mac, streaming de phrases via WebSocket, et fallback local)*
+
+**Objectif** : Atteindre un temps de réaction conversationnel sous la barre de la seconde (~800 ms) avec une voix française d'une qualité inégalée (VoiceDesign), tout en centralisant le traitement du LLM (Gemini 2.0 Flash) et de la génération audio sur le Mac compagnon (Apple Silicon GPU).
+
+#### 🏗️ Architecture Globale de la Solution
+```
+    [ HUMAIN ] 
+        │ (Parole)
+        ▼
+┌─────────────────────────────────────────────────────────────┐
+│ JETSON ORIN NANO (Robot D-Bot)                              │
+│                                                             │
+│ 1. Capture Audio & VAD (sounddevice)                        │
+│ 2. Transcription ASR (Nemotron local)                       │
+│ 3. Envoi du prompt texte brut via WebSocket                 │
+└─────────────────────────────────────────────────────────────┘
+        │
+        │ (Lien LAN Wi-Fi / Filaire) ~10 ms
+        ▼
+┌─────────────────────────────────────────────────────────────┐
+│ MAC M1 MAX PRO (Serveur Central LLM + TTS)                  │
+│                                                             │
+│ 4. Appel Gemini 2.0 Flash (SSE Streaming API avec alt=sse)  │
+│ 5. Découpe des phrases et envoi immédiat du texte au robot  │
+│ 6. Inférence Qwen3-TTS (1.7B VoiceDesign MLX 8-bit)         │
+└─────────────────────────────────────────────────────────────┘
+        │
+        │ (Streaming WebSocket de Chunks Audio PCM 24kHz) ~10 ms
+        ▼
+┌─────────────────────────────────────────────────────────────┐
+│ JETSON ORIN NANO (Lecture & Historique)                     │
+│                                                             │
+│ 7. Lecture de flux brut (PCM) via aplay ou paplay           │
+│ 8. Gestion de l'interruption (Barge-In)                     │
+└─────────────────────────────────────────────────────────────┘
+        │
+        ▼
+    [ HUMAIN ] (Entend la réponse en < 900 ms)
+```
+
+#### 📦 Fichiers Implémentés
+1. **Serveur Mac Compagnon** : [server_qwen3_central.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot_next/tts_server/server_qwen3_central.py)
+   * Initialise le modèle quantifié `Qwen3-TTS-12Hz-1.7B-VoiceDesign-8bit` via le framework `mlx-audio`.
+   * Gère le streaming Gemini et l'envoi progressif des chunks PCM audio 24kHz au format JSON (base64).
+2. **Client Jetson** : [tts_qwen3_central_client.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot_next/audio/tts_qwen3_central_client.py)
+   * Client WebSocket asynchrone gérant la reconnexion et le décodage.
+   * Dirige le flux audio brut directement vers l'entrée standard d'un processus `aplay` (ou `paplay`) persistant pour une lecture fluide et sans latence d'initialisation.
+3. **Orchestrateur** : [async_conversation.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot_next/brain/async_conversation.py)
+   * Intègre la logique du client centralisé avec reconnexion automatique.
+   * **Barge-In** : Envoie un signal d'interruption `{ "type": "interrupt" }` au serveur Mac pour stopper l'inférence dès que l'utilisateur commence à parler.
+   * **Fallback local automatique** : Si le serveur du Mac n'est pas joignable sous 2.0s, active de manière transparente le LLM local (Ollama) et le TTS local (Kokoro-ONNX).
+
+---
+
+#### 🧪 Performances mesurées (Mac M1 Max Pro)
+- **Latence Premier Texte (Gemini)** : **572 ms**
+- **Latence Premier Audio (TTFA Qwen3-TTS)** : **816 ms** ⚡ (Inférence MLX 8-bit avec chunks de 0.4s)
+- **RTF (Real-Time Factor)** : **0.36x** (génère l'audio 2.7x plus vite que sa durée de lecture)
+
+---
+
+#### 🗣️ Configuration de la Voix (Masculine / Féminine)
+Le prompt de conception de la voix (VoiceDesign) se configure directement dans le script du serveur [server_qwen3_central.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot_next/tts_server/server_qwen3_central.py).
+
+##### Pour une voix féminine par défaut (Voix actuelle) :
+```python
+INSTRUCT_FR = (
+    "A sophisticated young French woman speaking with a soft, elegant, native French accent. "
+    "The tone is calm, clear, and professional."
+)
+```
+
+##### Pour basculer sur une voix masculine chaleureuse :
+Modifiez la variable `INSTRUCT_FR` dans [server_qwen3_central.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot_next/tts_server/server_qwen3_central.py) :
+```python
+INSTRUCT_FR = (
+    "A friendly male voice with a warm, natural, native French accent and a smooth, steady cadence. "
+    "Very clear pronunciation."
+)
+```
+*Note : Pour appliquer le changement de voix, il suffit de modifier cette variable et de relancer le script sur le Mac compagnon.*
+
