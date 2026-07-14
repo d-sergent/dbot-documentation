@@ -32,14 +32,15 @@ class Qwen3CentralClient:
         self._is_connected = False
 
     def detect_respeaker_card(self) -> str:
-        """Détecte la carte ReSpeaker ou XVF3800 pour ALSA."""
+        """Détecte la carte ReSpeaker ou XVF3800 pour ALSA (insensible à la casse)."""
         try:
             out = subprocess.check_output(["arecord", "-l"], text=True)
             for line in out.splitlines():
-                if "reSpeaker" in line or "XVF3800" in line:
-                    if "carte" in line:
+                line_lower = line.lower()
+                if "respeaker" in line_lower or "xvf3800" in line_lower or "seeed" in line_lower:
+                    if "carte" in line_lower:
                         return line.split("carte ")[1].split(":")[0].strip()
-                    elif "card" in line:
+                    elif "card" in line_lower:
                         return line.split("card ")[1].split(":")[0].strip()
         except Exception:
             pass
@@ -54,11 +55,12 @@ class Qwen3CentralClient:
             return False
 
     def detect_respeaker_sink(self) -> Optional[str]:
-        """Détecte dynamiquement le nom du sink PulseAudio du ReSpeaker."""
+        """Détecte dynamiquement le nom du sink PulseAudio du ReSpeaker (insensible à la casse)."""
         try:
             out = subprocess.check_output(["pactl", "list", "short", "sinks"], text=True)
             for line in out.splitlines():
-                if "reSpeaker" in line or "XVF3800" in line or "usb-Seeed" in line:
+                line_lower = line.lower()
+                if "respeaker" in line_lower or "xvf3800" in line_lower or "seeed" in line_lower:
                     parts = line.split()
                     if len(parts) > 1:
                         return parts[1]
