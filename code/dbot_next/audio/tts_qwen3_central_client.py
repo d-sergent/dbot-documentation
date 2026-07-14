@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 import json
 import base64
 import asyncio
@@ -72,8 +73,8 @@ class Qwen3CentralClient:
             pass
         return None
 
-    async def _play_audio_data(self, audio_data: bytes, sample_rate: int):
-        """Joue un bloc complet d'audio (une phrase) de manière asynchrone via aplay/paplay."""
+    def _play_audio_sync(self, audio_data: bytes, sample_rate: int):
+        """Joue un bloc complet d'audio (une phrase) de manière synchrone dans un thread de l'exécuteur."""
         if not audio_data:
             return
 
@@ -91,42 +92,52 @@ class Qwen3CentralClient:
         # Si aucun lecteur n'est disponible (ex: macOS de test), on simule la durée
         import platform
         if platform.system() == "Darwin" or (not use_pulse and card_id is None):
+            print("ℹ [Client Audio] Aucun périphérique audio physique détecté. Mode simulation (DummyProcess) activé.")
             # 2 octets par sample (S16_LE)
             duration = len(audio_data) / (2 * sample_rate)
-            await asyncio.sleep(duration)
+            time.sleep(duration)
             return
 
         if use_pulse:
             play_cmd = ["paplay", "--raw", "--channels=1", f"--rate={sample_rate}", "--format=s16le"]
             sink_name = self.detect_respeaker_sink()
             if sink_name:
+                print(f"🔊 [Client Audio] Utilisation du sink PulseAudio : {sink_name}")
                 play_cmd.extend(["--device", sink_name])
+            else:
+                print("🔊 [Client Audio] Aucun sink ReSpeaker spécifique détecté, utilisation du sink par défaut.")
             play_cmd.append("/dev/stdin")
         else:
             play_cmd = ["aplay", "-D", f"plughw:{card_id},0", "-t", "raw", "-c", "1", "-r", str(sample_rate), "-f", "S16_LE", "-"]
+            print(f"🔊 [Client Audio] Lecture via ALSA Direct sur carte : {card_id}")
 
+        print(f"📣 Exécution commande audio : {' '.join(play_cmd)}")
         try:
-            # On lance le processus de lecture asynchrone
-            process = await asyncio.create_subprocess_exec(
-                *play_cmd,
-                stdin=asyncio.subprocess.PIPE,
-                stdout=asyncio.subprocess.DEVNULL,
-                stderr=asyncio.subprocess.DEVNULL
+            # On lance le processus avec Popen classique (extrêmement fiable pour l'écriture brute)
+            process = subprocess.Popen(
+                play_cmd,
+                stdin=subprocess.PIPE,
+                stdout=subprocess.DEVNULL
             )
             self.play_process = process
             
-            # Écriture des données audio sur stdin
+            # Écriture des données audio
             if process.stdin:
                 process.stdin.write(audio_data)
-                await process.stdin.drain()
+                process.stdin.flush()
                 process.stdin.close()
                 
-            # Attente de la fin de lecture
-            await process.wait()
+            # Attente de la fin de lecture physique
+            process.wait()
         except Exception as e:
             print(f"❌ [Client Audio] Erreur de lecture : {e}")
         finally:
             self.play_process = None
+
+    async def _play_audio_data(self, audio_data: bytes, sample_rate: int):
+        """Joue un bloc complet d'audio (une phrase) de manière non bloquante pour l'event loop."""
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(None, self._play_audio_sync, audio_data, sample_rate)
 
     async def _playback_worker(self):
         """Worker en tâche de fond qui dépile les phrases et les joue séquentiellement."""
