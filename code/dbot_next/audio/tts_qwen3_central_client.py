@@ -47,9 +47,10 @@ class Qwen3CentralClient:
         return "0"
 
     def is_pulse_running(self) -> bool:
-        """Vérifie si le serveur PulseAudio est actif."""
+        """Vérifie si le serveur PulseAudio est actif pour l'utilisateur actuel."""
         try:
-            out = subprocess.check_output(["pgrep", "pulseaudio"])
+            uid = os.getuid()
+            out = subprocess.check_output(["pgrep", "-u", str(uid), "pulseaudio"])
             return len(out) > 0
         except Exception:
             return False
