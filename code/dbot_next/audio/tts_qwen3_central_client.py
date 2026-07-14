@@ -89,7 +89,7 @@ class Qwen3CentralClient:
                 play_cmd = ["paplay", "--raw", "--channels=1", f"--rate={sample_rate}", "--format=s16le", "/dev/stdin"]
             else:
                 # Utilisation de aplay (ALSA Direct) sur la carte audio détectée
-                play_cmd = ["aplay", "-D", f"plughw:{card_id},0", "-t", "raw", "-c", "1", f"-r={sample_rate}", "-f", "S16_LE", "-"]
+                play_cmd = ["aplay", "-D", f"plughw:{card_id},0", "-t", "raw", "-c", "1", "-r", str(sample_rate), "-f", "S16_LE", "-"]
                 
             try:
                 self.play_process = subprocess.Popen(
