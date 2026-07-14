@@ -72,6 +72,9 @@ class Qwen3CentralClient:
             if self.play_process:
                 self.stop_playback_stream()
                 
+            # Éviter la redirection audio virtuelle de NoMachine (bulle NX)
+            os.environ.pop("PULSE_SERVER", None)
+                
             # Détection de l'absence de lecteurs Linux (ex: macOS)
             use_pulse = self.is_pulse_running()
             card_id = None
@@ -85,6 +88,7 @@ class Qwen3CentralClient:
             # pour pouvoir récupérer les chunks audio dans les callbacks sans planter
             import platform
             if platform.system() == "Darwin" or (not use_pulse and card_id is None):
+                print("ℹ [Client Audio] Aucun périphérique audio physique détecté. Mode simulation (DummyProcess) activé.")
                 class DummyProcess:
                     def __init__(self):
                         class DummyStdin:
