@@ -105,11 +105,19 @@ class StreamingSTTNemotron:
             chunk = chunk[:self.chunk_samples]
 
         try:
-            # Transformation en tenseur PyTorch et envoi sur GPU/CPU
-            audio_tensor = torch.tensor(chunk, dtype=torch.float32).unsqueeze(0).to(self.device)
+            # Injection du chunk audio dans le décodeur via l'itérateur NeMo
+            from nemo.collections.asr.parts.utils.streaming_utils import AudioFeatureIterator
             
-            # Transcription via le décodeur NeMo
-            hypotheses = self.decoder.transcribe(audio_tensor)
+            frame_reader = AudioFeatureIterator(
+                chunk, 
+                self.frame_len, 
+                self.decoder.raw_preprocessor, 
+                self.device
+            )
+            self.decoder.set_frame_reader(frame_reader, idx=0)
+            
+            # Transcription en mode streaming (tokens_per_chunk=1, delay=0)
+            hypotheses = self.decoder.transcribe(tokens_per_chunk=1, delay=0)
             
             if hypotheses and len(hypotheses) > 0:
                 text = hypotheses[0]
