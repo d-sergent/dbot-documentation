@@ -46,12 +46,7 @@ class AsyncConversationManager:
                 print(f"🧭 [DOA] Son détecté à {angle}°.")
 
         self.audio = AudioIOStreaming(doa_callback=on_doa)
-        
-        # Liaison de l'interruption matérielle sur le décodeur STT
-        self.stt = StreamingSTTNemotron(
-            model_name=model_stt,
-            interrupt_callback=self.trigger_interrupt
-        )
+        self.stt = None
         
         # Stockage de la transcription courante
         self.current_transcript = ""
@@ -86,12 +81,18 @@ class AsyncConversationManager:
                 self.use_central = True
                 self.central_client.on_text_received = self.handle_central_text
                 self.central_client.on_response_end = self.handle_central_end
+                self.central_client.on_asr_received = self.handle_central_asr
                 print("✨ [D-Bot Next] Serveur centralisé activé avec succès.")
         except Exception:
             pass
 
         if not self.use_central:
-            print("⚠ [D-Bot Next] Serveur central injoignable. Activation de la stack locale (Ollama + KokoroTTS).")
+            print("⚠ [D-Bot Next] Serveur central injoignable. Activation de la stack locale de secours (ASR + Ollama + KokoroTTS).")
+            # Chargement différé (Lazy Loading) de l'ASR local de secours
+            self.stt = StreamingSTTNemotron(
+                model_name=model_stt,
+                interrupt_callback=self.trigger_interrupt
+            )
             self.tts = KokoroTTS()
             self.brain = DbotBrainStreaming(model_name=model_llm)
 
@@ -113,6 +114,12 @@ class AsyncConversationManager:
             self.state = "idle"
         print("\n👀 À l'écoute...\n")
 
+    def handle_central_asr(self, text: str):
+        """Callback appelé lorsque le serveur compagnon a fini la transcription ASR."""
+        print(f"\n👤 Vous (ASR Mac) : '{text}'")
+        with self.lock:
+            self.state = "thinking"
+
     def trigger_interrupt(self):
         """Déclenche une interruption immédiate du robot."""
         with self.lock:
@@ -124,9 +131,10 @@ class AsyncConversationManager:
                     asyncio.run_coroutine_threadsafe(self.central_client.interrupt(), self.loop)
                 else:
                     self.tts.stop_speaking()
+                    if self.stt:
+                        self.stt.reset()
                     
                 self.state = "listening"
-                self.stt.reset()
                 self.current_transcript = ""
 
     def start(self):
@@ -190,18 +198,32 @@ class AsyncConversationManager:
                                 asyncio.run_coroutine_threadsafe(self.central_client.interrupt(), self.loop)
                             else:
                                 self.tts.stop_speaking()
+                                
+                        # Si on utilise la centralisation, on notifie le serveur du début de la parole
+                        if self.use_central:
+                            asyncio.run_coroutine_threadsafe(self.central_client.send_control("start"), self.loop)
+                            
                         self.state = "listening"
-                        self.stt.reset()
+                        if self.stt:
+                            self.stt.reset()
                         self.current_transcript = ""
                         self.silence_start_time = None
-                        print("🎙️  [D-Bot] Écoute en cours...")
+                        print("🎙️  [D-Bot] Écoute en cours (Audio streamé au Mac)..." if self.use_central else "🎙️  [D-Bot] Écoute en cours (ASR local)...")
                         
-                    # Processus ASR sur le chunk
-                    text_part = self.stt.process_chunk(chunk)
-                    if text_part:
-                        self.current_transcript = text_part
-                        # Reset de la détection de fin de phrase
-                        self.silence_start_time = None
+                    # Envoi ou traitement du chunk
+                    if self.use_central:
+                        # On envoie les octets binaires bruts PCM
+                        asyncio.run_coroutine_threadsafe(
+                            self.central_client.send_audio_chunk(chunk.tobytes()),
+                            self.loop
+                        )
+                    else:
+                        if self.stt:
+                            text_part = self.stt.process_chunk(chunk)
+                            if text_part:
+                                self.current_transcript = text_part
+                                # Reset de la détection de fin de phrase
+                                self.silence_start_time = None
                         
                 else:
                     # L'utilisateur ne parle pas ou plus
@@ -210,21 +232,18 @@ class AsyncConversationManager:
                             self.silence_start_time = time.time()
                         elif time.time() - self.silence_start_time > self.silence_threshold:
                             # Fin de phrase détectée !
-                            self.state = "thinking"
-                            clean_text = self.current_transcript.strip()
-                            if len(clean_text) > 2:
-                                print(f"\n👤 Vous : '{clean_text}'")
-                                if self.use_central:
-                                    # Envoi direct au serveur central
-                                    asyncio.run_coroutine_threadsafe(
-                                        self.central_client.send_prompt(clean_text),
-                                        self.loop
-                                    )
-                                else:
-                                    # Envoi à la queue locale
-                                    self.pending_transcripts.put(clean_text)
+                            if self.use_central:
+                                print("\n🎙️  [VAD] Fin de parole. Demande de transcription au Mac...")
+                                asyncio.run_coroutine_threadsafe(self.central_client.send_control("end"), self.loop)
+                                self.state = "thinking"
                             else:
-                                self.state = "idle"
+                                self.state = "thinking"
+                                clean_text = self.current_transcript.strip()
+                                if len(clean_text) > 2:
+                                    print(f"\n👤 Vous (ASR Local) : '{clean_text}'")
+                                    self.pending_transcripts.put(clean_text)
+                                else:
+                                    self.state = "idle"
                             self.current_transcript = ""
                             self.silence_start_time = None
 

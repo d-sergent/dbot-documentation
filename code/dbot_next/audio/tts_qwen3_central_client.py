@@ -34,6 +34,7 @@ class Qwen3CentralClient:
         # Callbacks utilisateur
         self.on_text_received = None
         self.on_response_end = None
+        self.on_asr_received = None
 
     def detect_respeaker_card(self) -> str:
         """Détecte la carte ReSpeaker ou XVF3800 pour ALSA (insensible à la casse)."""
@@ -196,6 +197,26 @@ class Qwen3CentralClient:
             "text": text
         }))
 
+    async def send_audio_chunk(self, chunk: bytes):
+        """Envoie un chunk audio brut (PCM) au serveur compagnon."""
+        if not self._is_connected or not self.websocket:
+            return
+        try:
+            await self.websocket.send(chunk)
+        except Exception as e:
+            print(f"⚠ Échec de l'envoi du chunk audio : {e}")
+
+    async def send_control(self, signal_type: str):
+        """Envoie un signal de contrôle (start, end, interrupt) au serveur."""
+        if not self._is_connected or not self.websocket:
+            return
+        try:
+            await self.websocket.send(json.dumps({
+                "type": signal_type
+            }))
+        except Exception as e:
+            print(f"⚠ Échec de l'envoi du signal de contrôle {signal_type} : {e}")
+
     async def interrupt(self):
         """Interrompt instantanément la lecture et vide la file d'attente."""
         # 1. Vide la file d'attente
@@ -242,6 +263,11 @@ class Qwen3CentralClient:
                         self.on_text_received(content)
                     else:
                         print(f"🤖 [D-Bot] : {content}")
+                        
+                elif msg_type == "asr_transcription":
+                    text = payload.get("text", "")
+                    if self.on_asr_received:
+                        self.on_asr_received(text)
                         
                 elif msg_type == "audio":
                     base64_data = payload.get("data", "")
