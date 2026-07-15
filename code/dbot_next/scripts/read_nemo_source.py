@@ -8,16 +8,16 @@ if not os.path.exists(filepath):
 with open(filepath, "r") as f:
     lines = f.readlines()
 
-# Find the start of class BatchedFrameASRRNNT
+# Find the start of class FrameBatchASR
 class_line = -1
 for i, line in enumerate(lines):
-    if "class BatchedFrameASRRNNT" in line:
+    if "class FrameBatchASR" in line:
         class_line = i
         break
 
 if class_line != -1:
     print(f"--- Source lines starting from class definition (line {class_line + 1}) ---")
-    for i in range(class_line, min(class_line + 200, len(lines))):
+    for i in range(class_line, min(class_line + 120, len(lines))):
         print(f"{i+1}: {lines[i]}", end="")
 else:
-    print("Class BatchedFrameASRRNNT not found")
+    print("Class FrameBatchASR not found")
