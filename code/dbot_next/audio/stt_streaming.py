@@ -131,6 +131,8 @@ class StreamingSTTNemotron:
                     
                 return text
         except Exception as e:
-            print(f"⚠ [STT Streaming] Erreur lors de l'inférence : {e}")
+            import traceback
+            print("⚠ [STT Streaming] Détails de l'erreur lors de l'inférence :")
+            traceback.print_exc()
             
         return ""
