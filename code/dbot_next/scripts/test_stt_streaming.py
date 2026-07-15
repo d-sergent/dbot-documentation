@@ -38,15 +38,26 @@ def main():
         audio.start_capture()
         print("\n🎤 Prêt ! Parlez dans le micro ReSpeaker (Dites 'stop' pour tester l'interruption, Ctrl+C pour quitter)...")
         
+        import numpy as np
         last_text = ""
+        chunk_count = 0
         while True:
             chunk = audio.get_audio_chunk(timeout=0.1)
             if chunk is not None:
+                chunk_count += 1
+                max_val = np.max(np.abs(chunk))
+                
                 # Transcrire le chunk
                 text = stt.process_chunk(chunk)
+                
+                # Affichage de diagnostic toutes les 5 secondes environ (30 chunks de 160ms)
+                if chunk_count % 15 == 0:
+                    sys.stdout.write(f"\r[Diag] Chunks capturés : {chunk_count} | Vol Max : {max_val} | ASR : '{text}'")
+                    sys.stdout.flush()
+                
                 if text and text != last_text:
-                    # Affichage à la volée
-                    sys.stdout.write(f"\r📝 Transcription : {text}")
+                    # Affichage à la volée du texte reconnu
+                    sys.stdout.write(f"\n🗣️ Reconnu : {text}\n")
                     sys.stdout.flush()
                     last_text = text
             time.sleep(0.01)
