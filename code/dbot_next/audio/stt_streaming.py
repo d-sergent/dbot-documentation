@@ -41,7 +41,7 @@ class StreamingSTTNemotron:
         # Chargement du modèle avec repli automatique sur le CPU si CUDA échoue (OOM / fragmentation)
         try:
             print(f"⏳ [STT Streaming] Chargement de {model_name} sur {self.device.upper()}...")
-            self.model = nemo_asr.models.ASRModel.from_pretrained(model_name=model_name)
+            self.model = nemo_asr.models.ASRModel.from_pretrained(model_name=model_name, map_location=self.device)
             self.model = self.model.to(self.device)
             self.model.eval()
             print(f"✅ [STT Streaming] Modèle ASR chargé avec succès sur {self.device.upper()}.")
@@ -54,7 +54,7 @@ class StreamingSTTNemotron:
                     # Nettoyage CUDA
                     torch.cuda.empty_cache()
                     
-                    self.model = nemo_asr.models.ASRModel.from_pretrained(model_name=model_name)
+                    self.model = nemo_asr.models.ASRModel.from_pretrained(model_name=model_name, map_location="cpu")
                     self.model = self.model.to("cpu")
                     self.model.eval()
                     print("✅ [STT Streaming] Modèle ASR chargé avec succès sur CPU (Mode Secours).")
