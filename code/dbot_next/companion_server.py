@@ -102,9 +102,25 @@ async def conversation_endpoint(websocket: WebSocket):
                                     segments, info = asr_model.transcribe(
                                         full_audio_float32, 
                                         language="fr", 
-                                        beam_size=5
+                                        beam_size=5,
+                                        temperature=0.0,
+                                        no_speech_threshold=0.6
                                     )
-                                    return " ".join([seg.text for seg in segments]).strip()
+                                    text = " ".join([seg.text for seg in segments]).strip()
+                                    
+                                    # Filtre anti-hallucinations sur bruit de fond/silence
+                                    hallucination_patterns = [
+                                        "merci d'avoir regardé", 
+                                        "sous-titres", 
+                                        "merci pour votre attention",
+                                        "visionné cette vidéo",
+                                        "regardé la vidéo"
+                                    ]
+                                    text_lower = text.lower()
+                                    if any(pattern in text_lower for pattern in hallucination_patterns):
+                                        print(f"🧹 [ASR Mac] Hallucination Whisper détectée et nettoyée : '{text}'")
+                                        return ""
+                                    return text
                                 
                                 start_t = time.time()
                                 transcribed_text = await loop.run_in_executor(None, transcribe_task)
