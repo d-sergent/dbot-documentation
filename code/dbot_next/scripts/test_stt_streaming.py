@@ -30,7 +30,7 @@ def main():
         # Initialiser l'ASR
         stt = StreamingSTTNemotron(
             model_name="nvidia/nemotron-3.5-asr-streaming-0.6b",
-            device="cuda",
+            device="cpu",
             frame_len=0.16,
             interrupt_callback=on_interrupt
         )

@@ -25,7 +25,7 @@ class StreamingSTTNemotron:
     """
     def __init__(self, 
                  model_name: str = "nvidia/nemotron-3.5-asr-streaming-0.6b", 
-                 device: str = "cuda", 
+                 device: str = "cpu", 
                  target_lang: str = "fr-FR", 
                  frame_len: float = 0.16, 
                  total_buffer: float = 4.0,
