@@ -80,7 +80,7 @@ class AudioIOStreaming:
         return None
 
     def _initialize_hardware(self):
-        """Active l'amplificateur JST du ReSpeaker."""
+        """Active l'amplificateur JST du ReSpeaker et réveille le périphérique PulseAudio."""
         try:
             subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=3", "on"], stdout=subprocess.DEVNULL)
             subprocess.run(["amixer", "-c", self.card_id, "cset", "numid=4", "on"], stdout=subprocess.DEVNULL)
@@ -89,6 +89,27 @@ class AudioIOStreaming:
             print(f"✅ [AudioIO Streaming] Ampli JST activé (Carte {self.card_id})")
         except Exception as e:
             print(f"⚠ [AudioIO Streaming] Erreur init ampli : {e}")
+
+        # RÉVEIL FORCÉ DE LA SOURCE MICRO PULSEAUDIO (Évite le retour de flux à 0 dû à module-suspend-on-idle)
+        try:
+            source_name = None
+            out = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
+            for line in out.splitlines():
+                if ("reSpeaker" in line or "XVF3800" in line) and "input" in line and ".monitor" not in line:
+                    source_name = line.split()[1]
+                    break
+            
+            if source_name:
+                print(f"⚡ [AudioIO Streaming] Réveil de la source PulseAudio : {source_name}")
+                subprocess.run(["pactl", "unload-module", "module-suspend-on-idle"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+                subprocess.run(["pactl", "suspend-source", source_name, "0"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-source-mute", source_name, "false"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-source-volume", source_name, "150%"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+                print("✅ [AudioIO Streaming] Source micro réveillée et configurée à 150%.")
+            else:
+                print("⚠ [AudioIO Streaming] Source PulseAudio ReSpeaker introuvable pour réveil.")
+        except Exception as e:
+            print(f"⚠ [AudioIO Streaming] Échec réveil PulseAudio : {e}")
 
     def _audio_callback(self, indata, frames, time_info, status):
         """Callback interne de sounddevice poussant l'audio mono 16-bit dans la queue."""
