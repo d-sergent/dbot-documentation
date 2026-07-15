@@ -96,11 +96,12 @@ class AudioIOStreaming:
         return None
 
     def _find_respeaker_source_name(self) -> Optional[str]:
-        """Trouve le nom symbolique de la source micro dans PulseAudio."""
+        """Trouve le nom symbolique de la source micro dans PulseAudio (insensible à la casse)."""
         try:
             out = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
             for line in out.splitlines():
-                if ("reSpeaker" in line or "XVF3800" in line) and "input" in line and ".monitor" not in line:
+                line_lower = line.lower()
+                if ("respeaker" in line_lower or "xvf3800" in line_lower or "seeed" in line_lower) and "input" in line_lower and ".monitor" not in line_lower:
                     return line.split()[1]
         except Exception:
             pass
@@ -117,7 +118,7 @@ class AudioIOStreaming:
         except Exception as e:
             print(f"⚠ [AudioIO Streaming] Erreur init ampli : {e}")
 
-        # RÉVEIL FORCÉ DE LA SOURCE MICRO PULSEAUDIO (Évite le retour de flux à 0 dû à module-suspend-on-idle)
+        # RÉVEIL FORCÉ DE LA SOURCE MICRO PULSEAUDIO
         try:
             if self.source_name:
                 print(f"⚡ [AudioIO Streaming] Réveil de la source PulseAudio : {self.source_name}")
@@ -127,9 +128,12 @@ class AudioIOStreaming:
                 subprocess.run(["pactl", "set-source-volume", self.source_name, "150%"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
                 print("✅ [AudioIO Streaming] Source micro réveillée et configurée à 150%.")
             else:
-                print("⚠ [AudioIO Streaming] Source PulseAudio ReSpeaker introuvable pour réveil.")
+                # Si non trouvée dans PulseAudio, on tente de réveiller via amixer/ALSA
+                print("⚠ [AudioIO Streaming] Source PulseAudio ReSpeaker introuvable, tentative via ALSA direct.")
+                subprocess.run(["amixer", "-c", self.card_id, "cset", "name='Capture Switch'", "on"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+                subprocess.run(["amixer", "-c", self.card_id, "cset", "name='Capture Volume'", "60"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
         except Exception as e:
-            print(f"⚠ [AudioIO Streaming] Échec réveil PulseAudio : {e}")
+            print(f"⚠ [AudioIO Streaming] Échec réveil PulseAudio/ALSA : {e}")
 
     def _audio_callback_sd(self, indata, frames, time_info, status):
         """Callback sounddevice utilisé pour macOS (stéréo 2ch -> mono)."""
@@ -144,7 +148,7 @@ class AudioIOStreaming:
         self.audio_queue.put(mono_data)
 
     def _read_parecord_loop(self):
-        """Boucle de lecture en tâche de fond pour lire la sortie brute de parecord."""
+        """Boucle de lecture en tâche de fond pour lire la sortie brute de parecord/arecord."""
         bytes_to_read = self.block_size * 4  # 2 canaux * 2 octets (int16) = 4 octets par frame
         
         while self.is_recording and self.proc:
@@ -171,11 +175,11 @@ class AudioIOStreaming:
                 self.audio_queue.put(mono_data)
             except Exception as e:
                 if self.is_recording:
-                    print(f"⚠ [AudioIO Streaming] Erreur lecture parecord : {e}")
+                    print(f"⚠ [AudioIO Streaming] Erreur lecture parecord/arecord : {e}")
                 time.sleep(0.05)
 
     def start_capture(self):
-        """Démarre le flux d'acquisition non-bloquant (sounddevice sur Mac, parecord sur Linux)."""
+        """Démarre le flux d'acquisition non-bloquant (sounddevice sur Mac, parecord/arecord sur Linux)."""
         if self.is_recording:
             return
         
@@ -205,22 +209,24 @@ class AudioIOStreaming:
                 self.is_recording = False
                 raise AudioIOStreamingError(f"Impossible de démarrer le flux sur Mac : {e}")
         else:
-            # Démarrage parecord (Linux / Jetson)
+            # Démarrage parecord ou arecord (Linux / Jetson)
             try:
-                # Si la source n'a pas été trouvée, on prend la valeur par défaut
-                cmd = ["parecord", "--format=s16le", "--channels=2", f"--rate={self.sample_rate}", "--raw"]
                 if self.source_name:
-                    cmd.insert(1, f"--device={self.source_name}")
+                    cmd = ["parecord", f"--device={self.source_name}", "--format=s16le", "--channels=2", f"--rate={self.sample_rate}", "--raw"]
+                    print(f"⚡ [AudioIO Streaming] Lancement parecord (PulseAudio) : {' '.join(cmd)}")
+                else:
+                    # Repli ALSA Direct si PulseAudio ne possède pas le périphérique
+                    cmd = ["arecord", "-D", f"plughw:{self.card_id},0", "-f", "S16_LE", "-c", "2", "-r", f"{self.sample_rate}", "-t", "raw"]
+                    print(f"⚡ [AudioIO Streaming] Lancement arecord (ALSA Direct, Carte {self.card_id}) : {' '.join(cmd)}")
                 
-                print(f"⚡ [AudioIO Streaming] Lancement parecord : {' '.join(cmd)}")
                 self.proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
                 
                 self.capture_thread = threading.Thread(target=self._read_parecord_loop, daemon=True)
                 self.capture_thread.start()
-                print("🎤 [AudioIO Streaming] Flux d'acquisition démarré (parecord).")
+                print("🎤 [AudioIO Streaming] Flux d'acquisition démarré.")
             except Exception as e:
                 self.is_recording = False
-                raise AudioIOStreamingError(f"Impossible de démarrer le flux via parecord : {e}")
+                raise AudioIOStreamingError(f"Impossible de démarrer le flux via parecord/arecord : {e}")
 
     def stop_capture(self):
         """Arrête le flux d'acquisition."""
