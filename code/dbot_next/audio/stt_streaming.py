@@ -38,15 +38,30 @@ class StreamingSTTNemotron:
         
         self.stop_words = ["stop", "arrête", "arrêtez", "danger", "bloqué", "pause"]
 
-        # Chargement du modèle
+        # Chargement du modèle avec repli automatique sur le CPU si CUDA échoue (OOM / fragmentation)
         try:
-            print(f"⏳ [STT Streaming] Chargement de {model_name} sur {device.upper()}...")
+            print(f"⏳ [STT Streaming] Chargement de {model_name} sur {self.device.upper()}...")
             self.model = nemo_asr.models.ASRModel.from_pretrained(model_name=model_name)
             self.model = self.model.to(self.device)
             self.model.eval()
-            print("✅ [STT Streaming] Modèle ASR chargé avec succès.")
+            print(f"✅ [STT Streaming] Modèle ASR chargé avec succès sur {self.device.upper()}.")
         except Exception as e:
-            raise STTStreamingError(f"Échec du chargement du modèle NeMo : {e}")
+            if "cuda" in self.device.lower() or "oom" in str(e).lower() or "memory" in str(e).lower() or "assert" in str(e).lower():
+                print(f"⚠ [STT Streaming] Échec du chargement sur {self.device.upper()} ({e}).")
+                print("⚠ [STT Streaming] Tentative de repli automatique sur le CPU (Cortex-A78)...")
+                try:
+                    self.device = "cpu"
+                    # Nettoyage CUDA
+                    torch.cuda.empty_cache()
+                    
+                    self.model = nemo_asr.models.ASRModel.from_pretrained(model_name=model_name)
+                    self.model = self.model.to("cpu")
+                    self.model.eval()
+                    print("✅ [STT Streaming] Modèle ASR chargé avec succès sur CPU (Mode Secours).")
+                except Exception as e_cpu:
+                    raise STTStreamingError(f"Échec critique du chargement du modèle sur CPU : {e_cpu}")
+            else:
+                raise STTStreamingError(f"Échec du chargement du modèle NeMo : {e}")
 
         # Configuration du décodeur streaming de NeMo (cache-aware FastConformer)
         try:
