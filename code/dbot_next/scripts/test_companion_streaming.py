@@ -82,11 +82,20 @@ def main():
     audio.start_capture()
     print("\n🎙️ Prêt ! Parlez dans le micro ReSpeaker (Dites 'stop' pour interrompre, Ctrl+C pour quitter)...")
 
+    chunk_count = 0
     try:
         while True:
             chunk = audio.get_audio_chunk(timeout=0.05)
             if chunk is None:
                 continue
+                
+            chunk_count += 1
+            max_val = np.max(np.abs(chunk))
+            
+            # Affichage de diagnostic du volume toutes les 15 frames (~2 secondes)
+            if chunk_count % 15 == 0:
+                sys.stdout.write(f"\r[Diag] Chunks: {chunk_count} | Vol Max: {max_val}  ")
+                sys.stdout.flush()
                 
             # Interrogation de la VAD matérielle (ReSpeaker XMOS)
             _, is_speech = audio.get_speech_status()
