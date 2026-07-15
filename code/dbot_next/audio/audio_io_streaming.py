@@ -7,15 +7,18 @@ audio_io_streaming.py — Acquisition audio non-bloquante (sounddevice/parecord)
 - Interface de queue thread-safe pour alimenter l'ASR
 """
 
-import sounddevice as sd
-import numpy as np
+import atexit
+import os
 import queue
-import subprocess
+import platform
+import signal
+import threading
 import time
 from typing import Optional, Callable
-import threading
-import platform
-import os
+
+import numpy as np
+import sounddevice as sd
+import subprocess
 
 from dbot.audio.respeaker_sdk import ReSpeakerSDK, ReSpeakerSDKError
 
@@ -233,7 +236,7 @@ class AudioIOStreaming:
                 raise AudioIOStreamingError(f"Impossible de démarrer le flux via parecord/arecord : {e}")
 
     def stop_capture(self):
-        """Arrête le flux d'acquisition."""
+        """Arrête le flux d'acquisition (SIGTERM puis SIGKILL si nécessaire)."""
         if not self.is_recording:
             return
         self.is_recording = False
@@ -243,12 +246,28 @@ class AudioIOStreaming:
                 self.sd_stream.close()
                 self.sd_stream = None
             if self.proc:
-                self.proc.terminate()
-                self.proc.wait()
-                self.proc = None
+                try:
+                    self.proc.terminate()  # SIGTERM
+                    self.proc.wait(timeout=2)
+                except subprocess.TimeoutExpired:
+                    # arecord résiste à SIGTERM → forcer SIGKILL
+                    self.proc.kill()
+                    self.proc.wait(timeout=1)
+                except Exception:
+                    pass
+                finally:
+                    self.proc = None
             print("🎤 [AudioIO Streaming] Flux d'acquisition arrêté.")
         except Exception as e:
             print(f"⚠ [AudioIO Streaming] Erreur arrêt flux : {e}")
+
+    def __del__(self):
+        """Destructeur de secours — tue arecord même si close() n'a pas été appelé."""
+        try:
+            if self.proc and self.proc.poll() is None:
+                self.proc.kill()
+        except Exception:
+            pass
 
     def get_audio_chunk(self, timeout: Optional[float] = None) -> Optional[np.ndarray]:
         """Récupère le chunk audio suivant depuis la queue."""
