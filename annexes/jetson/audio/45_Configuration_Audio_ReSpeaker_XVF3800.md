@@ -143,25 +143,44 @@ pactl list modules short | grep suspend
 ## 6. Architecture Logicielle Officielle (Pipeline Python)
 
 > [!IMPORTANT]
-> **VÉRITÉ TERRAIN (Mai 2026) :** Bien que PulseAudio soit utile pour la lecture (`paplay`), la capture via `parecord` s'est révélée instable sur Jetson Orin Nano. 
-> **La méthode officielle recommandée est l'utilisation de ALSA direct (`arecord`)** pour garantir la stabilité du flux et le respect du mode stéréo.
+> **VÉRITÉ TERRAIN (Juillet 2026 — dbot_next) :** Le comportement dépend de qui détient le device ALSA.
+> - Si **PulseAudio (user `david`) détient le device** (cas normal en session graphique ou SSH après tuer le PulseAudio GDM) : utiliser **`parecord --device=<SOURCE>`**. C'est la méthode fiable.
+> - Si **personne ne détient le device** (mode Headless `multi-user.target` sans PulseAudio) : utiliser **`arecord -D plughw:X,0`**.
+> - **Ne JAMAIS tenter `arecord` quand PulseAudio tourne** — il recevra un flux de zéros (device busy silencieux).
 
 ### A. Détection Dynamique du Périphérique
 ```python
 def detect_respeaker_card():
+    """Détection insensible à la casse — supporte 'reSpeaker', 'Seeed', 'XVF3800'."""
     try:
         out = subprocess.check_output(["arecord", "-l"], text=True)
         for line in out.splitlines():
-            if "reSpeaker" in line or "XVF3800" in line:
-                return line.split("carte ")[1].split(":")[0].strip()
+            line_lower = line.lower()
+            if "respeaker" in line_lower or "xvf3800" in line_lower or "seeed" in line_lower:
+                if "carte" in line_lower:
+                    return line.split("carte ")[1].split(":")[0].strip()
+                elif "card" in line_lower:
+                    return line.split("card ")[1].split(":")[0].strip()
     except Exception:
-        return "0" # Fallback
+        return "0"  # Fallback
 ```
 
-### B. Capture Audio — CRITIQUE : ALSA Direct + Stéréo
+> [!WARNING]
+> La détection **doit être insensible à la casse** et inclure le mot-clé `"seeed"`. Le nom PulseAudio réel du device est `alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800...iec958-stereo`. Si on ne cherche que `"reSpeaker"` (casse exacte), la détection peut rater selon la version du firmware ou la locale système.
+
+### B. Capture Audio (dbot_next) — `parecord` via PulseAudio
+```python
+# Règle : si PulseAudio tourne ET détient le device → parecord
+# Sinon (headless sans PA) → arecord
+cmd = ["parecord", f"--device={source_name}", "--format=s16le", "--channels=2",
+       f"--rate={sample_rate}", "--raw"]
+proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+```
+
+### C. Capture Audio (dbot legacy) — ALSA Direct + Stéréo
 ```python
 # OBLIGATOIRE : Capturer en 2 canaux (stéréo) pour éviter le gel du signal à 128.
-# On utilise arecord avec le device plughw:X,0 pour court-circuiter PulseAudio.
+# Utiliser arecord uniquement quand PulseAudio ne tourne PAS.
 d = int(duration)
 cmd = f"arecord -D plughw:{card_id},0 -f S16_LE -r 16000 -c 2 -d {d} | sox -t wav - -c 1 {output_file}"
 subprocess.run(cmd, shell=True, check=True)
@@ -235,7 +254,76 @@ def speak(text, voice_model_path, pulse_sink=None):
 
 ---
 
-## 8. Optimisation RAM (Jetson Orin Nano 8GB)
+## 9. Stack dbot_next — `AudioIOStreaming` (Streaming Non-Bloquant)
+
+> [!IMPORTANT]
+> **Valide Juillet 2026.** `AudioIOStreaming` (`code/dbot_next/audio/audio_io_streaming.py`) est le composant de capture audio de la stack `dbot_next`. Il remplace le modèle de capture par fichier temporaire de la stack `dbot`.
+
+### Architecture
+- **Détection automatique** : cherche le ReSpeaker via `pactl list short sources` (filtre : `respeaker`, `xvf3800`, `seeed` — insensible à la casse).
+- **Priorité `parecord`** : si une source PulseAudio est trouvée → `parecord --device=<source>` (streaming non-bloquant vers une queue Python thread-safe).
+- **Repli `arecord`** : si PulseAudio ne voit pas le device → `arecord -D plughw:X,0` (mode headless `multi-user.target`).
+- **Anti-bulle NoMachine** : `os.environ.pop("PULSE_SERVER", None)` est appelé dans `__init__` pour forcer la connexion au vrai serveur PulseAudio local (et non au socket virtuel NoMachine).
+- **Nettoyage robuste** : `stop_capture()` envoie SIGTERM puis SIGKILL (timeout 2s) pour garantir qu'aucun `arecord`/`parecord` ne reste orphelin après un `Ctrl+C`.
+
+### Pipeline Streaming Complet (dbot_next)
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ JETSON ORIN NANO (Streaming)                                    │
+│  parecord --device=SOURCE --channels=2 --format=s16le           │
+│  → Thread Python (queue audio PCM 16kHz stéréo)               │
+│  → SDK XVF3800 (VAD matériel + DoA via USB HID)               │
+│  → WebSocket (chunks PCM base64) ─────────────────────────┐ │
+└─────────────────────────────────────────────────────────────────┘ │
+                                                             │ │
+┌─────────────────────────────────────────────────────────────────┐ │
+│ MAC COMPAGNON (companion_server.py, port 8001)                  │ │
+│  → faster-whisper ASR (modèle medium, CPU)                      │└─┘
+│  → Gemini 2.0 Flash LLM (Cloud) ou Qwen2.5 (Local fallback)   │
+│  → Qwen3-TTS MLX (GPU Metal) → PCM 24kHz                      │
+│  │ WebSocket (réponse audio PCM base64 + texte) ──────────┐ │
+└─────────────────────────────────────────────────────────────────┘ │
+                                                             │
+┌─────────────────────────────────────────────────────────────────┐
+│ JETSON (Lecture) ───────────────────────────────────────────────│←─┘
+│  PCM 24kHz → paplay --device=SINK_RESPEAKER                    │
+│  → DAC XVF3800 → Ampli JST (numid=3,4,5,6) → HP 5W             │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Séquence de Démarrage Recommandée (dbot_next, headless)
+```bash
+# 1. S'assurer que GDM ne tourne pas (multi-user.target permanent depuis Juillet 2026)
+sudo systemctl get-default  # doit afficher multi-user.target
+
+# 2. Vérifier que PulseAudio est actif POUR L'UTILISATEUR
+pulseaudio --start  # lance si pas encore démarré
+pactl list short sources  # doit montrer la source iec958 ReSpeaker
+
+# 3. Activer l'ampli JST + réveiller la source micro
+pactl unload-module module-suspend-on-idle
+pactl suspend-source alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800_4-Mic_Array_*-00.iec958-stereo 0
+pactl set-source-volume alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800_4-Mic_Array_*-00.iec958-stereo 150%
+amixer -c 0 cset numid=3 on && amixer -c 0 cset numid=4 on
+amixer -c 0 cset numid=5 60 && amixer -c 0 cset numid=6 60
+
+# 4. Lancer le serveur compagnon sur le Mac, puis sur la Jetson :
+python3 code/dbot_next/scripts/test_companion_streaming.py
+```
+
+### Commande de Diagnostic Volume (IMPORTANT : utiliser LANG=C)
+```bash
+# La locale française traduit la sortie de sox !
+# "Maximum amplitude" devient "Amplitude maximum" → grep -E "Maximum|RMS" ne trouve rien.
+# TOUJOURS utiliser LANG=C pour les tests de diagnostic sox :
+SOURCE="alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800_4-Mic_Array_114993701260500251-00.iec958-stereo"
+pactl suspend-source "$SOURCE" 0 && pactl set-source-volume "$SOURCE" 150%
+timeout 3 parecord --device="$SOURCE" --channels=2 --format=s16le --rate=16000 --raw > /tmp/raw_capture.raw
+echo "Taille: $(wc -c < /tmp/raw_capture.raw) octets"  # doit être ~192000 pour 3s
+LANG=C sox -t raw -r 16000 -e signed -b 16 -c 2 /tmp/raw_capture.raw -n stat 2>&1
+```
+
+---
 
 | Action | Commande |
 | :--- | :--- |
