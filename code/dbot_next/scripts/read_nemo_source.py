@@ -8,6 +8,18 @@ if not os.path.exists(filepath):
 with open(filepath, "r") as f:
     lines = f.readlines()
 
-print("--- Printing lines 1220 to 1350 ---")
-for idx in range(1219, min(1350, len(lines))):
-    print(f"{idx+1}: {lines[idx]}", end="")
+# Find the line containing shifted_indices
+found_line = -1
+for i, line in enumerate(lines):
+    if "shifted_indices =" in line:
+        found_line = i
+        break
+
+if found_line != -1:
+    print(f"--- Source lines surrounding shifted_indices (line {found_line + 1}) ---")
+    start = max(0, found_line - 20)
+    end = min(len(lines), found_line + 20)
+    for i in range(start, end):
+        print(f"{i+1}: {lines[i]}", end="")
+else:
+    print("shifted_indices not found")
