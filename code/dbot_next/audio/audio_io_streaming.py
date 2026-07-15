@@ -1,9 +1,10 @@
 """
-audio_io_streaming.py — Acquisition audio non-bloquante (sounddevice) pour la stack Next.
-=========================================================================================
-- Capture en continu sur le ReSpeaker XVF3800 (canaux stéréo, extraction mono)
-- Interface de queue thread-safe pour alimenter l'ASR en temps réel
-- Couplage VAD matériel via respeaker_sdk.py
+audio_io_streaming.py — Acquisition audio non-bloquante (sounddevice/parecord) pour la stack Next.
+=================================================================================================
+- Capture en continu sur le ReSpeaker XVF3800
+- Sur Jetson (Linux) : Utilise 'parecord' en sous-processus (100% fiable sous PulseAudio, évite le flux à 0)
+- Sur Mac (Darwin) : Utilise 'sounddevice' en local
+- Interface de queue thread-safe pour alimenter l'ASR
 """
 
 import sounddevice as sd
@@ -13,6 +14,8 @@ import subprocess
 import time
 from typing import Optional, Callable
 import threading
+import platform
+import os
 
 from dbot.audio.respeaker_sdk import ReSpeakerSDK, ReSpeakerSDKError
 
@@ -22,7 +25,7 @@ class AudioIOStreamingError(Exception):
 
 class AudioIOStreaming:
     """
-    Gestionnaire d'acquisition audio en streaming non-bloquant (sounddevice)
+    Gestionnaire d'acquisition audio en streaming non-bloquant
     avec couplage VAD matériel (ReSpeaker XVF3800).
     """
     def __init__(self, sample_rate: int = 16000, block_size: int = 1024, doa_callback: Optional[Callable[[int], None]] = None):
@@ -31,16 +34,29 @@ class AudioIOStreaming:
         self.doa_callback = doa_callback
         
         self.audio_queue = queue.Queue()
-        self.stream: Optional[sd.InputStream] = None
         self.is_recording = False
         
-        # Détection de la carte ALSA
-        self.card_id = self._detect_respeaker_card()
-        # sounddevice attend l'index du périphérique sous forme de numéro ou d'API native.
-        self.device_index = self._find_respeaker_device_index()
+        # Références des workers de capture
+        self.sd_stream = None         # sounddevice (Mac)
+        self.proc = None              # parecord (Linux)
+        self.capture_thread = None    # thread de lecture parecord
         
-        # Activation de l'ampli JST
-        self._initialize_hardware()
+        # Détection de l'OS
+        self.is_mac = (platform.system() == "Darwin")
+        
+        # Détection du matériel (uniquement sur Linux)
+        self.card_id = "0"
+        self.device_index = None
+        self.source_name = None
+        
+        if not self.is_mac:
+            self.card_id = self._detect_respeaker_card()
+            self.device_index = self._find_respeaker_device_index()
+            self.source_name = self._find_respeaker_source_name()
+            # Initialisation et réveil PulseAudio
+            self._initialize_hardware()
+        else:
+            self.device_index = self._find_respeaker_device_index()
         
         # Connexion au SDK USB ReSpeaker
         try:
@@ -79,6 +95,17 @@ class AudioIOStreaming:
             print(f"⚠ [AudioIO Streaming] Erreur recherche périphérique : {e}")
         return None
 
+    def _find_respeaker_source_name(self) -> Optional[str]:
+        """Trouve le nom symbolique de la source micro dans PulseAudio."""
+        try:
+            out = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
+            for line in out.splitlines():
+                if ("reSpeaker" in line or "XVF3800" in line) and "input" in line and ".monitor" not in line:
+                    return line.split()[1]
+        except Exception:
+            pass
+        return None
+
     def _initialize_hardware(self):
         """Active l'amplificateur JST du ReSpeaker et réveille le périphérique PulseAudio."""
         try:
@@ -92,35 +119,63 @@ class AudioIOStreaming:
 
         # RÉVEIL FORCÉ DE LA SOURCE MICRO PULSEAUDIO (Évite le retour de flux à 0 dû à module-suspend-on-idle)
         try:
-            source_name = None
-            out = subprocess.check_output(["pactl", "list", "short", "sources"], text=True)
-            for line in out.splitlines():
-                if ("reSpeaker" in line or "XVF3800" in line) and "input" in line and ".monitor" not in line:
-                    source_name = line.split()[1]
-                    break
-            
-            if source_name:
-                print(f"⚡ [AudioIO Streaming] Réveil de la source PulseAudio : {source_name}")
+            if self.source_name:
+                print(f"⚡ [AudioIO Streaming] Réveil de la source PulseAudio : {self.source_name}")
                 subprocess.run(["pactl", "unload-module", "module-suspend-on-idle"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
-                subprocess.run(["pactl", "suspend-source", source_name, "0"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
-                subprocess.run(["pactl", "set-source-mute", source_name, "false"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
-                subprocess.run(["pactl", "set-source-volume", source_name, "150%"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+                subprocess.run(["pactl", "suspend-source", self.source_name, "0"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-source-mute", self.source_name, "false"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+                subprocess.run(["pactl", "set-source-volume", self.source_name, "150%"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
                 print("✅ [AudioIO Streaming] Source micro réveillée et configurée à 150%.")
             else:
                 print("⚠ [AudioIO Streaming] Source PulseAudio ReSpeaker introuvable pour réveil.")
         except Exception as e:
             print(f"⚠ [AudioIO Streaming] Échec réveil PulseAudio : {e}")
 
-    def _audio_callback(self, indata, frames, time_info, status):
-        """Callback interne de sounddevice poussant l'audio mono 16-bit dans la queue."""
+    def _audio_callback_sd(self, indata, frames, time_info, status):
+        """Callback sounddevice utilisé pour macOS (stéréo 2ch -> mono)."""
         if status:
             print(f"⚠ [AudioIO Streaming] Status sounddevice : {status}")
-        # Le XMOS produit du stéréo 2ch, on extrait le canal 0 (mono)
-        mono_data = indata[:, 0].copy()
+        
+        # Extraction du canal gauche mono
+        if indata.shape[1] > 1:
+            mono_data = indata[:, 0].copy()
+        else:
+            mono_data = indata[:, 0].copy() if len(indata.shape) > 1 else indata.copy()
         self.audio_queue.put(mono_data)
 
+    def _read_parecord_loop(self):
+        """Boucle de lecture en tâche de fond pour lire la sortie brute de parecord."""
+        bytes_to_read = self.block_size * 4  # 2 canaux * 2 octets (int16) = 4 octets par frame
+        
+        while self.is_recording and self.proc:
+            try:
+                raw_bytes = self.proc.stdout.read(bytes_to_read)
+                if not raw_bytes:
+                    time.sleep(0.005)
+                    continue
+                    
+                # Si lecture partielle, on attend le reste
+                while len(raw_bytes) < bytes_to_read and self.is_recording:
+                    more = self.proc.stdout.read(bytes_to_read - len(raw_bytes))
+                    if not more:
+                        break
+                    raw_bytes += more
+                
+                if len(raw_bytes) < bytes_to_read:
+                    continue
+                
+                # Conversion des octets bruts PCM en tableau numpy
+                data_np = np.frombuffer(raw_bytes, dtype=np.int16).reshape(-1, 2)
+                # Canal 0 (mono gauche)
+                mono_data = data_np[:, 0].copy()
+                self.audio_queue.put(mono_data)
+            except Exception as e:
+                if self.is_recording:
+                    print(f"⚠ [AudioIO Streaming] Erreur lecture parecord : {e}")
+                time.sleep(0.05)
+
     def start_capture(self):
-        """Démarre le flux d'acquisition non-bloquant."""
+        """Démarre le flux d'acquisition non-bloquant (sounddevice sur Mac, parecord sur Linux)."""
         if self.is_recording:
             return
         
@@ -131,30 +186,56 @@ class AudioIOStreaming:
             except queue.Empty:
                 break
                 
-        try:
-            self.stream = sd.InputStream(
-                device=self.device_index,
-                samplerate=self.sample_rate,
-                blocksize=self.block_size,
-                channels=2,
-                dtype='int16',
-                callback=self._audio_callback
-            )
-            self.stream.start()
-            self.is_recording = True
-            print("🎤 [AudioIO Streaming] Flux d'acquisition démarré.")
-        except Exception as e:
-            raise AudioIOStreamingError(f"Impossible de démarrer le flux d'entrée : {e}")
+        self.is_recording = True
+        
+        if self.is_mac:
+            # Démarrage Sounddevice (macOS)
+            try:
+                self.sd_stream = sd.InputStream(
+                    device=self.device_index,
+                    samplerate=self.sample_rate,
+                    blocksize=self.block_size,
+                    channels=2 if self.device_index is not None else 1,
+                    dtype='int16',
+                    callback=self._audio_callback_sd
+                )
+                self.sd_stream.start()
+                print("🎤 [AudioIO Streaming] Flux d'acquisition démarré (sounddevice mac).")
+            except Exception as e:
+                self.is_recording = False
+                raise AudioIOStreamingError(f"Impossible de démarrer le flux sur Mac : {e}")
+        else:
+            # Démarrage parecord (Linux / Jetson)
+            try:
+                # Si la source n'a pas été trouvée, on prend la valeur par défaut
+                cmd = ["parecord", "--format=s16le", "--channels=2", f"--rate={self.sample_rate}", "--raw"]
+                if self.source_name:
+                    cmd.insert(1, f"--device={self.source_name}")
+                
+                print(f"⚡ [AudioIO Streaming] Lancement parecord : {' '.join(cmd)}")
+                self.proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+                
+                self.capture_thread = threading.Thread(target=self._read_parecord_loop, daemon=True)
+                self.capture_thread.start()
+                print("🎤 [AudioIO Streaming] Flux d'acquisition démarré (parecord).")
+            except Exception as e:
+                self.is_recording = False
+                raise AudioIOStreamingError(f"Impossible de démarrer le flux via parecord : {e}")
 
     def stop_capture(self):
         """Arrête le flux d'acquisition."""
         if not self.is_recording:
             return
+        self.is_recording = False
         try:
-            if self.stream:
-                self.stream.stop()
-                self.stream.close()
-            self.is_recording = False
+            if self.sd_stream:
+                self.sd_stream.stop()
+                self.sd_stream.close()
+                self.sd_stream = None
+            if self.proc:
+                self.proc.terminate()
+                self.proc.wait()
+                self.proc = None
             print("🎤 [AudioIO Streaming] Flux d'acquisition arrêté.")
         except Exception as e:
             print(f"⚠ [AudioIO Streaming] Erreur arrêt flux : {e}")
