@@ -39,9 +39,18 @@ class StreamingSTTNemotron:
         self.stop_words = ["stop", "arrête", "arrêtez", "danger", "bloqué", "pause"]
 
         # Chargement du modèle avec repli automatique sur le CPU si CUDA échoue (OOM / fragmentation)
+        from omegaconf import open_dict
         try:
             print(f"⏳ [STT Streaming] Chargement de {model_name} sur {self.device.upper()}...")
             self.model = nemo_asr.models.ASRModel.from_pretrained(model_name=model_name, map_location=self.device)
+            
+            # Forcer la conservation des alignements pour le décodage en streaming (requis par BatchedFrameASRRNNT)
+            decoding_config = self.model.cfg.decoding
+            with open_dict(decoding_config):
+                decoding_config.preserve_alignments = True
+                decoding_config.strategy = "greedy_batch"
+            self.model.change_decoding_strategy(decoding_config)
+            
             self.model = self.model.to(self.device)
             self.model.eval()
             print(f"✅ [STT Streaming] Modèle ASR chargé avec succès sur {self.device.upper()}.")
@@ -55,6 +64,13 @@ class StreamingSTTNemotron:
                     torch.cuda.empty_cache()
                     
                     self.model = nemo_asr.models.ASRModel.from_pretrained(model_name=model_name, map_location="cpu")
+                    
+                    decoding_config = self.model.cfg.decoding
+                    with open_dict(decoding_config):
+                        decoding_config.preserve_alignments = True
+                        decoding_config.strategy = "greedy_batch"
+                    self.model.change_decoding_strategy(decoding_config)
+                    
                     self.model = self.model.to("cpu")
                     self.model.eval()
                     print("✅ [STT Streaming] Modèle ASR chargé avec succès sur CPU (Mode Secours).")
