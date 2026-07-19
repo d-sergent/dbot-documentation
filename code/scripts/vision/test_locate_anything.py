@@ -119,7 +119,6 @@ def main():
             torch.cuda.empty_cache()
         
         dtype = torch.float16
-        # Pas de device_map pour éviter les routines meta-model d'accelerate
         kwargs = {"dtype": dtype}
 
         from transformers import AutoProcessor, AutoModel
@@ -132,8 +131,10 @@ def main():
             **kwargs
         )
         
-        print("  ⚡ Transfert du modèle (3.5 Go) sur le GPU CUDA...")
-        model = model.to("cuda")
+        print("  ⚡ Transfert progressif sous-module par sous-module sur le GPU CUDA...")
+        for name, child in model.named_children():
+            child.to("cuda")
+        model.to("cuda")
         
         load_duration = time.time() - t0_load
         print(f"  ✅ Modèle chargé avec succès en {load_duration:.2f}s !")
