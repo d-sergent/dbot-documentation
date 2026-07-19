@@ -70,11 +70,17 @@ def main():
     print(f"\n🧠 [2/3] Chargement du modèle {MODEL_ID} en mode {args.precision.upper()}...")
     t0_load = time.time()
     
+    use_pipeline = False
+    pipe = None
+    processor = None
+    model = None
+
     try:
-        from transformers import AutoModelForCausalLM, AutoProcessor
+        import transformers
+        print(f"  📦 Version de transformers installée : {transformers.__version__}")
         
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        print(f"  Périphérique d'exécution : {device.upper()}")
+        print(f"  ⚡ Périphérique d'exécution : {device.upper()}")
         
         dtype = torch.float16
         kwargs = {"torch_dtype": dtype, "device_map": "auto"}
@@ -84,18 +90,28 @@ def main():
                 from transformers import BitsAndBytesConfig
                 kwargs["quantization_config"] = BitsAndBytesConfig(load_in_4bit=True)
                 print("  🔒 Mode BitsAndBytes INT4 (4-bit) activé.")
-            except ImportError:
-                print("  ⚠️ BitsAndBytes non disponible. Repli sur FP16 (16-bit).")
+            except Exception as e:
+                print(f"  ⚠️ BitsAndBytes non disponible ({e}). Repli sur FP16 (16-bit).")
 
-        processor = AutoProcessor.from_pretrained(MODEL_ID, trust_remote_code=True)
-        model = AutoModelForCausalLM.from_pretrained(MODEL_ID, trust_remote_code=True, **kwargs)
+        # Tentative d'import direct d'AutoProcessor ou fallback pipeline
+        try:
+            from transformers import AutoProcessor, AutoModelForCausalLM
+            processor = AutoProcessor.from_pretrained(MODEL_ID, trust_remote_code=True)
+            model = AutoModelForCausalLM.from_pretrained(MODEL_ID, trust_remote_code=True, **kwargs)
+            use_pipeline = False
+        except (ImportError, AttributeError):
+            print("  ⚠️ 'AutoProcessor' non présent dans cette version de transformers.")
+            print("  🔄 Tentative avec le pipeline 'image-text-to-text'...")
+            from transformers import pipeline
+            pipe = pipeline("image-text-to-text", model=MODEL_ID, trust_remote_code=True, model_kwargs=kwargs)
+            use_pipeline = True
         
         load_duration = time.time() - t0_load
         print(f"  ✅ Modèle chargé en {load_duration:.2f}s !")
         
     except Exception as e:
         print(f"❌ Erreur lors du chargement du modèle : {e}")
-        print("💡 Astuce : Vérifiez que 'transformers', 'torch' et 'accelerate' sont installés.")
+        print("💡 Conseil : Exécutez sur la Jetson :  pip3 install --upgrade transformers accelerate bitsandbytes")
         sys.exit(1)
 
     # 3. Inférence & Extraction Bounding Box
@@ -103,12 +119,24 @@ def main():
     t0_infer = time.time()
 
     try:
-        inputs = processor(text=args.prompt, images=pil_image, return_tensors="pt").to(device)
-        
-        with torch.no_grad():
-            outputs = model.generate(**inputs, max_new_tokens=100)
+        if use_pipeline:
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "image", "image": pil_image},
+                        {"type": "text", "text": f"Locate {args.prompt} in this image."}
+                    ]
+                }
+            ]
+            outputs = pipe(text=messages)
+            result_text = str(outputs)
+        else:
+            inputs = processor(text=args.prompt, images=pil_image, return_tensors="pt").to(device)
+            with torch.no_grad():
+                outputs = model.generate(**inputs, max_new_tokens=100)
+            result_text = processor.decode(outputs[0], skip_special_tokens=True)
             
-        result_text = processor.decode(outputs[0], skip_special_tokens=True)
         infer_duration = time.time() - t0_infer
         
         print(f"  ⏱️ Inférence terminée en {infer_duration:.3f}s !")
