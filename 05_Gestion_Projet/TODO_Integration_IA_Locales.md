@@ -60,6 +60,23 @@ Ce document répertorie les tâches et évolutions nécessaires pour l'intégrat
 ### 👁️ Phase 6 : Intelligence Spatiale et Repérage (LocateAnything-3B vs Cosmos 3 Edge)
 *(Architecture hybride : Raisonnement / Sémantique sur GPU Jetson et géométrie stéréo sur VPU OAK-D)*
 
+#### 🎯 Expérience de Validation : "Active Gaze" (Regard Actif)
+*Objectif : Exploiter le matériel fonctionnel actuel (Caméra OAK-D + 2 moteurs Cou + Audio déporté Mac) pour tester la boucle complète de repérage visuel avec LocateAnything et Cosmos, sans risque mécanique.*
+
+- [ ] **Étape 1 : Le test "Statique" (Vision pure)**
+  - Charger LocateAnything sur la Jetson (quantifié INT4 TensorRT).
+  - Capturer une image statique via l'OAK-D et exécuter une inférence avec un prompt écrit en dur (ex: "tasse rouge").
+  - Valider l'extraction de la Bounding Box 2D et mesurer le temps d'inférence (latence GPU).
+- [ ] **Étape 2 : L'asservissement du Cou (Gaze Tracking)**
+  - Interfacer le résultat de la Bounding Box avec `test_neck.py` (`NeckController`).
+  - Convertir l'écart pixel (centre objet vs centre caméra) en angles Pan/Tilt.
+  - Asservir les moteurs pour que le robot centre physiquement la cible dans son champ de vision.
+- [ ] **Étape 3 : Le test vocal complet & Comparatif Cosmos**
+  - Raccorder la boucle audio (Nemotron/Mac) pour que l'invite textuelle soit dictée à la voix.
+  - Répéter le test complet avec Cosmos 3 Edge.
+  - Comparer la latence et la compréhension de consignes abstraites entre les deux modèles.
+
+#### ⚙️ Implémentation Détaillée
 - [ ] **Déploiement et Test de LocateAnything-3B (Baseline Visual Grounding)** :
   - Télécharger [nvidia/LocateAnything-3B](https://huggingface.co/nvidia/LocateAnything-3B) sur la Jetson Orin Nano.
   - Optimiser via TensorRT (version quantifiée INT4) pour valider le pipeline d'extraction de bounding boxes 2D depuis une invite textuelle.
@@ -68,7 +85,7 @@ Ce document répertorie les tâches et évolutions nécessaires pour l'intégrat
   - Quantifier le modèle en INT4 via TensorRT pour tenir dans les 8 Go unifiés de la Jetson.
   - Tester ses capacités de "Physical Reasoning" : au lieu de renvoyer de simples coordonnées, lui faire évaluer la scène, le contexte physique et la faisabilité de préhension (Grasping).
 - [ ] **Interface de détection et Raisonnement (GPU Jetson)** :
-  - Créer un script `Code/dbot/vision/spatial_reasoning.py` chargé de recevoir le flux d'images 2D de la caméra OAK-D.
+  - Créer un script `Code/dbot/vision/test_active_gaze.py` chargé de recevoir le flux d'images 2D de la caméra OAK-D.
   - Comparer la latence et la pertinence entre la détection sémantique stricte (LocateAnything) et le raisonnement physique embarqué (Cosmos 3 Edge).
 - [ ] **Couplage géométrique avec OAK-D (2D → 3D via VPU embarqué)** :
   - Configurer le pipeline DepthAI pour calculer la carte de profondeur stéréo directement sur la puce de la caméra (soulageant l'Orin Nano).
