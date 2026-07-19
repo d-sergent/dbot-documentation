@@ -101,7 +101,8 @@ def main():
         print(f"  ⚡ Périphérique d'exécution : {device.upper()}")
         
         dtype = torch.float16
-        kwargs = {"dtype": dtype, "device_map": "auto"}
+        # low_cpu_mem_usage=True évite de charger les 7.6Go bruts en RAM et streame directement vers le GPU
+        kwargs = {"dtype": dtype, "device_map": "auto", "low_cpu_mem_usage": True}
         
         if args.precision == "int4":
             try:
