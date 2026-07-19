@@ -119,13 +119,13 @@ def main():
             torch.cuda.empty_cache()
         
         dtype = torch.float16
-        # device_map="cuda" décompresse directement dans la VRAM GPU couche par couche
-        kwargs = {"dtype": dtype, "device_map": "cuda"}
+        # device_map={"": "cuda"} effectue l'affectation directe sans passer par l'étape meta-model
+        kwargs = {"dtype": dtype, "device_map": {"": "cuda"}}
 
         from transformers import AutoProcessor, AutoModel
         processor = AutoProcessor.from_pretrained(args.model, trust_remote_code=True)
         
-        print("  🚚 Décompression et injection des couches directement en VRAM CUDA...")
+        print("  🚚 Injection directe des couches sur le GPU CUDA...")
         model = AutoModel.from_pretrained(
             args.model,
             trust_remote_code=True,
