@@ -41,10 +41,18 @@ TILT_MIN_RAD = math.radians(-20)   # -0.349 rad
 TILT_MAX_RAD = math.radians( 30)   # +0.524 rad
 
 # ── Configuration Asservissement Cou (Rigidité sous charge) ─
-NECK_LOC_KP      = 50.0    # Gain proportionnel position (par défaut 30.0) -> rigidité
-NECK_SPD_KP      =  3.0    # Gain proportionnel vitesse (par défaut 1.0) -> amortissement
-NECK_SPD_KI      =  0.05   # Gain intégral vitesse (par défaut 0.02)
 NECK_SPEED_LIMIT = math.radians(30.0)  # 30°/s max (vitesse nominale optimisée pour l'asservissement)
+
+# Moteur Pan (Axe horizontal : inertie de rotation)
+PAN_LOC_KP = 50.0    # Rigidité position
+PAN_SPD_KP =  3.0    # Amortissement vitesse
+PAN_SPD_KI =  0.05   # Compensation intégrale
+
+# Moteur Tilt (Axe vertical : lutte contre la gravité de la tête lourde)
+# Un amortissement (spd_kp) plus élevé est nécessaire pour empêcher la tête de vibrer/rebondir de haut en bas.
+TILT_LOC_KP = 50.0   # Rigidité maintenue haute
+TILT_SPD_KP =  6.0   # ⚠️ Amortissement doublé pour casser la vibration verticale
+TILT_SPD_KI =  0.05
 
 # ── Alimentation (référence Wanptek) ──────────────────────
 POWER_VOLTAGE    = 48.0   # Volts (Tension nominale des RS-05)

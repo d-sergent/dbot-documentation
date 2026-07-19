@@ -20,7 +20,8 @@ from dbot.config import (
     PAN_MIN_RAD, PAN_MAX_RAD,
     TILT_MIN_RAD, TILT_MAX_RAD,
     NECK_SPEED_LIMIT,
-    NECK_LOC_KP, NECK_SPD_KP, NECK_SPD_KI,
+    PAN_LOC_KP, PAN_SPD_KP, PAN_SPD_KI,
+    TILT_LOC_KP, TILT_SPD_KP, TILT_SPD_KI,
 )
 from dbot.motors.can_bus import get_bus, close_bus
 from robstride.client import MotorMsg
@@ -138,10 +139,15 @@ class NeckController:
             # Limite matérielle de sécurité (définie plus haute à 3x la vitesse cible logicielle
             # pour éviter le conflit d'asservissement / clipping de vitesse qui provoque des saccades)
             self._client.write_param(mid, 'limit_spd', NECK_SPEED_LIMIT * 3.0)
-            # Injection des gains PID de rigidité pour résister à la masse/gravité de la tête
-            self._client.write_param(mid, 'loc_kp', NECK_LOC_KP)
-            self._client.write_param(mid, 'spd_kp', NECK_SPD_KP)
-            self._client.write_param(mid, 'spd_ki', NECK_SPD_KI)
+            # Injection des gains PID spécifiques pour résister à l'inertie ou à la gravité
+            if mid == NECK_PAN_ID:
+                self._client.write_param(mid, 'loc_kp', PAN_LOC_KP)
+                self._client.write_param(mid, 'spd_kp', PAN_SPD_KP)
+                self._client.write_param(mid, 'spd_ki', PAN_SPD_KI)
+            elif mid == NECK_TILT_ID:
+                self._client.write_param(mid, 'loc_kp', TILT_LOC_KP)
+                self._client.write_param(mid, 'spd_kp', TILT_SPD_KP)
+                self._client.write_param(mid, 'spd_ki', TILT_SPD_KI)
         
         if self.active_motors:
             time.sleep(0.05)
