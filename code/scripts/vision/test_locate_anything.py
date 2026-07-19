@@ -104,20 +104,34 @@ def main():
         device = "cuda" if torch.cuda.is_available() else "cpu"
         print(f"  ⚡ Périphérique d'exécution : {device.upper()}")
         
-        dtype = torch.float16
+        # Vider le cache GPU préalable
+        torch.cuda.empty_cache()
         
+        dtype = torch.float16
+        # low_cpu_mem_usage=False s'appuie sur le SWAP (11,7 Go) pour éviter la routine meta-tensor
+        kwargs = {"dtype": dtype, "low_cpu_mem_usage": False}
+        
+        if args.precision == "int4":
+            try:
+                from transformers import BitsAndBytesConfig
+                kwargs["quantization_config"] = BitsAndBytesConfig(load_in_4bit=True)
+                kwargs["device_map"] = "cuda"
+                print("  🔒 Mode BitsAndBytes INT4 (4-bit) activé.")
+            except Exception as e:
+                print(f"  ⚠️ BitsAndBytes non disponible ({e}). Repli sur FP16 (16-bit).")
+
         from transformers import AutoProcessor, AutoModel
         processor = AutoProcessor.from_pretrained(MODEL_ID, trust_remote_code=True)
         
-        # Chargement direct sur le GPU CUDA avec désactivation des requêtes NVML
-        print("  🚚 Instanciation directe des couches sur la VRAM GPU CUDA...")
-        with torch.device("cuda"):
-            model = AutoModel.from_pretrained(
-                MODEL_ID,
-                trust_remote_code=True,
-                torch_dtype=dtype,
-                low_cpu_mem_usage=True
-            )
+        print("  🚚 Assemblage des poids en mémoire virtuelle et transfert GPU CUDA...")
+        model = AutoModel.from_pretrained(
+            MODEL_ID,
+            trust_remote_code=True,
+            **kwargs
+        )
+        
+        if "device_map" not in kwargs:
+            model = model.to("cuda")
         
         load_duration = time.time() - t0_load
         print(f"  ✅ Modèle chargé en {load_duration:.2f}s !")
