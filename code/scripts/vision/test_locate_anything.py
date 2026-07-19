@@ -101,7 +101,7 @@ def main():
         print(f"  ⚡ Périphérique d'exécution : {device.upper()}")
         
         dtype = torch.float16
-        kwargs = {"torch_dtype": dtype, "device_map": "auto"}
+        kwargs = {"dtype": dtype, "device_map": "auto"}
         
         if args.precision == "int4":
             try:
@@ -111,9 +111,9 @@ def main():
             except Exception as e:
                 print(f"  ⚠️ BitsAndBytes non disponible ({e}). Repli sur FP16 (16-bit).")
 
-        from transformers import AutoProcessor, AutoModelForCausalLM
+        from transformers import AutoProcessor, AutoModel
         processor = AutoProcessor.from_pretrained(MODEL_ID, trust_remote_code=True)
-        model = AutoModelForCausalLM.from_pretrained(MODEL_ID, trust_remote_code=True, **kwargs)
+        model = AutoModel.from_pretrained(MODEL_ID, trust_remote_code=True, **kwargs)
         
         load_duration = time.time() - t0_load
         print(f"  ✅ Modèle chargé en {load_duration:.2f}s !")
