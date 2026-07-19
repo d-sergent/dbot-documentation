@@ -119,20 +119,18 @@ def main():
             torch.cuda.empty_cache()
         
         dtype = torch.float16
-        kwargs = {"dtype": dtype, "low_cpu_mem_usage": False}
+        # device_map="cuda" décompresse directement dans la VRAM GPU couche par couche
+        kwargs = {"dtype": dtype, "device_map": "cuda"}
 
         from transformers import AutoProcessor, AutoModel
         processor = AutoProcessor.from_pretrained(args.model, trust_remote_code=True)
         
-        print("  🚚 Instanciation du modèle sur le GPU CUDA...")
+        print("  🚚 Décompression et injection des couches directement en VRAM CUDA...")
         model = AutoModel.from_pretrained(
             args.model,
             trust_remote_code=True,
             **kwargs
         )
-        
-        if "device_map" not in kwargs:
-            model = model.to("cuda")
         
         load_duration = time.time() - t0_load
         print(f"  ✅ Modèle chargé avec succès en {load_duration:.2f}s !")
