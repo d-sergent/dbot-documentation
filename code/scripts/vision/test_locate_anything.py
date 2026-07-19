@@ -7,7 +7,7 @@ réduite (FP16/INT4) pour économiser la VRAM sur la Jetson Orin Nano, et extrai
 la bounding box 2D de l'objet spécifié.
 
 Usage:
-    python3 scripts/vision/test_locate_anything.py --prompt "a red cup" --precision int4
+    python3 scripts/vision/test_locate_anything.py --prompt "a red cup" --precision fp16
 """
 
 import sys
@@ -101,8 +101,8 @@ def main():
         print(f"  ⚡ Périphérique d'exécution : {device.upper()}")
         
         dtype = torch.float16
-        # low_cpu_mem_usage=True évite de charger les 7.6Go bruts en RAM et streame directement vers le GPU
-        kwargs = {"dtype": dtype, "device_map": "auto", "low_cpu_mem_usage": True}
+        # Sur Jetson Tegra, fixer device_map="cuda" évite les appels NVML (spécifiques aux GPU de bureau)
+        kwargs = {"dtype": dtype, "device_map": "cuda", "low_cpu_mem_usage": True}
         
         if args.precision == "int4":
             try:
