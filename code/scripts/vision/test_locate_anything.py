@@ -11,9 +11,9 @@ Usage:
 """
 
 import os
-# --- Configuration environnement PyTorch Jetson Tegra (Désactivation NVML) ---
+# --- Configuration mémoire GPU Jetson Tegra (Fractionnement 128 Mo & Désactivation NVML) ---
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
 os.environ["PYTORCH_NVML_BASED_CUDA_CHECK"] = "0"
-os.environ["TORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 import sys
 import time
@@ -104,11 +104,11 @@ def main():
         device = "cuda" if torch.cuda.is_available() else "cpu"
         print(f"  ⚡ Périphérique d'exécution : {device.upper()}")
         
-        # Vider le cache GPU préalable
-        torch.cuda.empty_cache()
+        if torch.cuda.is_available():
+            torch.cuda.set_per_process_memory_fraction(0.95)
+            torch.cuda.empty_cache()
         
         dtype = torch.float16
-        # low_cpu_mem_usage=False s'appuie sur le SWAP (11,7 Go) pour éviter la routine meta-tensor
         kwargs = {"dtype": dtype, "low_cpu_mem_usage": False}
         
         if args.precision == "int4":
@@ -123,7 +123,7 @@ def main():
         from transformers import AutoProcessor, AutoModel
         processor = AutoProcessor.from_pretrained(MODEL_ID, trust_remote_code=True)
         
-        print("  🚚 Assemblage des poids en mémoire virtuelle et transfert GPU CUDA...")
+        print("  🚚 Assemblage des poids en mémoire virtuelle et transfert GPU CUDA (blocs 128 Mo)...")
         model = AutoModel.from_pretrained(
             MODEL_ID,
             trust_remote_code=True,
