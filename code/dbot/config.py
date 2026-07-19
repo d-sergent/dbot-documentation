@@ -37,7 +37,7 @@ NECK_TILT_ID = 2   # Tilt : inclinaison avant/arrière
 # Les fonctions clamp_* doivent être appliquées à chaque couche logicielle.
 PAN_MIN_RAD  = math.radians(-80)   # -1.396 rad
 PAN_MAX_RAD  = math.radians( 80)   # +1.396 rad
-TILT_MIN_RAD = math.radians(-30)   # -0.524 rad
+TILT_MIN_RAD = math.radians(-20)   # -0.349 rad
 TILT_MAX_RAD = math.radians( 30)   # +0.524 rad
 
 # ── Configuration Asservissement Cou (Rigidité sous charge) ─

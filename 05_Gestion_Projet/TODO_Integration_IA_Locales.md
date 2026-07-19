@@ -8,7 +8,7 @@ Ce document répertorie les tâches et évolutions nécessaires pour l'intégrat
 - **Réduction de la latence vocale :** Passer de ~6 secondes à < 1 seconde de temps de réponse conversationnel.
 - **Acquisition audio intelligente :** Détection dynamique de fin de phrase via le VAD matériel du ReSpeaker.
 - **Réactivité réflexe (Interruptibilité) :** Détecter des mots-clés d'arrêt d'urgence ("stop") en moins de 150 ms directement depuis le flux audio.
-- **Repérage d'objets sémantique (Vocabulaire ouvert) :** Permettre au robot de localiser n'importe quel objet dans l'espace en combinant le VLM (vision-langage) et la carte de profondeur 3D de la caméra OAK-D Pro.
+- **Intelligence Physique et Repérage Spatial :** Permettre au robot de localiser n'importe quel objet et de raisonner sur son environnement physique (via des modèles comme LocateAnything ou Cosmos 3 Edge) couplé à la carte de profondeur 3D de la caméra OAK-D Pro.
 
 ---
 
@@ -17,7 +17,7 @@ Ce document répertorie les tâches et évolutions nécessaires pour l'intégrat
 ### 💻 Phase 1 : Préparation de l'Environnement (Jetson Orin Nano)
 - [ ] **Mise à jour JetPack** : S'assurer que le système utilise JetPack 6.2+ pour activer le mode "Super" (67 TOPS, bande passante de 102 Go/s).
 - [ ] **Déploiement des conteneurs NVIDIA** : Configurer des conteneurs Docker optimisés via les ressources du *Jetson AI Lab* pour éviter les conflits de dépendances entre PyTorch, CUDA, NeMo et TensorRT.
-- [ ] **Installation des dépendances audio/système** :
+- [x] **Installation des dépendances audio/système** :
   - `pip3 install sounddevice numpy`
   - Installer `portaudio19-dev` sur la Jetson (`sudo apt-get install portaudio19-dev`).
 - [ ] **Validation initiale des modèles** : Télécharger les poids de Nemotron-3.5-ASR et de LocateAnything-3B sur la Jetson et valider des scripts d'inférence GPU minimaux.
@@ -25,9 +25,9 @@ Ce document répertorie les tâches et évolutions nécessaires pour l'intégrat
 ---
 
 ### 🎤 Phase 2 : Refactoring du Pipeline Audio (Capture & VAD)
-- [ ] **Création de la capture non-bloquante** : 
-  - Modifier [audio_io_v2.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot/audio/audio_io_v2.py) pour remplacer la commande bloquante `parecord` par un flux d'entrée non-bloquant utilisant un callback `sounddevice` poussant des chunks audio (PCM 16kHz Mono 16-bit) dans une queue thread-safe.
-- [ ] **Couplage VAD matériel / ASR** :
+- [x] **Création de la capture non-bloquante** : 
+  - Modifier [audio_io_v2.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot/audio/audio_io_v2.py) pour remplacer la commande bloquante `parecord` par un flux d'entrée non-bloquant utilisant un callback `sounddevice` poussant des chunks audio (PCM 16kHz Mono 16-bit) dans une queue thread-safe. *(Note: Implémenté via `AudioIOStreaming` avec buffer et processus non bloquant).*
+- [x] **Couplage VAD matériel / ASR** :
   - Utiliser le signal `is_speech` renvoyé par le SDK de la carte ReSpeaker XVF3800 ([respeaker_sdk.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot/audio/respeaker_sdk.py)) pour fermer proprement le flux audio et signaler la fin de phrase au décodeur Nemotron.
 
 ---
@@ -41,34 +41,41 @@ Ce document répertorie les tâches et évolutions nécessaires pour l'intégrat
 ---
 
 ### 🛡️ Phase 4 : Système d'Arrêt d'Urgence et Mots-Clés (Hotwords)
-- [ ] **Moteur d'interruption en temps réel** :
+- [x] **Moteur d'interruption en temps réel** :
   - Ajouter un analyseur de jetons (tokens) en sortie directe de l'ASR streaming.
   - Déclencher un signal d'arrêt matériel instantané si le mot `"stop"`, `"danger"`, `"bloqué"` ou `"arrête"` est détecté dans le flux (latence cible < 150 ms).
   - Connecter ce signal aux contrôleurs moteurs (moteurs Feetech de [motors](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot/motors/) et Robstride).
+  *(Note : Le principe d'interruption a été validé différemment via le Barge-In matériel basé sur la simple détection vocale VAD de dbot_next).*
 
 ---
 
 ### 🔗 Phase 5 : Intégration Globale et Dialogue
-- [ ] **Pipeline de conversation asynchrone** :
+- [x] **Pipeline de conversation asynchrone** :
   - Connecter la sortie finale de la transcription à [llm_client.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot/brain/llm_client.py) (Gemini Flash ou Ollama local) dès la détection de la fin de parole.
   - Évaluer la possibilité d'utiliser le mode streaming sur [llm_client.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot/brain/llm_client.py) pour envoyer les premiers mots générés par l'IA vers le moteur de synthèse vocale (`tts.py`) pendant que la suite de la phrase est encore en cours de génération.
+  *(Note : Réalisé avec succès dans l'orchestrateur asynchrone actuel).*
 
 ---
 
-### 👁️ Phase 6 : Intégration de LocateAnything-3B (Visual Grounding)
-*(Architecture hybride : sémantique sur GPU Jetson et géométrie stéréo sur VPU OAK-D)*
+### 👁️ Phase 6 : Intelligence Spatiale et Repérage (LocateAnything-3B vs Cosmos 3 Edge)
+*(Architecture hybride : Raisonnement / Sémantique sur GPU Jetson et géométrie stéréo sur VPU OAK-D)*
 
-- [ ] **Déploiement du modèle de vision** :
+- [ ] **Déploiement et Test de LocateAnything-3B (Baseline Visual Grounding)** :
   - Télécharger [nvidia/LocateAnything-3B](https://huggingface.co/nvidia/LocateAnything-3B) sur la Jetson Orin Nano.
-  - Optimiser le modèle via TensorRT et tester la version quantifiée 4-bit (INT4) pour économiser la mémoire de la Jetson (~1.8 Go).
-- [ ] **Interface de détection sémantique (GPU Jetson)** :
-  - Créer un script `Code/dbot/vision/locater.py` chargé de recevoir un flux d'images 2D de la caméra OAK-D et une invite textuelle (ex: *"the green screwdriver"*), et de renvoyer les coordonnées de la bounding box 2D `[xmin, ymin, xmax, ymax]`.
+  - Optimiser via TensorRT (version quantifiée INT4) pour valider le pipeline d'extraction de bounding boxes 2D depuis une invite textuelle.
+- [ ] **Évaluation de NVIDIA Cosmos 3 Edge (World Model pour l'IA Physique)** :
+  - *Objectif :* Évaluer Cosmos 3 Edge (~4B paramètres) comme cerveau spatial "tout-en-un" en remplacement/super-ensemble de LocateAnything.
+  - Quantifier le modèle en INT4 via TensorRT pour tenir dans les 8 Go unifiés de la Jetson.
+  - Tester ses capacités de "Physical Reasoning" : au lieu de renvoyer de simples coordonnées, lui faire évaluer la scène, le contexte physique et la faisabilité de préhension (Grasping).
+- [ ] **Interface de détection et Raisonnement (GPU Jetson)** :
+  - Créer un script `Code/dbot/vision/spatial_reasoning.py` chargé de recevoir le flux d'images 2D de la caméra OAK-D.
+  - Comparer la latence et la pertinence entre la détection sémantique stricte (LocateAnything) et le raisonnement physique embarqué (Cosmos 3 Edge).
 - [ ] **Couplage géométrique avec OAK-D (2D → 3D via VPU embarqué)** :
   - Configurer le pipeline DepthAI pour calculer la carte de profondeur stéréo directement sur la puce de la caméra (soulageant l'Orin Nano).
-  - Utiliser le nœud matériel **`SpatialLocationCalculator`** (SDK DepthAI) pour extraire dynamiquement les coordonnées spatiales tridimensionnelles `[X, Y, Z]` (en mètres) de la zone d'intérêt (ROI) délimitée par la bounding box 2D calculée par LocateAnything.
+  - Utiliser le nœud matériel **`SpatialLocationCalculator`** (SDK DepthAI) pour extraire dynamiquement les coordonnées spatiales tridimensionnelles `[X, Y, Z]` (en mètres) de la zone d'intérêt ciblée par l'IA.
   - Mettre en place un filtrage (moyenne spatiale et élimination des aberrations de profondeur) pour sécuriser la mesure.
 - [ ] **Pilotage de la cinématique de saisie (Grasping)** :
-  - Envoyer les coordonnées `[X, Y, Z]` physiques à l'algorithme de cinématique inverse pour orienter le bras et piloter les servomoteurs Feetech afin de saisir précisément l'objet localisé.
+  - Envoyer les coordonnées `[X, Y, Z]` physiques à l'algorithme de cinématique inverse pour orienter le bras et piloter les servomoteurs Feetech afin de saisir l'objet ou exécuter l'action prédite par Cosmos.
 
 ---
 
@@ -89,13 +96,14 @@ Ce document répertorie les tâches et évolutions nécessaires pour l'intégrat
 ### 🌐 Phase 8 : Architecture Distribuée / Calcul Déporté (Alternative Wi-Fi)
 *(À tester et comparer après validation des méthodes 100% locales pour optimiser la latence globale et libérer de la mémoire sur la Jetson Orin Nano)*
 
-- [ ] **Mise en place du serveur d'inférence distant** :
+- [x] **Mise en place du serveur d'inférence distant** :
   - Configurer un serveur Ollama local ou une API gRPC/WebSocket sur un ordinateur compagnon du réseau Wi-Fi local (PC fixe avec carte graphique dédiée ou Mac M-Series).
   - Déporter l'exécution du LLM et de la base RAG sur cette machine hôte.
-- [ ] **Création du client léger sur la Jetson** :
+- [x] **Création du client léger sur la Jetson** :
   - Modifier [llm_client.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot/brain/llm_client.py) pour qu'il puisse basculer dynamiquement entre l'adresse IP locale (localhost) et l'adresse IP du serveur compagnon.
-- [ ] **Streaming et transport de flux** :
+- [x] **Streaming et transport de flux** :
   - Adapter le script de vision pour envoyer les requêtes de localisation (bounding boxes) au modèle de vision (VLM) hébergé à distance, ou tester la transmission des images clés pour l'inférence.
+*(Note : Validé et implémenté de manière robuste à travers la Phase 10).*
 - ### 🎙️ Phase 9 : Voix Personnalisée D-Bot — F5-TTS Français en Serveur Local (Mac)
 *(Solution C finale — Clonage avec F5-TTS déporté sur Mac, client ultra-léger et fallback Kokoro sur Jetson)*
 
@@ -373,3 +381,42 @@ INSTRUCT_FR = (
 ```
 *Note : Pour appliquer le changement de voix, il suffit de modifier cette variable et de relancer le script sur le Mac compagnon.*
 
+---
+
+### ⚙️ Phase 11 : Architecture Matérielle Décentralisée (Hiérarchie Biologique)
+*(Objectif : Libérer 40 à 60% de CPU/GPU sur la Jetson pour l'IA (Cosmos 3 Edge) en déléguant le contrôle temps réel à des microcontrôleurs dédiés, et améliorer la sécurité mécanique).*
+
+- [x] **Acquisition et Modification Matérielle** :
+  - Commander 2x microcontrôleurs **Teensy 4.1**.
+  - Commander 2x **Shields "Teensy 4.1 Triple CAN Board"** (SK Pang Electronics via leur site UK ou Buyzero Allemagne). Ils intègrent les transceivers, le régulateur de tension et un écran LCD de télémétrie.
+  - Commander 2x **Serial Bus Servo Adapter (A)** (Waveshare SKU: 25514, ~5€) pour l'interface ESP32 <-> Feetech.
+  - Déposer (retirer) les adaptateurs USB-CAN (InnoMaker et CANable Pro) de la Jetson. Ils seront conservés uniquement comme outils de débogage sur un PC annexe.
+- [x] **Le "Cervelet" : Locomotion et Cinématique (Architecture Double Teensy 4.1)** :
+  - Implémenter une séparation matérielle via 2 microcontrôleurs Teensy 4.1 (600 MHz, 3x CAN FD chacun).
+  - **Teensy #1 (Lower Body)** : Gère exclusivement l'équilibre, l'IK des jambes et de la taille à 1000Hz.
+  - **Teensy #2 (Upper Body)** : Gère l'IK des bras et du cou.
+  - *Bénéfice :* Élimine les adaptateurs USB-CAN (InnoMaker/CANable) du robot, décuple la bande passante (6 bus CAN FD) et permet à la Jetson de ne transmettre que des ordres de haut niveau (ex: "Marche à 2km/h", coordonnées X,Y,Z).
+  - *Documenté :* Choix du matériel (Shields SK Pang) et architecture physique (USB vs Ethernet) intégrés dans `FINAL_CONSOLIDE_02_Electronique_et_Energie.md`.
+- [x] **Les "Ganglions" : Smart Hands Autonomes (ESP32-S3)** :
+  - Conserver l'ESP32-S3 (Micro-Hub Tactile) actuel des mains, mais lui confier le pilotage direct (Série TTL) des moteurs Feetech.
+  - *Bénéfice :* Boucle de "Force Feedback" locale ultra-rapide (2 ms). L'ESP32 lit les capteurs eFlesh (MLX90393) et ajuste la force de préhension des Feetech de manière autonome, sans aucun aller-retour vers la Jetson.
+  - *Documenté :* Intégré en tant que source de vérité dans `GUIDE_COMPLET_Fabrication_et_Montage_DHand_V1.md`.
+- [x] **La "Moelle Épinière" : Système Réflexe Avancé (Sony Spresense)** :
+  - Élever le rôle de la carte Sony Spresense existante (qui lit l'IMU Torse à 416Hz) en véritable centre de sécurité matériel.
+  - *Amélioration du réflexe :* Câblage hybride (Interruption Matérielle sur D2 + UART sur D0/D1) vers les Teensys.
+  - *Bénéfice :* En cas de chute inévitable, la broche d'interruption permet aux Teensys de passer instantanément (< 1 ms) les moteurs en mode "Amortisseur" (Damping). Le robot absorbe le choc en s'effondrant en douceur, protégeant les réducteurs.
+  - *Documenté :* Brochage et Avertissement Critique (3.3V) intégrés dans `FINAL_CONSOLIDE_02_Electronique_et_Energie.md` (Section 5.1).
+
+---
+
+### 📝 Notes d'Architecture : Pourquoi le Teensy 4.1 et vision long-terme (STM32)
+*(Réflexion sur l'évolution vers un standard industriel)*
+
+- **Le choix actuel (Teensy 4.1)** :
+  - C'est le "Sweet Spot" pour le prototypage D-Bot : offre 95% des performances nécessaires (600 MHz, 3x CAN FD) pour 10% de la complexité de développement par rapport à un système industriel.
+  - Utilise l'écosystème Arduino/Teensyduino (librairies prêtes à l'emploi comme `FlexCAN_T4`).
+- **Vision V2 / Industrialisation (Gamme STM32H7)** :
+  - Si le robot devait être industrialisé ou requérir un contrôle d'une précision absolue (zéro jitter temporel), il faudra migrer vers une architecture **STM32H7** (ex: cartes Nucleo) programmée en C/C++ Baremetal ou avec un RTOS (Zephyr, FreeRTOS, micro-ROS).
+  - *Déterminisme :* Le STM32 permet un accès bas niveau aux registres (TCM, DMA, NVIC) garantissant un contrôle PID à 1000 Hz exact, sans les interruptions de bas niveau de l'écosystème Arduino.
+  - *Débogage :* Accès matériel natif via sondes ST-LINK (JTAG/SWD) pour un débogage pas-à-pas en temps réel et profiling (très complexe à obtenir sur Teensy).
+  - *Pérennité & Sécurité :* Puces garanties 10-15 ans par STMicroelectronics, répondant aux normes de sécurité automobile/industrielle (SIL/ASIL), et facilement intégrables sur un circuit imprimé (PCB) sur mesure pour le torse du robot.

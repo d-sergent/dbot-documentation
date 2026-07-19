@@ -9,7 +9,7 @@ Ce guide couvre le test de deux moteurs RS-05 (Pan+Tilt du cou) fonctionnant **s
 ## Prérequis (Doc 32 terminée)
 
 - [x] Moteur Pan : **ID=1**, Zéro calibré, limites ±1.396 rad flashées.
-- [x] Moteur Tilt : **ID=2**, Zéro calibré, limites ±0.524 rad flashées.
+- [x] Moteur Tilt : **ID=2**, Zéro calibré, limites -0.349 / +0.524 rad flashées.
 
 ---
 

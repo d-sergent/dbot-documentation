@@ -14,8 +14,9 @@ L’architecture électrique du D‑Bot repose sur :
 * **Source principale** : batterie Li‑ion NMC 13 S ≈ 48 V (46,8 V nominal, 54,6 V max).  
 * **Distribution** : bus‑bar central (torse) à 48 V, alimentant **six zones** (bras G/D, jambe G/D, cou/tête, logique).  
 * **Conversion** : quatre rails de tension secondaire dérivés du 48 V via des convertisseurs buck isolés : 19 V (Jetson), 12 V Logique (10 A), 12 V Puissance (20 A) et 5 V (Always‑On).  
-* **Communication** : CAN 2.0 B @ 1 Mbps (RobStride) via cinq adaptateurs USB‑CAN (1 × InnoMaker, 4 × CANable Pro) et un hub USB 3.0 industriel (10 ports).  
-* **Supervision** : Sony Spresense « Always‑On » (watchdog, lecture ADC, IMU BMI270).  
+* **Cervelet (Locomotion)** : 2x **Teensy 4.1 + Shields Triple CAN FD (SK Pang)** gérant 6 bus CAN haute vitesse de manière décentralisée (Upper Body / Lower Body). Les adaptateurs USB-CAN InnoMaker/CANable ont été retirés.
+* **Lien Cerveau-Cervelet** : La communication entre la Jetson et les Teensys se fait via **USB natif** (très haut débit 480 Mbps) pour la phase de prototypage (V1). Les ports Ethernet (RJ45) présents sur les shields SK Pang sont gardés en réserve pour une éventuelle V2 industrielle nécessitant une tolérance absolue aux chocs et déconnexions physiques (via protocole UDP / micro-ROS).
+* **Supervision (Moelle Épinière)** : Sony Spresense « Always‑On » (watchdog, lecture ADC, IMU BMI270) couplée aux Teensys via UART pour les réflexes d'amortissement matériels.  
 
 ---
 
@@ -30,10 +31,10 @@ L’architecture électrique du D‑Bot repose sur :
 | **Convertisseur 48 V → 12 V Logique** | Buck 60 V in / 12 V out, 10 A (type Mean Well DDR‑120C‑12 ou Homelylife) | 48 V | 10 A | Hub USB Industriel, solénoïdes tête | Fournisseur à confirmer |
 | **Convertisseur 48 V → 12 V Puissance** | Buck 60 V in / 12 V out, 20 A (ou DROK 25A par bras) | 48 V | 20 A | 16 × Feetech (STS3250/HL-3915) | Fournisseur à confirmer |
 | **Convertisseur 48 V → 5 V** | Buck isolé, 5 A, 25 W | 48 V | 5 A | Spresense, hub USB, accessoires | Fournisseur à confirmer |
-| **Hub USB 3.0 Industriel (10 ports)** | StarTech ST103008U2C ou Sabrent HB‑BU10 (aluminium, alimentation 7‑24 V) | 12 V (alimenté par rail 12 V Logique) | 10 A total (≈ 1 A/port) | Centralise les périphériques USB | Modèle exact à valider |
-| **Adaptateur CAN USB InnoMaker** | InnoMaker USB2CAN‑C (isolé 2.5 kV) | 48 V bus | – | Bus Cou (2 × RS‑05) | Acheté, firmware candleLight |
-| **Adaptateur CANable Pro × 4** | CANable Pro (isolé 2.5 kV, PCB 45 × 16 mm) | 48 V bus | – | Bus Bras G/D, Jambe G/D | Achetés, firmware candleLight |
-| **Module de debug CAN** | Interface opto‑couplée (isolée) | 48 V bus | – | Configuration ID moteurs, firmware | Acheté |
+| **Hub USB 3.0 (Petit Format)** | Petit hub USB 3.0 standard (non industriel) | 5 V | – | Centralise les Teensy, l'OAK-D et le Spresense vers la Jetson | Allègement du robot suite à la suppression des CANable |
+| **Cervelet (Locomotion)** | **2x Teensy 4.1** (NXP i.MX RT1062, 600MHz) | 5 V (USB) | – | Calculs d'IK, PID, équilibre temps réel | 1x Lower Body, 1x Upper Body |
+| **Shields Triple CAN FD** | **2x SK Pang Teensy 4.1 Triple CAN Board** | 12 V (rail 12 V Logique) | – | Intègre 3x Transceivers CAN FD, résistances 120 ohms et LCD télémétrie | Se clipe sur le Teensy. Remplace les CANable/InnoMaker |
+| **Module de debug CAN** | Interface opto‑couplée (isolée) | 48 V bus | – | Configuration ID moteurs, firmware sur PC | Acheté |
 | **Module Dual MOSFET D4184** | Driver MOSFET D4184 (2 × N‑channel) | 12 V (rail 12 V Logique) | 2 × 0,6 A (solénoïdes) | Pilotage solénoïdes tête | Diodes 1N4007 à souder en parallèle |
 | **Solénoïdes tête** | LEX‑SOLEN‑04, 12 V, 0,6 A chacun | 12 V | 0,6 A | Blocage/déblocage tête | 2 unités |
 | **Sony Spresense Standard Board** | CXD5602PWBEXT1, 6 ADC, 3,3 V I/O | 5 V (Always‑On) | 1 A (typ.) | Watchdog, lecture FSR, IMU, UART | Achetée |
@@ -121,6 +122,17 @@ L’architecture électrique du D‑Bot repose sur :
 ---
 
 ## 5. Instructions de Montage Critiques
+
+### 5.1 Câblage du Système Réflexe (Spresense ➔ Teensy)
+
+Pour garantir un temps de réaction < 1 ms en cas de chute, la Moelle Épinière (Spresense) et le Cervelet (Teensy) communiquent via une architecture hybride :
+1. **Ligne d'Interruption (Vitesse pure) :** La broche `D2` de la Spresense est reliée à la broche `Pin 2` des deux Teensys. Si l'IMU détecte une chute, `D2` passe à l'état `HIGH`. Les Teensys déclenchent une interruption matérielle et forcent instantanément les moteurs en mode "Amortisseur" (Damping).
+2. **Ligne UART (Diagnostic) :** La broche `TX` (D1) Spresense est reliée à la broche `RX2` (Pin 7) des Teensys, et `RX` (D0) à `TX2` (Pin 8). Cela permet d'échanger des logs détaillés sur la chute.
+
+> **⚠️ AVERTISSEMENT CRITIQUE (RISQUE DE DESTRUCTION MATÉRIELLE) :**  
+> Le processeur du Teensy 4.1 **ne tolère absolument pas le 5V**. Sur la carte d'extension de la Sony Spresense, **vous devez IMPÉRATIVEMENT positionner le cavalier (jumper) de tension GPIO sur `3.3V`** avant de relier les fils UART ou Interrupt. L'oubli de ce jumper détruira les broches du Teensy.
+
+### 5.2 Tableau de Montage Général
 
 | Étape | Action | Points de vigilance |
 |---|---|---|

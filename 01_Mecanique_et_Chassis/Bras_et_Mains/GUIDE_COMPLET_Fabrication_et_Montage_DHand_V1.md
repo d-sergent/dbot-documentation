@@ -60,7 +60,8 @@ Voici la liste exacte des composants, fixations et matières premières nécessa
 | Désignation | Spécifications | Qté | Rôle |
 | :--- | :--- | :---: | :--- |
 | **Capteurs V1 (eFlesh)** | **Magnétomètre MLX90393** (3 axes, sur micro-PCB WowRobo) | **8** | Capteurs de champ magnétique (5 doigts + 3 paume en triangle). |
-| **Micro-Hub Tactile** | **ESP32-S3 USB local** (reçoit les 2 bus I2C natifs des 8 MLX90393) | **1** | Achemine les données eFlesh formatées vers le Jetson via USB CDC. |
+| **Micro-Hub (Ganglion)** | **ESP32-S3 local** (Cerveau de la main) | **1** | Gère les 8 capteurs I2C (eFlesh) ET les 8 moteurs (Feetech) en local pour le Force Feedback. Ne transmet que des données/commandes haut niveau à la Jetson via USB. |
+| **Adaptateur UART** | **Serial Bus Servo Adapter (Waveshare)** | **1** | Convertit le RX/TX de l'ESP32 en signal TTL Half-Duplex (Data unique) pour piloter les moteurs Feetech. |
 | **Capteurs FSR 402** | *SUPPRIMÉS / EN RETRAIT* | **0** | Remplacés par la détection eFlesh 3 axes plus riche. |
 | **Capteurs V2 (3 Axes)** | **AnySkin** (Peau silicone magnétique 2.0 mm + 5 magnétomètres 3 axes) | 5 | Évolution logicielle future sans recalibration (V2, uniquement sur doigts). |
 
@@ -305,10 +306,10 @@ Le raccordement entre la main (paume CNC) et la motorisation (avant-bras) s'effe
 ### Étape 7 : Raccordement sans nœud et Tensionnement
 1.  Mettez les 8 servomoteurs sous tension électronique et commandez-les en **position zéro (neutre)** via votre bus TTL.
 2.  Prenez le tendon libre d'un doigt, passez-le dans la gorge hélicoïdale de son spool dédié.
-3.  Faites **1.5 tour d'enroulement complet** à la main dans la gorge hélicoïdale. Le câble doit être parfaitement logé dans sa spirale.
-4.  Tirez fermement sur l'extrémité libre du câble avec une pince à bec plat pour éliminer tout jeu et mettre le tendon sous une pré-tension constante d'environ **10 à 15 N** (le doigt doit commencer à esquisser un mouvement de flexion).
-5.  Tout en maintenant cette tension, vissez fermement la vis sans tête **M1.6** dans le trou radial du spool. La vis vient pincer le Dyneema contre le métal, assurant un bridage mécanique indestructible sans aucun nœud.
-6.  Coupez le surplus de fil à 5 mm du spool et appliquez une micro-goutte de vernis ou de colle cyanoacrylate sur l'extrémité coupée pour éviter l'effilochage.
+5.  Faites **1.5 tour d'enroulement complet** à la main dans la gorge hélicoïdale. Le câble doit être parfaitement logé dans sa spirale.
+6.  Tirez fermement sur l'extrémité libre du câble avec une pince à bec plat pour éliminer tout jeu et mettre le tendon sous une pré-tension constante d'environ **10 à 15 N** (le doigt doit commencer à esquisser un mouvement de flexion).
+7.  Tout en maintenant cette tension, vissez fermement la vis sans tête **M1.6** dans le trou radial du spool. La vis vient pincer le Dyneema contre le métal, assurant un bridage mécanique indestructible sans aucun nœud.
+8.  Coupez le surplus de fil à 5 mm du spool et appliquez une micro-goutte de vernis ou de colle cyanoacrylate sur l'extrémité coupée pour éviter l'effilochage.
 
 ---
 
@@ -326,10 +327,10 @@ Le convertisseur DROK est un module compact en boîtier alu IP67 (étanche) qui 
 ### 5.2 Chaînage des Servomoteurs (Bus Unique SCServo)
 Les moteurs Feetech partagent tous le même protocole de communication série TTL half-duplex.
 1.  Chaînez les 8 moteurs en cascade (Daisy Chain) à l'aide des câbles à 3 broches fournis.
-2.  Attribuez une **adresse matérielle unique (ID)** à chaque moteur via le logiciel de configuration Feetech :
+2.  Attribuez une **adresse matérielle unique (ID)** à chaque moteur via le logiciel de configuration Feetech (avec l'URT-1 branché temporairement sur PC) :
     *   **ID 1 à 5 :** STS3250 (Flexion des 5 doigts)
     *   **ID 6 à 8 :** HL-3915 (Opposition Pouce, Abduction Index, Curl Palmaire)
-3.  Raccordez l'extrémité de la chaîne à un unique adaptateur **USB-to-UART TTL (Feetech URT-1)** relié au calculateur principal du bras.
+3.  **Architecture "Smart Hand" (Ganglion)** : Raccordez l'extrémité de la chaîne à un module **Serial Bus Servo Adapter (Waveshare)**, lui-même connecté aux pins UART matériels (RX/TX) du **Micro-Hub ESP32-S3** local de la main. L'ESP32 pilote désormais les moteurs en direct, de manière autonome.
 
 ### 5.3 Montage des Capteurs Tactiles eFlesh en TPU (Phase V1 Actuelle)
 L'ORCA/D-Hand V1 intègre désormais le système tactile magnétique 3-axes **eFlesh**, développé par le Pinto Lab de NYU. Ce système mesure à la fois les forces de compression (pression normale) et de cisaillement (friction latérale), permettant la détection fine du glissement d'objets.
@@ -424,7 +425,9 @@ Le capteur MLX90393 dispose de 2 pins d'adresse (AD0/AD1) permettant au maximum 
 
 1.  **Soudure :** Soudez les micro-fils émaillés émergeant des 8 phalanges/coussinets sur les bus I2C respectifs de l'ESP32-S3 (Bus 1 = Doigts externes, Bus 2 = Pouce + Triangle de Paume).
 2.  **Configuration des adresses :** Reliez les pastilles d'adresse AD0/AD1 à GND ou VCC sur chaque PCB WowRobo pour attribuer la bonne adresse (0x0C à 0x0F).
-3.  **Acquisition (ESP32-S3 Firmware) :** Flashez l'ESP32-S3 avec le code fourni dans `/arduino` du dépôt eFlesh. Il interroge les deux bus en parallèle à **100 Hz** et transmet le flux unifié ($B_x, B_y, B_z$ pour les 8 capteurs) en USB CDC vers le Jetson pour le calcul de force MLP en temps réel.
+3.  **Acquisition et Force Feedback Local (ESP32-S3) :** Flashez l'ESP32-S3 avec le firmware *D-Hand Ganglion*. L'ESP32 lit en parallèle les capteurs I2C à **100 Hz** et contrôle les moteurs Feetech via l'adaptateur Waveshare UART. 
+    *   *Autonomie :* En cas de contact détecté, l'ESP32 stoppe localement le moteur en < 2ms sans passer par la Jetson.
+    *   Il ne transmet à la Jetson (via USB) que l'état consolidé de la prise et n'attend d'elle que des ordres de haut niveau (ex: "Saisir", "Relâcher").
 
 ---
 

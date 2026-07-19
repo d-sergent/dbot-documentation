@@ -110,7 +110,8 @@ Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une q
 | :--- | :--- | :---: | :--- |
 | **PCB Paume eFlesh** | **WowRobo eFlesh Array** (5× MLX90393) | 4 | **✅ Achetés** (lot global de 20) : 2 arrays par paume (Option B). |
 | **PCB Doigt eFlesh** | **PCB Custom 10 × 10 mm (ou 10 × 14 mm)** | 10 | 5 par main (1 par doigt), avec 1× MLX90393. À faire fabriquer (JLCPCB PCBA). |
-| **Micro-Hub Tactile** | **Seeed Studio XIAO ESP32-S3 (Pack 3PCS)** | 1 (pack) | **✅ Acheté (Pack 3PCS)** : Permet d'équiper les 2 mains (1 par main) + 1 carte de secours/banc d'essai. I2C vers USB. |
+| **Micro-Hub Tactile & Moteur** | **Seeed Studio XIAO ESP32-S3 (Pack 3PCS)** | 1 (pack) | **✅ Acheté (Pack 3PCS)** : Permet d'équiper les 2 mains (1 par main). Cerveau local de la main (Ganglion). |
+| **Adaptateur UART Moteurs** | **Serial Bus Servo Adapter (A) (Waveshare SKU: 25514)** | 2 | Convertit le signal RX/TX de l'ESP32 en signal TTL Half-Duplex (Data unique) pour les moteurs Feetech. |
 | **Cordon Data** | **Câble JST-SH 4 broches (STEMMA QT / Qwiic)** | 16 | 8 par main, femelle-femelle, longueur 100mm. À commander. |
 | **Aimants Doigts** | **Néodyme S-03-01-N (Disque Ø3 × 1 mm)** | 10 | 5 par main, insérés dans la pulpe TPU. **✅ Achetés** (lot global de 40). |
 | **Aimants Paume** | **Néodyme W-05-N (Cube 5 × 5 × 5 mm)** | 4 | 2 par main, insérés dans la paume TPU. **✅ Achetés** (lot global de 10). |
@@ -159,6 +160,14 @@ Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une q
 | **Cerveau IA** | **NVIDIA Jetson Orin Nano Super** (8GB, 67 TOPS) | (**✅ Achetée**) |
 | **Vision (Tête)** | [Luxonis OAK-D Pro FF](https://www.mouser.fr/ProductDetail/Luxonis/OAK-D-PRO-FF?qs=Znm5pLBrcAK58KqDdxCLeQ%3D%3D) | (**✅ Achetée**) Version Fixed-Focus (FF) recommandée (vibrations). |
 ### Électronique de Contrôle
+- **Microcontrôleur Cinématique (Nouveau)** : **Teensy 4.1** (Quantité : 2).
+    - Architecture décentralisée : 1x pour le *Lower Body* (Jambes/Taille) et 1x pour le *Upper Body* (Bras/Cou).
+    - Gère l'IK et les boucles de contrôle temps réel grâce à ses 3x bus CAN FD natifs par carte. Reléguera les adaptateurs USB-CAN InnoMaker/CANable au simple rôle d'outils de debug.
+- **Shield d'extension CAN (Nouveau)** : **Teensy 4.1 Triple CAN Board avec LCD (SK Pang)** (Quantité : 2).
+    - [Lien fabricant (SK Pang UK)](https://www.skpang.co.uk) / [Lien revendeur (Buyzero DE)](https://buyzero.de).
+    - Remplace l'achat de 6 transceivers nus. Se clipse sur le Teensy et fournit directement 3 borniers CAN FD propres, intégrant les transceivers et résistances de terminaison 120 ohms.
+    - *Écran LCD 240x240 intégré* : Permet d'afficher la télémétrie des moteurs (température, courant, erreurs CAN) directement sur le torse du robot sans brancher d'écran à la Jetson.
+    - *Alimentation intégrée* : Dispose d'un régulateur de tension Buck (7V-24V). Vous pouvez l'alimenter directement depuis votre convertisseur 12V DROK existant pour alimenter le Teensy.
 - **Sony Spresense** :
     - [*Main Board*](https://www.mouser.fr/ProductDetail/Sony-Spresense/CXD5602PWBMAIN1_FG_875607611_P?qs=%252B6g0mu59x7Ifurwfgmhhqg%3D%3D) + [*Extension Board* (Standard)](https://www.mouser.fr/ProductDetail/Sony-Spresense/CXD5602PWBEXT1E_FG_875612931_P?qs=%252B6g0mu59x7IfMFVSCO3mMw%3D%3D) (**✅ Achetées**).
     - **Note** : La Spresense **ne gère plus l'audio** (remplacé par le ReSpeaker). Ses rôles restants : Watchdog, Power Management, IMU BMI270, FSR, Thermistances.

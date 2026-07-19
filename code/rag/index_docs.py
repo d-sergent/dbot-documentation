@@ -108,7 +108,7 @@ DB_PATH   = Path("/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db")
 INDEX_LOG = DB_PATH / "indexed_files.json"
 
 EXCLUDE_DIRS = {".git", ".continue", "__pycache__", "Archives", "assets",
-                "Images_ORCA", ".DS_Store", "lightrag_dbot_db"}
+                "Images_ORCA", ".DS_Store", "lightrag_dbot_db", "00_Archives_Recherche"}
 INCLUDE_EXTS = {".md", ".py", ".txt"}
 
 # ─── Stratégie Round-Robin Hybride (Gemini + OpenRouter) ────────────────────────
@@ -335,10 +335,13 @@ def prepare_document(path: Path) -> str:
 
 async def run_indexing(args):
     all_files = collect_files()
+    all_files_str = set(str(p) for p in all_files)
     log_idx = load_index_log() if not args.full else {}
+    
     to_update = [p for p in all_files if str(p) not in log_idx or log_idx[str(p)]["mtime"] < os.path.getmtime(p)]
+    to_delete = [path_str for path_str in list(log_idx.keys()) if path_str not in all_files_str]
 
-    if not to_update:
+    if not to_update and not to_delete:
         logger.info("✅ Tout est à jour.")
         return
 
@@ -355,7 +358,20 @@ async def run_indexing(args):
     )
     await rag.initialize_storages()
     
-    logger.info(f"📂 Indexation de {len(to_update)} fichier(s) [Parallélisme: {max_async}]...")
+    if to_delete:
+        logger.info(f"🗑️  Nettoyage intelligent : Suppression de {len(to_delete)} fichier(s) exclu(s)/supprimé(s)...")
+        for path_str in to_delete:
+            doc_id = log_idx[path_str].get("doc_id")
+            if doc_id:
+                try:
+                    await rag.adelete_by_doc_id(doc_id)
+                except Exception as e:
+                    logger.warning(f"Impossible de supprimer {doc_id} de LightRAG: {e}")
+            del log_idx[path_str]
+            logger.info(f"   [-] Oublié : {Path(path_str).name}")
+
+    if to_update:
+        logger.info(f"📂 Indexation de {len(to_update)} fichier(s) [Parallélisme: {max_async}]...")
     for i, path in enumerate(to_update, 1):
         content = prepare_document(path)
         if not content: continue

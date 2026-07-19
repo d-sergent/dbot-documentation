@@ -7,7 +7,7 @@
 ## Prérequis (Docs 32 & 42 terminées)
 
 - [x] Moteur Pan : **ID=1**, Zéro calibré, limites ±1.396 rad flashées en firmware
-- [x] Moteur Tilt : **ID=2**, Zéro calibré, limites ±0.524 rad flashées en firmware
+- [x] Moteur Tilt : **ID=2**, Zéro calibré, limites -0.349 / +0.524 rad flashées en firmware
 - [x] InnoMaker USB2CAN-C détecté (`lsusb` → `ID 1d50:606f`)
 - [x] Interface `can1` UP à 1 Mbps (`sudo ip link set can1 type can bitrate 1000000 && sudo ip link set can1 up`)
 - [x] Librairie Python installée (`pip3 install robstride`)
@@ -25,7 +25,7 @@ import math
 # ── Limites mécaniques cou (Doc 32 §3) ────────────────────
 PAN_MIN_RAD  = -1.396   # Pan  ID:1 — -80°
 PAN_MAX_RAD  =  1.396   # Pan  ID:1 — +80°
-TILT_MIN_RAD = -0.524   # Tilt ID:2 — -30°
+TILT_MIN_RAD = -0.349   # Tilt ID:2 — -20°
 TILT_MAX_RAD =  0.524   # Tilt ID:2 — +30°
 
 def clamp_pan(angle_rad: float) -> float:
@@ -117,7 +117,7 @@ import math
 
 # ── Limites mécaniques (Doc 32 §3) ────────────────────────
 PAN_MIN_RAD, PAN_MAX_RAD   = -1.396, 1.396
-TILT_MIN_RAD, TILT_MAX_RAD = -0.524, 0.524
+TILT_MIN_RAD, TILT_MAX_RAD = -0.349, 0.524
 
 def clamp_pan(v):  return max(PAN_MIN_RAD,  min(PAN_MAX_RAD,  v))
 def clamp_tilt(v): return max(TILT_MIN_RAD, min(TILT_MAX_RAD, v))
@@ -168,7 +168,7 @@ import math
 
 # ── Limites mécaniques (Doc 32 §3) ────────────────────────
 PAN_MIN_RAD, PAN_MAX_RAD   = -1.396, 1.396   # ±80°
-TILT_MIN_RAD, TILT_MAX_RAD = -0.524, 0.524   # ±30°
+TILT_MIN_RAD, TILT_MAX_RAD = -0.349, 0.524   # -20° à +30°
 
 def clamp_pan(v):  return max(PAN_MIN_RAD,  min(PAN_MAX_RAD,  v))
 def clamp_tilt(v): return max(TILT_MIN_RAD, min(TILT_MAX_RAD, v))
@@ -254,7 +254,7 @@ import math
 
 # ── Limites mécaniques (Doc 32 §3) ────────────────────────
 PAN_MIN_RAD, PAN_MAX_RAD   = -1.396, 1.396
-TILT_MIN_RAD, TILT_MAX_RAD = -0.524, 0.524
+TILT_MIN_RAD, TILT_MAX_RAD = -0.349, 0.524
 
 def clamp_pan(v):  return max(PAN_MIN_RAD,  min(PAN_MAX_RAD,  v))
 def clamp_tilt(v): return max(TILT_MIN_RAD, min(TILT_MAX_RAD, v))
@@ -386,7 +386,7 @@ Reporter les limites dans le fichier URDF (cf. Doc 32 §3.2) pour que MoveIt2 pl
 
 <!-- Joint Tilt (ID:2) -->
 <joint name="neck_tilt" type="revolute">
-  <limit lower="-0.524" upper="0.524" effort="5.5" velocity="10.0"/>
+  <limit lower="-0.349" upper="0.524" effort="5.5" velocity="10.0"/>
 </joint>
 ```
 
@@ -397,7 +397,7 @@ Reporter les limites dans le fichier URDF (cf. Doc 32 §3.2) pour que MoveIt2 pl
 | Moteur | ID | Axe | Limite Min | Limite Max | Source |
 | :--- | :---: | :--- | :---: | :---: | :--- |
 | **Pan** | 1 | Rotation gauche/droite | -80° (-1.396 rad) | +80° (+1.396 rad) | Doc 32 §3 |
-| **Tilt** | 2 | Inclinaison avant/arrière | -30° (-0.524 rad) | +30° (+0.524 rad) | Doc 32 §3 |
+| **Tilt** | 2 | Inclinaison avant/arrière | -20° (-0.349 rad) | +30° (+0.524 rad) | Doc 32 §3 |
 
 > [!WARNING]
 > Ces limites doivent être appliquées à **chaque couche** : firmware moteur (flashé via MotorStudio), scripts Python (`clamp_pan` / `clamp_tilt`), nœud ROS2, et URDF. La défaillance d'une seule couche peut créer une contrainte mécanique sur les câbles ou la structure du cou.

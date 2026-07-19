@@ -1015,7 +1015,7 @@ Usage :
 
 ### Ressources logicielles
 
-- **Firmware ESP32-S3** : Dépôt eFlesh `/arduino` — compatible multi-bus, multi-capteurs
+- **Firmware ESP32-S3** : Dérivé du dépôt eFlesh `/arduino` étendu en firmware **"D-Hand Ganglion"** (gérant à la fois les capteurs I2C et la boucle de retour de force locale vers les moteurs Feetech via UART).
 - **Driver MLX90393** : [Adafruit_MLX90393](https://github.com/adafruit/Adafruit_MLX90393)
 - **Fréquence d'acquisition** : 100 Hz par bus I2C (configuration ODR du MLX90393)
 - **Protocole** : USB CDC → Jetson → ROS2 topic `/tactile/[location]/[sensor_id]`
