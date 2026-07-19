@@ -101,13 +101,14 @@ def main():
         print(f"  ⚡ Périphérique d'exécution : {device.upper()}")
         
         dtype = torch.float16
-        # Sur Jetson Tegra, fixer device_map="cuda" évite les appels NVML (spécifiques aux GPU de bureau)
-        kwargs = {"dtype": dtype, "device_map": "cuda", "low_cpu_mem_usage": True}
+        # Pas de device_map pour éviter la routine caching_allocator_warmup d'Hugging Face (qui échoue sur NVML Jetson)
+        kwargs = {"dtype": dtype, "low_cpu_mem_usage": True}
         
         if args.precision == "int4":
             try:
                 from transformers import BitsAndBytesConfig
                 kwargs["quantization_config"] = BitsAndBytesConfig(load_in_4bit=True)
+                kwargs["device_map"] = "cuda"
                 print("  🔒 Mode BitsAndBytes INT4 (4-bit) activé.")
             except Exception as e:
                 print(f"  ⚠️ BitsAndBytes non disponible ({e}). Repli sur FP16 (16-bit).")
@@ -115,6 +116,10 @@ def main():
         from transformers import AutoProcessor, AutoModel
         processor = AutoProcessor.from_pretrained(MODEL_ID, trust_remote_code=True)
         model = AutoModel.from_pretrained(MODEL_ID, trust_remote_code=True, **kwargs)
+        
+        if "device_map" not in kwargs:
+            print("  🚚 Déplacement du modèle vers le GPU CUDA...")
+            model = model.to("cuda")
         
         load_duration = time.time() - t0_load
         print(f"  ✅ Modèle chargé en {load_duration:.2f}s !")
