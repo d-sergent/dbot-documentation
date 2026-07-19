@@ -15,11 +15,16 @@ from dbot.motors.neck import NeckController
 
 
 SEQUENCE = [
-    ("Centre",        0,   0, 1.5),
-    ("Tilt +20°",     0,  20, 4.0),
-    ("Centre",        0,   0, 1.5),
-    ("Tilt -20°",     0, -20, 4.0),
-    ("Centre final",  0,   0, 1.5),
+    ("Centre",         0,   0, 2.0),
+    ("Pan Max G",     80,   0, 3.0),
+    ("Pan Max D",    -80,   0, 4.0),
+    ("Centre",         0,   0, 3.0),
+    ("Tilt Max H",     0,  30, 3.0),
+    ("Tilt Max B",     0, -20, 4.0),
+    ("Centre",         0,   0, 3.0),
+    ("Diag Haut-G",   80,  30, 4.0),
+    ("Diag Bas-D",   -80, -20, 5.0),
+    ("Centre final",   0,   0, 4.0),
 ]
 
 
