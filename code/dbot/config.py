@@ -45,13 +45,13 @@ NECK_SPEED_LIMIT = math.radians(30.0)  # 30°/s max (vitesse nominale optimisée
 
 # Moteur Pan (Axe horizontal : inertie de rotation)
 PAN_LOC_KP = 50.0    # Rigidité position
-PAN_SPD_KP =  3.0    # Amortissement vitesse
+PAN_SPD_KP =  5.0    # Amortissement vitesse (augmenté pour plus de douceur)
 PAN_SPD_KI =  0.05   # Compensation intégrale
 
 # Moteur Tilt (Axe vertical : lutte contre la gravité de la tête lourde)
 # Un amortissement (spd_kp) plus élevé est nécessaire pour empêcher la tête de vibrer/rebondir de haut en bas.
 TILT_LOC_KP = 50.0   # Rigidité maintenue haute
-TILT_SPD_KP =  6.0   # ⚠️ Amortissement doublé pour casser la vibration verticale
+TILT_SPD_KP =  9.0   # Amortissement fortement augmenté pour contrer l'élasticité
 TILT_SPD_KI =  0.05
 
 # ── Alimentation (référence Wanptek) ──────────────────────
