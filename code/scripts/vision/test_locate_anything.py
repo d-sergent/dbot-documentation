@@ -22,6 +22,12 @@ import types
 import importlib.machinery
 from unittest.mock import MagicMock
 
+# --- Patch de compatibilité Jetson PyTorch 2.5 pour compressed-tensors ---
+import torch
+import torch.distributed as dist
+if not hasattr(dist, "Work"):
+    dist.Work = getattr(dist, "distributed_c10d", type("DummyWork", (), {}))
+
 # --- Astuce Jetson ARM64 : MagicMock dynamique pour 'decord' et 'torchvision' ---
 try:
     import decord
@@ -42,7 +48,6 @@ except (ImportError, RuntimeError):
 
 import cv2
 import numpy as np
-import torch
 from PIL import Image
 
 # Ajouter le dossier Code au path
