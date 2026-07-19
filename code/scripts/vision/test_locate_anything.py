@@ -14,6 +14,7 @@ import sys
 import os
 import time
 import argparse
+import traceback
 import cv2
 import numpy as np
 import torch
@@ -69,11 +70,6 @@ def main():
     # 2. Chargement du modèle quantifié
     print(f"\n🧠 [2/3] Chargement du modèle {MODEL_ID} en mode {args.precision.upper()}...")
     t0_load = time.time()
-    
-    use_pipeline = False
-    pipe = None
-    processor = None
-    model = None
 
     try:
         import transformers
@@ -93,25 +89,18 @@ def main():
             except Exception as e:
                 print(f"  ⚠️ BitsAndBytes non disponible ({e}). Repli sur FP16 (16-bit).")
 
-        # Tentative d'import direct d'AutoProcessor ou fallback pipeline
-        try:
-            from transformers import AutoProcessor, AutoModelForCausalLM
-            processor = AutoProcessor.from_pretrained(MODEL_ID, trust_remote_code=True)
-            model = AutoModelForCausalLM.from_pretrained(MODEL_ID, trust_remote_code=True, **kwargs)
-            use_pipeline = False
-        except (ImportError, AttributeError):
-            print("  ⚠️ 'AutoProcessor' non présent dans cette version de transformers.")
-            print("  🔄 Tentative avec le pipeline 'image-text-to-text'...")
-            from transformers import pipeline
-            pipe = pipeline("image-text-to-text", model=MODEL_ID, trust_remote_code=True, model_kwargs=kwargs)
-            use_pipeline = True
+        from transformers import AutoProcessor, AutoModelForCausalLM
+        processor = AutoProcessor.from_pretrained(MODEL_ID, trust_remote_code=True)
+        model = AutoModelForCausalLM.from_pretrained(MODEL_ID, trust_remote_code=True, **kwargs)
         
         load_duration = time.time() - t0_load
         print(f"  ✅ Modèle chargé en {load_duration:.2f}s !")
         
     except Exception as e:
         print(f"❌ Erreur lors du chargement du modèle : {e}")
-        print("💡 Conseil : Exécutez sur la Jetson :  pip3 install --upgrade transformers accelerate bitsandbytes")
+        print("\n--- Traceback détaillé ---")
+        traceback.print_exc()
+        print("---------------------------\n")
         sys.exit(1)
 
     # 3. Inférence & Extraction Bounding Box
@@ -119,23 +108,10 @@ def main():
     t0_infer = time.time()
 
     try:
-        if use_pipeline:
-            messages = [
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "image", "image": pil_image},
-                        {"type": "text", "text": f"Locate {args.prompt} in this image."}
-                    ]
-                }
-            ]
-            outputs = pipe(text=messages)
-            result_text = str(outputs)
-        else:
-            inputs = processor(text=args.prompt, images=pil_image, return_tensors="pt").to(device)
-            with torch.no_grad():
-                outputs = model.generate(**inputs, max_new_tokens=100)
-            result_text = processor.decode(outputs[0], skip_special_tokens=True)
+        inputs = processor(text=args.prompt, images=pil_image, return_tensors="pt").to(device)
+        with torch.no_grad():
+            outputs = model.generate(**inputs, max_new_tokens=100)
+        result_text = processor.decode(outputs[0], skip_special_tokens=True)
             
         infer_duration = time.time() - t0_infer
         
