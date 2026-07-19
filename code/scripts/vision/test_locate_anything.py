@@ -10,8 +10,12 @@ Usage:
     python3 scripts/vision/test_locate_anything.py --prompt "a red cup" --precision fp16
 """
 
-import sys
 import os
+# --- Configuration environnement PyTorch Jetson Tegra (Désactivation NVML) ---
+os.environ["PYTORCH_NVML_BASED_CUDA_CHECK"] = "0"
+os.environ["TORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+
+import sys
 import time
 import argparse
 import traceback
@@ -105,7 +109,7 @@ def main():
         from transformers import AutoProcessor, AutoModel
         processor = AutoProcessor.from_pretrained(MODEL_ID, trust_remote_code=True)
         
-        # Chargement direct dans la VRAM GPU CUDA sans duplication en RAM
+        # Chargement direct sur le GPU CUDA avec désactivation des requêtes NVML
         print("  🚚 Instanciation directe des couches sur la VRAM GPU CUDA...")
         with torch.device("cuda"):
             model = AutoModel.from_pretrained(
