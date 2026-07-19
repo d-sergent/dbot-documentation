@@ -131,10 +131,12 @@ def main():
             **kwargs
         )
         
-        print("  ⚡ Transfert progressif sous-module par sous-module sur le GPU CUDA...")
-        for name, child in model.named_children():
-            child.to("cuda")
-        model.to("cuda")
+        print("  ⚡ Transfert matrice par matrice sur le GPU CUDA (pics max 20 Mo)...")
+        with torch.no_grad():
+            for name, param in model.named_parameters():
+                param.data = param.data.to("cuda")
+            for name, buf in model.named_buffers():
+                buf.data = buf.data.to("cuda")
         
         load_duration = time.time() - t0_load
         print(f"  ✅ Modèle chargé avec succès en {load_duration:.2f}s !")
