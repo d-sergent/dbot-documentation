@@ -262,9 +262,9 @@ Fichiers sources contradictoires :
 - `ETUDE_Hardware_Orin_vs_Thor.md`
 - Document de dépannage "Les Défis"
 
-Le document de synthèse ne mentionne pas ce problème, tandis que les documents de dépannage décrivent un enregistrement de silence absolu par le ReSpeaker via `arecord` dû à un bug du port USB-C de la Jetson Orin Nano, dont la solution est de brancher le micro sur un port USB-A (bleu).
+Le document de synthèse ne mentionne pas ce problème, tandis que les documents de dépannage décrivent un enregistrement de silence absolu par le ReSpeaker via `arecord` dû à un bug du port USB-C de la Jetson Orin Nano, dont la solution est de brancher le micro sur un port USB-A.
 
-**Question :** Le ReSpeaker XVF-3800 est-il actuellement branché sur un port USB-A (bleu) ou USB-C de la Jetson ?
+**Question :** Le ReSpeaker XVF-3800 est-il actuellement branché sur un port USB-A ou USB-C de la Jetson ?
 
 ### Divergence 3 : Interface audio (ALSA vs PulseAudio)
 Fichiers sources contradictoires :

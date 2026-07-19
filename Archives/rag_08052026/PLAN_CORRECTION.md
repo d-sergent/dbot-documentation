@@ -21,7 +21,7 @@
 | 13 | Modèle Jetson | **Jetson Orin Nano Super 8GB** | ✅ Validée |
 | 14 | Puissance Jetson | **67 TOPS** | ✅ Validée |
 | 15 | Audio | **4 micros** ReSpeaker XVF-3800, **6 canaux** total (incl. echo cancellation et bruit moteurs) | ✅ Validée |
-| 16 | Connexion ReSpeaker | **USB-A (port bleu)** sur Jetson | ✅ Validée |
+| 16 | Connexion ReSpeaker | **USB-A** sur Jetson | ✅ Validée |
 | 17 | ALSA vs PulseAudio | **SKIP** (utilisateur ne sait pas) | ⏭️ SKIP |
 | 18 | Amplificateur JST | **SKIP** (utilisateur ne sait pas) | ⏭️ SKIP |
 
@@ -151,14 +151,14 @@
 
 | Fichier | Ligne(s) | Valeur actuelle | Valeur cible |
 |---------|-----------|-----------------|---------------|
-| `09_Intelligence_Conversationnelle.md` | 29 | "port **USB-C** de la Jetson" | "port **USB-A (bleu)**" | ✅ CORRIGÉ |
+| `09_Intelligence_Conversationnelle.md` | 29 | "port **USB-C** de la Jetson" | "port **USB-A**" | ✅ CORRIGÉ |
 | `08_Architecture_Audio.md` | 154 | `--channels=1` (mono) | Documenter 6 canaux (4 micros + 2 référence) | ✅ CORRIGÉ |
 | `Synthese_Etat_Actuel/SYNTHESE_Audio_IMU.md` | 12 | "4 micros MEMS" | "4 micros MEMS, 6 canaux (incl. référence AEC + bruit moteurs)" | ✅ CORRIGÉ |
-| `annexes/jetson/installation/45_Configuration_Audio_ReSpeaker_XVF3800.md` | 12 | "Port **USB-A Bleu**" | ✅ DÉJÀ CORRECT |
+| `annexes/jetson/installation/45_Configuration_Audio_ReSpeaker_XVF3800.md` | 12 | "Port **USB-A**" | ✅ DÉJÀ CORRECT |
 | `annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md` | 255, 265-267 | Mentions configurations canal | ✅ DÉJÀ CORRECT (document d'audit) |
 
 **Action**: 
-1. Corriger `09_Intelligence_Conversationnelle.md` ligne 29 pour remplacer "USB-C" par "USB-A (bleu)".
+1. Corriger `09_Intelligence_Conversationnelle.md` ligne 29 pour remplacer "USB-C" par "USB-A".
 2. Mettre à jour `Synthese_Etat_Actuel/SYNTHESE_Audio_IMU.md` pour préciser le nombre de canaux (6).
 3. Vérifier `08_Architecture_Audio.md` pour s'assurer que la configuration audio reflète les 6 canaux.
 

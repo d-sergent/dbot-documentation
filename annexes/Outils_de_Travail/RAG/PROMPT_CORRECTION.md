@@ -16,7 +16,7 @@ J'ai analysé les incohérences. Voici mes décisions techniques officielles pou
 - Décision pour 'Divergence 1 : Modèle installé et capacité RAM' : C'est une Jetson Orin Nano Super 8 Go
 - Décision pour 'Divergence 2 : Puissance de calcul (TOPS)' : Il dispose de 67 TOPS
 - Décision pour 'Divergence 1 : Nombre de microphones et canaux audio' : il y a 4 micros sur le respeaker xvf-3800, mais 6 canaux si on compte la partie cancelation echo et le son produit par les moteurs
-- Décision pour 'Divergence 2 : Problème de "Micro Muet"' : sur le port USB A , le bleu
+- Décision pour 'Divergence 2 : Problème de "Micro Muet"' : sur le port USB-A
 - Décision pour 'Divergence 3 : Interface audio (ALSA vs PulseAudio)' : je ne sais pas repondre a cette question car je ne sais pas ce que c'est
 - Décision pour 'Divergence 4 : Activation de l'amplificateur JST' : je ne sais pas repondre a cette question car je ne sais pas ce que c'est
 

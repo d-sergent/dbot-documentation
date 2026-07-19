@@ -139,155 +139,60 @@ iface can1 inet manual
 pip3 install robstride
 ```
 
-### 5.2. Script de Détection (Diagnostic)
+### 5.2. Étape Préliminaire : Détection des Moteurs (Diagnostic Rapide)
 
-Ce script scanne les IDs 1 et 2 et confirme que le moteur répond. **Validé en conditions réelles.**
+Avant toute manipulation ou test de mouvement, il est **indispensable** de vérifier que les moteurs répondent sur le bus CAN. Même si `candump` est silencieux (les moteurs peuvent être au repos en attente de requête), ce script va forcer un "Ping" de détection.
 
-```python
-import can
-import robstride
-import time
+C'est une étape standard à exécuter systématiquement lors des usages préliminaires. Copiez-collez simplement ce bloc dans le terminal de la Jetson :
 
-with can.Bus(interface='socketcan', channel='can1') as bus:
-    rs = robstride.Client(bus)
-
-    for motor_id in [1, 2]:
-        print(f"\n--- Test Moteur ID:{motor_id} ---")
-        try:
-            mode = rs.read_param(motor_id, 'run_mode')
-            print(f"✅ Moteur ID:{motor_id} répond ! Mode = {mode}")
-        except Exception as e:
-            print(f"  Lecture directe échouée : {e}")
-            print(f"  → Tentative d'activation...")
-            try:
-                resp = rs.enable(motor_id)
-                print(f"✅ ID:{motor_id} activé ! Angle={resp.angle:.3f} rad | Temp={resp.temp:.1f}°C")
-                time.sleep(0.5)
-                rs.disable(motor_id)
-            except Exception as e2:
-                print(f"❌ ID:{motor_id} ne répond pas : {e2}")
+```bash
+cd ~/dbot/code
+export PYTHONPATH=.
+python3 scripts/motors/detect_motors.py
 ```
 
-Résultat attendu (avec moteur ID:1 seul branché) :
-```
---- Test Moteur ID:1 ---
-✅ Moteur ID:1 répond ! Mode = RunMode.Operation
-
---- Test Moteur ID:2 ---
-❌ ID:2 ne répond pas : No response from motor received
+Le script va balayer les IDs de 1 à 30. 
+**Résultat attendu (avec moteurs 1 et 2 branchés) :**
+```text
+✅ [ID 01] RobStride motor detected! (Mode: RunMode.Operation)
+✅ [ID 02] RobStride motor detected! (Mode: RunMode.Operation)
 ```
 
-### 5.3. Script de Mouvement (Test Complet)
+Si le script ne trouve rien, référez-vous au tableau de **Dépannage Rapide** (Section 7), et vérifiez en priorité que le GND de l'InnoMaker est bien sur la borne Noire de la Wanptek (et non la borne Terre verte).
 
-Ce script fait physiquement bouger le moteur. **Validé en conditions réelles.**
+### 5.3. Test de Mouvement (Séquence Regard)
+
+Une fois la détection réussie, vous pouvez lancer la séquence de mouvement complète.
+Ce test fait physiquement bouger les moteurs Pan et Tilt (±80° et ±30°). **Validé en conditions réelles.**
 
 > [!CAUTION]
-> Assurez-vous que l'axe du moteur est **libre de tourner** avant de lancer ce script.
+> 1. Assurez-vous que l'axe des moteurs est **libre de tourner**.
+> 2. Assurez-vous que la Wanptek est réglée à **24V et 5A maximum** pour ce premier test sur banc, afin de limiter la vitesse et les dégâts en cas de problème.
 
-```python
-import can
-import robstride
-import time
+Copiez-collez ce bloc pour lancer le balayage :
 
-with can.Bus(interface='socketcan', channel='can1') as bus:
-    rs = robstride.Client(bus)
-    MOTOR_ID = 1  # Adaptez selon l'ID configuré
-
-    print("1. Mode Position...")
-    rs.write_param(MOTOR_ID, 'run_mode', robstride.RunMode.Position)
-    time.sleep(0.1)
-
-    print("2. Activation du moteur...")
-    resp = rs.enable(MOTOR_ID)
-    print(f"   Position actuelle : {resp.angle:.3f} rad")
-
-    print("3. Aller à +1.0 rad (~57°)...")
-    rs.write_param(MOTOR_ID, 'loc_ref', 1.0)
-    time.sleep(2.0)
-
-    pos = rs.read_param(MOTOR_ID, 'mechpos')
-    print(f"   Position atteinte : {pos:.3f} rad")
-
-    print("4. Retour à 0...")
-    rs.write_param(MOTOR_ID, 'loc_ref', 0.0)
-    time.sleep(2.0)
-
-    print("5. Désactivation (sécurité)...")
-    rs.disable(MOTOR_ID)
-    print("✅ Test terminé !")
+```bash
+cd ~/dbot/code
+export PYTHONPATH=.
+python3 scripts/motors/test_neck.py
 ```
 
-### 5.4. Script ±20° sur 2 Moteurs (Cou Pan + Tilt)
+Le script va doucement centrer la tête, balayer à gauche, à droite, et se recentrer de manière sécurisée en utilisant le `NeckController`.
 
-Alimentez la Wanptek à **24V / 5A** (limite OCP activée) pour supporter les 2 moteurs en simultané. **Validé en conditions réelles.**
+### 5.4. Bilan de Santé Détaillé (Diagnostic Avancé)
 
-> [!CAUTION]
-> Assurez-vous que les axes des 2 moteurs sont **libres de tourner** avant de lancer ce script.
+Si un moteur se comporte de façon inattendue (saccades, manque de force) ou n'est pas détecté à l'étape 5.2, utilisez ce script d'investigation approfondie. 
+Il ne fait pas tourner les moteurs, mais extrait leurs paramètres internes (gains PID de rigidité et d'amortissement) pour s'assurer que la configuration flashée est toujours intacte, et affiche les erreurs CAN brutes.
 
-```python
-import can
-import robstride
-import time
-import math
+Copiez-collez ce bloc :
 
-ANGLE_DEG = 20
-ANGLE_RAD = math.radians(ANGLE_DEG)  # 0.349 rad
-
-with can.Bus(interface='socketcan', channel='can1') as bus:
-    rs = robstride.Client(bus)
-
-    # Détection des 2 moteurs
-    for mid in [1, 2]:
-        try:
-            mode = rs.read_param(mid, 'run_mode')
-            print(f"✅ Moteur ID:{mid} détecté — Mode = {mode}")
-        except:
-            print(f"❌ Moteur ID:{mid} introuvable — vérifiez le branchement")
-            exit()
-
-    # Passage en mode Position
-    for mid in [1, 2]:
-        rs.write_param(mid, 'run_mode', robstride.RunMode.Position)
-    time.sleep(0.1)
-
-    # Activation
-    resp1 = rs.enable(1)
-    resp2 = rs.enable(2)
-    print(f"\nPositions de départ : ID1={math.degrees(resp1.angle):.1f}° | ID2={math.degrees(resp2.angle):.1f}°")
-
-    # Mouvement +20°
-    print(f"\n→ Les 2 moteurs à +{ANGLE_DEG}°...")
-    rs.write_param(1, 'loc_ref', ANGLE_RAD)
-    rs.write_param(2, 'loc_ref', ANGLE_RAD)
-    time.sleep(2.0)
-    p1 = rs.read_param(1, 'mechpos')
-    p2 = rs.read_param(2, 'mechpos')
-    print(f"   ID1={math.degrees(p1):.1f}° | ID2={math.degrees(p2):.1f}°")
-
-    time.sleep(1.0)
-
-    # Mouvement -20°
-    print(f"\n→ Les 2 moteurs à -{ANGLE_DEG}°...")
-    rs.write_param(1, 'loc_ref', -ANGLE_RAD)
-    rs.write_param(2, 'loc_ref', -ANGLE_RAD)
-    time.sleep(2.0)
-    p1 = rs.read_param(1, 'mechpos')
-    p2 = rs.read_param(2, 'mechpos')
-    print(f"   ID1={math.degrees(p1):.1f}° | ID2={math.degrees(p2):.1f}°")
-
-    time.sleep(1.0)
-
-    # Retour à 0
-    print("\n→ Retour à 0°...")
-    rs.write_param(1, 'loc_ref', 0.0)
-    rs.write_param(2, 'loc_ref', 0.0)
-    time.sleep(2.0)
-
-    # Désactivation
-    rs.disable(1)
-    rs.disable(2)
-    print("\n✅ Test terminé — 2 moteurs désactivés.")
+```bash
+cd ~/dbot/code
+export PYTHONPATH=.
+python3 scripts/motors/test_diag.py
 ```
+
+*Note : Si le moteur semble endormi, le script forcera une activation silencieuse d'une demi-seconde pour lire sa température interne et sa position absolue.*
 
 ---
 
@@ -318,7 +223,7 @@ with can.Bus(interface='socketcan', channel='can1') as bus:
 | Symptôme | Cause Probable | Solution |
 | :--- | :--- | :--- |
 | **`can1` absent dans `ip link`** | Driver non chargé | `sudo modprobe gs_usb` |
-| **`candump` vide au boot moteur** | Câblage incorrect ou alim absente | Vérifier alim 24-48V et couleurs Rouge=CANH, Noir=CANL |
+| **`candump` vide et muet** | 1. Comportement normal (moteur au repos)<br>2. Erreur de masse Wanptek<br>3. Câblage inversé | 1. Placez-vous dans le répertoire `~/dbot/code` de la Jetson et lancez : `export PYTHONPATH=. && python3 scripts/motors/detect_motors.py`.<br>2. Branchez le GND InnoMaker sur la borne **Noire (-)** de la Wanptek, JAMAIS sur la Verte (⏚ GND).<br>3. Vérifiez Rouge=CANH, Noir=CANL |
 | **Erreur `Bus-off`** | Câble trop long sans terminaison | Souder 120 Ω entre Rouge et Noir sur le câble JST si câbles > 30cm |
 | **`OSError: [Errno 100]`** | Interface réseau à l'état DOWN | `sudo ip link set can1 up` |
 | **`No response from motor`** | Moteur non alimenté ou ID incorrect | Vérifier l'alim 24-48V, tester ID 1 et 2 |
