@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-scripts/vision/test_locate_anything.py — Test d'inférence LocateAnything-3B (W4A16 INT4 / FP16)
-==================================================================================================
-Capture une frame via OAK-D Pro (DbotCamera), charge LocateAnything pré-quantifié W4A16 (AWQ)
-pour limiter l'empreinte VRAM à ~3.5 Go sur la Jetson Orin Nano (8 Go), et extrait la bounding box 2D.
+scripts/vision/test_locate_anything.py — Test d'inférence LocateAnything-3B (AutoRound W4A16 INT4)
+===================================================================================================
+Capture une frame via OAK-D Pro (DbotCamera), charge LocateAnything pré-quantifié AutoRound W4A16
+conservant les poids compactés en 4-bit (~1.8 Go VRAM) sur la Jetson Orin Nano (8 Go), et extrait la bounding box 2D.
 
 Usage:
     python3 scripts/vision/test_locate_anything.py --prompt "a phone"
@@ -22,7 +22,7 @@ import types
 import importlib.machinery
 from unittest.mock import MagicMock
 
-# --- Patchs de compatibilité Jetson PyTorch 2.5 pour compressed-tensors ---
+# --- Patchs de compatibilité Jetson PyTorch 2.5 ---
 import torch
 import torch.distributed as dist
 
@@ -59,8 +59,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'
 from dbot.vision.oak_camera import DbotCamera
 
 DEFAULT_PROMPT = "a phone"
-# Modèle optimisé 4-bit AWQ (~3.5 Go VRAM) idéal pour Jetson Orin 8 Go
-DEFAULT_MODEL = "sahilchachra/LocateAnything-3B-AWQ-W4A16"
+# Modèle compacté 4-bit AutoRound W4A16 (~1.8 Go VRAM réel) pour Jetson Orin 8 Go
+DEFAULT_MODEL = "groxaxo/LocateAnything-3B-AutoRound-W4A16"
 OUTPUT_PATH = "/tmp/locate_anything_result.jpg"
 
 def main():
@@ -70,7 +70,7 @@ def main():
     args = parser.parse_args()
 
     print("=" * 60)
-    print(f"  D‑Bot — Test Visual Grounding : LocateAnything-3B (AWQ 4-bit)")
+    print(f"  D‑Bot — Test Visual Grounding : LocateAnything-3B (AutoRound 4-bit)")
     print(f"  Dépôt : {args.model}")
     print("=" * 60)
 
@@ -103,8 +103,8 @@ def main():
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     pil_image = Image.fromarray(rgb_frame)
 
-    # 2. Chargement du modèle AWQ 4-bit
-    print(f"\n🧠 [2/3] Chargement du modèle {args.model} en VRAM (~3.5 Go)...")
+    # 2. Chargement du modèle compacté AutoRound 4-bit
+    print(f"\n🧠 [2/3] Chargement du modèle compacté {args.model} (~1.8 Go)...")
     t0_load = time.time()
 
     try:
@@ -124,19 +124,15 @@ def main():
         from transformers import AutoProcessor, AutoModel
         processor = AutoProcessor.from_pretrained(args.model, trust_remote_code=True)
         
-        print("  🚚 Assemblage et décompression du modèle...")
+        print("  🚚 Chargement des poids compactés 4-bit...")
         model = AutoModel.from_pretrained(
             args.model,
             trust_remote_code=True,
             **kwargs
         )
         
-        print("  ⚡ Transfert matrice par matrice sur le GPU CUDA (pics max 20 Mo)...")
-        with torch.no_grad():
-            for name, param in model.named_parameters():
-                param.data = param.data.to("cuda")
-            for name, buf in model.named_buffers():
-                buf.data = buf.data.to("cuda")
+        print("  ⚡ Transfert du modèle compacté (1.8 Go) sur le GPU CUDA...")
+        model = model.to("cuda")
         
         load_duration = time.time() - t0_load
         print(f"  ✅ Modèle chargé avec succès en {load_duration:.2f}s !")
