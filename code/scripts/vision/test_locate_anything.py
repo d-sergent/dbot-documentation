@@ -121,6 +121,13 @@ def main():
         dtype = torch.float16
         kwargs = {"dtype": dtype}
 
+        try:
+            from auto_round import AutoRoundConfig
+            kwargs["quantization_config"] = AutoRoundConfig.from_pretrained(args.model)
+            print("  🔒 Configuration de quantification AutoRound activée.")
+        except Exception as q_err:
+            print(f"  ⚠️ AutoRoundConfig non injecté ({q_err}).")
+
         from transformers import AutoProcessor, AutoModel
         processor = AutoProcessor.from_pretrained(args.model, trust_remote_code=True)
         
@@ -131,8 +138,12 @@ def main():
             **kwargs
         )
         
-        print("  ⚡ Transfert du modèle compacté (1.8 Go) sur le GPU CUDA...")
-        model = model.to("cuda")
+        print("  ⚡ Transfert matrice par matrice sur le GPU CUDA (pics max 20 Mo)...")
+        with torch.no_grad():
+            for name, param in model.named_parameters():
+                param.data = param.data.to("cuda")
+            for name, buf in model.named_buffers():
+                buf.data = buf.data.to("cuda")
         
         load_duration = time.time() - t0_load
         print(f"  ✅ Modèle chargé avec succès en {load_duration:.2f}s !")
