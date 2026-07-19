@@ -18,7 +18,7 @@ import traceback
 import types
 import importlib.machinery
 
-# --- Astuce Jetson ARM64 : Mock conforme de 'decord' et 'torchvision' si non présents ---
+# --- Astuce Jetson ARM64 : Mocks conformes pour 'decord' et 'torchvision' ---
 try:
     import decord
 except ImportError:
@@ -32,10 +32,21 @@ try:
 except (ImportError, RuntimeError):
     tv_mock = types.ModuleType("torchvision")
     tv_mock.__spec__ = importlib.machinery.ModuleSpec("torchvision", None)
+    
+    tv_io = types.ModuleType("torchvision.io")
+    tv_io.__spec__ = importlib.machinery.ModuleSpec("torchvision.io", None)
+    tv_io.ImageReadMode = None
+    tv_io.decode_image = None
+    tv_io.read_image = None
+    
     tv_transforms = types.ModuleType("torchvision.transforms")
     tv_transforms.__spec__ = importlib.machinery.ModuleSpec("torchvision.transforms", None)
+    
+    tv_mock.io = tv_io
     tv_mock.transforms = tv_transforms
+    
     sys.modules["torchvision"] = tv_mock
+    sys.modules["torchvision.io"] = tv_io
     sys.modules["torchvision.transforms"] = tv_transforms
 
 import cv2
