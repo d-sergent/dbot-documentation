@@ -3,7 +3,7 @@
 scripts/vision/test_locate_anything.py — Test d'inférence LocateAnything-3B (W4A16 INT4 / FP16)
 ==================================================================================================
 Capture une frame via OAK-D Pro (DbotCamera), charge LocateAnything pré-quantifié W4A16 (AWQ)
-pour limiter l'empreinte VRAM à ~1.8 Go sur la Jetson Orin Nano (8 Go), et extrait la bounding box 2D.
+pour limiter l'empreinte VRAM à ~3.5 Go sur la Jetson Orin Nano (8 Go), et extrait la bounding box 2D.
 
 Usage:
     python3 scripts/vision/test_locate_anything.py --prompt "a phone"
@@ -59,7 +59,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'
 from dbot.vision.oak_camera import DbotCamera
 
 DEFAULT_PROMPT = "a phone"
-# Modèle optimisé 4-bit AWQ (~1.8 Go VRAM) idéal pour Jetson Orin 8 Go
+# Modèle optimisé 4-bit AWQ (~3.5 Go VRAM) idéal pour Jetson Orin 8 Go
 DEFAULT_MODEL = "sahilchachra/LocateAnything-3B-AWQ-W4A16"
 OUTPUT_PATH = "/tmp/locate_anything_result.jpg"
 
@@ -104,7 +104,7 @@ def main():
     pil_image = Image.fromarray(rgb_frame)
 
     # 2. Chargement du modèle AWQ 4-bit
-    print(f"\n🧠 [2/3] Chargement du modèle {args.model} en VRAM (~1.8 Go)...")
+    print(f"\n🧠 [2/3] Chargement du modèle {args.model} en VRAM (~3.5 Go)...")
     t0_load = time.time()
 
     try:
@@ -119,18 +119,21 @@ def main():
             torch.cuda.empty_cache()
         
         dtype = torch.float16
-        # device_map={"": "cuda"} effectue l'affectation directe sans passer par l'étape meta-model
-        kwargs = {"dtype": dtype, "device_map": {"": "cuda"}}
+        # Pas de device_map pour éviter les routines meta-model d'accelerate
+        kwargs = {"dtype": dtype}
 
         from transformers import AutoProcessor, AutoModel
         processor = AutoProcessor.from_pretrained(args.model, trust_remote_code=True)
         
-        print("  🚚 Injection directe des couches sur le GPU CUDA...")
+        print("  🚚 Assemblage et décompression du modèle...")
         model = AutoModel.from_pretrained(
             args.model,
             trust_remote_code=True,
             **kwargs
         )
+        
+        print("  ⚡ Transfert du modèle (3.5 Go) sur le GPU CUDA...")
+        model = model.to("cuda")
         
         load_duration = time.time() - t0_load
         print(f"  ✅ Modèle chargé avec succès en {load_duration:.2f}s !")
