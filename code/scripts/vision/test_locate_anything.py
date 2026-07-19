@@ -16,20 +16,21 @@ import time
 import argparse
 import traceback
 import types
-import cv2
-import numpy as np
-import torch
-from PIL import Image
+import importlib.machinery
 
-# --- Astuce Jetson ARM64 : Mock de 'decord' si non présent ---
-# 'decord' n'a pas de wheels PyPI pré-compilés pour ARM64 / Jetson.
-# Comme nous traitons des images 2D et non des vidéos, un mock permet de valider le check d'import d'Hugging Face.
+# --- Astuce Jetson ARM64 : Mock conforme de 'decord' si non présent ---
 try:
     import decord
 except ImportError:
     decord_mock = types.ModuleType("decord")
     decord_mock.VideoReader = None
+    decord_mock.__spec__ = importlib.machinery.ModuleSpec("decord", None)
     sys.modules["decord"] = decord_mock
+
+import cv2
+import numpy as np
+import torch
+from PIL import Image
 
 # Ajouter le dossier Code au path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
