@@ -143,8 +143,17 @@ class MotorState:
                 "tilt_target": self.tilt_target_deg
             }
 
+    def _normalize_angle(self, deg: float) -> float:
+        """Normalise un angle 0-360° dans la plage [-180°, +180°]."""
+        deg = deg % 360.0
+        if deg > 180.0:
+            deg -= 360.0
+        return deg
+
     def get_json_state(self):
         with self.lock:
+            norm_pan = self._normalize_angle(self.pan_deg)
+            norm_tilt = self._normalize_angle(self.tilt_deg)
             return {
                 "enabled": self.enabled,
                 "simulated": self.simulated,
@@ -152,8 +161,8 @@ class MotorState:
                 "can_bitrate": CAN_BITRATE,
                 "pan_online": self.pan_online,
                 "tilt_online": self.tilt_online,
-                "pan_deg": round(self.pan_deg, 2),
-                "tilt_deg": round(self.tilt_deg, 2),
+                "pan_deg": round(norm_pan, 2),
+                "tilt_deg": round(norm_tilt, 2),
                 "pan_target_deg": round(self.pan_target_deg, 2),
                 "tilt_target_deg": round(self.tilt_target_deg, 2),
                 "pan_vel_dps": round(self.pan_vel_dps, 2),
