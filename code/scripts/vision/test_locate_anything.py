@@ -122,11 +122,11 @@ def main():
         kwargs = {"dtype": dtype}
 
         try:
-            from auto_round import AutoRoundConfig
-            kwargs["quantization_config"] = AutoRoundConfig.from_pretrained(args.model)
-            print("  🔒 Configuration de quantification AutoRound activée.")
+            from transformers import AutoRoundConfig
+            kwargs["quantization_config"] = AutoRoundConfig(bits=4, group_size=128, quant_method="auto-round")
+            print("  🔒 AutoRoundConfig native d'HuggingFace activée (1.8 Go VRAM).")
         except Exception as q_err:
-            print(f"  ⚠️ AutoRoundConfig non injecté ({q_err}).")
+            print(f"  ⚠️ AutoRoundConfig non disponible ({q_err}).")
 
         from transformers import AutoProcessor, AutoModel
         processor = AutoProcessor.from_pretrained(args.model, trust_remote_code=True)
