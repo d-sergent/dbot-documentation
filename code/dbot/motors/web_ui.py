@@ -72,6 +72,20 @@ class MotorState:
         if HAS_DBOT_HARDWARE:
             try:
                 self.neck_controller = NeckController()
+                # ── Lecture immédiate des positions réelles au démarrage ──
+                # Évite d'afficher 0°/0° et d'envoyer une consigne erronée au premier clic "Activer"
+                try:
+                    self.neck_controller.detect()
+                    initial_state = self.neck_controller.get_state()
+                    self.pan_deg        = initial_state.get('pan_deg',  0.0)
+                    self.tilt_deg       = initial_state.get('tilt_deg', 0.0)
+                    self.vbus_v         = initial_state.get('vbus_v',   0.0)
+                    # La consigne initiale s'accroche sur la position physique réelle
+                    self.pan_target_deg  = self.pan_deg
+                    self.tilt_target_deg = self.tilt_deg
+                    print(f"📍 Position initiale lue : Pan={self.pan_deg:+.1f}°  Tilt={self.tilt_deg:+.1f}°")
+                except Exception as read_err:
+                    print(f"⚠️ Lecture initiale impossible, positions à 0° : {read_err}")
             except Exception as err:
                 print(f"❌ Erreur d'initialisation NeckController: {err}")
 
@@ -113,14 +127,17 @@ class MotorState:
                     self.neck_controller.emergency_stopped = False
                     self.neck_controller.detect()
                     self.neck_controller.enable()
+                    # 🎯 Relire les positions réelles APRÈS activation pour un accrochage précis
+                    fresh = self.neck_controller.get_state()
+                    self.pan_deg  = fresh.get('pan_deg',  self.pan_deg)
+                    self.tilt_deg = fresh.get('tilt_deg', self.tilt_deg)
+                    self.vbus_v   = fresh.get('vbus_v',   self.vbus_v)
                 except Exception as e:
                     print(f"❌ Échec d'activation moteur: {e}")
             
-            # 🎯 ACCROCHAGE SÉCURISÉ : La consigne prend la position physique réelle au lieu de 0.0° !
-            norm_pan = self._normalize_angle(self.pan_deg)
-            norm_tilt = self._normalize_angle(self.tilt_deg)
-            self.pan_target_deg = norm_pan
-            self.tilt_target_deg = norm_tilt
+            # Accrochage sécurisé : la consigne = position physique réelle lue ci-dessus
+            self.pan_target_deg  = self.pan_deg
+            self.tilt_target_deg = self.tilt_deg
 
             self.enabled = True
             return {"status": "success", "enabled": True}
