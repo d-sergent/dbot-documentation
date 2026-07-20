@@ -104,27 +104,33 @@ class MotorState:
                 log.error(f"❌ Erreur d'initialisation NeckController: {err}")
 
     def update_telemetry(self):
-        """Met à jour l'état télémétrique depuis le bus CAN ou la simulation."""
-        if not self.lock.acquire(timeout=1.0):
-            log.warning("update_telemetry: impossible d'acquérir self.lock en 1s — thread bloqué ?")
-            return
-        try:
-            if self.neck_controller and HAS_DBOT_HARDWARE:
-                try:
-                    detected = self.neck_controller.detect()
-                    self.pan_online  = detected.get(1, False)
-                    self.tilt_online = detected.get(2, False)
-
-                    if not self.neck_controller.is_moving:
-                        state = self.neck_controller.get_state()
-                        self.pan_deg      = state.get('pan_deg',  0.0)
-                        self.tilt_deg     = state.get('tilt_deg', 0.0)
-                        self.pan_vel_dps  = state.get('pan_vel_dps',  0.0)
-                        self.tilt_vel_dps = state.get('tilt_vel_dps', 0.0)
-                        self.vbus_v       = state.get('vbus_v',   0.0)
-                except Exception as ex:
-                    log.error(f"Erreur télémétrie CAN: {ex}")
-            else:
+        """Met à jour l'état télémétrique depuis le bus CAN ou la simulation.
+        
+        ARCHITECTURE : tout le CAN I/O se fait HORS de self.lock.
+        self.lock n'est acquis que très brièvement pour écrire les variables partagées.
+        """
+        if self.neck_controller and HAS_DBOT_HARDWARE:
+            # ── CAN I/O hors du lock ──
+            try:
+                detected = self.neck_controller.detect()
+                state = None
+                if not self.neck_controller.is_moving:
+                    state = self.neck_controller.get_state()
+            except Exception as ex:
+                log.error(f"Erreur télémétrie CAN: {ex}")
+                return
+            # ── Mise à jour des variables partagées (verrou court) ──
+            with self.lock:
+                self.pan_online  = detected.get(1, False)
+                self.tilt_online = detected.get(2, False)
+                if state:
+                    self.pan_deg      = state.get('pan_deg',  self.pan_deg)
+                    self.tilt_deg     = state.get('tilt_deg', self.tilt_deg)
+                    self.pan_vel_dps  = state.get('pan_vel_dps',  0.0)
+                    self.tilt_vel_dps = state.get('tilt_vel_dps', 0.0)
+                    self.vbus_v       = state.get('vbus_v',   self.vbus_v)
+        else:
+            with self.lock:
                 self.pan_online  = True
                 self.tilt_online = True
                 self.vbus_v      = 48.1
@@ -133,38 +139,43 @@ class MotorState:
                     self.tilt_deg += (self.tilt_target_deg - self.tilt_deg) * 0.2
                     self.pan_vel_dps  = (self.pan_target_deg  - self.pan_deg)  * 2.0
                     self.tilt_vel_dps = (self.tilt_target_deg - self.tilt_deg) * 2.0
-        finally:
-            self.lock.release()
 
     def enable(self):
+        """Active les moteurs. CAN I/O fait HORS de self.lock pour éviter tout deadlock."""
         log.info("API enable() appelé")
-        if not self.lock.acquire(timeout=2.0):
-            log.error("enable(): impossible d'acquérir self.lock en 2s — DEADLOCK ?")
-            return {"status": "error", "message": "lock timeout"}
-        try:
-            if self.neck_controller and HAS_DBOT_HARDWARE:
-                try:
-                    self.neck_controller.emergency_stopped = False
-                    log.debug("enable: detect() ...")
-                    self.neck_controller.detect()
-                    log.debug(f"enable: moteurs actifs = {self.neck_controller.active_motors}")
-                    self.neck_controller.enable()
-                    log.debug("enable: enable() CAN OK")
-                    fresh = self.neck_controller.get_state()
-                    self.pan_deg  = fresh.get('pan_deg',  self.pan_deg)
-                    self.tilt_deg = fresh.get('tilt_deg', self.tilt_deg)
-                    self.vbus_v   = fresh.get('vbus_v',   self.vbus_v)
-                    log.info(f"enable: positions fraîches Pan={self.pan_deg:+.1f}° Tilt={self.tilt_deg:+.1f}°")
-                except Exception as e:
-                    log.error(f"enable: ÉCHEC hardware: {e}")
 
-            self.pan_target_deg  = self.pan_deg
-            self.tilt_target_deg = self.tilt_deg
-            self.enabled = True
-            log.info(f"enable: OK — consigne accrochée Pan={self.pan_target_deg:+.1f}° Tilt={self.tilt_target_deg:+.1f}°")
-            return {"status": "success", "enabled": True}
-        finally:
-            self.lock.release()
+        # ── CAN I/O hors du lock ──
+        new_pan  = self.pan_deg
+        new_tilt = self.tilt_deg
+        new_vbus = self.vbus_v
+        hw_ok = True
+
+        if self.neck_controller and HAS_DBOT_HARDWARE:
+            try:
+                self.neck_controller.emergency_stopped = False
+                self.neck_controller.detect()
+                log.info(f"enable: moteurs détectés = {self.neck_controller.active_motors}")
+                self.neck_controller.enable()
+                fresh = self.neck_controller.get_state()
+                new_pan  = fresh.get('pan_deg',  new_pan)
+                new_tilt = fresh.get('tilt_deg', new_tilt)
+                new_vbus = fresh.get('vbus_v',   new_vbus)
+                log.info(f"enable: positions fraîches Pan={new_pan:+.1f}° Tilt={new_tilt:+.1f}°")
+            except Exception as e:
+                log.error(f"enable: ÉCHEC hardware: {e}")
+                hw_ok = False
+
+        # ── Mise à jour de l'état (verrou court) ──
+        with self.lock:
+            self.pan_deg          = new_pan
+            self.tilt_deg         = new_tilt
+            self.vbus_v           = new_vbus
+            self.pan_target_deg   = new_pan
+            self.tilt_target_deg  = new_tilt
+            self.enabled          = True
+
+        log.info(f"enable: OK — consigne accrochée Pan={new_pan:+.1f}° Tilt={new_tilt:+.1f}°")
+        return {"status": "success", "enabled": True, "hw_ok": hw_ok}
 
     def disable(self):
         log.info("API disable() / E-STOP appelé")
