@@ -12,5 +12,6 @@
 
 ## Session Lifecycle & Context Persistence
 - **Session Startup**: At the beginning of any work session, ALWAYS consult the latest entry in `05_Gestion_Projet/JOURNAL_DE_BORD.md` and review the current active level in `05_Gestion_Projet/ROADMAP_STRATEGIQUE_V1.md` to immediately get up to speed with current project status.
-- **Session Closure & RAG Sync**: Before concluding a significant set of actions or when the user indicates the work session is ending, ALWAYS ask the user if they wish to close the session, update `05_Gestion_Projet/JOURNAL_DE_BORD.md` with the session log, update checkmarks in `ROADMAP_STRATEGIQUE_V1.md` / `todo_court_terme.md`, and execute the RAG re-indexing command:
+- **Periodic Journal Updates**: Do NOT update `JOURNAL_DE_BORD.md` after every minor interaction or routine fix. Instead, accumulate progress and only update `05_Gestion_Projet/JOURNAL_DE_BORD.md` periodically (at major milestones or when completing a full work session) with a clean, consolidated summary.
+- **Session Closure & RAG Sync**: When concluding a full work session or when the user indicates the session is ending, ask the user if they wish to record the final session summary in `05_Gestion_Projet/JOURNAL_DE_BORD.md`, update checkmarks in `ROADMAP_STRATEGIQUE_V1.md` / `todo_court_terme.md`, and execute the RAG re-indexing command:
   `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py"`
