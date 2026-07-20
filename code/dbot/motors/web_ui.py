@@ -28,11 +28,16 @@ from socketserver import ThreadingMixIn
 
 # ── Logging horodaté ─────────────────────────────────────────
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format='%(asctime)s.%(msecs)03d [%(levelname)s] %(message)s',
     datefmt='%H:%M:%S'
 )
 log = logging.getLogger('webui')
+
+# Silencier les bibliothèques externes très verbeuses
+logging.getLogger('can').setLevel(logging.WARNING)
+logging.getLogger('can.interfaces').setLevel(logging.WARNING)
+logging.getLogger('robstride').setLevel(logging.WARNING)
 
 # S'assurer que le paquet 'dbot' est accessible
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
