@@ -160,22 +160,27 @@ class NeckController:
             self._enabled = True
 
     def disable(self) -> None:
-        """Désactive INCONDITIONNELLEMENT tous les moteurs du cou (coupe le couple et le bruit PWM)."""
-        self.emergency_stopped = True
+        """Désactive INCONDITIONNELLEMENT tous les moteurs du cou (coupe le couple et le bruit PWM).
+        
+        IMPORTANT: N'attend JAMAIS can_lock pour ne pas se bloquer derrière un mouvement en cours.
+        Les trames Disable sont envoyées directement sur le bus, ce qui interrompt tout mouvement.
+        """
+        self.emergency_stopped = True  # Interrompt la boucle LERP immédiatement
         self.is_moving = False
         self._enabled = False
         target_ids = list(set(self.active_motors + [NECK_PAN_ID, NECK_TILT_ID]))
         
-        with self.can_lock:
-            for mid in target_ids:
-                try:
-                    drain_bus(self._client.bus)
-                    # Triple envoi répété pour s'assurer que le driver MOSFET coupe le PWM < 1ms
-                    for _ in range(3):
-                        self._client.bus.send(self._client._rs_msg(MotorMsg.Disable, self._client.host_can_id, mid, [0, 0, 0, 0, 0, 0, 0, 0]))
-                        time.sleep(0.005)
-                except Exception as e:
-                    print(f"⚠️ Erreur d'extinction CAN sur le moteur {mid}: {e}")
+        # Envoi DIRECT sans attendre can_lock : la trame Disable coupe tout
+        for mid in target_ids:
+            try:
+                drain_bus(self._client.bus)
+                for _ in range(3):
+                    self._client.bus.send(self._client._rs_msg(
+                        MotorMsg.Disable, self._client.host_can_id, mid, [0]*8
+                    ))
+                    time.sleep(0.002)
+            except Exception as e:
+                print(f"⚠️ Erreur d'extinction CAN sur le moteur {mid}: {e}")
 
     # ── Commandes ──────────────────────────────────────────
     def look_at(self, pan_deg: float = 0.0, tilt_deg: float = 0.0) -> None:
@@ -189,8 +194,12 @@ class NeckController:
 
     def look_at_rad(self, pan_rad: float = 0.0, tilt_rad: float = 0.0) -> None:
         """
-        Envoie des consignes de position en radians avec interpolation linéaire (LERP)
-        pour limiter la vitesse de déplacement physique au niveau logiciel.
+        Envoie des consignes de position en radians avec interpolation smooth (ease in/out).
+        
+        ARCHITECTURE THREAD-SAFE :
+        - can_lock ne protège QUE chaque écriture CAN individuelle (jamais la boucle entière)
+        - La boucle LERP s'exécute hors du verrou pour ne jamais bloquer disable()
+        - emergency_stopped interrompt la boucle à chaque itération
         """
         if self.emergency_stopped:
             print("🚨 Mouvement refusé : Le contrôleur est en état d'Arrêt d'Urgence.")
@@ -199,88 +208,84 @@ class NeckController:
         target_pan = self.clamp_pan(pan_rad)
         target_tilt = self.clamp_tilt(tilt_rad)
 
-        with self.can_lock:
-            self.is_moving = True
-            curr_pan = target_pan
-            curr_tilt = target_tilt
-            
-            if NECK_PAN_ID in self.active_motors:
-                try:
-                    curr_pan = self._client.read_param(NECK_PAN_ID, 'mechpos')
-                except Exception:
-                    curr_pan = target_pan
-                    
-            if NECK_TILT_ID in self.active_motors:
-                try:
-                    curr_tilt = self._client.read_param(NECK_TILT_ID, 'mechpos')
-                except Exception:
-                    curr_tilt = target_tilt
+        def shortest_angular_distance(from_rad: float, to_rad: float) -> float:
+            d = (to_rad - from_rad) % (2.0 * math.pi)
+            if d > math.pi:
+                d -= 2.0 * math.pi
+            return d
 
-            def shortest_angular_distance(from_rad: float, to_rad: float) -> float:
-                d = (to_rad - from_rad) % (2.0 * math.pi)
-                if d > math.pi:
-                    d -= 2.0 * math.pi
-                return d
-
-            delta_pan = shortest_angular_distance(curr_pan, target_pan)
-            delta_tilt = shortest_angular_distance(curr_tilt, target_tilt)
-
-            MAX_SAFE_DELTA_PAN = math.radians(45.0)
-            MAX_SAFE_DELTA_TILT = math.radians(35.0)
-
-            if abs(delta_pan) > MAX_SAFE_DELTA_PAN:
-                print(f"⚠️ ALERTE SÉCURITÉ : Delta Pan de {math.degrees(delta_pan):.1f}° bridé à {math.degrees(MAX_SAFE_DELTA_PAN):.1f}°.")
-                delta_pan = math.copysign(MAX_SAFE_DELTA_PAN, delta_pan)
-
-            if abs(delta_tilt) > MAX_SAFE_DELTA_TILT:
-                print(f"⚠️ ALERTE SÉCURITÉ : Delta Tilt de {math.degrees(delta_tilt):.1f}° bridé à {math.degrees(MAX_SAFE_DELTA_TILT):.1f}°.")
-                delta_tilt = math.copysign(MAX_SAFE_DELTA_TILT, delta_tilt)
-
-            max_delta = max(abs(delta_pan), abs(delta_tilt))
-
-            if max_delta < 0.005:
-                if NECK_PAN_ID in self.active_motors:
-                    self._client.write_param(NECK_PAN_ID, 'loc_ref', target_pan)
-                if NECK_TILT_ID in self.active_motors:
-                    self._client.write_param(NECK_TILT_ID, 'loc_ref', target_tilt)
-                self.is_moving = False
-                return
-
-            total_time = max_delta / NECK_SPEED_LIMIT
-            time_step = 0.01  # 100 Hz
-            steps = int(total_time / time_step)
-
-            if steps <= 1:
-                if NECK_PAN_ID in self.active_motors:
-                    self._client.write_param(NECK_PAN_ID, 'loc_ref', target_pan)
-                if NECK_TILT_ID in self.active_motors:
-                    self._client.write_param(NECK_TILT_ID, 'loc_ref', target_tilt)
-                self.is_moving = False
-                return
-
-            start_pan = target_pan - delta_pan
-            start_tilt = target_tilt - delta_tilt
-
+        # ── 1. Lire la position actuelle (verrou sur chaque lecture individuelle) ──
+        curr_pan = target_pan
+        curr_tilt = target_tilt
+        if NECK_PAN_ID in self.active_motors:
             try:
-                for step in range(1, steps + 1):
-                    if self.emergency_stopped:
-                        print("🚨 ARRÊT D'URGENCE DÉTECTÉ EN BOUCLE : Interruption immédiate du mouvement.")
-                        break
+                with self.can_lock:
+                    curr_pan = self._client.read_param(NECK_PAN_ID, 'mechpos')
+            except Exception:
+                curr_pan = target_pan
+        if NECK_TILT_ID in self.active_motors:
+            try:
+                with self.can_lock:
+                    curr_tilt = self._client.read_param(NECK_TILT_ID, 'mechpos')
+            except Exception:
+                curr_tilt = target_tilt
 
-                    t = step / steps
-                    t_smooth = (1.0 - math.cos(math.pi * t)) / 2.0
-                    
-                    interp_pan = start_pan + delta_pan * t_smooth
-                    interp_tilt = start_tilt + delta_tilt * t_smooth
+        # ── 2. Calculer le delta (shortest path) et appliquer les gardes-fous ──
+        delta_pan  = shortest_angular_distance(curr_pan,  target_pan)
+        delta_tilt = shortest_angular_distance(curr_tilt, target_tilt)
 
-                    if NECK_PAN_ID in self.active_motors:
-                        self._client.write_param(NECK_PAN_ID, 'loc_ref', interp_pan)
-                    if NECK_TILT_ID in self.active_motors:
-                        self._client.write_param(NECK_TILT_ID, 'loc_ref', interp_tilt)
-                    
-                    time.sleep(time_step)
-            finally:
-                self.is_moving = False
+        MAX_SAFE_DELTA_PAN  = math.radians(45.0)
+        MAX_SAFE_DELTA_TILT = math.radians(35.0)
+
+        if abs(delta_pan) > MAX_SAFE_DELTA_PAN:
+            print(f"⚠️ Delta Pan {math.degrees(delta_pan):.1f}° bridé à {math.degrees(MAX_SAFE_DELTA_PAN):.1f}°.")
+            delta_pan = math.copysign(MAX_SAFE_DELTA_PAN, delta_pan)
+        if abs(delta_tilt) > MAX_SAFE_DELTA_TILT:
+            print(f"⚠️ Delta Tilt {math.degrees(delta_tilt):.1f}° bridé à {math.degrees(MAX_SAFE_DELTA_TILT):.1f}°.")
+            delta_tilt = math.copysign(MAX_SAFE_DELTA_TILT, delta_tilt)
+
+        max_delta = max(abs(delta_pan), abs(delta_tilt))
+
+        # ── 3. Mouvement trivial : envoi direct (verrou individuel) ──
+        if max_delta < 0.005:
+            if NECK_PAN_ID in self.active_motors:
+                with self.can_lock:
+                    self._client.write_param(NECK_PAN_ID, 'loc_ref', target_pan)
+            if NECK_TILT_ID in self.active_motors:
+                with self.can_lock:
+                    self._client.write_param(NECK_TILT_ID, 'loc_ref', target_tilt)
+            return
+
+        # ── 4. Boucle LERP — can_lock sur CHAQUE écriture, jamais sur la boucle ──
+        total_time = max_delta / NECK_SPEED_LIMIT
+        time_step  = 0.02   # 50 Hz (suffisant pour du mouvement de tête)
+        steps      = max(1, int(total_time / time_step))
+
+        start_pan  = target_pan  - delta_pan
+        start_tilt = target_tilt - delta_tilt
+
+        self.is_moving = True
+        try:
+            for step in range(1, steps + 1):
+                if self.emergency_stopped:
+                    print("🚨 E-STOP : interruption immédiate de la boucle LERP.")
+                    return
+
+                t        = step / steps
+                t_smooth = (1.0 - math.cos(math.pi * t)) / 2.0
+                ip = start_pan  + delta_pan  * t_smooth
+                it = start_tilt + delta_tilt * t_smooth
+
+                if NECK_PAN_ID in self.active_motors:
+                    with self.can_lock:
+                        self._client.write_param(NECK_PAN_ID,  'loc_ref', ip)
+                if NECK_TILT_ID in self.active_motors:
+                    with self.can_lock:
+                        self._client.write_param(NECK_TILT_ID, 'loc_ref', it)
+
+                time.sleep(time_step)
+        finally:
+            self.is_moving = False
 
     def center(self) -> None:
         """Recentre la tête à 0°, 0°."""
