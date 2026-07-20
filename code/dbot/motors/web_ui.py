@@ -391,6 +391,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             margin-bottom: 8px;
         }
 
+        .slider-limits {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
         input[type=range] {
             width: 100%;
             height: 6px;
@@ -500,6 +508,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     <span id="pan-target-val">0.0°</span>
                 </div>
                 <input type="range" id="pan-slider" min="-80" max="80" value="0" step="0.5">
+                <div class="slider-limits">
+                    <span id="pan-min-label">Min: -80.0°</span>
+                    <span id="pan-max-label">Max: +80.0°</span>
+                </div>
             </div>
         </div>
 
@@ -525,6 +537,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     <span id="tilt-target-val">0.0°</span>
                 </div>
                 <input type="range" id="tilt-slider" min="-20" max="30" value="0" step="0.5">
+                <div class="slider-limits">
+                    <span id="tilt-min-label">Min: -20.0°</span>
+                    <span id="tilt-max-label">Max: +30.0°</span>
+                </div>
             </div>
         </div>
 
@@ -612,6 +628,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 panVel.innerText = data.pan_vel_dps.toFixed(1) + '°/s';
                 tiltVel.innerText = data.tilt_vel_dps.toFixed(1) + '°/s';
                 vbusVal.innerText = data.vbus_v.toFixed(1) + 'V';
+
+                if (data.limits) {
+                    panSlider.min = data.limits.pan_min;
+                    panSlider.max = data.limits.pan_max;
+                    tiltSlider.min = data.limits.tilt_min;
+                    tiltSlider.max = data.limits.tilt_max;
+                    document.getElementById('pan-min-label').innerText = 'Min: ' + data.limits.pan_min.toFixed(1) + '°';
+                    document.getElementById('pan-max-label').innerText = 'Max: +' + data.limits.pan_max.toFixed(1) + '°';
+                    document.getElementById('tilt-min-label').innerText = 'Min: ' + data.limits.tilt_min.toFixed(1) + '°';
+                    document.getElementById('tilt-max-label').innerText = 'Max: +' + data.limits.tilt_max.toFixed(1) + '°';
+                }
 
                 if (!isUserDragging) {
                     panSlider.value = data.pan_target_deg;
