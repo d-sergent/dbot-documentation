@@ -22,8 +22,17 @@ import math
 import time
 import argparse
 import threading
+import logging
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from socketserver import ThreadingMixIn
+
+# ── Logging horodaté ─────────────────────────────────────────
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s.%(msecs)03d [%(levelname)s] %(message)s',
+    datefmt='%H:%M:%S'
+)
+log = logging.getLogger('webui')
 
 # S'assurer que le paquet 'dbot' est accessible
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -37,7 +46,7 @@ try:
     )
     HAS_DBOT_HARDWARE = True
 except Exception as e:
-    print(f"⚠️ Avertissement : Impossible d'importer l'équipement D-Bot ({e}). Mode simulation activé.")
+    log.warning(f"⚠️ Avertissement : Impossible d'importer l'équipement D-Bot ({e}). Mode simulation activé.")
     HAS_DBOT_HARDWARE = False
     PAN_MIN_RAD, PAN_MAX_RAD = math.radians(-80), math.radians(80)
     TILT_MIN_RAD, TILT_MAX_RAD = math.radians(-20), math.radians(30)
@@ -83,119 +92,145 @@ class MotorState:
                     # La consigne initiale s'accroche sur la position physique réelle
                     self.pan_target_deg  = self.pan_deg
                     self.tilt_target_deg = self.tilt_deg
-                    print(f"📍 Position initiale lue : Pan={self.pan_deg:+.1f}°  Tilt={self.tilt_deg:+.1f}°")
+                    log.info(f"📍 Position initiale lue : Pan={self.pan_deg:+.1f}°  Tilt={self.tilt_deg:+.1f}°")
                 except Exception as read_err:
-                    print(f"⚠️ Lecture initiale impossible, positions à 0° : {read_err}")
+                    log.warning(f"⚠️ Lecture initiale impossible, positions à 0° : {read_err}")
             except Exception as err:
-                print(f"❌ Erreur d'initialisation NeckController: {err}")
+                log.error(f"❌ Erreur d'initialisation NeckController: {err}")
 
     def update_telemetry(self):
         """Met à jour l'état télémétrique depuis le bus CAN ou la simulation."""
-        with self.lock:
+        if not self.lock.acquire(timeout=1.0):
+            log.warning("update_telemetry: impossible d'acquérir self.lock en 1s — thread bloqué ?")
+            return
+        try:
             if self.neck_controller and HAS_DBOT_HARDWARE:
                 try:
                     detected = self.neck_controller.detect()
-                    self.pan_online = detected.get(1, False)
+                    self.pan_online  = detected.get(1, False)
                     self.tilt_online = detected.get(2, False)
-                    
-                    # Ne PAS interroger la télémétrie pendant un mouvement actif pour éviter les collisions CAN !
-                    if not getattr(self.neck_controller, 'is_moving', False):
+
+                    if not self.neck_controller.is_moving:
                         state = self.neck_controller.get_state()
-                        self.pan_deg = state.get('pan_deg', 0.0)
-                        self.tilt_deg = state.get('tilt_deg', 0.0)
-                        self.pan_vel_dps = state.get('pan_vel_dps', 0.0)
+                        self.pan_deg      = state.get('pan_deg',  0.0)
+                        self.tilt_deg     = state.get('tilt_deg', 0.0)
+                        self.pan_vel_dps  = state.get('pan_vel_dps',  0.0)
                         self.tilt_vel_dps = state.get('tilt_vel_dps', 0.0)
-                        self.vbus_v = state.get('vbus_v', 0.0)
+                        self.vbus_v       = state.get('vbus_v',   0.0)
                 except Exception as ex:
-                    print(f"⚠️ Erreur de télémétrie CAN: {ex}")
+                    log.error(f"Erreur télémétrie CAN: {ex}")
             else:
-                # Mode simulation pour test sans robot physique
-                self.pan_online = True
+                self.pan_online  = True
                 self.tilt_online = True
-                self.vbus_v = 48.1
+                self.vbus_v      = 48.1
                 if self.enabled:
-                    # Simulation d'interpolation fluide
-                    self.pan_deg += (self.pan_target_deg - self.pan_deg) * 0.2
+                    self.pan_deg  += (self.pan_target_deg  - self.pan_deg)  * 0.2
                     self.tilt_deg += (self.tilt_target_deg - self.tilt_deg) * 0.2
-                    self.pan_vel_dps = (self.pan_target_deg - self.pan_deg) * 2.0
+                    self.pan_vel_dps  = (self.pan_target_deg  - self.pan_deg)  * 2.0
                     self.tilt_vel_dps = (self.tilt_target_deg - self.tilt_deg) * 2.0
+        finally:
+            self.lock.release()
 
     def enable(self):
-        with self.lock:
+        log.info("API enable() appelé")
+        if not self.lock.acquire(timeout=2.0):
+            log.error("enable(): impossible d'acquérir self.lock en 2s — DEADLOCK ?")
+            return {"status": "error", "message": "lock timeout"}
+        try:
             if self.neck_controller and HAS_DBOT_HARDWARE:
                 try:
                     self.neck_controller.emergency_stopped = False
+                    log.debug("enable: detect() ...")
                     self.neck_controller.detect()
+                    log.debug(f"enable: moteurs actifs = {self.neck_controller.active_motors}")
                     self.neck_controller.enable()
-                    # 🎯 Relire les positions réelles APRÈS activation pour un accrochage précis
+                    log.debug("enable: enable() CAN OK")
                     fresh = self.neck_controller.get_state()
                     self.pan_deg  = fresh.get('pan_deg',  self.pan_deg)
                     self.tilt_deg = fresh.get('tilt_deg', self.tilt_deg)
                     self.vbus_v   = fresh.get('vbus_v',   self.vbus_v)
+                    log.info(f"enable: positions fraîches Pan={self.pan_deg:+.1f}° Tilt={self.tilt_deg:+.1f}°")
                 except Exception as e:
-                    print(f"❌ Échec d'activation moteur: {e}")
-            
-            # Accrochage sécurisé : la consigne = position physique réelle lue ci-dessus
+                    log.error(f"enable: ÉCHEC hardware: {e}")
+
             self.pan_target_deg  = self.pan_deg
             self.tilt_target_deg = self.tilt_deg
-
             self.enabled = True
+            log.info(f"enable: OK — consigne accrochée Pan={self.pan_target_deg:+.1f}° Tilt={self.tilt_target_deg:+.1f}°")
             return {"status": "success", "enabled": True}
+        finally:
+            self.lock.release()
 
     def disable(self):
+        log.info("API disable() / E-STOP appelé")
         # 🚨 E-STOP PRIORITAIRE : Ne doit PAS attendre self.lock
         if self.neck_controller and HAS_DBOT_HARDWARE:
             try:
                 self.neck_controller.emergency_stopped = True
+                log.debug("disable: emergency_stopped=True, envoi CAN Disable...")
                 self.neck_controller.disable()
+                log.info("disable: moteurs CAN éteints")
             except Exception as e:
-                print(f"❌ Échec de désactivation E-STOP: {e}")
+                log.error(f"❌ Échec de désactivation E-STOP: {e}")
         with self.lock:
             self.enabled = False
+        log.info("disable: état enabled=False")
         return {"status": "success", "enabled": False}
 
     def set_look_at(self, pan_deg: float, tilt_deg: float):
+        # ── Annuler le thread précédent HORS du lock pour éviter tout deadlock ──
+        cancel_to_join = None
         with self.lock:
+            if not self.enabled:
+                log.debug(f"set_look_at({pan_deg:.1f}°, {tilt_deg:.1f}°): ignoré, moteurs désactivés")
+                return {"status": "ignored", "reason": "not enabled"}
+            if self.neck_controller and self.neck_controller.emergency_stopped:
+                log.warning("set_look_at: refusé, E-STOP actif")
+                return {"status": "error", "message": "E-STOP active"}
+
             # Clamp aux limites
             pan_deg  = max(math.degrees(PAN_MIN_RAD),  min(math.degrees(PAN_MAX_RAD),  pan_deg))
             tilt_deg = max(math.degrees(TILT_MIN_RAD), min(math.degrees(TILT_MAX_RAD), tilt_deg))
-            
             self.pan_target_deg  = pan_deg
             self.tilt_target_deg = tilt_deg
-            
-            if self.enabled and self.neck_controller and HAS_DBOT_HARDWARE:
-                if self.neck_controller.emergency_stopped:
-                    print("🚨 Mouvement refusé : E-STOP actif.")
-                    return {"status": "error", "message": "E-STOP active"}
-                
-                # ── Annuler le thread précédent s'il tourne encore ──
-                self._move_cancel.set()   # Signale l'annulation
-                if self._move_thread and self._move_thread.is_alive():
-                    self._move_thread.join(timeout=0.5)  # Attend max 0.5s
-                self._move_cancel.clear()  # Réarme l'Event pour le prochain thread
-                
-                # ── Capturer les valeurs pour le closure du thread ──
-                _pan  = pan_deg
-                _tilt = tilt_deg
+
+            if self.neck_controller and HAS_DBOT_HARDWARE:
+                # Signaler l'annulation au thread précédent
+                self._move_cancel.set()
+                cancel_to_join = self._move_thread  # Référence à joindre hors du lock
+                self._move_cancel = threading.Event()  # Nouvel event pour le prochain thread
+
+                _pan    = pan_deg
+                _tilt   = tilt_deg
                 _cancel = self._move_cancel
-                
+
                 def run_movement():
+                    log.debug(f"[Thread mouvement] démarré → Pan={_pan:.1f}° Tilt={_tilt:.1f}°")
                     try:
-                        # Vérifie l'annulation à chaque étape via le cancel event
                         if _cancel.is_set():
+                            log.debug("[Thread mouvement] annulé avant démarrage")
                             return
                         self.neck_controller.look_at(_pan, _tilt, cancel_event=_cancel)
+                        log.debug(f"[Thread mouvement] terminé → Pan={_pan:.1f}° Tilt={_tilt:.1f}°")
                     except Exception as e:
-                        print(f"⚠️ Erreur de commande look_at: {e}")
-                
+                        log.error(f"[Thread mouvement] EXCEPTION: {e}")
+
                 self._move_thread = threading.Thread(target=run_movement, daemon=True)
                 self._move_thread.start()
-                    
-            return {
-                "status": "success",
-                "pan_target":  self.pan_target_deg,
-                "tilt_target": self.tilt_target_deg
-            }
+                log.debug(f"set_look_at: nouveau thread lancé Pan={pan_deg:.1f}° Tilt={tilt_deg:.1f}°")
+
+        # ── Join du thread précédent HORS du lock ──
+        if cancel_to_join and cancel_to_join.is_alive():
+            log.debug("set_look_at: attente fin du thread précédent (max 0.3s)...")
+            cancel_to_join.join(timeout=0.3)
+            if cancel_to_join.is_alive():
+                log.warning("set_look_at: thread précédent toujours vivant après 0.3s")
+
+        return {
+            "status": "success",
+            "pan_target":  pan_deg,
+            "tilt_target": tilt_deg
+        }
 
     def _normalize_angle(self, deg: float) -> float:
         """Normalise un angle 0-360° dans la plage [-180°, +180°]."""
@@ -279,23 +314,28 @@ class WebUIHandler(BaseHTTPRequestHandler):
             except Exception:
                 pass
 
-        if self.path == '/api/enable':
+        t0 = time.monotonic()
+        path = self.path
+        log.debug(f"POST {path} — données: {post_data}")
+
+        if path == '/api/enable':
             res = GLOBAL_STATE.enable()
             self.send_json(res)
-        elif self.path == '/api/disable':
+        elif path == '/api/disable':
             res = GLOBAL_STATE.disable()
             self.send_json(res)
-        elif self.path == '/api/look_at':
-            pan = float(post_data.get('pan_deg', 0.0))
+        elif path == '/api/look_at':
+            pan  = float(post_data.get('pan_deg',  0.0))
             tilt = float(post_data.get('tilt_deg', 0.0))
             res = GLOBAL_STATE.set_look_at(pan, tilt)
             self.send_json(res)
-        elif self.path == '/api/center':
+        elif path == '/api/center':
+            log.info("API center() appelé")
             res = GLOBAL_STATE.set_look_at(0.0, 0.0)
             self.send_json(res)
-        elif self.path == '/api/estop':
-            GLOBAL_STATE.set_look_at(0.0, 0.0)
-            res = GLOBAL_STATE.disable()
+        elif path == '/api/estop':
+            log.warning("🚨 API E-STOP reçu !")
+            GLOBAL_STATE.disable()
             self.send_json({"status": "ESTOP_TRIGGERED", "enabled": False})
         else:
             self.send_error(404, "Endpoint API non trouvé")
