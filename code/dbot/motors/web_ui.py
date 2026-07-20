@@ -708,7 +708,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             tiltSlider.value = 0;
             panTargetVal.innerText = '0.0°';
             tiltTargetVal.innerText = '0.0°';
-            fetch('/api/center', {method: 'POST'});
+            sendLookAt(0, 0);
         };
         document.getElementById('btn-estop').onclick = () => fetch('/api/estop', {method: 'POST'});
 
