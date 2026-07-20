@@ -13,6 +13,7 @@ Utilisation :
 
 import math
 import time
+import threading
 import robstride
 
 from dbot.config import (
