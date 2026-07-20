@@ -49,23 +49,32 @@ class RobustClient(robstride.Client):
                 continue
             if resp.is_error_frame:
                 continue
-            
             msg_type, msg_motor_id, host_id = self._parse_resp_abitration_id(resp.arbitration_id)
             if msg_type == expected_msg_type and msg_motor_id == expected_motor_id and host_id == self.host_can_id:
                 return resp
         raise Exception(f"No response from motor {expected_motor_id} for command type {expected_msg_type} (Timeout)")
 
     def enable(self, motor_id: int, motor_model=1):
-        drain_bus(self.bus)
-        self.bus.send(self._rs_msg(MotorMsg.Enable, self.host_can_id, motor_id, [0, 0, 0, 0, 0, 0, 0, 0]))
-        resp = self._recv_matching(MotorMsg.Feedback.value, motor_id)
-        return self._parse_feedback_resp(resp, motor_id, motor_model)
+        """Envoie Enable et attend Feedback. Retry x3 si timeout."""
+        for attempt in range(3):
+            try:
+                drain_bus(self.bus)
+                self.bus.send(self._rs_msg(MotorMsg.Enable, self.host_can_id, motor_id, [0]*8))
+                resp = self._recv_matching(MotorMsg.Feedback.value, motor_id, timeout=0.5)
+                return self._parse_feedback_resp(resp, motor_id, motor_model)
+            except Exception as e:
+                if attempt == 2:
+                    raise
+                time.sleep(0.05)
 
     def disable(self, motor_id: int, motor_model=1):
         drain_bus(self.bus)
-        self.bus.send(self._rs_msg(MotorMsg.Disable, self.host_can_id, motor_id, [0, 0, 0, 0, 0, 0, 0, 0]))
-        resp = self._recv_matching(MotorMsg.Feedback.value, motor_id)
-        return self._parse_feedback_resp(resp, motor_id, motor_model)
+        self.bus.send(self._rs_msg(MotorMsg.Disable, self.host_can_id, motor_id, [0]*8))
+        try:
+            resp = self._recv_matching(MotorMsg.Feedback.value, motor_id, timeout=0.3)
+            return self._parse_feedback_resp(resp, motor_id, motor_model)
+        except Exception:
+            pass  # Disable fire-and-forget si pas de réponse
 
     def read_param(self, motor_id: int, param_id: int | str):
         drain_bus(self.bus)
@@ -85,6 +94,7 @@ class RobustClient(robstride.Client):
         return value
 
     def write_param(self, motor_id: int, param_id: int | str, param_value: float | robstride.RunMode | int, motor_model=1):
+        """Écrit un paramètre et attend l'acquittement WriteParam (type 3)."""
         drain_bus(self.bus)
         p_id = self._normalize_param_id(param_id)
         data = bytes([p_id & 0xFF, p_id >> 8, 0, 0])
@@ -93,13 +103,25 @@ class RobustClient(robstride.Client):
                 int_value = int(param_value.value)
             elif isinstance(param_value, int):
                 int_value = param_value
+            else:
+                int_value = int(param_value)
             data += bytes([int_value, 0, 0, 0])
         else:
             data += struct.pack('<f', param_value)
 
         self.bus.send(self._rs_msg(MotorMsg.WriteParam, self.host_can_id, motor_id, data))
-        resp = self._recv_matching(MotorMsg.Feedback.value, motor_id)
-        return self._parse_feedback_resp(resp, motor_id, motor_model)
+        # WriteParam répond avec WriteParam (type 3), pas Feedback (type 2)
+        try:
+            self._recv_matching(MotorMsg.WriteParam.value, motor_id, timeout=0.5)
+        except Exception:
+            pass  # Tolérant : la consigne est envoyée même sans acquittement
+
+    def write_param_no_ack(self, motor_id: int, param_id: int | str, param_value: float) -> None:
+        """Envoie une consigne de position (loc_ref) en fire-and-forget sans attendre de réponse.
+        Utilisé dans la boucle LERP pour maximiser la réactivité."""
+        p_id = self._normalize_param_id(param_id)
+        data = bytes([p_id & 0xFF, p_id >> 8, 0, 0]) + struct.pack('<f', param_value)
+        self.bus.send(self._rs_msg(MotorMsg.WriteParam, self.host_can_id, motor_id, data))
 
 
 class NeckController:
@@ -250,10 +272,10 @@ class NeckController:
         if max_delta < 0.005:
             if NECK_PAN_ID in self.active_motors:
                 with self.can_lock:
-                    self._client.write_param(NECK_PAN_ID,  'loc_ref', target_pan)
+                    self._client.write_param_no_ack(NECK_PAN_ID,  'loc_ref', target_pan)
             if NECK_TILT_ID in self.active_motors:
                 with self.can_lock:
-                    self._client.write_param(NECK_TILT_ID, 'loc_ref', target_tilt)
+                    self._client.write_param_no_ack(NECK_TILT_ID, 'loc_ref', target_tilt)
             return
 
         # ── 4. Boucle LERP ──
@@ -276,10 +298,10 @@ class NeckController:
 
                 if NECK_PAN_ID in self.active_motors:
                     with self.can_lock:
-                        self._client.write_param(NECK_PAN_ID,  'loc_ref', ip)
+                        self._client.write_param_no_ack(NECK_PAN_ID,  'loc_ref', ip)
                 if NECK_TILT_ID in self.active_motors:
                     with self.can_lock:
-                        self._client.write_param(NECK_TILT_ID, 'loc_ref', it)
+                        self._client.write_param_no_ack(NECK_TILT_ID, 'loc_ref', it)
 
                 time.sleep(time_step)
         finally:
