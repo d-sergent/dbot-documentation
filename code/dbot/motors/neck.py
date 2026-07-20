@@ -159,27 +159,32 @@ class NeckController:
 
     # ── Activation / Désactivation ─────────────────────────
     def enable(self) -> None:
-        """Active les moteurs détectés en mode Position."""
+        """Active les moteurs détectés en mode Position.
+        Les paramètres de config sont envoyés en fire-and-forget (pas d'ACK nécessaire).
+        Seul le Enable CAN attend un Feedback (retry x3).
+        """
         with self.can_lock:
             self.emergency_stopped = False
             self.is_moving = False
             for mid in self.active_motors:
-                self._client.write_param(mid, 'run_mode', robstride.RunMode.Position)
-                self._client.write_param(mid, 'limit_spd', NECK_SPEED_LIMIT * 3.0)
+                # Fire-and-forget : le moteur applique les paramètres sans répondre
+                self._client.write_param_no_ack(mid, 'run_mode', robstride.RunMode.Position)
+                time.sleep(0.01)  # Laisser le moteur traiter run_mode avant les gains
+                self._client.write_param_no_ack(mid, 'limit_spd', NECK_SPEED_LIMIT * 3.0)
                 if mid == NECK_PAN_ID:
-                    self._client.write_param(mid, 'loc_kp', PAN_LOC_KP)
-                    self._client.write_param(mid, 'spd_kp', PAN_SPD_KP)
-                    self._client.write_param(mid, 'spd_ki', PAN_SPD_KI)
+                    self._client.write_param_no_ack(mid, 'loc_kp', PAN_LOC_KP)
+                    self._client.write_param_no_ack(mid, 'spd_kp', PAN_SPD_KP)
+                    self._client.write_param_no_ack(mid, 'spd_ki', PAN_SPD_KI)
                 elif mid == NECK_TILT_ID:
-                    self._client.write_param(mid, 'loc_kp', TILT_LOC_KP)
-                    self._client.write_param(mid, 'spd_kp', TILT_SPD_KP)
-                    self._client.write_param(mid, 'spd_ki', TILT_SPD_KI)
-            
+                    self._client.write_param_no_ack(mid, 'loc_kp', TILT_LOC_KP)
+                    self._client.write_param_no_ack(mid, 'spd_kp', TILT_SPD_KP)
+                    self._client.write_param_no_ack(mid, 'spd_ki', TILT_SPD_KI)
+
             if self.active_motors:
-                time.sleep(0.05)
-                
+                time.sleep(0.05)  # Laisser les paramètres se stabiliser
+
             for mid in self.active_motors:
-                self._client.enable(mid)
+                self._client.enable(mid)  # Retry x3 × 0.5s dans RobustClient
             self._enabled = True
 
     def disable(self) -> None:
