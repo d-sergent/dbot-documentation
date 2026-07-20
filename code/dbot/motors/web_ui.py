@@ -80,13 +80,14 @@ class MotorState:
                     self.pan_online = detected.get(1, False)
                     self.tilt_online = detected.get(2, False)
                     
-                    # Toujours lire la position réelle et le Vbus, même si les moteurs sont désactivés !
-                    state = self.neck_controller.get_state()
-                    self.pan_deg = state.get('pan_deg', 0.0)
-                    self.tilt_deg = state.get('tilt_deg', 0.0)
-                    self.pan_vel_dps = state.get('pan_vel_dps', 0.0)
-                    self.tilt_vel_dps = state.get('tilt_vel_dps', 0.0)
-                    self.vbus_v = state.get('vbus_v', 0.0)
+                    # Ne PAS interroger la télémétrie pendant un mouvement actif pour éviter les collisions CAN !
+                    if not getattr(self.neck_controller, 'is_moving', False):
+                        state = self.neck_controller.get_state()
+                        self.pan_deg = state.get('pan_deg', 0.0)
+                        self.tilt_deg = state.get('tilt_deg', 0.0)
+                        self.pan_vel_dps = state.get('pan_vel_dps', 0.0)
+                        self.tilt_vel_dps = state.get('tilt_vel_dps', 0.0)
+                        self.vbus_v = state.get('vbus_v', 0.0)
                 except Exception as ex:
                     print(f"⚠️ Erreur de télémétrie CAN: {ex}")
             else:
