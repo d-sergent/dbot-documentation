@@ -65,6 +65,10 @@ class MotorState:
         self.tilt_online = False
         self.neck_controller = None
         
+        # Thread de mouvement unique (un seul actif à la fois)
+        self._move_thread = None
+        self._move_cancel = threading.Event()  # Signale l'annulation du thread courant
+        
         if HAS_DBOT_HARDWARE:
             try:
                 self.neck_controller = NeckController()
@@ -136,30 +140,43 @@ class MotorState:
     def set_look_at(self, pan_deg: float, tilt_deg: float):
         with self.lock:
             # Clamp aux limites
-            pan_deg = max(math.degrees(PAN_MIN_RAD), min(math.degrees(PAN_MAX_RAD), pan_deg))
+            pan_deg  = max(math.degrees(PAN_MIN_RAD),  min(math.degrees(PAN_MAX_RAD),  pan_deg))
             tilt_deg = max(math.degrees(TILT_MIN_RAD), min(math.degrees(TILT_MAX_RAD), tilt_deg))
             
-            self.pan_target_deg = pan_deg
+            self.pan_target_deg  = pan_deg
             self.tilt_target_deg = tilt_deg
             
             if self.enabled and self.neck_controller and HAS_DBOT_HARDWARE:
-                if getattr(self.neck_controller, 'emergency_stopped', False):
+                if self.neck_controller.emergency_stopped:
                     print("🚨 Mouvement refusé : E-STOP actif.")
                     return {"status": "error", "message": "E-STOP active"}
                 
-                # Exécution dans un thread séparé pour NE PAS bloquer le serveur ni E-STOP
+                # ── Annuler le thread précédent s'il tourne encore ──
+                self._move_cancel.set()   # Signale l'annulation
+                if self._move_thread and self._move_thread.is_alive():
+                    self._move_thread.join(timeout=0.5)  # Attend max 0.5s
+                self._move_cancel.clear()  # Réarme l'Event pour le prochain thread
+                
+                # ── Capturer les valeurs pour le closure du thread ──
+                _pan  = pan_deg
+                _tilt = tilt_deg
+                _cancel = self._move_cancel
+                
                 def run_movement():
                     try:
-                        self.neck_controller.look_at(pan_deg, tilt_deg)
+                        # Vérifie l'annulation à chaque étape via le cancel event
+                        if _cancel.is_set():
+                            return
+                        self.neck_controller.look_at(_pan, _tilt, cancel_event=_cancel)
                     except Exception as e:
                         print(f"⚠️ Erreur de commande look_at: {e}")
                 
-                t = threading.Thread(target=run_movement, daemon=True)
-                t.start()
+                self._move_thread = threading.Thread(target=run_movement, daemon=True)
+                self._move_thread.start()
                     
             return {
                 "status": "success",
-                "pan_target": self.pan_target_deg,
+                "pan_target":  self.pan_target_deg,
                 "tilt_target": self.tilt_target_deg
             }
 

@@ -183,29 +183,33 @@ class NeckController:
                 print(f"⚠️ Erreur d'extinction CAN sur le moteur {mid}: {e}")
 
     # ── Commandes ──────────────────────────────────────────
-    def look_at(self, pan_deg: float = 0.0, tilt_deg: float = 0.0) -> None:
+    def look_at(self, pan_deg: float = 0.0, tilt_deg: float = 0.0,
+                cancel_event: threading.Event = None) -> None:
         """
         Envoie une consigne de regard en degrés.
-        Les bornes mécaniques et de vitesse sont appliquées automatiquement.
+        cancel_event : si passé et seté, interrompt la boucle LERP proprement.
         """
         pan_rad  = math.radians(pan_deg)
         tilt_rad = math.radians(tilt_deg)
-        self.look_at_rad(pan_rad, tilt_rad)
+        self.look_at_rad(pan_rad, tilt_rad, cancel_event=cancel_event)
 
-    def look_at_rad(self, pan_rad: float = 0.0, tilt_rad: float = 0.0) -> None:
+    def look_at_rad(self, pan_rad: float = 0.0, tilt_rad: float = 0.0,
+                    cancel_event: threading.Event = None) -> None:
         """
         Envoie des consignes de position en radians avec interpolation smooth (ease in/out).
         
         ARCHITECTURE THREAD-SAFE :
-        - can_lock ne protège QUE chaque écriture CAN individuelle (jamais la boucle entière)
-        - La boucle LERP s'exécute hors du verrou pour ne jamais bloquer disable()
-        - emergency_stopped interrompt la boucle à chaque itération
+        - can_lock protège CHAQUE écriture CAN individuelle (jamais la boucle entière)
+        - emergency_stopped et cancel_event interrompent la boucle à chaque itération
         """
-        if self.emergency_stopped:
-            print("🚨 Mouvement refusé : Le contrôleur est en état d'Arrêt d'Urgence.")
+        def is_cancelled():
+            return self.emergency_stopped or (cancel_event is not None and cancel_event.is_set())
+
+        if is_cancelled():
+            print("🚨 Mouvement refusé : E-STOP ou annulation active.")
             return
 
-        target_pan = self.clamp_pan(pan_rad)
+        target_pan  = self.clamp_pan(pan_rad)
         target_tilt = self.clamp_tilt(tilt_rad)
 
         def shortest_angular_distance(from_rad: float, to_rad: float) -> float:
@@ -214,8 +218,8 @@ class NeckController:
                 d -= 2.0 * math.pi
             return d
 
-        # ── 1. Lire la position actuelle (verrou sur chaque lecture individuelle) ──
-        curr_pan = target_pan
+        # ── 1. Lire la position actuelle ──
+        curr_pan  = target_pan
         curr_tilt = target_tilt
         if NECK_PAN_ID in self.active_motors:
             try:
@@ -230,46 +234,39 @@ class NeckController:
             except Exception:
                 curr_tilt = target_tilt
 
-        # ── 2. Calculer le delta (shortest path) et appliquer les gardes-fous ──
+        # ── 2. Delta + gardes-fous ──
         delta_pan  = shortest_angular_distance(curr_pan,  target_pan)
         delta_tilt = shortest_angular_distance(curr_tilt, target_tilt)
 
-        MAX_SAFE_DELTA_PAN  = math.radians(45.0)
-        MAX_SAFE_DELTA_TILT = math.radians(35.0)
-
-        if abs(delta_pan) > MAX_SAFE_DELTA_PAN:
-            print(f"⚠️ Delta Pan {math.degrees(delta_pan):.1f}° bridé à {math.degrees(MAX_SAFE_DELTA_PAN):.1f}°.")
-            delta_pan = math.copysign(MAX_SAFE_DELTA_PAN, delta_pan)
-        if abs(delta_tilt) > MAX_SAFE_DELTA_TILT:
-            print(f"⚠️ Delta Tilt {math.degrees(delta_tilt):.1f}° bridé à {math.degrees(MAX_SAFE_DELTA_TILT):.1f}°.")
-            delta_tilt = math.copysign(MAX_SAFE_DELTA_TILT, delta_tilt)
+        if abs(delta_pan) > math.radians(45.0):
+            delta_pan = math.copysign(math.radians(45.0), delta_pan)
+        if abs(delta_tilt) > math.radians(35.0):
+            delta_tilt = math.copysign(math.radians(35.0), delta_tilt)
 
         max_delta = max(abs(delta_pan), abs(delta_tilt))
 
-        # ── 3. Mouvement trivial : envoi direct (verrou individuel) ──
+        # ── 3. Mouvement trivial : envoi direct ──
         if max_delta < 0.005:
             if NECK_PAN_ID in self.active_motors:
                 with self.can_lock:
-                    self._client.write_param(NECK_PAN_ID, 'loc_ref', target_pan)
+                    self._client.write_param(NECK_PAN_ID,  'loc_ref', target_pan)
             if NECK_TILT_ID in self.active_motors:
                 with self.can_lock:
                     self._client.write_param(NECK_TILT_ID, 'loc_ref', target_tilt)
             return
 
-        # ── 4. Boucle LERP — can_lock sur CHAQUE écriture, jamais sur la boucle ──
+        # ── 4. Boucle LERP ──
         total_time = max_delta / NECK_SPEED_LIMIT
-        time_step  = 0.02   # 50 Hz (suffisant pour du mouvement de tête)
+        time_step  = 0.02   # 50 Hz
         steps      = max(1, int(total_time / time_step))
-
         start_pan  = target_pan  - delta_pan
         start_tilt = target_tilt - delta_tilt
 
         self.is_moving = True
         try:
             for step in range(1, steps + 1):
-                if self.emergency_stopped:
-                    print("🚨 E-STOP : interruption immédiate de la boucle LERP.")
-                    return
+                if is_cancelled():
+                    return  # Arrêt propre sans log spam
 
                 t        = step / steps
                 t_smooth = (1.0 - math.cos(math.pi * t)) / 2.0
