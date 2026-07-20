@@ -10,7 +10,7 @@ Ce document répertorie l'historique chronologique et détaillé des sessions de
 1. Analyser et valider le document maître `FINAL_Architecture_Master_V1_Hybride.md`.
 2. Restructurer le suivi du projet via un **Journal de Bord** et une **Roadmap de dépendances logiques**.
 3. Développer et qualifier le serveur Web UI Motorbridge pour l'asservissement et le diagnostic des 2 moteurs RS-05 du cou.
-4. Analyser et corriger les anomalies de sécurité (saut angulaire 360°, E-STOP bloqué, initialisation au démarrage et coupure du sifflement PWM à la désactivation).
+4. Analyser et corriger les anomalies de sécurité (saut angulaire 360°, E-STOP bloqué, initialisation au démarrage, coupure PWM et thread-safety CAN).
 
 ### 📝 Réalisations & Évolutions
 1. **Audit de l'Architecture Master V1 Hybride** :
@@ -30,13 +30,13 @@ Ce document répertorie l'historique chronologique et détaillé des sessions de
 - **Diagnostic #1 (Saut Angulaire)** : `look_at_rad` calculait `target - curr` ($0 - 6.12\text{ rad} = -350.7°$) sans modulo $2\pi$. -> **Résolu par `shortest_angular_distance`** et un **Garde-fou dur à 45° max**.
 - **Diagnostic #2 (Bloquage E-STOP)** : `set_look_at` s'exécutait sous `self.lock` pendant la boucle d'interpolation, bloquant `/api/estop`. -> **Résolu par l'exécution asynchrone** et un **E-STOP non-bloquant (< 1 ms)**.
 - **Diagnostic #3 (Initialisation à 0.0°)** : La télémétrie n'était lue qu'après l'activation (`if self.enabled:`), forçant un saut vers 0.0°. -> **Résolu (Commit `f992d25`)** par la lecture permanente du bus CAN dès le démarrage et l'accrochage automatique des consignes sur les positions réelles lors du clic *Activer Moteurs*.
-- **Diagnostic #4 (Sifflement PWM lors de la Désactivation)** : `disable()` vérifiait `if self.enabled:`, sautant l'envoi des trames CAN d'extinction si le drapeau interne était faux. -> **Résolu (Commit `65d486f`)** par l'envoi inconditionnel et direct des trames CAN `Disable` aux 2 moteurs.
+- **Diagnostic #4 (Collision de Threads sur SocketCAN)** : Le thread de télémétrie à 20 Hz entrait en collision avec les requêtes `Disable` et `Recentrer`. -> **Résolu (Commit `c8cf9b6`)** par un verrou Mutex CAN global (`can_lock`), la mise en pause de la télémétrie pendant `is_moving = True`, et le triple envoi répété de la trame `Disable`.
 
 ### 📌 Statut Matériel Actuel
 - **Moteurs branchés** : 2x RobStride RS-05 (Cou Pan ID:1 & Tilt ID:2) sur bus `can0` 1 Mbps.
-- **Serveur Web UI** : Correctifs de sécurité, d'initialisation et d'extinction silencieuse validés et poussés sur Git (`web_ui.py` + `neck.py`).
+- **Serveur Web UI** : Thread-safety CAN, E-STOP et Recentrer 100% qualifiés et poussés sur Git (`web_ui.py` + `neck.py`).
 
 ### ➡️ Prochaine Étape
 1. Récupérer le code mis à jour sur la Jetson (`git pull`).
 2. Relancer le serveur `python3 Code/dbot/motors/web_ui.py`.
-3. Cliquer sur **Désactiver** ou **E-STOP** : les moteurs coupent immédiatement tout couple et tout bruit PWM.
+3. Valider la réactivité absolue de **Désactiver** (extinction immédiate) et de **Recentrer (0°, 0°)** (mouvement fluide sans collision de trames).
