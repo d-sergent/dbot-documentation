@@ -283,14 +283,12 @@ class NeckController:
 
         max_delta = max(abs(delta_pan), abs(delta_tilt))
 
-        # ── 3. Mouvement trivial : envoi direct ──
+        # ── 3. Mouvement trivial : envoi direct (fire-and-forget, sans verrou) ──
         if max_delta < 0.005:
             if NECK_PAN_ID in self.active_motors:
-                with self.can_lock:
-                    self._client.write_param_no_ack(NECK_PAN_ID,  'loc_ref', target_pan)
+                self._client.write_param_no_ack(NECK_PAN_ID,  'loc_ref', target_pan)
             if NECK_TILT_ID in self.active_motors:
-                with self.can_lock:
-                    self._client.write_param_no_ack(NECK_TILT_ID, 'loc_ref', target_tilt)
+                self._client.write_param_no_ack(NECK_TILT_ID, 'loc_ref', target_tilt)
             return
 
         # ── 4. Boucle LERP ──
@@ -314,12 +312,11 @@ class NeckController:
                 ip = start_pan  + delta_pan  * t_smooth
                 it = start_tilt + delta_tilt * t_smooth
 
+                # Fire-and-forget sans verrou : pas d'attente de réponse
                 if NECK_PAN_ID in self.active_motors:
-                    with self.can_lock:
-                        self._client.write_param_no_ack(NECK_PAN_ID,  'loc_ref', ip)
+                    self._client.write_param_no_ack(NECK_PAN_ID,  'loc_ref', ip)
                 if NECK_TILT_ID in self.active_motors:
-                    with self.can_lock:
-                        self._client.write_param_no_ack(NECK_TILT_ID, 'loc_ref', it)
+                    self._client.write_param_no_ack(NECK_TILT_ID, 'loc_ref', it)
 
                 time.sleep(time_step)
         finally:
