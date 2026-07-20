@@ -62,10 +62,14 @@ L'objectif de cette TODO est de réexploiter directement les 5 piliers technolog
 
 ---
 
-### 📌 **Jalon 6 : Station d'Alimentation 48V 600W & Distribution XT30 2+2**
-- [ ] **Fabrication de la Station d'Alimentation d'Atelier :**
-  - Commander le bloc d'alimentation industriel **MeanWell LRS-600-48** (48V 12.5A 600W).
-  - Imprimer les coques 3D avant/arrière du boîtier d'alimentation `RS-power-Top Cover.stp` et y intégrer la prise IEC 3-en-1 avec interrupteur.
+### 📌 **Jalon 6 : Stratégie d'Alimentation à 3 Niveaux & Connectique XT30 2+2**
+- [ ] **Niveau 1 — Wanptek DPS605U (0-60V / 5A / 300W avec OCP) :**
+  - Réservée au **flashage, débug et tests unitaires sur 1 à 2 moteurs** (réglage OCP 1.0A-2.0A pour protéger les composants électroniques contre les courts-circuits).
+- [ ] **Niveau 2 — Station d'Alimentation d'Atelier 600W (MeanWell LRS-600-48 + Boîtier 3D) :**
+  - Imprimer le boîtier 3D `RS-power-Top Cover.stp` et assembler la station **MeanWell 48V 12.5A (600W continu / 750W crête)** avec prise IEC 3-en-1.
+  - **Rôle :** Alimenter **100 % du robot en statique et sur banc d'essai d'atelier** (200W à 420W de consommation moyenne).
+- [ ] **Niveau 3 — Batterie 48V 13S NMC (BMS 30A continu / 60-100A crête) :**
+  - **Rôle :** Assurer la marche dynamique autonome 100% sans câble au sol, en absorbant les pics d'extension transitoires (**800W à 1400W**).
 - [ ] **Faisceau & Distributeurs XT30 2+2 :**
   - Fabriquer les câbles hybrides XT30 2+2 (48V + Bus CAN 1 Mbps) coudés et droits.
   - Intégrer les cartes de répartition **XT30 2+2 Power Splitter** dans le torse de D-Bot.
@@ -80,7 +84,7 @@ L'objectif de cette TODO est de réexploiter directement les 5 piliers technolog
 | **Moteur Dynamique `Pinocchio`** | Compensation de gravité & IK < 1 ms sur 27 moteurs | 🟩 À intégrer |
 | **SDK Python `Motorbridge`** | Driver de test & contrôle MIT pour RobStride RS-00 / RS-04 / RS-05 | 🟩 À tester |
 | **`Motorbridge` Web UI** | Tableau de bord de diagnostic visuel des 27 moteurs CAN | 🟩 À déployer |
-| **Boîtier Alimentation MeanWell 600W** | Station de charge et banc d'essai d'atelier 48V sécurisée | 🟩 À imprimer |
+| **Station MeanWell 600W (LRS-600-48)** | Alimentation d'atelier 48V / 12.5A pour 100% du robot sur banc | 🟩 À imprimer |
 | **Clips câbles `RS_Motor1_...stp`** | Protection anti-fatigue des câbles CAN/48V du cou et des membres | 🟩 À réadapter |
 | **Assemblage STEP B601 RS** | Référence CAO d'intégration mécanique des moteurs RobStride | 🟩 Disponible |
 | **BOM Câblage XT30 2+2** | Standardisation des bus d'énergie et CAN en cascade dans le corps | 🟩 À confectionner |
