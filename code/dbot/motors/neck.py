@@ -147,6 +147,8 @@ class NeckController:
         self.is_moving = False
         self.can_lock = threading.Lock()
         self.active_motors = []  # Liste des IDs détectés
+        self.curr_pan_rad = 0.0
+        self.curr_tilt_rad = 0.0
 
     # ── Context Manager ────────────────────────────────────
     def __enter__(self):
@@ -256,21 +258,9 @@ class NeckController:
                 d -= 2.0 * math.pi
             return d
 
-        # ── 1. Lire la position actuelle ──
-        curr_pan  = target_pan
-        curr_tilt = target_tilt
-        if NECK_PAN_ID in self.active_motors:
-            try:
-                with self.can_lock:
-                    curr_pan = self._client.read_param(NECK_PAN_ID, 'mechpos')
-            except Exception:
-                curr_pan = target_pan
-        if NECK_TILT_ID in self.active_motors:
-            try:
-                with self.can_lock:
-                    curr_tilt = self._client.read_param(NECK_TILT_ID, 'mechpos')
-            except Exception:
-                curr_tilt = target_tilt
+        # ── 1. Utiliser la position actuelle en mémoire (instantané, sans I/O CAN bloquant) ──
+        curr_pan  = self.curr_pan_rad
+        curr_tilt = self.curr_tilt_rad
 
         # ── 2. Delta + gardes-fous ──
         delta_pan  = shortest_angular_distance(curr_pan,  target_pan)
@@ -312,6 +302,10 @@ class NeckController:
                 ip = start_pan  + delta_pan  * t_smooth
                 it = start_tilt + delta_tilt * t_smooth
 
+                # Mettre à jour la position courante en mémoire
+                self.curr_pan_rad  = ip
+                self.curr_tilt_rad = it
+
                 # Fire-and-forget sans verrou : pas d'attente de réponse
                 if NECK_PAN_ID in self.active_motors:
                     self._client.write_param_no_ack(NECK_PAN_ID,  'loc_ref', ip)
@@ -319,6 +313,10 @@ class NeckController:
                     self._client.write_param_no_ack(NECK_TILT_ID, 'loc_ref', it)
 
                 time.sleep(time_step)
+            
+            # Position finale atteinte
+            self.curr_pan_rad  = target_pan
+            self.curr_tilt_rad = target_tilt
         finally:
             self.is_moving = False
 
@@ -339,20 +337,26 @@ class NeckController:
         with self.can_lock:
             if NECK_PAN_ID in self.active_motors:
                 try:
-                    state['pan_deg'] = math.degrees(self._client.read_param(NECK_PAN_ID,  'mechpos'))
+                    pan_r = self._client.read_param(NECK_PAN_ID,  'mechpos')
+                    state['pan_deg'] = math.degrees(pan_r)
                     state['pan_vel_dps'] = math.degrees(self._client.read_param(NECK_PAN_ID,  'mechvel'))
                     state['vbus_v'] = self._client.read_param(NECK_PAN_ID, 'vbus')
+                    if not self.is_moving:
+                        self.curr_pan_rad = pan_r
                 except Exception:
-                    pass
+                    state['pan_deg'] = math.degrees(self.curr_pan_rad)
                 
             if NECK_TILT_ID in self.active_motors:
                 try:
-                    state['tilt_deg'] = math.degrees(self._client.read_param(NECK_TILT_ID, 'mechpos'))
+                    tilt_r = self._client.read_param(NECK_TILT_ID, 'mechpos')
+                    state['tilt_deg'] = math.degrees(tilt_r)
                     state['tilt_vel_dps'] = math.degrees(self._client.read_param(NECK_TILT_ID, 'mechvel'))
                     if state['vbus_v'] == 0.0:
                         state['vbus_v'] = self._client.read_param(NECK_TILT_ID, 'vbus')
+                    if not self.is_moving:
+                        self.curr_tilt_rad = tilt_r
                 except Exception:
-                    pass
+                    state['tilt_deg'] = math.degrees(self.curr_tilt_rad)
                 
         return state
 
