@@ -105,6 +105,7 @@ class MotorState:
         with self.lock:
             if self.neck_controller and HAS_DBOT_HARDWARE:
                 try:
+                    self.neck_controller.emergency_stopped = False
                     self.neck_controller.detect()
                     self.neck_controller.enable()
                 except Exception as e:
@@ -113,14 +114,16 @@ class MotorState:
             return {"status": "success", "enabled": True}
 
     def disable(self):
+        # 🚨 E-STOP PRIORITAIRE : Ne doit PAS attendre self.lock
+        if self.neck_controller and HAS_DBOT_HARDWARE:
+            try:
+                self.neck_controller.emergency_stopped = True
+                self.neck_controller.disable()
+            except Exception as e:
+                print(f"❌ Échec de désactivation E-STOP: {e}")
         with self.lock:
-            if self.neck_controller and HAS_DBOT_HARDWARE:
-                try:
-                    self.neck_controller.disable()
-                except Exception as e:
-                    print(f"❌ Échec de désactivation: {e}")
             self.enabled = False
-            return {"status": "success", "enabled": False}
+        return {"status": "success", "enabled": False}
 
     def set_look_at(self, pan_deg: float, tilt_deg: float):
         with self.lock:
@@ -132,10 +135,19 @@ class MotorState:
             self.tilt_target_deg = tilt_deg
             
             if self.enabled and self.neck_controller and HAS_DBOT_HARDWARE:
-                try:
-                    self.neck_controller.look_at(pan_deg, tilt_deg)
-                except Exception as e:
-                    print(f"⚠️ Erreur de commande look_at: {e}")
+                if getattr(self.neck_controller, 'emergency_stopped', False):
+                    print("🚨 Mouvement refusé : E-STOP actif.")
+                    return {"status": "error", "message": "E-STOP active"}
+                
+                # Exécution dans un thread séparé pour NE PAS bloquer le serveur ni E-STOP
+                def run_movement():
+                    try:
+                        self.neck_controller.look_at(pan_deg, tilt_deg)
+                    except Exception as e:
+                        print(f"⚠️ Erreur de commande look_at: {e}")
+                
+                t = threading.Thread(target=run_movement, daemon=True)
+                t.start()
                     
             return {
                 "status": "success",

@@ -182,12 +182,16 @@ class NeckController:
         Envoie des consignes de position en radians avec interpolation linéaire (LERP)
         pour limiter la vitesse de déplacement physique au niveau logiciel.
         """
+        if getattr(self, 'emergency_stopped', False):
+            print("🚨 Mouvement refusé : Le contrôleur est en état d'Arrêt d'Urgence.")
+            return
+
         target_pan = self.clamp_pan(pan_rad)
         target_tilt = self.clamp_tilt(tilt_rad)
 
         # 1. Lire la position actuelle estimée
-        curr_pan = 0.0
-        curr_tilt = 0.0
+        curr_pan = target_pan
+        curr_tilt = target_tilt
         
         if NECK_PAN_ID in self.active_motors:
             try:
@@ -201,12 +205,32 @@ class NeckController:
             except Exception:
                 curr_tilt = target_tilt # Fallback si échec de lecture
 
-        # 2. Calculer les distances de mouvement
-        delta_pan = target_pan - curr_pan
-        delta_tilt = target_tilt - curr_tilt
+        # 2. Calculer la distance angulaire la plus courte modulo 2pi (Shortest Path)
+        # Évite qu'une position lue à 350.7° (6.12 rad) provoque une rotation de -350.7° vers 0°
+        def shortest_angular_distance(from_rad: float, to_rad: float) -> float:
+            d = (to_rad - from_rad) % (2.0 * math.pi)
+            if d > math.pi:
+                d -= 2.0 * math.pi
+            return d
+
+        delta_pan = shortest_angular_distance(curr_pan, target_pan)
+        delta_tilt = shortest_angular_distance(curr_tilt, target_tilt)
+
+        # 🛑 GARDE-FOU MATÉRIEL DE SÉCURITÉ : Bloque tout saut de trajectoire > 45°
+        MAX_SAFE_DELTA_PAN = math.radians(45.0)
+        MAX_SAFE_DELTA_TILT = math.radians(35.0)
+
+        if abs(delta_pan) > MAX_SAFE_DELTA_PAN:
+            print(f"⚠️ ALERTE SÉCURITÉ : Delta Pan de {math.degrees(delta_pan):.1f}° bridé à {math.degrees(MAX_SAFE_DELTA_PAN):.1f}° pour éviter tout choc.")
+            delta_pan = math.copysign(MAX_SAFE_DELTA_PAN, delta_pan)
+
+        if abs(delta_tilt) > MAX_SAFE_DELTA_TILT:
+            print(f"⚠️ ALERTE SÉCURITÉ : Delta Tilt de {math.degrees(delta_tilt):.1f}° bridé à {math.degrees(MAX_SAFE_DELTA_TILT):.1f}° pour éviter tout choc.")
+            delta_tilt = math.copysign(MAX_SAFE_DELTA_TILT, delta_tilt)
+
         max_delta = max(abs(delta_pan), abs(delta_tilt))
 
-        # Si le mouvement est trop faible, envoi direct pour éviter l'interpolation
+        # Si le mouvement est très faible, envoi direct
         if max_delta < 0.005:
             if NECK_PAN_ID in self.active_motors:
                 self._client.write_param(NECK_PAN_ID, 'loc_ref', target_pan)
@@ -216,7 +240,7 @@ class NeckController:
 
         # 3. Calculer la trajectoire interpolée
         total_time = max_delta / NECK_SPEED_LIMIT
-        time_step = 0.01  # Fréquence d'envoi de 100 Hz (toutes les 10 ms) pour une meilleure fluidité
+        time_step = 0.01  # 100 Hz
         steps = int(total_time / time_step)
 
         if steps <= 1:
@@ -226,14 +250,19 @@ class NeckController:
                 self._client.write_param(NECK_TILT_ID, 'loc_ref', target_tilt)
             return
 
+        start_pan = target_pan - delta_pan
+        start_tilt = target_tilt - delta_tilt
+
         for step in range(1, steps + 1):
+            if getattr(self, 'emergency_stopped', False):
+                print("🚨 ARRÊT D'URGENCE DÉTECTÉ EN BOUCLE : Interruption immédiate du mouvement du cou.")
+                break
+
             t = step / steps
-            # Profil d'accélération et de décélération progressif (cosine interpolation)
-            # Élimine le jerk infini au démarrage et à l'arrêt pour éviter les secousses physiques
             t_smooth = (1.0 - math.cos(math.pi * t)) / 2.0
             
-            interp_pan = curr_pan + delta_pan * t_smooth
-            interp_tilt = curr_tilt + delta_tilt * t_smooth
+            interp_pan = start_pan + delta_pan * t_smooth
+            interp_tilt = start_tilt + delta_tilt * t_smooth
 
             if NECK_PAN_ID in self.active_motors:
                 self._client.write_param(NECK_PAN_ID, 'loc_ref', interp_pan)
