@@ -34,9 +34,31 @@ Ce document répertorie l'historique chronologique et détaillé des sessions de
 
 ### 📌 Statut Matériel Actuel
 - **Moteurs branchés** : 2x RobStride RS-05 (Cou Pan ID:1 & Tilt ID:2) sur bus `can0` 1 Mbps.
-- **Serveur Web UI** : Thread-safety CAN, E-STOP et Recentrer 100% qualifiés et poussés sur Git (`web_ui.py` + `neck.py`).
+- **Serveur Web UI** : Thread-safety CAN, E-STOP et sliders qualifiés et poussés sur Git (`web_ui.py` + `neck.py`).
+
+---
+
+## 📅 2026-07-20 (Session 2) — Résolution des Deadlocks CAN, Protocole RobStride & Télémétrie
+
+### 🎯 Objectif de la session
+1. Éliminer les blocages du serveur HTTP Web UI (`web_ui.py`) liés à la contention du verrou `self.lock`.
+2. Corriger le protocole d'envoi des paramètres de configuration et réduire la latence d'activation des moteurs (`enable()`).
+3. Résoudre les race conditions de télémétrie vidant la liste des moteurs actifs en plein mouvement.
+
+### 📝 Réalisations & Correctifs Appliqués
+1. **Architecture Non-Bloquante (`web_ui.py`)** :
+   - Migration de toutes les opérations d'I/O CAN (`detect`, `get_state`, `enable`) hors du verrou `self.lock`. `self.lock` ne protège plus que l'écriture ultra-courte (< 1 ms) des variables Python partagées.
+2. **Optimisation du Protocole CAN (`neck.py`)** :
+   - Passage des paramètres de configuration (`run_mode`, `limit_spd`, gains PID) en mode *fire-and-forget* (`write_param_no_ack`).
+   - Réduction du temps d'exécution d'activation `enable()` de ~9s à ~1.5s.
+3. **Robustesse de la Télémétrie** :
+   - Appel de `detect(update_active=False)` pendant la télémétrie périodique pour éviter toute remise à zéro intempestive de `active_motors` pendant un déplacement.
+   - Suppression du bruit de logs `DEBUG` de `python-can` et `robstride` avec élévation des logs de cycle de vie des threads de mouvement en `INFO`.
+
+### 📌 Statut Actuel
+- Serveur Web UI opérationnel sur Jetson (`http://ubuntu.local:8080`).
+- Sliders Pan/Tilt réactifs et fonctionnels.
 
 ### ➡️ Prochaine Étape
-1. Récupérer le code mis à jour sur la Jetson (`git pull`).
-2. Relancer le serveur `python3 Code/dbot/motors/web_ui.py`.
-3. Valider la réactivité absolue de **Désactiver** (extinction immédiate) et de **Recentrer (0°, 0°)** (mouvement fluide sans collision de trames).
+1. Qualification finale du recentrage de tête sous charge physique.
+2. Intégration du couplage DoA audio (ReSpeaker XVF-3800) et des consignes angulaires du cou.
