@@ -369,20 +369,27 @@ class NeckController:
         )
 
     # ── Détection ──────────────────────────────────────────
-    def detect(self) -> dict[int, bool]:
+    def detect(self, update_active: bool = True) -> dict[int, bool]:
         """
         Vérifie si les moteurs répondent sur le bus CAN.
+
+        update_active : si True (défaut), met à jour self.active_motors.
+                        si False, retourne seulement l'état sans modifier active_motors.
+                        Utiliser False depuis la télémétrie périodique pour éviter la
+                        race condition avec la boucle LERP.
 
         Returns:
             {1: True/False, 2: True/False}
         """
         result = {}
-        self.active_motors.clear()
+        if update_active:
+            self.active_motors.clear()
         for mid in [NECK_PAN_ID, NECK_TILT_ID]:
             try:
                 self._client.read_param(mid, 'run_mode')
                 result[mid] = True
-                self.active_motors.append(mid)
+                if update_active:
+                    self.active_motors.append(mid)
             except Exception:
                 result[mid] = False
         return result

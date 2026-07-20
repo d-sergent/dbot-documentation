@@ -112,7 +112,7 @@ class MotorState:
         if self.neck_controller and HAS_DBOT_HARDWARE:
             # ── CAN I/O hors du lock ──
             try:
-                detected = self.neck_controller.detect()
+                detected = self.neck_controller.detect(update_active=False)
                 state = None
                 if not self.neck_controller.is_moving:
                     state = self.neck_controller.get_state()
