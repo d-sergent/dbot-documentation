@@ -116,12 +116,19 @@ class RobustClient(robstride.Client):
         except Exception:
             pass  # Tolérant : la consigne est envoyée même sans acquittement
 
-    def write_param_no_ack(self, motor_id: int, param_id: int | str, param_value: float) -> None:
-        """Envoie une consigne de position (loc_ref) en fire-and-forget sans attendre de réponse.
-        Utilisé dans la boucle LERP pour maximiser la réactivité."""
+    def write_param_no_ack(self, motor_id: int, param_id: int | str,
+                           param_value: float | robstride.RunMode | int) -> None:
+        """Envoie une consigne en fire-and-forget sans attendre de réponse.
+        Utilisé pour les paramètres de config et les consignes loc_ref dans la boucle LERP."""
         p_id = self._normalize_param_id(param_id)
-        data = bytes([p_id & 0xFF, p_id >> 8, 0, 0]) + struct.pack('<f', param_value)
-        self.bus.send(self._rs_msg(MotorMsg.WriteParam, self.host_can_id, motor_id, data))
+        header = bytes([p_id & 0xFF, p_id >> 8, 0, 0])
+        if isinstance(param_value, robstride.RunMode):
+            payload = bytes([int(param_value.value), 0, 0, 0])
+        elif isinstance(param_value, int):
+            payload = bytes([param_value, 0, 0, 0])
+        else:
+            payload = struct.pack('<f', float(param_value))
+        self.bus.send(self._rs_msg(MotorMsg.WriteParam, self.host_can_id, motor_id, header + payload))
 
 
 class NeckController:
