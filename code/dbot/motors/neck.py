@@ -157,11 +157,17 @@ class NeckController:
         self._enabled = True
 
     def disable(self) -> None:
-        """Désactive les moteurs détectés (coupe le holding torque)."""
-        if self._enabled:
-            for mid in self.active_motors:
-                self._client.disable(mid)
-            self._enabled = False
+        """Désactive INCONDITIONNELLEMENT tous les moteurs du cou (coupe le couple et le bruit PWM)."""
+        self.emergency_stopped = True
+        self._enabled = False
+        target_ids = list(set(self.active_motors + [NECK_PAN_ID, NECK_TILT_ID]))
+        for mid in target_ids:
+            try:
+                drain_bus(self._client.bus)
+                # Envoi direct de la trame CAN Disable sans attente bloquante pour coupure immédiate < 1ms
+                self._client.bus.send(self._client._rs_msg(MotorMsg.Disable, self._client.host_can_id, mid, [0, 0, 0, 0, 0, 0, 0, 0]))
+            except Exception as e:
+                print(f"⚠️ Erreur d'extinction CAN sur le moteur {mid}: {e}")
 
     # ── Commandes ──────────────────────────────────────────
     def look_at(self, pan_deg: float = 0.0, tilt_deg: float = 0.0) -> None:
