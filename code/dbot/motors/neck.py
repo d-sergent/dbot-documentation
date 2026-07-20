@@ -14,7 +14,10 @@ Utilisation :
 import math
 import time
 import threading
+import logging
 import robstride
+
+log = logging.getLogger('neck')
 
 from dbot.config import (
     NECK_PAN_ID, NECK_TILT_ID,
@@ -298,6 +301,9 @@ class NeckController:
         start_tilt = target_tilt - delta_tilt
 
         self.is_moving = True
+        log.info(f"LERP début: Pan {math.degrees(start_pan):+.1f}°→{math.degrees(target_pan):+.1f}°  "
+                 f"Tilt {math.degrees(start_tilt):+.1f}°→{math.degrees(target_tilt):+.1f}°  "
+                 f"steps={steps}  moteurs actifs={self.active_motors}")
         try:
             for step in range(1, steps + 1):
                 if is_cancelled():

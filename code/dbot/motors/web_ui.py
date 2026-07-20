@@ -221,19 +221,19 @@ class MotorState:
                 _cancel = self._move_cancel
 
                 def run_movement():
-                    log.debug(f"[Thread mouvement] démarré → Pan={_pan:.1f}° Tilt={_tilt:.1f}°")
+                    log.info(f"[Thread mouvement] démarré → Pan={_pan:.1f}° Tilt={_tilt:.1f}°")
                     try:
                         if _cancel.is_set():
-                            log.debug("[Thread mouvement] annulé avant démarrage")
+                            log.info("[Thread mouvement] annulé avant démarrage")
                             return
                         self.neck_controller.look_at(_pan, _tilt, cancel_event=_cancel)
-                        log.debug(f"[Thread mouvement] terminé → Pan={_pan:.1f}° Tilt={_tilt:.1f}°")
+                        log.info(f"[Thread mouvement] terminé → Pan={_pan:.1f}° Tilt={_tilt:.1f}°")
                     except Exception as e:
                         log.error(f"[Thread mouvement] EXCEPTION: {e}")
 
                 self._move_thread = threading.Thread(target=run_movement, daemon=True)
                 self._move_thread.start()
-                log.debug(f"set_look_at: nouveau thread lancé Pan={pan_deg:.1f}° Tilt={tilt_deg:.1f}°")
+                log.info(f"set_look_at: thread lancé Pan={pan_deg:.1f}° Tilt={tilt_deg:.1f}°")
 
         # ── Join du thread précédent HORS du lock ──
         if cancel_to_join and cancel_to_join.is_alive():
