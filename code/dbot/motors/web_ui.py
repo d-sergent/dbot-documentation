@@ -80,13 +80,13 @@ class MotorState:
                     self.pan_online = detected.get(1, False)
                     self.tilt_online = detected.get(2, False)
                     
-                    if self.enabled:
-                        state = self.neck_controller.get_state()
-                        self.pan_deg = state.get('pan_deg', 0.0)
-                        self.tilt_deg = state.get('tilt_deg', 0.0)
-                        self.pan_vel_dps = state.get('pan_vel_dps', 0.0)
-                        self.tilt_vel_dps = state.get('tilt_vel_dps', 0.0)
-                        self.vbus_v = state.get('vbus_v', 0.0)
+                    # Toujours lire la position réelle et le Vbus, même si les moteurs sont désactivés !
+                    state = self.neck_controller.get_state()
+                    self.pan_deg = state.get('pan_deg', 0.0)
+                    self.tilt_deg = state.get('tilt_deg', 0.0)
+                    self.pan_vel_dps = state.get('pan_vel_dps', 0.0)
+                    self.tilt_vel_dps = state.get('tilt_vel_dps', 0.0)
+                    self.vbus_v = state.get('vbus_v', 0.0)
                 except Exception as ex:
                     print(f"⚠️ Erreur de télémétrie CAN: {ex}")
             else:
@@ -110,6 +110,13 @@ class MotorState:
                     self.neck_controller.enable()
                 except Exception as e:
                     print(f"❌ Échec d'activation moteur: {e}")
+            
+            # 🎯 ACCROCHAGE SÉCURISÉ : La consigne prend la position physique réelle au lieu de 0.0° !
+            norm_pan = self._normalize_angle(self.pan_deg)
+            norm_tilt = self._normalize_angle(self.tilt_deg)
+            self.pan_target_deg = norm_pan
+            self.tilt_target_deg = norm_tilt
+
             self.enabled = True
             return {"status": "success", "enabled": True}
 
