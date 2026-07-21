@@ -107,9 +107,11 @@ DOCS_ROOT = Path("/Users/Shared/Mon Google Drive Physique/Documentation")
 DB_PATH   = Path("/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db")
 INDEX_LOG = DB_PATH / "indexed_files.json"
 
-EXCLUDE_DIRS = {".git", ".continue", "__pycache__", "Archives", "assets",
+EXCLUDE_DIRS = {".git", ".continue", "__pycache__", "Archives",
                 "Images_ORCA", ".DS_Store", "lightrag_dbot_db", "00_Archives_Recherche"}
-INCLUDE_EXTS = {".md", ".py", ".txt"}
+INCLUDE_EXTS = {".md", ".py", ".txt", ".png", ".jpg", ".jpeg", ".webp", ".pdf"}
+IMAGE_EXTS   = {".png", ".jpg", ".jpeg", ".webp"}
+PDF_EXTS     = {".pdf"}
 
 # ─── Stratégie Round-Robin Hybride (Gemini + OpenRouter) ────────────────────────
 import aiohttp
@@ -139,6 +141,8 @@ try:
     import numpy as np
     from google import genai
     from google.genai import types as genai_types
+    from PIL import Image
+    import pypdf
 except ImportError as e:
     logger.error(f"Dépendance manquante : {e}")
     sys.exit(1)
@@ -325,13 +329,89 @@ def save_index_log(log_idx: dict):
 def compute_doc_id(content: str) -> str:
     return "doc-" + hashlib.md5(content.encode("utf-8")).hexdigest()
 
-def prepare_document(path: Path) -> str:
+VLM_MODELS = [
+    "models/gemini-2.5-flash",
+    "models/gemini-3.1-flash-lite",
+    "models/gemini-2.0-flash",
+    "models/gemini-1.5-flash"
+]
+
+def analyze_image_with_vlm(client: genai.Client, image_path: Path) -> str:
+    if not client:
+        raise RuntimeError("API Client VLM non disponible")
+    
+    img = Image.open(image_path)
+    prompt = (
+        "Tu es un expert en ingénierie mécanique, robotique et électronique pour le projet D-Bot.\n"
+        "Analyse cette image technique en détail. Décris avec précision :\n"
+        "1. Les composants mécaniques, électroniques, moteurs, roulements, fixations ou assemblages visibles.\n"
+        "2. Toutes les cotations, dimensions, références, marquages ou annotations textuelles (ex: AXK 5578, M4x70, etc.).\n"
+        "3. La géométrie, le montage et la fonction technique de ce sous-ensemble.\n"
+        "Fournis une description technique exhaustive et structurée."
+    )
+
+    last_error = None
+    for model_name in VLM_MODELS:
+        try:
+            response = client.models.generate_content(
+                model=model_name,
+                contents=[img, prompt]
+            )
+            if response and response.text:
+                return response.text
+        except Exception as e:
+            last_error = str(e)
+            if "429" in last_error or "RESOURCE_EXHAUSTED" in last_error:
+                logger.warning(f"⚠️ Quota 429 sur {model_name} pour {image_path.name}. Basculement sur le modèle VLM suivant...")
+                time.sleep(2)
+                continue
+            else:
+                logger.warning(f"⚠️ Erreur sur {model_name}: {e}")
+                continue
+                
+    raise RuntimeError(f"Échec de l'analyse VLM sur {image_path.name} après tous les modèles (Dernière erreur: {last_error})")
+
+def extract_pdf_text(path: Path) -> str:
     try:
-        content = path.read_text(encoding="utf-8")
-        relative = path.relative_to(DOCS_ROOT)
-        header = f"---\nFichier: {relative}\nProjet: D-Bot\n---\n\n"
-        return header + content
-    except: return ""
+        reader = pypdf.PdfReader(path)
+        pages_text = []
+        for i, page in enumerate(reader.pages, 1):
+            t = page.extract_text()
+            if t and t.strip():
+                pages_text.append(f"--- Page {i} ---\n{t.strip()}")
+        return "\n\n".join(pages_text)
+    except Exception as e:
+        logger.warning(f"⚠️ Erreur de lecture PDF {path.name}: {e}")
+        return ""
+
+def prepare_document(path: Path, genai_client: genai.Client = None) -> str:
+    relative = path.relative_to(DOCS_ROOT)
+    ext = path.suffix.lower()
+    
+    if ext in IMAGE_EXTS:
+        logger.info(f"📸 Analyse VLM en cours pour l'image: {path.name}...")
+        try:
+            vlm_desc = analyze_image_with_vlm(genai_client, path)
+            header = f"---\nFichier: {relative}\nType: Image VLM\nProjet: D-Bot\n---\n\n"
+            return header + f"# Analyse Visuelle et Spécifications Techniques : {path.name}\n\n" + vlm_desc
+        except Exception as e:
+            logger.warning(f"⚠️ Ignoré pour cette session: {e}")
+            return ""
+
+    elif ext in PDF_EXTS:
+        logger.info(f"📄 Extraction du texte PDF: {path.name}...")
+        pdf_text = extract_pdf_text(path)
+        header = f"---\nFichier: {relative}\nType: Document PDF\nProjet: D-Bot\n---\n\n"
+        return header + f"# Document PDF : {path.name}\n\n" + pdf_text
+
+    else:
+        try:
+            content = path.read_text(encoding="utf-8")
+            header = f"---\nFichier: {relative}\nProjet: D-Bot\n---\n\n"
+            return header + content
+        except Exception as e:
+            logger.warning(f"⚠️ Erreur de lecture {path.name}: {e}")
+            return ""
 
 async def run_indexing(args):
     all_files = collect_files()
@@ -344,6 +424,9 @@ async def run_indexing(args):
     if not to_update and not to_delete:
         logger.info("✅ Tout est à jour.")
         return
+
+    api_key = args.api_key or os.environ.get("GEMINI_API_KEY")
+    genai_client = genai.Client(api_key=api_key) if api_key else None
 
     llm_func = await get_llm_func(args)
     
@@ -373,14 +456,14 @@ async def run_indexing(args):
     if to_update:
         logger.info(f"📂 Indexation de {len(to_update)} fichier(s) [Parallélisme: {max_async}]...")
     for i, path in enumerate(to_update, 1):
-        content = prepare_document(path)
+        content = prepare_document(path, genai_client)
         if not content: continue
         logger.info(f"[{i:3d}/{len(to_update)}] 📄 {path.name}")
         try:
-            await rag.ainsert(content)
+            await rag.ainsert(content, file_paths=[str(path)])
             log_idx[str(path)] = {"mtime": os.path.getmtime(path), "doc_id": compute_doc_id(content)}
-        except Exception: 
-            pass 
+        except Exception as e:
+            logger.warning(f"⚠️ Échec d'indexation pour {path.name}: {e}") 
 
     save_index_log(log_idx)
     logger.info("🎉 Synthèse Finale :")
