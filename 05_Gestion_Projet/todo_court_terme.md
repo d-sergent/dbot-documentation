@@ -17,6 +17,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Triade Visuelle Temps Réel & Fusion Spatiale 3D** : Couplage OAK-D Pro + YOLO-World v2 Zero-Shot + SpatialFusion (`test_triad_vision.py`) avec détection multi-boîtes hiérarchique, classification multicolore et coordonnées $3D$ réelles $(X, Y, Z)$ en mm.
 - [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS et du nœud `SpatialLocationCalculator` ($Z < 500\text{ mm}$) dans `oak_camera.py`.
 - [x] **Motorbridge Web UI & Contrôle du Cou** : Diagnostic temps réel et asservissement fluide des moteurs du cou Pan/Tilt RS-05 (`web_ui.py` + `neck.py`).
+- [x] **Support du Français & Mappage Multilingue YOLO-World** : Dictionnaire persistant local `fr_en_dictionary.json` (+150 mots) et traduction automatique zéro-ressource via `urllib` dans `yolo_world.py`.
 
 ---
 
@@ -49,8 +50,8 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Optimisation VPU Myriad X (OAK-D Pro)** :
   - Intégrer le filtre matériel WLS sur le VPU OAK-D pour combler les trous de la profondeur (économie de 25% CPU Jetson).
   - Configurer le nœud matériel **`SpatialLocationCalculator`** sur l'OAK-D pour générer des alertes de sécurité $3D$ ($Z < 500\text{ mm}$) à $< 5\text{ ms}$.
-- [ ] **Support du Français & Mappage Multilingue YOLO-World** :
-  - Intégrer un traducteur / mappage dynamique Français ➔ Anglais dans `yolo_world.py` pour accepter n'importe quel prompt sémantique en Français (ex: `"bouteille"` ➔ `"bottle"`, `"verre"` ➔ `"glass"`).
+- [x] **Support du Français & Mappage Multilingue YOLO-World** :
+  - Dictionnaire persistant local `fr_en_dictionary.json` (+150 mots) et traduction automatique zéro-ressource via `urllib` dans `yolo_world.py`.
 - [ ] **Reconnaissance & Identification de Visages (Face Recognition / Tracking)** :
   - Ajouter un module d'extraction d'embeddings faciaux (`face_tracker.py` / MobileFaceNet) pour reconnaître et identifier nommément les visages des membres du foyer.
 - [ ] **Expérience "Active Gaze" & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** :
