@@ -5,7 +5,7 @@ Niveau 1 de la Triade Visuelle : Inférence Open-Vocabulary temps réel.
 
 Support Multi-Boîtes & Visualisation Multi-Couleurs :
 - Palette BGR distincte par classe (MAIN, TELEPHONE, BOUTEILLE, PERSONNE, TABLE, CHAISE, OBSTACLE).
-- NMS non-agnostique autorisant le chevauchement et l'imbrication des boîtes multi-classes.
+- NMS non-agnostique autorisant le chevauchement et l'imbrication des boîtes multi-classes (agnostic_nms=False).
 """
 
 import cv2
@@ -151,7 +151,7 @@ class YoloWorldDetector:
                     frame_rgb,
                     conf=0.18,
                     iou=self.iou_threshold,
-                    agnostic=False, # Permet le chevauchement des boîtes de classes différentes !
+                    agnostic_nms=False, # Argument Ultralytics exact pour NMS non-agnostique
                     device=self.device_name,
                     verbose=False
                 )
