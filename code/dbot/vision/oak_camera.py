@@ -3,7 +3,7 @@ dbot/vision/oak_camera.py — Interface matérielle pour Luxonis OAK-D Pro
 ======================================================================
 Gère le pipeline DepthAI, le flux RGB, le calcul de profondeur stéréo,
 le filtrage matériel WLS sur VPU Myriad X et le nœud SpatialLocationCalculator.
-Compatible DepthAI API v2 (Stable).
+Compatible DepthAI API v2 (Sans Deprecation Warnings).
 """
 
 import depthai as dai
@@ -36,7 +36,7 @@ class DbotCamera:
         else:
             self.cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_720_P)
             
-        self.cam_rgb.setBoardSocket(dai.CameraBoardSocket.RGB)
+        self.cam_rgb.setBoardSocket(dai.CameraBoardSocket.CAM_A)
         self.cam_rgb.setInterleaved(False)
         self.cam_rgb.setFps(fps)
         self.cam_rgb.setVideoSize(640, 360) # Taille optimisée pour l'IA et le stream
@@ -52,8 +52,8 @@ class DbotCamera:
             self.mono_right = self.pipeline.create(dai.node.MonoCamera)
             self.stereo = self.pipeline.create(dai.node.StereoDepth)
 
-            self.mono_left.setBoardSocket(dai.CameraBoardSocket.LEFT)
-            self.mono_right.setBoardSocket(dai.CameraBoardSocket.RIGHT)
+            self.mono_left.setBoardSocket(dai.CameraBoardSocket.CAM_B)
+            self.mono_right.setBoardSocket(dai.CameraBoardSocket.CAM_C)
             self.mono_left.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
             self.mono_right.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
 
@@ -72,7 +72,7 @@ class DbotCamera:
 
             # --- 3. Nœud SpatialLocationCalculator (VPU On-Chip Hazard Alert) ---
             self.spatial_calc = self.pipeline.create(dai.node.SpatialLocationCalculator)
-            self.spatial_calc.setWaitForConfigInput(False)
+            self.spatial_calc.inputConfig.setWaitForMessage(False)
 
             # Zone d'intérêt centrale 3D (Centre de l'image)
             config_roi = dai.SpatialLocationCalculatorConfigData()

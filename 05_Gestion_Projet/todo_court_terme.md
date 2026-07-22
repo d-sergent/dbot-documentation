@@ -15,6 +15,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Inspection Mécanique & Fichiers CAO STEP** : Modèles RobStride RS00 / RS04 / RS05 / RS06 qualifiés sous Fusion 360 pour les assemblages d'articulation.
 - [x] **Stratégie d'Alimentation 48V à 3 Niveaux** : Schéma d'alimentation validé (Wanptek 60V/5A, MeanWell LRS-600-48 600W, Batterie 48V 13S NMC).
 - [x] **Triade Visuelle Temps Réel & Fusion Spatiale 3D** : Couplage OAK-D Pro + YOLO-World v2 Zero-Shot + SpatialFusion (`test_triad_vision.py`) avec détection multi-boîtes hiérarchique, classification multicolore et coordonnées $3D$ réelles $(X, Y, Z)$ en mm.
+- [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS et du nœud `SpatialLocationCalculator` ($Z < 500\text{ mm}$ à $< 5\text{ ms}$) dans `oak_camera.py`.
 
 ---
 
@@ -44,7 +45,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Triade Visuelle & Fusion Spatiale 3D (OAK-D Pro + YOLO-World v2)** :
   - Intégration de YOLO-World v2 Zero-Shot (`yolov8m-worldv2.pt` / `.onnx` / `.engine`) avec NMS permissif et dictionnaire de couleurs vives BGR par classe (`MAIN`, `TELEPHONE`, `PERSONNE`, `TABLE`, `CHAISE`, `BOUTEILLE`).
   - Association tridimensionnelle des boîtes $2D$ avec la carte de profondeur stéréo pour extraire les coordonnées physiques réelles $[X, Y, Z]$ en mm.
-- [ ] **Optimisation VPU Myriad X (OAK-D Pro)** :
+- [x] **Optimisation VPU Myriad X (OAK-D Pro)** :
   - Intégrer le filtre matériel WLS sur le VPU OAK-D pour combler les trous de la profondeur (économie de 25% CPU Jetson).
   - Configurer le nœud matériel **`SpatialLocationCalculator`** sur l'OAK-D pour générer des alertes de sécurité $3D$ ($Z < 500\text{ mm}$) à $< 5\text{ ms}$.
 - [ ] **Expérience "Active Gaze" & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** :
