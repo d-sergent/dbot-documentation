@@ -4,8 +4,8 @@ scripts/vision/test_triad_vision.py — Test Complet de la Triade Visuelle D-Bot
 Couple OAK-D Pro (RGB-D + Laser IR), YOLO-World v2 (Inférence Zero-Shot) et
 SpatialFusion pour afficher en direct la position 3D (X, Y, Z) des objets repérés.
 
-Option Debug / Photo Incrémentale : Enregistre des clichés numérotés et horodatés dans
-'/tmp/dbot_snapshots/snap_XXX_LABEL_DIST.jpg' lors de chaque détection proche (< 1.5m).
+Filtrage & Priorité Spatiale : Priorise MAIN et TELEPHONE sur la catégorie globale PERSONNE
+dans la zone de manipulation proche (< 1.2m).
 """
 
 import cv2
@@ -33,11 +33,10 @@ def run_triad_test(save_snapshots=True):
         os.makedirs(SNAPSHOT_DIR, exist_ok=True)
         print(f"📁 Dossier de clichés incrémentaux : '{SNAPSHOT_DIR}'")
 
-    # Prompts cibles incluant le mobilier courant (table) pour éviter les déductions erronées
     target_classes = ["main", "telephone", "bouteille", "table", "personne", "chaise", "obstacle"]
     print(f"🎯 Prompts sémantiques cibles : {target_classes}")
     
-    detector = YoloWorldDetector(confidence_threshold=0.35, iou_threshold=0.35, classes=target_classes)
+    detector = YoloWorldDetector(classes=target_classes)
     fusion = SpatialFusion()
 
     # Configuration Pipeline DepthAI
@@ -109,7 +108,7 @@ def run_triad_test(save_snapshots=True):
             frame_rgb = in_rgb.getCvFrame()
             frame_depth = in_depth.getFrame()
 
-            # Étape 1 : Inférence YOLO-World (avec conversion BGR->RGB et NMS iou=0.35)
+            # Étape 1 : Inférence YOLO-World
             detections_2d, latency_ms = detector.detect(frame_rgb)
 
             # Étape 2 : Fusion Spatiale 3D
@@ -119,12 +118,17 @@ def run_triad_test(save_snapshots=True):
             fps_count += 1
             action_zone_dets = [d for d in detections_3d if 0 < d["spatial_3d"]["z_mm"] <= 1500]
 
+            # Règle de Priorité de Proximité : Si MAIN ou TELEPHONE est présent aux côtés de PERSONNE à < 1.2m,
+            # supprimer le doublon global PERSONNE pour éviter l'écrasement
+            has_fine_action = any(d["label"] in ["MAIN", "TELEPHONE", "BOUTEILLE"] for d in action_zone_dets)
+            if has_fine_action:
+                action_zone_dets = [d for d in action_zone_dets if not (d["label"] == "PERSONNE" and d["spatial_3d"]["z_mm"] <= 1200)]
+
             # Sauvegarde d'un cliché incrémental si détection dans la zone d'action (intervalle 1s)
             if save_snapshots and len(action_zone_dets) > 0 and (time.time() - last_snapshot_time > 1.0):
                 snapshot_counter += 1
                 annotated = detector.annotate_frame(frame_rgb, action_zone_dets)
                 
-                # Ajout du texte de position 3D sur l'image
                 first_label = action_zone_dets[0]["label"].upper()
                 first_dist = action_zone_dets[0]["spatial_3d"]["z_mm"]
 

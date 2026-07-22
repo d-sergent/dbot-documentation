@@ -3,9 +3,10 @@ dbot/vision/yolo_world.py — Détecteur Sémantique Zero-Shot YOLO-World v2
 ========================================================================
 Niveau 1 de la Triade Visuelle : Inférence Open-Vocabulary temps réel.
 
-Incorpore la gestion du NMS imbriqué (iou=0.35) pour isoler les objets tenus en main,
-ainsi que l'ajout des catégories de mobilier (table, meuble) pour éviter les fausses
-classifications de chaises.
+Correction Avancée des Prompts & Priority Rules :
+- Prompts Anglais uniques non-ambigus (hand, phone, bottle, person, chair, table).
+- Seuils de confiance adaptés par classe (hand/phone plus sensibles).
+- Conversion BGR->RGB et restitution des labels en Français.
 """
 
 import cv2
@@ -14,15 +15,28 @@ import time
 import os
 import sys
 
-# Dictionnaire de correspondance Français -> Ensembles de Prompts CLIP Descriptifs en Anglais
-FR_TO_CLIP_ENSEMBLES = {
-    "main": ["human hand", "open hand", "hand holding an object", "forearm"],
-    "telephone": ["smartphone", "mobile phone", "cell phone", "holding a phone", "phone screen"],
-    "bouteille": ["water bottle", "plastic bottle", "bottle"],
-    "table": ["table", "coffee table", "wooden table", "desk"],
-    "personne": ["person", "human body", "human"],
-    "chaise": ["chair", "armchair", "sofa"],
-    "obstacle": ["obstacle", "barrier"]
+# Mappage strict 1-to-1 Français <-> Anglais CLIP
+FR_TO_EN_CLASS = {
+    "main": "hand",
+    "telephone": "phone",
+    "bouteille": "bottle",
+    "personne": "person",
+    "chaise": "chair",
+    "table": "table",
+    "obstacle": "obstacle"
+}
+
+EN_TO_FR_CLASS = {v: k.upper() for k, v in FR_TO_EN_CLASS.items()}
+
+# Seuils de confiance adaptés par catégorie CLIP
+CLASS_CONF_THRESHOLDS = {
+    "hand": 0.20,
+    "phone": 0.20,
+    "bottle": 0.25,
+    "obstacle": 0.25,
+    "person": 0.38,
+    "chair": 0.38,
+    "table": 0.35
 }
 
 class YoloWorldError(Exception):
@@ -37,15 +51,15 @@ class YoloWorldDetector:
         self,
         model_name="yolov8s-worldv2.pt",
         classes=None,
-        confidence_threshold=0.35,
+        default_conf_threshold=0.25,
         iou_threshold=0.35,
         device=None
     ):
         self.model_name = model_name
-        self.confidence_threshold = confidence_threshold
+        self.default_conf_threshold = default_conf_threshold
         self.iou_threshold = iou_threshold
         self.model = None
-        self.user_classes_fr = classes or ["main", "telephone", "bouteille", "table", "personne", "chaise", "obstacle"]
+        self.user_classes_fr = classes or ["main", "telephone", "bouteille", "personne", "chaise", "table", "obstacle"]
         
         self.model_prompts_en = []
         self.prompt_to_fr_map = {}
@@ -86,7 +100,7 @@ class YoloWorldDetector:
     def set_classes(self, classes_list_fr):
         """
         Met à jour à chaud la liste des requêtes textuelles.
-        Génère un ensemble de prompts Anglais descriptifs pour CLIP.
+        Convertit automatiquement en prompts Anglais uniques 1-to-1 pour CLIP.
         """
         self.user_classes_fr = classes_list_fr
         self.model_prompts_en = []
@@ -94,16 +108,16 @@ class YoloWorldDetector:
 
         for fr_cat in classes_list_fr:
             cat_key = fr_cat.lower().strip()
-            descriptors = FR_TO_CLIP_ENSEMBLES.get(cat_key, [cat_key])
-            for desc in descriptors:
-                self.model_prompts_en.append(desc)
-                self.prompt_to_fr_map[desc] = fr_cat.upper()
+            en_prompt = FR_TO_EN_CLASS.get(cat_key, cat_key)
+            if en_prompt not in self.model_prompts_en:
+                self.model_prompts_en.append(en_prompt)
+                self.prompt_to_fr_map[en_prompt] = EN_TO_FR_CLASS.get(en_prompt, fr_cat.upper())
 
         if self.model is not None:
             try:
                 self.model.set_classes(self.model_prompts_en)
-                print(f"🎯 [YOLO-World] Ensembles de prompts CLIP Anglais ({len(self.model_prompts_en)}) : {self.model_prompts_en}")
-                print(f"🇫🇷 [YOLO-World] Prompts utilisateur (Français) : {self.user_classes_fr}")
+                print(f"🎯 [YOLO-World] Prompts CLIP Anglais Nettes : {self.model_prompts_en}")
+                print(f"🇫🇷 [YOLO-World] Mappage Français : {self.prompt_to_fr_map}")
             except Exception as e:
                 print(f"⚠ Erreur mise à jour classes : {e}")
 
@@ -122,10 +136,11 @@ class YoloWorldDetector:
 
         if self.model is not None:
             try:
+                # Utilisation d'un seuil bas en prédiction pour filtrer manuellement par classe après
                 results = self.model.predict(
                     frame_rgb,
-                    conf=self.confidence_threshold,
-                    iou=self.iou_threshold, # Permet aux objets tenus en main de ne pas être supprimés
+                    conf=0.18,
+                    iou=self.iou_threshold,
                     device=self.device_name,
                     verbose=False
                 )
@@ -139,6 +154,12 @@ class YoloWorldDetector:
                         cls_id = int(box.cls[0].cpu().numpy())
                         
                         raw_en_prompt = self.model_prompts_en[cls_id] if cls_id < len(self.model_prompts_en) else f"class_{cls_id}"
+                        
+                        # Filtrage par seuil de confiance spécifique à la classe
+                        min_conf = CLASS_CONF_THRESHOLDS.get(raw_en_prompt, self.default_conf_threshold)
+                        if conf < min_conf:
+                            continue
+
                         fr_label = self.prompt_to_fr_map.get(raw_en_prompt, raw_en_prompt.upper())
 
                         cx = int((x1 + x2) / 2)
@@ -146,6 +167,7 @@ class YoloWorldDetector:
 
                         detections.append({
                             "label": fr_label,
+                            "raw_label_en": raw_en_prompt,
                             "confidence": conf,
                             "bbox": (x1, y1, x2, y2),
                             "center": (cx, cy)
@@ -160,6 +182,7 @@ class YoloWorldDetector:
             h, w = frame_bgr.shape[:2]
             detections.append({
                 "label": self.user_classes_fr[0].upper() if self.user_classes_fr else "OBJET",
+                "raw_label_en": "hand",
                 "confidence": 0.92,
                 "bbox": (int(w*0.3), int(h*0.3), int(w*0.7), int(h*0.7)),
                 "center": (int(w*0.5), int(h*0.5))
