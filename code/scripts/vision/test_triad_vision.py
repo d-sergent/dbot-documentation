@@ -3,6 +3,8 @@ scripts/vision/test_triad_vision.py — Test Complet de la Triade Visuelle D-Bot
 ===============================================================================
 Couple OAK-D Pro (RGB-D + Laser IR), YOLO-World v2 (Inférence Zero-Shot) et
 SpatialFusion pour afficher en direct la position 3D (X, Y, Z) des objets repérés.
+
+Filtrage Intelligent : Met en valeur les objets dans la zone d'action du robot (Z < 1.5m).
 """
 
 import depthai as dai
@@ -17,14 +19,14 @@ from dbot.vision.spatial_fusion import SpatialFusion
 def run_triad_test():
     print("🚀 [Triade Visuelle] Démarrage du test d'intégration en situation réelle...")
 
-    # 1. Objets recherchés (Automatiquement traduits en Anglais pour le modèle CLIP d'OpenAI)
+    # Prompts cibles
     target_classes = ["main", "telephone", "bouteille", "personne", "chaise", "obstacle"]
     print(f"🎯 Prompts sémantiques cibles : {target_classes}")
     
-    detector = YoloWorldDetector(confidence_threshold=0.25, classes=target_classes)
+    detector = YoloWorldDetector(confidence_threshold=0.28, classes=target_classes)
     fusion = SpatialFusion()
 
-    # 2. Configuration du Pipeline DepthAI (RGB 1080p + Stereo Depth 400p)
+    # Configuration Pipeline DepthAI
     pipeline = dai.Pipeline()
 
     cam_rgb = pipeline.create(dai.node.ColorCamera)
@@ -38,14 +40,12 @@ def run_triad_test():
     xout_rgb.setStreamName("rgb")
     xout_depth.setStreamName("depth")
 
-    # RGB Config
     cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
-    cam_rgb.setIspScale(1, 3) # Downscale 1080p -> 640x360 pour l'IA
-    cam_rgb.setBoardSocket(dai.CameraBoardSocket.CAM_A) # CAM_A = RGB
+    cam_rgb.setIspScale(1, 3) # 1080p -> 640x360
+    cam_rgb.setBoardSocket(dai.CameraBoardSocket.CAM_A)
     cam_rgb.setFps(30)
     cam_rgb.setInterleaved(False)
 
-    # Mono Config (Stéréo)
     mono_left.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
     mono_left.setBoardSocket(dai.CameraBoardSocket.CAM_B)
     mono_left.setFps(30)
@@ -54,14 +54,12 @@ def run_triad_test():
     mono_right.setBoardSocket(dai.CameraBoardSocket.CAM_C)
     mono_right.setFps(30)
 
-    # Stéréo Config avec Extended Disparity (MinZ ~9cm)
     stereo.setDefaultProfilePreset(dai.node.StereoDepth.PresetMode.HIGH_DENSITY)
     stereo.initialConfig.setMedianFilter(dai.MedianFilter.KERNEL_7x7)
     stereo.setLeftRightCheck(True)
     stereo.setExtendedDisparity(True)
     stereo.setDepthAlign(dai.CameraBoardSocket.CAM_A)
 
-    # Liens
     mono_left.out.link(stereo.left)
     mono_right.out.link(stereo.right)
     cam_rgb.isp.link(xout_rgb.input)
@@ -78,7 +76,7 @@ def run_triad_test():
         q_rgb = device.getOutputQueue(name="rgb", maxSize=4, blocking=False)
         q_depth = device.getOutputQueue(name="depth", maxSize=4, blocking=False)
 
-        print("\n✅ Triade Visuelle Active ! Présentez votre main, votre téléphone ou une bouteille devant l'OAK-D Pro.")
+        print("\n✅ Triade Visuelle Active ! Approchez votre main, votre téléphone ou une bouteille (< 1.5 m).")
         print("🔍 Surveillance en cours... Appuyez sur Ctrl+C pour quitter.\n")
 
         fps_count = 0
@@ -94,21 +92,29 @@ def run_triad_test():
             frame_rgb = in_rgb.getCvFrame()
             frame_depth = in_depth.getFrame()
 
-            # Étape 1 : Détection Sémantique 2D (YOLO-World)
+            # Étape 1 : Inférence YOLO-World (avec conversion BGR->RGB interne)
             detections_2d, latency_ms = detector.detect(frame_rgb)
 
-            # Étape 2 : Fusion Spatiale 3D (OAK-D Depth)
+            # Étape 2 : Fusion Spatiale 3D
             detections_3d = fusion.compute_spatial_3d(detections_2d, frame_depth)
 
-            # Étape 3 : Affichage Télémétrie en Console
+            # Étape 3 : Filtrage Zone d'Action (< 1.5 m) vs Arrière-plan
             fps_count += 1
             if time.time() - t_start >= 1.0:
-                print(f"⚡ [Triade Stats] FPS: {fps_count} | Latence Inférence: {latency_ms:.1f} ms | Détections: {len(detections_3d)}")
-                for det in detections_3d:
-                    label = det["label"]
-                    conf = det["confidence"]
-                    s = det["spatial_3d"]
-                    print(f"   🎯 [{label.upper()} {conf*100:.0f}%] ➔ Position 3D: X={s['x_mm']:.0f}mm, Y={s['y_mm']:.0f}mm, Z={s['z_mm']:.0f}mm ({s['z_mm']/1000.0:.2f}m)")
+                action_zone_dets = [d for d in detections_3d if 0 < d["spatial_3d"]["z_mm"] <= 1500]
+                bg_dets_count = len(detections_3d) - len(action_zone_dets)
+
+                print(f"⚡ [Triade Stats] FPS: {fps_count} | Latence: {latency_ms:.1f} ms | Zone Action (<1.5m): {len(action_zone_dets)} | Arrière-plan: {bg_dets_count}")
+                
+                if len(action_zone_dets) > 0:
+                    for det in action_zone_dets:
+                        label = det["label"]
+                        conf = det["confidence"]
+                        s = det["spatial_3d"]
+                        print(f"   🔥 [ACTION PROCHE] [{label.upper()} {conf*100:.0f}%] ➔ X={s['x_mm']:.0f}mm, Y={s['y_mm']:.0f}mm, Z={s['z_mm']:.0f}mm ({s['z_mm']/1000.0:.2f}m)")
+                else:
+                    print("   ⚪ Aucune détection dans la zone de manipulation proche (< 1.5 m).")
+
                 fps_count = 0
                 t_start = time.time()
 
