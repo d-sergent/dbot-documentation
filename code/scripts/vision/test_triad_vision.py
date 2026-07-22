@@ -4,8 +4,8 @@ scripts/vision/test_triad_vision.py — Test Complet de la Triade Visuelle D-Bot
 Couple OAK-D Pro (RGB-D + Laser IR), YOLO-World v2 (Inférence Zero-Shot) et
 SpatialFusion pour afficher en direct la position 3D (X, Y, Z) des objets repérés.
 
-Option Debug / Photo : Sauvegarde automatiquement l'image annotée avec Bounding Box 2D
-et coordonnée 3D dans '/tmp/triad_last_detection.jpg' lors d'une détection proche (< 1.5m).
+Option Debug / Photo Incrémentale : Enregistre des clichés numérotés et horodatés dans
+'/tmp/dbot_snapshots/snap_XXX_LABEL_DIST.jpg' lors de chaque détection proche (< 1.5m).
 """
 
 import depthai as dai
@@ -15,13 +15,16 @@ import time
 import sys
 import os
 
-from dbot.vision.yolo_world import YoloWorldDetector
-from dbot.vision.spatial_fusion import SpatialFusion
-
-SNAPSHOT_PATH = "/tmp/triad_last_detection.jpg"
+SNAPSHOT_DIR = "/tmp/dbot_snapshots"
+LAST_SNAPSHOT_PATH = "/tmp/triad_last_detection.jpg"
 
 def run_triad_test(save_snapshots=True):
     print("🚀 [Triade Visuelle] Démarrage du test d'intégration en situation réelle...")
+
+    # Création du dossier de stockage incrémental
+    if save_snapshots:
+        os.makedirs(SNAPSHOT_DIR, exist_ok=True)
+        print(f"📁 Dossier de clichés incrémentaux : '{SNAPSHOT_DIR}'")
 
     # Prompts cibles
     target_classes = ["main", "telephone", "bouteille", "personne", "chaise", "obstacle"]
@@ -81,10 +84,11 @@ def run_triad_test(save_snapshots=True):
         q_depth = device.getOutputQueue(name="depth", maxSize=4, blocking=False)
 
         print("\n✅ Triade Visuelle Active ! Approchez votre main, votre téléphone ou une bouteille (< 1.5 m).")
-        print(f"📸 Clichés de débogage activés ➔ Sauvegarde sous '{SNAPSHOT_PATH}'.")
+        print(f"📸 Clichés incrémentaux activés dans '{SNAPSHOT_DIR}'.")
         print("🔍 Surveillance en cours... Appuyez sur Ctrl+C pour quitter.\n")
 
         fps_count = 0
+        snapshot_counter = 0
         t_start = time.time()
         last_snapshot_time = 0
 
@@ -104,15 +108,19 @@ def run_triad_test(save_snapshots=True):
             # Étape 2 : Fusion Spatiale 3D
             detections_3d = fusion.compute_spatial_3d(detections_2d, frame_depth)
 
-            # Étape 3 : Filtrage Zone d'Action (< 1.5 m) vs Arrière-plan
+            # Étape 3 : Filtrage Zone d'Action (< 1.5 m)
             fps_count += 1
             action_zone_dets = [d for d in detections_3d if 0 < d["spatial_3d"]["z_mm"] <= 1500]
 
-            # Sauvegarde d'un cliché annoté si détection dans la zone d'action
+            # Sauvegarde d'un cliché incrémental si détection dans la zone d'action (intervalle 1s)
             if save_snapshots and len(action_zone_dets) > 0 and (time.time() - last_snapshot_time > 1.0):
+                snapshot_counter += 1
                 annotated = detector.annotate_frame(frame_rgb, action_zone_dets)
                 
                 # Ajout du texte de position 3D sur l'image
+                first_label = action_zone_dets[0]["label"].upper()
+                first_dist = action_zone_dets[0]["spatial_3d"]["z_mm"]
+
                 for det in action_zone_dets:
                     x1, y1, x2, y2 = det["bbox"]
                     s = det["spatial_3d"]
@@ -122,7 +130,13 @@ def run_triad_test(save_snapshots=True):
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2
                     )
 
-                cv2.imwrite(SNAPSHOT_PATH, annotated)
+                # Nom unique avec numéro d'ordre, label principal et distance
+                snapshot_filename = f"snap_{snapshot_counter:03d}_{first_label}_{first_dist:.0f}mm.jpg"
+                snapshot_filepath = os.path.join(SNAPSHOT_DIR, snapshot_filename)
+                
+                cv2.imwrite(snapshot_filepath, annotated)
+                cv2.imwrite(LAST_SNAPSHOT_PATH, annotated) # Copie sur /tmp/triad_last_detection.jpg pour vue directe
+                
                 last_snapshot_time = time.time()
 
             if time.time() - t_start >= 1.0:
@@ -135,7 +149,7 @@ def run_triad_test(save_snapshots=True):
                         conf = det["confidence"]
                         s = det["spatial_3d"]
                         print(f"   🔥 [ACTION PROCHE] [{label.upper()} {conf*100:.0f}%] ➔ X={s['x_mm']:.0f}mm, Y={s['y_mm']:.0f}mm, Z={s['z_mm']:.0f}mm ({s['z_mm']/1000.0:.2f}m)")
-                    print(f"   📸 Cliché mis à jour dans '{SNAPSHOT_PATH}'")
+                    print(f"   📸 Cliché #{snapshot_counter:03d} enregistré dans '{SNAPSHOT_DIR}'")
                 else:
                     print("   ⚪ Aucune détection dans la zone de manipulation proche (< 1.5 m).")
 
