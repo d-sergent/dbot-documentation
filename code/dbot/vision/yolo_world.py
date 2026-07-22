@@ -1,10 +1,10 @@
 """
 dbot/vision/yolo_world.py — Détecteur Sémantique Zero-Shot YOLO-World v2
 ========================================================================
-Niveau 1 de la Triade Visuelle : Inférence Open-Vocabulary temps réel sur
-le GPU CUDA de la Jetson Orin Nano (VRAM < 0.4 Go, latence 12-15 ms).
+Niveau 1 de la Triade Visuelle : Inférence Open-Vocabulary temps réel.
 
-Permet de rechercher n'importe quel objet via des requêtes textuelles dynamiques.
+Adaptatif : Sélectionne CUDA si disponible, avec bascule automatique transparente
+sur CPU / ONNX Runtime si la version PyTorch de la Jetson requiert le mode CPU.
 """
 
 import cv2
@@ -26,15 +26,33 @@ class YoloWorldDetector:
         model_name="yolov8s-worldv2.pt",
         classes=None,
         confidence_threshold=0.35,
-        device="cuda"
+        device=None
     ):
         self.model_name = model_name
         self.confidence_threshold = confidence_threshold
-        self.device_name = device
         self.model = None
         self.current_classes = classes or ["personne", "bouteille", "chaise", "obstacle"]
         
+        # Auto-détection intelligente du device (cuda vs cpu)
+        self.device_name = device or self._detect_best_device()
         self._init_model()
+
+    def _detect_best_device(self):
+        """Détermine le meilleur device disponible (CUDA vs CPU)."""
+        try:
+            import torch
+            if torch.cuda.is_available():
+                # Vérification supplémentaire du driver
+                try:
+                    _ = torch.zeros(1).cuda()
+                    return "cuda"
+                except Exception:
+                    print("⚠ [YOLO-World] Pilote CUDA JetPack incompatible avec la version PyTorch. Bascule sur 'cpu'.")
+                    return "cpu"
+            else:
+                return "cpu"
+        except Exception:
+            return "cpu"
 
     def _init_model(self):
         """Initialise le modèle d'inférence YOLO-World."""
@@ -45,12 +63,12 @@ class YoloWorldDetector:
             
             # Application des classes personnalisées dynamiques
             self.set_classes(self.current_classes)
-            print(f"✅ [YOLO-World] Modèle prêt. Classes actives : {self.current_classes}")
+            print(f"✅ [YOLO-World] Modèle prêt sur {self.device_name}. Classes actives : {self.current_classes}")
         except ImportError:
-            print("⚠ [YOLO-World] 'ultralytics' non installé. Utilisation du mode Simulation / Fallback ONNX.")
+            print("⚠ [YOLO-World] 'ultralytics' non installé. Utilisation du mode Simulation.")
             self.model = None
         except Exception as e:
-            print(f"⚠ [YOLO-World] Erreur d'initialisation modèle CUDA : {e}. Bascule en mode dégradé.")
+            print(f"⚠ [YOLO-World] Erreur d'initialisation modèle : {e}. Bascule en mode dégradé.")
             self.model = None
 
     def set_classes(self, classes_list):
@@ -112,7 +130,13 @@ class YoloWorldDetector:
                             "center": (cx, cy)
                         })
             except Exception as e:
-                print(f"⚠ [YOLO-World] Erreur inférence : {e}")
+                # Si CUDA échoue lors de la première prédiction, bascule dynamique automatique sur CPU !
+                if "CUDA" in str(e) and self.device_name != "cpu":
+                    print(f"⚠ [YOLO-World] Rejet CUDA en prédiction. Bascule automatique sur CPU.")
+                    self.device_name = "cpu"
+                    return self.detect(frame)
+                else:
+                    print(f"⚠ [YOLO-World] Erreur inférence : {e}")
         else:
             # Mode Fallback / Simulation si le modèle n'est pas encore disponible
             h, w = frame.shape[:2]
@@ -155,7 +179,7 @@ class YoloWorldDetector:
         return annotated
 
 if __name__ == "__main__":
-    print("🚀 Test Unitaire : dbot.vision.yolo_world")
+    print("🚀 Test Unitaire : dbot.vision.yolo_world (Version Auto-Adaptative)")
     detector = YoloWorldDetector(confidence_threshold=0.3)
     
     # Image de test synthétique
