@@ -15,7 +15,8 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Inspection Mécanique & Fichiers CAO STEP** : Modèles RobStride RS00 / RS04 / RS05 / RS06 qualifiés sous Fusion 360 pour les assemblages d'articulation.
 - [x] **Stratégie d'Alimentation 48V à 3 Niveaux** : Schéma d'alimentation validé (Wanptek 60V/5A, MeanWell LRS-600-48 600W, Batterie 48V 13S NMC).
 - [x] **Triade Visuelle Temps Réel & Fusion Spatiale 3D** : Couplage OAK-D Pro + YOLO-World v2 Zero-Shot + SpatialFusion (`test_triad_vision.py`) avec détection multi-boîtes hiérarchique, classification multicolore et coordonnées $3D$ réelles $(X, Y, Z)$ en mm.
-- [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS et du nœud `SpatialLocationCalculator` ($Z < 500\text{ mm}$ à $< 5\text{ ms}$) dans `oak_camera.py`.
+- [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS et du nœud `SpatialLocationCalculator` ($Z < 500\text{ mm}$) dans `oak_camera.py`.
+- [x] **Motorbridge Web UI & Contrôle du Cou** : Diagnostic temps réel et asservissement fluide des moteurs du cou Pan/Tilt RS-05 (`web_ui.py` + `neck.py`).
 
 ---
 
@@ -24,7 +25,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [ ] **Démontage du casque** : Libérer l'accès aux mécanismes et aux 2 moteurs du cou RS-05 (Pan & Tilt).
 - [ ] **Câblage & Longueur de câbles RS-05** : Raccorder les moteurs et ajuster les longueurs pour garantir les rotations sans contrainte ni tension.
 - [x] **Tableau de Bord Web UI (`Motorbridge` Web UI)** : Serveur léger Web UI développé dans `Code/dbot/motors/web_ui.py` sur la Jetson Orin Nano pour contrôler et visualiser en temps réel la télémétrie des 2 moteurs RS-05 du cou (angles, températures, tension, erreurs CAN0) depuis le navigateur du Mac (`http://ubuntu.local:8080`).
-- [ ] **Premier test dynamique du Cou (Sans Casque)** : Valider les rotations Pan/Tilt via `test_neck.py` avec la limite de vitesse logicielle (20°/s).
+- [x] **Premier test dynamique du Cou (Sans Casque)** : Valider les rotations Pan/Tilt via `web_ui.py` et `test_neck.py` avec mouvements LERP fluides et non-bloquants.
 - [ ] **Remontage du casque & Butées logicielles** : Définir et verrouiller les angles limites dans `config.py` pour éviter tout choc mécanique entre le casque et la structure.
 - [ ] **Orientation Tête sur DoA Audio** : Coupler la position angulaire des RS-05 avec la direction DoA (0-360°) de la ReSpeaker pour orienter la tête vers la voix.
 - [ ] **Intégration Simultanée des Capteurs Tête** : Brancher et valider la marche simultanée de l'OAK-D Pro, du ReSpeaker et des moteurs du cou.
