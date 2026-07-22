@@ -4,7 +4,8 @@ scripts/vision/test_triad_vision.py — Test Complet de la Triade Visuelle D-Bot
 Couple OAK-D Pro (RGB-D + Laser IR), YOLO-World v2 (Inférence Zero-Shot) et
 SpatialFusion pour afficher en direct la position 3D (X, Y, Z) des objets repérés.
 
-Filtrage Intelligent : Met en valeur les objets dans la zone d'action du robot (Z < 1.5m).
+Option Debug / Photo : Sauvegarde automatiquement l'image annotée avec Bounding Box 2D
+et coordonnée 3D dans '/tmp/triad_last_detection.jpg' lors d'une détection proche (< 1.5m).
 """
 
 import depthai as dai
@@ -12,11 +13,14 @@ import cv2
 import numpy as np
 import time
 import sys
+import os
 
 from dbot.vision.yolo_world import YoloWorldDetector
 from dbot.vision.spatial_fusion import SpatialFusion
 
-def run_triad_test():
+SNAPSHOT_PATH = "/tmp/triad_last_detection.jpg"
+
+def run_triad_test(save_snapshots=True):
     print("🚀 [Triade Visuelle] Démarrage du test d'intégration en situation réelle...")
 
     # Prompts cibles
@@ -77,10 +81,12 @@ def run_triad_test():
         q_depth = device.getOutputQueue(name="depth", maxSize=4, blocking=False)
 
         print("\n✅ Triade Visuelle Active ! Approchez votre main, votre téléphone ou une bouteille (< 1.5 m).")
+        print(f"📸 Clichés de débogage activés ➔ Sauvegarde sous '{SNAPSHOT_PATH}'.")
         print("🔍 Surveillance en cours... Appuyez sur Ctrl+C pour quitter.\n")
 
         fps_count = 0
         t_start = time.time()
+        last_snapshot_time = 0
 
         while True:
             in_rgb = q_rgb.get()
@@ -100,10 +106,27 @@ def run_triad_test():
 
             # Étape 3 : Filtrage Zone d'Action (< 1.5 m) vs Arrière-plan
             fps_count += 1
-            if time.time() - t_start >= 1.0:
-                action_zone_dets = [d for d in detections_3d if 0 < d["spatial_3d"]["z_mm"] <= 1500]
-                bg_dets_count = len(detections_3d) - len(action_zone_dets)
+            action_zone_dets = [d for d in detections_3d if 0 < d["spatial_3d"]["z_mm"] <= 1500]
 
+            # Sauvegarde d'un cliché annoté si détection dans la zone d'action
+            if save_snapshots and len(action_zone_dets) > 0 and (time.time() - last_snapshot_time > 1.0):
+                annotated = detector.annotate_frame(frame_rgb, action_zone_dets)
+                
+                # Ajout du texte de position 3D sur l'image
+                for det in action_zone_dets:
+                    x1, y1, x2, y2 = det["bbox"]
+                    s = det["spatial_3d"]
+                    pos_str = f"X:{s['x_mm']:.0f} Y:{s['y_mm']:.0f} Z:{s['z_mm']:.0f}mm"
+                    cv2.putText(
+                        annotated, pos_str, (x1, min(y2 + 20, annotated.shape[0] - 10)),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2
+                    )
+
+                cv2.imwrite(SNAPSHOT_PATH, annotated)
+                last_snapshot_time = time.time()
+
+            if time.time() - t_start >= 1.0:
+                bg_dets_count = len(detections_3d) - len(action_zone_dets)
                 print(f"⚡ [Triade Stats] FPS: {fps_count} | Latence: {latency_ms:.1f} ms | Zone Action (<1.5m): {len(action_zone_dets)} | Arrière-plan: {bg_dets_count}")
                 
                 if len(action_zone_dets) > 0:
@@ -112,6 +135,7 @@ def run_triad_test():
                         conf = det["confidence"]
                         s = det["spatial_3d"]
                         print(f"   🔥 [ACTION PROCHE] [{label.upper()} {conf*100:.0f}%] ➔ X={s['x_mm']:.0f}mm, Y={s['y_mm']:.0f}mm, Z={s['z_mm']:.0f}mm ({s['z_mm']/1000.0:.2f}m)")
+                    print(f"   📸 Cliché mis à jour dans '{SNAPSHOT_PATH}'")
                 else:
                     print("   ⚪ Aucune détection dans la zone de manipulation proche (< 1.5 m).")
 
@@ -122,7 +146,7 @@ def run_triad_test():
 
 if __name__ == "__main__":
     try:
-        run_triad_test()
+        run_triad_test(save_snapshots=True)
     except KeyboardInterrupt:
         print("\n🔌 Arrêt du test visuel.")
     except Exception as err:
