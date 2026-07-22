@@ -17,11 +17,11 @@ from dbot.vision.spatial_fusion import SpatialFusion
 def run_triad_test():
     print("🚀 [Triade Visuelle] Démarrage du test d'intégration en situation réelle...")
 
-    # 1. Objets recherchés dynamiquement (Open-Vocabulary)
-    target_classes = ["personne", "bouteille", "main", "chaise", "telephone", "obstacle"]
-    print(f"🎯 Configuration des requêtes sémantiques : {target_classes}")
+    # 1. Objets recherchés (Automatiquement traduits en Anglais pour le modèle CLIP d'OpenAI)
+    target_classes = ["main", "telephone", "bouteille", "personne", "chaise", "obstacle"]
+    print(f"🎯 Prompts sémantiques cibles : {target_classes}")
     
-    detector = YoloWorldDetector(confidence_threshold=0.35, classes=target_classes)
+    detector = YoloWorldDetector(confidence_threshold=0.25, classes=target_classes)
     fusion = SpatialFusion()
 
     # 2. Configuration du Pipeline DepthAI (RGB 1080p + Stereo Depth 400p)
@@ -59,7 +59,7 @@ def run_triad_test():
     stereo.initialConfig.setMedianFilter(dai.MedianFilter.KERNEL_7x7)
     stereo.setLeftRightCheck(True)
     stereo.setExtendedDisparity(True)
-    stereo.setDepthAlign(dai.CameraBoardSocket.CAM_A) # Alignement avec le capteur RGB
+    stereo.setDepthAlign(dai.CameraBoardSocket.CAM_A)
 
     # Liens
     mono_left.out.link(stereo.left)
@@ -69,7 +69,6 @@ def run_triad_test():
 
     print("⏳ Connexion à la caméra OAK-D Pro et activation du Laser IR...")
     with dai.Device(pipeline) as device:
-        # Activation du projecteur de points IR
         try:
             device.setIrLaserDotProjectorIntensity(200)
             print("🌙 Projecteur Laser IR actif à 200 mA.")
@@ -79,7 +78,7 @@ def run_triad_test():
         q_rgb = device.getOutputQueue(name="rgb", maxSize=4, blocking=False)
         q_depth = device.getOutputQueue(name="depth", maxSize=4, blocking=False)
 
-        print("\n✅ Triade Visuelle Active ! Présentez des objets (bouteille, main, personne) devant l'OAK-D Pro.")
+        print("\n✅ Triade Visuelle Active ! Présentez votre main, votre téléphone ou une bouteille devant l'OAK-D Pro.")
         print("🔍 Surveillance en cours... Appuyez sur Ctrl+C pour quitter.\n")
 
         fps_count = 0
@@ -93,7 +92,7 @@ def run_triad_test():
                 continue
 
             frame_rgb = in_rgb.getCvFrame()
-            frame_depth = in_depth.getFrame() # carte en mm
+            frame_depth = in_depth.getFrame()
 
             # Étape 1 : Détection Sémantique 2D (YOLO-World)
             detections_2d, latency_ms = detector.detect(frame_rgb)
