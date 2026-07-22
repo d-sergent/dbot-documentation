@@ -256,21 +256,11 @@ class NeckController:
                 d -= 2.0 * math.pi
             return d
 
-        # ── 1. Lire la position actuelle ──
-        curr_pan  = target_pan
-        curr_tilt = target_tilt
-        if NECK_PAN_ID in self.active_motors:
-            try:
-                with self.can_lock:
-                    curr_pan = self._client.read_param(NECK_PAN_ID, 'mechpos')
-            except Exception:
-                curr_pan = target_pan
-        if NECK_TILT_ID in self.active_motors:
-            try:
-                with self.can_lock:
-                    curr_tilt = self._client.read_param(NECK_TILT_ID, 'mechpos')
-            except Exception:
-                curr_tilt = target_tilt
+        # ── 1. Utiliser les dernières positions/consignes connues (sans blocage CAN read_param) ──
+        curr_pan = getattr(self, '_last_pan_cmd', target_pan)
+        curr_tilt = getattr(self, '_last_tilt_cmd', target_tilt)
+        self._last_pan_cmd = target_pan
+        self._last_tilt_cmd = target_tilt
 
         # ── 2. Delta + gardes-fous ──
         delta_pan  = shortest_angular_distance(curr_pan,  target_pan)

@@ -753,11 +753,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             });
         }
 
-        // Support complet de la molette / glissement / souris / tactile
+        // Support complet de la molette / glissement / souris / tactile sans doublons
         const onDragStart = () => { isUserDragging = true; };
+        let lastSentPan = null, lastSentTilt = null;
         const onDragEnd = () => {
             isUserDragging = false;
-            sendLookAt(panSlider.value, tiltSlider.value);
+            const p = parseFloat(panSlider.value);
+            const t = parseFloat(tiltSlider.value);
+            if (lastSentPan !== p || lastSentTilt !== t) {
+                lastSentPan = p;
+                lastSentTilt = t;
+                sendLookAt(p, t);
+            }
         };
 
         panSlider.addEventListener('mousedown', onDragStart);
