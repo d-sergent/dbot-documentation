@@ -26,11 +26,12 @@ import logging
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from socketserver import ThreadingMixIn
 
-# ── Logging horodaté ─────────────────────────────────────────
+# ── Logging horodaté avec flush immédiat ─────────────────────
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s.%(msecs)03d [%(levelname)s] %(message)s',
-    datefmt='%H:%M:%S'
+    datefmt='%H:%M:%S',
+    stream=sys.stdout
 )
 log = logging.getLogger('webui')
 
@@ -85,32 +86,26 @@ class MotorState:
         
         if HAS_DBOT_HARDWARE:
             try:
+                log.info("⏳ Initialisation du contrôleur matériel CAN (NeckController)...")
                 self.neck_controller = NeckController()
                 # ── Lecture immédiate des positions réelles au démarrage ──
-                # Évite d'afficher 0°/0° et d'envoyer une consigne erronée au premier clic "Activer"
                 try:
                     self.neck_controller.detect()
                     initial_state = self.neck_controller.get_state()
                     self.pan_deg        = initial_state.get('pan_deg',  0.0)
                     self.tilt_deg       = initial_state.get('tilt_deg', 0.0)
                     self.vbus_v         = initial_state.get('vbus_v',   0.0)
-                    # La consigne initiale s'accroche sur la position physique réelle
                     self.pan_target_deg  = self.pan_deg
                     self.tilt_target_deg = self.tilt_deg
-                    log.info(f"📍 Position initiale lue : Pan={self.pan_deg:+.1f}°  Tilt={self.tilt_deg:+.1f}°")
+                    log.info(f"📍 Position initiale lue : Pan={self.pan_deg:+.1f}°  Tilt={self.tilt_deg:+.1f}°  Vbus={self.vbus_v:.1f}V")
                 except Exception as read_err:
                     log.warning(f"⚠️ Lecture initiale impossible, positions à 0° : {read_err}")
             except Exception as err:
                 log.error(f"❌ Erreur d'initialisation NeckController: {err}")
 
     def update_telemetry(self):
-        """Met à jour l'état télémétrique depuis le bus CAN ou la simulation.
-        
-        ARCHITECTURE : tout le CAN I/O se fait HORS de self.lock.
-        self.lock n'est acquis que très brièvement pour écrire les variables partagées.
-        """
+        """Met à jour l'état télémétrique depuis le bus CAN ou la simulation."""
         if self.neck_controller and HAS_DBOT_HARDWARE:
-            # ── CAN I/O hors du lock ──
             try:
                 detected = self.neck_controller.detect(update_active=False)
                 state = None
@@ -119,7 +114,6 @@ class MotorState:
             except Exception as ex:
                 log.error(f"Erreur télémétrie CAN: {ex}")
                 return
-            # ── Mise à jour des variables partagées (verrou court) ──
             with self.lock:
                 self.pan_online  = detected.get(1, False)
                 self.tilt_online = detected.get(2, False)
@@ -143,8 +137,6 @@ class MotorState:
     def enable(self):
         """Active les moteurs. CAN I/O fait HORS de self.lock pour éviter tout deadlock."""
         log.info("API enable() appelé")
-
-        # ── CAN I/O hors du lock ──
         new_pan  = self.pan_deg
         new_tilt = self.tilt_deg
         new_vbus = self.vbus_v
@@ -165,7 +157,6 @@ class MotorState:
                 log.error(f"enable: ÉCHEC hardware: {e}")
                 hw_ok = False
 
-        # ── Mise à jour de l'état (verrou court) ──
         with self.lock:
             self.pan_deg          = new_pan
             self.tilt_deg         = new_tilt
@@ -179,7 +170,6 @@ class MotorState:
 
     def disable(self):
         log.info("API disable() / E-STOP appelé")
-        # 🚨 E-STOP PRIORITAIRE : Ne doit PAS attendre self.lock
         if self.neck_controller and HAS_DBOT_HARDWARE:
             try:
                 self.neck_controller.emergency_stopped = True
@@ -194,7 +184,6 @@ class MotorState:
         return {"status": "success", "enabled": False}
 
     def set_look_at(self, pan_deg: float, tilt_deg: float):
-        # ── Annuler le thread précédent HORS du lock pour éviter tout deadlock ──
         cancel_to_join = None
         with self.lock:
             if not self.enabled:
@@ -204,17 +193,15 @@ class MotorState:
                 log.warning("set_look_at: refusé, E-STOP actif")
                 return {"status": "error", "message": "E-STOP active"}
 
-            # Clamp aux limites
             pan_deg  = max(math.degrees(PAN_MIN_RAD),  min(math.degrees(PAN_MAX_RAD),  pan_deg))
             tilt_deg = max(math.degrees(TILT_MIN_RAD), min(math.degrees(TILT_MAX_RAD), tilt_deg))
             self.pan_target_deg  = pan_deg
             self.tilt_target_deg = tilt_deg
 
             if self.neck_controller and HAS_DBOT_HARDWARE:
-                # Signaler l'annulation au thread précédent
                 self._move_cancel.set()
-                cancel_to_join = self._move_thread  # Référence à joindre hors du lock
-                self._move_cancel = threading.Event()  # Nouvel event pour le prochain thread
+                cancel_to_join = self._move_thread
+                self._move_cancel = threading.Event()
 
                 _pan    = pan_deg
                 _tilt   = tilt_deg
@@ -235,7 +222,6 @@ class MotorState:
                 self._move_thread.start()
                 log.info(f"set_look_at: thread lancé Pan={pan_deg:.1f}° Tilt={tilt_deg:.1f}°")
 
-        # ── Join du thread précédent HORS du lock ──
         if cancel_to_join and cancel_to_join.is_alive():
             log.debug("set_look_at: attente fin du thread précédent (max 0.3s)...")
             cancel_to_join.join(timeout=0.3)
@@ -249,7 +235,6 @@ class MotorState:
         }
 
     def _normalize_angle(self, deg: float) -> float:
-        """Normalise un angle 0-360° dans la plage [-180°, +180°]."""
         deg = deg % 360.0
         if deg > 180.0:
             deg -= 360.0
@@ -282,18 +267,16 @@ class MotorState:
             }
 
 
-GLOBAL_STATE = MotorState()
+GLOBAL_STATE = None
 
 # ── Serveur HTTP & Handlers ─────────────────────────────────
 
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
-    """Serveur HTTP multithreadé non-bloquant."""
     daemon_threads = True
 
 
 class WebUIHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
-        # Désactiver les logs verbeux de chaque requête GET /api/state
         pass
 
     def send_json(self, data, code=200):
@@ -330,7 +313,6 @@ class WebUIHandler(BaseHTTPRequestHandler):
             except Exception:
                 pass
 
-        t0 = time.monotonic()
         path = self.path
         log.debug(f"POST {path} — données: {post_data}")
 
@@ -703,8 +685,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         let isUserDragging = false;
 
         function updateVisualizer(targetPan, targetTilt, currentPan, currentTilt) {
-            // Conversion [-80, 80] Pan -> [10%, 90%] X
-            // Conversion [-20, 30] Tilt -> [10%, 90%] Y
             const targetX = 50 + (targetPan / 80) * 40;
             const targetY = 50 + (targetTilt / 30) * 40;
 
@@ -773,17 +753,24 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             });
         }
 
-        panSlider.addEventListener('mousedown', () => isUserDragging = true);
-        tiltSlider.addEventListener('mousedown', () => isUserDragging = true);
+        // Support complet de la molette / glissement / souris / tactile
+        const onDragStart = () => { isUserDragging = true; };
+        const onDragEnd = () => {
+            isUserDragging = false;
+            sendLookAt(panSlider.value, tiltSlider.value);
+        };
 
-        panSlider.addEventListener('mouseup', () => {
-            isUserDragging = false;
-            sendLookAt(panSlider.value, tiltSlider.value);
-        });
-        tiltSlider.addEventListener('mouseup', () => {
-            isUserDragging = false;
-            sendLookAt(panSlider.value, tiltSlider.value);
-        });
+        panSlider.addEventListener('mousedown', onDragStart);
+        panSlider.addEventListener('touchstart', onDragStart);
+        panSlider.addEventListener('mouseup', onDragEnd);
+        panSlider.addEventListener('touchend', onDragEnd);
+        panSlider.addEventListener('change', onDragEnd);
+
+        tiltSlider.addEventListener('mousedown', onDragStart);
+        tiltSlider.addEventListener('touchstart', onDragStart);
+        tiltSlider.addEventListener('mouseup', onDragEnd);
+        tiltSlider.addEventListener('touchend', onDragEnd);
+        tiltSlider.addEventListener('change', onDragEnd);
 
         panSlider.addEventListener('input', () => {
             panTargetVal.innerText = parseFloat(panSlider.value).toFixed(1) + '°';
@@ -814,15 +801,25 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
 def telemetry_loop():
     while True:
-        GLOBAL_STATE.update_telemetry()
+        if GLOBAL_STATE:
+            GLOBAL_STATE.update_telemetry()
         time.sleep(0.05)  # 20 Hz
 
 
 def main():
+    global GLOBAL_STATE
+    
+    print("\n========================================================", flush=True)
+    print("⏳ Initialisation du serveur Motorbridge Web UI D-Bot...", flush=True)
+    print("========================================================\n", flush=True)
+
     parser = argparse.ArgumentParser(description="Serveur Web UI Motorbridge D-Bot pour le Cou RS-05")
     parser.add_argument("--host", default="0.0.0.0", help="Adresse d'écoute (0.0.0.0 = toutes les interfaces)")
     parser.add_argument("--port", type=int, default=8080, help="Port Web (défaut: 8080)")
     args = parser.parse_args()
+
+    # Initialisation explicite de GLOBAL_STATE dans main() avec logs immédiats
+    GLOBAL_STATE = MotorState()
 
     # Démarrage du thread de mise à jour télémétrique
     t = threading.Thread(target=telemetry_loop, daemon=True)
@@ -830,17 +827,18 @@ def main():
 
     server_address = (args.host, args.port)
     httpd = ThreadedHTTPServer(server_address, WebUIHandler)
-    print(f"\n========================================================")
-    print(f"🚀 Serveur Motorbridge Web UI D-Bot démarré avec succès !")
-    print(f"👉 Accès local Jetson : http://localhost:{args.port}")
-    print(f"👉 Accès depuis le Mac: http://ubuntu.local:{args.port}  (ou IP Jetson)")
-    print(f"========================================================\n")
+    print(f"\n========================================================", flush=True)
+    print(f"🚀 Serveur Motorbridge Web UI D-Bot démarré avec succès !", flush=True)
+    print(f"👉 Accès local Jetson : http://localhost:{args.port}", flush=True)
+    print(f"👉 Accès depuis le Mac: http://ubuntu.local:{args.port}  (ou IP Jetson)", flush=True)
+    print(f"========================================================\n", flush=True)
 
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
-        print("\n🛑 Arrêt du serveur Web UI...")
-        GLOBAL_STATE.disable()
+        print("\n🛑 Arrêt du serveur Web UI...", flush=True)
+        if GLOBAL_STATE:
+            GLOBAL_STATE.disable()
         httpd.server_close()
 
 
