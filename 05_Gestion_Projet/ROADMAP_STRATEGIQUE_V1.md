@@ -40,7 +40,7 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 - [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS (lissage de la carte de profondeur) et du nœud `SpatialLocationCalculator` pour le calcul d'alertes matérielles de danger ($Z < 500\text{ mm}$) à $< 5\text{ ms}$ sans charge CPU Jetson.
 - [x] **Mappage Multilingue Français ➔ Anglais pour YOLO-World** : Prise en charge dynamique des prompts en Français avec traduction/correspondance automatique vers CLIP Anglais dans `yolo_world.py` (0 Mo RAM / 0% CPU).
 - [ ] **Reconnaissance & Identification de Visages (`face_tracker.py`)** : Identification nommée des visages du foyer et suivi spatial 3D.
-- [ ] **Inférence Active Gaze & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** : Inférence visuelle sémantique complexe via **NVIDIA Cosmos 3D Edge / LocateAnything-3B** **déportée sur le Mac M1 Max (64 Go)** pour l'orientation et le centrage du cou Pan/Tilt ("Regarde la tasse").
+- [x] **Inférence Active Gaze & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** : Inférence visuelle sémantique complexe via **NVIDIA Cosmos 3D Edge / LocateAnything-3B** **déportée sur le Mac M1 Max (64 Go)** pour l'orientation et le centrage du cou Pan/Tilt ("Regarde la tasse").
 
 ---
 

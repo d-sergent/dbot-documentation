@@ -18,6 +18,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS et du nœud `SpatialLocationCalculator` ($Z < 500\text{ mm}$) dans `oak_camera.py`.
 - [x] **Motorbridge Web UI & Contrôle du Cou** : Diagnostic temps réel et asservissement fluide des moteurs du cou Pan/Tilt RS-05 (`web_ui.py` + `neck.py`).
 - [x] **Support du Français & Mappage Multilingue YOLO-World** : Dictionnaire persistant local `fr_en_dictionary.json` (+150 mots) et traduction automatique zéro-ressource via `urllib` dans `yolo_world.py`.
+- [x] **Active Gaze & Regard Actif (`test_active_gaze.py`)** : Asservissement angulaire du cou Pan/Tilt sur les cibles visuelles sémantiques 3D (`active_gaze.py`) et serveur compagnon Mac (`server_active_gaze_mac.py`).
 
 ---
 
@@ -54,8 +55,8 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
   - Dictionnaire persistant local `fr_en_dictionary.json` (+150 mots) et traduction automatique zéro-ressource via `urllib` dans `yolo_world.py`.
 - [ ] **Reconnaissance & Identification de Visages (Face Recognition / Tracking)** :
   - Ajouter un module d'extraction d'embeddings faciaux (`face_tracker.py` / MobileFaceNet) pour reconnaître et identifier nommément les visages des membres du foyer.
-- [ ] **Expérience "Active Gaze" & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** :
-  - Capturer le flux RGB 1080p de l'OAK-D Pro et exécuter l'inférence de repérage visuel (*Visual Grounding*) avec **LocateAnything-3B / NVIDIA Cosmos 3D Edge** **déporté sur le Mac M1 Max (64 Go)** via HTTP/gRPC.
+- [x] **Expérience "Active Gaze" & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** :
+  - Capturer le flux RGB 1080p de l'OAK-D Pro et exécuter l'inférence de repérage visuel (*Visual Grounding*) avec **LocateAnything-3B / NVIDIA Cosmos 3D Edge** **déporté sur le Mac M1 Max (64 Go)** via HTTP/gRPC (`server_active_gaze_mac.py`).
   - Asservir le cou en Pan/Tilt pour qu'il centre physiquement l'objet ciblé au milieu du champ de vision ("Regarde la tasse").
 
 ---
