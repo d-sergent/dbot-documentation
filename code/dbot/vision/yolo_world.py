@@ -5,7 +5,7 @@ Niveau 1 de la Triade Visuelle : Inférence Open-Vocabulary temps réel.
 
 Support Multi-Boîtes & Visualisation Multi-Couleurs :
 - Palette BGR distincte par classe (MAIN, TELEPHONE, BOUTEILLE, PERSONNE, TABLE, CHAISE, OBSTACLE).
-- NMS non-agnostique autorisant le chevauchement et l'imbrication des boîtes multi-classes (agnostic_nms=False).
+- NMS permissif (iou=0.75, max_det=50) autorisant la coexistence des boîtes parentes et enfants.
 """
 
 import cv2
@@ -29,13 +29,13 @@ EN_TO_FR_CLASS = {v: k.upper() for k, v in FR_TO_EN_CLASS.items()}
 
 # Seuils de confiance adaptés par catégorie CLIP
 CLASS_CONF_THRESHOLDS = {
-    "hand": 0.20,
-    "phone": 0.20,
-    "bottle": 0.25,
-    "obstacle": 0.25,
-    "person": 0.35,
-    "chair": 0.35,
-    "table": 0.32
+    "hand": 0.18,
+    "phone": 0.18,
+    "bottle": 0.22,
+    "obstacle": 0.22,
+    "person": 0.28,
+    "chair": 0.28,
+    "table": 0.28
 }
 
 # Palette de couleurs vives BGR distinctes par classe
@@ -62,8 +62,8 @@ class YoloWorldDetector:
         self,
         model_name="yolov8s-worldv2.pt",
         classes=None,
-        default_conf_threshold=0.22,
-        iou_threshold=0.45,
+        default_conf_threshold=0.18,
+        iou_threshold=0.75, # Permet aux boîtes parentes et enfants de coexister
         device=None
     ):
         self.model_name = model_name
@@ -149,9 +149,10 @@ class YoloWorldDetector:
             try:
                 results = self.model.predict(
                     frame_rgb,
-                    conf=0.18,
+                    conf=0.15,
                     iou=self.iou_threshold,
-                    agnostic_nms=False, # Argument Ultralytics exact pour NMS non-agnostique
+                    max_det=50,
+                    agnostic_nms=False,
                     device=self.device_name,
                     verbose=False
                 )
