@@ -3,10 +3,9 @@ dbot/vision/yolo_world.py — Détecteur Sémantique Zero-Shot YOLO-World v2
 ========================================================================
 Niveau 1 de la Triade Visuelle : Inférence Open-Vocabulary temps réel.
 
-Correction Avancée des Prompts & Priority Rules :
-- Prompts Anglais uniques non-ambigus (hand, phone, bottle, person, chair, table).
-- Seuils de confiance adaptés par classe (hand/phone plus sensibles).
-- Conversion BGR->RGB et restitution des labels en Français.
+Support Multi-Boîtes & Visualisation Multi-Couleurs :
+- Palette BGR distincte par classe (MAIN, TELEPHONE, BOUTEILLE, PERSONNE, TABLE, CHAISE, OBSTACLE).
+- NMS non-agnostique autorisant le chevauchement et l'imbrication des boîtes multi-classes.
 """
 
 import cv2
@@ -34,10 +33,22 @@ CLASS_CONF_THRESHOLDS = {
     "phone": 0.20,
     "bottle": 0.25,
     "obstacle": 0.25,
-    "person": 0.38,
-    "chair": 0.38,
-    "table": 0.35
+    "person": 0.35,
+    "chair": 0.35,
+    "table": 0.32
 }
+
+# Palette de couleurs vives BGR distinctes par classe
+CLASS_COLORS_BGR = {
+    "MAIN": (0, 255, 0),        # Vert Vif
+    "TELEPHONE": (255, 255, 0),  # Cyan / Jaune-Vert
+    "BOUTEILLE": (0, 165, 255),  # Orange
+    "PERSONNE": (255, 100, 0),   # Bleu Électrique
+    "TABLE": (255, 0, 180),      # Rose / Violet
+    "CHAISE": (180, 50, 255),    # Magenta
+    "OBSTACLE": (0, 0, 255)      # Rouge Vif
+}
+DEFAULT_COLOR = (200, 200, 200)
 
 class YoloWorldError(Exception):
     """Erreur personnalisée pour le module YOLO-World."""
@@ -51,15 +62,15 @@ class YoloWorldDetector:
         self,
         model_name="yolov8s-worldv2.pt",
         classes=None,
-        default_conf_threshold=0.25,
-        iou_threshold=0.35,
+        default_conf_threshold=0.22,
+        iou_threshold=0.45,
         device=None
     ):
         self.model_name = model_name
         self.default_conf_threshold = default_conf_threshold
         self.iou_threshold = iou_threshold
         self.model = None
-        self.user_classes_fr = classes or ["main", "telephone", "bouteille", "personne", "chaise", "table", "obstacle"]
+        self.user_classes_fr = classes or ["main", "telephone", "bouteille", "personne", "table", "chaise", "obstacle"]
         
         self.model_prompts_en = []
         self.prompt_to_fr_map = {}
@@ -136,11 +147,11 @@ class YoloWorldDetector:
 
         if self.model is not None:
             try:
-                # Utilisation d'un seuil bas en prédiction pour filtrer manuellement par classe après
                 results = self.model.predict(
                     frame_rgb,
                     conf=0.18,
                     iou=self.iou_threshold,
+                    agnostic=False, # Permet le chevauchement des boîtes de classes différentes !
                     device=self.device_name,
                     verbose=False
                 )
@@ -155,7 +166,6 @@ class YoloWorldDetector:
                         
                         raw_en_prompt = self.model_prompts_en[cls_id] if cls_id < len(self.model_prompts_en) else f"class_{cls_id}"
                         
-                        # Filtrage par seuil de confiance spécifique à la classe
                         min_conf = CLASS_CONF_THRESHOLDS.get(raw_en_prompt, self.default_conf_threshold)
                         if conf < min_conf:
                             continue
@@ -194,6 +204,9 @@ class YoloWorldDetector:
         return detections, latency_ms
 
     def annotate_frame(self, frame, detections):
+        """
+        Dessine les bboxes 2D avec des couleurs distinctes par classe et bannières colorées.
+        """
         annotated = frame.copy()
         for det in detections:
             x1, y1, x2, y2 = det["bbox"]
@@ -201,13 +214,30 @@ class YoloWorldDetector:
             conf = det["confidence"]
             cx, cy = det["center"]
 
-            cv2.rectangle(annotated, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            color = CLASS_COLORS_BGR.get(label.upper(), DEFAULT_COLOR)
+
+            # 1. Rectangle Bounding Box
+            cv2.rectangle(annotated, (x1, y1), (x2, y2), color, 2)
             cv2.circle(annotated, (cx, cy), 4, (0, 0, 255), -1)
 
+            # 2. Bannière de fond colorée pour le texte
             text = f"{label} {conf*100:.0f}%"
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            font_scale = 0.55
+            thickness = 2
+            
+            (text_w, text_h), baseline = cv2.getTextSize(text, font, font_scale, thickness)
+            
+            banner_y1 = max(0, y1 - text_h - 8)
+            banner_y2 = max(text_h + 8, y1)
+            
+            # Fond opaque de la couleur de la classe
+            cv2.rectangle(annotated, (x1, banner_y1), (x1 + text_w + 10, banner_y2), color, -1)
+            
+            # Texte blanc en contraste
             cv2.putText(
-                annotated, text, (x1, max(y1 - 8, 20)),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2
+                annotated, text, (x1 + 5, banner_y2 - 5),
+                font, font_scale, (255, 255, 255), thickness
             )
 
         return annotated

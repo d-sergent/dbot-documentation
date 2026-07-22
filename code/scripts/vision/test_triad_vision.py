@@ -4,8 +4,8 @@ scripts/vision/test_triad_vision.py — Test Complet de la Triade Visuelle D-Bot
 Couple OAK-D Pro (RGB-D + Laser IR), YOLO-World v2 (Inférence Zero-Shot) et
 SpatialFusion pour afficher en direct la position 3D (X, Y, Z) des objets repérés.
 
-Filtrage & Priorité Spatiale : Priorise MAIN et TELEPHONE sur la catégorie globale PERSONNE
-dans la zone de manipulation proche (< 1.2m).
+Option Debug / Photo Incrémentale : Enregistre des clichés numérotés et horodatés dans
+'/tmp/dbot_snapshots/snap_XXX_LABEL_DIST.jpg' avec surcouche visuelle multi-couleurs.
 """
 
 import cv2
@@ -20,7 +20,7 @@ if CODE_DIR not in sys.path:
     sys.path.insert(0, CODE_DIR)
 
 import depthai as dai
-from dbot.vision.yolo_world import YoloWorldDetector
+from dbot.vision.yolo_world import YoloWorldDetector, CLASS_COLORS_BGR, DEFAULT_COLOR
 from dbot.vision.spatial_fusion import SpatialFusion
 
 SNAPSHOT_DIR = "/tmp/dbot_snapshots"
@@ -108,7 +108,7 @@ def run_triad_test(save_snapshots=True):
             frame_rgb = in_rgb.getCvFrame()
             frame_depth = in_depth.getFrame()
 
-            # Étape 1 : Inférence YOLO-World
+            # Étape 1 : Inférence YOLO-World Multi-Boîtes (NMS agnostic=False)
             detections_2d, latency_ms = detector.detect(frame_rgb)
 
             # Étape 2 : Fusion Spatiale 3D
@@ -118,12 +118,6 @@ def run_triad_test(save_snapshots=True):
             fps_count += 1
             action_zone_dets = [d for d in detections_3d if 0 < d["spatial_3d"]["z_mm"] <= 1500]
 
-            # Règle de Priorité de Proximité : Si MAIN ou TELEPHONE est présent aux côtés de PERSONNE à < 1.2m,
-            # supprimer le doublon global PERSONNE pour éviter l'écrasement
-            has_fine_action = any(d["label"] in ["MAIN", "TELEPHONE", "BOUTEILLE"] for d in action_zone_dets)
-            if has_fine_action:
-                action_zone_dets = [d for d in action_zone_dets if not (d["label"] == "PERSONNE" and d["spatial_3d"]["z_mm"] <= 1200)]
-
             # Sauvegarde d'un cliché incrémental si détection dans la zone d'action (intervalle 1s)
             if save_snapshots and len(action_zone_dets) > 0 and (time.time() - last_snapshot_time > 1.0):
                 snapshot_counter += 1
@@ -132,13 +126,17 @@ def run_triad_test(save_snapshots=True):
                 first_label = action_zone_dets[0]["label"].upper()
                 first_dist = action_zone_dets[0]["spatial_3d"]["z_mm"]
 
+                # Ajout des coordonnées 3D sous chaque boîte avec la couleur respective de la classe
                 for det in action_zone_dets:
                     x1, y1, x2, y2 = det["bbox"]
+                    label = det["label"]
                     s = det["spatial_3d"]
+                    color = CLASS_COLORS_BGR.get(label.upper(), DEFAULT_COLOR)
+                    
                     pos_str = f"X:{s['x_mm']:.0f} Y:{s['y_mm']:.0f} Z:{s['z_mm']:.0f}mm"
                     cv2.putText(
                         annotated, pos_str, (x1, min(y2 + 20, annotated.shape[0] - 10)),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.55, color, 2
                     )
 
                 snapshot_filename = f"snap_{snapshot_counter:03d}_{first_label}_{first_dist:.0f}mm.jpg"
