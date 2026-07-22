@@ -217,7 +217,7 @@ class YoloWorldDetector:
             try:
                 predict_kwargs = {
                     "conf": 0.05,
-                    "iou": self.iou_threshold,
+                    "iou": 0.90,
                     "max_det": 100,
                     "agnostic_nms": False,
                     "verbose": False
