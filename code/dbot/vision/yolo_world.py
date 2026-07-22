@@ -159,47 +159,21 @@ class YoloWorldDetector:
             return "cpu"
 
     def _init_model(self):
-        """Initialise le modèle d'inférence (priorité au moteur .engine ou .onnx s'il est présent)."""
-        engine_candidate = self.model_name.replace(".pt", ".engine")
-        onnx_candidate = self.model_name.replace(".pt", ".onnx")
-        
-        if os.path.exists(engine_candidate):
-            target_load = engine_candidate
-        elif os.path.exists(onnx_candidate):
-            target_load = onnx_candidate
-        else:
-            target_load = self.model_name
+        """Initialise le modèle d'inférence Open-Vocabulary YOLO-World v2 (PyTorch/GPU)."""
+        target_load = self.model_name
         
         print(f"⏳ [YOLO-World] Chargement du modèle '{target_load}' (device={self.device_name})...")
         try:
             from ultralytics import YOLOWorld
             self.model = YOLOWorld(target_load)
             self.set_classes(self.user_classes_fr)
-            
-            is_trt = ".engine" in target_load
-            is_onnx = ".onnx" in target_load
-            
-            if is_trt:
-                backend_str = "TensorRT FP16 (GPU Accéléré)"
-            elif is_onnx:
-                backend_str = "ONNX Runtime"
-            else:
-                backend_str = f"PyTorch ({self.device_name})"
-                
-            print(f"✅ [YOLO-World] Modèle prêt via {backend_str}.")
+            print(f"✅ [YOLO-World] Modèle '{target_load}' prêt via PyTorch ({self.device_name}).")
         except ImportError:
             print("⚠ [YOLO-World] 'ultralytics' non installé. Mode Simulation.")
             self.model = None
         except Exception as e:
-            print(f"⚠ Erreur d'initialisation du modèle '{target_load}', tentative fallback : {e}")
-            try:
-                from ultralytics import YOLOWorld
-                self.model_name = "yolov8s-worldv2.pt"
-                self.model = YOLOWorld(self.model_name)
-                self.set_classes(self.user_classes_fr)
-            except Exception as ex:
-                print(f"⚠ Échec complet initialisation : {ex}")
-                self.model = None
+            print(f"⚠ Erreur d'initialisation du modèle '{target_load}' : {e}")
+            self.model = None
 
     def set_classes(self, classes_list_fr):
         """
