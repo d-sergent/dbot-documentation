@@ -1,8 +1,9 @@
 """
 dbot/vision/oak_camera.py — Interface matérielle pour Luxonis OAK-D Pro
 ======================================================================
-Gère le pipeline DepthAI, le flux RGB, le calcul de profondeur stéréo,
-le filtrage matériel WLS sur VPU Myriad X et le nœud SpatialLocationCalculator.
+Gère le pipeline DepthAI, le flux RGB Grand Angle (81° FOV via ISP Scale),
+le calcul de profondeur stéréo, le filtrage matériel WLS sur VPU Myriad X
+et le nœud SpatialLocationCalculator.
 Compatible DepthAI API v2 (Sans Deprecation Warnings).
 """
 
@@ -18,9 +19,8 @@ class OAKCameraError(Exception):
 
 class DbotCamera:
     """
-    Gestionnaire de la caméra OAK-D Pro avec déport matériel sur le VPU Myriad X :
-    - Filtre WLS matériel (Lissage de la profondeur sans charge CPU Jetson)
-    - SpatialLocationCalculator (Calcul 3D direct et détection d'obstacles proches < 500mm à < 5ms)
+    Gestionnaire de la caméra OAK-D Pro avec grand angle 81° (ISP Scaling sans Center Crop)
+    et déport matériel sur le VPU Myriad X (Filtre WLS + SpatialLocationCalculator).
     """
     def __init__(self, resolution="1080p", fps=30, enable_depth=True, hazard_distance_mm=500):
         self.pipeline = dai.Pipeline()
@@ -29,22 +29,23 @@ class DbotCamera:
         self.enable_depth = enable_depth
         self.hazard_distance_mm = hazard_distance_mm
         
-        # --- 1. Configuration du capteur RGB ---
+        # --- 1. Configuration du capteur RGB Grand Angle (81° FOV sans Center Crop) ---
         self.cam_rgb = self.pipeline.create(dai.node.ColorCamera)
         if resolution == "1080p":
             self.cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
+            self.cam_rgb.setIspScale(1, 3) # 1080p -> 640x360 via ISP (Plein Champ 81° FOV)
         else:
             self.cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_720_P)
+            self.cam_rgb.setIspScale(1, 2)
             
         self.cam_rgb.setBoardSocket(dai.CameraBoardSocket.CAM_A)
         self.cam_rgb.setInterleaved(False)
         self.cam_rgb.setFps(fps)
-        self.cam_rgb.setVideoSize(640, 360) # Taille optimisée pour l'IA et le stream
         
-        # Sortie Vidéo RGB
+        # Sortie Vidéo ISP (Plein Champ 81° FOV)
         self.xout_video = self.pipeline.create(dai.node.XLinkOut)
         self.xout_video.setStreamName("video")
-        self.cam_rgb.video.link(self.xout_video.input)
+        self.cam_rgb.isp.link(self.xout_video.input)
 
         # --- 2. Configuration Stéréo Depth & Filtre WLS VPU (Optionnel) ---
         if self.enable_depth:
@@ -101,7 +102,7 @@ class DbotCamera:
         if self.is_running:
             return
             
-        print("⏳ [Vision] Initialisation de l'OAK-D Pro avec déport VPU Myriad X...")
+        print("⏳ [Vision] Initialisation de l'OAK-D Pro (Grand Angle 81° FOV via ISP)...")
         try:
             self.device = dai.Device(self.pipeline)
             self.is_running = True
@@ -109,7 +110,7 @@ class DbotCamera:
             # Démarrage du thread de lecture
             self.thread = threading.Thread(target=self._run, daemon=True)
             self.thread.start()
-            print("✅ [Vision] Caméra OAK-D Pro & VPU matériels prêts.")
+            print("✅ [Vision] Caméra OAK-D Pro & VPU matériels prêts (Plein Champ 81°).")
         except Exception as e:
             raise OAKCameraError(f"Impossible de démarrer l'OAK-D : {e}")
 
@@ -121,7 +122,7 @@ class DbotCamera:
         
         while self.is_running:
             try:
-                # 1. Lecture de l'image RGB
+                # 1. Lecture de l'image RGB Grand Angle
                 frame_data = video_queue.get()
                 if frame_data:
                     frame = frame_data.getCvFrame()
@@ -205,7 +206,7 @@ if __name__ == "__main__":
         is_hazard, dist_mm = cam.check_hazard_alert()
         
         if frame is not None:
-            print(f"✅ Capture RGB réussie : {frame.shape}")
+            print(f"✅ Capture RGB Grand Angle 81° réussie : {frame.shape}")
         if depth is not None:
             print(f"✅ Capture Profondeur VPU réussie : {depth.shape}")
         print(f"🛡 Alerte Danger VPU (< 500mm) : {is_hazard} (Distance centrale: {dist_mm:.0f} mm)")
