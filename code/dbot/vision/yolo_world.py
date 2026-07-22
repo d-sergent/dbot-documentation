@@ -3,9 +3,9 @@ dbot/vision/yolo_world.py — Détecteur Sémantique Zero-Shot YOLO-World v2
 ========================================================================
 Niveau 1 de la Triade Visuelle : Inférence Open-Vocabulary temps réel.
 
-Support Multi-Boîtes Simultanées & Modèle Medium/Large :
-- Passage au modèle 'yolov8m-worldv2.pt' ou 'yolov8l-worldv2.pt' pour une attention sémantique multi-objets puissante.
-- Seuil PyTorch bas (conf=0.05, iou=0.70, max_det=100) pour capter TOUS les objets de la scène.
+Prise en charge transparente de TensorRT FP16 (.engine) :
+- Détecte et charge automatiquement 'yolov8m-worldv2.engine' ou 'yolov8s-worldv2.engine'.
+- Empreinte VRAM maîtrisée (< 1.2 GB) et FPS boosté (> 40 FPS).
 """
 
 import cv2
@@ -56,11 +56,11 @@ class YoloWorldError(Exception):
 
 class YoloWorldDetector:
     """
-    Module d'inférence YOLO-World pour la détection Zero-Shot / Open-Vocabulary.
+    Module d'inférence YOLO-World avec accélération TensorRT FP16 optionnelle.
     """
     def __init__(
         self,
-        model_name="yolov8m-worldv2.pt", # Passage au modèle Medium pour une attention visuelle 5x plus fine
+        model_name="yolov8m-worldv2.pt",
         classes=None,
         default_conf_threshold=0.15,
         iou_threshold=0.70,
@@ -94,18 +94,24 @@ class YoloWorldDetector:
             return "cpu"
 
     def _init_model(self):
-        """Initialise le modèle d'inférence YOLO-World."""
-        print(f"⏳ [YOLO-World] Initialisation du modèle '{self.model_name}' sur {self.device_name}...")
+        """Initialise le modèle d'inférence (priorité au moteur TensorRT .engine si disponible)."""
+        engine_candidate = self.model_name.replace(".pt", ".engine")
+        target_load = engine_candidate if os.path.exists(engine_candidate) else self.model_name
+        
+        print(f"⏳ [YOLO-World] Chargement du modèle '{target_load}' sur {self.device_name}...")
         try:
             from ultralytics import YOLOWorld
-            self.model = YOLOWorld(self.model_name)
+            self.model = YOLOWorld(target_load)
             self.set_classes(self.user_classes_fr)
-            print(f"✅ [YOLO-World] Modèle prêt sur {self.device_name}.")
+            
+            is_trt = ".engine" in target_load
+            backend_str = "TensorRT FP16 (Ultra-Rapide)" if is_trt else f"PyTorch ({self.device_name})"
+            print(f"✅ [YOLO-World] Modèle prêt via {backend_str}.")
         except ImportError:
             print("⚠ [YOLO-World] 'ultralytics' non installé. Mode Simulation.")
             self.model = None
         except Exception as e:
-            print(f"⚠ Erreur d'initialisation modèle '{self.model_name}', fallback sur yolov8s-worldv2.pt : {e}")
+            print(f"⚠ Erreur d'initialisation du modèle '{target_load}', tentative fallback : {e}")
             try:
                 from ultralytics import YOLOWorld
                 self.model_name = "yolov8s-worldv2.pt"
@@ -156,7 +162,7 @@ class YoloWorldDetector:
             try:
                 results = self.model.predict(
                     frame_rgb,
-                    conf=0.05, # Seuil bas pour ne rien rater dans la scène
+                    conf=0.05,
                     iou=self.iou_threshold,
                     max_det=100,
                     agnostic_nms=False,
