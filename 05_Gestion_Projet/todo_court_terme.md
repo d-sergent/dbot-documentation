@@ -49,6 +49,10 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Optimisation VPU Myriad X (OAK-D Pro)** :
   - Intégrer le filtre matériel WLS sur le VPU OAK-D pour combler les trous de la profondeur (économie de 25% CPU Jetson).
   - Configurer le nœud matériel **`SpatialLocationCalculator`** sur l'OAK-D pour générer des alertes de sécurité $3D$ ($Z < 500\text{ mm}$) à $< 5\text{ ms}$.
+- [ ] **Support du Français & Mappage Multilingue YOLO-World** :
+  - Intégrer un traducteur / mappage dynamique Français ➔ Anglais dans `yolo_world.py` pour accepter n'importe quel prompt sémantique en Français (ex: `"bouteille"` ➔ `"bottle"`, `"verre"` ➔ `"glass"`).
+- [ ] **Reconnaissance & Identification de Visages (Face Recognition / Tracking)** :
+  - Ajouter un module d'extraction d'embeddings faciaux (`face_tracker.py` / MobileFaceNet) pour reconnaître et identifier nommément les visages des membres du foyer.
 - [ ] **Expérience "Active Gaze" & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** :
   - Capturer le flux RGB 1080p de l'OAK-D Pro et exécuter l'inférence de repérage visuel (*Visual Grounding*) avec **LocateAnything-3B / NVIDIA Cosmos 3D Edge** **déporté sur le Mac M1 Max (64 Go)** via HTTP/gRPC.
   - Asservir le cou en Pan/Tilt pour qu'il centre physiquement l'objet ciblé au milieu du champ de vision ("Regarde la tasse").
