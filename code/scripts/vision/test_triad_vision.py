@@ -8,12 +8,21 @@ Option Debug / Photo Incrémentale : Enregistre des clichés numérotés et horo
 '/tmp/dbot_snapshots/snap_XXX_LABEL_DIST.jpg' lors de chaque détection proche (< 1.5m).
 """
 
-import depthai as dai
 import cv2
 import numpy as np
 import time
 import sys
 import os
+
+# Ingestion dynamique du chemin du projet dans sys.path
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+CODE_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "../../"))
+if CODE_DIR not in sys.path:
+    sys.path.insert(0, CODE_DIR)
+
+import depthai as dai
+from dbot.vision.yolo_world import YoloWorldDetector
+from dbot.vision.spatial_fusion import SpatialFusion
 
 SNAPSHOT_DIR = "/tmp/dbot_snapshots"
 LAST_SNAPSHOT_PATH = "/tmp/triad_last_detection.jpg"
