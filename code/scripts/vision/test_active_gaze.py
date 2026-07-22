@@ -5,9 +5,9 @@ Raccorde la Triade Visuelle (YOLO-World v2 multilingue + OAK-D Pro 81° FOV),
 la fusion spatiale 3D, le régulateur ActiveGazeTracker et les moteurs du cou RS-05.
 
 Fonctionnalités avancées :
+- Élimination des conflits NMS (le corps de 'personne' ne masque plus la 'main').
 - Seuil de confiance ultra-permissif (0.05) pour objets complexes (mains, téléphone).
 - Poursuite prédictive par inertie de vitesse (Predictive Gaze) si la cible s'échappe vite.
-- Débogage visuel enrichi du contexte de scène.
 
 Exécution sur la Jetson :
     python3 code/scripts/vision/test_active_gaze.py --target "main"
@@ -36,8 +36,13 @@ def run_active_gaze_test(target_prompt="main", enable_motors=True):
     target_clean = target_prompt.lower().strip()
     print(f"🚀 [Active Gaze] Démarrage du test pour la cible : '{target_clean}'...")
 
-    # Prompts incluant la cible + le contexte ambiant pour maximiser les logits relatives CLIP
-    context_classes = [target_clean, "main", "telephone", "bouteille", "personne", "table", "chaise"]
+    # Prompts de contexte adaptés pour éviter l'écrasement NMS
+    if target_clean in ["main", "hand", "bras"]:
+        # Exclure 'personne' pour éviter que la bounding box du corps entier ne masque la main
+        context_classes = [target_clean, "telephone", "bouteille", "tasse", "stylo"]
+    else:
+        context_classes = [target_clean, "main", "personne", "bouteille", "table", "chaise"]
+
     unique_classes = list(dict.fromkeys(context_classes))
 
     cam = DbotCamera(enable_depth=True)
@@ -89,7 +94,7 @@ def run_active_gaze_test(target_prompt="main", enable_motors=True):
                 if 0 < d["spatial_3d"]["z_mm"] <= 3500 and (
                     target_clean in d["label"].lower() or 
                     target_clean in d["raw_label_en"].lower() or
-                    (target_clean == "main" and d["raw_label_en"] == "hand")
+                    (target_clean in ["main", "hand"] and d["raw_label_en"] in ["hand", "main"])
                 )
             ]
 
