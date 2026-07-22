@@ -14,6 +14,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Barge-In Matériel (Interruption Vocal)** : Coupure instantanée de l'audio `aplay` et émission d'un signal d'interruption dès détection de parole utilisateur.
 - [x] **Inspection Mécanique & Fichiers CAO STEP** : Modèles RobStride RS00 / RS04 / RS05 / RS06 qualifiés sous Fusion 360 pour les assemblages d'articulation.
 - [x] **Stratégie d'Alimentation 48V à 3 Niveaux** : Schéma d'alimentation validé (Wanptek 60V/5A, MeanWell LRS-600-48 600W, Batterie 48V 13S NMC).
+- [x] **Triade Visuelle Temps Réel & Fusion Spatiale 3D** : Couplage OAK-D Pro + YOLO-World v2 Zero-Shot + SpatialFusion (`test_triad_vision.py`) avec détection multi-boîtes hiérarchique, classification multicolore et coordonnées $3D$ réelles $(X, Y, Z)$ en mm.
 
 ---
 
@@ -40,11 +41,15 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 
 ## 🎯 BLOCK 3 : Perception 3D, Regard Actif & IA Physique (OAK-D + Cosmos / LocateAnything)
 
-- [ ] **Expérience "Active Gaze" (`test_active_gaze.py`)** :
-  - Capturer le flux RGB 1080p de l'OAK-D Pro et exécuter l'inférence de repérage visuel (*Visual Grounding*) avec **LocateAnything-3B** (quantifié INT4 TensorRT sur Jetson) ou **NVIDIA Cosmos 3D Edge** (déporté Mac).
+- [x] **Triade Visuelle & Fusion Spatiale 3D (OAK-D Pro + YOLO-World v2)** :
+  - Intégration de YOLO-World v2 Zero-Shot (`yolov8m-worldv2.pt` / `.onnx` / `.engine`) avec NMS permissif et dictionnaire de couleurs vives BGR par classe (`MAIN`, `TELEPHONE`, `PERSONNE`, `TABLE`, `CHAISE`, `BOUTEILLE`).
+  - Association tridimensionnelle des boîtes $2D$ avec la carte de profondeur stéréo pour extraire les coordonnées physiques réelles $[X, Y, Z]$ en mm.
+- [ ] **Optimisation VPU Myriad X (OAK-D Pro)** :
+  - Intégrer le filtre matériel WLS sur le VPU OAK-D pour combler les trous de la profondeur (économie de 25% CPU Jetson).
+  - Configurer le nœud matériel **`SpatialLocationCalculator`** sur l'OAK-D pour générer des alertes de sécurité $3D$ ($Z < 500\text{ mm}$) à $< 5\text{ ms}$.
+- [ ] **Expérience "Active Gaze" & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** :
+  - Capturer le flux RGB 1080p de l'OAK-D Pro et exécuter l'inférence de repérage visuel (*Visual Grounding*) avec **LocateAnything-3B / NVIDIA Cosmos 3D Edge** **déporté sur le Mac M1 Max (64 Go)** via HTTP/gRPC.
   - Asservir le cou en Pan/Tilt pour qu'il centre physiquement l'objet ciblé au milieu du champ de vision ("Regarde la tasse").
-- [ ] **Calcul de Coordonnées 3D via DepthAI (OAK-D Pro)** :
-  - Configurer le nœud matériel **`SpatialLocationCalculator`** pour extraire directement les coordonnées réelles `[X, Y, Z]` (en mètres) de la zone d'intérêt sans surcharger la Jetson.
 
 ---
 
@@ -57,4 +62,3 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
   - Calculer et injecter le couple de compensation de gravité $G(q)$ via le feedforward $\tau_{ff}$ dans la commande des moteurs.
 - [ ] **Intégration Hugging Face `LeRobot`** : Adapter l'interface `LeRobot` pour enregistrer des téléopérations de bras et fabriquer des datasets de démonstration pour l'apprentissage par imitation (*ACT / Diffusion Policy*).
 - [ ] **Extension Web UI Flotte Complète** : Étendre l'interface de diagnostic Motorbridge à l'ensemble des 27 moteurs CAN du robot lors de l'assemblage des membres et du torse.
-

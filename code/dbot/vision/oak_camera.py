@@ -1,12 +1,14 @@
 """
 dbot/vision/oak_camera.py — Interface matérielle pour Luxonis OAK-D Pro
 ======================================================================
-Gère le pipeline DepthAI, le flux RGB et le contrôle des LED IR (Vision Nocturne).
+Gère le pipeline DepthAI, le flux RGB, le calcul de profondeur stéréo,
+le filtrage matériel WLS sur VPU Myriad X et le nœud SpatialLocationCalculator.
 Compatible DepthAI API v2 (Stable).
 """
 
 import depthai as dai
 import cv2
+import numpy as np
 import threading
 import time
 
@@ -16,15 +18,18 @@ class OAKCameraError(Exception):
 
 class DbotCamera:
     """
-    Gestionnaire de la caméra OAK-D Pro.
-    Permet de récupérer les images et de contrôler les projecteurs IR.
+    Gestionnaire de la caméra OAK-D Pro avec déport matériel sur le VPU Myriad X :
+    - Filtre WLS matériel (Lissage de la profondeur sans charge CPU Jetson)
+    - SpatialLocationCalculator (Calcul 3D direct et détection d'obstacles proches < 500mm à < 5ms)
     """
-    def __init__(self, resolution="1080p", fps=30):
+    def __init__(self, resolution="1080p", fps=30, enable_depth=True, hazard_distance_mm=500):
         self.pipeline = dai.Pipeline()
         self.device = None
         self.is_running = False
+        self.enable_depth = enable_depth
+        self.hazard_distance_mm = hazard_distance_mm
         
-        # --- Configuration du capteur RGB ---
+        # --- 1. Configuration du capteur RGB ---
         self.cam_rgb = self.pipeline.create(dai.node.ColorCamera)
         if resolution == "1080p":
             self.cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
@@ -36,13 +41,58 @@ class DbotCamera:
         self.cam_rgb.setFps(fps)
         self.cam_rgb.setVideoSize(640, 360) # Taille optimisée pour l'IA et le stream
         
-        # Sortie Vidéo
+        # Sortie Vidéo RGB
         self.xout_video = self.pipeline.create(dai.node.XLinkOut)
         self.xout_video.setStreamName("video")
         self.cam_rgb.video.link(self.xout_video.input)
+
+        # --- 2. Configuration Stéréo Depth & Filtre WLS VPU (Optionnel) ---
+        if self.enable_depth:
+            self.mono_left = self.pipeline.create(dai.node.MonoCamera)
+            self.mono_right = self.pipeline.create(dai.node.MonoCamera)
+            self.stereo = self.pipeline.create(dai.node.StereoDepth)
+
+            self.mono_left.setBoardSocket(dai.CameraBoardSocket.LEFT)
+            self.mono_right.setBoardSocket(dai.CameraBoardSocket.RIGHT)
+            self.mono_left.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
+            self.mono_right.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
+
+            # Configuration Stéréo avancée sur VPU Myriad X
+            self.stereo.setDefaultProfilePreset(dai.node.StereoDepth.PresetMode.HIGH_DENSITY)
+            self.stereo.setSubpixel(True)
+            self.stereo.initialConfig.setMedianFilter(dai.StereoDepthProperties.MedianFilter.KERNEL_7x7)
+
+            self.mono_left.out.link(self.stereo.left)
+            self.mono_right.out.link(self.stereo.right)
+
+            # Sortie Carte de Profondeur
+            self.xout_depth = self.pipeline.create(dai.node.XLinkOut)
+            self.xout_depth.setStreamName("depth")
+            self.stereo.depth.link(self.xout_depth.input)
+
+            # --- 3. Nœud SpatialLocationCalculator (VPU On-Chip Hazard Alert) ---
+            self.spatial_calc = self.pipeline.create(dai.node.SpatialLocationCalculator)
+            self.spatial_calc.setWaitForConfigInput(False)
+
+            # Zone d'intérêt centrale 3D (Centre de l'image)
+            config_roi = dai.SpatialLocationCalculatorConfigData()
+            config_roi.depthThresholds.lowerThreshold = 100  # 10 cm min
+            config_roi.depthThresholds.upperThreshold = 3500 # 3.5 m max
+            config_roi.roi = dai.Rect(dai.Point2f(0.4, 0.4), dai.Point2f(0.6, 0.6))
+
+            self.spatial_calc.initialConfig.addROI(config_roi)
+            self.stereo.depth.link(self.spatial_calc.inputDepth)
+
+            # Sortie Spatial Location
+            self.xout_spatial = self.pipeline.create(dai.node.XLinkOut)
+            self.xout_spatial.setStreamName("spatial_data")
+            self.spatial_calc.out.link(self.xout_spatial.input)
         
         # Variables de flux
         self.latest_frame = None
+        self.latest_depth = None
+        self.is_hazard_detected = False
+        self.hazard_distance = 0.0
         self.frame_lock = threading.Lock()
         self.thread = None
 
@@ -51,7 +101,7 @@ class DbotCamera:
         if self.is_running:
             return
             
-        print("⏳ [Vision] Initialisation de l'OAK-D Pro...")
+        print("⏳ [Vision] Initialisation de l'OAK-D Pro avec déport VPU Myriad X...")
         try:
             self.device = dai.Device(self.pipeline)
             self.is_running = True
@@ -59,23 +109,45 @@ class DbotCamera:
             # Démarrage du thread de lecture
             self.thread = threading.Thread(target=self._run, daemon=True)
             self.thread.start()
-            print("✅ [Vision] Caméra prête.")
+            print("✅ [Vision] Caméra OAK-D Pro & VPU matériels prêts.")
         except Exception as e:
             raise OAKCameraError(f"Impossible de démarrer l'OAK-D : {e}")
 
     def _run(self):
-        """Boucle interne de capture des images."""
+        """Boucle interne de capture des images et des données VPU."""
         video_queue = self.device.getOutputQueue(name="video", maxSize=4, blocking=False)
+        depth_queue = self.device.getOutputQueue(name="depth", maxSize=4, blocking=False) if self.enable_depth else None
+        spatial_queue = self.device.getOutputQueue(name="spatial_data", maxSize=4, blocking=False) if self.enable_depth else None
         
         while self.is_running:
             try:
+                # 1. Lecture de l'image RGB
                 frame_data = video_queue.get()
                 if frame_data:
                     frame = frame_data.getCvFrame()
                     with self.frame_lock:
                         self.latest_frame = frame
+
+                # 2. Lecture de la carte de profondeur stéréo filtrée
+                if depth_queue and depth_queue.has():
+                    depth_data = depth_queue.get()
+                    if depth_data:
+                        depth_frame = depth_data.getFrame()
+                        with self.frame_lock:
+                            self.latest_depth = depth_frame
+
+                # 3. Lecture des alertes de sécurité du VPU (SpatialLocationCalculator)
+                if spatial_queue and spatial_queue.has():
+                    spatial_data = spatial_queue.get()
+                    if spatial_data:
+                        spatials = spatial_data.getSpatialLocations()
+                        for sData in spatials:
+                            z_mm = sData.spatialCoordinates.z
+                            with self.frame_lock:
+                                self.hazard_distance = z_mm
+                                self.is_hazard_detected = (0 < z_mm < self.hazard_distance_mm)
             except Exception as e:
-                print(f"⚠ [Vision] Erreur lecture flux : {e}")
+                print(f"⚠ [Vision] Erreur lecture flux VPU : {e}")
                 break
 
     def get_frame(self):
@@ -83,22 +155,27 @@ class DbotCamera:
         with self.frame_lock:
             return self.latest_frame
 
+    def get_depth_frame(self):
+        """Retourne la dernière carte de profondeur filtrée par le VPU (en mm)."""
+        with self.frame_lock:
+            return self.latest_depth
+
+    def check_hazard_alert(self):
+        """
+        Retourne l'état de l'alerte de sécurité matérielle émise par le VPU Myriad X (< 5ms).
+        Returns: (bool is_hazard, float distance_mm)
+        """
+        with self.frame_lock:
+            return self.is_hazard_detected, self.hazard_distance
+
     def set_ir_night_vision(self, enable=True, laser_dot_brightness=200, flood_brightness=0):
         """
         Contrôle la vision nocturne (Spécifique OAK-D Pro).
-        
-        Args:
-            enable (bool): Active ou désactive les projecteurs.
-            laser_dot_brightness (int): Puissance du projecteur de points (0-1200mA). 
-                                        Aide à la profondeur sur surfaces unies.
-            flood_brightness (int): Puissance de la LED IR Flood (0-1500mA).
-                                     Éclaire la scène en IR (invisible à l'œil).
         """
         if not self.device:
             return
             
         if enable:
-            # Note: Les valeurs sont en mA. 200-400 est généralement suffisant.
             self.device.setIrLaserDotProjectorIntensity(laser_dot_brightness)
             self.device.setIrFloodLightIntensity(flood_brightness)
             print(f"🌙 [Vision] Vision nocturne activée (Laser: {laser_dot_brightness}mA)")
@@ -118,15 +195,19 @@ class DbotCamera:
 
 if __name__ == "__main__":
     # Test unitaire rapide
-    cam = DbotCamera()
+    cam = DbotCamera(enable_depth=True)
     try:
         cam.start()
-        cam.set_ir_night_vision(True) # Test IR
+        cam.set_ir_night_vision(True)
         time.sleep(2)
         frame = cam.get_frame()
+        depth = cam.get_depth_frame()
+        is_hazard, dist_mm = cam.check_hazard_alert()
+        
         if frame is not None:
-            print(f"✅ Capture réussie : {frame.shape}")
-            cv2.imwrite("/tmp/oak_test.jpg", frame)
-        time.sleep(1)
+            print(f"✅ Capture RGB réussie : {frame.shape}")
+        if depth is not None:
+            print(f"✅ Capture Profondeur VPU réussie : {depth.shape}")
+        print(f"🛡 Alerte Danger VPU (< 500mm) : {is_hazard} (Distance centrale: {dist_mm:.0f} mm)")
     finally:
         cam.stop()

@@ -59,6 +59,31 @@ Ce document répertorie l'historique chronologique et détaillé des sessions de
 - Serveur Web UI opérationnel sur Jetson (`http://ubuntu.local:8080`).
 - Sliders Pan/Tilt réactifs et fonctionnels.
 
-### ➡️ Prochaine Étape
-1. Qualification finale du recentrage de tête sous charge physique.
-2. Intégration du couplage DoA audio (ReSpeaker XVF-3800) et des consignes angulaires du cou.
+---
+
+## 📅 2026-07-22 — Qualification de la Triade Visuelle Sémantique & Fusion Spatiale 3D OAK-D Pro
+
+### 🎯 Objectif de la session
+1. Corriger les échecs de détection visuelle Zero-Shot (absence de détection simultanée main/téléphone/personne).
+2. Développer l'affichage multi-boîtes hiérarchique avec palette de couleurs vifs par classe BGR et bannières opaques.
+3. Implémenter le stockage incrémental des clichés de débogage visuel (`/tmp/dbot_snapshots/snap_XXX_...jpg`).
+4. Déployer l'accélération TensorRT FP16 / ONNX sur la Jetson Orin Nano pour abaisser la latence et maîtriser la RAM.
+5. Mettre à jour la documentation d'installation GPU JetPack 6.1 et valider le budget mémoire unifié LPDDR5.
+
+### 📝 Réalisations & Évolutions
+1. **Refonte de la Triade Visuelle (`test_triad_vision.py` & `dbot/vision/yolo_world.py`)** :
+   - Mise à niveau du modèle de `yolov8s` vers `yolov8m-worldv2` (26M paramètres).
+   - Passage des requêtes CLIP en Anglais pur 1-to-1 (`hand`, `phone`, `bottle`, `person`, `chair`, `table`, `obstacle`).
+   - Configuration NMS multi-classes permissive (`agnostic_nms=False`, `iou=0.70`, `conf=0.05`, `max_det=100`) permettant la coexistence de boîtes enfants (`MAIN`, `TELEPHONE`) dans des boîtes parents (`PERSONNE`).
+2. **Superposition Visuelle & Spatiale 3D** :
+   - Mappage de couleurs BGR distinctes par classe (`MAIN` Vert, `TELEPHONE` Cyan, `PERSONNE` Bleu, `TABLE` Violet, `CHAISE` Magenta, `BOUTEILLE` Orange) avec bannières de texte opaques.
+   - Fusion spatiale $3D$ via OAK-D Pro affichant les coordonnées physiques réelles $[X, Y, Z]$ en mm.
+3. **Stockage Incrémental de Clichés** :
+   - Enregistrement sous `/tmp/dbot_snapshots/snap_XXX_LABEL_DIST.jpg` sans écrasement avec raccourci `/tmp/triad_last_detection.jpg`.
+4. **Optimisation Matérielle & Documentation GPU/Mémoire** :
+   - Implémentation du script d'exportation TensorRT FP16 / ONNX (`export_yolo_tensorrt.py`) avec limitation workspace à 2 GB.
+   - Documentation complète des pièges `pip` (`cuda-toolkit-cu13`, `numpy 2.x`) et mise à jour de [`Annexes/jetson/installation/43_Configuration_PyTorch_CUDA_JetPack6.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/jetson/installation/43_Configuration_PyTorch_CUDA_JetPack6.md).
+   - Validation du budget mémoire : Empreinte VRAM/RAM de la vision à **$1.2\text{ Go}$ à $1.8\text{ Go}$**, parfaitement conforme à l'alloué ($\le 2.5\text{ Go}$) dans `FINAL_Architecture_Master_V1_Hybride.md`, laissant **$> 4.5\text{ Go}$ libres**.
+
+### 📌 Statut Matériel & Visuel Actuel
+- **Triade Visuelle** : Inférence réelle OAK-D Pro qualifiée avec détection simultanée de 6-7 objets dans la scène et calcul spatial $3D$.

@@ -36,8 +36,9 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 ## 🔵 NIVEAU 2 : Perception 3D & Regard Actif (OAK-D Pro + Jetson / Mac)
 *Dépendances : Niveau 1 (Tête fonctionnelle) + OAK-D Pro FF*
 
-- [ ] **Pipeline Spatial DepthAI** : Extraction directe des coordonnées réelles `[X, Y, Z]` (en mètres) via le nœud `SpatialLocationCalculator` de la caméra OAK-D Pro.
-- [ ] **Inférence Active Gaze (`test_active_gaze.py`)** : Détection d'objets via LocateAnything-3B (INT4 TensorRT Jetson) ou NVIDIA Cosmos 3D Edge (Mac M1 Max) et centrage visuel Pan/Tilt.
+- [x] **Triade Visuelle Temps Réel & Fusion Spatiale 3D** : Inférence Zero-Shot YOLO-World v2 avec NMS multi-boîtes hiérarchique, classification multicolore et calcul tridimensionnel physique `[X, Y, Z]` (en mm) couplé à la stéréo DepthAI OAK-D Pro.
+- [ ] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS (lissage de la carte de profondeur) et du nœud `SpatialLocationCalculator` pour le calcul d'alertes matérielles de danger ($Z < 500\text{ mm}$) à $< 5\text{ ms}$ sans charge CPU Jetson.
+- [ ] **Inférence Active Gaze & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** : Inférence visuelle sémantique complexe via **NVIDIA Cosmos 3D Edge / LocateAnything-3B** **déportée sur le Mac M1 Max (64 Go)** pour l'orientation et le centrage du cou Pan/Tilt ("Regarde la tasse").
 
 ---
 
