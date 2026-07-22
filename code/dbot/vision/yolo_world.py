@@ -239,7 +239,7 @@ class YoloWorldDetector:
                         
                         raw_en_prompt = self.model_prompts_en[cls_id] if cls_id < len(self.model_prompts_en) else f"class_{cls_id}"
                         
-                        min_conf = CLASS_CONF_THRESHOLDS.get(raw_en_prompt, self.default_conf_threshold)
+                        min_conf = min(CLASS_CONF_THRESHOLDS.get(raw_en_prompt, self.default_conf_threshold), self.default_conf_threshold)
                         if conf < min_conf:
                             continue
 

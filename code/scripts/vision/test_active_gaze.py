@@ -5,8 +5,9 @@ Raccorde la Triade Visuelle (YOLO-World v2 multilingue + OAK-D Pro 81° FOV),
 la fusion spatiale 3D, le régulateur ActiveGazeTracker et les moteurs du cou RS-05.
 
 Fonctionnalités avancées :
-- Seuil de confiance permissif (0.05) pour objets complexes (mains, téléphone).
+- Seuil de confiance ultra-permissif (0.05) pour objets complexes (mains, téléphone).
 - Poursuite prédictive par inertie de vitesse (Predictive Gaze) si la cible s'échappe vite.
+- Débogage visuel enrichi du contexte de scène.
 
 Exécution sur la Jetson :
     python3 code/scripts/vision/test_active_gaze.py --target "main"
@@ -36,11 +37,11 @@ def run_active_gaze_test(target_prompt="main", enable_motors=True):
     print(f"🚀 [Active Gaze] Démarrage du test pour la cible : '{target_clean}'...")
 
     # Prompts incluant la cible + le contexte ambiant pour maximiser les logits relatives CLIP
-    context_classes = [target_clean, "main", "personne", "bouteille", "table", "chaise"]
+    context_classes = [target_clean, "main", "telephone", "bouteille", "personne", "table", "chaise"]
     unique_classes = list(dict.fromkeys(context_classes))
 
     cam = DbotCamera(enable_depth=True)
-    # Seuil permissif à 0.05 pour capturer les mains et petits objets instantanément
+    # Seuil ultra-permissif à 0.05
     detector = YoloWorldDetector(model_name="yolov8m-worldv2.pt", classes=unique_classes, default_conf_threshold=0.05)
     fusion = SpatialFusion()
     gaze_tracker = ActiveGazeTracker(kp_pan=0.45, kp_tilt=0.45)
@@ -82,12 +83,13 @@ def run_active_gaze_test(target_prompt="main", enable_motors=True):
             # 2. Fusion Spatiale 3D
             dets_3d = fusion.compute_spatial_3d(dets_2d, frame_depth)
 
-            # Target matching
+            # Target matching élargi
             matching_dets = [
                 d for d in dets_3d 
                 if 0 < d["spatial_3d"]["z_mm"] <= 3500 and (
                     target_clean in d["label"].lower() or 
-                    target_clean in d["raw_label_en"].lower()
+                    target_clean in d["raw_label_en"].lower() or
+                    (target_clean == "main" and d["raw_label_en"] == "hand")
                 )
             ]
 
@@ -120,7 +122,9 @@ def run_active_gaze_test(target_prompt="main", enable_motors=True):
                         curr_pan = pred_pan
                         curr_tilt = pred_tilt
                 else:
-                    print(f"⚪ Aucune détection pour '{target_clean}' dans la scène.")
+                    scene_labels = [f"{d['label']}:{d['confidence']*100:.0f}%" for d in dets_3d]
+                    scene_str = ", ".join(scene_labels) if scene_labels else "aucun objet"
+                    print(f"⚪ Aucune détection pour '{target_clean}'. Scène actuelle : [{scene_str}]")
 
             time.sleep(0.08)
     finally:
