@@ -3,8 +3,9 @@ dbot/vision/yolo_world.py — Détecteur Sémantique Zero-Shot YOLO-World v2
 ========================================================================
 Niveau 1 de la Triade Visuelle : Inférence Open-Vocabulary temps réel.
 
-Incorpore la conversion automatique BGR->RGB pour les flux OAK-D Pro et le mappage
-de prompts Anglais CLIP avec restitution des résultats en Français.
+Enrichissement des Prompts : Utilise des ensembles de synonymes descriptifs CLIP
+en Anglais pour maximiser la détection des mains, smartphones et objets proches,
+et regroupe les résultats sous des étiquettes Françaises propres.
 """
 
 import cv2
@@ -13,21 +14,15 @@ import time
 import os
 import sys
 
-# Dictionnaire de correspondance Français -> Anglais CLIP
-FR_TO_EN_PROMPTS = {
-    "main": "hand",
-    "telephone": "mobile phone",
-    "bouteille": "bottle",
-    "personne": "person",
-    "chaise": "chair",
-    "obstacle": "obstacle",
-    "escalier": "stairs",
-    "verre": "glass",
-    "stylo": "pen",
-    "livre": "book"
+# Dictionnaire de correspondance Français -> Ensembles de Prompts CLIP Descriptifs en Anglais
+FR_TO_CLIP_ENSEMBLES = {
+    "main": ["human hand", "open hand", "hand", "forearm", "human arm"],
+    "telephone": ["smartphone", "mobile phone", "cell phone", "holding a phone", "phone screen"],
+    "bouteille": ["water bottle", "plastic bottle", "bottle"],
+    "personne": ["person", "human body", "human"],
+    "chaise": ["chair", "wooden chair", "armchair", "sofa"],
+    "obstacle": ["obstacle", "barrier"]
 }
-
-EN_TO_FR_PROMPTS = {v: k for k, v in FR_TO_EN_PROMPTS.items()}
 
 class YoloWorldError(Exception):
     """Erreur personnalisée pour le module YOLO-World."""
@@ -41,14 +36,16 @@ class YoloWorldDetector:
         self,
         model_name="yolov8s-worldv2.pt",
         classes=None,
-        confidence_threshold=0.30,
+        confidence_threshold=0.25,
         device=None
     ):
         self.model_name = model_name
         self.confidence_threshold = confidence_threshold
         self.model = None
         self.user_classes_fr = classes or ["main", "telephone", "bouteille", "personne", "chaise", "obstacle"]
-        self.model_classes_en = []
+        
+        self.model_prompts_en = []
+        self.prompt_to_fr_map = {}
         
         self.device_name = device or self._detect_best_device()
         self._init_model()
@@ -86,14 +83,24 @@ class YoloWorldDetector:
     def set_classes(self, classes_list_fr):
         """
         Met à jour à chaud la liste des requêtes textuelles.
-        Convertit automatiquement les termes Français vers l'Anglais pour CLIP.
+        Génère un ensemble de prompts Anglais descriptifs pour CLIP.
         """
         self.user_classes_fr = classes_list_fr
-        self.model_classes_en = [FR_TO_EN_PROMPTS.get(c.lower().strip(), c.lower().strip()) for c in classes_list_fr]
-        
+        self.model_prompts_en = []
+        self.prompt_to_fr_map = {}
+
+        for fr_cat in classes_list_fr:
+            cat_key = fr_cat.lower().strip()
+            descriptors = FR_TO_CLIP_ENSEMBLES.get(cat_key, [cat_key])
+            for desc in descriptors:
+                self.model_prompts_en.append(desc)
+                self.prompt_to_fr_map[desc] = fr_cat.upper()
+
         if self.model is not None:
             try:
-                self.model.set_classes(self.model_classes_en)
+                self.model.set_classes(self.model_prompts_en)
+                print(f"🎯 [YOLO-World] Ensembles de prompts CLIP Anglais ({len(self.model_prompts_en)}) : {self.model_prompts_en}")
+                print(f"🇫🇷 [YOLO-World] Prompts utilisateur regroupés (Français) : {self.user_classes_fr}")
             except Exception as e:
                 print(f"⚠ Erreur mise à jour classes : {e}")
 
@@ -128,8 +135,8 @@ class YoloWorldDetector:
                         conf = float(box.conf[0].cpu().numpy())
                         cls_id = int(box.cls[0].cpu().numpy())
                         
-                        raw_en_label = self.model_classes_en[cls_id] if cls_id < len(self.model_classes_en) else f"class_{cls_id}"
-                        fr_label = EN_TO_FR_PROMPTS.get(raw_en_label, raw_en_label)
+                        raw_en_prompt = self.model_prompts_en[cls_id] if cls_id < len(self.model_prompts_en) else f"class_{cls_id}"
+                        fr_label = self.prompt_to_fr_map.get(raw_en_prompt, raw_en_prompt.upper())
 
                         cx = int((x1 + x2) / 2)
                         cy = int((y1 + y2) / 2)
@@ -149,7 +156,7 @@ class YoloWorldDetector:
         else:
             h, w = frame_bgr.shape[:2]
             detections.append({
-                "label": self.user_classes_fr[0] if self.user_classes_fr else "objet",
+                "label": self.user_classes_fr[0].upper() if self.user_classes_fr else "OBJET",
                 "confidence": 0.92,
                 "bbox": (int(w*0.3), int(h*0.3), int(w*0.7), int(h*0.7)),
                 "center": (int(w*0.5), int(h*0.5))
