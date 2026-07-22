@@ -1,8 +1,8 @@
 """
 scripts/vision/test_triad_vision.py — Test Complet de la Triade Visuelle D-Bot
 ===============================================================================
-Couple OAK-D Pro (RGB-D + Laser IR), YOLO-World v2 (Inférence Zero-Shot) et
-SpatialFusion pour afficher en direct la position 3D (X, Y, Z) des objets repérés.
+Couple OAK-D Pro (via DbotCamera avec déport VPU Myriad X), YOLO-World v2 (Zero-Shot TensorRT/ONNX)
+et SpatialFusion pour afficher en direct la position 3D (X, Y, Z) des objets repérés.
 
 Option Debug / Photo Incrémentale : Enregistre des clichés numérotés et horodatés dans
 '/tmp/dbot_snapshots/snap_XXX_LABEL_DIST.jpg' avec surcouche visuelle multi-couleurs complète.
@@ -19,7 +19,7 @@ CODE_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "../../"))
 if CODE_DIR not in sys.path:
     sys.path.insert(0, CODE_DIR)
 
-import depthai as dai
+from dbot.vision.oak_camera import DbotCamera
 from dbot.vision.yolo_world import YoloWorldDetector, CLASS_COLORS_BGR, DEFAULT_COLOR
 from dbot.vision.spatial_fusion import SpatialFusion
 
@@ -27,7 +27,7 @@ SNAPSHOT_DIR = "/tmp/dbot_snapshots"
 LAST_SNAPSHOT_PATH = "/tmp/triad_last_detection.jpg"
 
 def run_triad_test(save_snapshots=True):
-    print("🚀 [Triade Visuelle] Démarrage du test d'intégration en situation réelle...")
+    print("🚀 [Triade Visuelle] Démarrage du test d'intégration avec déport VPU OAK-D...")
 
     if save_snapshots:
         os.makedirs(SNAPSHOT_DIR, exist_ok=True)
@@ -38,83 +38,37 @@ def run_triad_test(save_snapshots=True):
     
     detector = YoloWorldDetector(model_name="yolov8m-worldv2.pt", classes=target_classes)
     fusion = SpatialFusion()
+    cam = DbotCamera(enable_depth=True, hazard_distance_mm=500)
 
-    # Configuration Pipeline DepthAI
-    pipeline = dai.Pipeline()
+    cam.start()
+    cam.set_ir_night_vision(True, laser_dot_brightness=200)
 
-    cam_rgb = pipeline.create(dai.node.ColorCamera)
-    mono_left = pipeline.create(dai.node.MonoCamera)
-    mono_right = pipeline.create(dai.node.MonoCamera)
-    stereo = pipeline.create(dai.node.StereoDepth)
+    print("\n✅ Triade Visuelle Active ! Approchez votre main, votre téléphone ou une bouteille (< 1.5 m).")
+    print(f"📸 Clichés incrémentaux activés dans '{SNAPSHOT_DIR}'.")
+    print("🔍 Surveillance en cours... Appuyez sur Ctrl+C pour quitter.\n")
 
-    xout_rgb = pipeline.create(dai.node.XLinkOut)
-    xout_depth = pipeline.create(dai.node.XLinkOut)
+    fps_count = 0
+    snapshot_counter = 0
+    t_start = time.time()
+    last_snapshot_time = 0
 
-    xout_rgb.setStreamName("rgb")
-    xout_depth.setStreamName("depth")
-
-    cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
-    cam_rgb.setIspScale(1, 3) # 1080p -> 640x360
-    cam_rgb.setBoardSocket(dai.CameraBoardSocket.CAM_A)
-    cam_rgb.setFps(30)
-    cam_rgb.setInterleaved(False)
-
-    mono_left.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
-    mono_left.setBoardSocket(dai.CameraBoardSocket.CAM_B)
-    mono_left.setFps(30)
-
-    mono_right.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
-    mono_right.setBoardSocket(dai.CameraBoardSocket.CAM_C)
-    mono_right.setFps(30)
-
-    stereo.setDefaultProfilePreset(dai.node.StereoDepth.PresetMode.HIGH_DENSITY)
-    stereo.initialConfig.setMedianFilter(dai.MedianFilter.KERNEL_7x7)
-    stereo.setLeftRightCheck(True)
-    stereo.setExtendedDisparity(True)
-    stereo.setDepthAlign(dai.CameraBoardSocket.CAM_A)
-
-    mono_left.out.link(stereo.left)
-    mono_right.out.link(stereo.right)
-    cam_rgb.isp.link(xout_rgb.input)
-    stereo.depth.link(xout_depth.input)
-
-    print("⏳ Connexion à la caméra OAK-D Pro et activation du Laser IR...")
-    with dai.Device(pipeline) as device:
-        try:
-            device.setIrLaserDotProjectorIntensity(200)
-            print("🌙 Projecteur Laser IR actif à 200 mA.")
-        except Exception as e:
-            print(f"⚠ Avertissement Laser IR : {e}")
-
-        q_rgb = device.getOutputQueue(name="rgb", maxSize=4, blocking=False)
-        q_depth = device.getOutputQueue(name="depth", maxSize=4, blocking=False)
-
-        print("\n✅ Triade Visuelle Active ! Approchez votre main, votre téléphone ou une bouteille (< 1.5 m).")
-        print(f"📸 Clichés incrémentaux activés dans '{SNAPSHOT_DIR}'.")
-        print("🔍 Surveillance en cours... Appuyez sur Ctrl+C pour quitter.\n")
-
-        fps_count = 0
-        snapshot_counter = 0
-        t_start = time.time()
-        last_snapshot_time = 0
-
+    try:
         while True:
-            in_rgb = q_rgb.get()
-            in_depth = q_depth.get()
+            frame_rgb = cam.get_frame()
+            frame_depth = cam.get_depth_frame()
+            is_hazard, hazard_dist_mm = cam.check_hazard_alert()
 
-            if in_rgb is None or in_depth is None:
+            if frame_rgb is None or frame_depth is None:
+                time.sleep(0.01)
                 continue
 
-            frame_rgb = in_rgb.getCvFrame()
-            frame_depth = in_depth.getFrame()
-
-            # Étape 1 : Inférence YOLO-World (Modèle Medium v8m, conf=0.05)
+            # Étape 1 : Inférence YOLO-World (Modèle Medium v8m, TensorRT/ONNX/PyTorch)
             detections_2d, latency_ms = detector.detect(frame_rgb)
 
             # Étape 2 : Fusion Spatiale 3D
             detections_3d = fusion.compute_spatial_3d(detections_2d, frame_depth)
 
-            # Étape 3 : Filtrage Zone d'Action (< 2.0 m pour tout capturer dans la pièce)
+            # Étape 3 : Filtrage Zone d'Action (< 3.5 m pour tout capturer dans la pièce)
             fps_count += 1
             all_valid_dets = [d for d in detections_3d if 0 < d["spatial_3d"]["z_mm"] <= 3500]
 
@@ -150,7 +104,8 @@ def run_triad_test(save_snapshots=True):
                 last_snapshot_time = time.time()
 
             if time.time() - t_start >= 1.0:
-                print(f"⚡ [Triade Stats] FPS: {fps_count} | Latence Inférence: {latency_ms:.1f} ms | Détections totales scène: {len(all_valid_dets)}")
+                hazard_str = f" 🛡 DANGER VPU: {hazard_dist_mm:.0f}mm" if is_hazard else ""
+                print(f"⚡ [Triade Stats] FPS: {fps_count} | Latence Inférence: {latency_ms:.1f} ms | Détections: {len(all_valid_dets)}{hazard_str}")
                 
                 if len(all_valid_dets) > 0:
                     for det in all_valid_dets:
@@ -166,6 +121,8 @@ def run_triad_test(save_snapshots=True):
                 t_start = time.time()
 
             time.sleep(0.01)
+    finally:
+        cam.stop()
 
 if __name__ == "__main__":
     try:
