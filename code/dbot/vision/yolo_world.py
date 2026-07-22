@@ -3,9 +3,9 @@ dbot/vision/yolo_world.py — Détecteur Sémantique Zero-Shot YOLO-World v2
 ========================================================================
 Niveau 1 de la Triade Visuelle : Inférence Open-Vocabulary temps réel.
 
-Enrichissement des Prompts : Utilise des ensembles de synonymes descriptifs CLIP
-en Anglais pour maximiser la détection des mains, smartphones et objets proches,
-et regroupe les résultats sous des étiquettes Françaises propres.
+Incorpore la gestion du NMS imbriqué (iou=0.35) pour isoler les objets tenus en main,
+ainsi que l'ajout des catégories de mobilier (table, meuble) pour éviter les fausses
+classifications de chaises.
 """
 
 import cv2
@@ -16,11 +16,12 @@ import sys
 
 # Dictionnaire de correspondance Français -> Ensembles de Prompts CLIP Descriptifs en Anglais
 FR_TO_CLIP_ENSEMBLES = {
-    "main": ["human hand", "open hand", "hand", "forearm", "human arm"],
+    "main": ["human hand", "open hand", "hand holding an object", "forearm"],
     "telephone": ["smartphone", "mobile phone", "cell phone", "holding a phone", "phone screen"],
     "bouteille": ["water bottle", "plastic bottle", "bottle"],
+    "table": ["table", "coffee table", "wooden table", "desk"],
     "personne": ["person", "human body", "human"],
-    "chaise": ["chair", "wooden chair", "armchair", "sofa"],
+    "chaise": ["chair", "armchair", "sofa"],
     "obstacle": ["obstacle", "barrier"]
 }
 
@@ -36,13 +37,15 @@ class YoloWorldDetector:
         self,
         model_name="yolov8s-worldv2.pt",
         classes=None,
-        confidence_threshold=0.25,
+        confidence_threshold=0.35,
+        iou_threshold=0.35,
         device=None
     ):
         self.model_name = model_name
         self.confidence_threshold = confidence_threshold
+        self.iou_threshold = iou_threshold
         self.model = None
-        self.user_classes_fr = classes or ["main", "telephone", "bouteille", "personne", "chaise", "obstacle"]
+        self.user_classes_fr = classes or ["main", "telephone", "bouteille", "table", "personne", "chaise", "obstacle"]
         
         self.model_prompts_en = []
         self.prompt_to_fr_map = {}
@@ -100,14 +103,13 @@ class YoloWorldDetector:
             try:
                 self.model.set_classes(self.model_prompts_en)
                 print(f"🎯 [YOLO-World] Ensembles de prompts CLIP Anglais ({len(self.model_prompts_en)}) : {self.model_prompts_en}")
-                print(f"🇫🇷 [YOLO-World] Prompts utilisateur regroupés (Français) : {self.user_classes_fr}")
+                print(f"🇫🇷 [YOLO-World] Prompts utilisateur (Français) : {self.user_classes_fr}")
             except Exception as e:
                 print(f"⚠ Erreur mise à jour classes : {e}")
 
     def detect(self, frame_bgr):
         """
-        Exécute la détection Zero-Shot sur une image BGR OpenCV.
-        Convertit automatiquement BGR -> RGB pour l'inférence CLIP.
+        Exécute la détection Zero-Shot sur une image BGR OpenCV avec conversion RGB.
         """
         if frame_bgr is None:
             return [], 0.0
@@ -123,6 +125,7 @@ class YoloWorldDetector:
                 results = self.model.predict(
                     frame_rgb,
                     conf=self.confidence_threshold,
+                    iou=self.iou_threshold, # Permet aux objets tenus en main de ne pas être supprimés
                     device=self.device_name,
                     verbose=False
                 )

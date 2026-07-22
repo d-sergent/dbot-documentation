@@ -14,7 +14,6 @@ import time
 import sys
 import os
 
-# Ingestion dynamique du chemin du projet dans sys.path
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CODE_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "../../"))
 if CODE_DIR not in sys.path:
@@ -30,16 +29,15 @@ LAST_SNAPSHOT_PATH = "/tmp/triad_last_detection.jpg"
 def run_triad_test(save_snapshots=True):
     print("🚀 [Triade Visuelle] Démarrage du test d'intégration en situation réelle...")
 
-    # Création du dossier de stockage incrémental
     if save_snapshots:
         os.makedirs(SNAPSHOT_DIR, exist_ok=True)
         print(f"📁 Dossier de clichés incrémentaux : '{SNAPSHOT_DIR}'")
 
-    # Prompts cibles
-    target_classes = ["main", "telephone", "bouteille", "personne", "chaise", "obstacle"]
+    # Prompts cibles incluant le mobilier courant (table) pour éviter les déductions erronées
+    target_classes = ["main", "telephone", "bouteille", "table", "personne", "chaise", "obstacle"]
     print(f"🎯 Prompts sémantiques cibles : {target_classes}")
     
-    detector = YoloWorldDetector(confidence_threshold=0.28, classes=target_classes)
+    detector = YoloWorldDetector(confidence_threshold=0.35, iou_threshold=0.35, classes=target_classes)
     fusion = SpatialFusion()
 
     # Configuration Pipeline DepthAI
@@ -111,7 +109,7 @@ def run_triad_test(save_snapshots=True):
             frame_rgb = in_rgb.getCvFrame()
             frame_depth = in_depth.getFrame()
 
-            # Étape 1 : Inférence YOLO-World (avec conversion BGR->RGB interne)
+            # Étape 1 : Inférence YOLO-World (avec conversion BGR->RGB et NMS iou=0.35)
             detections_2d, latency_ms = detector.detect(frame_rgb)
 
             # Étape 2 : Fusion Spatiale 3D
@@ -139,12 +137,11 @@ def run_triad_test(save_snapshots=True):
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2
                     )
 
-                # Nom unique avec numéro d'ordre, label principal et distance
                 snapshot_filename = f"snap_{snapshot_counter:03d}_{first_label}_{first_dist:.0f}mm.jpg"
                 snapshot_filepath = os.path.join(SNAPSHOT_DIR, snapshot_filename)
                 
                 cv2.imwrite(snapshot_filepath, annotated)
-                cv2.imwrite(LAST_SNAPSHOT_PATH, annotated) # Copie sur /tmp/triad_last_detection.jpg pour vue directe
+                cv2.imwrite(LAST_SNAPSHOT_PATH, annotated)
                 
                 last_snapshot_time = time.time()
 
