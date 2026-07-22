@@ -3,9 +3,9 @@ dbot/vision/yolo_world.py — Détecteur Sémantique Zero-Shot YOLO-World v2
 ========================================================================
 Niveau 1 de la Triade Visuelle : Inférence Open-Vocabulary temps réel.
 
-Prise en charge transparente de TensorRT FP16 (.engine) :
-- Détecte et charge automatiquement 'yolov8m-worldv2.engine' ou 'yolov8s-worldv2.engine'.
-- Empreinte VRAM maîtrisée (< 1.2 GB) et FPS boosté (> 40 FPS).
+Prise en charge robuste du device (CUDA vs CPU) et des moteurs TensorRT / ONNX :
+- Détection dynamique de PyTorch CUDA (torch.cuda.is_available()).
+- Support des extensions .engine et .onnx.
 """
 
 import cv2
@@ -56,7 +56,7 @@ class YoloWorldError(Exception):
 
 class YoloWorldDetector:
     """
-    Module d'inférence YOLO-World avec accélération TensorRT FP16 optionnelle.
+    Module d'inférence YOLO-World avec détection robuste du backend matériel.
     """
     def __init__(
         self,
@@ -94,18 +94,33 @@ class YoloWorldDetector:
             return "cpu"
 
     def _init_model(self):
-        """Initialise le modèle d'inférence (priorité au moteur TensorRT .engine si disponible)."""
+        """Initialise le modèle d'inférence (priorité au moteur .engine ou .onnx s'il est présent)."""
         engine_candidate = self.model_name.replace(".pt", ".engine")
-        target_load = engine_candidate if os.path.exists(engine_candidate) else self.model_name
+        onnx_candidate = self.model_name.replace(".pt", ".onnx")
         
-        print(f"⏳ [YOLO-World] Chargement du modèle '{target_load}' sur {self.device_name}...")
+        if os.path.exists(engine_candidate):
+            target_load = engine_candidate
+        elif os.path.exists(onnx_candidate):
+            target_load = onnx_candidate
+        else:
+            target_load = self.model_name
+        
+        print(f"⏳ [YOLO-World] Chargement du modèle '{target_load}' (device={self.device_name})...")
         try:
             from ultralytics import YOLOWorld
             self.model = YOLOWorld(target_load)
             self.set_classes(self.user_classes_fr)
             
             is_trt = ".engine" in target_load
-            backend_str = "TensorRT FP16 (Ultra-Rapide)" if is_trt else f"PyTorch ({self.device_name})"
+            is_onnx = ".onnx" in target_load
+            
+            if is_trt:
+                backend_str = "TensorRT FP16 (GPU Accéléré)"
+            elif is_onnx:
+                backend_str = "ONNX Runtime"
+            else:
+                backend_str = f"PyTorch ({self.device_name})"
+                
             print(f"✅ [YOLO-World] Modèle prêt via {backend_str}.")
         except ImportError:
             print("⚠ [YOLO-World] 'ultralytics' non installé. Mode Simulation.")
@@ -160,15 +175,20 @@ class YoloWorldDetector:
 
         if self.model is not None:
             try:
-                results = self.model.predict(
-                    frame_rgb,
-                    conf=0.05,
-                    iou=self.iou_threshold,
-                    max_det=100,
-                    agnostic_nms=False,
-                    device=self.device_name,
-                    verbose=False
-                )
+                # Transmettre le device exact ("cuda" si disponible, sinon "cpu")
+                predict_kwargs = {
+                    "conf": 0.05,
+                    "iou": self.iou_threshold,
+                    "max_det": 100,
+                    "agnostic_nms": False,
+                    "verbose": False
+                }
+                if self.device_name == "cuda":
+                    predict_kwargs["device"] = 0
+                else:
+                    predict_kwargs["device"] = "cpu"
+
+                results = self.model.predict(frame_rgb, **predict_kwargs)
                 
                 if results and len(results) > 0:
                     boxes = results[0].boxes
