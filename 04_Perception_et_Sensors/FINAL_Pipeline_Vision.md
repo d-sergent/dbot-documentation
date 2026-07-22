@@ -22,6 +22,7 @@ La stratégie visuelle du D-Bot repose sur une **répartition à 3 niveaux** opt
 
 ## 2. Intégration Mécanique & Optique
 
+- **Champ de Vision Optique (FOV)** : Conservation du grand angle optique complet (**81° FOV**) sans rognage (*Center Crop*) grâce au scaling matériel ISP (`setIspScale(1, 3)`).
 - **Dimensions du perçage** : **98 x 30 mm** (prévoir +0.5 mm de tolérance).
 - **Fixation** : 2x vis M3, entraxe de **75 mm**, centrées.
 - **Passage Câble** : Encoche de **18 mm** en bas pour le connecteur USB-C coudé.
@@ -32,7 +33,7 @@ La stratégie visuelle du D-Bot repose sur une **répartition à 3 niveaux** opt
 ## 3. Architecture Logicielle (`dbot/vision`)
 
 Le système de vision est structuré autour de quatre modules Python principaux :
-- **`code/dbot/vision/oak_camera.py`** : Interface DepthAI v2 gérant le capteur RGB, la stéréo active IR, le filtre matériel WLS et le nœud `SpatialLocationCalculator`.
+- **`code/dbot/vision/oak_camera.py`** : Interface DepthAI v2 gérant le capteur RGB en plein champ 81° FOV, la stéréo active IR, le filtre matériel WLS et le nœud `SpatialLocationCalculator`.
 - **`code/dbot/vision/yolo_world.py`** : Moteur d'inférence sémantique Zero-Shot YOLO-World v2 avec accélération TensorRT FP16 / ONNX et superposition multi-couleurs.
 - **`code/dbot/vision/spatial_fusion.py`** : Fusion spatiale tridimensionnelle associant les Bounding Boxes $2D$ et la carte de profondeur pour extraire les coordonnées physiques réelles $[X, Y, Z]$ en mm.
 - **`code/scripts/vision/test_triad_vision.py`** : Script de qualification sur le terrain avec sauvegarde incrémentale sous `/tmp/dbot_snapshots/snap_XXX_...jpg`.

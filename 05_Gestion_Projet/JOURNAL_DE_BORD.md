@@ -69,6 +69,7 @@ Ce document répertorie l'historique chronologique et détaillé des sessions de
 3. Implémenter le stockage incrémental des clichés de débogage visuel (`/tmp/dbot_snapshots/snap_XXX_...jpg`).
 4. Déployer l'accélération TensorRT FP16 / ONNX sur la Jetson Orin Nano pour abaisser la latence et maîtriser la RAM.
 5. Mettre à jour la documentation d'installation GPU JetPack 6.1 et valider le budget mémoire unifié LPDDR5.
+6. Implémenter le déport VPU Myriad X (Filtre WLS + `SpatialLocationCalculator`) et restaurer le plein champ optique (81° FOV via ISP Scaling).
 
 ### 📝 Réalisations & Évolutions
 1. **Refonte de la Triade Visuelle (`test_triad_vision.py` & `dbot/vision/yolo_world.py`)** :
@@ -84,6 +85,9 @@ Ce document répertorie l'historique chronologique et détaillé des sessions de
    - Implémentation du script d'exportation TensorRT FP16 / ONNX (`export_yolo_tensorrt.py`) avec limitation workspace à 2 GB.
    - Documentation complète des pièges `pip` (`cuda-toolkit-cu13`, `numpy 2.x`) et mise à jour de [`Annexes/jetson/installation/43_Configuration_PyTorch_CUDA_JetPack6.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/jetson/installation/43_Configuration_PyTorch_CUDA_JetPack6.md).
    - Validation du budget mémoire : Empreinte VRAM/RAM de la vision à **$1.2\text{ Go}$ à $1.8\text{ Go}$**, parfaitement conforme à l'alloué ($\le 2.5\text{ Go}$) dans `FINAL_Architecture_Master_V1_Hybride.md`, laissant **$> 4.5\text{ Go}$ libres**.
+5. **Déport VPU Myriad X & Optique Grand Angle 81° FOV (`oak_camera.py`)** :
+   - Déport matériel du lissage de profondeur WLS (gain 25% CPU Jetson) et du nœud `SpatialLocationCalculator` ($Z < 500\text{ mm}$ à $< 5\text{ ms}$).
+   - Remplacement du rognage `setVideoSize` par l'ISP scaling matériel `setIspScale(1, 3)` pour restituer le plein champ grand angle 81° FOV.
 
 ### 📌 Statut Matériel & Visuel Actuel
-- **Triade Visuelle** : Inférence réelle OAK-D Pro qualifiée avec détection simultanée de 6-7 objets dans la scène et calcul spatial $3D$.
+- **Triade Visuelle** : Inférence réelle OAK-D Pro qualifiée avec détection simultanée de 6-7 objets dans la scène, alerte de sécurité VPU $< 500\text{ mm}$ et grand angle 81° FOV complet.
