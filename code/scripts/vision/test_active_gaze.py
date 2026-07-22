@@ -5,8 +5,8 @@ Raccorde la Triade Visuelle (YOLO-World v2 multilingue + OAK-D Pro 81° FOV),
 la fusion spatiale 3D, le régulateur ActiveGazeTracker et les moteurs du cou RS-05.
 
 Exécution sur la Jetson :
-    python3 code/scripts/vision/test_active_gaze.py --target "bouteille"
     python3 code/scripts/vision/test_active_gaze.py --target "telephone"
+    python3 code/scripts/vision/test_active_gaze.py --target "bouteille"
 """
 
 import cv2
@@ -27,11 +27,17 @@ from dbot.vision.spatial_fusion import SpatialFusion
 from dbot.behaviors.active_gaze import ActiveGazeTracker
 from dbot.motors.neck import NeckController
 
-def run_active_gaze_test(target_prompt="bouteille", enable_motors=True):
-    print(f"🚀 [Active Gaze] Démarrage du test pour la cible : '{target_prompt}'...")
+def run_active_gaze_test(target_prompt="telephone", enable_motors=True):
+    target_clean = target_prompt.lower().strip()
+    print(f"🚀 [Active Gaze] Démarrage du test pour la cible : '{target_clean}'...")
+
+    # Prompts incluant la cible + le contexte ambiant pour maximiser les logits relative CLIP
+    context_classes = [target_clean, "main", "personne", "bouteille", "table", "chaise"]
+    # Élimination des doublons en conservant l'ordre
+    unique_classes = list(dict.fromkeys(context_classes))
 
     cam = DbotCamera(enable_depth=True)
-    detector = YoloWorldDetector(model_name="yolov8m-worldv2.pt", classes=[target_prompt])
+    detector = YoloWorldDetector(model_name="yolov8m-worldv2.pt", classes=unique_classes)
     fusion = SpatialFusion()
     gaze_tracker = ActiveGazeTracker()
 
@@ -50,7 +56,7 @@ def run_active_gaze_test(target_prompt="bouteille", enable_motors=True):
     cam.start()
     cam.set_ir_night_vision(True)
 
-    print(f"\n🔍 Active Gaze en cours pour '{target_prompt.upper()}'... Appuyez sur Ctrl+C pour quitter.\n")
+    print(f"\n🔍 Active Gaze en cours pour '{target_clean.upper()}'... Appuyez sur Ctrl+C pour quitter.\n")
 
     curr_pan = 0.0
     curr_tilt = 0.0
@@ -71,10 +77,24 @@ def run_active_gaze_test(target_prompt="bouteille", enable_motors=True):
 
             # 2. Fusion Spatiale 3D
             dets_3d = fusion.compute_spatial_3d(dets_2d, frame_depth)
-            valid_dets = [d for d in dets_3d if 0 < d["spatial_3d"]["z_mm"] <= 3500]
+            
+            # Filtrage des détections correspondant spécifiquement à la cible demandée
+            target_fr_upper = detector.prompt_to_fr_map.get(
+                detector.translate_prompt(target_clean) if hasattr(detector, 'translate_prompt') else target_clean, 
+                target_clean.upper()
+            )
 
-            if len(valid_dets) > 0:
-                best_det = max(valid_dets, key=lambda d: d["confidence"])
+            matching_dets = [
+                d for d in dets_3d 
+                if 0 < d["spatial_3d"]["z_mm"] <= 3500 and (
+                    d["label"].upper() == target_fr_upper or 
+                    target_clean in d["label"].lower() or 
+                    target_clean in d["raw_label_en"].lower()
+                )
+            ]
+
+            if len(matching_dets) > 0:
+                best_det = max(matching_dets, key=lambda d: d["confidence"])
                 cx, cy = best_det["center"]
                 s = best_det["spatial_3d"]
                 label = best_det["label"]
@@ -94,7 +114,7 @@ def run_active_gaze_test(target_prompt="bouteille", enable_motors=True):
                     curr_pan = new_pan
                     curr_tilt = new_tilt
             else:
-                print(f"⚪ Aucune détection pour '{target_prompt}' dans le champ de vision.")
+                print(f"⚪ Aucune détection pour '{target_clean}' dans la scène.")
 
             time.sleep(0.1)
     finally:
@@ -105,7 +125,7 @@ def run_active_gaze_test(target_prompt="bouteille", enable_motors=True):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Test Active Gaze D-Bot (Regard Actif & Recentrage Cou)")
-    parser.add_argument("--target", default="bouteille", help="Prompt sémantique cible en Français (ex: bouteille, telephone, main)")
+    parser.add_argument("--target", default="telephone", help="Prompt sémantique cible en Français (ex: telephone, bouteille, main)")
     parser.add_argument("--no-motors", action="store_true", help="Désactiver les moteurs physiques (mode observation)")
     args = parser.parse_args()
 
