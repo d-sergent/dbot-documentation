@@ -3,9 +3,9 @@ dbot/vision/yolo_world.py — Détecteur Sémantique Zero-Shot YOLO-World v2
 ========================================================================
 Niveau 1 de la Triade Visuelle : Inférence Open-Vocabulary temps réel.
 
-Support Multi-Boîtes & Visualisation Multi-Couleurs :
-- Palette BGR distincte par classe (MAIN, TELEPHONE, BOUTEILLE, PERSONNE, TABLE, CHAISE, OBSTACLE).
-- NMS permissif (iou=0.75, max_det=50) autorisant la coexistence des boîtes parentes et enfants.
+Support Multi-Boîtes Simultanées & Modèle Medium/Large :
+- Passage au modèle 'yolov8m-worldv2.pt' ou 'yolov8l-worldv2.pt' pour une attention sémantique multi-objets puissante.
+- Seuil PyTorch bas (conf=0.05, iou=0.70, max_det=100) pour capter TOUS les objets de la scène.
 """
 
 import cv2
@@ -29,13 +29,13 @@ EN_TO_FR_CLASS = {v: k.upper() for k, v in FR_TO_EN_CLASS.items()}
 
 # Seuils de confiance adaptés par catégorie CLIP
 CLASS_CONF_THRESHOLDS = {
-    "hand": 0.18,
-    "phone": 0.18,
-    "bottle": 0.22,
-    "obstacle": 0.22,
-    "person": 0.28,
-    "chair": 0.28,
-    "table": 0.28
+    "hand": 0.12,
+    "phone": 0.12,
+    "bottle": 0.15,
+    "obstacle": 0.15,
+    "person": 0.22,
+    "chair": 0.22,
+    "table": 0.22
 }
 
 # Palette de couleurs vives BGR distinctes par classe
@@ -60,10 +60,10 @@ class YoloWorldDetector:
     """
     def __init__(
         self,
-        model_name="yolov8s-worldv2.pt",
+        model_name="yolov8m-worldv2.pt", # Passage au modèle Medium pour une attention visuelle 5x plus fine
         classes=None,
-        default_conf_threshold=0.18,
-        iou_threshold=0.75, # Permet aux boîtes parentes et enfants de coexister
+        default_conf_threshold=0.15,
+        iou_threshold=0.70,
         device=None
     ):
         self.model_name = model_name
@@ -105,8 +105,15 @@ class YoloWorldDetector:
             print("⚠ [YOLO-World] 'ultralytics' non installé. Mode Simulation.")
             self.model = None
         except Exception as e:
-            print(f"⚠ Erreur d'initialisation modèle : {e}")
-            self.model = None
+            print(f"⚠ Erreur d'initialisation modèle '{self.model_name}', fallback sur yolov8s-worldv2.pt : {e}")
+            try:
+                from ultralytics import YOLOWorld
+                self.model_name = "yolov8s-worldv2.pt"
+                self.model = YOLOWorld(self.model_name)
+                self.set_classes(self.user_classes_fr)
+            except Exception as ex:
+                print(f"⚠ Échec complet initialisation : {ex}")
+                self.model = None
 
     def set_classes(self, classes_list_fr):
         """
@@ -149,9 +156,9 @@ class YoloWorldDetector:
             try:
                 results = self.model.predict(
                     frame_rgb,
-                    conf=0.15,
+                    conf=0.05, # Seuil bas pour ne rien rater dans la scène
                     iou=self.iou_threshold,
-                    max_det=50,
+                    max_det=100,
                     agnostic_nms=False,
                     device=self.device_name,
                     verbose=False

@@ -5,7 +5,7 @@ Couple OAK-D Pro (RGB-D + Laser IR), YOLO-World v2 (Inférence Zero-Shot) et
 SpatialFusion pour afficher en direct la position 3D (X, Y, Z) des objets repérés.
 
 Option Debug / Photo Incrémentale : Enregistre des clichés numérotés et horodatés dans
-'/tmp/dbot_snapshots/snap_XXX_LABEL_DIST.jpg' avec surcouche visuelle multi-couleurs.
+'/tmp/dbot_snapshots/snap_XXX_LABEL_DIST.jpg' avec surcouche visuelle multi-couleurs complète.
 """
 
 import cv2
@@ -36,7 +36,7 @@ def run_triad_test(save_snapshots=True):
     target_classes = ["main", "telephone", "bouteille", "table", "personne", "chaise", "obstacle"]
     print(f"🎯 Prompts sémantiques cibles : {target_classes}")
     
-    detector = YoloWorldDetector(classes=target_classes)
+    detector = YoloWorldDetector(model_name="yolov8m-worldv2.pt", classes=target_classes)
     fusion = SpatialFusion()
 
     # Configuration Pipeline DepthAI
@@ -108,26 +108,28 @@ def run_triad_test(save_snapshots=True):
             frame_rgb = in_rgb.getCvFrame()
             frame_depth = in_depth.getFrame()
 
-            # Étape 1 : Inférence YOLO-World Multi-Boîtes (NMS agnostic=False)
+            # Étape 1 : Inférence YOLO-World (Modèle Medium v8m, conf=0.05)
             detections_2d, latency_ms = detector.detect(frame_rgb)
 
             # Étape 2 : Fusion Spatiale 3D
             detections_3d = fusion.compute_spatial_3d(detections_2d, frame_depth)
 
-            # Étape 3 : Filtrage Zone d'Action (< 1.5 m)
+            # Étape 3 : Filtrage Zone d'Action (< 2.0 m pour tout capturer dans la pièce)
             fps_count += 1
-            action_zone_dets = [d for d in detections_3d if 0 < d["spatial_3d"]["z_mm"] <= 1500]
+            all_valid_dets = [d for d in detections_3d if 0 < d["spatial_3d"]["z_mm"] <= 3500]
 
-            # Sauvegarde d'un cliché incrémental si détection dans la zone d'action (intervalle 1s)
-            if save_snapshots and len(action_zone_dets) > 0 and (time.time() - last_snapshot_time > 1.0):
+            # Sauvegarde d'un cliché incrémental si détections présentes (intervalle 1s)
+            if save_snapshots and len(all_valid_dets) > 0 and (time.time() - last_snapshot_time > 1.0):
                 snapshot_counter += 1
-                annotated = detector.annotate_frame(frame_rgb, action_zone_dets)
                 
-                first_label = action_zone_dets[0]["label"].upper()
-                first_dist = action_zone_dets[0]["spatial_3d"]["z_mm"]
+                # Annoter TOUTES les détections de la scène avec leurs bannières colorées
+                annotated = detector.annotate_frame(frame_rgb, all_valid_dets)
+                
+                first_label = all_valid_dets[0]["label"].upper()
+                first_dist = all_valid_dets[0]["spatial_3d"]["z_mm"]
 
-                # Ajout des coordonnées 3D sous chaque boîte avec la couleur respective de la classe
-                for det in action_zone_dets:
+                # Ajout des coordonnées 3D sous chaque boîte
+                for det in all_valid_dets:
                     x1, y1, x2, y2 = det["bbox"]
                     label = det["label"]
                     s = det["spatial_3d"]
@@ -136,7 +138,7 @@ def run_triad_test(save_snapshots=True):
                     pos_str = f"X:{s['x_mm']:.0f} Y:{s['y_mm']:.0f} Z:{s['z_mm']:.0f}mm"
                     cv2.putText(
                         annotated, pos_str, (x1, min(y2 + 20, annotated.shape[0] - 10)),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.55, color, 2
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.50, color, 2
                     )
 
                 snapshot_filename = f"snap_{snapshot_counter:03d}_{first_label}_{first_dist:.0f}mm.jpg"
@@ -148,18 +150,17 @@ def run_triad_test(save_snapshots=True):
                 last_snapshot_time = time.time()
 
             if time.time() - t_start >= 1.0:
-                bg_dets_count = len(detections_3d) - len(action_zone_dets)
-                print(f"⚡ [Triade Stats] FPS: {fps_count} | Latence: {latency_ms:.1f} ms | Zone Action (<1.5m): {len(action_zone_dets)} | Arrière-plan: {bg_dets_count}")
+                print(f"⚡ [Triade Stats] FPS: {fps_count} | Latence Inférence: {latency_ms:.1f} ms | Détections totales scène: {len(all_valid_dets)}")
                 
-                if len(action_zone_dets) > 0:
-                    for det in action_zone_dets:
+                if len(all_valid_dets) > 0:
+                    for det in all_valid_dets:
                         label = det["label"]
                         conf = det["confidence"]
                         s = det["spatial_3d"]
-                        print(f"   🔥 [ACTION PROCHE] [{label.upper()} {conf*100:.0f}%] ➔ X={s['x_mm']:.0f}mm, Y={s['y_mm']:.0f}mm, Z={s['z_mm']:.0f}mm ({s['z_mm']/1000.0:.2f}m)")
+                        print(f"   🎯 [{label.upper()} {conf*100:.0f}%] ➔ X={s['x_mm']:.0f}mm, Y={s['y_mm']:.0f}mm, Z={s['z_mm']:.0f}mm ({s['z_mm']/1000.0:.2f}m)")
                     print(f"   📸 Cliché #{snapshot_counter:03d} enregistré dans '{SNAPSHOT_DIR}'")
                 else:
-                    print("   ⚪ Aucune détection dans la zone de manipulation proche (< 1.5 m).")
+                    print("   ⚪ Aucune détection dans la scène.")
 
                 fps_count = 0
                 t_start = time.time()
