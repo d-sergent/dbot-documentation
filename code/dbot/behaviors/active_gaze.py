@@ -97,9 +97,9 @@ class ActiveGazeTracker:
         self,
         fov_h_deg=81.0,
         fov_v_deg=50.0,
-        kp_pan=0.45,
-        kp_tilt=0.45,
-        deadband_pixels=15,
+        kp_pan=0.20,
+        kp_tilt=0.20,
+        deadband_pixels=35,
         max_predict_frames=5
     ):
         self.fov_h_deg = fov_h_deg

@@ -138,6 +138,12 @@ def run_active_gaze_real_world(target_prompt="main", enable_motors=True):
                 label = best_det["label"]
                 conf = best_det["confidence"]
 
+                # Télémétrie physique réelle des moteurs RS-05
+                if neck:
+                    state = neck.get_state()
+                    curr_pan = state['pan_deg']
+                    curr_tilt = state['tilt_deg']
+
                 # Regard Actif + Kalman 3D Anti-Jitter
                 new_pan, new_tilt, is_centered = gaze_tracker.compute_head_target(
                     (cx, cy), w, h, curr_pan, curr_tilt, depth_z_mm=s['z_mm']
