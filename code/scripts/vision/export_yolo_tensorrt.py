@@ -36,6 +36,24 @@ def export_tensorrt(model_name="yolov8m-worldv2.pt"):
     print(f"⏳ Chargement des poids PyTorch '{pt_path}'...")
     model = YOLOWorld(pt_path)
 
+    # Chargement du dictionnaire complet fr_en_dictionary.json
+    dict_path = os.path.join(VISION_DIR, "fr_en_dictionary.json")
+    all_prompts_en = []
+    if os.path.exists(dict_path):
+        import json
+        try:
+            with open(dict_path, 'r', encoding='utf-8') as f:
+                fr_dict = json.load(f)
+            for fr_word, en_raw in fr_dict.items():
+                for sub in en_raw.split(','):
+                    sub_clean = sub.strip()
+                    if sub_clean and sub_clean not in all_prompts_en:
+                        all_prompts_en.append(sub_clean)
+            print(f"📚 [Dictionary] {len(all_prompts_en)} prompts CLIP pré-injectés depuis fr_en_dictionary.json.")
+            model.set_classes(all_prompts_en)
+        except Exception as e:
+            print(f"⚠ Erreur chargement dictionnaire fr_en_dictionary.json : {e}")
+
     fmt_export = "engine" if cuda_ok else "onnx"
     print(f"⚡ Lancement de l'exportation dans '{VISION_DIR}' (format='{fmt_export}', device={device_target})...")
     
