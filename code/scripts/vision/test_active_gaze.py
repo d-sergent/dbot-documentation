@@ -38,8 +38,8 @@ def run_active_gaze_real_world(target_prompt="main", enable_motors=True):
     context_classes = [target_clean, "main", "personne", "telephone", "bouteille", "table", "chaise"]
     unique_classes = list(dict.fromkeys(context_classes))
 
-    # 1. Caméra OAK-D Pro avec VPU Tracker 60 FPS + Filtre WLS + Safety Calculator
-    cam = DbotCamera(enable_depth=True, enable_tracker=True)
+    # 1. Caméra OAK-D Pro (Grand Angle 81° FOV + Filtre WLS VPU + Safety Calculator)
+    cam = DbotCamera(enable_depth=True)
     detector = YoloWorldDetector(model_name="yolov8m-worldv2.pt", classes=unique_classes, default_conf_threshold=0.05)
     fusion = SpatialFusion()
     gaze_tracker = ActiveGazeTracker(kp_pan=0.45, kp_tilt=0.45)

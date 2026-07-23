@@ -22,7 +22,7 @@ class DbotCamera:
     Gestionnaire de la caméra OAK-D Pro avec grand angle 81° (ISP Scaling sans Center Crop)
     et déport matériel sur le VPU Myriad X (Filtre WLS + SpatialLocationCalculator).
     """
-    def __init__(self, resolution="1080p", fps=30, enable_depth=True, enable_tracker=True, hazard_distance_mm=500):
+    def __init__(self, resolution="1080p", fps=30, enable_depth=True, enable_tracker=False, hazard_distance_mm=500):
         self.pipeline = dai.Pipeline()
         self.device = None
         self.is_running = False
