@@ -41,6 +41,10 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 - [x] **Mappage Multilingue Français ➔ Anglais pour YOLO-World** : Prise en charge dynamique des prompts en Français avec traduction/correspondance automatique vers CLIP Anglais dans `yolo_world.py` (0 Mo RAM / 0% CPU).
 - [ ] **Reconnaissance & Identification de Visages (`face_tracker.py`)** : Identification nommée des visages du foyer et suivi spatial 3D.
 - [x] **Inférence Active Gaze & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** : Inférence visuelle sémantique complexe via **NVIDIA Cosmos 3D Edge / LocateAnything-3B** **déportée sur le Mac M1 Max (64 Go)** pour l'orientation et le centrage du cou Pan/Tilt ("Regarde la tasse").
+- [ ] **Nœud Matériel `dai.node.ObjectTracker` VPU (OAK-D Pro 60+ FPS)** : Suivi optique embarqué sur VPU Myriad X dans `oak_camera.py` pour rafraîchir le tracking à 60 FPS entre les inférences IA.
+- [ ] **Filtre de Kalman 3D Anti-Jitter & Trajectoire (`active_gaze.py`)** : Suppression du trépignement des boîtes et estimation des vecteurs vitesse/accélération $3D$ pour l'anticipation d'occultation.
+- [ ] **Asservissement en Vitesse Angulaire Directe ($\omega_{pan}, \omega_{tilt}$)** : Piloter les RS-05 en consigne de vitesse ($\omega = K_p \cdot \text{Erreur}$) dans `neck.py` pour une décélération douce sans saccades.
+- [ ] **Découplage Temporel & Boucle Moteur 100 Hz** : Séparer le contrôle CAN 100 Hz de la perception IA (30 Hz) pour une fluidité cinématographique.
 
 ---
 

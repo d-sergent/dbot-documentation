@@ -59,6 +59,16 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
   - Capturer le flux RGB 1080p de l'OAK-D Pro et exécuter l'inférence de repérage visuel (*Visual Grounding*) avec **LocateAnything-3B / NVIDIA Cosmos 3D Edge** **déporté sur le Mac M1 Max (64 Go)** via HTTP/gRPC (`server_active_gaze_mac.py`).
   - Asservir le cou en Pan/Tilt pour qu'il centre physiquement l'objet ciblé au milieu du champ de vision ("Regarde la tasse").
 
+### 🚀 Optimisations Avancées du Regard Actif & Fluidification Pan-Tilt (À Traiter)
+- [ ] **Nœud Matériel `dai.node.ObjectTracker` VPU (OAK-D Pro 60+ FPS)** :
+  - Intégrer le nœud de suivi optique matériel `ObjectTracker` (algos KCF / FeatureTracker) sur le VPU Myriad X dans `oak_camera.py` pour rafraîchir la position $2D/3D$ de la cible à 60 FPS entre deux inférences YOLO-World (30 FPS).
+- [ ] **Filtre de Kalman 3D Anti-Jitter & Trajectoire (`active_gaze.py`)** :
+  - Remplacer l'inertie empirique par un Filtre de Kalman $3D$ complet (`cv2.KalmanFilter` avec vecteur d'état $[X, Y, Z, v_x, v_y, v_z]$) dans `active_gaze.py` pour éliminer les micro-vibrations des boîtes de détection (*Bbox Jitter*) et estimer la vraie vitesse/accélération de la cible.
+- [ ] **Asservissement Direct en Vitesse Angulaire Moteur ($\omega_{pan}, \omega_{tilt}$)** :
+  - Modifier `NeckController` dans `neck.py` pour piloter directement les moteurs RobStride RS-05 en consigne de vitesse angulaire ($\omega = K_p \cdot \text{Erreur}_{\text{pixels}}$) au lieu de pas de position, assurant une décélération douce (*Smooth Stopping*) sans à-coups.
+- [ ] **Découplage Temporel & Boucle Moteur 100 Hz** :
+  - Séparer le thread de contrôle du bus CAN (cadencé à 100 Hz / 10 ms sur Jetson) de la boucle de détection visuelle IA (30 Hz) en interpolant les consignes à 100 Hz pour obtenir un mouvement fluide et cinématographique.
+
 ---
 
 ## 🎯 BLOCK 4 : Cinématique Inverse, Dynamics Pinocchio & LeRobot (Bras & Corps)
