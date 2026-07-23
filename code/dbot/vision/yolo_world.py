@@ -170,13 +170,17 @@ class YoloWorldDetector:
         """Initialise le modèle d'inférence Open-Vocabulary YOLO-World v2 (TensorRT / PyTorch GPU)."""
         target_load = self.model_name
         
-        # Vérification automatique si le moteur TensorRT FP16 (.engine) existe
+        # Vérification automatique si le moteur TensorRT FP16 (.engine) existe (dossier vision/ ou racine ~/dbot/)
         engine_path = os.path.join(SCRIPT_DIR, self.model_name.replace(".pt", ".engine"))
+        root_engine_path = os.path.abspath(self.model_name.replace(".pt", ".engine"))
         onnx_path = os.path.join(SCRIPT_DIR, self.model_name.replace(".pt", ".onnx"))
 
         if os.path.exists(engine_path):
             target_load = engine_path
             print(f"⚡ [YOLO-World] Moteur TensorRT FP16 détecté : '{target_load}' (Inférence ultra-rapide ~10 ms / 80+ FPS).")
+        elif os.path.exists(root_engine_path):
+            target_load = root_engine_path
+            print(f"⚡ [YOLO-World] Moteur TensorRT FP16 détecté à la racine : '{target_load}' (Inférence ultra-rapide ~10 ms / 80+ FPS).")
         elif os.path.exists(onnx_path):
             target_load = onnx_path
             print(f"⚡ [YOLO-World] Modèle ONNX détecté : '{target_load}'.")
