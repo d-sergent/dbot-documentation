@@ -100,7 +100,7 @@ class ActiveGazeTracker:
         kp_pan=0.20,
         kp_tilt=0.20,
         deadband_pixels=65,
-        max_predict_frames=5
+        max_predict_frames=15
     ):
         self.fov_h_deg = fov_h_deg
         self.fov_v_deg = fov_v_deg
@@ -121,7 +121,7 @@ class ActiveGazeTracker:
 
     def compute_head_target(self, target_center_2d, frame_width, frame_height, current_pan_deg, current_tilt_deg, depth_z_mm=1000.0):
         """
-        Calcule les nouvelles consignes angulaires (Pan, Tilt) après filtrage par Kalman 3D.
+        Calcule les nouvelles consignes angulaires (Pan, Tilt) après filtrage par Kalman 3D et gain dynamique non-linéaire.
         
         target_center_2d : (cx, cy) en pixels
         Returns: (new_pan_deg, new_tilt_deg, is_centered)
@@ -152,8 +152,15 @@ class ActiveGazeTracker:
         deg_per_px_h = self.fov_h_deg / frame_width
         deg_per_px_v = self.fov_v_deg / frame_height
 
-        delta_pan_deg = (error_x_px * deg_per_px_h) * self.kp_pan
-        delta_tilt_deg = (-error_y_px * deg_per_px_v) * self.kp_tilt
+        # Gain dynamique non-linéaire : boost de réactivité si la cible est près du bord de l'image (0.20 -> 0.55)
+        norm_err_x = min(1.0, abs(error_x_px) / center_x)
+        norm_err_y = min(1.0, abs(error_y_px) / center_y)
+
+        kp_pan_dyn = self.kp_pan + (0.55 - self.kp_pan) * (norm_err_x ** 1.5)
+        kp_tilt_dyn = self.kp_tilt + (0.55 - self.kp_tilt) * (norm_err_y ** 1.5)
+
+        delta_pan_deg = (error_x_px * deg_per_px_h) * kp_pan_dyn
+        delta_tilt_deg = (-error_y_px * deg_per_px_v) * kp_tilt_dyn
 
         # 🚨 BRIDAGE HARDWARE ABSOLU : Ne peut JAMAIS dépasser les bornes de config.py
         new_pan_deg = max(self.min_pan_deg, min(self.max_pan_deg, current_pan_deg + delta_pan_deg))
