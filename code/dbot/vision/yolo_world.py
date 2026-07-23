@@ -97,7 +97,9 @@ CLASS_CONF_THRESHOLDS = {
     "person": 0.22,
     "chair": 0.22,
     "table": 0.22,
-    "cup": 0.15,
+    "cup": 0.08,
+    "mug": 0.08,
+    "coffee mug": 0.08,
     "glass": 0.15,
     "book": 0.18,
     "keys": 0.15
@@ -108,6 +110,7 @@ CLASS_COLORS_BGR = {
     "MAIN": (0, 255, 0),        # Vert Vif
     "TELEPHONE": (255, 255, 0),  # Cyan / Jaune-Vert
     "BOUTEILLE": (0, 165, 255),  # Orange
+    "TASSE": (0, 255, 255),      # Jaune Vif
     "PERSONNE": (255, 100, 0),   # Bleu Électrique
     "TABLE": (255, 0, 180),      # Rose / Violet
     "CHAISE": (180, 50, 255),    # Magenta

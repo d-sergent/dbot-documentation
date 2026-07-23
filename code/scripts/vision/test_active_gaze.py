@@ -130,6 +130,7 @@ def run_active_gaze_real_world(target_prompt="main", enable_motors=True):
                     continue
 
                 if (target_clean in lbl_fr) or (target_en in lbl_en) or \
+                   (target_clean in ["tasse", "cup", "mug"] and any(k in lbl_en for k in ["cup", "mug", "coffee mug", "tasse"])) or \
                    (target_clean in ["main", "hand"] and lbl_en in ["hand", "main"]) or \
                    (target_clean in ["personne", "person"] and lbl_en in ["person", "human"]):
                     matching_dets.append(d)
