@@ -193,13 +193,23 @@ class YoloWorldDetector:
             from ultralytics import YOLOWorld
             self.model = YOLOWorld(target_load)
             self.set_classes(self.user_classes_fr)
-            print(f"✅ [YOLO-World] Modèle '{target_load}' prêt via PyTorch/TensorRT ({self.device_name}).")
+            print(f"✅ [YOLO-World] Modèle '{target_load}' prêt via GPU ({self.device_name}).")
         except ImportError:
             print("⚠ [YOLO-World] 'ultralytics' non installé. Mode Simulation.")
             self.model = None
         except Exception as e:
-            print(f"⚠ Erreur d'initialisation du modèle '{target_load}' : {e}")
-            self.model = None
+            print(f"⚠ Note d'initialisation sur '{target_load}' : {e}")
+            if target_load != self.model_name:
+                print(f"🔄 Repli automatique sur le modèle PyTorch CUDA Zero-Shot ('{self.model_name}')...")
+                try:
+                    self.model = YOLOWorld(self.model_name)
+                    self.set_classes(self.user_classes_fr)
+                    print(f"✅ [YOLO-World] Modèle PyTorch CUDA Zero-Shot '{self.model_name}' prêt.")
+                except Exception as e2:
+                    print(f"❌ Échec repli PyTorch : {e2}")
+                    self.model = None
+            else:
+                self.model = None
 
     def set_classes(self, classes_list_fr):
         """
@@ -224,11 +234,13 @@ class YoloWorldDetector:
 
         if self.model is not None:
             try:
-                self.model.set_classes(self.model_prompts_en)
+                if hasattr(self.model, 'set_classes'):
+                    self.model.set_classes(self.model_prompts_en)
                 print(f"🎯 [YOLO-World] Prompts CLIP Anglais : {self.model_prompts_en}")
                 print(f"🇫🇷 [YOLO-World] Mappage Français : {self.prompt_to_fr_map}")
             except Exception as e:
-                print(f"⚠ Erreur mise à jour classes : {e}")
+                print(f"⚠ Note : Le moteur actif ne supporte pas set_classes() dynamique ({e}).")
+                raise e
 
     def detect(self, frame_bgr):
         """
