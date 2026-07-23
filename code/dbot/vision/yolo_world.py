@@ -188,6 +188,13 @@ class YoloWorldDetector:
             print(f"💡 [YOLO-World] Modèle PyTorch CUDA actif (Inférence ~35 ms / 28 FPS).")
             print(f"   Pour passer à TensorRT (10 ms / 80+ FPS), exécutez une fois : python3 code/scripts/vision/export_tensorrt.py")
         
+        # Notification si de nouveaux mots sont en attente de compilation TensorRT
+        new_pending_words = GLOBAL_FR_EN_DICT.get("_new_words_since_export", [])
+        if new_pending_words:
+            print(f"🔔 [TensorRT Notifier] {len(new_pending_words)} nouveau(x) mot(s) ajouté(s) récemment au dictionnaire : {new_pending_words}")
+            print(f"   💡 Une re-compilation est conseillée pour passer ces objets à 80+ FPS :")
+            print(f"      python3 code/scripts/vision/export_yolo_tensorrt.py")
+        
         print(f"⏳ [YOLO-World] Chargement du modèle '{target_load}' (device={self.device_name})...")
         try:
             from ultralytics import YOLOWorld

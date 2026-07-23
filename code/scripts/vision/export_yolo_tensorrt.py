@@ -45,7 +45,9 @@ def export_tensorrt(model_name="yolov8m-worldv2.pt"):
             with open(dict_path, 'r', encoding='utf-8') as f:
                 fr_dict = json.load(f)
             for fr_word, en_raw in fr_dict.items():
-                for sub in en_raw.split(','):
+                if fr_word.startswith('_'):
+                    continue
+                for sub in str(en_raw).split(','):
                     sub_clean = sub.strip()
                     if sub_clean and sub_clean not in all_prompts_en:
                         all_prompts_en.append(sub_clean)
@@ -80,6 +82,18 @@ def export_tensorrt(model_name="yolov8m-worldv2.pt"):
         t1 = time.time()
         print(f"\n✅ [Export] Opération réussie en {t1-t0:.1f} secondes !")
         print(f"🎯 Fichier créé dans : '{engine_path}'")
+
+        # Réinitialisation de la liste des mots en attente après compilation réussie
+        if os.path.exists(dict_path):
+            try:
+                with open(dict_path, 'r', encoding='utf-8') as f:
+                    updated_dict = json.load(f)
+                updated_dict["_new_words_since_export"] = []
+                with open(dict_path, 'w', encoding='utf-8') as f:
+                    json.dump(updated_dict, f, ensure_ascii=False, indent=2)
+                print("✨ [Notifier] Liste d'attente des nouveaux mots réinitialisée !")
+            except Exception as e:
+                print(f"⚠ Impossible de réinitialiser la liste d'attente : {e}")
     except Exception as e:
         print(f"❌ Échec de l'exportation : {e}")
 
