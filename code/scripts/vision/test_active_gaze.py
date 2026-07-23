@@ -118,15 +118,21 @@ def run_active_gaze_real_world(target_prompt="main", enable_motors=True):
             dets_2d, latency_ms = detector.detect(frame_rgb)
             dets_3d = fusion.compute_spatial_3d(dets_2d, frame_depth)
 
-            # Target matching
-            matching_dets = [
-                d for d in dets_3d 
-                if 0 < d["spatial_3d"]["z_mm"] <= 3500 and (
-                    target_clean in d["label"].lower() or 
-                    target_clean in d["raw_label_en"].lower() or
-                    (target_clean in ["main", "hand"] and d["raw_label_en"] in ["hand", "main"])
-                )
-            ]
+            # Target matching bilingue flexible (Français + Anglais)
+            target_en = detector.dictionary.get(target_clean, target_clean).lower()
+            matching_dets = []
+            for d in dets_3d:
+                lbl_fr = d["label"].lower()
+                lbl_en = d["raw_label_en"].lower()
+                z_mm = d["spatial_3d"]["z_mm"]
+
+                if z_mm > 3500:
+                    continue
+
+                if (target_clean in lbl_fr) or (target_en in lbl_en) or \
+                   (target_clean in ["main", "hand"] and lbl_en in ["hand", "main"]) or \
+                   (target_clean in ["personne", "person"] and lbl_en in ["person", "human"]):
+                    matching_dets.append(d)
 
             if len(matching_dets) > 0:
                 best_det = max(matching_dets, key=lambda d: d["confidence"])

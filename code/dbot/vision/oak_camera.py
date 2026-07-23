@@ -136,16 +136,16 @@ class DbotCamera:
         
         while self.is_running:
             try:
+                has_any_data = False
+
                 # 1. Lecture de l'image RGB Grand Angle (Non bloquante)
-                if video_queue.has():
+                if video_queue and video_queue.has():
                     frame_data = video_queue.get()
                     if frame_data:
                         frame = frame_data.getCvFrame()
                         with self.frame_lock:
                             self.latest_frame = frame
-                else:
-                    time.sleep(0.005)
-                    continue
+                        has_any_data = True
 
                 # 2. Lecture de la carte de profondeur stéréo filtrée
                 if depth_queue and depth_queue.has():
@@ -154,6 +154,7 @@ class DbotCamera:
                         depth_frame = depth_data.getFrame()
                         with self.frame_lock:
                             self.latest_depth = depth_frame
+                        has_any_data = True
 
                 # 3. Lecture des alertes de sécurité du VPU (SpatialLocationCalculator)
                 if spatial_queue and spatial_queue.has():
@@ -165,6 +166,7 @@ class DbotCamera:
                             with self.frame_lock:
                                 self.hazard_distance = z_mm
                                 self.is_hazard_detected = (0 < z_mm < self.hazard_distance_mm)
+                        has_any_data = True
 
                 # 4. Lecture des tracklets matériels VPU
                 if tracker_queue and tracker_queue.has():
@@ -172,6 +174,10 @@ class DbotCamera:
                     if t_data:
                         with self.frame_lock:
                             self.latest_tracklets = t_data.tracklets
+                        has_any_data = True
+
+                if not has_any_data:
+                    time.sleep(0.002)
             except Exception as e:
                 print(f"⚠ [Vision] Interruption flux VPU : {e}")
                 break
