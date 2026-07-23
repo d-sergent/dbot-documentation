@@ -187,6 +187,7 @@ class YoloWorldDetector:
         """
         Met à jour à chaud la liste des requêtes textuelles.
         Traduit automatiquement les consignes Françaises vers CLIP Anglais (avec mise en cache JSON).
+        Gère intelligemment les synonymes multiples séparés par des virgules (ex: 'mug, coffee mug, cup').
         """
         self.user_classes_fr = classes_list_fr
         self.model_prompts_en = []
@@ -194,11 +195,14 @@ class YoloWorldDetector:
 
         for fr_cat in classes_list_fr:
             fr_display = fr_cat.upper().strip()
-            en_prompt = translate_fr_to_en(fr_cat)
+            en_prompt_raw = translate_fr_to_en(fr_cat)
             
-            if en_prompt not in self.model_prompts_en:
-                self.model_prompts_en.append(en_prompt)
-                self.prompt_to_fr_map[en_prompt] = fr_display
+            # Découpage des synonymes séparés par des virgules pour des embeddings CLIP individuels
+            sub_prompts = [p.strip() for p in en_prompt_raw.split(',') if p.strip()]
+            for p in sub_prompts:
+                if p not in self.model_prompts_en:
+                    self.model_prompts_en.append(p)
+                    self.prompt_to_fr_map[p] = fr_display
 
         if self.model is not None:
             try:

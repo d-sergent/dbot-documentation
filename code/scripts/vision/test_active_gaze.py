@@ -79,14 +79,10 @@ def run_active_gaze_real_world(target_prompt="main", enable_motors=True):
             delta_pan = t_pan - curr_pan
             delta_tilt = t_tilt - curr_tilt
 
-            if neck and (abs(delta_pan) > 0.2 or abs(delta_tilt) > 0.2):
-                pan_vel = delta_pan * 10.0  # Gain vitesse
-                tilt_vel = delta_tilt * 10.0
-                neck.set_velocity(pan_vel_dps=pan_vel, tilt_vel_dps=tilt_vel)
-                curr_pan += delta_pan * 0.15
-                curr_tilt += delta_tilt * 0.15
-            elif neck:
-                neck.set_velocity(0.0, 0.0)
+            if neck and (abs(t_pan - curr_pan) > 0.3 or abs(t_tilt - curr_tilt) > 0.3):
+                neck.look_at(t_pan, t_tilt)
+                curr_pan = t_pan
+                curr_tilt = t_tilt
 
             t_next += period
             sleep_time = t_next - time.perf_counter()
