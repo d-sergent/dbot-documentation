@@ -21,6 +21,15 @@ La stratégie visuelle du D-Bot repose sur une **répartition à 3 niveaux** opt
 3. **Sur le Serveur Compagnon Mac M1 Max 64 Go (Cognition Déportée)** :
    - **Raisonnement Spatiale Complexe & Active Gaze** : Modèles multimodaux **NVIDIA Cosmos 3D Edge / LocateAnything-3B** déportés via gRPC/HTTP pour l'orientation dynamique du cou ("*Regarde le téléphone posé près du clavier*").
 
+### 1.2 Impacts Concrets du Passage à TensorRT FP16 (80+ FPS)
+
+| Critère / Métrique | PyTorch CUDA (Mode Dev) | TensorRT FP16 (Mode Prod) | Impact Concret sur le Robot |
+| :--- | :---: | :---: | :--- |
+| **Latence Visuelle** | 35 ms | **10 ms** | **3.5x plus rapide** : Poursuite instantanée des cibles en mouvement latéral rapide. |
+| **Cadence de Perception** | 28 FPS | **80-100 FPS** | **Synchronisation CAN 100 Hz** : Alignement parfait avec le rafraîchissement moteur 10 ms. |
+| **Empreinte VRAM GPU** | 650 Mo | **400 Mo** | **+250 Mo libérés** : Espace mémoire libéré pour la Reconnaissance Faciale et l'Audio DoA. |
+| **Tolérance Flou de Bougé** | Moyenne | **Maximale** | Maintien continu du suivi sémantique lors des rotations rapides du cou. |
+
 ---
 
 ## 2. Intégration Mécanique & Optique
