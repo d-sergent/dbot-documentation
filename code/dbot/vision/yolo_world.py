@@ -167,15 +167,29 @@ class YoloWorldDetector:
             return "cpu"
 
     def _init_model(self):
-        """Initialise le modèle d'inférence Open-Vocabulary YOLO-World v2 (PyTorch/GPU)."""
+        """Initialise le modèle d'inférence Open-Vocabulary YOLO-World v2 (TensorRT / PyTorch GPU)."""
         target_load = self.model_name
+        
+        # Vérification automatique si le moteur TensorRT FP16 (.engine) existe
+        engine_path = os.path.join(SCRIPT_DIR, self.model_name.replace(".pt", ".engine"))
+        onnx_path = os.path.join(SCRIPT_DIR, self.model_name.replace(".pt", ".onnx"))
+
+        if os.path.exists(engine_path):
+            target_load = engine_path
+            print(f"⚡ [YOLO-World] Moteur TensorRT FP16 détecté : '{target_load}' (Inférence ultra-rapide ~10 ms / 80+ FPS).")
+        elif os.path.exists(onnx_path):
+            target_load = onnx_path
+            print(f"⚡ [YOLO-World] Modèle ONNX détecté : '{target_load}'.")
+        elif self.device_name == "cuda":
+            print(f"💡 [YOLO-World] Modèle PyTorch CUDA actif (Inférence ~35 ms / 28 FPS).")
+            print(f"   Pour passer à TensorRT (10 ms / 80+ FPS), exécutez une fois : python3 code/scripts/vision/export_tensorrt.py")
         
         print(f"⏳ [YOLO-World] Chargement du modèle '{target_load}' (device={self.device_name})...")
         try:
             from ultralytics import YOLOWorld
             self.model = YOLOWorld(target_load)
             self.set_classes(self.user_classes_fr)
-            print(f"✅ [YOLO-World] Modèle '{target_load}' prêt via PyTorch ({self.device_name}).")
+            print(f"✅ [YOLO-World] Modèle '{target_load}' prêt via PyTorch/TensorRT ({self.device_name}).")
         except ImportError:
             print("⚠ [YOLO-World] 'ultralytics' non installé. Mode Simulation.")
             self.model = None
