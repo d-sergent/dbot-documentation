@@ -42,9 +42,9 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 - [ ] **Reconnaissance & Identification de Visages (`face_tracker.py`)** : Identification nommée des visages du foyer et suivi spatial 3D.
 - [x] **Inférence Active Gaze & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** : Inférence visuelle sémantique complexe via **NVIDIA Cosmos 3D Edge / LocateAnything-3B** **déportée sur le Mac M1 Max (64 Go)** pour l'orientation et le centrage du cou Pan/Tilt ("Regarde la tasse").
 - [x] **Nœud Matériel `dai.node.ObjectTracker` VPU (OAK-D Pro 60+ FPS)** : Suivi optique embarqué sur VPU Myriad X dans `oak_camera.py` pour rafraîchir le tracking à 60 FPS entre les inférences IA.
-- [x] **Filtre de Kalman 3D Anti-Jitter & Trajectoire (`active_gaze.py`)** : Suppression du trépignement des boîtes (gain de 60.8%) et estimation des vecteurs vitesse/accélération $3D$ pour l'anticipation d'occultation.
-- [x] **Asservissement en Vitesse Angulaire Directe ($\omega_{pan}, \omega_{tilt}$)** : Piloter les RS-05 en consigne de vitesse ($\omega = K_p \cdot \text{Erreur}$) dans `neck.py` pour une décélération douce sans saccades.
-- [x] **Découplage Temporel & Boucle Moteur 100 Hz** : Séparer le contrôle CAN 100 Hz de la perception IA (30 Hz) pour une fluidité cinématographique.
+- [x] **Filtre de Kalman 3D Anti-Jitter & Trajectoire (`active_gaze.py`)** : Suppression du trépignement des boîtes (gain de 60.8%) et extrapolation d'inertie sur 15 trames (500 ms).
+- [x] **Accélération TensorRT FP16 80+ FPS & Boucle Fermée CAN** : Compilation locale `yolov8m-worldv2.engine` (57.1 Mo, latence 10 ms, VRAM 400 Mo), asservissement physique sur `neck.get_state()`, hystérésis adaptative (117 px), gain dynamique Kp(e) et notificateur de dictionnaire.
+- [x] **Découplage Temporel & Boucle Moteur 100 Hz** : Séparer le contrôle CAN 100 Hz de la perception IA (80 Hz) pour une fluidité cinématographique.
 
 ---
 

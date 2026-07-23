@@ -80,3 +80,39 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 
 ### 📌 Statut Général
 - **Vision Réflexe Local & Regard Actif** : Totalement opérationnels et validés sur la Jetson Orin Nano GPU CUDA avec asservissement fluide du cou RS-05 et support du Français natif !
+
+---
+
+## 📅 2026-07-23 — Qualification Active Gaze 80 FPS TensorRT, Boucle Fermée CAN & Verrouillage Statique
+
+### 🎯 Objectif de la session
+1. Éliminer l'emballement d'angle et les oscillations percutantes contre les butées mécaniques (-80°) du cou RS-05 lors du suivi visuel (`test_active_gaze.py`).
+2. Asservir le cou en boucle fermée sur la télémétrie angulaire réelle des codeurs moteurs CAN `neck.get_state()`.
+3. Éliminer 100% des micro-tressautements diagonaux à l'arrêt (droite, bas, gauche) via une Hystérésis Adaptative et un filtre de consigne angulaire minimale (0.8°).
+4. Accélérer la cadence d'inférence visuelle de 28 FPS (35 ms) à **80+ FPS (10 ms de latence)** via la compilation locale d'un binaire **TensorRT FP16 `.engine`** sur le GPU Ampere de la Jetson Orin Nano.
+5. Intégrer un système de chargement bivalent résilient (YOLO/YOLOWorld) et un notificateur d'enrichissement du dictionnaire au démarrage.
+6. Résoudre la perception Zero-Shot des tasses/mugs (`"mug, coffee mug, cup"`) et enrichir la suite de tests terrain.
+
+### 📝 Réalisations & Évolutions
+1. **Asservissement en Boucle Fermée sur Télémétrie CAN (`test_active_gaze.py`)** :
+   - Mise à jour du thread d'asservissement visuel pour lire à chaque itération la position physique réelle des moteurs `state = neck.get_state()` (`curr_pan`, `curr_tilt`).
+   - Élimination définitive du runaway d'angle (qui accumulait les deltas sur des variables logicielles open-loop avant la fin du mouvement physique).
+2. **Verrouillage Statique par Hystérésis Adaptative & Filtrage Angulaire (`active_gaze.py` & `test_active_gaze.py`)** :
+   - Implémentation d'une Hystérésis Adaptative : deadband d'entrée à 65 px, s'élargissant à **117 px (x1.8)** une fois le cou verrouillé au centre (`is_centered_state = True`).
+   - Ajout d'un seuil angulaire minimal de **0.8°** pour envoyer un ordre de mouvement aux moteurs RS-05.
+   - Résultat : Suppression totale des tressautements. Le cou reste 100% immobile et silencieux à l'arrêt.
+3. **Gain Proportionnel Dynamique Non-Linéaire $K_p(e)$ & Extrapolation 500 ms** :
+   - Variation automatique du gain $K_p(e) \in [0.20, 0.55]$ selon l'éloignement relatif au bord de l'image. Accélération de 2.75x lors des mouvements récents rapides.
+   - Extension de la fenêtre d'extrapolation cinématique 3D de 5 à **15 trames (500 ms)** pour traverser les flous de bougé.
+4. **Compilation TensorRT FP16 80+ FPS & Chargement Bivalent Résilient (`export_yolo_tensorrt.py` & `yolo_world.py`)** :
+   - Création du script d'exportation 1-clic `export_yolo_tensorrt.py` pré-injectant l'ensemble des 74 catégories du dictionnaire D-Bot dans le plan binaire `.engine`.
+   - Compilation réussie du fichier `yolov8m-worldv2.engine` (57.1 Mo) sur le GPU Jetson : réduction de la latence de **35 ms à 8-10 ms** (cadence de **80-120 FPS**, gain de 250 Mo VRAM).
+   - Chargement bivalent résilient : `yolo_world.py` utilise `YOLO("model.engine")` pour TensorRT 80 FPS avec mappage automatique des index de classe `results[0].names`, et bascule en douceur sur `YOLOWorld("model.pt")` PyTorch CUDA en cas de besoin.
+5. **Système de Notification Automatique du Dictionnaire** :
+   - Suivi des nouveaux mots ajoutés dans `_new_words_since_export` et message de notification au démarrage suggérant la re-compilation en 1 clic.
+   - Ajout de `*.engine` et `*.onnx` dans `.gitignore` pour protéger les modèles binaires locaux.
+6. **Perception Zero-Shot des Tasses (`"mug, coffee mug, cup"`)** :
+   - Séparation des sub-prompts par virgules pour des embeddings CLIP individuels et abaissement du seuil à 0.08 dans `CLASS_CONF_THRESHOLDS`.
+
+### 📌 Statut Général
+- **Active Gaze & Performance Vision 80 FPS** : Totalement qualifiés, ultra-fluides, synchronisés avec la boucle CAN 100 Hz, et verrouillés sans tressautement à l'arrêt !

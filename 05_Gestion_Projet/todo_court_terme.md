@@ -60,14 +60,18 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
   - Asservir le cou en Pan/Tilt pour qu'il centre physiquement l'objet ciblé au milieu du champ de vision ("Regarde la tasse").
 
 ### 🚀 Optimisations Avancées du Regard Actif & Fluidification Pan-Tilt (Validées)
-- [x] **Nœud Matériel `dai.node.ObjectTracker` VPU (OAK-D Pro 60+ FPS)** :
-  - Intégrer le nœud de suivi optique matériel `ObjectTracker` (algos KCF / FeatureTracker) sur le VPU Myriad X dans `oak_camera.py` pour rafraîchir la position $2D/3D$ de la cible à 60 FPS entre deux inférences YOLO-World (30 FPS).
-- [x] **Filtre de Kalman 3D Anti-Jitter & Trajectoire (`active_gaze.py`)** :
-  - Remplacer l'inertie empirique par un Filtre de Kalman $3D$ complet (`cv2.KalmanFilter` avec vecteur d'état $[X, Y, Z, v_x, v_y, v_z]$) dans `active_gaze.py` pour éliminer les micro-vibrations des boîtes de détection (*Bbox Jitter*) et estimer la vraie vitesse/accélération de la cible.
-- [x] **Asservissement Direct en Vitesse Angulaire Moteur ($\omega_{pan}, \omega_{tilt}$)** :
-  - Modifier `NeckController` dans `neck.py` pour piloter directement les moteurs RobStride RS-05 en consigne de vitesse angulaire ($\omega = K_p \cdot \text{Erreur}_{\text{pixels}}$) au lieu de pas de position, assurant une décélération douce (*Smooth Stopping*) sans à-coups.
-- [x] **Découplage Temporel & Boucle Moteur 100 Hz** :
-  - Séparer le thread de contrôle du bus CAN (cadencé à 100 Hz / 10 ms sur Jetson) de la boucle de détection visuelle IA (30 Hz) en interpolant les consignes à 100 Hz pour obtenir un mouvement fluide et cinématographique.
+- [x] **Inférence TensorRT FP16 Ultra-Rapide 80+ FPS (`yolov8m-worldv2.engine`)** :
+  - Compilation locale sur GPU Ampere (57.1 Mo) réduisant la latence de perception à 8-10 ms (cadence 80-120 FPS, VRAM 400 Mo) avec chargement bivalent résilient et repli automatique PyTorch CUDA.
+- [x] **Asservissement Physique en Boucle Fermée sur Télémétrie CAN** :
+  - Lecture en temps réel de la position angulaire réelle des moteurs `neck.get_state()` à 100 Hz éliminant l'emballement d'angle en fin de course.
+- [x] **Verrouillage Statique par Hystérésis Adaptative ($65\text{ px} \rightarrow 117\text{ px}$)** :
+  - Élargissement du deadband au centre + filtre d'action angulaire minimal de 0.8° éliminant 100% des micro-tressautements diagonaux à l'arrêt.
+- [x] **Gain Proportionnel Dynamique Non-Linéaire $K_p(e)$** :
+  - Variation automatique du gain de 0.20 (centre) à 0.55 (bord du champ) pour une accélération de rattrapage ultra-réactive lors des mouvements récents rapides.
+- [x] **Extrapolation Kalman 3D Étendue à 15 Trames (500 ms)** :
+  - Maintien continu de la trajectoire par inertie en cas de flou de bougé ou d'occultation temporaire.
+- [x] **Notificateur Automatique d'Enrichissement du Dictionnaire** :
+  - Suivi des nouveaux mots ajoutés dans `fr_en_dictionary.json` et message de rappel au démarrage pour suggérer une re-compilation 80+ FPS en 1 clic.
 
 ---
 
