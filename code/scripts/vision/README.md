@@ -8,25 +8,21 @@ Ce dossier regroupe les scripts exécutables de test sur le terrain, d'exportati
 
 | Script | Utilisation & Commande |
 | :--- | :--- |
-| **[`test_active_gaze.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/test_active_gaze.py)** | **Test complet du Regard Actif (Active Gaze)**. Inférence Zero-Shot YOLO-World v2 en Français natif, fusion $3D$, poursuite prédictive d'inertie et asservissement fluide des moteurs du cou RS-05.<br>`python3 code/scripts/vision/test_active_gaze.py --target "main"` |
-| **[`test_oak_tracker.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/test_oak_tracker.py)** | **Test Unitaire 1 (VPU ObjectTracker)**. Qualification du suivi optique matériel embarqué sur VPU Myriad X à $> 50\text{ FPS}$.<br>`python3 code/scripts/vision/test_oak_tracker.py` |
-| **[`test_kalman_gaze.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/test_kalman_gaze.py)** | **Test Unitaire 2 (Filtre de Kalman 3D)**. Validation de la réduction du bruit *Bbox Jitter* (> 60%) et de l'estimation de vitesse/occultation.<br>`python3 code/scripts/vision/test_kalman_gaze.py` |
-| **[`test_active_gaze_100hz.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/test_active_gaze_100hz.py)** | **Test Unitaire 4 (Boucle 100 Hz CAN)**. Mesure de la cadence du thread de commande moteur découplé à $100\text{ Hz} \pm 2\text{ Hz}$.<br>`python3 code/scripts/vision/test_active_gaze_100hz.py` |
-| **[`server_active_gaze_mac.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/server_active_gaze_mac.py)** | **Serveur Compagnon Visual Grounding Mac**. API HTTP (port 8090) exécutée sur Mac M1 Max (64 Go VRAM) pour le Visual Grounding et le raisonnement multimodal complexe (LocateAnything / Cosmos).<br>`python3 code/scripts/vision/server_active_gaze_mac.py --port 8090` |
-| **[`test_triad_vision.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/test_triad_vision.py)** | **Test complet de la Triade Visuelle**. Inférence Zero-Shot YOLO-World v2, fusion $3D$ OAK-D, déport VPU WLS et enregistrement de clichés incrémentaux dans `/tmp/dbot_snapshots/`.<br>`python3 code/scripts/vision/test_triad_vision.py` |
-| **[`export_yolo_tensorrt.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/export_yolo_tensorrt.py)** | **Exporteur TensorRT FP16 / ONNX**. Compile `yolov8m-worldv2.pt` au format `.engine` TensorRT directement sur le GPU Jetson pour booster l'inférence à $> 40\text{ FPS}$.<br>`python3 code/scripts/vision/export_yolo_tensorrt.py` |
+| **[`test_active_gaze.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/test_active_gaze.py)** | **Test complet du Regard Actif (Active Gaze)**. Inférence Zero-Shot YOLO-World v2 en Français natif, fusion 3D, poursuite prédictive d'inertie, gain dynamique Kp(e) et asservissement du cou RS-05.<br>`python3 code/scripts/vision/test_active_gaze.py --target "personne"` |
+| **[`export_tensorrt.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/export_tensorrt.py)** | **Compilation 1-Clic TensorRT FP16**. Compile `yolov8m-worldv2.pt` au format `.engine` TensorRT sur le GPU Jetson pour réduire la latence à 8-12 ms (80+ FPS).<br>`python3 code/scripts/vision/export_tensorrt.py` |
+| **[`test_oak_tracker.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/test_oak_tracker.py)** | **Test Unitaire 1 (VPU ObjectTracker)**. Qualification du suivi optique matériel embarqué sur VPU Myriad X à 60+ FPS.<br>`python3 code/scripts/vision/test_oak_tracker.py` |
+| **[`test_kalman_gaze.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/test_kalman_gaze.py)** | **Test Unitaire 2 (Filtre de Kalman 3D)**. Validation de la réduction du bruit Bbox Jitter (> 60%) et de l'extrapolation 500 ms.<br>`python3 code/scripts/vision/test_kalman_gaze.py` |
+| **[`test_active_gaze_100hz.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/test_active_gaze_100hz.py)** | **Test Unitaire 4 (Boucle 100 Hz CAN)**. Mesure de la cadence du thread de commande moteur découplé à 100 Hz ± 2 Hz.<br>`python3 code/scripts/vision/test_active_gaze_100hz.py` |
+| **[`test_triad_vision.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/vision/test_triad_vision.py)** | **Test complet de la Triade Visuelle**. Inférence Zero-Shot YOLO-World v2, fusion 3D OAK-D, déport VPU WLS et clichés dans `/tmp/dbot_snapshots/`.<br>`python3 code/scripts/vision/test_triad_vision.py` |
 
 ---
 
-## 🚀 Commandes de Test Rapide
+## 🚀 Commandes d'Exécution sur la Jetson
 
 ```bash
-# Tests unitaires des optimisations Active Gaze
-python3 code/scripts/vision/test_oak_tracker.py
-python3 code/scripts/vision/test_kalman_gaze.py
-python3 code/scripts/motors/test_neck_velocity.py
-python3 code/scripts/vision/test_active_gaze_100hz.py
+# 1. Optionnel : Compiler le moteur TensorRT FP16 (80+ FPS, latence < 10 ms)
+python3 code/scripts/vision/export_tensorrt.py
 
-# Test Active Gaze complet (Recentrage du cou sur objet en Français)
-python3 code/scripts/vision/test_active_gaze.py --target "main"
+# 2. Test Active Gaze complet (Recentrage du cou sur objet/personne)
+python3 code/scripts/vision/test_active_gaze.py --target "personne"
 ```

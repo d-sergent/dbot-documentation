@@ -13,7 +13,10 @@ La stratégie visuelle du D-Bot repose sur une **répartition à 3 niveaux** opt
    - **Nœud `SpatialLocationCalculator`** : Calcul tridimensionnel des ROIs et génération d'alertes de sécurité immédiates ($Z < 500\text{ mm}$) à $< 5\text{ ms}$.
 
 2. **Sur le GPU NVIDIA Ampere de la Jetson Orin Nano Super (67 TOPS)** :
-   - **Triade Visuelle Zero-Shot (YOLO-World v2 - `yolov8m-worldv2`)** : Inférence sémantique temps réel en TensorRT FP16 / ONNX ($> 40\text{ FPS}$, latence $\sim 15\text{ ms}$, VRAM $\sim 1.2\text{ Go}$).
+   - **Triade Visuelle Zero-Shot (YOLO-World v2 - `yolov8m-worldv2`)** :
+     - *Mode Développement (PyTorch CUDA)* : Inférence à ~28 FPS (latence 32-38 ms, poids 52 Mo, VRAM ~650 Mo).
+     - *Mode Production Optimisé (TensorRT FP16 `.engine`)* : Inférence ultra-rapide à 80-120 FPS (latence 8-12 ms, poids 55 Mo, VRAM ~400 Mo).
+     - Basculement automatique : `yolo_world.py` détecte et utilise le fichier `.engine` dès sa compilation locale sur la Jetson via `code/scripts/vision/export_tensorrt.py`.
 
 3. **Sur le Serveur Compagnon Mac M1 Max 64 Go (Cognition Déportée)** :
    - **Raisonnement Spatiale Complexe & Active Gaze** : Modèles multimodaux **NVIDIA Cosmos 3D Edge / LocateAnything-3B** déportés via gRPC/HTTP pour l'orientation dynamique du cou ("*Regarde le téléphone posé près du clavier*").
