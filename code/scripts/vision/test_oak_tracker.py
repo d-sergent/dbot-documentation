@@ -31,7 +31,8 @@ def test_vpu_object_tracker():
 
     # 3. Nœud Matériel ObjectTracker sur VPU Myriad X
     tracker = pipeline.create(dai.node.ObjectTracker)
-    tracker.setTrackerType(dai.TrackerType.ZERO_TILT)
+    tracker_type = getattr(dai.TrackerType, 'ZERO_TILT', dai.TrackerType.SHORT_TERM_KCF)
+    tracker.setTrackerType(tracker_type)
     tracker.setTrackerIdAssignmentPolicy(dai.TrackerIdAssignmentPolicy.SMALLEST_ID)
 
     # Relier le flux vidéo au tracker VPU

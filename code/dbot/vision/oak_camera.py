@@ -51,7 +51,8 @@ class DbotCamera:
         # --- Nœud Matériel ObjectTracker VPU (60+ FPS) ---
         if self.enable_tracker:
             self.tracker = self.pipeline.create(dai.node.ObjectTracker)
-            self.tracker.setTrackerType(dai.TrackerType.ZERO_TILT)
+            tracker_type = getattr(dai.TrackerType, 'ZERO_TILT', dai.TrackerType.SHORT_TERM_KCF)
+            self.tracker.setTrackerType(tracker_type)
             self.tracker.setTrackerIdAssignmentPolicy(dai.TrackerIdAssignmentPolicy.SMALLEST_ID)
             self.cam_rgb.video.link(self.tracker.inputTrackerFrame)
 
