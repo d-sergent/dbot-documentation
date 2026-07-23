@@ -136,12 +136,16 @@ class DbotCamera:
         
         while self.is_running:
             try:
-                # 1. Lecture de l'image RGB Grand Angle
-                frame_data = video_queue.get()
-                if frame_data:
-                    frame = frame_data.getCvFrame()
-                    with self.frame_lock:
-                        self.latest_frame = frame
+                # 1. Lecture de l'image RGB Grand Angle (Non bloquante)
+                if video_queue.has():
+                    frame_data = video_queue.get()
+                    if frame_data:
+                        frame = frame_data.getCvFrame()
+                        with self.frame_lock:
+                            self.latest_frame = frame
+                else:
+                    time.sleep(0.005)
+                    continue
 
                 # 2. Lecture de la carte de profondeur stéréo filtrée
                 if depth_queue and depth_queue.has():
@@ -169,7 +173,7 @@ class DbotCamera:
                         with self.frame_lock:
                             self.latest_tracklets = t_data.tracklets
             except Exception as e:
-                print(f"⚠ [Vision] Erreur lecture flux VPU : {e}")
+                print(f"⚠ [Vision] Interruption flux VPU : {e}")
                 break
 
     def get_frame(self):
@@ -212,12 +216,15 @@ class DbotCamera:
             print("☀️ [Vision] Vision nocturne désactivée.")
 
     def stop(self):
-        """Arrête la caméra proprement."""
+        """Arrête la caméra proprement sans blocage C++."""
         self.is_running = False
-        if self.thread:
-            self.thread.join()
+        if self.thread and self.thread.is_alive():
+            self.thread.join(timeout=1.0)
         if self.device:
-            self.device.close()
+            try:
+                self.device.close()
+            except Exception:
+                pass
             print("🔌 [Vision] Caméra déconnectée.")
 
 if __name__ == "__main__":
