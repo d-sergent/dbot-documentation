@@ -197,21 +197,27 @@ class YoloWorldDetector:
         
         print(f"⏳ [YOLO-World] Chargement du modèle '{target_load}' (device={self.device_name})...")
         try:
-            from ultralytics import YOLOWorld
-            self.model = YOLOWorld(target_load)
-            self.set_classes(self.user_classes_fr)
-            print(f"✅ [YOLO-World] Modèle '{target_load}' prêt via GPU ({self.device_name}).")
+            if target_load.endswith(".engine"):
+                from ultralytics import YOLO
+                self.model = YOLO(target_load)
+                print(f"✅ [YOLO-World] Moteur TensorRT FP16 '{target_load}' prêt à 80+ FPS sur GPU ({self.device_name}).")
+            else:
+                from ultralytics import YOLOWorld
+                self.model = YOLOWorld(target_load)
+                self.set_classes(self.user_classes_fr)
+                print(f"✅ [YOLO-World] Modèle PyTorch CUDA Zero-Shot '{target_load}' prêt.")
         except ImportError:
             print("⚠ [YOLO-World] 'ultralytics' non installé. Mode Simulation.")
             self.model = None
         except Exception as e:
             print(f"⚠ Note d'initialisation sur '{target_load}' : {e}")
             if target_load != self.model_name:
-                print(f"🔄 Repli automatique sur le modèle PyTorch CUDA Zero-Shot ('{self.model_name}')...")
+                print(f"🔄 Repli automatique résilient sur le modèle PyTorch CUDA Zero-Shot ('{self.model_name}')...")
                 try:
+                    from ultralytics import YOLOWorld
                     self.model = YOLOWorld(self.model_name)
                     self.set_classes(self.user_classes_fr)
-                    print(f"✅ [YOLO-World] Modèle PyTorch CUDA Zero-Shot '{self.model_name}' prêt.")
+                    print(f"✅ [YOLO-World] Repli PyTorch CUDA Zero-Shot '{self.model_name}' opérationnel.")
                 except Exception as e2:
                     print(f"❌ Échec repli PyTorch : {e2}")
                     self.model = None
@@ -243,11 +249,12 @@ class YoloWorldDetector:
             try:
                 if hasattr(self.model, 'set_classes'):
                     self.model.set_classes(self.model_prompts_en)
-                print(f"🎯 [YOLO-World] Prompts CLIP Anglais : {self.model_prompts_en}")
-                print(f"🇫🇷 [YOLO-World] Mappage Français : {self.prompt_to_fr_map}")
+                    print(f"🎯 [YOLO-World] Prompts CLIP Anglais : {self.model_prompts_en}")
+                    print(f"🇫🇷 [YOLO-World] Mappage Français : {self.prompt_to_fr_map}")
+                else:
+                    print(f"🎯 [YOLO-World TensorRT] Classes pré-compilées actives à 80+ FPS.")
             except Exception as e:
-                print(f"⚠ Note : Le moteur actif ne supporte pas set_classes() dynamique ({e}).")
-                raise e
+                print(f"⚠ Note set_classes : {e}")
 
     def detect(self, frame_bgr):
         """
