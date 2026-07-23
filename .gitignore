@@ -18,5 +18,9 @@ __pycache__/
 .env
 code/rag/rag_indexing.log
 
+# Heavy AI Models & TensorRT Engines
+*.engine
+*.onnx
+
 # IDE / Extensions
 .continue/
