@@ -159,12 +159,12 @@ class NeckController:
     # ── Bornes Mécaniques ──────────────────────────────────
     @staticmethod
     def clamp_pan(angle_rad: float) -> float:
-        """Borne la consigne Pan dans [-40°, +40°] (Doc 32 §3)."""
+        """Borne la consigne Pan dans [-80°, +80°] (Doc 32 §3 & config.py)."""
         return max(PAN_MIN_RAD, min(PAN_MAX_RAD, angle_rad))
 
     @staticmethod
     def clamp_tilt(angle_rad: float) -> float:
-        """Borne la consigne Tilt dans [-30°, +30°] (Doc 32 §3)."""
+        """Borne la consigne Tilt dans [-20°, +30°] (Doc 32 §3 & config.py)."""
         return max(TILT_MIN_RAD, min(TILT_MAX_RAD, angle_rad))
 
     # ── Activation / Désactivation ─────────────────────────
