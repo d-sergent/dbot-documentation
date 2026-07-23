@@ -99,7 +99,7 @@ class ActiveGazeTracker:
         fov_v_deg=50.0,
         kp_pan=0.20,
         kp_tilt=0.20,
-        deadband_pixels=35,
+        deadband_pixels=65,
         max_predict_frames=5
     ):
         self.fov_h_deg = fov_h_deg
@@ -114,9 +114,10 @@ class ActiveGazeTracker:
         self.min_tilt_deg = math.degrees(TILT_MIN_RAD) # -20.0°
         self.max_tilt_deg = math.degrees(TILT_MAX_RAD) # +30.0°
 
-        # Filtre de Kalman 3D
+        # Filtre de Kalman 3D & État d'hystérésis
         self.kalman = GazeKalmanFilter3D()
         self.lost_frames_count = 0
+        self.is_centered_state = False
 
     def compute_head_target(self, target_center_2d, frame_width, frame_height, current_pan_deg, current_tilt_deg, depth_z_mm=1000.0):
         """
@@ -138,9 +139,14 @@ class ActiveGazeTracker:
 
         self.lost_frames_count = 0
 
-        # Zone morte centralisée
-        if abs(error_x_px) < self.deadband_pixels and abs(error_y_px) < self.deadband_pixels:
+        # Hystérésis adaptative : seuil élargi (x1.8) si la tête est DÉJÀ verrouillée au centre
+        effective_deadband = self.deadband_pixels * 1.8 if self.is_centered_state else float(self.deadband_pixels)
+
+        if abs(error_x_px) < effective_deadband and abs(error_y_px) < effective_deadband:
+            self.is_centered_state = True
             return current_pan_deg, current_tilt_deg, True
+
+        self.is_centered_state = False
 
         # Conversion écart pixels -> delta angles en degrés
         deg_per_px_h = self.fov_h_deg / frame_width

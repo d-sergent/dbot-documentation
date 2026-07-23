@@ -79,7 +79,7 @@ def run_active_gaze_real_world(target_prompt="main", enable_motors=True):
             delta_pan = t_pan - curr_pan
             delta_tilt = t_tilt - curr_tilt
 
-            if neck and (abs(t_pan - curr_pan) > 0.3 or abs(t_tilt - curr_tilt) > 0.3):
+            if neck and (abs(t_pan - curr_pan) > 0.8 or abs(t_tilt - curr_tilt) > 0.8):
                 neck.look_at(t_pan, t_tilt)
                 curr_pan = t_pan
                 curr_tilt = t_tilt
