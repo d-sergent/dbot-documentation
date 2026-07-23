@@ -291,15 +291,20 @@ class YoloWorldDetector:
                         xyxy = box.xyxy[0].cpu().numpy()
                         x1, y1, x2, y2 = map(int, xyxy)
                         conf = float(box.conf[0].cpu().numpy())
-                        cls_id = int(box.cls[0].cpu().numpy())
-                        
-                        raw_en_prompt = self.model_prompts_en[cls_id] if cls_id < len(self.model_prompts_en) else f"class_{cls_id}"
+                        # Résolution résiliente de l'étiquette (Table native du moteur TensorRT ou prompts)
+                        names_map = getattr(results[0], 'names', {})
+                        if isinstance(names_map, dict) and cls_id in names_map:
+                            raw_en_prompt = str(names_map[cls_id]).lower().strip()
+                        elif cls_id < len(self.model_prompts_en):
+                            raw_en_prompt = self.model_prompts_en[cls_id]
+                        else:
+                            raw_en_prompt = f"class_{cls_id}"
                         
                         min_conf = min(CLASS_CONF_THRESHOLDS.get(raw_en_prompt, self.default_conf_threshold), self.default_conf_threshold)
                         if conf < min_conf:
                             continue
 
-                        fr_label = self.prompt_to_fr_map.get(raw_en_prompt, raw_en_prompt.upper())
+                        fr_label = self.prompt_to_fr_map.get(raw_en_prompt, translate_fr_to_en(raw_en_prompt).upper())
 
                         cx = int((x1 + x2) / 2)
                         cy = int((y1 + y2) / 2)
