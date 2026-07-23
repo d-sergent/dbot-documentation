@@ -22,11 +22,12 @@ class DbotCamera:
     Gestionnaire de la caméra OAK-D Pro avec grand angle 81° (ISP Scaling sans Center Crop)
     et déport matériel sur le VPU Myriad X (Filtre WLS + SpatialLocationCalculator).
     """
-    def __init__(self, resolution="1080p", fps=30, enable_depth=True, hazard_distance_mm=500):
+    def __init__(self, resolution="1080p", fps=30, enable_depth=True, enable_tracker=True, hazard_distance_mm=500):
         self.pipeline = dai.Pipeline()
         self.device = None
         self.is_running = False
         self.enable_depth = enable_depth
+        self.enable_tracker = enable_tracker
         self.hazard_distance_mm = hazard_distance_mm
         
         # --- 1. Configuration du capteur RGB Grand Angle (81° FOV sans Center Crop) ---
@@ -46,6 +47,17 @@ class DbotCamera:
         self.xout_video = self.pipeline.create(dai.node.XLinkOut)
         self.xout_video.setStreamName("video")
         self.cam_rgb.isp.link(self.xout_video.input)
+
+        # --- Nœud Matériel ObjectTracker VPU (60+ FPS) ---
+        if self.enable_tracker:
+            self.tracker = self.pipeline.create(dai.node.ObjectTracker)
+            self.tracker.setTrackerType(dai.TrackerType.ZERO_TILT)
+            self.tracker.setTrackerIdAssignmentPolicy(dai.TrackerIdAssignmentPolicy.SMALLEST_ID)
+            self.cam_rgb.video.link(self.tracker.inputTrackerFrame)
+
+            self.xout_tracker = self.pipeline.create(dai.node.XLinkOut)
+            self.xout_tracker.setStreamName("tracklets")
+            self.tracker.out.link(self.xout_tracker.input)
 
         # --- 2. Configuration Stéréo Depth & Filtre WLS VPU (Optionnel) ---
         if self.enable_depth:
@@ -119,6 +131,7 @@ class DbotCamera:
         video_queue = self.device.getOutputQueue(name="video", maxSize=4, blocking=False)
         depth_queue = self.device.getOutputQueue(name="depth", maxSize=4, blocking=False) if self.enable_depth else None
         spatial_queue = self.device.getOutputQueue(name="spatial_data", maxSize=4, blocking=False) if self.enable_depth else None
+        tracker_queue = self.device.getOutputQueue(name="tracklets", maxSize=4, blocking=False) if self.enable_tracker else None
         
         while self.is_running:
             try:
@@ -147,6 +160,13 @@ class DbotCamera:
                             with self.frame_lock:
                                 self.hazard_distance = z_mm
                                 self.is_hazard_detected = (0 < z_mm < self.hazard_distance_mm)
+
+                # 4. Lecture des tracklets matériels VPU
+                if tracker_queue and tracker_queue.has():
+                    t_data = tracker_queue.get()
+                    if t_data:
+                        with self.frame_lock:
+                            self.latest_tracklets = t_data.tracklets
             except Exception as e:
                 print(f"⚠ [Vision] Erreur lecture flux VPU : {e}")
                 break
@@ -160,6 +180,11 @@ class DbotCamera:
         """Retourne la dernière carte de profondeur filtrée par le VPU (en mm)."""
         with self.frame_lock:
             return self.latest_depth
+
+    def get_tracklets(self):
+        """Retourne la liste des tracklets d'objets suivis par le VPU Myriad X."""
+        with self.frame_lock:
+            return getattr(self, 'latest_tracklets', [])
 
     def check_hazard_alert(self):
         """

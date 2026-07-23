@@ -312,6 +312,28 @@ class NeckController:
         finally:
             self.is_moving = False
 
+    def set_velocity(self, pan_vel_dps: float = 0.0, tilt_vel_dps: float = 0.0) -> None:
+        """
+        Envoie des consignes de vitesse angulaire directe (en deg/s) aux moteurs Pan & Tilt.
+        Applique un bridage de vitesse maximal pour des raisons de sécurité.
+        """
+        if self.emergency_stopped or not self._enabled:
+            return
+
+        # Conversion deg/s -> rad/s
+        pan_vel_rad = math.radians(pan_vel_dps)
+        tilt_vel_rad = math.radians(tilt_vel_dps)
+
+        # Limitation de vitesse de sécurité
+        max_vel = NECK_SPEED_LIMIT * 2.0
+        pan_vel_rad = max(-max_vel, min(max_vel, pan_vel_rad))
+        tilt_vel_rad = max(-max_vel, min(max_vel, tilt_vel_rad))
+
+        if NECK_PAN_ID in self.active_motors:
+            self._client.write_param_no_ack(NECK_PAN_ID, 'spd_ref', pan_vel_rad)
+        if NECK_TILT_ID in self.active_motors:
+            self._client.write_param_no_ack(NECK_TILT_ID, 'spd_ref', tilt_vel_rad)
+
     def center(self) -> None:
         """Recentre la tête à 0°, 0°."""
         self.look_at(0.0, 0.0)
