@@ -143,6 +143,11 @@ class YoloWorldDetector:
         self.device_name = device or self._detect_best_device()
         self._init_model()
 
+    @property
+    def dictionary(self):
+        """Retourne le dictionnaire de traduction local global."""
+        return GLOBAL_FR_EN_DICT
+
     def _detect_best_device(self):
         """Détermine le meilleur device disponible (CUDA vs CPU)."""
         try:

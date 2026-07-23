@@ -26,7 +26,7 @@ if CODE_DIR not in sys.path:
     sys.path.insert(0, CODE_DIR)
 
 from dbot.vision.oak_camera import DbotCamera
-from dbot.vision.yolo_world import YoloWorldDetector
+from dbot.vision.yolo_world import YoloWorldDetector, translate_fr_to_en
 from dbot.vision.spatial_fusion import SpatialFusion
 from dbot.behaviors.active_gaze import ActiveGazeTracker
 from dbot.motors.neck import NeckController
@@ -119,7 +119,7 @@ def run_active_gaze_real_world(target_prompt="main", enable_motors=True):
             dets_3d = fusion.compute_spatial_3d(dets_2d, frame_depth)
 
             # Target matching bilingue flexible (Français + Anglais)
-            target_en = detector.dictionary.get(target_clean, target_clean).lower()
+            target_en = translate_fr_to_en(target_clean).lower()
             matching_dets = []
             for d in dets_3d:
                 lbl_fr = d["label"].lower()
