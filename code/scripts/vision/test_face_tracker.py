@@ -188,7 +188,8 @@ def main():
             t0 = time.perf_counter()
 
             if use_oak:
-                frame, spatial_dets = cam.get_frame_with_spatial()
+                frame = cam.get_frame()
+                spatial_dets = []
             else:
                 ret, frame = cam.read()
                 if not ret:
