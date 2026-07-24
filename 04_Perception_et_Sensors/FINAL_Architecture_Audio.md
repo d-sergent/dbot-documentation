@@ -1,12 +1,13 @@
-# 08 - Architecture Audio (XVF-3800)
+# 08 - Architecture Audio (XVF-3800 & Stack dbot_next)
 
-## 1. Cerveau IA (Jetson Orin Nano Super)
-Le cœur du traitement audio et cognitif du D-Bot est la **NVIDIA Jetson Orin Nano Super** (67 TOPS). Elle utilise une architecture **Hybride Cloud/Edge** pour maximiser les performances :
-- **ASR (Speech-to-Text)** : **Faster-Whisper** (modèle Small, accélération CUDA).
-- **Cerveau (LLM)** : **Google Gemini 3.1 Flash Lite** (Cloud ultra-rapide) + Fallback local **Ollama** (Qwen 0.5B).
-- **TTS (Text-to-Speech)** : **Piper-TTS** (voix ONNX, latence ultra-faible).
+## 1. Cerveau IA & Pipeline Audio Conversationnel (dbot_next)
+Le traitement audio et cognitif de D-Bot s'appuie sur une **Architecture Hybride Master Déportée (Jetson Orin Nano 8 Go ↔ Mac M1 Max 64 Go)** via WebSocket bidirectionnel ultra-basse latence :
+- **ASR (Speech-to-Text)** : **Groq Cloud Whisper Large v3 Turbo** (< 300 ms) avec Fallback local **Faster-Whisper** (modèle `small` sur CPU Mac, ~900 ms).
+- **Cerveau (LLM)** : **Google Gemini 2.0 Flash** (Cloud ultra-rapide en streaming, premier token < 500 ms) + Fallback local **Ollama** (Qwen 2.5 0.5B).
+- **TTS (Text-to-Speech)** : **Qwen3-TTS VoiceDesign MLX 8-bit** (GPU Metal Mac, streaming 24 kHz) + Option **ElevenLabs Cloud Streaming** + Secours local Jetson **Kokoro-ONNX** (`ff_siwis`).
+- **Détection Vocal (VAD)** : VAD logicielle RMS avec calibration automatique du bruit de fond, pre-roll 5 chunks et verrouillage anti-auto-interruption (anti-self-barge-in) pendant la réponse vocale.
 
-> *Marge Processeur : La marche, la vision OAK-D et l'audio IA consomment environ 52% du processeur au maximum, laissant 48% de marge de sécurité.*
+> *Performance Validée (Juillet 2026) : Latence totale fin de parole ➔ 1er paquet audio HP : **1553 ms** avec ASR local small / **~750 ms** avec Groq Cloud ASR.*
 
 ## 2. Architecture Audio Simplifiée (ReSpeaker XVF-3800)
 

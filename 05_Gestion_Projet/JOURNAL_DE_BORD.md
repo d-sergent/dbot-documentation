@@ -4,6 +4,35 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 
 ---
 
+## 📅 2026-07-24 — Audio Gaze Tracking, Clarification EEPROM RS-05 & Pipeline Streaming Audio Déporté (1.55s)
+
+### 🎯 Objectif de la session
+1. **Audio Gaze Tracking (`audio_gaze.py`)** : Asservir la direction DoA (0–359°) du ReSpeaker XVF-3800 sur la rotation Pan du cou (-80° à +80°).
+2. **Clarification Moteurs RS-05** : Vérifier la persistance des bornes d'angle dans l'EEPROM des moteurs RobStride RS-05 et mettre à jour la documentation.
+3. **Pipeline Audio Déporté `dbot_next`** : Déboguer la chaîne conversationnelle interactive ASR + LLM + TTS (`test_companion_streaming.py` Jetson ↔ `companion_server.py` Mac) et résoudre les interruptions/hallucinations.
+4. **Profilage & Optimisation de Latence** : Mesurer chaque étape du pipeline et réduire la latence perçue pour une conversation fluide.
+
+### 📝 Réalisations & Évolutions
+1. **Module Audio Gaze Tracking (`dbot/behaviors/audio_gaze.py` & `test_audio_gaze.py`)** :
+   - Mappage linéaire et continu de la DoA ReSpeaker (0° à 359°) vers l'angle Pan (-80° à +80°).
+   - Zone morte de 12.0° et filtrage d'hystérésis pour éliminer les petits mouvements brusques.
+   - Validation 100% de la suite de tests unitaires et vérification des verrous de bridage logiciel `clamp_pan` / `clamp_tilt`.
+2. **Clarification Matérielle RS-05 (Doc 32 & 43)** :
+   - Confirmation que les moteurs FOC RobStride RS-05 ne possèdent aucun registre EEPROM pour les limites d'angle.
+   - Formalisation du bridage logiciel à 3 niveaux (Python `clamp_pan/tilt`, URDF soft limits, controller bounds).
+   - Suppression des notations LaTeX mathématiques dans les docs textuelles conformément aux règles du projet.
+3. **Correctifs Majeurs Stack Audio `dbot_next` (`companion_server.py` & `audio_io_streaming.py`)** :
+   - **Bug WebSocket Starlette** : Correction du parsing ASGI `message.get("bytes")` qui interceptait par erreur les messages texte JSON `start` et `end`.
+   - **Bug Mono / Stéréo** : Suppression du double désentrelacement stéréo/mono dans le serveur Mac (`AudioIOStreaming` extrayant déjà le canal gauche 16 kHz mono).
+   - **VAD RMS & Pre-roll** : Calibration dynamique du bruit de fond (`seuil = max(bruit_rms * 3.0, 150)`), pre-roll de 5 chunks de silence et réduction de la fenêtre de fin de phrase de 20 chunks (3.2s) à 10 chunks (1.6s).
+   - **Verrouillage Anti-Auto-Écoute** : Mute temporaire de la VAD pendant la réponse du robot (`speaking`/`thinking`) et purge du buffer audio dans `on_end()` pour éliminer l'effet d'auto-interruption du haut-parleur.
+4. **Intégration Groq Cloud ASR & Profilage de Latence** :
+   - Intégration de **Groq Whisper Large v3 Turbo** Cloud (< 300 ms) via `GROQ_API_KEY` dans `.env` avec fallback automatique sur **Faster-Whisper `small`** local CPU.
+   - Création du script de gestion propre `Code/dbot_next/scripts/start_companion_server.sh` (`--start`, `--restart`, `--stop`, `--status`, `--logs`).
+   - Latence totale mesurée (fin de parole ➔ 1er paquet audio) : **1553 ms** en local (Faster-Whisper `small`), réduisant la latence initiale de **57.7%** !
+
+---
+
 ## 📅 2026-07-22 — Stabilisation I/O Motorbridge Web UI & Cou Pan/Tilt
 
 ### 🎯 Objectif de la session

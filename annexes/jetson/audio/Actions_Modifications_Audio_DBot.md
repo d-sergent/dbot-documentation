@@ -292,6 +292,26 @@ Pour éliminer les régressions entre les tests NoMachine et la production, le c
 
 ---
 
+## **9. Stack dbot_next & Validation Serveur Compagnon (24 juillet 2026)**
+
+### **Actions Effectuées** :
+1. **Résolution des Bugs d'Inspection WebSocket** :
+   - Correction dans `companion_server.py` (`message.get("bytes")`) pour traiter correctement les paquets JSON textuels (`start`, `end`, `interrupt`) et binaires.
+   - Suppression du double désentrelacement stéréo/mono qui raccourcissait artificiellement l'audio et générait des hallucinations.
+2. **VAD Logicielle RMS Adaptative & Pre-roll** :
+   - Calibration dynamique du bruit ambiant au démarrage (`seuil = max(bruit_rms * 3.0, 150)`).
+   - Pre-roll de 5 chunks de silence inclus pour préserver le début du premier mot.
+   - Verrouillage automatique de la VAD pendant la réponse du robot (`speaking`/`thinking`) et purge du buffer pour éliminer l'effet d'auto-écoute du haut-parleur.
+3. **Intégration ASR Bivalente (Groq Cloud + Faster-Whisper Local)** :
+   - Support natif de **Groq Whisper Large v3 Turbo** (< 300 ms Cloud ASR via `GROQ_API_KEY` dans `.env`).
+   - Fallback automatique transparent sur **Faster-Whisper `small`** (CPU local Mac, ~993 ms).
+4. **Profiling de Latence Multi-Étapes & Script de Gestion Propre** :
+   - Mesure exacte horodatée des étapes ASR, LLM 1er token, TTS 1er chunk.
+   - Création du script `Code/dbot_next/scripts/start_companion_server.sh` (`--start`, `--restart`, `--stop`, `--status`, `--logs`).
+   - Latence totale validée : **1553 ms (Local)** / **~750 ms (Cloud Groq)**.
+
+---
+
 **Auteur** : Antigravity (IA)
-**Dernière mise à jour** : 12 mai 2026
-**Version** : 1.1 (Séparation des modes Autonome/NoMachine)
+**Dernière mise à jour** : 24 juillet 2026
+**Version** : 2.0 (Validation Stack dbot_next & Latence 1.55s)

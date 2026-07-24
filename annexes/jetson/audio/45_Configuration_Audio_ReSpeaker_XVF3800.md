@@ -269,47 +269,52 @@ def speak(text, voice_model_path, pulse_sink=None):
 ### Pipeline Streaming Complet (dbot_next)
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ JETSON ORIN NANO (Streaming)                                    │
+│ JETSON ORIN NANO (Client Streaming)                             │
 │  parecord --device=SOURCE --channels=2 --format=s16le           │
-│  → Thread Python (queue audio PCM 16kHz stéréo)               │
-│  → SDK XVF3800 (VAD matériel + DoA via USB HID)               │
-│  → WebSocket (chunks PCM base64) ─────────────────────────┐ │
-└─────────────────────────────────────────────────────────────────┘ │
-                                                             │ │
-┌─────────────────────────────────────────────────────────────────┐ │
-│ MAC COMPAGNON (companion_server.py, port 8001)                  │ │
-│  → faster-whisper ASR (modèle medium, CPU)                      │└─┘
-│  → Gemini 2.0 Flash LLM (Cloud) ou Qwen2.5 (Local fallback)   │
-│  → Qwen3-TTS MLX (GPU Metal) → PCM 24kHz                      │
-│  │ WebSocket (réponse audio PCM base64 + texte) ──────────┐ │
-└─────────────────────────────────────────────────────────────────┘ │
-                                                             │
-┌─────────────────────────────────────────────────────────────────┐
-│ JETSON (Lecture) ───────────────────────────────────────────────│←─┘
-│  PCM 24kHz → paplay --device=SINK_RESPEAKER                    │
-│  → DAC XVF3800 → Ampli JST (numid=3,4,5,6) → HP 5W             │
+│  → AudioIOStreaming (mono gauche extrait direct @ 16 kHz)       │
+│  → VAD logicielle RMS (seuil calibré 150 RMS min + pre-roll)    │
+│  → Verrouillage anti-auto-écoute pendant paplay                │
+│  → WebSocket (chunks PCM base64) ─────────────────────────┐     │
+└───────────────────────────────────────────────────────────│─────┘
+                                                            │
+┌───────────────────────────────────────────────────────────│─────┐
+│ MAC COMPAGNON (companion_server.py via script start)      │     │
+│  → Groq Whisper Large v3 Turbo (< 300 ms Cloud ASR)       │←────┘
+│    ou Faster-Whisper small CPU (~900 ms local fallback)         │
+│  → Gemini 2.0 Flash LLM Streaming (Cloud, ~0 ms 1er token)      │
+│  → Qwen3-TTS MLX (GPU Metal 24 kHz, ~0 ms 1er chunk)           │
+│  └─ WebSocket (réponse audio PCM base64 + texte) ─────────┐     │
+└───────────────────────────────────────────────────────────│─────┘
+                                                            │
+┌───────────────────────────────────────────────────────────│─────┐
+│ JETSON (Lecture Audio) ───────────────────────────────────│←────┘
+│  PCM 24kHz → paplay --device=SINK_RESPEAKER                     │
+│  → DAC XVF3800 → Ampli JST (numid=3,4,5,6) → HP 5W              │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### Séquence de Démarrage Recommandée (dbot_next, headless)
+### Séquence de Démarrage Recommandée (dbot_next)
+
 ```bash
-# 1. S'assurer que GDM ne tourne pas (multi-user.target permanent depuis Juillet 2026)
-sudo systemctl get-default  # doit afficher multi-user.target
+# 1. Sur le Mac : Démarrage/Restart propre du serveur via le gestionnaire
+./Code/dbot_next/scripts/start_companion_server.sh --restart
 
-# 2. Vérifier que PulseAudio est actif POUR L'UTILISATEUR
-pulseaudio --start  # lance si pas encore démarré
-pactl list short sources  # doit montrer la source iec958 ReSpeaker
+# Pour vérifier le statut ou suivre les logs :
+./Code/dbot_next/scripts/start_companion_server.sh --status
+./Code/dbot_next/scripts/start_companion_server.sh --logs
 
-# 3. Activer l'ampli JST + réveiller la source micro
-pactl unload-module module-suspend-on-idle
-pactl suspend-source alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800_4-Mic_Array_*-00.iec958-stereo 0
-pactl set-source-volume alsa_input.usb-Seeed_Studio_reSpeaker_XVF3800_4-Mic_Array_*-00.iec958-stereo 150%
-amixer -c 0 cset numid=3 on && amixer -c 0 cset numid=4 on
-amixer -c 0 cset numid=5 60 && amixer -c 0 cset numid=6 60
-
-# 4. Lancer le serveur compagnon sur le Mac, puis sur la Jetson :
+# 2. Sur la Jetson : Lancement de la boucle de test conversationnelle
+git pull
+export DBOT_MAC_IP="192.168.68.120"
 python3 code/dbot_next/scripts/test_companion_streaming.py
 ```
+
+### Métriques de Latence Perçue (Validées Juillet 2026)
+- **VAD Fin de phrase** : `1600 ms` (10 chunks × 160 ms)
+- **ASR Groq Cloud Turbo** : `~200 ms` (ou Faster-Whisper `small` CPU local : `993 ms`)
+- **LLM Gemini 2.0 Flash** : `0 ms` (streaming premier token instantané)
+- **TTS Qwen3-TTS GPU Metal** : `0 ms` (streaming premier chunk instantané)
+- 🚀 **Latence Totale Perçue** : **1553 ms (Local)** / **~750 ms (Groq Cloud)**
 
 ### Commande de Diagnostic Volume (IMPORTANT : utiliser LANG=C)
 ```bash
