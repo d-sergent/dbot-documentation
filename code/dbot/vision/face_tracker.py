@@ -89,12 +89,12 @@ class FaceTracker:
         ensure_directory(WEIGHTS_DIR)
 
         # Choix du modèle d'embedding (ResNet50 Haute Précision par défaut)
-        self.rec_path = RESNET50_PATH if (use_resnet50 and os.path.exists(RESNET50_PATH)) else MBF_PATH
+        target_rec_path = RESNET50_PATH if use_resnet50 else MBF_PATH
 
-        if not os.path.exists(SCRFD_PATH) or not os.path.exists(self.rec_path):
+        if not os.path.exists(SCRFD_PATH) or not os.path.exists(target_rec_path):
             download_and_extract_models(use_resnet50=use_resnet50)
-            if use_resnet50 and os.path.exists(RESNET50_PATH):
-                self.rec_path = RESNET50_PATH
+
+        self.rec_path = target_rec_path if os.path.exists(target_rec_path) else MBF_PATH
 
         self.session_det = None
         self.session_rec = None
