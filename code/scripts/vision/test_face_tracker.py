@@ -26,7 +26,7 @@ if CODE_ROOT not in sys.path:
     sys.path.insert(0, CODE_ROOT)
 
 from dbot.vision.face_tracker import FaceTracker
-from dbot.vision.yolo_world import YOLOWorldDetector
+from dbot.vision.yolo_world import YoloWorldDetector
 
 try:
     from dbot.vision.oak_camera import OAKCamera
@@ -152,7 +152,7 @@ def main():
 
     print("🚀 [FaceTracker Test] Initialisation du système de reconnaissance faciale ultra-compact...")
     tracker = FaceTracker(match_threshold=args.threshold)
-    detector = YOLOWorldDetector(classes_fr=["personne"], conf_threshold=0.25)
+    detector = YoloWorldDetector(classes=["personne"], default_conf_threshold=0.25)
 
     use_oak = OAK_AVAILABLE and not args.use_webcam
     cam = None
