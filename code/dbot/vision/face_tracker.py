@@ -217,22 +217,36 @@ class FaceTracker:
                     best_name = name
 
         if best_sim >= self.match_threshold:
-            print(f"🔍 [Face Match ✅] Identification: '{best_name}' (Score: {best_sim*100:.1f}% | Seuil: {self.match_threshold*100:.0f}%)")
+            print(f"\r🔍 [Face Match ✅] Identification: '{best_name}' (Score: {best_sim*100:.1f}% | Seuil: {self.match_threshold*100:.0f}%)", flush=True)
             return best_name, best_sim
         else:
-            if best_sim > 0.15:
-                print(f"🔍 [Face Match ⚠️] Proche de '{best_name}' (Score: {best_sim*100:.1f}% < Seuil: {self.match_threshold*100:.0f}%)")
+            if best_sim > 0.10:
+                print(f"\r🔍 [Face Match ⚠️] Proche de '{best_name}' (Score: {best_sim*100:.1f}% < Seuil: {self.match_threshold*100:.0f}%)", flush=True)
             return "INCONNU", best_sim
+
+    def extract_face_roi(self, head_crop_bgr: np.ndarray) -> np.ndarray:
+        """
+        Extrait la ROI précise du visage en éliminant les épaules et l'arrière-plan.
+        """
+        if head_crop_bgr is None or head_crop_bgr.size == 0:
+            return None
+        h_c, w_c = head_crop_bgr.shape[:2]
+        if h_c < 20 or w_c < 20:
+            return cv2.resize(head_crop_bgr, (112, 112))
+
+        # Isolement de la zone faciale (30-85% en hauteur, 15-85% en largeur)
+        face_roi = head_crop_bgr[int(h_c * 0.15):int(h_c * 0.85), int(w_c * 0.15):int(w_c * 0.85)]
+        if face_roi.size > 0:
+            return cv2.resize(face_roi, (112, 112))
+        return cv2.resize(head_crop_bgr, (112, 112))
 
     def process_person_crop(self, frame_bgr: np.ndarray, person_bbox: tuple) -> tuple[str, float]:
         """
         Traite une sous-région `PERSONNE` (ROI): découpe la zone de la tête, aligne et identifie.
-        Rend l'inférence extrêmement rapide et ciblée (0% d'impact sur le reste du champ).
         """
         x1, y1, x2, y2 = person_bbox
         h, w = frame_bgr.shape[:2]
 
-        # Restriction du Crop au 40% supérieur du corps (Région Tête / Épaules)
         crop_h = int((y2 - y1) * 0.40)
         head_y2 = min(y1 + crop_h, h)
         head_crop = frame_bgr[max(0, y1):head_y2, max(0, x1):min(x2, w)]
@@ -240,7 +254,7 @@ class FaceTracker:
         if head_crop.size == 0:
             return "INCONNU", 0.0
 
-        aligned = cv2.resize(head_crop, (112, 112))
+        aligned = self.extract_face_roi(head_crop)
         emb = self.get_embedding(aligned)
         name, sim = self.identify_embedding(emb)
         return name, sim

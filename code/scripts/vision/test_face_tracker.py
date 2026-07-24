@@ -297,12 +297,12 @@ def main():
                     reg_name = "David"
                 # Capture et enregistrement du visage
                 for det in detections:
-                    if det["label"] == "PERSONNE":
+                    if det["label"].upper() in ["PERSONNE", "PERSON"]:
                         x1, y1, x2, y2 = det["bbox"]
                         crop_h = int((y2 - y1) * 0.40)
                         head_crop = frame[max(0, y1):min(y1 + crop_h, h), max(0, x1):min(x2, w)]
                         if head_crop.size > 0:
-                            aligned = cv2.resize(head_crop, (112, 112))
+                            aligned = tracker.extract_face_roi(head_crop)
                             success = tracker.register_face(reg_name, aligned)
                             if success:
                                 print(f"\n🎉 [Web UI / Console] Enregistrement réussi pour '{reg_name}' !")
