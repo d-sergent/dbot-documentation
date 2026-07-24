@@ -140,3 +140,37 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 
 ### 📌 Statut Général
 - **Reconnaissance Faciale Nommée** : Validée sur le terrain, fluide et intégrée à la perception 3D du D-Bot !
+
+---
+
+## 📅 2026-07-24 (Session du Soir) — Déploiement de la Discrimination Faciale High-Precision 3 Étapes & Poursuite Nominative Active Gaze
+
+### 🎯 Objectif de la session
+1. Déployer la Feuille de Route à 3 Étapes pour résoudre définitivement l'incertitude faciale intra-familiale (ex: David vs Léa vs Émilie).
+2. Augmenter la résolution utile du visage (passer de crops flous de 30 x 30 px à des crops nets de 180 x 180 px).
+3. Intégrer la reconnaissance faciale nommée directement dans la boucle d'asservissement en vitesse 100 Hz du cou RS-05 (`test_active_gaze.py --target "David"`).
+4. Implémenter un filtre d'unicité physique spatio-temporelle pour empêcher les détections multiples en doublon d'un même membre de la famille.
+
+### 📝 Réalisations & Évolutions
+
+1. **Étape 2 : Découpage HD Natif Full-Resolution 1080p (`oak_camera.py` & `face_tracker.py`)** :
+   - Ajout du flux parallèle `video_hd` (1920 x 1080 px brut) dans `DbotCamera` aux côtés du flux 640 x 360 px utilisé par YOLO.
+   - Mise à jour de `process_person_crop()` pour découper le visage directement sur l'image source 1080p d'origine, apportant **3.5x plus de pixels nets réels** sur le visage (180 x 180 px contre 30 x 30 px auparavant).
+
+2. **Étape 1 : Passage au Modèle ArcFace ResNet50 (`w600k_r50.onnx` ~160 Mo)** :
+   - Téléchargement et chargement automatique du pack InsightFace `buffalo_l.zip` (~280 Mo) sur GPU CUDA ONNXRuntime.
+   - Backbone 512-dim haute capacité multipliant par 4 la séparation angulaire. Les scores d'identification de David sont passés de **55%–65% à 92.2%–93.1%**.
+
+3. **Étape 3 : Classifieur SVM à Marge Maximale (`sklearn.svm.SVC`)** :
+   - Implémentation du ré-entraînement automatique d'un classifieur SVM linéaire avec calcul de probabilités calibrées à chaque enregistrement de profil familial.
+   - Frontière de décision stricte éliminant l'hésitation entre les membres du foyer.
+
+4. **Poursuite Nominative Active Gaze (`test_active_gaze.py`)** :
+   - Couplage de `FaceTracker` avec la boucle d'asservissement en vitesse 100 Hz du cou RS-05.
+   - Prise en charge des commandes nominatives : `python3 code/scripts/vision/test_active_gaze.py --target "David"` filtre les détections et oriente le cou spécifiquement sur David en ignorant les autres personnes.
+
+5. **Filtre d'Unicité Physico-Spatiale (`deduplicate_identities`)** :
+   - Ajout d'une règle d'exclusion spatio-temporelle : maximum 1 seule détection nominative (ex: Émilie) conservée par trame vidéo (sélection de la meilleure similarité, élimination des boîtes englobantes en doublon de YOLO-World).
+
+### 📌 Statut Général
+- **Discrimination Faciale & Regard Nominatif** : 100% Qualifiés et validés sur le terrain sur la Jetson Orin Nano GPU CUDA ! 🚀
