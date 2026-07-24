@@ -29,8 +29,8 @@ from dbot_next.audio.tts_qwen3_central_client import Qwen3CentralClient
 
 # ─── Constantes VAD Logicielle ─────────────────────────────────────────────
 CALIBRATION_DURATION_S  = 2.0   # Durée de mesure du bruit de fond
-RMS_MIN_SPEECH          = 400   # Seuil RMS absolu minimum pour déclencher
-SPEECH_TRIGGER_CHUNKS   = 3     # Nb de chunks consécutifs > seuil pour "début de phrase"
+RMS_MIN_SPEECH          = 150   # Seuil RMS absolu minimum adaptatif pour déclencher
+SPEECH_TRIGGER_CHUNKS   = 2     # Nb de chunks consécutifs > seuil pour "début de phrase"
 SILENCE_TRIGGER_CHUNKS  = 10    # Nb de chunks consécutifs < seuil pour "fin de phrase" (~1.6s à 160ms/chunk)
 PRE_ROLL_CHUNKS         = 5     # Nb de chunks de silence pré-parole à inclure dans le stream
 

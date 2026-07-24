@@ -125,8 +125,12 @@ class AudioIOStreaming:
         except Exception as e:
             print(f"⚠ [AudioIO Streaming] Erreur init ampli : {e}")
 
-        # RÉVEIL FORCÉ DE LA SOURCE MICRO PULSEAUDIO
+        # RÉVEIL FORCÉ DE LA SOURCE MICRO PULSEAUDIO ET ALSA DIRECT
         try:
+            # Réveil ALSA hardware direct
+            subprocess.run(["amixer", "-c", self.card_id, "cset", "name='Capture Switch'", "on"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+            subprocess.run(["amixer", "-c", self.card_id, "cset", "name='Capture Volume'", "60"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+            
             if self.source_name:
                 print(f"⚡ [AudioIO Streaming] Réveil de la source PulseAudio : {self.source_name}")
                 subprocess.run(["pactl", "unload-module", "module-suspend-on-idle"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
@@ -135,10 +139,7 @@ class AudioIOStreaming:
                 subprocess.run(["pactl", "set-source-volume", self.source_name, "150%"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
                 print("✅ [AudioIO Streaming] Source micro réveillée et configurée à 150%.")
             else:
-                # Si non trouvée dans PulseAudio, on tente de réveiller via amixer/ALSA
-                print("⚠ [AudioIO Streaming] Source PulseAudio ReSpeaker introuvable, tentative via ALSA direct.")
-                subprocess.run(["amixer", "-c", self.card_id, "cset", "name='Capture Switch'", "on"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
-                subprocess.run(["amixer", "-c", self.card_id, "cset", "name='Capture Volume'", "60"], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+                print("⚠ [AudioIO Streaming] Source PulseAudio ReSpeaker introuvable, utilisation ALSA direct.")
         except Exception as e:
             print(f"⚠ [AudioIO Streaming] Échec réveil PulseAudio/ALSA : {e}")
 
