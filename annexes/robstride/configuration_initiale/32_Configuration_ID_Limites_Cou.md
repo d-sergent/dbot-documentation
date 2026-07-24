@@ -49,19 +49,14 @@ Le "Zéro" doit correspondre exactement à la **position neutre** du robot (rega
 
 Pour éviter que les câbles ne s'arrachent ou que la structure ne vienne buter mécaniquement, nous définissons des limites logicielles à trois niveaux.
 
-### Niveau 1 — Bornes Firmware (Hard Limits)
-Si votre version de firmware (ex: **0.5.0.9**) le permet, saisissez les valeurs directement dans les registres du moteur via MotorStudio.
+### Niveau 1 — Absence de Registres d'Angle Firmware sur RS-05
+> [!IMPORTANT]
+> Les moteurs FOC RobStride RS-05 ne possèdent **aucun registre EEPROM/Flash pour les limites angulaires** (seuls l'ID, le zéro encodeur et les gains PID sont persistants). Les champs "Min/Max Position" de MotorStudio s'appliquent uniquement aux curseurs de l'interface PC et ne sont pas enregistrés dans la mémoire du moteur.
+> **Conséquence** : Le bridage angulaire s'effectue obligatoirement au niveau logiciel (`clamp_pan` et `clamp_tilt` dans Python / ROS2 / URDF).
 
-**Valeurs cibles :**
-- **Pan (Yaw)** : ±80° (soit ±1.396 rad)
+**Valeurs cibles logicielles :**
+- **Pan (Yaw)** : -80° à +80° (soit -1.396 à +1.396 rad)
 - **Tilt (Pitch)** : -20° à +30° (soit -0.349 à +0.524 rad)
-
-| Registre / Champ | Valeur Pan (ID 1) | Valeur Tilt (ID 2) | Unité |
-| :--- | :---: | :---: | :--- |
-| **Min Position** (Limit Low) | -1.396 | -0.349 | Radians |
-| **Max Position** (Limit High) | +1.396 | +0.524 | Radians |
-
-> **Action** : Une fois saisies, cliquer impérativement sur **"Save"**. Le moteur refusera désormais toute commande `pos` au-delà de ces valeurs, même en cas de bug du contrôleur principal.
 
 ---
 

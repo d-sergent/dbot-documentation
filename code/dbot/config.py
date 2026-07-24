@@ -33,8 +33,8 @@ NECK_PAN_ID  = 1   # Pan  : rotation gauche/droite
 NECK_TILT_ID = 2   # Tilt : inclinaison avant/arrière
 
 # ── Limites Mécaniques Cou (Doc 32 §3) ────────────────────
-# Ces valeurs sont également flashées en firmware via MotorStudio.
-# Les fonctions clamp_* doivent être appliquées à chaque couche logicielle.
+# Note : Le firmware RobStride ne supporte pas de bornes d'angles matérielles en EEPROM.
+# Ces limites logicielles sont impérativement appliquées dans Python (clamp_pan / clamp_tilt).
 PAN_MIN_RAD  = math.radians(-80)   # -1.396 rad
 PAN_MAX_RAD  = math.radians( 80)   # +1.396 rad
 TILT_MIN_RAD = math.radians(-20)   # -0.349 rad

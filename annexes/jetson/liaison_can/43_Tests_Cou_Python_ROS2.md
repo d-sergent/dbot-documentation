@@ -400,7 +400,7 @@ Reporter les limites dans le fichier URDF (cf. Doc 32 §3.2) pour que MoveIt2 pl
 | **Tilt** | 2 | Inclinaison avant/arrière | -20° (-0.349 rad) | +30° (+0.524 rad) | Doc 32 §3 |
 
 > [!WARNING]
-> Ces limites doivent être appliquées à **chaque couche** : firmware moteur (flashé via MotorStudio), scripts Python (`clamp_pan` / `clamp_tilt`), nœud ROS2, et URDF. La défaillance d'une seule couche peut créer une contrainte mécanique sur les câbles ou la structure du cou.
+> Le firmware RobStride ne possédant pas de registres d'angles min/max enregistrables en EEPROM, ces limites logicielles doivent être appliquées à chaque couche applicative : scripts Python (`clamp_pan` / `clamp_tilt`), nœud ROS2, et URDF. La défaillance d'une seule couche peut créer une contrainte mécanique sur les câbles ou la structure du cou.
 
 ---
 
