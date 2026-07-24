@@ -160,9 +160,15 @@ async def conversation_endpoint(websocket: WebSocket):
                                         return ""
                                     return text
                                 
-                                start_t = time.time()
+                                # ─── ⏱️ PROFILING LATENCE PIPELINE ────────────────────────────────
+                                t0_end = time.time()  # Référence : instant de réception du signal "end"
+                                
                                 transcribed_text = await loop.run_in_executor(None, transcribe_task)
-                                print(f"🗣️  [ASR Mac] Transcription en {(time.time() - start_t)*1000:.0f} ms : \"{transcribed_text}\"")
+                                t_asr = time.time()
+                                dt_asr_ms = (t_asr - t0_end) * 1000
+                                print(f"⏱️  [PROFILING] ASR Whisper :    {dt_asr_ms:6.0f} ms → \"{transcribed_text}\"")
+                                state._t0_end = t0_end  # Partager avec la boucle LLM/TTS
+                                state._dt_asr_ms = dt_asr_ms
                                 
                                 if len(transcribed_text) > 1:
                                     # Envoyer le texte reconnu au robot (pour feedback visuel)
@@ -204,7 +210,8 @@ async def conversation_endpoint(websocket: WebSocket):
                 continue
                 
             state.is_interrupted = False
-            print(f"👤 Requête reçue : '{user_text}'")
+            t0_llm = time.time()
+            print(f"\n👤 Requête LLM : '{user_text}'")
             
             loop = asyncio.get_running_loop()
             
@@ -213,6 +220,9 @@ async def conversation_endpoint(websocket: WebSocket):
                 return brain.generate_response_stream(user_text)
                 
             sentences_iter = await loop.run_in_executor(None, run_gemini_stream)
+            dt_llm_ms = (time.time() - t0_llm) * 1000
+            print(f"⏱️  [PROFILING] LLM 1er token : {dt_llm_ms:6.0f} ms")
+            _first_tts = True
             
             # 2. Boucle de génération et envoi audio/texte phrase par phrase
             while not state.is_interrupted:
@@ -235,6 +245,7 @@ async def conversation_endpoint(websocket: WebSocket):
                 })
                 
                 # 3. Inférence Qwen3-TTS en streaming
+                t0_tts = time.time()
                 def get_tts_generator(txt):
                     return tts_model.generate(
                         text=txt,
@@ -249,6 +260,13 @@ async def conversation_endpoint(websocket: WebSocket):
                     )
                     
                 tts_iter = await loop.run_in_executor(None, get_tts_generator, sentence)
+                dt_tts_init_ms = (time.time() - t0_tts) * 1000
+                if _first_tts:
+                    t0_end_ref = getattr(state, '_t0_end', t0_tts)
+                    dt_total_ms = (time.time() - t0_end_ref) * 1000
+                    print(f"⏱️  [PROFILING] TTS 1er chunk : {dt_tts_init_ms:6.0f} ms")
+                    print(f"⏱️  [PROFILING] ━━━ LATENCE TOTALE : {dt_total_ms:6.0f} ms (fin parole → 1er audio) ━━━")
+                    _first_tts = False
                 
                 while not state.is_interrupted:
                     def get_next_chunk():
