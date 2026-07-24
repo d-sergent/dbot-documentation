@@ -137,17 +137,26 @@ def main():
                 if is_centered:
                     status_str = f"✅ VISAGE DE '{target_name}' CENTRÉ - APPUYEZ SUR ESPACE"
                     cv2.putText(frame, status_str, (30, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 0), 2)
+                    print(f"\r✅ [CENTRÉ] Visage de '{target_name}' au milieu ! Appuyez sur ESPACE pour capturer.", end="", flush=True)
                 else:
                     status_str = f"➡️ RECENTRER LE VISAGE DE '{target_name}' DANS LE CADRE VERT"
                     cv2.putText(frame, status_str, (30, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 165, 255), 2)
+                    print(f"\r➡️ [CADRAGE] Recentre le visage au milieu du champ...", end="", flush=True)
 
             t1 = time.perf_counter()
             fps = 1.0 / max(0.001, t1 - t0)
 
             cv2.putText(frame, f"FPS: {fps:.1f} | Latence Vision: {latency_ms:.1f}ms", (20, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-            cv2.imshow("D-Bot Face Tracker", frame)
+            
+            # Enregistrement périodique d'une image témoin pour consultation à distance
+            cv2.imwrite("/tmp/face_tracker_snapshot.jpg", frame)
 
-            key = cv2.waitKey(1) & 0xFF
+            try:
+                cv2.imshow("D-Bot Face Tracker", frame)
+                key = cv2.waitKey(1) & 0xFF
+            except Exception:
+                # Mode Headless SSH sans affichage graphique X11
+                key = 0
             if key == ord('q'):
                 break
             elif register_mode and key == 32:  # Touche ESPACE
