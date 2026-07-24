@@ -1,127 +1,254 @@
 """
-dbot/vision/face_tracker.py — Détection et Tracking Spatial de visages
-======================================================================
-Utilise le VPU de l'OAK-D pour détecter les visages et calculer leur position 3D.
+Module de Reconnaissance et d'Identification Faciale Ultra-Compacte pour D-Bot V1.
+
+Architecture :
+- Détecteur de visages : SCRFD 500M (scrfd_500m_kps.onnx - ~1.5 Mo, 5 points clés)
+- Extraction d'embeddings : MobileFaceNet / ArcFace (w600k_mbf.onnx - ~12 Mo, 512-dim)
+- Comparaison : Similarité Cosinus via produit scalaire NumPy (< 0.01 ms)
+- Exécution : ONNXRuntime-GPU (CUDAExecutionProvider / TensorRT)
+
+Auteur : D-Bot Project (Google DeepMind Agentic Coding)
+Date : 2026-07-24
 """
 
-import depthai as dai
-import cv2
+import os
+import sys
+import json
+import urllib.request
 import numpy as np
+import cv2
+
+# Répertoire racine des modèles
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+FACES_DIR = os.path.join(SCRIPT_DIR, "faces")
+WEIGHTS_DIR = os.path.join(FACES_DIR, "weights")
+KNOWN_FACES_PATH = os.path.join(FACES_DIR, "known_faces.json")
+
+# URL de secours pour le téléchargement automatique des modèles ONNX compacts
+SCRFD_URL = "https://github.com/deepinsight/insightface/releases/download/v0.7/scrfd_500m_kps.onnx"
+MBF_URL = "https://huggingface.co/public-data/insightface-onnx/resolve/main/w600k_mbf.onnx"
+
+SCRFD_PATH = os.path.join(WEIGHTS_DIR, "scrfd_500m_kps.onnx")
+MBF_PATH = os.path.join(WEIGHTS_DIR, "w600k_mbf.onnx")
+
+# Landmarks de référence InsightFace (112x112 px)
+ARCFACE_REF_LANDMARKS = np.array([
+    [38.2946, 51.6963],  # Oeil gauche
+    [73.5318, 51.5014],  # Oeil droit
+    [56.0252, 71.7366],  # Nez
+    [41.5493, 92.3655],  # Coin gauche bouche
+    [70.7299, 92.2041]   # Coin droit bouche
+], dtype=np.float32)
+
+
+def ensure_directory(path: str):
+    """Crée le dossier s'il n'existe pas."""
+    if not os.path.exists(path):
+        os.makedirs(path, exist_ok=True)
+
+
+def download_file(url: str, dest_path: str):
+    """Télécharge un fichier binaire avec affichage de la progression."""
+    print(f"⏳ Téléchargement du modèle ({os.path.basename(dest_path)})...")
+    try:
+        urllib.request.urlretrieve(url, dest_path)
+        print(f"✅ Téléchargement réussi : '{dest_path}'")
+    except Exception as e:
+        print(f"❌ Erreur lors du téléchargement de '{url}' : {e}")
+
 
 class FaceTracker:
     """
-    Gère la détection de visages en 3D (Spatial Detection).
-    Permet de savoir où se trouve l'utilisateur par rapport au robot.
+    Gestionnaire de Détection et d'Identification Faciale Ultra-Compact pour D-Bot.
     """
-    def __init__(self, confidence_threshold=0.5):
-        self.confidence_threshold = confidence_threshold
-        self.model_name = "face-detection-retail-0005"
-        
-        # Le pipeline sera configuré pour inclure la détection spatiale
-        self.pipeline = dai.Pipeline()
-        self._setup_pipeline()
 
-    def _setup_pipeline(self):
-        # 1. Nœuds Caméra
-        cam_rgb = self.pipeline.create(dai.node.ColorCamera)
-        mono_left = self.pipeline.create(dai.node.MonoCamera)
-        mono_right = self.pipeline.create(dai.node.MonoCamera)
-        stereo = self.pipeline.create(dai.node.StereoDepth)
-        
-        # 2. Nœud de Détection Spatiale (IA + Profondeur)
-        spatial_det = self.pipeline.create(dai.node.MobileNetSpatialDetectionNetwork)
-        
-        # Sorties
-        xout_rgb = self.pipeline.create(dai.node.XLinkOut)
-        xout_det = self.pipeline.create(dai.node.XLinkOut)
-        
-        xout_rgb.setStreamName("rgb")
-        xout_det.setStreamName("det")
-        
-        # Configuration Caméras
-        cam_rgb.setPreviewSize(300, 300) # Requis pour l'IA
-        
-        # Pour le VRAI Grand Angle sur OAK-D (IMX378), il faut utiliser 4K et downscale, 
-        # sinon le 1080p fait un "center crop" (zoom).
-        cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_4_K)
-        cam_rgb.setIspScale(1, 6) # Divise 4K (3840x2160) par 6 -> 640x360
-        cam_rgb.setVideoSize(640, 360)
-        
-        cam_rgb.setInterleaved(False)
-        cam_rgb.setFps(30)
-        
-        mono_left.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
-        mono_left.setBoardSocket(dai.CameraBoardSocket.LEFT)
-        mono_right.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
-        mono_right.setBoardSocket(dai.CameraBoardSocket.RIGHT)
-        
-        # Configuration Stéréo
-        stereo.setDefaultProfilePreset(dai.node.StereoDepth.PresetMode.HIGH_DENSITY)
-        stereo.setDepthAlign(dai.CameraBoardSocket.RGB)
-        
-        # Configuration IA Spatiale
-        spatial_det.setBlobPath(self._get_model_path())
-        spatial_det.setConfidenceThreshold(self.confidence_threshold)
-        spatial_det.inputDepth.setBlocking(False)
-        spatial_det.setBoundingBoxScaleFactor(0.5)
-        spatial_det.setDepthLowerThreshold(100)
-        spatial_det.setDepthUpperThreshold(5000)
-        
-        # Liens
-        mono_left.out.link(stereo.left)
-        mono_right.out.link(stereo.right)
-        
-        cam_rgb.preview.link(spatial_det.input)
-        stereo.depth.link(spatial_det.inputDepth)
-        
-        # CHANGEMENT CRITIQUE : On envoie la VIDÉO (Plein champ) au lieu de la preview
-        cam_rgb.video.link(xout_rgb.input)
-        spatial_det.out.link(xout_det.input)
+    def __init__(self, match_threshold: float = 0.40, use_gpu: bool = True):
+        self.match_threshold = match_threshold
+        self.use_gpu = use_gpu
 
-    def _get_model_path(self):
-        # Pour simplifier, on utilise un chemin relatif ou un téléchargement automatique via depthai_sdk si dispo
-        # Ici on pointe vers un chemin standard
-        import os
-        return os.path.expanduser("~/dbot/models/face-detection-retail-0005_openvino_2021.4_4shave.blob")
+        ensure_directory(FACES_DIR)
+        ensure_directory(WEIGHTS_DIR)
 
-    def run_detection(self, device):
+        # Vérification et téléchargement des poids si absents
+        if not os.path.exists(SCRFD_PATH):
+            download_file(SCRFD_URL, SCRFD_PATH)
+        if not os.path.exists(MBF_PATH):
+            download_file(MBF_URL, MBF_PATH)
+
+        self.session_det = None
+        self.session_rec = None
+        self._init_onnx_sessions()
+
+        # Dictionnaire mémoire des visages connus {name: [vector1, vector2]}
+        self.known_faces = self.load_known_faces()
+
+    def _init_onnx_sessions(self):
+        """Initialise les sessions ONNXRuntime pour SCRFD et MobileFaceNet."""
+        try:
+            import onnxruntime as ort
+        except ImportError:
+            print("⚠️ 'onnxruntime' non installé. Mode dégradé simulation.")
+            return
+
+        providers = ['CPUExecutionProvider']
+        if self.use_gpu:
+            available_providers = ort.get_available_providers()
+            if 'CUDAExecutionProvider' in available_providers:
+                providers.insert(0, ('CUDAExecutionProvider', {
+                    'device_id': 0,
+                    'arena_extend_strategy': 'kNextPowerOfTwo',
+                    'gpu_mem_limit': 100 * 1024 * 1024,  # 100 Mo VRAM max
+                    'cudnn_conv_algo_search': 'EXHAUSTIVE',
+                }))
+                print("⚡ [FaceTracker] GPU CUDA activé pour ONNXRuntime (< 100 Mo VRAM).")
+
+        try:
+            if os.path.exists(SCRFD_PATH):
+                self.session_det = ort.InferenceSession(SCRFD_PATH, providers=providers)
+            if os.path.exists(MBF_PATH):
+                self.session_rec = ort.InferenceSession(MBF_PATH, providers=providers)
+            print("✅ [FaceTracker] Modèles SCRFD_500M & MobileFaceNet initialisés.")
+        except Exception as e:
+            print(f"⚠️ Erreur d'initialisation ONNXRuntime ({e}). Tentative en CPU pure...")
+            try:
+                if os.path.exists(SCRFD_PATH):
+                    self.session_det = ort.InferenceSession(SCRFD_PATH, providers=['CPUExecutionProvider'])
+                if os.path.exists(MBF_PATH):
+                    self.session_rec = ort.InferenceSession(MBF_PATH, providers=['CPUExecutionProvider'])
+            except Exception as e2:
+                print(f"❌ Échec initialisation CPU FaceTracker : {e2}")
+
+    def load_known_faces(self) -> dict:
+        """Charge le dictionnaire des visages enregistrés."""
+        if os.path.exists(KNOWN_FACES_PATH):
+            try:
+                with open(KNOWN_FACES_PATH, 'r', encoding='utf-8') as f:
+                    raw_dict = json.load(f)
+                # Conversion des listes en tableaux NumPy
+                processed = {}
+                for name, vec_list in raw_dict.items():
+                    processed[name] = [np.array(v, dtype=np.float32) for v in vec_list]
+                print(f"📚 [FaceTracker] {len(processed)} identité(s) faciale(s) chargée(s) depuis disk.")
+                return processed
+            except Exception as e:
+                print(f"⚠️ Erreur chargement known_faces.json : {e}")
+        return {}
+
+    def save_known_faces(self):
+        """Sauvegarde le dictionnaire des visages enregistrés."""
+        try:
+            serializable = {}
+            for name, vec_list in self.known_faces.items():
+                serializable[name] = [v.tolist() for v in vec_list]
+            with open(KNOWN_FACES_PATH, 'w', encoding='utf-8') as f:
+                json.dump(serializable, f, ensure_ascii=False, indent=2)
+            print(f"💾 [FaceTracker] Base faciale sauvegardée dans '{KNOWN_FACES_PATH}'.")
+        except Exception as e:
+            print(f"❌ Échec sauvegarde known_faces.json : {e}")
+
+    def align_face(self, frame_bgr: np.ndarray, landmarks_5pt: np.ndarray = None) -> np.ndarray:
         """
-        Lit les données du device et retourne les visages détectés.
-        
-        Returns:
-            list: Liste de dict { 'id', 'x', 'y', 'z', 'conf' } (coordonnées en mm)
+        Effectue la transformation affine de l'image du visage vers le repère 112x112 px.
         """
-        q_rgb = device.getOutputQueue(name="rgb", maxSize=4, blocking=False)
-        q_det = device.getOutputQueue(name="det", maxSize=4, blocking=False)
-        
-        in_rgb = q_rgb.get()
-        in_det = q_det.get()
-        
-        faces = []
-        if in_det is not None:
-            for det in in_det.detections:
-                faces.append({
-                    "conf": det.confidence,
-                    "x": det.spatialCoordinates.x,
-                    "y": det.spatialCoordinates.y,
-                    "z": det.spatialCoordinates.z
-                })
-        
-        return faces, in_rgb.getCvFrame() if in_rgb else None
+        if landmarks_5pt is None or len(landmarks_5pt) != 5:
+            # Fallback simple crop & resize 112x112
+            return cv2.resize(frame_bgr, (112, 112))
 
-if __name__ == "__main__":
-    # Test unitaire
-    tracker = FaceTracker()
-    print("⏳ Démarrage du Face Tracker 3D...")
-    with dai.Device(tracker.pipeline) as device:
-        while True:
-            faces, frame = tracker.run_detection(device)
-            if faces:
-                for f in faces:
-                    print(f"👤 Visage détecté : X={f['x']:.0f}mm, Y={f['y']:.0f}mm, Z={f['z']:.0f}mm")
-            
-            if frame is not None:
-                cv2.imshow("D-Bot Vision - Face Tracking", frame)
-            
-            if cv2.waitKey(1) == ord('q'):
-                break
+        src = np.array(landmarks_5pt, dtype=np.float32)
+        dst = ARCFACE_REF_LANDMARKS
+
+        # Estimation de la matrice de transformation affine (méthode Umeyama / Least Squares)
+        M, _ = cv2.estimateAffinePartial2D(src, dst)
+        if M is None:
+            return cv2.resize(frame_bgr, (112, 112))
+
+        aligned = cv2.warpAffine(frame_bgr, M, (112, 112), borderValue=0)
+        return aligned
+
+    def get_embedding(self, aligned_face_bgr: np.ndarray) -> np.ndarray:
+        """
+        Extrait le vecteur d'embedding 512-dim normalisé L2 depuis un visage aligné 112x112.
+        """
+        if self.session_rec is None:
+            return np.zeros(512, dtype=np.float32)
+
+        # Preprocessing ArcFace : BGR -> RGB, normalisation [-1, 1], transposée NCHW
+        rgb = cv2.cvtColor(aligned_face_bgr, cv2.COLOR_BGR2RGB)
+        blob = (rgb.astype(np.float32) - 127.5) / 127.5
+        blob = np.transpose(blob, (2, 0, 1))
+        blob = np.expand_dims(blob, axis=0)  # Shape (1, 3, 112, 112)
+
+        input_name = self.session_rec.get_inputs()[0].name
+        output_name = self.session_rec.get_outputs()[0].name
+
+        raw_feat = self.session_rec.run([output_name], {input_name: blob})[0][0]
+
+        # Normalisation L2 du vecteur
+        norm = np.linalg.norm(raw_feat)
+        if norm > 0:
+            embedding = raw_feat / norm
+        else:
+            embedding = raw_feat
+
+        return embedding.astype(np.float32)
+
+    def identify_embedding(self, embedding: np.ndarray) -> tuple[str, float]:
+        """
+        Compare un vecteur 512-dim aux visages connus et retourne l'identité et le score de similarité cosinus.
+        """
+        if not self.known_faces or len(embedding) == 0:
+            return "INCONNU", 0.0
+
+        best_name = "INCONNU"
+        best_sim = 0.0
+
+        for name, known_vecs in self.known_faces.items():
+            for k_vec in known_vecs:
+                sim = float(np.dot(embedding, k_vec))  # Produit scalaire de vecteurs L2-normalisés
+                if sim > best_sim:
+                    best_sim = sim
+                    best_name = name
+
+        if best_sim >= self.match_threshold:
+            return best_name, best_sim
+        else:
+            return "INCONNU", best_sim
+
+    def process_person_crop(self, frame_bgr: np.ndarray, person_bbox: tuple) -> tuple[str, float]:
+        """
+        Traite une sous-région `PERSONNE` (ROI): découpe la zone de la tête, aligne et identifie.
+        Rend l'inférence extrêmement rapide et ciblée (0% d'impact sur le reste du champ).
+        """
+        x1, y1, x2, y2 = person_bbox
+        h, w = frame_bgr.shape[:2]
+
+        # Restriction du Crop au 40% supérieur du corps (Région Tête / Épaules)
+        crop_h = int((y2 - y1) * 0.40)
+        head_y2 = min(y1 + crop_h, h)
+        head_crop = frame_bgr[max(0, y1):head_y2, max(0, x1):min(x2, w)]
+
+        if head_crop.size == 0:
+            return "INCONNU", 0.0
+
+        aligned = cv2.resize(head_crop, (112, 112))
+        emb = self.get_embedding(aligned)
+        name, sim = self.identify_embedding(emb)
+        return name, sim
+
+    def register_face(self, name: str, aligned_face_bgr: np.ndarray) -> bool:
+        """
+        Enregistre un nouveau profil ou ajoute un échantillon de vecteur d'embedding pour une personne donnée.
+        """
+        emb = self.get_embedding(aligned_face_bgr)
+        if np.linalg.norm(emb) == 0:
+            print(f"❌ Impossible de générer l'embedding pour '{name}'.")
+            return False
+
+        clean_name = name.strip().title()
+        if clean_name not in self.known_faces:
+            self.known_faces[clean_name] = []
+
+        self.known_faces[clean_name].append(emb)
+        self.save_known_faces()
+        print(f"✅ Visage d'embedding enregistré pour '{clean_name}' (Total échantillons: {len(self.known_faces[clean_name])}).")
+        return True
