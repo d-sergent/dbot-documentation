@@ -71,7 +71,7 @@ class FaceTracker:
     Gestionnaire de Détection et d'Identification Faciale Ultra-Compact pour D-Bot.
     """
 
-    def __init__(self, match_threshold: float = 0.40, use_gpu: bool = True):
+    def __init__(self, match_threshold: float = 0.30, use_gpu: bool = True):
         self.match_threshold = match_threshold
         self.use_gpu = use_gpu
 
@@ -217,8 +217,11 @@ class FaceTracker:
                     best_name = name
 
         if best_sim >= self.match_threshold:
+            print(f"🔍 [Face Match ✅] Identification: '{best_name}' (Score: {best_sim*100:.1f}% | Seuil: {self.match_threshold*100:.0f}%)")
             return best_name, best_sim
         else:
+            if best_sim > 0.15:
+                print(f"🔍 [Face Match ⚠️] Proche de '{best_name}' (Score: {best_sim*100:.1f}% < Seuil: {self.match_threshold*100:.0f}%)")
             return "INCONNU", best_sim
 
     def process_person_crop(self, frame_bgr: np.ndarray, person_bbox: tuple) -> tuple[str, float]:
