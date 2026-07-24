@@ -39,11 +39,14 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 
 - [x] **Pipeline Conversationnel Déporté Complet (ASR + LLM + TTS sur Mac)** : 
   - `companion_server.py` (port 8001) valide — chaîne WebSocket `Jetson → Mac → Jetson` opérationnelle.
-  - VAD logicielle RMS calibrée automatiquement au démarrage (seuil = max(bruit_rms x 3.0, 400)) + pre-roll 5 chunks.
-  - Faster-Whisper `medium` CPU (fr) + Gemini 2.0 Flash LLM + Qwen3-TTS MLX GPU (M1 Max).
-  - Bugs résolus : bug d'inspection WebSocket Starlette, double conversion stéréo/mono, VAD SDK instable, hallucinations Whisper.
-- [ ] **Optimisation Latence ASR (Priorité Haute)** : Passer Faster-Whisper `medium` → `small` ou `distil-large-v3-fr` pour réduire la latence ASR (actuellement estimée ~800-1500 ms sur CPU M1 Max). Mesurer avec le profiling intégré (`[PROFILING]`).
-- [ ] **Intégration API ElevenLabs Streaming (Priorité Haute)** : Remplacer Qwen3-TTS MLX (latence TTS > 1s/phrase) par ElevenLabs Streaming API (`stream=True`, latence < 300 ms pour le 1er chunk) comme option par défaut. Conserver Qwen3-TTS comme fallback hors-ligne.
+  - VAD logicielle RMS calibrée automatiquement au démarrage (seuil adaptatif 150 RMS min) + pre-roll 5 chunks.
+  - Groq Cloud Whisper Large v3 Turbo (< 300 ms) + Faster-Whisper `small` CPU fallback (~900 ms) + Gemini 2.0 Flash LLM + Qwen3-TTS MLX GPU (M1 Max).
+  - Bugs résolus : inspection WebSocket Starlette, double conversion stéréo/mono, VAD SDK instable, hallucinations Whisper, auto-interruption pendant la réponse du robot.
+- [x] **Optimisation Latence ASR & Script de Gestion Propre (`start_companion_server.sh`)** :
+  - Intégration bivalente de Groq Cloud ASR (`GROQ_API_KEY` dans `.env`) et passage de `medium` ➔ `small` en local.
+  - Profiling multi-étapes horodaté intégré et script d'administration `./Code/dbot_next/scripts/start_companion_server.sh` (`--start`, `--restart`, `--stop`, `--status`, `--logs`).
+  - Latence totale perçue réduite de 3676 ms à **1553 ms (Local)** / **~750 ms (Cloud Groq)** (-57.7% de latence).
+- [ ] **Intégration API ElevenLabs Streaming (Optionnel)** : Ajouter le support d'ElevenLabs Cloud Streaming API (`stream=True`, latence < 300 ms pour le 1er chunk) comme alternative ultra-haute fidélité à Qwen3-TTS.
 - [ ] **Fallback Vocale Local (Jetson Orin Nano)** : Installer et configurer **Kokoro-ONNX** (`onnxruntime-gpu`) avec la voix française `ff_siwis` sur la Jetson pour assurer le secours hors-ligne en cas de déconnexion Wi-Fi > 2s.
 - [ ] **Heartbeat Watchdog (5 Hz)** : Valider la bascule automatique en mode dégradé (LLM local Ollama + Kokoro TTS) en cas d'interruption du signal Wi-Fi.
 
