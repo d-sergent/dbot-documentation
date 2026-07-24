@@ -224,27 +224,30 @@ def main():
             h, w = frame.shape[:2]
             detections, latency_ms = detector.detect(frame)
 
-            # Traitement des personnes détectées par YOLO-World (Étape 2 : Inférence Faciale sur Flux HD 1080p)
+            # Traitement des personnes détectées par YOLO-World (Inférence HD + Déduplication par trame)
+            frame_faces = []
             for det_idx, det in enumerate(detections):
                 if det["label"].upper() in ["PERSONNE", "PERSON"]:
                     bbox = det["bbox"]
-                    x1, y1, x2, y2 = bbox
-
-                    # Clé unique par position (zone de l'image) pour le buffer de lissage
-                    track_key = f"{x1//100}_{y1//100}"
-
-                    # Inférence Faciale HD sur le crop Full-Resolution 1080p (Étape 2)
                     name, sim, face_bbox = tracker.process_person_crop(frame, bbox, hd_frame=hd_frame)
-                    fx1, fy1, fx2, fy2 = face_bbox
+                    frame_faces.append({"name": name, "sim": sim, "face_bbox": face_bbox})
 
-                    # Couleur : Vert si reconnu, Jaune si Inconnu
-                    color = (0, 255, 0) if name != "INCONNU" else (0, 255, 255)
-                    label_text = f"{name} ({sim*100:.0f}%)" if name != "INCONNU" else "PERSONNE INCONNUE"
+            # Filtre d'unicité physico-spatiale : 1 seule Émilie / David / Léa max par trame
+            frame_faces = tracker.deduplicate_identities(frame_faces)
 
-                    # Dessin du rectangle exact autour du visage et de la bannière nominative
-                    cv2.rectangle(frame, (fx1, fy1), (fx2, fy2), color, 2)
-                    cv2.rectangle(frame, (fx1, max(0, fy1 - 30)), (fx1 + len(label_text) * 11, fy1), color, -1)
-                    cv2.putText(frame, label_text, (fx1 + 5, max(15, fy1 - 8)), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 0, 0), 2)
+            for f_res in frame_faces:
+                name = f_res["name"]
+                sim = f_res["sim"]
+                fx1, fy1, fx2, fy2 = f_res["face_bbox"]
+
+                # Couleur : Vert si reconnu, Jaune si Inconnu
+                color = (0, 255, 0) if name != "INCONNU" else (0, 255, 255)
+                label_text = f"{name} ({sim*100:.0f}%)" if name != "INCONNU" else "PERSONNE INCONNUE"
+
+                # Dessin du rectangle exact autour du visage et de la bannière nominative
+                cv2.rectangle(frame, (fx1, fy1), (fx2, fy2), color, 2)
+                cv2.rectangle(frame, (fx1, max(0, fy1 - 30)), (fx1 + len(label_text) * 11, fy1), color, -1)
+                cv2.putText(frame, label_text, (fx1 + 5, max(15, fy1 - 8)), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 0, 0), 2)
 
             # Réticule et Guide de Centrage Visuel en Mode Enregistrement
             if register_mode:

@@ -121,21 +121,30 @@ def run_active_gaze_real_world(target_prompt="main", enable_motors=True):
             dets_2d, latency_ms = detector.detect(frame_rgb)
             dets_3d = fusion.compute_spatial_3d(dets_2d, frame_depth)
 
-            # Identification faciale HD (Étape 2 : Full-Resolution 1080p)
+            # Identification faciale HD (Étape 2 : Full-Resolution 1080p + Déduplication par trame)
+            face_results = []
+            person_dets = []
             for d in dets_3d:
                 lbl_fr = d["label"].lower()
                 lbl_en = d["raw_label_en"].lower()
                 if lbl_fr in ["personne", "person"] or lbl_en in ["person", "human"]:
                     bx1, by1, bx2, by2 = d["bbox"]
                     fname, fsim, fbbox = face_tracker.process_person_crop(frame_rgb, (bx1, by1, bx2, by2), hd_frame=frame_hd)
+                    face_results.append({"name": fname, "sim": fsim})
+                    person_dets.append(d)
 
-                    if fname != "INCONNU":
-                        d["face_name"] = fname
-                        d["face_sim"] = fsim
-                        d["label"] = f"{fname} ({fsim*100:.0f}%)"
-                    else:
-                        d["face_name"] = "INCONNU"
-                        d["face_sim"] = 0.0
+            # Filtre d'unicité physico-spatiale : 1 seule Émilie / David / Léa max par trame
+            face_results = face_tracker.deduplicate_identities(face_results)
+            for d, f_res in zip(person_dets, face_results):
+                fname = f_res["name"]
+                fsim = f_res["sim"]
+                if fname != "INCONNU":
+                    d["face_name"] = fname
+                    d["face_sim"] = fsim
+                    d["label"] = f"{fname} ({fsim*100:.0f}%)"
+                else:
+                    d["face_name"] = "INCONNU"
+                    d["face_sim"] = 0.0
 
             # Target matching flexible (Prénom Nominatif + Sémantique Fr/En)
             target_en = translate_fr_to_en(target_clean).lower()

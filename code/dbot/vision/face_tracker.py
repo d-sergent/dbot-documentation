@@ -530,3 +530,29 @@ class FaceTracker:
         self._train_svm_classifier()
         print(f"✅ Visage d'embedding enregistré pour '{clean_name}' (Total échantillons: {len(self.known_faces[clean_name])}).")
         return True
+
+    def deduplicate_identities(self, face_results: list) -> list:
+        """
+        Garantit l'unicité physique de chaque identité enregistrée dans une même trame.
+        Si une personne (ex: 'Émilie') est détectée 2 fois (chevauchement YOLO),
+        seule la détection avec la meilleure similarité est conservée.
+        """
+        seen_names = {}
+        for idx, res in enumerate(face_results):
+            name = res.get("name", "INCONNU")
+            sim = res.get("sim", 0.0)
+            if name != "INCONNU":
+                if name in seen_names:
+                    prev_idx, prev_sim = seen_names[name]
+                    if sim > prev_sim:
+                        # Rétrograder la détection précédente en INCONNU
+                        face_results[prev_idx]["name"] = "INCONNU"
+                        face_results[prev_idx]["sim"] = 0.0
+                        seen_names[name] = (idx, sim)
+                    else:
+                        # Rétrograder la détection actuelle en INCONNU
+                        res["name"] = "INCONNU"
+                        res["sim"] = 0.0
+                else:
+                    seen_names[name] = (idx, sim)
+        return face_results
