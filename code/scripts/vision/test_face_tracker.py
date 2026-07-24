@@ -16,6 +16,12 @@ import os
 import sys
 import time
 import argparse
+
+# Protection Headless SSH : Configuration de Qt en mode offscreen si aucun écran X11 n'est présent
+HAS_DISPLAY = bool(os.environ.get("DISPLAY"))
+if not HAS_DISPLAY:
+    os.environ["QT_QPA_PLATFORM"] = "offscreen"
+
 import cv2
 import numpy as np
 
@@ -266,12 +272,13 @@ def main():
             # Enregistrement périodique d'une image témoin sur disque
             cv2.imwrite("/tmp/face_tracker_snapshot.jpg", frame)
 
-            try:
-                cv2.imshow("D-Bot Face Tracker", frame)
-                key = cv2.waitKey(1) & 0xFF
-            except Exception:
-                # Mode Headless SSH sans affichage graphique X11
-                key = 0
+            key = 0
+            if HAS_DISPLAY:
+                try:
+                    cv2.imshow("D-Bot Face Tracker", frame)
+                    key = cv2.waitKey(1) & 0xFF
+                except Exception:
+                    pass
 
             # Déclenchement de la capture depuis le Web UI ou la touche ESPACE
             web_req = False
