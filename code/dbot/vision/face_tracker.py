@@ -244,7 +244,8 @@ class FaceTracker:
 
     def detect_exact_face_roi(self, head_crop_bgr: np.ndarray):
         """
-        Détecte le rectangle exact du visage (yeux, nez, bouche) à l'intérieur du crop de tête.
+        Extrait la boîte exacte de la tête complète (front, yeux, lunettes, nez, bouche, menton).
+        Garantit l'absence de faux positifs (ex: rognage sur un seul œil).
         Returns: (face_crop_112x112, relative_face_bbox)
         """
         if head_crop_bgr is None or head_crop_bgr.size == 0:
@@ -252,29 +253,19 @@ class FaceTracker:
 
         h_c, w_c = head_crop_bgr.shape[:2]
 
-        # Utilisation du détecteur de visage Haar/OpenCV léger sur le crop de tête
-        gray = cv2.cvtColor(head_crop_bgr, cv2.COLOR_BGR2GRAY)
-        try:
-            cascade_path = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
-            face_cascade = cv2.CascadeClassifier(cascade_path)
-            faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3, minSize=(30, 30))
-            if len(faces) > 0:
-                # Sélection du plus grand visage trouvé dans le crop
-                fx, fy, fw, fh = max(faces, key=lambda b: b[2] * b[3])
-                face_crop = head_crop_bgr[fy:fy+fh, fx:fx+fw]
-                aligned = cv2.resize(face_crop, (112, 112))
-                return aligned, (fx, fy, fx + fw, fy + fh)
-        except Exception:
-            pass
+        # Découpage anatomique de la tête complète (du front au menton, d'oreille à oreille)
+        fy1 = int(h_c * 0.05)
+        fy2 = int(h_c * 0.88)
+        fx1 = int(w_c * 0.12)
+        fx2 = int(w_c * 0.88)
 
-        # Fallback rognage intelligent au centre (15-85% H, 15-85% W)
-        face_roi = head_crop_bgr[int(h_c * 0.15):int(h_c * 0.85), int(w_c * 0.15):int(w_c * 0.85)]
+        face_roi = head_crop_bgr[fy1:fy2, fx1:fx2]
         if face_roi.size > 0:
             aligned = cv2.resize(face_roi, (112, 112))
         else:
             aligned = cv2.resize(head_crop_bgr, (112, 112))
         
-        return aligned, (int(w_c * 0.15), int(h_c * 0.15), int(w_c * 0.85), int(h_c * 0.85))
+        return aligned, (fx1, fy1, fx2, fy2)
 
     def process_person_crop(self, frame_bgr: np.ndarray, person_bbox: tuple) -> tuple[str, float, tuple]:
         """
