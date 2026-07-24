@@ -199,7 +199,7 @@ class FaceTracker:
 
         return embedding.astype(np.float32)
 
-    def identify_embedding(self, embedding: np.ndarray, margin_threshold: float = 0.04) -> tuple[str, float]:
+    def identify_embedding(self, embedding: np.ndarray, margin_threshold: float = 0.02) -> tuple[str, float]:
         """
         Compare un vecteur 512-dim aux centroïdes et échantillons de profils connus avec vérification de marge anti-hésitation.
         """
