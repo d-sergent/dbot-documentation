@@ -121,10 +121,8 @@ class FaceTracker:
                 providers.insert(0, ('CUDAExecutionProvider', {
                     'device_id': 0,
                     'arena_extend_strategy': 'kNextPowerOfTwo',
-                    'gpu_mem_limit': 200 * 1024 * 1024,  # 200 Mo VRAM max pour ResNet50
-                    'cudnn_conv_algo_search': 'EXHAUSTIVE',
                 }))
-                print("⚡ [FaceTracker] GPU CUDA activé pour ONNXRuntime ArcFace ResNet50 (< 200 Mo VRAM).")
+                print("⚡ [FaceTracker] GPU CUDA activé pour ONNXRuntime ArcFace ResNet50.")
 
         try:
             if os.path.exists(SCRFD_PATH):
