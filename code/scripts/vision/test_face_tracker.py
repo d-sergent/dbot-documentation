@@ -228,10 +228,15 @@ def main():
                     color = (0, 255, 0) if name != "INCONNU" else (0, 255, 255)
                     label_text = f"{name} ({sim*100:.0f}%)" if name != "INCONNU" else "PERSONNE INCONNUE"
 
-                    # Dessin du rectangle et de la bannière
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-                    cv2.rectangle(frame, (x1, max(0, y1 - 30)), (x1 + len(label_text) * 11, y1), color, -1)
-                    cv2.putText(frame, label_text, (x1 + 5, max(15, y1 - 8)), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 0, 0), 2)
+                    # Calcul de la zone Tête / Visage pour un affichage graphique élégant
+                    head_y2 = y1 + int((y2 - y1) * 0.35)
+                    fx1 = x1 + int((x2 - x1) * 0.10)
+                    fx2 = x2 - int((x2 - x1) * 0.10)
+
+                    # Dessin du rectangle ajusté sur le visage et de la bannière nominative
+                    cv2.rectangle(frame, (fx1, y1), (fx2, head_y2), color, 2)
+                    cv2.rectangle(frame, (fx1, max(0, y1 - 30)), (fx1 + len(label_text) * 11, y1), color, -1)
+                    cv2.putText(frame, label_text, (fx1 + 5, max(15, y1 - 8)), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 0, 0), 2)
 
             # Réticule et Guide de Centrage Visuel en Mode Enregistrement
             if register_mode:
