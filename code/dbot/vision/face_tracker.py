@@ -24,11 +24,13 @@ FACES_DIR = os.path.join(SCRIPT_DIR, "faces")
 WEIGHTS_DIR = os.path.join(FACES_DIR, "weights")
 KNOWN_FACES_PATH = os.path.join(FACES_DIR, "known_faces.json")
 
-# URL officielle InsightFace buffalo_sc.zip (14.9 Mo contenant det_500m.onnx et w600k_mbf.onnx)
+# URL officielles InsightFace
 BUFFALO_SC_URL = "https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_sc.zip"
+BUFFALO_L_URL  = "https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip"
 
-SCRFD_PATH = os.path.join(WEIGHTS_DIR, "det_500m.onnx")
-MBF_PATH = os.path.join(WEIGHTS_DIR, "w600k_mbf.onnx")
+SCRFD_PATH     = os.path.join(WEIGHTS_DIR, "det_500m.onnx")
+MBF_PATH       = os.path.join(WEIGHTS_DIR, "w600k_mbf.onnx")
+RESNET50_PATH  = os.path.join(WEIGHTS_DIR, "w600k_r50.onnx")
 
 # Landmarks de référence InsightFace (112x112 px)
 ARCFACE_REF_LANDMARKS = np.array([
@@ -46,51 +48,66 @@ def ensure_directory(path: str):
         os.makedirs(path, exist_ok=True)
 
 
-def download_and_extract_models():
-    """Télécharge l'archive officielle InsightFace buffalo_sc.zip et extrait les modèles ONNX."""
-    zip_path = os.path.join(WEIGHTS_DIR, "buffalo_sc.zip")
-    print(f"⏳ Téléchargement du pack modèle officiel InsightFace (buffalo_sc.zip - 14.9 Mo)...")
+def download_and_extract_models(use_resnet50: bool = True):
+    """Télécharge l'archive officielle InsightFace (buffalo_l.zip ou buffalo_sc.zip) et extrait les modèles ONNX."""
+    url = BUFFALO_L_URL if use_resnet50 else BUFFALO_SC_URL
+    zip_name = "buffalo_l.zip" if use_resnet50 else "buffalo_sc.zip"
+    zip_path = os.path.join(WEIGHTS_DIR, zip_name)
+    desc = "ArcFace ResNet50 (buffalo_l.zip - 280 Mo)" if use_resnet50 else "MobileFaceNet (buffalo_sc.zip - 15 Mo)"
+
+    print(f"⏳ Téléchargement du pack modèle officiel InsightFace {desc}...")
     try:
-        req = urllib.request.Request(BUFFALO_SC_URL, headers={'User-Agent': 'Mozilla/5.0'})
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req) as resp, open(zip_path, 'wb') as f:
             f.write(resp.read())
-        
+
         import zipfile
         with zipfile.ZipFile(zip_path, 'r') as z:
             z.extractall(WEIGHTS_DIR)
-        
+
         if os.path.exists(zip_path):
             os.remove(zip_path)
-        print("✅ [FaceTracker] Modèles ONNX ultra-compacts `det_500m.onnx` et `w600k_mbf.onnx` installés avec succès !")
+        print(f"✅ [FaceTracker] Pack `{desc}` installé avec succès dans '{WEIGHTS_DIR}' !")
     except Exception as e:
-        print(f"❌ Erreur lors du téléchargement de 'buffalo_sc.zip' : {e}")
+        print(f"❌ Erreur lors du téléchargement de '{zip_name}' : {e}")
+        if use_resnet50:
+            print("⚠️ Repli sur le pack MobileFaceNet (buffalo_sc.zip)...")
+            download_and_extract_models(use_resnet50=False)
 
 
 class FaceTracker:
     """
-    Gestionnaire de Détection et d'Identification Faciale Ultra-Compact pour D-Bot.
+    Gestionnaire de Détection et d'Identification Faciale Haute Précision (SCRFD + ResNet50 ArcFace + SVM).
     """
 
-    def __init__(self, match_threshold: float = 0.30, use_gpu: bool = True):
+    def __init__(self, match_threshold: float = 0.30, use_gpu: bool = True, use_resnet50: bool = True):
         self.match_threshold = match_threshold
         self.use_gpu = use_gpu
+        self.use_resnet50 = use_resnet50
 
         ensure_directory(FACES_DIR)
         ensure_directory(WEIGHTS_DIR)
 
-        # Vérification et téléchargement de l'archive si les modèles sont absents
-        if not os.path.exists(SCRFD_PATH) or not os.path.exists(MBF_PATH):
-            download_and_extract_models()
+        # Choix du modèle d'embedding (ResNet50 Haute Précision par défaut)
+        self.rec_path = RESNET50_PATH if (use_resnet50 and os.path.exists(RESNET50_PATH)) else MBF_PATH
+
+        if not os.path.exists(SCRFD_PATH) or not os.path.exists(self.rec_path):
+            download_and_extract_models(use_resnet50=use_resnet50)
+            if use_resnet50 and os.path.exists(RESNET50_PATH):
+                self.rec_path = RESNET50_PATH
 
         self.session_det = None
         self.session_rec = None
+        self.svm_classifier = None
+        self.svm_classes = []
         self._init_onnx_sessions()
 
         # Dictionnaire mémoire des visages connus {name: [vector1, vector2]}
         self.known_faces = self.load_known_faces()
+        self._train_svm_classifier()
 
     def _init_onnx_sessions(self):
-        """Initialise les sessions ONNXRuntime pour SCRFD et MobileFaceNet."""
+        """Initialise les sessions ONNXRuntime pour SCRFD et ArcFace ResNet50."""
         try:
             import onnxruntime as ort
         except ImportError:
@@ -104,25 +121,28 @@ class FaceTracker:
                 providers.insert(0, ('CUDAExecutionProvider', {
                     'device_id': 0,
                     'arena_extend_strategy': 'kNextPowerOfTwo',
-                    'gpu_mem_limit': 100 * 1024 * 1024,  # 100 Mo VRAM max
+                    'gpu_mem_limit': 200 * 1024 * 1024,  # 200 Mo VRAM max pour ResNet50
                     'cudnn_conv_algo_search': 'EXHAUSTIVE',
                 }))
-                print("⚡ [FaceTracker] GPU CUDA activé pour ONNXRuntime (< 100 Mo VRAM).")
+                print("⚡ [FaceTracker] GPU CUDA activé pour ONNXRuntime ArcFace ResNet50 (< 200 Mo VRAM).")
 
         try:
             if os.path.exists(SCRFD_PATH):
                 self.session_det = ort.InferenceSession(SCRFD_PATH, providers=providers)
-            if os.path.exists(MBF_PATH):
-                self.session_rec = ort.InferenceSession(MBF_PATH, providers=providers)
-            print("✅ [FaceTracker] Modèles SCRFD_500M & MobileFaceNet initialisés.")
+            if os.path.exists(self.rec_path):
+                self.session_rec = ort.InferenceSession(self.rec_path, providers=providers)
+            
+            model_name = "ArcFace ResNet50 (w600k_r50)" if "w600k_r50" in self.rec_path else "MobileFaceNet (w600k_mbf)"
+            print(f"✅ [FaceTracker] Modèles SCRFD_500M & {model_name} initialisés avec succès !")
         except Exception as e:
-            print(f"⚠️ Erreur d'initialisation ONNXRuntime ({e}). Tentative en CPU pure...")
+            print(f"⚠️ Erreur d'initialisation ONNXRuntime GPU ({e}). Tentative en CPU pure...")
             try:
                 if os.path.exists(SCRFD_PATH):
                     self.session_det = ort.InferenceSession(SCRFD_PATH, providers=['CPUExecutionProvider'])
-                if os.path.exists(MBF_PATH):
-                    self.session_rec = ort.InferenceSession(MBF_PATH, providers=['CPUExecutionProvider'])
+                if os.path.exists(self.rec_path):
+                    self.session_rec = ort.InferenceSession(self.rec_path, providers=['CPUExecutionProvider'])
             except Exception as e2:
+                print(f"❌ Échec initialisation CPU FaceTracker : {e2}")
                 print(f"❌ Échec initialisation CPU FaceTracker : {e2}")
 
     def load_known_faces(self) -> dict:
@@ -199,16 +219,67 @@ class FaceTracker:
 
         return embedding.astype(np.float32)
 
+    def _train_svm_classifier(self):
+        """Entraîne un classifieur SVM à noyau linéaire (Étape 3) si au moins 2 profils existent."""
+        if not self.known_faces or len(self.known_faces) < 2:
+            self.svm_classifier = None
+            self.svm_classes = []
+            return
+
+        try:
+            from sklearn.svm import SVC
+            X, y = [], []
+            for name, vecs in self.known_faces.items():
+                for v in vecs:
+                    X.append(v)
+                    y.append(name)
+
+            if len(set(y)) >= 2 and len(X) >= 3:
+                clf = SVC(kernel='linear', C=1.0, probability=True)
+                clf.fit(X, y)
+                self.svm_classifier = clf
+                self.svm_classes = list(clf.classes_)
+                print(f"🎯 [FaceTracker] Classifieur SVM (Étape 3) entraîné sur {len(X)} échantillons pour {len(self.svm_classes)} profil(s).")
+            else:
+                self.svm_classifier = None
+        except Exception as e:
+            self.svm_classifier = None
+
     def identify_embedding(self, embedding: np.ndarray, margin_threshold: float = 0.02) -> tuple[str, float]:
         """
-        Compare un vecteur 512-dim aux centroïdes et échantillons de profils connus avec vérification de marge anti-hésitation.
+        Compare un vecteur 512-dim via SVM à séparation optimale (Étape 3) ou centroïdes cosinus.
         """
         if not self.known_faces or len(embedding) == 0:
             return "INCONNU", 0.0
 
+        # Étape 3 : Si un classifieur SVM est disponible et entraîné, utilisation de l'hyperplan optimal
+        if self.svm_classifier is not None and len(self.svm_classes) >= 2:
+            try:
+                probs = self.svm_classifier.predict_proba([embedding])[0]
+                best_idx = int(np.argmax(probs))
+                best_name = str(self.svm_classes[best_idx])
+                best_prob = float(probs[best_idx])
+                
+                # Verification cosinus pour eviter les faux positifs hors-base
+                known_vecs = self.known_faces.get(best_name, [])
+                if known_vecs:
+                    mean_vec = np.mean(known_vecs, axis=0)
+                    norm = np.linalg.norm(mean_vec)
+                    if norm > 0:
+                        mean_vec = mean_vec / norm
+                    cos_sim = float(np.dot(embedding, mean_vec))
+                else:
+                    cos_sim = best_prob
+
+                if best_prob >= 0.40 and cos_sim >= self.match_threshold:
+                    print(f"\r🎯 [SVM Match ✅] Identification: '{best_name}' (Probabilité: {best_prob*100:.1f}% | Cosinus: {cos_sim*100:.1f}%)", flush=True)
+                    return best_name, cos_sim
+            except Exception:
+                pass
+
         scores = {}
         for name, known_vecs in self.known_faces.items():
-            # 1. Score par centroïde moyen (moyenner tous les échantillons enregistrés)
+            # 1. Score par centroïde moyen
             mean_vec = np.mean(known_vecs, axis=0)
             norm = np.linalg.norm(mean_vec)
             if norm > 0:
@@ -458,5 +529,6 @@ class FaceTracker:
 
         self.known_faces[clean_name].append(emb)
         self.save_known_faces()
+        self._train_svm_classifier()
         print(f"✅ Visage d'embedding enregistré pour '{clean_name}' (Total échantillons: {len(self.known_faces[clean_name])}).")
         return True

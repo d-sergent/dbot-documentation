@@ -152,6 +152,7 @@ def main():
     parser.add_argument("--threshold", type=float, default=0.30, help="Seuil de similarité cosinus (défaut: 0.30)")
     parser.add_argument("--port", type=int, default=8090, help="Port du serveur Web MJPEG (défaut: 8090)")
     parser.add_argument("--use-webcam", action="store_true", help="Forcer l'utilisation de la webcam au lieu de l'OAK-D")
+    parser.add_argument("--model", type=str, default="resnet50", choices=["resnet50", "mobilefacenet"], help="Modèle ArcFace (défaut: 'resnet50')")
     args = parser.parse_args()
 
     if args.reset:
@@ -164,8 +165,9 @@ def main():
     web_thread = threading.Thread(target=start_web_server, args=(args.port,), daemon=True)
     web_thread.start()
 
-    print("🚀 [FaceTracker Test] Initialisation du système de reconnaissance faciale ultra-compact...")
-    tracker = FaceTracker(match_threshold=args.threshold)
+    print("🚀 [FaceTracker Test] Initialisation du système de reconnaissance faciale Haute Précision...")
+    use_resnet50 = (args.model.lower() == "resnet50")
+    tracker = FaceTracker(match_threshold=args.threshold, use_resnet50=use_resnet50)
     detector = YoloWorldDetector(classes=["personne"], default_conf_threshold=0.15)
 
     use_oak = OAK_AVAILABLE and not args.use_webcam
