@@ -242,55 +242,182 @@ class FaceTracker:
         else:
             return "INCONNU", best_sim
 
-    def detect_exact_face_roi(self, head_crop_bgr: np.ndarray):
+    def _scrfd_preprocess(self, bgr_img: np.ndarray, input_size=(640, 640)):
+        """Letterbox resize + normalisation ArcFace pour SCRFD."""
+        img_h, img_w = bgr_img.shape[:2]
+        target_h, target_w = input_size
+        scale = min(target_h / img_h, target_w / img_w)
+        new_h = max(1, int(img_h * scale))
+        new_w = max(1, int(img_w * scale))
+        resized = cv2.resize(bgr_img, (new_w, new_h))
+        padded = np.zeros((target_h, target_w, 3), dtype=np.uint8)
+        padded[:new_h, :new_w] = resized
+        blob = (padded.astype(np.float32) - 127.5) / 128.0
+        blob = np.transpose(blob, (2, 0, 1))
+        blob = np.expand_dims(blob, 0)
+        return blob, scale
+
+    def _nms(self, boxes: np.ndarray, scores: np.ndarray, iou_thresh: float = 0.4) -> list:
+        """NMS simple NumPy (Non-Maximum Suppression)."""
+        x1, y1, x2, y2 = boxes[:, 0], boxes[:, 1], boxes[:, 2], boxes[:, 3]
+        areas = (x2 - x1 + 1) * (y2 - y1 + 1)
+        order = scores.argsort()[::-1]
+        keep = []
+        while order.size > 0:
+            i = order[0]
+            keep.append(int(i))
+            xx1 = np.maximum(x1[i], x1[order[1:]])
+            yy1 = np.maximum(y1[i], y1[order[1:]])
+            xx2 = np.minimum(x2[i], x2[order[1:]])
+            yy2 = np.minimum(y2[i], y2[order[1:]])
+            inter = np.maximum(0, xx2 - xx1 + 1) * np.maximum(0, yy2 - yy1 + 1)
+            iou = inter / (areas[i] + areas[order[1:]] - inter)
+            order = order[1:][iou <= iou_thresh]
+        return keep
+
+    def _scrfd_decode(self, outputs: list, orig_shape: tuple, scale: float,
+                      input_size=(640, 640), conf_thresh: float = 0.45) -> list:
         """
-        Extrait la boîte exacte de la tête complète (front, yeux, lunettes, nez, bouche, menton).
-        Garantit l'absence de faux positifs (ex: rognage sur un seul œil).
-        Returns: (face_crop_112x112, relative_face_bbox)
+        Décode les sorties brutes du modèle SCRFD 500M.
+        Strides [8, 16, 32], num_anchors=2 par location, 6 ou 9 tenseurs en sortie.
+        Returns: liste de dicts {'bbox', 'landmarks', 'score'}.
         """
-        if head_crop_bgr is None or head_crop_bgr.size == 0:
-            return None, None
+        strides = [8, 16, 32]
+        num_anchors = 2
+        img_h, img_w = orig_shape[:2]
+        has_kps = (len(outputs) >= 9)
+        out_per_stride = 3 if has_kps else 2
+        faces = []
 
-        h_c, w_c = head_crop_bgr.shape[:2]
+        for s_idx, stride in enumerate(strides):
+            feat_h = input_size[0] // stride
+            feat_w = input_size[1] // stride
 
-        # Découpage anatomique de la tête complète (du front au menton, d'oreille à oreille)
-        fy1 = int(h_c * 0.05)
-        fy2 = int(h_c * 0.88)
-        fx1 = int(w_c * 0.12)
-        fx2 = int(w_c * 0.88)
+            score_out = outputs[s_idx * out_per_stride].reshape(-1)
+            bbox_out  = outputs[s_idx * out_per_stride + 1].reshape(-1, 4)
+            kps_out   = outputs[s_idx * out_per_stride + 2].reshape(-1, 10) if has_kps else None
 
-        face_roi = head_crop_bgr[fy1:fy2, fx1:fx2]
-        if face_roi.size > 0:
-            aligned = cv2.resize(face_roi, (112, 112))
-        else:
-            aligned = cv2.resize(head_crop_bgr, (112, 112))
-        
-        return aligned, (fx1, fy1, fx2, fy2)
+            # Génération des centres d'ancres
+            anchor_cx, anchor_cy = [], []
+            for row in range(feat_h):
+                for col in range(feat_w):
+                    for _ in range(num_anchors):
+                        anchor_cx.append(col * stride)
+                        anchor_cy.append(row * stride)
+            anchor_cx = np.array(anchor_cx, dtype=np.float32)
+            anchor_cy = np.array(anchor_cy, dtype=np.float32)
+
+            valid = score_out >= conf_thresh
+            if not np.any(valid):
+                continue
+
+            v_scores  = score_out[valid]
+            v_bboxes  = bbox_out[valid]
+            v_cx      = anchor_cx[valid]
+            v_cy      = anchor_cy[valid]
+            v_kps     = kps_out[valid] if kps_out is not None else None
+
+            # Décodage bboxes (coordonnées dans l'image originale)
+            x1 = np.clip((v_cx - v_bboxes[:, 0] * stride) / scale, 0, img_w)
+            y1 = np.clip((v_cy - v_bboxes[:, 1] * stride) / scale, 0, img_h)
+            x2 = np.clip((v_cx + v_bboxes[:, 2] * stride) / scale, 0, img_w)
+            y2 = np.clip((v_cy + v_bboxes[:, 3] * stride) / scale, 0, img_h)
+
+            for i in range(len(v_scores)):
+                lmks = None
+                if v_kps is not None:
+                    lmks = v_kps[i].reshape(5, 2).copy()
+                    lmks[:, 0] = np.clip((v_cx[i] + lmks[:, 0] * stride) / scale, 0, img_w)
+                    lmks[:, 1] = np.clip((v_cy[i] + lmks[:, 1] * stride) / scale, 0, img_h)
+
+                faces.append({
+                    'bbox': (int(x1[i]), int(y1[i]), int(x2[i]), int(y2[i])),
+                    'score': float(v_scores[i]),
+                    'landmarks': lmks
+                })
+
+        if not faces:
+            return []
+
+        # NMS global sur tous les candidats
+        boxes_arr  = np.array([[f['bbox'][0], f['bbox'][1], f['bbox'][2], f['bbox'][3]] for f in faces], dtype=np.float32)
+        scores_arr = np.array([f['score'] for f in faces], dtype=np.float32)
+        keep = self._nms(boxes_arr, scores_arr, iou_thresh=0.4)
+        return [faces[i] for i in keep]
+
+    def detect_faces_scrfd(self, bgr_crop: np.ndarray, conf_thresh: float = 0.40) -> list:
+        """
+        Détecte les visages dans bgr_crop avec le modèle SCRFD 500M (det_500m.onnx).
+        Returns: liste de dicts {'bbox':(x1,y1,x2,y2), 'landmarks':np.array(5x2), 'score':float}.
+        Retourne [] si aucun visage détecté ou si session_det non initialisée.
+        """
+        if self.session_det is None or bgr_crop is None or bgr_crop.size == 0:
+            return []
+
+        input_size = (640, 640)
+        try:
+            blob, scale = self._scrfd_preprocess(bgr_crop, input_size)
+            input_name = self.session_det.get_inputs()[0].name
+            outputs = self.session_det.run(None, {input_name: blob})
+            return self._scrfd_decode(outputs, bgr_crop.shape, scale, input_size, conf_thresh)
+        except Exception as e:
+            return []
 
     def process_person_crop(self, frame_bgr: np.ndarray, person_bbox: tuple) -> tuple[str, float, tuple]:
         """
-        Traite une sous-région `PERSONNE` (ROI): découpe la zone de la tête, aligne et identifie.
-        Returns: (name, sim, exact_face_bbox_in_frame)
+        Pipeline complet de reconnaissance :
+          YOLO bbox personne → SCRFD (visage exact + 5 keypoints) → align_face ArcFace → embedding → identification.
+        Returns: (name, sim, face_bbox_in_frame)
         """
         x1, y1, x2, y2 = person_bbox
         h, w = frame_bgr.shape[:2]
 
-        crop_h = int((y2 - y1) * 0.45)
-        head_y2 = min(y1 + crop_h, h)
-        head_crop = frame_bgr[max(0, y1):head_y2, max(0, x1):min(x2, w)]
+        # Crop haut du corps (55%) pour s'assurer d'avoir la tête entière
+        head_h = int((y2 - y1) * 0.55)
+        hx1, hy1 = max(0, x1), max(0, y1)
+        hx2, hy2 = min(w, x2), min(h, y1 + head_h)
+        head_crop = frame_bgr[hy1:hy2, hx1:hx2]
 
         if head_crop.size == 0:
-            return "INCONNU", 0.0, (x1, y1, x2, head_y2)
+            return "INCONNU", 0.0, (x1, y1, x2, y2)
 
-        aligned, rel_bbox = self.detect_exact_face_roi(head_crop)
-        if aligned is None:
-            aligned = cv2.resize(head_crop, (112, 112))
-            rel_bbox = (0, 0, head_crop.shape[1], head_crop.shape[0])
+        # === 1. Détection SCRFD du visage dans le crop ===
+        faces = self.detect_faces_scrfd(head_crop, conf_thresh=0.40)
 
-        # Calcul des coordonnées de la boîte du visage dans l'image globale frame
-        rx1, ry1, rx2, ry2 = rel_bbox
-        face_bbox_frame = (max(0, x1 + rx1), max(0, y1 + ry1), min(w, x1 + rx2), min(h, y1 + ry2))
+        if faces:
+            # Visage avec meilleur score de confiance
+            best = max(faces, key=lambda f: f['score'])
+            bx1, by1, bx2, by2 = best['bbox']
+            lmks = best['landmarks']
 
+            # === 2. Alignement ArcFace avec les 5 keypoints SCRFD ===
+            if lmks is not None and len(lmks) == 5:
+                # align_face attend les landmarks dans les coordonnées du head_crop
+                aligned = self.align_face(head_crop, lmks)
+            else:
+                face_roi = head_crop[max(0, by1):min(head_crop.shape[0], by2),
+                                     max(0, bx1):min(head_crop.shape[1], bx2)]
+                aligned = cv2.resize(face_roi if face_roi.size > 0 else head_crop, (112, 112))
+
+            # Coordonnées absolues dans le frame global
+            face_bbox_frame = (
+                max(0, hx1 + bx1), max(0, hy1 + by1),
+                min(w, hx1 + bx2), min(h, hy1 + by2)
+            )
+
+        else:
+            # === Fallback anatomique (front→menton, oreille→oreille) ===
+            ch, cw = head_crop.shape[:2]
+            ay1_r, ay2_r = int(ch * 0.05), int(ch * 0.90)
+            ax1_r, ax2_r = int(cw * 0.10), int(cw * 0.90)
+            face_roi = head_crop[ay1_r:ay2_r, ax1_r:ax2_r]
+            aligned = cv2.resize(face_roi if face_roi.size > 0 else head_crop, (112, 112))
+            face_bbox_frame = (
+                max(0, hx1 + ax1_r), max(0, hy1 + ay1_r),
+                min(w, hx1 + ax2_r), min(h, hy1 + ay2_r)
+            )
+
+        # === 3. Embedding ArcFace + Identification ===
         emb = self.get_embedding(aligned)
         name, sim = self.identify_embedding(emb)
         return name, sim, face_bbox_frame
