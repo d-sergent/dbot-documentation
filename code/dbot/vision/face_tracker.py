@@ -24,11 +24,10 @@ FACES_DIR = os.path.join(SCRIPT_DIR, "faces")
 WEIGHTS_DIR = os.path.join(FACES_DIR, "weights")
 KNOWN_FACES_PATH = os.path.join(FACES_DIR, "known_faces.json")
 
-# URL de secours pour le téléchargement automatique des modèles ONNX compacts
-SCRFD_URL = "https://github.com/deepinsight/insightface/releases/download/v0.7/scrfd_500m_kps.onnx"
-MBF_URL = "https://huggingface.co/public-data/insightface-onnx/resolve/main/w600k_mbf.onnx"
+# URL officielle InsightFace buffalo_sc.zip (14.9 Mo contenant det_500m.onnx et w600k_mbf.onnx)
+BUFFALO_SC_URL = "https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_sc.zip"
 
-SCRFD_PATH = os.path.join(WEIGHTS_DIR, "scrfd_500m_kps.onnx")
+SCRFD_PATH = os.path.join(WEIGHTS_DIR, "det_500m.onnx")
 MBF_PATH = os.path.join(WEIGHTS_DIR, "w600k_mbf.onnx")
 
 # Landmarks de référence InsightFace (112x112 px)
@@ -47,14 +46,24 @@ def ensure_directory(path: str):
         os.makedirs(path, exist_ok=True)
 
 
-def download_file(url: str, dest_path: str):
-    """Télécharge un fichier binaire avec affichage de la progression."""
-    print(f"⏳ Téléchargement du modèle ({os.path.basename(dest_path)})...")
+def download_and_extract_models():
+    """Télécharge l'archive officielle InsightFace buffalo_sc.zip et extrait les modèles ONNX."""
+    zip_path = os.path.join(WEIGHTS_DIR, "buffalo_sc.zip")
+    print(f"⏳ Téléchargement du pack modèle officiel InsightFace (buffalo_sc.zip - 14.9 Mo)...")
     try:
-        urllib.request.urlretrieve(url, dest_path)
-        print(f"✅ Téléchargement réussi : '{dest_path}'")
+        req = urllib.request.Request(BUFFALO_SC_URL, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req) as resp, open(zip_path, 'wb') as f:
+            f.write(resp.read())
+        
+        import zipfile
+        with zipfile.ZipFile(zip_path, 'r') as z:
+            z.extractall(WEIGHTS_DIR)
+        
+        if os.path.exists(zip_path):
+            os.remove(zip_path)
+        print("✅ [FaceTracker] Modèles ONNX ultra-compacts `det_500m.onnx` et `w600k_mbf.onnx` installés avec succès !")
     except Exception as e:
-        print(f"❌ Erreur lors du téléchargement de '{url}' : {e}")
+        print(f"❌ Erreur lors du téléchargement de 'buffalo_sc.zip' : {e}")
 
 
 class FaceTracker:
@@ -69,11 +78,9 @@ class FaceTracker:
         ensure_directory(FACES_DIR)
         ensure_directory(WEIGHTS_DIR)
 
-        # Vérification et téléchargement des poids si absents
-        if not os.path.exists(SCRFD_PATH):
-            download_file(SCRFD_URL, SCRFD_PATH)
-        if not os.path.exists(MBF_PATH):
-            download_file(MBF_URL, MBF_PATH)
+        # Vérification et téléchargement de l'archive si les modèles sont absents
+        if not os.path.exists(SCRFD_PATH) or not os.path.exists(MBF_PATH):
+            download_and_extract_models()
 
         self.session_det = None
         self.session_rec = None

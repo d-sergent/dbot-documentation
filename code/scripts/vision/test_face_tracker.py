@@ -29,7 +29,7 @@ from dbot.vision.face_tracker import FaceTracker
 from dbot.vision.yolo_world import YoloWorldDetector
 
 try:
-    from dbot.vision.oak_camera import OAKCamera
+    from dbot.vision.oak_camera import DbotCamera
     OAK_AVAILABLE = True
 except ImportError:
     OAK_AVAILABLE = False
@@ -160,7 +160,7 @@ def main():
     if use_oak:
         print("⏳ [Vision] Initialisation de la caméra OAK-D Pro...")
         try:
-            cam = OAKCamera()
+            cam = DbotCamera()
             cam.start()
             print("✅ [Vision] Caméra OAK-D Pro opérationnelle.")
         except Exception as e:
