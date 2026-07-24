@@ -35,12 +35,120 @@ except ImportError:
     OAK_AVAILABLE = False
 
 
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from socketserver import ThreadingMixIn
+
+# Structure partagée pour le serveur Web MJPEG
+class WebState:
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.jpeg_frame = None
+        self.register_trigger = False
+        self.register_name = ""
+        self.is_centered = False
+
+GLOBAL_WEB = WebState()
+
+
+class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
+    """Serveur HTTP multithreadé pour le streaming MJPEG."""
+    daemon_threads = True
+
+
+class MJPEGHandler(BaseHTTPRequestHandler):
+    """Handler HTTP servant la page HTML et le flux MJPEG."""
+    def log_message(self, format, *args):
+        pass  # Silence les logs HTTP de routine
+
+    def do_GET(self):
+        if self.path == '/':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html; charset=utf-8')
+            self.end_headers()
+            html = """
+            <!DOCTYPE html>
+            <html lang="fr">
+            <head>
+                <meta charset="UTF-8">
+                <title>D-Bot Face Tracker Web UI</title>
+                <style>
+                    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #0f172a; color: #f8fafc; text-align: center; margin: 0; padding: 20px; }
+                    h1 { color: #38bdf8; font-size: 24px; margin-bottom: 10px; }
+                    .card { background: #1e293b; border-radius: 12px; padding: 15px; display: inline-block; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+                    img { border-radius: 8px; max-width: 100%; height: auto; border: 2px solid #334155; }
+                    .controls { margin-top: 15px; }
+                    input[type="text"] { padding: 10px 15px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 16px; width: 200px; }
+                    button { padding: 10px 20px; border-radius: 6px; border: none; background: #0284c7; color: white; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+                    button:hover { background: #0369a1; }
+                </style>
+            </head>
+            <body>
+                <div class="card">
+                    <h1>👁️ D-Bot Face Tracker (Reconnaissance Faciale)</h1>
+                    <img src="/video_feed" width="850" alt="Flux Vidéo D-Bot">
+                    <div class="controls">
+                        <form action="/api/register" method="GET" style="display:inline-block;">
+                            <input type="text" name="name" placeholder="Prénom (ex: David)" required>
+                            <button type="submit">📸 Enregistrer le Visage</button>
+                        </form>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """
+            self.wfile.write(html.encode('utf-8'))
+
+        elif self.path == '/video_feed':
+            self.send_response(200)
+            self.send_header('Content-type', 'multipart/x-mixed-replace; boundary=frame')
+            self.end_headers()
+            while True:
+                with GLOBAL_WEB.lock:
+                    frame_bytes = GLOBAL_WEB.jpeg_frame
+                if frame_bytes is not None:
+                    try:
+                        self.wfile.write(b'--frame\r\n')
+                        self.send_header('Content-type', 'image/jpeg')
+                        self.send_header('Content-length', str(len(frame_bytes)))
+                        self.end_headers()
+                        self.wfile.write(frame_bytes)
+                        self.wfile.write(b'\r\n')
+                    except Exception:
+                        break
+                time.sleep(0.033)  # ~30 FPS
+
+        elif self.path.startswith('/api/register'):
+            import urllib.parse
+            query = urllib.parse.urlparse(self.path).query
+            params = urllib.parse.parse_qs(query)
+            name = params.get('name', [''])[0].strip()
+            if name:
+                with GLOBAL_WEB.lock:
+                    GLOBAL_WEB.register_trigger = True
+                    GLOBAL_WEB.register_name = name
+            self.send_response(302)
+            self.send_header('Location', '/')
+            self.end_headers()
+
+
+def start_web_server(port=8090):
+    server = ThreadedHTTPServer(('0.0.0.0', port), MJPEGHandler)
+    print(f"🌐 [Web UI] Serveur déporté actif sur http://ubuntu.local:{port} (ou http://<IP_JETSON>:{port})")
+    server.serve_forever()
+
+
 def main():
     parser = argparse.ArgumentParser(description="Test & Enregistrement Reconnaissance Faciale D-Bot")
     parser.add_argument("--register", type=str, default="", help="Nom de la personne à enregistrer (ex: 'David')")
     parser.add_argument("--threshold", type=float, default=0.40, help="Seuil de similarité cosinus (défaut: 0.40)")
+    parser.add_argument("--port", type=int, default=8090, help="Port du serveur Web MJPEG (défaut: 8090)")
     parser.add_argument("--use-webcam", action="store_true", help="Forcer l'utilisation de la webcam au lieu de l'OAK-D")
     args = parser.parse_args()
+
+    # Démarrage du thread Web Server
+    web_thread = threading.Thread(target=start_web_server, args=(args.port,), daemon=True)
+    web_thread.start()
 
     print("🚀 [FaceTracker Test] Initialisation du système de reconnaissance faciale ultra-compact...")
     tracker = FaceTracker(match_threshold=args.threshold)
@@ -148,7 +256,13 @@ def main():
 
             cv2.putText(frame, f"FPS: {fps:.1f} | Latence Vision: {latency_ms:.1f}ms", (20, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
             
-            # Enregistrement périodique d'une image témoin pour consultation à distance
+            # Encodage JPEG pour le serveur Web MJPEG (http://ubuntu.local:8090)
+            ret_jpg, jpeg_buf = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
+            if ret_jpg:
+                with GLOBAL_WEB.lock:
+                    GLOBAL_WEB.jpeg_frame = jpeg_buf.tobytes()
+
+            # Enregistrement périodique d'une image témoin sur disque
             cv2.imwrite("/tmp/face_tracker_snapshot.jpg", frame)
 
             try:
@@ -157,9 +271,22 @@ def main():
             except Exception:
                 # Mode Headless SSH sans affichage graphique X11
                 key = 0
+
+            # Déclenchement de la capture depuis le Web UI ou la touche ESPACE
+            web_req = False
+            web_name = ""
+            with GLOBAL_WEB.lock:
+                if GLOBAL_WEB.register_trigger:
+                    web_req = True
+                    web_name = GLOBAL_WEB.register_name
+                    GLOBAL_WEB.register_trigger = False
+
             if key == ord('q'):
                 break
-            elif register_mode and key == 32:  # Touche ESPACE
+            elif (register_mode and key == 32) or web_req:  # Touche ESPACE ou Bouton Web UI
+                reg_name = web_name if web_req else target_name
+                if not reg_name:
+                    reg_name = "David"
                 # Capture et enregistrement du visage
                 for det in detections:
                     if det["label"] == "PERSONNE":
@@ -168,9 +295,9 @@ def main():
                         head_crop = frame[max(0, y1):min(y1 + crop_h, h), max(0, x1):min(x2, w)]
                         if head_crop.size > 0:
                             aligned = cv2.resize(head_crop, (112, 112))
-                            success = tracker.register_face(target_name, aligned)
+                            success = tracker.register_face(reg_name, aligned)
                             if success:
-                                print(f"🎉 Enregistrement réussi pour '{target_name}' !")
+                                print(f"\n🎉 [Web UI / Console] Enregistrement réussi pour '{reg_name}' !")
                                 register_mode = False
                                 break
 
