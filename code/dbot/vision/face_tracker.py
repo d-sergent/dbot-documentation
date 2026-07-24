@@ -199,29 +199,47 @@ class FaceTracker:
 
         return embedding.astype(np.float32)
 
-    def identify_embedding(self, embedding: np.ndarray) -> tuple[str, float]:
+    def identify_embedding(self, embedding: np.ndarray, margin_threshold: float = 0.04) -> tuple[str, float]:
         """
-        Compare un vecteur 512-dim aux visages connus et retourne l'identité et le score de similarité cosinus.
+        Compare un vecteur 512-dim aux centroïdes et échantillons de profils connus avec vérification de marge anti-hésitation.
         """
         if not self.known_faces or len(embedding) == 0:
             return "INCONNU", 0.0
 
-        best_name = "INCONNU"
-        best_sim = 0.0
-
+        scores = {}
         for name, known_vecs in self.known_faces.items():
-            for k_vec in known_vecs:
-                sim = float(np.dot(embedding, k_vec))  # Produit scalaire de vecteurs L2-normalisés
-                if sim > best_sim:
-                    best_sim = sim
-                    best_name = name
+            # 1. Score par centroïde moyen (moyenner tous les échantillons enregistrés)
+            mean_vec = np.mean(known_vecs, axis=0)
+            norm = np.linalg.norm(mean_vec)
+            if norm > 0:
+                mean_vec = mean_vec / norm
+            centroid_sim = float(np.dot(embedding, mean_vec))
 
+            # 2. Meilleur score d'échantillon individuel
+            max_single_sim = max([float(np.dot(embedding, kv)) for kv in known_vecs])
+
+            # Score combiné (70% centroïde stable + 30% max individuel)
+            scores[name] = 0.70 * centroid_sim + 0.30 * max_single_sim
+
+        # Tri des profils par score décroissant
+        sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+        best_name, best_sim = sorted_scores[0]
+
+        # Calcul de la marge par rapport au 2ème candidat (si au moins 2 profils enregistrés)
+        margin = 1.0
+        if len(sorted_scores) > 1:
+            second_name, second_sim = sorted_scores[1]
+            margin = best_sim - second_sim
+
+        # Décision robuste avec vérification du seuil et de la marge anti-hésitation
         if best_sim >= self.match_threshold:
-            print(f"\r🔍 [Face Match ✅] Identification: '{best_name}' (Score: {best_sim*100:.1f}% | Seuil: {self.match_threshold*100:.0f}%)", flush=True)
+            if margin < margin_threshold:
+                print(f"\r⚠️ [Hésitation Faciale] Incertitude entre '{best_name}' ({best_sim*100:.1f}%) et '{sorted_scores[1][0]}' ({sorted_scores[1][1]*100:.1f}%)", flush=True)
+                return "INCONNU", best_sim
+            
+            print(f"\r🔍 [Face Match ✅] Identification: '{best_name}' (Score: {best_sim*100:.1f}% | Marge: +{margin*100:.1f}%)", flush=True)
             return best_name, best_sim
         else:
-            if best_sim > 0.10:
-                print(f"\r🔍 [Face Match ⚠️] Proche de '{best_name}' (Score: {best_sim*100:.1f}% < Seuil: {self.match_threshold*100:.0f}%)", flush=True)
             return "INCONNU", best_sim
 
     def extract_face_roi(self, head_crop_bgr: np.ndarray) -> np.ndarray:
