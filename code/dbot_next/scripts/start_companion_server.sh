@@ -27,7 +27,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 
 # ─── Fonctions ───────────────────────────────────────────────────────────────
 find_server_pid() {
-    pgrep -f "python.*companion_server.py" 2>/dev/null | head -1 || true
+    pgrep -f "companion_server\.py" 2>/dev/null | grep -v "start_companion_server" | head -1 || true
 }
 
 stop_server() {
@@ -79,9 +79,9 @@ start_server() {
     local pid=$!
     echo "$pid" > "$PID_FILE"
 
-    # Attendre que le serveur soit prêt (max 30s)
+    # Attendre que le serveur soit prêt (max 45s)
     echo -n "   Attente du démarrage"
-    for i in $(seq 1 30); do
+    for i in $(seq 1 45); do
         sleep 1
         echo -n "."
         if grep -q "Application startup complete" "$LOG" 2>/dev/null; then
