@@ -158,7 +158,7 @@ def main():
 
     print("🚀 [FaceTracker Test] Initialisation du système de reconnaissance faciale ultra-compact...")
     tracker = FaceTracker(match_threshold=args.threshold)
-    detector = YoloWorldDetector(classes=["personne"], default_conf_threshold=0.25)
+    detector = YoloWorldDetector(classes=["personne"], default_conf_threshold=0.15)
 
     use_oak = OAK_AVAILABLE and not args.use_webcam
     cam = None
@@ -210,7 +210,7 @@ def main():
 
             # Traitement des personnes détectées par YOLO-World
             for det in detections:
-                if det["label"] == "PERSONNE":
+                if det["label"].upper() in ["PERSONNE", "PERSON"]:
                     bbox = det["bbox"]
                     x1, y1, x2, y2 = bbox
 
