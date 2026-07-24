@@ -37,13 +37,13 @@ def main():
     
     # Callbacks du client
     def on_asr(text):
-        print(f"\n👤 Vous (Mac ASR) : '{text}'")
+        print(f"\n🗣️  [VOUS AVEZ DIT] : \"{text}\"")
         nonlocal state
         with lock:
             state = "speaking"  # Le serveur commence à parler / répondre
 
     def on_text(content):
-        print(f"🤖 D-Bot (Mac LLM) : {content}")
+        print(f"🤖 [D-BOT RÉPOND] : \"{content}\"")
 
     def on_end():
         print("\n👀 À l'écoute...\n")

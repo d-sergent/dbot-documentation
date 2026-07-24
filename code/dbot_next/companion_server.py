@@ -90,11 +90,18 @@ async def conversation_endpoint(websocket: WebSocket):
                             
                         elif msg_type == "end":
                             # Fin de parole VAD : on lance la transcription ASR
-                            print("🎙️  [VAD Mac] Fin de parole détectée. Lancement de la transcription...")
+                            print("\n🎙️  [VAD Mac] Fin de parole détectée. Lancement de la transcription ASR...")
                             if len(state.audio_buffer) > 0:
-                                # Concaténer tout l'audio accumulé et le normaliser en float32 [-1.0, 1.0]
+                                # Concaténer tout l'audio accumulé
                                 full_audio_int16 = np.concatenate(state.audio_buffer)
+                                
+                                # Si flux stéréo 2 canaux (ex: parecord sur Jetson), dérelacer en mono 1D
+                                if full_audio_int16.ndim == 1 and len(full_audio_int16) % 2 == 0:
+                                    audio_2d = full_audio_int16.reshape(-1, 2)
+                                    full_audio_int16 = audio_2d.mean(axis=1).astype(np.int16)
+                                    
                                 full_audio_float32 = full_audio_int16.astype(np.float32) / 32768.0
+                                print(f"📊 [ASR Mac] Buffer audio à transcrire : {len(full_audio_float32)/16000.0:.2f} secondes (Mono 16 kHz)")
                                 
                                 # Lancer la transcription ASR dans un thread-pool (faster-whisper)
                                 loop = asyncio.get_running_loop()
@@ -104,7 +111,7 @@ async def conversation_endpoint(websocket: WebSocket):
                                         language="fr", 
                                         beam_size=5,
                                         temperature=0.0,
-                                        no_speech_threshold=0.6
+                                        no_speech_threshold=0.4
                                     )
                                     text = " ".join([seg.text for seg in segments]).strip()
                                     
@@ -124,7 +131,7 @@ async def conversation_endpoint(websocket: WebSocket):
                                 
                                 start_t = time.time()
                                 transcribed_text = await loop.run_in_executor(None, transcribe_task)
-                                print(f"🗣️  [ASR Mac] Transcrit en {(time.time() - start_t)*1000:.0f} ms : '{transcribed_text}'")
+                                print(f"🗣️  [ASR Mac] Transcrit en {(time.time() - start_t)*1000:.0f} ms : \"{transcribed_text}\"")
                                 
                                 if len(transcribed_text) > 1:
                                     # Envoyer le texte reconnu au robot (pour feedback visuel)
@@ -136,6 +143,8 @@ async def conversation_endpoint(websocket: WebSocket):
                                     await prompts_queue.put(transcribed_text)
                                 else:
                                     print("ℹ️ [ASR Mac] Transcription vide ou trop courte, ignorée.")
+                            else:
+                                print("⚠ [ASR Mac] Buffer audio vide à la fin de phrase.")
                             
                         elif msg_type == "interrupt":
                             print("🚨 [Serveur] Signal d'interruption reçu !")
