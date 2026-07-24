@@ -242,40 +242,67 @@ class FaceTracker:
         else:
             return "INCONNU", best_sim
 
-    def extract_face_roi(self, head_crop_bgr: np.ndarray) -> np.ndarray:
+    def detect_exact_face_roi(self, head_crop_bgr: np.ndarray):
         """
-        Extrait la ROI précise du visage en éliminant les épaules et l'arrière-plan.
+        Détecte le rectangle exact du visage (yeux, nez, bouche) à l'intérieur du crop de tête.
+        Returns: (face_crop_112x112, relative_face_bbox)
         """
         if head_crop_bgr is None or head_crop_bgr.size == 0:
-            return None
-        h_c, w_c = head_crop_bgr.shape[:2]
-        if h_c < 20 or w_c < 20:
-            return cv2.resize(head_crop_bgr, (112, 112))
+            return None, None
 
-        # Isolement de la zone faciale (30-85% en hauteur, 15-85% en largeur)
+        h_c, w_c = head_crop_bgr.shape[:2]
+
+        # Utilisation du détecteur de visage Haar/OpenCV léger sur le crop de tête
+        gray = cv2.cvtColor(head_crop_bgr, cv2.COLOR_BGR2GRAY)
+        try:
+            cascade_path = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+            face_cascade = cv2.CascadeClassifier(cascade_path)
+            faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3, minSize=(30, 30))
+            if len(faces) > 0:
+                # Sélection du plus grand visage trouvé dans le crop
+                fx, fy, fw, fh = max(faces, key=lambda b: b[2] * b[3])
+                face_crop = head_crop_bgr[fy:fy+fh, fx:fx+fw]
+                aligned = cv2.resize(face_crop, (112, 112))
+                return aligned, (fx, fy, fx + fw, fy + fh)
+        except Exception:
+            pass
+
+        # Fallback rognage intelligent au centre (15-85% H, 15-85% W)
         face_roi = head_crop_bgr[int(h_c * 0.15):int(h_c * 0.85), int(w_c * 0.15):int(w_c * 0.85)]
         if face_roi.size > 0:
-            return cv2.resize(face_roi, (112, 112))
-        return cv2.resize(head_crop_bgr, (112, 112))
+            aligned = cv2.resize(face_roi, (112, 112))
+        else:
+            aligned = cv2.resize(head_crop_bgr, (112, 112))
+        
+        return aligned, (int(w_c * 0.15), int(h_c * 0.15), int(w_c * 0.85), int(h_c * 0.85))
 
-    def process_person_crop(self, frame_bgr: np.ndarray, person_bbox: tuple) -> tuple[str, float]:
+    def process_person_crop(self, frame_bgr: np.ndarray, person_bbox: tuple) -> tuple[str, float, tuple]:
         """
         Traite une sous-région `PERSONNE` (ROI): découpe la zone de la tête, aligne et identifie.
+        Returns: (name, sim, exact_face_bbox_in_frame)
         """
         x1, y1, x2, y2 = person_bbox
         h, w = frame_bgr.shape[:2]
 
-        crop_h = int((y2 - y1) * 0.40)
+        crop_h = int((y2 - y1) * 0.45)
         head_y2 = min(y1 + crop_h, h)
         head_crop = frame_bgr[max(0, y1):head_y2, max(0, x1):min(x2, w)]
 
         if head_crop.size == 0:
-            return "INCONNU", 0.0
+            return "INCONNU", 0.0, (x1, y1, x2, head_y2)
 
-        aligned = self.extract_face_roi(head_crop)
+        aligned, rel_bbox = self.detect_exact_face_roi(head_crop)
+        if aligned is None:
+            aligned = cv2.resize(head_crop, (112, 112))
+            rel_bbox = (0, 0, head_crop.shape[1], head_crop.shape[0])
+
+        # Calcul des coordonnées de la boîte du visage dans l'image globale frame
+        rx1, ry1, rx2, ry2 = rel_bbox
+        face_bbox_frame = (max(0, x1 + rx1), max(0, y1 + ry1), min(w, x1 + rx2), min(h, y1 + ry2))
+
         emb = self.get_embedding(aligned)
         name, sim = self.identify_embedding(emb)
-        return name, sim
+        return name, sim, face_bbox_frame
 
     def register_face(self, name: str, aligned_face_bgr: np.ndarray) -> bool:
         """
