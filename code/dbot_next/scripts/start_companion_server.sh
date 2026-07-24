@@ -27,18 +27,18 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 
 # ─── Fonctions ───────────────────────────────────────────────────────────────
 find_server_pid() {
-    pgrep -f "python.*companion_server.py" 2>/dev/null | head -1
+    pgrep -f "python.*companion_server.py" 2>/dev/null | head -1 || true
 }
 
 stop_server() {
     local pid=$(find_server_pid)
     if [[ -n "$pid" ]]; then
         echo "${YELLOW}⏹  Arrêt du serveur existant (PID $pid)...${NC}"
-        kill "$pid" 2>/dev/null
+        kill "$pid" 2>/dev/null || true
         sleep 2
         # Si toujours vivant → SIGKILL
         if kill -0 "$pid" 2>/dev/null; then
-            kill -9 "$pid" 2>/dev/null
+            kill -9 "$pid" 2>/dev/null || true
             echo "${RED}   → Forcé (SIGKILL)${NC}"
         else
             echo "${GREEN}   → Arrêté proprement.${NC}"
@@ -48,10 +48,10 @@ stop_server() {
         echo "   (Aucun serveur en cours)."
     fi
     # Libérer le port 8001 si occupé
-    local port_pid=$(lsof -ti:8001 2>/dev/null)
+    local port_pid=$(lsof -ti:8001 2>/dev/null | head -1 || true)
     if [[ -n "$port_pid" ]]; then
         echo "${YELLOW}⚠  Port 8001 encore occupé (PID $port_pid), libération...${NC}"
-        kill -9 "$port_pid" 2>/dev/null
+        kill -9 "$port_pid" 2>/dev/null || true
     fi
 }
 
@@ -73,8 +73,9 @@ start_server() {
         exit 1
     fi
 
-    # Lancement en arrière-plan avec logs line-buffered (stdbuf force l'écriture immédiate)
-    nohup stdbuf -oL "$PYTHON" -u "$SERVER" >> "$LOG" 2>&1 &
+    # Lancement en arrière-plan avec export PYTHONUNBUFFERED=1 (macOS/zsh compatible)
+    export PYTHONUNBUFFERED=1
+    nohup "$PYTHON" -u "$SERVER" > "$LOG" 2>&1 < /dev/null &
     local pid=$!
     echo "$pid" > "$PID_FILE"
 
