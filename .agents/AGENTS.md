@@ -21,4 +21,4 @@
   `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py"`
 
 ## Text Formatting & Unit Representation
-- **No LaTeX formatting for plain text measurements or units**: Do NOT use LaTeX math syntax (such as `$0.5\text{ m}$`, `$500\text{ mm}$`, `$30\text{ FPS}$`, `$81^\circ$`) for standard text responses or markdown documentation. ALWAYS write numbers and units in clean plain text (e.g. `0,5 m` or `0.5 m`, `500 mm`, `30 FPS`, `81°`).
+- **No LaTeX formatting for plain text measurements or units**: NEVER use LaTeX math syntax (such as `$0.5\text{ m}$`, `$500\text{ mm}$`, `$30\text{ FPS}$`, `$81^\circ$`, `$0^\circ \dots 359^\circ$`, `$$\Delta \theta$$`) in text responses, markdown documentation, artifacts (plans, walkthroughs), or code comments. ALWAYS write angles, ranges, measurements, formulas, and units in clean plain text (e.g. `0,5 m` or `0.5 m`, `500 mm`, `30 FPS`, `81°`, `0° à 359°`, `Delta_theta`).

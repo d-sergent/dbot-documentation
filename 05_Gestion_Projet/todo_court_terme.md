@@ -29,7 +29,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Tableau de Bord Web UI (`Motorbridge` Web UI)** : Serveur léger Web UI développé dans `Code/dbot/motors/web_ui.py` sur la Jetson Orin Nano pour contrôler et visualiser en temps réel la télémétrie des 2 moteurs RS-05 du cou (angles, températures, tension, erreurs CAN0) depuis le navigateur du Mac (`http://ubuntu.local:8080`).
 - [x] **Premier test dynamique du Cou (Sans Casque)** : Valider les rotations Pan/Tilt via `web_ui.py` et `test_neck.py` avec mouvements LERP fluides et non-bloquants.
 - [ ] **Remontage du casque & Butées logicielles** : Définir et verrouiller les angles limites dans `config.py` pour éviter tout choc mécanique entre le casque et la structure.
-- [ ] **Orientation Tête sur DoA Audio** : Coupler la position angulaire des RS-05 avec la direction DoA (0-360°) de la ReSpeaker pour orienter la tête vers la voix.
+- [x] **Orientation Tête sur DoA Audio** : Coupler la position angulaire des RS-05 avec la direction DoA (0-360°) de la ReSpeaker pour orienter la tête vers la voix (`dbot/behaviors/audio_gaze.py`).
 - [ ] **Intégration Simultanée des Capteurs Tête** : Brancher et valider la marche simultanée de l'OAK-D Pro, du ReSpeaker et des moteurs du cou.
 - [ ] **Station d'Alimentation Atelier 600W** : Imprimer le boîtier 3D `RS-power-Top Cover.stp` et assembler le bloc MeanWell LRS-600-48 (48V / 12.5A) avec connecteurs XT30 2+2.
 

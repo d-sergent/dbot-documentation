@@ -29,7 +29,7 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 
 - [x] **Web UI Motorbridge (Jetson)** : Serveur léger de diagnostic CAN développé (`Code/dbot/motors/web_ui.py`) pour télémesure en temps réel des 2 moteurs RS-05 (angles, temp, erreurs, Vbus 48V).
 - [x] **Validation Mécanique & Asservissement du Cou (Pan/Tilt)** : Mouvements LERP fluides et non-bloquants qualifiés sur le cou RS-05 via `web_ui.py` et `neck.py`.
-- [ ] **Audio Gaze Tracking** : Asservissement angulaire des 2 RS-05 sur la direction DoA (0-360°) renvoyée par le ReSpeaker XVF-3800.
+- [x] **Audio Gaze Tracking** : Asservissement angulaire des 2 RS-05 sur la direction DoA (0-360°) renvoyée par le ReSpeaker XVF-3800 (`dbot/behaviors/audio_gaze.py`).
 
 ---
 
