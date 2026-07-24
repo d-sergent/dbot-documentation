@@ -43,10 +43,15 @@ class DbotCamera:
         self.cam_rgb.setInterleaved(False)
         self.cam_rgb.setFps(fps)
         
-        # Sortie Vidéo ISP (Plein Champ 81° FOV)
+        # Sortie Vidéo ISP (Plein Champ 81° FOV, 640x360) pour YOLO
         self.xout_video = self.pipeline.create(dai.node.XLinkOut)
         self.xout_video.setStreamName("video")
         self.cam_rgb.isp.link(self.xout_video.input)
+
+        # Sortie Vidéo Haute Définition 1080p (1920x1080) pour la Reconnaissance Faciale
+        self.xout_video_hd = self.pipeline.create(dai.node.XLinkOut)
+        self.xout_video_hd.setStreamName("video_hd")
+        self.cam_rgb.video.link(self.xout_video_hd.input)
 
         # --- Nœud Matériel ObjectTracker VPU (60+ FPS) ---
         if self.enable_tracker:
@@ -130,21 +135,31 @@ class DbotCamera:
     def _run(self):
         """Boucle interne de capture des images et des données VPU."""
         video_queue = self.device.getOutputQueue(name="video", maxSize=4, blocking=False)
+        hd_queue = self.device.getOutputQueue(name="video_hd", maxSize=2, blocking=False)
         depth_queue = self.device.getOutputQueue(name="depth", maxSize=4, blocking=False) if self.enable_depth else None
-        spatial_queue = self.device.getOutputQueue(name="spatial_data", maxSize=4, blocking=False) if self.enable_depth else None
+        spatial_queue = self.device.getOutputQueue(name="spatialData", maxSize=4, blocking=False) if self.enable_depth else None
         tracker_queue = self.device.getOutputQueue(name="tracklets", maxSize=4, blocking=False) if self.enable_tracker else None
         
         while self.is_running:
             try:
                 has_any_data = False
 
-                # 1. Lecture de l'image RGB Grand Angle (Non bloquante)
+                # 1. Lecture de l'image RGB Grand Angle (640x360 via ISP pour YOLO)
                 if video_queue and video_queue.has():
                     frame_data = video_queue.get()
                     if frame_data:
                         frame = frame_data.getCvFrame()
                         with self.frame_lock:
                             self.latest_frame = frame
+                        has_any_data = True
+
+                # 1b. Lecture de l'image Haute Définition (1080p pour Reconnaissance Faciale Étape 2)
+                if hd_queue and hd_queue.has():
+                    hd_data = hd_queue.get()
+                    if hd_data:
+                        hd_frame = hd_data.getCvFrame()
+                        with self.frame_lock:
+                            self.latest_hd_frame = hd_frame
                         has_any_data = True
 
                 # 2. Lecture de la carte de profondeur stéréo filtrée
@@ -183,9 +198,14 @@ class DbotCamera:
                 break
 
     def get_frame(self):
-        """Retourne la dernière image capturée."""
+        """Retourne la dernière image capturée (640x360 px pour YOLO)."""
         with self.frame_lock:
             return self.latest_frame
+
+    def get_hd_frame(self):
+        """Retourne la dernière image Haute Définition 1080p (1920x1080 px) non-scalée pour la reconnaissance faciale."""
+        with self.frame_lock:
+            return self.latest_hd_frame if getattr(self, 'latest_hd_frame', None) is not None else self.latest_frame
 
     def get_depth_frame(self):
         """Retourne la dernière carte de profondeur filtrée par le VPU (en mm)."""

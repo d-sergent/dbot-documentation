@@ -56,6 +56,10 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
   - Dictionnaire persistant local `fr_en_dictionary.json` (+150 mots) et traduction automatique zéro-ressource via `urllib` dans `yolo_world.py`.
 - [x] **Reconnaissance & Identification de Visages (Face Recognition / Tracking)** :
   - Module d'extraction et d'identification faciale ultra-compact (`face_tracker.py` avec SCRFD 500M `det_500m.onnx` 5 points clés + MobileFaceNet ArcFace `w600k_mbf.onnx` 512-dim), lissage temporel sur 5 trames, score centroïde et serveur Web UI MJPEG (http://ubuntu.local:8090) pour enregistrer et reconnaître nommément les visages du foyer.
+- [ ] **Feuille de Route Discrimination Faciale Intra-Familiale High-Precision** :
+  - Étape 1 : Passage au modèle haute capacité ArcFace ResNet50 (`ms1mv3_arcface_r50` ~160 Mo, 512-dim) sur GPU Jetson.
+  - Étape 2 (En cours) : Découpage HD natif Full-Resolution (1920x1080 px) directement sur le flux brut Sony OAK-D Pro (x3-x4 densité de pixels optiques sur le visage).
+  - Étape 3 : Classifieur SVM à marge maximale local (`sklearn.svm.SVC`) entraîné sur les embeddings enregistrés.
 - [x] **Expérience "Active Gaze" & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** :
   - Capturer le flux RGB 1080p de l'OAK-D Pro et exécuter l'inférence de repérage visuel (*Visual Grounding*) avec **LocateAnything-3B / NVIDIA Cosmos 3D Edge** **déporté sur le Mac M1 Max (64 Go)** via HTTP/gRPC (`server_active_gaze_mac.py`).
   - Asservir le cou en Pan/Tilt pour qu'il centre physiquement l'objet ciblé au milieu du champ de vision ("Regarde la tasse").

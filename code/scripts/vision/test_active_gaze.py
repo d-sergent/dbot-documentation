@@ -114,52 +114,20 @@ def run_active_gaze_real_world(target_prompt="main", enable_motors=True):
             if is_hazard:
                 print(f"🛑 [VPU Safety Alert] Obstacle à {hazard_dist:.0f} mm ! Arrêt d'urgence.")
 
+            # 1b. Récupération du flux HD 1080p pour la reconnaissance faciale haute précision
+            frame_hd = cam.get_hd_frame()
+
             # Inférence Zero-Shot YOLO-World v2 + Fusion 3D
             dets_2d, latency_ms = detector.detect(frame_rgb)
             dets_3d = fusion.compute_spatial_3d(dets_2d, frame_depth)
 
-            # Identification faciale sur les détections de personnes (SCRFD 500M + ArcFace)
+            # Identification faciale HD (Étape 2 : Full-Resolution 1080p)
             for d in dets_3d:
                 lbl_fr = d["label"].lower()
                 lbl_en = d["raw_label_en"].lower()
                 if lbl_fr in ["personne", "person"] or lbl_en in ["person", "human"]:
                     bx1, by1, bx2, by2 = d["bbox"]
-                    track_key = f"{bx1//100}_{by1//100}"
-
-                    head_h_tmp = int((by2 - by1) * 0.55)
-                    hx1_t, hy1_t = max(0, bx1), max(0, by1)
-                    hx2_t, hy2_t = min(w, bx2), min(h, by1 + head_h_tmp)
-                    head_crop_tmp = frame_rgb[hy1_t:hy2_t, hx1_t:hx2_t]
-
-                    if head_crop_tmp.size > 0:
-                        faces_tmp = face_tracker.detect_faces_scrfd(head_crop_tmp, conf_thresh=0.35)
-                        if faces_tmp:
-                            best_tmp = max(faces_tmp, key=lambda f: f['score'])
-                            lmks_tmp = best_tmp['landmarks']
-                            if lmks_tmp is not None and len(lmks_tmp) == 5:
-                                aligned_tmp = face_tracker.align_face(head_crop_tmp, lmks_tmp)
-                            else:
-                                bx1t, by1t, bx2t, by2t = best_tmp['bbox']
-                                fr_tmp = head_crop_tmp[max(0,by1t):min(head_crop_tmp.shape[0],by2t),
-                                                       max(0,bx1t):min(head_crop_tmp.shape[1],bx2t)]
-                                aligned_tmp = cv2.resize(fr_tmp if fr_tmp.size > 0 else head_crop_tmp, (112, 112))
-                        else:
-                            ch_t, cw_t = head_crop_tmp.shape[:2]
-                            fr_tmp = head_crop_tmp[int(ch_t*0.05):int(ch_t*0.90), int(cw_t*0.10):int(cw_t*0.90)]
-                            aligned_tmp = cv2.resize(fr_tmp if fr_tmp.size > 0 else head_crop_tmp, (112, 112))
-
-                        emb_tmp = face_tracker.get_embedding(aligned_tmp)
-                        if np.linalg.norm(emb_tmp) > 0:
-                            emb_buffers[track_key].append(emb_tmp)
-
-                    if len(emb_buffers[track_key]) > 0:
-                        mean_emb = np.mean(list(emb_buffers[track_key]), axis=0)
-                        norm_me = np.linalg.norm(mean_emb)
-                        if norm_me > 0:
-                            mean_emb = mean_emb / norm_me
-                        fname, fsim = face_tracker.identify_embedding(mean_emb)
-                    else:
-                        fname, fsim = "INCONNU", 0.0
+                    fname, fsim, fbbox = face_tracker.process_person_crop(frame_rgb, (bx1, by1, bx2, by2), hd_frame=frame_hd)
 
                     if fname != "INCONNU":
                         d["face_name"] = fname

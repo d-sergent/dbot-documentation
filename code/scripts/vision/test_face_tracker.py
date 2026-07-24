@@ -207,9 +207,11 @@ def main():
 
             if use_oak:
                 frame = cam.get_frame()
+                hd_frame = cam.get_hd_frame()
                 spatial_dets = []
             else:
                 ret, frame = cam.read()
+                hd_frame = frame
                 if not ret:
                     break
                 spatial_dets = []
@@ -220,7 +222,7 @@ def main():
             h, w = frame.shape[:2]
             detections, latency_ms = detector.detect(frame)
 
-            # Traitement des personnes détectées par YOLO-World
+            # Traitement des personnes détectées par YOLO-World (Étape 2 : Inférence Faciale sur Flux HD 1080p)
             for det_idx, det in enumerate(detections):
                 if det["label"].upper() in ["PERSONNE", "PERSON"]:
                     bbox = det["bbox"]
@@ -229,51 +231,8 @@ def main():
                     # Clé unique par position (zone de l'image) pour le buffer de lissage
                     track_key = f"{x1//100}_{y1//100}"
 
-                    # === Lissage Temporel : moyenne des embeddings sur SMOOTH_N frames ===
-                    # Extraction de l'embedding brut (sans identification)
-                    h_tmp, w_tmp = frame.shape[:2]
-                    head_h_tmp = int((y2 - y1) * 0.55)
-                    hx1_t, hy1_t = max(0, x1), max(0, y1)
-                    hx2_t, hy2_t = min(w_tmp, x2), min(h_tmp, y1 + head_h_tmp)
-                    head_crop_tmp = frame[hy1_t:hy2_t, hx1_t:hx2_t]
-
-                    face_bbox = (x1, y1, x2, y1 + head_h_tmp)  # Fallback bbox
-
-                    if head_crop_tmp.size > 0:
-                        faces_tmp = tracker.detect_faces_scrfd(head_crop_tmp, conf_thresh=0.35)
-                        if faces_tmp:
-                            best_tmp = max(faces_tmp, key=lambda f: f['score'])
-                            bx1t, by1t, bx2t, by2t = best_tmp['bbox']
-                            lmks_tmp = best_tmp['landmarks']
-                            if lmks_tmp is not None and len(lmks_tmp) == 5:
-                                aligned_tmp = tracker.align_face(head_crop_tmp, lmks_tmp)
-                            else:
-                                fr_tmp = head_crop_tmp[max(0,by1t):min(head_crop_tmp.shape[0],by2t),
-                                                       max(0,bx1t):min(head_crop_tmp.shape[1],bx2t)]
-                                aligned_tmp = cv2.resize(fr_tmp if fr_tmp.size > 0 else head_crop_tmp, (112, 112))
-                            face_bbox = (max(0, hx1_t+bx1t), max(0, hy1_t+by1t),
-                                         min(w_tmp, hx1_t+bx2t), min(h_tmp, hy1_t+by2t))
-                        else:
-                            ch_t, cw_t = head_crop_tmp.shape[:2]
-                            fr_tmp = head_crop_tmp[int(ch_t*0.05):int(ch_t*0.90), int(cw_t*0.10):int(cw_t*0.90)]
-                            aligned_tmp = cv2.resize(fr_tmp if fr_tmp.size > 0 else head_crop_tmp, (112, 112))
-                            face_bbox = (max(0, hx1_t+int(cw_t*0.10)), max(0, hy1_t+int(ch_t*0.05)),
-                                         min(w_tmp, hx1_t+int(cw_t*0.90)), min(h_tmp, hy1_t+int(ch_t*0.90)))
-
-                        emb_tmp = tracker.get_embedding(aligned_tmp)
-                        if np.linalg.norm(emb_tmp) > 0:
-                            emb_buffers[track_key].append(emb_tmp)
-
-                    # Identification sur l'embedding moyen lissé
-                    if len(emb_buffers[track_key]) > 0:
-                        mean_emb = np.mean(list(emb_buffers[track_key]), axis=0)
-                        norm_me = np.linalg.norm(mean_emb)
-                        if norm_me > 0:
-                            mean_emb = mean_emb / norm_me
-                        name, sim = tracker.identify_embedding(mean_emb)
-                    else:
-                        name, sim = "INCONNU", 0.0
-
+                    # Inférence Faciale HD sur le crop Full-Resolution 1080p (Étape 2)
+                    name, sim, face_bbox = tracker.process_person_crop(frame, bbox, hd_frame=hd_frame)
                     fx1, fy1, fx2, fy2 = face_bbox
 
                     # Couleur : Vert si reconnu, Jaune si Inconnu

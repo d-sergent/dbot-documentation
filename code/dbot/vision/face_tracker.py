@@ -363,26 +363,39 @@ class FaceTracker:
         except Exception as e:
             return []
 
-    def process_person_crop(self, frame_bgr: np.ndarray, person_bbox: tuple) -> tuple[str, float, tuple]:
+    def process_person_crop(self, frame_bgr: np.ndarray, person_bbox: tuple, hd_frame: np.ndarray = None) -> tuple[str, float, tuple]:
         """
         Pipeline complet de reconnaissance :
-          YOLO bbox personne → SCRFD (visage exact + 5 keypoints) → align_face ArcFace → embedding → identification.
+          YOLO bbox personne → Découpage HD 1080p → SCRFD (visage exact + 5 keypoints) → align_face ArcFace → embedding → identification.
         Returns: (name, sim, face_bbox_in_frame)
         """
         x1, y1, x2, y2 = person_bbox
         h, w = frame_bgr.shape[:2]
 
-        # Crop haut du corps (55%) pour s'assurer d'avoir la tête entière
-        head_h = int((y2 - y1) * 0.55)
-        hx1, hy1 = max(0, x1), max(0, y1)
-        hx2, hy2 = min(w, x2), min(h, y1 + head_h)
-        head_crop = frame_bgr[hy1:hy2, hx1:hx2]
+        # Étape 2 : Si un flux HD 1080p est fourni, découpage dans la haute résolution d'origine !
+        if hd_frame is not None and hd_frame.size > 0:
+            hd_h, hd_w = hd_frame.shape[:2]
+            scale_x = hd_w / float(w)
+            scale_y = hd_h / float(h)
+
+            hx1_hd, hy1_hd = max(0, int(x1 * scale_x)), max(0, int(y1 * scale_y))
+            hx2_hd = min(hd_w, int(x2 * scale_x))
+            head_h_hd = int((int(y2 * scale_y) - hy1_hd) * 0.55)
+            hy2_hd = min(hd_h, hy1_hd + head_h_hd)
+
+            head_crop = hd_frame[hy1_hd:hy2_hd, hx1_hd:hx2_hd]
+        else:
+            # Fallback sur le frame standard
+            head_h = int((y2 - y1) * 0.55)
+            hx1, hy1 = max(0, x1), max(0, y1)
+            hx2, hy2 = min(w, x2), min(h, y1 + head_h)
+            head_crop = frame_bgr[hy1:hy2, hx1:hx2]
 
         if head_crop.size == 0:
             return "INCONNU", 0.0, (x1, y1, x2, y2)
 
-        # === 1. Détection SCRFD du visage dans le crop ===
-        faces = self.detect_faces_scrfd(head_crop, conf_thresh=0.40)
+        # === 1. Détection SCRFD du visage dans le crop HD ===
+        faces = self.detect_faces_scrfd(head_crop, conf_thresh=0.35)
 
         if faces:
             # Visage avec meilleur score de confiance
