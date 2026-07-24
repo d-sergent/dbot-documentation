@@ -38,6 +38,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 ## 🎯 BLOCK 2 : Synthèse Vocale HD Streaming & Solution Secours Locale
 
 - [ ] **Serveur TTS Streaming HD Compagnon (Mac)** : Finaliser et valider `server_qwen3_central.py` (Qwen3-TTS / F5-TTS via MLX-Audio) avec streaming WebSocket/HTTP (latence < 200 ms).
+- [ ] **Intégration API ElevenLabs Cloud (Mode Free Tier)** : Ajouter le support d'ElevenLabs Cloud (Free Tier 10k caractères/mois) comme option de synthèse vocale ultra-haute fidélité intégrée au flux streaming audio.
 - [ ] **Fallback Vocale Local (Jetson Orin Nano)** : Installer et configurer **Kokoro-ONNX** (`onnxruntime-gpu`) avec la voix française `ff_siwis` sur la Jetson pour assurer le secours hors-ligne en cas de déconnexion Wi-Fi > 2s.
 - [ ] **Heartbeat Watchdog (5 Hz)** : Valider la bascule automatique en mode dégradé (LLM local Ollama + Kokoro TTS) en cas d'interruption du signal Wi-Fi.
 

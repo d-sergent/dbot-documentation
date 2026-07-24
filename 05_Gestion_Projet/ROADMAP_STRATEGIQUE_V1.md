@@ -53,6 +53,7 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 
 - [x] **Pipeline Audio / Barge-In** : `audio_io_v2.py` non-bloquant et interruption instantanée en cas de parole utilisateur.
 - [ ] **Serveur TTS Streaming HD (Mac)** : Inférence Qwen3-TTS / F5-TTS déportée sur Mac (latence < 200 ms).
+- [ ] **Intégration API ElevenLabs Cloud (Mode Free Tier)** : Synthèse vocale Ultra-HD Cloud alternative (10 000 caractères/mois gratuits) via l'API ElevenLabs avec streaming WebSocket.
 - [ ] **Fallback Vocale Hors-Ligne (Jetson)** : Mode dégradé Kokoro-ONNX + Ollama local activé en cas d'interruption Wi-Fi > 2s (Heartbeat 5 Hz).
 
 ---
