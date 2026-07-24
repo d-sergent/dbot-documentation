@@ -103,7 +103,7 @@ async def conversation_endpoint(websocket: WebSocket):
                                     
                                 full_audio_float32 = full_audio_int16.astype(np.float32) / 32768.0
                                 duration_sec = len(full_audio_float32) / 16000.0
-                                rms_vol = np.sqrt(np.mean(full_audio_float32**2)) * 32767.0
+                                rms_vol = float(np.sqrt(np.mean(full_audio_float32**2)) * 32767.0)
                                 print(f"📊 [ASR Mac] Buffer audio : {duration_sec:.2f} s | Volume RMS: {rms_vol:.1f}")
                                 
                                 # Sauvegarde d'un fichier WAV de débogage pour inspection sonore
@@ -119,6 +119,17 @@ async def conversation_endpoint(websocket: WebSocket):
                                 except Exception as wav_err:
                                     print(f"⚠ [ASR Mac] Erreur sauvegarde WAV : {wav_err}")
 
+                                # Filtrage préalable : ignorer les bruits brefs < 1.0s ou trop faibles
+                                if duration_sec < 1.0:
+                                    print(f"ℹ️ [ASR Mac] Durée audio trop courte ({duration_sec:.2f} s < 1.0 s), ignorée pour éviter l'hallucination.")
+                                    state.audio_buffer = []
+                                    continue
+
+                                if rms_vol < 200.0:
+                                    print(f"ℹ️ [ASR Mac] Volume sonore trop faible ({rms_vol:.1f} < 200), ignoré.")
+                                    state.audio_buffer = []
+                                    continue
+
                                 # Lancer la transcription ASR dans un thread-pool (faster-whisper)
                                 loop = asyncio.get_running_loop()
                                 def transcribe_task():
@@ -131,13 +142,19 @@ async def conversation_endpoint(websocket: WebSocket):
                                     )
                                     text = " ".join([seg.text for seg in segments]).strip()
                                     
-                                    # Filtre anti-hallucinations sur bruit de fond/silence
+                                    # Filtre anti-hallucinations Whisper sur bruit de fond/silence/bruits courts
                                     hallucination_patterns = [
-                                        "merci d'avoir regardé", 
+                                        "merci d'avoir", 
                                         "sous-titres", 
-                                        "merci pour votre attention",
+                                        "soustitres",
+                                        "merci pour votre",
                                         "visionné cette vidéo",
-                                        "regardé la vidéo"
+                                        "regardé la vidéo",
+                                        "c'est tout pour aujourd'hui",
+                                        "c'est tout pour",
+                                        "abonne",
+                                        "bon visionnage",
+                                        "st'501"
                                     ]
                                     text_lower = text.lower()
                                     if any(pattern in text_lower for pattern in hallucination_patterns):
