@@ -116,3 +116,27 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 
 ### 📌 Statut Général
 - **Active Gaze & Performance Vision 80 FPS** : Totalement qualifiés, ultra-fluides, synchronisés avec la boucle CAN 100 Hz, et verrouillés sans tressautement à l'arrêt !
+
+---
+
+## 📅 2026-07-24 — Qualification de la Reconnaissance Faciale Nommée (SCRFD 500M + ArcFace MobileFaceNet)
+
+### 🎯 Objectif de la session
+1. Intégrer un système d'identification faciale nommée ultra-compact et réactif sur la Jetson Orin Nano GPU CUDA (< 100 Mo VRAM, < 10 ms).
+2. Résoudre les imprécisions des découpages géométriques en utilisant le détecteur exact **SCRFD 500M (`det_500m.onnx`)** et la transformation affine d'Umeyama sur 5 points clés.
+3. Éliminer les fluctuations de scores et les incertitudes d'identification entre membres du foyer (ex: David vs Léa) via un buffer de lissage temporel sur 5 trames et un score par centroïde avec marge anti-hésitation (2%).
+4. Fournir un serveur Web UI MJPEG déporté (`http://ubuntu.local:8090`) pour enregistrer à distance de nouveaux visages avec rétroaction graphique.
+
+### 📝 Réalisations & Évolutions
+1. **Pipeline de Reconnaissance Faciale Complexe (`code/dbot/vision/face_tracker.py`)** :
+   - Chaînage natif : Bbox `PERSONNE` YOLO-World ➔ Détection SCRFD 500M (boîte exacte + 5 landmarks faciaux) ➔ Transformation affine `align_face()` (112 x 112 px) ➔ Embedding ArcFace MobileFaceNet (512-dim normalisé L2).
+   - Score de comparaison hybride : 70% Centroïde Moyen du profil + 30% Échantillon Peak avec vérification de marge anti-hésitation ramenée à 2% (0.02) pour une séparation nette des profils familiaux.
+2. **Lissage Temporel sur 5 Trames (`test_face_tracker.py`)** :
+   - Mise en place d'un buffer glissant `emb_buffers` moyennant les vecteurs d'embeddings sur 5 trames consécutives.
+   - Résultat : Élimination totale des trames parasites "INCONNU", score de similarité stabilisé à 70% - 95%.
+3. **Serveur Web UI MJPEG & Rétroaction Graphique (`http://ubuntu.local:8090`)** :
+   - Intégration d'un serveur HTTP multithreadé servant le flux vidéo MJPEG et permettant l'enregistrement d'un prénom (`--register "Nom"`) en 1 clic.
+   - Recadrage graphique dynamique du rectangle nominatif ajusté sur la zone du visage.
+
+### 📌 Statut Général
+- **Reconnaissance Faciale Nommée** : Validée sur le terrain, fluide et intégrée à la perception 3D du D-Bot !

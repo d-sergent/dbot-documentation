@@ -55,7 +55,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Support du Français & Mappage Multilingue YOLO-World** :
   - Dictionnaire persistant local `fr_en_dictionary.json` (+150 mots) et traduction automatique zéro-ressource via `urllib` dans `yolo_world.py`.
 - [x] **Reconnaissance & Identification de Visages (Face Recognition / Tracking)** :
-  - Module d'extraction d'embeddings faciaux ultra-compact (`face_tracker.py` avec SCRFD 500M + MobileFaceNet ArcFace 512-dim) pour reconnaître et identifier nommément les visages du foyer.
+  - Module d'extraction et d'identification faciale ultra-compact (`face_tracker.py` avec SCRFD 500M `det_500m.onnx` 5 points clés + MobileFaceNet ArcFace `w600k_mbf.onnx` 512-dim), lissage temporel sur 5 trames, score centroïde et serveur Web UI MJPEG (http://ubuntu.local:8090) pour enregistrer et reconnaître nommément les visages du foyer.
 - [x] **Expérience "Active Gaze" & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** :
   - Capturer le flux RGB 1080p de l'OAK-D Pro et exécuter l'inférence de repérage visuel (*Visual Grounding*) avec **LocateAnything-3B / NVIDIA Cosmos 3D Edge** **déporté sur le Mac M1 Max (64 Go)** via HTTP/gRPC (`server_active_gaze_mac.py`).
   - Asservir le cou en Pan/Tilt pour qu'il centre physiquement l'objet ciblé au milieu du champ de vision ("Regarde la tasse").

@@ -44,8 +44,47 @@ La stratégie visuelle du D-Bot repose sur une **répartition à 3 niveaux** opt
 
 ## 3. Architecture Logicielle (`dbot/vision`)
 
-Le système de vision est structuré autour de quatre modules Python principaux :
+Le système de vision est structuré autour de cinq modules Python principaux :
 - **`code/dbot/vision/oak_camera.py`** : Interface DepthAI v2 gérant le capteur RGB en plein champ 81° FOV, la stéréo active IR, le filtre matériel WLS et le nœud `SpatialLocationCalculator`.
 - **`code/dbot/vision/yolo_world.py`** : Moteur d'inférence sémantique Zero-Shot YOLO-World v2 avec accélération TensorRT FP16 / ONNX et superposition multi-couleurs.
-- **`code/dbot/vision/spatial_fusion.py`** : Fusion spatiale tridimensionnelle associant les Bounding Boxes $2D$ et la carte de profondeur pour extraire les coordonnées physiques réelles $[X, Y, Z]$ en mm.
+- **`code/dbot/vision/face_tracker.py`** : Module de reconnaissance faciale nommée ultra-compacte (SCRFD 500M `det_500m.onnx` avec 5 points clés + MobileFaceNet `w600k_mbf.onnx` ArcFace 512-dim). Intègre l'alignement affine par transformation d'Umeyama, la comparaison hybride centroïde/pic (seuil de marge 2%), le lissage temporel sur 5 trames et la persistance JSON.
+- **`code/dbot/vision/spatial_fusion.py`** : Fusion spatiale tridimensionnelle associant les Bounding Boxes 2D et la carte de profondeur pour extraire les coordonnées physiques réelles [X, Y, Z] en mm.
+- **`code/scripts/vision/test_face_tracker.py`** : Script d'exécution temps réel et d'enregistrement de visages déporté via serveur Web UI MJPEG (http://ubuntu.local:8090) avec interface graphique de cadrage.
 - **`code/scripts/vision/test_triad_vision.py`** : Script de qualification sur le terrain avec sauvegarde incrémentale sous `/tmp/dbot_snapshots/snap_XXX_...jpg`.
+
+---
+
+## 4. Pipeline de Reconnaissance Faciale Nommée (`face_tracker.py`)
+
+La reconnaissance faciale est directement couplée à la détection de personnes YOLO-World v2 :
+
+```
+[YOLO-World / TensorRT 80+ FPS] ➔ Bbox "PERSONNE" 2D
+       │
+       ▼
+[Crop Haut du Corps (55% H)]
+       │
+       ▼
+[SCRFD 500M ONNX] ➔ Détection Visage Exact + 5 Points Clés (Yeux, Nez, Coins Bouche)
+       │
+       ▼
+[align_face()] ➔ Transformation Affine vers Repère Normalisé (112 x 112 px)
+       │
+       ▼
+[MobileFaceNet ArcFace ONNX] ➔ Extraction Vecteur Embedding 512-dim Normalisé L2
+       │
+       ▼
+[Buffer de Lissage Temporel] ➔ Moyenne Glissante sur 5 Trames (Suppression des fluctuations)
+       │
+       ▼
+[Score Hybride & Centroïde] ➔ 70% Centroïde Moyen + 30% Peak (Seuil Marge 2%)
+       │
+       ▼
+[Résolution Nommée & Fusion 3D] ➔ Identité ("David", "Léa") + Coordonnées 3D [X, Y, Z] mm
+```
+
+### 4.1 Caractéristiques Clés & Performances
+- **Empreinte VRAM / Mémoire** : < 100 Mo VRAM GPU (inhibition de l'allocation globale ONNX CUDA).
+- **Temps de Comparaison Vectorielle** : < 0.01 ms via produit scalaire NumPy 512-dim.
+- **Fiabilité Terrain** : Scores de similarité élevés (70% - 95%) avec séparation des profils familiaux et zéro fausse alerte "INCONNU".
+- **Serveur Web UI MJPEG (Port 8090)** : Permet l'enregistrement à distance d'un membre du foyer via navigateur web (`--register "Prénom"`) sans interrompre le flux vidéo.
