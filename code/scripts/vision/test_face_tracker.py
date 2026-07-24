@@ -147,10 +147,17 @@ def start_web_server(port=8090):
 def main():
     parser = argparse.ArgumentParser(description="Test & Enregistrement Reconnaissance Faciale D-Bot")
     parser.add_argument("--register", type=str, default="", help="Nom de la personne à enregistrer (ex: 'David')")
-    parser.add_argument("--threshold", type=float, default=0.40, help="Seuil de similarité cosinus (défaut: 0.40)")
+    parser.add_argument("--reset", action="store_true", help="Effacer les anciens profils faciaux et recommencer à zéro")
+    parser.add_argument("--threshold", type=float, default=0.30, help="Seuil de similarité cosinus (défaut: 0.30)")
     parser.add_argument("--port", type=int, default=8090, help="Port du serveur Web MJPEG (défaut: 8090)")
     parser.add_argument("--use-webcam", action="store_true", help="Forcer l'utilisation de la webcam au lieu de l'OAK-D")
     args = parser.parse_args()
+
+    if args.reset:
+        faces_json = os.path.abspath(os.path.join(SCRIPT_DIR, "../../dbot/vision/faces/known_faces.json"))
+        if os.path.exists(faces_json):
+            os.remove(faces_json)
+            print("🗑️ [FaceTracker] Anciens profils faciaux supprimés. Démarrage de la base à zéro !")
 
     # Démarrage du thread Web Server
     web_thread = threading.Thread(target=start_web_server, args=(args.port,), daemon=True)
