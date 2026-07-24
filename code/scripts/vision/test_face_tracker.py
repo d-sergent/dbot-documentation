@@ -303,14 +303,31 @@ def main():
                 reg_name = web_name if web_req else target_name
                 if not reg_name:
                     reg_name = "David"
-                # Capture et enregistrement du visage
+                # Capture et enregistrement du visage via pipeline SCRFD complet
                 for det in detections:
                     if det["label"].upper() in ["PERSONNE", "PERSON"]:
                         x1, y1, x2, y2 = det["bbox"]
-                        crop_h = int((y2 - y1) * 0.40)
-                        head_crop = frame[max(0, y1):min(y1 + crop_h, h), max(0, x1):min(x2, w)]
+                        head_h = int((y2 - y1) * 0.55)
+                        head_crop = frame[max(0, y1):min(y1 + head_h, h), max(0, x1):min(x2, w)]
                         if head_crop.size > 0:
-                            aligned = tracker.extract_face_roi(head_crop)
+                            # Pipeline SCRFD : détection visage exacte + alignement ArcFace
+                            faces = tracker.detect_faces_scrfd(head_crop, conf_thresh=0.35)
+                            if faces:
+                                best = max(faces, key=lambda f: f['score'])
+                                lmks = best['landmarks']
+                                if lmks is not None and len(lmks) == 5:
+                                    aligned = tracker.align_face(head_crop, lmks)
+                                else:
+                                    bx1, by1, bx2, by2 = best['bbox']
+                                    face_roi = head_crop[max(0,by1):min(head_crop.shape[0],by2),
+                                                         max(0,bx1):min(head_crop.shape[1],bx2)]
+                                    aligned = cv2.resize(face_roi if face_roi.size > 0 else head_crop, (112, 112))
+                            else:
+                                # Fallback anatomique si SCRFD ne détecte rien
+                                ch, cw = head_crop.shape[:2]
+                                face_roi = head_crop[int(ch*0.05):int(ch*0.90), int(cw*0.10):int(cw*0.90)]
+                                aligned = cv2.resize(face_roi if face_roi.size > 0 else head_crop, (112, 112))
+
                             success = tracker.register_face(reg_name, aligned)
                             if success:
                                 print(f"\n🎉 [Web UI / Console] Enregistrement réussi pour '{reg_name}' !")
