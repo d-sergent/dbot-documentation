@@ -92,6 +92,13 @@ def main():
 
     def on_end():
         print("\n👀 À l'écoute...\n")
+        # Purge des échos résiduels du haut-parleur dans la queue d'acquisition
+        time.sleep(0.3)
+        while not audio.audio_queue.empty():
+            try:
+                audio.audio_queue.get_nowait()
+            except Exception:
+                break
         nonlocal state
         with lock:
             state = "idle"
@@ -155,6 +162,12 @@ def main():
 
             # ─── Machine à états VAD + streaming ────────────────────────────
             if not is_listening:
+                # Si le robot parle ou réfléchit, on ignore le son émis par le haut-parleur
+                if current_state in ["speaking", "thinking"]:
+                    pre_roll.clear()
+                    above_threshold_count = 0
+                    continue
+
                 # On accumule les chunks dans le pre-roll
                 pre_roll.append(chunk)
 
