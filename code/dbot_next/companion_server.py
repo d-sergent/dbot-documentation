@@ -23,13 +23,34 @@ import uvicorn
 
 app = FastAPI(title="D-Bot Companion Server (ASR + LLM + TTS on Mac)")
 
-# 1. Chargement de l'ASR (faster-whisper)
-# On utilise le modèle "medium" en français. Il est très précis et rapide sur CPU.
-# Note : ctranslate2 ne supporte pas MPS nativement sur Apple Silicon, mais tourne à très haute vitesse sur CPU (multi-threaded).
-ASR_MODEL_NAME = "medium"
-print(f"⏳ Chargement du modèle ASR '{ASR_MODEL_NAME}' sur CPU...")
-asr_model = WhisperModel(ASR_MODEL_NAME, device="cpu", compute_type="float32")
-print("✅ Modèle ASR prêt.")
+# 1. Initialisation de l'ASR
+# Stratégie prioritaire : Groq Whisper Large v3 Turbo (cloud, < 300 ms)
+# Fallback automatique : Faster-Whisper "small" CPU si Groq indisponible ou clé manquante
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+asr_mode = "local"  # Par défaut fallback local
+groq_client = None
+
+if GROQ_API_KEY:
+    try:
+        from groq import Groq
+        groq_client = Groq(api_key=GROQ_API_KEY)
+        asr_mode = "groq"
+        print("✅ Groq Whisper Large v3 Turbo activé (ASR Cloud, < 300 ms)")
+    except ImportError:
+        print("⚠ [ASR] groq non installé — fallback Faster-Whisper local.")
+else:
+    print("⚠ [ASR] GROQ_API_KEY absent — fallback Faster-Whisper local.")
+
+if asr_mode == "local":
+    ASR_MODEL_NAME = "small"
+    print(f"⏳ Chargement du modèle ASR '{ASR_MODEL_NAME}' sur CPU...")
+    from faster_whisper import WhisperModel
+    asr_model = WhisperModel(ASR_MODEL_NAME, device="cpu", compute_type="float32")
+    print("✅ Modèle ASR local prêt.")
+else:
+    asr_model = None
+    from faster_whisper import WhisperModel  # Garde l'import pour le fallback runtime
+
 
 # 2. Chargement du TTS (Qwen3-TTS VoiceDesign MLX)
 MODEL_REPO = "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-8bit"
@@ -128,35 +149,56 @@ async def conversation_endpoint(websocket: WebSocket):
                                     state.audio_buffer = []
                                     continue
 
-                                # Lancer la transcription ASR dans un thread-pool (faster-whisper)
+                                # Lancer la transcription ASR dans un thread-pool
                                 loop = asyncio.get_running_loop()
+                                
                                 def transcribe_task():
-                                    segments, info = asr_model.transcribe(
-                                        full_audio_float32, 
-                                        language="fr", 
-                                        beam_size=5,
-                                        temperature=0.0,
-                                        no_speech_threshold=0.3
-                                    )
-                                    text = " ".join([seg.text for seg in segments]).strip()
+                                    text = ""
                                     
-                                    # Filtre anti-hallucinations Whisper sur bruit de fond/silence/bruits courts
+                                    if asr_mode == "groq" and groq_client is not None:
+                                        # ─── Groq Whisper Large v3 Turbo (Cloud, ~200-350 ms) ───
+                                        try:
+                                            import io, wave as wave_mod
+                                            wav_buffer = io.BytesIO()
+                                            with wave_mod.open(wav_buffer, "wb") as wf:
+                                                wf.setnchannels(1)
+                                                wf.setsampwidth(2)
+                                                wf.setframerate(16000)
+                                                wf.writeframes(full_audio_int16.tobytes())
+                                            wav_buffer.seek(0)
+                                            transcription = groq_client.audio.transcriptions.create(
+                                                file=("audio.wav", wav_buffer, "audio/wav"),
+                                                model="whisper-large-v3-turbo",
+                                                language="fr",
+                                                response_format="text"
+                                            )
+                                            text = transcription.strip() if isinstance(transcription, str) else transcription.text.strip()
+                                        except Exception as groq_err:
+                                            print(f"⚠ [ASR Groq] Erreur : {groq_err} — fallback local.")
+                                            # Fallback local si Groq échoue
+                                            if asr_model:
+                                                segments, _ = asr_model.transcribe(full_audio_float32, language="fr", beam_size=3)
+                                                text = " ".join([s.text for s in segments]).strip()
+                                    else:
+                                        # ─── Faster-Whisper small CPU (Local) ───────────────────
+                                        segments, _ = asr_model.transcribe(
+                                            full_audio_float32, 
+                                            language="fr", 
+                                            beam_size=3,
+                                            temperature=0.0,
+                                            no_speech_threshold=0.3
+                                        )
+                                        text = " ".join([seg.text for seg in segments]).strip()
+                                    
+                                    # Filtre anti-hallucinations Whisper
                                     hallucination_patterns = [
-                                        "merci d'avoir", 
-                                        "sous-titres", 
-                                        "soustitres",
-                                        "merci pour votre",
-                                        "visionné cette vidéo",
-                                        "regardé la vidéo",
-                                        "c'est tout pour aujourd'hui",
-                                        "c'est tout pour",
-                                        "abonne",
-                                        "bon visionnage",
-                                        "st'501"
+                                        "merci d'avoir", "sous-titres", "soustitres",
+                                        "merci pour votre", "visionné cette vidéo",
+                                        "regardé la vidéo", "c'est tout pour aujourd'hui",
+                                        "c'est tout pour", "abonne", "bon visionnage", "st'501"
                                     ]
-                                    text_lower = text.lower()
-                                    if any(pattern in text_lower for pattern in hallucination_patterns):
-                                        print(f"🧹 [ASR Mac] Hallucination Whisper détectée et nettoyée : '{text}'")
+                                    if any(p in text.lower() for p in hallucination_patterns):
+                                        print(f"🧹 [ASR] Hallucination détectée et nettoyée : '{text}'")
                                         return ""
                                     return text
                                 
