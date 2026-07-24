@@ -372,6 +372,10 @@ class FaceTracker:
         x1, y1, x2, y2 = person_bbox
         h, w = frame_bgr.shape[:2]
 
+        head_h = int((y2 - y1) * 0.55)
+        hx1, hy1 = max(0, x1), max(0, y1)
+        hx2, hy2 = min(w, x2), min(h, y1 + head_h)
+
         # Étape 2 : Si un flux HD 1080p est fourni, découpage dans la haute résolution d'origine !
         if hd_frame is not None and hd_frame.size > 0:
             hd_h, hd_w = hd_frame.shape[:2]
@@ -384,12 +388,12 @@ class FaceTracker:
             hy2_hd = min(hd_h, hy1_hd + head_h_hd)
 
             head_crop = hd_frame[hy1_hd:hy2_hd, hx1_hd:hx2_hd]
+            scale_face_x = 1.0 / scale_x
+            scale_face_y = 1.0 / scale_y
         else:
-            # Fallback sur le frame standard
-            head_h = int((y2 - y1) * 0.55)
-            hx1, hy1 = max(0, x1), max(0, y1)
-            hx2, hy2 = min(w, x2), min(h, y1 + head_h)
             head_crop = frame_bgr[hy1:hy2, hx1:hx2]
+            scale_face_x = 1.0
+            scale_face_y = 1.0
 
         if head_crop.size == 0:
             return "INCONNU", 0.0, (x1, y1, x2, y2)
@@ -405,29 +409,33 @@ class FaceTracker:
 
             # === 2. Alignement ArcFace avec les 5 keypoints SCRFD ===
             if lmks is not None and len(lmks) == 5:
-                # align_face attend les landmarks dans les coordonnées du head_crop
                 aligned = self.align_face(head_crop, lmks)
             else:
                 face_roi = head_crop[max(0, by1):min(head_crop.shape[0], by2),
                                      max(0, bx1):min(head_crop.shape[1], bx2)]
                 aligned = cv2.resize(face_roi if face_roi.size > 0 else head_crop, (112, 112))
 
-            # Coordonnées absolues dans le frame global
+            # Coordonnées absolues dans le frame d'affichage (mises à l'échelle)
+            bx1_s, by1_s = int(bx1 * scale_face_x), int(by1 * scale_face_y)
+            bx2_s, by2_s = int(bx2 * scale_face_x), int(by2 * scale_face_y)
             face_bbox_frame = (
-                max(0, hx1 + bx1), max(0, hy1 + by1),
-                min(w, hx1 + bx2), min(h, hy1 + by2)
+                max(0, hx1 + bx1_s), max(0, hy1 + by1_s),
+                min(w, hx1 + bx2_s), min(h, hy1 + by2_s)
             )
 
         else:
-            # === Fallback anatomique (front→menton, oreille→oreille) ===
+            # === Fallback anatomique ===
             ch, cw = head_crop.shape[:2]
             ay1_r, ay2_r = int(ch * 0.05), int(ch * 0.90)
             ax1_r, ax2_r = int(cw * 0.10), int(cw * 0.90)
             face_roi = head_crop[ay1_r:ay2_r, ax1_r:ax2_r]
             aligned = cv2.resize(face_roi if face_roi.size > 0 else head_crop, (112, 112))
+            
+            ax1_s, ay1_s = int(ax1_r * scale_face_x), int(ay1_r * scale_face_y)
+            ax2_s, ay2_s = int(ax2_r * scale_face_x), int(ay2_r * scale_face_y)
             face_bbox_frame = (
-                max(0, hx1 + ax1_r), max(0, hy1 + ay1_r),
-                min(w, hx1 + ax2_r), min(h, hy1 + ay2_r)
+                max(0, hx1 + ax1_s), max(0, hy1 + ay1_s),
+                min(w, hx1 + ax2_s), min(h, hy1 + ay2_s)
             )
 
         # === 3. Embedding ArcFace + Identification ===
