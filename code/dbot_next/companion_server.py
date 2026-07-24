@@ -94,13 +94,11 @@ async def conversation_endpoint(websocket: WebSocket):
                             print(f"\n🎙️  [VAD Mac] Fin de parole détectée (Signal end). {len(state.audio_buffer)} chunks reçus.")
                             if len(state.audio_buffer) > 0:
                                 # Concaténer tout l'audio accumulé
+                                # IMPORTANT : AudioIOStreaming._read_parecord_loop() extrait déjà le
+                                # canal gauche mono (data_np[:, 0]) avant de mettre le chunk en queue.
+                                # Les chunks reçus ici sont donc déjà MONO int16 à 16 kHz.
+                                # NE PAS ré-appliquer une conversion stéréo→mono ici (doublement).
                                 full_audio_int16 = np.concatenate(state.audio_buffer)
-                                
-                                # Si flux stéréo 2 canaux (ex: parecord sur Jetson), dérelacer en mono 1D
-                                if full_audio_int16.ndim == 1 and len(full_audio_int16) % 2 == 0:
-                                    audio_2d = full_audio_int16.reshape(-1, 2)
-                                    full_audio_int16 = audio_2d.mean(axis=1).astype(np.int16)
-                                    
                                 full_audio_float32 = full_audio_int16.astype(np.float32) / 32768.0
                                 duration_sec = len(full_audio_float32) / 16000.0
                                 rms_vol = float(np.sqrt(np.mean(full_audio_float32**2)) * 32767.0)
