@@ -137,7 +137,7 @@ class DbotCamera:
         video_queue = self.device.getOutputQueue(name="video", maxSize=4, blocking=False)
         hd_queue = self.device.getOutputQueue(name="video_hd", maxSize=2, blocking=False)
         depth_queue = self.device.getOutputQueue(name="depth", maxSize=4, blocking=False) if self.enable_depth else None
-        spatial_queue = self.device.getOutputQueue(name="spatialData", maxSize=4, blocking=False) if self.enable_depth else None
+        spatial_queue = self.device.getOutputQueue(name="spatial_data", maxSize=4, blocking=False) if self.enable_depth else None
         tracker_queue = self.device.getOutputQueue(name="tracklets", maxSize=4, blocking=False) if self.enable_tracker else None
         
         while self.is_running:
