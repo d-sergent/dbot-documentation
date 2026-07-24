@@ -73,8 +73,8 @@ start_server() {
         exit 1
     fi
 
-    # Lancement en arrière-plan avec logs bufferisés
-    nohup "$PYTHON" -u "$SERVER" >> "$LOG" 2>&1 &
+    # Lancement en arrière-plan avec logs line-buffered (stdbuf force l'écriture immédiate)
+    nohup stdbuf -oL "$PYTHON" -u "$SERVER" >> "$LOG" 2>&1 &
     local pid=$!
     echo "$pid" > "$PID_FILE"
 
