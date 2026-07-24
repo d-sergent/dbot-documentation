@@ -69,28 +69,29 @@ async def conversation_endpoint(websocket: WebSocket):
                 # On attend une notification (texte ou binaire) du client
                 message = await websocket.receive()
                 
+                # Extraction sécurisée des champs WebSocket Starlette/ASGI
+                pcm_bytes = message.get("bytes")
+                text_data = message.get("text")
+                
                 # Cas 1 : Message binaire (flux audio brut PCM de la Jetson)
-                if "bytes" in message:
-                    pcm_bytes = message["bytes"]
-                    # Conversion des octets reçus (PCM 16-bit) en tableau numpy int16
+                if pcm_bytes is not None and len(pcm_bytes) > 0:
                     chunk_np = np.frombuffer(pcm_bytes, dtype=np.int16)
                     state.audio_buffer.append(chunk_np)
                 
-                # Cas 2 : Message texte (commandes JSON ou prompt texte brut de test)
-                elif "text" in message:
-                    data = message["text"]
+                # Cas 2 : Message texte (commandes JSON start/end/interrupt)
+                elif text_data is not None and len(text_data) > 0:
                     try:
-                        payload = json.loads(data)
+                        payload = json.loads(text_data)
                         msg_type = payload.get("type")
                         
                         if msg_type == "start":
                             # Début de parole VAD : on vide l'accumulateur audio
-                            print("🎙️  [VAD Mac] Début de parole détecté, nettoyage du buffer audio.")
+                            print("\n🎙️  [VAD Mac] Début de parole détecté (Signal start reçu). Nettoyage du buffer.")
                             state.audio_buffer = []
                             
                         elif msg_type == "end":
                             # Fin de parole VAD : on lance la transcription ASR
-                            print("\n🎙️  [VAD Mac] Fin de parole détectée. Lancement de la transcription ASR...")
+                            print(f"\n🎙️  [VAD Mac] Fin de parole détectée (Signal end). {len(state.audio_buffer)} chunks reçus.")
                             if len(state.audio_buffer) > 0:
                                 # Concaténer tout l'audio accumulé
                                 full_audio_int16 = np.concatenate(state.audio_buffer)
@@ -101,8 +102,23 @@ async def conversation_endpoint(websocket: WebSocket):
                                     full_audio_int16 = audio_2d.mean(axis=1).astype(np.int16)
                                     
                                 full_audio_float32 = full_audio_int16.astype(np.float32) / 32768.0
-                                print(f"📊 [ASR Mac] Buffer audio à transcrire : {len(full_audio_float32)/16000.0:.2f} secondes (Mono 16 kHz)")
+                                duration_sec = len(full_audio_float32) / 16000.0
+                                rms_vol = np.sqrt(np.mean(full_audio_float32**2)) * 32767.0
+                                print(f"📊 [ASR Mac] Buffer audio : {duration_sec:.2f} s | Volume RMS: {rms_vol:.1f}")
                                 
+                                # Sauvegarde d'un fichier WAV de débogage pour inspection sonore
+                                try:
+                                    import wave
+                                    debug_wav_path = "/tmp/mac_debug_voice.wav"
+                                    with wave.open(debug_wav_path, "wb") as wf:
+                                        wf.setnchannels(1)
+                                        wf.setsampwidth(2)
+                                        wf.setframerate(16000)
+                                        wf.writeframes(full_audio_int16.tobytes())
+                                    print(f"💾 [ASR Mac] Fichier audio de débogage sauvegardé sous {debug_wav_path}")
+                                except Exception as wav_err:
+                                    print(f"⚠ [ASR Mac] Erreur sauvegarde WAV : {wav_err}")
+
                                 # Lancer la transcription ASR dans un thread-pool (faster-whisper)
                                 loop = asyncio.get_running_loop()
                                 def transcribe_task():
@@ -111,7 +127,7 @@ async def conversation_endpoint(websocket: WebSocket):
                                         language="fr", 
                                         beam_size=5,
                                         temperature=0.0,
-                                        no_speech_threshold=0.4
+                                        no_speech_threshold=0.3
                                     )
                                     text = " ".join([seg.text for seg in segments]).strip()
                                     
@@ -131,7 +147,7 @@ async def conversation_endpoint(websocket: WebSocket):
                                 
                                 start_t = time.time()
                                 transcribed_text = await loop.run_in_executor(None, transcribe_task)
-                                print(f"🗣️  [ASR Mac] Transcrit en {(time.time() - start_t)*1000:.0f} ms : \"{transcribed_text}\"")
+                                print(f"🗣️  [ASR Mac] Transcription en {(time.time() - start_t)*1000:.0f} ms : \"{transcribed_text}\"")
                                 
                                 if len(transcribed_text) > 1:
                                     # Envoyer le texte reconnu au robot (pour feedback visuel)
