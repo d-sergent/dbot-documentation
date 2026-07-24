@@ -43,7 +43,8 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
   - Groq Cloud Whisper Large v3 Turbo (< 300 ms) + Faster-Whisper `small` CPU fallback (~900 ms) + Gemini 2.0 Flash LLM + Qwen3-TTS MLX GPU (M1 Max).
   - Bugs résolus : inspection WebSocket Starlette, double conversion stéréo/mono, VAD SDK instable, hallucinations Whisper, auto-interruption pendant la réponse du robot.
 - [x] **Optimisation Latence ASR & Script de Gestion Propre (`start_companion_server.sh`)** :
-  - Intégration bivalente de Groq Cloud ASR (`GROQ_API_KEY` dans `.env`) et passage de `medium` ➔ `small` en local.
+  - Choix architectural de **Groq Cloud ASR** (Whisper Large v3 Turbo < 300 ms) privilégié par rapport à ElevenLabs Cloud en raison de son **Free Tier extrêmement élevé (7200 secondes d'audio/heure)** contre le quota restreint d'ElevenLabs (10k caractères/mois).
+  - Intégration bivalente via `GROQ_API_KEY` dans `.env` et fallback local **Faster-Whisper `small`** (~900 ms).
   - Profiling multi-étapes horodaté intégré et script d'administration `./Code/dbot_next/scripts/start_companion_server.sh` (`--start`, `--restart`, `--stop`, `--status`, `--logs`).
   - Latence totale perçue réduite de 3676 ms à **1553 ms (Local)** / **~750 ms (Cloud Groq)** (-57.7% de latence).
 - [ ] **Intégration API ElevenLabs Streaming (Optionnel)** : Ajouter le support d'ElevenLabs Cloud Streaming API (`stream=True`, latence < 300 ms pour le 1er chunk) comme alternative ultra-haute fidélité à Qwen3-TTS.

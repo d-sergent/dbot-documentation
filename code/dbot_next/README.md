@@ -109,3 +109,7 @@ GROQ_API_KEY=gsk_...
 ```
 
 Si `GROQ_API_KEY` est renseigné, Groq Cloud ASR est activé par défaut. Si omis ou vide, le serveur bascule automatiquement sur Faster-Whisper `small` local.
+
+> [!NOTE]
+> **Choix Architectural Groq vs ElevenLabs** : **Groq Cloud ASR** a été retenu comme fournisseur principal de transcription vocale en raison de son **Free Tier extrêmement généreux (7200 secondes d'audio par heure, soit 2 heures gratuites/heure)** et d'une latence d'inférence exceptionnelle (< 300 ms avec Whisper Large v3 Turbo). À l'inverse, ElevenLabs limite son offre gratuite à 10 000 caractères par mois (~10 minutes d'audio totales).
+
