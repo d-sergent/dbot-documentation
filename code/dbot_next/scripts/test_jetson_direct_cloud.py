@@ -187,6 +187,9 @@ class JetsonDirectCloudClient:
 
     def _play_pcm_audio(self, pcm_bytes: bytes, sample_rate: int):
         """Joue les octets PCM 16-bit mono sur l'enceinte ReSpeaker JST via paplay."""
+        duration_s = len(pcm_bytes) / (sample_rate * 2)
+        print(f"🔊 [Client Audio Jetson] Joue la réponse TTS ({duration_s:.1f}s, {sample_rate} Hz)...")
+        
         with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
             wav_path = f.name
 
@@ -197,8 +200,19 @@ class JetsonDirectCloudClient:
                 wf.setframerate(sample_rate)
                 wf.writeframes(pcm_bytes)
 
+            # Essai 1 : avec le sink ReSpeaker spécifié
             cmd = ["paplay", f"--device={self.sink_name}", wav_path]
-            subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            res = subprocess.run(cmd, capture_output=True, text=True)
+            
+            if res.returncode != 0:
+                # Essai 2 : paplay sur le sink par défaut PulseAudio
+                cmd_def = ["paplay", wav_path]
+                res_def = subprocess.run(cmd_def, capture_output=True, text=True)
+                if res_def.returncode != 0:
+                    # Essai 3 : aplay ALSA direct
+                    subprocess.run(["aplay", "-D", "default", wav_path], capture_output=True)
+        except Exception as err:
+            print(f"⚠ [Client Audio Jetson] Erreur de lecture audio : {err}")
         finally:
             if os.path.exists(wav_path):
                 os.remove(wav_path)
