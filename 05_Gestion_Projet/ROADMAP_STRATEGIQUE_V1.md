@@ -54,7 +54,7 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 - [x] **Pipeline Audio / Barge-In** : `audio_io_v2.py` non-bloquant et interruption instantanée en cas de parole utilisateur.
 - [x] **Architecture Conversationnelle Autonome Jetson Edge Cloud (DÉFAUT PRODUCTION)** : `test_jetson_edge_cloud.py` (ASR Groq Cloud + LLM Gemini 2.0 Flash + TTS Microsoft Edge-TTS `fr-FR-HenriNeural`) s'exécutant à 100% sur la Jetson sans aucune dépendance serveur Mac (0€, illimité, conversion MP3->WAV 24kHz pour ReSpeaker JST 5W, latence ~350 ms).
 - [x] **Serveur TTS Streaming HD Mac (Option Déportée)** : Inférence Qwen3-TTS VoiceDesign MLX 8-bit déportée sur Mac M1 Max (Port 8002 & Port 8001), streaming 24 kHz ultra-fluide avec vidange du cache Metal (`mx.metal.clear_cache()`), verrou de sécurité `asyncio.Lock`.
-- [ ] **Intégration API ElevenLabs Cloud (Mode Free Tier)** : Synthèse vocale Ultra-HD Cloud alternative (10 000 caractères/mois gratuits) via l'API ElevenLabs avec streaming WebSocket.
+- [x] **Intégration API ElevenLabs Cloud (Annulé)** : Évalué et annulé en raison de l'épuisement rapide du quota gratuit (10 000 car./mois) et de la supériorité d'Edge-TTS (100% gratuit, illimité, ~350 ms).
 - [ ] **Fallback Vocale Hors-Ligne (Jetson)** : Mode dégradé Kokoro-ONNX + Ollama local activé en cas d'interruption Wi-Fi > 2s (Heartbeat 5 Hz).
 
 ---

@@ -50,7 +50,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
   - **Côté Jetson** : Script `test_jetson_direct_cloud.py` exécutant ASR Groq et LLM Gemini 2.0 Flash en direct via Internet, et ne demandant que la synthèse vocale Qwen3-TTS au Mac sur le port 8002.
   - **Gestion Mémoire GPU Metal** : Correction des fuites mémoire MLX (`mx.metal.clear_cache()` + `gc.collect()`, bridage `max_tokens=1024` et `repetition_penalty=1.1`, verrou `asyncio.Lock`), éliminant 100% des saturations RAM et plantages système.
   - **Conservation** : Conservation persistance de la version All-in-One Mac (`companion_server_full_mac.py`, Port 8001).
-- [ ] **Intégration API ElevenLabs Streaming (Optionnel)** : Ajouter le support d'ElevenLabs Cloud Streaming API (`stream=True`, latence < 300 ms pour le 1er chunk) comme alternative ultra-haute fidélité à Qwen3-TTS.
+- [x] **Intégration API ElevenLabs Streaming (Annulé)** : Évalué et annulé au profit de Microsoft Edge-TTS (100% gratuit, illimité, ultra-rapide et direct sur Jetson).
 - [ ] **Fallback Vocale Local (Jetson Orin Nano)** : Installer et configurer **Kokoro-ONNX** (`onnxruntime-gpu`) avec la voix française `ff_siwis` sur la Jetson pour assurer le secours hors-ligne en cas de déconnexion Wi-Fi > 2s.
 - [ ] **Heartbeat Watchdog (5 Hz)** : Valider la bascule automatique en mode dégradé (LLM local Ollama + Kokoro TTS) en cas d'interruption du signal Wi-Fi.
 
