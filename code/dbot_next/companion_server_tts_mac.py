@@ -100,8 +100,11 @@ async def websocket_tts_endpoint(websocket: WebSocket):
                                 if state.is_interrupted:
                                     break
                                 chunk_pcm = result.audio
-                                if isinstance(chunk_pcm, np.ndarray) and len(chunk_pcm) > 0:
-                                    int16_chunk = (chunk_pcm * 32767.0).clip(-32768, 32767).astype(np.int16)
+                                # Qwen3-TTS retourne un mlx.core.array, pas un np.ndarray
+                                # → conversion explicite nécessaire avant clip/astype
+                                chunk_np = np.array(chunk_pcm)
+                                if chunk_np.ndim > 0 and len(chunk_np) > 0:
+                                    int16_chunk = (chunk_np * 32767.0).clip(-32768, 32767).astype(np.int16)
                                     asyncio.run_coroutine_threadsafe(
                                         audio_queue.put(int16_chunk.tobytes()), loop
                                     )
