@@ -158,7 +158,7 @@ class JetsonDirectCloudClient:
 
         url = f"ws://{self.mac_ip}:{self.tts_port}/tts"
         try:
-            async with websockets.connect(url, timeout=5.0) as ws:
+            async with websockets.connect(url, open_timeout=5.0) as ws:
                 # Demande de synthèse au serveur Mac
                 await ws.send(json.dumps({"type": "synthesize", "text": text}))
 
