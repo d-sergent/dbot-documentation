@@ -176,27 +176,28 @@ class JetsonDirectCloudClient:
             print("⚠ [ASR Direct Jetson] Clé GROQ_API_KEY absente dans .env")
             return ""
 
-    async def speak_text_via_mac_tts(self, text: str):
-        """Envoie la phrase au serveur Mac (Port 8002) pour synthèse Qwen3-TTS et la joue localement."""
+    def speak_text_sync(self, text: str):
+        """Envoie la phrase au serveur Mac (Port 8002) et joue l'audio reçu. Appel synchrone."""
+        asyncio.run(self._speak_text_async(text))
+
+    async def _speak_text_async(self, text: str):
+        """Coroutine interne : WebSocket vers Mac TTS, réception de tous les chunks audio."""
         import websockets
 
         url = f"ws://{self.mac_ip}:{self.tts_port}/tts"
         try:
-            async with websockets.connect(url, open_timeout=5.0) as ws:
-                # Demande de synthèse au serveur Mac
+            async with websockets.connect(url, open_timeout=8.0) as ws:
                 await ws.send(json.dumps({"type": "synthesize", "text": text}))
 
                 audio_bytes_list = []
                 sample_rate = 24000
 
-                # Réception des chunks audio du Mac
                 async for raw_msg in ws:
                     try:
                         msg = json.loads(raw_msg)
                         if msg.get("type") == "audio_chunk":
-                            b64 = msg.get("data", "")
+                            audio_bytes_list.append(base64.b64decode(msg.get("data", "")))
                             sample_rate = msg.get("sample_rate", 24000)
-                            audio_bytes_list.append(base64.b64decode(b64))
                         elif msg.get("type") == "tts_end":
                             break
                     except Exception:
@@ -205,9 +206,11 @@ class JetsonDirectCloudClient:
                 if audio_bytes_list:
                     full_pcm = b"".join(audio_bytes_list)
                     self._play_pcm_audio(full_pcm, sample_rate)
+                else:
+                    print("⚠ [TTS Mac] Aucun chunk audio reçu du serveur Mac.")
 
         except Exception as e:
-            print(f"⚠ [TTS Mac Connection] Erreur connexion serveur TTS {url} : {e}")
+            print(f"⚠ [TTS Mac Connection] Erreur : {e}")
 
     def _play_pcm_audio(self, pcm_bytes: bytes, sample_rate: int):
         """Joue les octets PCM 16-bit mono sur l'enceinte ReSpeaker JST via paplay."""
@@ -275,8 +278,7 @@ def main():
     speech_chunks = []
     state = "idle"  # idle | listening | thinking | speaking
 
-    loop = asyncio.new_event_loop()
-    threading.Thread(target=lambda: (asyncio.set_event_loop(loop), loop.run_forever()), daemon=True).start()
+    # Pas de thread asyncio séparé : les appels TTS utilisent asyncio.run() directement
 
     try:
         while True:
@@ -352,10 +354,7 @@ def main():
                             sentence = sentence.strip()
                             if sentence:
                                 print(f"🤖 [D-BOT RÉPOND] : \"{sentence}\"")
-                                fut = asyncio.run_coroutine_threadsafe(
-                                    client.speak_text_via_mac_tts(sentence), loop
-                                )
-                                fut.result()
+                                client.speak_text_sync(sentence)
 
                         # Purge des échos résiduels
                         time.sleep(0.3)
@@ -374,7 +373,6 @@ def main():
         print("\n\n🛑 Arrêt du test Jetson Direct Cloud.")
     finally:
         audio.close()
-        loop.call_soon_threadsafe(loop.stop)
 
 
 if __name__ == "__main__":
