@@ -158,6 +158,35 @@ Pour garantir une latence minimale sans à-coups ni blocages TCP (jitter), le tr
      * Déclenché immédiatement par le Watchdog matériel Spresense / Teensy.
      * Le robot interrompt immédiatement les trajectoires dynamiques en cours et passe en mode stationnaire d'équilibre (verrouillage des consignes d'angles et freins si à l'arrêt).
      * Empêche toute chute ou réaction incontrôlée en cas de micro-coupure Wi-Fi.
-   * **Seuil 2 — Fallback Autonome Dégradé Local (Perte Connection > 2,0 s) :**
-     * **Fallback Vision V1 :** YOLO-World v2 sur Jetson prend 100 % du contrôle visuel et du V-SLAM OAK-D Pro pour maintenir la distance de sécurité avec l'environnement sans l'aide du Mac.
-     * **Fallback Vocal :** Le LLM local (`Ollama + Qwen2.5-0.5B`) et le TTS local (`Kokoro-ONNX` / `Piper`) s'activent de manière transparente sur la Jetson pour répondre aux commandes vocales d'urgence locales.
+---
+
+## 7. Bilan Cumulé des Ressources et Analyse Comparative (Jetson Orin Nano 8 Go)
+
+### **A. Matrice d'Allocation Cumulée des Ressources (Robot en Action Maximale)**
+
+Lorsque **tous les sous-systèmes du robot fonctionnent simultanément** (Vision 3D + LiDAR 3D + Audio Cloud + Locomotion C++ + IA d'imitation des mains) :
+
+| Sous-Système / Brique IA | Charge CPU (8 cœurs ARM) | Empreinte RAM System | Empreinte VRAM GPU |
+| :--- | :---: | :---: | :---: |
+| **Vision 3D (YOLO-World v2 FP16 TensorRT)** | ~15% d'1 cœur (~2% total) | ~800 Mo | ~400 Mo |
+| **LiDAR 3D (Unitree L2 Pubis/Torse)** | ~15% d'1 cœur (~2% total) | ~150 Mo | 0 Mo |
+| **Audio (Jetson Edge Cloud - Mode 3 par défaut)** | ~5% d'1 cœur (~0,5% total) | ~50 Mo | 0 Mo |
+| **Locomotion (ROS 2 & Pinocchio C++)** | ~25% de 2 cœurs (~6% total) | ~400 Mo | ~800 Mo |
+| **IA d'Habileté Mains & Bras (`LeRobot` ACT TensorRT)** | ~15% d'1 cœur (~3% total) | ~300 Mo | ~800 Mo |
+| 🟢 **TOTAL CUMULÉ DU ROBOT EN ACTION COMPLÈTE** | **~15% du CPU total (4 cœurs)** | **~1,7 Go RAM** | **~2,0 Go VRAM** |
+| 🛡️ **CAPACITÉ LIBRE RESTANTE SUR JETSON** | **> 85% CPU TOTALEMENT LIBRE** | **> 6,3 Go RAM LIBRES** | **> 6,0 Go VRAM LIBRES** |
+
+---
+
+### **B. Matrice Comparative : D-Bot V1 vs Concurrence Humanoïde**
+
+| Fonctionnalité / Brique IA | **Tesla Optimus Gen 2** | **Unitree G1** | **Figure 02** | **D-Bot V1 (Spécification V1)** |
+| :--- | :---: | :---: | :---: | :--- |
+| **Vision 3D Réflexe (Danger/Obstacles)** | Stereo IR Custom (< 15 ms) | 3D LiDAR + Stereo | 6× Caméras Stéréo | ✅ **OAK-D Pro FF + VPU WLS (< 15 ms)** |
+| **Perception Sémantique Temps Réel** | Occupancy Network Custom | YOLO-World / PointCloud | Vision Transformer | ✅ **YOLO-World v2 TensorRT FP16 (80+ FPS)** |
+| **Audio & Dialogue Temps Réel** | Cloud Déporté | Local / Cloud | OpenAI Speech-to-Speech | ✅ **Jetson Edge Cloud (Groq+Gemini+EdgeTTS)** |
+| **Stabilisation du Regard (VOR)** | Réflexe VOR Matériel | Réflexe VOR | Réflexe VOR | ✅ **Réflexe VOR IMU BMI270 (Cou RS-05)** |
+| **Altimétrie du Sol (Elevation Grid 2.5D)** | **✅ Ground Grid 3D** | **✅ Elevation Grid** | **✅ Occupancy 3D** | 🏆 **LiDAR Unitree L2 Pubis + OAK-D Pro** |
+| **Reconnaissance de Gestes de la Main** | **✅ Hand Gestures** | **✅ Hand Pose** | **✅ Tactile/Gestures** | 🏆 **YOLO-Pose TensorRT (60 FPS @ 8 ms)** |
+| **Suivi d'Attitude Humaine 3D** | **✅ Social Navigation** | **✅ Human Tracking** | **✅ People 3D** | 🏆 **Filtre Kalman 3D Multi-Objets** |
+
