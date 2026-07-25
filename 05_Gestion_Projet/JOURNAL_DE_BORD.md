@@ -24,6 +24,12 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - LLM Gemini 2.0 Flash Direct : **0 ms** (1er token).
    - TTS Stream Mac GPU Metal : Synthèse fluide 24000 Hz lue sur l'enceinte ReSpeaker (2,2s d'audio) avec retour automatique à l'écoute VAD.
    - Zéro fuite RAM / zéro plantage système sur Mac M1 Max.
+4. **Création & Évaluation des Voix Cloud Edge-TTS (`test_edge_tts_voices.py`)** :
+   - Qualification des voix françaises Microsoft Neural : `fr-FR-HenriNeural` (314 ms, voix homme calme), `fr-FR-DeniseNeural` (329 ms, femme claire), `fr-FR-EloiseNeural` (328 ms) et `fr-FR-RemyMultilingualNeural` (664 ms).
+5. **Déploiement du Mode 3 "Jetson Edge Cloud" (`test_jetson_edge_cloud.py`) — ADOPTÉ PAR DÉFAUT** :
+   - **Architecture 100% Autonome Jetson** : ASR Groq Cloud + LLM Gemini 2.0 Flash Direct Jetson + TTS Microsoft Edge-TTS (`fr-FR-HenriNeural`) exécuté intégralement sur la Jetson sans aucune dépendance serveur Mac.
+   - **Correction du format Audio** : Ajout du convertisseur automatique `_convert_mp3_to_wav()` (MP3 ➔ WAV 24 kHz Mono via `ffmpeg`/`mpg123`/`sox`) rendant le flux Edge-TTS 100% compatible avec l'utilitaire `paplay` et l'amplificateur JST du ReSpeaker.
+   - **Adoption par défaut** : Ce mode devient la solution nominale de production du projet D-Bot V1 (0€, illimité, zéro charge Mac, latence ~350 ms).
 
 ---
 

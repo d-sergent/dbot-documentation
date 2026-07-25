@@ -42,7 +42,10 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
   - VAD logicielle RMS calibrée automatiquement au démarrage (seuil adaptatif 150 RMS min) + pre-roll 5 chunks.
   - Groq Cloud Whisper Large v3 Turbo (< 300 ms) + Faster-Whisper `small` CPU fallback (~900 ms) + Gemini 2.0 Flash LLM + Qwen3-TTS MLX GPU (M1 Max).
   - Bugs résolus : inspection WebSocket Starlette, double conversion stéréo/mono, VAD SDK instable, hallucinations Whisper, auto-interruption pendant la réponse du robot.
-- [x] **Architecture Découplée "Jetson Direct Cloud" (Action 1 - Port 8002)** :
+- [x] **Architecture Autonome "Jetson Edge Cloud" (Mode 3 - PAR DÉFAUT PRODUCTION)** :
+  - **100% Autonome Jetson** : Script `test_jetson_edge_cloud.py` exécutant l'ASR Groq Cloud, le LLM Gemini 2.0 Flash et le TTS Microsoft Edge-TTS (`fr-FR-HenriNeural`) directement sur la Jetson sans dépendre d'un serveur Mac (0€, illimité).
+  - **Compatibilité Audio ReSpeaker** : Conversion automatique MP3 ➔ WAV 24 kHz mono (`_convert_mp3_to_wav()`) assurant une restitution parfaite sur l'amplificateur JST 5W via `paplay`.
+- [x] **Architecture Découplée "Jetson Direct Cloud" (Mode 2 - Port 8002)** :
   - **Côté Mac** : Serveur TTS ultra-léger `companion_server_tts_mac.py` (Port 8002) et script `start_companion_server_tts.sh`.
   - **Côté Jetson** : Script `test_jetson_direct_cloud.py` exécutant ASR Groq et LLM Gemini 2.0 Flash en direct via Internet, et ne demandant que la synthèse vocale Qwen3-TTS au Mac sur le port 8002.
   - **Gestion Mémoire GPU Metal** : Correction des fuites mémoire MLX (`mx.metal.clear_cache()` + `gc.collect()`, bridage `max_tokens=1024` et `repetition_penalty=1.1`, verrou `asyncio.Lock`), éliminant 100% des saturations RAM et plantages système.

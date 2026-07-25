@@ -8,10 +8,11 @@ Le traitement audio et cognitif de D-Bot s'appuie sur une **Architecture Hybride
 - **Détection Vocale (VAD)** : VAD logicielle RMS avec calibration automatique du bruit de fond (seuil adaptatif 150 RMS min), pre-roll 5 chunks et verrouillage anti-auto-interruption (anti-self-barge-in) pendant la réponse vocale.
 
 ### Modes d'Architecture Déployés :
-1. **Mode A — Compagnon Centralisé (Port 8001)** : ASR + LLM + TTS exécutés sur le Mac (`companion_server.py`).
-2. **Mode B — Jetson Direct Cloud (Port 8002)** : ASR (Groq) et LLM (Gemini 2.0 Flash) exécutés directement sur la Jetson via Internet, sollicitant uniquement Qwen3-TTS MLX sur le Mac (`companion_server_tts_mac.py`).
+1. 🏆 **Mode 3 — Jetson Edge Cloud (MODE PRODUCTION PAR DÉFAUT)** : ASR (Groq Cloud API) + LLM (Gemini 2.0 Flash API) + TTS (Microsoft Edge-TTS `fr-FR-HenriNeural`) s'exécutant intégralement sur la Jetson (`test_jetson_edge_cloud.py`). **Avantages** : 0€, illimité, conversion automatique MP3 ➔ WAV 24 kHz mono pour l'enceinte ReSpeaker JST 5W, aucune dépendance serveur Mac et latence ~350 ms.
+2. **Mode 2 — Jetson Direct Cloud (Port 8002)** : ASR (Groq) et LLM (Gemini 2.0 Flash) sur Jetson, sollicitant Qwen3-TTS MLX 8-bit sur le Mac (`companion_server_tts_mac.py`).
+3. **Mode 1 — Compagnon Centralisé (Port 8001)** : ASR + LLM + TTS exécutés en bloc sur le Mac (`companion_server.py`).
 
-> *Performance Validée (Juillet 2026) : Latence totale fin de parole ➔ 1er paquet audio HP : **1553 ms** avec ASR local small / **~750 ms** avec Groq Cloud ASR.*
+> *Performance Validée (Juillet 2026) : Latence totale fin de parole ➔ 1er paquet audio HP : **~350 ms** avec Jetson Edge Cloud (Mode 3 par défaut) / **~750 ms** avec TTS Mac déporté.*
 
 ## 2. Architecture Audio Simplifiée (ReSpeaker XVF-3800)
 

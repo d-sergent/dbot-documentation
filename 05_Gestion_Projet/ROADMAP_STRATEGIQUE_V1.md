@@ -52,7 +52,8 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 *Dépendances : Niveau 0 (Réseau Hybride Mac ↔ Jetson) + ReSpeaker*
 
 - [x] **Pipeline Audio / Barge-In** : `audio_io_v2.py` non-bloquant et interruption instantanée en cas de parole utilisateur.
-- [x] **Serveur TTS Streaming HD (Mac)** : Inférence Qwen3-TTS VoiceDesign MLX 8-bit déportée sur Mac M1 Max (Port 8002 & Port 8001), streaming 24 kHz ultra-fluide avec vidange du cache Metal (`mx.metal.clear_cache()`), verrou de sécurité `asyncio.Lock` et latence perçue ~750 ms avec Groq Cloud ASR.
+- [x] **Architecture Conversationnelle Autonome Jetson Edge Cloud (DÉFAUT PRODUCTION)** : `test_jetson_edge_cloud.py` (ASR Groq Cloud + LLM Gemini 2.0 Flash + TTS Microsoft Edge-TTS `fr-FR-HenriNeural`) s'exécutant à 100% sur la Jetson sans aucune dépendance serveur Mac (0€, illimité, conversion MP3->WAV 24kHz pour ReSpeaker JST 5W, latence ~350 ms).
+- [x] **Serveur TTS Streaming HD Mac (Option Déportée)** : Inférence Qwen3-TTS VoiceDesign MLX 8-bit déportée sur Mac M1 Max (Port 8002 & Port 8001), streaming 24 kHz ultra-fluide avec vidange du cache Metal (`mx.metal.clear_cache()`), verrou de sécurité `asyncio.Lock`.
 - [ ] **Intégration API ElevenLabs Cloud (Mode Free Tier)** : Synthèse vocale Ultra-HD Cloud alternative (10 000 caractères/mois gratuits) via l'API ElevenLabs avec streaming WebSocket.
 - [ ] **Fallback Vocale Hors-Ligne (Jetson)** : Mode dégradé Kokoro-ONNX + Ollama local activé en cas d'interruption Wi-Fi > 2s (Heartbeat 5 Hz).
 

@@ -9,10 +9,11 @@ La présente spécification établit **l'architecture Master officielle du D-Bot
 
 ### **Principe d'Architecture Hybride V1 : "Réflexe Local ↔ Cognition Déportée"**
 1. **Sur le Robot (Jetson Orin Nano 8GB Headless + OAK-D Pro + Microcontrôleurs) :**
-   * **Invariants locaux V1 :** Équilibre bipède, boucles de contrôle moteur (100–500 Hz), captation audio (ReSpeaker VAD/DoA 100 Hz), vision réflexe matérielle (Depth IR OAK-D < 15 ms), vision sémantique temps réel (YOLO-World v2 @ 30 FPS TensorRT), STT local (Faster-Whisper CUDA), V-SLAM OAK-D Pro et arrêt d'urgence autonome.
+   * **Invariants locaux V1 :** Équilibre bipède, boucles de contrôle moteur (100–500 Hz), captation audio (ReSpeaker VAD/DoA 100 Hz), vision réflexe matérielle (Depth IR OAK-D < 15 ms), vision sémantique temps réel (YOLO-World v2 @ 30 FPS TensorRT), V-SLAM OAK-D Pro et arrêt d'urgence autonome.
+   * **Mode Conversationnel Autonome (DÉFAUT PRODUCTION - Mode 3) :** ASR Cloud (Groq Whisper Large v3 Turbo < 300 ms), LLM Cloud (Gemini 2.0 Flash Streaming < 1 ms) et TTS Cloud (Microsoft Edge-TTS `fr-FR-HenriNeural` ~350 ms) exécutés intégralement sur la Jetson sans dépendance serveur Mac (0€, illimité, conversion MP3->WAV 24kHz pour ReSpeaker JST 5W).
    * **Budget VRAM Jetson strictly maîtrisé :** **2,9 Go alloués / 5,5 Go utiles**, laissant **2,6 Go de marge (32 % de réserve de sécurité)**.
 2. **Sur le Serveur Compagnon (Mac M1 Max 64GB - Bandwidth 400 GB/s) :**
-   * **Tâches lourdes déportées :** Simulation physique & géométrie 3D (*NVIDIA Cosmos 3D Edge*), synthèse vocale HD streaming (*Qwen3-TTS via MLX-Audio*), Moteur RAG documentaire (*LightRAG / FastEmbed*), et raisonnement LLM haut niveau (*Gemini 3.1 Flash Lite / Qwen 35B*).
+   * **Tâches lourdes déportées (Optionnel / Cognition Avancée) :** Simulation physique & géométrie 3D (*NVIDIA Cosmos 3D Edge*), synthèse vocale Qwen3-TTS VoiceDesign MLX 8-bit (*companion_server_tts_mac.py*, Port 8002), Moteur RAG documentaire (*LightRAG / FastEmbed*), et raisonnement LLM haut niveau (*Gemini 3.1 Flash Lite / Qwen 35B*).
    * **Bande passante et latence :** Wi-Fi 6 / Ethernet local (< 5 ms de latence réseau). Transport hybridé (ROS 2 DDS UDP Best-Effort pour la vision/télémétrie, gRPC/WebSockets TCP pour l'audio/JSON/RAG).
 
 ---

@@ -24,20 +24,17 @@ Code/dbot_next/
 
 ---
 
-## 🏗️ Comparatif des Deux Architectures Available
+## 🏗️ Comparatif des Trois Architectures Disponibles
 
-### Version A — Mac All-in-One (Historique, Port 8001)
-Toute la logique ASR, LLM et TTS est centralisée sur le Mac :
+### 🏆 Mode 3 — Jetson Edge Cloud (PRODUCTION PAR DÉFAUT - 100% Jetson Autonome)
+La Jetson exécute l'ASR (Groq Cloud API), le LLM (Gemini 2.0 Flash) et le TTS (Microsoft Edge-TTS `fr-FR-HenriNeural`) en direct sans aucune dépendance serveur Mac (0€, illimité, 0 Mo RAM Mac, latence ~350 ms) :
 ```bash
-# Sur le Mac :
-./Code/dbot_next/scripts/start_companion_server.sh --restart
-
-# Sur la Jetson :
-python3 code/dbot_next/scripts/test_companion_streaming.py
+# Sur la Jetson Orin Nano (Pas besoin d'allumer le Mac !) :
+python3 code/dbot_next/scripts/test_jetson_edge_cloud.py
 ```
 
-### Version B — Jetson Direct Cloud (Action 1 - Nouvelle, Port 8002)
-La Jetson fait l'ASR (Groq) et le LLM (Gemini 2.0 Flash) en direct via Internet, et ne sollicite le Mac que pour le TTS Qwen3-TTS (Port 8002) :
+### Mode 2 — Jetson Direct Cloud (TTS Mac Qwen3-TTS, Port 8002)
+La Jetson fait l'ASR (Groq) et le LLM (Gemini 2.0 Flash) en direct via Internet, et ne sollicite le Mac que pour la synthèse vocale Qwen3-TTS VoiceDesign MLX 8-bit (Port 8002) :
 ```bash
 # 1. Sur le Mac : Lancer le serveur TTS Seul sur le port 8002
 ./Code/dbot_next/scripts/start_companion_server_tts.sh --restart
@@ -45,6 +42,16 @@ La Jetson fait l'ASR (Groq) et le LLM (Gemini 2.0 Flash) en direct via Internet,
 # 2. Sur la Jetson : Lancer le client Direct Cloud
 export DBOT_MAC_IP="192.168.68.120"
 python3 code/dbot_next/scripts/test_jetson_direct_cloud.py
+```
+
+### Mode 1 — Mac All-in-One (Port 8001)
+Toute la logique ASR, LLM et TTS est centralisée sur le Mac :
+```bash
+# 1. Sur le Mac :
+./Code/dbot_next/scripts/start_companion_server.sh --restart
+
+# 2. Sur la Jetson :
+python3 code/dbot_next/scripts/test_companion_streaming.py
 ```
 
 ---
