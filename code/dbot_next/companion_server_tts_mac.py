@@ -14,7 +14,9 @@ import time
 import json
 import base64
 import asyncio
+import gc
 import numpy as np
+import mlx.core as mx
 
 # Configuration du PYTHONPATH
 WORKSPACE_DIR = "/Users/Shared/Mon Google Drive Physique/Documentation"
@@ -42,10 +44,22 @@ tts_model = load_mlx_model(MODEL_REPO)
 SAMPLE_RATE = tts_model.sample_rate
 print(f"✅ [TTS Mac] Modèle Qwen3-TTS prêt (Sample Rate: {SAMPLE_RATE} Hz) sur le port 8002")
 
+# Lock d'exclusion mutuelle pour protéger le GPU Metal contre des inférences concurrentes
+tts_lock = asyncio.Lock()
+
 
 class TTSState:
     def __init__(self):
         self.is_interrupted = False
+
+
+def cleanup_memory():
+    """Vide le cache mémoire GPU Metal d'MLX et force la collecte du Garbage Collector."""
+    try:
+        mx.metal.clear_cache()
+    except Exception:
+        pass
+    gc.collect()
 
 
 @app.get("/")
@@ -86,89 +100,130 @@ async def websocket_tts_endpoint(websocket: WebSocket):
                     state.is_interrupted = False
                     print(f"🗣️  [TTS Mac] Synthèse demandée pour : \"{text_to_speak}\"")
                     t0 = time.time()
+                    _first_chunk_sent = False
 
-                    # ─── Streaming incrémental via asyncio.Queue ─────────────────
-                    # Le thread de génération MLX pousse chaque chunk dans la queue
-                    # dès qu'il est produit. L'event loop les envoie immédiatement.
-                    audio_queue: asyncio.Queue = asyncio.Queue()
-                    loop = asyncio.get_running_loop()
-                    _first_chunk_sent = {"done": False}
+                    async with tts_lock:
+                        loop = asyncio.get_running_loop()
 
-                    def generate_and_enqueue():
+                        def get_tts_generator(txt):
+                            return tts_model.generate(
+                                text=txt,
+                                instruct=INSTRUCT_FR,
+                                temperature=0.6,
+                                top_p=0.9,
+                                repetition_penalty=1.1,
+                                max_tokens=1024,
+                                lang_code="french",
+                                stream=True,
+                                streaming_interval=0.4,
+                            )
+
                         try:
-                            for result in tts_model.generate(text_to_speak, instruct=INSTRUCT_FR):
-                                if state.is_interrupted:
+                            tts_iter = await loop.run_in_executor(None, get_tts_generator, text_to_speak)
+
+                            while not state.is_interrupted:
+                                def get_next_chunk():
+                                    try:
+                                        return next(tts_iter)
+                                    except StopIteration:
+                                        return None
+                                    except Exception as e:
+                                        print(f"⚠ Erreur chunk TTS : {e}")
+                                        return None
+
+                                result = await loop.run_in_executor(None, get_next_chunk)
+                                if result is None:
                                     break
+
                                 chunk_pcm = result.audio
-                                # Qwen3-TTS retourne un mlx.core.array, pas un np.ndarray
-                                # → conversion explicite nécessaire avant clip/astype
                                 chunk_np = np.array(chunk_pcm)
-                                if chunk_np.ndim > 0 and len(chunk_np) > 0:
+                                if chunk_np.ndim > 0 and chunk_np.size > 0:
                                     int16_chunk = (chunk_np * 32767.0).clip(-32768, 32767).astype(np.int16)
-                                    asyncio.run_coroutine_threadsafe(
-                                        audio_queue.put(int16_chunk.tobytes()), loop
-                                    )
-                        except Exception as gen_err:
-                            print(f"⚠ [TTS Mac] Erreur génération : {gen_err}")
+                                    b64_data = base64.b64encode(int16_chunk.tobytes()).decode('utf-8')
+                                    
+                                    await websocket.send_json({
+                                        "type": "audio_chunk",
+                                        "data": b64_data,
+                                        "sample_rate": getattr(result, "sample_rate", SAMPLE_RATE)
+                                    })
+                                    if not _first_chunk_sent:
+                                        dt_ms = (time.time() - t0) * 1000
+                                        print(f"⏱️  [TTS Mac] 1er chunk envoyé en {dt_ms:.0f} ms")
+                                        _first_chunk_sent = True
+
+                                await asyncio.sleep(0.001)
+
                         finally:
-                            # Signaler la fin de la génération
-                            asyncio.run_coroutine_threadsafe(audio_queue.put(None), loop)
-
-                    import threading
-                    gen_thread = threading.Thread(target=generate_and_enqueue, daemon=True)
-                    gen_thread.start()
-
-                    # Envoyer les chunks au fur et à mesure
-                    while True:
-                        chunk_bytes = await audio_queue.get()
-                        if chunk_bytes is None:
-                            break   # Fin de la génération
-                        if state.is_interrupted:
-                            break
-                        b64_data = base64.b64encode(chunk_bytes).decode('utf-8')
-                        await websocket.send_json({
-                            "type": "audio_chunk",
-                            "data": b64_data,
-                            "sample_rate": SAMPLE_RATE
-                        })
-                        if not _first_chunk_sent["done"]:
-                            dt_ms = (time.time() - t0) * 1000
-                            print(f"⏱️  [TTS Mac] 1er chunk envoyé en {dt_ms:.0f} ms")
-                            _first_chunk_sent["done"] = True
+                            cleanup_memory()
 
                     # Signaler la fin de synthèse pour cette phrase
-                    await websocket.send_json({"type": "tts_end"})
+                    if not state.is_interrupted:
+                        await websocket.send_json({"type": "tts_end"})
 
             except json.JSONDecodeError:
                 # Format texte brut
                 text_to_speak = raw_data.strip()
                 if text_to_speak:
                     print(f"🗣️  [TTS Mac] Synthèse texte brut : \"{text_to_speak}\"")
-                    loop = asyncio.get_running_loop()
-                    
-                    def generate_raw():
-                        audio_chunks = []
-                        for result in tts_model.generate(text_to_speak, instruct=INSTRUCT_FR):
-                            chunk_pcm = result.audio
-                            if isinstance(chunk_pcm, np.ndarray):
-                                int16_chunk = (chunk_pcm * 32767.0).clip(-32768, 32767).astype(np.int16)
-                                audio_chunks.append(int16_chunk.tobytes())
-                        return audio_chunks
-                    
-                    chunks = await loop.run_in_executor(None, generate_raw)
-                    for chunk_bytes in chunks:
-                        b64_data = base64.b64encode(chunk_bytes).decode('utf-8')
-                        await websocket.send_json({
-                            "type": "audio_chunk",
-                            "data": b64_data,
-                            "sample_rate": SAMPLE_RATE
-                        })
+                    state.is_interrupted = False
+                    t0 = time.time()
+                    _first_chunk_sent = False
+
+                    async with tts_lock:
+                        loop = asyncio.get_running_loop()
+
+                        def get_tts_generator_raw(txt):
+                            return tts_model.generate(
+                                text=txt,
+                                instruct=INSTRUCT_FR,
+                                temperature=0.6,
+                                top_p=0.9,
+                                repetition_penalty=1.1,
+                                max_tokens=1024,
+                                lang_code="french",
+                                stream=True,
+                                streaming_interval=0.4,
+                            )
+
+                        try:
+                            tts_iter = await loop.run_in_executor(None, get_tts_generator_raw, text_to_speak)
+
+                            while not state.is_interrupted:
+                                def get_next_chunk():
+                                    try:
+                                        return next(tts_iter)
+                                    except StopIteration:
+                                        return None
+
+                                result = await loop.run_in_executor(None, get_next_chunk)
+                                if result is None:
+                                    break
+
+                                chunk_pcm = result.audio
+                                chunk_np = np.array(chunk_pcm)
+                                if chunk_np.ndim > 0 and chunk_np.size > 0:
+                                    int16_chunk = (chunk_np * 32767.0).clip(-32768, 32767).astype(np.int16)
+                                    b64_data = base64.b64encode(int16_chunk.tobytes()).decode('utf-8')
+
+                                    await websocket.send_json({
+                                        "type": "audio_chunk",
+                                        "data": b64_data,
+                                        "sample_rate": getattr(result, "sample_rate", SAMPLE_RATE)
+                                    })
+
+                                await asyncio.sleep(0.001)
+
+                        finally:
+                            cleanup_memory()
+
                     await websocket.send_json({"type": "tts_end"})
 
     except WebSocketDisconnect:
         print("🔌 Client déconnecté du serveur TTS (Port 8002).")
     except Exception as e:
         print(f"⚠ Erreur serveur TTS : {e}")
+    finally:
+        cleanup_memory()
 
 
 if __name__ == "__main__":

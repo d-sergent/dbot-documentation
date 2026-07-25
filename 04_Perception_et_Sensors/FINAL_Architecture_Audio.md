@@ -4,8 +4,12 @@
 Le traitement audio et cognitif de D-Bot s'appuie sur une **Architecture Hybride Master Déportée (Jetson Orin Nano 8 Go ↔ Mac M1 Max 64 Go)** via WebSocket bidirectionnel ultra-basse latence :
 - **ASR (Speech-to-Text)** : **Groq Cloud Whisper Large v3 Turbo** (< 300 ms) avec Fallback local **Faster-Whisper** (modèle `small` sur CPU Mac, ~900 ms).
 - **Cerveau (LLM)** : **Google Gemini 2.0 Flash** (Cloud ultra-rapide en streaming, premier token < 500 ms) + Fallback local **Ollama** (Qwen 2.5 0.5B).
-- **TTS (Text-to-Speech)** : **Qwen3-TTS VoiceDesign MLX 8-bit** (GPU Metal Mac, streaming 24 kHz) + Option **ElevenLabs Cloud Streaming** + Secours local Jetson **Kokoro-ONNX** (`ff_siwis`).
-- **Détection Vocal (VAD)** : VAD logicielle RMS avec calibration automatique du bruit de fond, pre-roll 5 chunks et verrouillage anti-auto-interruption (anti-self-barge-in) pendant la réponse vocale.
+- **TTS (Text-to-Speech)** : **Qwen3-TTS VoiceDesign MLX 8-bit** (GPU Metal Mac, streaming 24 kHz) sécurisé par vidange dynamique du cache Metal (`mx.metal.clear_cache()`), `gc.collect()` et verrou `asyncio.Lock` pour éliminer toute fuite RAM / crash GPU.
+- **Détection Vocale (VAD)** : VAD logicielle RMS avec calibration automatique du bruit de fond (seuil adaptatif 150 RMS min), pre-roll 5 chunks et verrouillage anti-auto-interruption (anti-self-barge-in) pendant la réponse vocale.
+
+### Modes d'Architecture Déployés :
+1. **Mode A — Compagnon Centralisé (Port 8001)** : ASR + LLM + TTS exécutés sur le Mac (`companion_server.py`).
+2. **Mode B — Jetson Direct Cloud (Port 8002)** : ASR (Groq) et LLM (Gemini 2.0 Flash) exécutés directement sur la Jetson via Internet, sollicitant uniquement Qwen3-TTS MLX sur le Mac (`companion_server_tts_mac.py`).
 
 > *Performance Validée (Juillet 2026) : Latence totale fin de parole ➔ 1er paquet audio HP : **1553 ms** avec ASR local small / **~750 ms** avec Groq Cloud ASR.*
 

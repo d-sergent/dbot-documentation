@@ -14,8 +14,8 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Barge-In Matériel (Interruption Vocal)** : Coupure instantanée de l'audio `aplay` et émission d'un signal d'interruption dès détection de parole utilisateur.
 - [x] **Inspection Mécanique & Fichiers CAO STEP** : Modèles RobStride RS00 / RS04 / RS05 / RS06 qualifiés sous Fusion 360 pour les assemblages d'articulation.
 - [x] **Stratégie d'Alimentation 48V à 3 Niveaux** : Schéma d'alimentation validé (Wanptek 60V/5A, MeanWell LRS-600-48 600W, Batterie 48V 13S NMC).
-- [x] **Triade Visuelle Temps Réel & Fusion Spatiale 3D** : Couplage OAK-D Pro + YOLO-World v2 Zero-Shot + SpatialFusion (`test_triad_vision.py`) avec détection multi-boîtes hiérarchique, classification multicolore et coordonnées $3D$ réelles $(X, Y, Z)$ en mm.
-- [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS et du nœud `SpatialLocationCalculator` ($Z < 500\text{ mm}$) dans `oak_camera.py`.
+- [x] **Triade Visuelle Temps Réel & Fusion Spatiale 3D** : Couplage OAK-D Pro + YOLO-World v2 Zero-Shot + SpatialFusion (`test_triad_vision.py`) avec détection multi-boîtes hiérarchique, classification multicolore et coordonnées 3D réelles [X, Y, Z] en mm.
+- [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS et du nœud `SpatialLocationCalculator` (Z < 500 mm) dans `oak_camera.py`.
 - [x] **Motorbridge Web UI & Contrôle du Cou** : Diagnostic temps réel et asservissement fluide des moteurs du cou Pan/Tilt RS-05 (`web_ui.py` + `neck.py`).
 - [x] **Support du Français & Mappage Multilingue YOLO-World** : Dictionnaire persistant local `fr_en_dictionary.json` (+150 mots) et traduction automatique zéro-ressource via `urllib` dans `yolo_world.py`.
 - [x] **Active Gaze & Regard Actif (`test_active_gaze.py`)** : Asservissement angulaire du cou Pan/Tilt sur les cibles visuelles sémantiques 3D (`active_gaze.py`) et serveur compagnon Mac (`server_active_gaze_mac.py`).
@@ -45,6 +45,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 - [x] **Architecture Découplée "Jetson Direct Cloud" (Action 1 - Port 8002)** :
   - **Côté Mac** : Serveur TTS ultra-léger `companion_server_tts_mac.py` (Port 8002) et script `start_companion_server_tts.sh`.
   - **Côté Jetson** : Script `test_jetson_direct_cloud.py` exécutant ASR Groq et LLM Gemini 2.0 Flash en direct via Internet, et ne demandant que la synthèse vocale Qwen3-TTS au Mac sur le port 8002.
+  - **Gestion Mémoire GPU Metal** : Correction des fuites mémoire MLX (`mx.metal.clear_cache()` + `gc.collect()`, bridage `max_tokens=1024` et `repetition_penalty=1.1`, verrou `asyncio.Lock`), éliminant 100% des saturations RAM et plantages système.
   - **Conservation** : Conservation persistance de la version All-in-One Mac (`companion_server_full_mac.py`, Port 8001).
 - [ ] **Intégration API ElevenLabs Streaming (Optionnel)** : Ajouter le support d'ElevenLabs Cloud Streaming API (`stream=True`, latence < 300 ms pour le 1er chunk) comme alternative ultra-haute fidélité à Qwen3-TTS.
 - [ ] **Fallback Vocale Local (Jetson Orin Nano)** : Installer et configurer **Kokoro-ONNX** (`onnxruntime-gpu`) avec la voix française `ff_siwis` sur la Jetson pour assurer le secours hors-ligne en cas de déconnexion Wi-Fi > 2s.
@@ -56,10 +57,10 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 
 - [x] **Triade Visuelle & Fusion Spatiale 3D (OAK-D Pro + YOLO-World v2)** :
   - Intégration de YOLO-World v2 Zero-Shot (`yolov8m-worldv2.pt` / `.onnx` / `.engine`) avec NMS permissif et dictionnaire de couleurs vives BGR par classe (`MAIN`, `TELEPHONE`, `PERSONNE`, `TABLE`, `CHAISE`, `BOUTEILLE`).
-  - Association tridimensionnelle des boîtes $2D$ avec la carte de profondeur stéréo pour extraire les coordonnées physiques réelles $[X, Y, Z]$ en mm.
+  - Association tridimensionnelle des boîtes 2D avec la carte de profondeur stéréo pour extraire les coordonnées physiques réelles [X, Y, Z] en mm.
 - [x] **Optimisation VPU Myriad X (OAK-D Pro)** :
   - Intégrer le filtre matériel WLS sur le VPU OAK-D pour combler les trous de la profondeur (économie de 25% CPU Jetson).
-  - Configurer le nœud matériel **`SpatialLocationCalculator`** sur l'OAK-D pour générer des alertes de sécurité $3D$ ($Z < 500\text{ mm}$) à $< 5\text{ ms}$.
+  - Configurer le nœud matériel **`SpatialLocationCalculator`** sur l'OAK-D pour générer des alertes de sécurité 3D (Z < 500 mm) à < 5 ms.
 - [x] **Support du Français & Mappage Multilingue YOLO-World** :
   - Dictionnaire persistant local `fr_en_dictionary.json` (+150 mots) et traduction automatique zéro-ressource via `urllib` dans `yolo_world.py`.
 - [x] **Reconnaissance & Identification de Visages (Face Recognition / Tracking)** :
@@ -77,9 +78,9 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
   - Compilation locale sur GPU Ampere (57.1 Mo) réduisant la latence de perception à 8-10 ms (cadence 80-120 FPS, VRAM 400 Mo) avec chargement bivalent résilient et repli automatique PyTorch CUDA.
 - [x] **Asservissement Physique en Boucle Fermée sur Télémétrie CAN** :
   - Lecture en temps réel de la position angulaire réelle des moteurs `neck.get_state()` à 100 Hz éliminant l'emballement d'angle en fin de course.
-- [x] **Verrouillage Statique par Hystérésis Adaptative ($65\text{ px} \rightarrow 117\text{ px}$)** :
+- [x] **Verrouillage Statique par Hystérésis Adaptative (65 px à 117 px)** :
   - Élargissement du deadband au centre + filtre d'action angulaire minimal de 0.8° éliminant 100% des micro-tressautements diagonaux à l'arrêt.
-- [x] **Gain Proportionnel Dynamique Non-Linéaire $K_p(e)$** :
+- [x] **Gain Proportionnel Dynamique Non-Linéaire Kp(e)** :
   - Variation automatique du gain de 0.20 (centre) à 0.55 (bord du champ) pour une accélération de rattrapage ultra-réactive lors des mouvements récents rapides.
 - [x] **Extrapolation Kalman 3D Étendue à 15 Trames (500 ms)** :
   - Maintien continu de la trajectoire par inertie en cas de flou de bougé ou d'occultation temporaire.
@@ -90,10 +91,10 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 
 ## 🎯 BLOCK 4 : Cinématique Inverse, Dynamics Pinocchio & LeRobot (Bras & Corps)
 
-- [ ] **SDK Python `Motorbridge` & Contrôle MIT** : Valider les trames de commande MIT ($K_p, K_d, \theta, \dot{\theta}, \tau_{ff}$) et la lecture continue de la télémétrie sur les bus CAN 1 Mbps.
+- [ ] **SDK Python `Motorbridge` & Contrôle MIT** : Valider les trames de commande MIT (Kp, Kd, theta, dtheta, tau_ff) et la lecture continue de la télémétrie sur les bus CAN 1 Mbps.
 - [ ] **Calibration Zero-Offset** : Exécuter la procédure d'alignement zéro des encodeurs absolus 14-bit des articulations.
 - [ ] **Moteur Dynamique `Pinocchio` (INRIA/LAAS)** :
   - Charger l'URDF complet de D-Bot sous `Pinocchio` sur la Jetson et le Mac.
-  - Calculer et injecter le couple de compensation de gravité $G(q)$ via le feedforward $\tau_{ff}$ dans la commande des moteurs.
+  - Calculer et injecter le couple de compensation de gravité G(q) via le feedforward tau_ff dans la commande des moteurs.
 - [ ] **Intégration Hugging Face `LeRobot`** : Adapter l'interface `LeRobot` pour enregistrer des téléopérations de bras et fabriquer des datasets de démonstration pour l'apprentissage par imitation (*ACT / Diffusion Policy*).
 - [ ] **Extension Web UI Flotte Complète** : Étendre l'interface de diagnostic Motorbridge à l'ensemble des 27 moteurs CAN du robot lors de l'assemblage des membres et du torse.

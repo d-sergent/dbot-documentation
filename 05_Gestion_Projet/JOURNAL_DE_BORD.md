@@ -4,6 +4,29 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 
 ---
 
+## 📅 2026-07-25 — Diagnostic & Résolution du Crash Mémoire Mac MLX (Port 8002) et Validation Architecture Direct Cloud
+
+### 🎯 Objectif de la session
+1. **Diagnostic du plantage Mac** : Identifier la cause de la saturation mémoire RAM/Metal GPU lors de l'exécution de `companion_server_tts_mac.py`.
+2. **Assainissement & Sécurisation MLX** : Implémenter le bridage de la génération Qwen3-TTS et la libération mémoire GPU Metal.
+3. **Validation Terrain Jetson Direct Cloud** : Valider l'exécution complète du flux ASR Groq + Gemini LLM (sur Jetson) + Qwen3-TTS MLX (sur Mac M1 Max) via `test_jetson_direct_cloud.py`.
+
+### 📝 Réalisations & Évolutions
+1. **Résolution des fuites mémoire MLX GPU (`companion_server_tts_mac.py` & `companion_server.py`)** :
+   - **Bridage de génération** : Ajout explicite de `repetition_penalty=1.1`, `max_tokens=1024`, `stream=True`, `streaming_interval=0.4` et `lang_code="french"` pour éviter que Qwen3-TTS n'entre dans une boucle de génération infinie sur GPU Metal.
+   - **Vidange du cache GPU Metal** : Implémentation d'une routine de nettoyage `cleanup_memory()` exécutant `mx.metal.clear_cache()` et `gc.collect()` après chaque phrase synthétisée.
+   - **Verrouillage d'inférence (`asyncio.Lock`)** : Ajout d'un verrou `tts_lock` empêchant les requêtes concurrentes de corrompre l'état du modèle MLX.
+   - **Suppression des threads orphelins** : Remplacement du thread `threading.Thread` en tâche de fond par une consommation itérative contrôlée via `loop.run_in_executor`.
+2. **Correctif du script de lancement (`start_companion_server.sh`)** :
+   - Actualisation dynamique de la vérification PID après l'ouverture effective du port Uvicorn.
+3. **Validation 100% de la chaîne "Jetson Direct Cloud" (`test_jetson_direct_cloud.py`)** :
+   - ASR Groq Cloud Direct : **510 ms** (Whisper Large v3 Turbo).
+   - LLM Gemini 2.0 Flash Direct : **0 ms** (1er token).
+   - TTS Stream Mac GPU Metal : Synthèse fluide 24000 Hz lue sur l'enceinte ReSpeaker (2,2s d'audio) avec retour automatique à l'écoute VAD.
+   - Zéro fuite RAM / zéro plantage système sur Mac M1 Max.
+
+---
+
 ## 📅 2026-07-24 — Audio Gaze Tracking, Clarification EEPROM RS-05 & Pipeline Streaming Audio Déporté (1.55s)
 
 ### 🎯 Objectif de la session

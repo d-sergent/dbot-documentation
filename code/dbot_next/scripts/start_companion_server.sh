@@ -81,25 +81,21 @@ start_server() {
         echo "${RED}❌ Python introuvable : $PYTHON${NC}"
         exit 1
     fi
-
-    # Lancement en arrière-plan avec export PYTHONUNBUFFERED=1 (macOS/zsh compatible)
     export PYTHONUNBUFFERED=1
     ( "$PYTHON" -u "$SERVER" > "$LOG" 2>&1 < /dev/null & )
-    local pid=$(lsof -ti:$PORT 2>/dev/null || pgrep -f "companion_server_full_mac" | tail -1 || true)
-    if [[ -n "$pid" ]]; then
-        echo "$pid" > "$PID_FILE"
-    fi
 
-    # Attendre que le serveur soit prêt (max 45s)
     echo -n "   Attente du démarrage"
     for i in $(seq 1 45); do
         sleep 1
         echo -n "."
+        local pid=$(find_server_pid)
+        if [[ -n "$pid" ]]; then
+            echo "$pid" > "$PID_FILE"
+        fi
         if grep -q "Application startup complete" "$LOG" 2>/dev/null; then
             echo ""
-            echo "${GREEN}✅ Serveur opérationnel (PID $pid)${NC}"
+            echo "${GREEN}✅ Serveur compagnon opérationnel (PID ${pid:-inconnu}) sur le port 8001${NC}"
             echo ""
-            # Afficher le mode ASR choisi
             if grep -q "Groq Whisper" "$LOG" 2>/dev/null; then
                 echo "${GREEN}   🚀 Mode ASR : Groq Whisper Large v3 Turbo (Cloud, < 300 ms)${NC}"
             elif grep -q "Modèle ASR local" "$LOG" 2>/dev/null; then
@@ -112,16 +108,10 @@ start_server() {
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             return 0
         fi
-        # Détecter une erreur fatale au démarrage
-        if ! kill -0 "$pid" 2>/dev/null; then
-            echo ""
-            echo "${RED}❌ Le serveur a planté au démarrage ! Consultez les logs :${NC}"
-            tail -20 "$LOG"
-            exit 1
-        fi
     done
+
     echo ""
-    echo "${YELLOW}⚠  Timeout 30s — le serveur est peut-être encore en cours de chargement.${NC}"
+    echo "${YELLOW}⚠  Timeout 45s — le serveur est peut-être encore en cours de chargement.${NC}"
     echo "   Consultez : tail -f $LOG"
 }
 

@@ -62,11 +62,12 @@ python3 code/dbot_next/scripts/test_jetson_direct_cloud.py
 └─────────────────────────────────────────────────────────────│─────┘
                                                               │
 ┌─────────────────────────────────────────────────────────────│─────┐
-│ MAC COMPAGNON (companion_server.py, Port 8001)              │     │
+│ MAC COMPAGNON (companion_server.py, Port 8001 / companion_server_tts_mac.py, Port 8002)
 │  ➔ Groq Cloud Whisper Large v3 Turbo (< 300 ms)             │←────┘
 │     (ou Fallback Faster-Whisper small CPU local ~900 ms)          │
 │  ➔ Gemini 2.0 Flash LLM Streaming (Cloud, premier token ~0 ms)    │
 │  ➔ Qwen3-TTS MLX VoiceDesign (GPU Metal 24 kHz, ~0 ms chunk)      │
+│     (Sécurisé : mx.metal.clear_cache(), gc.collect(), asyncio.Lock) │
 │  └─ WebSocket (paquets JSON audio base64 + texte) ──────────┐     │
 └─────────────────────────────────────────────────────────────│─────┘
                                                               │

@@ -37,7 +37,7 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 *Dépendances : Niveau 1 (Tête fonctionnelle) + OAK-D Pro FF*
 
 - [x] **Triade Visuelle Temps Réel & Fusion Spatiale 3D** : Inférence Zero-Shot YOLO-World v2 avec NMS multi-boîtes hiérarchique, classification multicolore et calcul tridimensionnel physique `[X, Y, Z]` (en mm) couplé à la stéréo DepthAI OAK-D Pro.
-- [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS (lissage de la carte de profondeur) et du nœud `SpatialLocationCalculator` pour le calcul d'alertes matérielles de danger ($Z < 500\text{ mm}$) à $< 5\text{ ms}$ sans charge CPU Jetson.
+- [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS (lissage de la carte de profondeur) et du nœud `SpatialLocationCalculator` pour le calcul d'alertes matérielles de danger (Z < 500 mm) à < 5 ms sans charge CPU Jetson.
 - [x] **Mappage Multilingue Français ➔ Anglais pour YOLO-World** : Prise en charge dynamique des prompts en Français avec traduction/correspondance automatique vers CLIP Anglais dans `yolo_world.py` (0 Mo RAM / 0% CPU).
 - [x] **Reconnaissance & Identification de Visages (`face_tracker.py`)** : Identification faciale nommée ultra-compacte (SCRFD 500M + MobileFaceNet ArcFace 512-dim) et persistance dans `known_faces.json`.
 - [x] **Inférence Active Gaze & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** : Inférence visuelle sémantique complexe via **NVIDIA Cosmos 3D Edge / LocateAnything-3B** **déportée sur le Mac M1 Max (64 Go)** pour l'orientation et le centrage du cou Pan/Tilt ("Regarde la tasse").
@@ -52,7 +52,7 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 *Dépendances : Niveau 0 (Réseau Hybride Mac ↔ Jetson) + ReSpeaker*
 
 - [x] **Pipeline Audio / Barge-In** : `audio_io_v2.py` non-bloquant et interruption instantanée en cas de parole utilisateur.
-- [ ] **Serveur TTS Streaming HD (Mac)** : Inférence Qwen3-TTS / F5-TTS déportée sur Mac (latence < 200 ms).
+- [x] **Serveur TTS Streaming HD (Mac)** : Inférence Qwen3-TTS VoiceDesign MLX 8-bit déportée sur Mac M1 Max (Port 8002 & Port 8001), streaming 24 kHz ultra-fluide avec vidange du cache Metal (`mx.metal.clear_cache()`), verrou de sécurité `asyncio.Lock` et latence perçue ~750 ms avec Groq Cloud ASR.
 - [ ] **Intégration API ElevenLabs Cloud (Mode Free Tier)** : Synthèse vocale Ultra-HD Cloud alternative (10 000 caractères/mois gratuits) via l'API ElevenLabs avec streaming WebSocket.
 - [ ] **Fallback Vocale Hors-Ligne (Jetson)** : Mode dégradé Kokoro-ONNX + Ollama local activé en cas d'interruption Wi-Fi > 2s (Heartbeat 5 Hz).
 
@@ -61,6 +61,6 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 ## 🔴 NIVEAU 4 : Cinématique Corps Complet, Dynamics & Imitation (En attente d'assemblage)
 *Dépendances : Assemblage mécanique du Torse/Membres + 2x Teensy 4.1 CAN FD*
 
-- [ ] **Compensation de Gravité `Pinocchio`** : Urdf D-Bot + injection de couple de gravité $G(q)$ via $\tau_{ff}$ du mode MIT Control sur les 27 moteurs RobStride.
+- [ ] **Compensation de Gravité `Pinocchio`** : Urdf D-Bot + injection de couple de gravité G(q) via tau_ff du mode MIT Control sur les 27 moteurs RobStride.
 - [ ] **Apprentissage par Imitation `LeRobot`** : Adaptation du framework Hugging Face pour l'enregistrement et l'exécution de politiques de manipulation autonome (*ACT / Diffusion Policy*).
 - [ ] **Extension Web UI Flotte Complète** : Supervision dynamique de l'ensemble des 27 moteurs CAN du robot.

@@ -4,7 +4,9 @@ import time
 import json
 import base64
 import asyncio
+import gc
 import numpy as np
+import mlx.core as mx
 import io
 
 # Configuration du PYTHONPATH pour importer la stack D-Bot
@@ -347,6 +349,11 @@ async def conversation_endpoint(websocket: WebSocket):
                 "type": "end_of_response"
             })
             print("✅ Cycle de réponse terminé.")
+            try:
+                mx.metal.clear_cache()
+            except Exception:
+                pass
+            gc.collect()
             
     except WebSocketDisconnect:
         pass
