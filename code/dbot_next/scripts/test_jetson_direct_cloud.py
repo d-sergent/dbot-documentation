@@ -77,10 +77,20 @@ class JetsonDirectCloudClient:
     def __init__(self, mac_ip: str, tts_port: int = 8002):
         self.mac_ip = mac_ip
         self.tts_port = tts_port
+        
+        # S'assurer que le .env est bien chargé
+        env_found = load_env_robust()
+        self.groq_key = os.environ.get("GROQ_API_KEY", "").strip()
+        self.gemini_key = os.environ.get("GEMINI_API_KEY", "").strip()
+        
+        if not self.groq_key:
+            print("⚠ [Jetson Direct] GROQ_API_KEY absente.")
+            print("   👉 Rappel : Le fichier `.env` est dans `.gitignore` (non synchronisé par Git).")
+            print("   👉 Créez le fichier `~/dbot/.env` sur la Jetson avec : GROQ_API_KEY=gsk_...\n")
+
         self.brain = DbotBrainStreaming()
         
         # Initialisation du client Groq ASR direct
-        self.groq_key = os.environ.get("GROQ_API_KEY", "")
         self.groq_client = None
         if self.groq_key:
             try:
@@ -88,7 +98,8 @@ class JetsonDirectCloudClient:
                 self.groq_client = Groq(api_key=self.groq_key)
                 print("✅ [ASR Direct Jetson] Groq Whisper Large v3 Turbo actif (< 300 ms)")
             except Exception as e:
-                print(f"⚠ [ASR Direct Jetson] Erreur init Groq : {e}")
+                print(f"⚠ [ASR Direct Jetson] Module groq non installé ou erreur : {e}")
+                print("   👉 Exécutez sur la Jetson : pip3 install groq httpx sniffio distro pydantic --no-deps")
 
         # Détection du sink haut-parleur ReSpeaker
         self.sink_name = self._find_respeaker_sink()
