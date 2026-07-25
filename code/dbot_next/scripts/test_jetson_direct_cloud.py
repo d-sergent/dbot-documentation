@@ -105,16 +105,40 @@ class JetsonDirectCloudClient:
         self.sink_name = self._find_respeaker_sink()
 
     def _find_respeaker_sink(self) -> str:
+        """Trouve le sink PulseAudio du ReSpeaker et active son amplificateur JST."""
+        sink_name = "alsa_output.usb-Seeed_Studio_reSpeaker_XVF3800_4-Mic_Array_114993701260500251-00.iec958-stereo"
         try:
             res = subprocess.run(["pactl", "list", "short", "sinks"], capture_output=True, text=True)
             for line in res.stdout.splitlines():
                 if any(k in line.lower() for k in ["respeaker", "xvf3800", "seeed"]):
                     parts = line.split()
                     if len(parts) >= 2:
-                        return parts[1]
+                        sink_name = parts[1]
+                        break
         except Exception:
             pass
-        return "alsa_output.usb-Seeed_Studio_reSpeaker_XVF3800_4-Mic_Array_114993701260500251-00.iec958-stereo"
+
+        # ─── Activation de l'ampli JST et du sink PulseAudio ───────────────────
+        # D'après doc : Annexes/jetson/audio/45_Configuration_Audio_ReSpeaker_XVF3800.md
+        # Cause connue : PulseAudio ne lève JAMAIS l'ampli JST automatiquement.
+        # Sans ces commandes, le haut-parleur JST reste muet quoi qu'il arrive.
+        print(f"🔊 [Client Audio Jetson] Init sink PulseAudio : {sink_name}")
+        cmds = [
+            ["pactl", "suspend-sink", sink_name, "0"],
+            ["pactl", "set-default-sink", sink_name],
+            ["pactl", "set-sink-mute", sink_name, "false"],
+            ["pactl", "set-sink-volume", sink_name, "100%"],
+            # Activer l'amplificateur JST (numid=3,4 = Switch ; numid=5,6 = Volume 60/100)
+            ["amixer", "-c", "0", "cset", "numid=3", "on"],
+            ["amixer", "-c", "0", "cset", "numid=4", "on"],
+            ["amixer", "-c", "0", "cset", "numid=5", "60"],
+            ["amixer", "-c", "0", "cset", "numid=6", "60"],
+        ]
+        for cmd in cmds:
+            subprocess.run(cmd, capture_output=True)
+        print("✅ [Client Audio Jetson] Amplificateur JST et sink PulseAudio activés.")
+
+        return sink_name
 
     def transcribe_audio_int16(self, audio_int16: np.ndarray) -> str:
         """Transcrit le buffer audio int16 en texte via Groq Cloud ASR Direct."""
