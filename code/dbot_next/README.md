@@ -8,17 +8,43 @@
 
 ```
 Code/dbot_next/
-├── companion_server.py                ← Serveur WebSocket Central (ASR + LLM + TTS)
-├── companion_setup_mac.sh             ← Script d'installation de l'environnement venv Mac
-├── audio/                             ← Moteur de capture streaming et VAD
-│   └── audio_io_streaming.py          ← Capture parecord/arecord stéréo ➔ mono 16kHz + VAD
-├── brain/                             ← Connecteurs LLM Streaming
-│   └── llm_client_streaming.py        ← Client Gemini 2.0 Flash avec streaming de tokens
-├── scripts/                           ← Utilities et scripts de gestion
-│   ├── start_companion_server.sh      ← Script d'administration Mac (--start, --restart, --stop, --status, --logs)
-│   └── test_companion_streaming.py    ← Boucle conversationnelle interactive autonome Jetson
-└── tts_server/                        ← Serveurs de synthèse spécifiques
-    └── server_qwen3_central.py        ← Serveur standalone Qwen3-TTS
+├── companion_server_full_mac.py       ← (Version A) Serveur All-in-One Mac (ASR + LLM + TTS, Port 8001)
+├── companion_server_tts_mac.py        ← (Version B - Action 1) Serveur TTS Seul Qwen3-TTS MLX (Port 8002)
+├── companion_setup_mac.sh             ← Script d'installation venv Mac
+├── audio/
+│   └── audio_io_streaming.py          ← Capture parecord/arecord 16kHz mono + VAD RMS
+├── brain/
+│   └── llm_client_streaming.py        ← Client Gemini 2.0 Flash Streaming
+└── scripts/
+    ├── start_companion_server.sh      ← Manager Mac pour Version A (Port 8001)
+    ├── start_companion_server_tts.sh  ← Manager Mac pour Version B TTS (Port 8002)
+    ├── test_companion_streaming.py    ← Client Jetson pour Version A (Port 8001)
+    └── test_jetson_direct_cloud.py    ← Client Jetson pour Version B Direct Cloud (Action 1)
+```
+
+---
+
+## 🏗️ Comparatif des Deux Architectures Available
+
+### Version A — Mac All-in-One (Historique, Port 8001)
+Toute la logique ASR, LLM et TTS est centralisée sur le Mac :
+```bash
+# Sur le Mac :
+./Code/dbot_next/scripts/start_companion_server.sh --restart
+
+# Sur la Jetson :
+python3 code/dbot_next/scripts/test_companion_streaming.py
+```
+
+### Version B — Jetson Direct Cloud (Action 1 - Nouvelle, Port 8002)
+La Jetson fait l'ASR (Groq) et le LLM (Gemini 2.0 Flash) en direct via Internet, et ne sollicite le Mac que pour le TTS Qwen3-TTS (Port 8002) :
+```bash
+# 1. Sur le Mac : Lancer le serveur TTS Seul sur le port 8002
+./Code/dbot_next/scripts/start_companion_server_tts.sh --restart
+
+# 2. Sur la Jetson : Lancer le client Direct Cloud
+export DBOT_MAC_IP="192.168.68.120"
+python3 code/dbot_next/scripts/test_jetson_direct_cloud.py
 ```
 
 ---

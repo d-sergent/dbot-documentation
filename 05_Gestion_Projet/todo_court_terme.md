@@ -42,11 +42,10 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
   - VAD logicielle RMS calibrée automatiquement au démarrage (seuil adaptatif 150 RMS min) + pre-roll 5 chunks.
   - Groq Cloud Whisper Large v3 Turbo (< 300 ms) + Faster-Whisper `small` CPU fallback (~900 ms) + Gemini 2.0 Flash LLM + Qwen3-TTS MLX GPU (M1 Max).
   - Bugs résolus : inspection WebSocket Starlette, double conversion stéréo/mono, VAD SDK instable, hallucinations Whisper, auto-interruption pendant la réponse du robot.
-- [x] **Optimisation Latence ASR & Script de Gestion Propre (`start_companion_server.sh`)** :
-  - Choix architectural de **Groq Cloud ASR** (Whisper Large v3 Turbo < 300 ms) privilégié par rapport à ElevenLabs Cloud en raison de son **Free Tier extrêmement élevé (7200 secondes d'audio/heure)** contre le quota restreint d'ElevenLabs (10k caractères/mois).
-  - Intégration bivalente via `GROQ_API_KEY` dans `.env` et fallback local **Faster-Whisper `small`** (~900 ms).
-  - Profiling multi-étapes horodaté intégré et script d'administration `./Code/dbot_next/scripts/start_companion_server.sh` (`--start`, `--restart`, `--stop`, `--status`, `--logs`).
-  - Latence totale perçue réduite de 3676 ms à **1553 ms (Local)** / **~750 ms (Cloud Groq)** (-57.7% de latence).
+- [x] **Architecture Découplée "Jetson Direct Cloud" (Action 1 - Port 8002)** :
+  - **Côté Mac** : Serveur TTS ultra-léger `companion_server_tts_mac.py` (Port 8002) et script `start_companion_server_tts.sh`.
+  - **Côté Jetson** : Script `test_jetson_direct_cloud.py` exécutant ASR Groq et LLM Gemini 2.0 Flash en direct via Internet, et ne demandant que la synthèse vocale Qwen3-TTS au Mac sur le port 8002.
+  - **Conservation** : Conservation persistance de la version All-in-One Mac (`companion_server_full_mac.py`, Port 8001).
 - [ ] **Intégration API ElevenLabs Streaming (Optionnel)** : Ajouter le support d'ElevenLabs Cloud Streaming API (`stream=True`, latence < 300 ms pour le 1er chunk) comme alternative ultra-haute fidélité à Qwen3-TTS.
 - [ ] **Fallback Vocale Local (Jetson Orin Nano)** : Installer et configurer **Kokoro-ONNX** (`onnxruntime-gpu`) avec la voix française `ff_siwis` sur la Jetson pour assurer le secours hors-ligne en cas de déconnexion Wi-Fi > 2s.
 - [ ] **Heartbeat Watchdog (5 Hz)** : Valider la bascule automatique en mode dégradé (LLM local Ollama + Kokoro TTS) en cas d'interruption du signal Wi-Fi.

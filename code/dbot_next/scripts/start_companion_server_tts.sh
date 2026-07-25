@@ -1,32 +1,28 @@
 #!/bin/zsh
 # =============================================================================
-# start_companion_server.sh — Lancement propre du serveur compagnon D-Bot Mac
+# start_companion_server_tts.sh — Lancement du serveur TTS Mac (Port 8002)
 # =============================================================================
 # Usage :
-#   ./Code/dbot_next/scripts/start_companion_server.sh            # lancer
-#   ./Code/dbot_next/scripts/start_companion_server.sh --restart  # tuer + relancer
-#   ./Code/dbot_next/scripts/start_companion_server.sh --stop     # arrêter seulement
-#
-# Le serveur écoute sur le port 8001 (WebSocket /conversation)
-# Les logs sont disponibles dans /tmp/companion_server.log
+#   ./Code/dbot_next/scripts/start_companion_server_tts.sh            # lancer
+#   ./Code/dbot_next/scripts/start_companion_server_tts.sh --restart  # tuer + relancer
+#   ./Code/dbot_next/scripts/start_companion_server_tts.sh --stop     # arrêter seulement
+#   ./Code/dbot_next/scripts/start_companion_server_tts.sh --status   # état
+#   ./Code/dbot_next/scripts/start_companion_server_tts.sh --logs     # suive logs
 # =============================================================================
 
 PYTHON="/Users/davidsergent/.venvs/mlx-audio/bin/python"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE="$(cd "$SCRIPT_DIR/../../.." && pwd)"
-SERVER="$WORKSPACE/Code/dbot_next/companion_server.py"
-LOG="/tmp/companion_server.log"
-PID_FILE="/tmp/companion_server.pid"
+SERVER="$WORKSPACE/Code/dbot_next/companion_server_tts_mac.py"
+LOG="/tmp/companion_server_tts.log"
+PID_FILE="/tmp/companion_server_tts.pid"
+PORT=8002
 
-# ─── Couleurs ────────────────────────────────────────────────────────────────
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
 BLUE='\033[0;34m'; BOLD='\033[1m'; NC='\033[0m'
 
-echo "${BOLD}${BLUE}🤖 D-Bot Companion Server — Gestionnaire de démarrage${NC}"
+echo "${BOLD}${BLUE}🤖 D-Bot TTS Companion Server (Port $PORT) — Manager${NC}"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
-# ─── Fonctions ───────────────────────────────────────────────────────────────
-PORT=8001
 
 find_server_pid() {
     if [[ -f "$PID_FILE" ]]; then
@@ -42,10 +38,9 @@ find_server_pid() {
 stop_server() {
     local pid=$(find_server_pid)
     if [[ -n "$pid" ]]; then
-        echo "${YELLOW}⏹  Arrêt du serveur existant (PID $pid)...${NC}"
+        echo "${YELLOW}⏹  Arrêt du serveur TTS existant (PID $pid)...${NC}"
         kill "$pid" 2>/dev/null || true
         sleep 2
-        # Si toujours vivant → SIGKILL
         if kill -0 "$pid" 2>/dev/null; then
             kill -9 "$pid" 2>/dev/null || true
             echo "${RED}   → Forcé (SIGKILL)${NC}"
@@ -54,25 +49,23 @@ stop_server() {
         fi
         rm -f "$PID_FILE"
     else
-        echo "   (Aucun serveur en cours)."
+        echo "   (Aucun serveur TTS en cours)."
     fi
-    # Libérer le port 8001 si occupé
-    local port_pid=$(lsof -ti:8001 2>/dev/null | head -1 || true)
+    local port_pid=$(lsof -ti:$PORT 2>/dev/null | head -1 || true)
     if [[ -n "$port_pid" ]]; then
-        echo "${YELLOW}⚠  Port 8001 encore occupé (PID $port_pid), libération...${NC}"
+        echo "${YELLOW}⚠  Port $PORT occupé (PID $port_pid), libération...${NC}"
         kill -9 "$port_pid" 2>/dev/null || true
     fi
 }
 
 start_server() {
-    echo "${BLUE}▶  Démarrage du serveur...${NC}"
+    echo "${BLUE}▶  Démarrage du serveur TTS Mac sur le port $PORT...${NC}"
     echo "   Script  : $SERVER"
     echo "   Python  : $PYTHON"
     echo "   Log     : $LOG"
-    echo "   Port    : 8001"
+    echo "   Port    : $PORT"
     echo ""
 
-    # Vérifications préalables
     if [[ ! -f "$SERVER" ]]; then
         echo "${RED}❌ Fichier serveur introuvable : $SERVER${NC}"
         exit 1
@@ -82,29 +75,20 @@ start_server() {
         exit 1
     fi
 
-    # Lancement en arrière-plan avec export PYTHONUNBUFFERED=1 (macOS/zsh compatible)
     export PYTHONUNBUFFERED=1
     ( "$PYTHON" -u "$SERVER" > "$LOG" 2>&1 < /dev/null & )
-    local pid=$(lsof -ti:$PORT 2>/dev/null || pgrep -f "companion_server_full_mac" | tail -1 || true)
+    local pid=$(lsof -ti:$PORT 2>/dev/null || pgrep -f "companion_server_tts_mac" | tail -1 || true)
     if [[ -n "$pid" ]]; then
         echo "$pid" > "$PID_FILE"
     fi
 
-    # Attendre que le serveur soit prêt (max 45s)
     echo -n "   Attente du démarrage"
     for i in $(seq 1 45); do
         sleep 1
         echo -n "."
         if grep -q "Application startup complete" "$LOG" 2>/dev/null; then
             echo ""
-            echo "${GREEN}✅ Serveur opérationnel (PID $pid)${NC}"
-            echo ""
-            # Afficher le mode ASR choisi
-            if grep -q "Groq Whisper" "$LOG" 2>/dev/null; then
-                echo "${GREEN}   🚀 Mode ASR : Groq Whisper Large v3 Turbo (Cloud, < 300 ms)${NC}"
-            elif grep -q "Modèle ASR local" "$LOG" 2>/dev/null; then
-                echo "${YELLOW}   ⚡ Mode ASR : Faster-Whisper small (Local CPU)${NC}"
-            fi
+            echo "${GREEN}✅ Serveur TTS opérationnel (PID $pid) sur le port $PORT${NC}"
             echo ""
             echo "   Pour suivre les logs en direct :"
             echo "   ${BOLD}tail -f $LOG${NC}"
@@ -112,53 +96,49 @@ start_server() {
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             return 0
         fi
-        # Détecter une erreur fatale au démarrage
         if ! kill -0 "$pid" 2>/dev/null; then
             echo ""
-            echo "${RED}❌ Le serveur a planté au démarrage ! Consultez les logs :${NC}"
+            echo "${RED}❌ Le serveur TTS a planté au démarrage ! Consultez les logs :${NC}"
             tail -20 "$LOG"
             exit 1
         fi
     done
     echo ""
-    echo "${YELLOW}⚠  Timeout 30s — le serveur est peut-être encore en cours de chargement.${NC}"
-    echo "   Consultez : tail -f $LOG"
+    echo "${YELLOW}⚠  Timeout 45s — consultez : tail -f $LOG${NC}"
 }
 
-# ─── Traitement des arguments ─────────────────────────────────────────────────
 case "${1:-}" in
     --stop)
         stop_server
-        echo "${GREEN}✅ Serveur arrêté.${NC}"
+        echo "${GREEN}✅ Serveur TTS arrêté.${NC}"
         ;;
     --restart)
         stop_server
         echo ""
-        : > "$LOG"  # Rotation du log
+        : > "$LOG"
         start_server
         ;;
     --status)
         pid=$(find_server_pid)
         if [[ -n "$pid" ]]; then
-            echo "${GREEN}✅ Serveur en cours (PID $pid)${NC}"
+            echo "${GREEN}✅ Serveur TTS en cours (PID $pid) sur le port $PORT${NC}"
             echo "   Dernières lignes du log :"
             tail -5 "$LOG"
         else
-            echo "${RED}⏹  Serveur arrêté.${NC}"
+            echo "${RED}⏹  Serveur TTS arrêté.${NC}"
         fi
         ;;
     --logs)
         tail -f "$LOG"
         ;;
     "")
-        # Lancement normal : vérifier si déjà en cours
         pid=$(find_server_pid)
         if [[ -n "$pid" ]]; then
-            echo "${YELLOW}⚠  Un serveur est déjà en cours (PID $pid).${NC}"
+            echo "${YELLOW}⚠  Un serveur TTS est déjà en cours (PID $pid).${NC}"
             echo "   Utilisez --restart pour le relancer, ou --status pour vérifier."
             exit 0
         fi
-        : > "$LOG"  # Rotation du log au démarrage propre
+        : > "$LOG"
         start_server
         ;;
     *)
