@@ -172,40 +172,82 @@ class JetsonEdgeCloudClient:
             print("⚠ [ASR Direct Jetson] Clé GROQ_API_KEY absente.")
             return ""
 
+    def _convert_mp3_to_wav(self, mp3_path: str, wav_path: str) -> bool:
+        """Convertit un fichier MP3 Edge-TTS en WAV 24kHz mono pour paplay."""
+        # 1. ffmpeg
+        try:
+            res = subprocess.run(
+                ["ffmpeg", "-y", "-i", mp3_path, "-ar", "24000", "-ac", "1", wav_path],
+                capture_output=True, text=True
+            )
+            if res.returncode == 0 and os.path.exists(wav_path) and os.path.getsize(wav_path) > 0:
+                return True
+        except Exception:
+            pass
+
+        # 2. mpg123
+        try:
+            res = subprocess.run(["mpg123", "-w", wav_path, mp3_path], capture_output=True, text=True)
+            if res.returncode == 0 and os.path.exists(wav_path) and os.path.getsize(wav_path) > 0:
+                return True
+        except Exception:
+            pass
+
+        # 3. sox
+        try:
+            res = subprocess.run(["sox", mp3_path, "-r", "24000", "-c", "1", wav_path], capture_output=True, text=True)
+            if res.returncode == 0 and os.path.exists(wav_path) and os.path.getsize(wav_path) > 0:
+                return True
+        except Exception:
+            pass
+
+        return False
+
     def speak_text_sync(self, text: str):
         """Synthétise la phrase via Microsoft Edge-TTS (HenriNeural) et la joue. Appel synchrone."""
         asyncio.run(self._speak_text_edge_async(text))
 
     async def _speak_text_edge_async(self, text: str):
-        """Génère l'audio Edge-TTS en streaming et le joue sur le haut-parleur ReSpeaker."""
+        """Génère l'audio Edge-TTS, le convertit en WAV 24kHz et le joue sur ReSpeaker."""
         import edge_tts
 
-        out_file = tempfile.NamedTemporaryFile(suffix=".mp3", delete=False).name
+        mp3_path = tempfile.NamedTemporaryFile(suffix=".mp3", delete=False).name
+        wav_path = tempfile.NamedTemporaryFile(suffix=".wav", delete=False).name
+
         try:
             t0 = time.time()
             communicate = edge_tts.Communicate(text, self.voice_id)
-            await communicate.save(out_file)
+            await communicate.save(mp3_path)
             dt_tts_ms = (time.time() - t0) * 1000
 
             print(f"⏱️  [PROFILING] Edge-TTS ({self.voice_id}) : {dt_tts_ms:.0f} ms")
+
+            # Conversion MP3 -> WAV (paplay PulseAudio n'accepte pas le MP3 brut)
+            converted = self._convert_mp3_to_wav(mp3_path, wav_path)
+            play_file = wav_path if converted else mp3_path
+
             print(f"🔊 [Client Audio Jetson] Joue la réponse sur ReSpeaker...")
 
             # Essai 1 : paplay avec le sink ReSpeaker spécifié
-            cmd = ["paplay", f"--device={self.sink_name}", out_file]
+            cmd = ["paplay", f"--device={self.sink_name}", play_file]
             res = subprocess.run(cmd, capture_output=True, text=True)
             
             if res.returncode != 0:
                 # Essai 2 : paplay sur sink par défaut
-                subprocess.run(["paplay", out_file], capture_output=True)
+                res2 = subprocess.run(["paplay", play_file], capture_output=True, text=True)
+                if res2.returncode != 0:
+                    # Essai 3 : aplay direct si WAV
+                    subprocess.run(["aplay", "-D", "default", play_file], capture_output=True)
 
         except Exception as e:
             print(f"⚠ [Edge-TTS Jetson] Erreur de synthèse ou de lecture : {e}")
         finally:
-            if os.path.exists(out_file):
-                try:
-                    os.remove(out_file)
-                except Exception:
-                    pass
+            for p in [mp3_path, wav_path]:
+                if os.path.exists(p):
+                    try:
+                        os.remove(p)
+                    except Exception:
+                        pass
 
 
 def main():
