@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" width="100%" height="100%">
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.8"/>
+    </pattern>
+    <linearGradient id="battery" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <text x="380" y="28" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+    SYSTÈME BATTERIES D-BOT — 2 PANIERS LATÉRAUX HOT-SWAP (VUE DE DESSUS)
+  </text>
+
+  <g transform="translate(60, 50)">
+    <rect width="640" height="220" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+
+    <!-- Labels DOS vs VENTRE -->
+    <text x="70" y="30" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">DOS (Insertion Hot-Swap) ⇦</text>
+    <text x="570" y="30" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">VENTRE ➔</text>
+
+    <!-- Central Isogrid Spine Plate -->
+    <rect x="70" y="100" width="500" height="16" rx="2" fill="#475569" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="320" y="112" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Plaque Isogrid Sagittale (5 mm)</text>
+
+    <!-- Left Battery Pack Sliding -->
+    <rect x="140" y="45" width="160" height="45" rx="4" fill="url(#battery)" stroke="#60a5fa" stroke-width="1.5"/>
+    <text x="220" y="72" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Batterie Gauche (12S 5Ah)</text>
+    <!-- Arrow Left -->
+    <path d="M 120 67 L 70 67 M 80 60 L 70 67 L 80 74" stroke="#f59e0b" stroke-width="2" fill="none"/>
+
+    <!-- Right Battery Pack Sliding -->
+    <rect x="140" y="125" width="160" height="45" rx="4" fill="url(#battery)" stroke="#60a5fa" stroke-width="1.5"/>
+    <text x="220" y="152" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Batterie Droite (12S 5Ah)</text>
+    <!-- Arrow Right -->
+    <path d="M 120 147 L 70 147 M 80 140 L 70 147 L 80 154" stroke="#f59e0b" stroke-width="2" fill="none"/>
+  </g>
+</svg>

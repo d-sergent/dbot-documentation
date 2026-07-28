@@ -95,6 +95,7 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 ## 🎯 BLOCK 4 : Cinématique Inverse, Dynamics Pinocchio & LeRobot (Bras & Corps)
 
 - [ ] **SDK Python `Motorbridge` & Contrôle MIT** : Valider les trames de commande MIT (Kp, Kd, theta, dtheta, tau_ff) et la lecture continue de la télémétrie sur les bus CAN 1 Mbps.
+- [x] **Prototypage 3D & Recuit Thermique (Sunlu FilaDryer E2)** : Protocole de fabrication des brackets d'épaule (RS-04/RS-03/RS-02) sur Qidi Plus 4 en PETG-CF / PA12-CF / PPA-CF, métrologie de séchage/recuit au Sunlu E2 (110°C) et formalisation dans [11_Prototypage_Mecanique_et_Recuit_Sunlu_E2.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/Outils_de_Travail/impression_3d/11_Prototypage_Mecanique_et_Recuit_Sunlu_E2.md).
 - [ ] **Calibration Zero-Offset** : Exécuter la procédure d'alignement zéro des encodeurs absolus 14-bit des articulations.
 - [ ] **Moteur Dynamique `Pinocchio` (INRIA/LAAS)** :
   - Charger l'URDF complet de D-Bot sous `Pinocchio` sur la Jetson et le Mac.

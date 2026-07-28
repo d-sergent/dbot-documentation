@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.8"/>
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="aluGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#718096"/>
+      <stop offset="50%" stop-color="#4a5568"/>
+      <stop offset="100%" stop-color="#2d3748"/>
+    </linearGradient>
+
+    <linearGradient id="carbonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1a202c"/>
+      <stop offset="25%" stop-color="#2d3748"/>
+      <stop offset="50%" stop-color="#1a202c"/>
+      <stop offset="75%" stop-color="#2d3748"/>
+      <stop offset="100%" stop-color="#1a202c"/>
+    </linearGradient>
+
+    <linearGradient id="motorGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#dd6b20"/>
+      <stop offset="100%" stop-color="#9b2c2c"/>
+    </linearGradient>
+
+    <linearGradient id="batteryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3182ce"/>
+      <stop offset="100%" stop-color="#1a365d"/>
+    </linearGradient>
+
+    <linearGradient id="shellGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4a5568" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#1a202c" stop-opacity="0.4"/>
+    </linearGradient>
+
+    <!-- Isogrid Pattern -->
+    <pattern id="isogridPattern" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 0 15 L 15 0 L 30 15 L 15 30 Z" fill="none" stroke="#cbd5e0" stroke-width="1" stroke-opacity="0.4"/>
+      <line x1="0" y1="15" x2="30" y2="15" stroke="#cbd5e0" stroke-width="0.8" stroke-opacity="0.3"/>
+      <line x1="15" y1="0" x2="15" y2="30" stroke="#cbd5e0" stroke-width="0.8" stroke-opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="460" y="32" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" letter-spacing="1">
+    ARCHITECTURE D-BOT — STRUCTURE CRUCIFORME DU TORSE (V1.x)
+  </text>
+
+  <!-- ==================== VUE DE FACE (LEFT PANEL) ==================== -->
+  <g transform="translate(20, 50)">
+    <!-- Container Box -->
+    <rect width="470" height="540" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="235" y="30" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+      📐 VUE DE FACE (Plan Frontal)
+    </text>
+
+    <!-- Torso Outer Contour (Dotted Ghost Shell) -->
+    <path d="M 90 90 C 90 60, 380 60, 380 90 L 410 240 C 420 340, 390 440, 350 470 L 120 470 C 80 440, 50 340, 60 240 Z" 
+          fill="url(#shellGradient)" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="415" y="220" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10" font-style="italic">Coque PA12-CF</text>
+
+    <!-- 1. Plaque Alu Supérieure (Cou) -->
+    <rect x="175" y="70" width="120" height="16" rx="3" fill="url(#aluGradient)" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="235" y="82" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Plaque Cou (Alu 5mm)</text>
+
+    <!-- 2. Traverse Carbone Ø30mm -->
+    <rect x="95" y="125" width="280" height="26" rx="13" fill="url(#carbonGradient)" stroke="#00f2fe" stroke-width="1.5"/>
+    <text x="235" y="142" fill="#00f2fe" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">
+      Tube Carbone Ø30mm (Traverse Épaules)
+    </text>
+
+    <!-- 3. Manchons Alu + RS-04 Épaules (Gauche & Droit) -->
+    <!-- Epaule Gauche -->
+    <rect x="45" y="105" width="50" height="65" rx="5" fill="url(#motorGradient)" stroke="#fbd38d" stroke-width="1.5"/>
+    <rect x="85" y="100" width="12" height="75" rx="2" fill="url(#aluGradient)" stroke="#cbd5e0" stroke-width="1"/>
+    <text x="70" y="137" fill="#ffffff" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">RS-04</text>
+    <text x="70" y="148" fill="#feebc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">120 Nm</text>
+    <text x="35" y="140" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="end">Épaule G</text>
+
+    <!-- Epaule Droite -->
+    <rect x="375" y="105" width="50" height="65" rx="5" fill="url(#motorGradient)" stroke="#fbd38d" stroke-width="1.5"/>
+    <rect x="373" y="100" width="12" height="75" rx="2" fill="url(#aluGradient)" stroke="#cbd5e0" stroke-width="1"/>
+    <text x="400" y="137" fill="#ffffff" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">RS-04</text>
+    <text x="400" y="148" fill="#feebc8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">120 Nm</text>
+    <text x="435" y="140" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="start">Épaule D</text>
+
+    <!-- 4. Plaque Isogrid Sagittale (Colonne Vertébrale centrale) -->
+    <!-- Verticall link Cou to Traverse -->
+    <line x1="235" y1="86" x2="235" y2="125" stroke="#e2e8f0" stroke-width="4"/>
+    
+    <!-- Central Isogrid Plate Body -->
+    <rect x="200" y="151" width="70" height="270" fill="url(#aluGradient)" stroke="#cbd5e0" stroke-width="1.5"/>
+    <rect x="202" y="153" width="66" height="266" fill="url(#isogridPattern)"/>
+    
+    <!-- Rib annotations -->
+    <line x1="235" y1="151" x2="235" y2="421" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,2"/>
+    <text x="235" y="275" fill="#ffffff" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" transform="rotate(-90 235 275)">
+      Plaque Isogrid Sagittale (Alu 5mm)
+    </text>
+
+    <!-- 5. Plaque Inférieure (Waist Plate) -->
+    <rect x="135" y="421" width="200" height="20" rx="3" fill="url(#aluGradient)" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="235" y="435" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Waist Plate Inférieure (Alu 6mm)</text>
+
+    <!-- 6. Moteur RS-06 Waist Yaw -->
+    <rect x="185" y="441" width="100" height="45" rx="4" fill="url(#motorGradient)" stroke="#fbd38d" stroke-width="1.5"/>
+    <text x="235" y="462" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">RS-06 (Waist Yaw)</text>
+    <text x="235" y="475" fill="#feebc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">36 Nm Peak / ID 21</text>
+
+    <!-- Effort Arrows -->
+    <path d="M 235 486 L 235 515 M 230 510 L 235 520 L 240 510" stroke="#f59e0b" stroke-width="2" fill="none"/>
+    <text x="235" y="530" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Vers Pelvis / Hanche</text>
+
+    <!-- Dimensions & Callouts -->
+    <line x1="95" y1="165" x2="375" y2="165" stroke="#38bdf8" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="235" y="180" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Largeur Entraxe Épaules : ~378 mm</text>
+  </g>
+
+  <!-- ==================== VUE DE DESSUS (RIGHT TOP PANEL) ==================== -->
+  <g transform="translate(510, 50)">
+    <rect width="390" height="300" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="195" y="28" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+      📐 VUE DE DESSUS (Plan Transversal)
+    </text>
+
+    <!-- Torso Section Outline (Outer Shell) -->
+    <path d="M 70 80 C 130 55, 260 55, 320 80 C 360 140, 360 220, 320 260 C 260 280, 130 280, 70 260 C 30 220, 30 140, 70 80 Z" 
+          fill="url(#shellGradient)" stroke="#64748b" stroke-width="1.5"/>
+    
+    <!-- Orientations Labels -->
+    <text x="195" y="72" fill="#cbd5e0" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">DOS (Ouverture arrière)</text>
+    <text x="195" y="272" fill="#cbd5e0" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">VENTRE (Face avant)</text>
+
+    <!-- Central Isogrid Plate (Sagittal axis) -->
+    <rect x="190" y="80" width="10" height="175" fill="url(#aluGradient)" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="185" y="165" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="end" transform="rotate(-90 185 165)">
+      Plaque Isogrid (5mm)
+    </text>
+
+    <!-- Left & Right Battery Packs -->
+    <!-- Panier Batterie Gauche -->
+    <rect x="85" y="115" width="80" height="100" rx="4" fill="url(#batteryGradient)" stroke="#63b3ed" stroke-width="1.5"/>
+    <text x="125" y="160" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Batterie G</text>
+    <text x="125" y="175" fill="#90cdf4" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Hot-Swap</text>
+
+    <!-- Panier Batterie Droit -->
+    <rect x="225" y="115" width="80" height="100" rx="4" fill="url(#batteryGradient)" stroke="#63b3ed" stroke-width="1.5"/>
+    <text x="265" y="160" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Batterie D</text>
+    <text x="265" y="175" fill="#90cdf4" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">Hot-Swap</text>
+  </g>
+
+  <!-- ==================== LEGEND (RIGHT BOTTOM PANEL) ==================== -->
+  <g transform="translate(510, 370)">
+    <rect width="390" height="220" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="195" y="25" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">
+      🔑 LÉGENDE &amp; SPÉCIFICATIONS TECHNIQUES
+    </text>
+
+    <!-- Item 1: Alu 6061-T6 -->
+    <rect x="25" y="45" width="20" height="14" rx="2" fill="url(#aluGradient)" stroke="#cbd5e0" stroke-width="1"/>
+    <text x="55" y="56" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="10">
+      <tspan font-weight="bold">Aluminium 6061-T6 :</tspan> Plaques (5-6mm) &amp; Manchons Épaules
+    </text>
+
+    <!-- Item 2: Tube Carbone -->
+    <rect x="25" y="75" width="20" height="14" rx="2" fill="url(#carbonGradient)" stroke="#00f2fe" stroke-width="1"/>
+    <text x="55" y="86" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="10">
+      <tspan font-weight="bold">Tube Carbone Ø30mm :</tspan> Traverse rigide inter-épaules
+    </text>
+
+    <!-- Item 3: Moteurs RS -->
+    <rect x="25" y="105" width="20" height="14" rx="2" fill="url(#motorGradient)" stroke="#fbd38d" stroke-width="1"/>
+    <text x="55" y="116" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="10">
+      <tspan font-weight="bold">Actionneurs QDD :</tspan> 2× RS-04 (Épaules) + 1× RS-06 (Waist Yaw)
+    </text>
+
+    <!-- Item 4: Batteries -->
+    <rect x="25" y="135" width="20" height="14" rx="2" fill="url(#batteryGradient)" stroke="#63b3ed" stroke-width="1"/>
+    <text x="55" y="146" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="10">
+      <tspan font-weight="bold">Énergie :</tspan> 2× Pack Batterie 12S latéraux (Extrayables)
+    </text>
+
+    <!-- Item 5: Coque PA12-CF -->
+    <rect x="25" y="165" width="20" height="14" rx="2" fill="url(#shellGradient)" stroke="#64748b" stroke-width="1" stroke-dasharray="3,2"/>
+    <text x="55" y="176" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="10">
+      <tspan font-weight="bold">Coque PA12-CF :</tspan> Peau externe bionique (Impression FDM debout)
+    </text>
+
+    <!-- Summary Footnote -->
+    <text x="195" y="205" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">
+      ⚡ Rigidité Pitch ×28 | Torsion Yaw ×6 | Reprise des charges 100% métallique
+    </text>
+  </g>
+</svg>

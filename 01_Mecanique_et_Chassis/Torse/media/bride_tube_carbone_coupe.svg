@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" width="100%" height="100%">
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.8"/>
+    </pattern>
+
+    <linearGradient id="carbonWall" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <linearGradient id="plugAlu" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+
+    <linearGradient id="carterAlu" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cbd5e0"/>
+      <stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="400" y="28" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+    COUPE LONGITUDINALE A-A — DÉTAIL INTERNE ANCRAGE CARBONE / CARTER ALU
+  </text>
+
+  <g transform="translate(40, 50)">
+    <rect width="720" height="270" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+
+    <!-- Center Line Axis -->
+    <line x1="20" y1="135" x2="700" y2="135" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="8,4"/>
+
+    <!-- Carter Monobloc Rear Socket (Alu) -->
+    <!-- Top Carter Socket Wall -->
+    <rect x="360" y="55" width="280" height="25" fill="url(#carterAlu)" stroke="#e2e8f0" stroke-width="1"/>
+    <!-- Flange 6mm -->
+    <rect x="640" y="30" width="25" height="210" fill="url(#carterAlu)" stroke="#e2e8f0" stroke-width="1"/>
+    <!-- Bottom Carter Socket Wall -->
+    <rect x="360" y="190" width="280" height="25" fill="url(#carterAlu)" stroke="#e2e8f0" stroke-width="1"/>
+
+    <!-- Tube Carbone Outer Wall Ø30mm (Ext 30mm, Int 26mm, Wall 2mm) -->
+    <!-- Top Carbon Wall -->
+    <rect x="60" y="80" width="400" height="15" fill="url(#carbonWall)" stroke="#00f2fe" stroke-width="1"/>
+    <!-- Bottom Carbon Wall -->
+    <rect x="60" y="175" width="400" height="15" fill="url(#carbonWall)" stroke="#00f2fe" stroke-width="1"/>
+
+    <!-- Aluminum Inner Reinforcement Plug Ø26mm x 30mm (Ext 26mm, Int 18mm) -->
+    <!-- Top Plug Wall -->
+    <rect x="220" y="95" width="230" height="15" fill="url(#plugAlu)" stroke="#94a3b8" stroke-width="1"/>
+    <!-- Hollow Center -->
+    <!-- Bottom Plug Wall -->
+    <rect x="220" y="160" width="230" height="15" fill="url(#plugAlu)" stroke="#94a3b8" stroke-width="1"/>
+
+    <!-- Pin Vertical Hole & Pin Ø3mm x 35mm (Red-Brown Steel) -->
+    <rect x="390" y="20" width="16" height="230" rx="3" fill="#ef4444" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="398" y="12" fill="#ef4444" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Goupille Ø3mm</text>
+
+    <!-- Annotations & Dimension Lines -->
+    <!-- 12mm distance from entry -->
+    <line x1="398" y1="25" x2="460" y2="25" stroke="#f59e0b" stroke-width="1"/>
+    <text x="429" y="18" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="8" font-weight="bold" text-anchor="middle">12 mm</text>
+
+    <!-- Carbon Tube Callout -->
+    <text x="140" y="65" fill="#00f2fe" font-family="system-ui, sans-serif" font-size="9" font-weight="bold">Tube Carbone Ø30mm (Paroi 2mm)</text>
+    <!-- Plug Callout -->
+    <text x="240" y="130" fill="#cbd5e0" font-family="system-ui, sans-serif" font-size="9" font-weight="bold">Bouchon Alu Ø26mm (Creux Ø18mm)</text>
+    <!-- Carter Socket Callout -->
+    <text x="480" y="45" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="9" font-weight="bold">Socket Carter Alu (Ø30.05mm H7)</text>
+    <text x="652" y="25" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Flasque 6mm</text>
+  </g>
+</svg>

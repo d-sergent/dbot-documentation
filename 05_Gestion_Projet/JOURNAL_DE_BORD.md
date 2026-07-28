@@ -4,6 +4,36 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 
 ---
 
+## 📅 2026-07-28 — Refonte de la Structure Cruciforme du Torse (Carter Monobloc Alu, Colonne Sagittale Isogrid 5mm & Schémas SVG Vectoriels)
+
+### 🎯 Objectif de la session
+1. **Refonte du carter d'épaule RS-04** : Remplacer l'ancien manchon arrière à lip intérieur par un carter monobloc CNC Alu 6061-T6 à insertion frontale (Front-Loading), cerclage 360°, flasque arrière de 6 mm et socket pour tube carbone Ø30 mm.
+2. **Normalisation des schémas techniques (`AGENTS.md`)** : Interdire les schémas ASCII et Mermaid pour la mécanique, imposer la génération systématique de blueprints vectoriels SVG haute qualité dans `./media/` et supprimer la syntaxe LaTeX dans les textes.
+3. **Dimensionnement & Validation de la colonne vertébrale** : Réaliser l'étude mécanique de dimensionnement de la plaque sagittale Isogrid à partir des relevés CAO réels Fusion 360 v25 (86,5 mm au cou, 127,2 mm aux épaules, 127,7 mm à la taille).
+4. **Ingénierie des liaisons d'assemblage** : Résoudre les fixations haute/basse (équerres L-Brackets en sandwich) et le nœud d'intersection cruciforme (bride 2 pièces Mâle/Femelle avec centrage par fût Ø38 mm et manchons 360° haut/bas).
+
+### 📝 Réalisations & Évolutions
+1. **Carter Monobloc d'Épaule (Option B Front-Loading)** :
+   * Validation de l'insertion frontale du moteur RobStride RS-04 par la face extérieure de l'épaule.
+   * Contact direct métal-métal 100% entre le stator et la flasque alu 6 mm pour une dissipation thermique maximale (~167 W/m.K) et l'absence de fluage sous précharge des 8 vis CHC M5.
+2. **Génération de 10 Blueprints Vectoriels SVG dans `./media/`** :
+   * `structure_cruciforme.svg` (Vue de face et de dessus du squelette cruciforme).
+   * `motif_isogrid_diamant_45.svg` (Motif diamant ±45° avec coupe double-face symétrique en I).
+   * `bride_tube_carbone_eclatee.svg` & `bride_tube_carbone_eclatee_3d.png` (Vue éclatée coaxiale 2D et rendu 3D Isométrique).
+   * `bride_tube_carbone_coupe.svg` (Coupe longitudinale A-A du détail d'ancrage carbone/carter alu).
+   * `solution_liaison_embase_cou.svg` (L-Brackets en sandwich pour embase cou et waist plate).
+   * `noeud_intersection_cruciforme.svg` (Assemblage 2 pièces Mâle/Femelle avec centrage Ø38 mm et pincement 360°).
+3. **Création du document d'étude dédié ([ETUDE_Dimensionnement_Colonne_Vertebrale.md](./01_Mecanique_et_Chassis/Torse/ETUDE_Dimensionnement_Colonne_Vertebrale.md))** :
+   * Validation de l'épaisseur de tôle brute de **5,0 mm** Alu 6061-T6 (poches 1,75 mm de chaque côté + voile résiduel 1,5 mm).
+   * Contrainte dynamique maximale à la base : **36,8 MPa** (marge de sécurité $S_f = 6.5$).
+   * Flèche globale au cou sous choc de 220 Nm : **~0.11 mm** (rigidité absolue).
+4. **Mise à jour des règles `AGENTS.md`** :
+   * Règle stricte imposant les schémas vectoriels SVG thématiques sombres dans `./media/`.
+   * Interdiction stricte de la syntaxe mathématique LaTeX dans tous les textes et documents markdown.
+5. **Mise à jour complète du Guide de Fabrication ([GUIDE_Fabrication_Torse_D-Bot_Hybride.md](./01_Mecanique_et_Chassis/Torse/GUIDE_Fabrication_Torse_D-Bot_Hybride.md))**.
+
+---
+
 ## 📅 2026-07-25 — Diagnostic & Résolution du Crash Mémoire Mac MLX (Port 8002) et Validation Architecture Direct Cloud
 
 ### 🎯 Objectif de la session
@@ -232,3 +262,33 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 
 ### 📌 Statut Général
 - **Discrimination Faciale & Regard Nominatif** : 100% Qualifiés et validés sur le terrain sur la Jetson Orin Nano GPU CUDA ! 🚀
+
+---
+
+## 📅 2026-07-27 — Stratégie de Prototypage Structurel 3D (Brackets Épaule RS-04/RS-03/RS-02) & Guide de Recuit Thermique (Sunlu FilaDryer E2)
+
+### 🎯 Objectif de la session
+1. Définir la stratégie de prototypage 3D pour les pièces de structure d'épaule (brackets RS-04 / RS-03 / RS-02) en remplacement temporaire de l'Aluminium 6061-T6 en attendant la livraison de la CNC C500 Networks.
+2. Valider l'utilisation du sécheur et recuiseur professionnel Sunlu FilaDryer E2 (110°C max) pour le séchage et le recuit thermique des pièces D-Bot.
+3. Répondre à l'étude spécifique sur le PETG-CF et l'intérêt d'un recuit thermique post-impression (polymère amorphe vs semi-cristallin PA12-CF/PPA-CF).
+4. Rédiger la documentation de référence et mettre à jour les guides d'impression.
+
+### 📝 Réalisations & Évolutions
+1. **Choix et Qualification des Filaments de Prototypage** :
+   - Qualification du **PA12-CF** (Nylon 12 + Carbone) comme choix N°1 pour les pièces à fort couple et chocs (résistance 90-115 MPa, léger, excellent comportement après recuit).
+   - Qualification du **PPA-CF** (Polyphthalamide + Carbone) comme choix N°2 pour les sollicitations maximales (résistance > 120-140 MPa, module proche de l'Alu 6061).
+   - Validation du **PETG-CF** pour le prototypage rapide à vide et la validation fonctionnelle complète de la chaîne de bout en bout (bus CAN 1 Mbps, alim 48V/12V, drivers et nodes ROS2, cinématique inverse et main D-Hand).
+2. **Paramètres de Tranchage & Précautions d'Assemblage** :
+   - Établissement des règles de slicing sur Qidi Plus 4 (6 à 8 parois minimum, remplissage gyroïde 50-75%, buse carbure de tungstène, chambre active à 50°C-65°C).
+   - Recommandations d'assemblage (vis traversantes avec écrous nylostop / inserts Ruthex à chaud) et bridage logiciel du couple (`Max Torque` limité à 20-30% sous ROS2/firmware pour protéger le polymère de l'échauffement des stators).
+3. **Étude du Recuit & Qualification du Sunlu FilaDryer E2** :
+   - Formalisation des spécifications du Sunlu FilaDryer E2 (température jusqu'à 110°C, fonctions duales séchage et recuit).
+   - Définition du protocole de séchage pré-impression pour filaments hygroscopiques (80-90°C pendant 8-12h pour PA12-CF/PPA-CF ; 65°C pendant 6h pour PETG-CF).
+   - Définition du protocole de recuit thermique (90-100°C pendant 2-4h) pour PA12-CF/PPA-CF (gain de cohésion Z +20% à +30%, hausse HDT > 150°C-180°C).
+   - Démonstration physique de l'absence d'intérêt du recuit post-impression pour le PETG-CF (structure amorphe, ramollissement au-dessus de Tg 75°C, gain mécanique quasi nul).
+4. **Documentation & Guides de Référence** :
+   - Création du guide [11_Prototypage_Mecanique_et_Recuit_Sunlu_E2.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/Outils_de_Travail/impression_3d/11_Prototypage_Mecanique_et_Recuit_Sunlu_E2.md).
+   - Mise à jour du guide [09_Guide_Avance_Impression.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/Outils_de_Travail/impression_3d/09_Guide_Avance_Impression.md).
+
+### 📌 Statut Général
+- **Prototypage 3D Épaules & Recuit Sunlu E2** : Métrologie et protocoles 100% qualifiés et documentés ! 🚀

@@ -82,12 +82,15 @@ Pour appliquer ces réglages dans le slicer, suivez ces chemins d'accès précis
 Le recuit stabilise les molécules et augmente la rigidité (+30%). Profitez de la chambre chauffée de la Qidi Plus 4.
 
 ### Protocoles et Consignes
-| Matériau | Plateau / Chambre | Durée | Conseils |
+| Matériau | Plateau / Chambre (ou Sunlu E2) | Durée | Conseils |
 | :--- | :--- | :--- | :--- |
 | **eSUN PLA+** | 70°C / 60°C | 1h | Laisser les supports (Tree) pour éviter l'affaissement. |
 | **eSUN PLA-CF** | 80°C / 55°C | 2h | Haute rigidité structurelle. Très stable dimensionnellement. |
-| **PETG-CF** | 85°C / 60°C | 3h | Stable dimensionnellement. |
-| **PA12-CF** | 100°C / 65°C | 8h | **Refroidissement lent** (2h porte fermée) obligatoire. |
+| **PETG-CF** | 65°C (Séchage Sunlu E2) | 6h (Séchage) | **Pas de recuit post-impression** (polymère amorphe). Séchage pré-impression uniquement. |
+| **PA12-CF / PPA-CF** | 90°C - 100°C (Sunlu E2 / Chambre) | 4h à 8h | **Recuit fortement recommandé** pour cohésion Z (+30%) et HDT. Refroidissement lent obligatoire. |
+
+> [!NOTE]
+> Pour un guide détaillé sur l'utilisation du **Sunlu FilaDryer E2** (jusqu'à 110°C) et le prototypage mécanique des pièces de structure d'épaule/torse, consultez [11_Prototypage_Mecanique_et_Recuit_Sunlu_E2.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/Outils_de_Travail/impression_3d/11_Prototypage_Mecanique_et_Recuit_Sunlu_E2.md).
 
 > [!CAUTION]
 > **Inserts Ruthex** : Ne faites JAMAIS de recuit sur des pièces équipées d'inserts. Le plastique ramollirait et les inserts se décentreraient. **Recuit d'abord, inserts après.**

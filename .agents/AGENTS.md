@@ -21,4 +21,13 @@
   `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py"`
 
 ## Text Formatting & Unit Representation
-- **No LaTeX formatting for plain text measurements or units**: NEVER use LaTeX math syntax (such as `$0.5\text{ m}$`, `$500\text{ mm}$`, `$30\text{ FPS}$`, `$81^\circ$`, `$0^\circ \dots 359^\circ$`, `$$\Delta \theta$$`) in text responses, markdown documentation, artifacts (plans, walkthroughs), or code comments. ALWAYS write angles, ranges, measurements, formulas, and units in clean plain text (e.g. `0,5 m` or `0.5 m`, `500 mm`, `30 FPS`, `81°`, `0° à 359°`, `Delta_theta`).
+- **No LaTeX formatting for plain text measurements, formulas, or units**: NEVER use LaTeX math syntax (such as `$0.5\text{ m}$`, `$500\text{ mm}$`, `$M_{stat} \approx 110\text{ Nm}$`, `$36,8\text{ MPa}$`, `$$\Delta \theta$$`, `\text{...}`) in text responses, markdown documentation, artifacts (plans, walkthroughs), or code comments. ALWAYS write angles, ranges, measurements, formulas, variables, and units in clean plain text (e.g. `0.5 m`, `500 mm`, `M_stat ~ 110 Nm`, `36.8 MPa`, `Delta_theta`, `Sigma_max`).
+
+## Technical Diagrams & Schematics Generation
+- **Systematic High-Quality SVG Vector Blueprints**: Whenever a technical, mechanical, electrical, or architectural diagram/schematic is needed in documentation or markdown files, NEVER use ASCII art or basic graph flowcharts (like Mermaid) which lack spatial proportions and native preview support.
+- **SVG Generation Standard**: ALWAYS generate a dedicated, standalone SVG vector file in the local `./media/` directory (e.g. `./media/<diagram_name>.svg`) and embed it into markdown using `![Description](./media/<diagram_name>.svg)`.
+- **Design Specifications for SVG Schematics**:
+  - **Theme**: Dark technical blueprint aesthetic (`#0f172a` background canvas, `#1e293b` panel cards, subtle `#2a324b` grid background).
+  - **Layout**: Multi-panel view layout (e.g., Vue de Face / Vue de Dessus / Vue de Profil) with clear titles.
+  - **Visual Elements**: Color-coded material gradients (Aluminium, Tube Carbone, Moteurs QDD, Batteries), callout text, dimension lines, and a technical legend box.
+

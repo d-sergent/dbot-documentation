@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" width="100%" height="100%">
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.8"/>
+    </pattern>
+
+    <linearGradient id="aluGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="50%" stop-color="#64748b"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+
+    <linearGradient id="motorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#9a3412"/>
+    </linearGradient>
+
+    <linearGradient id="carbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <text x="400" y="28" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+    COUPE AXIALE REVISEÉ — CARTER MONOBLOC ALU CNC &amp; INSERTION RS-04 PAR L'AVANT
+  </text>
+
+  <g transform="translate(40, 45)">
+    <rect width="720" height="300" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+
+    <!-- Orientation Annotations -->
+    <text x="120" y="30" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">⇦ INTÉRIEUR TORSE (Vis M5 &amp; Tube Carbone)</text>
+    <text x="560" y="30" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">AVANT / EXTÉRIEUR (Insertion RS-04) ➔</text>
+
+    <!-- Carter Monobloc Alu 6061-T6 Structure (Wall 3mm + Rear Flange 6mm + Carbon Tube Socket) -->
+    <!-- Top Cylindrical Wall (3mm) -->
+    <rect x="260" y="55" width="280" height="20" fill="url(#aluGrad)" stroke="#cbd5e0" stroke-width="1"/>
+    <!-- Bottom Cylindrical Wall (3mm) -->
+    <rect x="260" y="215" width="280" height="20" fill="url(#aluGrad)" stroke="#cbd5e0" stroke-width="1"/>
+
+    <!-- Integrated Rear Flange (6mm) -->
+    <rect x="240" y="55" width="20" height="180" fill="url(#aluGrad)" stroke="#cbd5e0" stroke-width="1"/>
+    <text x="220" y="42" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Flasque Arrière Alu (6mm)</text>
+
+    <!-- Integrated Tube Carbone Ancrage Socket -->
+    <rect x="120" y="125" width="120" height="40" rx="4" fill="url(#aluGrad)" stroke="#cbd5e0" stroke-width="1"/>
+    <rect x="50" y="130" width="130" height="30" rx="15" fill="url(#carbonGrad)" stroke="#00f2fe" stroke-width="1.5"/>
+    <text x="110" y="149" fill="#00f2fe" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Tube Carbone Ø30mm</text>
+
+    <!-- RS-04 Motor (Inserted from Front / Right) -->
+    <rect x="260" y="75" width="270" height="140" fill="url(#motorGrad)" stroke="#ffedd5" stroke-width="1.5"/>
+    <text x="395" y="140" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">
+      Moteur RS-04 (Stator)
+    </text>
+    <text x="395" y="158" fill="#feebc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">
+      Contact 360° latéral + Face arrière Métal-Métal
+    </text>
+
+    <!-- Front Insertion Arrow (Glissement par l'extérieur) -->
+    <path d="M 640 145 L 540 145 M 550 138 L 540 145 L 550 152" stroke="#f59e0b" stroke-width="3" fill="none"/>
+    <text x="645" y="138" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="10" font-weight="bold">Insertion RS-04</text>
+    <text x="645" y="154" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="9">par l'extérieur (Front-Loading)</text>
+
+    <!-- Screws CHC M5 (Inserted from rear inside torso) -->
+    <!-- Top Screw M5 -->
+    <rect x="200" y="90" width="40" height="8" rx="2" fill="#ef4444" stroke="#ffffff" stroke-width="1"/>
+    <line x1="240" y1="94" x2="300" y2="94" stroke="#ef4444" stroke-width="2.5"/>
+    <!-- Bottom Screw M5 -->
+    <rect x="200" y="192" width="40" height="8" rx="2" fill="#ef4444" stroke="#ffffff" stroke-width="1"/>
+    <line x1="240" y1="196" x2="300" y2="196" stroke="#ef4444" stroke-width="2.5"/>
+
+    <text x="180" y="92" fill="#ef4444" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="end">Vis CHC M5 × 8</text>
+    <text x="180" y="103" fill="#ef4444" font-family="system-ui, sans-serif" font-size="8" text-anchor="end">(Appui sur Flasque Alu)</text>
+
+    <!-- PA12-CF Outer Shell Pocket (Dotted line around) -->
+    <rect x="235" y="45" width="310" height="200" rx="6" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="400" y="265" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10" font-style="italic" text-anchor="middle">
+      Poche cylindrique imprimée dans la coque PA12-CF (Enveloppe le Carter Alu)
+    </text>
+  </g>
+</svg>

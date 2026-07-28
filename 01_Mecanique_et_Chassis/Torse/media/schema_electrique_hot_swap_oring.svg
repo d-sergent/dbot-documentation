@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" width="100%" height="100%">
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.8"/>
+    </pattern>
+    <linearGradient id="bat" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#1e40af"/>
+    </linearGradient>
+    <linearGradient id="diode" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <text x="380" y="28" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+    SCHÉMA ÉLECTRIQUE HOT-SWAP (CIRCUIT D'OR-ING PAR DIODES SCHOTTKY MBR4060PT)
+  </text>
+
+  <!-- Left Battery Circuit -->
+  <g transform="translate(60, 50)">
+    <rect width="280" height="270" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="140" y="25" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">BATTERIE GAUCHE (12S 48V)</text>
+
+    <!-- Battery & BMS Block -->
+    <rect x="50" y="45" width="180" height="40" rx="4" fill="url(#bat)" stroke="#60a5fa" stroke-width="1"/>
+    <text x="140" y="70" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">BMS G (12S, 20A)</text>
+
+    <line x1="140" y1="85" x2="140" y2="120" stroke="#f59e0b" stroke-width="2"/>
+
+    <!-- Schottky Diode D1 -->
+    <rect x="50" y="120" width="180" height="50" rx="4" fill="url(#diode)" stroke="#fcd34d" stroke-width="1"/>
+    <text x="140" y="142" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Diode Schottky D1 (MBR4060PT)</text>
+    <text x="140" y="157" fill="#feebc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">40A, 60V, V_fwd ≈ 0.45V</text>
+
+    <line x1="140" y1="170" x2="140" y2="230" stroke="#f59e0b" stroke-width="2"/>
+    <line x1="140" y1="230" x2="280" y2="230" stroke="#f59e0b" stroke-width="3"/>
+  </g>
+
+  <!-- Right Battery Circuit -->
+  <g transform="translate(420, 50)">
+    <rect width="280" height="270" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="140" y="25" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">BATTERIE DROITE (12S 48V)</text>
+
+    <!-- Battery & BMS Block -->
+    <rect x="50" y="45" width="180" height="40" rx="4" fill="url(#bat)" stroke="#60a5fa" stroke-width="1"/>
+    <text x="140" y="70" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">BMS D (12S, 20A)</text>
+
+    <line x1="140" y1="85" x2="140" y2="120" stroke="#f59e0b" stroke-width="2"/>
+
+    <!-- Schottky Diode D2 -->
+    <rect x="50" y="120" width="180" height="50" rx="4" fill="url(#diode)" stroke="#fcd34d" stroke-width="1"/>
+    <text x="140" y="142" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Diode Schottky D2 (MBR4060PT)</text>
+    <text x="140" y="157" fill="#feebc8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">40A, 60V, V_fwd ≈ 0.45V</text>
+
+    <line x1="140" y1="170" x2="140" y2="230" stroke="#f59e0b" stroke-width="2"/>
+    <line x1="140" y1="230" x2="0" y2="230" stroke="#f59e0b" stroke-width="3"/>
+  </g>
+
+  <!-- Common Bus Output Fuse & Matek PDB Connection -->
+  <circle cx="380" cy="280" r="15" fill="#ef4444" stroke="#fca5a5" stroke-width="1.5"/>
+  <text x="380" y="284" fill="#ffffff" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Fusible 40A</text>
+  <text x="380" y="315" fill="#22c55e" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">BUS PRINCIPAL 48V (vers PDB Matek)</text>
+</svg>

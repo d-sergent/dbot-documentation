@@ -51,9 +51,9 @@ L'objectif de cette TODO est de réexploiter directement les 5 piliers technolog
 ---
 
 ### 📌 **Jalon 5 : Modèles CAO 3D & Protection Mécanique des Câbles**
-- [ ] **Inspection des Fichiers STEP sous Fusion 360 :**
-  - Importer `reBot_B601_RS_v1.0_20260625.step` dans Fusion 360.
-  - Vérifier les assemblages mécaniques des moteurs RobStride RS00 et RS06 (interfaces de fixation, ajustements H7, logements de roulements 6803ZZ).
+- [ ] **Inspection des Fichiers STEP sous Fusion 360 & Sourcing Brackets :**
+  - **RobStride RS-06** : Importer `reBot_B601_RS_v1.0_20260625.step` dans Fusion 360 pour s'inspirer directement du design des brackets, des interfaces de fixation, des ajustements H7 et de la reprise d'effort par roulements axiaux 6803ZZ / AXK.
+  - **RobStride RS-02 / RS-03** : Importer les fichiers STEP du projet **LeRobot / Berkeley Humanoid** (`bipedal_platform_no_arm.step`) pour adapter la géométrie des équerres/brackets et fixations directes cantilever.
 - [ ] **Guidage & Anti-Fatigue des Câbles Articulés :**
   - Récupérer le fichier 3D `RS_Motor1_wiring_harness_clip.stp` (dossier `3D_Printed_Parts`).
   - Adapter ces clips de maintien imprimables (ABS) pour les connecteurs des moteurs de cou (RS-05) et de bras (RS-04/RS-00) de D-Bot afin d'éviter l'usure mécanique par flexion répétée.

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" width="100%" height="100%">
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.8"/>
+    </pattern>
+    <linearGradient id="carbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="aluNode" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <text x="380" y="28" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+    NŒUD D'INTERSECTION CNC — LIAISON TUBE CARBONE Ø30mm / PLAQUE ISOGRID
+  </text>
+
+  <!-- Left Shoulder Mount -->
+  <rect x="40" y="90" width="80" height="110" rx="6" fill="#ea580c" stroke="#ffedd5" stroke-width="1.5"/>
+  <text x="80" y="145" fill="#ffffff" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Épaule G (RS-04)</text>
+
+  <!-- Right Shoulder Mount -->
+  <rect x="640" y="90" width="80" height="110" rx="6" fill="#ea580c" stroke="#ffedd5" stroke-width="1.5"/>
+  <text x="680" y="145" fill="#ffffff" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Épaule D (RS-04)</text>
+
+  <!-- Tube Carbone Traversant -->
+  <rect x="120" y="130" width="520" height="30" rx="15" fill="url(#carbonGrad)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="240" y="150" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="10" font-weight="bold">Tube Carbone Ø30mm</text>
+
+  <!-- Central Node CNC Box -->
+  <rect x="330" y="95" width="100" height="100" rx="6" fill="url(#aluNode)" stroke="#cbd5e0" stroke-width="1.5"/>
+  <circle cx="380" cy="145" r="16" fill="none" stroke="#00f2fe" stroke-width="2" stroke-dasharray="4,2"/>
+  <text x="380" y="115" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Nœud CNC Alu</text>
+  <text x="380" y="185" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Pincement 4×M4</text>
+
+  <!-- Vertical Isogrid Plate Connection -->
+  <rect x="373" y="195" width="14" height="75" fill="#3b82f6" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="380" y="285" fill="#93c5fd" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Plaque Isogrid Sagittale (5 mm)</text>
+
+  <!-- Arrows -->
+  <line x1="380" y1="210" x2="380" y2="265" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,3"/>
+</svg>
