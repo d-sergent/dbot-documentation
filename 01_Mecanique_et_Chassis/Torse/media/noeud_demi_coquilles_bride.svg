@@ -1,0 +1,242 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%">
+  <defs>
+    <pattern id="gridF" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.7"/>
+    </pattern>
+    <linearGradient id="aluSG" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="45%" stop-color="#b0bec5"/>
+      <stop offset="100%" stop-color="#78909c"/>
+    </linearGradient>
+    <linearGradient id="aluIG" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#78909c"/>
+      <stop offset="55%" stop-color="#b0bec5"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <linearGradient id="platG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="carbG" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="35%" stop-color="#475569"/>
+      <stop offset="65%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <radialGradient id="visRG" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fde68a"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="680" fill="#0f172a"/>
+  <rect width="1200" height="680" fill="url(#gridF)"/>
+
+  <!-- TITLE -->
+  <text x="600" y="26" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="14" font-weight="bold" text-anchor="middle">NŒUD DEMI-COQUILLES — 4× M6 Traversant + Goupille Verticale (Axe Z) — Alu 6061-T6 CNC</text>
+  <text x="600" y="44" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10" text-anchor="middle">Tube Ø30mm TRANSVERSAL (axe X) · 4× M6 en rectangle · Goupille Ø4mm VERTICALE (Axe Z, 60mm traversant Sup→Tube→Inf)</text>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- PANNEAU GAUCHE : VUE EN COUPE Y-Z           -->
+  <!-- ════════════════════════════════════════════ -->
+  <g transform="translate(22, 58)">
+    <rect width="495" height="594" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="247" y="22" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">A. COUPE Y-Z — Tube sort de la page (⊙)</text>
+    <text x="247" y="36" fill="#64748b" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">Vue frontale — Goupille Ø4mm VERTICALE (Axe Z) traversant de Z=+30 à Z=-30mm</text>
+
+    <!-- Colonne Sup -->
+    <rect x="202" y="48" width="90" height="108" rx="2" fill="url(#platG)" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="247" y="94" fill="#0c1a2e" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">COLONNE SUP.</text>
+    <text x="247" y="106" fill="#0c1a2e" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">5 × 120mm</text>
+
+    <!-- Aile L Sup -->
+    <rect x="72" y="156" width="350" height="12" rx="2" fill="url(#aluSG)" stroke="#e2e8f0" stroke-width="1.2"/>
+    <text x="247" y="147" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Aile L — 4× M4 traversant + Nylstop</text>
+
+    <!-- Corps Bride Sup -->
+    <rect x="82" y="168" width="330" height="58" rx="3" fill="url(#aluSG)" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="135" y="186" fill="#0f172a" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">BRIDE SUP.</text>
+    <text x="135" y="197" fill="#1e3a5f" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Alu 6061-T6</text>
+
+    <!-- Demi-alésage Sup -->
+    <path d="M 225 226 A 22 22 0 0 1 269 226" fill="#1e293b" stroke="#00f2fe" stroke-width="1.5"/>
+
+    <!-- Plan de joint -->
+    <line x1="72" y1="226" x2="412" y2="226" stroke="#475569" stroke-width="1" stroke-dasharray="8,3"/>
+    <text x="57" y="229" fill="#475569" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Z=0</text>
+
+    <!-- TUBE -->
+    <circle cx="247" cy="226" r="22" fill="url(#carbG)" stroke="#00f2fe" stroke-width="2"/>
+    <circle cx="247" cy="226" r="19" fill="none" stroke="#334155" stroke-width="2"/>
+    <text x="175" y="229" fill="#00f2fe" font-family="system-ui,sans-serif" font-size="9" font-weight="bold">Tube Ø30 ⊙</text>
+
+    <!-- GOUPILLE VERTICALE (Axe Z) -->
+    <!-- Runs vertically through Bride Sup, Tube, Bride Inf from Z=+30 (y=168) to Z=-30 (y=284) -->
+    <line x1="247" y1="168" x2="247" y2="284" stroke="#ef4444" stroke-width="4.5"/>
+    <line x1="247" y1="168" x2="247" y2="284" stroke="#fca5a5" stroke-width="1.5" stroke-dasharray="4,2"/>
+
+    <!-- Annotations Goupille Z -->
+    <text x="260" y="180" fill="#ef4444" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">← Goupille Ø4mm (Axe Z, 60mm)</text>
+    <text x="260" y="192" fill="#ef4444" font-family="system-ui,sans-serif" font-size="7.5">15mm Alu Sup → 2mm CFRP</text>
+    <text x="260" y="202" fill="#ef4444" font-family="system-ui,sans-serif" font-size="7.5">→ 26mm Creux → 2mm CFRP</text>
+    <text x="260" y="212" fill="#ef4444" font-family="system-ui,sans-serif" font-size="7.5">→ 15mm Alu Inf</text>
+
+    <!-- Demi-alésage Inf -->
+    <path d="M 225 226 A 22 22 0 0 0 269 226" fill="#1e293b" stroke="#00f2fe" stroke-width="1.5"/>
+
+    <!-- Corps Bride Inf -->
+    <rect x="82" y="226" width="330" height="58" rx="3" fill="url(#aluIG)" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="135" y="255" fill="#0f172a" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">BRIDE INF.</text>
+    <text x="135" y="266" fill="#1e3a5f" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Alu 6061-T6 (Miroir)</text>
+
+    <!-- Aile L Inf -->
+    <rect x="72" y="284" width="350" height="12" rx="2" fill="url(#aluIG)" stroke="#e2e8f0" stroke-width="1.2"/>
+    <text x="247" y="309" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Aile L — 4× M4 traversant + Nylstop</text>
+
+    <!-- 4× M6 (coupe Y-Z : on voit les 2 côté DOS, les 2 côté VENTRE sont derrière) -->
+    <line x1="105" y1="160" x2="105" y2="296" stroke="#d97706" stroke-width="2.5"/>
+    <circle cx="105" cy="160" r="6" fill="url(#visRG)" stroke="#d97706" stroke-width="1.2"/>
+    <circle cx="105" cy="296" r="5" fill="#1e293b" stroke="#d97706" stroke-width="1.2"/>
+
+    <line x1="389" y1="160" x2="389" y2="296" stroke="#d97706" stroke-width="2.5"/>
+    <circle cx="389" cy="160" r="6" fill="url(#visRG)" stroke="#d97706" stroke-width="1.2"/>
+    <circle cx="389" cy="296" r="5" fill="#1e293b" stroke="#d97706" stroke-width="1.2"/>
+
+    <line x1="118" y1="162" x2="118" y2="294" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+    <line x1="376" y1="162" x2="376" y2="294" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+
+    <!-- Légende M6 -->
+    <text x="247" y="322" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">4× M6 traversant + Nylstop (2 DOS + 2 VENTRE)</text>
+
+    <!-- Colonne Inf -->
+    <rect x="202" y="296" width="90" height="125" rx="2" fill="url(#platG)" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="247" y="348" fill="#0c1a2e" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">COLONNE INF.</text>
+    <text x="247" y="360" fill="#0c1a2e" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">5 × 120mm</text>
+
+    <!-- Récapitulatif forces -->
+    <rect x="20" y="438" width="452" height="142" rx="6" fill="#0f172a" stroke="#4ade80" stroke-width="1.5"/>
+    <text x="246" y="455" fill="#4ade80" font-family="system-ui,sans-serif" font-size="10" font-weight="bold" text-anchor="middle">✅ Bilan de Serrage &amp; Perçage Z</text>
+    <text x="30" y="473" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Force requise (anti-glissement, µ=0.35, S_f=2.5) :</text>
+    <text x="440" y="473" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="end">~17 000 N</text>
+    <text x="30" y="489" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Force totale 4× M6 au couple (10 N.m) :</text>
+    <text x="440" y="489" fill="#4ade80" font-family="system-ui,sans-serif" font-size="10" font-weight="bold" text-anchor="end">58 000 N (S_f = ×3.4) ✅</text>
+    <line x1="30" y1="496" x2="462" y2="496" stroke="#334155" stroke-width="0.8"/>
+    <text x="30" y="511" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Perçage Goupille Nœud (Axe Z, Broche C500) :</text>
+    <text x="440" y="511" fill="#4ade80" font-family="system-ui,sans-serif" font-size="10" font-weight="bold" text-anchor="end">60 mm (3 axes direct) ✅</text>
+    <text x="30" y="527" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Goupille élastique inox Ø4mm × 60mm :</text>
+    <text x="440" y="527" fill="#4ade80" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="end">Double cisaillement S_f = ×6.3 ✅</text>
+    <text x="30" y="543" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Garde Z sur C500 (Course 128mm - 60mm) :</text>
+    <text x="440" y="543" fill="#4ade80" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="end">68 mm de garde ✅</text>
+    <text x="246" y="565" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">Perçage vertical direct en broche Z — Aucun 4ème axe requis pour le nœud</text>
+  </g>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- PANNEAU DROIT : VUE DE DESSUS X-Y           -->
+  <!-- ════════════════════════════════════════════ -->
+  <g transform="translate(538, 58)">
+    <rect width="637" height="594" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="318" y="22" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">B. VUE DE DESSUS — Plan X-Y (Bride Sup. vue du dessus)</text>
+    <text x="318" y="36" fill="#64748b" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">Tube portée 45mm (axe X) · Plaque 5mm centrée en X · Goupille Ø4mm en Z (point rouge centré à X=22.5, Y=60)</text>
+
+    <!-- Tube (vue de dessus = rectangle) -->
+    <rect x="25" y="135" width="580" height="32" rx="3" fill="url(#carbG)" stroke="#00f2fe" stroke-width="2"/>
+    <text x="315" y="154" fill="#00f2fe" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Tube Carbone Ø30mm — axe X (← 45mm portée bride →)</text>
+    <text x="12" y="154" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">← Épaule G</text>
+    <text x="590" y="154" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">Épaule D →</text>
+
+    <!-- Bride (vue de dessus : rectangle 45mm × 120mm) -->
+    <rect x="257" y="50" width="70" height="193" rx="4" fill="url(#aluSG)" stroke="#e2e8f0" stroke-width="1.5" opacity="0.9"/>
+
+    <!-- PLAQUE (5mm thick, in X, centered at X=292 = center of bride) -->
+    <rect x="285" y="50" width="14" height="193" rx="0" fill="url(#platG)" stroke="#7dd3fc" stroke-width="1.5" opacity="0.85"/>
+    <text x="292" y="100" fill="#0c1a2e" font-family="system-ui,sans-serif" font-size="7" text-anchor="middle" transform="rotate(-90,292,100)">Plaque 5mm</text>
+
+    <!-- Labels DOS / VENTRE -->
+    <text x="318" y="46" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">← DOS (Y=0)</text>
+    <text x="318" y="260" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">← VENTRE (Y=120mm)</text>
+
+    <!-- 4× VIS M6 -->
+    <circle cx="273" cy="66" r="7" fill="url(#visRG)" stroke="#d97706" stroke-width="1.5"/>
+    <circle cx="311" cy="66" r="7" fill="url(#visRG)" stroke="#d97706" stroke-width="1.5"/>
+    <circle cx="273" cy="227" r="7" fill="url(#visRG)" stroke="#d97706" stroke-width="1.5"/>
+    <circle cx="311" cy="227" r="7" fill="url(#visRG)" stroke="#d97706" stroke-width="1.5"/>
+
+    <text x="245" y="68" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">M6 DOS</text>
+    <text x="342" y="68" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">M6 DOS</text>
+    <text x="245" y="229" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">M6 VEN.</text>
+    <text x="342" y="229" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">M6 VEN.</text>
+
+    <!-- GOUPILLE VERTICALE EN VUE DE DESSUS = CERCLE ROUGE (Axe Z, traversant de haut en bas) -->
+    <!-- Positioned at center of tube (Y=151px in canvas) and slightly offset from center plate (X=273 or X=311, say X=311 next to plate or X=292 if drilled through plate tab) -->
+    <circle cx="292" cy="151" r="6" fill="#ef4444" stroke="#fca5a5" stroke-width="2"/>
+    <circle cx="292" cy="151" r="2" fill="#ffffff"/>
+
+    <line x1="292" y1="151" x2="430" y2="151" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="435" y="149" fill="#ef4444" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">← Goupille Ø4mm (Axe Z Vertical)</text>
+    <text x="435" y="160" fill="#ef4444" font-family="system-ui,sans-serif" font-size="7.5">Perçage 60mm de haut en bas (Bride Sup → Tube → Bride Inf)</text>
+
+    <!-- Cotations clés -->
+    <line x1="257" y1="38" x2="327" y2="38" stroke="#94a3b8" stroke-width="0.8"/>
+    <text x="292" y="34" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">Portée X = 45mm</text>
+
+    <line x1="340" y1="50" x2="360" y2="50" stroke="#4ade80" stroke-width="0.8"/>
+    <line x1="340" y1="243" x2="360" y2="243" stroke="#4ade80" stroke-width="0.8"/>
+    <line x1="350" y1="52" x2="350" y2="241" stroke="#4ade80" stroke-width="0.8"/>
+    <text x="367" y="150" fill="#4ade80" font-family="system-ui,sans-serif" font-size="9" font-weight="bold">120mm</text>
+
+    <!-- ══ TABLEAU SPECS ══ -->
+    <g transform="translate(15, 302)">
+      <text x="0" y="16" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="11" font-weight="bold">⭐ Spécifications Nœud — Architecture Finale Correction Z</text>
+      <rect x="0" y="22" width="604" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+
+      <rect x="0" y="22" width="604" height="18" rx="5" fill="#1e3a5f"/>
+      <text x="150" y="35" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Paramètre</text>
+      <text x="420" y="35" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Valeur &amp; Justification</text>
+      <line x1="300" y1="22" x2="300" y2="282" stroke="#334155" stroke-width="0.8"/>
+      <line x1="0" y1="40" x2="604" y2="40" stroke="#334155" stroke-width="0.8"/>
+
+      <text x="10" y="56" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Direction Goupille Nœud</text>
+      <text x="310" y="54" fill="#ef4444" font-family="system-ui,sans-serif" font-size="9" font-weight="bold">Axe Z (Vertical, Haut ➔ Bas)</text>
+      <text x="310" y="65" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">Traverse Bride Sup (15mm) + Tube (30mm) + Bride Inf (15mm)</text>
+      <line x1="0" y1="72" x2="604" y2="72" stroke="#1e293b" stroke-width="0.8"/>
+
+      <text x="10" y="87" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Profondeur de perçage goupille</text>
+      <text x="310" y="87" fill="#4ade80" font-family="system-ui,sans-serif" font-size="9" font-weight="bold">60 mm exacts (15 + 2 + 26 + 2 + 15 mm)</text>
+      <line x1="0" y1="94" x2="604" y2="94" stroke="#1e293b" stroke-width="0.8"/>
+
+      <text x="10" y="109" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Usinage CNC C500 goupille</text>
+      <text x="310" y="109" fill="#4ade80" font-family="system-ui,sans-serif" font-size="9" font-weight="bold">100% 3 axes direct (Broche Z) — Pas de 4ème axe requis ✅</text>
+      <line x1="0" y1="116" x2="604" y2="116" stroke="#1e293b" stroke-width="0.8"/>
+
+      <text x="10" y="131" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Goupille recommandée</text>
+      <text x="310" y="131" fill="#4ade80" font-family="system-ui,sans-serif" font-size="10" font-weight="bold">Ø4 mm × 60 mm élastique inox (ISO 8752)</text>
+      <line x1="0" y1="138" x2="604" y2="138" stroke="#1e293b" stroke-width="0.8"/>
+
+      <text x="10" y="153" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Vis de pincement tube</text>
+      <text x="310" y="153" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="9" font-weight="bold">4× M6 traversant + Nylstop (F_total = 58 000 N, S_f=×3.4) ✅</text>
+      <line x1="0" y1="160" x2="604" y2="160" stroke="#1e293b" stroke-width="0.8"/>
+
+      <text x="10" y="175" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Dimensions bride</text>
+      <text x="310" y="175" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="9">Portée X = 45mm · Profondeur Y = 120mm · Hauteur Z = 60mm total</text>
+      <line x1="0" y1="182" x2="604" y2="182" stroke="#1e293b" stroke-width="0.8"/>
+
+      <text x="10" y="197" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Vis fixation plaques (aile L)</text>
+      <text x="310" y="197" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9" font-weight="bold">4× M4 traversant + Nylstop / bride (8 total) · 3 N.m</text>
+      <line x1="0" y1="204" x2="604" y2="204" stroke="#1e293b" stroke-width="0.8"/>
+
+      <text x="10" y="219" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Garde Z sur C500 (Course 128mm)</text>
+      <text x="310" y="219" fill="#4ade80" font-family="system-ui,sans-serif" font-size="9" font-weight="bold">68 mm de garde disponible (128 - 60 mm) ✅</text>
+      <line x1="0" y1="226" x2="604" y2="226" stroke="#1e293b" stroke-width="0.8"/>
+
+      <text x="10" y="241" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Outillage perçage goupille</text>
+      <text x="310" y="241" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="9">Foret carbide Ø3,8mm standard (long. 75mm) ✅</text>
+      <line x1="0" y1="248" x2="604" y2="248" stroke="#1e293b" stroke-width="0.8"/>
+
+      <text x="10" y="263" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9">Usinage CNC C500 brides</text>
+      <text x="310" y="263" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="9">2 pièces miroir · 1 prog. CAM · bride 45×120×30mm ✅</text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <text x="600" y="671" fill="#475569" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">Nœud Demi-Coquilles — Goupille Verticale Z (60mm) — D-Bot Torse v5.0 — 31 Juillet 2026</text>
+</svg>

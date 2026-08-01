@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="100%" height="100%">
+  <defs>
+    <pattern id="gridF" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.7"/>
+    </pattern>
+    <linearGradient id="aluPlate" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="aluSolid" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="50%" stop-color="#64748b"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <linearGradient id="isogridG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+  </defs>
+
+  <!-- BACKGROUND CANVAS -->
+  <rect width="1200" height="750" fill="#0f172a"/>
+  <rect width="1200" height="750" fill="url(#gridF)"/>
+
+  <!-- TITLE HEADER -->
+  <text x="600" y="32" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="16" font-weight="bold" text-anchor="middle">COMPARATIF DES CONCEPTIONS — PLAQUE DE COLONNE VERTEBRALE (5.0 mm Alu 6061-T6)</text>
+  <text x="600" y="52" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">Exemple sur la Colonne Inférieure (Hauteur 290 mm × Profondeur 120 mm × Épaisseur 5 mm)</text>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- PANEL A : OPTION A - PLAQUE PLEINE          -->
+  <!-- ════════════════════════════════════════════ -->
+  <g transform="translate(30, 75)">
+    <rect width="360" height="640" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="180" y="26" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="13" font-weight="bold" text-anchor="middle">OPTION A — Plaque Pleine</text>
+    <text x="180" y="42" fill="#64748b" font-family="system-ui,sans-serif" font-size="9.5" text-anchor="middle">Aucun évidement interne</text>
+
+    <!-- Plate Drawing -->
+    <g transform="translate(110, 60)">
+      <!-- Outer Contour -->
+      <rect x="0" y="0" width="140" height="380" rx="4" fill="url(#aluSolid)" stroke="#cbd5e1" stroke-width="2"/>
+
+      <!-- Holes Top (Bride attachment) -->
+      <circle cx="20" cy="20" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="20" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="20" cy="40" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="40" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+
+      <!-- Holes Bottom (Waist attachment) -->
+      <circle cx="20" cy="340" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="340" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="20" cy="360" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="360" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+
+      <!-- Dimension Lines -->
+      <line x1="-15" y1="0" x2="-15" y2="380" stroke="#94a3b8" stroke-width="1"/>
+      <text x="-25" y="195" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle" transform="rotate(-90,-25,195)">290 mm (Z)</text>
+
+      <line x1="0" y1="395" x2="140" y2="395" stroke="#94a3b8" stroke-width="1"/>
+      <text x="70" y="410" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">120 mm (Y)</text>
+    </g>
+
+    <!-- Stats Box -->
+    <rect x="20" y="490" width="320" height="130" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="30" y="512" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Masse plaque seule : <tspan fill="#f8fafc" font-weight="bold">470 g</tspan></text>
+    <text x="30" y="532" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Temps usinage C500 : <tspan fill="#4ade80" font-weight="bold">~5 minutes</tspan></text>
+    <text x="30" y="552" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Contrainte max : <tspan fill="#4ade80" font-weight="bold">18,3 MPa (S_f = ×13,1)</tspan></text>
+    <text x="30" y="572" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Complexité CAM / CNC : <tspan fill="#4ade80" font-weight="bold">Tres Faible (1 passe 2D)</tspan></text>
+    <text x="30" y="592" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Risque de déformation : <tspan fill="#4ade80" font-weight="bold">Nul (0%)</tspan></text>
+  </g>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- PANEL B : OPTION B - LUMIERES 2D TRAVERSANTES-->
+  <!-- ════════════════════════════════════════════ -->
+  <g transform="translate(420, 75)">
+    <rect width="360" height="640" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="15" y="10" width="330" height="24" rx="4" fill="#0369a1"/>
+    <text x="180" y="26" fill="#ffffff" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">OPTION B — Lumières 2D Traversantes ⭐ RECOMMANDÉ</text>
+    <text x="180" y="46" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9.5" text-anchor="middle">Découpe 100% débouchante (1 seule prise CNC direct)</text>
+
+    <!-- Plate Drawing -->
+    <g transform="translate(110, 60)">
+      <!-- Outer Solid Body with 2D cutouts -->
+      <path d="
+        M 0,0 L 140,0 L 140,380 L 0,380 Z
+        M 20,60  L 120,60  A 10 10 0 0 1 120,130 L 20,130  A 10 10 0 0 1 20,60 Z
+        M 20,150 L 120,150 A 10 10 0 0 1 120,220 L 20,220  A 10 10 0 0 1 20,150 Z
+        M 20,240 L 120,240 A 10 10 0 0 1 120,310 L 20,310  A 10 10 0 0 1 20,240 Z
+      " fill="url(#aluPlate)" fill-rule="evenodd" stroke="#7dd3fc" stroke-width="2"/>
+
+      <!-- Inner Cutouts Highlight (Air / Void 100% debouchant) -->
+      <rect x="20" y="60" width="100" height="70" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4,2"/>
+      <rect x="20" y="150" width="100" height="70" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4,2"/>
+      <rect x="20" y="240" width="100" height="70" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+      <text x="70" y="98" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Vide (100% Débouchant)</text>
+      <text x="70" y="188" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Pas de poche Z</text>
+      <text x="70" y="278" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Pas de retournement</text>
+
+      <!-- Frame width indicators -->
+      <line x1="0" y1="95" x2="20" y2="95" stroke="#f8fafc" stroke-width="1"/>
+      <text x="10" y="90" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">20mm</text>
+
+      <line x1="120" y1="95" x2="140" y2="95" stroke="#f8fafc" stroke-width="1"/>
+      <text x="130" y="90" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">20mm</text>
+
+      <!-- Holes Top (Bride attachment) -->
+      <circle cx="20" cy="20" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="20" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="20" cy="40" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="40" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+
+      <!-- Holes Bottom (Waist attachment) -->
+      <circle cx="20" cy="340" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="340" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="20" cy="360" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="360" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+    </g>
+
+    <!-- Stats Box -->
+    <rect x="20" y="490" width="320" height="130" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="30" y="512" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Masse plaque seule : <tspan fill="#38bdf8" font-weight="bold">240 g (-50% kg!)</tspan></text>
+    <text x="30" y="532" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Temps usinage C500 : <tspan fill="#4ade80" font-weight="bold">~10 minutes</tspan></text>
+    <text x="30" y="552" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Contrainte max : <tspan fill="#4ade80" font-weight="bold">28,0 MPa (S_f = ×8,5)</tspan></text>
+    <text x="30" y="572" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Complexité CAM / CNC : <tspan fill="#4ade80" font-weight="bold">Faible (1 seule passe 2D)</tspan></text>
+    <text x="30" y="592" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Risque de déformation : <tspan fill="#4ade80" font-weight="bold">Quasi Nul (&lt; 2%)</tspan></text>
+  </g>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- PANEL C : OPTION C - ISOGRID DOUBLE FACE    -->
+  <!-- ════════════════════════════════════════════ -->
+  <g transform="translate(810, 75)">
+    <rect width="360" height="640" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="180" y="26" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="13" font-weight="bold" text-anchor="middle">OPTION C — Isogrid Double-Face</text>
+    <text x="180" y="42" fill="#64748b" font-family="system-ui,sans-serif" font-size="9.5" text-anchor="middle">Usinage 3D complexe avec voiles centraux 1.5mm</text>
+
+    <!-- Plate Drawing -->
+    <g transform="translate(110, 60)">
+      <!-- Outer Contour -->
+      <rect x="0" y="0" width="140" height="380" rx="4" fill="#334155" stroke="#f59e0b" stroke-width="1.5"/>
+
+      <!-- Isogrid Triangular Pattern Simulation -->
+      <g stroke="#f59e0b" stroke-width="1.2" fill="none" opacity="0.85">
+        <!-- Horizontal Ribs -->
+        <line x1="10" y1="60" x2="130" y2="60"/>
+        <line x1="10" y1="120" x2="130" y2="120"/>
+        <line x1="10" y1="180" x2="130" y2="180"/>
+        <line x1="10" y1="240" x2="130" y2="240"/>
+        <line x1="10" y1="300" x2="130" y2="300"/>
+
+        <!-- Diagonal Ribs +45° / -45° -->
+        <line x1="10" y1="60" x2="130" y2="180"/>
+        <line x1="130" y1="60" x2="10" y2="180"/>
+
+        <line x1="10" y1="180" x2="130" y2="300"/>
+        <line x1="130" y1="180" x2="10" y2="300"/>
+
+        <!-- Triangles -->
+        <line x1="10" y1="120" x2="70" y2="60"/>
+        <line x1="70" y1="60" x2="130" y2="120"/>
+        <line x1="10" y1="240" x2="70" y2="180"/>
+        <line x1="70" y1="180" x2="130" y2="240"/>
+      </g>
+
+      <text x="70" y="154" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">Poches 3D ±45°</text>
+      <text x="70" y="166" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Profondeur 1.75mm/face</text>
+      <text x="70" y="176" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Voile central 1.5mm</text>
+
+      <!-- Holes Top (Bride attachment) -->
+      <circle cx="20" cy="20" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="20" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="20" cy="40" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="40" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+
+      <!-- Holes Bottom (Waist attachment) -->
+      <circle cx="20" cy="340" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="340" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="20" cy="360" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+      <circle cx="120" cy="360" r="5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.2"/>
+    </g>
+
+    <!-- Stats Box -->
+    <rect x="20" y="490" width="320" height="130" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="30" y="512" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Masse plaque seule : <tspan fill="#f59e0b" font-weight="bold">180 g</tspan></text>
+    <text x="30" y="532" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Temps usinage C500 : <tspan fill="#ef4444" font-weight="bold">~1h30 à 2h</tspan></text>
+    <text x="30" y="552" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Contrainte max : <tspan fill="#f59e0b" font-weight="bold">41,7 MPa (S_f = ×5,7)</tspan></text>
+    <text x="30" y="572" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Complexité CAM / CNC : <tspan fill="#ef4444" font-weight="bold">Très Élevée (2 faces + flip Z)</tspan></text>
+    <text x="30" y="592" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Risque de déformation : <tspan fill="#ef4444" font-weight="bold">Élevé (Bananage alu)</tspan></text>
+  </g>
+
+  <!-- FOOTER EXPLANATION -->
+  <g transform="translate(30, 690)">
+    <rect width="1140" height="48" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+    <text x="570" y="20" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="11" font-weight="bold" text-anchor="middle">💡 Pourquoi l'Option B (Lumières Traversantes) est le Meilleur Compromis pour le D-Bot V1</text>
+    <text x="570" y="36" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9.5" text-anchor="middle">Elle retire 100% de la matière interne en 1 seule passe 2D (broche descend à travers les 5mm), gagne 50% du poids de la plaque en 10 minutes d'usinage, sans aucun retournement ni risque de déformation.</text>
+  </g>
+
+</svg>

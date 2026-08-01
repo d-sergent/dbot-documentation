@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="100%" height="100%">
+  <defs>
+    <pattern id="gridF" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.7"/>
+    </pattern>
+    <linearGradient id="platInf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="platSup" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="50%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#3730a3"/>
+    </linearGradient>
+    <linearGradient id="brideG" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+    <linearGradient id="carbG" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- BACKGROUND CANVAS -->
+  <rect width="1200" height="820" fill="#0f172a"/>
+  <rect width="1200" height="820" fill="url(#gridF)"/>
+
+  <!-- TITLE HEADER -->
+  <text x="600" y="32" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="16" font-weight="bold" text-anchor="middle">COLONNE VERTEBRALE D-BOT — PLAQUES SUP. ET INF. EVIDEES (OPTION B — 2D TRAVERSANTE)</text>
+  <text x="600" y="52" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">Forme exacte des 2 plaques d'Alu 6061-T6 (5,0 mm) · Découpes 100% débouchantes en 1 seule passe CNC direct</text>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- PANEL 1 : PLAQUE SUPERIEURE (COU ➔ EPAULES)  -->
+  <!-- ════════════════════════════════════════════ -->
+  <g transform="translate(30, 75)">
+    <rect width="360" height="640" rx="8" fill="#1e293b" stroke="#818cf8" stroke-width="1.5"/>
+    <text x="180" y="26" fill="#818cf8" font-family="system-ui,sans-serif" font-size="13" font-weight="bold" text-anchor="middle">1. PLAQUE SUPERIEURE (Cou ➔ Épaules)</text>
+    <text x="180" y="42" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="9.5" text-anchor="middle">Hauteur H = 142.67 mm · Biseau 120 mm ➔ 86.5 mm</text>
+
+    <!-- Drawing Plate Sup -->
+    <g transform="translate(110, 110)">
+      <!-- Outer Contour Tapered: Top width 100px (86.5mm), Bottom width 140px (120mm), Height 200px (142.67mm) -->
+      <!-- Tapered polygon: (20,0) to (120,0) to (140,200) to (0,200) -->
+      <path d="
+        M 20,0 L 120,0 L 140,200 L 0,200 Z
+        M 30,20 L 110,20 L 118,85 L 22,85 Z
+        M 20,105 L 120,105 L 128,175 L 12,175 Z
+      " fill="url(#platSup)" fill-rule="evenodd" stroke="#a5b4fc" stroke-width="2"/>
+
+      <!-- Inner Void Cutouts Highlight -->
+      <polygon points="30,20 110,20 118,85 22,85" fill="#0f172a" stroke="#818cf8" stroke-width="1.2" stroke-dasharray="4,2"/>
+      <polygon points="20,105 120,105 128,175 12,175" fill="#0f172a" stroke="#818cf8" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+      <text x="70" y="55" fill="#a5b4fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">Lumière 1 (Traversante)</text>
+      <text x="70" y="142" fill="#a5b4fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">Lumière 2 (Traversante)</text>
+
+      <!-- Holes Top (Cou) -->
+      <circle cx="32" cy="10" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+      <circle cx="108" cy="10" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+
+      <!-- Holes Bottom (Bride Nœud) -->
+      <circle cx="15" cy="188" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+      <circle cx="45" cy="188" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+      <circle cx="95" cy="188" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+      <circle cx="125" cy="188" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+
+      <!-- Dimension Lines -->
+      <line x1="20" y1="-15" x2="120" y2="-15" stroke="#818cf8" stroke-width="1"/>
+      <text x="70" y="-22" fill="#818cf8" font-family="system-ui,sans-serif" font-size="8.5" text-anchor="middle">86.5 mm (Cou)</text>
+
+      <line x1="0" y1="215" x2="140" y2="215" stroke="#818cf8" stroke-width="1"/>
+      <text x="70" y="230" fill="#818cf8" font-family="system-ui,sans-serif" font-size="8.5" text-anchor="middle">120.0 mm (Épaules)</text>
+
+      <line x1="-15" y1="0" x2="-15" y2="200" stroke="#94a3b8" stroke-width="1"/>
+      <text x="-25" y="100" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8.5" text-anchor="middle" transform="rotate(-90,-25,100)">142.67 mm (Z)</text>
+    </g>
+
+    <!-- Specs Box -->
+    <rect x="20" y="490" width="320" height="130" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="30" y="512" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Épaisseur brute : <tspan fill="#818cf8" font-weight="bold">5.0 mm Alu 6061-T6</tspan></text>
+    <text x="30" y="532" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Masse plaque évidée : <tspan fill="#4ade80" font-weight="bold">~115 g (vs 198g pleine)</tspan></text>
+    <text x="30" y="552" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Nombre de lumières : <tspan fill="#f8fafc" font-weight="bold">2 lumières biseautées</tspan></text>
+    <text x="30" y="572" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Usinage CNC C500 : <tspan fill="#4ade80" font-weight="bold">1 passe 2D direct (~5 min)</tspan></text>
+    <text x="30" y="592" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Fixation bas : <tspan fill="#f8fafc" font-weight="bold">4× M4 dans aile L Bride Sup</tspan></text>
+  </g>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- PANEL 2 : PLAQUE INFERIEURE (WAIST ➔ EPAULES)-->
+  <!-- ════════════════════════════════════════════ -->
+  <g transform="translate(420, 75)">
+    <rect width="360" height="640" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="180" y="26" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="13" font-weight="bold" text-anchor="middle">2. PLAQUE INFERIEURE (Waist ➔ Épaules)</text>
+    <text x="180" y="42" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="9.5" text-anchor="middle">Hauteur H = 290.0 mm · Profondeur 120 mm rectiligne</text>
+
+    <!-- Drawing Plate Inf -->
+    <g transform="translate(110, 60)">
+      <!-- Outer Contour Rectangular: 140px wide (120mm), 380px high (290mm) -->
+      <path d="
+        M 0,0 L 140,0 L 140,380 L 0,380 Z
+        M 20,40  L 120,40  A 10 10 0 0 1 120,130 L 20,130  A 10 10 0 0 1 20,40 Z
+        M 20,150 L 120,150 A 10 10 0 0 1 120,240 L 20,240  A 10 10 0 0 1 20,150 Z
+        M 20,260 L 120,260 A 10 10 0 0 1 120,340 L 20,340  A 10 10 0 0 1 20,260 Z
+      " fill="url(#platInf)" fill-rule="evenodd" stroke="#7dd3fc" stroke-width="2"/>
+
+      <!-- Inner Void Cutouts Highlight -->
+      <rect x="20" y="40" width="100" height="90" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4,2"/>
+      <rect x="20" y="150" width="100" height="90" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4,2"/>
+      <rect x="20" y="260" width="100" height="80" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+      <text x="70" y="88" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">Lumière 1 (Traversante)</text>
+      <text x="70" y="198" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">Lumière 2 (Traversante)</text>
+      <text x="70" y="303" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">Lumière 3 (Traversante)</text>
+
+      <!-- Holes Top (Bride Nœud Inf) -->
+      <circle cx="15" cy="15" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+      <circle cx="45" cy="15" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+      <circle cx="95" cy="15" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+      <circle cx="125" cy="15" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+
+      <!-- Holes Bottom (Waist Plate) -->
+      <circle cx="15" cy="365" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+      <circle cx="45" cy="365" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+      <circle cx="95" cy="365" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+      <circle cx="125" cy="365" r="4" fill="#0f172a" stroke="#f8fafc" stroke-width="1"/>
+
+      <!-- Dimension Lines -->
+      <line x1="-15" y1="0" x2="-15" y2="380" stroke="#94a3b8" stroke-width="1"/>
+      <text x="-25" y="190" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8.5" text-anchor="middle" transform="rotate(-90,-25,190)">290.0 mm (Z)</text>
+
+      <line x1="0" y1="395" x2="140" y2="395" stroke="#38bdf8" stroke-width="1"/>
+      <text x="70" y="410" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8.5" text-anchor="middle">120.0 mm (Y)</text>
+    </g>
+
+    <!-- Specs Box -->
+    <rect x="20" y="490" width="320" height="130" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="30" y="512" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Épaisseur brute : <tspan fill="#38bdf8" font-weight="bold">5.0 mm Alu 6061-T6</tspan></text>
+    <text x="30" y="532" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Masse plaque évidée : <tspan fill="#4ade80" font-weight="bold">~240 g (vs 470g pleine)</tspan></text>
+    <text x="30" y="552" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Nombre de lumières : <tspan fill="#f8fafc" font-weight="bold">3 lumières rectangulaires</tspan></text>
+    <text x="30" y="572" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Usinage CNC C500 : <tspan fill="#4ade80" font-weight="bold">1 passe 2D direct (~10 min)</tspan></text>
+    <text x="30" y="592" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Fixation haut : <tspan fill="#f8fafc" font-weight="bold">4× M4 dans aile L Bride Inf</tspan></text>
+  </g>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- PANEL 3 : VUE ASSEMBLEE DU NOEUD ET COLONNE  -->
+  <!-- ════════════════════════════════════════════ -->
+  <g transform="translate(810, 75)">
+    <rect width="360" height="640" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="180" y="26" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="13" font-weight="bold" text-anchor="middle">3. ASSEMBLAGE COMPLET DANS LE TORSE</text>
+    <text x="180" y="42" fill="#64748b" font-family="system-ui,sans-serif" font-size="9.5" text-anchor="middle">Jonction des 2 plaques sur le Nœud Central</text>
+
+    <!-- Assembly Drawing -->
+    <g transform="translate(110, 60)">
+      <!-- Upper Plate -->
+      <path d="
+        M 20,0 L 120,0 L 140,150 L 0,150 Z
+        M 30,15 L 110,15 L 118,65 L 22,65 Z
+        M 20,80 L 120,80 L 128,135 L 12,135 Z
+      " fill="url(#platSup)" fill-rule="evenodd" stroke="#a5b4fc" stroke-width="1.5" opacity="0.9"/>
+
+      <!-- NŒUD CENTRAL (Brides + Tube) -->
+      <!-- Bride Sup -->
+      <rect x="-10" y="150" width="160" height="20" rx="2" fill="url(#brideG)" stroke="#f8fafc" stroke-width="1.2"/>
+      <!-- Tube -->
+      <circle cx="70" cy="170" r="15" fill="url(#carbG)" stroke="#00f2fe" stroke-width="2"/>
+      <circle cx="70" cy="170" r="13" fill="none" stroke="#334155" stroke-width="1"/>
+      <text x="70" y="173" fill="#00f2fe" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">Tube Ø30 ⊙</text>
+
+      <!-- Goupille Z -->
+      <line x1="70" y1="135" x2="70" y2="205" stroke="#ef4444" stroke-width="3"/>
+
+      <!-- Bride Inf -->
+      <rect x="-10" y="170" width="160" height="20" rx="2" fill="url(#brideG)" stroke="#f8fafc" stroke-width="1.2"/>
+
+      <!-- Lower Plate -->
+      <path d="
+        M 0,190 L 140,190 L 140,380 L 0,380 Z
+        M 20,205 L 120,205 A 8 8 0 0 1 120,255 L 20,255 A 8 8 0 0 1 20,205 Z
+        M 20,270 L 120,270 A 8 8 0 0 1 120,320 L 20,320 A 8 8 0 0 1 20,270 Z
+        M 20,335 L 120,335 A 6 6 0 0 1 120,365 L 20,365 A 6 6 0 0 1 20,335 Z
+      " fill="url(#platInf)" fill-rule="evenodd" stroke="#7dd3fc" stroke-width="1.5" opacity="0.9"/>
+
+      <!-- Labels Assembly -->
+      <text x="165" y="80" fill="#a5b4fc" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">← Plaque Sup. (142.7mm)</text>
+      <text x="165" y="173" fill="#00f2fe" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">← Nœud Brides + Tube</text>
+      <text x="165" y="280" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">← Plaque Inf. (290.0mm)</text>
+    </g>
+
+    <!-- Summary Box -->
+    <rect x="20" y="490" width="320" height="130" rx="6" fill="#0f172a" stroke="#4ade80" stroke-width="1.5"/>
+    <text x="180" y="512" fill="#4ade80" font-family="system-ui,sans-serif" font-size="11" font-weight="bold" text-anchor="middle">✅ Bilan Global de la Colonne 2D</text>
+    <text x="30" y="534" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Masse totale 2 plaques : <tspan fill="#4ade80" font-weight="bold">~355 g (vs 668g pleine)</tspan></text>
+    <text x="30" y="554" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Gain de masse total : <tspan fill="#4ade80" font-weight="bold">-313 g (-47% d'économie!)</tspan></text>
+    <text x="30" y="574" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Temps usinage C500 total : <tspan fill="#4ade80" font-weight="bold">~15 minutes (2 plaques)</tspan></text>
+    <text x="30" y="594" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="10">Prise CNC : <tspan fill="#f8fafc" font-weight="bold">1 seule prise 2D par plaque</tspan></text>
+  </g>
+
+  <!-- FOOTER -->
+  <text x="600" y="795" fill="#475569" font-family="system-ui,sans-serif" font-size="9.5" text-anchor="middle">Plaques de Colonne Vertébrale Évidées en 2D — D-Bot Torse v5.1 — 1er Août 2026</text>
+</svg>

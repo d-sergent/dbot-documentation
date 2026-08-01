@@ -2,7 +2,31 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-08-01 — Finalisation de la Fabrication C500 du Torse (Perçage Z, Split Gap 0.8-1.0mm & Adoption Officielle Option B 2D)
+
+### 🎯 Objectif de la session
+1. **Validation & Sourcing NestWorks C500** : Spécifier la zone de travail réelle (230 × 213 × 128 mm), le 4ème axe rotatif (Ø3–80 mm) et établir l'outillage pour le sous-système tube.
+2. **Correction des axes du Nœud d'Épaule** : Corriger la direction du perçage de la goupille du nœud central en axe Z (vertical) de haut en bas sur 60 mm de profondeur (15mm Alu Sup + 2mm CFRP + 26mm vide + 2mm CFRP + 15mm Alu Inf), réalisable à 100% en 3 axes direct sur la C500.
+3. **Mise à l'état de l'art du pincement (Split Gap)** : Définir la dépouille de serrage de 0,8 mm à 1,0 mm au plan de joint des brides (surfaçage CAM Z = -0.4 à -0.5 mm) pour bannir la butée alu/alu et garantir 100% de la force radiale sur le composite sans écrasement (serrage 6-8 N.m, 15-18 MPa).
+4. **Adoption Officielle de l'Option B (Lumières 2D Traversantes)** : Valider l'Option B pour la colonne vertébrale (plaques 5,0 mm Alu 6061-T6 évidées en 2D) face à l'Isogrid (Option C), avec recalcul RDM complet ($I_{x,\text{net}} = 506\,667\text{ mm}^4$, contrainte $\sigma_{\text{max}} = 26,05\text{ MPa}$, facteur de sécurité $S_f = \times 9.21$).
+
+### 📝 Réalisations & Évolutions
+1. **Blueprints Vectoriels SVG Générés dans `./media/`** :
+   - `noeud_demi_coquilles_bride.svg` : Vue en coupe frontale Y-Z et vue de dessus X-Y avec la goupille verticale en Z (60 mm traversant) et le tableau récapitulatif des forces.
+   - `comparatif_plaques_colonne.svg` : Diagramme comparatif 3 panneaux (Option A Plaque pleine, Option B Lumières 2D, Option C Isogrid).
+   - `plaques_colonne_2d_evidees.svg` : Plan de fabrication détaillé des 2 plaques (Supérieure biseautée 142.67 mm et Inférieure rectangulaire 290.0 mm).
+2. **Mise à Jour du Document de Dimensionnement (`ETUDE_Dimensionnement_Colonne_Vertebrale.md`)** :
+   - Formules d'inertie et contraintes révisées pour l'Option B ($\sigma_{\text{max, base}} = 26,05\text{ MPa}$, $S_f = \times 9.21$, flèche $\Delta = 0,08\text{ mm}$).
+   - Tableau de décision et intégration des visualisations vectorielles.
+3. **Mise à Jour du Guide Torse Hybride (`GUIDE_Fabrication_Torse_D-Bot_Hybride.md`)** :
+   - Adoption formelle de l'Option B comme architecture officielle (355 g au total, 15 min d'usinage sur C500, 0% risque de voilement).
+   - Ajout des règles CAM pour le Split Gap de 0.8-1.0 mm et la plage de couple 6-8 N.m.
+4. **Actualisation de la Documentation CNC (`22_Usinage_CNC_C500.md`)** :
+   - Mise à jour des spécifications officielles C500 (course 230 × 213 × 128 mm) et du perçage goupille Z en 3 axes direct.
+
 ---
+
+
 
 ## 📅 2026-07-28 — Refonte de la Structure Cruciforme du Torse (Carter Monobloc Alu, Colonne Sagittale Isogrid 5mm & Schémas SVG Vectoriels)
 

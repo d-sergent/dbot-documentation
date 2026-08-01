@@ -41,19 +41,20 @@ Le torse du D-Bot est basé sur la coque organique de l'Asimov v1 (mise à l'éc
 
 ---
 
-## 2. Plaque Isogrid Sagittale (Colonne Vertébrale)
+## 2. Plaques de Colonne Vertébrale — Conception Option B (Lumières 2D Traversantes)
 
-### A. Spécifications
+### A. Spécifications Générales
 
 | Paramètre | Valeur |
 |:---|:---|
-| **Matériau** | Aluminium 6061-T6, tôle de 5 mm |
+| **Matériau** | Aluminium 6061-T6, tôle de 5,0 mm |
 | **Orientation** | Plan sagittal (dos → ventre), verticale sur toute la hauteur du torse |
-| **Dimensions brutes** | ~432 mm (hauteur) × ~200 mm (profondeur sagittale) |
-| **Découpage** | En **2 parties** (Haut + Bas) alignées sur le split abdominal du torse |
-| **Jonction des 2 parties** | Éclisse boulonnée M4 × 4 vis, chevauchement 30 mm au plan de coupe |
+| **Conception retenue** | **Option B (Lumières 2D Traversantes ⭐)** : Évidements 100% débouchants en 1 seule passe |
+| **Dimensions brutes** | ~432 mm (hauteur totale) × **120,0 mm (profondeur max d'usinage C500)** |
+| **Découpage** | En **2 parties** (Haute 142,67 mm + Basse 290,0 mm) jointes au Nœud Central d'épaule (h = 290 mm) |
+| **Jonction des 2 parties** | **Nœud Demi-Coquilles CNC Alu** + Tube Carbone Ø30 mm + Goupille Verticale Z (60 mm) |
 | **Fixation haute & basse** | **Équerres CNC Alu en Sandwich (L-Brackets)** fixées par vis M4 traversantes |
-| **Masse estimée** | ~350 g (isogrid, efficacité structurelle ~65%) |
+| **Masse totale 2 plaques** | **~355 g** (vs 668 g pleine — **économie de 313 g / -47%**) |
 | **Étude de dimensionnement** | 📄 Voir **[ETUDE_Dimensionnement_Colonne_Vertebrale.md](./ETUDE_Dimensionnement_Colonne_Vertebrale.md)** pour le calcul des moments et flèches |
 
 #### Solution de Fixation Haute et Basse (Équerres CNC L-Brackets en Sandwich)
@@ -62,43 +63,35 @@ Le torse du D-Bot est basé sur la coque organique de l'Asimov v1 (mise à l'éc
 
 *Principe d'assemblage en sandwich : 2 équerres en L en aluminium 6061-T6 (à gauche et à droite) enserrent la tôle de 5 mm avec 3 à 4 vis traversantes M4. Le rebord horizontal des équerres est vissé sur les plaques circulaires de cou (5 mm) et de taille (6 mm).*
 
-### B. Motif Isogrid Optimisé pour la Torsion (Nervures à ±45°)
+---
+
+### B. Justification & Comparatif des Formes d'Évidements
+
+![Comparatif des options d'usinage de la colonne vertébrale](./media/comparatif_plaques_colonne.svg)
 
 > [!IMPORTANT]
-> Le motif isogrid classique (triangles équilatéraux, nervures à 0°/60°/−60°) est optimisé pour la compression et la flexion. Pour améliorer **spécifiquement la résistance en torsion Yaw** (sollicitée par le RS-06 de la taille à 36 N.m), le motif doit être adapté :
+> **Décision d'Architecture (Août 2026) : Adoption de l'Option B (Lumières 2D Traversantes)**
+> La solution d'évidement 2D traversant est retenue comme le choix optimal pour le torse D-Bot par rapport à l'Isogrid (Option C) :
+> 1. **Solidité supérieure** : Propose un facteur de sécurité **$S_f = \times 9,21$** sous choc dynamique de 220 Nm à la base ($\sigma_{\text{max}} = 26,05\text{ MPa}$), très supérieur à l'Isogrid ($S_f = \times 5,70$).
+> 2. **Gain de poids massif (-47%)** : Économise 313 g sur la colonne (masse totale = 355 g contre 668 g en plaque pleine).
+> 3. **Fiabilité d'Usinage C500** : Découpée en **une seule passe 2D débouchante** en 15 minutes total. Risque de voilement ("bananage" alu) NUL et aucun retournement de pièce requis (pas de Flip Z).
 
-**Motif recommandé : Nervures diagonales à ±45° (motif losange/diamant)**
+![Plaques de Colonne Vertébrale Évidées 2D](./media/plaques_colonne_2d_evidees.svg)
 
-![Motif Isogrid Diamant à ±45°](./media/motif_isogrid_diamant_45.svg)
+---
 
-*Schéma du motif Isogrid optimisé en losanges à ±45° avec coupe symétrique double-face (profil en I) pour maximiser la rigidité en torsion Yaw sans gauchissement.*
-
-> [!IMPORTANT]
-> **Règle d'ingénierie : Usinage Symétrique Double-Face (I-Beam)** :
-> L'usinage isogrid doit impérativement être effectué **des deux côtés de la plaque (Face A et Face B)** de manière parfaitement symétrique. 
-> - **Pourquoi la symétrie** : Un usinage mono-face décalerait l'axe neutre en flexion et provoquerait un gauchissement (voilage) de la plaque sous les contraintes d'usinage et les charges mécaniques. L'usinage double-face maintient le voile résiduel de 1,5 mm au centre géométrique neutre.
-> - **Cotes d'usinage pour tôle brute de 5 mm** : Poches de $1,75\text{ mm}$ sur la Face A + Voile central résiduel de $1,5\text{ mm}$ + Poches de $1,75\text{ mm}$ sur la Face B (total = $1.75 + 1.5 + 1.75 = 5.0\text{ mm}$).
-> - **Cotes d'usinage pour tôle brute de 8,5 mm** : Poches de $3,5\text{ mm}$ sur la Face A + Voile central de $1,5\text{ mm}$ + Poches de $3,5\text{ mm}$ sur la Face B (total = $3.5 + 1.5 + 3.5 = 8.5\text{ mm}$).
-
-**Pourquoi ±45° :**
-- Les nervures à ±45° sont orientées dans la **direction des contraintes principales de cisaillement** induites par la torsion Yaw
-- Elles transforment la contrainte de cisaillement (τ) en traction/compression le long des nervures (σ) → beaucoup plus efficace
-- C'est le même principe que les **raidisseurs diagonaux des fuselages d'avion** (stressed-skin aéronautique)
-- Gain en rigidité torsionnelle estimé : **×3 à ×5** par rapport à un motif standard 0°/60°/−60°
-
-### C. Fabrication CNC (C500)
+### C. Fabrication CNC sur NestWorks C500
 
 | Étape | Détail |
 |:---|:---|
-| **1. Bridage** | Fixer la tôle brute 6061-T6 sur une table sacrificielle MDF avec des vis traversantes dans les futures zones de perçage (libère toute la course de la C500) |
-| **2. Ébauche** | Fraise plate carbure Ø4 mm, 3 passes de 1,2 mm, vitesse 1200 mm/min, avance 0,05 mm/dent |
-| **3. Finition poches** | Fraise plate carbure Ø3 mm, 1 passe de 0,3 mm (fond résiduel 1,5 mm), vitesse 800 mm/min |
-| **4. Contour extérieur** | Fraise Ø4 mm, découpe du profil sagittal + perçages de fixation M4/M5 |
-| **5. Ébavurage** | Lime douce + papier 320 sur les arêtes |
-| **Temps estimé** | ~3-4h par demi-plaque (soit ~7h total pour les 2 parties) |
+| **1. Bridage** | Fixer la tôle brute 6061-T6 de 5,0 mm à plat sur la table C500 (sur martyre MDF) |
+| **2. Outil** | Fraise carbure Ø6 mm DLC (O-Type 1 dent) |
+| **3. Paramètres de coupe** | Vitesse 10 000 tr/min, avance 800 mm/min, passes de Z = -1,25 mm (4 passes) |
+| **4. Lumières 2D** | Découpe 100% débouchante à Z = -5,2 mm en une passe continue |
+| **5. Contour & Perçages** | Découpe du profil sagittal + trous M4 de fixation |
+| **Temps estimé** | **~15 minutes au total pour les 2 plaques** (vs 3-4h pour Isogrid) |
 
-> [!WARNING]
-> **Taille de la plaque** : Chaque demi-plaque mesure ~216 × 200 mm. Vérifiez que la course utile de votre C500 permet de couvrir cette surface en une seule prise. Si nécessaire, usinez en 2 phases avec repositionnement (référence par 2 pions de centrage Ø4 mm dans des trous de tooling).
+---
 
 ---
 
@@ -106,36 +99,211 @@ Le torse du D-Bot est basé sur la coque organique de l'Asimov v1 (mise à l'éc
 
 ### A. Spécifications
 
+> [!IMPORTANT]
+> **Orientation du tube — Point fondamental** : Le tube carbone est un élément **transversal** (axe X, gauche ↔ droite). Il passe **perpendiculairement au plan sagittal** formé par les plaques de colonne vertébrale. Les plaques (Colonne Supérieure et Inférieure) sont dans le plan Y-Z (dos ↔ ventre, vertical). Le tube carbone **ne traverse pas** les plaques : il passe dans le joint entre la Colonne Supérieure et la Colonne Inférieure, au niveau de l'axe des épaules (h = 290 mm). Seules les **brides demi-coquilles** possèdent un demi-alésage Ø30 mm.
+
 | Paramètre | Valeur |
 |:---|:---|
 | **Matériau** | Tube carbone 3K, époxy, Ø30 mm extérieur, épaisseur 2 mm |
-| **Longueur** | ~260 mm (entraxe des cylindres d'épaule) |
+| **Longueur** | ~260 mm (entraxe des carters d'épaule) |
+| **Axe** | **Transversal (X)**, perpendiculaire au plan sagittal des plaques |
 | **Masse** | ~70 g |
 | **Rigidité torsionnelle** | J ≈ 52 000 mm⁴ (×15 par rapport à une plaque de 5 mm de même largeur) |
-| **Fixation aux épaules** | Emmanché dans la bride de liaison alu CNC de chaque côté, serré par 2 vis M4 (pincement) |
-| **Fixation à la plaque isogrid** | Traverse le plan sagittal via un **nœud d'intersection** (collier CNC alu) boulonné |
+| **Fixation aux épaules** | Emmanché dans le socket du carter monobloc alu CNC de chaque côté, goupille Ø4 mm + bouchon de renfort |
+| **Fixation centrale (nœud)** | **2 demi-coquilles CNC alu** (Bride Sup. + Bride Inf.) serrant le tube sur 45 mm de longueur, boulonnées aux plaques |
 
-### B. Nœud d'Intersection Plaque/Traverse
+### B. Nœud d'Intersection Plaque/Traverse — Système Demi-Coquilles
 
-Le tube carbone traverse la plaque isogrid sagittale au niveau des épaules. Un **nœud CNC en aluminium** assure la liaison rigide :
+> [!IMPORTANT]
+> **Évolution architecturale (Juillet 2026)** : La "Grande Bride Sagittale Longue" monobloc est remplacée par un système de **deux demi-coquilles distinctes** (Bride Supérieure + Bride Inférieure), inspiré du principe du chapeau de bielle / split clamp block. Ce design est mécaniquement supérieur (distribution d'effort ×6, pas de taraudage dans les brides, assemblage sans outil spécialisé).
 
-![Nœud d'Intersection Cruciforme CNC — Bride Mâle / Bride Femelle](./media/noeud_intersection_cruciforme.svg)
+![Nœud d'intersection — Système Demi-Coquilles Alu CNC](./media/noeud_demi_coquilles_bride.svg)
 
-*Schéma technique du nœud d'intersection cruciforme CNC symétrique 2 pièces : (1) Vue 3D éclatée montrant la Bride Mâle (fût de centrage Ø38 mm + 2 vis M4 pincement tube), la tôle isogrid 5 mm et la Bride Femelle (alésage d'emboîtement de centrage + 2 vis M4 pincement tube). (2) Vue en coupe A-A détaillant l'emboîtement direct Mâle / Femelle à travers le perçage de la tôle.*
+*Vue en coupe frontale (plan sagittal Y-Z) et vue de dessus (plan transversal X-Y) du nœud d'intersection. Le tube carbone Ø30 mm est transversal (axe X), il sort perpendiculairement au plan des plaques. La Bride Supérieure s'appuie sur la face inférieure de la Colonne Supérieure via ses ailes en L ; la Bride Inférieure s'appuie sur la face supérieure de la Colonne Inférieure. Les deux brides sont serrées l'une contre l'autre par 2× vis M6 traversantes + écrous Nylstop, créant le pincement du tube carbone sur 45 mm de longueur.*
 
-Le nœud cruciforme est composé d'un ensemble **2 pièces en aluminium 6061-T6 usiné CNC (Bride Mâle + Bride Femelle, ~110 g total)** offrant un centrage et un blocage d'une précision et d'une rigidité exceptionnelles :
+Cette architecture offre 4 bénéfices d'ingénierie majeurs :
 
-1. **Bride Mâle (Côté A)** :
-   - Présente un rebord d'appui se plaquant contre la Face A de la tôle de 5 mm.
-   - Intègre un **fût de centrage mâle (Ø38,0 mm h7)** qui s'insère à travers le trou de Ø38,1 mm de la tôle.
-   - Comporte un manchon cylindrique complet qui entoure le tube carbone sur 360° (symétriquement en haut et en bas de l'axe) avec **2 vis CHC M4 de pincement** sur le Côté A.
-2. **Bride Femelle (Côté B)** :
-   - Présente un rebord d'appui se plaquant contre la Face B de la tôle de 5 mm.
-   - Intègre un **alésage de centrage femelle (Ø38,05 mm H7)** qui reçoit directement le bout du fût mâle traversant. Cela garantit un **auto-alignement coaxial direct et isostatique à 100% sans aucun jeu**.
-   - Comporte un manchon cylindrique complet qui entoure le tube carbone sur 360° (symétriquement en haut et en bas de l'axe) avec **2 vis CHC M4 de pincement** sur le Côté B.
-3. **Double Sandwich & Pincement Symétrique (Total 8 Vis)** :
-   - **4 vis traversantes CHC M4** (disposées en haut et en bas des rebords d'appui) relient la Bride Mâle, la tôle de 5 mm (trous lisses Ø4,2 mm) et la Bride Femelle en enserrant la colonne vertébrale en sandwich parfait.
-   - **4 vis CHC M4 de pincement au total (2 à gauche, 2 à droite)** serrent le tube carbone Ø30 mm de manière parfaitement équilibrée des deux côtés de la tôle.
+1. **Plaques de colonne 100% continues** :
+   - Aucun trou dans les tôles de 5 mm — la plaque isogrid reste intacte à l'endroit de l'effort maximal (h = 290 mm, M = 131 Nm dynamique).
+   - Le tube carbone passe dans le **joint naturel** entre les deux demi-plaques, sans découpe.
+2. **Distribution d'effort sur toute la largeur des plaques (120 mm)** :
+   - Les ailes en L des brides portent sur toute la largeur des plaques (120 mm dos → ventre).
+   - Contrainte de contact divisée par ~6 par rapport à un rebord court de 20 mm.
+3. **Pincement fiable sans taraudage dans les brides** :
+   - Vis de serrage **traversantes** (bride sup. → bride inf.) avec écrous Nylstop → aucun taraudage en alu sous effort répété.
+   - Idem pour la fixation des plaques : vis M4 traversantes + Nylstop dans les ailes en L.
+4. **Verrouillage positif par goupille Ø4 mm (axe Z, vertical)** :
+   - Anti-rotation ET anti-translation axiale du tube carbone dans les brides.
+   - Goupille traversant la Bride Sup, le tube et la Bride Inf de haut en bas en axe Z (60 mm total).
+
+#### Dimensionnement Mécanique du Nœud
+
+| Paramètre | Valeur | Justification |
+|:---|:---:|:---|
+| **Charge dimensionnante** | 2 400 N (tangentiels) | Torsion Yaw RS-06 : M_yaw = 36 Nm / R_tube = 15 mm |
+| **Force de serrage requise** | ~17 000 N (radiale totale) | F_serg = F_tang / µ × S_f = 2 400 / 0,35 × 2,5 |
+| **Vis de pincement tube** | **4× M6 traversant + Nylstop** | 2 côté DOS + 2 côté VENTRE — de chaque côté de la plaque (X≈10mm et X≈35mm) — F_total = 4 × 14 500 N = 58 000 N — S_f = ×3.4 ✅ |
+| **Longueur de portée tube** | **45 mm** (axe X) | p_contact = 8 500 N / (45 × 30) = 6,3 MPa << 15 MPa adm. composite ✅ |
+| **Profondeur sagittale brides** | **120 mm** (axe Y) | Appui pleine largeur des plaques |
+| **Vis de fixation plaques** | **4× M4 traversant + Nylstop** par bride | Ailes en L intégrées aux brides |
+| **Goupille anti-rotation + centrage** | **Ø4 mm élastique inox, axe Z (vertical)** | Traversante complète : Bride Sup (15mm) + tube (30mm) + Bride Inf (15mm) — 60 mm total — percée en 1 seule passe 3 axes C500 — double cisaillement S_f = ×6,3 ✅ |
+| **Espace vertical requis (axe Z)** | ~90 mm | 30 mm tube + 2× 30 mm brides — validé CAO (127 mm dispo.) ✅ |
+
+#### Spécifications des Pièces CNC
+
+**Bride Supérieure (Demi-Coquille Haute) — Alu 6061-T6 :**
+
+| Feature | Dimension | Note |
+|:---|:---:|:---|
+| **Longueur (axe X, portée tube)** | 45 mm | Pression contact = 6,3 MPa — protège le composite |
+| **Profondeur (axe Y, sagittale)** | 120 mm | Appui pleine largeur des plaques |
+| **Hauteur corps bride (axe Z)** | ~30 mm | Paroi min. 5 mm au-dessus du demi-alésage R = 15 mm |
+| **Demi-alésage tube** | R = 15 mm (demi-Ø30) | Fraisage cylindrique sur toute la longueur 45 mm |
+| **Ailes en L (appui plaque sup.)** | 120 mm × 10 mm | Face plane d'appui + rebord centrage épaisseur 5 mm |
+| **Vis de pincement (axe Z)** | **4× M6 lisse Ø6,3 mm** | 2 côté DOS (Y≈10mm) + 2 côté VENTRE (Y≈110mm) — à X≈10mm et X≈35mm de chaque bord (de part et d'autre de la plaque) — Nylstop M6 |
+| **Vis de fixation plaque (aile L)** | 4× M4 lisse Ø4,2 mm | Traversant plaque + bride — écrou Nylstop M4 |
+| **Perçage goupille (axe Z)** | Ø4 mm H7, **Axe Z (vertical)** | Trou vertical de haut en bas — percé en 1 seule passe 60 mm avec Bride Inf. assemblée |
+| **Centrage plaque** | Rebord 5 mm (aile L) | Obstacle mécanique biface — pas de réglage à l'assemblage |
+
+**Bride Inférieure (Demi-Coquille Basse) — miroir de la Bride Supérieure :**
+
+| Feature | Dimension | Note |
+|:---|:---:|:---|
+| **Géométrie générale** | Miroir de la Bride Sup. | 1 seul programme CAM — flip de pièce |
+| **Demi-alésage tube** | R = 15 mm, orienté vers le haut | Idem Bride Sup. |
+| **Ailes en L (appui plaque inf.)** | 120 mm × 10 mm | Idem Bride Sup. |
+| **Vis de pincement (axe Z)** | **4× trous M6 lisse** | Nut-side — écrous Nylstop M6 — positions identiques à Bride Sup. |
+| **Vis de fixation plaque (aile L)** | 4× M4 lisse | Idem Bride Sup. |
+| **Perçage goupille (axe Z)** | Ø4 mm H7, Axe Z (vertical) | Sortie inférieure du trou vertical 60 mm |
+
+| **Jeu de Pincement (Split Gap)** | **0,8 mm à 1,0 mm** au plan de joint | Dépouille de serrage : évite le contact alu/alu avant le pincement du tube |
+
+> [!IMPORTANT]
+> **Règle de l'Art pour l'Usinage des Brides (Dépouille de Pincement / Split Gap)** :
+> Si les deux brides étaient usinées avec deux demi-cercles exacts de 15,00 mm de profondeur sans jeu, leurs faces plates entreraient en contact ("butée alu contre alu") **avant** de développer toute la pression radiale sur le tube carbone. Le moindre sous-dimensionnement du tube (ex. Ø29,90 mm) rendrait le serrage inefficace.
+>
+> **Méthodes d'usinage préconisées sur C500 :**
+> - **Option A (Surfaçage CAM — Recommandé)** : Retirer **0,4 mm à 0,5 mm de matière** sur la face plate de joint de chaque demi-bride. La profondeur du demi-alésage passe à **14,5 mm** au lieu de 15,0 mm. À l'assemblage autour du tube Ø30,00 mm, il reste un jeu résiduel garanti de **0,8 mm à 1,0 mm** entre les brides. 100% de la force des vis M6 est transmise en pincement radial direct.
+> - **Option B (Usinage avec cale d'épaisseur — Shimmed Boring)** : Assembler les 2 blocs bruts d'alu avec une cale d'épaisseur (shim) de 1,0 mm au centre, puis usiner l'alésage Ø30,00 mm H7 assemblé. Retirer la cale après usinage.
+>
+> **Sécurité du Serrage vs Écrasement Carbone** :
+> - Serrer les 4× vis M6 à un couple maîtrisé de **6 N.m à 8 N.m**.
+> - Pression de contact résultante = **15 à 18 MPa** (parfaitement dans la limite admissible de 20 MPa du composite carbone).
+> - Force de friction seule = **~12 000 N** (Facteur de sécurité par friction S_f > 5 par rapport aux 2 400 N requis par le moteur RS-06).
+> - La goupille Ø4 mm verticale verrouille de surcroît tout mouvement par obstacle positif.
+
+> [!IMPORTANT]
+> **La goupille traversante complète — Triple rôle** : Percée à Z = 0 (axe neutre de flexion = affaiblissement minimal du tube) à travers **les deux brides + les deux parois du tube** en une seule passe. Elle assure simultanément : (1) anti-rotation du tube autour de X, (2) anti-translation axiale du tube (axe X), (3) pion de centrage de précision des 2 demi-coquilles entre elles. C'est la solution la plus simple, la plus robuste et la plus équilibrée mécaniquement.
+
+#### Séquence d'Assemblage du Nœud
+
+```
+Étape 1 : Insérer le tube carbone dans la Bride Inférieure (demi-alésage orienté vers le haut)
+          → Le tube repose dans la demi-coquille
+
+Étape 2 : Poser la Bride Supérieure par-dessus (demi-alésage vers le bas)
+          → Les 2 brides forment l'alésage complet Ø30 mm autour du tube
+
+Étape 3 : Insérer les 4× vis M6 traversantes en rectangle
+          → 2 côté DOS : une à X≈10mm et une à X≈35mm (de chaque côté de la plaque)
+          → 2 côté VENTRE : idem aux mêmes positions en X
+          → Serrer les 4 écrous Nylstop M6 au DOIGT uniquement (maintien sans serrage final)
+
+Étape 4 : PERCER la goupille Ø4 mm EN UNE SEULE PASSE VERTICALE (axe Z)
+          Percer de haut en bas (60 mm total) à travers : Bride Sup (15mm) + paroi tube haut (2mm) + creux tube (26mm) + paroi tube bas (2mm) + Bride Inf (15mm)
+          → La passe unique 3 axes sur C500 garantit l'alignement parfait des alésages
+          → Insérer la goupille élastique Ø4 mm × 60 mm (inox) par pression (maillet plastique)
+          → Triple rôle : anti-rotation tube + anti-translation axiale + pion de centrage brides ✅
+
+Étape 5 : Serrer les 4× vis M6 au couple final (10 N.m)
+          → F_serrage total = 4 × 14 500 N = 58 000 N — S_f = ×3.4 — tube pincé sur 45 mm
+          → Appliquer Loctite 243 côté écrou sur chacune
+
+Étape 6 : Placer le sous-ensemble [brides + tube] entre Colonne Supérieure et Colonne Inférieure
+          → Les ailes en L vien---
+
+### B.1 — Stratégie de Fabrication & Montage Hors-Torse sur NestWorks C500
+
+Cette section couvre les opérations de perçage des goupilles sur l'ensemble du sous-système tube carbone. L'approche recommandée est un **montage hors-torse** permettant de réaliser tous les perçages critiques sur CNC C500 avant intégration dans la coque PA12-CF.
+
+#### Récapitulatif des 3 types de goupilles
+
+| Goupille | Position | Direction | Diamètre | Profondeur | Outillage C500 |
+|:---|:---|:---:|:---:|:---:|:---|
+| **Nœud central** | Brides demi-coquilles (centre torse) | **Axe Z (Vertical)** | Ø4 mm H7 | **60 mm** | **C500 — 3 axes direct (broche Z)** |
+| **Ancrage épaule gauche** | Carter alu + tube extrémité gauche | Axe Z (Vertical) | Ø3 mm H7 | 30 mm | C500 — 3 axes direct |
+| **Ancrage épaule droit** | Carter alu + tube extrémité droit | Axe Z (Vertical) | Ø3 mm H7 | 30 mm | C500 — 3 axes direct |
+
+---
+
+#### Phase 1 — Usinage CNC C500 : Brides et Carters (3 axes standard)
+
+La C500 (course utile ~230 × 213 × 128 mm) est parfaitement adaptée à toutes les opérations d'usinage des pièces individuelles.
+
+---
+
+#### Phase 2 — Perçage Goupille Nœud Central (Axe Z, 60 mm) — **100% 3 Axes Direct sur C500**
+
+> [!TIP]
+> **La goupille étant VERTICALE (axe Z), cette opération s'effectue en 3 axes directs par la broche Z de la NestWorks C500.** Aucun 4ème axe rotatif n'est nécessaire. La profondeur totale de 60 mm laisse une garde Z très confortable de **68 mm** (sur la course de 128 mm de la machine).
+
+**Principe :** Le sous-ensemble [Bride Sup + Tube + Bride Inf] (maintenu par les 4 vis M6 serrées au doigt) est posé à plat sur la table de la C500. La broche descend verticalement selon l'axe Z pour percer de haut en bas sur 60 mm.
+
+**Séquence de perçage vertical Z — CNC C500 :**
+
+```
+MONTAGE :
+
+1. Assembler les 2 brides autour du tube (étapes 1-3 de la séquence principale)
+   → 4× M6 serrés AU DOIGT (maintien sans serrage final)
+
+2. Poser le sous-ensemble [Bride Sup + Tube + Bride Inf] à plat sur la table CNC (sur cales de précision)
+   → Brider les ailes en L sur la table
+   → Palper la face supérieure de la Bride Sup avec le Touch Probe 3D (Z = 0 référence)
+
+PERÇAGE CNC (programme CAM 3 axes) :
+
+3. Perçage Ø3,8 mm — cycle peck drilling G83 (dégagement copeaux)
+   → Vitesse broche : ~800 tr/min (CFRP + alu)
+   → Avance : ~50 mm/min
+   → Profondeur : 60 mm exacts (15mm Alu Sup + 2mm CFRP + 26mm vide + 2mm CFRP + 15mm Alu Inf)
+   → Pas de peck : 3 mm (évacuation continue des poussières)
+
+4. Alésage Ø4mm H7 (fraise Ø4mm DLC en interpolation hélicoïdale sur les 5mm supérieurs et 5mm inférieurs)
+   → Précision CNC ±0,02 mm
+
+5. Insérer la goupille élastique Ø4 mm × 60 mm inox (frappe légère au maillet plastique)
+
+6. Serrer les 4× M6 au couple final (10 N.m + Loctite 243)
+```
+
+---
+
+#### Récapitulatif Final — Faisabilité C500
+
+| Opération | Faisable C500 | Mode CNC | Profondeur | Priorité |
+|:---|:---:|:---|:---:|:---:|
+| Usinage brides (alésage, trous, ailes L) | ✅ Oui | 3 axes standard | 30 mm | Critique |
+| **Perçage goupille nœud Ø4mm H7 (axe Z)** | ✅ **Oui** | **3 axes direct (broche Z)** | **60 mm** | **Critique** |
+| Usinage carters épaule | ✅ Oui | 3 axes standard | 35 mm | Critique |
+| Perçage goupilles épaule Ø3mm H7 (axe Z) | ✅ Oui | 3 axes direct | 30 mm | Important |
+| Taraudage M6 / M4 | ✅ Non requis | Trous lisses + Nylstop | — | Simplifié |
+
+> [!IMPORTANT]
+> **Conclusion : TOUTES les opérations de perçage du torse sont réalisables en 3 axes direct sur la NestWorks C500**, avec une grande simplicité et sans outillage complexe.sinage brides (alésage, trous, ailes L) | ✅ Oui | 3 axes standard | Critique |
+| **Perçage goupille nœud Ø4mm H7 (axe Y, ~80mm)** | ✅ **Oui — 4ème axe** | Mandrin + A=0° + broche | Critique |
+| Usinage carters épaule | ✅ Oui | 3 axes standard | Critique |
+| Perçage goupilles épaule Ø3mm H7 (axe Z) | ✅ Oui | 3 axes standard | Important |
+| Taraudage M6 / M4 | ✅ Oui | ATC + outil taraud | Critique |
+| Pré-trous goupille nœud dans brides | ❌ Non requis | Remplacé par CAM direct | Supprimé |
+
+> [!IMPORTANT]
+> **Conclusion : TOUTES les opérations de perçage du sous-système tube sont réalisables sur la C500**, y compris la goupille nœud (axe Y, ~80mm) grâce au 4ème axe rotatif. Aucune colonne de perçage externe n'est nécessaire. Le montage hors-torse reste recommandé pour la flexibilité et la sécurité, mais tout peut être fait sur la C500.
+
+
+
+
+
 
 ### C. Carter Monobloc CNC Alu 6061-T6 (Flasque Arrière + Cerclage Épaule + Ancrage Carbone)
 
@@ -192,11 +360,11 @@ Pour maximiser la rigidité, la dissipation thermique et simplifier la chaîne d
 | **Tube Carbone ↔ Bride alu** | **Obstacle mécanique** : Goupille élastique traversante (Mécanindus) $\varnothing 3\text{ mm}$ travaillant en double cisaillement (perpendiculaire à l'axe du tube) — bloque toute translation axiale de manière positive et définitive. *(V2 optionnel : le collier fendu complète par friction pour éliminer les micro-jeux.)* | **Obstacle mécanique** : La goupille verrouille la rotation de façon positive. *(V2 optionnel : le serrage par pincement du collier fendu élimine tout micro-jeu angulaire.)* Le bouchon de renfort creux empêche l'écrasement du tube. |
 | **Bride alu ↔ Stator Moteur** | **Serrage mécanique** via les 8 vis M5 traversant le collet PA12-CF et la bride, plaquant le stator contre le lip du manchon. | **Obstacle mécanique** via les 8 vis CHC M5 dans leurs taraudages borgnes du stator (encastrement rigide). |
 
-#### Spécifications de la goupille et du bouchon de renfort
+#### Spécifications de la goupille et du bouchon de renfort (Carter Monobloc Épaule)
 
-* **Bouchon interne de renfort :** Manchon cylindrique **creux** (pour optimiser la masse) de $\varnothing 26\text{ mm}$ extérieur (ajustement glissant serré H7/h6) et $\varnothing 16-20\text{ mm}$ intérieur, d'une longueur de $30\text{ mm}$. Usiné en alu 6061-T6 ou imprimé en PA12-CF (100% de remplissage). Il est inséré et collé à l'époxy structurale à l'extrémité du tube. Son rôle est d'empêcher l'écrasement ou la délamination des fibres sous la contrainte de la goupille (et du collier fendu en V2).
-* **Perçage transversal :** Le trou de $\varnothing 3\text{ mm}$ pour la goupille est **perpendiculaire à l'axe du tube** (transversal). Il doit être percé à une distance de **$12\text{ mm}$** du bord d'extrémité du tube carbone (règle standard de $3 \times d$ pour éviter la rupture par cisaillement de l'arête du composite). Le perçage traverse successivement : paroi bride alu → paroi tube carbone → bouchon de renfort → paroi tube carbone → paroi bride alu.
-* **Goupille élastique :** Goupille de type Mécanindus (fendue en acier trempé) de $\varnothing 3\text{ mm} \times 35\text{ mm}$ (dépassant légèrement de chaque côté de la bride). Résistance au double cisaillement supérieure à $6300\text{ N}$ ($\approx 630\text{ kg}$).
+* **Bouchon interne de renfort :** Manchon cylindrique **creux** (pour optimiser la masse) de 26 mm extérieur (ajustement glissant serré H7/h6) et 16-20 mm intérieur, d'une longueur de 30 mm. Usiné en alu 6061-T6 ou imprimé en PA12-CF (100% de remplissage). Il est inséré et collé à l'époxy structurale à l'extrémité du tube (côté carter d'épaule). Son rôle est d'empêcher l'écrasement ou la délamination des fibres sous la contrainte de la goupille.
+* **Perçage transversal :** Le trou de 4 mm pour la goupille est **perpendiculaire à l'axe du tube** (transversal). Il doit être percé à une distance de **16 mm** du bord d'extrémité du tube carbone (règle standard de 4 × d_goupille pour éviter la rupture par cisaillement de l'arête du composite). Le perçage traverse successivement : paroi carter alu → paroi tube carbone → bouchon de renfort → paroi tube carbone → paroi carter alu.
+* **Goupille élastique :** Goupille de type Mécanindus (fendue en acier trempé) de **4 mm × 40 mm** (même diamètre que la goupille du nœud central — BOM unifiée). Résistance au double cisaillement > 7 500 N (facteur de sécurité ×6,3 par rapport à l'effort axial dynamique).
 
 #### Dimensions de la Bride pour Fusion 360
 
@@ -206,16 +374,14 @@ Pour maximiser la rigidité, la dissipation thermique et simplifier la chaîne d
 
 | Feature | Dimension | Tolérance | Note |
 |:---|:---:|:---:|:---|
-| **Alésage tube** | $\varnothing 30{,}05\text{ mm}$ | H7 (+0,025/0) | Ajustement glissant pour tube carbone Ø30 mm |
-| **Profondeur alésage** | $35\text{ mm}$ | ±0,5 mm | Pour bouchon (30 mm) + marge |
-| **Ø extérieur collier** | $\varnothing 42\text{ mm}$ | — | Épaisseur paroi ~6 mm |
-| **Ø plaque flasque** | $\varnothing 90\text{ mm}$ | — | À ajuster selon PCD mesuré du RS-04 |
-| **Épaisseur plaque** | $6\text{ mm}$ | — | Face d'appui contre le stator |
-| **8× trous M5 passage** | $\varnothing 5{,}3\text{ mm}$ | — | Sur PCD ~70 mm (mesurer sur le RS-04 !) |
-| **Perçage goupille** | $\varnothing 3{,}0\text{ mm}$ traversant | H7 | Perpendiculaire à l'axe du tube, à 12 mm du bord |
-| **Congé collier→plaque** | $R2\text{ mm}$ | — | Réduction de concentration de contraintes |
-| *(V2)* **Fente de serrage** | $1{,}5\text{ mm}$ × longueur collier | — | Axiale (le long du tube), au sommet du collier |
-| *(V2)* **2× trous M4 passage** | $\varnothing 4{,}2\text{ mm}$ | — | Enjambent la fente perpendiculairement |
+| **Alésage tube** | 30,05 mm | H7 (+0,025/0) | Ajustement glissant pour tube carbone Ø30 mm |
+| **Profondeur alésage** | 35 mm | ±0,5 mm | Pour bouchon (30 mm) + marge |
+| **Ø extérieur collier** | 42 mm | — | Épaisseur paroi ~6 mm |
+| **Ø plaque flasque** | 90 mm | — | À ajuster selon PCD mesuré du RS-04 |
+| **Épaisseur plaque** | 6 mm | — | Face d'appui contre le stator |
+| **8× trous M5 passage** | 5,3 mm | — | Sur PCD ~70 mm (mesurer sur le RS-04 !) |
+| **Perçage goupille** | **4,0 mm** traversant | H7 | Perpendiculaire à l'axe du tube, à **16 mm** du bord — **BOM unifiée Ø4 mm** |
+| **Congé collier→plaque** | R2 mm | — | Réduction de concentration de contraintes |
 
 > [!WARNING]
 > **Mesure critique avant modélisation** : Le **PCD (diamètre du cercle de boulonnage)** des 8 taraudages borgnes M5 sur la face arrière du stator RS-04 conditionne le Ø de la plaque et la position des perçages. Mesurer au pied à coulisse sur le moteur physique avant de finaliser le modèle.
