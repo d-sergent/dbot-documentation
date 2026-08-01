@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 460" width="100%" height="100%">
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.8"/>
+    </pattern>
+
+    <linearGradient id="plateGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+
+    <linearGradient id="longFlange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cbd5e0"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+
+    <linearGradient id="carbonGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- Main Title -->
+  <text x="430" y="26" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+    COLONNE EN 2 PARTIES &amp; GRANDE BRIDE SAGITTALE LONGUE (LONGEUR 120.0 mm)
+  </text>
+
+  <!-- Left Panel: 3D Exploded Assembly View -->
+  <g transform="translate(30, 45)">
+    <rect width="500" height="390" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="250" y="24" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">
+      1. Éclissage Sagittal Total &amp; Rebords de Fixation (120.0 mm)
+    </text>
+
+    <!-- Center Line for Carbon Tube -->
+    <line x1="20" y1="195" x2="480" y2="195" stroke="#00f2fe" stroke-width="1.5" stroke-dasharray="6,3"/>
+
+    <!-- 1. Colonne Supérieure (Cou -> Axe Épaules) - 120.0mm depth, 5mm thick -->
+    <g transform="translate(230, 50)">
+      <path d="M -45 0 L 45 0 L 45 110 L -45 110 Z" fill="url(#plateGrad)" stroke="#ffffff" stroke-width="1.5"/>
+      <text x="0" y="55" fill="#0f172a" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">COLONNE SUPÉRIEURE (5mm, Prof. 120mm)</text>
+    </g>
+
+    <!-- 2. Colonne Inférieure (Axe Épaules -> Waist) - 120.0mm depth, 5mm thick (SAME THICKNESS) -->
+    <g transform="translate(230, 220)">
+      <path d="M -45 0 L 45 0 L 45 140 L -45 140 Z" fill="url(#plateGrad)" stroke="#ffffff" stroke-width="1.5"/>
+      <text x="0" y="70" fill="#0f172a" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">COLONNE INFÉRIEURE (5mm, Prof. 120mm)</text>
+    </g>
+
+    <!-- 3. Grande Bride Sagittale Longue CNC (Profondeur 120.0mm) avec Rebords Supérieur & Inférieur -->
+    <g transform="translate(140, 135)">
+      <!-- Main Body Sleeve with Centering Bore -->
+      <rect x="10" y="20" width="180" height="80" rx="6" fill="url(#longFlange)" stroke="#ffffff" stroke-width="1.5"/>
+      <text x="100" y="12" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">GRANDE BRIDE LONGUE (120.0 mm)</text>
+
+      <!-- TOP REBORD / FLANGE FOR COLONNE SUPÉRIEURE -->
+      <rect x="10" y="5" width="180" height="15" rx="3" fill="url(#longFlange)" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="100" y="0" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Rebord d'Ancrage Supérieur (Vis M4)</text>
+
+      <!-- BOTTOM REBORD / FLANGE FOR COLONNE INFÉRIEURE -->
+      <rect x="10" y="100" width="180" height="15" rx="3" fill="url(#longFlange)" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="100" y="125" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Rebord d'Ancrage Inférieur (Vis M4)</text>
+
+      <!-- Center Bore Ø30.05mm for Carbon Tube -->
+      <circle cx="100" cy="60" r="20" fill="url(#carbonGrad)" stroke="#00f2fe" stroke-width="1.5"/>
+
+      <!-- Pin Hole Ø4mm -->
+      <line x1="100" y1="-10" x2="100" y2="130" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="3,1"/>
+      <circle cx="100" cy="-10" r="3.5" fill="#ef4444"/>
+      <text x="100" y="140" fill="#ef4444" font-family="system-ui, sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Goupille Traversante Ø4mm</text>
+
+      <!-- 4 Top Screws M4 through Top Rebord into Colonne Supérieure -->
+      <circle cx="30" cy="12" r="3.5" fill="#38bdf8"/>
+      <circle cx="65" cy="12" r="3.5" fill="#38bdf8"/>
+      <circle cx="135" cy="12" r="3.5" fill="#38bdf8"/>
+      <circle cx="170" cy="12" r="3.5" fill="#38bdf8"/>
+
+      <!-- 4 Bottom Screws M4 through Bottom Rebord into Colonne Inférieure -->
+      <circle cx="30" cy="107" r="3.5" fill="#38bdf8"/>
+      <circle cx="65" cy="107" r="3.5" fill="#38bdf8"/>
+      <circle cx="135" cy="107" r="3.5" fill="#38bdf8"/>
+      <circle cx="170" cy="107" r="3.5" fill="#38bdf8"/>
+    </g>
+
+    <!-- Carbon Tube Ø30mm -->
+    <rect x="20" y="180" width="460" height="30" rx="3" fill="url(#carbonGrad)" stroke="#00f2fe" stroke-width="1.5" opacity="0.95"/>
+    <text x="50" y="199" fill="#00f2fe" font-family="system-ui, sans-serif" font-size="9" font-weight="bold">Tube Carbone Ø30mm (Axe Épaules h = 290mm)</text>
+  </g>
+
+  <!-- Right Panel: Architectural Specifications -->
+  <g transform="translate(550, 45)">
+    <rect width="280" height="390" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="140" y="24" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">
+      2. Spécifications C500 &amp; Rebords
+    </text>
+
+    <!-- Spec 1 -->
+    <g transform="translate(20, 45)">
+      <text x="0" y="15" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="10" font-weight="bold">1. Longueur Exacte : 120.0 mm</text>
+      <text x="10" y="32" fill="#cbd5e0" font-family="system-ui, sans-serif" font-size="9">• Conforme à la profondeur max du torse</text>
+      <text x="10" y="48" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="9" font-weight="bold">• Usinage C500 direct à 28° en 1 prise !</text>
+    </g>
+
+    <!-- Spec 2 -->
+    <g transform="translate(20, 120)">
+      <text x="0" y="15" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="10" font-weight="bold">2. Épaisseur Plaque Identique (5 mm) :</text>
+      <text x="10" y="32" fill="#cbd5e0" font-family="system-ui, sans-serif" font-size="9">• Colonne Supérieure : Tôle 5.0 mm</text>
+      <text x="10" y="48" fill="#cbd5e0" font-family="system-ui, sans-serif" font-size="9">• Colonne Inférieure : Tôle 5.0 mm</text>
+    </g>
+
+    <!-- Spec 3 -->
+    <g transform="translate(20, 195)">
+      <text x="0" y="15" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="10" font-weight="bold">3. Rebords Supérieur &amp; Inférieur :</text>
+      <text x="10" y="32" fill="#cbd5e0" font-family="system-ui, sans-serif" font-size="9">• **Rebord Haut** : 4 vis M4 d'ancrage</text>
+      <text x="10" y="48" fill="#cbd5e0" font-family="system-ui, sans-serif" font-size="9">• **Rebord Bas** : 4 vis M4 d'ancrage</text>
+      <text x="10" y="64" fill="#cbd5e0" font-family="system-ui, sans-serif" font-size="9">• Fixation en sandwich ultra-rigide</text>
+    </g>
+
+    <!-- Spec 4 -->
+    <g transform="translate(20, 285)">
+      <text x="0" y="15" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="10" font-weight="bold">⭐ VERDICT D'ASSEMBLAGE :</text>
+      <text x="10" y="32" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="9" font-weight="bold">Liaison mécanique 100% robuste &amp; valide !</text>
+    </g>
+  </g>
+</svg>

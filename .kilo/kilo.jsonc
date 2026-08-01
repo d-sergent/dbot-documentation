@@ -1,0 +1,21 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "mcp": {
+    "dbot-rag": {
+      "type": "local",
+      "command": ["/opt/homebrew/bin/python3.11", "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/mcp_lightrag_server.py"],
+      "environment": {
+        "PYTHONPATH": "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag",
+        "RAG_DB_PATH": "/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db",
+        "VMLX_BASE_URL": "http://127.0.0.1:8080/v1",
+        "PYTHONWARNINGS": "ignore"
+      },
+      "enabled": true,
+      "timeout": 30000
+    }
+  },
+  "permission": {
+    "dbot-rag_*": "allow",
+    "dbot_rag_*": "allow"
+  }
+}
