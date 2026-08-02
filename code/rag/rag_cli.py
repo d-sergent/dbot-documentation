@@ -32,7 +32,8 @@ async def main():
     server_env = os.environ.copy()
     server_env["RAG_DB_PATH"] = DB_PATH
     server_env["PYTHONPATH"] = os.path.dirname(SERVER_SCRIPT)
-    server_env["VMLX_BASE_URL"] = "http://127.0.0.1:8080/v1"
+    server_env["VMLX_BASE_URL"] = "http://127.0.0.1:8012/v1"
+    server_env["VMLX_MODEL"] = "lmstudio-community/Qwen3.6-27B-MLX-8bit"
     server_env["PYTHONWARNINGS"] = "ignore"
 
     from mcp.client.stdio import stdio_client, StdioServerParameters

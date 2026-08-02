@@ -58,16 +58,47 @@ Le serveur MCP a un **fallback automatique** en mode `naive` (retrieval pur, vec
 ### Démarrer le serveur vLLM (optionnel — pour le mode hybride)
 
 ```bash
-vllm serve JANGQ-AI/Qwen3.6-35B-A3B-JANGTQ4 --port 8080
+# Qwen 3.6 27B (VLM — port 8012)
+vllm serve lmstudio-community/Qwen3.6-27B-MLX-8bit --port 8012
+
+# Gemma 4 31B (non-VLM — port 8006)
+vllm serve JANGQ-AI/Gemma-4-31B-it-JANG_4M --port 8006
 ```
 
-> Sans vLLM, `rag --search` bascule automatiquement en mode `naive` (retrieval pur) avec un avertissement, mais reste fonctionnel.
+> Le RAG D-Bot utilise **Qwen 3.6 27B (port 8012)** par défaut. Sans serveur vLLM, `rag --search` bascule automatiquement en mode `naive` (retrieval pur) avec un avertissement, mais reste fonctionnel.
+
+### Gestion des images (modèles VLM vs non-VLM)
+
+La base RAG contient des chunks d'images (`.png`, `.svg`) — du texte extrait par un modèle VLM. La stratégie dépend de la capacité du modèle :
+
+| Variable | Valeur par défaut | Description |
+|---|---|---|
+| `RAG_SKIP_IMAGES` | `true` | Filtre les chunks d'images + nettoie markdown `![]()` 
+
+> **Note** : Qwen 3.6 27B est un modèle **VLM**. Le config `RAG_SKIP_IMAGES=false` est utilisé — les chunks images sont inclus (texte VLM). Les références markdown `![]()` sont **toujours nettoyées** pour empêcher Kilo de lire les fichiers images.
+
+Pour désactiver le filtrage (modèle VLM), ajoutez dans `.kilo/kilo.jsonc` → `mcp.dbot-rag.environment` :
+```jsonc
+"RAG_SKIP_IMAGES": "false"
+```
 
 ---
 
 ## 🔗 Configuration MCP (`.kilo/kilo.jsonc`)
 
 ```jsonc
+"model": "vmlx/qwen3.6-27b",            // modèle par défaut (VLM)
+"small_model": "vmlx/gemma-4-31b",       // modèle secondaire (non-VLM)
+"provider": {
+  "vmlx": {                               // ← Qwen 3.6 27B (port 8012, VLM)
+    "options": { "apiKey": "not-needed", "baseURL": "http://127.0.0.1:8012/v1" },
+    "models": { "qwen3.6-27b": { "name": "lmstudio-community/Qwen3.6-27B-MLX-8bit" } }
+  },
+  "vmlx-gemma": {                          // ← Gemma 4 31B (port 8006, non-VLM)
+    "options": { "apiKey": "not-needed", "baseURL": "http://127.0.0.1:8006/v1" },
+    "models": { "gemma-4-31b": { "name": "JANGQ-AI/Gemma-4-31B-it-JANG_4M" } }
+  }
+},
 "mcp": {
   "dbot-rag": {
     "type": "local",
@@ -75,15 +106,14 @@ vllm serve JANGQ-AI/Qwen3.6-35B-A3B-JANGTQ4 --port 8080
     "environment": {
       "PYTHONPATH": ".../Code/rag",
       "RAG_DB_PATH": ".../lightrag_dbot_db",
-      "VMLX_BASE_URL": "http://127.0.0.1:8080/v1"
+      "VMLX_BASE_URL": "http://127.0.0.1:8012/v1",
+      "VMLX_MODEL": "lmstudio-community/Qwen3.6-27B-MLX-8bit",
+      "RAG_SKIP_IMAGES": "true"
     },
-    "enabled": true,
-    "timeout": 30000
+    "enabled": true, "timeout": 30000
   }
 },
-"permission": {
-  "dbot-rag_*": "allow"
-}
+"permission": { "dbot-rag_*": "allow" }
 ```
 
 > Le format a été migré de `experimental.mcpServers` (déprécié) vers la clé `mcp` (standard actuel). Les outils MCP sont en `allow` pour un usage sans prompt d'approbation.

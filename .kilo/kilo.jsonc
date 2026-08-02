@@ -1,5 +1,36 @@
 {
   "$schema": "https://app.kilo.ai/config.json",
+  "model": "vmlx/qwen3.6-27b",
+  "small_model": "vmlx/gemma-4-31b",
+  "provider": {
+    "vmlx": {
+      "options": {
+        "apiKey": "not-needed",
+        "baseURL": "http://127.0.0.1:8012/v1",
+        "timeout": 300000
+      },
+      "models": {
+        "qwen3.6-27b": {
+          "name": "lmstudio-community/Qwen3.6-27B-MLX-8bit",
+          "description": "Qwen3.6 27B MLX 8bit — LM Studio GPU (VLM)",
+          "max_tokens": 12000
+        }
+      }
+    },
+    "vmlx-gemma": {
+      "options": {
+        "apiKey": "not-needed",
+        "baseURL": "http://127.0.0.1:8006/v1",
+        "timeout": 300000
+      },
+      "models": {
+        "gemma-4-31b": {
+          "name": "JANGQ-AI/Gemma-4-31B-it-JANG_4M",
+          "description": "Gemma 4 31B it — vmlx-engine (Mac, non-VLM)"
+        }
+      }
+    }
+  },
   "mcp": {
     "dbot-rag": {
       "type": "local",
@@ -7,7 +38,9 @@
       "environment": {
         "PYTHONPATH": "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag",
         "RAG_DB_PATH": "/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db",
-        "VMLX_BASE_URL": "http://127.0.0.1:8080/v1",
+        "VMLX_BASE_URL": "http://127.0.0.1:8012/v1",
+        "VMLX_MODEL": "lmstudio-community/Qwen3.6-27B-MLX-8bit",
+        "RAG_SKIP_IMAGES": "false",
         "PYTHONWARNINGS": "ignore"
       },
       "enabled": true,

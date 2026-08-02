@@ -26,11 +26,11 @@ La soudure TIG/MIG détruit localement le traitement thermique T6, réduisant la
 ### Plans et Vues de la Cage
 
 **Vue de Face (Blueprint Technique)**
-![Vue de Face - Plan Technique Squelette Aluminium](./assets/torso_frame_front_1774385220302.png)
+![Vue de Face - Plan Technique Squelette Aluminium](../assets/torso_frame_front_1774385220302.png)
 *Illustration : Les montants verticaux (40x40) sont joints aux traverses (60x60 en bas, 35x35 en haut) via les nœuds de jonction CNC. Largeur 300 mm, Hauteur 420 mm.*
 
 **Vue Perspective (Rendu 3D Isométrique)**
-![Vue Perspective - Squelette Torse Alu 3D](./assets/torso_frame_isometric_1774385202707.png)
+![Vue Perspective - Squelette Torse Alu 3D](../assets/torso_frame_isometric_1774385202707.png)
 *Illustration : La profondeur de la cage est de 220 mm. On y distingue clairement les nœuds de jonction CNC pleins (de ~50x50x50 mm) vissés dans les coins.*
 
 ## 3. Choix des Matériaux
@@ -133,7 +133,7 @@ Moins sollicitée que la traverse basse. Elle reprend le poids des bras (~4 kg p
 ### Principe d'Assemblage
 Chaque coin de la cage est connecté par un **nœud tri-axial** usiné dans un bloc d'aluminium 6061 T6. Le nœud comporte des tenons rectangulaires ou carrés qui s'insèrent à l'intérieur des tubes creux.
 
-![Rendu CAO 3D d'un nœud de jonction CNC en Aluminium 6061](./assets/img_cnc_joining_node.png)
+![Rendu CAO 3D d'un nœud de jonction CNC en Aluminium 6061](../assets/img_cnc_joining_node.png)
 
 *Illustration : Concept de Nœud Tri-axial usiné sur CNC (3 axes). Les tenons s'insèrent dans les tubes 40x40 et 35x35.*
 

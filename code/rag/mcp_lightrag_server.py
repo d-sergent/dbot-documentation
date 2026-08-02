@@ -26,6 +26,7 @@ Prérequis : pip install lightrag-hku lancedb fastembed mcp
 import asyncio
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -42,8 +43,10 @@ tiktoken.Encoding.encode = _safe_encode
 # ─── Configuration ────────────────────────────────────────────────────────────
 
 DB_PATH       = Path(os.environ.get("RAG_DB_PATH", "/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db"))
-VMLX_BASE_URL = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8080/v1")
-VMLX_MODEL    = os.environ.get("VMLX_MODEL", "JANGQ-AI/Qwen3.6-35B-A3B-JANGTQ4")
+VMLX_BASE_URL = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8006/v1")
+VMLX_MODEL    = os.environ.get("VMLX_MODEL", "JANGQ-AI/Gemma-4-31B-it-JANG_4M")
+SKIP_IMAGES   = os.environ.get("RAG_SKIP_IMAGES", "true").lower() in ("1", "true", "yes")
+IMAGE_EXTS    = {".png", ".jpg", ".jpeg", ".svg", ".gif", ".bmp", ".webp", ".tiff", ".pdf"}
 
 # ─── Imports ──────────────────────────────────────────────────────────────────
 
@@ -154,6 +157,7 @@ async def fast_rerank_func(query: str, chunks: list) -> list:
 
 
 async def llm_func(prompt, system_prompt=None, history_messages=[], **kwargs):
+    kwargs.setdefault("max_tokens", 512)
     return await openai_complete_if_cache(
         VMLX_MODEL,
         prompt,
@@ -341,6 +345,16 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
             if not chunks:
                 return [TextContent(type="text", text=f"Aucun document pertinent trouvé dans la base pour : '{query}'.")]
 
+            # --- Filtrage optionnel des chunks d'images (modèles non-VLM) ---
+            if SKIP_IMAGES:
+                _before = len(chunks)
+                chunks = [c for c in chunks if os.path.splitext(c.get("file_path", ""))[1].lower() not in IMAGE_EXTS]
+                _skipped = _before - len(chunks)
+                if _skipped:
+                    print(f"⚠️  Ignoré {_skipped} chunk(s) d'image (RAG_SKIP_IMAGES=true).", file=sys.stderr)
+                if not chunks:
+                    return [TextContent(type="text", text=f"Aucun document texte pertinent pour : '{query}'. (chunks images exclus)")]
+
             # --- RERANKING MANUEL ---
             try:
                 chunks = await fast_rerank_func(query, chunks)
@@ -349,10 +363,15 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
                 print(f"⚠️ Échec Rerank : {e}", file=sys.stderr)
 
             # Formatage de la réponse pour le LLM
+            # Strip markdown image refs so clients don't try to read image files for non-VLM models
+            _md_img = re.compile(r"!\[[^\]]*\]\([^)]*\)")
+            _orphan_ref = re.compile(r"\]\([^)]*\.(?:png|jpe?g|svg|gif|bmp|webp|tiff)\)")
             output = [f"### Extraits D-Bot [Mode: {data_mode}] pour : {query}"]
             for i, chunk in enumerate(chunks[:10]): # Top 10 chunks
                 source = chunk.get("file_path", "Source inconnue")
                 content = chunk.get("content", "").strip()
+                content = _md_img.sub("[référence image — voir source originale]", content)
+                content = _orphan_ref.sub("[référence image — voir source originale]", content)
                 score = chunk.get("rerank_score", 0.0)
                 score_str = f" [Score: {score:.2f}]" if score > 0 else ""
                 output.append(f"\n---\n[Source {i+1}: {source}]{score_str}\n{content}")
