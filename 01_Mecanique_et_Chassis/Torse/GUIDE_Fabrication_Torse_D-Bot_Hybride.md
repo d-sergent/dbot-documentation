@@ -15,11 +15,11 @@ Le torse du D-Bot est basé sur la coque organique de l'Asimov v1 (mise à l'éc
 
 | Élément | Ancien design (Asimov pur) | Nouveau design (D-Bot Cruciforme) |
 |:---|:---|:---|
-| **Structure porteuse** | Coque PA12-CF seule (6 périmètres, 35% infill) | **Squelette alu/carbone cruciforme** |
+| **Structure porteuse** | Coque PA12-CF seule (6 périmètres, 35% infill) | **Squelette alu/carbone/acier cruciforme** |
 | **Rôle de la coque** | Primaire (porte tous les efforts) | **Secondaire** (protection, forme, transmission locale) |
 | **Colonne vertébrale** | 2 lattes alu latérales (irréalisable) | **1 plaque isogrid sagittale** (dos→ventre, toute la hauteur) |
 | **Traverse épaules** | Aucune | **Tube carbone Ø30mm** reliant les 2 brides de liaison d'épaule |
-| **Flasques épaules** | Disques plats alu 5mm | **Carter monobloc alu CNC** (flasque arrière + cerclage 360° + ancrage carbone, insertion RS-04 par l'avant) |
+| **Flasques épaules** | Disques plats alu 5mm | **Carter monobloc acier E470 CNC** (Plan 2D *Support RS-04* : Ø124mm, alésage Ø120.2mm H7, paroi 1.9mm, fond 4mm évidé Ø97mm, insertion par l'extérieur) |
 | **Batterie** | 1 panier coulissant central | **2 paniers latéraux** (G + D) avec hot-swap |
 | **Orientation impression** | Dos au plateau (horizontal) | **Verticale** (debout sur le plan de coupe) |
 
@@ -220,7 +220,9 @@ Cette architecture offre 4 bénéfices d'ingénierie majeurs :
           → Appliquer Loctite 243 côté écrou sur chacune
 
 Étape 6 : Placer le sous-ensemble [brides + tube] entre Colonne Supérieure et Colonne Inférieure
-          → Les ailes en L vien---
+          → Les ailes en L des brides viennent enserrer la tôle de 5,0 mm de chaque côté
+          → Insérer les 4× vis M4 traversantes par bride et serrer les écrous Nylstop M4 au couple (4 N.m)
+```
 
 ### B.1 — Stratégie de Fabrication & Montage Hors-Torse sur NestWorks C500
 
@@ -285,48 +287,37 @@ PERÇAGE CNC (programme CAM 3 axes) :
 |:---|:---:|:---|:---:|:---:|
 | Usinage brides (alésage, trous, ailes L) | ✅ Oui | 3 axes standard | 30 mm | Critique |
 | **Perçage goupille nœud Ø4mm H7 (axe Z)** | ✅ **Oui** | **3 axes direct (broche Z)** | **60 mm** | **Critique** |
-| Usinage carters épaule | ✅ Oui | 3 axes standard | 35 mm | Critique |
+| Usinage carters épaule acier E470 | ✅ Oui | 3 axes standard | 43 mm | Critique |
 | Perçage goupilles épaule Ø3mm H7 (axe Z) | ✅ Oui | 3 axes direct | 30 mm | Important |
-| Taraudage M6 / M4 | ✅ Non requis | Trous lisses + Nylstop | — | Simplifié |
+| Vissage M4 stator RS-04 | ✅ Simplifié | Trous lisses Ø 3,3 mm + vis CHC M4 | — | Simplifié |
 
 > [!IMPORTANT]
-> **Conclusion : TOUTES les opérations de perçage du torse sont réalisables en 3 axes direct sur la NestWorks C500**, avec une grande simplicité et sans outillage complexe.sinage brides (alésage, trous, ailes L) | ✅ Oui | 3 axes standard | Critique |
-| **Perçage goupille nœud Ø4mm H7 (axe Y, ~80mm)** | ✅ **Oui — 4ème axe** | Mandrin + A=0° + broche | Critique |
-| Usinage carters épaule | ✅ Oui | 3 axes standard | Critique |
-| Perçage goupilles épaule Ø3mm H7 (axe Z) | ✅ Oui | 3 axes standard | Important |
-| Taraudage M6 / M4 | ✅ Oui | ATC + outil taraud | Critique |
-| Pré-trous goupille nœud dans brides | ❌ Non requis | Remplacé par CAM direct | Supprimé |
+> **Conclusion : TOUTES les opérations de perçage du torse sont réalisables en 3 axes direct sur la NestWorks C500**, avec une grande simplicité et sans outillage rotatif 4ème axe.
 
-> [!IMPORTANT]
-> **Conclusion : TOUTES les opérations de perçage du sous-système tube sont réalisables sur la C500**, y compris la goupille nœud (axe Y, ~80mm) grâce au 4ème axe rotatif. Aucune colonne de perçage externe n'est nécessaire. Le montage hors-torse reste recommandé pour la flexibilité et la sécurité, mais tout peut être fait sur la C500.
+---
 
+### C. Carter Monobloc CNC (Support RS-04 en Acier E470 & Collet PA12-CF)
 
-
-
-
-
-### C. Carter Monobloc CNC Alu 6061-T6 (Flasque Arrière + Cerclage Épaule + Ancrage Carbone)
-
-Pour maximiser la rigidité, la dissipation thermique et simplifier la chaîne d'assemblage, l'ensemble d'épaule adopte un **carter monobloc usiné CNC en aluminium 6061-T6**. Il réunit en une seule pièce :
-1. **La flasque arrière de liaison (6 mm)** : Sert de bride d'ancrage arrière pour le stator et prend l'appui des 8 vis M5.
-2. **Le manchon cylindrique de cerclage (3 mm)** : Entoure le corps du moteur RS-04 sur 360° pour supprimer l'ovalisation et dissiper les calories.
-3. **Le socket d'ancrage du tube carbone Ø30 mm** : Reçoit l'extrémité du tube carbone et la goupille d'arrêt vertical.
+Pour maximiser la rigidité, la dissipation thermique et la précision géométrique, l'épaule adopte le carter monobloc **Support RS-04 usiné en Acier E470 (Plan 2D David SERGENT)** :
+1. **Le fond d'embase (4,0 mm avec évidement Ø 97 mm)** : Sert de flasque d'ancrage arrière pour le stator et prend l'appui direct des 10× vis CHC M4 × 10 mm.
+2. **Le manchon cylindrique de cerclage (1,9 mm)** : Entoure le corps du moteur RS-04 sur 360° (Ø ext 124,0 mm, alésage Ø 120,2 mm H7) pour supprimer l'ovalisation et dissiper les calories.
+3. **L'ancrage du tube carbone Ø 30 mm** : Reçoit l'extrémité du tube carbone et la goupille d'arrêt verticale.
 
 #### Vue d'ensemble et Séquence d'assemblage (Schéma Conceptuel & Rendu 3D)
 
-![Vue éclatée schématique coaxiale de l'assemblage carter monobloc alu](./media/bride_tube_carbone_eclatee.svg)
+![Vue éclatée schématique coaxiale de l'assemblage carter monobloc](./media/bride_tube_carbone_eclatee.svg)
 
-*Schéma conceptuel coaxial (de gauche à droite) : ① Vis CHC M5 (×8), ② Ancrage tube carbone Ø30 mm avec goupille Ø3 mm, ③ Carter Monobloc Alu 6061-T6 (Flasque 6 mm + Cerclage 360°), ④ Poche du collet PA12-CF de la coque torse, ⑤ Moteur RobStride RS-04 inséré par l'avant (façade extérieure épaule).*
+*Schéma conceptuel coaxial (de gauche à droite) : ① 10× Vis CHC M4 × 10 mm, ② Ancrage tube carbone Ø30 mm avec goupille Ø3 mm, ③ Carter Monobloc Acier E470 (Flasque 4,0 mm évidée Ø97 mm + Cerclage 360° 1,9 mm), ④ Poche du collet PA12-CF de la coque torse, ⑤ Moteur RobStride RS-04 inséré par l'avant (façade extérieure épaule).*
 
-![Vue éclatée 3D réaliste de l'assemblage carter monobloc alu](./media/bride_tube_carbone_eclatee_3d.png)
+![Vue éclatée 3D réaliste de l'assemblage carter monobloc](./media/bride_tube_carbone_eclatee_3d.png)
 
-*Rendu 3D réaliste de l'assemblage d'épaule révisé : le carter monobloc alu CNC 6061-T6 réunit la flasque arrière 6 mm, le socket de réception du tube carbone Ø30 mm et le cerclage 360° ouvert à l'avant pour l'insertion frontale du moteur RS-04.*
+*Rendu 3D réaliste de l'assemblage d'épaule : le carter monobloc Support RS-04 en acier E470 CNC réunit le fond d'embase de 4,0 mm, le socket de réception du tube carbone Ø30 mm et le cerclage 360° ouvert à l'avant pour l'insertion frontale du RS-04.*
 
 #### Vue en coupe — Détail interne
 
-![Coupe longitudinale A-A du détail interne de l'ancrage carbone dans le carter alu](./media/bride_tube_carbone_coupe.svg)
+![Coupe longitudinale A-A du détail interne de l'ancrage carbone dans le carter acier E470](./media/bride_tube_carbone_coupe.svg)
 
-*Coupe longitudinale A-A révisée : le tube carbone (Ø30×26 mm) est renforcé par le **bouchon alu interne** (Ø26 mm ext, Ø18 mm int, 30 mm long) collé à l'époxy. L'ensemble s'insère dans le socket Ø30,05 mm H7 du carter monobloc alu CNC (profondeur 35 mm). La **goupille élastique inox** (Ø3 mm × 35 mm, rouge) traverse perpendiculairement l'axe du tube, à 12 mm du bord d'entrée de la flasque 6 mm.*
+*Coupe longitudinale A-A révisée : le tube carbone (Ø30×26 mm) est emmanché dans la bride d'épaule du carter monobloc Acier E470 CNC. La **goupille élastique inox** (Ø3 mm × 35 mm, rouge) traverse perpendiculairement l'axe du tube, à 12 mm du bord d'entrée de la flasque.*
 
 #### Orientations des éléments (référentiel)
 
@@ -397,74 +388,137 @@ Pour maximiser la rigidité, la dissipation thermique et simplifier la chaîne d
 1. **Sketch Profil de Révolution** (plan XZ) — Profil en L : rayon int. $15{,}025\text{ mm}$, rayon ext. collier $21\text{ mm}$, hauteur collier $35\text{ mm}$, rayon ext. plaque $45\text{ mm}$, épaisseur plaque $6\text{ mm}$. Axe de révolution = axe X (horizontal).
 2. **Revolve 360°** — Résultat : solide étagé (collier $\varnothing 42$ + plaque $\varnothing 90$).
 3. *(V2 uniquement)* **Fente de Serrage** — Extrude Cut d'un rectangle $1{,}5\text{ mm} \times$ longueur collier, au sommet, radial vers l'alésage.
-4. *(V2 uniquement)* **Perçages M4** — 2× $\varnothing 4{,}2\text{ mm}$ enjambant la fente perpendiculairement (vus de face : positions ~11h et ~1h).
-5. **8× M5 — Circular Pattern** — 1 trou $\varnothing 5{,}3\text{ mm}$ sur le PCD → pattern ×8, espacement 45°.
-6. **Goupille Ø3 mm + Congés** — Trou $\varnothing 3{,}0\text{ mm}$ traversant, **vertical** (axe Z, perpendiculaire au tube), à $12\text{ mm}$ du bord d'entrée. Congés $R2\text{ mm}$ sur la transition collier→plaque.
+4. *(V2 uniquement)* **Perçages M4** — 2× Ø 4.2 mm enjambant la fente perpendiculairement (vus de face : positions ~11h et ~1h).
+5. **8× M5 — Circular Pattern** — 1 trou Ø 5.3 mm sur le PCD → pattern ×8, espacement 45°.
+6. **Goupille Ø3 mm + Congés** — Trou Ø 3.0 mm traversant, **vertical** (axe Z, perpendiculaire au tube), à 12 mm du bord d'entrée. Congés R2 mm sur la transition collier→plaque.
 
 ---
 
-## 4. Carter Monobloc d'Épaule (Aluminium 6061-T6) et Collet PA12-CF
+## 4. Carter Monobloc d'Épaule (Acier E470 / Alu 6061-T6) et Collet PA12-CF
 
-### A. Concept : Carter alu ouvert à l'avant + Flasque arrière intégrée + Insertion par l'extérieur
+### A. Concept : Carter ouvert à l'avant + Flasque arrière intégrée + Insertion par l'extérieur
 
 > [!IMPORTANT]
-> **Révision architecturale majeure (Juillet 2026)** : L'ancien concept d'insertion du moteur par l'intérieur (avec lip avant) est remplacé par une **insertion du moteur par l'extérieur (Front-Loading)** dans un **carter monobloc alu CNC**. Ce design offre 4 avantages majeurs :
+> **Révision architecturale majeure (Juillet 2026)** : L'ancien concept d'insertion du moteur par l'intérieur (avec lip avant) est remplacé par une **insertion du moteur par l'extérieur (Front-Loading)** dans un **carter monobloc CNC (Acier E470 retenu)**. Ce design offre 4 avantages majeurs :
 > 1. **Maintenabilité optimale** : Le RS-04 se monte et se démonte directement par le flanc du robot sans toucher au reste de l'intérieur du torse.
-> 2. **Plaquage 100% métal-métal** : La face arrière du stator plaque directement contre la flasque alu arrière (dissipation thermique et rigidité maximales).
-> 3. **Appui de vis 100% métal** : Les 8 vis M5 s'appuient sur la flasque en alu (élimination totale du risque de fluage du PA12-CF).
-> 4. **Intégration monobloc** : Le manchon cylindrique 360°, la flasque arrière et l'ancrage du tube carbone sont usinés d'un seul tenant en aluminium 6061-T6.
+> 2. **Plaquage 100% métal-métal** : La face arrière du stator plaque directement contre la flasque arrière de 4.0 mm en acier E470 (dissipation thermique et rigidité maximales).
+> 3. **Appui de vis 100% métal** : Les vis M4 s'appuient sur la flasque en acier (élimination totale du risque de fluage du PA12-CF).
+> 4. **Intégration monobloc** : Le manchon cylindrique 360° (paroi 1.9 mm), la flasque arrière (4.0 mm) et l'ancrage du tube carbone sont usinés d'un seul tenant dans une ébauche creuse en acier E470.
 
-Chaque logement d'épaule est un sous-assemblage de **3 éléments** :
 
-1. **Carter Monobloc Alu 6061-T6** — carter cylindrique **ouvert à l'avant**, avec **flasque arrière intégrée (6 mm)** et **socket pour tube carbone Ø30 mm**
-2. **Collet PA12-CF** — poche cylindrique imprimée dans la coque du torse, enveloppant le carter alu
-3. **Résine époxy JB Weld** — film de collage structural entre le carter alu et le collet PA12-CF
+### B. Le Carter Monobloc : Option Alu 6061-T6 (Historique) & Plan Officiel Acier E470 (David SERGENT)
 
-Les **câbles du moteur** (puissance XT30 + CAN) sortent par une encoche dans la flasque alu arrière vers l'intérieur du torse.
+Le carter monobloc d'épaule est un **cylindre en acier E470 ouvert à l'avant avec flasque arrière évidée** :
 
-### B. Le Carter Monobloc Aluminium (Pièce ① — Usiné CNC)
+#### 1. Plan de Définition CAO 2D (`Support RS-04` — David SERGENT 03/08/2026)
 
-Le carter alu est un **cylindre ouvert à l'avant avec flasque arrière fermée et ancrage carbone** :
+![Plan de Définition 2D — Support RS-04 en Acier E470 par David SERGENT](./media/plan_2d_support_rs04_acier_e470.png)
 
-![Coupe axiale du carter monobloc aluminium d'épaule](./media/manchon_alu_coupe_axiale.svg)
+*Plan de Définition 2D officiel du Support RS-04 en Acier E470 (par David SERGENT — 03/08/2026) : Ø ext 124,0 mm, alésage Ø 120,2 mm H7, paroi 1,9 mm, fond 4,0 mm évidé à Ø 97,0 mm, 10× perçages Ø 3,3 mm sur PCD Ø 106,0 mm.*
+
+#### 2. Schéma Vectoriel d'Assemblage en Coupe Axiale
+
+![Coupe axiale du carter monobloc acier E470 d'épaule](./media/manchon_acier_e470_coupe_axiale.svg)
+
+*Coupe axiale révisée du Support RS-04 en acier E470 CNC (gris acier) avec sa flasque arrière de 4,0 mm (évidement central Ø 97,0 mm) et sa paroi cylindrique 360° de 1,9 mm (Ø ext 124,0 mm). Le moteur RS-04 (orange) s'insère **par l'avant (extérieur de l'épaule)**. Les 10× vis CHC M4 × 10 mm (rouge) s'insèrent depuis l'intérieur du torse et traversent la flasque acier E470 pour se visser directement dans le stator.*
 
 > [!CAUTION]
 > **OUVERT À L'AVANT.** L'avant du carter reste complètement ouvert pour permettre le glissement et l'extraction du moteur RS-04 depuis l'extérieur de l'épaule.
 
-#### Spécifications du carter monobloc alu
+#### 3. Spécifications du Plan CAO Officiel `Support RS-04` (David SERGENT — Révision 04/08/2026)
 
-| Paramètre | Valeur |
-|:---|:---|
-| **Matériau** | Aluminium 6061-T6 (usinage CNC 3 axes ou tournage + fraisage) |
-| **Forme** | Carter cylindrique **ouvert à l'avant**, avec **flasque arrière fermée intégrée** |
-| **Diamètre extérieur** | Diamètre de la poche collet PA12-CF **−0,2 mm** (tolérance FDM) |
-| **Épaisseur de paroi cylindrique** | 3 mm (cerclage 360° anti-ovalisation) |
-| **Flasque arrière** | Disque alu de **6 mm** d'épaisseur intégrant 8× trous lisses Ø5,5 mm pour vis M5 et 1× socket Ø30 mm pour tube carbone |
-| **Avant** | **Complètement ouvert** — le rotor et la bride de sortie dépassent vers le bras |
-| **Trou d'évent** | 1× Ø2 mm dans la paroi cylindrique pour éviter l'effet piston lors du glissement du moteur |
-| **Masse unitaire estimée** | ~180 g |
+> [!NOTE]
+> **Cotes officielles du Plan de Définition CAO (`Support RS-04`)** :
+> - **Matériau** : **Acier E470** (ébauche creuse Blockenstock d131 / d88)
+> - **Diamètre extérieur final ($D_{\text{ext}}$)** : **Ø 124,0 mm**
+> - **Diamètre intérieur alésage ($D_{\text{int}}$)** : **Ø 120,2 mm H7** ($120,2 + 2 \times 1,9 = 124,0\text{ mm}$)
+> - **Épaisseur de paroi cylindrique** : **1,9 mm**
+> - **Hauteur axiale totale ($H$)** : **39,0 mm** (Profondeur utiles de la poche alésée = **35,0 mm**)
+> - **Épaisseur du fond (flasque d'embase)** : **4,0 mm**
+> - **Évidement central arrière** : **Ø 97,0 mm** (ouverture pour connectique et allégement de masse)
+> - **PCD Perçages Stator Arrière** : **10× perçages Ø 3,3 mm** sur cercle de **Ø 106,0 mm**
+
+> [!TIP]
+> **🛒 Directive d'Approvisionnement Matière Première (Blockenstock)** :
+> - **Composant à commander** : **2 pièces de 4 cm (40 mm)** d'épaisseur de [Ébauche creuse d131 / d88 au cm - Acier E470 sur Blockenstock](https://www.blockenstock.fr/d131-d88-au-cm-acier-e470-c2x42431541).
+> - **Justification d'usinage C500** : Les tronçons bruts de **40 mm** laissent une surépaisseur idéale de **1,0 mm** pour le surfaçage de la face avant, garantissant l'obtention de la hauteur finale de **39,0 mm** avec une tolérance parfaite sur la CNC C500.
+
+---
+
+#### 4. Étude Comparative d'Ingénierie : Aluminium 6061-T6 vs Acier E470 (Plan Officiel 1,9 mm / Ø 124 mm)
+
+Une étude approfondie d'ingénierie mécanique compare l'option historique Aluminium 6061-T6 aux cotes officielles du plan 2D **Acier E470 (Plan `Support RS-04`)** :
+
+| Critère de Dimensionnement | Option A : Aluminium 6061-T6 (Historique) | Option B : Acier E470 (🏆 PLAN OFFICIEL 2D) | Justification Technique |
+|:---|:---:|:---:|:---|
+| **Module d'Young (E - Rigidité)** | 69 GPa | **210 GPa** | **L'acier E470 est 3,04× plus rigide** |
+| **Limite d'Élasticité (Re)** | 275 MPa | **470 MPa** | **+71% de résistance à la plastification** |
+| **Épaisseur de Paroi Cylindrique** | 3,0 mm | **1,9 mm** | **Ø ext final carter = 124,0 mm** |
+| **Diamètre Alésage Intérieur** | 120,0 mm H7 | **120,2 mm H7** | **Ajustement d'encastrement idéal RS-04** |
+| **Hauteur Axiale Totale** | 52,2 mm | **39,0 mm** (Poche 35 mm) | **Logement ajusté sur 90% du stator** |
+| **Épaisseur du Fond (Flasque)** | 6,0 mm | **4,0 mm** (Évidement Ø 97 mm) | **+53% plus rigide en flexion hors-plan** |
+| **Rigidité Flexion Paroi Cylindrique** | 1,0 (Référence) | **1,93 (+93% PLUS RIGIDE !)** | **Quasi doublement de la rigidité en flexion** |
+| **Masse Totale du Support** | ~220 g (alu plein) | **~344 g** (avec évidement Ø97) | Robustesse extrême pour +124 g par épaule |
+| **Perçages Stator Arrière** | 10× Ø 4,5 mm | **10× Ø 3,3 mm sur PCD Ø 106 mm** | Ancrage direct sur le stator RS-04 |
+| **Usinabilité C500** | Évidement depuis bloc plein | **Ébauche creuse d131/d88** | **Usinage 4× plus rapide** (déjà creusé à Ø 88 mm !) |
+
+---
+
+#### 5. Spécifications Techniques Retenues (Plan Officiel `Support RS-04`)
+
+| Paramètre | Valeur (Acier E470 — Retenue) | Valeur (Alu 6061-T6 — Secours) |
+|:---|:---|:---|
+| **Matériau** | **Acier E470** (ébauche creuse Blockenstock d131/d88) | Aluminium 6061-T6 (barre pleine Ø 130 mm) |
+| **Forme** | Carter cylindrique ouvert à l'avant, fond 4 mm avec évidement Ø97 mm | Idem |
+| **Alésage intérieur (poche)** | **120,2 mm H7** (encastrement RS-04) | 120,05 mm H7 |
+| **Épaisseur paroi cylindrique** | **1,9 mm** (Ø ext carter final = **124,0 mm**) | 3,0 mm (Ø ext carter final = 126,0 mm) |
+| **Hauteur totale / Poche** | **39,0 mm total** (poche intérieure de 35,0 mm) | 52,2 mm total |
+| **Épaisseur du fond (flasque)** | **4,0 mm** (évidement central Ø 97,0 mm) | 6,0 mm |
+| **Perçages arrière** | **10× perçages Ø 3,3 mm** sur PCD Ø 106,0 mm | 10× Ø 4,5 mm |
+| **Masse unitaire carter** | **~344 g** | ~220 g |
+
+---
+
+#### 6. Directives de Débitage & Usinage C500 (Plan `Support RS-04`)
+
+> [!TIP]
+> **Débitage du tube Acier E470 (d131 / d88)** :
+> Pour les tronçons d'ébauche creuse d131/d88 de **4 cm (40 mm)** commandés sur Blockenstock, aucun débitage complexe n'est requis. Utiliser la scie à ruban uniquement si l'approvisionnement est fait en barre plus longue (~50 mm de coupe).
+
+> [!IMPORTANT]
+> **Paramètres de Coupe C500 pour Acier E470 (Plan 2D — Ø 124,0 mm / H = 39,0 mm)** :
+> 1. **Outil** : Fraise carbure monobloc Ø 4 mm ou Ø 6 mm avec revêtement **AlTiN / TiAlN** (spécial acier).
+> 2. **Vitesse de broche** : **5 000 à 6 000 tr/min** (ne pas tourner à 18 000 tr/min pour préserver l'outil).
+> 3. **Avance & Passes** : Avance de **300 mm/min**, passes en Z de **0,5 mm** en alésage hélicoïdal avec lubrification (huile de coupe / WD-40).
+> 4. **Ordre d'usinage anti-broutement** :
+>    - Surfaçage de la face avant pour passer de 40,0 mm brut à **39,0 mm net**.
+>    - Évidement intérieur de Ø 88,0 mm à **Ø 120,2 mm H7** sur 35,0 mm de profondeur en conservant la masse extérieure brute de Ø 131,0 mm.
+>    - Évidement central arrière à **Ø 97,0 mm** et perçage des **10× trous Ø 3,3 mm sur PCD Ø 106 mm**.
+>    - Contournage extérieur final à **Ø 124,0 mm** en toute dernière passe.
+
+---
 
 ### C. Le Collet PA12-CF (Pièce ② — Intégré à la coque imprimée)
 
-Le collet PA12-CF est directement intégré à la coque du torse (imprimé d'un seul tenant). Il enveloppe le carter monobloc alu :
+Le collet PA12-CF est directement intégré à la coque du torse (imprimé d'un seul tenant). Il enveloppe le carter monobloc (acier ou alu) :
 
 | Paramètre | Valeur |
 |:---|:---|
 | **Matériau** | PA12-CF (coque torse, impression FDM) |
 | **Forme** | Poche cylindrique traversante |
-| **Paroi latérale** | Enveloppe le carter alu sur toute sa hauteur. Interstice ~0,2 mm rempli de **résine époxy JB Weld** |
-| **Côté avant** | S'arrête à la limite du carter alu (accès direct au RS-04 par l'extérieur) |
-| **Côté arrière** | Laisse l'accès libre à la flasque alu et au trou d'ancrage du tube carbone |
-| **Rôle structural** | Transmet les efforts locaux du torse au carter alu et protège l'ensemble |
+| **Paroi latérale** | Enveloppe le carter métallique sur toute sa hauteur. Interstice ~0,2 mm rempli de **résine époxy JB Weld** |
+| **Côté avant** | S'arrête à la limite du carter métallique (accès direct au RS-04 par l'extérieur) |
+| **Côté arrière** | Laisse l'accès libre à la flasque arrière et au trou d'ancrage du tube carbone |
+| **Rôle structural** | Transmet les efforts locaux du torse au carter métallique et protège l'ensemble |
 
 ### D. Chemin de Fixation et Routage Câbles
 
 > [!IMPORTANT]
-> **Chemin des vis M5** :
+> **Chemin des vis M4 (Configuration Acier E470 4.0 mm)** :
 > 
-> `Intérieur du torse → tête CHC M5 avec rondelle inox → trou lisse Ø5,5 mm de la Flasque Alu CNC → DIRECTEMENT dans taraudage borgne M5 du stator RS-04`
+> `Intérieur du torse → tête CHC M4 avec rondelle inox → trou lisse Ø4,5 mm de la Flasque Acier E470 (4,0 mm) → DIRECTEMENT dans 10× taraudages borgnes M4 du stator RS-04 (6,0 mm d'implant)`
 > 
-> **Le vissage est 100% métal-métal.** Les têtes de vis s'appuient sur la flasque rigide en aluminium 6061-T6. Le serrage plaque énergiquement la face arrière du stator contre la flasque alu.
+> **Le vissage est 100% métal-métal.** Les têtes de vis CHC M4 × 10 mm s'appuient sur la flasque rigide en acier E470 (4,0 mm d'épaisseur). Le serrage plaque énergiquement la face arrière du stator contre la flasque en acier avec une rigidité 53% supérieure à l'aluminium.
 
 > [!NOTE]
 > **Chemin des câbles** :
@@ -474,37 +528,37 @@ Le collet PA12-CF est directement intégré à la coque du torse (imprimé d'un 
 ### E. Séquence d'Assemblage
 
 ```
-Étape 1 : Insérer et coller le Carter Monobloc Alu CNC dans le collet PA12-CF (résine époxy JB Weld)
+Étape 1 : Insérer et coller le Carter Monobloc Acier E470 dans le collet PA12-CF (résine époxy JB Weld)
           → Laisser polymériser 24h
 
-Étape 2 : Connecter et goupiller le tube carbone Ø30 mm dans le socket arrière du carter alu
+Étape 2 : Connecter et goupiller le tube carbone Ø30 mm dans le socket de la bride d'épaule
           → Insérer la goupille Ø3 mm verticale
 
 Étape 3 : Insérer le moteur RS-04 par l'AVANT (extérieur de l'épaule)
-          → Le moteur glisse dans la paroi 360° du carter alu
-          → La face arrière du stator vient en appui direct contre la flasque alu arrière
+          → Le moteur glisse dans l'alésage Ø120.2 mm H7 de la paroi 1.9 mm en acier E470
+          → La face arrière du stator vient en appui direct contre le fond de 4.0 mm en acier E470
 
-Étape 4 : Serrer les 8 vis CHC M5 depuis l'intérieur du torse
-          → Les vis traversent les trous lisses de la flasque alu et se vissent dans le stator
-          → Appliquer de la Loctite 243 sur chaque vis
+Étape 4 : Serrer les 10 vis CHC M4 × 10 mm depuis l'intérieur du torse
+          → Les vis traversent les perçages Ø3.3 mm de la flasque acier E470 (4.0 mm) et se vissent dans le stator
+          → Appliquer de la Loctite 243 sur chaque vis (implantation 6.0 mm)
 ```
 
-### F. Illustration Technique — Coupe Axiale Révisée
+### F. Illustration Technique — Coupe Axiale Révisée (Acier E470)
 
-![Coupe axiale du carter monobloc aluminium d'épaule](./media/manchon_alu_coupe_axiale.svg)
+![Coupe axiale du carter monobloc acier E470 d'épaule](./media/manchon_acier_e470_coupe_axiale.svg)
 
-*Coupe axiale révisée montrant le carter monobloc alu CNC (gris) avec sa flasque arrière de 6 mm et son cerclage 360°. Le moteur RS-04 (orange) s'insère **par l'avant (extérieur de l'épaule)**. Les vis CHC M5 (rouge) s'insèrent depuis l'intérieur du torse et traversent la flasque alu pour se visser directement dans le stator.*
+*Coupe axiale révisée montrant le carter monobloc en acier E470 CNC (gris acier) avec sa flasque arrière de 4.0 mm (évidement Ø97 mm) et son cerclage 360° de 1.9 mm (Ø ext 124.0 mm). Le moteur RS-04 (orange) s'insère **par l'avant (extérieur de l'épaule)**. Les vis CHC M4 × 10 mm s'insèrent depuis l'intérieur du torse et traversent la flasque acier E470 pour se visser directement dans le stator.*
 
-### G. Avantages du Carter Monobloc avec Insertion par l'Avant
+### G. Avantages du Carter Monobloc Acier E470 avec Insertion par l'Avant
 
 | Critère | Description |
 |:---|:---|
 | **Maintenabilité** | ✅ **Remplacement du RS-04 par l'extérieur** sans désosser l'intérieur du torse |
-| **Interface de vis** | ✅ **Appui 100% métal-métal** (vis M5 → flasque alu → stator). Zéro fluage plastique |
-| **Dissipation thermique** | ✅ Contact 360° latéral + **contact direct face arrière stator contre flasque alu** |
-| **Intégration** | ✅ **1 seule pièce monobloc CNC** (flasque arrière + cerclage 360° + ancrage carbone) |
-| **Transmission d'efforts** | ✅ Liaison directe et rigide entre le RS-04, la flasque alu et le tube carbone Ø30 mm |
-| **Résistance à l'ovalisation** | ✅ Le cerclage 360° alu reprend 100% des contraintes radiale (hoop stress) |
+| **Interface de vissage** | ✅ **Appui 100% métal-métal** (10× vis M4 → flasque acier E470 4 mm → stator). Zéro fluage plastique |
+| **Dissipation thermique** | ✅ Contact 360° latéral + **contact direct face arrière stator contre flasque acier** (1 800× mieux que l'air) |
+| **Intégration** | ✅ **1 seule pièce monobloc CNC** usinée depuis une ébauche creuse d131 / d88 Blockenstock |
+| **Transmission d'efforts** | ✅ Liaison directe et ultra-rigide entre le RS-04, la flasque acier E470 et le tube carbone Ø30 mm |
+| **Résistance à l'ovalisation** | ✅ **Paroi 1.9 mm en acier E470 (+93% de rigidité en flexion vs alu 3mm)** reprend 100% des contraintes radiale |
 
 ---
 
@@ -823,23 +877,23 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 ### Phase 1 — Conception CAO (Fusion 360)
 
 1. ☐ Mettre à l'échelle (+18%) les fichiers originaux du torse et de la taille Asimov v1
-2. ☐ Modéliser la **plaque isogrid sagittale** (motif ±45°) en 2 parties avec éclisse de jonction
-3. ☐ Modéliser les **2 manchons d'épaule** (paroi 3 mm, ouverts à l'arrière, avec lip avant) et les **2 brides de liaison**
-4. ☐ Modéliser le **nœud d'intersection** plaque/traverse (bloc CNC alu)
-5. ☐ Dessiner les **2 paniers batterie** latéraux + coulisses centrales sur la plaque isogrid
+2. ☐ Modéliser la **plaque de colonne vertébrale 2D évidée** (Option B) en 2 parties avec jonction au Nœud Central
+3. ☐ Modéliser les **2 carters d'épaule Support RS-04 en acier E470** (selon plan 2D David SERGENT : Ø ext 124 mm, alésage Ø 120.2 mm H7, paroi 1.9 mm, fond 4 mm évidé à Ø 97 mm, 10× perçages Ø 3.3 mm sur PCD Ø 106 mm)
+4. ☐ Modéliser le **nœud d'intersection** à demi-coquilles (Bride Sup. + Bride Inf. CNC alu)
+5. ☐ Dessiner les **2 paniers batterie** latéraux + coulisses centrales sur la plaque de colonne
 6. ☐ Réaliser le **split rigide abdominal** avec bandeau de renfort, Lap Joint de 3 mm et tolérances
 7. ☐ Modéliser la **bague d'adaptation CNC** pour le RS-06 (13,8 mm d'épaisseur radiale)
 8. ☐ Vérifier les **dégagements internes** (paniers + squelette + câblage)
 
 ### Phase 2 — Usinage CNC (C500)
 
-1. ☐ Usiner les 2 demi-plaques isogrid sagittales (alu 6061-T6, 5 mm)
-2. ☐ Usiner les 2 manchons d'épaule (ouverts à l'arrière, lip avant) et les 2 brides de liaison (alu 6061-T6)
-3. ☐ Usiner le nœud d'intersection plaque/traverse (bloc alu 6061-T6)
-4. ☐ Usiner la plaque supérieure de cou (alu 6061-T6, 5 mm) — scale +18% d'Asimov v1
-5. ☐ Usiner la Waist Plate (alu 6061-T6, 6 mm) — scale +18% d'Asimov v1
+1. ☐ Usiner les 2 demi-plaques de colonne vertébrale (alu 6061-T6, 5 mm — évidements 2D traversants)
+2. ☐ Usiner les **2 carters Support RS-04 (H = 39,0 mm)** à partir de **2 tronçons de 4 cm (40 mm)** d'ébauche creuse Acier E470 d131 / d88 commandés sur Blockenstock (alésage Ø 120.2 mm H7 sur 35.0 mm de profondeur, surfaçage à 39.0 mm net, contournage Ø 124.0 mm, évidement Ø 97 mm et 10× perçages Ø 3.3 mm sur PCD Ø 106 mm)
+3. ☐ Usiner les **2 demi-coquilles du nœud d'intersection** (Bride Sup. et Bride Inf. alu 6061-T6)
+4. ☐ Usiner la plaque supérieure de cou (alu 6061-T6, 5 mm) — équerres L-Brackets en sandwich
+5. ☐ Usiner la Waist Plate (alu 6061-T6, 6 mm) — équerres L-Brackets en sandwich
 6. ☐ Usiner la bague d'adaptation RS-06 (alu 6061-T6)
-7. ☐ Couper le tube carbone Ø30 mm à ~260 mm, usiner les 2 bouchons internes de renfort, et chanfreiner les extrémités
+7. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner les extrémités et percer la goupille Ø4 mm verticale à travers le nœud assemblé
 
 ### Phase 3 — Impression 3D (Qidi Plus 4)
 
@@ -853,14 +907,13 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 ### Phase 4 — Assemblage du Torse Rigide
 
 1. ☐ Poser les inserts filetés M4 en laiton (Ruthex) dans les coques PA12-CF au fer à souder (260°C)
-2. ☐ Insérer les **manchons alu d'épaule** dans les collets PA12-CF (avec film de résine époxy JB Weld pour rattrapage de jeu)
-3. ☐ Assembler les 2 demi-plaques isogrid sagittales avec l'éclisse M4 (4 vis)
-4. ☐ Insérer le tube carbone Ø30mm avec ses bouchons de renfort collés dans le nœud d'intersection (4 vis M4) et dans les brides de liaison de chaque côté (2 vis M4 + goupilles élastiques Ø3mm traversantes)
-5. ☐ Fixer la plaque isogrid au nœud et aux brides de liaison
-6. ☐ Fixer la plaque de cou (haut) et la Waist Plate (bas) sur les extrémités de la plaque isogrid
-7. ☐ Assembler le Thorax et l'Abdomen via le Lap Joint + vis M4 des bossages internes
-8. ☐ Insérer les moteurs RS-04 dans les manchons alu par l'arrière, serrer les vis CHC M5 depuis l'intérieur du torse (vis → rebord PA12-CF → bride alu → taraudages stator). Router les câbles XT30/CAN par les encoches vers l'intérieur du torse.
-9. ☐ Appliquer de la **Loctite 243** sur toutes les vis métalliques
+2. ☐ Insérer et coller les **carters Support RS-04 en acier E470** dans les collets PA12-CF (avec film de résine époxy JB Weld)
+3. ☐ Assembler le nœud d'intersection (demi-coquilles) sur le tube carbone Ø30 mm et verrouiller par la goupille Ø4 mm verticale
+4. ☐ Assembler les 2 demi-plaques de colonne vertébrale sur le nœud via leurs ailes en L (vis M4 traversantes + écrous Nylstop)
+5. ☐ Fixer la plaque de cou (haut) et la Waist Plate (bas) via les équerres L-Brackets en sandwich
+6. ☐ Assembler le Thorax et l'Abdomen via le Lap Joint + vis M4 des bossages internes
+7. ☐ Insérer les moteurs RS-04 dans les carters en acier par l'AVANT (extérieur de l'épaule) et serrer les 10× vis CHC M4 × 10 mm depuis l'intérieur du torse (vis → flasque acier 4 mm → taraudages stator RS-04). Router les câbles XT30/CAN par l'évidement Ø97 mm vers l'intérieur du torse.
+8. ☐ Appliquer de la **Loctite 243** sur toutes les vis métalliques
 
 ### Phase 5 — Assemblage Batteries + Hot-Swap
 

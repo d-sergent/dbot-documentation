@@ -13,8 +13,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 from itertools import cycle
 
-# Charger les variables d'environnement
-load_dotenv()
+# Charger les variables d'environnement (.env du projet)
+env_path = Path(__file__).resolve().parent.parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
+if not os.environ.get("OPENROUTER_API_KEY") and os.path.exists("/Users/Shared/Mon Google Drive Physique/Documentation/.env"):
+    load_dotenv(dotenv_path="/Users/Shared/Mon Google Drive Physique/Documentation/.env")
 
 # ─── Hack Tiktoken ────────────────────────────────────────────────────────────
 import tiktoken
@@ -23,6 +26,7 @@ def _safe_encode(self, text, *args, **kwargs):
     kwargs["disallowed_special"] = ()
     return _original_encode(self, text, *args, **kwargs)
 tiktoken.Encoding.encode = _safe_encode
+
 
 # ─── Filtre Stderr "Deep Silence" ────────────────────────────────────────────
 # LightRAG écrit les tracebacks directement sur stderr (pas via logging).
@@ -117,13 +121,11 @@ PDF_EXTS     = {".pdf"}
 import aiohttp
 
 MODELS_ROTATION = [
-    {"name": "models/gemini-2.5-flash", "type": "gemini"},
     {"name": "models/gemini-3.1-flash-lite", "type": "gemini"},
-    {"name": "tencent/hy3:free", "type": "openrouter"},
-    {"name": "nvidia/nemotron-3-ultra-550b-a55b:free", "type": "openrouter"},
+    {"name": "gemini-2.5-flash", "type": "gemini"},
+    {"name": "inclusionai/ling-3.0-flash:free", "type": "openrouter"},
+    {"name": "poolside/laguna-s-2.1:free", "type": "openrouter"},
     {"name": "nvidia/nemotron-3-super-120b-a12b:free", "type": "openrouter"},
-    {"name": "google/gemma-4-31b-it:free", "type": "openrouter"},
-    {"name": "google/gemma-4-26b-a4b-it:free", "type": "openrouter"}
 ]
 model_cycle = cycle(MODELS_ROTATION)
 # Au lieu de tuer un modèle après 3 erreurs, on le met en "pause" jusqu'à un certain timestamp
@@ -208,6 +210,38 @@ async def get_llm_func(args):
             
         return llm_openrouter
 
+    elif args.provider == "gemini" or (args.model and args.model.startswith("models/gemini")):
+        target_model = args.model or "models/gemini-3.1-flash-lite"
+        logger.info(f"💎 Mode GEMINI UNIQUE : Modèle {target_model}")
+        client = genai.Client(api_key=api_key)
+        
+        async def llm_gemini_single(prompt, system_prompt=None, history_messages=[], **kwargs):
+            full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
+            loop = asyncio.get_event_loop()
+            while True:
+                try:
+                    response = await loop.run_in_executor(
+                        None,
+                        lambda: client.models.generate_content(
+                            model=target_model,
+                            contents=full_prompt,
+                            config=genai_types.GenerateContentConfig(
+                                max_output_tokens=kwargs.get("max_tokens", 4096),
+                                temperature=kwargs.get("temperature", 0.1)
+                            )
+                        )
+                    )
+                    # Respect du quota 15 RPM (1 appel toutes les ~4s)
+                    await asyncio.sleep(4)
+                    return response.text
+                except Exception as e:
+                    err_s = str(e)
+                    wait_time = 20 if "429" in err_s else 10
+                    logger.warning(f"⚠️ Quota Gemini atteint ({target_model}): {err_s[:90]}. Pause de {wait_time}s...")
+                    await asyncio.sleep(wait_time)
+
+        return llm_gemini_single
+
     elif args.provider == "online":
         logger.info(f"🚀 Round-Robin Online Parallélisé ({len(MODELS_ROTATION)} modèles)")
         client = genai.Client(api_key=api_key)
@@ -254,11 +288,6 @@ async def get_llm_func(args):
                     unlocked_model_found = True
                     try:
                         if model_type == "gemini":
-                            # Google bloque pour toute la journée, donc après 3 erreurs on bloque pour 12 heures
-                            if s["failures"] >= 3:
-                                s["locked_until"] = now + 43200
-                                continue
-                                
                             response = await loop.run_in_executor(
                                 None, 
                                 lambda: client.models.generate_content(
@@ -277,20 +306,21 @@ async def get_llm_func(args):
                             result_text = await call_openrouter(model_name, prompt, system_prompt)
      
                         s["success"] += 1
-                        logger.info(f"🔵 [{log_id}] OK:{s['success']} ERR:{s['failures']} -> ✅ OK")
-                        await asyncio.sleep(2) 
+                        s["failures"] = 0  # Réinitialisation des erreurs sur un succès
+                        logger.info(f"🔵 [{log_id}] OK:{s['success']} -> ✅ OK")
+                        await asyncio.sleep(2.5)  # Espace de 2.5s pour respecter ~15-20 RPM
                         return result_text
                     
                     except Exception as e:
                         err_msg = str(e)
                         s["failures"] += 1
-                        # Pénalité "intelligente" :
-                        # - OpenRouter : pause de 60 secondes car le quota se régénère
-                        # - Gemini : après chaque erreur, on augmente la pénalité
-                        penalty = 60 if model_type == "openrouter" else 300 * s["failures"]
+                        # Pénalité courte adaptée :
+                        # Si 429 temporaire (rate limit par minute), pause courte de 20s suffisant pour libérer la minute glissante.
+                        # Sinon 15s par défaut.
+                        penalty = 20 if "429" in err_msg else 15
                         s["locked_until"] = now + penalty
                         
-                        logger.warning(f"🔵 [{log_id}] OK:{s['success']} ERR:{s['failures']} -> ⚠️ PAUSE ({penalty}s) | Erreur: {err_msg[:100]}")
+                        logger.warning(f"🔵 [{log_id}] OK:{s['success']} ERR:{s['failures']} -> ⚠️ PAUSE ({penalty}s) | Rate-limit temporaire")
                         now = time.time()
                         continue
                 
@@ -430,8 +460,8 @@ async def run_indexing(args):
 
     llm_func = await get_llm_func(args)
     
-    # Parallélisme : 4 pour cloud (online/openrouter), 1 pour local
-    max_async = 1 if args.provider == "local" else 4
+    # Parallélisme : 4 pour cloud multi-modèles (online/openrouter), 1 pour local et gemini (quota 15 RPM)
+    max_async = 1 if args.provider in ("local", "gemini") else 4
     
     rag = LightRAG(
         working_dir=str(DB_PATH),
@@ -475,7 +505,7 @@ async def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--full", action="store_true")
     parser.add_argument("--update", action="store_true")
-    parser.add_argument("--provider", choices=["local", "online", "openrouter"], default="online")
+    parser.add_argument("--provider", choices=["local", "online", "openrouter", "gemini"], default="online")
     parser.add_argument("--model", type=str, help="Forcer un modèle spécifique (uniquement avec --provider openrouter)")
     parser.add_argument("--api-key", type=str)
     args = parser.parse_args()

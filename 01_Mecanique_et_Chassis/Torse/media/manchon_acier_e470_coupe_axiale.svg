@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="100%" height="100%">
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.8"/>
+    </pattern>
+
+    <linearGradient id="steelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+
+    <linearGradient id="motorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#9a3412"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <text x="400" y="28" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+    PLAN TECHNIQUE COUPE AXIALE — SUPPORT RS-04 ACIER E470 (H = 39,0 mm / DAVID SERGENT)
+  </text>
+
+  <g transform="translate(40, 45)">
+    <rect width="720" height="330" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+
+    <!-- Orientation Annotations -->
+    <text x="130" y="28" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">⇦ FLASQUE ARRIÈRE ÉVIDÉE (Ø97mm &amp; PCD Ø106mm)</text>
+    <text x="560" y="28" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">AVANT / EXTÉRIEUR (Insertion RS-04) ➔</text>
+
+    <!-- Carter Monobloc Acier E470 Structure (Wall 1.9mm + Base 4.0mm + Inner Cutout Ø97mm + Total H 39.0mm) -->
+    <!-- Top Cylindrical Wall (1.9mm) -->
+    <rect x="250" y="55" width="250" height="15" fill="url(#steelGrad)" stroke="#94a3b8" stroke-width="1.2"/>
+    <text x="375" y="48" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Paroi Cylindrique Acier E470 (1,9 mm) — Ø ext 124,0 mm / Ø int 120,2 mm H7</text>
+
+    <!-- Bottom Cylindrical Wall (1.9mm) -->
+    <rect x="250" y="245" width="250" height="15" fill="url(#steelGrad)" stroke="#94a3b8" stroke-width="1.2"/>
+
+    <!-- Integrated Rear Base (4.0mm) Top Flange Section -->
+    <rect x="235" y="55" width="15" height="50" fill="url(#steelGrad)" stroke="#94a3b8" stroke-width="1.2"/>
+    <!-- Integrated Rear Base (4.0mm) Bottom Flange Section -->
+    <rect x="235" y="210" width="15" height="50" fill="url(#steelGrad)" stroke="#94a3b8" stroke-width="1.2"/>
+
+    <text x="210" y="42" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Fond Acier E470 (4,0 mm)</text>
+    <text x="210" y="160" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Évidement Central Arrière (Ø 97 mm)</text>
+
+    <!-- RS-04 Motor (Inserted from Front / Right, Stator 39mm, Pocket 35mm -> 4mm Stator Exceeding) -->
+    <rect x="250" y="70" width="270" height="175" fill="url(#motorGrad)" stroke="#ffedd5" stroke-width="1.5"/>
+    <text x="385" y="150" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">
+      Moteur RS-04 (Stator Ø 120,0 mm — Logé sur 35,0 mm / Recouvrement 90%)
+    </text>
+
+    <!-- Dimension Lines -->
+    <!-- Total Height 39mm -->
+    <line x1="235" y1="275" x2="500" y2="275" stroke="#00f2fe" stroke-width="1"/>
+    <line x1="235" y1="268" x2="235" y2="282" stroke="#00f2fe" stroke-width="1"/>
+    <line x1="500" y1="268" x2="500" y2="282" stroke="#00f2fe" stroke-width="1"/>
+    <text x="367" y="292" fill="#00f2fe" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Hauteur Totale: 39,0 mm (Poche 35,0 mm + Fond 4,0 mm)</text>
+
+    <!-- Screws PCD 106mm (10x Ø3.3mm) -->
+    <!-- Top Perforation -->
+    <circle cx="242.5" cy="80" r="4" fill="#ef4444" stroke="#ffffff" stroke-width="1"/>
+    <!-- Bottom Perforation -->
+    <circle cx="242.5" cy="235" r="4" fill="#ef4444" stroke="#ffffff" stroke-width="1"/>
+    <text x="180" y="83" fill="#ef4444" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="end">10× Perçages Ø 3,3 mm</text>
+    <text x="180" y="94" fill="#ef4444" font-family="system-ui, sans-serif" font-size="8" text-anchor="end">(sur PCD Ø 106 mm)</text>
+
+    <!-- Outer Shell PA12-CF Envelope -->
+    <rect x="225" y="38" width="285" height="240" rx="6" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="367" y="315" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10" font-style="italic" text-anchor="middle">
+      Logement cylindrique dans la coque PA12-CF (Enveloppe le Support RS-04 Ø 124,0 mm)
+    </text>
+  </g>
+</svg>

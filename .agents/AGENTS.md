@@ -21,7 +21,7 @@
   `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py"`
 
 ## Text Formatting & Unit Representation
-- **No LaTeX formatting for plain text measurements, formulas, or units**: NEVER use LaTeX math syntax (such as `$0.5\text{ m}$`, `$500\text{ mm}$`, `$M_{stat} \approx 110\text{ Nm}$`, `$36,8\text{ MPa}$`, `$$\Delta \theta$$`, `\text{...}`) in text responses, markdown documentation, artifacts (plans, walkthroughs), or code comments. ALWAYS write angles, ranges, measurements, formulas, variables, and units in clean plain text (e.g. `0.5 m`, `500 mm`, `M_stat ~ 110 Nm`, `36.8 MPa`, `Delta_theta`, `Sigma_max`).
+- **No LaTeX formatting for plain text measurements, formulas, or units**: NEVER use LaTeX math syntax or LaTeX symbols (such as `$0.5\text{ m}$`, `$\varnothing 80\text{ mm}$`, `$\pm 0,02^\circ$`, `$500\text{ mm}$`, `$M_{stat} \approx 110\text{ Nm}$`, `$36,8\text{ MPa}$`, `$$\Delta \theta$$`, `\text{...}`, `\varnothing`, `\pm`, `\approx`, `\circ`) in text responses, markdown documentation, artifacts (plans, walkthroughs), or code comments. ALWAYS write angles, ranges, diameters, tolerances, measurements, formulas, variables, and units in clean plain text (e.g. `0.5 m`, `500 mm`, `Ø 80 mm`, `+/- 0.02 deg`, `M_stat ~ 110 Nm`, `36.8 MPa`, `Delta_theta`, `Sigma_max`).
 
 ## Technical Diagrams & Schematics Generation
 - **Systematic High-Quality SVG Vector Blueprints**: Whenever a technical, mechanical, electrical, or architectural diagram/schematic is needed in documentation or markdown files, NEVER use ASCII art or basic graph flowcharts (like Mermaid) which lack spatial proportions and native preview support.
