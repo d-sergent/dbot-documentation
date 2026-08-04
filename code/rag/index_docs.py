@@ -169,9 +169,9 @@ async def get_llm_func(args):
     api_key = args.api_key or os.environ.get("GEMINI_API_KEY")
     
     if args.provider == "local":
-        base_url = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8080/v1")
+        base_url = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8004/v1")
         model = os.environ.get("VMLX_MODEL", "dealignai/Nemotron-3-Nano-Omni-30B-A3B-JANGTQ4-CRACK")
-        logger.info(f"🔗 Mode LOCAL : vMLX sur {base_url}")
+        logger.info(f"🔗 Mode LOCAL : vMLX ({model}) sur {base_url}")
         
         async def llm_local(prompt, system_prompt=None, history_messages=[], **kwargs):
             return await openai_complete_if_cache(

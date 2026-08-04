@@ -307,17 +307,13 @@ Pour maximiser la rigidité, la dissipation thermique et la précision géométr
 
 ![Vue éclatée schématique coaxiale de l'assemblage carter monobloc](./media/bride_tube_carbone_eclatee.svg)
 
-*Schéma conceptuel coaxial (de gauche à droite) : ① 10× Vis CHC M4 × 10 mm, ② Ancrage tube carbone Ø30 mm avec goupille Ø3 mm, ③ Carter Monobloc Acier E470 (Flasque 4,0 mm évidée Ø97 mm + Cerclage 360° 1,9 mm), ④ Poche du collet PA12-CF de la coque torse, ⑤ Moteur RobStride RS-04 inséré par l'avant (façade extérieure épaule).*
-
-![Vue éclatée 3D réaliste de l'assemblage carter monobloc](./media/bride_tube_carbone_eclatee_3d.png)
-
-*Rendu 3D réaliste de l'assemblage d'épaule : le carter monobloc Support RS-04 en acier E470 CNC réunit le fond d'embase de 4,0 mm, le socket de réception du tube carbone Ø30 mm et le cerclage 360° ouvert à l'avant pour l'insertion frontale du RS-04.*
+*Schéma conceptuel coaxial (de gauche à droite) : ① 10× Vis CHC M4 × 10 mm, ② Ancrage tube carbone Ø30 mm avec goupille Ø4 mm, ③ Carter Monobloc Acier E470 (Flasque 4,0 mm évidée Ø97 mm + Cerclage 360° 1,9 mm), ④ Poche du collet PA12-CF de la coque torse, ⑤ Moteur RobStride RS-04 inséré par l'avant (façade extérieure épaule).*
 
 #### Vue en coupe — Détail interne
 
 ![Coupe longitudinale A-A du détail interne de l'ancrage carbone dans le carter acier E470](./media/bride_tube_carbone_coupe.svg)
 
-*Coupe longitudinale A-A révisée : le tube carbone (Ø30×26 mm) est emmanché dans la bride d'épaule du carter monobloc Acier E470 CNC. La **goupille élastique inox** (Ø3 mm × 35 mm, rouge) traverse perpendiculairement l'axe du tube, à 12 mm du bord d'entrée de la flasque.*
+*Coupe longitudinale A-A révisée : le tube carbone (Ø 30 × 26 mm) est renforcé par le **bouchon alu interne anti-écrasement** (Ø 26,0 mm ext, Ø 18,0 mm int, 35 mm de long) collé à l'époxy structurale. L'ensemble s'insère sur **35 mm de longueur de portée** dans le socket du carter monobloc Acier E470 CNC. Il est pincé par la bride fendue (2× vis M4) et verrouillé par la **goupille élastique inox universelle Ø 4,0 mm × 35 mm** (rouge) traversant perpendiculairement l'axe Z.*
 
 #### Orientations des éléments (référentiel)
 
@@ -326,71 +322,51 @@ Pour maximiser la rigidité, la dissipation thermique et la précision géométr
 >
 > | Élément | Orientation | Direction |
 > |:---|:---|:---|
-> | **Axe du tube carbone** | Horizontal (X) | L'axe principal de l'assemblage |
-> | **Goupille élastique Ø3 mm** | **Perpendiculaire au tube** (Z) | Traverse verticalement : paroi bride → paroi tube → bouchon → paroi tube → paroi bride |
-> | **Fente de serrage** *(si V2)* | **Axiale** — le long du tube (X) | Court sur toute la longueur du collier, au sommet |
-> | **Vis M4 de serrage** *(si V2)* | **Enjambent la fente** perpendiculairement | Compriment les 2 moitiés du collier pour resserrer la fente |
+> | **Axe du tube carbone** | Horizontal (X) | L'axe principal de la traverse |
+> | **Goupille élastique Ø 4,0 mm** | **Perpendiculaire au tube** (Z, Verticale) | Traverse de haut en bas : paroi bride → paroi tube → bouchon alu → paroi tube → paroi bride |
+> | **Fente de serrage (Clamp Socket)** | **Axiale** — le long du tube (X) | Fente de 0,8 à 1,0 mm sur la longueur de 35 mm de la bride |
+> | **Vis M4 de pincement (×2)** | **Enjambent la fente** perpendiculairement | Compriment les 2 moitiés de la bride pour resserrer la fente à 6 N.m |
 
-#### Collier fendu : optionnel pour la V1
+#### Conception V1 de la Bride d'Épaule (Pincement + Goupille Ø 4,0 mm)
 
 > [!TIP]
-> **Simplification recommandée pour le prototype V1** : La **goupille élastique seule suffit** pour le verrouillage primaire (translation + rotation par obstacle mécanique positif). Le collier fendu + 2 vis M4 est un complément « ceinture et bretelles » qui peut être ajouté en V2 si du jeu ou des vibrations sont constatés.
->
-> | Rôle du collier fendu | Impact si supprimé |
-> |:---|:---|
-> | Élimine les micro-jeux (jeu H7 = 0~25 µm) | Micro-rotations possibles sous vibrations |
-> | Friction distribuée 360° → amortissement | Usure par fretting du trou de goupille à long terme |
-> | Pression radiale → protège le carbone | Le bouchon de renfort + époxy structurale suffisent |
->
-> **En V1** : supprimer la fente et les M4 → le collier devient un simple alésage cylindrique lisse, beaucoup plus simple à usiner CNC.
+> **Double sécurité retenue en V1 (Pincement + Obstacle Positif)** :
+> 1. **Pincement Radial (35 mm de portée)** : 2× vis CHC M4 compriment la fente axiale (0,8 à 1,0 mm). La pression de contact (~12 MPa) sur 35 mm développe plus de 10 000 N de friction, éliminant tout micro-jeu angulaire et amortissant les vibrations.
+> 2. **Protection Composite (Bouchon Anti-Écrasement)** : Le bouchon alu creux Ø 26,0 mm ext / Ø 18,0 mm int (longueur 35 mm) absorbe la pression radiale des vis sans déformer les fibres carbone.
+> 3. **Verrouillage par Obstacle (Goupille Ø 4,0 mm)** : La goupille Mécanindus Inox Ø 4,0 mm traversante verrouille définitivement la translation et la rotation en cas de choc extrême.
 
-#### Modes de Fixation (Axial et Rotation)
+#### Synthèse d'Ingénierie & Dimensionnement CAO (Aluminium 7075-T6)
 
-| Liaison | Fixation Axiale (Translation) | Fixation en Rotation |
-|:---|:---|:---|
-| **Tube Carbone ↔ Bride alu** | **Obstacle mécanique** : Goupille élastique traversante (Mécanindus) $\varnothing 3\text{ mm}$ travaillant en double cisaillement (perpendiculaire à l'axe du tube) — bloque toute translation axiale de manière positive et définitive. *(V2 optionnel : le collier fendu complète par friction pour éliminer les micro-jeux.)* | **Obstacle mécanique** : La goupille verrouille la rotation de façon positive. *(V2 optionnel : le serrage par pincement du collier fendu élimine tout micro-jeu angulaire.)* Le bouchon de renfort creux empêche l'écrasement du tube. |
-| **Bride alu ↔ Stator Moteur** | **Serrage mécanique** via les 8 vis M5 traversant le collet PA12-CF et la bride, plaquant le stator contre le lip du manchon. | **Obstacle mécanique** via les 8 vis CHC M5 dans leurs taraudages borgnes du stator (encastrement rigide). |
+> [!NOTE]
+> **Étude Matériau & Épaisseur Radiale (Aluminium 7075-T6 / Fortal)** :
+> - **Propriétés Mécaniques** : Limite d'élasticité $R_e = 500\text{ MPa}$ (+82% vs Alu 6061-T6), Module d'Young $E = 71\text{ GPa}$.
+> - **Paroi Radiale Optimale ($t = 5,0\text{ mm}$)** : L'Alu 7075-T6 permet de réduire l'épaisseur radiale à **5,0 mm** (`Ø 40,0 mm ext`) en conservant une rigidité extrême sous le pincement M4 ($SF > 15$).
+> - **Flexibilité de Charnière** : La haute limite élastique garantit un pincement de fente fluide et réversible sans risque de déformation plastique ou de fatigue de l'aluminium.
 
-#### Spécifications de la goupille et du bouchon de renfort (Carter Monobloc Épaule)
+#### Spécifications Cotées pour la Modélisation Fusion 360
 
-* **Bouchon interne de renfort :** Manchon cylindrique **creux** (pour optimiser la masse) de 26 mm extérieur (ajustement glissant serré H7/h6) et 16-20 mm intérieur, d'une longueur de 30 mm. Usiné en alu 6061-T6 ou imprimé en PA12-CF (100% de remplissage). Il est inséré et collé à l'époxy structurale à l'extrémité du tube (côté carter d'épaule). Son rôle est d'empêcher l'écrasement ou la délamination des fibres sous la contrainte de la goupille.
-* **Perçage transversal :** Le trou de 4 mm pour la goupille est **perpendiculaire à l'axe du tube** (transversal). Il doit être percé à une distance de **16 mm** du bord d'extrémité du tube carbone (règle standard de 4 × d_goupille pour éviter la rupture par cisaillement de l'arête du composite). Le perçage traverse successivement : paroi carter alu → paroi tube carbone → bouchon de renfort → paroi tube carbone → paroi carter alu.
-* **Goupille élastique :** Goupille de type Mécanindus (fendue en acier trempé) de **4 mm × 40 mm** (même diamètre que la goupille du nœud central — BOM unifiée). Résistance au double cisaillement > 7 500 N (facteur de sécurité ×6,3 par rapport à l'effort axial dynamique).
-
-#### Dimensions de la Bride pour Fusion 360
-
-![Dessin coté multi-vues de la bride de liaison](./media/bride_tube_carbone_cotee.png)
-
-*Dessin coté 4 vues (avant, arrière, coupe B-B, isométrique) avec tolérances — RT-DIM-BL-002.*
-
-| Feature | Dimension | Tolérance | Note |
+| Feature CAO | Dimension Retenue | Tolérance | Note d'Ingénierie Fusion 360 |
 |:---|:---:|:---:|:---|
-| **Alésage tube** | 30,05 mm | H7 (+0,025/0) | Ajustement glissant pour tube carbone Ø30 mm |
-| **Profondeur alésage** | 35 mm | ±0,5 mm | Pour bouchon (30 mm) + marge |
-| **Ø extérieur collier** | 42 mm | — | Épaisseur paroi ~6 mm |
-| **Ø plaque flasque** | 90 mm | — | À ajuster selon PCD mesuré du RS-04 |
-| **Épaisseur plaque** | 6 mm | — | Face d'appui contre le stator |
-| **8× trous M5 passage** | 5,3 mm | — | Sur PCD ~70 mm (mesurer sur le RS-04 !) |
-| **Perçage goupille** | **4,0 mm** traversant | H7 | Perpendiculaire à l'axe du tube, à **16 mm** du bord — **BOM unifiée Ø4 mm** |
-| **Congé collier→plaque** | R2 mm | — | Réduction de concentration de contraintes |
+| **Matériau Bride** | **Aluminium 7075-T6** | — | Fortal / Ergal ($R_e = 500\text{ MPa}$) |
+| **Alésage intérieur ($D_{\text{int}}$)** | **30,05 mm** | H7 (+0,021/0) | Ajustement glissant doux pour tube carbone Ø 30,0 mm |
+| **Longueur de portée ($L_{\text{serrage}}$)** | **35,0 mm** | ±0,2 mm | Portée optimale (1,17 × Ø tube) |
+| **Diamètre extérieur ($D_{\text{ext}}$)** | **Ø 40,0 mm** | h8 (-0,039/0) | **Épaisseur de paroi radiale $t = 5,0\text{ mm}$** (Masse ~45 g) |
+| **Bouchon interne alu** | **Ø 26,0 ext / Ø 18,0 int** | h6 (-0,013/0) | Longueur 35,0 mm, Alu 6061/7075, collé époxy (âme anti-écrasement) |
+| **Fente axiale de pincement** | **1,0 mm** | ±0,1 mm | Fente radiale sur toute la longueur (35,0 mm) au sommet (axe Z) |
+| **Visserie de pincement** | **2× Vis CHC M4 × 20 mm** | — | Entraxe ~20 mm enjambant la fente, avec lamage Ø 7,5 mm (profondeur 4,5 mm) |
+| **Perçage goupille universelle** | **Ø 4,0 mm traversant** | H7 (+0,012/0) | Perpendiculaire à l'axe Z (vertical), à **16 mm** du bord — **BOM unifiée Ø4 mm** |
 
-> [!WARNING]
-> **Mesure critique avant modélisation** : Le **PCD (diamètre du cercle de boulonnage)** des 8 taraudages borgnes M5 sur la face arrière du stator RS-04 conditionne le Ø de la plaque et la position des perçages. Mesurer au pied à coulisse sur le moteur physique avant de finaliser le modèle.
+---
 
-#### Guide de Modélisation Fusion 360 (6 étapes)
+#### Guide de Modélisation Fusion 360 (5 étapes)
 
-![Workflow Fusion 360 en 6 étapes pour la bride de liaison](./media/bride_tube_carbone_fusion360.png)
+1. **Sketch Profil de Révolution** (plan XZ) — Dessiner le profil cylindrique : rayon intérieur $15{,}025\text{ mm}$, rayon extérieur $20{,}0\text{ mm}$ ($\varnothing 40{,}0\text{ mm}$), longueur $35{,}0\text{ mm}$.
+2. **Revolve 360°** — Axe X (horizontal) → Résultat : cylindre rigide $\varnothing 40{,}0\text{ mm} \times 35{,}0\text{ mm}$.
+3. **Fente Axiale de Pincement** — Extrude Cut d'un rectangle $1{,}0\text{ mm} \times 35{,}0\text{ mm}$ au sommet (axe Z) dirigé vers l'alésage intérieur.
+4. **Bossages & Perçages M4** — 2× perçages $\varnothing 4{,}3\text{ mm}$ (passage) d'un côté de la fente et 2× taraudages M4 de l'autre côté avec lamage $\varnothing 7{,}5\text{ mm}$ pour noyer les têtes CHC.
+5. **Perçage Goupille Ø 4,0 mm** — Trou $\varnothing 4{,}0\text{ mm}$ traversant verticalement (axe Z), positionné à **16 mm** du bord d'extrémité du socket d'épaule.
 
-*Étapes de modélisation : (1) Sketch du profil de révolution sur le plan XZ, (2) Revolve 360°, (3) Fente de serrage — Extrude Cut axial *(V2 uniquement)*, (4) Perçages M4 enjambant la fente *(V2 uniquement)*, (5) 8× M5 sur la face stator — Circular Pattern, (6) Perçage goupille Ø3 mm vertical + congés R2 mm.*
-
-**Étapes détaillées :**
-
-1. **Sketch Profil de Révolution** (plan XZ) — Profil en L : rayon int. $15{,}025\text{ mm}$, rayon ext. collier $21\text{ mm}$, hauteur collier $35\text{ mm}$, rayon ext. plaque $45\text{ mm}$, épaisseur plaque $6\text{ mm}$. Axe de révolution = axe X (horizontal).
-2. **Revolve 360°** — Résultat : solide étagé (collier $\varnothing 42$ + plaque $\varnothing 90$).
-3. *(V2 uniquement)* **Fente de Serrage** — Extrude Cut d'un rectangle $1{,}5\text{ mm} \times$ longueur collier, au sommet, radial vers l'alésage.
-4. *(V2 uniquement)* **Perçages M4** — 2× Ø 4.2 mm enjambant la fente perpendiculairement (vus de face : positions ~11h et ~1h).
-5. **8× M5 — Circular Pattern** — 1 trou Ø 5.3 mm sur le PCD → pattern ×8, espacement 45°.
-6. **Goupille Ø3 mm + Congés** — Trou Ø 3.0 mm traversant, **vertical** (axe Z, perpendiculaire au tube), à 12 mm du bord d'entrée. Congés R2 mm sur la transition collier→plaque.
+---
 
 ---
 
