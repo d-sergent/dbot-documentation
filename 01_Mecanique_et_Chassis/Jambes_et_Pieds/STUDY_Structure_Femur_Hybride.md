@@ -23,11 +23,32 @@ Pour résoudre ces contraintes, l'ingénierie biomimétique moderne propose troi
 Un large profilé évidé en Aluminium 6061-T6 usiné dans la masse.
 *   **Rigidité** : Exceptionnelle en flexion et en torsion.
 *   **Intégration** : Offre de larges plans de vissage aux extrémités pour les blocs de Hanche et de Genou.
-*   **Câblage** : Cavité interne parfaite pour protéger les câbles et cartes électroniques (Odrive, Moteus) sous des capots en plastique.
-*   **Inconvénient** : Très lourd (~700g - 800g) et fort gaspillage de matière lors de l'usinage (beaucoup de copeaux).
+*   **Câblage** : Cavité interne parfaite pour protéger les câbles et cartes électroniques sous des capots.
+*   **Inconvénient** : Très lourd (~700g - 800g) et fort gaspillage de matière lors de l'usinage.
+
+![Concept Poutre en U Fémur](../../Assets/img_femur_poutre_u.png)
+
+*Figure 2.1 : Structure en Poutre en U usinée dans la masse.*
 
 ### Concept 2 : L'Exosquelette en Treillis (Plates Carbone + Entretoises Alu)
-Une structure en "boîte" formée de deux grandes plaques latérales parallèles en fibre de carbone découpées à la CNC, reliées par des entretoises en aluminium.
+Une structure en boite formée de deux grandes plaques latérales parallèles en fibre de carbone découpées à la CNC, reliées par des entretoises en aluminium.
+
+![Concept Treillis Fémur](../../Assets/img_femur_treillis.png)
+
+*Figure 2.2 : Structure en Treillis à plaques carbone et entretoises.*
+
+### Concept 3 : La Structure Hybride Sandwich (Coque PA12-CF + Renforts Carbone)
+Une structure combinant l'impression 3D composite PA12-CF et des plaques ou lames de renfort carbone.
+
+![Concept Hybride Fémur](../../Assets/img_femur_hybride.png)
+
+*Figure 2.3 : Concept Hybride Fémur (Coque composite).*
+
+![Structure Sandwich Hybride Fémur](../../Assets/img_femur_hybride_sandwich.png)
+
+*Figure 2.4 : Vue de la structure sandwich de renfort.*
+
+---
 *   **Rigidité** : Excellente dans l'axe, mais plus sensible aux chocs latéraux et au voilage en torsion.
 *   **Poids** : Ultra-léger (~300g - 400g).
 *   **Câblage** : Les câbles passent au milieu mais restent visibles et exposés aux débris extérieurs.

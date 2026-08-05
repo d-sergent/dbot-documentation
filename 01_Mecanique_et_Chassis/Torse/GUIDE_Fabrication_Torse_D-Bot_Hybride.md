@@ -351,12 +351,48 @@ Pour maximiser la rigidité, la dissipation thermique et la précision géométr
 | **Alésage intérieur ($D_{\text{int}}$)** | **30,05 mm** | H7 (+0,021/0) | Ajustement glissant doux pour tube carbone Ø 30,0 mm |
 | **Longueur de portée ($L_{\text{serrage}}$)** | **35,0 mm** | ±0,2 mm | Portée optimale (1,17 × Ø tube) |
 | **Diamètre extérieur ($D_{\text{ext}}$)** | **Ø 40,0 mm** | h8 (-0,039/0) | **Épaisseur de paroi radiale $t = 5,0\text{ mm}$** (Masse ~45 g) |
-| **Bouchon interne alu** | **Ø 26,0 ext / Ø 18,0 int** | h6 (-0,013/0) | Longueur 35,0 mm, Alu 6061/7075, collé époxy (âme anti-écrasement) |
+| **Bouchon interne alu** | **Ø 26,0 ext / Ø 18,0 int** | h6 (-0,013/0) | Longueur 35,0 mm, **Alu 7075-T651**, collé époxy (âme anti-écrasement & iso-rigidité $E = 71\text{ GPa}$) |
 | **Fente axiale de pincement** | **1,0 mm** | ±0,1 mm | Fente radiale sur toute la longueur (35,0 mm) au sommet (axe Z) |
 | **Visserie de pincement** | **2× Vis CHC M4 × 20 mm** | — | Entraxe ~20 mm enjambant la fente, avec lamage Ø 7,5 mm (profondeur 4,5 mm) |
-| **Perçage goupille universelle** | **Ø 4,0 mm traversant** | H7 (+0,012/0) | Perpendiculaire à l'axe Z (vertical), à **16 mm** du bord — **BOM unifiée Ø4 mm** |
+| **Perçage goupille universelle** | **Ø 4,0 mm traversant** | H7 (+0,012/0) | **Chanfrein d'entrée 0,5 mm × 45° obligatoire** — Perpendiculaire à l'axe Z (vertical), à 16 mm du bord (BOM unifiée Ø4 mm) |
 
----
+#### D. Directive d'Approvisionnement Matière Première (Blockenstock)
+
+> [!IMPORTANT]
+> **Commandes de Matière Première à passer sur Blockenstock** :
+> 1. **Carters d'Épaule (Acier E470)** :
+>    - Produit : [Ébauche creuse d131 / d88 au cm - Acier E470 - Blockenstock](https://www.blockenstock.fr/d131-d88-au-cm-acier-e470-c2x42431541)
+>    - Quantité : **2 pièces de 4 cm (40 mm)** d'épaisseur (laisse 1,0 mm de surépaisseur de surfaçage pour obtenir $H = 39,0\text{ mm}$ net sur la C500).
+> 2. **Bouchons Internes Anti-Écrasement (Aluminium 7075-T651)** :
+>    - Produit : [Barre ronde Ø 30x500mm Alu 7075-T651 - Blockenstock](https://www.blockenstock.fr/c-30x500mm-alu-7075-file-t651-c2x21035319)
+>    - Quantité : **1 barre de 500 mm (50 cm)** d'Aluminium 7075-T651 Ø 30 mm.
+>    - **Justification d'Ingénierie** : L'Alu 7075-T651 offre une limite d'élasticité exceptionnelle ($R_e = 500\text{ MPa}$), une masse minimale par bouchon (**27,2 g** vs 76,0 g en acier, soit -97,6 g économisés sur le buste), une usinabilité parfaite sur la C500, et une **iso-rigidité radiale** ($E = 71\text{ GPa}$) identique à la bride extérieure pour une pression de pincement 100% uniforme sans écrasement du tube carbone.
+
+#### Rendu 3D & Dessins d'Ingénierie de la Bride d'Épaule (Alu 7075-T6)
+
+![Rendu 3D de la bride de liaison alu](./media/bride_tube_carbone.png)
+
+*Rendu 3D de la bride de liaison d'épaule en Aluminium 7075-T6.*
+
+![Dessin coté multi-vues de la bride de liaison](./media/bride_tube_carbone_cotee.png)
+
+*Dessin coté multi-vues (avant, arrière, coupe B-B, isométrique) avec tolérances d'usinage.*
+
+![Coupe longitudinale de la bride alu](./media/bride_tube_carbone_coupe.png)
+
+*Coupe longitudinale de l'assemblage bride alu et tube carbone Ø 30 mm.*
+
+![Vue éclatée schématique de la bride alu](./media/bride_tube_carbone_eclatee.png)
+
+*Vue éclatée coaxiale montrant les composants d'ancrage de la bride.*
+
+![Workflow Fusion 360 pour la bride alu](./media/bride_tube_carbone_fusion360.png)
+
+*Workflow de modélisation CAO sous Fusion 360 en 5 étapes.*
+
+![Coupe axiale d'épaule assemblée finale](./media/coupe_axiale_epaule_finale.png)
+
+*Coupe axiale 3D révisée de l'assemblage complet d'épaule (Acier E470 + RS-04 + Tube carbone).*
 
 #### Guide de Modélisation Fusion 360 (5 étapes)
 
@@ -582,8 +618,26 @@ Avec le squelette cruciforme reprenant tous les efforts structurels, la coque PA
 | **Résistance axiale du collet** | 🟡 Inter-couche (faible) | ✅ Le long des fibres (fort) |
 | **Support nécessaire** | ❌ Massif | ✅ **Minimal** |
 
-> [!IMPORTANT]
-> L'impression verticale n'est **viable que parce que les manchons alu internes reprennent les charges** du collet. Sans le squelette cruciforme, cette orientation serait dangereuse. C'est l'architecture cruciforme qui débloque cette orientation avantageuse.
+### E. Stratégie de Découpe CAO : 2 Parties Horizontales (🏆 RETENUE) vs 4 Parties
+
+Pour imprimer l'intégralité du torse dans le volume d'impression de la **Qidi Plus 4** (305 × 305 × 280 mm), la stratégie de découpe CAO a été rigoureusement analysée :
+
+| Critère d'Ingénierie | Option A : 2 Parties Horizontales (🏆 RETENUE) | Option B : 4 Parties (Haut/Bas + Avant/Arrière) | Justification Technique |
+|:---|:---:|:---:|:---|
+| **Forme des Pièces** | **Thorax Haut** (0-216 mm) + **Abdomen Bas** (0-190 mm) | 2 Coquilles Hautes (Avant/Arrière) + 2 Coquilles Basses | **2 anneaux fermés 360° monoblocs** |
+| **Intégrité de la Ceinture d'Épaule** | ✅ **Ring 360° Monobloc continu** | ❌ Couture verticale passant par le collet d'épaule | **Évite tout risque d'arrachement par torsion** |
+| **Centrage sur la Waist Plate** | ✅ **S'appuie directement sur la Waist Plate Alu (6 mm)** | 🟡 Nécessite 4 plans d'appui complexes | **Alignement naturel et rigide sur le squelette** |
+| **Supports d'Impression Qidi** | ✅ **Minimaliste** (Tree supports uniquement sous collets) | ❌ Élevé (supports sur les tranches verticales) | **Gain de 70% de PA12-CF et d'état de surface** |
+| **Complexité d'Assemblage** | ✅ **1 seul plan de joint horizontal** | ❌ 3 plans de joints croisés | **Assemblage mécanique simplifié** |
+
+#### Spécifications CAO du Plan de Joint (Fusion 360) :
+
+1. **Plan de Coupe Horizontal (Au niveau de la Waist Plate)** :
+   - La découpe est effectuée exactement au niveau de la **Waist Plate en Alu 6061-T6 (6 mm)**.
+2. **Profilé d'Emboîtement Rainure-Languette (Lip & Groove)** :
+   - La tranche d'assemblage comporte une languette radiale de **1,5 mm d'épaisseur par 2,0 mm de hauteur** s'emboîtant dans une rainure correspondante (jeu fonctionnel de **0,2 mm**). Ce profilé garantit un alignement 100% parfait sans aucun décalage de surface à l'extérieur.
+3. **Assemblage par Inserts Laiton à Chaud (Heat-Set Inserts M4)** :
+   - La liaison n'est pas collée : elle est verrouillée mécaniquement par **6× à 8× vis CHC M4 × 16 mm** traversant la Waist Plate et prenant en prise dans des **inserts en laiton à chaud (Heat-Set Inserts M4 × 8 mm)** noyés dans la paroi du PA12-CF.
 
 ---
 
@@ -866,10 +920,11 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 1. ☐ Usiner les 2 demi-plaques de colonne vertébrale (alu 6061-T6, 5 mm — évidements 2D traversants)
 2. ☐ Usiner les **2 carters Support RS-04 (H = 39,0 mm)** à partir de **2 tronçons de 4 cm (40 mm)** d'ébauche creuse Acier E470 d131 / d88 commandés sur Blockenstock (alésage Ø 120.2 mm H7 sur 35.0 mm de profondeur, surfaçage à 39.0 mm net, contournage Ø 124.0 mm, évidement Ø 97 mm et 10× perçages Ø 3.3 mm sur PCD Ø 106 mm)
 3. ☐ Usiner les **2 demi-coquilles du nœud d'intersection** (Bride Sup. et Bride Inf. alu 6061-T6)
-4. ☐ Usiner la plaque supérieure de cou (alu 6061-T6, 5 mm) — équerres L-Brackets en sandwich
-5. ☐ Usiner la Waist Plate (alu 6061-T6, 6 mm) — équerres L-Brackets en sandwich
-6. ☐ Usiner la bague d'adaptation RS-06 (alu 6061-T6)
-7. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner les extrémités et percer la goupille Ø4 mm verticale à travers le nœud assemblé
+4. ☐ Usiner les **2 bouchons internes anti-écrasement (Ø 26.0 mm h6 ext / Ø 18.0 mm int × 35.0 mm long)** dans la **barre ronde Alu 7075-T651 Ø 30 mm** (Blockenstock)
+5. ☐ Usiner la plaque supérieure de cou (alu 6061-T6, 5 mm) — équerres L-Brackets en sandwich
+6. ☐ Usiner la Waist Plate (alu 6061-T6, 6 mm) — équerres L-Brackets en sandwich
+7. ☐ Usiner la bague d'adaptation RS-06 (alu 6061-T6)
+8. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner les extrémités et percer la goupille Ø4 mm verticale à travers le nœud assemblé
 
 ### Phase 3 — Impression 3D (Qidi Plus 4)
 
@@ -880,11 +935,22 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 3. ☐ Configurer le **Modifier Volume** cylindrique autour de chaque collet d'épaule (6 périmètres, 35% infill)
 4. ☐ Supports arborescents (**Tree**) uniquement sous les collerettes d'épaule du Thorax, **Build Plate Only**
 
-### Phase 4 — Assemblage du Torse Rigide
+### Phase 4 — Assemblage du Torse Rigide & Insertion des Goupilles Mécanindus
+
+> [!NOTE]
+> ** Protocole d'Insertion des Goupilles Mécanindus (Sans Presse)** :
+> - **Pourquoi AUCUNE presse ?** Une presse hydraulique n'offre aucun retour tactile et risquerait de matraquer le tube carbone en cas de léger désalignement des trous.
+> - **Outillage requis** : Petit marteau de mécanicien (100 g - 200 g), chasse-goupille Ø 3,5 mm (légèrement inférieur au trou Ø 4,0 mm), tasseau de soutien / V-block percé d'un trou de décharge Ø 6 mm.
+> - **Règle d'orientation de la fente** : Orienter impérativement la fente axiale de la goupille **à 90° de la direction de l'effort principal** (fente vers l'avant/arrière axe Y si l'effort est vertical Z) pour offrir 100% de la section pleine à la flexion.
+> - **Procédure** : 
+>   1. Poser la bride alu à plat sur le tasseau percé (zéro effort sur le tube carbone).
+>   2. Appliquer une goutte d'huile fine sur le chanfrein d'entrée de 0,5 mm × 45° du perçage.
+>   3. Amorcer la goupille chanfreinée à la main.
+>   4. Enfoncer par de petits coups secs de marteau (100-200g) via le chasse-goupille Ø 3,5 mm jusqu'à ce que la goupille soit parfaitement centrée (noyée de ~0,5 mm de chaque côté).
 
 1. ☐ Poser les inserts filetés M4 en laiton (Ruthex) dans les coques PA12-CF au fer à souder (260°C)
 2. ☐ Insérer et coller les **carters Support RS-04 en acier E470** dans les collets PA12-CF (avec film de résine époxy JB Weld)
-3. ☐ Assembler le nœud d'intersection (demi-coquilles) sur le tube carbone Ø30 mm et verrouiller par la goupille Ø4 mm verticale
+3. ☐ Appliquer le protocole ci-dessus pour insérer les goupilles élastiques inox Ø 4,0 mm × 35 mm (Nœud central + Épaules)
 4. ☐ Assembler les 2 demi-plaques de colonne vertébrale sur le nœud via leurs ailes en L (vis M4 traversantes + écrous Nylstop)
 5. ☐ Fixer la plaque de cou (haut) et la Waist Plate (bas) via les équerres L-Brackets en sandwich
 6. ☐ Assembler le Thorax et l'Abdomen via le Lap Joint + vis M4 des bossages internes

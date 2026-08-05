@@ -13,7 +13,21 @@ Ce document analyse pourquoi le genou RS-04 (120 N.m) devient le facteur limitan
 
 ---
 
-## 1. Le Problème : Couple Genou Insuffisant pour la Course
+### 1.2 Illustations des Concepts et Transmission GT3
+
+![Séquence cinématique S2 Genou Tirant](../../Assets/img_s2_cinematique_sequence.png)
+
+*Figure 1.1 : Séquence cinématique de flexion/extension du genou à tirant.*
+
+![Schéma Genou à Tirant S2](../../Assets/img_s2_genou_tirant.png)
+
+*Figure 1.2 : Détail de la tringlerie et du tirant mécanique du genou S2.*
+
+![Transmission Courroie GT3 Genou S6](../../Assets/img_s6_gt3_knee_transmission.png)
+
+*Figure 1.3 : Architecture de transmission par courroie synchrone GT3 (Solution S6).*
+
+---
 
 ### 1.1 Analyse des Facteurs Limitants
 

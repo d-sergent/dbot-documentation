@@ -10,6 +10,16 @@ Voici les caractéristiques officielles de l'actionneur utilisé pour le coude (
 
 ![Fiche Technique Robstride RS-02](./assets/robstride_02_datasheet.png)
 
+### Accouplements et Joints Oldham Robstride
+
+![Accouplement Oldham Annoté](./assets/robstride_oldham_annotated.png)
+
+*Figure 0.1 : Schéma fonctionnel annoté du joint Oldham pour actionneur Robstride.*
+
+![Assemblage Joint Oldham Robstride](./assets/robstride_oldham_assembly.png)
+
+*Figure 0.2 : Vue éclatée de l'assemblage de l'accouplement Oldham.*
+
 ---
 
 ## Principes Architecturaux : Montage Direct vs Découplé

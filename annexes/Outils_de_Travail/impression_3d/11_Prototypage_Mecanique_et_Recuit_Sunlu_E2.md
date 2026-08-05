@@ -2,6 +2,17 @@
 
 Ce document rassemble les méthodologies de prototypage rapide en impression 3D pour remplacer temporairement les pièces en Aluminium 6061-T6 sur le robot **D-Bot**, ainsi que le protocole d'utilisation du sécheur/recuiseur **Sunlu FilaDryer E2**.
 
+> [!IMPORTANT]
+> **📐 Spécifications de la Chambre & Dimensions Utiles de Recuit (Sunlu FilaDryer E2)** :
+> 
+> | Caractéristique de la Chambre | Valeur Maximale Utile | Note d'Intégration Pièces D-Bot |
+> | :--- | :---: | :--- |
+> | **Largeur Utile ($L$)** | **220 mm** | Permet de loger les grandes brides et coquilles d'épaule. |
+> | **Profondeur Utile ($P$)** | **210 mm** | Adaptée aux demi-coques d'articulation et nœuds centraux. |
+> | **Hauteur Utile ($H$)** | **120 mm** (jusqu'à **130 mm** sans grille) | Accueille jusqu'à 2 carters d'épaule RS-04 en simultané. |
+> | **Diagonale Maximale Utile** | **~280 mm** | Pour les pièces allongées (fémurs, brackets) orientées à 45 deg. |
+> | **Volume Utile Total** | **~5,5 Litres** | Diffusion thermique homogène 360° avec ventilation forcée. |
+
 ---
 
 ## 1. Prototypage Structurel en Impression 3D (Remplacement Temporaire Alu 6061-T6)

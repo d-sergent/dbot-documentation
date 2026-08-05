@@ -32,11 +32,18 @@ Les mesures intérieures de la cavité du torse ont été relevées directement 
 ![Mesure de la profondeur au niveau du cou](./media/mesure_cao_cou_86mm.png)
 *Figure 1.3 : Relevé de la profondeur intérieure disponible au niveau du collet du cou : 86.482 mm.*
 
----
-
-### C. Hypothèse d'Optimisation Géométrique CAO / CAM (Profondeur d = 120,0 mm)
-
 Pour garantir une marge de sécurité idéale lors du bridage et de l'usinage sur la fraiseuse **NestWorks C500** (table de 230 mm × 213 mm), la profondeur maximale de la colonne vertébrale est fixée à **d = 120,0 mm** au niveau des épaules et de la taille (se biseautant à **86,5 mm** au cou).
+
+#### 4. Schéma & Rendu 3D du Nœud d'Intersection Central
+![Coupe axiale du nœud d'intersection central](./media/noeud_intersection_coupe.svg)
+
+*Coupe axiale du nœud d'intersection entre la colonne alu 6061-T6 et la traverse en tube carbone Ø 30 mm.*
+
+*Rendu 3D du serrage par bridage des demi-coquilles alu autour de la traverse carbone.*
+
+> [!TIP]
+> **Directives d'Usinage C500 pour les Perçages de Goupilles** :
+> Tous les perçages de goupilles universelles Ø 4.0 mm H7 (Nœud central et brides d'épaules) doivent obligatoirement recevoir un **chanfrein d'entrée de 0,5 mm × 45°** sur les 2 faces extérieures. Ce chanfrein est indispensable pour guider et pincer l'amorce de la goupille élastique Mécanindus lors de l'insertion au maillet/chasse-goupille sans marquer l'aluminium.
 
 ---
 

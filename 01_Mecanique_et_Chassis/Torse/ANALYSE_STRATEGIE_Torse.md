@@ -205,9 +205,20 @@ Pour votre contexte spécifique (temps limité, Qidi Plus 4, PA12-CF, design pre
 
 ---
 
-## 6. Prochaines Étapes Proposées
-
 - [ ] Explorer le CAD OnShape du Berkeley Humanoid Lite et évaluer la compatibilité du torse avec vos dimensions
 - [ ] Chercher 2-3 modèles de torses bioniques sur GrabCAD en format STEP
 - [ ] Tester le workflow simplifié Fusion 360 (Congés + Shell + Fenêtres) sur le Pelvis généré par le script actuel
 - [ ] Décider de la stratégie finale et lancer la modélisation
+
+---
+
+### 7. Schémas de Référence des Concepts Explorés
+
+![Solution Colonne 2 Parties Bride Longue](./media/solution_colonne_2_parties_bride_longue.svg)
+
+*Schéma du concept exploré : colonne vertébrale en 2 parties avec bride longue.*
+
+![Manchon Alu Coupe Axiale](./media/manchon_alu_coupe_axiale.svg)
+
+*Schéma du concept d'emboîtement historique avec manchon alu et insertion interne.*
+

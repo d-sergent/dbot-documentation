@@ -28,6 +28,12 @@ Tesla a opté pour une chaîne cinématique **A-R-F** (Abduction→Rotation→Fl
 2. **Maillon 2 : Yaw (Rotation)** — rotation interne/externe.
 3. **Maillon 3 : Pitch (Flexion)** — dans la cuisse, levée et propulsion.
 
+![Référence du Pelvis et Bloc de Hanche Tesla Optimus](../../Assets/img_optimus_pelvis_reference.jpg)
+
+*Figure 2.1 : Référence d'architecture du bloc pelvien et de hanche de Tesla Optimus.*
+
+---
+
 **Avantage** : Le gros moteur Pitch (le plus lourd) est le dernier maillon et ne porte que la cuisse.  
 **Inconvénient** : Architecture "Gen 1" — le bassin reste très large et les proportions du torse sont moins naturelles.
 

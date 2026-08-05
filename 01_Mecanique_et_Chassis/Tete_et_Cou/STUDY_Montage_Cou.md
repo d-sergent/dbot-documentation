@@ -38,6 +38,34 @@ Cette annexe détaille la conception du montage vertical d'un moteur **RobStride
 | :--- | :--- |
 | **Trous visserie STATOR (interface périphérique)** | **8× M3 Profondeur 6 mm** (EQS sur ø38.5mm) |
 | **Trous visserie ROTOR (interface tournante)** | **6× M4 Profondeur 3 mm** (EQS sur ø24mm) + 3 plots |
+
+#### Captures et Solutions de Montage RS-05 de Tête
+
+![Montage Annulaire RS-05](../../Assets/img_rs05_head_mount_annular.png)
+
+*Figure 1.4 : Montage annulaire du RS-05.*
+
+![Montage Roll RS-05](../../Assets/img_rs05_head_roll_mount.png)
+
+*Figure 1.5 : Montage de l'axe Roll de tête.*
+
+![Solution 1 Hub Surélevé](../../Assets/img_rs05_solution1_hub_sureleve.png)
+
+*Figure 1.6 : Solution 1 — Hub surélevé.*
+
+![Solution 2 Roulement Mince](../../Assets/img_rs05_solution2_roulement_mince.png)
+
+*Figure 1.7 : Solution 2 — Roulement mince.*
+
+![Solution 3 Butée à Aiguilles](../../Assets/img_rs05_solution3_butee_aiguilles.png)
+
+*Figure 1.8 : Solution 3 — Butée à aiguilles.*
+
+![Solution 4 Hub Réduit](../../Assets/img_rs05_solution4_hub_reduit.png)
+
+*Figure 1.9 : Solution 4 — Hub réduit retenu.*
+
+---
 | **Alésage central côté rotor** | ø24 mm |
 | **Diamètre rotor** | ø41.5 mm |
 | **Diamètre extérieur corps moteur** | ø46 mm |

@@ -24,12 +24,21 @@ Le moteur Pitch (RS-02) est monté en haut du tibia avec un mécanisme de tirant
 ### B. Tirant simple / Linkage (K-Bot Original)
 Le moteur RS-02 est monté en haut du tibia et actionne le pied uniquement en Pitch via une unique barre de poussée (pushrod). Le ratio de levier multiplie le couple.
 
-*   **Moteurs** : RS-02 (Pitch uniquement), positionné haut dans le tibia.
-*   **Masse distale** : **~0g** (aucun moteur en bas).
-*   **Couple Pitch effectif** : ~34 N.m (17 N.m × ratio ~2:1).
-*   **Roll** : ❌ Totalement absent (1 seul DOF).
-*   **Complexité** : ⭐⭐ Moyenne.
-*   **Verdict** : Insuffisant pour la stabilité latérale sur un robot dynamique de 40 kg (nécessite un axe de Roll).
+![Assemblage Cheville 2DOF](../../Assets/ankle_2dof_assembly.png)
+
+*Figure 1.1 : Assemblage 3D de la cheville 2-DOF.*
+
+![Linkage Cheville K-Bot](../../Assets/kbot_ankle_linkage.png)
+
+*Figure 1.2 : Tracé cinématique du linkage de cheville K-Bot.*
+
+![Cardan à Rainure Cheville](../../Assets/img_cardan_rainure.png)
+
+*Figure 1.3 : Cardan à rainure de guidage.*
+
+![Roulement 6802-2RS Cheville](../../Assets/img_roulement_6802_2RS.png)
+
+*Figure 1.4 : Roulement mince 6802-2RS.*
 
 ---
 
