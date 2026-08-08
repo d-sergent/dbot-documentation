@@ -1,6 +1,6 @@
 # 🛠️ Guide de Fabrication Hybride : Torse D-Bot (Architecture Cruciforme + FDM PA12-CF + CNC Alu)
 
-*Ce document remplace le [GUIDE_Fabrication_Torse_Asimov_Hybride.md](./00_Archives_Recherche/GUIDE_Fabrication_Torse_Asimov_Hybride.md) (archivé). Il intègre l'architecture cruciforme interne (plaque isogrid sagittale + traverse carbone), les 2 paniers batterie latéraux avec hot-swap, l'orientation d'impression verticale, et les manchons d'épaule en aluminium.*
+*Ce document remplace le [GUIDE_Fabrication_Torse_Asimov_Hybride.md](./00_Archives_Recherche/GUIDE_Fabrication_Torse_Asimov_Hybride.md) (archivé). Il intègre l'architecture cruciforme interne (plaque sagittale à lumières 2D + traverse carbone), les 2 paniers batterie latéraux avec hot-swap, l'orientation d'impression verticale, et les manchons d'épaule en aluminium.*
 
 > [!NOTE]
 > **Évolution architecturale majeure (Mai 2026)** : Le torse passe d'une coque PA12-CF porteuse primaire à une **coque secondaire allégée** habillant un **squelette métallique cruciforme** qui reprend l'intégralité des efforts structurels.
@@ -17,9 +17,9 @@ Le torse du D-Bot est basé sur la coque organique de l'Asimov v1 (mise à l'éc
 |:---|:---|:---|
 | **Structure porteuse** | Coque PA12-CF seule (6 périmètres, 35% infill) | **Squelette alu/carbone/acier cruciforme** |
 | **Rôle de la coque** | Primaire (porte tous les efforts) | **Secondaire** (protection, forme, transmission locale) |
-| **Colonne vertébrale** | 2 lattes alu latérales (irréalisable) | **1 plaque isogrid sagittale** (dos→ventre, toute la hauteur) |
+| **Colonne vertébrale** | 2 lattes alu latérales (irréalisable) | **1 plaque sagittale à lumières 2D** (dos→ventre, toute la hauteur) |
 | **Traverse épaules** | Aucune | **Tube carbone Ø30mm** reliant les 2 brides de liaison d'épaule |
-| **Flasques épaules** | Disques plats alu 5mm | **Carter monobloc acier E470 CNC** (Plan 2D *Support RS-04* : Ø124mm, alésage Ø120.2mm H7, paroi 1.9mm, fond 4mm évidé Ø97mm, insertion par l'extérieur) |
+| **Flasques épaules** | Disques plats alu 5mm | **Carter monobloc CNC alu 6082-T6** (Plan 2D *Support RS-04* : Ø~126mm, alésage Ø120.2mm H7, paroi 3.0mm, fond 4mm évidé Ø97mm, insertion par l'extérieur) |
 | **Batterie** | 1 panier coulissant central | **2 paniers latéraux** (G + D) avec hot-swap |
 | **Orientation impression** | Dos au plateau (horizontal) | **Verticale** (debout sur le plan de coupe) |
 
@@ -27,17 +27,17 @@ Le torse du D-Bot est basé sur la coque organique de l'Asimov v1 (mise à l'éc
 
 ![Schéma d'Architecture de la Structure Cruciforme du Torse](./media/structure_cruciforme.svg)
 
-*Schéma d'architecture 2D de la structure cruciforme du torse D-Bot : Vue de Face (Plan Frontal avec la traverse carbone Ø30mm, la plaque isogrid sagittale 5mm et les moteurs RS-04/RS-06) et Vue de Dessus (Plan Transversal avec l'orientation sagittal dos->ventre et les 2 paniers batteries latéraux).*
+*Schéma d'architecture 2D de la structure cruciforme du torse D-Bot : Vue de Face (Plan Frontal avec la traverse carbone Ø30mm, la plaque sagittale à lumières 2D 5mm et les moteurs RS-04/RS-06) et Vue de Dessus (Plan Transversal avec l'orientation sagittal dos->ventre et les 2 paniers batteries latéraux).*
 
 
 ### C. Rigidité comparée
 
-| Sollicitation | Ancien (lattes) | Nouveau (cruciforme) | Gain |
-|:---|:---:|:---:|:---:|
-| **Flexion Pitch** (avant/arrière) | I ≈ 773 000 mm⁴ | I ≈ 21 700 000 mm⁴ | **×28** |
-| **Flexion Roll** (latérale) | Bon | Bon (traverse carbone) | ~×1 |
-| **Torsion Yaw** | Très faible | Bon (boîte de torsion fermée + nervures ±45°) | **×5-8** |
-| **Compression axiale** | Bon | Excellent | ×2 |
+| Sollicitation | Ancien (lattes) | Nouveau (cruciforme) | Gain | Note |
+|:---|:---:|:---:|:---:|:---|
+| **Flexion Pitch** (avant/arrière) | I ≈ 773 000 mm⁴ | I ≈ 600 000 mm⁴ (plaque nette + brides) | **~×0.8** | Masse ÷3 à rigidité comparable |
+| **Flexion Roll** (latérale) | Bon | **Faible sans tirants** — **Bon avec 2 tirants M5 à ±60 mm** | ×1 → **×7** | Tirants M5 ±60 mm recommandés (60g) |
+| **Torsion Yaw** | Très faible | Bon (boîte de torsion fermée + nervures ±45°) | **×5-8** | — |
+| **Compression axiale** | Bon | Excellent | ×2 | — |
 
 ---
 
@@ -215,8 +215,8 @@ Cette architecture offre 4 bénéfices d'ingénierie majeurs :
           → Insérer la goupille élastique Ø4 mm × 60 mm (inox) par pression (maillet plastique)
           → Triple rôle : anti-rotation tube + anti-translation axiale + pion de centrage brides ✅
 
-Étape 5 : Serrer les 4× vis M6 au couple final (10 N.m)
-          → F_serrage total = 4 × 14 500 N = 58 000 N — S_f = ×3.4 — tube pincé sur 45 mm
+Étape 5 : Serrer les 4× vis M6 au couple final (8 N.m)
+          → F_serrage total = 4 × 11 600 N = 46 400 N — S_f = ×2.7 — tube pincé sur 45 mm
           → Appliquer Loctite 243 côté écrou sur chacune
 
 Étape 6 : Placer le sous-ensemble [brides + tube] entre Colonne Supérieure et Colonne Inférieure
@@ -351,10 +351,11 @@ Pour maximiser la rigidité, la dissipation thermique et la précision géométr
 | **Alésage intérieur ($D_{\text{int}}$)** | **30,05 mm** | H7 (+0,021/0) | Ajustement glissant doux pour tube carbone Ø 30,0 mm |
 | **Longueur de portée ($L_{\text{serrage}}$)** | **35,0 mm** | ±0,2 mm | Portée optimale (1,17 × Ø tube) |
 | **Diamètre extérieur ($D_{\text{ext}}$)** | **Ø 40,0 mm** | h8 (-0,039/0) | **Épaisseur de paroi radiale $t = 5,0\text{ mm}$** (Masse ~45 g) |
-| **Bouchon interne alu** | **Ø 26,0 ext / Ø 18,0 int** | h6 (-0,013/0) | Longueur 35,0 mm, **Alu 7075-T651**, collé époxy (âme anti-écrasement & iso-rigidité $E = 71\text{ GPa}$) |
+| **Bouchon interne alu** | **Ø 26,0 ext / Ø 18,0 int** | h6 (-0,013/0) | Longueur **34,5 mm** (jeu d'isostatisme axial de **0,5 mm** au fond), **Alu 7075-T651**, collé époxy (âme anti-écrasement & iso-rigidité $E = 71\text{ GPa}$) |
+| **Butée axiale de fond** | **Flasque 5,0 mm monobloc** | ±0,1 mm | **Appui direct du tube carbone (35,0 mm) sur la face avant de la flasque Alu 7075-T6 (5,0 mm)** — Aucun rebord supplémentaire de 3 mm requis, la flasque forme la butée naturelle indéformable |
 | **Fente axiale de pincement** | **1,0 mm** | ±0,1 mm | Fente radiale sur toute la longueur (35,0 mm) au sommet (axe Z) |
-| **Visserie de pincement** | **2× Vis CHC M4 × 20 mm** | — | Entraxe ~20 mm enjambant la fente, avec lamage Ø 7,5 mm (profondeur 4,5 mm) |
-| **Perçage goupille universelle** | **Ø 4,0 mm traversant** | H7 (+0,012/0) | **Chanfrein d'entrée 0,5 mm × 45° obligatoire** — Perpendiculaire à l'axe Z (vertical), à 16 mm du bord (BOM unifiée Ø4 mm) |
+| **Visserie de pincement** | **2× Vis CHC M4 × 25 mm + Écrous Nylstop** | — | Vis traversantes (Ø 4,3 mm) + écrous frein sur **méplats d'appui parallèles de 10,0 mm** (vis #1 à **8,0 mm** du bord, vis #2 à **25,0 mm** du bord, entraxe **17,0 mm**) |
+| **Perçage goupille universelle** | **Ø 4,0 mm traversant** | H7 (+0,012/0) | **Chanfrein d'entrée 0,5 mm × 45° obligatoire** — Axe vertical Z, positionné à **16,0 mm** du bord (entre les vis M4) |
 
 #### D. Directive d'Approvisionnement Matière Première (Blockenstock)
 
@@ -367,6 +368,10 @@ Pour maximiser la rigidité, la dissipation thermique et la précision géométr
 >    - Produit : [Barre ronde Ø 30x500mm Alu 7075-T651 - Blockenstock](https://www.blockenstock.fr/c-30x500mm-alu-7075-file-t651-c2x21035319)
 >    - Quantité : **1 barre de 500 mm (50 cm)** d'Aluminium 7075-T651 Ø 30 mm.
 >    - **Justification d'Ingénierie** : L'Alu 7075-T651 offre une limite d'élasticité exceptionnelle ($R_e = 500\text{ MPa}$), une masse minimale par bouchon (**27,2 g** vs 76,0 g en acier, soit -97,6 g économisés sur le buste), une usinabilité parfaite sur la C500, et une **iso-rigidité radiale** ($E = 71\text{ GPa}$) identique à la bride extérieure pour une pression de pincement 100% uniforme sans écrasement du tube carbone.
+> 3. **Bruts pour Brides d'Épaule (Aluminium 7075-T651)** :
+>    - Produit : [Disque Ø 120 x 50mm Alu 7075-T651 - Blockenstock](https://www.blockenstock.fr/c120x-50mm-alu-7075-c2x29739222)
+>    - Quantité : **2 disques de 50 mm** de hauteur en Aluminium 7075-T651 Ø 120 mm.
+>    - **Justification d'Ingénierie** : La hauteur totale hors-tout de la bride d'épaule monobloc en CAO est de **49,20 mm**. Le disque brut de 50 mm d'épaisseur offre une surépaisseur de surfaçage idéale de **0,80 mm** pour blanchir les deux faces et obtenir la hauteur de 49,20 mm net au centième près sur la CNC C500.
 
 #### Rendu 3D & Dessins d'Ingénierie de la Bride d'Épaule (Alu 7075-T6)
 
@@ -378,9 +383,9 @@ Pour maximiser la rigidité, la dissipation thermique et la précision géométr
 
 *Dessin coté multi-vues (avant, arrière, coupe B-B, isométrique) avec tolérances d'usinage.*
 
-![Coupe longitudinale de la bride alu](./media/bride_tube_carbone_coupe.png)
+![Coupe longitudinale de la bride alu et de l'épaulement de butée axiale](./media/bride_tube_carbone_coupe.svg)
 
-*Coupe longitudinale de l'assemblage bride alu et tube carbone Ø 30 mm.*
+*Coupe axiale vectorielle révisée d'ingénierie montrant la butée axiale de fond (3.0 mm), le bouchon alu 7075, la goupille Inox Ø4.0 mm et les vis M4 traversantes.*
 
 ![Vue éclatée schématique de la bride alu](./media/bride_tube_carbone_eclatee.png)
 
@@ -396,11 +401,54 @@ Pour maximiser la rigidité, la dissipation thermique et la précision géométr
 
 #### Guide de Modélisation Fusion 360 (5 étapes)
 
-1. **Sketch Profil de Révolution** (plan XZ) — Dessiner le profil cylindrique : rayon intérieur $15{,}025\text{ mm}$, rayon extérieur $20{,}0\text{ mm}$ ($\varnothing 40{,}0\text{ mm}$), longueur $35{,}0\text{ mm}$.
-2. **Revolve 360°** — Axe X (horizontal) → Résultat : cylindre rigide $\varnothing 40{,}0\text{ mm} \times 35{,}0\text{ mm}$.
+1. **Sketch Profil de Révolution** (plan XZ) — Dessiner le profil étagé du manchon : alésage intérieur $\varnothing 30{,}05\text{ mm}$ sur $35{,}0\text{ mm}$ de profondeur, se réduisant à $\varnothing 24{,}0\text{ mm}$ (créant la marche d'épaulement de $3{,}0\text{ mm}$ de largeur radiale et une paroi de fond de $3{,}0\text{ mm}$ à $4{,}0\text{ mm}$ d'épaisseur axiale). Diamètre extérieur $\varnothing 40{,}0\text{ mm}$, longueur $35{,}0\text{ mm}$. Ajouter un congé de raccordement de $R = 2{,}5\text{ mm}$ à la jonction extérieure du disque de bride.
+2. **Revolve 360°** — Axe X (horizontal) → Résultat : cylindre étagé rigide $\varnothing 40{,}0\text{ mm}$ avec logement $\varnothing 30{,}05\text{ mm}$ et butée de fond $\varnothing 24{,}0\text{ mm}$.
 3. **Fente Axiale de Pincement** — Extrude Cut d'un rectangle $1{,}0\text{ mm} \times 35{,}0\text{ mm}$ au sommet (axe Z) dirigé vers l'alésage intérieur.
-4. **Bossages & Perçages M4** — 2× perçages $\varnothing 4{,}3\text{ mm}$ (passage) d'un côté de la fente et 2× taraudages M4 de l'autre côté avec lamage $\varnothing 7{,}5\text{ mm}$ pour noyer les têtes CHC.
-5. **Perçage Goupille Ø 4,0 mm** — Trou $\varnothing 4{,}0\text{ mm}$ traversant verticalement (axe Z), positionné à **16 mm** du bord d'extrémité du socket d'épaule.
+4. **Méplats d'Appui & Perçages Traversants M4** — Usiner 2 méplats parallèles de $10{,}0\text{ mm}$ de largeur de part et d'autre de la fente. Réaliser 2× perçages traversants $\varnothing 4{,}3\text{ mm}$ (axe Y, horizontal) positionnés respectivement à **8,0 mm** et **25,0 mm** du bord d'extrémité (entraxe $17{,}0\text{ mm}$) pour recevoir des vis CHC M4 × 25 mm et écrous Nylstop.
+5. **Perçage Goupille Ø 4,0 mm** — Trou $\varnothing 4{,}0\text{ mm}$ H7 traversant verticalement (axe Z) avec chanfrein d'entrée $0{,}5\text{ mm} \times 45^\circ$, positionné à **16,0 mm** du bord d'extrémité (centré entre les 2 vis M4).
+
+#### E. Validation d'Ingénierie Finale du Design CAO Fusion 360
+
+L'analyse d'ingénierie mécanique et robotique des 7 captures d'écran de la modélisation sous Fusion 360 valide définitivement le design d'épaule pour la fabrication CNC C500.
+
+![Vue Isométrique Fusion 360 de l'Assemblage d'Épaule](./media/epaule_cao_vue_iso.png)
+
+*Vue isométrique 3D de l'assemblage complet : carter rose en Acier E470, bride d'épaule dorée en Aluminium 7075-T6, tube carbone bleu Ø 30 mm et bouchon interne.*
+
+![Cotation Axiale des Vis M4 et Goupille Ø 4.0 mm](./media/epaule_cao_cotation_vis_goupille.png)
+
+*Validation de la cotation axiale : première vis CHC M4 à 8,0 mm du bord d'extrémité, perçage goupille Ø 4,0 mm traversant à 17,0 mm du bord (centré entre les 2 vis M4).*
+
+![Validation de l'Épaisseur de 5.0 mm de la Flasque Alu 7075](./media/epaule_cao_epaisseur_flasque_5mm.png)
+
+*Mesure de l'épaisseur de la flasque d'appui de la bride dorée : **5,0 mm net en Aluminium 7075-T651** ($R_e = 500\text{ MPa}$). Cette épaisseur est l'optimum d'ingénierie mécanique (rigidité en flexion $SF > 15$, logeant les vis M4 sans affaiblissement de la plaque).*
+
+![Vues Orthogonales Multi-Angles de la Bride et du Carter](./media/epaule_cao_vues_orthogonales.png)
+
+*Vues orthogonales multi-angles (face, dessus, arrière et 3D) confirmant la concentricité parfaite et la géométrie des méplats de 10,0 mm.*
+
+![Vue Arrière du Carter Acier E470 et PCD 10× Vis M4](./media/epaule_cao_flasque_acier_pcd.png)
+
+*Vue arrière du carter en Acier E470 (rose) montrant la flasque de 4,0 mm d'épaisseur avec évidement central Ø 97,0 mm et le cercle PCD de 10× perçages CHC M4 sur Ø 106,0 mm.*
+
+![Bouchon Interne Alu 7075 et Fenêtre de Passage Câble](./media/epaule_cao_bouchon_routage_cable.png)
+
+*Vue arrière montrant le bouchon intérieur en Alu 7075 (coloré en violet) de 34,5 mm de longueur net (laissant 0,5 mm de jeu d'isostatisme au fond) et l'évidement de passage pour le faisceau du RS-04.*
+
+![Débattement et Zone de Dégagement du Faisceau Moteur RS-04](./media/epaule_cao_fenetre_debattement.png)
+
+*Vue détaillée de la grande fenêtre en arc de cercle (~120° d'arc) découpée dans la bride alu dorée, garantissant un débattement sans aucune contrainte ni frottement pour le câblage XT30 et CAN-FD.*
+
+![Validation de la Hauteur Hors-Tout de 49.20 mm de la Bride Monobloc](./media/epaule_cao_hauteur_hors_tout_49.2mm.png)
+
+*Mesure de la hauteur hors-tout axiale de la bride d'épaule monobloc : **49,20 mm net**. Cette hauteur valide parfaitement l'achat du disque brut [Ø 120 × 50 mm Alu 7075-T651 de chez Blockenstock](https://www.blockenstock.fr/c120x-50mm-alu-7075-c2x29739222), laissant 0,80 mm de surépaisseur de surfaçage pour un blanchiment parfait des deux faces.*
+
+> [!TIP]
+> **Synthèse des 4 Paramètres Clefs Validés (Fusion 360 v31)** :
+> 1. **Épaisseur de Flasque (5,0 mm)** : Validée à 5,0 mm net en Alu 7075-T651. Ne pas modifier.
+> 2. **Hauteur Hors-Tout Bride (49,20 mm)** : Hauteur totale hors-tout de 49,20 mm net, permettant un surfaçage idéal de 0,80 mm à partir du disque brut Blockenstock **Ø 120 × 50 mm Alu 7075-T651**.
+> 3. **Longueur du Bouchon Alu (34,5 mm)** : Bouchon interne de 34,5 mm de longueur net avec 0,5 mm de jeu axial au fond pour garantir l'appui isostatique prioritaire du tube carbone (35,0 mm) sur la flasque d'appui de 5,0 mm.
+> 4. **Chanfreins de Goupille (0,5 mm × 45°)** : Chanfrein d'entrée présent sur les deux côtés (faces extérieure et intérieure) du trou traversant Ø 4,0 mm pour un guidage parfait lors de l'insertion au maillet.
 
 ---
 
@@ -902,13 +950,85 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 
 ---
 
+## 10bis. Renfort de Rigidité Roll — Cage H-Bracket d'Épaule (Solution Finale)
+
+> [!IMPORTANT]
+> **Problème identifié par l'audit (Août 2026)** : L'inertie en roll de la colonne vertébrale (23 682 mm4) est 21× plus faible que l'inertie en pitch (506 667 mm4). Sans renfort, la flèche latérale au cou atteint ~1.5 mm — inacceptable pour la marche et le trot.
+
+> [!NOTE]
+> **Première solution envisagée et abandonnee** : 2 tiges filetées M5 verticales (waist plate → nœud, ±60 mm de la colonne). Abandonée car elle occupe l'espace latéral prévu pour la batterie. La cage H-bracket ci-dessous est **2.15× plus rigide et libère entièrement cet espace**.
+
+### A. Architecture : Cage H-Bracket + Plaque Avant Stator RS-04
+
+![Cage H-Bracket Tirants Diagonaux 23.4° — Support RS-04 Épaule D-Bot V1](./media/hbracket_rs04_diagonal_23deg.png)
+
+*Vue de Face : droite directrice à 23.4° de la verticale (jaune), cercle limite R=78mm (cyan pointillé), tirant HAUT à (Z=+66mm, Y=+29mm) et tirant BAS à (Z=-66mm, Y=-29mm), 10×M4 sur PCD Ø106mm. Vue Latérale : plaque avant 6mm + stator RS-04 Ø120mm + plaque arrière H-bracket 15mm + 2 tirants M5×65mm axiaux. Vue Arrière : H-bracket 130×140mm avec socket tube carbone Ø30mm et droite 23.4° avec positions tirants.*
+
+**Principe** : La plaque arrière (transformation de la bride arrière existante) et la plaque avant (fixée au stator via 10×M4) sont reliées par 2 tirants M5 axiaux placés sur la droite à 23.4° de la verticale, à R=72mm du centre moteur — en-dehors du stator Ø120mm et dans le pocket de la coque PA12-CF.
+
+| Paramètre | Valeur |
+|:---|:---|
+| **Plaque arrière H-bracket (côté TORSE)** | **7075-T6, 5×160×160mm** → disc Ø120mm + 2 oreilles → trou passage Ø31mm tube (ou bague ancrage Ø50/Ø30×15mm si socket H7 intégré requis) |
+| **Plaque avant H-bracket (côté BRAS)** | **7075-T6, 5×160×160mm** → disc Ø120mm + 2 oreilles → 10×Ø4.5mm PCD Ø106mm |
+| **Tirants** | 2× vis CHC M5 × 65 mm acier 8.8 + écrou Nylstop M5 |
+| **Position tirant HAUT** | Z = +66.1 mm, Y = +28.6 mm (R=72mm, angle 23.4° de la verticale) |
+| **Position tirant BAS** | Z = -66.1 mm, Y = -28.6 mm (diametralement opposé) |
+| **Marge stator** | R=72mm vs stator R=60mm : +12 mm |
+| **Marge limite torse** | R=72mm vs R_max=78mm : +6 mm |
+| **Sourcing** | Blockenstock — **chute 5×160×160mm 7075-T6 @ 9.60 EUR/pièce** — 4 pièces → 38.40 EUR |
+| **Épaisseur min théorique** | 7075-T6: 3.2mm | 6061-T6: 4.1mm (Sf=2.5) — voir §10 de l'ETUDE_Dimensionnement |
+| **Masse ajoutée** | ~75 g par plaque / ~300 g total (4 plaques, 2 épaules) |
+
+### B. Performance Roll
+
+| Solution | I_roll (mm4) | Flèche cou | Espace batterie |
+|:---|:---:|:---:|:---:|
+| Sans renfort | 23 682 | ~1.5 mm | ✅ Libre |
+| Tirants verticaux (abandonnée) | 164 802 | ~0.21 mm | ❌ Occupé |
+| Cage H-bracket vertical pur ±65mm | 354 922 | ~0.10 mm | ✅ Libre |
+| **Cage H-bracket 23.4°, R=72mm (retenue)** | **366 262** | **~0.097 mm** | ✅ **Libre** |
+
+> [!TIP]
+> Voir [ETUDE_Dimensionnement §8 et §9](./ETUDE_Dimensionnement_Colonne_Vertebrale.md) pour les détails de calcul et l'analyse thermique RS-04 en cage ouverte.
+
+---
+
+## 10ter. Architecture Batterie V1 — Espace Latéral Libéré
+
+> [!NOTE]
+> **Évolution par rapport au design initial** : Les 2 paniers latéraux avec hot-swap (design initial) sont remplacés par un **pack central unique** positionné derrière la colonne vertébrale, accessible par le dos du torse. La cage H-bracket n'occupant pas l'espace latéral, celui-ci est disponible pour le câblage et l'électronique.
+
+### A. Spécifications
+
+| Paramètre | Valeur |
+|:---|:---|
+| **Configuration** | 12S2P (24× cellules 21700 Samsung 50E) |
+| **Tension** | 44.4V nominal / 50.4V max |
+| **Capacité** | 10 Ah / 480 Wh |
+| **Dimensions estimées** | ~84 × 126 × 70 mm (4×6 cellules debout) |
+| **Masse** | ~1 900 g (cellules + BMS + boîtier) |
+| **Position** | Derrière la colonne vertébrale, dans l'espace dorsal |
+| **Accès** | Par le dos du torse (ouverture Asimov) |
+| **Hot-swap V1** | Non (pack vissé, accessible en ~2 min avec tournevis) |
+| **Hot-swap V2** | À étudier (coulissière dorsale + connecteur XT60) |
+
+### B. Avantages
+
+* ✅ **Aucun conflit avec la cage H-bracket** (les oreilles sont en Z, le pack est dorsal en Y)
+* ✅ **Espace latéral libéré** (câblage, électronique, voire extension batterie future)
+* ✅ **1 seul BMS** au lieu de 2 → économie + simplicité
+* ✅ Compatible avec des packs e-bike standard 48V 10Ah
+
+
+
+
 ## 11. Workflow de Fabrication Révisé (Plan d'Action)
 
 ### Phase 1 — Conception CAO (Fusion 360)
 
 1. ☐ Mettre à l'échelle (+18%) les fichiers originaux du torse et de la taille Asimov v1
-2. ☐ Modéliser la **plaque de colonne vertébrale 2D évidée** (Option B) en 2 parties avec jonction au Nœud Central
-3. ☐ Modéliser les **2 carters d'épaule Support RS-04 en acier E470** (selon plan 2D David SERGENT : Ø ext 124 mm, alésage Ø 120.2 mm H7, paroi 1.9 mm, fond 4 mm évidé à Ø 97 mm, 10× perçages Ø 3.3 mm sur PCD Ø 106 mm)
+2. ☐ Modéliser la **plaque de colonne vertébrale 2D évidée** (Option B, R = 18 mm) en 2 parties avec jonction au Nœud Central
+3. ☐ Modéliser les **2 cages H-bracket d'épaule** (plaque arrière + plaque avant, alu 6061-T6) avec oreilles verticales à Z = ±65 mm et socket tube carbone Ø30 H7 dans la plaque arrière. Percer 10× ×4.5 mm lisse sur PCD Ø106 dans la plaque avant.
 4. ☐ Modéliser le **nœud d'intersection** à demi-coquilles (Bride Sup. + Bride Inf. CNC alu)
 5. ☐ Dessiner les **2 paniers batterie** latéraux + coulisses centrales sur la plaque de colonne
 6. ☐ Réaliser le **split rigide abdominal** avec bandeau de renfort, Lap Joint de 3 mm et tolérances
@@ -917,12 +1037,12 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 
 ### Phase 2 — Usinage CNC (C500)
 
-1. ☐ Usiner les 2 demi-plaques de colonne vertébrale (alu 6061-T6, 5 mm — évidements 2D traversants)
-2. ☐ Usiner les **2 carters Support RS-04 (H = 39,0 mm)** à partir de **2 tronçons de 4 cm (40 mm)** d'ébauche creuse Acier E470 d131 / d88 commandés sur Blockenstock (alésage Ø 120.2 mm H7 sur 35.0 mm de profondeur, surfaçage à 39.0 mm net, contournage Ø 124.0 mm, évidement Ø 97 mm et 10× perçages Ø 3.3 mm sur PCD Ø 106 mm)
+1. ☐ Usiner les 2 demi-plaques de colonne vertébrale (alu 6061-T6, 5 mm — évidements 2D traversants, R = 18 mm)
+2. ☐ Usiner les **2 carters Support RS-04 (H = 39,0 mm)** à partir de **tube mécanique alu 6082-T6 Ø130/Ø~100** (IMS France) ou **barre pleine alu 6061-T6 Ø130** (Blockenstock) — alésage Ø 120.2 mm H7 sur 35.0 mm, paroi 3.0 mm, Ø ext ~126 mm, évidement Ø 97 mm et 10× perçages **Ø 4.5 mm** sur PCD Ø 106 mm
 3. ☐ Usiner les **2 demi-coquilles du nœud d'intersection** (Bride Sup. et Bride Inf. alu 6061-T6)
-4. ☐ Usiner les **2 bouchons internes anti-écrasement (Ø 26.0 mm h6 ext / Ø 18.0 mm int × 35.0 mm long)** dans la **barre ronde Alu 7075-T651 Ø 30 mm** (Blockenstock)
+4. ☐ Usiner les **2 bouchons internes anti-écrasement (Ø 26.0 mm h6 ext / Ø 18.0 mm int × 34.5 mm de longueur)** dans la **barre ronde Alu 7075-T651 Ø 30 mm** (Blockenstock) — laisse 0,5 mm de jeu d'isostatisme au fond pour l'appui 100% prioritaire du tube carbone sur la marche Ø 24 mm
 5. ☐ Usiner la plaque supérieure de cou (alu 6061-T6, 5 mm) — équerres L-Brackets en sandwich
-6. ☐ Usiner la Waist Plate (alu 6061-T6, 6 mm) — équerres L-Brackets en sandwich
+6. ☐ Usiner la Waist Plate (alu 6061-T6, 6 mm) — équerres L-Brackets en sandwich + **2 perçages M5 pour tirants roll (±60 mm)**
 7. ☐ Usiner la bague d'adaptation RS-06 (alu 6061-T6)
 8. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner les extrémités et percer la goupille Ø4 mm verticale à travers le nœud assemblé
 

@@ -1,68 +1,200 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="100%" height="100%">
   <defs>
-    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.8"/>
-    </pattern>
-
-    <linearGradient id="steelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#64748b"/>
-      <stop offset="50%" stop-color="#475569"/>
+    <!-- Dark blueprint gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
       <stop offset="100%" stop-color="#1e293b"/>
     </linearGradient>
+    
+    <!-- Material Gradients -->
+    <linearGradient id="alu7075Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
 
-    <linearGradient id="aluGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#94a3b8"/>
-      <stop offset="100%" stop-color="#64748b"/>
+    <linearGradient id="steelE470Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f43f5e"/>
+      <stop offset="50%" stop-color="#fb7185"/>
+      <stop offset="100%" stop-color="#e11d48"/>
     </linearGradient>
 
     <linearGradient id="carbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#334155"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#1e293b"/>
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
     </linearGradient>
+
+    <linearGradient id="plugGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+
+    <linearGradient id="rs04Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#c2410c"/>
+    </linearGradient>
+
+    <!-- Grid pattern -->
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.6" stroke-dasharray="2,2"/>
+    </pattern>
   </defs>
 
-  <rect width="100%" height="100%" fill="#0f172a"/>
-  <rect width="100%" height="100%" fill="url(#grid)"/>
+  <!-- Background -->
+  <rect width="1000" height="650" fill="url(#bgGrad)"/>
+  <rect width="1000" height="650" fill="url(#grid)" opacity="0.4"/>
 
-  <text x="400" y="25" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">
-    COUPE AXIALE A-A — ANCRAGE D'ÉPAULE V1 (BRIDE FENDUE + GOUPILLE Ø4mm + PLUG ANTI-ÉCRASEMENT)
+  <!-- Title Card -->
+  <rect x="30" y="25" width="940" height="65" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="50" y="55" font-family="Inter, sans-serif" font-size="20" font-weight="bold" fill="#f8fafc">
+    COUPE D'ASSEMBLAGE D'ÉPAULE — SCHÉMA TECHNIQUE D'INGÉNIERIE (D-BOT)
+  </text>
+  <text x="50" y="77" font-family="Inter, sans-serif" font-size="13" fill="#94a3b8">
+    Butée Naturelle sur Flasque Alu 7075 (5.0mm) · Portée Isostatique Carbone · Jeu Bouchon 0.5mm · Carter Acier E470
   </text>
 
-  <g transform="translate(50, 40)">
-    <rect width="700" height="280" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <!-- Main Blueprint View Container -->
+  <rect x="30" y="105" width="670" height="515" rx="8" fill="#090d16" stroke="#334155" stroke-width="1"/>
 
-    <!-- Axis Centerline -->
-    <line x1="50" y1="140" x2="650" y2="140" stroke="#00f2fe" stroke-width="1" stroke-dasharray="8,4"/>
+  <!-- Centerline Axis -->
+  <line x1="60" y1="360" x2="670" y2="360" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="10,4,2,4"/>
 
-    <!-- Steel Casing (Support RS-04 E470 Flange / Socket Port 35mm) -->
-    <rect x="100" y="40" width="220" height="200" rx="4" fill="url(#steelGrad)" stroke="#94a3b8" stroke-width="1.2"/>
-    <text x="210" y="32" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Socket Carter Acier E470 (Portée 35 mm / Ø30.05 mm H7)</text>
+  <!-- 1. Carter Acier E470 (Rose) -->
+  <rect x="80" y="160" width="80" height="400" rx="4" fill="url(#steelE470Grad)" stroke="#fda4af" stroke-width="1.5"/>
+  <text x="120" y="200" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Carter Acier E470</text>
 
-    <!-- Carbon Tube (Ø30mm ext / Ø26mm int) -->
-    <rect x="200" y="80" width="380" height="120" fill="url(#carbonGrad)" stroke="#475569" stroke-width="1.2"/>
-    <rect x="200" y="95" width="380" height="90" fill="#0f172a"/>
-    <text x="450" y="70" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Tube Carbone Traverse Ø 30 mm × 2 mm</text>
+  <!-- Moteur RS-04 (Orange) -->
+  <rect x="90" y="220" width="60" height="280" rx="4" fill="url(#rs04Grad)" stroke="#fdba74" stroke-width="1"/>
+  <text x="120" y="365" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle" transform="rotate(-90 120 365)">Stator Moteur RS-04</text>
 
-    <!-- Internal Aluminium Anti-Crush Plug (Ø26mm ext / Ø18mm int, 35mm Long) -->
-    <rect x="200" y="95" width="220" height="15" fill="url(#aluGrad)" stroke="#cbd5e1" stroke-width="1"/>
-    <rect x="200" y="170" width="220" height="15" fill="url(#aluGrad)" stroke="#cbd5e1" stroke-width="1"/>
-    <text x="310" y="144" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Bouchon Alu 6061-T6 Anti-Écrasement (Ø 26/18 mm × 35 mm)</text>
+  <!-- 2. Bride Alu 7075-T6 (Dorée) — Monobloc avec Flasque de 5.0 mm de fond -->
+  <path d="M 160,170 L 235,170 L 235,265 L 480,265 L 480,455 L 235,455 L 235,550 L 160,550 Z" 
+        fill="url(#alu7075Grad)" stroke="#fef08a" stroke-width="1.5"/>
 
-    <!-- Unified Stainless Elastic Pin (Ø4.0mm x 35mm, Axis Z Vertical) -->
-    <rect x="290" y="40" width="20" height="200" rx="2" fill="#ef4444" stroke="#ffffff" stroke-width="1.2"/>
-    <text x="300" y="258" fill="#ef4444" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Goupille Élastique Inox Ø 4,0 mm × 35 mm (Axe Z)</text>
-    <text x="300" y="270" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="8" text-anchor="middle">(BOM Unifiée avec Nœud Central)</text>
+  <!-- Surface d'appui directe sur la flasque 5.0 mm -->
+  <line x1="235" y1="265" x2="235" y2="455" stroke="#fef08a" stroke-width="2"/>
 
-    <!-- Clamping Screws M4 (2x M4 Clamping Fente Axiale) -->
-    <circle cx="160" cy="55" r="5" fill="#f59e0b" stroke="#ffffff" stroke-width="1"/>
-    <circle cx="250" cy="55" r="5" fill="#f59e0b" stroke="#ffffff" stroke-width="1"/>
-    <text x="120" y="20" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="9" font-weight="bold">2× Vis M4 Pincement Bride</text>
+  <!-- 3. Tube Carbone (Bleu) - En Appui 100% sur la face avant de la flasque (35.0 mm) -->
+  <rect x="235" y="305" width="380" height="20" fill="url(#carbonGrad)" stroke="#93c5fd" stroke-width="1.2"/>
+  <rect x="235" y="395" width="380" height="20" fill="url(#carbonGrad)" stroke="#93c5fd" stroke-width="1.2"/>
+  <text x="420" y="319" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">Tube Carbone Ø30 ext / Ø26 int (35.0mm)</text>
 
-    <!-- Dimension Arrow for 35mm Port -->
-    <line x1="200" y1="215" x2="420" y2="215" stroke="#00f2fe" stroke-width="1"/>
-    <line x1="200" y1="210" x2="200" y2="220" stroke="#00f2fe" stroke-width="1"/>
-    <line x1="420" y1="210" x2="420" y2="220" stroke="#00f2fe" stroke-width="1"/>
-    <text x="310" y="230" fill="#00f2fe" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Longueur de Serrage / Portée : 35,0 mm</text>
-  </g>
+  <!-- 4. Bouchon Alu 7075 (Gris) - 34.5 mm avec Jeu Axiale de 0.5 mm au fond -->
+  <rect x="240" y="325" width="240" height="20" fill="url(#plugGrad)" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="240" y="375" width="240" height="20" fill="url(#plugGrad)" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="360" y="339" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#f8fafc" text-anchor="middle">Bouchon Alu 7075 (34.5mm - Jeu 0.5mm)</text>
+
+  <!-- Espace de jeu ISOSTATIQUE DE 0.5 mm hachuré en rose au fond du bouchon -->
+  <rect x="235" y="325" width="5" height="20" fill="#f43f5e" opacity="0.8"/>
+  <rect x="235" y="375" width="5" height="20" fill="#f43f5e" opacity="0.8"/>
+
+  <!-- Cavité intérieure évidée (Passage Câblage) -->
+  <rect x="160" y="345" width="320" height="30" fill="#090d16" stroke="#475569" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <text x="200" y="364" font-family="Inter, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">Fenêtre de Dégagement (Passage Câblage)</text>
+
+  <!-- 5. Goupille Mécanindus Inox Ø 4.0 mm (Verticale Axe Z) -->
+  <rect x="345" y="255" width="16" height="210" rx="3" fill="#e2e8f0" stroke="#0284c7" stroke-width="1.5"/>
+  <line x1="353" y1="255" x2="353" y2="465" stroke="#64748b" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- 6. Vis M4 Traversantes de Pincement (Axe Y) -->
+  <!-- Vis M4 #1 (8 mm du bord) -->
+  <rect x="420" y="250" width="14" height="220" rx="2" fill="#94a3b8" stroke="#334155" stroke-width="1" opacity="0.85"/>
+  <!-- Vis M4 #2 (25 mm du bord) -->
+  <rect x="290" y="250" width="14" height="220" rx="2" fill="#94a3b8" stroke="#334155" stroke-width="1" opacity="0.85"/>
+
+  <!-- Callouts & Dimension Lines -->
+  <!-- Callout 1: Hard Stop Naturel Flasque 5mm -->
+  <line x1="235" y1="265" x2="200" y2="140" stroke="#f59e0b" stroke-width="1.5"/>
+  <circle cx="235" cy="265" r="4" fill="#f59e0b"/>
+  <rect x="70" y="115" width="310" height="30" rx="4" fill="#1e293b" stroke="#f59e0b" stroke-width="1.2"/>
+  <text x="225" y="135" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#fef08a" text-anchor="middle">
+    ★ BUTÉE NATURELLE SUR FLASQUE ALU (5.0 mm)
+  </text>
+
+  <!-- Callout 2: Congé R = 2.5 mm -->
+  <line x1="235" y1="260" x2="160" y2="210" stroke="#38bdf8" stroke-width="1.2"/>
+  <circle cx="235" cy="260" r="4" fill="#38bdf8"/>
+  <rect x="65" y="195" width="150" height="25" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+  <text x="140" y="212" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#7dd3fc" text-anchor="middle">
+    Congé R = 2.5 mm
+  </text>
+
+  <!-- Callout 3: Goupille Ø4 mm -->
+  <line x1="353" y1="465" x2="353" y2="580" stroke="#38bdf8" stroke-width="1.2"/>
+  <circle cx="353" cy="465" r="4" fill="#38bdf8"/>
+  <rect x="250" y="580" width="210" height="30" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+  <text x="355" y="600" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#7dd3fc" text-anchor="middle">
+    Goupille Inox Ø4.0mm (à 17mm)
+  </text>
+
+  <!-- Callout 4: Vis M4 Traversantes -->
+  <line x1="427" y1="470" x2="520" y2="540" stroke="#a855f7" stroke-width="1.2"/>
+  <circle cx="427" cy="470" r="4" fill="#a855f7"/>
+  <rect x="470" y="540" width="210" height="30" rx="4" fill="#1e293b" stroke="#a855f7" stroke-width="1"/>
+  <text x="575" y="560" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#e9d5ff" text-anchor="middle">
+    2× Vis M4 Traversantes + Nylstop
+  </text>
+
+  <!-- Legend Box (Right Side) -->
+  <rect x="715" y="105" width="255" height="515" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="735" y="135" font-family="Inter, sans-serif" font-size="14" font-weight="bold" fill="#f8fafc">
+    LÉGENDE DES COMPOSANTS
+  </text>
+  <line x1="735" y1="145" x2="950" y2="145" stroke="#475569" stroke-width="1"/>
+
+  <!-- Legend Item 1 -->
+  <rect x="735" y="165" width="18" height="18" rx="3" fill="url(#alu7075Grad)"/>
+  <text x="765" y="180" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">Bride Alu 7075-T6 (Dorée)</text>
+  <text x="765" y="196" font-family="Inter, sans-serif" font-size="10" fill="#94a3b8">Flasque 5.0mm monobloc intégrée</text>
+
+  <!-- Legend Item 2 -->
+  <rect x="735" y="215" width="18" height="18" rx="3" fill="url(#carbonGrad)"/>
+  <text x="765" y="230" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">Tube Carbone (Bleu)</text>
+  <text x="765" y="246" font-family="Inter, sans-serif" font-size="10" fill="#94a3b8">35.0mm (Appui 100% sur Flasque)</text>
+
+  <!-- Legend Item 3 -->
+  <rect x="735" y="265" width="18" height="18" rx="3" fill="url(#plugGrad)"/>
+  <text x="765" y="280" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">Bouchon Alu 7075 (Gris)</text>
+  <text x="765" y="296" font-family="Inter, sans-serif" font-size="10" fill="#94a3b8">34.5mm (Jeu axial 0.5mm au fond)</text>
+
+  <!-- Legend Item 4 -->
+  <rect x="735" y="315" width="18" height="18" rx="3" fill="url(#steelE470Grad)"/>
+  <text x="765" y="330" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">Carter Acier E470 (Rose)</text>
+  <text x="765" y="346" font-family="Inter, sans-serif" font-size="10" fill="#94a3b8">H=39mm / Flasque arrière 4mm</text>
+
+  <!-- Legend Item 5 -->
+  <rect x="735" y="365" width="18" height="18" rx="3" fill="url(#rs04Grad)"/>
+  <text x="765" y="380" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">Moteur RS-04 (Orange)</text>
+  <text x="765" y="396" font-family="Inter, sans-serif" font-size="10" fill="#94a3b8">Insertion par l'extérieur</text>
+
+  <line x1="735" y1="415" x2="950" y2="415" stroke="#475569" stroke-width="1"/>
+
+  <text x="735" y="440" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#fef08a">
+    VALIDATION FINAL :
+  </text>
+  <text x="735" y="460" font-family="Inter, sans-serif" font-size="10" fill="#cbd5e1">
+    1. Butée directe sur Flasque 5mm
+  </text>
+  <text x="735" y="478" font-family="Inter, sans-serif" font-size="10" fill="#cbd5e1">
+    2. Zero rebord supplémentaire
+  </text>
+  <text x="735" y="496" font-family="Inter, sans-serif" font-size="10" fill="#cbd5e1">
+    3. Bouchon 34.5mm (Jeu 0.5mm)
+  </text>
+  <text x="735" y="514" font-family="Inter, sans-serif" font-size="10" fill="#cbd5e1">
+    4. Goupille Ø4mm à 17mm du bord
+  </text>
+  <text x="735" y="532" font-family="Inter, sans-serif" font-size="10" fill="#cbd5e1">
+    5. Vis M4 traversantes à 8 &amp; 25mm
+  </text>
+
+  <rect x="735" y="555" width="215" height="45" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+  <text x="842" y="575" font-family="Inter, sans-serif" font-size="11" font-weight="bold" fill="#f59e0b" text-anchor="middle">
+    CONFORME D-BOT V1.0
+  </text>
+  <text x="842" y="590" font-family="Inter, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">
+    Validé d'ingénierie — Août 2026
+  </text>
 </svg>
