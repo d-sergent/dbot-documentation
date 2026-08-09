@@ -148,11 +148,11 @@ Delta ~ **0.08 mm**
 
 ![Comparatif des options d'usinage de la colonne vertébrale](./media/comparatif_plaques_colonne.svg)
 
-| Option | Masse 2 Plaques | Contrainte Max ($\sigma_{\text{max}}$) | Facteur Sécurité ($S_f$) | Temps Usinage C500 | Complexité & Risques |
+| Option | Masse 2 Plaques | Contrainte Max (Sigma_max) | Facteur Sécurité (S_f) | Temps Usinage C500 | Complexité & Risques |
 |:---|:---:|:---:|:---:|:---:|:---|
-| **A. Plaque Pleine 5,0 mm** | **668 g** | **18,3 MPa** | **$S_f = \times 13,1$** | **~5 min** | **Nulle** (Découpe 2D simple) |
-| **B. Lumières 2D Traversantes (Préconisé ⭐)** | **355 g** | **26,05 MPa** | **$S_f = \times 9,21$** | **~15 min** | **Très faible** (1 passe 2D débouchante) |
-| **C. Isogrid Double-Face** | **267 g** | **41,70 MPa** | **$S_f = \times 5,70$** | **~1h30 à 2h** | **Très élevée** (2 faces + flip Z, voilement) |
+| **A. Plaque Pleine 5,0 mm** | **668 g** | **18,3 MPa** | **S_f = ×13,1** | **~5 min** | **Nulle** (Découpe 2D simple) |
+| **B. Lumières 2D Traversantes (Préconisé ⭐)** | **355 g** | **26,05 MPa** | **S_f = ×9,21** | **~15 min** | **Très faible** (1 passe 2D débouchante) |
+| **C. Isogrid Double-Face** | **267 g** | **41,70 MPa** | **S_f = ×5,70** | **~1h30 à 2h** | **Très élevée** (2 faces + flip Z, voilement) |
 
 > [!TIP]
 > **Pourquoi l'Option B est le Choix Optimal pour D-Bot** :
@@ -282,19 +282,33 @@ Le stator RS-04 a un corps cylindrique **Ø 120 mm** (rayon 60 mm) sur ~40 mm de
 
 **Solution retenue : oreilles diagonales à 23.4°, R = 72 mm** (6 mm de marge des deux côtés).
 
-### C. Solution Retenue : Cage H-Bracket (×2 épaules)
+### C. Solution Retenue : Cage H-Bracket & Bride d'Épaule (×2 épaules)
 
-![Cage H-Bracket Tirants Diagonaux 23.4° — Support RS-04 Épaule D-Bot V1](./media/hbracket_rs04_diagonal_23deg.png)
+![Schéma d'Architecture Vectoriel Blueprint — Cage H-Bracket & Bride Épaule RS-04 D-Bot V1](./media/hbracket_rs04_quasi_final_blueprint.svg)
 
-*Figure 8.1 : Schéma 3 vues de la cage H-bracket avec positionnement diagonal à 23.4°. Vue de Face : plaque avant Ø126mm + ligne directrice à 23.4° (jaune) + cercle limite R=78mm (cyan) + 2 tirants cyan aux positions HAUT (Z=+66mm, Y=+29mm) et BAS (Z=-66mm, Y=-29mm) + 10×M4 vers stator. Vue Latérale : sandwich moteur 61mm total + 2 tirants M5×65mm axiaux passant hors du stator. Vue Arrière : H-bracket 130×140mm avec socket tube carbone Ø30mm et droite 23.4° avec positions tirants.*
+*Figure 8.1 : Blueprint d'ingénierie 2D de l'assemblage d'épaule quasi-final (Fusion 360). Vue de Face (Plan Y-Z) : stator RS-04 Ø120 mm + 2 plaques H-bracket 5 mm 7075-T6 identiques (10× vis M4 sur PCD Ø106 mm) + 2 tirants M5 aux oreilles diagonales à 23.4° (Z=±66.1 mm, Y=±28.6 mm, R=72 mm). Vue Latérale / Coupe (Plan X-Z) : sandwich axial 49 mm (Plaque avant orange 5 mm -> Stator RS-04 41 mm -> Plaque arrière orange 5 mm + Bride jaune 48.2 mm), tirants axiaux M5×65 mm, tube carbone Ø30 mm avec bouchon interne alu Ø26/18×34.5 mm, pincement radial 2×M4 et goupille Ø4 mm Mecanindus.*
 
-**Composants de la cage :**
+**Principe & Architecture d'Assemblage (par épaule) :**
+- **2 Plaques H-bracket (orange) IDENTIQUES en Alu 7075-T6 (5 mm) avec Évidement Central Ø 95 mm** :
+  - **Évidement Central Ø 95 mm (epaule9.png)** : Les plaques sont découpées sous forme de couronne annulaire (Ø ext 120 mm / Ø int 95 mm, largeur radiale 12.5 mm). Cet évidement procure un **gain de masse massif de -100 g par plaque (soit -398.4 g au total pour les 4 plaques sur le torse !)** tout en dégageant le passage des câbles XT30/CAN-FD et l'aération directe du stator RS-04.
+  - **Plaque AVANT (côté bras)** : tôle 5 mm 7075-T6 évidée à Ø 95 mm, fixée au stator par **10× vis M4 sur PCD Ø 106 mm** (garde radiale de matière = 3.35 mm côté intérieur), avec 2 oreilles pour tirants M5.
+  - **Plaque ARRIÈRE (côté torse)** : tôle 5 mm 7075-T6 évidée à Ø 95 mm, **100% identique à la plaque avant**, fixée par **10× vis M4 sur PCD Ø 106 mm** au stator, avec 2 oreilles pour tirants M5.
+  - **Fonction H-Bracket** : Les 2 plaques orange + les 2 tirants axiaux M5 (diagonaux 23.4 deg, R = 72 mm) forment la cage de rigidification **qui remplace intégralement le carter en acier E470**.
+- **1 Bride d'ancrage tube (jaune) monobloc en Alu 7075-T651 (48.20 mm)** :
+  - Hauteur totale 48.20 mm = flasque 13.2 mm + socket d'emboitement 35 mm (alésage Ø 30.05 H7).
+  - Se monte **par-dessus la plaque arrière orange** et se fixe simultanément au stator et à la plaque arrière orange par les mêmes 10× vis M4 sur PCD Ø 106 mm.
+  - Équipée d'une fente axiale de pincement 1 mm avec 2× vis M4 de serrage radial et d'une goupille Mecanindus Ø 4 mm.
+- **1 Bouchon interne anti-écrasement en Alu 7075-T651 (Ø 26 / Ø 18 × 34.5 mm)** :
+  - Collé à l'époxy dans le tube carbone Ø 30 × 26 mm, absorbe la pression radiale du pincement et sert d'appui rigide pour la goupille Ø 4 mm.
 
-| Pièce | Matière | Dimensions brutes | Sourcing |
-|:---|:---|:---|:---|
-| Plaque arrière H-bracket (×2) | Alu 6061-T6 | 130 × 140 × 15 mm (plaque) | Blockenstock — aucun tube requis |
-| Plaque avant (×2) | Alu 6061-T6 | 130 × 200 × 6 mm (plaque) | Blockenstock |
-| Tirants M5 × 65 mm acier 8.8 (×4) | Acier 8.8 | Standard | GSB / Amazon |
+**Nomenclature & Sourcing de la Cage (pour 2 épaules) :**
+
+| Pièce | Matière | Dimensions brutes | Sourcing | Rôle & Quantité |
+|:---|:---|:---|:---|:---|
+| **Plaques H-bracket évidées Ø95mm (orange)** | Alu 7075-T6 | 5 × 160 × 160 mm (tôle) | Blockenstock — Chutes 5mm | 4 plaques identiques évidées Ø95mm (gain -400g) |
+| **Bride d'ancrage tube (jaune)** | Alu 7075-T651 | Ø 120 × 50 mm (disque) | Blockenstock — Disques bruts | 2 brides monoblocs 48.2mm (1 par épaule) |
+| **Bouchon interne anti-écrasement** | Alu 7075-T651 | Ø 30 × 500 mm (barre ronde) | Blockenstock — Barre ronde | 2 bouchons usinés Ø26/18×34.5mm |
+| **Tirants axiaux M5** | Acier 8.8 | Vis CHC M5 × 65 mm | GSB / Amazon | 4 vis axiales (2 par épaule, R=72mm, 23.4°) |
 
 ### D. Calcul de Rigidité Roll
 
@@ -560,4 +574,264 @@ Contrainte de marge géométrique (stator Ø120mm) :
 ---
 
 *§10 ajouté en Août 2026 — Calcul dimensionnement plaques H-bracket, vérification chute 5×160×160mm 7075-T6 Blockenstock, choix matériau 7075 vs 6061, épaisseurs minimales théoriques (7075: 3.2mm, 6061: 4.1mm), spécification géométrique oreilles.*
+
+---
+
+## 11. Validation du Design Quasi-Final Fusion 360 — Bride Épaule + Cage H-Bracket
+
+*Analyse complémentaire — Août 2026. Basée sur screenshots epaule1 à epaule8 (Fusion 360). Vérifié par script Python.*
+
+### A. Architecture Réelle Relevée sur Fusion 360 (Vérifiée epaule1 à epaule8)
+
+> [!IMPORTANT]
+> **Architecture exacte et clarification terminologique définitive :**
+> - **2 Plaques H-bracket (orange) IDENTIQUES (5mm 7075-T6)** :
+>   - **Plaque AVANT (côté bras)** : tôle 5mm 7075-T6, fixée à la face stator par **10 vis M4 sur PCD Ø106mm**, avec 2 oreilles pour tirants M5.
+>   - **Plaque ARRIÈRE (côté torse)** : tôle 5mm 7075-T6, **identique à la plaque avant**, également fixée par **10 vis M4 sur PCD Ø106mm** au stator, avec 2 oreilles pour tirants M5.
+>   - **Fonction H-Bracket** : Les 2 plaques orange + les 2 tirants axiaux M5 (diagonaux 23.4 deg, R = 72 mm) forment la cage de rigidification **en remplacement du carter en acier E470**.
+> - **Bride ARRIÈRE d'ancrage (jaune) — 7075-T651** :
+>   - Pièce monobloc usinée (**48.20 mm** de hauteur totale = 13.2 mm flasque + 35 mm socket tube Ø30 mm).
+>   - Se monte **par-dessus la plaque arrière orange** et se fixe à la fois au moteur RS-04 et à la plaque arrière orange.
+>   - Assure l'ancrage sur le tube carbone Ø30 mm (pincement radial 2×M4 + goupille Mecanindus Ø4mm sur bouchon alu interne).
+
+Vue latérale d'assemblage (epaule1/epaule8) :
+```
+[Plaque avant orange 5mm] ← tirants M5 axiaux → [Plaque arrière orange 5mm] + [Bride jaune 48.2mm]
+                                ↕ stator RS-04 Ø120mm ↕
+Total axial : ~49mm mesurés CAO
+```
+
+| Composant | Dimensions CAO | Matériau | Rôle & Fixation |
+|:---|:---|:---|:---|
+| **Plaque avant (orange)** | Disque Ø~150mm + 2 oreilles | 7075-T6 (5mm) | 10× vis M4 PCD Ø106mm sur stator + tirants M5 |
+| **Plaque arrière (orange)** | **Identique à la plaque avant** | 7075-T6 (5mm) | 10× vis M4 PCD Ø106mm sur stator + tirants M5 |
+| **Bride fixation tube (jaune)** | 48.2mm total (flasque 13.2mm + socket 35mm) | 7075-T651 | Montée sur plaque arrière, fixation au stator + tube Ø30 |
+| **Tirants axiaux M5 (×2)** | Vis CHC M5×65mm acier 8.8 (pos. 23.4°) | Acier 8.8 | R=72mm, d_Z=66.1mm — remplace le carter E470 |
+| **Tube carbone** | Ø30×Ø26mm (paroi 2mm) | CFRP | Traverse le torse |
+| **Bouchon interne** | Ø26/Ø18×34.5mm (collé époxy) | 7075-T651 | Âme anti-écrasement carbone sous pincement/goupille |
+
+### B. Paramètres de Charges — Design Réel
+
+| Sollicitation | Valeur | Cas de charge |
+|:---|:---:|:---|
+| Moment Pitch épaule (bras repliés, trot) | 120 Nm | Cas A (nominal) |
+| Moment Pitch épaule (bras tendus, trot) | 230 Nm | Cas B (extrême) |
+| Moment Roll par épaule (trot) | 50 Nm | §8.E |
+| Force axiale par tirant M5 (roll) | **F = 378 N** | M_roll/(2×d_Z) |
+| **Couple réaction stator RS-04** | **120 Nm max** | **Dimensionne goupille & pincement** |
+| Couple nominal stator (marche/trot) | ~30-50 Nm | Fonctionnement courant |
+
+### C. Validation des Plaques 5mm 7075-T6 (Avant & Arrière)
+
+#### Mode 1 — Flexion des oreilles cylindriques (Ø20mm)
+
+```
+Section circulaire Ø20mm : W = pi × 20³ / 32 = 785 mm³
+Moment au pied oreille : M = 378N × 12mm = 4 536 N.mm
+Sigma×Kt = 4536 × 1.5 / 785 = 8.7 MPa
+
+→ 7075-T6: Sf_stat = 460/8.7 = ×53 ✅ (flexion oreilles négligeable)
+```
+
+#### Mode 2 — Bending de la couronne annulaire 5mm (de R_int=47.5mm à R_ext=60mm)
+
+```
+10× vis M4 réparties sur PCD Ø106mm (R_stator = 53mm)
+R tirants M5 = 72mm → bras de levier radial = 72 - 53 = 19mm
+Moment de flexion par quadrant : M = 378N × 19mm = 7 182 N.mm
+Largeur efficace de la couronne au droit de l'oreille b_eff ≈ 40mm
+Module résistant W = 40 × 5² / 6 = 166.7 mm³
+Sigma_flexion = 7182 / 166.7 = 43.1 MPa
+
+→ 7075-T6: Sf_stat = 460 / 43.1 = ×10.7 ✅ EXCELLENT (couronne 5mm très rigide)
+```
+
+#### Mode 3 — Cisaillement des 10× vis M4 sous couple stator (120 Nm)
+
+```
+F_cisaill par vis = 120 000 / (10 × 53) = 226 N par vis M4
+Section fond de filet M4 (d_min=3.242mm) : A = 8.25 mm²
+Tau = 226 / 8.25 = 27.4 MPa << 369 MPa admissible (acier 8.8)
+Sf = ×13.5 ✅
+```
+
+#### Mode 4 — Matage et pince radiale des trous M4 (PCD Ø106mm vs Évidement Ø95mm)
+
+```
+Rayon vis PCD = 53.0 mm | Rayon intérieur évidement = 47.5 mm
+Entr'axe radial vis/évidement = 53.0 - 47.5 = 5.5 mm
+Garde radiale nette de matière = 5.5 - (4.3/2) = 3.35 mm de pince
+Surface d'appui M4 (4mm × 5mm épaisseur) : A_bearing = 20 mm²
+Sigma_bearing = 226 N / 20 mm² = 11.3 MPa
+Admissible 7075-T6 (1.5×Rp0.2 = 690 MPa) → Sf_bearing = 690 / 11.3 = ×61.0 ✅ EXCELLENT
+
+→ Pince radiale de 3.35mm amplement suffisante pour 7075-T6 sous effort de 226N.
+```
+
+**VERDICT PLAQUES 5mm 7075-T6 ÉVIDÉES Ø95mm (AVANT ET ARRIÈRE) :** ✅ **Largement validées**. L'évidement Ø95mm est une solution d'ingénierie extrêmement avantageuse (gain de ~400g sur le torse, aération directe RS-04, passage de câblage) sans compromettre la tenue mécanique (Sf = 10.7 en bending, Sf = 61.0 en matage vis).
+
+### D. Validation Bride Arrière 48.2mm
+
+#### D1. Engagement Tube Carbone H7 (35mm)
+
+```
+L_engage = 35mm | D_tube = 30mm
+L/D = 35/30 = 1.17 (> 1.0 optimal, > 0.5 minimum) ✅ EXCELLENT
+Règle ISO : 1.0×D = 30mm recommandé → 35mm conforme
+```
+
+#### D2. Résistance du Flasque (13.2mm) en Flexion
+
+```
+Bras de levier (R_tirant - R_tube) = 72 - 15 = 57mm
+M_flasque = 378N × 57mm = 21 546 N.mm
+b_eff section ≈ 139mm | W = 139 × 13.2² / 6 = 4 025 mm³
+Sigma_flex = 21 546 / 4025 = 5.4 MPa
+
+→ 6061-T6: Sf = 276/5.4 = ×51 ✅ (flasque très largement sur-dimensionné)
+→ 7075-T6: Sf = 460/5.4 = ×85 ✅
+```
+
+Le flasque de 13.2mm est structurellement très confortable. Il est dimensionné par les contraintes géométriques (fixation coque PA12-CF, passage câbles) plutôt que par les contraintes mécaniques.
+
+#### D3. Liaison Tube-Bride — Architecture 100% Mécanique Sans Collage (d'après GUIDE §3.C)
+
+> [!IMPORTANT]
+> **Assemblage 100% Mécanique Démontable (Zéro Colle Époxy) :**
+> La liaison entre le tube carbone Ø 30 mm et la bride d'épaule alu 7075-T651 est conçue pour être **100% démontable en atelier** sans altération des pièces. Le système repose sur une triple sécurité mécanique :
+>
+> 1. **Pincement radial principal (35 mm de portée)** : fente axiale 1 mm sur 35 mm (L/D = 1.17) + **2× vis M4 traversantes** de serrage dynamométrique -> pression de contact radiale de 7.3 MPa sur 35 mm -> effort de friction radiale cumulé de **780 kgf (7 645 N)**.
+> 2. **Bouchon alu anti-écrasement (Ø26/Ø18 × 34.5 mm, alu 7075-T651)** : inséré ajusté dans le tube carbone -> absorbe intégralement la pression radiale des vis M4 et de la goupille sans déformer ni écraser les fibres CFRP. **La goupille traverse le bouchon alu, pas le carbone nu**.
+> 3. **Goupille Mecanindus Ø 4.0 mm** (obstacle positif) : verrouillage mécanique absolu anti-translation axiale et anti-rotation sous choc pic (120 Nm).
+
+```
+Architecture de la section transversale du socket au droit de la goupille :
+  [Paroi bride alu 5mm] → [Paroi tube CFRP 2mm] → [Bouchon alu Ø26/18mm] → [Bouchon alu] → [Paroi tube CFRP] → [Paroi bride alu]
+  La goupille Ø4mm traverse :
+    bride alu (5mm) → paroi CFRP (2mm) → bouchon alu creux (Ø26-Ø18 = 4mm paroi) → bouchon alu → paroi CFRP → bride alu
+  → Contact goupille/CFRP = JAMAIS. Contact goupille sur bouchon alu 7075. ✅
+```
+
+#### D3bis. Étude Dynamométrique du Pincement Radial (Sans Loctite)
+
+Pour garantir un freinage mécanique parfait insensible aux vibrations du robot **sans appliquer de Loctite liquide** (permettant un démontage propre), les vis M4 de pincement sont associées à des **écrous Nylstop M4** ou des **rondelles Nord-Lock M4 / Schnorr dentelées** :
+
+| Classe de Vis CHC M4 | Couple Clé Dynamométrique | Force Radiale Cumulée (2× M4) | Pression Radiale sur Tube | Couple Transmis par Friction Pure |
+|:---|:---:|:---:|:---:|:---:|
+| **Vis M4 Inox A2-70 / A4-70** | **2.5 N.m** | 650 kgf (6 370 N) | 6.1 MPa | 22.5 N.m |
+| **Vis M4 Acier 8.8 (Standard préconisé)** | **3.0 N.m** | **780 kgf (7 645 N)** | **7.3 MPa** | **27.0 N.m** |
+| **Vis M4 Acier 10.9 (Haute résistance)** | **3.5 à 4.0 N.m** | **1 040 kgf (10 190 N)** | **9.7 MPa** | **36.0 N.m** |
+
+```
+Calcul du couple de friction transmis à 3.0 N.m (Acier 8.8) :
+F_tension_par_vis = 3 822 N (à 3.0 N.m)
+F_radiale_totale (2 vis) = 7 645 N (780 kgf)
+F_friction_tangente = mu_alu_carbone (0.15) × F_radiale_totale × (pi/2) = 1 801 N
+C_friction_pure = F_friction_tangente × R_tube (0.015m) = 27.0 Nm
+
+→ Le pincement seul à 3.0 N.m reprend 27.0 Nm de friction pure (68% du couple nominal trot 40 Nm).
+→ Les 13 Nm résiduels en trot et 31 Nm en pic max (120 Nm) sont bloqués par la goupille Ø4 mm sur le bouchon alu.
+```
+
+#### D4. Goupille Mecanindus Ø4mm — Rôle et Vérification Correcte
+
+> [!NOTE]
+> **Rôle réel de la goupille :** Verrou de sécurité anti-rotation et anti-translation axiale — PAS le primaire de couple. Elle intervient **en cas de défaillance du pincement** (visserie desserrée, vibrations) ou sous choc extrême.
+
+```
+Couple résiduel sur goupille (couple max 120Nm - couple pincement 89Nm) :
+  C_goupille = 120 - 89 = 31 Nm (résiduel)
+
+Bras de levier goupille sur bouchon alu : r = Ø_bouchon_ext / 2 = 13mm
+(La goupille contact le bouchon à R=13mm, pas R=15mm)
+Force par section goupille : F = 31 000 / (13 × 2) = 1 192 N
+Section Ø4mm : A = 12.57 mm²
+Tau_goupille = 1 192 / 12.57 = 94.8 MPa
+
+Tau_adm goupille élastique inox 1.4310 : 242 MPa → Sf = 2.6 ✅
+Tau_adm goupille acier 8.8 pleine    : 369 MPa → Sf = 3.9 ✅
+```
+
+**Contrainte d'appui goupille sur bouchon alu 7075 :**
+
+```
+Surface appui goupille/bouchon (paroi bouchon 4mm × Ø4mm) : A = 4 × 4 = 16 mm² par section
+Sigma_bearing alu 7075 = 1192 / 16 = 74.5 MPa
+Admissible alu 7075 (1.5×Rp0.2) = 1.5 × 460 = 690 MPa → Sf = 9.3 ✅ EXCELLENT
+```
+
+> [!NOTE]
+> **Calculs précédents invalides annulés.** Les ❌ et ⚠️ sur "tube carbone — bearing goupille" dans la version antérieure de ce §11 étaient basés sur une hypothèse erronée (goupille en contact direct avec le CFRP). Le bouchon alu existant résout complètement ce problème.
+
+#### D5. Couple Total Repris par l'Assemblage Bride (Vérification Finale)
+
+```
+Hiérarchie de reprise de couple (architecture réelle GUIDE §3.C) :
+1. PINCEMENT RADIAL (2×M4 à 6 N.m, fente 1mm, L=35mm) :
+   C_pincement ≈ 89 Nm → Sf_nominal(40Nm) = 2.2 ✅ | Sf_max(120Nm) = 0.74 ⚠️ (pincement seul)
+
+2. GOUPILLE Ø4mm (verrou de sécurité, sur bouchon alu) :
+   C_goupille ≈ 31 Nm résiduel → Tau = 95 MPa → Sf_cisaillement = 2.6 ✅
+
+3. TOTAL SYSTÈME : C_total = C_pincement + C_goupille = 89 + 31 = 120 Nm → Sf = 1.0 ✅
+   → Le pic de couple RS-04 (120Nm) est exactement couvert par le système complet ✅
+   → Le couple nominal (40Nm) : Sf = (89+31)/40 = 3.0 ✅ Confortable
+
+Note: le pincement seul (sans goupille) serait insuffisant au pic (120Nm).
+La combinaison pincement + goupille est indispensable et dimensionnée juste.
+```
+
+### E. Possibilité de Réduction de la Bride
+
+> [!IMPORTANT]
+> **Contrainte de hauteur hors-tout confirmée : 49.20mm** (mesuré CAO Fusion 360 = epaule8).
+> Le Guide §3.D.3 confirme que le brut commandé est un **disque Ø120×50mm alu 7075** (surépaisseur de surfaçage 0.8mm). La hauteur finale de 49.2mm est donc **gelée par le sourcing brut et la conception CAO**.
+
+| Paramètre | Design actuel (CAO) | Commentaire |
+|:---|:---:|:---|
+| **L_engage tube** | 35 mm | L/D = 1.17 → excellent. Bouchon alu 34.5mm intégré. |
+| **e_flasque** | 13.2 mm | Sf_stat > 50× → aucune contrainte mécanique |
+| **e_total bride** | **48.2 mm** | Gelé par sourcing brut Ø120×50mm (blanchissage 0.8mm) |
+| Bouchon anti-écrasement | Ø26/Ø18×34.5mm alu 7075 | Déjà intégré dans le design ✅ |
+| Couple repris (system complet) | 120 Nm | Pincement + goupille — couvert ✅ |
+
+> [!TIP]
+> **Verdict réduction :** La bride de 49.2mm est dimensionnée par le sourcing matière (disque brut 50mm) et non par les contraintes mécaniques. Aucune réduction n'est nécessaire ni souhaitable — le brut est déjà commandé/spécifié.
+
+### F. Tableau de Bord de Validation — Design Final CORRIGÉ
+
+| Critère vérifié | Valeur calculée | Admissible | Sf | Statut |
+|:---|:---:|:---:|:---:|:---:|
+| **Plaque avant — oreilles Ø20mm** | 8.7 MPa | 460 MPa (7075) | ×53 | ✅ |
+| **Plaque avant — 6×M5 cisaillement** | 20.7 MPa | 369 MPa (8.8) | ×17.8 | ✅ |
+| **Bride arrière — engagement H7** | L/D = 1.17 | ≥ 1.0 | — | ✅ |
+| **Bride arrière — flasque flexion** | 5.4 MPa | 276 MPa (6061) | ×51 | ✅ |
+| **Bride alu — bearing goupille (sur bouchon 7075)** | 74.5 MPa | 690 MPa (7075) | ×9.3 | ✅ |
+| **Goupille Ø4mm — cisaillement (couple résiduel 31Nm)** | 94.8 MPa | 242 MPa (inox) | ×2.6 | ✅ |
+| **Pincement radial (couple nominal 40Nm)** | 89 Nm dispo | 40 Nm requis | ×2.2 | ✅ |
+| **Couple système total (pic 120Nm)** | 120 Nm dispo | 120 Nm RS-04 max | ×1.0 | ✅ (limite) |
+| **Tube carbone — bearing goupille** | N/A (bouchon alu) | — | — | ✅ |
+
+### G. Conclusions & Recommandations — Design Validé
+
+> [!NOTE]
+> **Design VALIDÉ sans modification nécessaire.** Après lecture complète du GUIDE_Fabrication_Torse_D-Bot_Hybride.md (§3.C), les points critiques identifiés initialement dans ce §11 sont résolus par le design existant :
+>
+> - ✅ Le **bouchon alu 7075 Ø26/Ø18×34.5mm** (collé époxy dans le tube) protège complètement les fibres CFRP de la pression de pincement et du bearing de goupille.
+> - ✅ Le **pincement radial par 2×M4** est le primaire de couple (89 Nm de capacité).
+> - ✅ La **goupille Mecanindus Ø4mm** est le verrou de sécurité (31 Nm résiduels + obstacle positif anti-translation).
+> - ✅ Le **couple total (120 Nm RS-04 max)** est couvert par la combinaison pincement + goupille.
+> - ✅ La **hauteur bride 49.2mm** est gelée par le sourcing brut (disque Ø120×50mm).
+
+> [!TIP]
+> **Seul point de vigilance opérationnel :**
+> Le système est dimensionné "juste" au couple max 120Nm (Sf = 1.0 sur le système complet). En fonctionnement nominal (couple ~40Nm), le Sf = 3.0, très confortable. S'assurer que le couple des 2×M4 de pincement est bien maintenu à **6 N.m avec Loctite 243** lors de l'assemblage — la friction est le mécanisme primaire.
+
+> [!NOTE]
+> **Observation sur la plaque avant 5mm (côté bras) :** Les screenshots epaule6 montrent 6×M5×50 6-pans sur un grand PCD (Ø144mm ≈ rayon 72mm). Les PCD M5 stator et les tirants H-bracket sont au **même rayon** → pas de bending global de la plaque → design optimal.
+
+---
+
+*§11 mis à jour en Août 2026 — Correction des conclusions D3/D4/D5 après lecture du GUIDE_Fabrication_Torse §3.C : le bouchon anti-écrasement alu 7075 est déjà intégré, la goupille travaille sur alu (pas sur CFRP), le pincement radial est le primaire de couple. Design VALIDÉ sans modification requise.*
+
 

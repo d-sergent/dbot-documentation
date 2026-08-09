@@ -2,6 +2,37 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-08-09 — Validation Mécanique Finale & Sourcing de l'Épaule (Cage H-Bracket 7075-T6, Évidement Ø95mm, Pincement 3.0 N.m & 2 Paniers Hot-Swap)
+
+### 🎯 Objectif de la session
+1. **Validation Mécanique du Design Quasi-Final Fusion 360 (Screenshots epaule1 à epaule9)** : Analyser et valider l'assemblage réel d'épaule composé de 2 plaques H-bracket identiques (5,0 mm Alu 7075-T6) + bride d'ancrage tube (48.20 mm Alu 7075-T651) + 2 tirants M5 axiaux à 23.4°.
+2. **Prise en compte de l'évidement central Ø95 mm (epaule9.png)** : Calculer la résistance mécanique de la couronne annulaire de 12.5 mm de largeur radiale et évaluer le gain de masse.
+3. **Validation de l’Assemblage 100% Mécanique Sans Colle** : Quantifier le serrage dynamométrique à froid (vis CHC M4 à 3.0 N.m, écrous Nylstop / rondelles Nord-Lock, sans Loctite) et le rôle de la goupille Ø4 mm Mecanindus sur le bouchon alu interne (Ø26/18×34.5 mm).
+4. **Rétablissement Officiel des 2 Paniers Batterie Latéraux Hot-Swap** : Confirmer que la cage H-bracket libère l'espace sous les épaules et valider l'architecture V1 des 2 paniers batterie avec basculement ORing.
+5. **Nettoyage et Normalisation du Repository** : Supprimer les fichiers orphelins du dossier `./media/` et mettre à jour le schéma vectoriel Blueprint SVG.
+
+### 📝 Réalisations & Évolutions
+1. **Validation par Calcul RDM de l'Évidement Ø95 mm (Gain de -400 g sur le torse)** :
+   - Contrainte de bending dans la couronne annulaire 5,0 mm 7075-T6 : $\sigma_{\text{flexion}} = 43.1\text{ MPa}$ ($S_f = \times 10.7$ ✅).
+   - Flexion des oreilles cylindriques : $\sigma = 8.7\text{ MPa}$ ($S_f = \times 53.1$ ✅).
+   - Pince radiale de matière sur trous M4 PCD Ø106 mm : 3.35 mm nets de matière pleine, contrainte de matage $\sigma_{\text{bearing}} = 11.3\text{ MPa}$ ($S_f = \times 61.0$ ✅).
+   - Gain de masse : $35.4\text{ cm}^3$ évidés par plaque, soit $-100\text{ g/plaque}$ ($\mathbf{-398.4\text{ g}}$ d'allégement au total sur le torse).
+2. **Caractérisation de la Liaison Tube-Bride 100% Mécanique (Zéro Colle Époxy)** :
+   - Portée d'encastrement $L = 35.0\text{ mm}$ ($L/D = 1.17$, parfait respect ISO).
+   - Couple dynamométrique préconisé à 3.0 N.m (vis 8.8) ou 3.5 N.m (vis 10.9) $\rightarrow$ force radiale cumulée de $780\text{ kgf}$ ($7\,645\text{ N}$) $\rightarrow 27.0\text{ N.m}$ transmis par friction pure.
+   - Verrouillage mécanique anti-vibration par écrous Nylstop M4 + rondelles Nord-Lock / Schnorr dentelées (zéro Loctite liquide).
+   - Procédure de serrage à la clé dynamométrique alterné en 3 passes (1.5 N.m $\rightarrow$ 2.5 N.m $\rightarrow$ 3.0 N.m).
+3. **Mise à Jour des 9 Illustrations CAO & Génération du Blueprint SVG** :
+   - Mise à jour du blueprint vectoriel [`hbracket_rs04_quasi_final_blueprint.svg`](./media/hbracket_rs04_quasi_final_blueprint.svg) intégrant l'évidement Ø95 mm et le tableau récapitulatif.
+   - Remplacement complet des 8 anciens visuels par les 9 captures d'écran CAO réelles (`epaule_cao_1_vue_ensemble.png` à `epaule_cao_9_evidement_central_95mm.png`) illustrant toutes les cotations au §3.E du Guide.
+   - Suppression de 8 fichiers orphelins inutiles dans `./media/`.
+4. **Rétablissement Officiel des 2 Paniers Batteries Latéraux Hot-Swap (§8)** :
+   - Confirmation que l'espace sous les épaules est 100% libre avec les tirants M5 à 23.4°.
+   - Validation de l'architecture V1 480–576 Wh ($2\times 12\text{S}$) avec basculement ORing sans coupure (< 0.5 ms).
+5. **Mise à Jour Globale de la Documentation (`ETUDE_Dimensionnement_Colonne_Vertebrale.md` & `GUIDE_Fabrication_Torse_D-Bot_Hybride.md`)**.
+
+---
+
 ## 📅 2026-08-01 — Finalisation de la Fabrication C500 du Torse (Perçage Z, Split Gap 0.8-1.0mm & Adoption Officielle Option B 2D)
 
 ### 🎯 Objectif de la session
