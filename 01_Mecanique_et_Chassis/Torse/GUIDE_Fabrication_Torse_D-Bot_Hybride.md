@@ -973,11 +973,14 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 
 | Paramètre | Valeur |
 |:---|:---|
-| **Plaques H-bracket (orange, ×2 par épaule)** | **7075-T6, 5mm** (2 plaques IDENTIQUES : Avant + Arrière, **Évidement central Ø95mm** -> gain -400g total sur torse) → couronne annulaire Ø120/Ø95mm + 2 oreilles cylindriques pour tirants M5 → **10× vis M4 sur PCD Ø106mm** sur stator RS-04 (pince radiale de matière = 3.35 mm, $S_{f,\text{bearing}} = 61$) |
-| **Bride fixation tube (jaune)** | **Bride monobloc alu 7075-T651, 48.2mm total** → flasque 13.2mm + socket tube 35mm (L/D=1.17) + bouchon interne alu Ø26/Ø18×34.5mm (collé époxy) + fente pincement 2×M4 + goupille Ø4mm. Se monte **par-dessus la plaque arrière orange**. Sourcing: disque brut Ø120×50mm Blockenstock |
-| **Tirants M5 axiaux (×2 par épaule)** | 2× vis CHC M5 × 65 mm acier 8.8 + écrou Nylstop M5 (position diagonale 23.4°, R=72mm) — **remplacent le carter en acier E470** |
+| **Plaques H-bracket (orange, ×2 par épaule)** | **7075-T6, 5mm** (2 plaques IDENTIQUES : Avant + Arrière, **Évidement central Ø95mm** -> gain -400g total sur torse) → couronne annulaire Ø120/Ø95mm + 2 oreilles cylindriques pour tirants M5 → **10× vis M4 sur PCD Ø106mm** sur stator RS-04 (pince radiale de matière = 3.35 mm, Sf_bearing = 61) |
+| **Perçage oreilles M5 (CNC C500)** | **Ø 5.5 mm (ISO 273 — Moyen)** → jeu radial 0.25 mm pour empilement sans contrainte + **chanfreins 0.5 mm × 45°** sur les 2 faces des plaques |
+| **Bride fixation tube (jaune)** | **Bride monobloc alu 7075-T651, 48.2mm total** → flasque 13.2mm + socket tube 35mm (L/D=1.17) + bouchon interne alu Ø26/Ø18×34.5mm (ajusté sans colle) + fente pincement 2×M4 + goupille Ø4mm. Se monte **par-dessus la plaque arrière orange**. Sourcing: disque brut Ø120×50mm Blockenstock |
+| **Tirants M5 axiaux (×2 par épaule)** | **Vis CHC M5 × 60 mm (ISO 4762 / DIN 912 classe 8.8 ou 10.9 zingué)** — Longueur optimale validée pour empilement 49.0 mm à 51.0 mm (saillie bague nylon = +2.4 mm) |
+| **Rondelles tirants (×4 par épaule)** | **ISO 7089 / DIN 125A (M5)** → Ø int. 5.3 mm / Ø ext. 10.0 mm, épaisseur 1.0 mm (2 sous tête vis CHC, 2 sous écrou Nylstop) |
+| **Écrous frein tirants (×2 par épaule)** | **ISO 7040 / DIN 985 — M5 (Nylstop)** → écrou hexagonal autofreiné avec bague nylon, hauteur 5.0 mm |
 | **Position tirant HAUT** | Z = +66.1 mm, Y = +28.6 mm (R=72mm, angle 23.4° de la verticale) |
-| **Position tirant BAS** | Z = -66.1 mm, Y = -28.6 mm (diametralement opposé) |
+| **Position tirant BAS** | Z = -66.1 mm, Y = -28.6 mm (diamétralement opposé) |
 | **Marge stator** | R=72mm vs stator R=60mm : +12 mm |
 | **Marge limite torse** | R=72mm vs R_max=78mm : +6 mm |
 | **Sourcing plaques 5mm 7075-T6** | Blockenstock — chute 5×160×160mm 7075-T6 @ 9.60 EUR/pièce — **4 pièces** (2 avant + 2 arrière) → 38.40 EUR |
@@ -985,6 +988,12 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 | **Épaisseur min théorique plaques** | 7075-T6: 3.2mm, 6061-T6: 4.1mm (Sf=2.5) — **5mm retenu, validé §10 et §11 ETUDE_Dimensionnement** |
 | **Couple bride (système complet)** | Pincement 2×M4 (~89 Nm) + Goupille Ø4mm (~31 Nm) = 120 Nm total couverts — voir §11 ETUDE |
 | **Masse ajoutée** | ~75 g par plaque 5mm (×2 = 150g) + ~200 g bride jaune = ~350 g par épaule / ~700 g total pour les 2 épaules |
+
+> [!NOTE]
+> **Calcul de l'Empilement Axial de Longueur de Vis Tirant M5 (CHC M5 × 60 mm)** :
+> - Plaque Avant 7075-T6 (5.0 mm) + Corps RS-04 (39.0 mm à 41.0 mm) + Plaque Arrière 7075-T6 (5.0 mm) = **49.0 mm à 51.0 mm de matière**.
+> - Rondelle sous tête DIN 125A (1.0 mm) + Rondelle sous écrou DIN 125A (1.0 mm) + Écrou Nylstop M5 DIN 985 (5.0 mm) + Saillie 2 filets (1.6 mm) = **7.6 mm d'accessoires**.
+> - Longueur théorique totale = $49.0 + 7.6 = \mathbf{56.6\text{ mm}}$ (ou $58.6\text{ mm}$ pour 51.0 mm net). La **vis ISO 4762 CHC M5 × 60 mm** est la référence exacte optimale (dépassement net de 2.4 mm à 3.4 mm de bague nylon).
 
 ### B. Performance Roll
 
@@ -1032,7 +1041,7 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 1. ☐ Usiner les 2 demi-plaques de colonne vertébrale (alu 6061-T6, 5 mm — évidements 2D traversants, R = 18 mm)
 2. ☐ Usiner les **2 carters Support RS-04 (H = 39,0 mm, Acier E470)** à partir d'**ébauche creuse d131/d88 Blockenstock** — alésage Ø 120.2 mm H7 sur 35.0 mm, paroi 1.9 mm, Ø ext 124.0 mm, flasque fond 4.0 mm évidée à Ø 97 mm et 10× perçages **Ø 3.3 mm** sur PCD Ø 106 mm (Plan 2D David SERGENT)
 3. ☐ Usiner les **2 brides d'épaule arrière monoblocs (H = 48.2 mm)** dans des disques bruts **Ø 120 × 50 mm Alu 7075-T651** (Blockenstock) — alésage Ø 30.05 mm H7 sur 35.0 mm, flasque 13.2 mm, fente pincement 1.0 mm avec 2× M4 traversantes et trou goupille Ø 4.0 mm H7
-4. ☐ Usiner les **2 plaques avant H-bracket (5 mm)** dans la tôle **Alu 7075-T6 5×160×160 mm** (Blockenstock) — 6× M5 sur PCD Ø 144 mm + 2 perçages tirants M5 aux oreilles Z=±66.1mm / Y=±28.6mm
+4. ☐ Usiner les **4 plaques H-bracket (5 mm)** (2 avant + 2 arrière identiques) dans la tôle **Alu 7075-T6 5×160×160 mm** (Blockenstock) — Évidement central Ø 95 mm, 10× vis M4 sur PCD Ø 106 mm + **2 perçages tirants M5 à Ø 5.5 mm (ISO 273 Moyen)** aux oreilles Z=±66.1mm / Y=±28.6mm avec **chanfreins 0.5 mm × 45°** sur les deux faces
 5. ☐ Usiner les **2 demi-coquilles du nœud d'intersection** (Bride Sup. et Bride Inf. alu 6061-T6)
 6. ☐ Usiner les **2 bouchons internes anti-écrasement (Ø 26.0 mm h6 ext / Ø 18.0 mm int × 34.5 mm de longueur)** dans la **barre ronde Alu 7075-T651 Ø 30 mm** (Blockenstock) — laisse 0,5 mm de jeu d'isostatisme au fond pour l'appui 100% prioritaire du tube carbone sur la marche Ø 24 mm
 7. ☐ Usiner la plaque supérieure de cou (alu 6061-T6, 5 mm) — équerres L-Brackets en sandwich
@@ -1075,12 +1084,13 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 
 1. ☐ Poser les inserts filetés M4 en laiton (Ruthex) dans les coques PA12-CF au fer à souder (260°C)
 2. ☐ Assembler les demi-plaques de colonne vertébrale (5.0 mm) et les brides d'épaule jaunes (48.2 mm) sur les 2 plaques H-bracket orange (5.0 mm évidées Ø95mm)
-3. ☐ Insérer les bouchons alu 7075 (Ø26/18×34.5mm) dans les extrémités du tube carbone Ø30mm
-4. ☐ Appliquer le protocole d'insertion des goupilles élastiques inox Ø 4,0 mm × 35 mm à travers les brides et les bouchons alu (Nœud central + Épaules)
-5. ☐ Appliquer le **Protocole de Serrage Dynamométrique à 3.0 N.m** sur les 2× vis M4 de pincement (avec écrous Nylstop M4 + rondelles Nord-Lock, sans Loctite)
-6. ☐ Assembler la plaque de cou (haut) et la Waist Plate (bas) via les équerres L-Brackets en sandwich
-7. ☐ Assembler le Thorax et l'Abdomen via le Lap Joint + vis M4 des bossages internes
-8. ☐ Insérer les moteurs RS-04 dans les cages H-bracket par l'AVANT (extérieur de l'épaule) et serrer les 10× vis M4 × 10 mm (PCD Ø106 mm). Router les câbles XT30/CAN par l'évidement Ø95 mm vers l'intérieur du torse.
+3. ☐ Monter les **2 tirants axiaux M5 par épaule** (vis **CHC M5 × 60 mm ISO 4762 8.8**, 2× rondelles DIN 125A 1.0 mm, écrou Nylstop M5 DIN 985 bague nylon) à travers les perçages Ø 5.5 mm des oreilles Z=±66.1mm / Y=±28.6mm
+4. ☐ Insérer les bouchons alu 7075 (Ø26/18×34.5mm) dans les extrémités du tube carbone Ø30mm
+5. ☐ Appliquer le protocole d'insertion des goupilles élastiques inox Ø 4,0 mm × 35 mm à travers les brides et les bouchons alu (Nœud central + Épaules)
+6. ☐ Appliquer le **Protocole de Serrage Dynamométrique à 3.0 N.m** sur les 2× vis M4 de pincement (avec écrous Nylstop M4 + rondelles Nord-Lock, sans Loctite)
+7. ☐ Assembler la plaque de cou (haut) et la Waist Plate (bas) via les équerres L-Brackets en sandwich
+8. ☐ Assembler le Thorax et l'Abdomen via le Lap Joint + vis M4 des bossages internes
+9. ☐ Insérer les moteurs RS-04 dans les cages H-bracket par l'AVANT (extérieur de l'épaule) et serrer les 10× vis M4 × 10 mm (PCD Ø106 mm). Router les câbles XT30/CAN par l'évidement Ø95 mm vers l'intérieur du torse.
 
 ### Phase 5 — Assemblage Batteries + Hot-Swap
 

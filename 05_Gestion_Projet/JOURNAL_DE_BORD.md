@@ -22,6 +22,7 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - Couple dynamométrique préconisé à 3.0 N.m (vis 8.8) ou 3.5 N.m (vis 10.9) $\rightarrow$ force radiale cumulée de $780\text{ kgf}$ ($7\,645\text{ N}$) $\rightarrow 27.0\text{ N.m}$ transmis par friction pure.
    - Verrouillage mécanique anti-vibration par écrous Nylstop M4 + rondelles Nord-Lock / Schnorr dentelées (zéro Loctite liquide).
    - Procédure de serrage à la clé dynamométrique alterné en 3 passes (1.5 N.m $\rightarrow$ 2.5 N.m $\rightarrow$ 3.0 N.m).
+   - **Spécification de la Boulonnerie Tirant M5 & Perçage CNC** : Vis CHC M5 × 60 mm (ISO 4762 classe 8.8 / 10.9 zingué) pour empilement 49.0–51.0 mm (saillie bague nylon +2.4 mm), rondelles M5 DIN 125A (×4 par épaule), écrous Nylstop M5 DIN 985 (×2 par épaule), trou de passage **Ø 5.5 mm (ISO 273 Moyen)** et chanfreins 0.5 mm × 45° sur les 2 faces.
 3. **Mise à Jour des 9 Illustrations CAO & Génération du Blueprint SVG** :
    - Mise à jour du blueprint vectoriel [`hbracket_rs04_quasi_final_blueprint.svg`](./media/hbracket_rs04_quasi_final_blueprint.svg) intégrant l'évidement Ø95 mm et le tableau récapitulatif.
    - Remplacement complet des 8 anciens visuels par les 9 captures d'écran CAO réelles (`epaule_cao_1_vue_ensemble.png` à `epaule_cao_9_evidement_central_95mm.png`) illustrant toutes les cotations au §3.E du Guide.
