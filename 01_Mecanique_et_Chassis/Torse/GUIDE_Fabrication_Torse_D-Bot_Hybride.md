@@ -995,6 +995,18 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 > - Rondelle sous tête DIN 125A (1.0 mm) + Rondelle sous écrou DIN 125A (1.0 mm) + Écrou Nylstop M5 DIN 985 (5.0 mm) + Saillie 2 filets (1.6 mm) = **7.6 mm d'accessoires**.
 > - Longueur théorique totale = $49.0 + 7.6 = \mathbf{56.6\text{ mm}}$ (ou $58.6\text{ mm}$ pour 51.0 mm net). La **vis ISO 4762 CHC M5 × 60 mm** est la référence exacte optimale (dépassement net de 2.4 mm à 3.4 mm de bague nylon).
 
+> [!TIP]
+> **Tutoriel : Importation directe des pièces 3D ISO/DIN dans Fusion 360 (Outil Intégré McMaster-Carr)** :
+> 1. **Accéder à l'outil** : Dans le ruban de conception de Fusion 360, aller dans **Insert** $\rightarrow$ **Insert McMaster-Carr Component**.
+> 2. **Rechercher les composants tirants M5** :
+>    - **Vis CHC M5 × 60 mm (ISO 4762 / DIN 912)** : Rechercher `M5 x 60 Socket Head Screw` $\rightarrow$ Sélectionner *Metric* $\rightarrow$ *M5 Thread* $\rightarrow$ *60 mm Length*.
+>    - **Rondelles M5 (DIN 125A / ISO 7089)** : Rechercher `M5 Flat Washer` $\rightarrow$ Sélectionner *Metric* $\rightarrow$ *For M5 Screw Size* (Ø int 5.3 mm, Ø ext 10.0 mm).
+>    - **Écrous Nylstop M5 (DIN 985 / ISO 7040)** : Rechercher `M5 Nylon-Insert Locknut` $\rightarrow$ Sélectionner *Metric* $\rightarrow$ *M5 Thread*.
+> 3. **Importer dans la scène 3D** :
+>    - Dérouler la section *Product Detail* du composant sélectionné.
+>    - Sélectionner le format **3D STEP** dans le menu déroulant et cliquer sur **Download**.
+>    - La pièce 3D exacte s'insère automatiquement comme composant dans votre modèle. Il suffit ensuite d'appliquer un **Joint** (`J`) coaxial sur le trou Ø 5.5 mm.
+
 ### B. Performance Roll
 
 | Solution | I_roll (mm4) | Flèche cou | Espace batterie |
