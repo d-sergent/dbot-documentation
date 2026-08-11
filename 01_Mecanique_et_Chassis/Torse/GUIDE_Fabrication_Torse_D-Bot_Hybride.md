@@ -976,7 +976,7 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 | **Plaques H-bracket (orange, ×2 par épaule)** | **7075-T6, 5mm** (2 plaques IDENTIQUES : Avant + Arrière, **Évidement central Ø95mm** -> gain -400g total sur torse) → couronne annulaire Ø120/Ø95mm + 2 oreilles cylindriques pour tirants M5 → **10× vis M4 sur PCD Ø106mm** sur stator RS-04 (pince radiale de matière = 3.35 mm, Sf_bearing = 61) |
 | **Perçage oreilles M5 (CNC C500)** | **Ø 5.5 mm (ISO 273 — Moyen)** → jeu radial 0.25 mm pour empilement sans contrainte + **chanfreins 0.5 mm × 45°** sur les 2 faces des plaques |
 | **Bride fixation tube (jaune)** | **Bride monobloc alu 7075-T651, 48.2mm total** → flasque 13.2mm + socket tube 35mm (L/D=1.17) + bouchon interne alu Ø26/Ø18×34.5mm (ajusté sans colle) + fente pincement 2×M4 + goupille Ø4mm. Se monte **par-dessus la plaque arrière orange**. Sourcing: disque brut Ø120×50mm Blockenstock |
-| **Pincement radial tube (×2 vis M4 par bride)** | **Vis CHC M4 × 30 mm (ISO 4762 / DIN 912 classe 8.8 ou 10.9 zingué)** — Traversantes sur méplats 10.0 mm (vis #1 à 8.0 mm du bord, vis #2 à 25.0 mm du bord, entraxe 17.0 mm) |
+| **Pincement radial tube (×2 vis M4 par bride)** | **Vis CHC M4 × 18 mm ou M4 × 20 mm (ISO 4762 / DIN 912 classe 8.8 ou 10.9 zingué)** — Traversantes sur bloc de pincement de 11.0 mm de largeur (vis #1 à 8.0 mm du bord, vis #2 à 25.0 mm du bord, entraxe 17.0 mm) |
 | **Perçage pincement M4 (CNC C500)** | **Ø 4.3 mm (ISO 273 — Moyen)** → perçage traversant sur méplats + **chanfreins 0.5 mm × 45°** sur les 2 entrées/sorties de méplats |
 | **Rondelles pincement (×4 par bride)** | **ISO 7089 / DIN 125A (M4)** → Ø int. 4.3 mm / Ø ext. 9.0 mm, épaisseur 0.8 mm (2 sous tête vis CHC, 2 sous écrou Nylstop M4) |
 | **Écrous frein pincement (×2 par bride)** | **ISO 7040 / DIN 985 — M4 (Nylstop)** → écrou hexagonal autofreiné avec bague nylon, hauteur 4.0 mm |
@@ -995,7 +995,7 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 
 > [!NOTE]
 > **Calcul de l'Empilement Axial des Vis de Pincement M4 et des Tirants M5** :
-> - **Vis de Pincement Radial (CHC M4 × 30 mm)** : Épaisseur traversée sur méplats 10.0 mm (25.0 mm) + Rondelle sous tête DIN 125A M4 (0.8 mm) + Rondelle sous écrou DIN 125A M4 (0.8 mm) + Écrou Nylstop M4 DIN 985 (4.0 mm) + Saillie 2 filets (1.4 mm) = **32.0 mm**. La vis **ISO 4762 CHC M4 × 30 mm** (ou M4 × 35 mm si méplats usinés à 28.0 mm) garantit la prise parfaite dans la bague nylon.
+> - **Vis de Pincement Radial (CHC M4 × 18 mm ou M4 × 20 mm)** : Épaisseur traversée du bloc de pincement (11.0 mm) + Rondelle sous tête DIN 125A M4 (0.8 mm) + Rondelle sous écrou DIN 125A M4 (0.8 mm) + Écrou Nylstop M4 DIN 985 (4.0 mm) + Saillie 2 filets (1.4 mm) = **18.0 mm**. La vis **ISO 4762 CHC M4 × 18 mm** (ou M4 × 20 mm) est la référence exacte optimale (dépassement net de 2.0 mm à 4.0 mm de bague nylon sans encombrement inutile).
 > - **Vis Tirant M5 (CHC M5 × 60 mm)** : Plaque AV 7075 (5.0 mm) + Corps RS-04 (39.0 mm à 41.0 mm) + Plaque AR 7075 (5.0 mm) = **49.0 mm à 51.0 mm**. Accessoires (2× rondelles 1.0 mm + écrou Nylstop M5 5.0 mm + saillie 1.6 mm) = **7.6 mm**. Longueur totale = $49.0 + 7.6 = \mathbf{56.6\text{ mm}}$ (vis **ISO 4762 CHC M5 × 60 mm** exacte).
 
 > [!CAUTION]
@@ -1008,7 +1008,7 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 > **Tutoriel : Importation directe des pièces 3D ISO/DIN dans Fusion 360 (Outil Intégré McMaster-Carr)** :
 > 1. **Accéder à l'outil** : Dans le ruban de conception de Fusion 360, aller dans **Insert** $\rightarrow$ **Insert McMaster-Carr Component**.
 > 2. **Rechercher les composants M4 et M5** :
->    - **Vis CHC M4 × 30 mm Pincement (ISO 4762 / DIN 912)** : `M4 x 30 Socket Head Screw` $\rightarrow$ *Metric* $\rightarrow$ *M4 Thread* $\rightarrow$ *30 mm Length*.
+>    - **Vis CHC M4 × 18 mm Pincement (ISO 4762 / DIN 912)** : `M4 x 18 Socket Head Screw` (ou `M4 x 20`) $\rightarrow$ *Metric* $\rightarrow$ *M4 Thread* $\rightarrow$ *18 mm Length* (ou *20 mm*).
 >    - **Vis CHC M5 × 60 mm Tirants (ISO 4762 / DIN 912)** : `M5 x 60 Socket Head Screw` $\rightarrow$ *Metric* $\rightarrow$ *M5 Thread* $\rightarrow$ *60 mm Length*.
 >    - **Rondelles M4 Pincement (DIN 125A / ISO 7089)** : `M4 Flat Washer` $\rightarrow$ *Metric* $\rightarrow$ *For M4 Screw Size* (Ø int 4.3 mm, Ø ext 9.0 mm).
 >    - **Rondelles M5 Tirants (DIN 125A / ISO 7089)** : `M5 Flat Washer` $\rightarrow$ *Metric* $\rightarrow$ *For M5 Screw Size* (Ø int 5.3 mm, Ø ext 10.0 mm).
