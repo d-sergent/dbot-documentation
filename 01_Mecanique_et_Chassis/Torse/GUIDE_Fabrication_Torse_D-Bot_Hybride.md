@@ -980,7 +980,7 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 | **Perçage pincement M4 (CNC C500)** | **Ø 4.3 mm (ISO 273 — Moyen)** → perçage traversant sur méplats + **chanfreins 0.5 mm × 45°** sur les 2 entrées/sorties de méplats |
 | **Rondelles pincement (×4 par bride)** | **ISO 7089 / DIN 125A (M4)** → Ø int. 4.3 mm / Ø ext. 9.0 mm, épaisseur 0.8 mm (2 sous tête vis CHC, 2 sous écrou Nylstop M4) |
 | **Écrous frein pincement (×2 par bride)** | **ISO 7040 / DIN 985 — M4 (Nylstop)** → écrou hexagonal autofreiné avec bague nylon, hauteur 4.0 mm |
-| **Goupille sécurité bride (×1 par bride)** | **Goupille élastique Mécanindus Ø 4.0 mm × 35 mm (ISO 8752 / DIN 1481 Inox)** → perçage Ø 4.0 mm H7 traversant la douille (40.0 mm) et le bouchon alu interne |
+| **Goupille sécurité bride (×1 par bride)** | **Goupille élastique Mécanindus Ø 4.0 mm × 40 mm (ISO 8752 / DIN 1481 Inox)** → perçage Ø 4.0 mm H7 traversant toute la douille alu (40.0 mm) et le bouchon alu interne (s'aligne à fleur Ø 40 mm) |
 | **Tirants M5 axiaux (×2 par épaule)** | **Vis CHC M5 × 60 mm (ISO 4762 / DIN 912 classe 8.8 ou 10.9 zingué)** — Longueur optimale validée pour empilement 49.0 mm à 51.0 mm (saillie bague nylon = +2.4 mm) |
 | **Rondelles tirants (×4 par épaule)** | **ISO 7089 / DIN 125A (M5)** → Ø int. 5.3 mm / Ø ext. 10.0 mm, épaisseur 1.0 mm (2 sous tête vis CHC, 2 sous écrou Nylstop) |
 | **Écrous frein tirants (×2 par épaule)** | **ISO 7040 / DIN 985 — M5 (Nylstop)** → écrou hexagonal autofreiné avec bague nylon, hauteur 5.0 mm |
@@ -1015,7 +1015,7 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 >    - **Rondelles M5 Tirants (DIN 125A / ISO 7089)** : `M5 Flat Washer` $\rightarrow$ *Metric* $\rightarrow$ *For M5 Screw Size* (Ø int 5.3 mm, Ø ext 10.0 mm).
 >    - **Écrous Nylstop M4 Pincement (DIN 985 / ISO 7040)** : `M4 Nylon-Insert Locknut` $\rightarrow$ *Metric* $\rightarrow$ *M4 Thread*.
 >    - **Écrous Nylstop M5 Tirants (DIN 985 / ISO 7040)** : `M5 Nylon-Insert Locknut` $\rightarrow$ *Metric* $\rightarrow$ *M5 Thread*.
->    - **Goupille Élastique Mécanindus Ø 4.0 mm × 35 mm (ISO 8752 / DIN 1481)** : `4mm Slotted Spring Pin 35mm` $\rightarrow$ *Pins* $\rightarrow$ *Spring Pins* $\rightarrow$ *Slotted Pins* $\rightarrow$ *Metric* $\rightarrow$ *4 mm Diameter* $\rightarrow$ *35 mm Length* (Réf McMaster `98380A423` Inox ou `92383A209` Acier Ressort).
+>    - **Goupille Élastique Mécanindus Ø 4.0 mm × 40 mm (ISO 8752 / DIN 1481)** : `4mm Slotted Spring Pin 40mm` $\rightarrow$ *Pins* $\rightarrow$ *Spring Pins* $\rightarrow$ *Slotted Pins* $\rightarrow$ *Metric* $\rightarrow$ *4 mm Diameter* $\rightarrow$ *40 mm Length* (Réf McMaster `98380A425` Inox ou `92383A211` Acier Ressort).
 > 3. **Importer dans la scène 3D** :
 >    - Dérouler la section *Product Detail* du composant sélectionné.
 >    - Sélectionner le format **3D STEP** dans le menu déroulant et cliquer sur **Download**.
