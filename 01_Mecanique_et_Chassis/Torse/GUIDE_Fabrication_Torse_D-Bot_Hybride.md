@@ -998,17 +998,26 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 > - **Vis de Pincement Radial (CHC M4 × 30 mm)** : Épaisseur traversée sur méplats 10.0 mm (25.0 mm) + Rondelle sous tête DIN 125A M4 (0.8 mm) + Rondelle sous écrou DIN 125A M4 (0.8 mm) + Écrou Nylstop M4 DIN 985 (4.0 mm) + Saillie 2 filets (1.4 mm) = **32.0 mm**. La vis **ISO 4762 CHC M4 × 30 mm** (ou M4 × 35 mm si méplats usinés à 28.0 mm) garantit la prise parfaite dans la bague nylon.
 > - **Vis Tirant M5 (CHC M5 × 60 mm)** : Plaque AV 7075 (5.0 mm) + Corps RS-04 (39.0 mm à 41.0 mm) + Plaque AR 7075 (5.0 mm) = **49.0 mm à 51.0 mm**. Accessoires (2× rondelles 1.0 mm + écrou Nylstop M5 5.0 mm + saillie 1.6 mm) = **7.6 mm**. Longueur totale = $49.0 + 7.6 = \mathbf{56.6\text{ mm}}$ (vis **ISO 4762 CHC M5 × 60 mm** exacte).
 
+> [!CAUTION]
+> **RÈGLE CRITIQUE CAO : FENTE DE PINCEMENT DU TUBE (Split Gap = 1.0 mm)** :
+> Ne **JAMAIS** dessiner une fente de pincement de $0.1\text{ mm}$ ($100\,\mu\text{m}$) dans Fusion 360 ! 
+> Lors du serrage des vis M4 à 3.0 N.m, une fente de 0.1 mm provoque une **butée franche prématurée alu contre alu**, ce qui absorbe 100% de la force de serrage et **annule toute pression radiale sur le tube carbone** (risque de glissement du bras).
+> La fente de pincement doit impérativement avoir une ouverture de **1.0 mm net (±0.1 mm)** sur toute la portée de 35.0 mm.
+
 > [!TIP]
 > **Tutoriel : Importation directe des pièces 3D ISO/DIN dans Fusion 360 (Outil Intégré McMaster-Carr)** :
 > 1. **Accéder à l'outil** : Dans le ruban de conception de Fusion 360, aller dans **Insert** $\rightarrow$ **Insert McMaster-Carr Component**.
-> 2. **Rechercher les composants tirants M5** :
->    - **Vis CHC M5 × 60 mm (ISO 4762 / DIN 912)** : Rechercher `M5 x 60 Socket Head Screw` $\rightarrow$ Sélectionner *Metric* $\rightarrow$ *M5 Thread* $\rightarrow$ *60 mm Length*.
->    - **Rondelles M5 (DIN 125A / ISO 7089)** : Rechercher `M5 Flat Washer` $\rightarrow$ Sélectionner *Metric* $\rightarrow$ *For M5 Screw Size* (Ø int 5.3 mm, Ø ext 10.0 mm).
->    - **Écrous Nylstop M5 (DIN 985 / ISO 7040)** : Rechercher `M5 Nylon-Insert Locknut` $\rightarrow$ Sélectionner *Metric* $\rightarrow$ *M5 Thread*.
+> 2. **Rechercher les composants M4 et M5** :
+>    - **Vis CHC M4 × 30 mm Pincement (ISO 4762 / DIN 912)** : `M4 x 30 Socket Head Screw` $\rightarrow$ *Metric* $\rightarrow$ *M4 Thread* $\rightarrow$ *30 mm Length*.
+>    - **Vis CHC M5 × 60 mm Tirants (ISO 4762 / DIN 912)** : `M5 x 60 Socket Head Screw` $\rightarrow$ *Metric* $\rightarrow$ *M5 Thread* $\rightarrow$ *60 mm Length*.
+>    - **Rondelles M4 Pincement (DIN 125A / ISO 7089)** : `M4 Flat Washer` $\rightarrow$ *Metric* $\rightarrow$ *For M4 Screw Size* (Ø int 4.3 mm, Ø ext 9.0 mm).
+>    - **Rondelles M5 Tirants (DIN 125A / ISO 7089)** : `M5 Flat Washer` $\rightarrow$ *Metric* $\rightarrow$ *For M5 Screw Size* (Ø int 5.3 mm, Ø ext 10.0 mm).
+>    - **Écrous Nylstop M4 Pincement (DIN 985 / ISO 7040)** : `M4 Nylon-Insert Locknut` $\rightarrow$ *Metric* $\rightarrow$ *M4 Thread*.
+>    - **Écrous Nylstop M5 Tirants (DIN 985 / ISO 7040)** : `M5 Nylon-Insert Locknut` $\rightarrow$ *Metric* $\rightarrow$ *M5 Thread*.
 > 3. **Importer dans la scène 3D** :
 >    - Dérouler la section *Product Detail* du composant sélectionné.
 >    - Sélectionner le format **3D STEP** dans le menu déroulant et cliquer sur **Download**.
->    - La pièce 3D exacte s'insère automatiquement comme composant dans votre modèle. Il suffit ensuite d'appliquer un **Joint** (`J`) coaxial sur le trou Ø 5.5 mm.
+>    - La pièce 3D exacte s'insère automatiquement comme composant dans votre modèle. Il suffit ensuite d'appliquer un **Joint** (`J`) coaxial sur les perçages.
 
 ### B. Performance Roll
 
