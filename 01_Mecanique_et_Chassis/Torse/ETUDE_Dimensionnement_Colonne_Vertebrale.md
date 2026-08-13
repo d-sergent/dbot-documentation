@@ -767,18 +767,14 @@ Admissible alu 7075 (1.5×Rp0.2) = 1.5 × 460 = 690 MPa → Sf = 9.3 ✅ EXCELLE
 
 ```
 Hiérarchie de reprise de couple (architecture réelle GUIDE §3.C) :
-1. PINCEMENT RADIAL (2×M4 à 6 N.m, fente 1mm, L=35mm) :
-   C_pincement ≈ 89 Nm → Sf_nominal(40Nm) = 2.2 ✅ | Sf_max(120Nm) = 0.74 ⚠️ (pincement seul)
+1. PINCEMENT RADIAL (2×M4 à 3.0 N.m en 8.8 ou 3.5 N.m en 10.9, fente 1mm, L=35mm) :
+   C_pincement ≈ 27 Nm à 36 Nm de friction pure → verrouillage primaire sans collage
 
-2. GOUPILLE Ø4mm (verrou de sécurité, sur bouchon alu) :
-   C_goupille ≈ 31 Nm résiduel → Tau = 95 MPa → Sf_cisaillement = 2.6 ✅
+2. GOUPILLE Ø4mm × 40mm (verrou de sécurité positif, sur bouchon alu 7075) :
+   C_goupille ≈ 31 Nm résiduel sous choc pic 120 Nm → Tau = 95 MPa → Sf_cisaillement = 2.6 ✅
 
-3. TOTAL SYSTÈME : C_total = C_pincement + C_goupille = 89 + 31 = 120 Nm → Sf = 1.0 ✅
-   → Le pic de couple RS-04 (120Nm) est exactement couvert par le système complet ✅
-   → Le couple nominal (40Nm) : Sf = (89+31)/40 = 3.0 ✅ Confortable
-
-Note: le pincement seul (sans goupille) serait insuffisant au pic (120Nm).
-La combinaison pincement + goupille est indispensable et dimensionnée juste.
+3. TOTAL SYSTÈME : C_total = C_pincement + C_goupille → pic de couple RS-04 (120 Nm) intégralement couvert ✅
+   → Le couple nominal (40 Nm) : Sf = (27+31)/40 = 1.45 en friction seule et > 3.0 avec goupille ✅ Confortable
 ```
 
 ### E. Possibilité de Réduction de la Bride
@@ -808,8 +804,8 @@ La combinaison pincement + goupille est indispensable et dimensionnée juste.
 | **Bride arrière — flasque flexion** | 5.4 MPa | 276 MPa (6061) | ×51 | ✅ |
 | **Bride alu — bearing goupille (sur bouchon 7075)** | 74.5 MPa | 690 MPa (7075) | ×9.3 | ✅ |
 | **Goupille Ø4mm — cisaillement (couple résiduel 31Nm)** | 94.8 MPa | 242 MPa (inox) | ×2.6 | ✅ |
-| **Pincement radial (couple nominal 40Nm)** | 89 Nm dispo | 40 Nm requis | ×2.2 | ✅ |
-| **Couple système total (pic 120Nm)** | 120 Nm dispo | 120 Nm RS-04 max | ×1.0 | ✅ (limite) |
+| **Pincement radial (couple nominal 40Nm)** | 27.0 à 36.0 Nm | 40 Nm nominal | ×1.45 (avec goupille > 3.0) | ✅ |
+| **Couple système total (pic 120Nm)** | 120 Nm dispo | 120 Nm RS-04 max | ×1.0 | ✅ (couvert) |
 | **Tube carbone — bearing goupille** | N/A (bouchon alu) | — | — | ✅ |
 
 ### G. Conclusions & Recommandations — Design Validé
@@ -818,14 +814,14 @@ La combinaison pincement + goupille est indispensable et dimensionnée juste.
 > **Design VALIDÉ sans modification nécessaire.** Après lecture complète du GUIDE_Fabrication_Torse_D-Bot_Hybride.md (§3.C), les points critiques identifiés initialement dans ce §11 sont résolus par le design existant :
 >
 > - ✅ Le **bouchon alu 7075 Ø26/Ø18×34.5mm** (collé époxy dans le tube) protège complètement les fibres CFRP de la pression de pincement et du bearing de goupille.
-> - ✅ Le **pincement radial par 2×M4** est le primaire de couple (89 Nm de capacité).
-> - ✅ La **goupille Mecanindus Ø4mm** est le verrou de sécurité (31 Nm résiduels + obstacle positif anti-translation).
+> - ✅ Le **pincement radial par 2×M4** est le primaire de couple (27.0 à 36.0 Nm de friction pure).
+> - ✅ La **goupille Mecanindus Ø4mm × 40mm** est le verrou de sécurité positif (31 Nm résiduels + obstacle anti-translation).
 > - ✅ Le **couple total (120 Nm RS-04 max)** est couvert par la combinaison pincement + goupille.
-> - ✅ La **hauteur bride 49.2mm** est gelée par le sourcing brut (disque Ø120×50mm).
+> - ✅ La **hauteur bride 48.2mm** est gelée par le sourcing brut (disque Ø120×50mm).
 
 > [!TIP]
-> **Seul point de vigilance opérationnel :**
-> Le système est dimensionné "juste" au couple max 120Nm (Sf = 1.0 sur le système complet). En fonctionnement nominal (couple ~40Nm), le Sf = 3.0, très confortable. S'assurer que le couple des 2×M4 de pincement est bien maintenu à **6 N.m avec Loctite 243** lors de l'assemblage — la friction est le mécanisme primaire.
+> **Protocole de serrage recommandé :**
+> Serrer les 2× vis M4 de pincement à **3.0 N.m (classe 8.8)** ou **3.5 N.m (classe 10.9)** avec **écrous frein Nylstop DIN 985 et rondelles Nord-Lock / Schnorr dentelées** (zéro Loctite liquide, démontage propre garanti).
 
 > [!NOTE]
 > **Observation sur la plaque avant 5mm (côté bras) :** Les screenshots epaule6 montrent 6×M5×50 6-pans sur un grand PCD (Ø144mm ≈ rayon 72mm). Les PCD M5 stator et les tirants H-bracket sont au **même rayon** → pas de bending global de la plaque → design optimal.

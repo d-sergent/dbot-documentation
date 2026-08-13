@@ -19,7 +19,7 @@ Le torse du D-Bot est basé sur la coque organique de l'Asimov v1 (mise à l'éc
 | **Rôle de la coque** | Primaire (porte tous les efforts) | **Secondaire** (protection, forme, transmission locale) |
 | **Colonne vertébrale** | 2 lattes alu latérales (irréalisable) | **1 plaque sagittale à lumières 2D** (dos→ventre, toute la hauteur) |
 | **Traverse épaules** | Aucune | **Tube carbone Ø30mm** reliant les 2 brides de liaison d'épaule |
-| **Flasques épaules** | Disques plats alu 5mm | **Carter monobloc CNC alu 6082-T6** (Plan 2D *Support RS-04* : Ø~126mm, alésage Ø120.2mm H7, paroi 3.0mm, fond 4mm évidé Ø97mm, insertion par l'extérieur) |
+| **Flasques épaules** | Disques plats alu 5mm | **Cages H-Bracket Alu 7075-T6 (2 plaques 5mm évidées Ø95mm + bride 48.2mm + tirants M5 à 23.4° R=72mm)** — Remplace l'ancien carter acier E470 |
 | **Batterie** | 1 panier coulissant central | **2 paniers latéraux** (G + D) avec hot-swap |
 | **Orientation impression** | Dos au plateau (horizontal) | **Verticale** (debout sur le plan de coupe) |
 
@@ -35,7 +35,7 @@ Le torse du D-Bot est basé sur la coque organique de l'Asimov v1 (mise à l'éc
 | Sollicitation | Ancien (lattes) | Nouveau (cruciforme) | Gain | Note |
 |:---|:---:|:---:|:---:|:---|
 | **Flexion Pitch** (avant/arrière) | I ≈ 773 000 mm⁴ | I ≈ 600 000 mm⁴ (plaque nette + brides) | **~×0.8** | Masse ÷3 à rigidité comparable |
-| **Flexion Roll** (latérale) | Bon | **Faible sans tirants** — **Bon avec 2 tirants M5 à ±60 mm** | ×1 → **×7** | Tirants M5 ±60 mm recommandés (60g) |
+| **Flexion Roll** (latérale) | Bon | **Faible sans renfort** — **Excellent avec Cages H-Bracket (tirants M5 R=72mm / 23.4°)** | ×1 → **×15.5** | Flèche cou < 0.1 mm, libère les paniers batteries |
 | **Torsion Yaw** | Très faible | Bon (boîte de torsion fermée + nervures ±45°) | **×5-8** | — |
 | **Compression axiale** | Bon | Excellent | ×2 | — |
 
@@ -124,7 +124,7 @@ Le torse du D-Bot est basé sur la coque organique de l'Asimov v1 (mise à l'éc
 Cette architecture offre 4 bénéfices d'ingénierie majeurs :
 
 1. **Plaques de colonne 100% continues** :
-   - Aucun trou dans les tôles de 5 mm — la plaque isogrid reste intacte à l'endroit de l'effort maximal (h = 290 mm, M = 131 Nm dynamique).
+   - Aucun trou dans les tôles de 5 mm — la plaque de colonne reste intacte à l'endroit de l'effort maximal (h = 290 mm, M = 131 Nm dynamique).
    - Le tube carbone passe dans le **joint naturel** entre les deux demi-plaques, sans découpe.
 2. **Distribution d'effort sur toute la largeur des plaques (120 mm)** :
    - Les ailes en L des brides portent sur toute la largeur des plaques (120 mm dos → ventre).
@@ -233,8 +233,8 @@ Cette section couvre les opérations de perçage des goupilles sur l'ensemble du
 | Goupille | Position | Direction | Diamètre | Profondeur | Outillage C500 |
 |:---|:---|:---:|:---:|:---:|:---|
 | **Nœud central** | Brides demi-coquilles (centre torse) | **Axe Z (Vertical)** | Ø4 mm H7 | **60 mm** | **C500 — 3 axes direct (broche Z)** |
-| **Ancrage épaule gauche** | Carter alu + tube extrémité gauche | Axe Z (Vertical) | Ø3 mm H7 | 30 mm | C500 — 3 axes direct |
-| **Ancrage épaule droit** | Carter alu + tube extrémité droit | Axe Z (Vertical) | Ø3 mm H7 | 30 mm | C500 — 3 axes direct |
+| **Ancrage épaule gauche** | Bride alu 7075 + tube extrémité gauche | Axe Z (Vertical) | Ø4 mm H7 | **40 mm** | C500 — 3 axes direct |
+| **Ancrage épaule droit** | Bride alu 7075 + tube extrémité droit | Axe Z (Vertical) | Ø4 mm H7 | **40 mm** | C500 — 3 axes direct |
 
 ---
 
@@ -287,9 +287,9 @@ PERÇAGE CNC (programme CAM 3 axes) :
 |:---|:---:|:---|:---:|:---:|
 | Usinage brides (alésage, trous, ailes L) | ✅ Oui | 3 axes standard | 30 mm | Critique |
 | **Perçage goupille nœud Ø4mm H7 (axe Z)** | ✅ **Oui** | **3 axes direct (broche Z)** | **60 mm** | **Critique** |
-| Usinage carters épaule acier E470 | ✅ Oui | 3 axes standard | 43 mm | Critique |
-| Perçage goupilles épaule Ø3mm H7 (axe Z) | ✅ Oui | 3 axes direct | 30 mm | Important |
-| Vissage M4 stator RS-04 | ✅ Simplifié | Trous lisses Ø 3,3 mm + vis CHC M4 | — | Simplifié |
+| Usinage carters épaule acier E470 (secours) / Brides 7075-T6 | ✅ Oui | 3 axes standard | 43 mm | Critique |
+| Perçage goupilles épaule Ø4mm H7 (axe Z) | ✅ Oui | 3 axes direct | 40 mm | Important |
+| Vissage M4 stator RS-04 | ✅ Simplifié | Trous lisses **Ø 4,3 mm (ISO 273 Moyen)** + vis CHC M4 | — | Simplifié |
 
 > [!IMPORTANT]
 > **Conclusion : TOUTES les opérations de perçage du torse sont réalisables en 3 axes direct sur la NestWorks C500**, avec une grande simplicité et sans outillage rotatif 4ème axe.
@@ -313,7 +313,7 @@ Pour maximiser la rigidité, la dissipation thermique et la précision géométr
 
 ![Coupe longitudinale A-A du détail interne de l'ancrage carbone dans le carter acier E470](./media/bride_tube_carbone_coupe.svg)
 
-*Coupe longitudinale A-A révisée : le tube carbone (Ø 30 × 26 mm) est renforcé par le **bouchon alu interne anti-écrasement** (Ø 26,0 mm ext, Ø 18,0 mm int, 35 mm de long) collé à l'époxy structurale. L'ensemble s'insère sur **35 mm de longueur de portée** dans le socket du carter monobloc Acier E470 CNC. Il est pincé par la bride fendue (2× vis M4) et verrouillé par la **goupille élastique inox universelle Ø 4,0 mm × 35 mm** (rouge) traversant perpendiculairement l'axe Z.*
+*Coupe longitudinale A-A révisée : le tube carbone (Ø 30 × 26 mm) est renforcé par le **bouchon alu interne anti-écrasement** (Ø 26,0 mm ext, Ø 18,0 mm int, 34.5 mm de long) collé à l'époxy structurale. L'ensemble s'insère sur **35 mm de longueur de portée** dans le socket de la bride Alu 7075-T651 CNC. Il est pincé par la bride fendue (2× vis M4) et verrouillé par la **goupille élastique inox universelle Ø 4,0 mm × 40 mm (ISO 8752)** (rouge) traversant perpendiculairement l'axe Z.*
 
 #### Orientations des éléments (référentiel)
 
@@ -323,17 +323,17 @@ Pour maximiser la rigidité, la dissipation thermique et la précision géométr
 > | Élément | Orientation | Direction |
 > |:---|:---|:---|
 > | **Axe du tube carbone** | Horizontal (X) | L'axe principal de la traverse |
-> | **Goupille élastique Ø 4,0 mm** | **Perpendiculaire au tube** (Z, Verticale) | Traverse de haut en bas : paroi bride → paroi tube → bouchon alu → paroi tube → paroi bride |
-> | **Fente de serrage (Clamp Socket)** | **Axiale** — le long du tube (X) | Fente de 0,8 à 1,0 mm sur la longueur de 35 mm de la bride |
-> | **Vis M4 de pincement (×2)** | **Enjambent la fente** perpendiculairement | Compriment les 2 moitiés de la bride pour resserrer la fente à 6 N.m |
+> | **Goupille élastique Ø 4,0 mm** | **Perpendiculaire au tube** (Z, Verticale) | Traverse de haut en bas : paroi bride (5mm) → paroi tube (2mm) → bouchon alu → paroi tube (2mm) → paroi bride (5mm) — Longueur 40 mm à fleur |
+> | **Fente de serrage (Clamp Socket)** | **Axiale** — le long du tube (X) | Fente de 1,0 mm net (±0.1 mm) sur la longueur de 35 mm de la bride |
+> | **Vis M4 de pincement (×2)** | **Enjambent la fente** perpendiculairement | Compriment les 2 moitiés de la bride pour resserrer la fente à 3.0 N.m (classe 8.8) |
 
 #### Conception V1 de la Bride d'Épaule (Pincement + Goupille Ø 4,0 mm)
 
 > [!TIP]
 > **Double sécurité retenue en V1 (Pincement + Obstacle Positif)** :
-> 1. **Pincement Radial (35 mm de portée)** : 2× vis CHC M4 compriment la fente axiale (0,8 à 1,0 mm). La pression de contact (~12 MPa) sur 35 mm développe plus de 10 000 N de friction, éliminant tout micro-jeu angulaire et amortissant les vibrations.
-> 2. **Protection Composite (Bouchon Anti-Écrasement)** : Le bouchon alu creux Ø 26,0 mm ext / Ø 18,0 mm int (longueur 35 mm) absorbe la pression radiale des vis sans déformer les fibres carbone.
-> 3. **Verrouillage par Obstacle (Goupille Ø 4,0 mm)** : La goupille Mécanindus Inox Ø 4,0 mm traversante verrouille définitivement la translation et la rotation en cas de choc extrême.
+> 1. **Pincement Radial (35 mm de portée)** : 2× vis CHC M4 × 18 mm / M4 × 20 mm compriment la fente axiale (1,0 mm). La pression de contact (~7.3 MPa) sur 35 mm développe plus de 7 600 N de force radiale (27.0 N.m de friction pure), éliminant tout micro-jeu angulaire et amortissant les vibrations.
+> 2. **Protection Composite (Bouchon Anti-Écrasement)** : Le bouchon alu creux Ø 26,0 mm ext / Ø 18,0 mm int (longueur 34.5 mm) absorbe la pression radiale des vis sans déformer les fibres carbone.
+> 3. **Verrouillage par Obstacle (Goupille Ø 4,0 mm × 40 mm)** : La goupille Mécanindus Inox Ø 4,0 mm × 40 mm traversante verrouille définitivement la translation et la rotation en cas de choc extrême (31 N.m résiduels).
 
 #### Synthèse d'Ingénierie & Dimensionnement CAO (Aluminium 7075-T6)
 
@@ -354,8 +354,8 @@ Pour maximiser la rigidité, la dissipation thermique et la précision géométr
 | **Bouchon interne alu** | **Ø 26,0 ext / Ø 18,0 int** | h6 (-0,013/0) | Longueur **34,5 mm** (jeu d'isostatisme axial de **0,5 mm** au fond), **Alu 7075-T651**, collé époxy (âme anti-écrasement & iso-rigidité $E = 71\text{ GPa}$) |
 | **Butée axiale de fond** | **Flasque 5,0 mm monobloc** | ±0,1 mm | **Appui direct du tube carbone (35,0 mm) sur la face avant de la flasque Alu 7075-T6 (5,0 mm)** — Aucun rebord supplémentaire de 3 mm requis, la flasque forme la butée naturelle indéformable |
 | **Fente axiale de pincement** | **1,0 mm** | ±0,1 mm | Fente radiale sur toute la longueur (35,0 mm) au sommet (axe Z) |
-| **Visserie de pincement** | **2× Vis CHC M4 × 25 mm + Écrous Nylstop** | — | Vis traversantes (Ø 4,3 mm) + écrous frein sur **méplats d'appui parallèles de 10,0 mm** (vis #1 à **8,0 mm** du bord, vis #2 à **25,0 mm** du bord, entraxe **17,0 mm**) |
-| **Perçage goupille universelle** | **Ø 4,0 mm traversant** | H7 (+0,012/0) | **Chanfrein d'entrée 0,5 mm × 45° obligatoire** — Axe vertical Z, positionné à **16,0 mm** du bord (entre les vis M4) |
+| **Visserie de pincement** | **2× Vis CHC M4 × 18 mm ou M4 × 20 mm + Écrous Nylstop M4** | — | Vis traversantes (Ø 4,3 mm ISO 273 Moyen) + écrous frein sur **méplats d'appui parallèles de 10,0 mm** (vis #1 à **8,0 mm** du bord, vis #2 à **25,0 mm** du bord, entraxe **17,0 mm**) |
+| **Perçage goupille universelle** | **Ø 4,0 mm traversant** | H7 (+0,012/0) | **Chanfrein d'entrée 0,5 mm × 45° obligatoire** — Axe vertical Z, positionné à **16,0 mm** du bord (entre les vis M4), goupille ISO 8752 Inox Ø 4.0 mm × 40 mm |
 
 #### D. Directive d'Approvisionnement Matière Première (Blockenstock)
 
@@ -476,7 +476,7 @@ Le carter monobloc d'épaule est un **cylindre en acier E470 ouvert à l'avant a
 
 ![Plan de Définition 2D — Support RS-04 en Acier E470 par David SERGENT](./media/plan_2d_support_rs04_acier_e470.png)
 
-*Plan de Définition 2D officiel du Support RS-04 en Acier E470 (par David SERGENT — 03/08/2026) : Ø ext 124,0 mm, alésage Ø 120,2 mm H7, paroi 1,9 mm, fond 4,0 mm évidé à Ø 97,0 mm, 10× perçages Ø 3,3 mm sur PCD Ø 106,0 mm.*
+*Plan de Définition 2D officiel du Support RS-04 en Acier E470 (par David SERGENT — 03/08/2026 — Alternative de secours) : Ø ext 124,0 mm, alésage Ø 120,2 mm H7, paroi 1,9 mm, fond 4,0 mm évidé à Ø 97,0 mm, 10× perçages lisses Ø 4,3 mm sur PCD Ø 106,0 mm.*
 
 #### 2. Schéma Vectoriel d'Assemblage en Coupe Axiale
 
@@ -490,7 +490,7 @@ Le carter monobloc d'épaule est un **cylindre en acier E470 ouvert à l'avant a
 #### 3. Spécifications du Plan CAO Officiel `Support RS-04` (David SERGENT — Révision 04/08/2026)
 
 > [!NOTE]
-> **Cotes officielles du Plan de Définition CAO (`Support RS-04`)** :
+> **Cotes officielles du Plan de Définition CAO (`Support RS-04` — Alternative Acier de Secours)** :
 > - **Matériau** : **Acier E470** (ébauche creuse Blockenstock d131 / d88)
 > - **Diamètre extérieur final ($D_{\text{ext}}$)** : **Ø 124,0 mm**
 > - **Diamètre intérieur alésage ($D_{\text{int}}$)** : **Ø 120,2 mm H7** ($120,2 + 2 \times 1,9 = 124,0\text{ mm}$)
@@ -498,11 +498,11 @@ Le carter monobloc d'épaule est un **cylindre en acier E470 ouvert à l'avant a
 > - **Hauteur axiale totale ($H$)** : **39,0 mm** (Profondeur utiles de la poche alésée = **35,0 mm**)
 > - **Épaisseur du fond (flasque d'embase)** : **4,0 mm**
 > - **Évidement central arrière** : **Ø 97,0 mm** (ouverture pour connectique et allégement de masse)
-> - **PCD Perçages Stator Arrière** : **10× perçages Ø 3,3 mm** sur cercle de **Ø 106,0 mm**
+> - **PCD Perçages Stator Arrière** : **10× perçages lisses Ø 4,3 mm (ISO 273 Moyen)** sur cercle de **Ø 106,0 mm**
 
 > [!TIP]
 > **🛒 Directive d'Approvisionnement Matière Première (Blockenstock)** :
-> - **Composant à commander** : **2 pièces de 4 cm (40 mm)** d'épaisseur de [Ébauche creuse d131 / d88 au cm - Acier E470 sur Blockenstock](https://www.blockenstock.fr/d131-d88-au-cm-acier-e470-c2x42431541).
+> - **Composant à commander** : **2 pièces de 4 cm (40 mm)** d'épaisseur de [Ébauche creuse d131 / d88 au cm - Acier E470 sur Blockenstock](https://www.blockenstock.fr/d131-d88-au-cm-acier-e470-c2x42431541) *(Uniquement si la variante acier est retenue en secours — la solution active standard V1 étant la cage H-Bracket Alu 7075-T6 du §10bis)*.
 > - **Justification d'usinage C500** : Les tronçons bruts de **40 mm** laissent une surépaisseur idéale de **1,0 mm** pour le surfaçage de la face avant, garantissant l'obtention de la hauteur finale de **39,0 mm** avec une tolérance parfaite sur la CNC C500.
 
 ---
@@ -521,14 +521,14 @@ Une étude approfondie d'ingénierie mécanique compare l'option historique Alum
 | **Épaisseur du Fond (Flasque)** | 6,0 mm | **4,0 mm** (Évidement Ø 97 mm) | **+53% plus rigide en flexion hors-plan** |
 | **Rigidité Flexion Paroi Cylindrique** | 1,0 (Référence) | **1,93 (+93% PLUS RIGIDE !)** | **Quasi doublement de la rigidité en flexion** |
 | **Masse Totale du Support** | ~220 g (alu plein) | **~344 g** (avec évidement Ø97) | Robustesse extrême pour +124 g par épaule |
-| **Perçages Stator Arrière** | 10× Ø 4,5 mm | **10× Ø 3,3 mm sur PCD Ø 106 mm** | Ancrage direct sur le stator RS-04 |
+| **Perçages Stator Arrière** | 10× Ø 4,5 mm | **10× Ø 4,3 mm sur PCD Ø 106 mm** | Ancrage direct sur le stator RS-04 |
 | **Usinabilité C500** | Évidement depuis bloc plein | **Ébauche creuse d131/d88** | **Usinage 4× plus rapide** (déjà creusé à Ø 88 mm !) |
 
 ---
 
 #### 5. Spécifications Techniques Retenues (Plan Officiel `Support RS-04`)
 
-| Paramètre | Valeur (Acier E470 — Retenue) | Valeur (Alu 6061-T6 — Secours) |
+| Paramètre | Valeur (Acier E470 — Secours) | Valeur (Alu 6061-T6 — Historique) |
 |:---|:---|:---|
 | **Matériau** | **Acier E470** (ébauche creuse Blockenstock d131/d88) | Aluminium 6061-T6 (barre pleine Ø 130 mm) |
 | **Forme** | Carter cylindrique ouvert à l'avant, fond 4 mm avec évidement Ø97 mm | Idem |
@@ -536,7 +536,7 @@ Une étude approfondie d'ingénierie mécanique compare l'option historique Alum
 | **Épaisseur paroi cylindrique** | **1,9 mm** (Ø ext carter final = **124,0 mm**) | 3,0 mm (Ø ext carter final = 126,0 mm) |
 | **Hauteur totale / Poche** | **39,0 mm total** (poche intérieure de 35,0 mm) | 52,2 mm total |
 | **Épaisseur du fond (flasque)** | **4,0 mm** (évidement central Ø 97,0 mm) | 6,0 mm |
-| **Perçages arrière** | **10× perçages Ø 3,3 mm** sur PCD Ø 106,0 mm | 10× Ø 4,5 mm |
+| **Perçages arrière** | **10× perçages lisses Ø 4,3 mm (ISO 273 Moyen)** sur PCD Ø 106,0 mm | 10× Ø 4,5 mm |
 | **Masse unitaire carter** | **~344 g** | ~220 g |
 
 ---
@@ -555,7 +555,7 @@ Une étude approfondie d'ingénierie mécanique compare l'option historique Alum
 > 4. **Ordre d'usinage anti-broutement** :
 >    - Surfaçage de la face avant pour passer de 40,0 mm brut à **39,0 mm net**.
 >    - Évidement intérieur de Ø 88,0 mm à **Ø 120,2 mm H7** sur 35,0 mm de profondeur en conservant la masse extérieure brute de Ø 131,0 mm.
->    - Évidement central arrière à **Ø 97,0 mm** et perçage des **10× trous Ø 3,3 mm sur PCD Ø 106 mm**.
+>    - Évidement central arrière à **Ø 97,0 mm** et perçage des **10× trous lisses Ø 4,3 mm sur PCD Ø 106 mm**.
 >    - Contournage extérieur final à **Ø 124,0 mm** en toute dernière passe.
 
 ---
@@ -578,14 +578,14 @@ Le collet PA12-CF est directement intégré à la coque du torse (imprimé d'un 
 > [!IMPORTANT]
 > **Chemin des vis M4 (Configuration Acier E470 4.0 mm)** :
 > 
-> `Intérieur du torse → tête CHC M4 avec rondelle inox → trou lisse Ø4,5 mm de la Flasque Acier E470 (4,0 mm) → DIRECTEMENT dans 10× taraudages borgnes M4 du stator RS-04 (6,0 mm d'implant)`
+> `Intérieur du torse → tête CHC M4 avec rondelle inox → trou lisse Ø4,3 mm de la Flasque Acier E470 (4,0 mm) → DIRECTEMENT dans 10× taraudages borgnes M4 du stator RS-04 (6,0 mm d'implant)`
 > 
 > **Le vissage est 100% métal-métal.** Les têtes de vis CHC M4 × 10 mm s'appuient sur la flasque rigide en acier E470 (4,0 mm d'épaisseur). Le serrage plaque énergiquement la face arrière du stator contre la flasque en acier avec une rigidité 53% supérieure à l'aluminium.
 
 > [!NOTE]
 > **Chemin des câbles** :
 > 
-> `Connecteurs stator (face arrière) → encoche de la flasque alu → intérieur du torse → routage le long de la plaque isogrid → PDB Matek + bus CAN`
+> `Connecteurs stator (face arrière) → encoche de la flasque alu → intérieur du torse → routage le long de la plaque sagittale à lumières 2D → PDB Matek + bus CAN`
 
 ### E. Séquence d'Assemblage
 
@@ -594,15 +594,15 @@ Le collet PA12-CF est directement intégré à la coque du torse (imprimé d'un 
           → Laisser polymériser 24h
 
 Étape 2 : Connecter et goupiller le tube carbone Ø30 mm dans le socket de la bride d'épaule
-          → Insérer la goupille Ø3 mm verticale
+          → Insérer la goupille Ø4 mm verticale (40 mm)
 
 Étape 3 : Insérer le moteur RS-04 par l'AVANT (extérieur de l'épaule)
           → Le moteur glisse dans l'alésage Ø120.2 mm H7 de la paroi 1.9 mm en acier E470
           → La face arrière du stator vient en appui direct contre le fond de 4.0 mm en acier E470
 
 Étape 4 : Serrer les 10 vis CHC M4 × 10 mm depuis l'intérieur du torse
-          → Les vis traversent les perçages Ø3.3 mm de la flasque acier E470 (4.0 mm) et se vissent dans le stator
-          → Appliquer de la Loctite 243 sur chaque vis (implantation 6.0 mm)
+          → Les vis traversent les perçages lisses Ø4.3 mm de la flasque acier E470 (4.0 mm) et se vissent dans le stator
+          → Appliquer de la Loctite 243 sur chaque vis (implantation 4.2 mm)
 ```
 
 ### F. Illustration Technique — Coupe Axiale Révisée (Acier E470)
@@ -816,11 +816,11 @@ La procédure de modélisation du Lap Joint sous Fusion 360 reste identique à c
 - **4 à 6 bossages** (Ø12 mm) répartis le long de la circonférence intérieure
 - *Côté Thorax* : Passage lisse Ø4,2 mm lamé pour tête de vis M4
 - *Côté Abdomen* : Logement Ø5,8 mm × 9 mm pour insert laiton M4 posé à chaud
-- **Éviter** de placer les bossages là où ils interféreraient avec les paniers batterie ou la plaque isogrid
+- **Éviter** de placer les bossages là où ils interféreraient avec les paniers batterie ou la plaque sagittale de colonne
 
 ### C. Jonction avec le Squelette Cruciforme
 
-La plaque isogrid sagittale (en 2 parties) se joint **au même niveau** que le split abdominal :
+La plaque sagittale à lumières 2D (en 2 parties) se joint **au même niveau** que le split abdominal :
 - Les 2 demi-plaques se chevauchent sur 30 mm (éclisse) et se boulonnent par 4 vis M4
 - La vis de l'éclisse traverse le plan de coupe → **renforcement supplémentaire** du joint abdominal
 - Le squelette rigide + le Lap Joint + les bossages = **triple verrouillage** du plan de coupe
@@ -840,9 +840,9 @@ Le panier unique Asimov (`ASV1_100_10C`) est remplacé par **2 paniers latéraux
 | Élément | Description |
 |:---|:---|
 | **Coulisses latérales (existantes)** | Le design Asimov v1 possède déjà des rails de guidage gauche et droite dans la coque PA12-CF → **réutilisés tels quels** (modulo scale +18%) |
-| **Coulisses centrales (ajoutées)** | 2 petites coulisses supplémentaires fixées de chaque côté de la plaque isogrid sagittale (1 par face). Usinées dans un profilé alu en L de 10×10×1,5 mm ou imprimées en PA12-CF et collées sur la plaque |
-| **Bandes PTFE** | Coller des bandes autocollantes PTFE (0,2 mm d'épaisseur) sur les faces de la plaque isogrid au niveau du passage des paniers → glissement silencieux et sans usure |
-| **Jeu latéral** | 1,0 mm entre la paroi du panier et la face de la plaque isogrid de chaque côté |
+| **Coulisses centrales (ajoutées)** | 2 petites coulisses supplémentaires fixées de chaque côté de la plaque sagittale à lumières 2D (1 par face). Usinées dans un profilé alu en L de 10×10×1,5 mm ou imprimées en PA12-CF et collées sur la plaque |
+| **Bandes PTFE** | Coller des bandes autocollantes PTFE (0,2 mm d'épaisseur) sur les faces de la plaque sagittale au niveau du passage des paniers → glissement silencieux et sans usure |
+| **Jeu latéral** | 1,0 mm entre la paroi du panier et la face de la plaque sagittale de chaque côté |
 
 ### C. Verrouillage des Paniers
 
@@ -880,7 +880,7 @@ Le hot-swap permet d'**échanger une batterie sans couper l'alimentation du robo
 | **BMS 12S** | BMS générique 12S 20A | Protection surcharge/décharge/court-circuit | ~15€ | 2 |
 | **Connecteur panier** | **XT60** mâle/femelle | 60A max, détrompé, soudé sur câble 10AWG | ~2€ | 4 (2 paires) |
 | **Fusible PTC** | Resettable 40A | Protection du bus principal | ~5€ | 1 |
-| **Dissipateur thermique** | Radiateur TO-247 alu | Vissé sur la plaque isogrid ou la waist plate | ~2€ | 2 |
+| **Dissipateur thermique** | Radiateur TO-247 alu | Vissé sur la plaque sagittale ou la waist plate | ~2€ | 2 |
 | **LED de statut** | LED bicolore (vert/rouge) | Indicateur visuel de présence batterie + charge | ~1€ | 2 |
 | **TOTAL** | | | **~48€** | |
 
@@ -903,13 +903,13 @@ La diode Schottky MBR4060PT dissipe **P = I × V_forward = 20A × 0.45V = 9W** e
 | **MOSFET Ideal Diode** | **LTC4357** + MOSFET N-CH 60V | **0.020V** | **0.4W** | ~15€ |
 
 > [!TIP]
-> Pour la V1, les **diodes Schottky** suffisent. Le 9W de perte est facilement dissipé par un petit radiateur vissé sur la plaque isogrid (l'aluminium est un excellent conducteur thermique). Passer au MOSFET Ideal Diode en **V2** si l'autonomie devient critique.
+> Pour la V1, les **diodes Schottky** suffisent. Le 9W de perte est facilement dissipé par un petit radiateur vissé sur la plaque sagittale (l'aluminium est un excellent conducteur thermique). Passer au MOSFET Ideal Diode en **V2** si l'autonomie devient critique.
 
 #### E.5 Montage physique
 
-- Les 2 diodes Schottky (ou modules MOSFET) sont montées sur des **radiateurs alu TO-247** vissés directement **sur la plaque isogrid** (face intérieure)
+- Les 2 diodes Schottky (ou modules MOSFET) sont montées sur des **radiateurs alu TO-247** vissés directement **sur la plaque sagittale** (face intérieure)
 - Les connecteurs **XT60** sont fixés à l'arrière de chaque panier batterie → branchement/débranchement en coulissant le panier
-- Les câbles d'alimentation (10 AWG silicone) cheminent le long de la plaque isogrid vers la PDB Matek située dans le torse
+- Les câbles d'alimentation (10 AWG silicone) cheminent le long de la plaque sagittale vers la PDB Matek située dans le torse
 
 ---
 
@@ -922,7 +922,7 @@ La diode Schottky MBR4060PT dissipe **P = I × V_forward = 20A × 0.45V = 9W** e
 | **Matériau** | Aluminium 6061-T6 |
 | **Épaisseur** | 5 mm |
 | **Origine** | BOM Asimov v1 (scale +18%) |
-| **Rôle** | Fondation pour le collet du cou + ancrage haut de la plaque isogrid + ancrage haut du tube carbone (via nœud) |
+| **Rôle** | Fondation pour le collet du cou + ancrage haut de la plaque sagittale 2D + ancrage haut du tube carbone (via nœud) |
 | **Usinage** | CNC C500, perçages M4/M5 pour fixation squelette + collet cou RS-05 |
 
 ### B. Plaque Inférieure (Waist Plate)
@@ -932,7 +932,7 @@ La diode Schottky MBR4060PT dissipe **P = I × V_forward = 20A × 0.45V = 9W** e
 | **Matériau** | Aluminium 6061-T6 |
 | **Épaisseur** | 6 mm |
 | **Origine** | BOM Asimov v1 (scale +18%) |
-| **Rôle** | Fermeture du bas du torse rigide + ancrage bas de la plaque isogrid + interface de liaison avec le roulement de grand diamètre du module Waist Yaw actif |
+| **Rôle** | Fermeture du bas du torse rigide + ancrage bas de la plaque sagittale 2D + interface de liaison avec le roulement de grand diamètre du module Waist Yaw actif |
 | **Usinage** | CNC C500, profil extérieur + alésage central pour axe RS-06 |
 
 ---
@@ -1075,7 +1075,7 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 
 1. ☐ Mettre à l'échelle (+18%) les fichiers originaux du torse et de la taille Asimov v1
 2. ☐ Modéliser la **plaque de colonne vertébrale 2D évidée** (Option B, R = 18 mm) en 2 parties avec jonction au Nœud Central
-3. ☐ Modéliser les **2 cages H-bracket d'épaule** : **Plaques avant 5mm Alu 7075-T6** (disque Ø~150mm + 4 oreilles cylindriques, 6×M5 sur PCD Ø144mm côté bras RS-04) + **Brides arrière monoblocs 48.2mm Alu 7075-T651** (socket tube 35mm, pincement 2×M4, goupille Ø4mm, bouchon alu Ø26/Ø18×34.5mm) reliées par 2 tirants M5 axiaux à 23.4° (R=72mm).
+3. ☐ Modéliser les **2 cages H-bracket d'épaule** : **Plaques 5mm Alu 7075-T6** (2 plaques identiques avant + arrière évidées à Ø95mm, 10× vis M4 sur PCD Ø106mm) + **Brides arrière monoblocs 48.2mm Alu 7075-T651** (flasque 13.2mm, socket tube 35mm, pincement 2×M4, goupille Ø4×40mm, bouchon alu Ø26/Ø18×34.5mm) reliées par 2 tirants M5 axiaux à 23.4° (R=72mm).
 4. ☐ Modéliser le **nœud d'intersection** à demi-coquilles (Bride Sup. + Bride Inf. CNC alu)
 5. ☐ Dessiner les **2 paniers batterie** latéraux + coulisses centrales sur la plaque de colonne
 6. ☐ Réaliser le **split rigide abdominal** avec bandeau de renfort, Lap Joint de 3 mm et tolérances
@@ -1085,13 +1085,13 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 ### Phase 2 — Usinage CNC (C500)
 
 1. ☐ Usiner les 2 demi-plaques de colonne vertébrale (alu 6061-T6, 5 mm — évidements 2D traversants, R = 18 mm)
-2. ☐ Usiner les **2 carters Support RS-04 (H = 39,0 mm, Acier E470)** à partir d'**ébauche creuse d131/d88 Blockenstock** — alésage Ø 120.2 mm H7 sur 35.0 mm, paroi 1.9 mm, Ø ext 124.0 mm, flasque fond 4.0 mm évidée à Ø 97 mm et 10× perçages **Ø 3.3 mm** sur PCD Ø 106 mm (Plan 2D David SERGENT)
+2. ☐ *(Optionnel / Secours)* Usiner les **2 carters Support RS-04 (H = 39,0 mm, Acier E470)** si la variante acier de secours est requise — alésage Ø 120.2 mm H7 sur 35.0 mm, paroi 1.9 mm, Ø ext 124.0 mm, flasque fond 4.0 mm évidée à Ø 97 mm et 10× perçages lisses Ø 4,3 mm sur PCD Ø 106 mm (Plan 2D David SERGENT)
 3. ☐ Usiner les **2 brides d'épaule arrière monoblocs (H = 48.2 mm)** dans des disques bruts **Ø 120 × 50 mm Alu 7075-T651** (Blockenstock) — alésage Ø 30.05 mm H7 sur 35.0 mm, flasque 13.2 mm, fente pincement 1.0 mm avec 2× M4 traversantes et trou goupille Ø 4.0 mm H7
 4. ☐ Usiner les **4 plaques H-bracket (5 mm)** (2 avant + 2 arrière identiques) dans la tôle **Alu 7075-T6 5×160×160 mm** (Blockenstock) — Évidement central Ø 95 mm, 10× vis M4 sur PCD Ø 106 mm + **2 perçages tirants M5 à Ø 5.5 mm (ISO 273 Moyen)** aux oreilles Z=±66.1mm / Y=±28.6mm avec **chanfreins 0.5 mm × 45°** sur les deux faces
 5. ☐ Usiner les **2 demi-coquilles du nœud d'intersection** (Bride Sup. et Bride Inf. alu 6061-T6)
-6. ☐ Usiner les **2 bouchons internes anti-écrasement (Ø 26.0 mm h6 ext / Ø 18.0 mm int × 34.5 mm de longueur)** dans la **barre ronde Alu 7075-T651 Ø 30 mm** (Blockenstock) — laisse 0,5 mm de jeu d'isostatisme au fond pour l'appui 100% prioritaire du tube carbone sur la marche Ø 24 mm
+6. ☐ Usiner les **2 bouchons internes anti-écrasement (Ø 26.0 mm h6 ext / Ø 18.0 mm int × 34.5 mm de longueur)** dans la **barre ronde Alu 7075-T651 Ø 30 mm** (Blockenstock) — laisse 0,5 mm de jeu d'isostatisme au fond pour l'appui 100% prioritaire du tube carbone sur la face avant de bride
 7. ☐ Usiner la plaque supérieure de cou (alu 6061-T6, 5 mm) — équerres L-Brackets en sandwich
-8. ☐ Usiner la Waist Plate (alu 6061-T6, 6 mm) — équerres L-Brackets en sandwich + **2 perçages M5 pour tirants roll (±60 mm)**
+8. ☐ Usiner la Waist Plate (alu 6061-T6, 6 mm) — équerres L-Brackets en sandwich
 9. ☐ Usiner la bague d'adaptation RS-06 (alu 6061-T6)
 10. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner les extrémités et percer la goupille Ø4 mm verticale à travers le nœud assemblé
 
@@ -1132,16 +1132,16 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 2. ☐ Assembler les demi-plaques de colonne vertébrale (5.0 mm) et les brides d'épaule jaunes (48.2 mm) sur les 2 plaques H-bracket orange (5.0 mm évidées Ø95mm)
 3. ☐ Monter les **2 tirants axiaux M5 par épaule** (vis **CHC M5 × 60 mm ISO 4762 8.8**, 2× rondelles DIN 125A 1.0 mm, écrou Nylstop M5 DIN 985 bague nylon) à travers les perçages Ø 5.5 mm des oreilles Z=±66.1mm / Y=±28.6mm
 4. ☐ Insérer les bouchons alu 7075 (Ø26/18×34.5mm) dans les extrémités du tube carbone Ø30mm
-5. ☐ Appliquer le protocole d'insertion des goupilles élastiques inox Ø 4,0 mm × 35 mm à travers les brides et les bouchons alu (Nœud central + Épaules)
+5. ☐ Appliquer le protocole d'insertion des goupilles élastiques inox Ø 4,0 mm × 40 mm à travers les brides et les bouchons alu (Épaules) et Ø 4,0 mm × 60 mm (Nœud central)
 6. ☐ Appliquer le **Protocole de Serrage Dynamométrique à 3.0 N.m** sur les 2× vis M4 de pincement (avec écrous Nylstop M4 + rondelles Nord-Lock, sans Loctite)
 7. ☐ Assembler la plaque de cou (haut) et la Waist Plate (bas) via les équerres L-Brackets en sandwich
 8. ☐ Assembler le Thorax et l'Abdomen via le Lap Joint + vis M4 des bossages internes
-9. ☐ Insérer les moteurs RS-04 dans les cages H-bracket par l'AVANT (extérieur de l'épaule) et serrer les 10× vis M4 × 10 mm (PCD Ø106 mm). Router les câbles XT30/CAN par l'évidement Ø95 mm vers l'intérieur du torse.
+9. ☐ Insérer les moteurs RS-04 dans les cages H-bracket par l'AVANT (extérieur de l'épaule) et serrer les 10× vis M4 × 10 mm (face avant) et les 4× vis M4 × 10 mm + 6× vis M4 × 25 mm (face arrière). Router les câbles XT30/CAN par l'évidement Ø95 mm vers l'intérieur du torse.
 
 ### Phase 5 — Assemblage Batteries + Hot-Swap
 
 1. ☐ Monter les diodes Schottky MBR4060PT sur les radiateurs TO-247
-2. ☐ Visser les radiateurs sur la plaque isogrid (face interne)
+2. ☐ Visser les radiateurs sur la plaque sagittale à lumières 2D (face interne)
 3. ☐ Câbler les connecteurs XT60 à l'arrière de chaque panier
 4. ☐ Câbler le bus principal (sortie diodes → fusible PTC 40A → PDB Matek)
 5. ☐ Installer les 2 paniers batterie dans les coulisses (test de coulissement + verrouillage)

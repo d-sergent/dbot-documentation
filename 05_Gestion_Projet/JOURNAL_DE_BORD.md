@@ -2,6 +2,28 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-08-13 — Audit Complet d'Ingénierie, Validation Constructeur RS-04 & Harmonisation Globale du Dossier Torse
+
+### 🎯 Objectif de la session
+1. **Validation Constructeur des Fixations RS-04** : Analyse rigoureuse du plan officiel constructeur RobStride (`Manuels/RS04User Manual260112.pdf`, page 10) pour confirmer la profondeur borgne ($5\text{ à }6\text{ mm}$) et valider les longueurs de vis d'épaule.
+2. **Audit Mécanique & Vérification de Cohérence Globale** : Relire l'intégralité du dossier technique (`ANALYSE_STRATEGIE_Torse.md`, `ETUDE_Dimensionnement_Colonne_Vertebrale.md`, `GUIDE_Fabrication_Torse_D-Bot_Hybride.md`) pour éliminer toute incohérence, résidu d'anciennes versions, coquille de perçage ou erreur de couple.
+3. **Harmonisation de la Visserie & Perçages CNC** : Spécifier la partition exacte de la visserie (10× vis M4×10 avant, 4× vis M4×10 arrière hors bride, 6× vis M4×25 bride épaule 13.20 mm), corriger les diamètres de perçages de passage à Ø 4.3 mm (ISO 273 Moyen) et harmoniser le serrage dynamométrique à 3.0 N.m.
+
+### 📝 Réalisations & Évolutions
+1. **Validation Constructeur RobStride RS-04 (PCD Ø106 mm × 10 vis M4)** :
+   - Conformité Page 10 Manuel RS-04 : Taraudages borgnes $5\text{ mm Min à }6\text{ mm Max}$.
+   - Face Avant : **10× Vis CHC M4 × 10 mm** (plaque 5.0 mm + rondelle 0.8 mm $\rightarrow$ pénétration $4.20\text{ mm}$, garde $1.80\text{ mm}$ au fond).
+   - Face Arrière : **4× Vis CHC M4 × 10 mm** (hors bride) + **6× Vis CHC M4 × 25 mm** (traversant flasque bride $13.20\text{ mm}$ + plaque $5.00\text{ mm}$ + rondelle $0.8\text{ mm} \rightarrow$ pénétration $5.20\text{ à }6.00\text{ mm}$).
+2. **Harmonisation Globale & Élimination des Résidus Historiques** :
+   - **Perçages de passage M4** : Remplacement de tous les "Ø 3.3 mm" (taraudage) par **Ø 4.3 mm (ISO 273 Moyen)** pour les perçages de passage de vis dans les plaques et brides alu.
+   - **Couple de serrage M4 de pincement** : Correction des mentions résiduelles de "6 N.m" à **3.0 N.m (classe 8.8)** et **3.5 N.m (classe 10.9)** avec écrous Nylstop DIN 985 et rondelles Nord-Lock (zéro Loctite liquide).
+   - **Goupille d'épaule** : Harmonisation de toutes les références à **Goupille élastique Mécanindus Ø 4.0 mm × 40 mm (ISO 8752 Inox)** (s'aligne à fleur Ø 40 mm).
+   - **Tirants de Roll Waist Plate** : Suppression des perçages obsolètes à ±60 mm sur la Waist Plate dans le workflow, la rigidité Roll étant reprise à 100% par la cage H-Bracket (tirants M5 diagonaux $R = 72\text{ mm}$ à 23.4°).
+   - **Terminologie** : Purge définitive du terme "isogrid" au profit de "plaque sagittale à lumières 2D (Option B)".
+   - **Statut Carter Acier E470** : Classé explicitement comme solution de secours/archive, la cage H-Bracket Alu 7075-T6 étant la solution active standard V1.
+
+---
+
 ## 📅 2026-08-09 — Validation Mécanique Finale & Sourcing de l'Épaule (Cage H-Bracket 7075-T6, Évidement Ø95mm, Pincement 3.0 N.m & 2 Paniers Hot-Swap)
 
 ### 🎯 Objectif de la session

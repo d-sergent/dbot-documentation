@@ -6,8 +6,8 @@
 > Après évaluation des 3 approches ci-dessous, l'**architecture cruciforme** a été retenue comme design final du torse D-Bot. Elle combine :
 > - **1 plaque sagittale à lumières 2D** en aluminium 6061-T6 (5 mm, lumières 2D traversantes — Option B)
 > - **1 traverse horizontale** en tube carbone Ø30 mm reliant les 2 épaules
-> - **2 carters monobloc CNC** en **alu 6082-T6** (paroi 3 mm) pour les moteurs RS-04 d'épaule (insertion par l'avant)
-> - **2 tirants latéraux M5** à ±60 mm de la colonne (renfort rigidité roll, 60 g)
+> - **2 Cages H-Bracket d'épaule en Alu 7075-T6** (2 plaques 5mm évidées Ø95mm + bride monobloc 48.2mm + 2 tirants M5 axiaux à 23.4° R=72mm)
+> - **2 paniers batterie latéraux** avec hot-swap (espace intérieur 100% libéré)
 > - **Coque secondaire PA12-CF** (impression verticale Qidi Plus 4)
 >
 > Les 3 approches ci-dessous (Cage Alu, Spine Carbone, Split-Monocoque) sont **obsolètes** et archivées dans `./00_Archives_Recherche/`. Ce document est conservé comme justification historique de la décision.
