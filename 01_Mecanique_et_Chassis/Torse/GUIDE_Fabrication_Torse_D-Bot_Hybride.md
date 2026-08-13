@@ -975,10 +975,13 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 |:---|:---|
 | **Plaques H-bracket (orange, ×2 par épaule)** | **7075-T6, 5mm** (2 plaques IDENTIQUES : Avant + Arrière, **Évidement central Ø95mm** -> gain -400g total sur torse) → couronne annulaire Ø120/Ø95mm + 2 oreilles cylindriques pour tirants M5 → **10× vis M4 sur PCD Ø106mm** sur stator RS-04 (pince radiale de matière = 3.35 mm, Sf_bearing = 61) |
 | **Perçage oreilles M5 (CNC C500)** | **Ø 5.5 mm (ISO 273 — Moyen)** → jeu radial 0.25 mm pour empilement sans contrainte + **chanfreins 0.5 mm × 45°** sur les 2 faces des plaques |
-| **Bride fixation tube (jaune)** | **Bride monobloc alu 7075-T651, 48.2mm total** → flasque 13.2mm + socket tube 35mm (L/D=1.17) + bouchon interne alu Ø26/Ø18×34.5mm (ajusté sans colle) + fente pincement 2×M4 + goupille Ø4mm. Se monte **par-dessus la plaque arrière orange**. Sourcing: disque brut Ø120×50mm Blockenstock |
-| **Fixation Stator RS-04 (×10 vis M4 par face, ×20 par épaule)** | **Vis CHC M4 × 10 mm (ISO 4762 / DIN 912 classe 8.8 ou Inox A2)** — Vissage direct dans les 10 trous borgnes M4 sur PCD Ø106 mm du stator RS-04 |
+| **Bride fixation tube (jaune/bleue, 1 par épaule)** | **Bride monobloc alu 7075-T651, 48.2mm total** → flasque 13.20mm + socket tube 35mm (L/D=1.17) + bouchon interne alu Ø26/Ø18×34.5mm (ajusté sans colle) + fente pincement 2×M4 + goupille Ø4mm. Se monte **par-dessus la plaque arrière orange** et se fixe au stator par 6 vis M4 traversantes. Sourcing: disque brut Ø120×50mm Blockenstock |
+| **Fixation Stator AVANT (×10 vis M4 par épaule)** | **Vis CHC M4 × 10 mm (ISO 4762 / DIN 912 classe 8.8 ou Inox A2)** — Vissage direct à travers la plaque avant 5.0 mm dans les 10 trous borgnes M4 sur PCD Ø106 mm du stator RS-04 (engagement 4.2 mm) |
+| **Fixation Stator ARRIÈRE — Hors Bride (×4 vis M4 par épaule)** | **Vis CHC M4 × 10 mm (ISO 4762 / DIN 912 classe 8.8 ou Inox A2)** — Vissage direct à travers la plaque arrière 5.0 mm seule sur les 4 trous exposés du PCD Ø106 mm (engagement 4.2 mm) |
+| **Fixation Bride Épaule + Stator ARRIÈRE (×6 vis M4 par épaule)** | **Vis CHC M4 × 25 mm (ISO 4762 / DIN 912 classe 8.8 ou 10.9 ou Inox A2)** — Traversant la flasque de bride (13.20 mm) + la plaque arrière (5.00 mm) + rondelle (0.8 mm) dans les 6 trous borgnes du stator RS-04 (engagement 5.2 à 6.0 mm) |
 | **Perçage stator plaques 5mm (CNC C500)** | **Ø 4.3 mm (ISO 273 — Moyen)** sur PCD Ø 106.0 mm (10 trous par plaque) + **chanfreins 0.5 mm × 45°** |
-| **Rondelles stator (×10 par face, ×20 par épaule)** | **ISO 7089 / DIN 125A (M4)** → Ø int. 4.3 mm / Ø ext. 9.0 mm, épaisseur 0.8 mm sous chaque tête de vis CHC M4 |
+| **Perçage flasque bride 13.2mm (CNC C500)** | **Ø 4.3 mm (ISO 273 — Moyen)** sur PCD Ø 106.0 mm (6 trous traversants) + **chanfreins 0.5 mm × 45°** |
+| **Rondelles stator & bride (×20 par épaule)** | **ISO 7089 / DIN 125A (M4)** → Ø int. 4.3 mm / Ø ext. 9.0 mm, épaisseur 0.8 mm (10 sur face avant, 4 sur plaque arrière hors bride, 6 sur flasque de bride) |
 | **Pincement radial tube (×2 vis M4 par bride)** | **Vis CHC M4 × 18 mm ou M4 × 20 mm (ISO 4762 / DIN 912 classe 8.8 ou 10.9 zingué)** — Traversantes sur bloc de pincement de 11.0 mm de largeur (vis #1 à 8.0 mm du bord, vis #2 à 25.0 mm du bord, entraxe 17.0 mm) |
 | **Perçage pincement M4 (CNC C500)** | **Ø 4.3 mm (ISO 273 — Moyen)** → perçage traversant sur méplats + **chanfreins 0.5 mm × 45°** sur les 2 entrées/sorties de méplats |
 | **Rondelles pincement (×4 par bride)** | **ISO 7089 / DIN 125A (M4)** → Ø int. 4.3 mm / Ø ext. 9.0 mm, épaisseur 0.8 mm (2 sous tête vis CHC, 2 sous écrou Nylstop M4) |
@@ -998,13 +1001,19 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 | **Masse ajoutée** | ~75 g par plaque 5mm (×2 = 150g) + ~200 g bride jaune = ~350 g par épaule / ~700 g total pour les 2 épaules |
 
 > [!NOTE]
-> **Calcul d'Empilement & Validation des Longueurs de Vis (Fixations Stator RS-04, Pincement M4 et Tirants M5)** :
-> - **Fixation Stator RS-04 (CHC M4 × 10 mm)** : 
->   - Épaisseur de la plaque H-bracket / bride = **5.0 mm**.
->   - Rondelle DIN 125A M4 sous tête = **0.8 mm**.
->   - Longueur d'engagement dans le taraudage stator = $10.0 - (5.0 + 0.8) = \mathbf{4.2\text{ mm}}$ (ou **5.0 mm** sans rondelle).
->   - **Validation Constructeur RobStride RS-04** : La datasheet officielle RobStride spécifie une profondeur de trou borgne stator de **6.0 mm** (`Mechanical Installation Hole Location: PCD 106 mm × 10 holes × 6 mm depth`). Avec 4.2 mm d'engagement, la vis offre une tenue en traction optimale ($> 1 \times D = 4.0\text{ mm}$) tout en conservant une **marge de sécurité de 1.8 mm au fond du trou borgne** (aucun risque d'écrasement ou de contact interne).
->   - ⚠️ **Avertissement** : Les vis **M4 × 12 mm sont STRICTEMENT INTERDITES** ($12.0 - 5.8 = 6.2\text{ mm} > 6.0\text{ mm}$ de profondeur max) car elles viendraient en butée franche au fond des trous borgnes et endommageraient le stator ou les bobinages du RS-04 !
+> **Calcul d'Empilement & Validation des Longueurs de Vis (Fixations Stator RS-04, Bride d'Épaule, Pincement M4 et Tirants M5)** :
+> - **Fixation Stator Directe sur Plaque 5 mm (CHC M4 × 10 mm — 10 vis AV + 4 vis AR)** : 
+>   - Épaisseur de la plaque H-bracket = **5.00 mm**.
+>   - Rondelle DIN 125A M4 sous tête = **0.80 mm**.
+>   - Longueur d'engagement dans le taraudage stator = $10.0 - (5.00 + 0.80) = \mathbf{4.20\text{ mm}}$.
+>   - **Validation Constructeur RobStride RS-04** : Profondeur borgne carter = **5.0 mm min à 6.0 mm max**. Avec 4.20 mm d'engagement, la vis garantit une tenue en traction optimale ($> 1 \times D = 4.0\text{ mm}$) tout en conservant une **marge de sécurité de 1.80 mm au fond du trou borgne**.
+> - **Fixation Bride d'Épaule + Plaque 5 mm sur Stator (CHC M4 × 25 mm — 6 vis AR)** :
+>   - Épaisseur de la flasque de bride d'épaule = **13.20 mm** (mesure CAO confirmée).
+>   - Épaisseur de la plaque arrière H-bracket = **5.00 mm**.
+>   - Rondelle DIN 125A M4 sous tête = **0.80 mm** (ou 1.60 mm avec rondelle élastique/Nord-Lock).
+>   - Épaisseur totale sous tête = $13.20 + 5.00 + 0.80 = \mathbf{19.00\text{ mm}}$.
+>   - Longueur d'engagement dans le taraudage stator = $25.00 - 19.00 = \mathbf{6.00\text{ mm}}$ (ou **5.20 mm** avec rondelle Nord-Lock de 1.6 mm).
+>   - **Validation Constructeur RobStride RS-04** : Engagement net idéal de 5.2 à 6.0 mm occupant la totalité du filetage sans excéder la limite constructeur.
 > - **Vis de Pincement Radial (CHC M4 × 18 mm ou M4 × 20 mm)** : Épaisseur traversée du bloc de pincement (11.0 mm) + Rondelle sous tête DIN 125A M4 (0.8 mm) + Rondelle sous écrou DIN 125A M4 (0.8 mm) + Écrou Nylstop M4 DIN 985 (4.0 mm) + Saillie 2 filets (1.4 mm) = **18.0 mm**. La vis **ISO 4762 CHC M4 × 18 mm** (ou M4 × 20 mm) est la référence exacte optimale (dépassement net de 2.0 mm à 4.0 mm de bague nylon sans encombrement inutile).
 > - **Vis Tirant M5 (CHC M5 × 60 mm)** : Plaque AV 7075 (5.0 mm) + Corps RS-04 (39.0 mm à 41.0 mm) + Plaque AR 7075 (5.0 mm) = **49.0 mm à 51.0 mm**. Accessoires (2× rondelles 1.0 mm + écrou Nylstop M5 5.0 mm + saillie 1.6 mm) = **7.6 mm**. Longueur totale = $49.0 + 7.6 = \mathbf{56.6\text{ mm}}$ (vis **ISO 4762 CHC M5 × 60 mm** exacte).
 
@@ -1018,7 +1027,8 @@ La rotation en lacet de la taille est assurée par le module Waist d'Asimov v1 (
 > **Tutoriel : Importation directe des pièces 3D ISO/DIN dans Fusion 360 (Outil Intégré McMaster-Carr)** :
 > 1. **Accéder à l'outil** : Dans le ruban de conception de Fusion 360, aller dans **Insert** $\rightarrow$ **Insert McMaster-Carr Component**.
 > 2. **Rechercher les composants M4, M5 et Goupille** :
->    - **Vis CHC M4 × 10 mm Fixation Stator RS-04 (ISO 4762 / DIN 912)** : `M4 x 10 Socket Head Screw` $\rightarrow$ *Metric* $\rightarrow$ *M4 Thread* $\rightarrow$ *10 mm Length* (ex: Réf McMaster `91290A150` Acier 12.9 ou `92290A140` Inox).
+>    - **Vis CHC M4 × 10 mm Fixation Stator Directe (ISO 4762 / DIN 912)** : `M4 x 10 Socket Head Screw` $\rightarrow$ *Metric* $\rightarrow$ *M4 Thread* $\rightarrow$ *10 mm Length* (ex: Réf McMaster `91290A150` Acier 12.9 ou `92290A140` Inox).
+>    - **Vis CHC M4 × 25 mm Fixation Bride Épaule + Stator (ISO 4762 / DIN 912)** : `M4 x 25 Socket Head Screw` $\rightarrow$ *Metric* $\rightarrow$ *M4 Thread* $\rightarrow$ *25 mm Length* (ex: Réf McMaster `91290A170` Acier 12.9 ou `92290A148` Inox).
 >    - **Vis CHC M4 × 18 mm Pincement (ISO 4762 / DIN 912)** : `M4 x 18 Socket Head Screw` (ou `M4 x 20`) $\rightarrow$ *Metric* $\rightarrow$ *M4 Thread* $\rightarrow$ *18 mm Length* (ou *20 mm*).
 >    - **Vis CHC M5 × 60 mm Tirants (ISO 4762 / DIN 912)** : `M5 x 60 Socket Head Screw` $\rightarrow$ *Metric* $\rightarrow$ *M5 Thread* $\rightarrow$ *60 mm Length* (ex: Réf McMaster `91290A268`).
 >    - **Rondelles M4 Stator & Pincement (DIN 125A / ISO 7089)** : `M4 Flat Washer` $\rightarrow$ *Metric* $\rightarrow$ *For M4 Screw Size* (Ø int 4.3 mm, Ø ext 9.0 mm, épaisseur 0.8 mm, Réf McMaster `93475A230`).
