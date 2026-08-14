@@ -24,6 +24,9 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 3. **Restructuration Globale & Archivage Propre** :
    - Création du document d'archive officiel [`01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/ETUDE_ARCHIVEE_Carter_Epaule_Acier_E470.md`](../01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/ETUDE_ARCHIVEE_Carter_Epaule_Acier_E470.md).
    - Réécriture intégrale et linéaire du [`GUIDE_Fabrication_Torse_D-Bot_Hybride.md`](../01_Mecanique_et_Chassis/Torse/GUIDE_Fabrication_Torse_D-Bot_Hybride.md) : la solution d'épaule finale H-Bracket 7075-T6 est promue en Section 4, supprimant toute ambiguïté sur les approvisionnements et les gammes d'usinage C500.
+4. **Optimisation Géométrique du Nœud Central Demi-Coquilles** :
+   - Réduction de l'épaisseur de paroi de demi-bride à $6.0\text{ mm}$ au dos du demi-alésage R15 $\rightarrow$ hauteur totale du nœud ramenée de $60.0\text{ mm}$ à **$42.0\text{ mm}$** ($+18\text{ mm}$ d'espace vertical libre dans le torse, gain de $-115\text{ g}$).
+   - Décalage latéral de la goupille de sécurité à $X = +12.0\text{ mm}$ pour contourner sans conflit la plaque sagittale centrale ($5.0\text{ mm}$) et standardisation sur la référence d'épaule **Goupille élastique Mécanindus Ø 4.0 mm × 40 mm (ISO 8752 Inox)**.
 
 ---
 

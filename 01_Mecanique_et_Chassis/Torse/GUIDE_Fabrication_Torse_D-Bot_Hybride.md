@@ -122,11 +122,12 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 
 *Vue en coupe frontale (plan sagittal Y-Z) et vue de dessus (plan transversal X-Y) du nœud d'intersection. Le tube carbone Ø30 mm est transversal (axe X). La Bride Supérieure s'appuie sur la face inférieure de la Colonne Supérieure via ses ailes en L ; la Bride Inférieure s'appuie sur la face supérieure de la Colonne Inférieure. Les deux brides sont serrées l'une contre l'autre par 4× vis M6 traversantes + écrous Nylstop, créant le pincement du tube carbone sur 45 mm de portée.*
 
-#### Bénéfices Mécaniques :
+#### Bénéfices Mécaniques & Optimisation Géométrique :
 1. **Plaques de colonne 100% continues** : Aucun perçage affaiblissant dans la tôle de 5 mm au point de moment maximal (M = 131 N.m dynamique).
 2. **Distribution d'effort sur 120 mm** : Les ailes en L portent sur toute la largeur sagittale des plaques.
-3. **Pincement fiable sans taraudage fragile** : Vis M6 traversantes avec écrous frein Nylstop.
-4. **Verrouillage positif par goupille Ø4 mm (axe Z vertical)** : Traversante complète sur 60 mm de hauteur (Bride Sup 15mm + tube 30mm + Bride Inf 15mm) usinée en 1 passe 3 axes direct sur la C500.
+3. **Pincement fiable sans taraudage fragile** : Vis M6 traversantes avec écrous frein Nylstop (pression de contact 6.3 MPa sur le composite).
+4. **Épaisseur de demi-bride optimisée (6.0 mm au dos du demi-alésage R15)** : Hauteur unitaire d'une demi-bride = 21.0 mm (hauteur totale du nœud assemblé = **42.0 mm**, au lieu de 60.0 mm sur-dimensionnés), libérant **18.0 mm d'espace vertical libre** dans le torse et réduisant la masse de -115 g.
+5. **Verrouillage positif par goupille Ø4 mm (axe Z vertical décalée à X = 12.0 mm)** : La goupille est **décalée latéralement en X** pour contourner la tranche de la plaque sagittale centrale (5.0 mm). Traversante sur 42.0 mm de hauteur (Bride Sup 6.0 mm + tube 30.0 mm + Bride Inf 6.0 mm), elle utilise la même **goupille élastique standardisée Ø 4.0 mm × 40 mm (ISO 8752 Inox)** que les épaules.
 
 ---
 
@@ -134,12 +135,12 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 
 | Goupille | Position | Direction | Diamètre | Profondeur | Outillage C500 |
 |:---|:---|:---:|:---:|:---:|:---|
-| **Nœud central** | Brides demi-coquilles (centre torse) | **Axe Z (Vertical)** | Ø4 mm H7 | **60 mm** | **C500 — 3 axes direct (broche Z)** |
+| **Nœud central** | Brides demi-coquilles (décalée à X = 12.0 mm) | **Axe Z (Vertical)** | Ø4 mm H7 | **40 mm à 42 mm** | **C500 — 3 axes direct (broche Z)** |
 | **Ancrage épaule gauche** | Bride alu 7075 + tube extrémité gauche | Axe Z (Vertical) | Ø4 mm H7 | **40 mm** | C500 — 3 axes direct |
 | **Ancrage épaule droit** | Bride alu 7075 + tube extrémité droit | Axe Z (Vertical) | Ø4 mm H7 | **40 mm** | C500 — 3 axes direct |
 
 > [!TIP]
-> **Toutes les goupilles sont axées en Z (Verticales).** Elles sont donc 100% réalisables en 3 axes directs par la broche Z de la NestWorks C500, sans aucun 4ème axe rotatif requis.
+> **Toutes les goupilles sont axées en Z (Verticales) et standardisées en Ø 4.0 mm × 40 mm.** Elles sont donc 100% réalisables en 3 axes directs par la broche Z de la NestWorks C500, sans aucun 4ème axe rotatif requis.
 
 ---
 
@@ -406,7 +407,7 @@ Le circuit permet de remplacer un pack batterie à chaud sans interruption de te
 5. ☐ Usiner les **2 demi-coquilles du nœud central** (Bride Sup. et Bride Inf. Alu 6061-T6).
 6. ☐ Usiner la plaque de cou (Alu 5 mm) et la Waist Plate (Alu 6 mm).
 7. ☐ Usiner la bague d'adaptation RS-06 (Alu 6061-T6).
-8. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner et percer la goupille centrale Ø4×60 mm à travers le nœud assemblé.
+8. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner et percer la goupille centrale Ø 4.0 mm × 40 mm (décalée à X = 12.0 mm) à travers le nœud assemblé.
 
 ### Phase 3 — Impression 3D (Qidi Plus 4)
 1. ☐ **Prototype PLA** : Imprimer les 2 demi-coques verticalement en PLA (couche 0.28 mm) pour valider les ajustements.
@@ -415,7 +416,7 @@ Le circuit permet de remplacer un pack batterie à chaud sans interruption de te
 
 ### Phase 4 — Assemblage Mécanique de Précision & Serrage Dynamométrique
 1. ☐ Poser les inserts filetés M4 en laiton dans les coques PA12-CF (260°C).
-2. ☐ Assembler la plaque sagittale 2D et le nœud central sur la traverse carbone Ø30 mm avec sa goupille centrale Ø 4.0 mm × 60 mm.
+2. ☐ Assembler la plaque sagittale 2D et le nœud central sur la traverse carbone Ø30 mm avec sa goupille centrale Ø 4.0 mm × 40 mm (décalée à X = 12.0 mm).
 3. ☐ Monter les cages H-bracket d'épaule :
    - Insérer les bouchons alu 7075 (34.5 mm) dans le tube carbone Ø30 mm.
    - Poser la bride 48.2 mm sur le tube et **insérer la goupille Mécanindus Ø 4.0 mm × 40 mm Inox** au maillet plastique.
