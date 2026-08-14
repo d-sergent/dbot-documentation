@@ -21,6 +21,9 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - **Tirants de Roll Waist Plate** : Suppression des perçages obsolètes à ±60 mm sur la Waist Plate dans le workflow, la rigidité Roll étant reprise à 100% par la cage H-Bracket (tirants M5 diagonaux $R = 72\text{ mm}$ à 23.4°).
    - **Terminologie** : Purge définitive du terme "isogrid" au profit de "plaque sagittale à lumières 2D (Option B)".
    - **Statut Carter Acier E470** : Classé explicitement comme solution de secours/archive, la cage H-Bracket Alu 7075-T6 étant la solution active standard V1.
+3. **Restructuration Globale & Archivage Propre** :
+   - Création du document d'archive officiel [`01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/ETUDE_ARCHIVEE_Carter_Epaule_Acier_E470.md`](../01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/ETUDE_ARCHIVEE_Carter_Epaule_Acier_E470.md).
+   - Réécriture intégrale et linéaire du [`GUIDE_Fabrication_Torse_D-Bot_Hybride.md`](../01_Mecanique_et_Chassis/Torse/GUIDE_Fabrication_Torse_D-Bot_Hybride.md) : la solution d'épaule finale H-Bracket 7075-T6 est promue en Section 4, supprimant toute ambiguïté sur les approvisionnements et les gammes d'usinage C500.
 
 ---
 
