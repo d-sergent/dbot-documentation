@@ -25,8 +25,12 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - Création du document d'archive officiel [`01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/ETUDE_ARCHIVEE_Carter_Epaule_Acier_E470.md`](../01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/ETUDE_ARCHIVEE_Carter_Epaule_Acier_E470.md).
    - Réécriture intégrale et linéaire du [`GUIDE_Fabrication_Torse_D-Bot_Hybride.md`](../01_Mecanique_et_Chassis/Torse/GUIDE_Fabrication_Torse_D-Bot_Hybride.md) : la solution d'épaule finale H-Bracket 7075-T6 est promue en Section 4, supprimant toute ambiguïté sur les approvisionnements et les gammes d'usinage C500.
 4. **Optimisation Géométrique du Nœud Central Demi-Coquilles** :
-   - Réduction de l'épaisseur de paroi de demi-bride à $6.0\text{ mm}$ au dos du demi-alésage R15 $\rightarrow$ hauteur totale du nœud ramenée de $60.0\text{ mm}$ à **$42.0\text{ mm}$** ($+18\text{ mm}$ d'espace vertical libre dans le torse, gain de $-115\text{ g}$).
-   - Décalage latéral de la goupille de sécurité à $X = +12.0\text{ mm}$ pour contourner sans conflit la plaque sagittale centrale ($5.0\text{ mm}$) et standardisation sur la référence d'épaule **Goupille élastique Mécanindus Ø 4.0 mm × 40 mm (ISO 8752 Inox)**.
+   - Réduction de l'épaisseur de paroi de demi-bride à 6.0 mm au dos du demi-alésage R15 -> hauteur totale du nœud ramenée de 60.0 mm à **42.0 mm** (+18 mm d'espace vertical libre dans le torse, gain de -115 g).
+   - Décalage latéral de la goupille de sécurité à X = +12.0 mm pour contourner sans conflit la plaque sagittale centrale (5.0 mm) et standardisation sur la référence d'épaule **Goupille élastique Mécanindus Ø 4.0 mm × 40 mm (ISO 8752 Inox)**.
+5. **Validation du Sourcing Matière des Bouchons Tube Carbone** :
+   - Validation de la référence Blockenstock **[Ø 30×500 mm Alu 7075-T651 filé](https://www.blockenstock.fr/c-30x500mm-alu-7075-file-t651-c2x21035319)** au tarif de **16.20 EUR TTC (13.50 EUR HT)** pour usiner les 2 bouchons anti-écrasement Ø 26.0 ext / Ø 18.0 int × 34.5 mm.
+6. **Validation du Sourcing Matière des Demi-Coquilles du Nœud Central** :
+   - Validation de la référence Blockenstock **[Plat méplat 25×50×500 mm Alu 7075-T6](https://www.blockenstock.fr/25x-50x500mm-alu-7075-t6-c2x21792953)** au tarif de **39.38 EUR TTC (32.82 EUR HT)** pour usiner les 2 demi-brides 120×45×21 mm (Bride Supérieure et Bride Inférieure).
 
 ---
 

@@ -565,11 +565,12 @@ Contrainte de marge géométrique (stator Ø120mm) :
 
 | Pièce | Matériau | Dimensions brutes | Qté | Sourcing | Coût |
 |:---|:---|:---|:---:|:---|:---:|
-| **Plaque avant H-bracket (côté bras)** | **7075-T6** | **5×160×160mm** | 2 | Blockenstock | 2×9.60€ |
-| **Plaque arrière H-bracket (côté torse)** | **7075-T6** | **5×160×160mm** | 2 | Blockenstock | 2×9.60€ |
-| **Bague ancrage tube** (si Option A) | 6061-T6 | Ø50×Ø30×15mm | 2 | Chute ronde CNC | 0€ |
-| Tirants M5×65mm acier 8.8 | Acier 8.8 | M5×65mm | 4 | GSB / Amazon | ~2€ |
-| **Total** | | | | | **~40 EUR** |
+| **Plaques H-bracket (AV + AR)** | **Alu 7075-T6** | **5×160×160 mm** | 4 | Blockenstock | 4×9.60 € = 38.40 € |
+| **Brides d'épaule monoblocs** | **Alu 7075-T651** | **Disque Ø 120×50 mm** | 2 | Blockenstock | 2× ~25.00 € = ~50.00 € |
+| **Bouchons anti-écrasement** | **Alu 7075-T651 filé** | [**Barre Ø 30×500 mm**](https://www.blockenstock.fr/c-30x500mm-alu-7075-file-t651-c2x21035319) | 1 | Blockenstock | **16.20 € TTC** |
+| **Demi-coquilles nœud central (×2)** | **Alu 7075-T6** | [**Plat 25×50×500 mm**](https://www.blockenstock.fr/25x-50x500mm-alu-7075-t6-c2x21792953) | 1 | Blockenstock | **39.38 € TTC** |
+| **Tirants M5×60 mm + écrous Nylstop + rondelles** | Acier 8.8 / Inox | CHC M5×60 mm (ISO 4762) | 4 | GSB / McMaster | ~4.00 € |
+| **Total Sourcing Métallique Squelette Supérieur** | | | | | **~147.98 EUR** |
 
 ---
 

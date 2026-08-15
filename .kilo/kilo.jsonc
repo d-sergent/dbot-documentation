@@ -29,6 +29,19 @@
           "description": "Gemma 4 31B it — vmlx-engine (Mac, non-VLM)"
         }
       }
+    },
+    "ollama": {
+      "options": {
+        "apiKey": "ollama",
+        "baseURL": "http://localhost:11434/v1",
+        "timeout": 300000
+      },
+      "models": {
+        "qwen3.8:27b-mlx": {
+          "name": "qwen3.8:27b-mlx",
+          "description": "Qwen3.8 27B MLX — local Ollama"
+        }
+      }
     }
   },
   "mcp": {

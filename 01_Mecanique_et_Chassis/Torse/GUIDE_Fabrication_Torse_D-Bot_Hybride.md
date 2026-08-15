@@ -112,7 +112,7 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 | **Masse** | ~70 g |
 | **Rigidité torsionnelle** | J ≈ 52 000 mm4 (×15 par rapport à une plaque de 5 mm de même largeur) |
 | **Fixation aux épaules** | Emmanché sur 35.0 mm dans la bride monobloc Alu 7075-T651, fente de pincement 2×M4 + goupille Ø4×40 mm sur bouchon alu interne |
-| **Fixation centrale (nœud)** | **2 demi-coquilles CNC alu** (Bride Sup. + Bride Inf.) serrant le tube sur 45 mm, boulonnées aux plaques |
+| **Fixation centrale (nœud)** | **2 demi-coquilles CNC Alu 7075-T6** (Bride Sup. + Bride Inf., 120×45×21 mm) serrant le tube sur 45 mm, boulonnées aux plaques |
 
 ---
 
@@ -182,8 +182,9 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 | **Position tirant HAUT** | Z = +66.1 mm, Y = +28.6 mm (R = 72 mm, angle 23.4° de la verticale) |
 | **Position tirant BAS** | Z = -66.1 mm, Y = -28.6 mm (diamétralement opposé) |
 | **Sourcing plaques 5mm 7075-T6** | Blockenstock — chute 5×160×160 mm 7075-T6 @ 9.60 EUR/pièce — **4 pièces** (2 avant + 2 arrière) → 38.40 EUR |
-| **Sourcing bride 48.2mm** | Blockenstock — disque Ø120×50 mm alu 7075-T651 — **2 pièces** (une par épaule) |
-| **Sourcing bouchons alu** | Blockenstock — barre ronde Ø30×500 mm Alu 7075-T651 — **1 pièce** |
+| **Sourcing bride 48.2mm** | Blockenstock — disque Ø 120×50 mm alu 7075-T651 @ ~25.00 EUR/pièce — **2 pièces** (une par épaule) → ~50.00 EUR |
+| **Sourcing bouchons alu** | Blockenstock — barre ronde [Ø 30×500 mm Alu 7075-T651 filé](https://www.blockenstock.fr/c-30x500mm-alu-7075-file-t651-c2x21035319) @ **16.20 EUR TTC (13.50 EUR HT)** — **1 pièce** |
+| **Sourcing demi-coquilles nœud central** | Blockenstock — plat méplat [25×50×500 mm Alu 7075-T6](https://www.blockenstock.fr/25x-50x500mm-alu-7075-t6-c2x21792953) @ **39.38 EUR TTC (32.82 EUR HT)** — **1 pièce** (débit en 2 tronçons de 135 mm) |
 
 ---
 
@@ -404,7 +405,7 @@ Le circuit permet de remplacer un pack batterie à chaud sans interruption de te
 2. ☐ Usiner les **4 plaques H-bracket (5 mm)** (2 avant + 2 arrière identiques) dans la tôle **Alu 7075-T6 5×160×160 mm Blockenstock** — Évidement central Ø 95 mm, 10 trous lisses **Ø 4.3 mm (ISO 273 Moyen)** sur PCD Ø 106 mm + 2 perçages tirants M5 à **Ø 5.5 mm** avec chanfreins 0.5 mm × 45°.
 3. ☐ Usiner les **2 brides d'épaule monoblocs (H = 48.20 mm)** dans les disques bruts **Ø 120 × 50 mm Alu 7075-T651 Blockenstock** — alésage Ø 30.05 mm H7 sur 35.0 mm, flasque 13.2 mm, fente 1.0 mm et trou goupille Ø 4.0 mm H7.
 4. ☐ Usiner les **2 bouchons internes anti-écrasement (Ø 26.0 mm h6 ext / Ø 18.0 mm int × 34.5 mm de long)** dans la **barre ronde Alu 7075-T651 Ø 30 mm Blockenstock**.
-5. ☐ Usiner les **2 demi-coquilles du nœud central** (Bride Sup. et Bride Inf. Alu 6061-T6).
+5. ☐ Usiner les **2 demi-coquilles du nœud central (120×45×21 mm)** dans le plat brut **25×50×500 mm Alu 7075-T6 Blockenstock** (Bride Sup. et Bride Inf.).
 6. ☐ Usiner la plaque de cou (Alu 5 mm) et la Waist Plate (Alu 6 mm).
 7. ☐ Usiner la bague d'adaptation RS-06 (Alu 6061-T6).
 8. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner et percer la goupille centrale Ø 4.0 mm × 40 mm (décalée à X = 12.0 mm) à travers le nœud assemblé.
