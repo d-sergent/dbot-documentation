@@ -128,6 +128,7 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 3. **Pincement fiable sans taraudage fragile** : Vis M6 traversantes avec écrous frein Nylstop (pression de contact 6.3 MPa sur le composite).
 4. **Épaisseur de demi-bride optimisée (6.0 mm au dos du demi-alésage R15)** : Hauteur unitaire d'une demi-bride = 21.0 mm (hauteur totale du nœud assemblé = **42.0 mm**, au lieu de 60.0 mm sur-dimensionnés), libérant **18.0 mm d'espace vertical libre** dans le torse et réduisant la masse de -115 g.
 5. **Verrouillage positif par goupille Ø4 mm (axe Z vertical décalée à X = 12.0 mm)** : La goupille est **décalée latéralement en X** pour contourner la tranche de la plaque sagittale centrale (5.0 mm). Traversante sur 42.0 mm de hauteur (Bride Sup 6.0 mm + tube 30.0 mm + Bride Inf 6.0 mm), elle utilise la même **goupille élastique standardisée Ø 4.0 mm × 40 mm (ISO 8752 Inox)** que les épaules.
+6. **Dépouille de serrage du plan de joint (Split Gap = 1.0 mm net / 0.8 à 1.0 mm)** : Chaque demi-alésage cylindrique est usiné à une profondeur de **14.5 mm** (au lieu de 15.0 mm théorique, soit un surfaçage à Z = -0.5 mm sur le plan de joint). Cette cote garantit un **espace libre de 1.0 mm net** entre la Bride Supérieure et la Bride Inférieure à l'assemblage, interdisant toute butée prématurée aluminium contre aluminium et convertissant 100% de la précharge des 4 vis M6 en pression radiale directe (6.3 MPa, friction > 12 000 N) sur le composite carbone.
 
 ---
 
@@ -405,7 +406,7 @@ Le circuit permet de remplacer un pack batterie à chaud sans interruption de te
 2. ☐ Usiner les **4 plaques H-bracket (5 mm)** (2 avant + 2 arrière identiques) dans la tôle **Alu 7075-T6 5×160×160 mm Blockenstock** — Évidement central Ø 95 mm, 10 trous lisses **Ø 4.3 mm (ISO 273 Moyen)** sur PCD Ø 106 mm + 2 perçages tirants M5 à **Ø 5.5 mm** avec chanfreins 0.5 mm × 45°.
 3. ☐ Usiner les **2 brides d'épaule monoblocs (H = 48.20 mm)** dans les disques bruts **Ø 120 × 50 mm Alu 7075-T651 Blockenstock** — alésage Ø 30.05 mm H7 sur 35.0 mm, flasque 13.2 mm, fente 1.0 mm et trou goupille Ø 4.0 mm H7.
 4. ☐ Usiner les **2 bouchons internes anti-écrasement (Ø 26.0 mm h6 ext / Ø 18.0 mm int × 34.5 mm de long)** dans la **barre ronde Alu 7075-T651 Ø 30 mm Blockenstock**.
-5. ☐ Usiner les **2 demi-coquilles du nœud central (120×45×21 mm)** dans le plat brut **25×50×500 mm Alu 7075-T6 Blockenstock** (Bride Sup. et Bride Inf.).
+5. ☐ Usiner les **2 demi-coquilles du nœud central (120×45×21 mm)** dans le plat brut **25×50×500 mm Alu 7075-T6 Blockenstock** — demi-alésage usiné à 14.5 mm de profondeur (surfaçage Z = -0.5 mm) pour créer le **Split Gap de 1.0 mm**, perçages lisses Ø 6.3 mm pour les 4 vis M6 traversantes.
 6. ☐ Usiner la plaque de cou (Alu 5 mm) et la Waist Plate (Alu 6 mm).
 7. ☐ Usiner la bague d'adaptation RS-06 (Alu 6061-T6).
 8. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner et percer la goupille centrale Ø 4.0 mm × 40 mm (décalée à X = 12.0 mm) à travers le nœud assemblé.

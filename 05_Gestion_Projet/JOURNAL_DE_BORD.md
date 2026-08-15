@@ -31,6 +31,8 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - Validation de la référence Blockenstock **[Ø 30×500 mm Alu 7075-T651 filé](https://www.blockenstock.fr/c-30x500mm-alu-7075-file-t651-c2x21035319)** au tarif de **16.20 EUR TTC (13.50 EUR HT)** pour usiner les 2 bouchons anti-écrasement Ø 26.0 ext / Ø 18.0 int × 34.5 mm.
 6. **Validation du Sourcing Matière des Demi-Coquilles du Nœud Central** :
    - Validation de la référence Blockenstock **[Plat méplat 25×50×500 mm Alu 7075-T6](https://www.blockenstock.fr/25x-50x500mm-alu-7075-t6-c2x21792953)** au tarif de **39.38 EUR TTC (32.82 EUR HT)** pour usiner les 2 demi-brides 120×45×21 mm (Bride Supérieure et Bride Inférieure).
+7. **Spécification Explicite du Split Gap au Nœud Central** :
+   - Intégration dans le guide de la consigne d'usinage de demi-alésage à **14.5 mm de profondeur** (surfaçage Z = -0.5 mm) garantissant un **Split Gap de 1.0 mm net (0.8 à 1.0 mm)** entre les demi-coquilles assemblées pour convertir 100% de la force des 4 vis M6 en pression radiale directe (6.3 MPa) sur le composite.
 
 ---
 
