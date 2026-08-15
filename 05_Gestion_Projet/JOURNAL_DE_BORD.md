@@ -33,6 +33,10 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - Validation de la référence Blockenstock **[Plat méplat 25×50×500 mm Alu 7075-T6](https://www.blockenstock.fr/25x-50x500mm-alu-7075-t6-c2x21792953)** au tarif de **39.38 EUR TTC (32.82 EUR HT)** pour usiner les 2 demi-brides 120×45×21 mm (Bride Supérieure et Bride Inférieure).
 7. **Spécification Explicite du Split Gap au Nœud Central** :
    - Intégration dans le guide de la consigne d'usinage de demi-alésage à **14.5 mm de profondeur** (surfaçage Z = -0.5 mm) garantissant un **Split Gap de 1.0 mm net (0.8 à 1.0 mm)** entre les demi-coquilles assemblées pour convertir 100% de la force des 4 vis M6 en pression radiale directe (6.3 MPa) sur le composite.
+8. **Justification RDM Formelle de l'Épaisseur de 6.0 mm au Nœud Central (§12 ETUDE)** :
+   - Calcul RDM complet sous précharge maximale des 4 vis M6 (30 000 N) : Sigma = 93.75 MPa (Sf = × 4.91 en Alu 7075-T6).
+   - Calcul sous choc dynamique Pitch 131 N.m : Sigma = 24.26 MPa (Sf = × 18.96).
+   - Calcul matage goupille Ø 4.0 mm : Sigma_bearing = 43.06 MPa (Sf = × 16.03).
 
 ---
 
