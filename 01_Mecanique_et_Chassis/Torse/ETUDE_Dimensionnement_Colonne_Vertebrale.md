@@ -567,7 +567,7 @@ Contrainte de marge géométrique (stator Ø120mm) :
 |:---|:---|:---|:---:|:---|:---:|
 | **Plaques H-bracket (AV + AR)** | **Alu 7075-T6** | **5×160×160 mm** | 4 | Blockenstock | 4×9.60 € = 38.40 € |
 | **Brides d'épaule monoblocs** | **Alu 7075-T651** | **Disque Ø 120×50 mm** | 2 | Blockenstock | 2× ~25.00 € = ~50.00 € |
-| **Bouchons anti-écrasement** | **Alu 7075-T651 filé** | [**Barre Ø 30×500 mm**](https://www.blockenstock.fr/c-30x500mm-alu-7075-file-t651-c2x21035319) | 1 | Blockenstock | **16.20 € TTC** |
+| **Bouchons épaules (×2) & Insert central (×1)** | **Alu 7075-T651 filé** | [**Barre Ø 30×500 mm**](https://www.blockenstock.fr/c-30x500mm-alu-7075-file-t651-c2x21035319) | 1 | Blockenstock | **16.20 € TTC** |
 | **Demi-coquilles nœud central (×2)** | **Alu 7075-T6** | [**Plat 25×50×500 mm**](https://www.blockenstock.fr/25x-50x500mm-alu-7075-t6-c2x21792953) | 1 | Blockenstock | **39.38 € TTC** |
 | **Tirants M5×60 mm + écrous Nylstop + rondelles** | Acier 8.8 / Inox | CHC M5×60 mm (ISO 4762) | 4 | GSB / McMaster | ~4.00 € |
 | **Total Sourcing Métallique Squelette Supérieur** | | | | | **~147.98 EUR** |
@@ -842,6 +842,7 @@ Hiérarchie de reprise de couple (architecture réelle GUIDE §3.C) :
 * **Matériau** : **Alu 7075-T6** (Limite d'élasticité Re = 460.0 MPa, Résistance traction Rm = 540.0 MPa, Cisaillement admissible Tau_adm = 265.0 MPa, Module de Young E = 71 700 MPa).
 * **Dimensions nettes d'une demi-bride** : Largeur sagittale b_Y = 120.0 mm, Portée axiale L_X = 45.0 mm, Épaisseur de paroi au dos e_dos = 6.0 mm.
 * **Demi-alésage tube carbone** : R = 15.0 mm usiné à une profondeur de 14.5 mm (créant le Split Gap de 1.0 mm).
+* **Insert interne central anti-écrasement** : Bague usinée Ø 26.0 mm h6 ext / Ø 18.0 mm int × 45.0 mm (Alu 7075-T651, paroi 4.0 mm, masse 35.0 g), assurant la transmission directe des 30 000 N de compression sans écrasement composite et le guidage de la goupille Ø 4.0 mm.
 * **Module d'inertie de flexion du dos de 6.0 mm** :
   `W_dos = (b_Y × e_dos^2) / 6 = (120.0 × 6.0^2) / 6 = 720.0 mm3`.
 
