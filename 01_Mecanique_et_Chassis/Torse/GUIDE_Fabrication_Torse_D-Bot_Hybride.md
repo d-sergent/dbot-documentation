@@ -66,7 +66,7 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 
 ![Solution de fixation par équerres L-Brackets en sandwich](./media/solution_liaison_embase_cou.svg)
 
-*Principe d'assemblage en sandwich : 2 équerres en L en aluminium 6061-T6 (à gauche et à droite) enserrent la tôle de 5 mm avec 3 à 4 vis traversantes M4. Le rebord horizontal des équerres est vissé sur les plaques circulaires de cou (5 mm) et de taille (6 mm).*
+*Principe d'assemblage en sandwich : 2 équerres en L en aluminium 6061-T6 (à gauche et à droite) enserrent la tôle de 5 mm avec 3 à 4 vis traversantes M4. Le rebord horizontal des équerres est vissé sur les plaques circulaires de cou (5 mm) et de taille (6 mm). Les équerres supérieures intègrent des **lumières oblongues verticales de ±1.0 mm (4.3 × 6.5 mm)** sur leur face verticale pour assurer le **découplage isostatique en Z**, interdisant toute traction parasite sur le pincement du tube carbone au nœud central.*
 
 ---
 
@@ -380,8 +380,11 @@ Le circuit permet de remplacer un pack batterie à chaud sans interruption de te
 
 ## 8. Liaisons d'Extrémités (Cou & Waist Yaw RS-06)
 
-### A. Plaque Supérieure de Cou (Alu 6061-T6, 5.0 mm)
+### A. Plaque Supérieure de Cou (Alu 6061-T6, 5.0 mm) & Découplage Isostatique en Z
 * **Fonction** : Fermeture haute du torse, fixation du collet de cou pour le RS-05 Yaw/Pitch, ancrage de la plaque sagittale haute via équerres L-Brackets sandwich.
+* **Liaison Sandwich Double Cornière L (20×20×3 mm, longueur 80 mm)** : Deux cornières en aluminium 6061-T6 (ou 7075-T6) prennent en sandwich la plaque sagittale de 5.0 mm.
+* **Découplage Isostatique en Z (Lumières Oblongues 4.3 × 6.5 mm)** : Les perçages de la face verticale des cornières sont des **fentes oblongues verticales (±1.0 mm en Z)**. Cela transmet 100% des moments de flexion Pitch et Roll tout en absorbant les dispersions axiales pour **ne jamais tirer la Bride Supérieure vers le haut**, préservant intacts le Split Gap de 1.0 mm et la pression radiale de 6.3 MPa sur le tube carbone.
+* **Visserie** : 2× à 3× Vis CHC M4 × 16 mm (ISO 4762 classe 8.8) + Rondelles larges ISO 7093 M4 + Écrous autofreinés ISO 7040 Nylstop M4 (serrage à 3.0 N.m au tournevis dynamométrique).
 
 ### B. Plaque Inférieure / Waist Plate (Alu 6061-T6, 6.0 mm)
 * **Fonction** : Fermeture basse du torse, interface rigide avec le module Waist Yaw actif.
@@ -397,10 +400,10 @@ Le circuit permet de remplacer un pack batterie à chaud sans interruption de te
 1. ☐ Mettre à l'échelle (+18%) les fichiers originaux Asimov v1.
 2. ☐ Modéliser la **plaque de colonne sagittale à lumières 2D** (Option B, R = 18 mm) en 2 parties.
 3. ☐ Modéliser les **2 cages H-bracket d'épaule** : Plaques 5 mm Alu 7075-T6 évidées à Ø95 mm + Brides monoblocs 48.2 mm Alu 7075-T651 reliées par les 2 tirants M5 à 23.4° ($R = 72\text{ mm}$).
-4. ☐ Modéliser le **nœud d'intersection** à demi-coquilles (Bride Sup. + Bride Inf. Alu 6061-T6).
+4. ☐ Modéliser le **nœud d'intersection** à demi-coquilles (Bride Sup. + Bride Inf. Alu 7075-T6, hauteur 42.0 mm, Split Gap 1.0 mm).
 5. ☐ Dessiner les **2 paniers batterie latéraux** et les coulisses centrales sur la plaque sagittale.
 6. ☐ Réaliser le **split abdominal rigide** (Lap Joint 3 mm, inserts laiton M4).
-7. ☐ Modéliser la **bague d'adaptation CNC pour RS-06**.
+7. ☐ Modéliser la **bague d'adaptation CNC pour RS-06** et les **équerres de cou à lumières oblongues verticales (±1.0 mm)**.
 
 ### Phase 2 — Usinage CNC (NestWorks C500)
 1. ☐ Usiner les 2 demi-plaques de colonne sagittale (Alu 6061-T6, 5 mm — lumières 2D traversantes).
@@ -408,7 +411,7 @@ Le circuit permet de remplacer un pack batterie à chaud sans interruption de te
 3. ☐ Usiner les **2 brides d'épaule monoblocs (H = 48.20 mm)** dans les disques bruts **Ø 120 × 50 mm Alu 7075-T651 Blockenstock** — alésage Ø 30.05 mm H7 sur 35.0 mm, flasque 13.2 mm, fente 1.0 mm et trou goupille Ø 4.0 mm H7.
 4. ☐ Usiner les **2 bouchons d'épaule (Ø 26.0 h6 / Ø 18.0 × 34.5 mm)** et le **manchon central anti-écrasement (Ø 26.0 h6 / Ø 18.0 × 45.0 mm)** dans la **barre ronde Alu 7075-T651 Ø 30 mm Blockenstock**.
 5. ☐ Usiner les **2 demi-coquilles du nœud central (120×45×21 mm)** dans le plat brut **25×50×500 mm Alu 7075-T6 Blockenstock** — demi-alésage usiné à 14.5 mm de profondeur (surfaçage Z = -0.5 mm) pour créer le **Split Gap de 1.0 mm**, perçages lisses Ø 6.3 mm pour les 4 vis M6 traversantes.
-6. ☐ Usiner la plaque de cou (Alu 5 mm) et la Waist Plate (Alu 6 mm).
+6. ☐ Usiner la plaque de cou (Alu 5 mm), la Waist Plate (Alu 6 mm) et les **équerres L-Brackets à lumières oblongues (4.3 × 6.5 mm)**.
 7. ☐ Usiner la bague d'adaptation RS-06 (Alu 6061-T6).
 8. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner et percer la goupille centrale Ø 4.0 mm × 40 mm (décalée à X = 12.0 mm) à travers le nœud assemblé.
 
@@ -417,20 +420,23 @@ Le circuit permet de remplacer un pack batterie à chaud sans interruption de te
 2. ☐ **Version finale PA12-CF** : Imprimer verticalement (Thorax haut + Abdomen bas) avec Modifier Volume cylindrique aux épaules (6 parois, 35% infill).
 3. ☐ Supports arborescents (`Tree`) uniquement sous les collerettes d'épaule (`Build Plate Only`).
 
-### Phase 4 — Assemblage Mécanique de Précision & Serrage Dynamométrique
+### Phase 4 — Assemblage Mécanique de Précision & Serrage Séquentiel Isostatique
 1. ☐ Poser les inserts filetés M4 en laiton dans les coques PA12-CF (260°C).
-2. ☐ Insérer et coller à l'époxy le manchon central alu 7075 (45.0 mm) au milieu du tube carbone Ø 30 mm, puis assembler la plaque sagittale 2D et le nœud central sur la traverse carbone avec sa goupille centrale Ø 4.0 mm × 40 mm (décalée à X = 12.0 mm).
-3. ☐ Monter les cages H-bracket d'épaule :
+2. ☐ **Étape 1 (Serrage Nœud Central)** : Insérer et coller à l'époxy le manchon central alu 7075 (45.0 mm) au milieu du tube carbone Ø 30 mm. Serrer les 4× vis M6 du nœud central à **8.5 N.m** (valider le Split Gap de 1.0 mm et la pression de 6.3 MPa) ➔ Fige l'origine axiale Z = 0 absolue.
+3. ☐ **Étape 2 (Goupille Centrale)** : Emmancher la goupille élastique Mécanindus Ø 4.0 mm × 40 mm Inox au maillet plastique (décalée à X = +12.0 mm).
+4. ☐ **Étape 3 (Embase Plaque Sagittale)** : Boulonner l'embase de la plaque sagittale supérieure de 5 mm sur les ailes en L de la Bride Supérieure (4× Vis CHC M4 + écrous Nylstop serrées à 3.0 N.m).
+5. ☐ Monter les cages H-bracket d'épaule :
    - Insérer les bouchons alu 7075 (34.5 mm) dans le tube carbone Ø30 mm.
    - Poser la bride 48.2 mm sur le tube et **insérer la goupille Mécanindus Ø 4.0 mm × 40 mm Inox** au maillet plastique.
    - Monter les tirants axiaux M5 (**Vis CHC M5 × 60 mm ISO 4762** + rondelles DIN 125A + écrous Nylstop M5).
-4. ☐ Appliquer le **Protocole de Serrage Dynamométrique à 3.0 N.m** sur les 2× vis M4 de pincement de chaque bride (avec écrous Nylstop M4 + rondelles Nord-Lock, sans Loctite).
-5. ☐ Monter les moteurs RS-04 dans les cages d'épaule :
+6. ☐ Appliquer le **Protocole de Serrage Dynamométrique à 3.0 N.m** sur les 2× vis M4 de pincement de chaque bride d'épaule (avec écrous Nylstop M4 + rondelles Nord-Lock, sans Loctite).
+7. ☐ Monter les moteurs RS-04 dans les cages d'épaule :
    - Face Avant : **10× Vis CHC M4 × 10 mm (ISO 4762)** + rondelles DIN 125A M4 (engagement 4.20 mm).
    - Face Arrière : **4× Vis CHC M4 × 10 mm** (hors bride) + **6× Vis CHC M4 × 25 mm** (traversant bride 13.2 mm + plaque 5.0 mm, engagement 5.2 à 6.0 mm).
    - Router les câbles XT30/CAN par l'évidement central Ø95 mm.
-6. ☐ Assembler la plaque de cou et la Waist Plate via les équerres L-Brackets.
-7. ☐ Assembler le Thorax et l'Abdomen via le Lap Joint et les vis M4 des bossages.
+8. ☐ **Étape 4 (Pose Coques & Plaque de Cou)** : Positionner le thorax PA12-CF et visser la Plaque Supérieure de Cou au sommet (vis horizontales dans les inserts).
+9. ☐ **Étape 5 (Serrage Final Équerres Cou EN DERNIER)** : Visser les 2 cornières L sandwich sur la plaque sagittale haute à travers les **lumières oblongues verticales** (Vis CHC M4 × 16 mm + rondelles larges ISO 7093 + écrous Nylstop à 3.0 N.m). Les équerres épousent la hauteur naturelle sans créer la moindre traction sur le nœud central.
+10. ☐ Assembler la Waist Plate via ses équerres basses et assembler le Thorax et l'Abdomen via le Lap Joint et les vis M4 des bossages.
 
 ### Phase 5 — Intégration Électrique & Batteries Hot-Swap
 1. ☐ Monter les diodes Schottky MBR4060PT sur leurs radiateurs alu vissés sur la plaque sagittale.

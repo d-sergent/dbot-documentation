@@ -40,6 +40,10 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 9. **Intégration du Manchon Central Anti-Écrasement & Mise à Jour Blueprint SVG** :
    - Ajout d'un 3ème insert tourné en **Alu 7075-T651 (Ø 26.0 ext / Ø 18.0 int × 45.0 mm, 35 g)** positionné au centre du tube carbone sous le nœud, usiné dans la barre de 500 mm existante (coût 0 €).
    - Mise à jour intégrale du schéma vectoriel [`noeud_demi_coquilles_bride.svg`](../01_Mecanique_et_Chassis/Torse/media/noeud_demi_coquilles_bride.svg) : affichage de la hauteur 42.0 mm (dos 6.0 mm), du Split Gap 1.0 mm, de l'insert central, de la goupille Ø 4×40 mm décalée à X = +12.0 mm et de la nomenclature officielle.
+10. **Découplage Isostatique en Z au Cou & Refonte Blueprint SVG Liaisons d'Extrémités** :
+   - Spécification des **lumières oblongues verticales (4.3 × 6.5 mm, ±1.0 mm en Z)** sur les cornières L sandwich reliant la plaque sagittale à la Plaque de Cou, pour interdire toute traction parasite vers le haut sur la Bride Supérieure et protéger le Split Gap (1.0 mm).
+   - Formalisation du **protocole de serrage séquentiel en 5 étapes** (Phase 4 du Guide).
+   - Refonte complète du blueprint vectoriel [`solution_liaison_embase_cou.svg`](../01_Mecanique_et_Chassis/Torse/media/solution_liaison_embase_cou.svg) (vue en coupe, séquence de montage et comparatif L-Brackets vs Tenon/Mortaise).
 
 ---
 

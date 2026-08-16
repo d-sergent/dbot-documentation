@@ -900,4 +900,12 @@ Hiérarchie de reprise de couple (architecture réelle GUIDE §3.C) :
 > [!NOTE]
 > **Conclusion de Dimensionnement** : L'épaisseur de paroi de **6.0 mm au dos du demi-alésage R15** (hauteur unitaire 21.0 mm, hauteur totale du nœud 42.0 mm) est l'optimum d'ingénierie parfait : elle offre un facteur de sécurité **Sf = × 4.91** sous le serrage maximal de 30 000 N tout en économisant **115 g** de masse et en libérant **18.0 mm** d'espace vertical libre dans le torse.
 
+---
+
+### F. Découplage Isostatique en Z de la Liaison de Cou (Protection du Nœud Central)
+
+Pour éliminer tout risque d'hyperstatisme axial qui viendrait tirer la Bride Supérieure vers le haut (+Z) et ouvrir le Split Gap de 1.0 mm :
+1. **Lumières Oblongues Verticales (4.3 × 6.5 mm)** : Les cornières L sandwich (20×20×3 mm) reliant la plaque sagittale à la Plaque de Cou intègrent des fentes oblongues de ±1.0 mm en Z.
+2. **Ordre de Montage Séquentiel** : Le nœud central (4× M6 à 8.5 N.m) est serré en premier pour figer la référence Z = 0. Les équerres de cou sont serrées en toute dernière étape, épousant la position naturelle de la plaque sans générer aucune traction parasite sur le composite carbone.
+
 
