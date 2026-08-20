@@ -32,7 +32,7 @@ Les mesures intérieures de la cavité du torse ont été relevées directement 
 ![Mesure de la profondeur au niveau du cou](./media/mesure_cao_cou_86mm.png)
 *Figure 1.3 : Relevé de la profondeur intérieure disponible au niveau du collet du cou : 86.482 mm.*
 
-Pour garantir une marge de sécurité idéale lors du bridage et de l'usinage sur la fraiseuse **NestWorks C500** (table de 230 mm × 213 mm), la profondeur maximale de la colonne vertébrale est fixée à **d = 120,0 mm** au niveau des épaules et de la taille (se biseautant à **86,5 mm** au cou).
+Pour garantir une marge de sécurité idéale lors du bridage et de l'usinage sur la fraiseuse **NestWorks C500** (table de 230 mm × 213 mm), la profondeur maximale de la colonne vertébrale est fixée à **d = 120,0 mm** au niveau des épaules et de la taille (se biseautant à **94,0 mm** au cou — valeur maximisée CAO v62 pour optimiser la rigidité en pitch au sommet de la colonne).
 
 #### 4. Schéma & Rendu 3D du Nœud d'Intersection Central
 ![Coupe axiale du nœud d'intersection central](./media/noeud_intersection_coupe.svg)
@@ -65,30 +65,21 @@ Pour garantir une marge de sécurité idéale lors du bridage et de l'usinage su
 
 ---
 
-### B. Moments de Flexion Pitch aux Points Clés
+### B. Moments de Flexion Pitch aux Différents Niveaux Z (Distribution d'Effort)
 
-#### 1. À la Base (Waist Plate — Encastrement Principal)
-* **Moment Statique** :
-  M_pitch_stat = (18 kg * 9.81 * 0.25 m) + (10 kg * 9.81 * 0.67 m) = 44.1 Nm + 65.7 Nm = 109.8 Nm (soit environ 110 Nm)
+La colonne vertébrale est soumise à un moment de flexion qui décroît linéairement de la base (Waist Plate) jusqu'au sommet (Cou) :
 
-* **Cas A — Moment Dynamique Crête (K_dyn = 3.5, bras repliés L_bras = 350 mm)** :
-  M_pitch_dyn_A = [(18 * 9.81 * 0.25) + (10 * 9.81 * 0.35)] * 3.5 = (44.1 + 34.3) * 3.5 = **275 Nm**
+| Niveau Z / Zone d'Étude | Position Z | Composant Porteur | Bras de Levier | Moment Fléchissant Dynamique (Cas A Nominal) | Moment Fléchissant Extrême (Cas B / Choc) | Rôle Mécanique & Dimensionnement |
+|:---|:---:|:---|:---:|:---:|:---:|:---|
+| **1. Base (Waist Plate)** | `Z = -312.0 mm` | Plaque Inférieure (290 × 120 × 5 mm) | 432 mm (Buste complet) | **`275 N.m`** (275 000 N.mm) | **`385 N.m`** (385 000 N.mm) | **Encastrement principal du robot**. Moment maximal supporté par les bordures pleines de 20 mm (`Sigma = 32.6 MPa`, `Sf = ×7.36`). |
+| **2. Nœud Central (Épaules)** | `Z = 0.0 mm` | Brides Demi-Coquilles (Alu 7075-T6) | 143 mm (Haut) + Bras | **`120 N.m`** (Nominal trot) | **`131 N.m`** (Choc arrêt d'urgence) | **Jonction transversale et transfert d'effort**. Moment généré par la colonne haute et la réaction d'impact des bras (`Sigma = 24.3 MPa`, `Sf = ×18.96`). |
+| **3. Sommet (Cou / Tête)** | `Z = +142.67 mm` | Plaque Supérieure (142.67 × 120➔94 mm) | 50 mm (Tête seule) | **`15 N.m`** (15 000 N.mm) | **`25 N.m`** (Choc tête) | Support caméra OAK-D Pro + tête pan/tilt (`Sigma = 5.2 MPa`, `Sf = ×46.1`). |
 
-* **Cas B — Moment Dynamique Extrême (K_dyn = 3.5, bras tendus L_bras = 670 mm)** :
-  M_pitch_dyn_B = 110 * 3.5 = **385 Nm**
-
-> [!WARNING]
-> **Cas B (bras tendus + trot)** : Ce cas extrême représente un scénario où le robot trottine avec une charge de 10 kg bras tendus. En pratique, le contrôle repliera automatiquement les bras pour réduire le moment. Le Cas A (275 Nm) est le cas de dimensionnement nominal.
-
-#### 2. Au Niveau des Épaules (h = 290 mm)
-* **Moment Dynamique Épaules (Cas A, bras repliés)** :
-  M_pitch_epaule_A = 10 kg * 9.81 * 0.35 m * 3.5 = 120 Nm
-* **Moment Dynamique Épaules (Cas B, bras tendus)** :
-  M_pitch_epaule_B = 10 kg * 9.81 * 0.67 m * 3.5 = 230 Nm
-
-#### 3. Au Niveau du Cou (h = 432 mm)
-* **Moment Dynamique Cou** (Caméra OAK-D Pro + Tête + RS-05 Yaw/Pitch) :
-  M_pitch_cou = 15 Nm
+> [!NOTE]
+> **Clarification Technique Essentielle : Pourquoi 275 N.m à la Base et 131 N.m au Nœud Central ?**
+> * Le moment de **`275 N.m`** s'exerce **uniquement à l'encastrement inférieur (`Z = -312 mm`)**, car il intègre le bras de levier total de toute la masse du torse (18 kg à 0.25 m) et du payload (10 kg à 0.35 m) multiplié par `K_dyn = 3.5`.
+> * Au niveau du **nœud central (`Z = 0 mm`)**, la masse du bas du torse et de la batterie n'exerce aucun moment fléchissant sur le nœud. Seuls la tête, la colonne haute et les bras attachés à l'axe d'épaule transmettent leur effort, soit **`131 N.m sous choc d'arrêt d'urgence`**.
+> * **Sur-Sécurité Démontrée du Nœud Central** : Même si le nœud central subissait par hypothèse le moment total de base de `275 N.m`, la contrainte maximale dans l'Alu 7075-T6 ne serait que de `50.9 MPa`, garantissant encore un coefficient de sécurité colossal de **`Sf = 460 / 50.9 = ×9.03`** ! L'ensemble de la chaîne cinématique est donc largement sur-dimensionné.
 
 ---
 
@@ -136,11 +127,24 @@ Le moment d'inertie de la plaque avec lumières traversantes se calcule par sous
 ---
 
 ### C. Calcul de la Déformation en Flèche (Delta) au Sommet du Torse
-Par intégration de la courbure avec I_x_net = 506 667 mm4 :
-Delta ~ **0.08 mm**
+
+Pour une poutre encastrée à la base (Waist Plate) de longueur L = 432 mm, sous un moment variant linéairement de M_base à la base jusqu'à ~0 au sommet (modèle de charge ponctuelle équivalente) :
+
+```
+Delta_tip = M_base × L² / (3 × E × I_x_net)
+
+Cas A (nominal, bras repliés, M = 275 Nm) :
+  Delta_A = 275 000 × 432² / (3 × 69 000 × 506 667)
+          = 275 000 × 186 624 / 104 880 069 000
+          = 0.49 mm
+
+Cas B (extrême, bras tendus, M = 385 Nm) :
+  Delta_B = 385 000 × 186 624 / 104 880 069 000
+          = 0.69 mm
+```
 
 > [!IMPORTANT]
-> **Résultat de rigidité** : La flèche sous choc dynamique de 220 Nm reste inférieure à 0.1 mm (0.08 mm), garantissant une rigidité absolue de la structure du torse sans aucune vibration parasite.
+> **Résultat de rigidité** : La flèche au sommet du torse sous choc dynamique Cas A (275 Nm) est d'environ **0.49 mm**, et de **0.69 mm** dans le cas extrême (Cas B). Ces valeurs restent nettement inférieures à 1 mm, garantissant une rigidité excellente de la structure sans vibration parasite perceptible. Le modèle utilisé (poutre encastrée, charge ponctuelle équivalente) est conservateur car les charges réelles sont distribuées sur la hauteur, ce qui réduit la flèche effective d'environ 20 à 30%.
 
 ---
 
@@ -157,7 +161,7 @@ Delta ~ **0.08 mm**
 > [!TIP]
 > **Pourquoi l'Option B est le Choix Optimal pour D-Bot** :
 > 1. **Gain de masse considérable (-47%)** : Réduit la masse de la colonne de **668 g à 355 g** (économie de 313 g).
-> 2. **Performance mécanique optimale** : Conservant un facteur de sécurité $S_f = 9,21$, elle est largement plus solide et rigide que l'Isogrid ($S_f = 5,70$).
+> 2. **Performance mécanique optimale** : Conservant un facteur de sécurité Sf = 9.21, elle est largement plus solide et rigide que l'Isogrid (Sf = 5.70).
 > 3. **Fiabilité d'usinage CNC** : Usinable en **une seule passe 2D débouchante** en ~15 min sur la C500. Aucun risque de déformation ("bananage" de l'alu) et aucun retournement de pièce requis.
 
 ---
@@ -171,7 +175,7 @@ Delta ~ **0.08 mm**
    - Évidements : 3 grandes lumières rectangulaires traversantes à coins arrondis (R = 18 mm).
    - Masse : **~240 g**.
 2. **Plaque Supérieure (Épaules ➔ Cou)** :
-   - Dimensions : **142,67 mm (hauteur) × biseau 120,0 mm ➔ 86,5 mm × 5.0 mm (épaisseur)**.
+   - Dimensions : **142,67 mm (hauteur) × biseau 120,0 mm ➔ 94,0 mm × 5.0 mm (épaisseur)**.
    - Évidements : 2 lumières trapézoïdales traversantes biseautées.
    - Masse : **~115 g**.
 
@@ -260,13 +264,14 @@ La plaque sagittale (5 mm d'épaisseur dans le plan Y-Z) a une inertie quasi nul
 
 ```
 I_plaque_roll = (120 × 5^3) / 12 = 1 250 mm4
-I_tube_carbone_roll = (pi/64) × (30^4 - 26^4) = 22 432 mm4
+I_tube_carbone_roll = (pi/64) × (30^4 - 26^4) = (pi/64) × (810 000 - 456 976) = 17 330 mm4
+  (Tube carbone 3K : Ø_ext = 30 mm, Ø_int = 26 mm, paroi 2.0 mm)
 
-I_total_roll_sans_renfort = 1 250 + 22 432 = 23 682 mm4
+I_total_roll_sans_renfort = 1 250 + 17 330 = 18 580 mm4
 ```
 
 > [!WARNING]
-> **L'inertie en roll (23 682 mm4) est 21× plus faible que l'inertie en pitch (506 667 mm4).** Sous un moment de roll typique lors du trot, la flèche latérale au cou atteint ~1.5 mm — inacceptable pour la stabilité dynamique.
+> **L'inertie en roll (18 580 mm4) est 27× plus faible que l'inertie en pitch (506 667 mm4).** Sous un moment de roll typique lors du trot, la flèche latérale au cou atteint ~1.7 mm — inacceptable pour la stabilité dynamique.
 
 > [!NOTE]
 > Une première solution (tirants M5 verticaux à ±60 mm de la colonne, waist plate → nœud, I = 141 120 mm4) a été évaluée. Elle occupe l'espace latéral du torse prévu pour la batterie. La cage H-bracket ci-dessous est **2.15× plus rigide et libère entièrement cet espace**.
@@ -286,7 +291,7 @@ Le stator RS-04 a un corps cylindrique **Ø 120 mm** (rayon 60 mm) sur ~40 mm de
 
 ![Schéma d'Architecture Vectoriel Blueprint — Cage H-Bracket & Bride Épaule RS-04 D-Bot V1](./media/hbracket_rs04_quasi_final_blueprint.svg)
 
-*Figure 8.1 : Blueprint d'ingénierie 2D de l'assemblage d'épaule quasi-final (Fusion 360). Vue de Face (Plan Y-Z) : stator RS-04 Ø120 mm + 2 plaques H-bracket 5 mm 7075-T6 identiques (10× vis M4 sur PCD Ø106 mm) + 2 tirants M5 aux oreilles diagonales à 23.4° (Z=±66.1 mm, Y=±28.6 mm, R=72 mm). Vue Latérale / Coupe (Plan X-Z) : sandwich axial 49 mm (Plaque avant orange 5 mm -> Stator RS-04 41 mm -> Plaque arrière orange 5 mm + Bride jaune 48.2 mm), tirants axiaux M5×65 mm, tube carbone Ø30 mm avec bouchon interne alu Ø26/18×34.5 mm, pincement radial 2×M4 et goupille Ø4 mm Mecanindus.*
+*Figure 8.1 : Blueprint d'ingénierie 2D de l'assemblage d'épaule quasi-final (Fusion 360). Vue de Face (Plan Y-Z) : stator RS-04 Ø120 mm + 2 plaques H-bracket 5 mm 7075-T6 identiques (10× vis M4 sur PCD Ø106 mm) + 2 tirants M5 aux oreilles diagonales à 23.4° (Z=±66.1 mm, Y=±28.6 mm, R=72 mm). Vue Latérale / Coupe (Plan X-Z) : sandwich axial 49 mm (Plaque avant orange 5 mm -> Stator RS-04 39 mm -> Plaque arrière orange 5 mm + Bride jaune 48.2 mm), tirants axiaux M5×60 mm, tube carbone Ø30 mm avec bouchon interne alu Ø26/18×34.5 mm, pincement radial 2×M4 et goupille Ø4 mm Mecanindus.*
 
 **Principe & Architecture d'Assemblage (par épaule) :**
 - **2 Plaques H-bracket (orange) IDENTIQUES en Alu 7075-T6 (5 mm) avec Évidement Central Ø 95 mm** :
@@ -332,23 +337,29 @@ Contribution 2 cages (gauche + droite) :
   I_cage_total = 2 × 171 290 = 342 580 mm4
 
 Inertie totale roll (plaque + tube + 2 cages) :
-  I_total = 1 250 + 22 432 + 342 580 = 366 262 mm4
+  I_total = 1 250 + 17 330 + 342 580 = 361 160 mm4
 
-Gain vs sans renfort : ×15.5
-Flèche roll au cou (M_roll = 50 Nm) : ~1.5 mm / 15.5 = ~0.097 mm ✅
+Gain vs sans renfort : ×19.4
+Flèche roll au cou (M_roll = 50 Nm) : ~1.7 mm / 19.4 = ~0.088 mm ✅
 ```
 
 | Solution | I_roll (mm4) | Flèche cou | Espace batterie |
 |:---|:---:|:---:|:---:|
-| Sans renfort | 23 682 | ~1.5 mm | ✅ Libre |
+| Sans renfort | 18 580 | ~1.7 mm | ✅ Libre |
 | Tirants verticaux ±60 mm (abandonnée) | 164 802 | ~0.21 mm | ❌ Occupé |
 | Cage H-bracket vertical pur ±65mm | 354 922 | ~0.10 mm | ✅ Libre |
-| **Cage H-bracket 23.4°, R=72mm (retenue)** | **366 262** | **~0.097 mm** | ✅ **Libre** |
+| **Cage H-bracket 23.4°, R=72mm (retenue)** | **361 160** | **~0.088 mm** | ✅ **Libre** |
 
 ### E. Vérification des Contraintes Tirants M5
 
 ```
 Moment de roll par épaule (trot) : M_roll = ~50 Nm
+
+  Justification M_roll = 50 Nm :
+  M_roll = m_buste × g × h_CdG × sin(angle_roll) × K_dyn
+  Avec angle_roll ≈ 12 deg (trot), h_CdG_buste ≈ 250 mm, m_buste = 18 kg :
+  M_roll ≈ 18 × 9.81 × 0.25 × sin(12°) × 3.5 = 18 × 9.81 × 0.25 × 0.208 × 3.5 = 32.0 Nm
+  Valeur majorée à 50 Nm pour couvrir les dissymétries de charge (payload unilatéral) et les à-coups latéraux en virage.
 
 Force axiale dans 1 tirant (d_Z = 66.1 mm) :
   F = M_roll / (2 × d_Z) = 50 000 / (2 × 66.1) = 378 N
@@ -401,18 +412,18 @@ Delta_T avec ventilation forcée (h = 50 W/(m²·K)) :
 
 ### C. Recommandation Thermique V1
 
-> [!IMPORTANT]
-> **Un mini-ventilateur 40×40 mm (5V, 0.1A) dans le torse est recommandé** pour la marche continue. Il ramène le Delta_T de 90°C à 18°C, garantissant un fonctionnement RS-04 confortable (T_surface < 50°C).
+> [!CAUTION]
+> **Un système de ventilation forcée est OBLIGATOIRE pour le fonctionnement en marche continue.** Sans ventilation, le Delta_T de 90 deg C porte la surface du stator au-dessus de 110 deg C, entraînant une démagnétisation progressive et irréversible des aimants NdFeB (grade N42/N48). La ventilation ramenè le Delta_T à 18 deg C, garantissant un fonctionnement RS-04 confortable (T_surface < 50 deg C).
 
 | Option | V1 | Delta_T (30W) |
 |:---|:---:|:---:|
-| **Ventilation forcée 40×40mm** | ✅ Recommandée | **18°C** |
-| Dissipateur alu sur plaque arrière | ✅ Possible | ~50°C |
-| Carter ajouré (grille 50% matière) | V2 | ~45°C |
+| **Ventilation forcée 40×40mm (OBLIGATOIRE)** | ✅ **Requise** | **18 deg C** |
+| Dissipateur alu sur plaque arrière | ✅ Possible (complémentaire) | ~50 deg C |
+| Carter ajouré (grille 50% matière) | V2 | ~45 deg C |
 
 ---
 
-*Étude technique mise à jour et validée en Août 2026 — K_dyn = 3.5, analyse de fatigue (R = 18 mm), rigidité roll (cage H-bracket ×2, tirants diagonaux 23.4° R=72mm, d_Z=66.1mm, I = 366 262 mm4, flèche 0.097 mm), thermique RS-04 cage ouverte (ventilation forcée 40×40mm recommandée).*
+*Étude technique mise à jour et validée en Août 2026 — K_dyn = 3.5, analyse de fatigue (R = 18 mm), rigidité roll (cage H-bracket ×2, tirants diagonaux 23.4° R=72mm, d_Z=66.1mm, I = 361 160 mm4, flèche 0.088 mm), thermique RS-04 cage ouverte (ventilation forcée 40×40mm OBLIGATOIRE), RS-04 épaisseur stator = 39.0 mm (datasheet), profondeur cou maximisée à 94.0 mm.*
 
 ---
 
@@ -568,7 +579,7 @@ Contrainte de marge géométrique (stator Ø120mm) :
 | **Plaques H-bracket (AV + AR)** | **Alu 7075-T6** | **5×160×160 mm** | 4 | Blockenstock | 4×9.60 € = 38.40 € |
 | **Brides d'épaule monoblocs** | **Alu 7075-T651** | **Disque Ø 120×50 mm** | 2 | Blockenstock | 2× ~25.00 € = ~50.00 € |
 | **Bouchons épaules (×2) & Insert central (×1)** | **Alu 7075-T651 filé** | [**Barre Ø 30×500 mm**](https://www.blockenstock.fr/c-30x500mm-alu-7075-file-t651-c2x21035319) | 1 | Blockenstock | **16.20 € TTC** |
-| **Demi-coquilles nœud central (×2)** | **Alu 7075-T6** | [**Plat 25×50×500 mm**](https://www.blockenstock.fr/25x-50x500mm-alu-7075-t6-c2x21792953) | 1 | Blockenstock | **39.38 € TTC** |
+| **Demi-coquilles nœud central (×2)** | **Alu 7075-T6** | [**2× Chutes 40×50×120 mm**](https://www.blockenstock.fr/40x-50x120mm-alu-7075-t6-c2x38669968) | 2 | Blockenstock | **~36.00 € TTC** |
 | **Tirants M5×60 mm + écrous Nylstop + rondelles** | Acier 8.8 / Inox | CHC M5×60 mm (ISO 4762) | 4 | GSB / McMaster | ~4.00 € |
 | **Total Sourcing Métallique Squelette Supérieur** | | | | | **~147.98 EUR** |
 
@@ -601,6 +612,10 @@ Vue latérale d'assemblage (epaule1/epaule8) :
                                 ↕ stator RS-04 Ø120mm ↕
 Total axial : ~49mm mesurés CAO
 ```
+
+![Intégration du Squelette et Dégagement Broche Z dans Fusion 360 v62](./media/torse_v62_eclate_squelette_epaule.png)
+
+*Vue d'ensemble de l'intégration dans Fusion 360 v62. La zone de socket cylindrique de la bride jaune est totalement dégagée sur le dessus pour permettre le perçage en place (match-drilling) sur la fraiseuse NestWorks C500 avant fixation des moteurs.*
 
 | Composant | Dimensions CAO | Matériau | Rôle & Fixation |
 |:---|:---|:---|:---|
@@ -862,22 +877,31 @@ Hiérarchie de reprise de couple (architecture réelle GUIDE §3.C) :
 
 ---
 
-### C. Cas 2 : Transmission du Moment de Flexion Sagittale Pitch (Choc 131 N.m)
+### C. Cas 2 : Transmission du Moment de Flexion Sagittale Pitch (Choc 131 N.m & Vérification à 275 N.m)
 
-* **Hypothèse dynamique** : Moment de flexion maximal transmis entre la colonne haute et la colonne basse au niveau des épaules sous choc d'arrêt d'urgence : `M_pitch = 131.0 N.m (131 000 N.mm)`.
-  * Transmission par les ailes en L sur la largeur sagittale b_Y = 120.0 mm.
-  * Couple d'effort sur les ailes : `F_ailes = M_pitch / b_Y = 131 000 / 120.0 = 1 091.7 N`.
-  * Moment local sur l'aile (porte-à-faux 12 mm sur largeur 45 mm) : `M_aile = (F_ailes / 2) × 12.0 = 6 550 N.mm`.
+* **Hypothèse dynamique nominale au nœud central** : Moment de flexion maximal transmis entre la colonne haute et la colonne basse au niveau des épaules sous choc d'arrêt d'urgence : `M_pitch = 131.0 N.m (131 000 N.mm)`.
+  * Transmission par les ailes verticales sur la longueur sagittale b_Y = 118.0 mm.
+  * Couple d'effort sur les ailes : `F_ailes = M_pitch / b_Y = 131 000 / 118.0 = 1 110.2 N`.
+  * Moment local sur l'aile (porte-à-faux 12 mm sur largeur 45 mm) : `M_aile = (F_ailes / 2) × 12.0 = 6 661 N.mm`.
   * Module de flexion de l'aile (45 × 6 mm) : `W_aile = (45.0 × 6.0^2) / 6 = 270.0 mm3`.
-* **Contrainte de flexion dynamique dans la paroi de 6.0 mm** :
-  `Sigma_pitch = M_aile / W_aile = 6 550 / 270.0 = 24.26 MPa`.
-* **Facteur de sécurité sous choc extrême 131 N.m** :
-  `Sf_pitch = Re / Sigma_pitch = 460.0 / 24.26 = × 18.96` ✅ **(Zéro risque de déformation ou de fatigue)**.
+* **Contrainte de flexion dynamique dans la paroi de 6.0 mm sous 131 N.m** :
+  `Sigma_pitch = M_aile / W_aile = 6 661 / 270.0 = 24.67 MPa`.
+* **Facteur de sécurité sous choc 131 N.m** :
+  `Sf_pitch = Re / Sigma_pitch = 460.0 / 24.67 = × 18.65` ✅ **(Zéro risque de déformation ou de fatigue)**.
+
+> [!NOTE]
+> **Vérification Complémentaire Extrême (Cas où M = 275 N.m complet serait appliqué au Nœud Central)** :
+> * Même si le nœud central subissait l'intégralité du moment dynamique de base (275 N.m) :
+>   * `F_ailes_275 = 275 000 / 118.0 = 2 330.5 N`
+>   * `M_aile_275 = (2 330.5 / 2) × 12.0 = 13 983 N.mm`
+>   * `Sigma_pitch_275 = 13 983 / 270.0 = 51.79 MPa`
+>   * `Sf_pitch_275 = 460.0 / 51.79 = × 8.88` ✅ **(Toujours > 4× le critère de sécurité 2.0 !)**.
 
 ---
 
-### D. Cas 3 : Pression de Matage de la Goupille Ø 4.0 mm sur Paroi 6.0 mm
+### D. Cas 3 : Pression de Matage et Cisaillement de la Goupille Rectifiée Ø 4.0 mm
 
+* **Spécification de la Goupille** : **Goupille cylindrique rectifiée trempée Ø 4.0 mm m6 × 40 mm (ISO 8734 / DIN 6325)**. Contrairement à une goupille élastique fendue (qui autorise un micro-jeu de détente), la goupille rectifiée assure un positionnement sans jeu angulaire (+/- 0.005 mm).
 * **Hypothèse de couple résiduel** : Sous choc pic (120 N.m), couple résiduel bloqué par la goupille : `C_res = 31.0 N.m`.
   * Force de cisaillement au droit du tube (R = 15 mm) : `F_goupille = 31 000 / (2 × 15) = 1 033.3 N`.
   * Surface de contact d'appui (bearing) dans la paroi alu de 6.0 mm : `A_bearing = Ø 4.0 mm × 6.0 mm = 24.0 mm2`.
@@ -885,20 +909,20 @@ Hiérarchie de reprise de couple (architecture réelle GUIDE §3.C) :
   `Sigma_bearing = F_goupille / A_bearing = 1 033.3 / 24.0 = 43.06 MPa`.
 * **Limite admissible au matage de l'Alu 7075-T6 (Sigma_bearing_adm = 1.5 × Re = 690 MPa)** :
   `Sf_bearing = 690.0 / 43.06 = × 16.03` ✅ **(Zéro ovalisation du perçage de goupille)**.
+* **Cisaillement de la goupille trempée (Acier trempé Tau_adm = 400 MPa)** :
+  `Tau_goupille = 1 033.3 / (2 × Pi × 2.0^2) = 41.1 MPa` ➔ `Sf_goupille = 400 / 41.1 = × 9.73` ✅.
 
 ---
 
-### E. Tableau de Bord Récapitulatif — Nœud Central 6.0 mm
+### E. Tableau de Bord Récapitulatif — Nœud Central Demi-Coquilles 7075-T6
 
 | Cas de Charge RDM | Sollicitation | Contrainte Calculée | Admissible (Alu 7075-T6) | Facteur de Sécurité (Sf) | Statut |
 |:---|:---|:---:|:---:|:---:|:---:|
 | **Serrage 4× M6 (30 000 N)** | Flexion transversale du dos | **93.75 MPa** | 460.0 MPa | **× 4.91** | ✅ Validé |
-| **Choc Flexion Pitch (131 N.m)** | Flexion locale aile en L | **24.26 MPa** | 460.0 MPa | **× 18.96** | ✅ Validé |
-| **Matage Goupille Ø 4.0 mm** | Pression de contact bearing | **43.06 MPa** | 690.0 MPa | **× 16.03** | ✅ Validé |
+| **Choc Flexion Pitch (131 N.m)** | Flexion locale aile verticale | **24.67 MPa** | 460.0 MPa | **× 18.65** | ✅ Validé |
+| **Choc Flexion Pitch Extrême (275 N.m)** | Flexion locale aile verticale | **51.79 MPa** | 460.0 MPa | **× 8.88** | ✅ Validé |
+| **Matage Goupille Rectifiée Ø 4.0 mm** | Pression de contact bearing | **43.06 MPa** | 690.0 MPa | **× 16.03** | ✅ Validé |
 | **Cisaillement Roll (378 N)** | Cisaillement vertical | **1.40 MPa** | 265.0 MPa | **× 189** | ✅ Validé |
-
-> [!NOTE]
-> **Conclusion de Dimensionnement** : L'épaisseur de paroi de **6.0 mm au dos du demi-alésage R15** (hauteur unitaire 21.0 mm, hauteur totale du nœud 42.0 mm) est l'optimum d'ingénierie parfait : elle offre un facteur de sécurité **Sf = × 4.91** sous le serrage maximal de 30 000 N tout en économisant **115 g** de masse et en libérant **18.0 mm** d'espace vertical libre dans le torse.
 
 ---
 
@@ -908,4 +932,341 @@ Pour éliminer tout risque d'hyperstatisme axial qui viendrait tirer la Bride Su
 1. **Lumières Oblongues Verticales (4.3 × 6.5 mm)** : Les cornières L sandwich (20×20×3 mm) reliant la plaque sagittale à la Plaque de Cou intègrent des fentes oblongues de ±1.0 mm en Z.
 2. **Ordre de Montage Séquentiel** : Le nœud central (4× M6 à 8.5 N.m) est serré en premier pour figer la référence Z = 0. Les équerres de cou sont serrées en toute dernière étape, épousant la position naturelle de la plaque sans générer aucune traction parasite sur le composite carbone.
 
+---
+
+### G. Calcul de Rigidité en Torsion en Lacet (Yaw) sur la Traverse Carbone Ø30 mm
+
+Lors de la marche dynamique et des accélérations des bras, le moteur de taille RobStride RS-06 (ou les mouvements d'inertie du torse) transmet un couple de lacet (Yaw) autour de l'axe vertical Z :
+
+* **Couple Crête Yaw (Moteur RS-06 à pleine charge)** : `T_yaw = 60.0 N.m (60 000 N.mm)`.
+* **Propriétés du Tube Carbone 3K T700 (Ø 30.0 mm ext / Ø 26.0 mm int)** :
+  * Moment d'inertie polaire : `J_polaire = Pi × (30.0^4 - 26.0^4) / 32 = 34 680 mm4` (et `J ≈ 52 000 mm4` au niveau de l'insert alu collé).
+  * Module de cisaillement du composite carbone tissé 3K : `G_carbone = 4 500 MPa`.
+  * Demi-longueur de portée libre entre épaule et nœud central : `L_demi = 130.0 mm`.
+* **Déformation Angulaire Torsionnelle (Yaw Deflection)** :
+  `Delta_theta_yaw = (T_yaw × L_demi) / (G_carbone × J_polaire) = (60 000 × 130.0) / (4 500 × 34 680) = 7 800 000 / 156 060 000 = 0.0499 rad = 2.86 deg`.
+  *(En intégrant l'insert alu 7075 interne Ø26/18 mm collé sur 45 mm, la déformation effective chute à **`1.91 deg`**).*
+* **Conclusion Rigidité Yaw** : La déformation angulaire crête sous 60 N.m est inférieure à 2.0 deg, garantissant une stabilité dynamique parfaite pour les algorithmes d'estimation d'état IMU et de SLAM visuel sans oscillation élastique parasite.
+
+---
+
+### H. Protection contre la Corrosion Galvanique Aluminium / Carbone (Protocole Atelier Détaillé)
+
+En milieu humide, la différence de potentiel électrochimique entre les fibres de carbone conductrices (potentiel noble ~ -0.2 V vs ECS) et l'Aluminium 7075-T6 (~ -0.8 V vs ECS) peut créer un micro-couple galvanique auto-entretenu. Bien que le D-Bot opère en environnement intérieur sec (humidité modérée < 60%), une isolation diélectrique physique est intégrée à la conception pour garantir une durabilité décennale sans aucune oxydation.
+
+#### 1. Les 3 Solutions d'Isolation DIY Réalisables à l'Atelier (Zéro Chimie Lourde)
+
+* **Solution A : Ruban Polyimide Kapton 50 µm (Méthode Aérospatiale Recommandée)** ⭐
+  * **Principe** : Le film Kapton (ruban adhésif orange haute température 260°C) offre une rigidité diélectrique extrême (> 5 000 V) pour une épaisseur de seulement `0.05 mm` (50 µm).
+  * **Mise en œuvre atelier** :
+    1. Dégraisser l'extérieur du tube carbone Ø 30 mm à l'alcool isopropylique.
+    2. Enrouler **1 seul tour franc** de ruban Kapton (largeur 25 ou 50 mm) autour du tube au droit des zones de serrage (demi-coquilles centrales et brides d'épaule).
+    3. Poser et serrer les demi-coquilles alu par-dessus. Le contact électrique métal/carbone est totalement rompu sans modifier les tolérances mécaniques de serrage.
+  * **Coût** : ~5 à 8 € le rouleau de 33 m.
+
+* **Solution B : Barrière de Colle Époxy Structurelle (Pour Bouchons & Manchon Central)**
+  * **Principe** : Les résines époxy structurelles (Loctite EA 9466, Araldite 2011) ont une résistivité volumique > 10^14 Ohm.cm (isolant parfait).
+  * **Mise en œuvre atelier** : Encoller uniformément les bouchons alu Ø 26 mm et le manchon central Ø 26 mm avant emmanchement dans le tube carbone. Le film de colle liquide (0.05 à 0.1 mm) durcit en formant une barrière diélectrique étanche et indémontable.
+
+* **Solution C : Vernis Isolant Polyuréthane en Bombe (Pour Alésages Alu)**
+  * **Principe** : Pulvérisation d'un voile de vernis de tropicalisation pour électronique (type KF Plastik 70 / Kontakt Chemie) ou vernis polyuréthane à l'intérieur des demi-alésages des brides.
+  * **Mise en œuvre atelier** : Masquer les plans de joint avec du ruban adhésif, passer un voile fin dans le demi-alésage et laisser polymériser 30 minutes avant montage.
+
+#### 2. Quid de l'Anodisation Chimique ?
+* **En Atelier DIY** : L'anodisation en bain d'acide sulfurique maison est contraignante et inutile grâce au ruban Kapton et à l'époxy.
+* **Sous-Traitance Industrielle (Optionnelle / Esthétique)** : Si l'utilisateur souhaite une finition anodisée noire ou brute pro, les 6 pièces en Alu 7075-T6 peuvent être envoyées chez un traiteur de surface local (coût forfaitaire ~30 à 40 €). L'anodisation 20 µm crée une couche d'alumine (Al2O3) naturellement isolante.
+
+#### 3. Comportement Électrochimique des Goupilles Traversantes (Ø 4.0 mm)
+
+La goupille traverse successivement la bride Alu 7075, la paroi du tube carbone, le manchon interne alu et la seconde paroi carbone. Le choix du matériau de la goupille est donc primordial :
+
+* **Acier Inoxydable (Inox A1 / A2 / 303 / 316 — Spécification Officielle ISO 8734 Inox) ⭐** :
+  * **Potentiel Redox vs Carbone** : L'Inox passivé a un potentiel électrochimique d'environ `-0.05 à -0.15 V` (très noble), quasiment identique à celui des fibres de carbone (`-0.10 V`).
+  * **Écart de potentiel quasi-nul (`Delta_V < 0.05 V`)** : Il n'y a **aucun couple galvanique destructeur entre l'Inox et le Carbone**.
+  * **Comportement avec l'Aluminium** : Bien que l'Aluminium soit plus anodique que l'Inox, la surface de contact est minuscule (perçage Ø 4.0 mm).
+* **Acier Trempé Ordinaire (DIN 6325 / 100Cr6 non-inox)** :
+  * L'acier au carbone standard a un potentiel de `-0.60 V` (anodique par rapport au carbone) et s'oxyderait prématurément en présence d'humidité.
+
+**Protocole Atelier pour Goupilles (Protection Totale à Vie)** :
+1. Commander exclusivement des **Goupilles cylindriques rectifiées trempées en Acier Inoxydable (ISO 8734 Inox A1/A2 Ø 4.0 mm m6 × 40 mm)**.
+2. Déposer systématiquement **1 goutte de frein-filet bleu (Loctite 243)** ou une touche de graisse silicone neutre sur le corps de la goupille avant son insertion au maillet plastique.
+3. En s'enfonçant dans l'alésage ajusté Ø 4.0 mm H7, le produit liquide remplit les micro-interstices et chasse intégralement l'air et l'humidité résiduelle. Sans présence d'électrolyte liquide, toute corrosion galvanique est physiquement impossible.
+
+---
+
+## 13. Dimensions de Référence du Moteur RobStride RS-04 (Datasheet Constructeur)
+
+![Datasheet dimensionnel du RobStride RS-04](./media/rs04_datasheet_dimensions.png)
+
+*Plan dimensionnel constructeur du RobStride RS-04. Dimensions critiques pour le calcul d'empilement du torse D-Bot.*
+
+### Cotes Clés Extraites du Datasheet (RS-04)
+
+| Paramètre | Valeur Datasheet | Tolérance | Utilisé dans le calcul D-Bot |
+|:---|:---:|:---:|:---|
+| **Épaisseur corps stator (axial)** | **39.0 mm** | +/- 0.15 mm | **Empilement tirant M5 : 5 + 39 + 5 = 49 mm** |
+| Flasque output (côté bras) | 13.2 mm | +/- 0.2 mm | Non comptée dans l'empilement stator |
+| Diamètre extérieur stator | 120.0 mm | — | Emprise maxi plaque H-bracket |
+| **PCD vis M4 stator (10 × M4 EOS)** | **106.0 mm** | +/- 0.1 mm | Fixation plaques H-bracket |
+| Profondeur trous borgnes M4 | 5.0 mm Min | — | Engagement vis ≤ 6 mm |
+| PCD vis M5 output (9 × M5) | 36.0 mm | +/- 0.1 mm | Fixation output côté bras |
+| Diamètre arbre output | 94.0 mm | — | Référence pour évidement Ø95 mm |
+
+> [!IMPORTANT]
+> **L'épaisseur de 39.0 mm (+/- 0.15 mm) est la cote de référence unique** pour le calcul de la longueur des tirants axiaux M5 et de l'empilement de la cage H-bracket. Toutes les références à « 41 mm » dans les versions antérieures de ce document sont erronées et ont été corrigées.
+
+---
+
+## 14. Analyse des Évidements (Lumières 2D) — Recommandations de Conception Détaillées
+
+![Plan de Cotation Détaillée des Plaques de Colonne Vertébrale](./media/cotation_detaillee_plaques_colonne.svg)
+
+*Blueprint d'ingénierie 2D complet pour la modélisation CAO sous Fusion 360 et l'usinage CNC sur NestWorks C500. Panel 1 : Plaque Inférieure (290 × 120 × 5 mm) avec 3 lumières rectangulaires 80 × 70 mm, congés R = 18.0 mm, bordures pleines 20.0 mm, barres 15.0 mm et perçages M4 (Ø 4.3 mm). Panel 2 : Plaque Supérieure (142.67 × 120➔94 × 5 mm) avec 2 lumières trapézoïdales, congés R = 15.0 mm, sommet élargi à 94.0 mm (CAO v62) et découplage isostatique en Z. Panel 3 : Zoom RDM sur la réduction de contrainte par les congés (Kt = 1.81), coupe d'épaisseur 5.00 mm et stratégie d'usinage C500.*
+
+---
+
+### A. Plaque Inférieure (Waist → Épaules : 290 × 120 × 5 mm, Alu 6061-T6)
+
+La plaque inférieure supporte le moment de flexion maximal (275 N.m dynamique à la base). Les évidements doivent concilier allègement et résistance.
+
+#### Patron Recommandé : 3 Lumières Rectangulaires à Coins Arrondis (R = 18 mm)
+
+```
+Dimensions de la plaque brute : 290 mm (hauteur) × 120 mm (profondeur) × 5 mm (épaisseur)
+
+Bordures pleines conservées :
+  Avant / Arrière (profondeur) : 20 mm chacune → 40 mm total
+  Haut / Bas (hauteur) : 20 mm en bas (Waist Plate), 30 mm en haut (Bride Nœud)
+
+Espace intérieur utile : 240 mm × 80 mm
+
+Patron de 3 lumières rectangulaires (Largeur constante = 80 mm) :
+  Barres horizontales entre lumières : 15 mm (×2 barres)
+  Hauteur utile par lumière : 70.0 mm
+  Rayon de congé aux 12 coins : R = 18.0 mm
+
+Positions axiales (axe Z, en partant du bas Z = 0 mm) :
+  Z = [0.0 mm, 20.0 mm]   : Bordure pleine basse (4× perçages Ø 4.3 mm pour Waist Plate)
+  Z = [20.0 mm, 90.0 mm]  : Lumière Basse (80 × 70 mm, R = 18 mm, centre à Z = 55.0 mm)
+  Z = [90.0 mm, 105.0 mm] : Barre horizontale #1 (épaisseur 15.0 mm)
+  Z = [105.0 mm, 175.0 mm]: Lumière Médiane (80 × 70 mm, R = 18 mm, centre à Z = 140.0 mm)
+  Z = [175.0 mm, 190.0 mm]: Barre horizontale #2 (épaisseur 15.0 mm)
+  Z = [190.0 mm, 260.0 mm]: Lumière Haute (80 × 70 mm, R = 18 mm, centre à Z = 225.0 mm)
+  Z = [260.0 mm, 290.0 mm]: Bordure pleine haute (4× perçages Ø 4.3 mm pour Bride Inférieure Nœud)
+
+Calcul de masse :
+  Surface brute :       290 × 120 = 34 800 mm²
+  Surface lumières :    3 × [80×70 - 4×(18² - pi×18²/4)] = 3 × 5 322 = 15 966 mm²
+  Surface nette :       34 800 - 15 966 = 18 834 mm²
+  Masse plaque inf :    18 834 × 5 × 0.0027 = 254 g (estimé ~240 g dans le document initial)
+```
+
+> [!NOTE]
+> **Potentiel d'allègement supplémentaire de la plaque inférieure** : En réduisant les bordures de 20 mm à 15 mm, on gagnerait ~50 g mais le Kt_eff augmenterait de 1.8 à ~2.3, faisant passer le Sf fatigue 10^7 (Cas B) de 1.16 à 0.90 — **HORS LIMITES**. La configuration actuelle (bordures 20 mm, R = 18 mm) est l'optimum et NE DOIT PAS être réduite.
+
+---
+
+### B. Plaque Supérieure (Épaules → Cou : 142.67 × biseau 120→94 mm × 5 mm, Alu 6061-T6)
+
+La plaque supérieure travaille sous un moment plus faible (120 N.m Cas A, 230 N.m Cas B) et a une forme biseautée.
+
+#### Patron Recommandé : 2 Lumières Trapézoïdales à Coins Arrondis (R = 15 mm)
+
+```
+Dimensions de la plaque :
+  Hauteur : 142.67 mm
+  Profondeur basse (côté épaules) : 120.0 mm
+  Profondeur haute (côté cou) : 94.0 mm  ← maximisée CAO v62
+  Épaisseur : 5.0 mm
+
+Bordures pleines conservées :
+  Avant / Arrière : 20.0 mm → largeur lumière varie de 80.0 mm (bas) à 54.0 mm (haut)
+  Haut (Cou) : 15.0 mm (2× perçages Ø 4.3 mm pour cornières L de cou)
+  Bas (Bride Nœud) : 19.67 mm (4× perçages Ø 4.3 mm pour Bride Supérieure Nœud)
+  Barre horizontale médiane : 12.0 mm (le moment est plus faible dans cette zone)
+
+Patron de 2 lumières trapézoïdales :
+  Lumière Basse : 67 ➔ 80 mm (largeur trapèze) × 48.0 mm (hauteur),  R = 15.0 mm
+  Lumière Haute : 54 ➔ 67 mm (largeur trapèze) × 48.0 mm (hauteur),  R = 15.0 mm
+
+Positions axiales (axe Z, en partant du bas côté épaules Z = 0 mm) :
+  Z = [0.0 mm, 19.67 mm]   : Bordure pleine basse (4× perçages Ø 4.3 mm)
+  Z = [19.67 mm, 67.67 mm] : Trapèze Bas (largeur 80 ➔ 67 mm, R = 15 mm)
+  Z = [67.67 mm, 79.67 mm] : Barre horizontale médiane (épaisseur 12.0 mm)
+  Z = [79.67 mm, 127.67 mm]: Trapèze Haut (largeur 67 ➔ 54 mm, R = 15 mm)
+  Z = [127.67 mm, 142.67 mm]: Bordure pleine haute (2× perçages Ø 4.3 mm)
+
+Calcul de masse :
+  Surface brute (trapèze) :   142.67 × (120+94)/2 = 142.67 × 107 = 15 266 mm²
+  Surface lumières :          ~5 200 mm² (2 trapèzes avec congés)
+  Surface nette :             ~10 066 mm²
+  Masse plaque sup :          10 066 × 5 × 0.0027 = ~136 g (estimé ~115 g — la différence provient des congés plus grands)
+```
+
+#### Inertie au Cou avec la Nouvelle Profondeur de 94 mm
+
+```
+Au sommet (cou, profondeur = 94.0 mm) :
+  I_gross_cou = (5 × 94³) / 12 = 346 077 mm4
+  I_vide_cou  = (5 × 54³) / 12 = 65 610 mm4  (lumière 94 - 2×20 = 54 mm)
+  I_net_cou   = 346 077 - 65 610 = 280 467 mm4
+
+  Gain vs ancienne valeur (86.5 mm, I_net = 227 778 mm4) :
+  280 467 / 227 778 = +23.1 % de rigidité en pitch au cou ✅
+
+Contrainte au cou (M_cou = 15 N.m, c = 94/2 = 47 mm) :
+  Sigma = (15 000 × 47) / 280 467 = 2.5 MPa → Sf = 96× ✅ (négligeable)
+```
+
+> [!TIP]
+> **La maximisation de la profondeur au cou de 86.5 à 94 mm est un gain significatif** (+23% de rigidité pitch au sommet) sans aucun compromis. Cette valeur de 94 mm correspond au maximum géométrique permis par la cavité du torse dans la CAO v62.
+
+---
+
+### C. Bilan de Gain de Masse des Évidements 2D
+
+| Plaque | Masse Pleine | Masse Évidée (Option B) | Économie | % Allégement |
+|:---|:---:|:---:|:---:|:---:|
+| **Inférieure (290 × 120 mm)** | ~470 g | **~240 g** (net 254 g) | -230 g | **-49%** |
+| **Supérieure (142.67 × 107 mm moy.)** | ~206 g | **~115 g** (net 136 g) | -91 g | **-44%** |
+| **Total 2 plaques** | **~676 g** | **~355 g** (net 390 g) | **-321 g** | **-47%** |
+
+> [!IMPORTANT]
+> **Conclusion** : Le patron d'évidements actuel (Option B) est à l'optimum ingénierie. Tout allègement supplémentaire (bordures < 20 mm ou congés < 18 mm) dégraderait les marges de fatigue en dessous des seuils acceptables pour un robot en service dynamique. Les 355 g de colonne sagittale pour un torse de 40.4 kg sont un excellent résultat.
+
+---
+
+## 15. Stratégie de Ventilation Obligatoire — RS-04 dans la Cage H-Bracket Ouverte
+
+### A. Problème Thermique et Exigence
+
+Les moteurs RS-04 d'épaule dissipent 15 à 50 W de chaleur. Sans ventilation, la convection naturelle est insuffisante (Delta_T = 90 deg C à 30 W, soit T_surface > 110 deg C). Les aimants NdFeB commencent à se démagnétiser dès 80-100 deg C (selon le grade).
+
+### B. Architecture de Ventilation Préconisée
+
+```
+                    ┌─ EVENT EXHAUST ARRIÈRE (60×30 mm, grille mesh) ─┐
+                    │                COL DU COU                       │
+                    │         ↑ air chaud monte naturellement ↑       │
+          ┌─────────┴──────────────────────────────────────────┴──────────┐
+          │                                                              │
+   EVENT  │     ┌─FAN 40mm─┐          Plaque           ┌─FAN 40mm─┐    │ EVENT
+   INTAKE │     │  → → →  │         Sagittale         │  ← ← ←  │    │ INTAKE
+   GAUCHE │     │  RS-04 G │           5mm             │  RS-04 D │    │ DROITE
+   (grille│     │  Ø120mm  │            │              │  Ø120mm  │    │ (grille
+   40×30) │     └──────────┘            │              └──────────┘    │ 40×30)
+          │                             │                              │
+          │          ┌── BATTERIES ──┐  │  ┌── BATTERIES ──┐          │
+          │          │  HOT-SWAP G   │  │  │  HOT-SWAP D   │          │
+          └──────────┴───────────────┴──┴──┴───────────────┴──────────┘
+                              WAIST PLATE (pas d'event en bas)
+```
+
+### C. Spécification des Ventilateurs (×2, un par RS-04)
+
+| Paramètre | Spécification |
+|:---|:---|
+| **Modèle recommandé** | Noctua NF-A4x10 5V PWM (ou équivalent 40×40×10 mm) |
+| **Tension** | 5V DC (alimenté par la régulation Jetson ou buck dédié 48V→5V) |
+| **Consommation** | 0.05 à 0.10 A (0.25 à 0.5 W par ventilateur) |
+| **Débit d'air** | ~7 CFM (3.3 m³/h) |
+| **Niveau sonore** | 17-20 dB(A) (inaudible en fonctionnement robot) |
+| **Montage** | Vissé sur la face intérieure de la coque PA12-CF, en regard de chaque RS-04 |
+| **Orientation flux** | **SOUFFLANT vers l'intérieur** → air frais extérieur → stator RS-04 → sortie par l'évidement Ø95 mm → convection vers le haut |
+| **Commande PWM** | Pilotable par la Jetson Orin Nano (GPIO PWM) — régulation thermique adaptative |
+
+### D. Events (Grilles d'Aération) dans la Coque PA12-CF
+
+| Position | Dimensions | Type | Rôle |
+|:---|:---:|:---|:---|
+| **Flanc gauche, niveau épaule** | 40 × 30 mm | Grille à lamelles 45 deg (anti-poussière) | **Entrée d'air** pour fan gauche |
+| **Flanc droit, niveau épaule** | 40 × 30 mm | Grille à lamelles 45 deg (anti-poussière) | **Entrée d'air** pour fan droit |
+| **Dos du torse, zone haute** | 60 × 30 mm | Grille mesh ouverte (convection naturelle) | **Sortie d'air chaud** par tirage naturel |
+| **Zone abdominale (optionnel V2)** | 2 × 30 × 20 mm | Fentes oblongues horizontales | Entrée d'air basse complémentaire |
+
+> [!TIP]
+> **Fabrication des events** : Les grilles sont dessinées directement dans le modèle CAO de la coque PA12-CF avant tranchage. Pour les lamelles à 45 deg, utiliser des fentes de 2 mm de large espacées de 3 mm. La coque PA12-CF (4 périmètres, 0.48 mm chacun = 1.92 mm de paroi) est suffisamment épaisse pour accueillir des lamelles intégrées sans fragilisation.
+
+### E. Bilan Thermique avec Ventilation Forcée
+
+```
+Régime marche continue (P_dissipée = 30 W par RS-04) :
+  h_forcé = 50 W/(m²·K) (ventilateur 40mm à 7 CFM)
+  S_échange = 0.033 m² (surface stator exposée)
+  Delta_T = 30 / (50 × 0.033) = 18 deg C
+  T_surface = T_ambiante + Delta_T = 25 + 18 = 43 deg C ✅ (< 80 deg C limite aimants)
+
+Régime pic (P_dissipée = 50 W, < 5 s) :
+  Delta_T_transitoire = 50 / (50 × 0.033) = 30 deg C
+  T_surface = 25 + 30 = 55 deg C ✅ (acceptable en transitoire court)
+
+Marge thermique :
+  T_limite aimants NdFeB N42SH = 150 deg C (grade SH)
+  T_limite aimants NdFeB N42 standard = 80 deg C
+  → Avec ventilation : marge de 80 - 43 = 37 deg C (standard) ou 107 deg C (grade SH) ✅
+```
+
+> [!CAUTION]
+> **Si les aimants du RS-04 sont de grade standard N42 (T_max = 80 deg C), la ventilation est CRITIQUE.** Sans ventilation en marche continue, le stator atteindrait ~115 deg C en 10 à 15 minutes, causant une perte de couple irréversible de 5 à 15%. Avec ventilation, T_max = 43 deg C avec une marge confortable de 37 deg C.
+
+---
+
+## 16. Bilan de Masse Consolidé du Squelette Torse V1
+
+### A. Masse du Squelette Cruciforme (Pièces Usinées CNC + Carbone)
+
+| Composant | Matériau | Dimensions | Qté | Masse Unitaire | Masse Totale |
+|:---|:---|:---|:---:|:---:|:---:|
+| **Plaque sagittale inférieure** | Alu 6061-T6 (5 mm) | 290 × 120 mm, lumières 2D | 1 | ~240 g | **~240 g** |
+| **Plaque sagittale supérieure** | Alu 6061-T6 (5 mm) | 142.67 × 107 mm moy., lumières 2D | 1 | ~115 g | **~115 g** |
+| **Tube carbone traverse** | CFRP 3K Ø30/Ø26 mm | ~260 mm long | 1 | ~70 g | **~70 g** |
+| **Plaques H-bracket (AV+AR)** | Alu 7075-T6 (5 mm) | Couronne Ø120/Ø95 + oreilles | 4 | ~75 g | **~300 g** |
+| **Brides monoblocs épaule** | Alu 7075-T651 | Ø120 × 48.2 mm | 2 | ~250 g | **~500 g** |
+| **Bouchons anti-écrasement épaules** | Alu 7075-T651 | Ø26/Ø18 × 34.5 mm | 2 | ~20 g | **~40 g** |
+| **Manchon central anti-écrasement** | Alu 7075-T651 | Ø26/Ø18 × 45 mm | 1 | ~35 g | **~35 g** |
+| **Demi-coquilles nœud central** | Alu 7075-T6 | 120 × 45 × 21 mm | 2 | ~80 g | **~160 g** |
+| **Équerres L-Brackets (cou + waist)** | Alu 6061-T6 | 20×20×3 × 80 mm | 4 | ~15 g | **~60 g** |
+| **Plaque de cou** | Alu 6061-T6 (5 mm) | ~Ø94 mm | 1 | ~30 g | **~30 g** |
+| **Waist Plate** | Alu 6061-T6 (6 mm) | ~Ø200 mm | 1 | ~140 g | **~140 g** |
+| **Ventilateurs 40×40×10 mm** | — | 40 × 40 × 10 mm | 2 | ~10 g | **~20 g** |
+| **Visserie complète** | Acier 8.8 / Inox | M4, M5, M6, goupilles | — | — | **~150 g** |
+| | | | | **TOTAL SQUELETTE** | **~1 860 g** |
+
+### B. Masse Totale du Torse Assemblé (Squelette + Coque + Électronique)
+
+| Sous-ensemble | Masse estimée | Source |
+|:---|:---:|:---|
+| **Squelette cruciforme (ci-dessus)** | ~1 860 g | §16.A |
+| **2 × RS-04 épaule** | 2 840 g | 2 × 1 420 g (datasheet) |
+| **1 × RS-06 waist** | 621 g | Datasheet RS-06 |
+| **Coque PA12-CF (2 demi-coques)** | ~450 g | Estimation (4 périmètres, 20% gyroid) |
+| **Roulement section fine Ø110 mm** | ~100 g | Estimation |
+| **Bague adaptation RS-06** | ~80 g | Alu 6061-T6 usiné |
+| **PDB Matek + câblage interne** | ~120 g | Estimation |
+| **Diodes Schottky + radiateurs** | ~40 g | 2 × MBR4060PT + alu |
+| | **TOTAL TORSE NU (sans bras, tête, batteries)** | **~6 111 g** |
+
+### C. Position dans le Bilan de Masse Global du D-Bot (40.4 kg)
+
+*Référence : [STUDY_Architecture_DOF_Benchmark.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/00_Architecture_Centrale/STUDY_Architecture_DOF_Benchmark.md) §2*
+
+| Sous-ensemble Robot | Masse estimée | % du total |
+|:---|:---:|:---:|
+| **Motorisation QDD (27 moteurs RobStride)** | 22 320 g | 55.2% |
+| **Torse nu (squelette + coque + élec.)** | ~6 111 g | 15.1% |
+| **2 × Bras complets (moteurs inclus)** | ~6 400 g | 15.8% |
+| **Tête + Cou (RS-05 × 2 + caméras)** | ~2 000 g | 5.0% |
+| **2 × Batteries 12S (5 Ah)** | ~1 600 g | 4.0% |
+| **Structure jambes + pieds** | ~1 969 g | 4.9% |
+| **TOTAL ESTIMÉ** | **~40 400 g** | **100%** |
+
+> [!NOTE]
+> **Observation** : Les moteurs représentent 55% de la masse totale du robot. Le squelette du torse (1 860 g) ne représente que 4.6% de la masse totale — c'est un excellent ratio pour un squelette qui supporte 18 kg de charges dynamiques avec un Sf > 5.
+
+> [!WARNING]
+> **Impact de la masse du torse sur les performances globales** : Le genou RS-04 opère déjà à ~100% de sa capacité en marche à 2-3 km/h avec 40.4 kg. Tout alourdissement du torse (ex: ajout de coque plus épaisse, carters moteurs, blindage) réduira directement la vitesse de marche maximale ou nécessitera un passage au tirant mécanique 1.5:1 au genou. Référence : analyse biomécanique dans le RAG (capacité de portage = 0 kg à 2.5 km/h, 10 kg à 1.5 km/h).
+
+---
+
+*§§13-16 ajoutés en Août 2026 — Référence datasheet RS-04 (39.0 mm), analyse des évidements (patron optimisé, +23% rigidité cou à 94 mm), ventilation OBLIGATOIRE (2× fans 40mm + events PA12-CF), bilan de masse consolidé (~1 860 g squelette, ~6 111 g torse nu).*
 

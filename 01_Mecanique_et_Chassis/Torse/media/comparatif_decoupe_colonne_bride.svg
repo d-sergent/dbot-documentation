@@ -1,0 +1,249 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 860" width="100%" height="100%">
+  <defs>
+    <!-- Pattern Grille Blueprint -->
+    <pattern id="gridBlueprint" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.7"/>
+    </pattern>
+    <pattern id="gridFine" width="10" height="10" patternUnits="userSpaceOnUse">
+      <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#1e293b" stroke-width="0.4"/>
+    </pattern>
+
+    <!-- Dégradés -->
+    <linearGradient id="aluBrown" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdba74"/>
+      <stop offset="40%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#9a3412"/>
+    </linearGradient>
+    <linearGradient id="aluGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#86efac"/>
+      <stop offset="40%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+    <linearGradient id="plateTan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a"/>
+      <stop offset="50%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="carbTube" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Flèches de cotation -->
+    <marker id="arrowDim" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowDimGold" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#facc15"/>
+    </marker>
+    <marker id="arrowDimGreen" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#4ade80"/>
+    </marker>
+    <marker id="arrowDimRed" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#ef4444"/>
+    </marker>
+    <marker id="arrowRev" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowRevGold" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#facc15"/>
+    </marker>
+  </defs>
+
+  <!-- BACKGROUND -->
+  <rect width="1400" height="860" fill="#0f172a"/>
+  <rect width="1400" height="860" fill="url(#gridBlueprint)"/>
+
+  <!-- HEADER -->
+  <g transform="translate(700, 38)">
+    <text x="0" y="0" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="17" font-weight="bold" text-anchor="middle" letter-spacing="1">D-BOT V1 — COMPARATIF DE CONCEPTION : DÉCOUPE DE LA COLONNE VS HAUTEUR DE BRIDE</text>
+    <text x="0" y="20" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">Analyse d'interface entre la Colonne Sagittale (5,0 mm) et les Demi-Coquilles (2× Chutes 40 × 50 × 120 mm Alu 7075-T6)</text>
+  </g>
+
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <!-- PANEL 1 : OPTION 1 (RECOMMANDÉE) — AILE HAUTE + COUPE DROITE        -->
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(35, 75)">
+    <!-- Cadre Panel -->
+    <rect width="640" height="745" rx="10" fill="#1e293b" stroke="#4ade80" stroke-width="2" opacity="0.95"/>
+    <rect width="640" height="745" rx="10" fill="url(#gridFine)" opacity="0.3"/>
+
+    <!-- En-tête Panel -->
+    <rect x="0" y="0" width="640" height="42" rx="10" fill="#16a34a" opacity="0.25"/>
+    <text x="320" y="24" fill="#4ade80" font-family="system-ui,sans-serif" font-size="13" font-weight="bold" text-anchor="middle">⭐ OPTION 1 (RECOMMANDÉE) : Aile Z=38,5mm + Coupe Droite Z=22mm</text>
+
+    <!-- Zone de Tracé : Échelle 4.5 px/mm -->
+    <!-- Largeur Y = 118 mm ➔ 531 px | Hauteur Z = -60 à +60 mm -->
+    <g transform="translate(55, 240)">
+
+      <!-- Ligne d'axe Z = 0 (Plan de joint) -->
+      <line x1="-15" y1="0" x2="545" y2="0" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="6,3"/>
+      <text x="550" y="4" fill="#ef4444" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">Z = 0 (Plan de joint)</text>
+
+      <!-- TUBE CARBONE Ø30 mm (Centré à Y=59mm [x=265.5], Z=0) -->
+      <circle cx="265.5" cy="0" r="67.5" fill="url(#carbTube)" stroke="#38bdf8" stroke-width="2"/>
+      <text x="265.5" y="4" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Tube Ø30 mm ⊙</text>
+
+      <!-- DEMI-BRIDE SUPÉRIEURE (Orange/Marron) -->
+      <path d="
+        M 0,-4 L 171,-4 
+        A 94.5 94.5 0 0 1 360,-4 
+        L 531,-4 L 531,-94.5 L 0,-94.5 Z
+      " fill="url(#aluBrown)" stroke="#fdba74" stroke-width="1.8"/>
+
+      <!-- AILE VERTICALE PROLONGÉE (Z = +21 mm ➔ Z = +38.5 mm [y=-173.25px]) -->
+      <rect x="0" y="-173.25" width="531" height="78.75" fill="url(#aluBrown)" stroke="#4ade80" stroke-width="2" opacity="0.85"/>
+      <text x="265.5" y="-138" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="9.5" font-weight="bold" text-anchor="middle">AILE VERTICALE PROLONGÉE (Z = +21 mm ➔ Z = +38,5 mm)</text>
+      <text x="265.5" y="-122" fill="#86efac" font-family="system-ui,sans-serif" font-size="8.5" text-anchor="middle">Hauteur utile = 17,5 mm · Loge les 4× vis M4 avec marge 8,5 mm</text>
+
+      <!-- 4× VIS M4 HORIZONTALES (Percées à Z = +30.0 mm [y=-135px]) -->
+      <g fill="#0f172a" stroke="#facc15" stroke-width="1.8">
+        <circle cx="63" cy="-135" r="6"/>
+        <circle cx="198" cy="-135" r="6"/>
+        <circle cx="333" cy="-135" r="6"/>
+        <circle cx="468" cy="-135" r="6"/>
+      </g>
+      <text x="63" y="-146" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">M4 (Y=14)</text>
+      <text x="198" y="-146" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">M4 (Y=44)</text>
+      <text x="333" y="-146" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">M4 (Y=74)</text>
+      <text x="468" y="-146" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">M4 (Y=104)</text>
+
+      <!-- PLAQUE SAGITTALE HAUTE (Coupe 100% droite à Z = +22.0 mm [y=-99.0px]) -->
+      <rect x="0" y="-230" width="531" height="131" fill="url(#plateTan)" stroke="#fef08a" stroke-width="1.8" opacity="0.9"/>
+      <text x="265.5" y="-205" fill="#0c1a2e" font-family="system-ui,sans-serif" font-size="11" font-weight="bold" text-anchor="middle">COLONNE SAGITTALE HAUTE (Alu 5,0 mm)</text>
+      
+      <!-- Ligne de coupe droite Z = +22 mm -->
+      <line x1="-15" y1="-99" x2="545" y2="-99" stroke="#4ade80" stroke-width="2.5"/>
+      <text x="550" y="-95" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">Z = +22,0 mm (Coupe 100% Droite ✅)</text>
+      <text x="550" y="-83" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="7.5">Jeu 1.0 mm au-dessus bride</text>
+
+      <!-- DEMI-BRIDE INFÉRIEURE (Verte) -->
+      <path d="
+        M 0,4 L 171,4 
+        A 94.5 94.5 0 0 0 360,4 
+        L 531,4 L 531,94.5 L 0,94.5 Z
+      " fill="url(#aluGreen)" stroke="#86efac" stroke-width="1.8"/>
+      <!-- Aile verticale descendante (Z=-21mm à Z=-38.5mm) -->
+      <rect x="0" y="94.5" width="531" height="78.75" fill="url(#aluGreen)" stroke="#4ade80" stroke-width="2" opacity="0.85"/>
+      <!-- 4× Vis M4 Bas -->
+      <g fill="#0f172a" stroke="#facc15" stroke-width="1.8">
+        <circle cx="63" cy="135" r="6"/>
+        <circle cx="198" cy="135" r="6"/>
+        <circle cx="333" cy="135" r="6"/>
+        <circle cx="468" cy="135" r="6"/>
+      </g>
+
+      <!-- PLAQUE SAGITTALE BASSE (Coupe droite à Z = -22.0 mm [y=+99.0px]) -->
+      <rect x="0" y="99" width="531" height="131" fill="url(#plateTan)" stroke="#fef08a" stroke-width="1.8" opacity="0.9"/>
+      <text x="265.5" y="215" fill="#0c1a2e" font-family="system-ui,sans-serif" font-size="11" font-weight="bold" text-anchor="middle">COLONNE SAGITTALE BASSE (Alu 5,0 mm)</text>
+      <line x1="-15" y1="99" x2="545" y2="99" stroke="#4ade80" stroke-width="2.5"/>
+      <text x="550" y="103" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">Z = -22,0 mm (Coupe 100% Droite ✅)</text>
+    </g>
+
+    <!-- Fiche Récapitulative Option 1 -->
+    <g transform="translate(20, 520)">
+      <rect width="600" height="200" rx="6" fill="#0f172a" stroke="#4ade80" stroke-width="1.2"/>
+      <text x="15" y="22" fill="#4ade80" font-family="system-ui,sans-serif" font-size="11" font-weight="bold">Avantages Mécaniques &amp; Validation Atelier :</text>
+      
+      <text x="15" y="44" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#f8fafc" font-weight="bold">Plaques 100% rectilignes</tspan> : Découpe 2D directe en 1 passe sans entaille ni poche.</text>
+      <text x="15" y="62" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#4ade80" font-weight="bold">Zéro concentration de contrainte RDM</tspan> : Aucun angle rentrant (Kt = 1.0 sur la coupe).</text>
+      <text x="15" y="80" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#f8fafc" font-weight="bold">Sécurité composite</tspan> : La tranche de tôle est à 7,0 mm du tube carbone Ø30 mm.</text>
+      <text x="15" y="98" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#facc15" font-weight="bold">Sourcing brut Blockenstock</tspan> : <tspan fill="#f8fafc" font-weight="bold">2× Chutes 40 × 50 × 120 mm Alu 7075-T6</tspan>.</text>
+      <text x="25" y="114" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">➔ Longueur finie 118 mm (surfaçage chants 120 mm), Hauteur 38,5 mm (dans 40 mm) ✅</text>
+      <text x="15" y="134" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#38bdf8" font-weight="bold">Fixation M4 optimale</tspan> : Pince de 8,5 mm de matière au-dessus de chaque trou Ø 4,3 mm.</text>
+      
+      <rect x="15" y="150" width="570" height="35" rx="4" fill="#16a34a" opacity="0.2" stroke="#16a34a" stroke-width="0.8"/>
+      <text x="300" y="172" fill="#4ade80" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="middle">🎯 Conclusion : Option 1 validée avec 2 chutes Blockenstock 40×50×120 mm.</text>
+    </g>
+  </g>
+
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <!-- PANEL 2 : OPTION 2 (ALTERNATIVE) — BRIDE COURTE + ARCHE SUR PLAQUE -->
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(715, 75)">
+    <!-- Cadre Panel -->
+    <rect width="650" height="745" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.8" opacity="0.95"/>
+    <rect width="650" height="745" rx="10" fill="url(#gridFine)" opacity="0.3"/>
+
+    <!-- En-tête Panel -->
+    <rect x="0" y="0" width="650" height="42" rx="10" fill="#d97706" opacity="0.25"/>
+    <text x="325" y="24" fill="#facc15" font-family="system-ui,sans-serif" font-size="13" font-weight="bold" text-anchor="middle">⚠️ OPTION 2 (ALTERNATIVE) : Bride Basse (Z=21mm) + Découpe en Arche</text>
+
+    <!-- Zone de Tracé Option 2 -->
+    <g transform="translate(60, 240)">
+
+      <!-- Ligne d'axe Z = 0 -->
+      <line x1="-15" y1="0" x2="545" y2="0" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="6,3"/>
+      <text x="550" y="4" fill="#ef4444" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">Z = 0 (Plan de joint)</text>
+
+      <!-- TUBE CARBONE Ø30 mm -->
+      <circle cx="265.5" cy="0" r="67.5" fill="url(#carbTube)" stroke="#38bdf8" stroke-width="2"/>
+      <text x="265.5" y="4" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="middle">Tube Ø30 mm ⊙</text>
+
+      <!-- DEMI-BRIDE SUPÉRIEURE NON-PROLONGÉE -->
+      <path d="
+        M 0,-4 L 171,-4 
+        A 94.5 94.5 0 0 1 360,-4 
+        L 531,-4 L 531,-94.5 L 0,-94.5 Z
+      " fill="url(#aluBrown)" stroke="#fdba74" stroke-width="1.8"/>
+      <text x="265.5" y="-60" fill="#fef08a" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="middle">BRIDE BASSE (Sommet à Z = +21,0 mm)</text>
+
+      <!-- PLAQUE SAGITTALE DÉCOUPÉE EN ARCHE -->
+      <path d="
+        M 0,-230 L 531,-230 L 531,-35 L 360,-35 
+        A 94.5 94.5 0 0 0 171,-35 
+        L 0,-35 Z
+      " fill="url(#plateTan)" stroke="#ef4444" stroke-width="2" opacity="0.85"/>
+      <text x="265.5" y="-180" fill="#0c1a2e" font-family="system-ui,sans-serif" font-size="11" font-weight="bold" text-anchor="middle">COLONNE DÉCOUPÉE EN ARCHE</text>
+
+      <!-- Alerte Entaille & Concentration de contrainte -->
+      <circle cx="171" cy="-35" r="12" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="3,2"/>
+      <circle cx="360" cy="-35" r="12" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="3,2"/>
+      <text x="171" y="-15" fill="#ef4444" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">⚠️ Angle Rentrant (Kt = 2.4)</text>
+      <text x="360" y="-15" fill="#ef4444" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">⚠️ Risque Fatigue</text>
+
+      <!-- Vis M4 déportées uniquement sur les côtés -->
+      <g fill="#0f172a" stroke="#facc15" stroke-width="1.8">
+        <circle cx="63" cy="-60" r="6"/>
+        <circle cx="468" cy="-60" r="6"/>
+      </g>
+      <text x="63" y="-72" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">M4 #1</text>
+      <text x="468" y="-72" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">M4 #4</text>
+      <text x="265.5" y="-105" fill="#fca5a5" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">❌ Impossible de placer les vis M4 #2 et #3 au centre !</text>
+
+      <!-- DEMI-BRIDE INFÉRIEURE NON-PROLONGÉE -->
+      <path d="
+        M 0,4 L 171,4 
+        A 94.5 94.5 0 0 0 360,4 
+        L 531,4 L 531,94.5 L 0,94.5 Z
+      " fill="url(#aluGreen)" stroke="#86efac" stroke-width="1.8"/>
+
+      <!-- PLAQUE BASSE EN ARCHE -->
+      <path d="
+        M 0,230 L 531,230 L 531,35 L 360,35 
+        A 94.5 94.5 0 0 1 171,35 
+        L 0,35 Z
+      " fill="url(#plateTan)" stroke="#ef4444" stroke-width="2" opacity="0.85"/>
+      <text x="265.5" y="190" fill="#0c1a2e" font-family="system-ui,sans-serif" font-size="11" font-weight="bold" text-anchor="middle">COLONNE BASSE EN ARCHE</text>
+    </g>
+
+    <!-- Fiche Récapitulative Option 2 -->
+    <g transform="translate(20, 520)">
+      <rect width="610" height="200" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.2"/>
+      <text x="15" y="22" fill="#facc15" font-family="system-ui,sans-serif" font-size="11" font-weight="bold">Inconvénients Mécaniques de l'Option 2 :</text>
+      
+      <text x="15" y="44" fill="#fca5a5" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#ef4444" font-weight="bold">Perte des 2 vis M4 centrales</tspan> : Seules 2 vis M4 peuvent être placées (au lieu de 4).</text>
+      <text x="15" y="62" fill="#fca5a5" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#ef4444" font-weight="bold">Concentration de contrainte sévère</tspan> : Les angles rentrants de l'arche créent un Kt = 2,4.</text>
+      <text x="15" y="80" fill="#fca5a5" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#ef4444" font-weight="bold">Risque de rupture en fatigue sous choc</tspan> : Facteur de sécurité fatigue réduit de -50%.</text>
+      <text x="15" y="98" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#f8fafc" font-weight="bold">Usinage CNC plus complexe</tspan> : Nécessite une fraise de petit diamètre pour contourner l'arche.</text>
+      <text x="15" y="116" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#f8fafc" font-weight="bold">Jeu délicat</tspan> : Risque de frottement direct entre la tôle et le tube carbone.</text>
+      
+      <rect x="15" y="150" width="580" height="35" rx="4" fill="#d97706" opacity="0.2" stroke="#d97706" stroke-width="0.8"/>
+      <text x="305" y="172" fill="#facc15" font-family="system-ui,sans-serif" font-size="9" font-weight="bold" text-anchor="middle">❌ Déconseillée : L'Option 1 est nettement supérieure en rigidité et sécurité.</text>
+    </g>
+  </g>
+
+  <!-- FOOTER -->
+  <text x="700" y="845" fill="#475569" font-family="system-ui,sans-serif" font-size="9.5" text-anchor="middle">Étude d'Ingénierie D-Bot V1 · Comparatif d'Interface Colonne-Bride · 18 Août 2026</text>
+</svg>

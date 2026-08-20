@@ -2,6 +2,30 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-08-20 — Finalisation CAO Nœud Central (v62), Match-Drilling, RDM Yaw & Protocoles Anti-Corrosion
+
+### 🎯 Objectif de la session
+1. **Intégration du Design CAO Fusion 360 (Torse v62)** : Valider l'architecture du nœud central à ailes verticales d'appui, adapter les dimensions finies d'usinage (`118 × 45 × 38,5 mm`) et valider le sourcing économique en 2× chutes `40 × 50 × 120 mm Alu 7075-T6 Blockenstock`.
+2. **Clarification RDM de la Répartition des Moments Fléchissants** : Lever l'ambiguïté entre le moment à la base du bassin (`275 N.m`, $S_f = \times 7,36$) et le moment au nœud central d'épaules (`131 N.m`, $S_f = \times 18,65$ ; même sous 275 N.m théorique, $S_f = \times 8,88$).
+3. **Formalisation du Protocole d'Usinage « Match-Drilling »** : Documenter la séquence inviolable d'usinage en place (collage préalable des bouchons $\rightarrow$ serrage des brides $\rightarrow$ perçage/alésage direct sur NestWorks C500 $\rightarrow$ goupillage Inox scellé $\rightarrow$ montage des moteurs RS-04 à la fin).
+4. **Protection Anti-Corrosion Galvanique DIY** : Spécifier les 3 barrières diélectriques simples d'atelier (ruban Kapton $50\ \mu\text{m}$ extérieur + colle époxy intérieure + scellement Loctite 243 des goupilles rectifiées Inox ISO 8734).
+
+### 📝 Réalisations & Évolutions
+1. **Consolidation Géométrique des Demi-Coquilles** :
+   - Dimensions finies : $118,0\text{ mm}$ (longueur Y) × $45,0\text{ mm}$ (largeur X) × $38,5\text{ mm}$ (hauteur Z hors-tout avec aile de $17,5\text{ mm}$).
+   - Perçages : 4× vis M6 verticales de pincement ($Y = 17$ et $101\text{ mm}$), 4× vis M4 horizontales d'ancrage colonne ($Z = \pm 30\text{ mm}$, $Y = 14, 44, 74, 104\text{ mm}$), goupille $Z$ décalée à $X = +12\text{ mm}$, $Y = 59\text{ mm}$.
+2. **Génération & Mise à Jour des Schémas Vectoriels Blueprints SVG** :
+   - `plan_percage_demi_coquille_noeud.svg` (plan d'usinage 3 panneaux aux cotes réelles $118\text{ mm}$).
+   - `comparatif_decoupe_colonne_bride.svg` (comparatif coupe droite $Z = +22\text{ mm}$ vs découpe en arche).
+   - `noeud_demi_coquilles_bride.svg` (nomenclature et sourcing 2× $40\times 50\times 120\text{ mm}$ mis à jour).
+   - Intégration de la capture CAO écorchée `torse_v62_eclate_squelette_epaule.png` illustrant le dégagement de la broche Z sur la bride d'épaule.
+3. **Calcul de Rigidité en Torsion Yaw** :
+   - Déformation angulaire du tube carbone Ø 30 mm sous couple crête RS-06 ($60\text{ N.m}$) : $\Delta\theta_{\text{yaw}} \approx 1,91^\circ < 2,0^\circ$, garantissant une stabilité dynamique optimale pour l'estimation d'état IMU/SLAM.
+4. **Standardisation sur Goupilles Rectifiées Inox ISO 8734** :
+   - Remplacement des goupilles élastiques fendues par des goupilles rectifiées trempées Inox A1/A2 Ø 4,0 mm m6 × 40 mm (précision $\pm 0,005\text{ mm}$, zéro couple galvanique avec le carbone $\Delta V < 0,05\text{ V}$, $S_f = \times 9,73$).
+
+---
+
 ## 📅 2026-08-13 — Audit Complet d'Ingénierie, Validation Constructeur RS-04 & Harmonisation Globale du Dossier Torse
 
 ### 🎯 Objectif de la session

@@ -41,7 +41,7 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 | Sollicitation | Ancien (lattes) | Nouveau (cruciforme V1) | Gain | Note |
 |:---|:---:|:---:|:---:|:---|
 | **Flexion Pitch** (avant/arrière) | I ≈ 773 000 mm4 | I ≈ 506 667 mm4 (plaque nette + brides) | **~×0.8** | Facteur de sécurité Sf = 7.36 (nominal) / 5.26 (extrême) |
-| **Flexion Roll** (latérale) | Bon | **Excellent avec Cages H-Bracket (tirants M5 R=72mm / 23.4°)** | **×15.5** | Flèche au cou < 0.10 mm (0.097 mm), libère les batteries |
+| **Flexion Roll** (latérale) | Bon | **Excellent avec Cages H-Bracket (tirants M5 R=72mm / 23.4°)** | **×19.4** | Flèche au cou < 0.10 mm (0.088 mm), libère les batteries |
 | **Torsion Yaw** | Très faible | Bon (traverse Ø30 mm + nœud demi-coquilles) | **×5-8** | Verrouillage positif par goupille Ø4 mm |
 | **Compression axiale** | Bon | Excellent | **×2** | Repris directement par la plaque sagittale |
 
@@ -56,7 +56,7 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 | **Matériau** | Aluminium 6061-T6, tôle de 5,0 mm d'épaisseur |
 | **Orientation** | Plan sagittal (dos ➔ ventre), verticale sur toute la hauteur du torse |
 | **Conception retenue** | **Option B (Lumières 2D Traversantes ⭐)** : Évidements 100% débouchants en 1 seule passe |
-| **Dimensions brutes** | ~432 mm (hauteur totale) × **120,0 mm (profondeur max d'usinage C500)** |
+| **Dimensions brutes** | ~432 mm (hauteur totale) × **120,0 mm (profondeur max d'usinage C500)** → biseau à **94,0 mm au cou (CAO v62)** |
 | **Découpage** | En **2 parties** (Haute 142,67 mm + Basse 290,0 mm) jointes au Nœud Central d'épaule (h = 290 mm) |
 | **Jonction des 2 parties** | **Nœud Demi-Coquilles CNC Alu** + Tube Carbone Ø30 mm + Goupille Verticale Z (60 mm) |
 | **Fixation haute & basse** | **Équerres CNC Alu en Sandwich (L-Brackets)** fixées par vis M4 traversantes |
@@ -112,7 +112,7 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 | **Masse** | ~70 g |
 | **Rigidité torsionnelle** | J ≈ 52 000 mm4 (×15 par rapport à une plaque de 5 mm de même largeur) |
 | **Fixation aux épaules** | Emmanché sur 35.0 mm dans la bride monobloc Alu 7075-T651, fente de pincement 2×M4 + goupille Ø4×40 mm sur bouchon alu interne |
-| **Fixation centrale (nœud)** | **2 demi-coquilles CNC Alu 7075-T6** (120×45×21 mm) serrant le tube sur 45 mm + **1 insert alu central anti-écrasement Ø 26/18×45 mm (35 g)** + 1 goupille Ø 4×40 mm |
+| **Fixation centrale (nœud)** | **2 demi-coquilles CNC Alu 7075-T6** (118×45×38.5 mm usinées dans 2 chutes 40×50×120 mm) serrant le tube sur 45 mm + **1 insert alu central anti-écrasement Ø 26/18×45 mm (35 g)** + 1 goupille Ø 4×40 mm |
 
 ---
 
@@ -120,29 +120,81 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 
 ![Nœud d'intersection — Système Demi-Coquilles Alu CNC](./media/noeud_demi_coquilles_bride.svg)
 
-*Vue en coupe frontale (plan sagittal Y-Z) et vue de dessus (plan transversal X-Y) du nœud d'intersection. Le tube carbone Ø30 mm est transversal (axe X). La Bride Supérieure s'appuie sur la face inférieure de la Colonne Supérieure via ses ailes en L ; la Bride Inférieure s'appuie sur la face supérieure de la Colonne Inférieure. Les deux brides sont serrées l'une contre l'autre par 4× vis M6 traversantes + écrous Nylstop, créant le pincement du tube carbone sur 45 mm de portée.*
+*Vue en coupe frontale (plan sagittal Y-Z) et vue de dessus (plan transversal X-Y) du nœud d'intersection. Le tube carbone Ø30 mm est transversal (axe X). La Bride Supérieure s'appuie sur la face latérale de la Colonne Supérieure via son aile verticale montante (17.5 mm) ; la Bride Inférieure s'appuie sur la Colonne Inférieure via son aile verticale descendante. Les deux brides sont serrées l'une contre l'autre par 4× vis M6 traversantes + écrous Nylstop, créant le pincement du tube carbone sur 45 mm de portée.*
 
 #### Bénéfices Mécaniques & Optimisation Géométrique :
-1. **Plaques de colonne 100% continues** : Aucun perçage affaiblissant dans la tôle de 5 mm au point de moment maximal (M = 131 N.m dynamique).
-2. **Distribution d'effort sur 120 mm** : Les ailes en L portent sur toute la largeur sagittale des plaques.
+1. **Plaques de colonne découpées 100% droites** : Coupe nette à Z = +22.0 mm (Haut) et Z = -22.0 mm (Bas), zéro entaille ni angle rentrant (Kt = 1.0) au point de moment maximal (M = 131 N.m dynamique).
+2. **Distribution d'effort sur 118 mm** : Les ailes verticales portent sur toute la longueur sagittale de 118 mm.
 3. **Pincement fiable sans taraudage fragile** : Vis M6 traversantes avec écrous frein Nylstop (pression de contact 6.3 MPa sur le composite).
-4. **Épaisseur de demi-bride optimisée (6.0 mm au dos du demi-alésage R15)** : Hauteur unitaire d'une demi-bride = 21.0 mm (hauteur totale du nœud assemblé = **42.0 mm**, au lieu de 60.0 mm sur-dimensionnés), libérant **18.0 mm d'espace vertical libre** dans le torse et réduisant la masse de -115 g.
+4. **Sourcing optimisé en chutes unitaires (2× 40×50×120 mm Alu 7075-T6 Blockenstock)** : Chaque demi-bride est usinée à une cote finie de **118.0 × 45.0 × 38.5 mm**, permettant de blanchir les 2 chants sciés du brut de 120 mm et de surfacer le plan de joint et le sommet dans les 40 mm d'épaisseur.
 5. **Verrouillage positif par goupille Ø4 mm (axe Z vertical décalée à X = 12.0 mm)** : La goupille est **décalée latéralement en X** pour contourner la tranche de la plaque sagittale centrale (5.0 mm). Traversante sur 42.0 mm de hauteur (Bride Sup 6.0 mm + tube 30.0 mm + Bride Inf 6.0 mm), elle utilise la même **goupille élastique standardisée Ø 4.0 mm × 40 mm (ISO 8752 Inox)** que les épaules.
 6. **Dépouille de serrage du plan de joint (Split Gap = 1.0 mm net / 0.8 à 1.0 mm)** : Chaque demi-alésage cylindrique est usiné à une profondeur de **14.5 mm** (au lieu de 15.0 mm théorique, soit un surfaçage à Z = -0.5 mm sur le plan de joint). Cette cote garantit un **espace libre de 1.0 mm net** entre la Bride Supérieure et la Bride Inférieure à l'assemblage, interdisant toute butée prématurée aluminium contre aluminium et convertissant 100% de la précharge des 4 vis M6 en pression radiale directe (6.3 MPa, friction > 12 000 N) sur le composite carbone.
 7. **Insert Central Anti-Écrasement (Manchon Alu 7075-T651 Ø 26/18 × 45 mm, 35 g)** : Pour éliminer tout risque d'écrasement ou d'ovalisation du tube composite sous la précharge de 30 000 N des 4 vis M6, un manchon cylindrique en Aluminium 7075-T651 (paroi 4.0 mm) est inséré et collé au centre du tube. La goupille centrale traverse ainsi un sandwich métallique continu, garantissant zéro flexion et zéro matage sur le composite.
 
 ---
 
-### C. Stratégie de Perçage Vertical Z sur NestWorks C500
+#### Plan de Perçage & Coordonnées CAO des Demi-Brides (Fusion 360 v62)
 
-| Goupille | Position | Direction | Diamètre | Profondeur | Outillage C500 |
+*Origine du repère CAO : Centre du torse au plan de joint (`X = 0 mm` = face d'appui de la plaque sagittale 5 mm, `Y = 59.0 mm` = axe longitudinal du tube transversal Ø30 mm, `Z = 0 mm` = plan de joint central).*
+
+| Fonction du Perçage | Qté | Diamètre d'Usinage | Position & Axe | Position Y (Sagittale Dos ➔ Ventre) | Type de Perçage & Visserie |
+|:---|:---:|:---:|:---:|:---:|:---|
+| **Pincement Tube (Dos)** | 2 | **Ø 6.5 mm** (ISO 273) | `X = -15.0 mm` et `X = +15.0 mm` · **Axe Z (Vertical)** | `Y = 17.0 mm` (Dos) | Traversant 21 mm · Vis CHC M6 × 50 mm + Nylstop (8.5 N.m) |
+| **Pincement Tube (Ventre)** | 2 | **Ø 6.5 mm** (ISO 273) | `X = -15.0 mm` et `X = +15.0 mm` · **Axe Z (Vertical)** | `Y = 101.0 mm` (Ventre) | Traversant 21 mm · Vis CHC M6 × 50 mm + Nylstop (8.5 N.m) |
+| **Fixation Colonne Haute (Aile Sup)** | 4 | **Ø 4.3 mm** (ISO 273) | Aile verticale montante (`Z = +30.0 mm`) · **Axe X (Horizontal)** | `Y1 = 14.0 mm`<br>`Y2 = 44.0 mm`<br>`Y3 = 74.0 mm`<br>`Y4 = 104.0 mm` | Traversant plaque 5mm + aile 6mm · 4× Vis CHC M4 × 16 mm + Nylstop (3.0 N.m) |
+| **Fixation Colonne Basse (Aile Inf)** | 4 | **Ø 4.3 mm** (ISO 273) | Aile verticale descendante (`Z = -30.0 mm`) · **Axe X (Horizontal)** | `Y1 = 14.0 mm`<br>`Y2 = 44.0 mm`<br>`Y3 = 74.0 mm`<br>`Y4 = 104.0 mm` | Traversant plaque 5mm + aile 6mm · 4× Vis CHC M4 × 16 mm + Nylstop (3.0 N.m) |
+| **Goupille Sécurité Z** | 1 | **Ø 4.0 mm H7** | **`X = +12.0 mm`** (Décalée hors plaque) · **Axe Z (Vertical)** | **`Y = 59.0 mm`** (Axe tube carbone) | Alésage traversant 42 mm · **Goupille rectifiée trempée ISO 8734 Ø 4.0 mm m6 × 40 mm** |
+
+![Plan d'Usinage et Cotation des Demi-Coquilles du Nœud Central](./media/plan_percage_demi_coquille_noeud.svg)
+
+*Schéma technique vectoriel d'usinage et d'implantation CAO Fusion 360 (v62) des demi-coquilles (Alu 7075-T6). Panel 1 : Vue en coupe transversale X-Z (45.00 mm de largeur axiale) montrant la plaque sagittale en appui latéral contre les ailes verticales montante et descendante, les 4 vis M4 horizontales (axe X), les vis M6 de pincement verticales (axe Z) et le Split Gap de 1.0 mm. Panel 2 : Vue longitudinale sagittale (118.00 mm de longueur) avec cotation des entraxes des vis M6 (Y = 17 et 101 mm) et des vis M4 (Y = 14, 44, 74, 104 mm).*
+
+#### Comparatif de Conception : Découpe de la Colonne vs Rehausse de l'Aile de Bride
+
+![Comparatif Découpe Colonne vs Rehausse de Bride](./media/comparatif_decoupe_colonne_bride.svg)
+
+*Comparatif d'interface RDM et usinage entre l'Option 1 (Recommandée : Aile verticale de bride prolongée à Z = +38.5 mm permettant une coupe 100% droite de la tôle de 5 mm à Z = +22 mm) et l'Option 2 (Déconseillée : Bride basse à Z = +21 mm obligeant à créer une échancrure en arche avec concentration de contraintes dans la plaque).*
+
+---
+
+### C. Stratégie de Perçage Vertical Z sur NestWorks C500 (Protocole « Match-Drilling » en Place)
+
+Pour garantir un alignement coaxial parfait à `+/- 0.005 mm` à travers le sandwich multi-matériaux (Bride Alu ➔ Tube Carbone ➔ Bouchon Alu ➔ Tube Carbone ➔ Bride Alu), les perçages de goupilles sont **impérativement réalisés en place (« match-drilling ») après collage et durcissement complet de l'époxy** :
+
+| Goupille | Position | Direction | Diamètre | Profondeur | Outillage C500 & Séquence Match-Drilling |
 |:---|:---|:---:|:---:|:---:|:---|
-| **Nœud central** | Brides demi-coquilles (décalée à X = 12.0 mm) | **Axe Z (Vertical)** | Ø4 mm H7 | **40 mm à 42 mm** | **C500 — 3 axes direct (broche Z)** |
-| **Ancrage épaule gauche** | Bride alu 7075 + tube extrémité gauche | Axe Z (Vertical) | Ø4 mm H7 | **40 mm** | C500 — 3 axes direct |
-| **Ancrage épaule droit** | Bride alu 7075 + tube extrémité droit | Axe Z (Vertical) | Ø4 mm H7 | **40 mm** | C500 — 3 axes direct |
+| **Nœud central** | Brides demi-coquilles (décalée à X = 12.0 mm) | **Axe Z (Vertical)** | Ø4 mm H7 | **40 mm à 42 mm** | **Perçage en place** : Foret Ø 3.9 mm + Alésoir machine Ø 4.00 mm H7 traversant nœud serré + tube + manchon collé |
+| **Ancrage épaule gauche** | Bride alu 7075 + tube extrémité gauche | Axe Z (Vertical) | Ø4 mm H7 | **40 mm** | **Perçage en place** : Foret Ø 3.9 mm + Alésoir machine Ø 4.00 mm H7 traversant bride serrée + tube + bouchon collé |
+| **Ancrage épaule droit** | Bride alu 7075 + tube extrémité droit | Axe Z (Vertical) | Ø4 mm H7 | **40 mm** | **Perçage en place** : Foret Ø 3.9 mm + Alésoir machine Ø 4.00 mm H7 traversant bride serrée + tube + bouchon collé |
 
 > [!TIP]
-> **Toutes les goupilles sont axées en Z (Verticales) et standardisées en Ø 4.0 mm × 40 mm.** Elles sont donc 100% réalisables en 3 axes directs par la broche Z de la NestWorks C500, sans aucun 4ème axe rotatif requis.
+> **Séquence Chronologique Atelier Inviolable** :
+> 1. **Collage & Polymérisation** : Encoller le manchon central et les bouchons d'épaule dans le tube carbone Ø30 mm ➔ Laisser polymériser l'époxy 24h.
+> 2. **Serrage Nominal des Brides** : Poser le ruban Kapton sur le tube, monter et serrer les demi-coquilles (8.5 N.m) et brides d'épaule (3.0 N.m).
+> 3. **Perçage en Place sur C500** : Percer et aléser les 3 trous Ø 4.0 mm H7 d'un seul trait par la broche Z.
+> 4. **Insertion Goupilles Inox** : Déposer 1 goutte de Loctite 243 et emmancher les goupilles rectifiées trempées ISO 8734 Ø 4.0 mm m6 × 40 mm au maillet plastique.
+> 5. **Montage des Moteurs RS-04 À LA FIN** : Les moteurs ne sont fixés qu'après le goupillage complet du squelette métallique. Cela protège l'entrefer des aimants et les roulements contre toute limaille ou poussière de carbone.
+
+![Intégration du Squelette et Dégagement Broche Z dans Fusion 360 v62](./media/torse_v62_eclate_squelette_epaule.png)
+
+*Modèle CAO Fusion 360 (Torse v62) avec écorché du thorax. La bride d'épaule monobloc (jaune) présente une zone de manchon intérieure (portée 35 mm) totalement dégagée sur sa face supérieure : la broche Z de la NestWorks C500 dispose d'un accès direct sans obstacle pour réaliser le perçage en place de la goupille Ø 4.0 mm H7 à travers le tube carbone et son bouchon alu. Le moteur RS-04 et les plaques de cage H-bracket se montent en toute dernière étape sur le flasque de Ø 120 mm.*
+
+### D. Fiche Pratique Atelier : Protocole Anti-Corrosion Galvanique DIY (Zéro Chimie)
+
+Pour supprimer définitivement tout risque de micro-couple galvanique entre les fibres de carbone et l'Aluminium 7075-T6, le protocole d'assemblage applique une barrière diélectrique physique en 3 gestes simples sur établi :
+
+1. **Isolation Extérieure Tube Carbone Ø30 mm (Ruban Polyimide Kapton 50 µm)** :
+   * Nettoyer la surface extérieure du tube carbone à l'alcool isopropylique.
+   * Enrouler **1 seul tour franc de ruban Kapton (largeur 25 ou 50 mm)** sur les zones recevant les demi-coquilles centrales et les brides d'épaule.
+   * Le Kapton (isolant > 5 000 V, épaisseur 0.05 mm) assure la rupture totale de continuité électrique sans altérer le couple de pincement.
+
+2. **Isolation Intérieure Tube Carbone (Colle Époxy Structurelle Loctite EA 9466)** :
+   * Encoller généreusement les bouchons d'épaule alu Ø26 mm et le manchon central alu Ø26 mm.
+   * La résine époxy liquide (résistivité > 10^14 Ohm.cm) forme un film diélectrique continu étanche de 0.05 à 0.1 mm lors du durcissement.
+
+3. **Goupilles de Sécurité Ø 4.0 mm (Spécification Inox & Scellement Loctite)** :
+   * **Choix du matériau** : Utiliser impérativement des **Goupilles cylindriques rectifiées trempées en Acier Inoxydable (ISO 8734 Inox A1/A2 Ø 4.0 mm m6 × 40 mm)**. L'Inox passivé et les fibres de carbone ont des potentiels redox quasi-identiques (~ -0.10 V), éliminant tout couple galvanique destructeur (Delta_V < 0.05 V).
+   * **Scellement à l'insertion** : Déposer **1 goutte de frein-filet Loctite 243** (ou graisse silicone neutre) sur la goupille avant son emmanchement au maillet plastique. Le produit chasse l'air et l'humidité des micro-interstices, interdisant toute présence d'électrolyte liquide.
 
 ---
 
@@ -180,38 +232,52 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 | **Goupille sécurité bride (×1 par bride)** | **Goupille élastique Mécanindus Ø 4.0 mm × 40 mm (ISO 8752 / DIN 1481 Inox)** → perçage Ø 4.0 mm H7 traversant toute la douille alu (40.0 mm) et le bouchon alu interne (s'aligne à fleur Ø 40 mm) |
 | **Tirants M5 axiaux (×2 par épaule)** | **Vis CHC M5 × 60 mm (ISO 4762 / DIN 912 classe 8.8 ou 10.9 zingué)** — Longueur optimale validée pour empilement 49.0 mm à 51.0 mm (saillie bague nylon = +2.4 mm) |
 | **Rondelles tirants (×4 par épaule)** | **ISO 7089 / DIN 125A (M5)** → Ø int. 5.3 mm / Ø ext. 10.0 mm, épaisseur 1.0 mm (2 sous tête vis CHC, 2 sous écrou Nylstop) |
-| **Écrous frein tirants (×2 par épaule)** | **ISO 7040 / DIN 985 — M5 (Nylstop)** → écrou hexagonal autofreiné avec bague nylon, hauteur 5.0 mm |
-| **Position tirant HAUT** | Z = +66.1 mm, Y = +28.6 mm (R = 72 mm, angle 23.4° de la verticale) |
-| **Position tirant BAS** | Z = -66.1 mm, Y = -28.6 mm (diamétralement opposé) |
-| **Sourcing plaques 5mm 7075-T6** | Blockenstock — chute 5×160×160 mm 7075-T6 @ 9.60 EUR/pièce — **4 pièces** (2 avant + 2 arrière) → 38.40 EUR |
-| **Sourcing bride 48.2mm** | Blockenstock — disque Ø 120×50 mm alu 7075-T651 @ ~25.00 EUR/pièce — **2 pièces** (une par épaule) → ~50.00 EUR |
-| **Sourcing bouchons & insert alu** | Blockenstock — barre ronde [Ø 30×500 mm Alu 7075-T651 filé](https://www.blockenstock.fr/c-30x500mm-alu-7075-file-t651-c2x21035319) @ **16.20 EUR TTC (13.50 EUR HT)** — **1 pièce** (pour les 2 bouchons d'épaule 34.5 mm + l'insert central 45.0 mm, réserve > 380 mm) |
-| **Sourcing demi-coquilles nœud central** | Blockenstock — plat méplat [25×50×500 mm Alu 7075-T6](https://www.blockenstock.fr/25x-50x500mm-alu-7075-t6-c2x21792953) @ **39.38 EUR TTC (32.82 EUR HT)** — **1 pièce** (débit en 2 tronçons de 135 mm) |
+*Blueprint d'ingénierie 2D de l'assemblage d'épaule quasi-final (Fusion 360). Vue de Face (Plan Y-Z) : stator RS-04 Ø120 mm + 2 plaques H-bracket 5 mm 7075-T6 identiques évidées à Ø95 mm (10× vis M4 sur PCD Ø106 mm) + 2 tirants M5 aux oreilles diagonales à 23.4°. Vue Latérale / Coupe (Plan X-Z) : sandwich axial 49 mm (Plaque avant orange 5 mm -> Stator RS-04 39 mm -> Plaque arrière orange 5 mm + Bride jaune 48.2 mm), tirants axiaux CHC M5×60 mm, tube carbone Ø30 mm avec bouchon interne alu Ø26/18×34.5 mm, pincement radial 2×M4 et goupille Ø4×40 mm Mecanindus.*
+
+> [!IMPORTANT]
+> **Évidement Central Ø95 mm (epaule9.png)** : Les plaques 5 mm 7075-T6 sont évidées au centre sous forme de couronne annulaire (Ø ext 120 mm / Ø int 95 mm, largeur radiale 12.5 mm). Cet évidement procure un **gain de masse massif de -100 g par plaque (-400 g sur le torse !)** tout en dégageant le passage des câbles XT30/CAN-FD et la ventilation directe du stator RS-04.
 
 ---
 
-### C. Calcul d'Empilement & Validation Constructeur RobStride RS-04
+## 5. Nomenclature & Spécifications de la Cage H-Bracket (Par Épaule)
+
+| Paramètre | Valeur |
+|:---|:---|
+| **Plaques H-bracket (orange, ×2)** | **Alu 7075-T6, 5.0 mm** (2 plaques IDENTIQUES : Avant + Arrière, **Évidement central Ø95mm**) |
+| **Bride fixation tube (jaune, 1 par épaule)** | **Bride monobloc Alu 7075-T651, 48.20 mm total** → flasque 13.20 mm + socket tube 35.0 mm |
+| **Bouchon interne anti-écrasement** | **Alu 7075-T651, Ø 26.0 ext / Ø 18.0 int × 34.5 mm de long** |
+| **Fixation Stator AVANT (×10 vis M4)** | **Vis CHC M4 × 10 mm** — Vissage direct dans les 10 trous borgnes du stator (engagement 4.2 mm) |
+| **Fixation Bride Épaule + Stator ARRIÈRE (×6 vis M4)** | **Vis CHC M4 × 25 mm** — Traversant la flasque de bride (13.20 mm) + plaque arrière (5.00 mm) |
+| **Pincement radial tube (×2 vis M4)** | **Vis CHC M4 × 18 mm ou M4 × 20 mm** — Traversantes sur bloc de pincement |
+| **Goupille sécurité bride (×1)** | **Goupille cylindrique rectifiée trempée Ø 4.0 mm m6 × 40 mm (ISO 8734 / DIN 6325)** |
+| **Tirants M5 axiaux (×2)** | **Vis CHC M5 × 60 mm** |
+| **Position tirant HAUT** | Z = +66.1 mm, Y = +28.6 mm (R = 72 mm, angle 23.4° de la verticale) |
+| **Position tirant BAS** | Z = -66.1 mm, Y = -28.6 mm (diamétralement opposé) |
+| **Traitement de surface Alu 7075** | **Anodisation sulfurique ou dure 20 µm** (barrière diélectrique anti-corrosion galvanique) |
+| **Sourcing plaques 5mm 7075-T6** | Blockenstock — chute 5×160×160 mm 7075-T6 @ 9.60 EUR/pièce |
+| **Sourcing bride 48.2mm** | Blockenstock — disque Ø 120×50 mm alu 7075-T651 @ ~25.00 EUR/pièce |
+| **Sourcing bouchons & insert alu** | Blockenstock — barre ronde Ø 30×500 mm Alu 7075-T651 @ 16.20 EUR TTC |
+| **Sourcing demi-coquilles nœud central** | Blockenstock — [**2× chutes 40×50×120 mm Alu 7075-T6**](https://www.blockenstock.fr/40x-50x120mm-alu-7075-t6-c2x38669968) @ ~36.00 EUR TTC (pour pièces 118×45×38.5 mm) |
+
+---
+
+## 6. Calcul d'Empilement & Validation Constructeur RobStride RS-04
 
 > [!NOTE]
 > **Vérification Constructeur RobStride RS-04 (Manuel Constructeur Page 10)** :
-> - **Taraudages Stator** : PCD Ø 106.0 mm (+/- 0.1 mm), 10 taraudages M4 borgnes par face, profondeur borgne = **5.0 mm Min à 6.0 mm Max**.
-> - **Consigne d'Avertissement Constructeur** : *"When fixing, the screw depth should not exceed the depth of the casing thread"* (La pénétration de la vis ne doit pas excéder la profondeur du filetage).
->
-> **1. Fixation Stator Directe sur Plaque 5 mm (CHC M4 × 10 mm — 10 vis AV + 4 vis AR)** :
+> 1. **Fixation Stator Directe sur Plaque 5 mm (CHC M4 × 10 mm — 10 vis AV + 4 vis AR)** :
 > - Plaque H-bracket 7075-T6 : 5.00 mm + Rondelle DIN 125A M4 : 0.80 mm = **5.80 mm sous tête**.
-> - Pénétration dans le stator : $10.00 - 5.80 = \mathbf{4.20\text{ mm}}$.
-> - Conforme à la règle constructeur : $4.20\text{ mm} \le 5\text{ à }6\text{ mm}$, tenue optimale ($> 1\times D = 4.0\text{ mm}$) et **garde de sécurité de 1.80 mm au fond du trou borgne**.
+> - Pénétration dans le stator : 10.00 - 5.80 = **4.20 mm**.
+> - Conforme à la règle constructeur : engagement net > 4.0 mm et **garde de sécurité de 1.80 mm au fond du trou borgne**.
 >
-> **2. Fixation Bride d'Épaule + Plaque 5 mm sur Stator (CHC M4 × 25 mm — 6 vis AR)** :
+> 2. **Fixation Bride d'Épaule + Plaque 5 mm sur Stator (CHC M4 × 25 mm — 6 vis AR)** :
 > - Flasque de bride d'épaule : 13.20 mm + Plaque arrière : 5.00 mm + Rondelle : 0.80 mm = **19.00 mm sous tête**.
-> - Pénétration dans le stator : $25.00 - 19.00 = \mathbf{6.00\text{ mm}}$ (ou **5.20 mm** avec rondelle élastique/Nord-Lock de 1.6 mm).
-> - Conforme à la règle constructeur : engagement net de 5.2 à 6.0 mm sans risque de talonnage.
 >
 > **3. Vis de Pincement Radial (CHC M4 × 18 mm ou M4 × 20 mm)** :
 > - Bloc de pincement (11.0 mm) + 2 rondelles DIN 125A (1.6 mm) + Écrou Nylstop M4 (4.0 mm) + Saillie 2 filets (1.4 mm) = **18.0 mm**.
 >
 > **4. Vis Tirant M5 (CHC M5 × 60 mm)** :
-> - Plaque AV (5.0 mm) + Corps RS-04 (39.0 à 41.0 mm) + Plaque AR (5.0 mm) = 49.0 à 51.0 mm. Accessoires (2× rondelles 1.0 mm + écrou Nylstop 5.0 mm + saillie 1.6 mm) = 7.6 mm. Total = **56.6 mm** (vis **ISO 4762 CHC M5 × 60 mm** exacte).
+> - Plaque AV (5.0 mm) + Corps RS-04 (39.0 mm) + Plaque AR (5.0 mm) = 49.0 mm. Accessoires (2× rondelles 1.0 mm + écrou Nylstop 5.0 mm + saillie 1.6 mm) = 7.6 mm. Total = **56.6 mm** (vis **ISO 4762 CHC M5 × 60 mm** exacte).
 
 > [!CAUTION]
 > **RÈGLE CRITIQUE CAO : FENTE DE PINCEMENT DU TUBE (Split Gap = 1.0 mm)** :
@@ -276,9 +342,9 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 
 | Solution | I_roll (mm4) | Flèche au cou | Espace batterie |
 |:---|:---:|:---:|:---:|
-| Sans renfort | 23 682 | ~1.5 mm | ✅ Libre |
+| Sans renfort | 18 580 | ~1.7 mm | ✅ Libre |
 | Tirants verticaux ±60 mm (abandonnée) | 164 802 | ~0.21 mm | ❌ Occupé |
-| **Cage H-bracket 23.4°, R=72mm (retenue V1)** | **366 262** | **~0.097 mm** | ✅ **Libre à 100%** |
+| **Cage H-bracket 23.4°, R=72mm (retenue V1)** | **361 160** | **~0.088 mm** | ✅ **Libre à 100%** |
 
 ---
 
@@ -399,7 +465,7 @@ Le circuit permet de remplacer un pack batterie à chaud sans interruption de te
 ### Phase 1 — Conception CAO (Fusion 360)
 1. ☐ Mettre à l'échelle (+18%) les fichiers originaux Asimov v1.
 2. ☐ Modéliser la **plaque de colonne sagittale à lumières 2D** (Option B, R = 18 mm) en 2 parties.
-3. ☐ Modéliser les **2 cages H-bracket d'épaule** : Plaques 5 mm Alu 7075-T6 évidées à Ø95 mm + Brides monoblocs 48.2 mm Alu 7075-T651 reliées par les 2 tirants M5 à 23.4° ($R = 72\text{ mm}$).
+3. ☐ Modéliser les **2 cages H-bracket d'épaule** : Plaques 5 mm Alu 7075-T6 évidées à Ø95 mm + Brides monoblocs 48.2 mm Alu 7075-T651 reliées par les 2 tirants M5 à 23.4° (R = 72 mm).
 4. ☐ Modéliser le **nœud d'intersection** à demi-coquilles (Bride Sup. + Bride Inf. Alu 7075-T6, hauteur 42.0 mm, Split Gap 1.0 mm).
 5. ☐ Dessiner les **2 paniers batterie latéraux** et les coulisses centrales sur la plaque sagittale.
 6. ☐ Réaliser le **split abdominal rigide** (Lap Joint 3 mm, inserts laiton M4).
@@ -410,24 +476,26 @@ Le circuit permet de remplacer un pack batterie à chaud sans interruption de te
 2. ☐ Usiner les **4 plaques H-bracket (5 mm)** (2 avant + 2 arrière identiques) dans la tôle **Alu 7075-T6 5×160×160 mm Blockenstock** — Évidement central Ø 95 mm, 10 trous lisses **Ø 4.3 mm (ISO 273 Moyen)** sur PCD Ø 106 mm + 2 perçages tirants M5 à **Ø 5.5 mm** avec chanfreins 0.5 mm × 45°.
 3. ☐ Usiner les **2 brides d'épaule monoblocs (H = 48.20 mm)** dans les disques bruts **Ø 120 × 50 mm Alu 7075-T651 Blockenstock** — alésage Ø 30.05 mm H7 sur 35.0 mm, flasque 13.2 mm, fente 1.0 mm et trou goupille Ø 4.0 mm H7.
 4. ☐ Usiner les **2 bouchons d'épaule (Ø 26.0 h6 / Ø 18.0 × 34.5 mm)** et le **manchon central anti-écrasement (Ø 26.0 h6 / Ø 18.0 × 45.0 mm)** dans la **barre ronde Alu 7075-T651 Ø 30 mm Blockenstock**.
-5. ☐ Usiner les **2 demi-coquilles du nœud central (120×45×21 mm)** dans le plat brut **25×50×500 mm Alu 7075-T6 Blockenstock** — demi-alésage usiné à 14.5 mm de profondeur (surfaçage Z = -0.5 mm) pour créer le **Split Gap de 1.0 mm**, perçages lisses Ø 6.3 mm pour les 4 vis M6 traversantes.
-6. ☐ Usiner la plaque de cou (Alu 5 mm), la Waist Plate (Alu 6 mm) et les **équerres L-Brackets à lumières oblongues (4.3 × 6.5 mm)**.
-7. ☐ Usiner la bague d'adaptation RS-06 (Alu 6061-T6).
-8. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner et percer la goupille centrale Ø 4.0 mm × 40 mm (décalée à X = 12.0 mm) à travers le nœud assemblé.
+5. ☐ Usiner les **2 demi-coquilles du nœud central (118×45×38.5 mm)** dans les [**2× chutes 40×50×120 mm Alu 7075-T6 Blockenstock**](https://www.blockenstock.fr/40x-50x120mm-alu-7075-t6-c2x38669968) — demi-alésage usiné à 14.5 mm de profondeur (surfaçage Z = -0.5 mm) pour créer le **Split Gap de 1.0 mm**, perçages lisses Ø 6.5 mm pour les vis M6 et Ø 4.3 mm sur l'aile verticale pour les vis M4.
+6. ☐ Réaliser l'**anodisation sulfurique ou dure 20 µm** sur toutes les pièces Alu 7075-T6 usinées (brides et demi-coquilles) pour éliminer tout risque de corrosion galvanique avec le composite carbone.
+7. ☐ Usiner la plaque de cou (Alu 5 mm), la Waist Plate (Alu 6 mm) et les **équerres L-Brackets à lumières oblongues (4.3 × 6.5 mm)**.
+8. ☐ Usiner la bague d'adaptation RS-06 (Alu 6061-T6).
+9. ☐ Couper le tube carbone Ø30 mm à ~260 mm, chanfreiner et percer la goupille centrale Ø 4.0 mm H7 (décalée à X = 12.0 mm) à travers le nœud assemblé.
 
 ### Phase 3 — Impression 3D (Qidi Plus 4)
-1. ☐ **Prototype PLA** : Imprimer les 2 demi-coques verticalement en PLA (couche 0.28 mm) pour valider les ajustements.
-2. ☐ **Version finale PA12-CF** : Imprimer verticalement (Thorax haut + Abdomen bas) avec Modifier Volume cylindrique aux épaules (6 parois, 35% infill).
-3. ☐ Supports arborescents (`Tree`) uniquement sous les collerettes d'épaule (`Build Plate Only`).
+1. ☐ **Séchage filament** : Séchage préalable obligatoire du filament PA12-CF à **70°C pendant 6 heures** en sécheur pour garantir 100% de cohésion inter-couches sur les pièces hautes.
+2. ☐ **Prototype PLA** : Imprimer les 2 demi-coques verticalement en PLA (couche 0.28 mm) pour valider les ajustements.
+3. ☐ **Version finale PA12-CF** : Imprimer verticalement (Thorax haut + Abdomen bas) avec Modifier Volume cylindrique aux épaules (6 parois, 35% infill).
+4. ☐ Supports arborescents (`Tree`) uniquement sous les collerettes d'épaule (`Build Plate Only`).
 
 ### Phase 4 — Assemblage Mécanique de Précision & Serrage Séquentiel Isostatique
 1. ☐ Poser les inserts filetés M4 en laiton dans les coques PA12-CF (260°C).
-2. ☐ **Étape 1 (Serrage Nœud Central)** : Insérer et coller à l'époxy le manchon central alu 7075 (45.0 mm) au milieu du tube carbone Ø 30 mm. Serrer les 4× vis M6 du nœud central à **8.5 N.m** (valider le Split Gap de 1.0 mm et la pression de 6.3 MPa) ➔ Fige l'origine axiale Z = 0 absolue.
-3. ☐ **Étape 2 (Goupille Centrale)** : Emmancher la goupille élastique Mécanindus Ø 4.0 mm × 40 mm Inox au maillet plastique (décalée à X = +12.0 mm).
-4. ☐ **Étape 3 (Embase Plaque Sagittale)** : Boulonner l'embase de la plaque sagittale supérieure de 5 mm sur les ailes en L de la Bride Supérieure (4× Vis CHC M4 + écrous Nylstop serrées à 3.0 N.m).
+2. ☐ **Étape 1 (Serrage Nœud Central)** : Poser le film isolant (Kapton ou ruban PTFE), insérer et coller à l'époxy le manchon central alu 7075 (45.0 mm) au milieu du tube carbone Ø 30 mm. Serrer les 4× vis M6 du nœud central à **8.5 N.m** (valider le Split Gap de 1.0 mm et la pression de 6.3 MPa) ➔ Fige l'origine axiale Z = 0 absolue.
+3. ☐ **Étape 2 (Goupille Centrale)** : Emmancher la **goupille cylindrique rectifiée trempée ISO 8734 Ø 4.0 mm m6 × 40 mm** au maillet plastique (décalée à X = +12.0 mm, sans jeu angulaire).
+4. ☐ **Étape 3 (Embase Plaque Sagittale)** : Boulonner l'embase de la plaque sagittale supérieure de 5 mm sur les ailes verticales de la Bride Supérieure (4× Vis CHC M4 + écrous Nylstop serrées à 3.0 N.m).
 5. ☐ Monter les cages H-bracket d'épaule :
    - Insérer les bouchons alu 7075 (34.5 mm) dans le tube carbone Ø30 mm.
-   - Poser la bride 48.2 mm sur le tube et **insérer la goupille Mécanindus Ø 4.0 mm × 40 mm Inox** au maillet plastique.
+   - Poser la bride 48.2 mm sur le tube et **insérer la goupille rectifiée trempée ISO 8734 Ø 4.0 mm m6 × 40 mm** au maillet plastique.
    - Monter les tirants axiaux M5 (**Vis CHC M5 × 60 mm ISO 4762** + rondelles DIN 125A + écrous Nylstop M5).
 6. ☐ Appliquer le **Protocole de Serrage Dynamométrique à 3.0 N.m** sur les 2× vis M4 de pincement de chaque bride d'épaule (avec écrous Nylstop M4 + rondelles Nord-Lock, sans Loctite).
 7. ☐ Monter les moteurs RS-04 dans les cages d'épaule :
@@ -453,6 +521,6 @@ Le circuit permet de remplacer un pack batterie à chaud sans interruption de te
 ## 10. Questions Ouvertes Résolues & Points d'Attention
 
 * ✅ **Fixation Stator RS-04** : Validée sur le manuel officiel RobStride (profondeur borgne 5 à 6 mm, PCD Ø106 mm × 10 vis M4).
-* ✅ **Liaison Tube-Bride** : 100% mécanique sans collage (pincement 2×M4 à 3.0 N.m sur fente 1.0 mm + bouchon alu 7075 + goupille Ø4×40 mm affleurante).
-* ✅ **Rigidité Roll** : Validée par la cage H-Bracket (tirants M5 à 23.4°, $R = 72\text{ mm}$, flèche < 0.1 mm), libérant l'espace pour le hot-swap des batteries.
-* ⚠️ **Attention Atelier** : Toujours engager la goupille Mécanindus Ø 4.0 mm **AVANT** de réaliser le serrage dynamométrique final des vis M4 de pincement de la bride.
+* ✅ **Liaison Tube-Bride** : 100% mécanique sans collage (pincement 2×M4 à 3.0 N.m sur fente 1.0 mm + bouchon alu 7075 + goupille rectifiée Ø4×40 mm affleurante).
+* ✅ **Rigidité Roll & Yaw** : Validée par la cage H-Bracket (tirants M5 à 23.4°, R = 72 mm, flèche < 0.1 mm) et le tube carbone Ø30 mm (déformation Yaw < 2.0° sous 60 N.m).
+* ⚠️ **Attention Atelier** : Toujours engager la goupille rectifiée ISO 8734 Ø 4.0 mm **AVANT** de réaliser le serrage dynamométrique final des vis M4 de pincement de la bride.

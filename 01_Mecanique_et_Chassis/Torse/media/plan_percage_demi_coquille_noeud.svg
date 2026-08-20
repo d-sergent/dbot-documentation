@@ -1,0 +1,291 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 860" width="100%" height="100%">
+  <defs>
+    <!-- Pattern Grille Blueprint -->
+    <pattern id="gridBlueprint" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.7"/>
+    </pattern>
+    <pattern id="gridFine" width="10" height="10" patternUnits="userSpaceOnUse">
+      <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#1e293b" stroke-width="0.4"/>
+    </pattern>
+
+    <!-- Dégradés Alu 7075 & Éléments CAO v62 -->
+    <linearGradient id="aluBrown" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdba74"/>
+      <stop offset="40%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#9a3412"/>
+    </linearGradient>
+    <linearGradient id="aluGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#86efac"/>
+      <stop offset="40%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+    <linearGradient id="plateTan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a"/>
+      <stop offset="50%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="carbTube" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Flèches de cotation -->
+    <marker id="arrowDim" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowDimGold" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#facc15"/>
+    </marker>
+    <marker id="arrowDimRed" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#ef4444"/>
+    </marker>
+    <marker id="arrowRev" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowRevGold" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#facc15"/>
+    </marker>
+  </defs>
+
+  <!-- CANVAS BACKGROUND -->
+  <rect width="1400" height="860" fill="#0f172a"/>
+  <rect width="1400" height="860" fill="url(#gridBlueprint)"/>
+
+  <!-- HEADER -->
+  <g transform="translate(700, 38)">
+    <text x="0" y="0" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="17" font-weight="bold" text-anchor="middle" letter-spacing="1">D-BOT V1 — NŒUD CENTRAL DEMI-COQUILLES : PLAN DE PERÇAGE &amp; COTATION CAO</text>
+    <text x="0" y="20" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">Dimensions Finies 118,0 × 45,0 × 38,5 mm · 2× Chutes Brutes 40 × 50 × 120 mm Alu 7075-T6 Blockenstock</text>
+  </g>
+
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <!-- PANEL 1 : VUE EN COUPE TRANSVERSALE X-Z (Vue d'Axe du Tube)         -->
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(35, 75)">
+    <rect width="580" height="745" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8" opacity="0.95"/>
+    <rect width="580" height="745" rx="10" fill="url(#gridFine)" opacity="0.3"/>
+
+    <!-- En-tête Panel -->
+    <rect x="0" y="0" width="580" height="40" rx="10" fill="#0284c7" opacity="0.25"/>
+    <text x="290" y="24" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="13" font-weight="bold" text-anchor="middle">1. COUPE TRANSVERSALE X-Z (Vue d'Axe Tube &amp; Aile Verticale)</text>
+
+    <!-- Schéma Coupe X-Z (Échelle 5.0 px/mm) -->
+    <!-- Largeur X = 45 mm ➔ 225 px | Plaque = 5 mm ➔ 25 px | Tube Ø30 mm ➔ 150 px -->
+    <g transform="translate(160, 110)">
+
+      <!-- Cotation Largeur Totale 45.00 mm (dans Brut 50 mm) -->
+      <line x1="0" y1="-50" x2="225" y2="-50" stroke="#38bdf8" stroke-width="1.2" marker-start="url(#arrowRev)" marker-end="url(#arrowDim)"/>
+      <line x1="0" y1="0" x2="0" y2="-55" stroke="#475569" stroke-width="1" stroke-dasharray="2,2"/>
+      <line x1="225" y1="0" x2="225" y2="-55" stroke="#475569" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="112.5" y="-58" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="11" font-weight="bold" text-anchor="middle">45,00 mm (Largeur X · Usinée dans Brut 50 mm)</text>
+
+      <!-- Plaque Sagittale Centrale (Beige/Tan, épaisseur 5.0 mm = 25 px de X=100 à X=125) -->
+      <rect x="100" y="-80" width="25" height="380" fill="url(#plateTan)" stroke="#fef08a" stroke-width="1.5"/>
+      <text x="112.5" y="-90" fill="#fef08a" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">Plaque 5,0 mm (Alu 6061-T6)</text>
+
+      <!-- DEMI-BRIDE SUPÉRIEURE (Orange/Marron) -->
+      <!-- Aile verticale montant jusqu'à Z=+38.5mm (y=-77px) -->
+      <path d="
+        M 0,-5 L 100,-5 L 100,-42 L 125,-42 L 125,-77 L 155,-77 L 155,-5 L 225,-5 
+        L 225,-42 L 0,-42 Z
+      " fill="url(#aluBrown)" stroke="#fdba74" stroke-width="1.8"/>
+
+      <!-- DEMI-BRIDE INFÉRIEURE (Verte) -->
+      <!-- Aile verticale descendant jusqu'à Z=-38.5mm (y=+77px) -->
+      <path d="
+        M 0,5 L 100,5 L 100,42 L 125,42 L 125,77 L 155,77 L 155,5 L 225,5 
+        L 225,42 L 0,42 Z
+      " fill="url(#aluGreen)" stroke="#86efac" stroke-width="1.8"/>
+
+      <!-- TUBE CARBONE Ø30 mm (Centré à X=112.5, Y=59, Z=0) -->
+      <circle cx="112.5" cy="0" r="40" fill="url(#carbTube)" stroke="#38bdf8" stroke-width="2"/>
+      <circle cx="112.5" cy="0" r="34" fill="#0f172a" stroke="#d97706" stroke-width="1.2"/>
+      <text x="112.5" y="4" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Tube Ø30 ⊙</text>
+
+      <!-- SPLIT GAP 1.0 mm (Jeu au plan de joint) -->
+      <rect x="-5" y="-3" width="235" height="6" fill="#ef4444" opacity="0.3"/>
+      <line x1="-15" y1="0" x2="240" y2="0" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,2"/>
+      <text x="-20" y="3" fill="#ef4444" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="end">Split Gap 1,0 mm</text>
+
+      <!-- 4× VIS M6 DE PINCEMENT VERTICALES (Lignes d'axe à X=30 et X=195) -->
+      <line x1="30" y1="-60" x2="30" y2="60" stroke="#facc15" stroke-width="2" stroke-dasharray="6,2"/>
+      <line x1="195" y1="-60" x2="195" y2="60" stroke="#facc15" stroke-width="2" stroke-dasharray="6,2"/>
+      <circle cx="30" cy="-45" r="5" fill="#facc15"/>
+      <circle cx="195" cy="-45" r="5" fill="#facc15"/>
+      <circle cx="30" cy="45" r="5" fill="#facc15"/>
+      <circle cx="195" cy="45" r="5" fill="#facc15"/>
+      <text x="30" y="-68" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">M6 (Ø6,5)</text>
+      <text x="195" y="-68" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">M6 (Nylstop)</text>
+
+      <!-- VIS M4 HORIZONTALES (Percées à Z = +30.0 mm et Z = -30.0 mm) -->
+      <line x1="85" y1="-60" x2="170" y2="-60" stroke="#38bdf8" stroke-width="2.5"/>
+      <circle cx="90" cy="-60" r="4" fill="#38bdf8"/>
+      <circle cx="165" cy="-60" r="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="175" y="-57" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">4× M4 Horizontales (Z = +30 mm)</text>
+      <text x="175" y="-47" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="7">Traversent plaque 5mm + aile 6mm</text>
+
+      <line x1="85" y1="60" x2="170" y2="60" stroke="#38bdf8" stroke-width="2.5"/>
+      <circle cx="90" cy="60" r="4" fill="#38bdf8"/>
+      <circle cx="165" cy="60" r="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="175" y="63" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">4× M4 Horizontales (Z = -30 mm)</text>
+
+      <!-- GOUPILLE Z DÉCALÉE (Axe Z, positionnée à X=+12.0 mm, Y=59.0 mm) -->
+      <line x1="172" y1="-38" x2="172" y2="38" stroke="#ef4444" stroke-width="3"/>
+      <text x="178" y="10" fill="#ef4444" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold">Goupille Ø4×40mm (Z)</text>
+    </g>
+
+    <!-- Légende Panel 1 -->
+    <g transform="translate(20, 560)">
+      <rect width="540" height="160" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="15" y="22" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="10" font-weight="bold">💡 Analyse Dimensionnelle de Coupe &amp; Surfaçage :</text>
+      
+      <text x="15" y="44" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#fdba74" font-weight="bold">Hauteur totale Z = 38,50 mm</tspan> : Permet 1,5 mm de surfaçage dans le brut de 40 mm.</text>
+      <text x="15" y="62" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#86efac" font-weight="bold">Largeur totale X = 45,00 mm</tspan> : Permet 5,0 mm de surfaçage dans le brut de 50 mm.</text>
+      <text x="15" y="80" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#38bdf8" font-weight="bold">Vis M4 Horizontales (Axe X)</tspan> : Percées à Z = ±30,0 mm (marge de 8,5 mm au sommet de l'aile).</text>
+      <text x="15" y="98" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#facc15" font-weight="bold">Vis M6 Verticales (Axe Z)</tspan> : 4 vis de pincement radial serrées à 8,5 N.m.</text>
+      <text x="15" y="116" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#ef4444" font-weight="bold">Split Gap 1,0 mm</tspan> : Dégagé par demi-alésage usiné à 14,5 mm de profondeur.</text>
+      <text x="15" y="134" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• <tspan fill="#4ade80" font-weight="bold">Coupe Plaque 5 mm</tspan> : Droite à Z = +22,0 mm (Haut) et Z = -22,0 mm (Bas).</text>
+    </g>
+  </g>
+
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <!-- PANEL 2 : VUE 3D PERSPECTIVE & COTATION SAGITTALE (118.00 mm)       -->
+  <!-- ════════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(630, 75)">
+    <rect width="735" height="745" rx="10" fill="#1e293b" stroke="#818cf8" stroke-width="1.8" opacity="0.95"/>
+    <rect width="735" height="745" rx="10" fill="url(#gridFine)" opacity="0.3"/>
+
+    <!-- En-tête Panel -->
+    <rect x="0" y="0" width="735" height="40" rx="10" fill="#4f46e5" opacity="0.25"/>
+    <text x="367" y="24" fill="#a5b4fc" font-family="system-ui,sans-serif" font-size="13" font-weight="bold" text-anchor="middle">2. VUE LONGITUDINALE Y (Portée 118,00 mm · Usinée dans Brut 120 mm)</text>
+
+    <!-- Schéma Perspective Y -->
+    <g transform="translate(85, 70)">
+      
+      <!-- Cotation Longueur Totale 118.00 mm (dans Brut 120 mm) -->
+      <line x1="0" y1="-25" x2="566.4" y2="-25" stroke="#facc15" stroke-width="1.5" marker-start="url(#arrowRevGold)" marker-end="url(#arrowDimGold)"/>
+      <line x1="0" y1="0" x2="0" y2="-30" stroke="#475569" stroke-width="1" stroke-dasharray="2,2"/>
+      <line x1="566.4" y1="0" x2="566.4" y2="-30" stroke="#475569" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="283.2" y="-33" fill="#facc15" font-family="system-ui,sans-serif" font-size="11" font-weight="bold" text-anchor="middle">118,00 mm (Longueur Y · 2,0 mm de surfaçage dans Brut 120 mm)</text>
+
+      <!-- Demi-Bride Supérieure Marron (Longueur 566.4 px = 118 mm -> Échelle 4.8 px/mm) -->
+      <path d="
+        M 0,40 L 211.2,40 
+        A 72 72 0 0 1 355.2,40 
+        L 566.4,40 L 566.4,0 L 0,0 Z
+      " fill="url(#aluBrown)" stroke="#fdba74" stroke-width="1.8"/>
+
+      <!-- Aile verticale arrière montante (Z=0 à Z=-35px = 17.5 mm) -->
+      <rect x="0" y="-35" width="566.4" height="35" fill="url(#aluBrown)" stroke="#fdba74" stroke-width="1.5" opacity="0.85"/>
+      <text x="283.2" y="-18" fill="#fef08a" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Aile Verticale Montante (Épaisseur 6,0 mm · Hauteur 17,5 mm)</text>
+
+      <!-- 4× Trous M4 Horizontaux sur l'aile verticale (Y = 14, 44, 74, 104 mm) -->
+      <!-- x = 14*4.8 = 67.2, x = 44*4.8 = 211.2, x = 74*4.8 = 355.2, x = 104*4.8 = 499.2 -->
+      <g fill="#0f172a" stroke="#38bdf8" stroke-width="1.5">
+        <circle cx="67.2" cy="-18" r="5"/>
+        <circle cx="211.2" cy="-18" r="5"/>
+        <circle cx="355.2" cy="-18" r="5"/>
+        <circle cx="499.2" cy="-18" r="5"/>
+      </g>
+      <text x="67.2" y="-26" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">M4 (Y=14)</text>
+      <text x="211.2" y="-26" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">M4 (Y=44)</text>
+      <text x="355.2" y="-26" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">M4 (Y=74)</text>
+      <text x="499.2" y="-26" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">M4 (Y=104)</text>
+
+      <!-- Demi-Bride Inférieure Verte -->
+      <path d="
+        M 0,48 L 211.2,48 
+        A 72 72 0 0 0 355.2,48 
+        L 566.4,48 L 566.4,88 L 0,88 Z
+      " fill="url(#aluGreen)" stroke="#86efac" stroke-width="1.8"/>
+
+      <!-- Aile verticale descendante -->
+      <rect x="0" y="88" width="566.4" height="35" fill="url(#aluGreen)" stroke="#86efac" stroke-width="1.5" opacity="0.85"/>
+      <text x="283.2" y="110" fill="#fef08a" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Aile Verticale Descendante (Épaisseur 6,0 mm · Hauteur 17,5 mm)</text>
+
+      <!-- 4× Trous M4 Horizontaux aile inférieure -->
+      <g fill="#0f172a" stroke="#38bdf8" stroke-width="1.5">
+        <circle cx="67.2" cy="105" r="5"/>
+        <circle cx="211.2" cy="105" r="5"/>
+        <circle cx="355.2" cy="105" r="5"/>
+        <circle cx="499.2" cy="105" r="5"/>
+      </g>
+
+      <!-- Trous M6 Verticaux (Vis de pincement) -->
+      <!-- Dos : Y = 17 mm (x = 81.6 px) | Ventre : Y = 101 mm (x = 484.8 px) -->
+      <g fill="#0f172a" stroke="#facc15" stroke-width="1.8">
+        <circle cx="81.6" cy="20" r="7"/>
+        <circle cx="484.8" cy="20" r="7"/>
+        <circle cx="81.6" cy="68" r="7"/>
+        <circle cx="484.8" cy="68" r="7"/>
+      </g>
+      <text x="81.6" y="12" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">M6 Dos (Y=17)</text>
+      <text x="484.8" y="12" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">M6 Ventre (Y=101)</text>
+
+      <!-- Bossage Central Tube Carbone Ø30 mm (Centré à Y = 59 mm [x = 283.2 px]) -->
+      <circle cx="283.2" cy="44" r="36" fill="url(#carbTube)" stroke="#38bdf8" stroke-width="2"/>
+      <text x="283.2" y="48" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">Tube Ø30</text>
+    </g>
+
+    <!-- Tableau de Synthèse des Perçages Fusion 360 -->
+    <g transform="translate(20, 390)">
+      <rect width="695" height="330" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="15" y="24" fill="#a5b4fc" font-family="system-ui,sans-serif" font-size="11" font-weight="bold">📋 Plan de Perçage Paramétrique Validé (Chutes 40 × 50 × 120 mm) :</text>
+
+      <rect x="15" y="38" width="665" height="26" rx="4" fill="#1e3a5f"/>
+      <text x="100" y="55" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">OPÉRATION</text>
+      <text x="210" y="55" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">DIAMÈTRE / AXE</text>
+      <text x="350" y="55" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">COORDONNÉES CAO (X, Y)</text>
+      <text x="540" y="55" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">SPÉCIFICATION &amp; SOURCING</text>
+      <line x1="15" y1="64" x2="680" y2="64" stroke="#334155" stroke-width="1"/>
+
+      <!-- Ligne 1 -->
+      <text x="25" y="85" fill="#facc15" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">4× Vis CHC M6</text>
+      <text x="210" y="85" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">Ø 6,5 mm (Axe Z)</text>
+      <text x="350" y="85" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">X = ±15,0 mm · Y = 17 &amp; 101 mm</text>
+      <text x="440" y="85" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8">Pincement tube carbone (8,5 N.m)</text>
+      <line x1="15" y1="95" x2="680" y2="95" stroke="#1e293b" stroke-width="0.8"/>
+
+      <!-- Ligne 2 -->
+      <text x="25" y="116" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">4× Vis CHC M4 (Haut)</text>
+      <text x="210" y="116" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">Ø 4,3 mm (Axe X)</text>
+      <text x="350" y="116" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">Z = +30,0 mm · Y = 14, 44, 74, 104</text>
+      <text x="440" y="116" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8">Fixation Plaque Supérieure (3,0 N.m)</text>
+      <line x1="15" y1="126" x2="680" y2="126" stroke="#1e293b" stroke-width="0.8"/>
+
+      <!-- Ligne 3 -->
+      <text x="25" y="147" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">4× Vis CHC M4 (Bas)</text>
+      <text x="210" y="147" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">Ø 4,3 mm (Axe X)</text>
+      <text x="350" y="147" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">Z = -30,0 mm · Y = 14, 44, 74, 104</text>
+      <text x="440" y="147" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8">Fixation Plaque Inférieure (3,0 N.m)</text>
+      <line x1="15" y1="157" x2="680" y2="157" stroke="#1e293b" stroke-width="0.8"/>
+
+      <!-- Ligne 4 -->
+      <text x="25" y="178" fill="#ef4444" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">1× Goupille ISO 8734</text>
+      <text x="210" y="178" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">Ø 4,0 mm m6 (Axe Z)</text>
+      <text x="350" y="178" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">X = +12,0 mm · Y = 59,0 mm</text>
+      <text x="440" y="178" fill="#ef4444" font-family="system-ui,sans-serif" font-size="8">Goupille rectifiée trempée (zéro jeu)</text>
+      <line x1="15" y1="188" x2="680" y2="188" stroke="#1e293b" stroke-width="0.8"/>
+
+      <!-- Ligne 5 -->
+      <text x="25" y="209" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">Demi-Alésage R15</text>
+      <text x="210" y="209" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">R = 15,00 mm</text>
+      <text x="350" y="209" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">Centré Y = 59,0 mm · Prof 14,5 mm</text>
+      <text x="440" y="209" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">Logement tube composite Ø30 mm</text>
+      <line x1="15" y1="219" x2="680" y2="219" stroke="#1e293b" stroke-width="0.8"/>
+
+      <!-- Ligne 6 -->
+      <text x="25" y="238" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">2× Chutes Blockenstock</text>
+      <text x="210" y="238" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">40 × 50 × 120 mm</text>
+      <text x="350" y="238" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">Alu 7075-T6 (Réf 38669968)</text>
+      <text x="440" y="238" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8">Sourcing 100% validé &amp; économique ✅</text>
+
+      <rect x="15" y="260" width="665" height="50" rx="4" fill="#0284c7" opacity="0.2" stroke="#0284c7" stroke-width="0.8"/>
+      <text x="347" y="280" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">🎯 Cotes Fusion 360 : 118,0 mm (Longueur Y) × 45,0 mm (Largeur X) × 38,5 mm (Hauteur Z).</text>
+      <text x="347" y="296" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Surfaçage Z = -0.5 mm sur le plan de joint pour garantir le Split Gap de 1.0 mm.</text>
+    </g>
+  </g>
+
+  <!-- FOOTER -->
+  <text x="700" y="845" fill="#475569" font-family="system-ui,sans-serif" font-size="9.5" text-anchor="middle">Plan d'Ingénierie D-Bot V1 · Nœud Central Demi-Coquilles 7075-T6 · Chutes 40×50×120mm · 18 Août 2026</text>
+</svg>
