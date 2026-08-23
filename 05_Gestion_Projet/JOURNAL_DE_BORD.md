@@ -2,6 +2,36 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-08-23 — Validation Finale Torse V2 Tout Métal (Alu 7075/6060), Fixation Directe Bride ➔ Stator RS-04 & Circuit Aéraulique par Tuyères 3D
+
+### 🎯 Objectif de la session
+1. **Revue Exhaustive & Audit Critique du Dossier Technique Torse V2** : Audit complet du document `01_Mecanique_et_Chassis/Torse/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` suite à la simplification d'épaule (suppression des cages H-bracket au profit d'une fixation directe bride monobloc Alu 7075-T6 sur le stator RS-04).
+2. **Harmonisation Géométrique, Tolérances & RDM** : Élimination des résidus d'anciennes versions (tirants, écrous M4, perçages), correction des diamètres de passage (Ø 5,3 mm ISO 273 pour vis CHC M5×70), standardisation de la largeur colonne à 94,0 mm constante.
+3. **Conception & Intégration du Circuit Thermo-Aéraulique** : Modélisation du flux d'expulsion annulaire (gap 2,0 mm autour du RS-04), dimensionnement des tuyères convergentes 3D (PA12-CF/TPU), ventilation globale du torse et barrière active anti-poussière.
+4. **Génération des Blueprints Vectoriels SVG & RAG Sync** : Mise à jour intégrale des 7 schémas SVG du torse dans `./media/` et indexation RAG.
+
+### 📝 Réalisations & Évolutions
+1. **Architecture V2 Validée (Gain Net de 368 g vs Cages H-bracket)** :
+   - **Demi-traverses d'épaules** : Tube carré commercial 60×60×2 mm Alu 6060-T6 (L = 85 mm, 106 g) emboîté sur bossage 55,8×55,8×20 mm et verrouillé par 1 seule vis traversante verticale CHC M5×70 mm (axe Z, X = 10,0 mm).
+   - **Brides d'épaules monoblocs** : Usinées dans le disque brut Ø 120 × 50 mm Alu 7075-T651 (Flasque 6 mm + Bossage 20 mm + Centrage pilote Ø 95,05 mm H7) vissées directement dans les 10 taraudages M4 du stator RS-04 (PCD Ø 106 mm). Facteur de sécurité torsion friction Sf = ×2,76 (331 N.m).
+   - **Colonne sagittale** : Découpée en 2 plaques 2D (5 mm) dans 1 seul plat marchand 5 × 100 × 495 mm Alu 7075-T6 (18,16 € TTC), assemblée par double éclisse sandwich 15 mm (4 vis CHC M5×25 mm). Flèche au cou en Roll = 0,121 mm (marge ×4,1 face au seuil 0,5 mm).
+2. **Circuit Aéraulique Interne & Tuyère Convergente 3D** :
+   - Évacuation forcée de l'air interne du torse par l'interstice annulaire de 2,0 mm (section 766,6 mm2) entourant le corps Ø 120 mm du RS-04.
+   - Vitesse d'éjection v = 5,07 m/s multipliant par ~5 le coefficient d'échange convectif (h = 28 W/m2·K, T_stator maintenu à 44 °C sous 30 W continu).
+   - Tuyères convergentes 3D (angle ~28°) logeant chacune 1 ventilateur 40×40×20 mm PWM haute pression statique (Noctua NF-A4x20), régulé en PWM asservi sur télémétrie CAN RS-04.
+   - Effet « rideau d'air » sous surpression refoulant 100% des poussières extérieures.
+3. **Mise à Jour Intégrale des Schémas Vectoriels Blueprints SVG** :
+   - `solution_c_tube_carre_fixation_detaillee.svg` (fixation directe stator 10x M4, vis M5x70 en Z).
+   - `solution_c_bride_monobloc_7075_et_vis_traversantes.svg` (suppression oreilles, vis unique en Z).
+   - `solution_c_fixation_tube_sur_eclisse_detaillee.svg` (insert 20 mm, perçage Ø 5,3 mm).
+   - `solution_c_insert_taraudages_et_liaisons.svg` (gamme d'atelier 4 étapes).
+   - `concept_demi_traverse_epaule_directe.svg` (vue frontale sans cage).
+   - `comparatif_usinage_traverse_monobloc_vs_assemblage.svg` (tube carré 60x60 retenu V2).
+   - `paniers_batteries_hot_swap_vue_dessus.svg` (harmonisation plaque sagittale 2D).
+   - `tuyere_ventilation_epaule_annulaire.svg` (nouveau schéma 4 panneaux thermo-aéraulique).
+
+---
+
 ## 📅 2026-08-20 — Finalisation CAO Nœud Central (v62), Match-Drilling, RDM Yaw & Protocoles Anti-Corrosion
 
 ### 🎯 Objectif de la session

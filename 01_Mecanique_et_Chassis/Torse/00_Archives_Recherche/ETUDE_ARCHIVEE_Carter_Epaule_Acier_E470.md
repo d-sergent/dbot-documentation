@@ -19,7 +19,7 @@
 
 L'approche visait à insérer le moteur RobStride RS-04 par l'avant (façade extérieure) dans un carter en acier mécano-usiné :
 
-![Coupe axiale du carter monobloc acier E470 d'épaule](../media/manchon_acier_e470_coupe_axiale.svg)
+![Coupe axiale du carter monobloc acier E470 d'épaule](.../media/manchon_acier_e470_coupe_axiale.svg)
 
 *Coupe axiale du concept de Support RS-04 en acier E470 CNC avec sa flasque arrière de 4,0 mm (évidement central Ø 97,0 mm) et sa paroi cylindrique 360° de 1,9 mm (Ø ext 124,0 mm).*
 
@@ -27,7 +27,7 @@ L'approche visait à insérer le moteur RobStride RS-04 par l'avant (façade ext
 
 ## 2. Plan de Définition CAO 2D (`Support RS-04` — David SERGENT 03/08/2026)
 
-![Plan de Définition 2D — Support RS-04 en Acier E470 par David SERGENT](../media/plan_2d_support_rs04_acier_e470.png)
+![Plan de Définition 2D — Support RS-04 en Acier E470 par David SERGENT](.../media/plan_2d_support_rs04_acier_e470.png)
 
 *Plan de Définition 2D du Support RS-04 en Acier E470 (par David SERGENT — 03/08/2026) : Ø ext 124,0 mm, alésage Ø 120,2 mm H7, paroi 1,9 mm, fond 4,0 mm évidé à Ø 97,0 mm, 10× perçages lisses Ø 4,3 mm sur PCD Ø 106,0 mm.*
 

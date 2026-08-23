@@ -1,0 +1,226 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid Pattern -->
+    <pattern id="grid-pattern-monobloc" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="grad-sky-m" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="grad-amber-m" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="grad-emerald-m" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="grad-rose-m" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#be123c" />
+    </linearGradient>
+    <linearGradient id="grad-card-m" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="grad-alu7075" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#94a3b8" />
+      <stop offset="50%" stop-color="#cbd5e1" />
+      <stop offset="100%" stop-color="#64748b" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="drop-shadow-monobloc" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1400" height="960" fill="#0b1120" />
+  <rect width="1400" height="960" fill="url(#grid-pattern-monobloc)" />
+
+  <!-- HEADER -->
+  <g transform="translate(40, 30)">
+    <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-monobloc)" />
+    <circle cx="35" cy="35" r="18" fill="url(#grad-amber-m)" />
+    <path d="M 26 35 L 44 35 M 35 26 L 35 44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#f8fafc">
+      BRIDE D'ÉPAULE MONOBLOC ALU 7075-T6 &amp; VIS TRAVERSANTE UNIQUE AXE Z
+    </text>
+    <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
+      Usinage dans le Disque Brut Ø120×50 mm Blockenstock · Flasque Stator (10× M4) + Centrage Ø95 H7 + Bossage Carré 55.8×55.8×20 mm
+    </text>
+    <rect x="1130" y="20" width="165" height="30" rx="6" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1" />
+    <text x="1212" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fcd34d">
+      SOLUTION MONOBLOC V2
+    </text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 1: USINAGE 2.5D DU BRUT BLOCKENSTOCK Ø120x50 mm -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 120)">
+    <rect width="640" height="420" rx="10" fill="url(#grad-card-m)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-monobloc)" />
+    <rect x="15" y="15" width="360" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      1. USINAGE 2.5D DANS LE DISQUE Ø120 × 50 mm
+    </text>
+
+    <g transform="translate(30, 60)">
+      <!-- Brut Cylindrique Ø120x50 mm (Gris pointillé / Semi-transparent) -->
+      <rect x="30" y="25" width="220" height="280" rx="6" fill="#334155" fill-opacity="0.25" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4" />
+      <text x="140" y="45" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#cbd5e1">DISQUE BRUT Ø120 × 50 mm (1.58 kg)</text>
+
+      <!-- Pièce Monobloc Usinée (Alu 7075-T651) -->
+      <!-- Flasque Circulaire 6.0 mm directe stator -->
+      <path d="M 30 50 L 65 50 L 65 280 L 30 280 Z" fill="#0284c7" stroke="#38bdf8" stroke-width="2" />
+      <text x="47" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff" transform="rotate(-90,47,170)">Flasque 6 mm</text>
+
+      <!-- Bossage Mâle Carré 55.8x55.8x20 mm usiné dans la masse -->
+      <rect x="65" y="95" width="90" height="135" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="2" />
+      <text x="110" y="165" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f8fafc">BOSSAGE CARRÉ</text>
+      <text x="110" y="180" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#93c5fd">55.8 × 55.8 × 20.0 mm</text>
+
+      <!-- Perçage Vis Traversante Unique (Axe Z, X = 10.0 mm) -->
+      <line x1="110" y1="80" x2="110" y2="245" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
+      <circle cx="110" cy="85" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <circle cx="110" cy="240" r="4.5" fill="#10b981" stroke="#0284c7" stroke-width="1.5" />
+      <text x="110" y="70" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#f8fafc">Vis M5×70 Z (X=10 mm)</text>
+
+      <!-- Zone de copeaux usinée -->
+      <rect x="65" y="50" width="185" height="45" fill="#f43f5e" fill-opacity="0.15" />
+      <rect x="65" y="230" width="185" height="50" fill="#f43f5e" fill-opacity="0.15" />
+      <rect x="155" y="95" width="95" height="135" fill="#f43f5e" fill-opacity="0.15" />
+      <text x="200" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#f87171">Usinage 2.5D C500</text>
+
+      <!-- Spécifications & Bénéfices -->
+      <g transform="translate(280, 20)">
+        <rect width="280" height="280" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f59e0b">AVANTAGES V2 VALIDÉS :</text>
+        <text x="15" y="50" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">✓ <tspan font-weight="700" fill="#34d399">1 seule vis M5 traversante (Z)</tspan></text>
+        <text x="15" y="70" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">✓ <tspan font-weight="700" fill="#f8fafc">Centrage direct Ø95 mm H7</tspan></text>
+        <text x="15" y="90" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">✓ <tspan font-weight="700" fill="#34d399">10× vis M4 directes stator</tspan></text>
+        <text x="15" y="110" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">✓ <tspan font-weight="700" fill="#f8fafc">Masse finie : ~138 g</tspan> (Allégée)</text>
+        <text x="15" y="130" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">✓ <tspan font-weight="700" fill="#f8fafc">Disque Blockenstock : 30.00 €</tspan></text>
+        
+        <rect x="15" y="155" width="250" height="110" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+        <text x="25" y="175" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">COTATION CLÉ :</text>
+        <text x="25" y="195" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">• Longueur bossage : <tspan font-weight="700" fill="#f8fafc">20.0 mm</tspan></text>
+        <text x="25" y="215" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">• Section bossage : <tspan font-weight="700" fill="#f8fafc">55.80 × 55.80 mm</tspan></text>
+        <text x="25" y="235" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">• Évidement central : <tspan font-weight="700" fill="#fcd34d">Ø 35.0 mm</tspan></text>
+        <text x="25" y="255" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">• Perçage traversant : <tspan font-weight="700" fill="#34d399">Ø5.3 mm à X = 10.0 mm</tspan></text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 2: COUPE 3D & DÉTAIL DE LA VIS TRAVERSANTE UNIQUE CENTRÉE -->
+  <!-- ========================================================================= -->
+  <g transform="translate(710, 120)">
+    <rect width="650" height="420" rx="10" fill="url(#grad-card-m)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-monobloc)" />
+    <rect x="15" y="15" width="370" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      2. VIS TRAVERSANTE UNIQUE (AXE Z, X = 10.0 mm)
+    </text>
+
+    <g transform="translate(30, 55)">
+      <!-- Vue 3D Isométrique du Tube Carré 60x60 emboîté sur le bossage 20 mm -->
+      <!-- Tube 60x60x2 mm -->
+      <polygon points="40,90 80,60 260,60 220,90" fill="#475569" stroke="#38bdf8" stroke-width="1.5" />
+      <polygon points="220,90 260,60 260,230 220,260" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
+      <polygon points="40,90 220,90 220,260 40,260" fill="#334155" stroke="#38bdf8" stroke-width="2" />
+      <text x="130" y="180" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#93c5fd">TUBE 60 × 60 × 2 mm</text>
+
+      <!-- Vis 1 Traversante Verticale Unique (Axe Z, positionnée à X = 10 mm) -->
+      <line x1="80" y1="30" x2="80" y2="290" stroke="#f8fafc" stroke-width="4" stroke-linecap="round" />
+      <circle cx="80" cy="35" r="7" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <circle cx="80" cy="285" r="7" fill="#10b981" stroke="#0284c7" stroke-width="1.5" />
+      <text x="80" y="20" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Vis Unique : CHC M5 × 70 mm (Axe Z)</text>
+      <text x="80" y="310" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#34d399">Écrou Nylstop M5 + Rondelle</text>
+
+      <!-- Flasque Monobloc Ø120 mm à droite -->
+      <ellipse cx="280" cy="145" rx="20" ry="90" fill="#0284c7" fill-opacity="0.8" stroke="#38bdf8" stroke-width="2" />
+      <text x="280" y="250" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Flasque Ø120</text>
+
+      <!-- Légende Card -->
+      <g transform="translate(320, 150)">
+        <rect width="270" height="150" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+        <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">POURQUOI 1 SEULE VIS EN Z ?</text>
+        <text x="15" y="48" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• <tspan font-weight="700" fill="#38bdf8">Torsion reprise à 100%</tspan> par le carré</text>
+        <text x="15" y="68" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• <tspan font-weight="700" fill="#fcd34d">Tenue traction pure</tspan> : 8 500 N (&gt; 8× max)</text>
+        <text x="15" y="88" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• <tspan font-weight="700" fill="#34d399">Pince équilibrée</tspan> : 10 mm / 10 mm</text>
+        <text x="15" y="108" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">Usinage simplifié</tspan> : 1 seul perçage Ø5.3</text>
+        <text x="15" y="128" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">✓ Zéro rotation 90°, Zéro affaiblissement</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 3: ÉTUDE COMPARATIVE RDM : 1 VIS vs 2 VIS CROISÉES vs 8 VIS RADIALES -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 560)">
+    <rect width="1320" height="360" rx="10" fill="url(#grad-card-m)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-monobloc)" />
+    <rect x="20" y="20" width="460" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="30" y="37" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      3. BILAN COMPARATIF RDM &amp; SÉCURITÉ DE FIXATION DU TUBE
+    </text>
+
+    <!-- 3 Cartes Comparatives -->
+    <g transform="translate(20, 65)">
+      <!-- Option 1 : 1 Seule Vis Traversante M5 en Z (⭐ SOLUTION VALIDÉE V2) -->
+      <g transform="translate(0, 0)">
+        <rect width="410" height="260" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2" />
+        <text x="20" y="28" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#34d399">A. 1 VIS TRAVERSANTE M5 EN Z (⭐ VALIDÉE)</text>
+        <text x="20" y="52" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">1x Vis CHC M5 × 70 mm centrée à X = 10.0 mm :</text>
+        
+        <text x="20" y="78" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Longueur bossage : <tspan font-weight="700" fill="#f8fafc">20.0 mm</tspan> (Brut 20mm direct)</text>
+        <text x="20" y="98" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Section double cisaillement : <tspan font-weight="700" fill="#f8fafc">28.4 mm²</tspan></text>
+        <text x="20" y="118" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Tenue au cisaillement M5 : <tspan font-weight="700" fill="#34d399">8 520 N (~870 kgf)</tspan></text>
+        <text x="20" y="138" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Effort axial max robot : <tspan font-weight="700" fill="#cbd5e1">1 000 N (Choc latéral)</tspan></text>
+        <text x="20" y="158" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Facteur de sécurité traction : <tspan font-weight="700" fill="#34d399">Sf = ×8.52 ✅</tspan></text>
+        
+        <rect x="20" y="185" width="370" height="55" rx="4" fill="#064e3b" fill-opacity="0.3" stroke="#10b981" stroke-width="1" />
+        <text x="30" y="205" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">Verdict 1 Vis M5 (Option 1) :</text>
+        <text x="30" y="223" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">La solution optimale : zéro surfaçage brut 20mm, montage rapide.</text>
+      </g>
+
+      <!-- Option 2 : 2 Vis Croisées Décalées M5 -->
+      <g transform="translate(440, 0)">
+        <rect width="410" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="20" y="28" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#cbd5e1">B. 2 VIS CROISÉES M5 (ALTERNATIVE)</text>
+        <text x="20" y="52" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">1x Vis en Z (X=7mm) + 1x Vis en Y (X=16mm) :</text>
+        
+        <text x="20" y="78" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Longueur bossage requis : <tspan font-weight="700" fill="#f8fafc">22.0 mm</tspan> (Surfaçage)</text>
+        <text x="20" y="98" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Section quadruple cisaillement : <tspan font-weight="700" fill="#f8fafc">56.8 mm²</tspan></text>
+        <text x="20" y="118" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Tenue au cisaillement : <tspan font-weight="700" fill="#cbd5e1">17 040 N (~1.74 t)</tspan></text>
+        <text x="20" y="138" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Pincement 4 faces : <tspan font-weight="700" fill="#cbd5e1">Surdimensionné</tspan></text>
+        <text x="20" y="158" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Facteur de sécurité traction : <tspan font-weight="700" fill="#34d399">Sf = ×17.0 ✅</tspan></text>
+        
+        <rect x="20" y="185" width="370" height="55" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+        <text x="30" y="205" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Verdict 2 Vis Croisées :</text>
+        <text x="30" y="223" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Très rigide mais exige un brut 25mm surfacé et 2 montages CNC.</text>
+      </g>
+
+      <!-- Option 3 : 4 Vis Radiales Taraudées M4 -->
+      <g transform="translate(880, 0)">
+        <rect width="400" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="20" y="28" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#cbd5e1">C. 4 VIS RADIALES TARAUDÉES M4</text>
+        <text x="20" y="52" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">4x Vis FHC M4 × 8 mm dans taraudages :</text>
+        
+        <text x="20" y="78" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Longueur bossage requis : <tspan font-weight="700" fill="#f8fafc">12.0 mm</tspan></text>
+        <text x="20" y="98" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Usinage : <tspan font-weight="700" fill="#fca5a5">4 taraudages M4 à faire</tspan></text>
+        <text x="20" y="118" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Tenue au cisaillement : <tspan font-weight="700" fill="#f8fafc">5 600 N</tspan></text>
+        <text x="20" y="138" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Risque : <tspan font-weight="700" fill="#fca5a5">Filetage alu M4 sensible</tspan></text>
+        <text x="20" y="158" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Esthétique : <tspan font-weight="700" fill="#38bdf8">Têtes 100% invisibles</tspan></text>
+        
+        <rect x="20" y="185" width="360" height="55" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+        <text x="30" y="205" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Verdict 4 Vis Radiales :</text>
+        <text x="30" y="223" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Très esthétique mais plus fragile au démontage répété.</text>
+      </g>
+    </g>
+  </g>
+</svg>

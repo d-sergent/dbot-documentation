@@ -1,0 +1,335 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid Patterns -->
+    <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="grad-sky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="grad-tube" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#475569" />
+      <stop offset="30%" stop-color="#64748b" />
+      <stop offset="70%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="grad-card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="drop-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1400" height="960" fill="#0b1120" />
+  <rect width="1400" height="960" fill="url(#grid-pattern)" />
+
+  <!-- HEADER -->
+  <g transform="translate(40, 30)">
+    <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <circle cx="35" cy="35" r="18" fill="url(#grad-sky)" />
+    <path d="M 27 35 L 43 35 M 35 27 L 35 43" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#f8fafc">
+      D-BOT V1 — SOLUTION V2 : TRAVERSE ÉPAULES EN TUBE CARRÉ 60×60×2 mm (ALU 6060-T6)
+    </text>
+    <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
+      Fixation Directe Bride Monobloc 7075 (10× M4 PCD Ø106) sur Stator RS-04 &amp; Sandwich Colonne Sagittale 5 mm
+    </text>
+    <rect x="1130" y="20" width="165" height="30" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1" />
+    <text x="1212" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      DOSSIER TECHNIQUE V2
+    </text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 1: COUPE AXIALE LONGITUDINALE DE L'ASSEMBLAGE (Plan X-Z) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 120)">
+    <rect width="650" height="420" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <rect x="15" y="15" width="310" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      1. VUE EN COUPE LONGITUDINALE (Plan X-Z)
+    </text>
+
+    <!-- Dessin Coupe Traversante Demi-Torse Droit -->
+    <g transform="translate(20, 60)">
+      <!-- Axe Sagittal X=0 -->
+      <line x1="40" y1="20" x2="40" y2="330" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="6,4" />
+      <text x="40" y="345" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ec4899">AXE X=0</text>
+
+      <!-- Plaque Sagittale 5 mm (Jaune/Ambre) -->
+      <rect x="35" y="40" width="10" height="270" rx="2" fill="url(#grad-amber)" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="15" y="175" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fcd34d" transform="rotate(-90,15,175)">Colonne 5 mm</text>
+
+      <!-- Semelle d'ancrage centrale 5 mm (Alu 7075-T6) -->
+      <rect x="45" y="75" width="10" height="200" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+      <!-- Insert mâle carré côté colonne 55.8x55.8x20 mm -->
+      <rect x="55" y="122" width="25" height="106" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="1" />
+
+      <!-- Vis Traversante Colonne (CHC M5x70 en Z) -->
+      <line x1="67" y1="100" x2="67" y2="250" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
+      <circle cx="67" cy="105" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <circle cx="67" cy="245" r="4.5" fill="#10b981" stroke="#0284c7" stroke-width="1.5" />
+      <text x="67" y="92" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#38bdf8">M5×70 Z</text>
+
+      <!-- Tronçon Tube Carré 60x60x2 mm (Alu 6060-T6, Longueur 85 mm) -->
+      <!-- Paroi Extérieure -->
+      <rect x="75" y="120" width="165" height="110" rx="4" fill="url(#grad-tube)" stroke="#38bdf8" stroke-width="2" />
+      <!-- Paroi Intérieure (Vide central / Paroi 2mm) -->
+      <rect x="75" y="124" width="165" height="102" fill="#0f172a" fill-opacity="0.9" />
+      <text x="157" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+        TUBE CARRÉ 60 × 60 × 2 mm
+      </text>
+      <text x="157" y="193" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">
+        Alu 6060-T6 (L = 85 mm · 106 g)
+      </text>
+
+      <!-- Bossage carré bride 55.8x55.8x20 mm -->
+      <rect x="215" y="122" width="25" height="106" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="1" />
+
+      <!-- Vis Traversante Épaule (CHC M5x70 en Z) -->
+      <line x1="227" y1="100" x2="227" y2="250" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
+      <circle cx="227" cy="105" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <circle cx="227" cy="245" r="4.5" fill="#10b981" stroke="#0284c7" stroke-width="1.5" />
+      <text x="227" y="92" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#38bdf8">M5×70 Z</text>
+
+      <!-- Bride d'Épaule Monobloc 7075-T651 (Flasque 6 mm + Bossage 20 mm) -->
+      <path d="M 240 60 L 252 60 L 252 290 L 240 290 Z" fill="#0284c7" stroke="#38bdf8" stroke-width="2" />
+      <text x="246" y="48" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Bride Monobloc 6mm</text>
+
+      <!-- Stator RS-04 (Doré / 39 mm) — FIXATION DIRECTE SANS CAGE -->
+      <rect x="252" y="75" width="70" height="200" rx="4" fill="#d97706" fill-opacity="0.35" stroke="#f59e0b" stroke-width="2" />
+      <text x="287" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fde68a" transform="rotate(-90,287,175)">STATOR RS-04 (120 Nm)</text>
+      
+      <!-- Alésage pilote de centrage Ø95 mm H7 -->
+      <rect x="252" y="115" width="4" height="120" fill="#38bdf8" />
+      <text x="260" y="65" font-family="'Segoe UI', sans-serif" font-size="8" fill="#38bdf8">Centrage Ø95</text>
+
+      <!-- 10x Vis CHC M4x12 directes sur stator (PCD Ø106 mm) -->
+      <line x1="240" y1="88" x2="265" y2="88" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
+      <line x1="240" y1="262" x2="265" y2="262" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
+      <text x="330" y="92" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#34d399">10× CHC M4×12 direct</text>
+
+      <!-- Face Avant Dégagée (Convection Libre) -->
+      <rect x="322" y="75" width="25" height="200" rx="2" fill="#10b981" fill-opacity="0.1" stroke="#34d399" stroke-width="1" stroke-dasharray="4,2" />
+      <text x="335" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#34d399" transform="rotate(-90,335,175)">FACE AVANT DÉGAGÉE</text>
+
+      <!-- Cote Longueur 85 mm -->
+      <line x1="75" y1="250" x2="240" y2="250" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="75" y1="243" x2="75" y2="257" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="240" y1="243" x2="240" y2="257" stroke="#94a3b8" stroke-width="1.5" />
+      <text x="157" y="265" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f8fafc">L = 85 mm</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 2: VUE ÉCLATÉE 3D DÉTAILLÉE DE L'ASSEMBLAGE TUBE CARRÉ -->
+  <!-- ========================================================================= -->
+  <g transform="translate(710, 120)">
+    <rect width="650" height="420" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <rect x="15" y="15" width="340" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      2. PERSPECTIVE ÉCLATÉE DES LIAISONS V2
+    </text>
+
+    <!-- Éclaté Isométrique 3D -->
+    <g transform="translate(40, 60)">
+      <!-- 1. Semelle Colonne (Gauche) -->
+      <g transform="translate(20, 50)">
+        <polygon points="10,30 35,15 35,210 10,225" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+        <text x="5" y="240" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Semelle Colonne</text>
+        <ellipse cx="22" cy="65" rx="3.5" ry="6" fill="#f8fafc" stroke="#0f172a" />
+        <ellipse cx="22" cy="105" rx="3.5" ry="6" fill="#f8fafc" stroke="#0f172a" />
+        <ellipse cx="22" cy="150" rx="3.5" ry="6" fill="#f8fafc" stroke="#0f172a" />
+        <ellipse cx="22" cy="190" rx="3.5" ry="6" fill="#f8fafc" stroke="#0f172a" />
+      </g>
+
+      <!-- 2. Insert Carré Mâle Central 55.8x55.8x20 mm -->
+      <g transform="translate(85, 90)">
+        <polygon points="10,20 30,10 30,110 10,120" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+        <polygon points="30,10 80,10 80,110 30,110" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+        <ellipse cx="55" cy="15" rx="3" ry="5" fill="#f8fafc" stroke="#0f172a" />
+        <text x="45" y="135" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#93c5fd">Insert 20mm</text>
+      </g>
+
+      <!-- 3. Tube Carré 60x60x2 mm (Centre) -->
+      <g transform="translate(195, 75)">
+        <!-- Face avant -->
+        <polygon points="15,40 45,20 45,150 15,170" fill="#475569" stroke="#38bdf8" stroke-width="1.5" />
+        <!-- Face latérale -->
+        <polygon points="45,20 180,20 180,150 45,150" fill="#334155" stroke="#38bdf8" stroke-width="1.5" />
+        <!-- Face supérieure -->
+        <polygon points="15,40 150,40 180,20 45,20" fill="#64748b" stroke="#38bdf8" stroke-width="1.5" />
+        <!-- Ouverture carrée creuse -->
+        <polygon points="20,43 42,27 42,142 20,158" fill="#0b1120" stroke="#38bdf8" stroke-width="1" />
+        <!-- Trous M5x70 -->
+        <ellipse cx="60" cy="30" rx="3.5" ry="5" fill="#f8fafc" stroke="#0f172a" />
+        <ellipse cx="140" cy="30" rx="3.5" ry="5" fill="#f8fafc" stroke="#0f172a" />
+        <text x="110" y="95" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f8fafc">TUBE 60×60×2</text>
+        <text x="110" y="110" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#38bdf8">Alu 6060-T6</text>
+      </g>
+
+      <!-- 4. Bride d'Épaule Monobloc (Bossage 20 mm + Flasque Ø120 mm) -->
+      <g transform="translate(395, 70)">
+        <!-- Bossage carré 20 mm -->
+        <polygon points="10,40 30,30 30,130 10,140" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+        <polygon points="30,30 50,30 50,130 30,130" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+        <ellipse cx="25" cy="35" rx="3" ry="5" fill="#f8fafc" stroke="#0f172a" />
+
+        <!-- Flasque ronde Ø120 mm -->
+        <ellipse cx="80" cy="95" rx="30" ry="85" fill="#0284c7" fill-opacity="0.8" stroke="#38bdf8" stroke-width="2" />
+        <ellipse cx="80" cy="95" rx="18" ry="50" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+        <!-- Trous PCD Ø106 mm -->
+        <circle cx="65" cy="50" r="3" fill="#f8fafc" />
+        <circle cx="95" cy="50" r="3" fill="#f8fafc" />
+        <circle cx="102" cy="95" r="3" fill="#f8fafc" />
+        <circle cx="95" cy="140" r="3" fill="#f8fafc" />
+        <circle cx="65" cy="140" r="3" fill="#f8fafc" />
+        <circle cx="58" cy="95" r="3" fill="#f8fafc" />
+        <text x="80" y="195" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Bride Monobloc</text>
+      </g>
+
+      <!-- 5. Stator RS-04 (Sans cage H-bracket) -->
+      <g transform="translate(505, 55)">
+        <polygon points="10,25 35,15 35,185 10,195" fill="#d97706" fill-opacity="0.5" stroke="#f59e0b" stroke-width="1.5" />
+        <polygon points="35,15 75,15 75,185 35,185" fill="#b45309" fill-opacity="0.4" stroke="#f59e0b" stroke-width="1.5" />
+        <text x="45" y="210" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fcd34d">Stator RS-04</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 3: PLANS D'INTERFACE (Face Semelle Colonne & Face Bride Épaule) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 560)">
+    <rect width="650" height="360" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <rect x="15" y="15" width="360" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      3. VUES DE FACE DES DEUX INTERFACES DE CONNEXION
+    </text>
+
+    <g transform="translate(30, 55)">
+      <!-- Interface A : Semelle Colonne (Gauche) -->
+      <g transform="translate(30, 20)">
+        <rect x="0" y="0" width="80" height="230" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
+        <!-- Empreinte Tube 60x60 -->
+        <rect x="10" y="85" width="60" height="60" rx="2" fill="#0284c7" fill-opacity="0.3" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,2" />
+        <text x="40" y="120" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#93c5fd">60 × 60 mm</text>
+        
+        <!-- 4 Trous M5 Colonne -->
+        <circle cx="40" cy="30" r="5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="40" cy="65" r="5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="40" cy="165" r="5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="40" cy="200" r="5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        
+        <text x="40" y="250" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f8fafc">INTERFACE COLONNE</text>
+        <text x="40" y="265" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">4x Trous Ø5.3 mm (M5)</text>
+      </g>
+
+      <!-- Flèche de liaison -->
+      <path d="M 170 135 L 210 135" stroke="#38bdf8" stroke-width="2" />
+
+      <!-- Interface B : Bride d'Épaule Monobloc (Droite) -->
+      <g transform="translate(300, 20)">
+        <!-- Cercle Flasque Ø120 mm -->
+        <circle cx="110" cy="115" r="105" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
+        <!-- Alésage pilote Ø95 mm H7 -->
+        <circle cx="110" cy="115" r="55" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,2" />
+        <!-- Empreinte Bossage Carré 55.8x55.8 mm -->
+        <rect x="82" y="87" width="56" height="56" rx="3" fill="#0284c7" fill-opacity="0.3" stroke="#38bdf8" stroke-width="1.5" />
+        <circle cx="110" cy="115" r="18" fill="#0b1120" stroke="#38bdf8" stroke-width="1" />
+        <text x="110" y="119" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="8" fill="#93c5fd">Ø35</text>
+
+        <!-- 10 Trous Stator PCD Ø106 mm (36° d'écartement) -->
+        <circle cx="110" cy="22" r="4" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="165" cy="40" r="4" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="199" cy="87" r="4" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="199" cy="143" r="4" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="165" cy="190" r="4" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="110" cy="208" r="4" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="55" cy="190" r="4" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="21" cy="143" r="4" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="21" cy="87" r="4" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+        <circle cx="55" cy="40" r="4" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+
+        <text x="110" y="245" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f8fafc">INTERFACE BRIDE ÉPAULE</text>
+        <text x="110" y="260" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#34d399">10x M4 traversants sur PCD Ø106 mm</text>
+        <text x="110" y="275" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Centrage pilote Ø95 mm H7 direct</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 4: SYNTHÈSE COMPLÈTE DES CALCULS RDM (SOLUTION V2) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(710, 560)">
+    <rect width="650" height="360" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <rect x="15" y="15" width="340" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      4. BILAN RDM COMPLET — ARCHITECTURE V2 DIRECTE
+    </text>
+
+    <!-- Tableau RDM Structuré -->
+    <g transform="translate(20, 50)">
+      <rect width="610" height="25" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+      <text x="15" y="17" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#94a3b8">SOLICITATION RDM</text>
+      <text x="220" y="17" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#94a3b8">FORMULE / VALEUR</text>
+      <text x="430" y="17" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">RÉSULTAT &amp; SÉCURITÉ</text>
+
+      <!-- Ligne 1: Torsion Bredt 120 Nm -->
+      <rect x="0" y="30" width="610" height="36" rx="3" fill="#1e293b" fill-opacity="0.5" />
+      <text x="15" y="52" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Torsion Pure (120 Nm)</text>
+      <text x="220" y="52" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">Tau = Mt / (2·Am·t) = 120k / (2·3364·2)</text>
+      <text x="430" y="52" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">Tau = 8.92 MPa (Sf = ×9.75 ✅)</text>
+
+      <!-- Ligne 2: Fixation Directe 10x M4 -->
+      <rect x="0" y="70" width="610" height="36" rx="3" fill="#0f172a" fill-opacity="0.5" />
+      <text x="15" y="92" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Flexion Chute (73.6 Nm)</text>
+      <text x="220" y="92" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">F_max = M·z_max / Σ(z²) = 264 N</text>
+      <text x="430" y="92" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">F_adm = 5619 N (Sf = ×21.3 ✅)</text>
+
+      <!-- Ligne 3: Torsion par Frottement 10x M4 -->
+      <rect x="0" y="110" width="610" height="36" rx="3" fill="#1e293b" fill-opacity="0.5" />
+      <text x="15" y="132" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Frottement Bride (10× M4)</text>
+      <text x="220" y="132" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">M_frict = F_tot·µ·R = 41.7kN·0.15·53</text>
+      <text x="430" y="132" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">M_f = 331.3 Nm (Sf = ×2.76 ✅)</text>
+
+      <!-- Ligne 4: Rigidité Roll sans Cage -->
+      <rect x="0" y="150" width="610" height="36" rx="3" fill="#0f172a" fill-opacity="0.5" />
+      <text x="15" y="172" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Rigidité Roll Torse</text>
+      <text x="220" y="172" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">I_tot = 261 438 mm4 (Tube 60×60×2)</text>
+      <text x="430" y="172" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">Flèche = 0.121 mm (Marge ×4.1 ✅)</text>
+
+      <!-- Ligne 5: Matage & Visserie M5 Traversante -->
+      <rect x="0" y="190" width="610" height="36" rx="3" fill="#1e293b" fill-opacity="0.5" />
+      <text x="15" y="212" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Verrouillage M5×70 Z</text>
+      <text x="220" y="212" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">Pression contact = 0.96 MPa</text>
+      <text x="430" y="212" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">P &lt;&lt; 240 MPa (Sf &gt; 150 ✅)</text>
+
+      <!-- Encadré Masse & Bilan -->
+      <rect x="0" y="235" width="610" height="55" rx="6" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="15" y="257" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+        BILAN MASSE &amp; OPTIMISATION V2 :
+      </text>
+      <text x="15" y="276" font-family="'Segoe UI', sans-serif" font-size="11" fill="#e2e8f0">
+        Masse haut de torse = <tspan font-weight="700" fill="#34d399">~1 185 g</tspan> (Gain net de 368 g vs H-bracket). Zéro cage, ventilation face avant 100% libre.
+      </text>
+    </g>
+  </g>
+</svg>

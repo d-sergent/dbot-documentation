@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid Patterns -->
+    <pattern id="grid-pattern-colonne" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="grad-sky-col" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="grad-amber-col" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="grad-emerald-col" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="grad-card-col" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="drop-shadow-colonne" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1400" height="900" fill="#0b1120" />
+  <rect width="1400" height="900" fill="url(#grid-pattern-colonne)" />
+
+  <!-- HEADER -->
+  <g transform="translate(40, 30)">
+    <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-colonne)" />
+    <circle cx="35" cy="35" r="18" fill="url(#grad-amber-col)" />
+    <path d="M 26 35 L 44 35 M 35 26 L 35 44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#f8fafc">
+      INTERFACE COLONNE CENTRALE : MONTAGE EN SANDWICH &amp; FIXATION DES 2 DEMI-TRAVERSES
+    </text>
+    <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
+      Liaison 100% rigide et démontable : Plaque Sagittale 5 mm enserrée par 2 Semelles 5 mm et 4 vis traversantes M5
+    </text>
+    <rect x="1130" y="20" width="165" height="30" rx="6" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1" />
+    <text x="1212" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fcd34d">
+      SECTION 4.B BLUEPRINT
+    </text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 1: VUE DE DESSUS EN COUPE DU SANDWICH CENTRAL (Plan X-Y) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 120)">
+    <rect width="650" height="430" rx="10" fill="url(#grad-card-col)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-colonne)" />
+    <rect x="15" y="15" width="360" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      1. COUPE DE DESSUS (Plan X-Y) — LIAISON EN SANDWICH
+    </text>
+
+    <g transform="translate(40, 60)">
+      <!-- Axe Central Sagittal Y (Dos -> Ventre) -->
+      <line x1="280" y1="20" x2="280" y2="330" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="6,4" />
+      <text x="280" y="345" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ec4899">PLAN SAGITTAL (X=0)</text>
+
+      <!-- Plaque Colonne Centrale (Jaune/Ambre - 5.0 mm) -->
+      <rect x="272" y="30" width="16" height="280" rx="2" fill="url(#grad-amber-col)" stroke="#f59e0b" stroke-width="2" />
+      <text x="280" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#ffffff" transform="rotate(-90,280,170)">COLONNE 5 mm</text>
+
+      <!-- SEMELLE GAUCHE (5.0 mm) -->
+      <rect x="248" y="50" width="16" height="240" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+      <!-- Insert Mâle Gauche (55.8x55.8x12 mm) -->
+      <rect x="210" y="100" width="38" height="140" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+      <!-- Tube Carré Gauche (60x60x2 mm) -->
+      <rect x="40" y="95" width="170" height="150" fill="#334155" stroke="#38bdf8" stroke-width="2" />
+      <rect x="40" y="100" width="170" height="140" fill="#0f172a" fill-opacity="0.9" />
+      <text x="125" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#93c5fd">TUBE GAUCHE</text>
+
+      <!-- SEMELLE DROITE (5.0 mm) -->
+      <rect x="296" y="50" width="16" height="240" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+      <!-- Insert Mâle Droit (55.8x55.8x12 mm) -->
+      <rect x="312" y="100" width="38" height="140" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+      <!-- Tube Carré Droit (60x60x2 mm) -->
+      <rect x="350" y="95" width="170" height="150" fill="#334155" stroke="#38bdf8" stroke-width="2" />
+      <rect x="350" y="100" width="170" height="140" fill="#0f172a" fill-opacity="0.9" />
+      <text x="435" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#93c5fd">TUBE DROIT</text>
+
+      <!-- 4x Vis Traversantes M5 x 25 mm + Écrous Nylstop -->
+      <!-- Vis Rangée 1 (Ventre) -->
+      <line x1="230" y1="75" x2="330" y2="75" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+      <circle cx="235" cy="75" r="5" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+      <circle cx="325" cy="75" r="5" fill="#10b981" stroke="#0f172a" stroke-width="1.5" />
+
+      <!-- Vis Rangée 2 (Centre Haut) -->
+      <line x1="230" y1="125" x2="330" y2="125" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+      <circle cx="235" cy="125" r="5" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+      <circle cx="325" cy="125" r="5" fill="#10b981" stroke="#0f172a" stroke-width="1.5" />
+
+      <!-- Vis Rangée 3 (Centre Bas) -->
+      <line x1="230" y1="215" x2="330" y2="215" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+      <circle cx="235" cy="215" r="5" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+      <circle cx="325" cy="215" r="5" fill="#10b981" stroke="#0f172a" stroke-width="1.5" />
+
+      <!-- Vis Rangée 4 (Dos) -->
+      <line x1="230" y1="265" x2="330" y2="265" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+      <circle cx="235" cy="265" r="5" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+      <circle cx="325" cy="265" r="5" fill="#10b981" stroke="#0f172a" stroke-width="1.5" />
+
+      <!-- Callout Cotations du Sandwich -->
+      <line x1="248" y1="315" x2="312" y2="315" stroke="#38bdf8" stroke-width="1.5" />
+      <line x1="248" y1="310" x2="248" y2="320" stroke="#38bdf8" stroke-width="1.5" />
+      <line x1="312" y1="310" x2="312" y2="320" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="280" y="330" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">15.0 mm (5 + 5 + 5 mm)</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 2: PLAN DE PERÇAGE & VUE DE FACE DE LA SEMELLE (Plan X-Z) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(710, 120)">
+    <rect width="650" height="430" rx="10" fill="url(#grad-card-col)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-colonne)" />
+    <rect x="15" y="15" width="370" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      2. VUE DE FACE &amp; PLAN DE PERÇAGE SEMELLE (70 × 200 mm)
+    </text>
+
+    <g transform="translate(40, 55)">
+      <!-- Contour Semelle 70 x 200 mm -->
+      <rect x="40" y="10" width="140" height="310" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+      
+      <!-- Empreinte Tube Carré 60x60 au centre -->
+      <rect x="60" y="115" width="100" height="100" rx="3" fill="#0284c7" fill-opacity="0.3" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,2" />
+      <text x="110" y="165" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#93c5fd">TUBE 60×60</text>
+
+      <!-- Évidement central Ø35 mm pour passage câbles CAN/48V -->
+      <circle cx="110" cy="165" r="30" fill="#0b1120" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="110" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fcd34d">Câbles Ø35</text>
+
+      <!-- 4 Trous M5 Colonne (Entraxe 70 mm vertical, 35 mm horizontal) -->
+      <!-- Trou 1 (Haut Gauche) -->
+      <circle cx="75" cy="45" r="5.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <!-- Trou 2 (Haut Droit) -->
+      <circle cx="145" cy="45" r="5.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <!-- Trou 3 (Bas Gauche) -->
+      <circle cx="75" cy="285" r="5.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <!-- Trou 4 (Bas Droit) -->
+      <circle cx="145" cy="285" r="5.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+
+      <!-- Lignes de cotation entraxes -->
+      <line x1="75" y1="30" x2="145" y2="30" stroke="#94a3b8" stroke-width="1" />
+      <text x="110" y="25" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#f8fafc">ΔX = 35.0 mm</text>
+
+      <line x1="25" y1="45" x2="25" y2="285" stroke="#94a3b8" stroke-width="1" />
+      <text x="15" y="165" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#f8fafc" transform="rotate(-90,15,165)">ΔZ = 240.0 mm total</text>
+
+      <!-- 4 Trous fraisés M4 pour visser l'insert 56x56 au dos de la semelle -->
+      <circle cx="75" cy="130" r="3" fill="#f59e0b" />
+      <circle cx="145" cy="130" r="3" fill="#f59e0b" />
+      <circle cx="75" cy="200" r="3" fill="#f59e0b" />
+      <circle cx="145" cy="200" r="3" fill="#f59e0b" />
+
+      <!-- Tableau Caractéristiques Semelle -->
+      <g transform="translate(210, 10)">
+        <rect width="360" height="310" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="20" y="30" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">SPÉCIFICATIONS D'USINAGE C500 :</text>
+        
+        <text x="20" y="60" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Matériau : <tspan font-weight="700" fill="#f8fafc">Aluminium 6061-T6 (Tôle 5.0 mm)</tspan></text>
+        <text x="20" y="85" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Dimensions : <tspan font-weight="700" fill="#f8fafc">70.0 × 200.0 × 5.0 mm</tspan></text>
+        <text x="20" y="110" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Perçages sandwich : <tspan font-weight="700" fill="#34d399">4x Ø5.3 mm (ISO 273 moyen)</tspan></text>
+        <text x="20" y="135" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Perçages insert : <tspan font-weight="700" fill="#fcd34d">4x Fraisés M4 à 90°</tspan></text>
+        <text x="20" y="160" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Évidement central : <tspan font-weight="700" fill="#38bdf8">Ø 35.0 mm débouchant</tspan></text>
+        <text x="20" y="185" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Visserie traversante : <tspan font-weight="700" fill="#f8fafc">4x Vis CHC M5 × 25 mm</tspan></text>
+        <text x="20" y="210" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Écrous : <tspan font-weight="700" fill="#34d399">4x Nylstop M5 autofreinés</tspan></text>
+        <text x="20" y="235" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Couple de serrage : <tspan font-weight="700" fill="#f8fafc">5.5 N.m (Précharge 19.2 kN)</tspan></text>
+        
+        <rect x="20" y="260" width="320" height="35" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+        <text x="30" y="282" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Démontage unitaire : Dévissez les 4 vis M5 au centre !</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 3: DÉMONSTRATION RDM DE RIGIDITÉ DU SANDWICH CENTRAL -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 570)">
+    <rect width="1320" height="290" rx="10" fill="url(#grad-card-col)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-colonne)" />
+    <rect x="20" y="20" width="380" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="30" y="37" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      3. RIGIDITÉ RDM &amp; VALIDATION MÉCANIQUE DU SANDWICH CENTRAL
+    </text>
+
+    <g transform="translate(20, 65)">
+      <!-- Carte RDM 1 : Précharge & Adhérence -->
+      <g transform="translate(0, 0)">
+        <rect width="410" height="190" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+        <text x="20" y="30" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#6ee7b7">1. PRÉCHARGE &amp; NON-DÉCOLLEMENT</text>
+        <text x="20" y="58" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Précharge axiale totale : <tspan font-weight="700" fill="#34d399">F0 = 19 200 N (~1.95 tonne)</tspan></text>
+        <text x="20" y="80" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Effort de traction sous choc 50 Nm : <tspan font-weight="700" fill="#f8fafc">357 N par vis</tspan></text>
+        <text x="20" y="102" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Taux d'utilisation précharge : <tspan font-weight="700" fill="#34d399">7.4% &lt;&lt; 100%</tspan></text>
+        <text x="20" y="124" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Frottement alu/alu (mu=0.25) : <tspan font-weight="700" fill="#34d399">Adhérence = 4 800 N</tspan></text>
+        <text x="20" y="155" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">✓ Zéro décollement, zéro micro-glissement</text>
+      </g>
+
+      <!-- Carte RDM 2 : Matage & Cisaillement -->
+      <g transform="translate(440, 0)">
+        <rect width="410" height="190" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+        <text x="20" y="30" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">2. MATAGE SUR PLAQUE COLONNE 5 mm</text>
+        <text x="20" y="58" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Surface projetée par trou : <tspan font-weight="700" fill="#f8fafc">5.3 mm × 5.0 mm = 26.5 mm²</tspan></text>
+        <text x="20" y="80" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Effort tranchant max par vis : <tspan font-weight="700" fill="#f8fafc">F_cis = 357 N</tspan></text>
+        <text x="20" y="102" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Pression de matage : <tspan font-weight="700" fill="#34d399">Sigma_mat = 13.47 MPa</tspan></text>
+        <text x="20" y="124" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Limite élastique Alu 6061-T6 : <tspan font-weight="700" fill="#f8fafc">Re = 240 MPa</tspan></text>
+        <text x="20" y="155" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">✓ Facteur de Sécurité Sf = ×17.8 ✅</text>
+      </g>
+
+      <!-- Carte RDM 3 : Passage Câbles & Ergonomie -->
+      <g transform="translate(880, 0)">
+        <rect width="400" height="190" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1" />
+        <text x="20" y="30" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fcd34d">3. ROUTAGE CÂBLAGE INTÉGRÉ</text>
+        <text x="20" y="58" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Alésage traversant : <tspan font-weight="700" fill="#f8fafc">Ø 35 mm continu</tspan></text>
+        <text x="20" y="80" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Câbles moteur logés : <tspan font-weight="700" fill="#cbd5e1">Puissance 48V (XT30)</tspan></text>
+        <text x="20" y="102" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Signaux : <tspan font-weight="700" fill="#cbd5e1">Bus CAN-FD (JST-GH 4 pins)</tspan></text>
+        <text x="20" y="124" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Rayon d'entrée ébavuré : <tspan font-weight="700" fill="#fcd34d">Chanfrein 1.5 mm × 45°</tspan></text>
+        <text x="20" y="155" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fcd34d">✓ Câblage propre, protégé dans le tube</text>
+      </g>
+    </g>
+  </g>
+</svg>

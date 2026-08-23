@@ -1,0 +1,258 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid Patterns -->
+    <pattern id="grid-pattern-epaule" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="grad-sky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="grad-card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="grad-steel" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#64748b" />
+      <stop offset="50%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#475569" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="drop-shadow-epaule" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1400" height="900" fill="#0b1120" />
+  <rect width="1400" height="900" fill="url(#grid-pattern-epaule)" />
+
+  <!-- HEADER -->
+  <g transform="translate(40, 30)">
+    <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-epaule)" />
+    <circle cx="35" cy="35" r="18" fill="url(#grad-sky)" />
+    <path d="M 26 35 L 44 35 M 35 26 L 35 44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#f8fafc">
+      INTERFACE D'ÉPAULE D-BOT : COUPE DÉTAILLÉE, INSERT MÂLE 56×56 mm &amp; BRIDE RS-04
+    </text>
+    <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
+      Détail d'assemblage sans jeu : Tube carré 60×60×2 mm, Insert 55.8×55.8×12 mm, Bride 5 mm et Stator RS-04 (120 N.m)
+    </text>
+    <rect x="1130" y="20" width="165" height="30" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1" />
+    <text x="1212" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      SECTION 4.A BLUEPRINT
+    </text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 1: VUE EN COUPE LONGITUDINALE DÉTAILLÉE (Plan X-Z) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 120)">
+    <rect width="700" height="460" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-epaule)" />
+    <rect x="15" y="15" width="340" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      1. VUE EN COUPE DE L'ASSEMBLAGE ÉPAULE (Plan X-Z)
+    </text>
+
+    <g transform="translate(30, 65)">
+      <!-- 1. Tube Carré 60x60x2 mm (Gauche) -->
+      <!-- Paroi Supérieure -->
+      <rect x="40" y="80" width="150" height="12" fill="#475569" stroke="#38bdf8" stroke-width="1.5" />
+      <!-- Paroi Inférieure -->
+      <rect x="40" y="248" width="150" height="12" fill="#475569" stroke="#38bdf8" stroke-width="1.5" />
+      <!-- Cavité Intérieure (56 mm) -->
+      <rect x="40" y="92" width="150" height="156" fill="#0f172a" fill-opacity="0.9" />
+      <text x="115" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#94a3b8">TUBE 60×60×2 mm</text>
+      <text x="115" y="195" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Alésage int. 56×56 mm</text>
+
+      <!-- 2. Insert Mâle Carré 55.8 x 55.8 x 12 mm (Bleu Cyan) -->
+      <!-- Pénétration de 12 mm dans le tube -->
+      <rect x="160" y="93" width="30" height="154" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+      <!-- Évidement central Ø35 mm dans l'insert -->
+      <rect x="160" y="130" width="30" height="80" fill="#0b1120" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3,2" />
+      <text x="175" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#f8fafc" transform="rotate(-90,175,175)">INSERT 12mm</text>
+
+      <!-- Vis Radiales de Verrouillage FHC M4 (Haut & Bas) -->
+      <circle cx="175" cy="86" r="3.5" fill="#f8fafc" stroke="#f43f5e" stroke-width="1.5" />
+      <line x1="175" y1="70" x2="175" y2="105" stroke="#f8fafc" stroke-width="2" stroke-linecap="round" />
+      <circle cx="175" cy="254" r="3.5" fill="#f8fafc" stroke="#f43f5e" stroke-width="1.5" />
+      <line x1="175" y1="235" x2="175" y2="270" stroke="#f8fafc" stroke-width="2" stroke-linecap="round" />
+      <text x="175" y="62" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fca5a5">Vis Radiale M4</text>
+
+      <!-- 3. Bride d'Épaule Modifiée (Plate 5 mm, Bleu foncé) -->
+      <rect x="190" y="30" width="16" height="280" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="2" />
+      <!-- 4x Vis FHC M4 x 12 mm fixant l'insert au dos de la bride (Tête fraisée à fleur à droite) -->
+      <polygon points="190,110 206,105 206,115" fill="#f8fafc" stroke="#0f172a" />
+      <polygon points="190,230 206,225 206,235" fill="#f8fafc" stroke="#0f172a" />
+      <text x="150" y="295" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Bride Épaule 5 mm</text>
+
+      <!-- 4. Stator RS-04 (Doré / 39 mm de profondeur) -->
+      <rect x="206" y="55" width="120" height="230" rx="3" fill="#d97706" fill-opacity="0.3" stroke="#f59e0b" stroke-width="2" />
+      <text x="266" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fde68a" transform="rotate(-90,266,175)">CORPS RS-04 (39 mm)</text>
+
+      <!-- Vis de fixation Stator (6x Vis CHC M4 x 16 mm sur PCD Ø106 mm) -->
+      <line x1="180" y1="75" x2="230" y2="75" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
+      <circle cx="185" cy="75" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <line x1="180" y1="265" x2="230" y2="265" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
+      <circle cx="185" cy="265" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <text x="220" y="280" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#f8fafc">6x Vis M4 Stator</text>
+
+      <!-- 5. Plaque Avant H-Bracket (Orange / 5 mm) -->
+      <rect x="326" y="20" width="16" height="300" rx="2" fill="#ea580c" stroke="#fb923c" stroke-width="2" />
+      <text x="334" y="335" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fb923c">Plaque AV 5 mm</text>
+
+      <!-- 6. Tirants Axiaux M5 x 60 mm (Haut & Bas aux oreilles R=72 mm) -->
+      <!-- Tirant Haut -->
+      <rect x="180" y="25" width="170" height="7" rx="2" fill="#10b981" stroke="#34d399" stroke-width="1" />
+      <circle cx="185" cy="28.5" r="5" fill="#f8fafc" stroke="#059669" stroke-width="1.5" />
+      <circle cx="355" cy="28.5" r="5" fill="#f8fafc" stroke="#059669" stroke-width="1.5" />
+      <text x="265" y="18" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">TIRANT M5 HAUT (60 mm)</text>
+
+      <!-- Tirant Bas -->
+      <rect x="180" y="308" width="170" height="7" rx="2" fill="#10b981" stroke="#34d399" stroke-width="1" />
+      <circle cx="185" cy="311.5" r="5" fill="#f8fafc" stroke="#059669" stroke-width="1.5" />
+      <circle cx="355" cy="311.5" r="5" fill="#f8fafc" stroke="#059669" stroke-width="1.5" />
+      <text x="265" y="328" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">TIRANT M5 BAS (60 mm)</text>
+
+      <!-- Callout Cotations Clés -->
+      <line x1="160" y1="265" x2="190" y2="265" stroke="#38bdf8" stroke-width="1.5" />
+      <line x1="160" y1="260" x2="160" y2="270" stroke="#38bdf8" stroke-width="1.5" />
+      <line x1="190" y1="260" x2="190" y2="270" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="175" y="278" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#38bdf8">12 mm</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 2: COTATION & DÉTAILS D'USINAGE DE L'INSERT MÂLE (Perspective 3D) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(760, 120)">
+    <rect width="600" height="460" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-epaule)" />
+    <rect x="15" y="15" width="360" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      2. GÉOMÉTRIE &amp; COTATION DE L'INSERT MÂLE (Alu 6061-T6)
+    </text>
+
+    <!-- Dessin Isométrique Insert 55.8 x 55.8 x 12 mm -->
+    <g transform="translate(50, 70)">
+      <!-- Corps de l'insert carré -->
+      <polygon points="120,40 240,40 300,90 180,90" fill="#0284c7" stroke="#38bdf8" stroke-width="2" />
+      <polygon points="180,90 300,90 300,240 180,240" fill="#0369a1" stroke="#38bdf8" stroke-width="2" />
+      <polygon points="120,40 180,90 180,240 120,190" fill="#075985" stroke="#38bdf8" stroke-width="2" />
+
+      <!-- Trou central d'allègement & passage câbles (Ø35 mm) -->
+      <ellipse cx="240" cy="165" rx="35" ry="55" fill="#0b1120" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="240" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Évidement Ø35 mm</text>
+
+      <!-- Chanfreins d'angles R3.0 mm (Anti-conflit rayon tube) -->
+      <path d="M 175 90 C 175 85, 185 85, 185 90" stroke="#f59e0b" stroke-width="2" />
+      <text x="130" y="75" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fcd34d">Rayon R3 mm aux 4 coins</text>
+
+      <!-- 4 Trous taraudés M4 borgnes (Face d'appui bride) -->
+      <circle cx="195" cy="115" r="3.5" fill="#f8fafc" stroke="#0f172a" />
+      <circle cx="285" cy="115" r="3.5" fill="#f8fafc" stroke="#0f172a" />
+      <circle cx="195" cy="215" r="3.5" fill="#f8fafc" stroke="#0f172a" />
+      <circle cx="285" cy="215" r="3.5" fill="#f8fafc" stroke="#0f172a" />
+
+      <!-- 4 Trous taraudés M4 radiaux (Pour vis radiales tube) -->
+      <ellipse cx="150" cy="65" rx="3" ry="5" fill="#f87171" stroke="#0f172a" />
+      <ellipse cx="150" cy="215" rx="3" ry="5" fill="#f87171" stroke="#0f172a" />
+
+      <!-- Tableau Cotation Directe -->
+      <g transform="translate(320, 20)">
+        <rect width="210" height="230" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">COTES D'USINAGE :</text>
+        <text x="15" y="50" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Section : <tspan font-weight="700" fill="#f8fafc">55.80 × 55.80 mm</tspan></text>
+        <text x="15" y="70" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Tolérance : <tspan font-weight="700" fill="#34d399">js7 (±0.03 mm)</tspan></text>
+        <text x="15" y="90" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Longueur axiale : <tspan font-weight="700" fill="#f8fafc">12.0 mm</tspan></text>
+        <text x="15" y="110" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Coins : <tspan font-weight="700" fill="#fcd34d">Rayon R = 3.0 mm</tspan></text>
+        <text x="15" y="130" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Évidement central : <tspan font-weight="700" fill="#f8fafc">Ø 35.0 mm</tspan></text>
+        <text x="15" y="150" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Fixation Bride : <tspan font-weight="700" fill="#f8fafc">4x M4 borgnes</tspan></text>
+        <text x="15" y="170" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Fixation Tube : <tspan font-weight="700" fill="#f8fafc">4x M4 radiaux</tspan></text>
+        <text x="15" y="195" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">Masse unitaire : 24.5 g</text>
+      </g>
+    </g>
+
+    <!-- Légende Sécurité Montage -->
+    <g transform="translate(30, 390)">
+      <rect width="540" height="50" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+      <text x="15" y="20" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">RÈGLE ATELIER : DÉGAGEMENT DU RAYON INTERNE DU TUBE</text>
+      <text x="15" y="38" font-family="'Segoe UI', sans-serif" font-size="10" fill="#e2e8f0">
+        Les tubes carrés étirés possèdent un congé intérieur de R = 1.5 à 2.0 mm. Le rayon de 3.0 mm sur l'insert garantit un plaquage franc sur les 4 faces.
+      </text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 3: PROTOCOLE CHRONOLOGIQUE D'ASSEMBLAGE (ZÉRO PIÈGE ATELIER) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 600)">
+    <rect width="1320" height="270" rx="10" fill="url(#grad-card)" stroke="#10b981" stroke-width="1.5" filter="url(#drop-shadow-epaule)" />
+    <rect x="20" y="20" width="380" height="26" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="30" y="37" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#6ee7b7">
+      3. PROTOCOLE CHRONOLOGIQUE DE MONTAGE DE L'ÉPAULE
+    </text>
+
+    <!-- 4 Cartes d'Étapes Chronologiques -->
+    <g transform="translate(20, 65)">
+      <!-- Étape 1 -->
+      <g transform="translate(0, 0)">
+        <rect width="305" height="180" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <rect x="15" y="15" width="80" height="22" rx="3" fill="#0284c7" />
+        <text x="55" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">ÉTAPE 1</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">Vissage Insert sur Bride</text>
+        <text x="15" y="85" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Visser l'insert carré sur la bride 5mm</text>
+        <text x="15" y="103" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• 4x vis FHC M4 × 12 mm + Loctite 243</text>
+        <text x="15" y="121" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Têtes fraisées noyées à fleur (0 mm)</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">✓ Face avant 100% plane</text>
+      </g>
+
+      <!-- Étape 2 -->
+      <g transform="translate(325, 0)">
+        <rect width="305" height="180" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <rect x="15" y="15" width="80" height="22" rx="3" fill="#0284c7" />
+        <text x="55" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">ÉTAPE 2</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">Emboîtement Tube Carré</text>
+        <text x="15" y="85" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Glisser le tube 60×60×2 mm sur l'insert</text>
+        <text x="15" y="103" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Butée franche des 4 parois du tube</text>
+        <text x="15" y="121" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• 4x vis radiales FHC M4 × 8 mm serrées</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">✓ Verrouillage axial total</text>
+      </g>
+
+      <!-- Étape 3 -->
+      <g transform="translate(650, 0)">
+        <rect width="305" height="180" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <rect x="15" y="15" width="80" height="22" rx="3" fill="#0284c7" />
+        <text x="55" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">ÉTAPE 3</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">Montage Stator RS-04</text>
+        <text x="15" y="85" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Visser 6x vis CHC M4 × 16 mm (PCD 106)</text>
+        <text x="15" y="103" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Vissage direct traversant bride 5mm</text>
+        <text x="15" y="121" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Engagement net de 4.8 mm dans stator</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">✓ Couple 120 Nm sécurisé</text>
+      </g>
+
+      <!-- Étape 4 -->
+      <g transform="translate(975, 0)">
+        <rect width="305" height="180" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <rect x="15" y="15" width="80" height="22" rx="3" fill="#10b981" />
+        <text x="55" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">ÉTAPE 4</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#34d399">Cage H-Bracket Finale</text>
+        <text x="15" y="85" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Poser plaque avant orange 5mm</text>
+        <text x="15" y="103" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Insérer 2x tirants CHC M5 × 60 mm</text>
+        <text x="15" y="121" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Serrer écrous Nylstop M5 (R=72 mm)</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">✓ Rigidité roll ×19.4</text>
+      </g>
+    </g>
+  </g>
+</svg>

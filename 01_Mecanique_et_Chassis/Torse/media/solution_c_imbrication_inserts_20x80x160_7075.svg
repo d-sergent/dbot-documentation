@@ -1,0 +1,232 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid Pattern -->
+    <pattern id="grid-pattern-ins20" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="grad-sky-i" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="grad-amber-i" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="grad-emerald-i" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="grad-card-i" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="drop-shadow-i" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1400" height="960" fill="#0b1120" />
+  <rect width="1400" height="960" fill="url(#grid-pattern-ins20)" />
+
+  <!-- HEADER -->
+  <g transform="translate(40, 30)">
+    <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-i)" />
+    <circle cx="35" cy="35" r="18" fill="url(#grad-emerald-i)" />
+    <path d="M 26 35 L 44 35 M 35 26 L 35 44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#f8fafc">
+      IMBRICATION DES 2 INSERTS DANS LE BLOC BLOCKENSTOCK 20 × 80 × 160 mm (ALU 7075-T6)
+    </text>
+    <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
+      1 seul bloc de 16.80 € TTC permet d'usiner les 2 inserts colonne (G &amp; D) sans surfaçage en épaisseur (20 mm brut = 20 mm fini)
+    </text>
+    <rect x="1130" y="20" width="165" height="30" rx="6" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="1" />
+    <text x="1212" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#34d399">
+      PLAN D'IMBRICATION
+    </text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 1: IMBRICATION 2D DES 2 INSERTS DANS LE BRUT 20x80x160 mm -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 120)">
+    <rect width="640" height="420" rx="10" fill="url(#grad-card-i)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-i)" />
+    <rect x="15" y="15" width="390" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      1. IMBRICATION 2D DANS LE MÉPLAT 20 × 80 × 160 mm
+    </text>
+
+    <g transform="translate(30, 60)">
+      <!-- Brut 80 x 160 mm (Gris pointillé) -->
+      <rect x="20" y="20" width="480" height="220" rx="4" fill="#334155" fill-opacity="0.25" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4" />
+      <text x="260" y="12" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#cbd5e1">BRUT 20 × 80 × 160 mm (16.80 € TTC · Alu 7075-T6)</text>
+
+      <!-- INSERT 1 : Côté Gauche (55.8 x 55.8 mm) -->
+      <g transform="translate(35, 45)">
+        <rect x="0" y="0" width="165" height="165" rx="10" fill="#0284c7" fill-opacity="0.6" stroke="#38bdf8" stroke-width="2" />
+        <circle cx="82.5" cy="82.5" r="50" fill="#0b1120" stroke="#f59e0b" stroke-width="1.5" />
+        <text x="82.5" y="80" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f8fafc">INSERT G</text>
+        <text x="82.5" y="95" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fcd34d">Ø35 mm</text>
+        <!-- 4 Trous M4 -->
+        <circle cx="25" cy="25" r="4.5" fill="#f8fafc" stroke="#0284c7" />
+        <circle cx="140" cy="25" r="4.5" fill="#f8fafc" stroke="#0284c7" />
+        <circle cx="25" cy="140" r="4.5" fill="#f8fafc" stroke="#0284c7" />
+        <circle cx="140" cy="140" r="4.5" fill="#f8fafc" stroke="#0284c7" />
+      </g>
+
+      <!-- Trait de Fraise Ø6 mm (Séparation) -->
+      <line x1="215" y1="20" x2="215" y2="240" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="4,2" />
+      <text x="215" y="255" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f87171">Fraise Ø6</text>
+
+      <!-- INSERT 2 : Côté Droit (55.8 x 55.8 mm) -->
+      <g transform="translate(230, 45)">
+        <rect x="0" y="0" width="165" height="165" rx="10" fill="#0284c7" fill-opacity="0.6" stroke="#38bdf8" stroke-width="2" />
+        <circle cx="82.5" cy="82.5" r="50" fill="#0b1120" stroke="#f59e0b" stroke-width="1.5" />
+        <text x="82.5" y="80" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f8fafc">INSERT D</text>
+        <text x="82.5" y="95" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fcd34d">Ø35 mm</text>
+        <!-- 4 Trous M4 -->
+        <circle cx="25" cy="25" r="4.5" fill="#f8fafc" stroke="#0284c7" />
+        <circle cx="140" cy="25" r="4.5" fill="#f8fafc" stroke="#0284c7" />
+        <circle cx="25" cy="140" r="4.5" fill="#f8fafc" stroke="#0284c7" />
+        <circle cx="140" cy="140" r="4.5" fill="#f8fafc" stroke="#0284c7" />
+      </g>
+
+      <!-- Chute Réutilisable (Droite, 20 x 80 x 35 mm) -->
+      <rect x="410" y="30" width="80" height="200" rx="3" fill="#10b981" fill-opacity="0.15" stroke="#34d399" stroke-width="1.5" stroke-dasharray="4,2" />
+      <text x="450" y="135" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#34d399" transform="rotate(-90,450,135)">CHUTE 35×80 mm</text>
+    </g>
+
+    <g transform="translate(40, 360)">
+      <rect width="560" height="45" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+      <text x="15" y="20" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">BILAN D'ACHAT POUR LES 2 INSERTS :</text>
+      <text x="15" y="35" font-family="'Segoe UI', sans-serif" font-size="10" fill="#e2e8f0">
+        1 seul méplat de 16.80 € suffit pour fabriquer les 2 inserts colonne. Économie de matière maximale.
+      </text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 2: COTATION DÉTAILLÉE DE L'INSERT 20 mm (Plan X-Z & X-Y) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(710, 120)">
+    <rect width="650" height="420" rx="10" fill="url(#grad-card-i)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-i)" />
+    <rect x="15" y="15" width="370" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      2. COTATION EXACTE DE L'INSERT HAUTEUR 20.0 mm
+    </text>
+
+    <!-- Schéma Isométrique Coté -->
+    <g transform="translate(40, 60)">
+      <!-- Corps de l'insert 20 mm -->
+      <polygon points="100,30 220,30 280,75 160,75" fill="#0284c7" stroke="#38bdf8" stroke-width="2" />
+      <polygon points="160,75 280,75 280,215 160,215" fill="#0369a1" stroke="#38bdf8" stroke-width="2" />
+      <polygon points="100,30 160,75 160,215 100,170" fill="#075985" stroke="#38bdf8" stroke-width="2" />
+
+      <!-- Trou central Ø35 mm -->
+      <ellipse cx="220" cy="145" rx="35" ry="50" fill="#0b1120" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="220" y="150" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fcd34d">Ø35 mm</text>
+
+      <!-- Perçage Vis Traversante Unique (Axe vertical Z centré à X=10.0 mm) -->
+      <!-- Trou Vis Unique (Z) -->
+      <ellipse cx="140" cy="55" rx="5" ry="3.5" fill="#f8fafc" stroke="#0f172a" stroke-width="1" />
+      <text x="110" y="45" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#f8fafc">Vis M5 Traversante (X=10.0)</text>
+
+      <!-- Cotations en Cartouche -->
+      <g transform="translate(320, 20)">
+        <rect width="260" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">COTES FINIES D'USINAGE (OPTION 1) :</text>
+        <text x="15" y="50" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Épaisseur axiale : <tspan font-weight="700" fill="#34d399">20.00 mm (Brut direct)</tspan></text>
+        <text x="15" y="70" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Section carrée : <tspan font-weight="700" fill="#f8fafc">55.80 × 55.80 mm</tspan></text>
+        <text x="15" y="90" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Rayon coins : <tspan font-weight="700" fill="#fcd34d">R = 3.0 mm (4 angles)</tspan></text>
+        <text x="15" y="115" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Vis Unique (Axe Z) : <tspan font-weight="700" fill="#34d399">Ø5.3 mm à X = 10.0 mm</tspan></text>
+        <text x="15" y="135" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Pince avant/arrière : <tspan font-weight="700" fill="#34d399">7.35 mm (2.0 × d)</tspan></text>
+        <text x="15" y="155" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Torsion (120 Nm) : <tspan font-weight="700" fill="#38bdf8">100% reprise par le carré</tspan></text>
+        <text x="15" y="175" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Arrachement axial : <tspan font-weight="700" fill="#38bdf8">10.5 kN (Sf = ×10.5)</tspan></text>
+        <text x="15" y="200" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Masse finie : ~22.0 g par insert</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 3: RÉCAPITULATIF DU PANIER BLOCKENSTOCK 100% ALU 7075-T6 (~108 €) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 560)">
+    <rect width="1320" height="360" rx="10" fill="url(#grad-card-i)" stroke="#10b981" stroke-width="1.5" filter="url(#drop-shadow-i)" />
+    <rect x="20" y="20" width="480" height="26" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="30" y="37" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#6ee7b7">
+      3. RÉCAPITULATIF MATIÈRE TOTAL DU HAUT DU TORSE (100% 7075-T6)
+    </text>
+
+    <!-- 4 Cartes de Composants -->
+    <g transform="translate(20, 65)">
+      <!-- 1. Brides Monoblocs -->
+      <g transform="translate(0, 0)">
+        <rect width="305" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <rect x="15" y="15" width="110" height="22" rx="3" fill="#f59e0b" />
+        <text x="70" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">BRIDES ÉPAULES</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fcd34d">2x Disques Ø120 × 50</text>
+        <text x="15" y="85" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Matériau : <tspan font-weight="700" fill="#f8fafc">Alu 7075-T651</tspan></text>
+        <text x="15" y="105" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Coût : <tspan font-weight="700" fill="#f8fafc">60.00 € TTC (2 × 30 €)</tspan></text>
+        <text x="15" y="125" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Usinage : Flasque 6mm + Bossage 20mm</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Zéro vis d'insert (Monobloc)</text>
+        
+        <rect x="15" y="180" width="275" height="60" rx="4" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="1" />
+        <text x="25" y="202" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fcd34d">Rôle :</text>
+        <text x="25" y="222" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Support stator RS-04 (120 Nm).</text>
+      </g>
+
+      <!-- 2. Semelles Éclisses -->
+      <g transform="translate(325, 0)">
+        <rect width="305" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <rect x="15" y="15" width="110" height="22" rx="3" fill="#0284c7" />
+        <text x="70" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">SEMELLES ÉCLISSES</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">2x Plaques 5 × 160 × 160</text>
+        <text x="15" y="85" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Matériau : <tspan font-weight="700" fill="#f8fafc">Alu 7075-T6</tspan></text>
+        <text x="15" y="105" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Coût : <tspan font-weight="700" fill="#f8fafc">19.20 € TTC (2 × 9.60 €)</tspan></text>
+        <text x="15" y="125" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Usinage 2D C500 : 80 × 130 mm</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Chutes 60×160 mm réutilisables</text>
+        
+        <rect x="15" y="180" width="275" height="60" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+        <text x="25" y="202" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Rôle :</text>
+        <text x="25" y="222" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Rassemble Plaque Haute et Basse.</text>
+      </g>
+
+      <!-- 3. Inserts Colonne 20 mm -->
+      <g transform="translate(650, 0)">
+        <rect width="305" height="260" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+        <rect x="15" y="15" width="110" height="22" rx="3" fill="#10b981" />
+        <text x="70" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">INSERTS COLONNE</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#34d399">1x Méplat 20 × 80 × 160</text>
+        <text x="15" y="85" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Matériau : <tspan font-weight="700" fill="#f8fafc">Alu 7075-T6</tspan></text>
+        <text x="15" y="105" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Coût : <tspan font-weight="700" fill="#34d399">16.80 € TTC (1 seul bloc !)</tspan></text>
+        <text x="15" y="125" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Épaisseur 20 mm prête à l'emploi</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Donne les 2 inserts G &amp; D</text>
+        
+        <rect x="15" y="180" width="275" height="60" rx="4" fill="#064e3b" fill-opacity="0.3" stroke="#10b981" stroke-width="1" />
+        <text x="25" y="202" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">Rôle :</text>
+        <text x="25" y="222" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Emboîtement tube côté colonne.</text>
+      </g>
+
+      <!-- 4. Tubes Carrés 60x60x2 mm -->
+      <g transform="translate(975, 0)">
+        <rect width="305" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <rect x="15" y="15" width="110" height="22" rx="3" fill="#64748b" />
+        <text x="70" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">TRAVERSES</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#f8fafc">1x Barre 60 × 2 × 500</text>
+        <text x="15" y="85" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Matériau : <tspan font-weight="700" fill="#f8fafc">Alu 6060-T6</tspan></text>
+        <text x="15" y="105" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Coût : <tspan font-weight="700" fill="#f8fafc">12.80 € TTC</tspan></text>
+        <text x="15" y="125" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Découpe : 2 tronçons de 85 mm</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Visserie : ~6.00 € (M5 + Nylstop)</text>
+        
+        <rect x="15" y="180" width="275" height="60" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+        <text x="25" y="202" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">TOTAL PROJET :</text>
+        <text x="25" y="222" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">108.80 € TTC (100% 7075-T6)</text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,244 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid Patterns -->
+    <pattern id="grid-pattern-taraud" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="grad-sky-t" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="grad-amber-t" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="grad-emerald-t" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="grad-card-t" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="drop-shadow-taraud" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1400" height="960" fill="#0b1120" />
+  <rect width="1400" height="960" fill="url(#grid-pattern-taraud)" />
+
+  <!-- HEADER -->
+  <g transform="translate(40, 30)">
+    <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-taraud)" />
+    <circle cx="35" cy="35" r="18" fill="url(#grad-sky-t)" />
+    <path d="M 26 35 L 44 35 M 35 26 L 35 44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#f8fafc">
+      ARCHITECTURE DES INSERTS MÂLES 20 mm &amp; PROTOCOLE DE MONTAGE SÉQUENTIEL V2
+    </text>
+    <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
+      Détail 3D de l'insert 7075-T6 (4 taraudages M4 + perçage traversant M5 en Z) et étapes d'atelier 100% accessibles
+    </text>
+    <rect x="1130" y="20" width="165" height="30" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1" />
+    <text x="1212" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      SCHÉMA TECHNIQUE V2
+    </text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 1: VUE 3D ISOMÉTRIQUE DE L'INSERT & SES USINAGES -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 120)">
+    <rect width="640" height="420" rx="10" fill="url(#grad-card-t)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-taraud)" />
+    <rect x="15" y="15" width="370" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      1. VUE 3D DE L'INSERT 20 mm (ALU 7075-T6)
+    </text>
+
+    <g transform="translate(40, 60)">
+      <!-- Corps 3D de l'Insert Carré 55.8x55.8x20 mm -->
+      <!-- Face Supérieure -->
+      <polygon points="120,40 260,40 330,95 190,95" fill="#0284c7" stroke="#38bdf8" stroke-width="2" />
+      <!-- Face Droite / Latérale -->
+      <polygon points="190,95 330,95 330,245 190,245" fill="#0369a1" stroke="#38bdf8" stroke-width="2" />
+      <!-- Face Gauche / Avant -->
+      <polygon points="120,40 190,95 190,245 120,190" fill="#075985" stroke="#38bdf8" stroke-width="2" />
+
+      <!-- Évidement Central d'Allègement Ø35 mm -->
+      <ellipse cx="260" cy="170" rx="40" ry="60" fill="#0b1120" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="260" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Allègement Ø35</text>
+
+      <!-- Rayon R=3.0 mm aux coins -->
+      <path d="M 185 95 C 185 90, 195 90, 195 95" stroke="#f59e0b" stroke-width="2" />
+      <text x="130" y="85" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fcd34d">Rayon R3 mm</text>
+
+      <!-- 4x Taraudages Axiaux M4 (Sur la face d'appui plate) -->
+      <circle cx="215" cy="120" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <circle cx="305" cy="120" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <circle cx="215" cy="220" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <circle cx="305" cy="220" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+
+      <!-- Flèches Callout Taraudages Axiaux -->
+      <path d="M 310 120 L 370 85 L 450 85" fill="none" stroke="#f8fafc" stroke-width="1.5" />
+      <text x="455" y="88" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f8fafc">4x Taraudages Axiaux M4</text>
+      <text x="455" y="103" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Borgnes prof. 10 mm (pour vis FHC)</text>
+
+      <!-- Perçage Traversant Vertical Ø5.3 mm (Axe Z) pour CHC M5×70 mm -->
+      <ellipse cx="225" cy="67" rx="4.5" ry="3" fill="#10b981" stroke="#ffffff" stroke-width="1.5" />
+      <path d="M 225 67 L 290 35 L 450 35" fill="none" stroke="#10b981" stroke-width="1.5" />
+      <text x="455" y="38" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">Perçage Traversant Ø5.3 mm (Z)</text>
+      <text x="455" y="53" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Pour vis CHC M5×70 mm (X = 10 mm)</text>
+
+      <!-- Encadré Règle d'Usinage -->
+      <g transform="translate(10, 265)">
+        <rect width="540" height="70" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">SYNTHÈSE USINAGE INSERT 20 mm :</text>
+        <text x="15" y="45" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Brut : <tspan font-weight="700" fill="#f8fafc">Méplat 20 × 80 × 160 mm Alu 7075-T6</tspan> (Zéro surfaçage en Z)</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Fixation : <tspan font-weight="700" fill="#34d399">4× FHC M4×12 axiales + 1× CHC M5×70 traversante en Z</tspan></text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 2: COUPE DE LA LIAISON CENTRALE COLONNE (Plan X-Y) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(710, 120)">
+    <rect width="650" height="420" rx="10" fill="url(#grad-card-t)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-taraud)" />
+    <rect x="15" y="15" width="370" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#f59e0b">
+      2. COUPE DÉTAILLÉE DU SANDWICH CENTRAL (Plan X-Y)
+    </text>
+
+    <g transform="translate(30, 60)">
+      <!-- Axe Sagittal X=0 -->
+      <line x1="290" y1="20" x2="290" y2="330" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="6,4" />
+      <text x="290" y="345" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ec4899">COLONNE SAGITTALE (X=0)</text>
+
+      <!-- Plaque Sagittale Centrale 5 mm -->
+      <rect x="282" y="30" width="16" height="280" rx="2" fill="url(#grad-amber-t)" stroke="#f59e0b" stroke-width="2" />
+
+      <!-- SEMELLE GAUCHE (5 mm) & INSERT GAUCHE (20 mm) -->
+      <rect x="258" y="45" width="16" height="250" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+      <rect x="208" y="100" width="50" height="140" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+      <rect x="50" y="95" width="170" height="150" fill="#334155" stroke="#38bdf8" stroke-width="2" />
+      <rect x="50" y="100" width="170" height="140" fill="#0f172a" fill-opacity="0.9" />
+      <text x="135" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#93c5fd">TUBE GAUCHE</text>
+
+      <!-- SEMELLE DROITE (5 mm) & INSERT DROIT (20 mm) -->
+      <rect x="306" y="45" width="16" height="250" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+      <rect x="322" y="100" width="50" height="140" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+      <rect x="360" y="95" width="170" height="150" fill="#334155" stroke="#38bdf8" stroke-width="2" />
+      <rect x="360" y="100" width="170" height="140" fill="#0f172a" fill-opacity="0.9" />
+      <text x="445" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#93c5fd">TUBE DROIT</text>
+
+      <!-- 4x Vis FHC M4 noyées à fleur dans les semelles -->
+      <polygon points="258,125 274,120 274,130" fill="#f8fafc" stroke="#0f172a" />
+      <polygon points="258,215 274,210 274,220" fill="#f8fafc" stroke="#0f172a" />
+      <polygon points="322,125 306,120 306,130" fill="#f8fafc" stroke="#0f172a" />
+      <polygon points="322,215 306,210 306,220" fill="#f8fafc" stroke="#0f172a" />
+      <text x="210" y="270" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#f8fafc">Vis FHC noyées à fleur</text>
+
+      <!-- 4x Vis Traversantes M5 x 25 mm + Écrous Nylstop -->
+      <line x1="240" y1="70" x2="340" y2="70" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+      <circle cx="245" cy="70" r="5" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+      <circle cx="335" cy="70" r="5" fill="#10b981" stroke="#0f172a" stroke-width="1.5" />
+
+      <line x1="240" y1="270" x2="340" y2="270" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+      <circle cx="245" cy="270" r="5" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+      <circle cx="335" cy="270" r="5" fill="#10b981" stroke="#0f172a" stroke-width="1.5" />
+
+      <text x="290" y="15" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">4x Vis Traversantes M5 × 25 mm</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 3: PROTOCOLE CHRONOLOGIQUE D'ASSEMBLAGE SÉQUENTIEL (V2 DIRECTE) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 560)">
+    <rect width="1320" height="360" rx="10" fill="url(#grad-card-t)" stroke="#10b981" stroke-width="1.5" filter="url(#drop-shadow-taraud)" />
+    <rect x="20" y="20" width="460" height="26" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="30" y="37" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#6ee7b7">
+      3. SÉQUENCE DE MONTAGE CHRONOLOGIQUE ATELIER V2 (100% ACCESSIBLE)
+    </text>
+
+    <g transform="translate(20, 65)">
+      <!-- Étape 1 : Sur Établi (Inserts) -->
+      <g transform="translate(0, 0)">
+        <rect width="305" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <rect x="15" y="15" width="90" height="22" rx="3" fill="#0284c7" />
+        <text x="60" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">ÉTAPE 1</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">Pré-assemblage Inserts</text>
+        <text x="15" y="80" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Sur établi avant montage :</text>
+        
+        <text x="15" y="105" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Visser insert 20 mm sur Semelle 5mm</text>
+        <text x="15" y="125" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• 4x vis FHC M4 × 12 mm + Loctite 243</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Têtes fraisées noyées à fleur (0.0 mm)</text>
+        <text x="15" y="165" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Contrôler planéité face colonne</text>
+        
+        <rect x="15" y="195" width="275" height="45" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+        <text x="25" y="215" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Résultat Étape 1 :</text>
+        <text x="25" y="230" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Faces d'appui 100% lisses et planes.</text>
+      </g>
+
+      <!-- Étape 2 : Sur Établi (Demi-Traverses) -->
+      <g transform="translate(325, 0)">
+        <rect width="305" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <rect x="15" y="15" width="90" height="22" rx="3" fill="#0284c7" />
+        <text x="60" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">ÉTAPE 2</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">Emboîtement Traverses</text>
+        <text x="15" y="80" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Formation du caisson rigide :</text>
+        
+        <text x="15" y="105" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Glisser tube 60×60×2 mm (L=85 mm)</text>
+        <text x="15" y="125" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Emboîter sur insert et bride monobloc</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• 4x vis CHC M5 × 70 mm traversantes (Z)</text>
+        <text x="15" y="165" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Serrer écrous Nylstop M5 à 5.5 N.m</text>
+        
+        <rect x="15" y="195" width="275" height="45" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+        <text x="25" y="215" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Résultat Étape 2 :</text>
+        <text x="25" y="230" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Demi-traverses rigides indéformables.</text>
+      </g>
+
+      <!-- Étape 3 : Sur Établi (Fixation Directe Stator) -->
+      <g transform="translate(650, 0)">
+        <rect width="305" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <rect x="15" y="15" width="90" height="22" rx="3" fill="#0284c7" />
+        <text x="60" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">ÉTAPE 3</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">Fixation Stator RS-04</text>
+        <text x="15" y="80" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Fixation directe sans cage :</text>
+        
+        <text x="15" y="105" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Centrer bride sur section Ø95 H7</text>
+        <text x="15" y="125" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Visser 10x CHC M4 × 12 mm sur PCD 106</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Serrer en croix à 3.0 N.m</text>
+        <text x="15" y="165" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Monter support ventilateur 40mm</text>
+        
+        <rect x="15" y="195" width="275" height="45" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+        <text x="25" y="215" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Résultat Étape 3 :</text>
+        <text x="25" y="230" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Stator rigidifié, face avant dégagée.</text>
+      </g>
+
+      <!-- Étape 4 : Sur Torse (Sandwich Central) -->
+      <g transform="translate(975, 0)">
+        <rect width="305" height="260" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+        <rect x="15" y="15" width="90" height="22" rx="3" fill="#10b981" />
+        <text x="60" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff">ÉTAPE 4</text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#34d399">Sandwich Colonne</text>
+        <text x="15" y="80" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Liaison centrale rapide :</text>
+        
+        <text x="15" y="105" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Présenter modules G et D sur colonne</text>
+        <text x="15" y="125" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Sandwich 15 mm (Semelle + Col + Semelle)</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Insérer 4x vis CHC M5 × 25 mm</text>
+        <text x="15" y="165" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Serrer écrous Nylstop M5 à 5.5 N.m</text>
+        
+        <rect x="15" y="195" width="275" height="45" rx="4" fill="#064e3b" fill-opacity="0.3" stroke="#10b981" stroke-width="1" />
+        <text x="25" y="215" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">Maintenance Express :</text>
+        <text x="25" y="230" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Dévisser 4 vis = 1 épaule retirée en 60s !</text>
+      </g>
+    </g>
+  </g>
+</svg>

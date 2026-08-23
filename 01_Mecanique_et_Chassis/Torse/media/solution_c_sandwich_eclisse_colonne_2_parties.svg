@@ -1,0 +1,224 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid Pattern -->
+    <pattern id="grid-pattern-sandwich" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="grad-sky-s" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="grad-amber-s" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="grad-emerald-s" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="grad-card-s" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="drop-shadow-sandwich" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1400" height="960" fill="#0b1120" />
+  <rect width="1400" height="960" fill="url(#grid-pattern-sandwich)" />
+
+  <!-- HEADER -->
+  <g transform="translate(40, 30)">
+    <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-sandwich)" />
+    <circle cx="35" cy="35" r="18" fill="url(#grad-amber-s)" />
+    <path d="M 26 35 L 44 35 M 35 26 L 35 44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#f8fafc">
+      JONCTION CENTRALE SANDWICH : ÉCLISSAGE DES 2 PARTIES DE COLONNE &amp; TRAVERSE
+    </text>
+    <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
+      Les Semelles G &amp; D (5 mm) servent de double éclisse structurelle reliant Plaque Haute, Plaque Basse et Tubes Épaules
+    </text>
+    <rect x="1130" y="20" width="165" height="30" rx="6" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1" />
+    <text x="1212" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fcd34d">
+      SOLUTION ÉCLISSE 2D
+    </text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 1: VUE SAGITTALE (Plan Y-Z) — JONCTION DES 2 PLAQUES & SEMELLE -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 120)">
+    <rect width="640" height="420" rx="10" fill="url(#grad-card-s)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-sandwich)" />
+    <rect x="15" y="15" width="370" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      1. VUE SAGITTALE (Plan Y-Z) : ÉCLISSAGE HAUT / BAS
+    </text>
+
+    <g transform="translate(40, 55)">
+      <!-- Plaque Colonne Supérieure (Z > 0) -->
+      <path d="M 40 20 L 220 20 L 220 160 L 40 160 Z" fill="#d97706" fill-opacity="0.3" stroke="#f59e0b" stroke-width="2" />
+      <text x="130" y="70" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fcd34d">PLAQUE HAUTE (142 mm)</text>
+
+      <!-- Joint de contact à Z = 0 (Plan de coupe C500) -->
+      <line x1="20" y1="160" x2="240" y2="160" stroke="#ec4899" stroke-width="2" stroke-dasharray="6,3" />
+      <text x="260" y="164" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ec4899">PLAN DE JOINT (Z=0)</text>
+
+      <!-- Plaque Colonne Inférieure (Z < 0) -->
+      <path d="M 40 160 L 220 160 L 220 310 L 40 310 Z" fill="#d97706" fill-opacity="0.3" stroke="#f59e0b" stroke-width="2" />
+      <text x="130" y="275" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fcd34d">PLAQUE BASSE (290 mm)</text>
+
+      <!-- Empreinte de la Semelle Éclisse (80 x 130 mm) - Contour Cyan -->
+      <rect x="50" y="95" width="160" height="130" rx="4" fill="#0284c7" fill-opacity="0.25" stroke="#38bdf8" stroke-width="2" />
+      
+      <!-- Empreinte Tube Carré 60x60 au centre (Z = -30 à +30 mm) -->
+      <rect x="100" y="130" width="60" height="60" rx="2" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,2" />
+      <text x="130" y="165" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#93c5fd">TUBE 60×60</text>
+
+      <!-- 4 Vis Traversantes M5 Plaque Haute (Z = +42 mm et Z = +55 mm) -->
+      <circle cx="75" cy="115" r="5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <circle cx="185" cy="115" r="5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+
+      <!-- 4 Vis Traversantes M5 Plaque Basse (Z = -42 mm et Z = -55 mm) -->
+      <circle cx="75" cy="205" r="5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+      <circle cx="185" cy="205" r="5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+
+      <!-- Callout Cotations -->
+      <line x1="30" y1="95" x2="30" y2="225" stroke="#38bdf8" stroke-width="1.5" />
+      <line x1="25" y1="95" x2="35" y2="95" stroke="#38bdf8" stroke-width="1.5" />
+      <line x1="25" y1="225" x2="35" y2="225" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="15" y="165" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8" transform="rotate(-90,15,165)">H = 130 mm</text>
+
+      <!-- Légende Plaque Éclisse -->
+      <g transform="translate(320, 20)">
+        <rect width="250" height="270" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f59e0b">DOUBLE RÔLE DE LA SEMELLE :</text>
+        <text x="15" y="50" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">1. <tspan font-weight="700" fill="#38bdf8">Support Épaule</tspan> : Reçoit le tube carré 60×60×2 mm</text>
+        <text x="15" y="70" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">2. <tspan font-weight="700" fill="#fcd34d">Éclisse Colonne</tspan> : Rassemble Plaque Haute &amp; Plaque Basse</text>
+        
+        <text x="15" y="100" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">SPÉCIFICATIONS SEMELLE :</text>
+        <text x="15" y="120" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Largeur (Y) : <tspan font-weight="700" fill="#f8fafc">80.0 mm</tspan></text>
+        <text x="15" y="140" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Hauteur (Z) : <tspan font-weight="700" fill="#f8fafc">130.0 mm</tspan></text>
+        <text x="15" y="160" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Épaisseur : <tspan font-weight="700" fill="#f8fafc">5.0 mm Alu 6061-T6</tspan></text>
+        <text x="15" y="180" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Visserie : <tspan font-weight="700" fill="#34d399">4x M5 traversantes</tspan></text>
+        <text x="15" y="200" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• 2 vis dans Plaque Haute (Z=+45mm)</text>
+        <text x="15" y="220" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• 2 vis dans Plaque Basse (Z=-45mm)</text>
+        <text x="15" y="245" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">Précharge totale = 19 200 N</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 2: COUPE DE DESSUS (Plan X-Y) — EMPILAGE DU SANDWICH 15 mm -->
+  <!-- ========================================================================= -->
+  <g transform="translate(710, 120)">
+    <rect width="650" height="420" rx="10" fill="url(#grad-card-s)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-sandwich)" />
+    <rect x="15" y="15" width="370" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      2. COUPE TRANSVERSALE (Plan X-Y) : CONTINUITÉ DU JOINT
+    </text>
+
+    <g transform="translate(30, 60)">
+      <!-- Axe Central Sagittal (X=0) -->
+      <line x1="290" y1="20" x2="290" y2="330" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="6,4" />
+      <text x="290" y="345" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ec4899">PLAN SAGITTAL (X=0)</text>
+
+      <!-- Plaque Colonne Centrale 5 mm (Continue au centre) -->
+      <rect x="282" y="30" width="16" height="280" rx="2" fill="url(#grad-amber-s)" stroke="#f59e0b" stroke-width="2" />
+      <text x="290" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff" transform="rotate(-90,290,170)">COLONNE 5 mm</text>
+
+      <!-- SEMELLE ÉCLISSE GAUCHE (5 mm) -->
+      <rect x="258" y="45" width="16" height="250" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+      <rect x="220" y="100" width="38" height="140" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+      <rect x="50" y="95" width="170" height="150" fill="#334155" stroke="#38bdf8" stroke-width="2" />
+      <rect x="50" y="100" width="170" height="140" fill="#0f172a" fill-opacity="0.9" />
+      <text x="135" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#93c5fd">TUBE GAUCHE</text>
+
+      <!-- SEMELLE ÉCLISSE DROITE (5 mm) -->
+      <rect x="306" y="45" width="16" height="250" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+      <rect x="322" y="100" width="38" height="140" rx="2" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+      <rect x="360" y="95" width="170" height="150" fill="#334155" stroke="#38bdf8" stroke-width="2" />
+      <rect x="360" y="100" width="170" height="140" fill="#0f172a" fill-opacity="0.9" />
+      <text x="445" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#93c5fd">TUBE DROIT</text>
+
+      <!-- Vis Traversantes M5 (Plages Haut / Bas) -->
+      <line x1="240" y1="70" x2="340" y2="70" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+      <circle cx="245" cy="70" r="5" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+      <circle cx="335" cy="70" r="5" fill="#10b981" stroke="#0f172a" stroke-width="1.5" />
+
+      <line x1="240" y1="270" x2="340" y2="270" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+      <circle cx="245" cy="270" r="5" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
+      <circle cx="335" cy="270" r="5" fill="#10b981" stroke="#0f172a" stroke-width="1.5" />
+
+      <text x="290" y="15" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">Sandwich Éclisse 15 mm (5 + 5 + 5 mm)</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 3: DÉTAIL DU JOINT DE CONTACT 2D ENTRE LES 2 PLAQUES DE COLONNE -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 560)">
+    <rect width="1320" height="360" rx="10" fill="url(#grad-card-s)" stroke="#10b981" stroke-width="1.5" filter="url(#drop-shadow-sandwich)" />
+    <rect x="20" y="20" width="460" height="26" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="30" y="37" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#6ee7b7">
+      3. GÉOMÉTRIE DU JOINT 2D DE COLONNE USINABLE SUR LA C500
+    </text>
+
+    <g transform="translate(20, 65)">
+      <!-- Option Joint 1 : Coupe Droite Pure (Simple) -->
+      <g transform="translate(0, 0)">
+        <rect width="410" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="20" y="28" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#f8fafc">OPTION 1 : COUPE DROITE NETTE (Z=0)</text>
+        <text x="20" y="52" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Découpe 100% rectiligne à Z = 0 mm :</text>
+        
+        <text x="20" y="78" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Longueur de contact frontal : <tspan font-weight="700" fill="#f8fafc">120.0 mm</tspan></text>
+        <text x="20" y="98" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Usinage C500 : <tspan font-weight="700" fill="#34d399">1 seule passe droite (Kt = 1.0)</tspan></text>
+        <text x="20" y="118" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Reprise de compression : <tspan font-weight="700" fill="#34d399">Surface 600 mm²</tspan></text>
+        <text x="20" y="138" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Reprise de flexion : <tspan font-weight="700" fill="#34d399">Assurée par les 2 semelles</tspan></text>
+        
+        <rect x="20" y="175" width="370" height="65" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+        <text x="30" y="195" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Avantage :</text>
+        <text x="30" y="213" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Zéro concentration de contrainte. Découpe en 2 minutes sur martyr MDF.</text>
+      </g>
+
+      <!-- Option Joint 2 : Emboîtement à Tenon Central 2D (⭐ L'Optimum C500) -->
+      <g transform="translate(440, 0)">
+        <rect width="410" height="260" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+        <text x="20" y="28" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#34d399">OPTION 2 : TENON DE CENTRAGE 2D (⭐ TOP)</text>
+        <text x="20" y="52" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Emboîtement mâle/femelle 2D au centre :</text>
+        
+        <text x="20" y="78" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Tenon central : <tspan font-weight="700" fill="#f8fafc">40 mm (larg) × 10 mm (haut)</tspan></text>
+        <text x="20" y="98" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Centrage automatique : <tspan font-weight="700" fill="#34d399">Alignement coaxial parfait</tspan></text>
+        <text x="20" y="118" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Reprise de cisaillement : <tspan font-weight="700" fill="#34d399">Métal/métal direct</tspan></text>
+        <text x="20" y="138" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Rayon aux angles : <tspan font-weight="700" fill="#fcd34d">R = 3.0 mm (fraise Ø6)</tspan></text>
+        
+        <rect x="20" y="175" width="370" height="65" rx="4" fill="#064e3b" fill-opacity="0.3" stroke="#10b981" stroke-width="1" />
+        <text x="30" y="195" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">Avantage :</text>
+        <text x="30" y="213" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Verrouille le positionnement relatif des 2 plaques avant même de serrer les vis !</text>
+      </g>
+
+      <!-- Bilan & Sécurité RDM -->
+      <g transform="translate(880, 0)">
+        <rect width="400" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="20" y="28" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fcd34d">BILAN DE RIGIDITÉ RDM DU SANDWICH</text>
+        <text x="20" y="52" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Tenue sous moment dynamique 131 Nm :</text>
+        
+        <text x="20" y="78" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Épaisseur totale matière : <tspan font-weight="700" fill="#f8fafc">15.0 mm (3 × 5mm)</tspan></text>
+        <text x="20" y="98" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Moment d'inertie I_sandwich : <tspan font-weight="700" fill="#34d399">&gt; 1 200 000 mm⁴</tspan></text>
+        <text x="20" y="118" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Contrainte de flexion : <tspan font-weight="700" fill="#34d399">Sigma = 11.2 MPa</tspan></text>
+        <text x="20" y="138" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Facteur de sécurité : <tspan font-weight="700" fill="#34d399">Sf = ×21.4 ✅</tspan></text>
+        <text x="20" y="158" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Déformation angulaire : <tspan font-weight="700" fill="#34d399">&lt; 0.01 mm</tspan></text>
+        
+        <rect x="20" y="185" width="360" height="55" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+        <text x="30" y="205" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Conclusion Ingénierie :</text>
+        <text x="30" y="223" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">La liaison est plus rigide que si la colonne était en une seule pièce.</text>
+      </g>
+    </g>
+  </g>
+</svg>

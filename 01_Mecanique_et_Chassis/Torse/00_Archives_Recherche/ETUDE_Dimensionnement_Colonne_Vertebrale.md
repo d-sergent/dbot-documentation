@@ -12,30 +12,30 @@ Les mesures intérieures de la cavité du torse ont été relevées directement 
 
 | Zone du Torse | Hauteur Z (Référentiel) | Profondeur Mesurée (Avant ➔ Arrière) | Capture CAO d'Origine |
 | :--- | :---: | :---: | :--- |
-| **Niveau 1 : Collet du Cou (Sommet)** | h = 432,67 mm | **86,482 mm** | ![Mesure CAO Cou](./media/mesure_cao_cou_86mm.png) |
-| **Niveau 2 : Épaules (Zone Médiane)** | h = 290,00 mm | **127,243 mm** | ![Mesure CAO Épaules](./media/mesure_cao_epaule_127mm.png) |
-| **Niveau 3 : Base / Waist Plate (Bas)** | h = 0,00 mm | **127,656 mm** | ![Mesure CAO Base](./media/mesure_cao_base_127mm.png) |
+| **Niveau 1 : Collet du Cou (Sommet)** | h = 432,67 mm | **86,482 mm** | ![Mesure CAO Cou](../media/mesure_cao_cou_86mm.png) |
+| **Niveau 2 : Épaules (Zone Médiane)** | h = 290,00 mm | **127,243 mm** | ![Mesure CAO Épaules](../media/mesure_cao_epaule_127mm.png) |
+| **Niveau 3 : Base / Waist Plate (Bas)** | h = 0,00 mm | **127,656 mm** | ![Mesure CAO Base](../media/mesure_cao_base_127mm.png) |
 
 ---
 
 ### B. Captures CAO Réelles du Modèle Fusion 360
 
 #### 1. Mesure à la Base (Waist Plate) : 127.656 mm
-![Mesure de la profondeur à la base du torse](./media/mesure_cao_base_127mm.png)
+![Mesure de la profondeur à la base du torse](../media/mesure_cao_base_127mm.png)
 *Figure 1.1 : Relevé de la profondeur intérieure disponible au niveau de l'embase inférieure (Waist Plate) : 127.656 mm.*
 
 #### 2. Mesure au niveau des Épaules : 127.243 mm
-![Mesure de la profondeur au niveau des épaules](./media/mesure_cao_epaule_127mm.png)
+![Mesure de la profondeur au niveau des épaules](../media/mesure_cao_epaule_127mm.png)
 *Figure 1.2 : Relevé de la profondeur intérieure disponible au niveau des actionneurs d'épaules RS-04 : 127.243 mm.*
 
 #### 3. Mesure au niveau du Cou (Collet Supérieur) : 86.482 mm
-![Mesure de la profondeur au niveau du cou](./media/mesure_cao_cou_86mm.png)
+![Mesure de la profondeur au niveau du cou](../media/mesure_cao_cou_86mm.png)
 *Figure 1.3 : Relevé de la profondeur intérieure disponible au niveau du collet du cou : 86.482 mm.*
 
 Pour garantir une marge de sécurité idéale lors du bridage et de l'usinage sur la fraiseuse **NestWorks C500** (table de 230 mm × 213 mm), la profondeur maximale de la colonne vertébrale est fixée à **d = 120,0 mm** au niveau des épaules et de la taille (se biseautant à **94,0 mm** au cou — valeur maximisée CAO v62 pour optimiser la rigidité en pitch au sommet de la colonne).
 
 #### 4. Schéma & Rendu 3D du Nœud d'Intersection Central
-![Coupe axiale du nœud d'intersection central](./media/noeud_intersection_coupe.svg)
+![Coupe axiale du nœud d'intersection central](../media/noeud_intersection_coupe.svg)
 
 *Coupe axiale du nœud d'intersection entre la colonne alu 6061-T6 et la traverse en tube carbone Ø 30 mm.*
 
@@ -150,7 +150,7 @@ Cas B (extrême, bras tendus, M = 385 Nm) :
 
 ## 4. Comparatif des Concepts & Justification de l'Option B
 
-![Comparatif des options d'usinage de la colonne vertébrale](./media/comparatif_plaques_colonne.svg)
+![Comparatif des options d'usinage de la colonne vertébrale](../media/comparatif_plaques_colonne.svg)
 
 | Option | Masse 2 Plaques | Contrainte Max (Sigma_max) | Facteur Sécurité (S_f) | Temps Usinage C500 | Complexité & Risques |
 |:---|:---:|:---:|:---:|:---:|:---|
@@ -168,7 +168,7 @@ Cas B (extrême, bras tendus, M = 385 Nm) :
 
 ## 5. Spécifications CAO et Forme Exacte des Plaques Évidées
 
-![Plaques de Colonne Vertébrale Évidées 2D](./media/plaques_colonne_2d_evidees.svg)
+![Plaques de Colonne Vertébrale Évidées 2D](../media/plaques_colonne_2d_evidees.svg)
 
 1. **Plaque Inférieure (Waist ➔ Épaules)** :
    - Dimensions : **290,0 mm (hauteur) × 120,0 mm (profondeur) × 5.0 mm (épaisseur)**.
@@ -289,7 +289,7 @@ Le stator RS-04 a un corps cylindrique **Ø 120 mm** (rayon 60 mm) sur ~40 mm de
 
 ### C. Solution Retenue : Cage H-Bracket & Bride d'Épaule (×2 épaules)
 
-![Schéma d'Architecture Vectoriel Blueprint — Cage H-Bracket & Bride Épaule RS-04 D-Bot V1](./media/hbracket_rs04_quasi_final_blueprint.svg)
+![Schéma d'Architecture Vectoriel Blueprint — Cage H-Bracket & Bride Épaule RS-04 D-Bot V1](../media/hbracket_rs04_quasi_final_blueprint.svg)
 
 *Figure 8.1 : Blueprint d'ingénierie 2D de l'assemblage d'épaule quasi-final (Fusion 360). Vue de Face (Plan Y-Z) : stator RS-04 Ø120 mm + 2 plaques H-bracket 5 mm 7075-T6 identiques (10× vis M4 sur PCD Ø106 mm) + 2 tirants M5 aux oreilles diagonales à 23.4° (Z=±66.1 mm, Y=±28.6 mm, R=72 mm). Vue Latérale / Coupe (Plan X-Z) : sandwich axial 49 mm (Plaque avant orange 5 mm -> Stator RS-04 39 mm -> Plaque arrière orange 5 mm + Bride jaune 48.2 mm), tirants axiaux M5×60 mm, tube carbone Ø30 mm avec bouchon interne alu Ø26/18×34.5 mm, pincement radial 2×M4 et goupille Ø4 mm Mecanindus.*
 
@@ -613,7 +613,7 @@ Vue latérale d'assemblage (epaule1/epaule8) :
 Total axial : ~49mm mesurés CAO
 ```
 
-![Intégration du Squelette et Dégagement Broche Z dans Fusion 360 v62](./media/torse_v62_eclate_squelette_epaule.png)
+![Intégration du Squelette et Dégagement Broche Z dans Fusion 360 v62](../media/torse_v62_eclate_squelette_epaule.png)
 
 *Vue d'ensemble de l'intégration dans Fusion 360 v62. La zone de socket cylindrique de la bride jaune est totalement dégagée sur le dessus pour permettre le perçage en place (match-drilling) sur la fraiseuse NestWorks C500 avant fixation des moteurs.*
 
@@ -996,7 +996,7 @@ La goupille traverse successivement la bride Alu 7075, la paroi du tube carbone,
 
 ## 13. Dimensions de Référence du Moteur RobStride RS-04 (Datasheet Constructeur)
 
-![Datasheet dimensionnel du RobStride RS-04](./media/rs04_datasheet_dimensions.png)
+![Datasheet dimensionnel du RobStride RS-04](../media/rs04_datasheet_dimensions.png)
 
 *Plan dimensionnel constructeur du RobStride RS-04. Dimensions critiques pour le calcul d'empilement du torse D-Bot.*
 
@@ -1019,7 +1019,7 @@ La goupille traverse successivement la bride Alu 7075, la paroi du tube carbone,
 
 ## 14. Analyse des Évidements (Lumières 2D) — Recommandations de Conception Détaillées
 
-![Plan de Cotation Détaillée des Plaques de Colonne Vertébrale](./media/cotation_detaillee_plaques_colonne.svg)
+![Plan de Cotation Détaillée des Plaques de Colonne Vertébrale](../media/cotation_detaillee_plaques_colonne.svg)
 
 *Blueprint d'ingénierie 2D complet pour la modélisation CAO sous Fusion 360 et l'usinage CNC sur NestWorks C500. Panel 1 : Plaque Inférieure (290 × 120 × 5 mm) avec 3 lumières rectangulaires 80 × 70 mm, congés R = 18.0 mm, bordures pleines 20.0 mm, barres 15.0 mm et perçages M4 (Ø 4.3 mm). Panel 2 : Plaque Supérieure (142.67 × 120➔94 × 5 mm) avec 2 lumières trapézoïdales, congés R = 15.0 mm, sommet élargi à 94.0 mm (CAO v62) et découplage isostatique en Z. Panel 3 : Zoom RDM sur la réduction de contrainte par les congés (Kt = 1.81), coupe d'épaisseur 5.00 mm et stratégie d'usinage C500.*
 

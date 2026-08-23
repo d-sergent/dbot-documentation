@@ -11,14 +11,14 @@ Voici les modélisations de ce que nous envisageons pour le torse du D-Bot :
 ### 🩻 Option C : Le Split-Monocoque Hybride (Recommandé)
 Ce design divise le torse de 420 mm de hauteur en deux boîtiers structurels fermés imprimés en **PA12-CF** (Bassin et Thorax de 140 mm chacun), reliés par **4 tubes de carbone légers de Ø25 mm** (entraxe 220 mm en X, 140 mm en Y). C'est le design le plus rigide en torsion, idéal pour la Qidi Plus 4 car imprimable à plat sans risque de délamination inter-couche sous l'effort des moteurs.
 
-![Option C - Rendu 3D](../media/split_monocoque_torso_render.png)
+![Option C - Rendu 3D](.../media/split_monocoque_torso_render.png)
 
 ---
 
 ### 🦴 Option A : L'Spine Carbone Centrale + Clamps Modulaires
 Ce design repose sur une unique colonne vertébrale centrale (un gros tube de carbone de Ø50 mm) sur lequel viennent se clamper des plaques d'extrémités en aluminium et des cages intermédiaires imprimées en PA12-CF.
 
-![Option A - Rendu 3D](../media/carbon_spine_torso_render.png)
+![Option A - Rendu 3D](.../media/carbon_spine_torso_render.png)
 
 ---
 

@@ -6,7 +6,7 @@
 > [!NOTE]
 > **Évolution architecturale majeure** : Le torse s'appuie sur une **architecture cruciforme métallique et composite** (plaque sagittale 2D + traverse carbone Ø30 mm + cages H-bracket d'épaules en Alu 7075-T6) reprenant l'intégralité des efforts dynamiques. La coque en PA12-CF est une **coque secondaire allégée** dédiée à la protection, au guidage des batteries et à l'esthétique bionique.
 >
-> 📄 **Documents associés** : [ETUDE_Dimensionnement_Colonne_Vertebrale.md](./ETUDE_Dimensionnement_Colonne_Vertebrale.md) · [JOURNAL_DE_BORD.md](../../05_Gestion_Projet/JOURNAL_DE_BORD.md)
+> 📄 **Documents associés** : [ETUDE_Dimensionnement_Colonne_Vertebrale.md](./ETUDE_Dimensionnement_Colonne_Vertebrale.md) · [JOURNAL_DE_BORD.md](../../../05_Gestion_Projet/JOURNAL_DE_BORD.md)
 
 ---
 
@@ -30,7 +30,7 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 
 ### B. Schéma de la Structure Cruciforme
 
-![Schéma d'Architecture de la Structure Cruciforme du Torse](./media/structure_cruciforme.svg)
+![Schéma d'Architecture de la Structure Cruciforme du Torse](../media/structure_cruciforme.svg)
 
 *Schéma d'architecture 2D de la structure cruciforme du torse D-Bot : Vue de Face (Plan Frontal avec la traverse carbone Ø30mm, la plaque sagittale à lumières 2D 5mm et les moteurs RS-04/RS-06) et Vue de Dessus (Plan Transversal avec l'orientation sagittale dos->ventre et les 2 paniers batteries latéraux).*
 
@@ -64,7 +64,7 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 
 #### Solution de Fixation Haute et Basse (Équerres CNC L-Brackets en Sandwich)
 
-![Solution de fixation par équerres L-Brackets en sandwich](./media/solution_liaison_embase_cou.svg)
+![Solution de fixation par équerres L-Brackets en sandwich](../media/solution_liaison_embase_cou.svg)
 
 *Principe d'assemblage en sandwich : 2 équerres en L en aluminium 6061-T6 (à gauche et à droite) enserrent la tôle de 5 mm avec 3 à 4 vis traversantes M4. Le rebord horizontal des équerres est vissé sur les plaques circulaires de cou (5 mm) et de taille (6 mm). Les équerres supérieures intègrent des **lumières oblongues verticales de ±1.0 mm (4.3 × 6.5 mm)** sur leur face verticale pour assurer le **découplage isostatique en Z**, interdisant toute traction parasite sur le pincement du tube carbone au nœud central.*
 
@@ -72,7 +72,7 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 
 ### B. Justification & Comparatif des Formes d'Évidements
 
-![Comparatif des options d'usinage de la colonne vertébrale](./media/comparatif_plaques_colonne.svg)
+![Comparatif des options d'usinage de la colonne vertébrale](../media/comparatif_plaques_colonne.svg)
 
 > [!IMPORTANT]
 > **Pourquoi l'Option B (Lumières 2D) est le Choix Idéal :**
@@ -80,7 +80,7 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 > 2. **Gain de poids massif (-47%)** : Économise 313 g sur la colonne (355 g contre 668 g en plaque pleine).
 > 3. **Fiabilité d'Usinage C500** : Découpe en **une seule passe 2D débouchante** en 15 minutes total. Risque de voilement nul et aucun retournement de pièce requis (pas de Flip Z).
 
-![Plaques de Colonne Vertébrale Évidées 2D](./media/plaques_colonne_2d_evidees.svg)
+![Plaques de Colonne Vertébrale Évidées 2D](../media/plaques_colonne_2d_evidees.svg)
 
 ---
 
@@ -118,7 +118,7 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 
 ### B. Nœud d'Intersection Plaque/Traverse — Système Demi-Coquilles
 
-![Nœud d'intersection — Système Demi-Coquilles Alu CNC](./media/noeud_demi_coquilles_bride.svg)
+![Nœud d'intersection — Système Demi-Coquilles Alu CNC](../media/noeud_demi_coquilles_bride.svg)
 
 *Vue en coupe frontale (plan sagittal Y-Z) et vue de dessus (plan transversal X-Y) du nœud d'intersection. Le tube carbone Ø30 mm est transversal (axe X). La Bride Supérieure s'appuie sur la face latérale de la Colonne Supérieure via son aile verticale montante (17.5 mm) ; la Bride Inférieure s'appuie sur la Colonne Inférieure via son aile verticale descendante. Les deux brides sont serrées l'une contre l'autre par 4× vis M6 traversantes + écrous Nylstop, créant le pincement du tube carbone sur 45 mm de portée.*
 
@@ -145,13 +145,13 @@ Le torse du D-Bot est adapté des formes extérieures d'Asimov v1 (mise à l'éc
 | **Fixation Colonne Basse (Aile Inf)** | 4 | **Ø 4.3 mm** (ISO 273) | Aile verticale descendante (`Z = -30.0 mm`) · **Axe X (Horizontal)** | `Y1 = 14.0 mm`<br>`Y2 = 44.0 mm`<br>`Y3 = 74.0 mm`<br>`Y4 = 104.0 mm` | Traversant plaque 5mm + aile 6mm · 4× Vis CHC M4 × 16 mm + Nylstop (3.0 N.m) |
 | **Goupille Sécurité Z** | 1 | **Ø 4.0 mm H7** | **`X = +12.0 mm`** (Décalée hors plaque) · **Axe Z (Vertical)** | **`Y = 59.0 mm`** (Axe tube carbone) | Alésage traversant 42 mm · **Goupille rectifiée trempée ISO 8734 Ø 4.0 mm m6 × 40 mm** |
 
-![Plan d'Usinage et Cotation des Demi-Coquilles du Nœud Central](./media/plan_percage_demi_coquille_noeud.svg)
+![Plan d'Usinage et Cotation des Demi-Coquilles du Nœud Central](../media/plan_percage_demi_coquille_noeud.svg)
 
 *Schéma technique vectoriel d'usinage et d'implantation CAO Fusion 360 (v62) des demi-coquilles (Alu 7075-T6). Panel 1 : Vue en coupe transversale X-Z (45.00 mm de largeur axiale) montrant la plaque sagittale en appui latéral contre les ailes verticales montante et descendante, les 4 vis M4 horizontales (axe X), les vis M6 de pincement verticales (axe Z) et le Split Gap de 1.0 mm. Panel 2 : Vue longitudinale sagittale (118.00 mm de longueur) avec cotation des entraxes des vis M6 (Y = 17 et 101 mm) et des vis M4 (Y = 14, 44, 74, 104 mm).*
 
 #### Comparatif de Conception : Découpe de la Colonne vs Rehausse de l'Aile de Bride
 
-![Comparatif Découpe Colonne vs Rehausse de Bride](./media/comparatif_decoupe_colonne_bride.svg)
+![Comparatif Découpe Colonne vs Rehausse de Bride](../media/comparatif_decoupe_colonne_bride.svg)
 
 *Comparatif d'interface RDM et usinage entre l'Option 1 (Recommandée : Aile verticale de bride prolongée à Z = +38.5 mm permettant une coupe 100% droite de la tôle de 5 mm à Z = +22 mm) et l'Option 2 (Déconseillée : Bride basse à Z = +21 mm obligeant à créer une échancrure en arche avec concentration de contraintes dans la plaque).*
 
@@ -175,7 +175,7 @@ Pour garantir un alignement coaxial parfait à `+/- 0.005 mm` à travers le sand
 > 4. **Insertion Goupilles Inox** : Déposer 1 goutte de Loctite 243 et emmancher les goupilles rectifiées trempées ISO 8734 Ø 4.0 mm m6 × 40 mm au maillet plastique.
 > 5. **Montage des Moteurs RS-04 À LA FIN** : Les moteurs ne sont fixés qu'après le goupillage complet du squelette métallique. Cela protège l'entrefer des aimants et les roulements contre toute limaille ou poussière de carbone.
 
-![Intégration du Squelette et Dégagement Broche Z dans Fusion 360 v62](./media/torse_v62_eclate_squelette_epaule.png)
+![Intégration du Squelette et Dégagement Broche Z dans Fusion 360 v62](../media/torse_v62_eclate_squelette_epaule.png)
 
 *Modèle CAO Fusion 360 (Torse v62) avec écorché du thorax. La bride d'épaule monobloc (jaune) présente une zone de manchon intérieure (portée 35 mm) totalement dégagée sur sa face supérieure : la broche Z de la NestWorks C500 dispose d'un accès direct sans obstacle pour réaliser le perçage en place de la goupille Ø 4.0 mm H7 à travers le tube carbone et son bouchon alu. Le moteur RS-04 et les plaques de cage H-bracket se montent en toute dernière étape sur le flasque de Ø 120 mm.*
 
@@ -202,9 +202,17 @@ Pour supprimer définitivement tout risque de micro-couple galvanique entre les 
 
 ### A. Architecture : Cage H-Bracket & Bride Monobloc d'Épaule (×2 épaules)
 
-![Schéma d'Architecture Vectoriel Blueprint — Cage H-Bracket & Bride Épaule RS-04 D-Bot V1](./media/hbracket_rs04_quasi_final_blueprint.svg)
+![Schéma d'Architecture Vectoriel Blueprint — Cage H-Bracket & Bride Épaule RS-04 D-Bot V1](../media/hbracket_rs04_quasi_final_blueprint.svg)
 
 *Blueprint d'ingénierie 2D de l'assemblage d'épaule quasi-final (Fusion 360). Vue de Face (Plan Y-Z) : stator RS-04 Ø120 mm + 2 plaques H-bracket 5 mm 7075-T6 identiques évidées à Ø95 mm (10× vis M4 sur PCD Ø106 mm) + 2 tirants M5 aux oreilles diagonales à 23.4° (Z=±66.1 mm, Y=±28.6 mm, R=72 mm). Vue Latérale / Coupe (Plan X-Z) : sandwich axial 49 mm (Plaque avant orange 5 mm -> Stator RS-04 39 mm -> Plaque arrière orange 5 mm + Bride jaune 48.2 mm), tirants axiaux CHC M5×60 mm, tube carbone Ø30 mm avec bouchon interne alu Ø26/18×34.5 mm, pincement radial 2×M4 et goupille Ø4×40 mm Mecanindus.*
+
+![Évolution Demi-Traverse Monobloc Alu 7075-T6](../media/concept_demi_traverse_epaule_directe.svg)
+
+*Évolution d'ingénierie : Demi-Traverse Monobloc usinée en Alu 7075-T6 connectée directement entre la plaque sagittale 5 mm et le stator RS-04, éliminant le tube carbone, les inserts et les demi-coquilles.*
+
+![Comparatif Stratégies de Fabrication Traverse](../media/comparatif_usinage_traverse_monobloc_vs_assemblage.svg)
+
+*Comparatif des stratégies de fabrication CNC sur NestWorks C500 : Usinage dans la masse (Option A) vs Assemblage 2D emboîté à tenons-mortaises (Option B) vs Profilé rectangulaire standard (Option C).*
 
 > [!IMPORTANT]
 > **Évidement Central Ø95 mm (epaule9.png)** : Les plaques 5 mm 7075-T6 sont évidées au centre sous forme de couronne annulaire (Ø ext 120 mm / Ø int 95 mm, largeur radiale 12.5 mm). Cet évidement procure un **gain de masse massif de -100 g par plaque (soit -400 g sur le torse pour les 4 plaques !)** tout en dégageant le passage des câbles XT30/CAN-FD et la ventilation directe du stator RS-04.
@@ -309,31 +317,31 @@ Pour supprimer définitivement tout risque de micro-couple galvanique entre les 
 
 ### E. Validation CAO Fusion 360 (Vérification epaule1 à epaule9)
 
-![Vue d'Ensemble 3D Fusion 360 de l'Assemblage d'Épaule Quasi-Final](./media/epaule_cao_1_vue_ensemble.png)
+![Vue d'Ensemble 3D Fusion 360 de l'Assemblage d'Épaule Quasi-Final](../media/epaule_cao_1_vue_ensemble.png)
 *Figure 4.1 (epaule1) : Vue d'ensemble 3D de l'assemblage complet d'épaule : les 2 plaques H-bracket identiques (orange) en Aluminium 7075-T6 (5.0 mm), la bride d'ancrage d'épaule monobloc (jaune) en Aluminium 7075-T651 (48.20 mm total), le tube carbone Ø30 mm (bleu) et le moteur RS-04.*
 
-![Vue de Profil du Sandwich Épaule](./media/epaule_cao_2_vue_profil.png)
+![Vue de Profil du Sandwich Épaule](../media/epaule_cao_2_vue_profil.png)
 *Figure 4.2 (epaule2) : Vue de profil montrant le sandwich axial : Plaque avant orange (5.0 mm) -> Moteur RS-04 (39 mm) -> Plaque arrière orange (5.0 mm) + Bride d'ancrage jaune (48.20 mm).*
 
-![Mesure d'Emprise de 35.00 mm du Tube Carbone](./media/epaule_cao_3_cotation_emprise_35mm.png)
+![Mesure d'Emprise de 35.00 mm du Tube Carbone](../media/epaule_cao_3_cotation_emprise_35mm.png)
 *Figure 4.3 (epaule3) : Cotation CAO de la longueur de portée de l'alésage tube carbone : **35.00 mm net** (ratio L/D = 1.17, supérieur au standard ISO 1.0×D = 30.0 mm).*
 
-![Mesure de l'Épaisseur du Flasque Plat de 13.20 mm](./media/epaule_cao_4_cotation_flasque_13.2mm.png)
+![Mesure de l'Épaisseur du Flasque Plat de 13.20 mm](../media/epaule_cao_4_cotation_flasque_13.2mm.png)
 *Figure 4.4 (epaule4) : Cotation CAO de l'épaisseur de la flasque d'embase de la bride jaune : **13.20 mm net**.*
 
-![Validation de l'Épaisseur de 5.00 mm de la Plaque 7075-T6](./media/epaule_cao_5_cotation_plaque_5mm.png)
+![Validation de l'Épaisseur de 5.00 mm de la Plaque 7075-T6](../media/epaule_cao_5_cotation_plaque_5mm.png)
 *Figure 4.5 (epaule5) : Cotation CAO de l'épaisseur de la plaque H-bracket orange : **5.00 mm net en Aluminium 7075-T6**.*
 
-![Vue Face Avant Bras RS-04 et Vis M5 Stator](./media/epaule_cao_6_vue_face_bras_6xM5.png)
+![Vue Face Avant Bras RS-04 et Vis M5 Stator](../media/epaule_cao_6_vue_face_bras_6xM5.png)
 *Figure 4.6 (epaule6) : Vue de face avant (côté bras) du moteur RS-04.*
 
-![Vue Face Arrière Torse et Ancrage Tube Carbone](./media/epaule_cao_7_vue_arriere_torse.png)
+![Vue Face Arrière Torse et Ancrage Tube Carbone](../media/epaule_cao_7_vue_arriere_torse.png)
 *Figure 4.7 (epaule7) : Vue face arrière (côté torse) montrant l'intégration de la bride d'ancrage jaune et de la colonne vertébrale (5.0 mm).*
 
-![Validation de la Hauteur Hors-Tout de 48.20 mm de la Bride Monobloc](./media/epaule_cao_8_hauteur_hors_tout_48.2mm.png)
+![Validation de la Hauteur Hors-Tout de 48.20 mm de la Bride Monobloc](../media/epaule_cao_8_hauteur_hors_tout_48.2mm.png)
 *Figure 4.8 (epaule8) : Mesure de la hauteur hors-tout axiale de la bride d'épaule monobloc : **48.20 mm net** (valide le brut disque Blockenstock Ø 120 × 50 mm).*
 
-![Validation de l'Évidement Central Ø95 mm des Plaques H-Bracket](./media/epaule_cao_9_evidement_central_95mm.png)
+![Validation de l'Évidement Central Ø95 mm des Plaques H-Bracket](../media/epaule_cao_9_evidement_central_95mm.png)
 *Figure 4.9 (epaule9) : Vue axiale de la plaque H-bracket orange montrant l'évidement central **Ø 95.0 mm** (gain -400 g sur le torse et aération RS-04).*
 
 ---
@@ -354,7 +362,7 @@ Pour supprimer définitivement tout risque de micro-couple galvanique entre les 
 
 Avec le squelette cruciforme reprenant tous les efforts structurels, la coque PA12-CF n'est plus la structure porteuse primaire. Cela autorise l'impression **verticale** (torse debout), réduisant de 75% le volume de supports.
 
-![Orientation d'impression FDM verticale des demi-torses en PA12-CF](./media/orientation_impression_verticale.svg)
+![Orientation d'impression FDM verticale des demi-torses en PA12-CF](../media/orientation_impression_verticale.svg)
 
 ---
 
@@ -414,7 +422,7 @@ Pour renforcer localement le collet d'épaule dans le slicer :
 
 Les tirants d'épaule à 23.4° libérant l'espace latéral sous les épaules, le torse intègre **2 paniers latéraux symétriques** coulissant depuis l'arrière :
 
-![Vue de dessus des paniers batteries latéraux](./media/paniers_batteries_hot_swap_vue_dessus.svg)
+![Vue de dessus des paniers batteries latéraux](../media/paniers_batteries_hot_swap_vue_dessus.svg)
 
 *Vue de dessus des 2 paniers batteries latéraux guidés entre la coque extérieure et la plaque sagittale centrale.*
 
@@ -433,7 +441,7 @@ Les tirants d'épaule à 23.4° libérant l'espace latéral sous les épaules, l
 
 Le circuit permet de remplacer un pack batterie à chaud sans interruption de tension pour les calculateurs et contrôleurs :
 
-![Schéma électrique Hot-Swap ORing avec Diodes Schottky](./media/schema_electrique_hot_swap_oring.svg)
+![Schéma électrique Hot-Swap ORing avec Diodes Schottky](../media/schema_electrique_hot_swap_oring.svg)
 
 | Composant | Référence | Spécifications | Rôle |
 |:---|:---|:---|:---|
