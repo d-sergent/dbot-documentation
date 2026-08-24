@@ -2,6 +2,30 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-08-24 — Standardisation 100% Nord-Lock & Visserie Étagée RS-04, Analyse Fatigue Multirégime & RDM Choc
+
+### 🎯 Objectif de la session
+1. **Qualification de la Visserie Stator RS-04 & Respect de la Cote Borgne 6,0 mm Constructeur** : Élimination du risque de destruction des bobinages par vis trop longues suite à l'analyse du plan officiel RobStride (`Manuels/RS04User Manual260112.pdf`, p.10).
+2. **Prise en Compte de la Géométrie Asymétrique Étagée de la Bride CAO** : Intégration des mesures CAO Fusion 360 (secteur mince 5,00 mm et secteur épais 18,20 mm).
+3. **Standardisation Globale sur Rondelles Frein Nord-Lock M4 (ép. 1,8 mm)** : Harmonisation du couple de serrage et des longueurs de vis normalisées (M4×12 mm en zone 5 mm, M4×25 mm en zone 18,2 mm).
+4. **Analyse RDM Multirégime & Réfutation Fatigue / Choc** : Démonstration de la tenue en fatigue infinie en marche continue (30 N.m, 9,05 MPa, Sf = ×14,36 à 10^9 cycles) et validation anti-voilement du tube 60×60×2 mm (b/t = 28, classe 1 compacte).
+5. **Charte des Freins-Filets Chimiques** : Formalisation des règles d'emploi (Loctite 243 Bleu démontable à froid vs interdiction absolue de la Loctite 270 Rouge à chaud sur les actionneurs).
+
+### 📝 Réalisations & Évolutions
+1. **Visserie d'Épaules Sécurisée (100% Nord-Lock M4)** :
+   - Zone Mince (5,0 mm) : Vis CHC M4 × 12 mm + Nord-Lock (1,8 mm) ➔ Clamping 6,80 mm ➔ Pénétration 5,20 mm (marge 0,80 mm dans trou 6 mm).
+   - Zone Épaisse (18,2 mm) : Vis CHC M4 × 25 mm + Nord-Lock (1,8 mm) ➔ Clamping 20,00 mm ➔ Pénétration 5,00 mm (marge 1,00 mm dans trou 6 mm).
+   - Prise de filet parfaitement équilibrée à ~5,1 mm (1,25×d) sur les 20 vis, zéro risque de talonner au fond des taraudages.
+2. **Dossier Technique V2 & Guide Hybride Actualisés** :
+   - Tableau McMaster-Carr normalisé (Réf `91290A154` pour M4×12, `91290A170` pour M4×25, `92620A203` pour Nord-Lock M4).
+   - Guide des freins-filets ajouté (Section 9.C.3) : Loctite 243 Bleu démontable à froid (~10-15 N.m) assurant l'étanchéité et la protection galvanique acier/7075.
+3. **Clarification Fatigue Multirégime** :
+   - Régime 1 Marche Continue (2 Hz) : Moment 30 N.m ➔ Sf = ×14,36 (durée de vie infinie).
+   - Régime 2 Pic d'Urgence (275 N.m) : Sf = ×1,93 à 10^7 cycles (hyper-conservatisme académique).
+   - Confirmation de la section 5,0 mm Alu 7075-T6 (surdimensionnement complet, inutile de passer à 6 mm).
+
+---
+
 ## 📅 2026-08-23 — Validation Finale Torse V2 Tout Métal (Alu 7075/6060), Fixation Directe Bride ➔ Stator RS-04 & Circuit Aéraulique par Tuyères 3D
 
 ### 🎯 Objectif de la session

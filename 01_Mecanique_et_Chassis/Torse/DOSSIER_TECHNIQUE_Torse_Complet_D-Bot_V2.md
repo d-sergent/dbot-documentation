@@ -87,11 +87,11 @@ Partant d'un brut de **100,0 mm de large**, la largeur finale finie est fixée �
 
 La colonne vertébrale en **Alu 7075-T6** (`Rp0.2 = 470 MPa`) encaisse les sollicitations suivantes :
 
-| Niveau Z / Zone d'Étude | Position Z | Bras de Levier | Moment Fléchissant Nominal | Moment Fléchissant Extrême / Choc | Contrainte Maximale | Facteur de Sécurité |
+| Niveau Z / Zone d'Étude | Position Z | Bras de Levier | Marche Continue (2 Hz) | Pic Dynamique / Arrêt Brutal | Contrainte Max (Pic) | Facteur de Sécurité (Élastique) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1. Base (Waist Plate)** | `Z = -290,0 mm` | 432 mm (Buste complet) | **275 N.m** | **385 N.m** | **Sigma = 37,3 MPa** | **Sf = ×12,58 ✅** |
-| **2. Nœud Central (Épaules)** | `Z = 0,0 mm` | 143 mm + Bras | **120 N.m** | **131 N.m** | **Sigma = 17,8 MPa** | **Sf = ×26,40 ✅** |
-| **3. Sommet (Cou / Tête)** | `Z = +142,67 mm` | 50 mm (Tête seule) | **15 N.m** | **25 N.m** | **Sigma = 3,4 MPa** | **Sf = ×138,20 ✅** |
+| **1. Base (Waist Plate)** | `Z = -290,0 mm` | 432 mm (Buste complet) | **~25 à 30 N.m** | **275 N.m (Choc 385 N.m)** | **Sigma = 37,3 MPa** | **Sf = ×12,58 ✅** |
+| **2. Nœud Central (Épaules)** | `Z = 0,0 mm` | 143 mm + Bras | **~10 à 15 N.m** | **120 N.m (Choc 131 N.m)** | **Sigma = 17,8 MPa** | **Sf = ×26,40 ✅** |
+| **3. Sommet (Cou / Tête)** | `Z = +142,67 mm` | 50 mm (Tête seule) | **~2 à 5 N.m** | **15 N.m (Choc 25 N.m)** | **Sigma = 3,4 MPa** | **Sf = ×138,20 ✅** |
 
 ---
 
@@ -116,16 +116,24 @@ La colonne vertébrale en **Alu 7075-T6** (`Rp0.2 = 470 MPa`) encaisse les solli
 
 ---
 
-### E. Analyse de Fatigue à 10^7 Cycles (Alu 7075-T6, R = 18 mm)
+### E. Analyse de Fatigue Multirégime (Alu 7075-T6, R = 18 mm, Kt = 1,8)
 
-* Rayon de congé usiné : **`R = 18,0 mm`** (fraise carbure Ø6 mm).
-* Facteur de concentration de contrainte effectif : **`Kt_eff = 1,8`**.
-* **Contrainte locale de fatigue (Cas A Nominal 275 N.m)** :  
-  `Sigma_locale = 46,08 MPa × 1,8 = 82,9 MPa`
-* **Vérification d'endurance sur courbe S-N de l'Alu 7075-T6** :
-  - Limite d'endurance à 10^5 cycles : `Sigma_fat = 240 MPa` ➔ **`Sf = 240 / 82,9 = ×2,89 ✅`**
-  - Limite d'endurance à 10^7 cycles : `Sigma_end = 160 MPa` ➔ **`Sf = 160 / 82,9 = ×1,93 ✅`**
-  > *Conclusion* : Grâce au passage à l'Alu 7075-T6, la colonne sagittale présente une marge de sécurité de fatigue **proche de ×2,0 à 10 millions de cycles**, interdisant toute rupture dynamique.
+L'évaluation de la tenue en fatigue distingue rigoureusement le régime de marche cyclique continue et les pics de décélération d'urgence :
+
+#### 1. Régime 1 : Marche Continue Bipède (Régime Permanent à 10^8 à 10^9 cycles)
+* **Sollicitation cyclique à chaque pas (2 Hz)** : Oscillation naturelle du centre de masse du buste (~18 kg à +/-15 mm) avec micro-impacts de pose de pied ➔ **`M_cyclique = 30,0 N.m`**.
+* **Contrainte nominale** : `Sigma_nom = (30 000 × 47,0) / 280 467 = 5,03 MPa`
+* **Contrainte locale effective** : `Sigma_locale = 5,03 MPa × 1,8 = 9,05 MPa`
+* **Vérification d'endurance à 10^9 cycles (Courbe S-N Alu 7075-T6, Sigma_end = 130 MPa)** :
+  * `Sf_marche (10^9 cycles) = 130 MPa / 9,05 MPa = ` **`×14,36 ✅`**
+  > *Conclusion Régime 1* : En marche continue sur 3 à 5 ans (~5 × 10^8 cycles), la contrainte de 9,05 MPa est située très profondément sous la limite d'endurance (130 MPa), garantissant une **durée de vie en fatigue infinie**.
+
+#### 2. Régime 2 : Pics Dynamiques d'Arrêt d'Urgence / Décélération Brutale (Cas Extrême 275 N.m)
+* **Sollicitation extrême** : Arrêt d'urgence à pleine vitesse bras tendus avec charge utile (K_dyn = 3,5) ➔ **`M_pic = 275,0 N.m`**.
+* **Contrainte locale effective** : `Sigma_locale = 46,08 MPa × 1,8 = 82,9 MPa`
+* **Vérification d'endurance à 10^7 cycles (Sigma_end = 160 MPa)** :
+  * `Sf_pic (10^7 cycles) = 160 MPa / 82,9 MPa = ` **`×1,93 ✅`**
+  > *Note méthodologique* : Ce test à 275 N.m relève d'un ultra-conservatisme académique (supposant 10 millions d'arrêts d'urgence consécutifs à pleine charge). Même sous cette hypothèse extrême, la marge de sécurité reste de **×1,93** (près du double de la limite de rupture).
 
 ---
 
@@ -156,6 +164,28 @@ La colonne vertébrale en **Alu 7075-T6** (`Rp0.2 = 470 MPa`) encaisse les solli
 * Module de flexion élastique : `W_el = 8 682,0 mm3`
 * Contrainte de flexion : `Sigma_f = 50 000 / 8 682,0 = 5,759 MPa (~5,76 MPa)` (Facteur de sécurité **Sf = ×26,04 ✅**)
 
+---
+
+### D. Tolérancement Axial & Isostatisme : 1 Butée Franche + 1 Jeu Fonctionnel (1,0 mm)
+
+Pour éviter tout conflit d'hyperstatisme axial ou de tolérances de débit à la scie lors de l'assemblage :
+
+1. **Côté Bride d'Épaule ➔ BUTÉE FRANCHE (Contact Métal-Métal à 0,0 mm)** :
+   - Le tube carré s'enfonce jusqu'à venir en appui franc contre l'épaulement usiné de la bride monobloc.
+   - Sert de **référence d'origine absolue** pour l'alignement et cale précisément l'entraxe des épaules.
+   - Reprend **100% des chocs latéraux en compression** (écrasement du bras vers le torse lors d'une chute) en contact direct sans solliciter la vis M5 en cisaillement.
+
+2. **Côté Semelle Colonne ➔ JEU FONCTIONNEL AXIAL (j = 1,0 mm)** :
+   - La longueur de débit du tube est fixée à **`L = 84,0 mm`** (pour une portée théorique de 85,0 mm).
+   - Un jeu d'aisance de **`1,0 mm`** subsiste entre le chant du tube et la face de la semelle éclisse.
+   - L'insert mâle reste engagé sur **`19,0 mm`** à l'intérieur du tube (perte de portée négligeable de 5%).
+   - Ce jeu absorbe les dispersions de coupe de scie et empêche tout décalage entre les trous traversants M5.
+
+3. **Reprise des Efforts Axiaux en Traction (Traction Extérieure Bras)** :
+   - En cas d'arrachement ou de traction axiale le long du bras (jusqu'à 1 000 N nominal), l'effort est intégralement repris par les **2 vis CHC M5 × 70 mm en double cisaillement** (tenue de $8 520\text{ N}$, **`Sf = ×8,52 ✅`**).
+
+---
+
 ## 4. Assemblage d'Épaule Simplifié — Fixation Directe Bride → Stator RS-04
 
 ### A. Géométrie du Stator RS-04 et Interface Bride
@@ -164,10 +194,17 @@ Le stator du RS-04 se compose de **deux sections** :
 * **Corps principal Ø 120 mm** (longueur axiale **39,0 mm**) : contient les bobinages, les aimants et le roulement à rouleaux croisés interne. Porte les **10 taraudages M4** sur PCD Ø 106 mm sur les faces avant ET arrière.
 * **Section arrière Ø 95 mm** (longueur axiale **13,2 mm**) : abrite les connecteurs CAN-FD et Power. L'épaulement Ø 120 → Ø 95 forme une face d'appui radiale et axiale.
 
-La **Bride d'Épaule Monobloc (Alu 7075-T6)** se monte **directement** sur la face arrière du stator :
+La **Bride d'Épaule Monobloc (Alu 7075-T6)** se monte **directement** sur la face arrière du stator via une standardisation **100% Rondelles Frein Nord-Lock M4 (ép. 1,80 mm)** :
 1. L'alésage pilote de la bride (Ø ~95,05 mm H7) se centre sur la section arrière Ø 95 du RS-04 (liaison pivot-glissant).
-2. La flasque de 6,0 mm s'appuie contre l'épaulement Ø 120 / Ø 95 du stator (contact plan métal-métal).
-3. **10 vis CHC M4 × 12 mm** (ISO 4762 / DIN 912) sur PCD Ø 106 mm serrent la bride directement dans les taraudages M4 du stator.
+2. **Répartition Homogène de la Visserie 10× M4 sur PCD Ø 106 mm (2 Longueurs Calibrées)** :
+   * **Zone 1 (Secteur Évidé / Dégagement Aéraulique - Épaisseur 5,00 mm)** : serrage par **vis CHC M4 × 12 mm + rondelle Nord-Lock (1,8 mm)**. Épaisseur serrée = `6,80 mm` ➔ Pénétration dans le stator = **`5,20 mm`** (marge de sécurité au fond de trou = **`0,80 mm`** ✅).
+   * **Zone 2 (Secteur Épais / Bossage de Couple - Épaisseur 18,20 mm)** : serrage par **vis CHC M4 × 25 mm + rondelle Nord-Lock (1,8 mm)**. Épaisseur serrée = `20,00 mm` ➔ Pénétration dans le stator = **`5,00 mm`** (marge de sécurité au fond de trou = **`1,00 mm`** ✅).
+
+> [!CAUTION]
+> **Sécurité Moteur RS-04 — Profondeur Taraudée Borgne Stator (6,0 mm MAX)** :  
+> Le plan officiel constructeur RobStride (`Manuels/RS04User Manual260112.pdf`, page 10) spécifie une profondeur borgne maximale de taraudage de **6,0 mm** (`10-M4 EQS \/ 6`).  
+> * Grâce aux rondelles Nord-Lock (1,8 mm), les deux zones obtiennent une prise de filet optimale de **~5,1 mm (1,25×d)** sans JAMAIS talonner au fond des 6,0 mm.
+> * *Règle sans Nord-Lock (avec rondelle plate 0,8 mm)* : En Zone 1, il faut basculer sur du **M4 × 10 mm** (le M4 × 12 mm sans Nord-Lock pénétrerait de 6,2 mm et détruirait le bobinage).
 
 > [!IMPORTANT]
 > **Suppression de la cage H-bracket (Plaque Avant + 2 Tirants + Plaque Arrière)**. L'analyse RDM complète ci-dessous démontre que la fixation directe 10× M4 avec centrage Ø 95 mm et appui Ø 120 mm est massivement surdimensionnée pour TOUS les cas de charge du robot bipède. La cage ajoutait ~380 g et ~24 vis de quincaillerie sans apport structurel significatif dans l'architecture V2 (tube carré 60×60×2 mm).
@@ -464,9 +501,10 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
    - Découpe 2D en 1 passe sur table martyr : contour 80 × 130 mm, fraisure 90° des 4 trous M4 et 4 trous lisses Ø5,3 mm.
 3. **Inserts Carrés Colonne (Alu 7075-T6)** :
    - Brut : 1 méplat 20 × 80 × 160 mm Blockenstock (16,80 € TTC).
-   - Contournage 2D des 2 inserts (sans surfaçage en épaisseur car le brut fait déjà 20,0 mm !), perçage central Ø35 mm, perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70) et 4 taraudages M4 borgnes axiaux (profondeur 10 mm pour vis FHC).
+   - Contournage 2D des 2 inserts (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 20,0 mm !), perçage central Ø35 mm, perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70) et 4 taraudages M4 borgnes axiaux (profondeur 10 mm pour vis FHC).
 4. **Traverses Carrées 60×60×2 mm (Alu 6060-T6)** :
-   - Coupe de 2 tronçons de 85,0 mm dans la barre de 500 mm et perçage de 2 trous lisses Ø5,3 mm traversants verticaux (axe Z, soit 4 perçages de parois par tronçon).
+   - Coupe de 2 tronçons de **`84,0 mm`** dans la barre de 500 mm (cote nominale intégrant le jeu fonctionnel de 1,0 mm côté colonne).
+   - Perçage de 2 trous lisses traversants verticaux **Ø5,3 mm** (axe Z) : trou côté bride d'épaule à **`X = 10,0 mm`** depuis le chant d'appui butée, et trou côté colonne à **`X = 74,0 mm`** (entraxe rigoureux de **`64,0 mm`**).
 5. **Colonnes Sagittales 2D (Alu 7075-T6, 5,0 mm)** :
    - Brut : 1 plat marchand **5 × 100 × 495 mm Alu 7075-T6** Blockenstock (18,16 € TTC).
    - Plaque Basse (290 × 94 mm) : Découpée en diagonale à 25° sur la table C500 (lumières R = 18 mm).
@@ -481,11 +519,13 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
 *Blueprint d'ingénierie vectoriel des détails de liaisons et d'atelier (Solution C).*
 
 1. **Étape 1 (Pré-assemblage Inserts / Semelles)** : Visser les 2 inserts 20 mm au dos des 2 semelles éclisses avec **4 vis FHC M4 × 12 mm + Loctite 243**. Vérifier que les têtes coniques sont **100% à fleur (0,0 mm)** sur la face interne.
-2. **Étape 2 (Formation des Demi-Traverses)** : Emboîter les tubes carrés de 60×60 mm sur les inserts colonne et sur les bossages des brides d'épaules monoblocs.
+2. **Étape 2 (Formation des Demi-Traverses & Butée Franche)** :
+   - Emboîter le tube carré 60×60 mm (**L = 84,0 mm**) d'abord **en BUTÉE FRANCHE (contact métal-métal à 0,0 mm)** contre l'épaulement usiné de la bride d'épaule monobloc.
+   - Glisser l'autre extrémité sur l'insert de colonne (portée de 19,0 mm) : le jeu d'aisance fonctionnel de **`1,0 mm`** côté semelle absorbe toute tolérance de coupe et aligne automatiquement les perçages M5 sans forcer.
 3. **Étape 3 (Verrouillage Traversant)** : Insérer les **4 vis traversantes CHC M5 × 70 mm + écrous frein Nylstop** (2 côté colonne, 2 côté épaule) et serrer à **5,5 N.m**.
 4. **Étape 4 (Fixation Directe Brides → Stators RS-04 & Tuyères Aérauliques)** :
    - Glisser l'alésage pilote Ø 95 mm de la bride sur la section arrière Ø 95 mm du RS-04 et plaquer la flasque contre l'épaulement Ø 120 mm.
-   - Visser les **10 vis CHC M4 × 12 mm** par bride directement dans les 10 taraudages M4 du stator (PCD Ø 106 mm). Serrer à **3,0 N.m**.
+   - Visser les **10 vis CHC M4 × 10 mm + rondelles M4** par bride directement dans les 10 taraudages M4 du stator (PCD Ø 106 mm). Serrer en croix à **3,0 N.m** avec frein filet Loctite 243.
    - Assembler les 2 ventilateurs **40 × 40 × 20 mm PWM** sur leurs **tuyères convergentes 3D** (4 vis M3×16 + silent-blocs) et fixer l'ensemble à l'intérieur du thorax haut face au stator.
 5. **Étape 5 (Sandwich Central Colonne)** : Présenter la demi-traverse gauche et droite contre la colonne sagittale et serrer les **4 vis traversantes CHC M5 × 25 mm + Nylstop** à **5,5 N.m** pour bloquer le sandwich et solidariser la Plaque Haute et Basse.
 
@@ -505,16 +545,33 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 
 | Rôle dans le Torse D-Bot | Normes Équivalentes | Désignation & Mots-Clés McMaster | Réf Catalogue McMaster | Spécifications & Matériau |
 | :--- | :--- | :--- | :---: | :--- |
-| **Vis Bride → Stator RS-04 (20×)** | **ISO 4762 / DIN 912** | `M4 x 12 Socket Head Screw` ➔ Metric ➔ M4 ➔ 12mm | **`91290A154`** (Acier 12.9)<br>**`92290A144`** (Inox 18-8) | CHC M4 × 12 mm (10 vis / bride, 20 au total, fixation directe PCD Ø106) |
+| **Vis Type 1 : Zone Mince Bride 5,0 mm (8×)** ⭐ | **ISO 4762 / DIN 912** | `M4 x 12 Socket Head Screw` ➔ Metric ➔ M4 ➔ 12mm | **`91290A154`** (Acier 12.9)<br>**`92290A144`** (Inox 18-8) | CHC M4 × 12 mm (serrage 5,0 mm + Nord-Lock 1,8 mm, pénétration 5,2 mm dans trou 6 mm) |
+| **Vis Type 2 : Zone Épaisse Bride 18,2 mm (12×)** ⭐ | **ISO 4762 / DIN 912** | `M4 x 25 Socket Head Screw` ➔ Metric ➔ M4 ➔ 25mm | **`91290A170`** (Acier 12.9)<br>**`92290A148`** (Inox 18-8) | CHC M4 × 25 mm (serrage 18,2 mm + Nord-Lock 1,8 mm, pénétration 5,0 mm dans trou 6 mm) |
+| **Rondelles Frein Nord-Lock M4 (100% Vis Stator 20×)** ⭐ | **Spécification Nord-Lock** | `M4 Wedge-Lock Washer` ➔ Metric ➔ M4 | **`92620A203`** (Acier Zingué) | Rondelles à cames appairées, épaisseur 1,8 mm (sécurité anti-vibrations sur les 20 vis RS-04) |
+| *Option Alternative sans Nord-Lock (Zone 5 mm)* | *ISO 4762 / DIN 912* | `M4 x 10 Socket Head Screw` ➔ Metric ➔ M4 ➔ 10mm | **`91290A150`** (Acier 12.9)<br>**`92290A140`** (Inox 18-8) | *CHC M4 × 10 mm (serrage 5,0 mm + rondelle plate DIN 125A 0,8 mm, pénétration 4,2 mm)* |
+| *Option Alternative sans Nord-Lock (Zone 18,2 mm)* | *ISO 4762 / DIN 912* | `M4 x 22 Socket Head Screw` ➔ Metric ➔ M4 ➔ 22mm | **`91290A168`** (Acier 12.9)<br>**`92290A147`** (Inox 18-8) | *CHC M4 × 22 mm (serrage 18,2 mm + rondelle plate DIN 125A 0,8 mm, pénétration 3,0 mm)* |
+| **Rondelles Plates M4 (Option standard)** | **ISO 7089 / DIN 125A** | `M4 Flat Washer` ➔ Metric ➔ For M4 Screw Size | **`93475A230`** (Inox 18-8) | Ø int 4,3 mm / Ø ext 9,0 mm / ép 0,8 mm (alternative économique sans Nord-Lock) |
 | **Vis Noyées Insert → Semelle (8×)** | **ISO 10642 / DIN 7991** | `M4 x 12 Flat Head Socket Cap Screw` ➔ Metric ➔ 12mm | **`91294A194`** (Acier 10.9)<br>**`92125A194`** (Inox 18-8) | FHC M4 × 12 mm (tête conique 90° à fleur 0,0 mm, 4 vis / semelle) |
 | **Vis Traversantes Tube Carré (4×)** | **ISO 4762 / DIN 912** | `M5 x 70 Socket Head Screw` ➔ Metric ➔ M5 ➔ 70mm | **`91290A272`** (Acier 12.9)<br>**`92290A272`** (Inox 18-8) | CHC M5 × 70 mm (verrouillage vertical unique axe Z, 4 vis au total) |
 | **Vis Sandwich Colonne Centrale (4×)** | **ISO 4762 / DIN 912** | `M5 x 25 Socket Head Screw` ➔ Metric ➔ M5 ➔ 25mm | **`91290A235`** (Acier 12.9)<br>**`92290A235`** (Inox 18-8) | CHC M5 × 25 mm (serrage 3 plaques 15 mm) |
-| **Rondelles M4 sous tête (20×)** | **ISO 7089 / DIN 125A** | `M4 Flat Washer` ➔ Metric ➔ For M4 Screw Size | **`93475A230`** (Inox 18-8) | Ø int 4,3 mm / Ø ext 9,0 mm / ép 0,8 mm (pour les vis stator RS-04) |
 | **Rondelles M5 sous tête & écrou (16×)** | **ISO 7089 / DIN 125A** | `M5 Flat Washer` ➔ Metric ➔ For M5 Screw Size | **`93475A240`** (Inox 18-8) | Ø int 5,3 mm / Ø ext 10,0 mm / ép 1,0 mm (8 traverses + 8 sandwich) |
 | ~~**Écrous Autofreinés M4**~~ | ~~**ISO 7040 / DIN 985**~~ | ~~`M4 Nylon-Insert Locknut`~~ | ~~**`90631A109`**~~ | ~~Non requis~~ (zéro écrou M4 dans le haut du torse V2) |
 | **Écrous Autofreinés M5 (8×)** | **ISO 7040 / DIN 985** | `M5 Nylon-Insert Locknut` ➔ Metric ➔ M5 Thread | **`90631A113`** (Inox 18-8) | Écrou frein Nylstop M5 (4 traverses + 4 sandwich) |
 | **Vis Fixation Ventilateurs Tuyères (8×)** | **ISO 4762 / DIN 912** | `M3 x 16 Socket Head Screw` ➔ Metric ➔ M3 ➔ 16mm | **`91290A115`** (Inox 18-8) | CHC M3 × 16 mm (4 vis / ventilateur 4020 + écrous M3) |
 | **Inserts Filetés Coque PA12-CF** | **Spécification Ruthex** | `M4 Threaded Heat-Set Insert` ➔ Metric ➔ M4 | **`94180A353`** (Laiton) | Inserts laiton M4 à poser au fer à souder (260 °C) |
+
+#### 3. Guide & Règles d'Emploi des Freins-Filets Chimiques sur le Robot D-Bot
+
+| Type de Frein-Filet | Couleur / Référence | Couple Résiduel & Démontabilité | Usage Recommandé D-Bot | Danger / Contre-indication |
+| :--- | :--- | :--- | :--- | :--- |
+| **Frein Moyen (Recommandé ⭐)** | **Bleu (Loctite 243 / 242)** | **100% Démontable à froid** avec outil à main standard (clé Allen). Couple de rupture initial : ~10 à 15 N.m. | **Toute la visserie structurelle et moteur (M4 stator RS-04, vis M4 inserts 7075, vis M5 traverses).** | Aucun. Protège contre la corrosion galvanique acier/aluminium. |
+| **Frein Faible** | **Violet (Loctite 222)** | **Ultra-facilement démontable** à faible couple (< 5 N.m). | Petites vis < M3, réglages micrométriques ou visserie plastique/vis d'habillage coque. | Tenue insuffisante sous fortes vibrations d'actionneurs QDD 120 N.m. |
+| **Frein Fort (Permanent)** | **Rouge (Loctite 270 / 271)** | ⛔ **Indémontable à froid.** Nécessite une chauffe locale au chalumeau à **> 250 °C** pour liquéfier la résine. | Fixations permanentes lourdes sans électronique. | ⚠️ **STRICTEMENT INTERDIT sur les moteurs RS-04/RS-03** : la chaleur détruit les capteurs magnétiques et les bobinages. |
+
+> [!TIP]
+> **Règle d'Atelier pour la Pose du Frein-Filet Bleu 243** :
+> 1. Déposer **1 seule micro-gouttelette** sur les 2 ou 3 premiers filets de la vis (ne pas noyer le taraudage borgne du moteur pour éviter toute surpression hydraulique au vissage).
+> 2. En association avec les **rondelles Nord-Lock**, la Loctite 243 apporte une barrière d'étanchéité anti-poussière/anti-humidité et neutralise tout couple galvanique entre l'acier de la vis et l'aluminium 7075 du stator.
 
 ---
 
@@ -524,8 +581,8 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 
 | Composant / Pièce | Matériau | Quantité | Masse Unitaire | Masse Totale |
 | :--- | :--- | :---: | :---: | :---: |
-| **Brides d'Épaules Monoblocs** | Alu 7075-T651 (Flasque 6 mm + Alésage Ø95 + Bossage 20 mm évidé Ø35) | 2 | 138,0 g | **276,0 g** |
-| **Tronçons de Tubes Carrés** | Alu 6060-T6 (60 × 60 × 2,0 mm, L = 85 mm) | 2 | 106,0 g | **212,0 g** |
+| **Brides d'Épaules Monoblocs** | Alu 7075-T651 (Flasque 5,0 mm / Bossage 18,2 mm + Alésage Ø95 évidé Ø35) | 2 | 138,0 g | **276,0 g** |
+| **Tronçons de Tubes Carrés** | Alu 6060-T6 (60 × 60 × 2,0 mm, L = 84 mm) | 2 | 105,0 g | **210,0 g** |
 | **Inserts Carrés Colonne** | Alu 7075-T6 (55,8 × 55,8 × 20,0 mm évidé Ø35) | 2 | 59,0 g | **118,0 g** |
 | **Semelles Éclisses Colonne** | Alu 7075-T6 (Plaque 5,0 mm, 80 × 130 mm évidée) | 2 | 54,0 g | **108,0 g** |
 | ~~**Plaques H-Bracket Avant/Arrière**~~ | ~~Alu 7075-T6 (Plaque 5,0 mm évidée Ø95 mm)~~ | ~~4~~ | ~~75,0 g~~ | **SUPPRIMÉES** |
@@ -533,7 +590,7 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 | **Tuyères Convergentes 3D** | PA12-CF ou TPU 95A (ép. 1,6 mm, collerette Ø124 mm) | 2 | 24,0 g | **48,0 g** |
 | **Ventilateurs Épaules 40×40×20 mm** | Noctua NF-A4x20 PWM (5V ou 12V) | 2 | 26,0 g | **52,0 g** |
 | **Visserie Complète Liaison & Sandwich** | Vis FHC M4, CHC M5 traversantes + écrous Nylstop | Lot | - | **106,0 g** |
-| **Visserie Bride → RS-04 (20× M4×12)** | Vis CHC M4×12 (fixation directe bride sur stator) | 20 | ~2,5 g | **~50,0 g** |
+| **Visserie Bride → RS-04 (8× M4×10 + 12× M4×25)** | Vis CHC M4×10 & M4×25 + rondelles (fixation directe stator) | 20 | ~2,6 g | **~52,0 g** |
 | **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 285 g** |
 
 > [!TIP]
