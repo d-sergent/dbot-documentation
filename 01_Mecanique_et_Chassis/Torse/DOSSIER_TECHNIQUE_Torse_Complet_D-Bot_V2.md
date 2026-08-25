@@ -495,7 +495,7 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
 
 1. **Brides d'Épaules Monoblocs (Alu 7075-T651)** :
    - Brut : 2 disques Ø120 × 50 mm Blockenstock (30 € / pièce).
-   - Usinage 2.5D en 2 phases avec fraise carbure 3 dents Ø6 mm DLC : Face Flasque (PCD Ø106 mm avec 10 trous de passage Ø4,3 mm + lamage pilote de centrage Ø 95,05 mm H7 profondeur 2,0 mm) puis Face Bossage carré 55,8×55,8×20 mm avec perçage traversant vertical Ø5,3 mm (X = 10,0 mm) et évidement central Ø35 mm.
+   - Usinage 2.5D en 2 phases avec fraise carbure 3 dents Ø6 mm DLC : Face Flasque (PCD Ø106 mm avec 10 trous de passage Ø4,3 mm chanfreinés à **`0,5 mm × 45°`** pour portée d'appui optimale des rondelles Nord-Lock + lamage pilote de centrage Ø 95,05 mm H7 profondeur 2,0 mm) puis Face Bossage carré 55,8×55,8×20 mm avec perçage traversant vertical Ø5,3 mm (X = 10,0 mm) et évidement central Ø35 mm.
 2. **Semelles Éclisses Colonne (Alu 7075-T6)** :
    - Brut : 2 plaques 5 × 160 × 160 mm Blockenstock (9,60 € / pièce).
    - Découpe 2D en 1 passe sur table martyr : contour 80 × 130 mm, fraisure 90° des 4 trous M4 et 4 trous lisses Ø5,3 mm.
@@ -541,24 +541,28 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 3. Sélectionner le produit, dérouler la section **Product Detail**, choisir le format **3D STEP** (ou 3D SolidWorks), puis cliquer sur **Download**.
 4. La vis / écrou s'insère automatiquement comme composant dans votre modèle. Appliquer une contrainte d'assemblage **Joint** (raccourci `J`) de type **Cylindrical** ou **Rigid** coaxialement sur l'arête du perçage.
 
-#### 2. Tableau des Références McMaster-Carr & Normes Normalisées pour le Torse V2
+#### 2. Tableau des Références McMaster-Carr & Quincaillerie Standardisée du Torse V2
 
-| Rôle dans le Torse D-Bot | Normes Équivalentes | Désignation & Mots-Clés McMaster | Réf Catalogue McMaster | Spécifications & Matériau |
-| :--- | :--- | :--- | :---: | :--- |
-| **Vis Type 1 : Zone Mince Bride 5,0 mm (8×)** ⭐ | **ISO 4762 / DIN 912** | `M4 x 12 Socket Head Screw` ➔ Metric ➔ M4 ➔ 12mm | **`91290A154`** (Acier 12.9)<br>**`92290A144`** (Inox 18-8) | CHC M4 × 12 mm (serrage 5,0 mm + Nord-Lock 1,8 mm, pénétration 5,2 mm dans trou 6 mm) |
-| **Vis Type 2 : Zone Épaisse Bride 18,2 mm (12×)** ⭐ | **ISO 4762 / DIN 912** | `M4 x 25 Socket Head Screw` ➔ Metric ➔ M4 ➔ 25mm | **`91290A170`** (Acier 12.9)<br>**`92290A148`** (Inox 18-8) | CHC M4 × 25 mm (serrage 18,2 mm + Nord-Lock 1,8 mm, pénétration 5,0 mm dans trou 6 mm) |
-| **Rondelles Frein Nord-Lock M4 (100% Vis Stator 20×)** ⭐ | **Spécification Nord-Lock** | `M4 Wedge-Lock Washer` ➔ Metric ➔ M4 | **`92620A203`** (Acier Zingué) | Rondelles à cames appairées, épaisseur 1,8 mm (sécurité anti-vibrations sur les 20 vis RS-04) |
-| *Option Alternative sans Nord-Lock (Zone 5 mm)* | *ISO 4762 / DIN 912* | `M4 x 10 Socket Head Screw` ➔ Metric ➔ M4 ➔ 10mm | **`91290A150`** (Acier 12.9)<br>**`92290A140`** (Inox 18-8) | *CHC M4 × 10 mm (serrage 5,0 mm + rondelle plate DIN 125A 0,8 mm, pénétration 4,2 mm)* |
-| *Option Alternative sans Nord-Lock (Zone 18,2 mm)* | *ISO 4762 / DIN 912* | `M4 x 22 Socket Head Screw` ➔ Metric ➔ M4 ➔ 22mm | **`91290A168`** (Acier 12.9)<br>**`92290A147`** (Inox 18-8) | *CHC M4 × 22 mm (serrage 18,2 mm + rondelle plate DIN 125A 0,8 mm, pénétration 3,0 mm)* |
-| **Rondelles Plates M4 (Option standard)** | **ISO 7089 / DIN 125A** | `M4 Flat Washer` ➔ Metric ➔ For M4 Screw Size | **`93475A230`** (Inox 18-8) | Ø int 4,3 mm / Ø ext 9,0 mm / ép 0,8 mm (alternative économique sans Nord-Lock) |
-| **Vis Noyées Insert → Semelle (8×)** | **ISO 10642 / DIN 7991** | `M4 x 12 Flat Head Socket Cap Screw` ➔ Metric ➔ 12mm | **`91294A194`** (Acier 10.9)<br>**`92125A194`** (Inox 18-8) | FHC M4 × 12 mm (tête conique 90° à fleur 0,0 mm, 4 vis / semelle) |
-| **Vis Traversantes Tube Carré (4×)** | **ISO 4762 / DIN 912** | `M5 x 70 Socket Head Screw` ➔ Metric ➔ M5 ➔ 70mm | **`91290A272`** (Acier 12.9)<br>**`92290A272`** (Inox 18-8) | CHC M5 × 70 mm (verrouillage vertical unique axe Z, 4 vis au total) |
-| **Vis Sandwich Colonne Centrale (4×)** | **ISO 4762 / DIN 912** | `M5 x 25 Socket Head Screw` ➔ Metric ➔ M5 ➔ 25mm | **`91290A235`** (Acier 12.9)<br>**`92290A235`** (Inox 18-8) | CHC M5 × 25 mm (serrage 3 plaques 15 mm) |
-| **Rondelles M5 sous tête & écrou (16×)** | **ISO 7089 / DIN 125A** | `M5 Flat Washer` ➔ Metric ➔ For M5 Screw Size | **`93475A240`** (Inox 18-8) | Ø int 5,3 mm / Ø ext 10,0 mm / ép 1,0 mm (8 traverses + 8 sandwich) |
-| ~~**Écrous Autofreinés M4**~~ | ~~**ISO 7040 / DIN 985**~~ | ~~`M4 Nylon-Insert Locknut`~~ | ~~**`90631A109`**~~ | ~~Non requis~~ (zéro écrou M4 dans le haut du torse V2) |
-| **Écrous Autofreinés M5 (8×)** | **ISO 7040 / DIN 985** | `M5 Nylon-Insert Locknut` ➔ Metric ➔ M5 Thread | **`90631A113`** (Inox 18-8) | Écrou frein Nylstop M5 (4 traverses + 4 sandwich) |
-| **Vis Fixation Ventilateurs Tuyères (8×)** | **ISO 4762 / DIN 912** | `M3 x 16 Socket Head Screw` ➔ Metric ➔ M3 ➔ 16mm | **`91290A115`** (Inox 18-8) | CHC M3 × 16 mm (4 vis / ventilateur 4020 + écrous M3) |
-| **Inserts Filetés Coque PA12-CF** | **Spécification Ruthex** | `M4 Threaded Heat-Set Insert` ➔ Metric ➔ M4 | **`94180A353`** (Laiton) | Inserts laiton M4 à poser au fer à souder (260 °C) |
+Le tableau est structuré par **sous-ensemble fonctionnel** pour une intégration fluide dans l'arborescence CAO Fusion 360 :
+
+| Sous-Ensemble & Rôle Mécanique | Composant Normalisé | Norme / Standard | Réf Catalogue McMaster | Quantité (Robot Complet) | Spécifications d'Usinage & Chanfreins Associés |
+| :--- | :--- | :--- | :---: | :---: | :--- |
+| **1. FIXATION DIRECTE BRIDES ➔ STATORS RS-04 (PCD Ø 106 mm)** | | | | | |
+| • **Zone Mince Bride (5,0 mm)** | Vis CHC M4 × 12 mm | ISO 4762 / DIN 912 | **`91290A154`** (Acier 12.9)<br>**`92290A144`** (Inox 18-8) | **8 vis** (4 / bride) | Perçage traversant Ø 4,3 mm chanfreiné à **`0,5 mm × 45°`** en entrée. Pénétration stator = 5,20 mm (garde fond 0,80 mm). |
+| • **Zone Épaisse Bossage (18,2 mm)** | Vis CHC M4 × 25 mm | ISO 4762 / DIN 912 | **`91290A170`** (Acier 12.9)<br>**`92290A148`** (Inox 18-8) | **12 vis** (6 / bride) | Perçage traversant Ø 4,3 mm chanfreiné à **`0,5 mm × 45°`** en entrée. Pénétration stator = 5,00 mm (garde fond 1,00 mm). |
+| • **Sécurité Anti-Vibrations Stator** | Rondelles Frein Nord-Lock M4 | Spécification Nord-Lock | **`92620A203`** (Acier Zingué) | **20 paires** (10 / bride) | Épaisseur 1,8 mm, Ø ext 7,6 mm. **Obligatoire sous 100% des vis M4 du stator** (calibrage parfait des longueurs 12 et 25 mm). |
+| **2. LIAISON DEMI-TRAVERSES 60×60 (TUBES ➔ BOSSAGES & INSERTS)** | | | | | |
+| • **Verrouillage Vertical Tube** | Vis CHC M5 × 70 mm | ISO 4762 / DIN 912 | **`91290A272`** (Acier 12.9)<br>**`92290A272`** (Inox 18-8) | **4 vis** (2 / épaule) | Perçages Ø 5,3 mm sur tubes et bossages chanfreinés à **`0,5 mm × 45°`** (X = 10,0 mm et X = 74,0 mm). |
+| • **Rondelles d'Appui Tube** | Rondelles Plates M5 DIN 125A | ISO 7089 / DIN 125A | **`93475A240`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | Ø int 5,3 mm / Ø ext 10,0 mm / ép 1,0 mm. Répartit l'effort de serrage sur les parois du tube 60×60×2 mm. |
+| • **Écrous de Verrouillage Tube** | Écrous Frein Nylstop M5 | ISO 7040 / DIN 985 | **`90631A113`** (Inox 18-8) | **4 écrous** (2 / épaule) | Bague nylon autofreinée, indesserrable aux vibrations (couple 5,5 N.m). |
+| **3. JONCTION CENTRALE SAGITTALE & INSERTS COLONNE** | | | | | |
+| • **Fixation Inserts ➔ Semelles** | Vis FHC M4 × 12 mm | ISO 10642 / DIN 7991 | **`91294A194`** (Acier 10.9)<br>**`92125A194`** (Inox 18-8) | **8 vis** (4 / semelle) | **Fraisures coniques 90° à fleur exacte (0,0 mm)** sur semelles 5 mm. Serrage dans taraudages M4 borgnes inserts. |
+| • **Sandwich Colonne Centrale** | Vis CHC M5 × 25 mm | ISO 4762 / DIN 912 | **`91290A235`** (Acier 12.9)<br>**`92290A235`** (Inox 18-8) | **4 vis** (2 avant, 2 arrière) | Perçages lisses Ø 5,3 mm chanfreinés à **`0,5 mm × 45°`** traversant le sandwich 15 mm (2 semelles 5 mm + plaque 5 mm). |
+| • **Rondelles Sandwich Colonne** | Rondelles Plates M5 DIN 125A | ISO 7089 / DIN 125A | **`93475A240`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | Ø int 5,3 mm / Ø ext 10,0 mm / ép 1,0 mm. |
+| • **Écrous Sandwich Colonne** | Écrous Frein Nylstop M5 | ISO 7040 / DIN 985 | **`90631A113`** (Inox 18-8) | **4 écrous** | Bague nylon autofreinée (couple 5,5 N.m). |
+| **4. SYSTÈME AÉRAULIQUE & HABILLAGE COQUE** | | | | | |
+| • **Ventilateurs Tuyères 4020** | Vis CHC M3 × 16 mm + Écrous M3 | ISO 4762 / DIN 912 | **`91290A115`** (Inox 18-8) | **8 vis + 8 écrous** | 4 vis par ventilateur Noctua NF-A4x20 avec silent-blocs anti-vibrations. |
+| • **Fixation Coque PA12-CF** | Inserts Filetés Laiton M4 | Standard Ruthex | **`94180A353`** (Laiton) | **16 inserts** | Inserts thermiques M4 à poser au fer à souder (260 °C) dans les bossages d'habillage. |
 
 #### 3. Guide & Règles d'Emploi des Freins-Filets Chimiques sur le Robot D-Bot
 
@@ -585,17 +589,16 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 | **Tronçons de Tubes Carrés** | Alu 6060-T6 (60 × 60 × 2,0 mm, L = 84 mm) | 2 | 105,0 g | **210,0 g** |
 | **Inserts Carrés Colonne** | Alu 7075-T6 (55,8 × 55,8 × 20,0 mm évidé Ø35) | 2 | 59,0 g | **118,0 g** |
 | **Semelles Éclisses Colonne** | Alu 7075-T6 (Plaque 5,0 mm, 80 × 130 mm évidée) | 2 | 54,0 g | **108,0 g** |
-| ~~**Plaques H-Bracket Avant/Arrière**~~ | ~~Alu 7075-T6 (Plaque 5,0 mm évidée Ø95 mm)~~ | ~~4~~ | ~~75,0 g~~ | **SUPPRIMÉES** |
 | **Plaques Colonne Sagittale (Haute + Basse)** | Alu 7075-T6 (Plaque 5,0 mm, 94 mm de large évidée) | 2 | ~158 g | **~315,0 g** |
 | **Tuyères Convergentes 3D** | PA12-CF ou TPU 95A (ép. 1,6 mm, collerette Ø124 mm) | 2 | 24,0 g | **48,0 g** |
 | **Ventilateurs Épaules 40×40×20 mm** | Noctua NF-A4x20 PWM (5V ou 12V) | 2 | 26,0 g | **52,0 g** |
-| **Visserie Complète Liaison & Sandwich** | Vis FHC M4, CHC M5 traversantes + écrous Nylstop | Lot | - | **106,0 g** |
-| **Visserie Bride → RS-04 (8× M4×10 + 12× M4×25)** | Vis CHC M4×10 & M4×25 + rondelles (fixation directe stator) | 20 | ~2,6 g | **~52,0 g** |
-| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 285 g** |
+| **Visserie Liaison Traverses & Sandwich Colonne** | Vis FHC M4, CHC M5 traversantes + rondelles & écrous Nylstop | Lot | - | **106,0 g** |
+| **Visserie Stators RS-04 (8× M4×12 + 12× M4×25 + Nord-Lock)** | Vis CHC M4×12 & M4×25 + 20 paires rondelles Nord-Lock M4 | 20 | ~2,7 g | **~54,0 g** |
+| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 287 g** |
 
 > [!TIP]
-> **Gain Net Face au Design V2 avec Cages H-bracket** :  
-> Même en intégrant les 2 ventilateurs 4020 et leurs tuyères aérauliques (+100 g), le gain de masse net reste de **~268 g** par rapport à l'ancien design avec cages H-bracket, tout en offrant un balayage thermique complet du torse et un carénage extérieur épuré.
+> **Gain Net de Masse de l'Architecture V2 Monobloc** :  
+> L'architecture directe en bride monobloc Alu 7075-T6 sur tube 60×60 mm permet d'intégrer le système complet de refroidissement actif (+100 g) tout en restant **plus légère de ~268 g** que les anciennes architectures à cages et tirants externes.
 
 ---
 
