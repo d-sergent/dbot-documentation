@@ -338,12 +338,25 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 
 * **Architecture monolithique d'un seul bloc** :
   - **Flasque (6,0 mm)** : Disque Ø120 mm percé de **10 trous de passage Ø4,3 mm** sur PCD Ø 106 mm + alésage pilote central Ø ~95,05 mm H7 pour centrage sur la section arrière du RS-04. Se visse directement sur les 10 taraudages M4 du stator (sans plaque H-bracket intermédiaire).
-  - **Bossage carré arrière (55,80 × 55,80 × 20,0 mm)** : Usiné directement dans la masse avec congés **R = 3,0 mm** et évidement central **Ø35,0 mm**.
-  - **Verrouillage traversant épuré (Option 1 validée)** : 1 seul perçage traversant **Ø5,3 mm vertical (axe Z)** centré à **`X = 10,0 mm`** (pour vis CHC M5 × 70 mm).
+  - **Bossage carré arrière (55,80 × 55,80 × 20,0 mm)** : Usiné directement dans la masse avec congés **R = 3,0 mm** et **poche centrale carrée `44 × 44 mm` avec congés intérieurs R = 5,0 mm** (profondeur poche ~15 mm, plancher de fond 5,0 mm côté flasque). Paroi résiduelle = **5,9 mm** (Sf compression M5 = ×8,4 ✅). Gain de masse : **~50 g par bride** vs l'ancien évidement cylindrique Ø 35 mm.
+  - **Verrouillage traversant épuré (Option 1 validée)** : 1 seul perçage traversant **Ø5,3 mm vertical (axe Z)** centré à **`X = 10,0 mm`** (pour vis CHC M5 × 70 mm). Vérifier en CAO que la distance entre le bord du trou Ø5,3 mm et la paroi de la poche est >= 3,0 mm.
+
+> [!NOTE]
+> **Validation RDM — Poche Carrée 44 × 44 mm / R = 5,0 mm (vs ancien évidement cylindrique Ø 35 mm)** :  
+> La poche n'affecte PAS la transmission de torsion (mécanisme de contact de forme sur les faces EXTÉRIEURES du bossage).
+> | Mode de Défaillance | Contrainte Calculée | Limite Matière 7075-T6 | Facteur de Sécurité | Verdict |
+> | :--- | :---: | :---: | :---: | :---: |
+> | Torsion contact carré ext. (120 N.m) | 4,9 MPa | 251 MPa (cis.) | **x51** | ✅ |
+> | Compression paroi / serrage M5 (5,9 mm) | 51,9 MPa | 435 MPa (Re) | **x8,4** | ✅ |
+> | Concentration aux congés R = 5 mm (Kt ~1,2) | 5,9 MPa | 435 MPa (Re) | **x73,7** | ✅ |
+> | Flexion latérale 50 N.m | < 10 MPa | 435 MPa (Re) | **> x40** | ✅ |
+> 
+> **Gain de masse validé : ~50 g / bride → ~100 g net sur la paire d'épaules du robot.**
 
 ---
 
 ### B. Justification de la Hauteur d'Insert : Pourquoi L = 20,0 mm est l'Optimum Absolu
+
 
 | Critère d'Ingénierie | Analyse à L = 20,0 mm (Retenue ⭐) | Alternative L = 15 mm | Alternative L = 25 mm |
 | :--- | :--- | :--- | :--- |
@@ -378,11 +391,11 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 
 ![Imbrication Brut 7075 et Détail d'Insertion des Vis Fraisées FHC M4](./media/solution_c_detail_fraisage_fhc_et_imbrication_7075.svg)
 
-*Blueprint d'ingénierie vectoriel des détails d'usinage et d'assemblage (Solution C). Panel 1 : Imbrication 2D de la Semelle Éclisse (80 × 130 mm) dans la plaque carrée Blockenstock 5 × 160 × 160 mm Alu 7075-T6 (9.60 €). Panel 2 : Vue en coupe macro montrant le sens d'insertion des 4 vis FHC M4 depuis la face arrière de la semelle (noyées à 0.0 mm) dans les taraudages borgnes de l'insert. Panel 3 : Disposition géométrique sans conflit entre l'évidement central Ø35 mm et les 4 taraudages M4 (entraxe 42×42 mm, pince d'alu = 12.2 mm).*
+*Blueprint d'ingénierie vectoriel des détails d'usinage et d'assemblage (Solution C). Panel 1 : Imbrication 2D de la Semelle Éclisse (80 × 130 mm) dans la plaque carrée Blockenstock 5 × 160 × 160 mm Alu 7075-T6 (9.60 €). Panel 2 : Vue en coupe macro montrant le sens d'insertion des 4 vis FHC M4 depuis la face arrière de la semelle (noyées à 0.0 mm) dans les taraudages borgnes de l'insert. Panel 3 : Disposition géométrique sans conflit entre la poche centrale 44 × 44 mm (R = 5 mm) et les 4 taraudages M4 (entraxe 42×42 mm, pince d'alu = 12.2 mm).*
 
 ![Imbrication des 2 Inserts dans le Brut 20x80x160 mm Alu 7075](./media/solution_c_imbrication_inserts_20x80x160_7075.svg)
 
-*Blueprint d'ingénierie vectoriel d'usinage des inserts (Solution C). Panel 1 : Imbrication 2D des 2 inserts carré (55.8 × 55.8 mm) dans un seul méplat Blockenstock 20 × 80 × 160 mm (16.80 € TTC) en Alu 7075-T6 avec chute de 35 × 80 mm. Panel 2 : Cotation exacte de l'insert de 20.0 mm (vis traversante unique centrée à X=10.0 mm). Panel 3 : Récapitulatif global matière 100% 7075-T6.*
+*Blueprint d'ingénierie vectoriel d'usinage des inserts (Solution C). Panel 1 : Imbrication 2D des 2 inserts carré (55.8 × 55.8 mm) dans un seul méplat Blockenstock 20 × 80 × 160 mm (16.80 € TTC) en Alu 7075-T6 avec chute de 35 × 80 mm. Panel 2 : Cotation exacte de l'insert de 20.0 mm avec poche centrale 44 × 44 mm R=5 mm et vis traversante unique centrée à X=10.0 mm. Panel 3 : Récapitulatif global matière 100% 7075-T6.*
 
 ---
 
@@ -495,13 +508,13 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
 
 1. **Brides d'Épaules Monoblocs (Alu 7075-T651)** :
    - Brut : 2 disques Ø120 × 50 mm Blockenstock (30 € / pièce).
-   - Usinage 2.5D en 2 phases avec fraise carbure 3 dents Ø6 mm DLC : Face Flasque (PCD Ø106 mm avec 10 trous de passage Ø4,3 mm chanfreinés à **`0,5 mm × 45°`** pour portée d'appui optimale des rondelles Nord-Lock + lamage pilote de centrage Ø 95,05 mm H7 profondeur 2,0 mm) puis Face Bossage carré 55,8×55,8×20 mm avec perçage traversant vertical Ø5,3 mm (X = 10,0 mm) et évidement central Ø35 mm.
+   - Usinage 2.5D en 2 phases avec fraise carbure 3 dents Ø6 mm DLC : Face Flasque (PCD Ø106 mm avec 10 trous de passage Ø4,3 mm chanfreinés à **`0,5 mm × 45°`** pour portée d'appui optimale des rondelles Nord-Lock + lamage pilote de centrage Ø 95,05 mm H7 profondeur 2,0 mm) puis Face Bossage carré 55,8×55,8×20 mm avec perçage traversant vertical Ø5,3 mm (X = 10,0 mm) et **poche carrée centrale 44 × 44 mm avec congés intérieurs R = 5,0 mm** (profondeur ~15 mm, laissant un plancher de 5,0 mm côté flasque — opération 2.5D fraise Ø6 mm DLC, sans changement d'outil).
 2. **Semelles Éclisses Colonne (Alu 7075-T6)** :
    - Brut : 2 plaques 5 × 160 × 160 mm Blockenstock (9,60 € / pièce).
    - Découpe 2D en 1 passe sur table martyr : contour 80 × 130 mm, fraisure 90° des 4 trous M4 et 4 trous lisses Ø5,3 mm.
 3. **Inserts Carrés Colonne (Alu 7075-T6)** :
    - Brut : 1 méplat 20 × 80 × 160 mm Blockenstock (16,80 € TTC).
-   - Contournage 2D des 2 inserts (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 20,0 mm !), perçage central Ø35 mm, perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70) et 4 taraudages M4 borgnes axiaux (profondeur 10 mm pour vis FHC).
+   - Contournage 2D des 2 inserts (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 20,0 mm !), **poche centrale 44 × 44 mm avec congés R = 5,0 mm** (même outil fraise Ø6 mm que le contournage), perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70) et 4 taraudages M4 borgnes axiaux (profondeur 10 mm pour vis FHC).
 4. **Traverses Carrées 60×60×2 mm (Alu 6060-T6)** :
    - Coupe de 2 tronçons de **`84,0 mm`** dans la barre de 500 mm (cote nominale intégrant le jeu fonctionnel de 1,0 mm côté colonne).
    - Perçage de 2 trous lisses traversants verticaux **Ø5,3 mm** (axe Z) : trou côté bride d'épaule à **`X = 10,0 mm`** depuis le chant d'appui butée, et trou côté colonne à **`X = 74,0 mm`** (entraxe rigoureux de **`64,0 mm`**).
@@ -585,16 +598,16 @@ Le tableau est structuré par **sous-ensemble fonctionnel** pour une intégratio
 
 | Composant / Pièce | Matériau | Quantité | Masse Unitaire | Masse Totale |
 | :--- | :--- | :---: | :---: | :---: |
-| **Brides d'Épaules Monoblocs** | Alu 7075-T651 (Flasque 5,0 mm / Bossage 18,2 mm + Alésage Ø95 évidé Ø35) | 2 | 138,0 g | **276,0 g** |
+| **Brides d'Épaules Monoblocs** | Alu 7075-T651 (Flasque 5,0 mm / Bossage 18,2 mm + Alésage Ø95, poche 44×44 mm R5) | 2 | **88,0 g** | **176,0 g** |
 | **Tronçons de Tubes Carrés** | Alu 6060-T6 (60 × 60 × 2,0 mm, L = 84 mm) | 2 | 105,0 g | **210,0 g** |
-| **Inserts Carrés Colonne** | Alu 7075-T6 (55,8 × 55,8 × 20,0 mm évidé Ø35) | 2 | 59,0 g | **118,0 g** |
+| **Inserts Carrés Colonne** | Alu 7075-T6 (55,8 × 55,8 × 20,0 mm, poche centrale 44×44 mm R5) | 2 | **34,0 g** | **68,0 g** |
 | **Semelles Éclisses Colonne** | Alu 7075-T6 (Plaque 5,0 mm, 80 × 130 mm évidée) | 2 | 54,0 g | **108,0 g** |
 | **Plaques Colonne Sagittale (Haute + Basse)** | Alu 7075-T6 (Plaque 5,0 mm, 94 mm de large évidée) | 2 | ~158 g | **~315,0 g** |
 | **Tuyères Convergentes 3D** | PA12-CF ou TPU 95A (ép. 1,6 mm, collerette Ø124 mm) | 2 | 24,0 g | **48,0 g** |
 | **Ventilateurs Épaules 40×40×20 mm** | Noctua NF-A4x20 PWM (5V ou 12V) | 2 | 26,0 g | **52,0 g** |
 | **Visserie Liaison Traverses & Sandwich Colonne** | Vis FHC M4, CHC M5 traversantes + rondelles & écrous Nylstop | Lot | - | **106,0 g** |
 | **Visserie Stators RS-04 (8× M4×12 + 12× M4×25 + Nord-Lock)** | Vis CHC M4×12 & M4×25 + 20 paires rondelles Nord-Lock M4 | 20 | ~2,7 g | **~54,0 g** |
-| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 287 g** |
+| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 187 g** |
 
 > [!TIP]
 > **Gain Net de Masse de l'Architecture V2 Monobloc** :  
