@@ -375,14 +375,24 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 
 *Blueprint d'ingénierie vectoriel de la jonction centrale sandwich (Solution C). Panel 1 : Vue sagittale Y-Z montrant l'éclissage de la Plaque Haute (142 mm) et de la Plaque Basse (290 mm) par la Semelle de 80 × 130 mm (4 vis M5 traversantes). Panel 2 : Coupe transversale X-Y montrant la continuité du plan sagittal 5 mm entre les 2 tubes carrés. Panel 3 : Comparatif des géométries de joint 2D (Coupe droite vs Tenon de centrage 2D) usinables sur la NestWorks C500.*
 
+![Plan 2D et Lumières d'Allègement de la Semelle Éclisse 7075-T6](./media/plan_detail_semelle_eclisse_lumieres_2d.svg)
+
+*Blueprint d'ingénierie vectoriel de la Semelle Éclisse allégée 2D. Panel 1 : Plan coté avec alésage central Ø28 mm, 2 lumières oblongues 22×14 mm (R=4 mm), 4 encoches de flanc en sablier (R=12 mm) et chanfreins 15×15 mm. Panel 2 : Analyse des lignes de force en treillis (Truss) garantissant la reprise intégrale des 275 N.m de flexion avec un bras de levier de 90 mm. Panel 3 : Bilan comparatif (56,0 g / semelle vs 142,5 g pour un rectangle plein).*
+
 1. **Rôle 2-en-1 des Semelles Éclisses (80 × 130 × 5,0 mm en Alu 7075-T6)** :
    - Portent l'insert carré recevant le tube d'épaule au centre (`Z = 0`).
    - Enserrent en sandwich la **Plaque Haute (5 mm)** et la **Plaque Basse (5 mm)** sur une hauteur de 130 mm (épaisseur totale = 15,0 mm).
-2. **Répartition des 4 Vis Traversantes M5 × 25 mm** :
-   - **2 vis en haut (`Z = +45,0 mm`)** : Traversent Semelle G + **Plaque Haute** + Semelle D.
-   - **2 vis en bas (`Z = -45,0 mm`)** : Traversent Semelle G + **Plaque Basse** + Semelle D.
-   - Précharge de serrage totale : **19 200 N (~1,95 tonne de compression)** interdisant tout décollement du joint.
-3. **Tenon de Centrage 2D à Z = 0 (Recommandé)** :
+2. **Topologie 2D des Lumières d'Allègement (Passage de 142,5 g à 56,0 g)** :
+   - **Alésage central de passage & allègement (`Ø 28,0 mm`)** : Centré à $(0, 0)$, allège le centre neutre (-8,6 g) et libère le passage pour les câbles/faisceaux torse.
+   - **2 Lumières oblongues axiales (`22,0 × 14,0 mm`, coins `R = 4,0 mm`)** : Centrées à $Z = +45,0\text{ mm}$ et $Z = -45,0\text{ mm}$ entre les paires de vis M5 (-10,1 g).
+   - **Détourage des flancs en sablier (`4 encoches R = 12,0 mm`)** : Élimine la matière morte latérale sur les zones non sollicitées en traction (-22,0 g).
+   - **Chanfreins des 4 coins extérieurs (`15,0 × 15,0 mm`)** : Réduit la largeur d'extrémité de 80 mm à 50 mm (-10,0 g).
+   - **Masse nette unitaire** : **`56,0 g`** (soit **`112,0 g` pour la paire**, générant un gain net de **`173,0 g`** sur le robot par rapport à deux rectangles pleins).
+3. **Répartition des 4 Vis Traversantes M5 × 25 mm & Bras de Levier (90 mm)** :
+   - **2 vis en haut (`Z = +45,0 mm`, entraxe Y = 40 mm)** : Traversent Semelle G + **Plaque Haute** + Semelle D.
+   - **2 vis en bas (`Z = -45,0 mm`, entraxe Y = 40 mm)** : Traversent Semelle G + **Plaque Basse** + Semelle D.
+   - **Bras de levier de flexion $\Delta Z = 90,0\text{ mm}$** : Reprend intégralement le moment fléchissant sagittal extrême de **`275 N.m`** avec un effort de traction par vis de $3 055\text{ N}$ (précharge totale de serrage = $19 200\text{ N}$, interdisant tout décollement ou micro-glissement).
+4. **Tenon de Centrage 2D à Z = 0 (Recommandé)** :
    - La plaque basse possède un tenon rectangulaire de **40 mm (largeur) × 10 mm (hauteur)** avec congés **R = 3,0 mm** qui s'emboîte dans la plaque haute, garantissant un alignement coaxial automatique parfait à **0,0 mm**.
 
 ---
@@ -511,7 +521,10 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
    - Usinage 2.5D en 2 phases avec fraise carbure 3 dents Ø6 mm DLC : Face Flasque (PCD Ø106 mm avec 10 trous de passage Ø4,3 mm chanfreinés à **`0,5 mm × 45°`** pour portée d'appui optimale des rondelles Nord-Lock + lamage pilote de centrage Ø 95,05 mm H7 profondeur 2,0 mm) puis Face Bossage carré 55,8×55,8×20 mm avec perçage traversant vertical Ø5,3 mm (X = 10,0 mm) et **poche carrée centrale 44 × 44 mm avec congés intérieurs R = 5,0 mm** (profondeur ~15 mm, laissant un plancher de 5,0 mm côté flasque — opération 2.5D fraise Ø6 mm DLC, sans changement d'outil).
 2. **Semelles Éclisses Colonne (Alu 7075-T6)** :
    - Brut : 2 plaques 5 × 160 × 160 mm Blockenstock (9,60 € / pièce).
-   - Découpe 2D en 1 passe sur table martyr : contour 80 × 130 mm, fraisure 90° des 4 trous M4 et 4 trous lisses Ø5,3 mm.
+   - Découpe 2D en 1 passe sur table martyr (Fraise Ø6 mm DLC) :
+     1. *Évidements intérieurs* : Alésage central Ø28,0 mm + 2 lumières oblongues 22×14 mm (R=4 mm) centrées à Z = ±45,0 mm.
+     2. *Perçages & Fraisures* : 4 trous Ø4,5 mm avec fraisure conique 90° à fleur (0,0 mm pour vis FHC M4) + 4 trous lisses traversants Ø5,3 mm chanfreinés à 0,5 mm × 45° (vis M5).
+     3. *Contournage extérieur* : Découpe du profil en sablier 80×130 mm (encoches de flancs R=12 mm, chanfreins d'angles 15×15 mm). Masse finale = **`56,0 g`** / semelle.
 3. **Inserts Carrés Colonne (Alu 7075-T6)** :
    - Brut : 1 méplat 20 × 80 × 160 mm Blockenstock (16,80 € TTC).
    - Contournage 2D des 2 inserts (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 20,0 mm !), **poche centrale 44 × 44 mm avec congés R = 5,0 mm** (même outil fraise Ø6 mm que le contournage), perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70) et 4 taraudages M4 borgnes axiaux (profondeur 10 mm pour vis FHC).
@@ -601,13 +614,13 @@ Le tableau est structuré par **sous-ensemble fonctionnel** pour une intégratio
 | **Brides d'Épaules Monoblocs** | Alu 7075-T651 (Flasque 5,0 mm / Bossage 18,2 mm + Alésage Ø95, poche 44×44 mm R5) | 2 | **88,0 g** | **176,0 g** |
 | **Tronçons de Tubes Carrés** | Alu 6060-T6 (60 × 60 × 2,0 mm, L = 84 mm) | 2 | 105,0 g | **210,0 g** |
 | **Inserts Carrés Colonne** | Alu 7075-T6 (55,8 × 55,8 × 20,0 mm, poche centrale 44×44 mm R5) | 2 | **34,0 g** | **68,0 g** |
-| **Semelles Éclisses Colonne** | Alu 7075-T6 (Plaque 5,0 mm, 80 × 130 mm évidée) | 2 | 54,0 g | **108,0 g** |
+| **Semelles Éclisses Colonne** | Alu 7075-T6 (Plaque 5,0 mm, 80 × 130 mm allégée 2D) | 2 | **56,0 g** | **112,0 g** |
 | **Plaques Colonne Sagittale (Haute + Basse)** | Alu 7075-T6 (Plaque 5,0 mm, 94 mm de large évidée) | 2 | ~158 g | **~315,0 g** |
 | **Tuyères Convergentes 3D** | PA12-CF ou TPU 95A (ép. 1,6 mm, collerette Ø124 mm) | 2 | 24,0 g | **48,0 g** |
 | **Ventilateurs Épaules 40×40×20 mm** | Noctua NF-A4x20 PWM (5V ou 12V) | 2 | 26,0 g | **52,0 g** |
 | **Visserie Liaison Traverses & Sandwich Colonne** | Vis FHC M4, CHC M5 traversantes + rondelles & écrous Nylstop | Lot | - | **106,0 g** |
 | **Visserie Stators RS-04 (8× M4×12 + 12× M4×25 + Nord-Lock)** | Vis CHC M4×12 & M4×25 + 20 paires rondelles Nord-Lock M4 | 20 | ~2,7 g | **~54,0 g** |
-| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 187 g** |
+| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 141 g** |
 
 > [!TIP]
 > **Gain Net de Masse de l'Architecture V2 Monobloc** :  

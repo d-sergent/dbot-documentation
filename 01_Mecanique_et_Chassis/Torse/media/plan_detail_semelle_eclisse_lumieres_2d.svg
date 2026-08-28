@@ -1,0 +1,322 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid Pattern -->
+    <pattern id="grid-pattern-semelle" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="grad-sky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="grad-rose" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#be123c" />
+    </linearGradient>
+    <linearGradient id="grad-card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="drop-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1400" height="960" fill="#0b1120" />
+  <rect width="1400" height="960" fill="url(#grid-pattern-semelle)" />
+
+  <!-- HEADER -->
+  <g transform="translate(40, 30)">
+    <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <circle cx="35" cy="35" r="18" fill="url(#grad-sky)" />
+    <path d="M 26 35 L 44 35 M 35 26 L 35 44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="19" font-weight="700" fill="#f8fafc">
+      SEMELLE ÉCLISSE 7075-T6 (80 × 130 × 5,0 mm) : GÉOMÉTRIE 2D DES LUMIÈRES D'ALLÈGEMENT
+    </text>
+    <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
+      Topologie d'allègement 2D sur table C500 : passage de 146 g (rectangle plein) à 56 g (évidée) sans perte de rigidité
+    </text>
+    <rect x="1110" y="20" width="185" height="30" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1" />
+    <text x="1202" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      GAIN NET : -62% DE MASSE
+    </text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 1: VUE DE FACE 2D COTÉE &amp; DÉTAIL DES LUMIÈRES (Plan Y-Z) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 120)">
+    <rect width="530" height="800" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <rect x="15" y="15" width="410" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      1. VUE DE FACE 2D COTÉE (Plan Y-Z) — COTES D'USINAGE C500
+    </text>
+
+    <!-- Dessin de la pièce centrée dans le panel -->
+    <g transform="translate(240, 420) scale(2.2)">
+      <!-- Rectangle d'encombrement brut d'origine (Pointillés gris) -->
+      <rect x="-40" y="-65" width="80" height="130" fill="none" stroke="#475569" stroke-width="0.8" stroke-dasharray="3,2" />
+      <text x="-43" y="-67" font-family="'Segoe UI', sans-serif" font-size="5" font-weight="600" fill="#64748b" text-anchor="end">Brut 80×130 mm</text>
+
+      <!-- Contour extérieur usiné de la semelle allégée (Alu 7075-T6) -->
+      <path d="
+        M -25 -65 
+        L 25 -65 
+        L 40 -50 
+        L 40 -35 
+        A 12 12 0 0 0 32 -20
+        A 12 12 0 0 0 40 -5
+        L 40 5
+        A 12 12 0 0 0 32 20
+        A 12 12 0 0 0 40 35
+        L 40 50 
+        L 25 65 
+        L -25 65 
+        L -40 50 
+        L -40 35 
+        A 12 12 0 0 0 -32 20
+        A 12 12 0 0 0 -40 5
+        L -40 -5
+        A 12 12 0 0 0 -32 -20
+        A 12 12 0 0 0 -40 -35
+        L -40 -50 
+        Z
+      " fill="#0369a1" fill-opacity="0.35" stroke="#38bdf8" stroke-width="1.8" />
+
+      <!-- Empreinte Tube Carré 60x60 (zone d'appui centrale) -->
+      <rect x="-30" y="-30" width="60" height="60" fill="none" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="2,2" />
+      <text x="0" y="-32" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#f59e0b" text-anchor="middle">Portée Tube 60×60 mm</text>
+
+      <!-- Empreinte Insert 55.8 x 55.8 mm -->
+      <rect x="-27.9" y="-27.9" width="55.8" height="55.8" rx="1.5" fill="none" stroke="#10b981" stroke-width="0.6" stroke-dasharray="1.5,1.5" />
+
+      <!-- 1. Alésage Central de Passage &amp; Allègement Ø 28.0 mm -->
+      <circle cx="0" cy="0" r="14" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" />
+      <text x="0" y="1.5" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle">Ø 28 mm</text>
+
+      <!-- 2. Lumière Oblongue Supérieure (22 x 14 mm avec R=4 mm) à Z = +45 mm -->
+      <rect x="-11" y="-52" width="22" height="14" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" />
+      <text x="0" y="-44" font-family="'Segoe UI', sans-serif" font-size="4" font-weight="600" fill="#93c5fd" text-anchor="middle">22 × 14 mm</text>
+
+      <!-- 3. Lumière Oblongue Inférieure (22 x 14 mm avec R=4 mm) à Z = -45 mm -->
+      <rect x="-11" y="38" width="22" height="14" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" />
+      <text x="0" y="46" font-family="'Segoe UI', sans-serif" font-size="4" font-weight="600" fill="#93c5fd" text-anchor="middle">22 × 14 mm</text>
+
+      <!-- 4 Trous Fraisés FHC M4 pour Insert (Entraxe 42x42 mm, Y = +/-21, Z = +/-21) -->
+      <circle cx="-21" cy="-21" r="2.2" fill="#f8fafc" stroke="#0284c7" stroke-width="0.6" />
+      <circle cx="-21" cy="-21" r="4.2" fill="none" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="1.5,1" />
+
+      <circle cx="21" cy="-21" r="2.2" fill="#f8fafc" stroke="#0284c7" stroke-width="0.6" />
+      <circle cx="21" cy="-21" r="4.2" fill="none" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="1.5,1" />
+
+      <circle cx="-21" cy="21" r="2.2" fill="#f8fafc" stroke="#0284c7" stroke-width="0.6" />
+      <circle cx="-21" cy="21" r="4.2" fill="none" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="1.5,1" />
+
+      <circle cx="21" cy="21" r="2.2" fill="#f8fafc" stroke="#0284c7" stroke-width="0.6" />
+      <circle cx="21" cy="21" r="4.2" fill="none" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="1.5,1" />
+
+      <!-- 4 Trous Lisses Ø 5.3 mm pour Vis Traversantes M5 (Z = +/-45 mm, Y = +/-20 mm) -->
+      <circle cx="-20" cy="-45" r="2.65" fill="#f43f5e" stroke="#ffffff" stroke-width="0.8" />
+      <circle cx="20" cy="-45" r="2.65" fill="#f43f5e" stroke="#ffffff" stroke-width="0.8" />
+
+      <circle cx="-20" cy="45" r="2.65" fill="#f43f5e" stroke="#ffffff" stroke-width="0.8" />
+      <circle cx="20" cy="45" r="2.65" fill="#f43f5e" stroke="#ffffff" stroke-width="0.8" />
+
+      <!-- Lignes de Centre &amp; Axes -->
+      <line x1="-48" y1="0" x2="48" y2="0" stroke="#ec4899" stroke-width="0.6" stroke-dasharray="4,2" />
+      <line x1="0" y1="-72" x2="0" y2="72" stroke="#ec4899" stroke-width="0.6" stroke-dasharray="4,2" />
+      <text x="49" y="1.5" font-family="'Segoe UI', sans-serif" font-size="4" font-weight="700" fill="#ec4899">Axe Y (Z=0)</text>
+      <text x="0" y="-74" font-family="'Segoe UI', sans-serif" font-size="4" font-weight="700" fill="#ec4899" text-anchor="middle">Axe Z</text>
+
+      <!-- Cotations Principales -->
+      <!-- Largeur 80 mm -->
+      <line x1="-40" y1="-70" x2="40" y2="-70" stroke="#38bdf8" stroke-width="0.6" />
+      <line x1="-40" y1="-67" x2="-40" y2="-73" stroke="#38bdf8" stroke-width="0.6" />
+      <line x1="40" y1="-67" x2="40" y2="-73" stroke="#38bdf8" stroke-width="0.6" />
+      <text x="0" y="-72" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle">80,0 mm</text>
+
+      <!-- Hauteur 130 mm -->
+      <line x1="-48" y1="-65" x2="-48" y2="65" stroke="#38bdf8" stroke-width="0.6" />
+      <line x1="-45" y1="-65" x2="-51" y2="-65" stroke="#38bdf8" stroke-width="0.6" />
+      <line x1="-45" y1="65" x2="-51" y2="65" stroke="#38bdf8" stroke-width="0.6" />
+      <text x="-50" y="0" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle" transform="rotate(-90,-50,0)">130,0 mm</text>
+
+      <!-- Entraxe M5 (90 mm) -->
+      <line x1="48" y1="-45" x2="48" y2="45" stroke="#f43f5e" stroke-width="0.6" />
+      <line x1="45" y1="-45" x2="51" y2="-45" stroke="#f43f5e" stroke-width="0.6" />
+      <line x1="45" y1="45" x2="51" y2="45" stroke="#f43f5e" stroke-width="0.6" />
+      <text x="50" y="0" font-family="'Segoe UI', sans-serif" font-size="4" font-weight="700" fill="#f43f5e" text-anchor="middle" transform="rotate(90,50,0)">Entraxe M5 = 90,0 mm</text>
+
+      <!-- Entraxe M4 Insert (42 mm) -->
+      <line x1="-21" y1="28" x2="21" y2="28" stroke="#f59e0b" stroke-width="0.5" />
+      <text x="0" y="32" font-family="'Segoe UI', sans-serif" font-size="3.8" font-weight="700" fill="#f59e0b" text-anchor="middle">42,0 mm</text>
+    </g>
+
+    <!-- Cartouche bas Panel 1 -->
+    <g transform="translate(20, 725)">
+      <rect width="490" height="55" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="15" y="20" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">
+        OPÉRATIONS CNC C500 : 100% FRAISABLE EN 1 PASSE (TABLE MARTYR)
+      </text>
+      <text x="15" y="38" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="500" fill="#94a3b8">
+        • Fraise carbure Ø6 mm DLC pour contournage extérieur + 3 lumières intérieures
+      </text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 2: VUE SANDWICH &amp; FLUX DES LIGNES DE FORCE RDM (Moment 275 N.m) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(590, 120)">
+    <rect width="770" height="440" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <rect x="15" y="15" width="460" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#10b981">
+      2. ANALYSE RDM : INTÉGRITÉ DES LIGNES DE FORCE EN TREILLIS (TRUSS)
+    </text>
+
+    <!-- Schéma des flux d'efforts -->
+    <g transform="translate(30, 60)">
+      <!-- Vue sandwich de profil (Semelle G - Colonne 5 mm - Semelle D) -->
+      <g transform="translate(20, 30)">
+        <rect x="0" y="0" width="22" height="280" rx="2" fill="#0284c7" fill-opacity="0.5" stroke="#38bdf8" stroke-width="1.2" />
+        <text x="11" y="145" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#ffffff" text-anchor="middle" transform="rotate(-90,11,145)">Semelle G (5 mm)</text>
+
+        <rect x="24" y="0" width="22" height="138" rx="1" fill="#d97706" fill-opacity="0.6" stroke="#f59e0b" stroke-width="1.2" />
+        <text x="35" y="70" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#fcd34d" text-anchor="middle" transform="rotate(-90,35,70)">Plaque Haute (5 mm)</text>
+
+        <!-- Ligne de joint Z = 0 -->
+        <line x1="24" y1="140" x2="46" y2="140" stroke="#ec4899" stroke-width="2" stroke-dasharray="3,1.5" />
+
+        <rect x="24" y="142" width="22" height="138" rx="1" fill="#d97706" fill-opacity="0.6" stroke="#f59e0b" stroke-width="1.2" />
+        <text x="35" y="210" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#fcd34d" text-anchor="middle" transform="rotate(-90,35,210)">Plaque Basse (5 mm)</text>
+
+        <rect x="48" y="0" width="22" height="280" rx="2" fill="#0284c7" fill-opacity="0.5" stroke="#38bdf8" stroke-width="1.2" />
+        <text x="59" y="145" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#ffffff" text-anchor="middle" transform="rotate(-90,59,145)">Semelle D (5 mm)</text>
+
+        <!-- Vis M5 Haute Traversante -->
+        <rect x="-8" y="40" width="86" height="10" rx="2" fill="#f43f5e" stroke="#ffffff" stroke-width="1" />
+        <text x="35" y="48" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#ffffff" text-anchor="middle">Vis M5 Traversante (Z = +45)</text>
+
+        <!-- Vis M5 Basse Traversante -->
+        <rect x="-8" y="230" width="86" height="10" rx="2" fill="#f43f5e" stroke="#ffffff" stroke-width="1" />
+        <text x="35" y="238" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#ffffff" text-anchor="middle">Vis M5 Traversante (Z = -45)</text>
+
+        <!-- Tube d'Épaule et Insert au centre Z = 0 -->
+        <rect x="-40" y="110" width="40" height="60" rx="2" fill="#047857" fill-opacity="0.7" stroke="#10b981" stroke-width="1.2" />
+        <text x="-20" y="143" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#ffffff" text-anchor="middle">Tube G</text>
+
+        <rect x="70" y="110" width="40" height="60" rx="2" fill="#047857" fill-opacity="0.7" stroke="#10b981" stroke-width="1.2" />
+        <text x="90" y="143" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#ffffff" text-anchor="middle">Tube D</text>
+
+        <text x="35" y="305" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8" text-anchor="middle">ÉPAISSEUR TOTALE SANDWICH = 15,0 mm</text>
+      </g>
+
+      <!-- Schéma des Lignes de Force &amp; Treillis Résistant -->
+      <g transform="translate(230, 20)">
+        <rect width="470" height="290" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="15" y="24" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fcd34d">
+          POURQUOI L'ALLÈGEMENT NE CRÉE AUCUNE FAIBLESSE :
+        </text>
+
+        <path d="M 40 60 L 150 130 L 40 200 Z" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3,2" />
+        <path d="M 240 60 L 150 130 L 240 200 Z" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3,2" />
+
+        <text x="25" y="55" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#f43f5e">Vis M5 Haut G</text>
+        <text x="220" y="55" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#f43f5e">Vis M5 Haut D</text>
+        <text x="150" y="135" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8" text-anchor="middle">Zone Insert Carré (Z = 0)</text>
+        <text x="25" y="215" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#f43f5e">Vis M5 Bas G</text>
+        <text x="220" y="215" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#f43f5e">Vis M5 Bas D</text>
+
+        <!-- Explications RDM -->
+        <g transform="translate(290, 45)">
+          <text x="0" y="15" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#10b981">✓ Bras de levier préservé :</text>
+          <text x="10" y="32" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="500" fill="#cbd5e1">Entraxe vertical Delta_Z = 90 mm</text>
+          <text x="10" y="47" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="500" fill="#cbd5e1">Effort traction = 3 055 N (Sf &gt; 6)</text>
+
+          <text x="0" y="75" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#10b981">✓ Lignes de force en « X » :</text>
+          <text x="10" y="92" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="500" fill="#cbd5e1">La matière est conservée pile</text>
+          <text x="10" y="107" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="500" fill="#cbd5e1">le long des bielles de traction</text>
+
+          <text x="0" y="135" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#10b981">✓ Pince de matière ISO :</text>
+          <text x="10" y="152" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="500" fill="#cbd5e1">&gt; 8 mm autour de chaque trou M5</text>
+          <text x="10" y="167" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="500" fill="#cbd5e1">Zéro risque d'arrachement</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 3: BILAN DE MASSE COMPARATIF &amp; GAIN STRUCTURAL -->
+  <!-- ========================================================================= -->
+  <g transform="translate(590, 580)">
+    <rect width="770" height="340" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <rect x="15" y="15" width="460" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#f59e0b">
+      3. BILAN COMPARATIF DE MASSE &amp; OPTIMISATION D'ATELIER
+    </text>
+
+    <g transform="translate(25, 60)">
+      <!-- Tableau Comparatif -->
+      <rect width="720" height="150" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      
+      <!-- En-tête tableau -->
+      <path d="M 0 0 L 720 0 L 720 32 L 0 32 Z" fill="#1e293b" />
+      <text x="20" y="21" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#94a3b8">CONFIGURATION SEMELLE</text>
+      <text x="240" y="21" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#94a3b8">VOLUME NET</text>
+      <text x="370" y="21" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#94a3b8">MASSE UNITAIRE</text>
+      <text x="510" y="21" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#94a3b8">MASSE PAIRE (2×)</text>
+      <text x="650" y="21" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#94a3b8">VERDICT</text>
+
+      <!-- Ligne 1 : Rectangle Plein -->
+      <line x1="0" y1="70" x2="720" y2="70" stroke="#334155" stroke-width="1" />
+      <text x="20" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#ef4444">1. Rectangle Plein (80 × 130 mm)</text>
+      <text x="240" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">50 700 mm³</text>
+      <text x="370" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#ef4444">142,5 g</text>
+      <text x="510" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#ef4444">285,0 g</text>
+      <text x="650" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#ef4444">Inutilement lourd</text>
+
+      <!-- Ligne 2 : Semelle Allégée 2D Retenue -->
+      <line x1="0" y1="110" x2="720" y2="110" stroke="#334155" stroke-width="1" />
+      <text x="20" y="95" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">2. Semelle Allégée 2D (Retenue ⭐)</text>
+      <text x="240" y="95" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">19 900 mm³</text>
+      <text x="370" y="95" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">56,0 g</text>
+      <text x="510" y="95" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">112,0 g</text>
+      <text x="650" y="95" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">Optimal (-173 g)</text>
+
+      <!-- Ligne 3 : Détail Gain Net -->
+      <text x="20" y="133" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="600" fill="#38bdf8">
+        Gain net de masse : -86,5 g par semelle ➔ -173,0 g économisés sur le torse complet !
+      </text>
+
+      <!-- Synthèse &amp; Recommandation CAM -->
+      <g transform="translate(0, 165)">
+        <rect width="720" height="95" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.2" />
+        <text x="20" y="24" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#10b981">
+          RÈGLES D'USINAGE FUSION 360 CAM POUR LA C500 :
+        </text>
+        <text x="20" y="44" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="500" fill="#cbd5e1">
+          1. Fraisage 2D Évidements Intérieurs : Usiner d'abord l'alésage Ø28 mm et les 2 lumières 22×14 mm (Fraise Ø6 mm DLC).
+        </text>
+        <text x="20" y="62" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="500" fill="#cbd5e1">
+          2. Perçage et Fraisage des 8 Trous : Pointer et percer les 4 trous Ø4,5 mm (fraisure 90° à fleur) + 4 trous Ø5,3 mm.
+        </text>
+        <text x="20" y="80" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="500" fill="#cbd5e1">
+          3. Détourage Contour Extérieur : Découper le profil extérieur en sablier en 2 passes de 2,5 mm avec attaches (tabs).
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>
