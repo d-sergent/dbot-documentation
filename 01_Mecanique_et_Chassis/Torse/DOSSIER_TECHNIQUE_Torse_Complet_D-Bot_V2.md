@@ -631,14 +631,14 @@ Le tableau est structuré par **sous-ensemble fonctionnel** pour une intégratio
 
 ### B. Fiche d'Approvisionnement Direct Blockenstock (Panier 100% 7075-T6)
 
-| Désignation Fournisseur | Lien Catalogue | Dimensions Brut | Quantité | Prix Unitaire TTC | Prix Total TTC | Utilisation Projet D-Bot |
+| Désignation Fournisseur | Lien Catalogue / Rayon | Dimensions Brut | Quantité | Prix Unitaire TTC | Prix Total TTC | Utilisation Projet D-Bot |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Disque Brut Alu 7075 T651** | [Blockenstock Rond 7075](https://www.blockenstock.fr) | **Ø 120 × 50 mm** | **2** | **30,00 €** | **60,00 €** | 2 Brides d'Épaules Monoblocs (Flasque 6 mm + Bossage 20 mm) |
-| **Plaque Alu 7075 T6** | [Blockenstock Plaque 5mm](https://www.blockenstock.fr) | **5 × 160 × 160 mm** | **2** | **9,60 €** | **19,20 €** | 2 Semelles Éclisses Colonne (80 × 130 mm) + chutes réutilisables |
-| **Plat Alu 7075 T6 (Colonne)** | [Blockenstock Plat 5x100x495mm 7075](https://www.blockenstock.fr/20x200x500mm-alu-7075-t6-c2x20906524) | **5 × 100 × 495 mm** | **1** | **18,16 €** | **18,16 €** | **100% de la Colonne Sagittale (Plaque Haute + Plaque Basse)** |
-| **Méplat Alu 7075 T6** | [Blockenstock Méplat 20mm](https://www.blockenstock.fr) | **20 × 80 × 160 mm** | **1** | **16,80 €** | **16,80 €** | 2 Inserts Carrés Colonne (55,8 × 55,8 × 20 mm) dans 1 seul bloc |
-| **Tube Carré Alu 6060 T6** | [Blockenstock Tube Carré 60x2x500mm](https://www.blockenstock.fr/60x2x500mm-tube-carre-6060-t6-c2x24054508) | **60 × 2 × 500 mm** | **1** | **12,80 €** | **12,80 €** | 2 Tronçons de Traverses de 85 mm (reste 330 mm de réserve) |
-| **Ventilateurs 40×40×20 mm PWM** | Noctua / Amazon | **Noctua NF-A4x20 PWM** | **2** | **~15,00 €** | **~30,00 €** | 2 Ventilateurs haute pression statique pour tuyères d'épaules |
-| **Lot Visserie M3, M4 & M5** | McMaster-Carr / Vis-Express | **FHC M4, CHC M4, CHC M5, CHC M3** | Lot | **~14,00 €** | **~14,00 €** | Visserie complète structure, moteurs, tuyères et sandwich |
+| **Disque Brut Alu 7075 T651** | [Blockenstock — Rond Ø120 7075 T651](https://www.blockenstock.fr/rond-alu-7075-t651-c102x3150531) | **Ø 120 × 50 mm** (au cm) | **2** | **30,00 €** | **60,00 €** | 2 Brides d'Épaules Monoblocs (Flasque 6 mm + Bossage 20 mm) |
+| **Plaque Alu 7075 T6** | [Blockenstock — Plaque 5mm 7075 T6](https://www.blockenstock.fr/epaisseur-5-8mm-alu-7075-t6-c102x3150530) | **5 × 160 × 160 mm** | **2** | **9,60 €** | **19,20 €** | 2 Semelles Éclisses Colonne (80 × 130 mm) + chutes réutilisables |
+| **Plat Alu 7075 T6 (Colonne)** | [Blockenstock — Plat 5×100×495mm 7075](https://www.blockenstock.fr/5x100x495mm-alu-7075-t6-c2x20906524) | **5 × 100 × 495 mm** | **1** | **18,16 €** | **18,16 €** | **100% de la Colonne Sagittale (Plaque Haute + Plaque Basse)** |
+| **Méplat Alu 7075 T6** | [Blockenstock — Méplat 20mm 7075 T6](https://www.blockenstock.fr/epaisseur-20-25mm-alu-7075-t6-c102x3150534) | **20 × 80 × 160 mm** (ou 20×80 au cm) | **1** | **16,80 €** | **16,80 €** | 2 Inserts Carrés Colonne (55,8 × 55,8 × 20 mm) dans 1 seul bloc |
+| **Tube Carré Alu 6060 T6** | [Blockenstock — Tube Carré 60×2×500mm](https://www.blockenstock.fr/60x2x500mm-tube-carre-6060-t6-c2x24054508) | **60 × 2 × 500 mm** | **1** | **12,80 €** | **12,80 €** | 2 Tronçons de Traverses de 84 mm (reste 330 mm de réserve) |
+| **Ventilateurs 40×40×20 mm PWM** | [Noctua NF-A4x20 PWM (Amazon)](https://www.amazon.fr/dp/B071W9E6NW) | **NF-A4x20 PWM (5V ou 12V)** | **2** | **~15,00 €** | **~30,00 €** | 2 Ventilateurs haute pression statique pour tuyères d'épaules |
+| **Lot Visserie M3, M4 & M5** | McMaster-Carr / Vis-Express | **FHC M4×30, CHC M4, CHC M5, Nylstop** | Lot | **~14,00 €** | **~14,00 €** | Visserie complète structure, moteurs, tuyères et sandwich |
 | **TOTAL PANIER MATIÈRE & THERMIQUE** | **Blockenstock + Quincaillerie** | - | - | - | **~170,96 €** | **Structure Torse Complète en Alu 7075 + Circuit Aéraulique Intégré** |
 
