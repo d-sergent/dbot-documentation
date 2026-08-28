@@ -19,10 +19,19 @@
       <stop offset="0%" stop-color="#10b981" />
       <stop offset="100%" stop-color="#047857" />
     </linearGradient>
+    <linearGradient id="grad-rose-fhc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#be123c" />
+    </linearGradient>
     <linearGradient id="grad-card-fhc" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
       <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
     </linearGradient>
+
+    <!-- Marker Arrow -->
+    <marker id="arrow-fhc" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981" />
+    </marker>
 
     <!-- Drop Shadow Filter -->
     <filter id="drop-shadow-fhc" x="-10%" y="-10%" width="120%" height="120%">
@@ -39,159 +48,162 @@
     <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-fhc)" />
     <circle cx="35" cy="35" r="18" fill="url(#grad-sky-fhc)" />
     <path d="M 26 35 L 44 35 M 35 26 L 35 44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
-    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#f8fafc">
-      IMBRICATION BRUT 7075 (160×160 mm) &amp; DÉTAIL D'INSERTION DES VIS FRAISÉES FHC M4
+    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="19" font-weight="700" fill="#f8fafc">
+      ASSEMBLAGE SEMELLE ➔ INSERT : VIS FHC M4 × 30 mm TRAVERSANTES &amp; ÉCROUS NYLSTOP
     </text>
     <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
-      Découpe C500 dans la plaque Blockenstock 5×160×160 mm (9.60 €) · Fraisure à 90° et taraudages d'angles M4
+      Pré-assemblage rigide sur établi (Zéro taraudage manuel) : perçages lisses Ø 4,3 mm traversants + écrous autofreinés
     </text>
-    <rect x="1130" y="20" width="165" height="30" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1" />
-    <text x="1212" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      DÉTAIL D'USINAGE
+    <rect x="1100" y="20" width="195" height="30" rx="6" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="1" />
+    <text x="1197" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#34d399">
+      ZÉRO TARAUDAGE (C500)
     </text>
   </g>
 
   <!-- ========================================================================= -->
-  <!-- PANEL 1: IMBRICATION 2D DANS LE BRUT BLOCKENSTOCK 5x160x160 mm (9.60 €) -->
+  <!-- PANEL 1: IMBRICATION DANS LA PLAQUE BLOCKENSTOCK 5 x 160 x 160 mm -->
   <!-- ========================================================================= -->
   <g transform="translate(40, 120)">
     <rect width="640" height="420" rx="10" fill="url(#grad-card-fhc)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-fhc)" />
-    <rect x="15" y="15" width="370" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <rect x="15" y="15" width="450" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
     <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      1. IMBRICATION DANS LE BRUT 5 × 160 × 160 mm (C500)
+      1. DÉCOUPE 2D DANS LA PLAQUE 5 × 160 × 160 mm (9.60 € TTC)
     </text>
 
-    <g transform="translate(35, 60)">
-      <!-- Plaque Brute 160x160 mm (Alu 7075-T6) -->
-      <rect x="20" y="20" width="260" height="260" rx="4" fill="#334155" fill-opacity="0.3" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4" />
-      <text x="150" y="12" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#cbd5e1">BRUT 160 × 160 mm (9.60 € TTC)</text>
+    <g transform="translate(35, 65)">
+      <!-- Plaque Brute 160 x 160 mm -->
+      <rect x="0" y="0" width="280" height="280" rx="4" fill="#0f172a" stroke="#475569" stroke-width="2" stroke-dasharray="6,3" />
+      <text x="140" y="-10" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#94a3b8">Brut 5 × 160 × 160 mm Alu 7075-T6</text>
 
-      <!-- Pièce Usinée : Semelle Éclisse 80x130 mm (Cyan) -->
-      <rect x="35" y="35" width="130" height="210" rx="6" fill="#0284c7" fill-opacity="0.5" stroke="#38bdf8" stroke-width="2" />
-      <text x="100" y="145" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#ffffff">SEMELLE ÉCLISSE</text>
-      <text x="100" y="160" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#93c5fd">80 × 130 mm (Alu 7075)</text>
+      <!-- Semelle Éclisse 80 x 130 mm imbriquée -->
+      <g transform="translate(30, 25)">
+        <rect x="0" y="0" width="140" height="228" rx="6" fill="#0284c7" fill-opacity="0.3" stroke="#38bdf8" stroke-width="2" />
+        <text x="70" y="110" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#ffffff">SEMELLE ÉCLISSE</text>
+        <text x="70" y="126" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#93c5fd">80 × 130 mm (5 mm)</text>
 
-      <!-- 4 Trous M5 Colonne (Haut & Bas) -->
-      <circle cx="65" cy="55" r="4.5" fill="#f8fafc" stroke="#0f172a" />
-      <circle cx="135" cy="55" r="4.5" fill="#f8fafc" stroke="#0f172a" />
-      <circle cx="65" cy="225" r="4.5" fill="#f8fafc" stroke="#0f172a" />
-      <circle cx="135" cy="225" r="4.5" fill="#f8fafc" stroke="#0f172a" />
+        <!-- Lumière Centrale Ø28 mm -->
+        <circle cx="70" cy="114" r="25" fill="#0b1120" stroke="#38bdf8" stroke-width="1.2" />
 
-      <!-- 4 Trous Fraisés M4 Insert (Centre) -->
-      <circle cx="70" cy="115" r="3.5" fill="#f59e0b" stroke="#0f172a" />
-      <circle cx="130" cy="115" r="3.5" fill="#f59e0b" stroke="#0f172a" />
-      <circle cx="70" cy="165" r="3.5" fill="#f59e0b" stroke="#0f172a" />
-      <circle cx="130" cy="165" r="3.5" fill="#f59e0b" stroke="#0f172a" />
+        <!-- 4 Trous M4 Fraisés 90° -->
+        <circle cx="33" cy="77" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1" />
+        <circle cx="107" cy="77" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1" />
+        <circle cx="33" cy="151" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1" />
+        <circle cx="107" cy="151" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1" />
 
-      <!-- Chutes Réutilisables (Vert) -->
-      <!-- Chute Droite (80 x 160 mm) -->
-      <rect x="175" y="35" width="95" height="230" rx="4" fill="#10b981" fill-opacity="0.15" stroke="#34d399" stroke-width="1.5" stroke-dasharray="4,2" />
-      <text x="222" y="145" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#34d399" transform="rotate(-90,222,145)">CHUTE RÉUTILISABLE (60×160)</text>
+        <!-- 4 Trous M5 Lisses Traversants -->
+        <circle cx="35" cy="35" r="5" fill="#f43f5e" stroke="#ffffff" stroke-width="1" />
+        <circle cx="105" cy="35" r="5" fill="#f43f5e" stroke="#ffffff" stroke-width="1" />
+        <circle cx="35" cy="193" r="5" fill="#f43f5e" stroke="#ffffff" stroke-width="1" />
+        <circle cx="105" cy="193" r="5" fill="#f43f5e" stroke="#ffffff" stroke-width="1" />
+      </g>
 
-      <!-- Spécifications d'Achat -->
-      <g transform="translate(300, 20)">
-        <rect width="260" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
-        <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f59e0b">APPROVISIONNEMENT :</text>
-        <text x="15" y="48" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Commander : <tspan font-weight="700" fill="#34d399">2 plaques</tspan> 5×160×160</text>
-        <text x="15" y="68" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Coût total : <tspan font-weight="700" fill="#f8fafc">19.20 € TTC (2 × 9.60 €)</tspan></text>
-        <text x="15" y="88" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Plaque 1 : <tspan font-weight="700" fill="#38bdf8">Semelle Gauche</tspan> (80×130)</text>
-        <text x="15" y="108" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Plaque 2 : <tspan font-weight="700" fill="#38bdf8">Semelle Droite</tspan> (80×130)</text>
-        
-        <rect x="15" y="130" width="230" height="110" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
+      <!-- Cartouche Chutes -->
+      <g transform="translate(300, 10)">
+        <rect width="255" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">AVANTAGES D'ATELIER :</text>
+        <text x="15" y="48" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Découpe 2D en 1 passe sur C500</text>
+        <text x="15" y="68" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Fraisures coniques 90° à fleur</text>
+        <text x="15" y="88" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Perçages lisses Ø 4,3 mm</text>
+        <text x="15" y="108" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Zéro outil de taraudage requis</text>
+
+        <rect x="15" y="130" width="225" height="110" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
         <text x="25" y="150" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">RÉUTILISATION DES CHUTES :</text>
         <text x="25" y="170" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">• 2 bandes 7075 de 60 × 160 mm</text>
         <text x="25" y="188" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">• Idéal pour : Équerres de renfort,</text>
-        <text x="25" y="206" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">  supports de cartes IMU / CAN,</text>
-        <text x="25" y="224" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">  ou platines d'attache batterie.</text>
+        <text x="25" y="206" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">  supports IMU / PDB / CAN torse.</text>
       </g>
     </g>
   </g>
 
   <!-- ========================================================================= -->
-  <!-- PANEL 2: VUE EN COUPE MACRO — SENS D'INSERTION DES VIS FRAISÉES FHC M4 -->
+  <!-- PANEL 2: VUE EN COUPE MACRO — VIS FHC M4x30 + ÉCROUS NYLSTOP -->
   <!-- ========================================================================= -->
   <g transform="translate(710, 120)">
     <rect width="650" height="420" rx="10" fill="url(#grad-card-fhc)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-fhc)" />
-    <rect x="15" y="15" width="390" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
-    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      2. SENS D'INSERTION DES VIS FHC M4 (PAR L'ARRIÈRE)
+    <rect x="15" y="15" width="460" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#10b981">
+      2. COUPE D'ASSEMBLAGE : VIS FHC M4 × 30 mm + ÉCROUS NYLSTOP M4
     </text>
 
-    <g transform="translate(40, 60)">
-      <!-- Sens d'insertion : Tournevis vient de la gauche -->
+    <g transform="translate(30, 60)">
+      <!-- Flèche sens d'insertion -->
       <g transform="translate(0, 70)">
-        <path d="M 20 60 L 60 60" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow)" />
-        <text x="40" y="45" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#34d399">Insertion par</text>
-        <text x="40" y="56" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#34d399">la face arrière</text>
+        <path d="M 10 60 L 50 60" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow-fhc)" />
+        <text x="30" y="45" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#34d399">Vis FHC</text>
+        <text x="30" y="56" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#34d399">depuis l'arrière</text>
       </g>
 
-      <!-- 1. Semelle 5 mm en Coupe (Face Arrière à Gauche, Face Avant à Droite) -->
-      <rect x="80" y="20" width="30" height="260" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="2" />
-      <text x="95" y="270" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#ffffff" transform="rotate(-90,95,270)">Semelle 5 mm</text>
+      <!-- 1. Semelle 5 mm en Coupe (Face Arrière à Gauche) -->
+      <rect x="65" y="20" width="28" height="260" rx="2" fill="#0284c7" stroke="#38bdf8" stroke-width="2" />
+      <text x="79" y="270" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#ffffff" transform="rotate(-90,79,270)">Semelle 5 mm</text>
 
-      <!-- Fraisure conique à 90° (Ø 8.4 mm -> Ø 4.3 mm) -->
-      <!-- Trou Haut -->
-      <polygon points="80,50 92,60 110,60 110,70 92,70 80,80" fill="#0b1120" stroke="#38bdf8" stroke-width="1.5" />
-      <!-- Vis FHC M4x12 engagée (Tête conique à fleur de la face gauche) -->
-      <polygon points="80,52 90,61 80,78" fill="#f8fafc" stroke="#0f172a" />
-      <rect x="90" y="61" width="45" height="8" fill="#f8fafc" stroke="#0f172a" />
-      <line x1="80" y1="52" x2="80" y2="78" stroke="#34d399" stroke-width="2" />
-      <text x="65" y="68" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#34d399">0.0 mm</text>
+      <!-- 2. Insert Carré 20 mm en Coupe -->
+      <rect x="93" y="40" width="112" height="220" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="2" />
+      <text x="149" y="145" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#f8fafc">INSERT 20 mm</text>
 
-      <!-- Trou Bas -->
-      <polygon points="80,180 92,190 110,190 110,200 92,200 80,210" fill="#0b1120" stroke="#38bdf8" stroke-width="1.5" />
-      <polygon points="80,182 90,191 80,208" fill="#f8fafc" stroke="#0f172a" />
-      <rect x="90" y="191" width="45" height="8" fill="#f8fafc" stroke="#0f172a" />
-      <line x1="80" y1="182" x2="80" y2="208" stroke="#34d399" stroke-width="2" />
-      <text x="65" y="198" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#34d399">0.0 mm</text>
+      <!-- Évidement Central Ø35 mm -->
+      <rect x="135" y="85" width="70" height="130" rx="3" fill="#0b1120" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="170" y="145" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#fcd34d">Évidement</text>
+      <text x="170" y="157" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#fcd34d">Ø 35 mm</text>
 
-      <!-- 2. Insert Mâle 22 mm en Coupe (Plaqué contre la face droite) -->
-      <rect x="110" y="40" width="130" height="220" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="2" />
-      <text x="175" y="145" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f8fafc">INSERT 22 mm</text>
+      <!-- Perçage traversant lisse Ø 4,3 mm Haut + Fraisure 90° -->
+      <polygon points="65,52 77,61 65,78" fill="#f8fafc" stroke="#0f172a" />
+      <!-- Tige Vis FHC M4 traversant 5mm (semelle) + 20mm (insert) = 25mm + 5mm saillie = 30mm -->
+      <rect x="77" y="61" width="145" height="8" fill="#f8fafc" stroke="#0f172a" />
+      <line x1="65" y1="52" x2="65" y2="78" stroke="#34d399" stroke-width="2" />
+      <text x="50" y="68" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#34d399">0.0 mm</text>
 
-      <!-- Taraudages borgnes M4 dans l'insert (Foret Ø3.3 mm, Taraud M4) -->
-      <rect x="110" y="60" width="45" height="10" fill="#0f172a" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3,2" />
-      <rect x="110" y="190" width="45" height="10" fill="#0f172a" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3,2" />
+      <!-- Écrou Nylstop M4 Haut (Serré contre la face avant de l'insert à X=20 mm) -->
+      <rect x="205" y="56" width="14" height="18" rx="2" fill="#10b981" stroke="#ffffff" stroke-width="1" />
+      <rect x="215" y="58" width="4" height="14" rx="1" fill="#38bdf8" />
+      <text x="235" y="52" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#34d399">Écrou Nylstop M4</text>
 
-      <!-- Poche d'Allègement Centrale Ø35 mm (Au centre de l'insert) -->
-      <rect x="155" y="85" width="85" height="130" rx="3" fill="#0b1120" stroke="#f59e0b" stroke-width="1.5" />
-      <text x="197" y="155" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fcd34d">Évidement</text>
-      <text x="197" y="168" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fcd34d">Ø35 mm</text>
+      <!-- Perçage traversant lisse Ø 4,3 mm Bas + Fraisure 90° -->
+      <polygon points="65,182 77,191 65,208" fill="#f8fafc" stroke="#0f172a" />
+      <rect x="77" y="191" width="145" height="8" fill="#f8fafc" stroke="#0f172a" />
+      <line x1="65" y1="182" x2="65" y2="208" stroke="#34d399" stroke-width="2" />
+      <text x="50" y="198" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#34d399">0.0 mm</text>
+
+      <!-- Écrou Nylstop M4 Bas -->
+      <rect x="205" y="186" width="14" height="18" rx="2" fill="#10b981" stroke="#ffffff" stroke-width="1" />
+      <rect x="215" y="188" width="4" height="14" rx="1" fill="#38bdf8" />
+      <text x="235" y="210" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#34d399">Écrou Nylstop M4</text>
 
       <!-- Légende Explicative -->
-      <g transform="translate(260, 20)">
-        <rect width="270" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
-        <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">POURQUOI ZÉRO SAILLIE ?</text>
-        <text x="15" y="48" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• La vis FHC a une <tspan font-weight="700" fill="#f8fafc">tête conique 90°</tspan></text>
-        <text x="15" y="68" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Elle s'enfonce dans la <tspan font-weight="700" fill="#38bdf8">fraisure</tspan></text>
-        <text x="15" y="88" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• La face gauche reste <tspan font-weight="700" fill="#34d399">100% plane</tspan></text>
-        <text x="15" y="108" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Plaquage parfait sur la colonne 5mm</text>
+      <g transform="translate(280, 20)">
+        <rect width="280" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="15" y="24" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">SÉQUENCE D'ATELIER OPTIMISÉE :</text>
+        <text x="15" y="46" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">1. Pointer et percer les <tspan font-weight="700" fill="#38bdf8">4 trous Ø 4,3 mm</tspan></text>
+        <text x="27" y="60" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">débouchants dans Semelle et Insert.</text>
+        <text x="15" y="80" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">2. Fraiser à 90° la face arrière semelle.</text>
+        <text x="15" y="100" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">3. Insérer <tspan font-weight="700" fill="#f8fafc">4× FHC M4 × 30 mm</tspan>.</text>
+        <text x="15" y="120" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">4. Serrer les <tspan font-weight="700" fill="#34d399">4 écrous Nylstop M4</tspan> à l'établi.</text>
+        <text x="15" y="140" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">5. Glisser le tube 60×60 mm sur l'insert.</text>
         
-        <rect x="15" y="130" width="240" height="110" rx="4" fill="#064e3b" fill-opacity="0.3" stroke="#10b981" stroke-width="1" />
-        <text x="25" y="150" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">PAS D'OUTIL DANS L'ÉVIDEMENT :</text>
-        <text x="25" y="170" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">On ne visse RIEN depuis l'intérieur !</text>
-        <text x="25" y="188" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">Le tournevis accède librement par la</text>
-        <text x="25" y="206" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">face arrière de la semelle sur l'établi.</text>
-        <text x="25" y="224" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#34d399">➔ Assemblage en 30 secondes chrono.</text>
+        <rect x="15" y="158" width="250" height="85" rx="4" fill="#064e3b" fill-opacity="0.3" stroke="#10b981" stroke-width="1" />
+        <text x="25" y="178" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#34d399">BLOC RIGIDE MONOBLOC :</text>
+        <text x="25" y="196" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">• Assemblé en 45 secondes chrono.</text>
+        <text x="25" y="212" font-family="'Segoe UI', sans-serif" font-size="9" fill="#e2e8f0">• Bague nylon : 100% indesserrable.</text>
+        <text x="25" y="228" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#34d399">• Zéro risque de casse de taraud !</text>
       </g>
     </g>
   </g>
 
   <!-- ========================================================================= -->
-  <!-- PANEL 3: VUE DE FACE DU PLAN DE PERÇAGE DE L'INSERT (55.8 x 55.8 mm) -->
+  <!-- PANEL 3: VUE DE FACE DU PLAN D'APPUI DES ÉCROUS NYLSTOP (55.8 x 55.8 mm) -->
   <!-- ========================================================================= -->
   <g transform="translate(40, 560)">
     <rect width="1320" height="360" rx="10" fill="url(#grad-card-fhc)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow-fhc)" />
-    <rect x="20" y="20" width="460" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <rect x="20" y="20" width="560" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
     <text x="30" y="37" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      3. DISPOSITION GÉOMÉTRIQUE : ÉVIDEMENT Ø35 mm &amp; LES 4 TARAUDAGES M4
+      3. VÉRIFICATION D'APPUI DES ÉCROUS NYLSTOP M4 &amp; ÉVIDEMENT CENTRAL Ø35 mm
     </text>
 
     <g transform="translate(30, 60)">
       <!-- Face d'appui de l'Insert 55.8 x 55.8 mm -->
       <g transform="translate(50, 15)">
         <rect x="0" y="0" width="220" height="220" rx="12" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
-        <text x="110" y="-8" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f8fafc">55.80 × 55.80 mm</text>
+        <text x="110" y="-8" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f8fafc">Insert 55.80 × 55.80 mm</text>
 
         <!-- Rayon R=3mm aux 4 coins -->
         <path d="M 0 12 C 0 0, 12 0, 12 0" stroke="#f59e0b" stroke-width="2" />
@@ -200,56 +212,59 @@
         <!-- Évidement Central d'Allègement Ø35.0 mm -->
         <circle cx="110" cy="110" r="68" fill="#0b1120" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2" />
         <text x="110" y="114" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fcd34d">ÉVIDEMENT Ø 35 mm</text>
-        <text x="110" y="130" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Poche traversante (-55 g)</text>
+        <text x="110" y="130" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Passage Câbles &amp; Allègement</text>
 
-        <!-- 4x Taraudages Borgnes M4 aux 4 Coins (Entraxe 42 x 42 mm) -->
-        <!-- Coin Haut Gauche -->
-        <circle cx="32" cy="32" r="7" fill="#f8fafc" stroke="#0284c7" stroke-width="2" />
-        <circle cx="32" cy="32" r="3" fill="#0284c7" />
+        <!-- 4x Écrous Nylstop M4 Hexagonaux aux 4 Coins (Entraxe 42 x 42 mm) -->
+        <!-- Coin Haut Gauche (Y=21, Z=21) -->
+        <polygon points="32,20 42,26 42,38 32,44 22,38 22,26" fill="#10b981" stroke="#ffffff" stroke-width="1.2" />
+        <circle cx="32" cy="32" r="3.5" fill="#f8fafc" />
+
         <!-- Coin Haut Droit -->
-        <circle cx="188" cy="32" r="7" fill="#f8fafc" stroke="#0284c7" stroke-width="2" />
-        <circle cx="188" cy="32" r="3" fill="#0284c7" />
+        <polygon points="188,20 198,26 198,38 188,44 178,38 178,26" fill="#10b981" stroke="#ffffff" stroke-width="1.2" />
+        <circle cx="188" cy="32" r="3.5" fill="#f8fafc" />
+
         <!-- Coin Bas Gauche -->
-        <circle cx="32" cy="188" r="7" fill="#f8fafc" stroke="#0284c7" stroke-width="2" />
-        <circle cx="32" cy="188" r="3" fill="#0284c7" />
+        <polygon points="32,176 42,182 42,194 32,200 22,194 22,182" fill="#10b981" stroke="#ffffff" stroke-width="1.2" />
+        <circle cx="32" cy="188" r="3.5" fill="#f8fafc" />
+
         <!-- Coin Bas Droit -->
-        <circle cx="188" cy="188" r="7" fill="#f8fafc" stroke="#0284c7" stroke-width="2" />
-        <circle cx="188" cy="188" r="3" fill="#0284c7" />
+        <polygon points="188,176 198,182 198,194 188,200 178,194 178,182" fill="#10b981" stroke="#ffffff" stroke-width="1.2" />
+        <circle cx="188" cy="188" r="3.5" fill="#f8fafc" />
 
         <!-- Lignes de cotation entraxe 42 mm -->
         <line x1="32" y1="235" x2="188" y2="235" stroke="#94a3b8" stroke-width="1" />
         <text x="110" y="250" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f8fafc">Entraxe Δ = 42.0 mm</text>
       </g>
 
-      <!-- Cartouche Explicatif Synthèse -->
+      <!-- Cartouche Explicatif Vérification d'Appui -->
       <g transform="translate(360, 15)">
         <rect width="880" height="245" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
         <text x="25" y="30" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#38bdf8">
-          ANALYSE GÉOMÉTRIQUE : ZÉRO CONFLIT ENTRE VIS FHC ET ÉVIDEMENT Ø35 mm
+          VÉRIFICATION RDM &amp; GÉOMÉTRIQUE : APPUI 100% PLEIN DES ÉCROUS NYLSTOP
         </text>
         
         <text x="25" y="60" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">
-          1. <tspan font-weight="700" fill="#f8fafc">Positionnement des taraudages M4</tspan> : Les 4 trous sont placés sur les diagonales à un entraxe carré de 42,0 × 42,0 mm (rayon R = 29,7 mm).
+          1. <tspan font-weight="700" fill="#f8fafc">Positionnement des trous lisses Ø 4,3 mm</tspan> : Situés aux coordonnées (±21,0 mm ; ±21,0 mm) ➔ Rayon R_trou = 29,70 mm.
         </text>
         <text x="25" y="85" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">
-          2. <tspan font-weight="700" fill="#fcd34d">Rayon de l'évidement central</tspan> : Le cercle central a un rayon de R = 17,5 mm (Ø 35,0 mm).
+          2. <tspan font-weight="700" fill="#34d399">Marge d'appui intérieure (vers trou Ø35 mm)</tspan> : Rayon évidement = 17,5 mm ➔ Marge nette sous l'écrou = <tspan font-weight="700" fill="#34d399">+8,15 mm</tspan> de métal plein !
         </text>
         <text x="25" y="110" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">
-          3. <tspan font-weight="700" fill="#34d399">Pince de matière de sécurité</tspan> : La distance entre le bord de l'évidement et le centre des taraudages M4 est de :
+          3. <tspan font-weight="700" fill="#34d399">Marge extérieure (vers intérieur du tube 60×60)</tspan> : Bord insert = 27,9 mm ➔ Marge libre extérieure = <tspan font-weight="700" fill="#34d399">+2,85 mm</tspan>.
         </text>
         <text x="50" y="130" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">
-          d = R_vis - R_trou = 29.7 mm - 17.5 mm = 12.2 mm de matière pleine en Alu massif !
+          ➔ L'écrou Nylstop M4 repose à 100% sur une portée plane en Aluminium 7075-T6 sans déborder dans le vide !
         </text>
         
         <rect x="25" y="150" width="830" height="75" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1.5" />
         <text x="40" y="175" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">
-          RÉSUMÉ POUR L'USINAGE SUR LA NESTWORKS C500 :
+          RÉSUMÉ QUINCAILLERIE OFFICIELLE :
         </text>
         <text x="40" y="195" font-family="'Segoe UI', sans-serif" font-size="10" fill="#e2e8f0">
-          • Aucun outil ni vis ne passe à l'intérieur de l'évidement. L'évidement est une simple poche 2D évidée au centre.
+          • Vis : 8× Vis FHC M4 × 30 mm (ISO 10642 / DIN 7991) — McMaster 91294A198 (Acier 10.9) ou 92125A198 (Inox 18-8).
         </text>
         <text x="40" y="212" font-family="'Segoe UI', sans-serif" font-size="10" fill="#e2e8f0">
-          • Les 4 taraudages M4 borgnes (profondeur 10 mm) reçoivent les vis FHC vissées depuis la face arrière de la semelle.
+          • Écrous : 8× Écrous Autofreinés Nylstop M4 (ISO 7040 / DIN 985) — McMaster 90631A109.
         </text>
       </g>
     </g>

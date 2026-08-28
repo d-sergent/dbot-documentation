@@ -100,7 +100,7 @@
         <rect width="540" height="70" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
         <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">SYNTHÈSE USINAGE INSERT 20 mm :</text>
         <text x="15" y="45" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Brut : <tspan font-weight="700" fill="#f8fafc">Méplat 20 × 80 × 160 mm Alu 7075-T6</tspan> (Zéro surfaçage en Z)</text>
-        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Fixation : <tspan font-weight="700" fill="#34d399">4× FHC M4×12 axiales + 1× CHC M5×70 traversante en Z</tspan></text>
+        <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Fixation : <tspan font-weight="700" fill="#34d399">4× FHC M4×30 traversantes + écrous Nylstop + 1× CHC M5×70 en Z</tspan></text>
       </g>
     </g>
   </g>
@@ -137,12 +137,12 @@
       <rect x="360" y="100" width="170" height="140" fill="#0f172a" fill-opacity="0.9" />
       <text x="445" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#93c5fd">TUBE DROIT</text>
 
-      <!-- 4x Vis FHC M4 noyées à fleur dans les semelles -->
+      <!-- 4x Vis FHC M4 noyées à fleur dans les semelles + écrous -->
       <polygon points="258,125 274,120 274,130" fill="#f8fafc" stroke="#0f172a" />
       <polygon points="258,215 274,210 274,220" fill="#f8fafc" stroke="#0f172a" />
       <polygon points="322,125 306,120 306,130" fill="#f8fafc" stroke="#0f172a" />
       <polygon points="322,215 306,210 306,220" fill="#f8fafc" stroke="#0f172a" />
-      <text x="210" y="270" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#f8fafc">Vis FHC noyées à fleur</text>
+      <text x="210" y="270" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#f8fafc">Vis FHC + Nylstop M4</text>
 
       <!-- 4x Vis Traversantes M5 x 25 mm + Écrous Nylstop -->
       <line x1="240" y1="70" x2="340" y2="70" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
@@ -176,10 +176,10 @@
         <text x="15" y="60" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">Pré-assemblage Inserts</text>
         <text x="15" y="80" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Sur établi avant montage :</text>
         
-        <text x="15" y="105" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Visser insert 20 mm sur Semelle 5mm</text>
-        <text x="15" y="125" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• 4x vis FHC M4 × 12 mm + Loctite 243</text>
-        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Têtes fraisées noyées à fleur (0.0 mm)</text>
-        <text x="15" y="165" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Contrôler planéité face colonne</text>
+        <text x="15" y="105" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Assembler insert 20mm sur Semelle</text>
+        <text x="15" y="125" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• 4x vis FHC M4 × 30 mm traversantes</text>
+        <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• 4x écrous Nylstop M4 serrés sur établi</text>
+        <text x="15" y="165" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Têtes coniques noyées à fleur (0.0 mm)</text>
         
         <rect x="15" y="195" width="275" height="45" rx="4" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1" />
         <text x="25" y="215" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Résultat Étape 1 :</text>

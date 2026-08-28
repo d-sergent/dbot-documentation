@@ -397,11 +397,11 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 
 ---
 
-### D. Imbrication des Bruts & Détail d'Assemblage FHC M4
+### D. Imbrication des Bruts & Détail d'Assemblage FHC M4 Traversantes + Écrous Nylstop
 
 ![Imbrication Brut 7075 et Détail d'Insertion des Vis Fraisées FHC M4](./media/solution_c_detail_fraisage_fhc_et_imbrication_7075.svg)
 
-*Blueprint d'ingénierie vectoriel des détails d'usinage et d'assemblage (Solution C). Panel 1 : Imbrication 2D de la Semelle Éclisse (80 × 130 mm) dans la plaque carrée Blockenstock 5 × 160 × 160 mm Alu 7075-T6 (9.60 €). Panel 2 : Vue en coupe macro montrant le sens d'insertion des 4 vis FHC M4 depuis la face arrière de la semelle (noyées à 0.0 mm) dans les taraudages borgnes de l'insert. Panel 3 : Disposition géométrique sans conflit entre la poche centrale 44 × 44 mm (R = 5 mm) et les 4 taraudages M4 (entraxe 42×42 mm, pince d'alu = 12.2 mm).*
+*Blueprint d'ingénierie vectoriel des détails d'usinage et d'assemblage (Solution C). Panel 1 : Imbrication 2D de la Semelle Éclisse (80 × 130 mm) dans la plaque carrée Blockenstock 5 × 160 × 160 mm Alu 7075-T6 (9.60 €). Panel 2 : Vue en coupe macro montrant les 4 vis FHC M4 × 30 mm traversantes (noyées à 0.0 mm sur la face arrière de la semelle) verrouillées par 4 écrous Nylstop M4 sur la face avant de l'insert à l'établi. Panel 3 : Vérification géométrique d'appui des écrous Nylstop M4 (entraxe 42×42 mm, marge intérieure de +8,15 mm avant le trou Ø35 mm, marge extérieure de +2,85 mm, portée 100% pleine).*
 
 ![Imbrication des 2 Inserts dans le Brut 20x80x160 mm Alu 7075](./media/solution_c_imbrication_inserts_20x80x160_7075.svg)
 
@@ -527,7 +527,7 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
      3. *Contournage extérieur* : Découpe du profil en sablier 80×130 mm (encoches de flancs R=12 mm, chanfreins d'angles 15×15 mm). Masse finale = **`56,0 g`** / semelle.
 3. **Inserts Carrés Colonne (Alu 7075-T6)** :
    - Brut : 1 méplat 20 × 80 × 160 mm Blockenstock (16,80 € TTC).
-   - Contournage 2D des 2 inserts (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 20,0 mm !), **poche centrale 44 × 44 mm avec congés R = 5,0 mm** (même outil fraise Ø6 mm que le contournage), perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70) et 4 taraudages M4 borgnes axiaux (profondeur 10 mm pour vis FHC).
+   - Contournage 2D des 2 inserts (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 20,0 mm !), **évidement central Ø35,0 mm** (ou poche centrale 44 × 44 mm R=5 mm), perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70) et **4 perçages lisses traversants axiaux Ø 4,3 mm** (entraxe 42 × 42 mm pour vis FHC M4 × 30 mm traversantes et écrous Nylstop M4 — **zéro taraudage manuel !**).
 4. **Traverses Carrées 60×60×2 mm (Alu 6060-T6)** :
    - Coupe de 2 tronçons de **`84,0 mm`** dans la barre de 500 mm (cote nominale intégrant le jeu fonctionnel de 1,0 mm côté colonne).
    - Perçage de 2 trous lisses traversants verticaux **Ø5,3 mm** (axe Z) : trou côté bride d'épaule à **`X = 10,0 mm`** depuis le chant d'appui butée, et trou côté colonne à **`X = 74,0 mm`** (entraxe rigoureux de **`64,0 mm`**).
@@ -544,7 +544,7 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
 
 *Blueprint d'ingénierie vectoriel des détails de liaisons et d'atelier (Solution C).*
 
-1. **Étape 1 (Pré-assemblage Inserts / Semelles)** : Visser les 2 inserts 20 mm au dos des 2 semelles éclisses avec **4 vis FHC M4 × 12 mm + Loctite 243**. Vérifier que les têtes coniques sont **100% à fleur (0,0 mm)** sur la face interne.
+1. **Étape 1 (Pré-assemblage Inserts / Semelles sur Établi)** : Assembler les 2 inserts 20 mm au dos des 2 semelles éclisses en insérant les **4 vis FHC M4 × 30 mm** depuis la face arrière et en bloquant les **4 écrous Nylstop M4** à la clé de 7 mm. Vérifier que les têtes coniques sont **100% à fleur (0,0 mm)** sur la face interne d'appui colonne. L'ensemble forme instantanément un sous-ensemble rigide monobloc.
 2. **Étape 2 (Formation des Demi-Traverses & Butée Franche)** :
    - Emboîter le tube carré 60×60 mm (**L = 84,0 mm**) d'abord **en BUTÉE FRANCHE (contact métal-métal à 0,0 mm)** contre l'épaulement usiné de la bride d'épaule monobloc.
    - Glisser l'autre extrémité sur l'insert de colonne (portée de 19,0 mm) : le jeu d'aisance fonctionnel de **`1,0 mm`** côté semelle absorbe toute tolérance de coupe et aligne automatiquement les perçages M5 sans forcer.
@@ -582,7 +582,8 @@ Le tableau est structuré par **sous-ensemble fonctionnel** pour une intégratio
 | • **Rondelles d'Appui Tube** | Rondelles Plates M5 DIN 125A | ISO 7089 / DIN 125A | **`93475A240`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | Ø int 5,3 mm / Ø ext 10,0 mm / ép 1,0 mm. Répartit l'effort de serrage sur les parois du tube 60×60×2 mm. |
 | • **Écrous de Verrouillage Tube** | Écrous Frein Nylstop M5 | ISO 7040 / DIN 985 | **`90631A113`** (Inox 18-8) | **4 écrous** (2 / épaule) | Bague nylon autofreinée, indesserrable aux vibrations (couple 5,5 N.m). |
 | **3. JONCTION CENTRALE SAGITTALE & INSERTS COLONNE** | | | | | |
-| • **Fixation Inserts ➔ Semelles** | Vis FHC M4 × 12 mm | ISO 10642 / DIN 7991 | **`91294A194`** (Acier 10.9)<br>**`92125A194`** (Inox 18-8) | **8 vis** (4 / semelle) | **Fraisures coniques 90° à fleur exacte (0,0 mm)** sur semelles 5 mm. Serrage dans taraudages M4 borgnes inserts. |
+| • **Fixation Inserts ➔ Semelles (Vis Traversantes)** | Vis FHC M4 × 30 mm | ISO 10642 / DIN 7991 | **`91294A198`** (Acier 10.9)<br>**`92125A198`** (Inox 18-8) | **8 vis** (4 / semelle) | **Fraisures coniques 90° à fleur exacte (0,0 mm)** sur semelles 5 mm. Traversent Semelle (5 mm) + Insert (20 mm) = 25 mm. |
+| • **Écrous de Verrouillage Inserts ➔ Semelles** | Écrous Frein Nylstop M4 | ISO 7040 / DIN 985 | **`90631A109`** (Inox 18-8) | **8 écrous** (4 / semelle) | Serrage sur établi à plat contre la face avant de l'insert (appui 100% plein, marges +8,15 mm int. et +2,85 mm ext.). |
 | • **Sandwich Colonne Centrale** | Vis CHC M5 × 25 mm | ISO 4762 / DIN 912 | **`91290A235`** (Acier 12.9)<br>**`92290A235`** (Inox 18-8) | **4 vis** (2 avant, 2 arrière) | Perçages lisses Ø 5,3 mm chanfreinés à **`0,5 mm × 45°`** traversant le sandwich 15 mm (2 semelles 5 mm + plaque 5 mm). |
 | • **Rondelles Sandwich Colonne** | Rondelles Plates M5 DIN 125A | ISO 7089 / DIN 125A | **`93475A240`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | Ø int 5,3 mm / Ø ext 10,0 mm / ép 1,0 mm. |
 | • **Écrous Sandwich Colonne** | Écrous Frein Nylstop M5 | ISO 7040 / DIN 985 | **`90631A113`** (Inox 18-8) | **4 écrous** | Bague nylon autofreinée (couple 5,5 N.m). |
