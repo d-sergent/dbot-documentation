@@ -21,6 +21,9 @@ code/rag/rag_indexing.log
 # Heavy AI Models & TensorRT Engines
 *.engine
 *.onnx
+Code/rag/models_cache/
+code/rag/models_cache/
+models_cache/
 
 # IDE / Extensions
 .continue/

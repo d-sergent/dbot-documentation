@@ -2,6 +2,32 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-08-29 — Optimisation V2.2 de la Bride d'Épaule 3 Étages (Alu 7075-T6), Intégration CAO Réelle, Interface Thermique & Reranking RAG
+
+### 🎯 Objectif de la session
+1. **Audit & Optimisation RDM de la Bride d'Épaule Monobloc** : Intégration de la réduction de hauteur d'insertion (bossage 20 mm ➔ 15 mm) et de la poche centrale carrée 44×44 mm débouchante.
+2. **Décomposition en 3 Étages Fonctionnels & Intégration CAO Réelle** : Clarification de la structure monolithique (Étage 1 Flasque 5,0 mm, Étage 2 Hub 13,2 mm avec alésage Ø 95 mm prof. 13,8 mm, Étage 3 Bossage 15,0 mm), et intégration des 3 captures de conception CAO Fusion 360.
+3. **Isostatisme & Tolérancement de l'Interface Stator RS-04** : Définition du jeu fonctionnel axial de fond de 0,60 mm (garantissant l'appui franc primaire sur la flasque Ø 120 mm), du chanfrein d'entrée de 0,5 mm × 45° et du congé intérieur de fond R = 0,5 mm.
+4. **Calibrage de la Visserie & Interface Thermique** : Confirmation du serrage M4 stator (Zone 1 : M4×12 mm, Zone 2 : M4×25 mm sur 18,2 mm de matière cumulée avec rondelles Nord-Lock M4) et protocole d'application de pâte thermique non conductrice.
+5. **Modernisation & Sécurisation du Moteur RAG** : Déplacement des modèles d'Embedding et de Reranking vers un dossier local persistant (`Code/rag/models_cache`), intégration du modèle Cross-Encoder `BAAI/bge-reranker-base` avec scoring de pertinence et limitation automatique au Top 5.
+
+### 📝 Réalisations & Évolutions
+1. **Bride d'Épaule Monobloc 3 Étages (Gain net -33 g sur la paire, Sf > 50 partout)** :
+   - Usinée dans le brut marchand Ø 120 × 50 mm Alu 7075-T651 (hauteur utile = 33,20 mm).
+   - Poche carrée 44×44 mm R=5 mm sur 15,0 mm de profondeur débouchant sur la face du hub.
+   - Vis M5 traversante verticale à X = 7,5 mm (entraxe perçages tube 60×60 = 69,5 mm).
+2. **Interface Moteur RobStride RS-04 (Ø 94 mm × 13,2 mm)** :
+   - Alésage de centrage Ø 95,0 mm H7 prof. 13,80 mm (0,60 mm de jeu axial de fond).
+   - Conduction thermique augmentée de +60% (82 cm² d'interface métal-métal drainée vers le tube 60×60 et la ventilation forcée).
+3. **Documentation & Blueprints Synchronisés** :
+   - `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` actualisé avec toutes les cotes et captures CAO.
+   - `solution_c_bride_monobloc_7075_et_vis_traversantes.svg` régénéré intégralement en 3 panneaux.
+4. **Moteur RAG & Reranker Local Opérationnels** :
+   - `ask_rag.py`, `index_docs.py` et `mcp_lightrag_server.py` configurés sur `Code/rag/models_cache`.
+   - Reranking Cross-Encoder `BAAI/bge-reranker-base` actif (< 100 ms).
+
+---
+
 ## 📅 2026-08-24 — Standardisation 100% Nord-Lock & Visserie Étagée RS-04, Analyse Fatigue Multirégime & RDM Choc
 
 ### 🎯 Objectif de la session

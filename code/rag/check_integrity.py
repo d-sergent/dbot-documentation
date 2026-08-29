@@ -20,11 +20,16 @@ REPORT_PATH = os.path.join(BASE_DIR, "annexes/Outils_de_Travail/RAG/AUDIT_INTEGR
 QUESTIONS_JSON_PATH = os.path.join(BASE_DIR, "annexes/Outils_de_Travail/RAG/AUDIT_QUESTION_REPONSE.json")
 
 # ─── Fonctions Embedding ──────────────────────
+import warnings
+warnings.filterwarnings("ignore", message=".*intfloat/multilingual-e5-large now uses mean pooling.*")
+
+FASTEMBED_CACHE_DIR = os.environ.get("FASTEMBED_CACHE_PATH", os.path.expanduser("~/.cache/fastembed"))
+
 _embed_model = None
 def get_embed_model():
     global _embed_model
     if _embed_model is None:
-        _embed_model = TextEmbedding("intfloat/multilingual-e5-large")
+        _embed_model = TextEmbedding("intfloat/multilingual-e5-large", cache_dir=FASTEMBED_CACHE_DIR)
     return _embed_model
 
 async def fastembed_func(texts: list[str]) -> np.ndarray:

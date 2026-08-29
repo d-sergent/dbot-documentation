@@ -150,7 +150,12 @@ except ImportError as e:
     sys.exit(1)
 
 # ─── Embeddings Locaux (FastEmbed) ───────────────────────────────────────────
-_embed_model = TextEmbedding("intfloat/multilingual-e5-large")
+import warnings
+warnings.filterwarnings("ignore", message=".*intfloat/multilingual-e5-large now uses mean pooling.*")
+
+DEFAULT_CACHE_DIR = "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/models_cache"
+FASTEMBED_CACHE_DIR = os.environ.get("FASTEMBED_CACHE_PATH", DEFAULT_CACHE_DIR)
+_embed_model = TextEmbedding("intfloat/multilingual-e5-large", cache_dir=FASTEMBED_CACHE_DIR)
 EMBEDDING_DIM = 1024
 
 async def fastembed_func(texts: list[str]) -> np.ndarray:

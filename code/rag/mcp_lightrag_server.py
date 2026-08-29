@@ -85,13 +85,19 @@ except ImportError as e:
 # ─── Initialisation (Lazy — au premier appel) ─────────────────────────────────
 
 _rag_instance = None
+import warnings
+warnings.filterwarnings("ignore", message=".*intfloat/multilingual-e5-large now uses mean pooling.*")
+
+DEFAULT_CACHE_DIR = "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/models_cache"
+FASTEMBED_CACHE_DIR = os.environ.get("FASTEMBED_CACHE_PATH", DEFAULT_CACHE_DIR)
+
 _embed_model  = None
 
 
 def get_embed_model():
     global _embed_model
     if _embed_model is None:
-        _embed_model = TextEmbedding("intfloat/multilingual-e5-large")
+        _embed_model = TextEmbedding("intfloat/multilingual-e5-large", cache_dir=FASTEMBED_CACHE_DIR)
     return _embed_model
 
 

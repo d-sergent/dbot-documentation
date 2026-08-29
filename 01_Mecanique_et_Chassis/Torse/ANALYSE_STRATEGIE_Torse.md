@@ -1,20 +1,42 @@
 # 🔬 Analyse Stratégique du Torse D-Bot : Bilan & Recommandations
 
 > [!IMPORTANT]
-> **DÉCISION RETENUE (Août 2026) — Architecture Cruciforme**
+> **DÉCISION RETENUE (Août 2026) — Architecture Tout Métal V2 (Révision V2.1)**
 >
-> Après évaluation des 3 approches ci-dessous, l'**architecture cruciforme** a été retenue comme design final du torse D-Bot. Elle combine :
-> - **1 plaque sagittale à lumières 2D** en aluminium 6061-T6 (5 mm, lumières 2D traversantes — Option B)
-> - **1 traverse horizontale** en tube carbone Ø30 mm reliant les 2 épaules
-> - **2 Cages H-Bracket d'épaule en Alu 7075-T6** (2 plaques 5mm évidées Ø95mm + bride monobloc 48.2mm + 2 tirants M5 axiaux à 23.4° R=72mm)
-> - **2 paniers batterie latéraux** avec hot-swap (espace intérieur 100% libéré)
+> Après évaluation des 3 approches ci-dessous et une évolution majeure de l'architecture, le **design final V2.1 Tout Métal** a été retenu pour le torse D-Bot. Il combine :
+> - **1 colonne sagittale en 2 plaques évidées 2D** en aluminium 7075-T6 (5 mm) assemblées par double éclisse sandwich 15 mm
+> - **2 traverses horizontales** en tube carré commercial 60×60×2 mm Alu 6060-T6 (emboîtement direct, zéro collage)
+> - **2 Brides d'épaule monoblocs en Alu 7075-T6** (flasque 6 mm + bossage carré 20 mm) vissées directement sur les stators RS-04 (10× M4, PCD Ø106 mm)
+> - **2 inserts carrés colonne** en Alu 7075-T6 (55,8×55,8×15 mm, Blockenstock 15×80×80 mm)
+> - **2 paniers batterie latéraux** avec hot-swap ORing (480-576 Wh)
+> - **Système aéraulique à tuyères convergentes 3D** (PA12-CF, expulsion annulaire gap 2,0 mm autour des RS-04)
 > - **Coque secondaire PA12-CF** (impression verticale Qidi Plus 4)
 >
-> Les 3 approches ci-dessous (Cage Alu, Spine Carbone, Split-Monocoque) sont **obsolètes** et archivées dans `./00_Archives_Recherche/`. Ce document est conservé comme justification historique de la décision.
+> Les 3 approches initiales ci-dessous (Cage Alu, Spine Carbone, Split-Monocoque) ainsi que l'architecture cruciforme intermédiaire (tube carbone Ø30 mm + cages H-bracket) sont **obsolètes** et archivées dans `./00_Archives_Recherche/`. Ce document est conservé comme justification historique de la décision.
 >
-> 📄 **Documents actifs** : [GUIDE_Fabrication_Torse_D-Bot_Hybride.md](./GUIDE_Fabrication_Torse_D-Bot_Hybride.md) · [ETUDE_Dimensionnement_Colonne_Vertebrale.md](./ETUDE_Dimensionnement_Colonne_Vertebrale.md)
+> 📄 **Document actif** : [DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md](./DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md)
+
 
 Ce document fait le bilan complet de tout le travail de conception réalisé à date sur le torse du D-Bot, analyse objectivement les succès et les impasses, et propose des **voies pragmatiques** pour obtenir un design haut de gamme **sans passer des heures sur Fusion 360**.
+
+---
+
+## 📑 Sommaire
+
+- [**1. Synthèse des 3 Approches Explorées**](#1-synthèse-des-3-approches-explorées)
+  - [📊 Tableau Comparatif](#-tableau-comparatif)
+  - [A. V1 : Cage Tubulaire Boulonnée en Aluminium](#a-v1--cage-tubulaire-boulonnée-en-aluminium)
+  - [B. Option A : Spine Carbone Centrale + Clamps](#b-option-a--spine-carbone-centrale--clamps)
+  - [C. Option C : Split-Monocoque Hybride PA12-CF (Retenue)](#c-option-c--split-monocoque-hybride-pa12-cf-retenue)
+- [**2. Bilan Honnête du Script Fusion 360**](#2-bilan-honnête-du-script-fusion-360)
+- [**3. Votre Design Cible (Rappel)**](#3-votre-design-cible-rappel)
+- [**4. 🎯 Recommandations Pragmatiques**](#4--recommandations-pragmatiques-du-plus-simple-au-plus-complexe)
+  - [Recommandation 1 : Importer et Adapter un Modèle Open-Source Existant](#recommandation-1--importer-et-adapter-un-modèle-open-source-existant)
+  - [Recommandation 2 : Modéliser Directement dans OnShape (Gratuit, Cloud)](#recommandation-2--modéliser-directement-dans-onshape-gratuit-cloud)
+  - [Recommandation 3 : Simplifier le Design Fusion 360 (Sans Formes Organiques)](#recommandation-3--simplifier-le-design-fusion-360-sans-formes-organiques)
+  - [Recommandation 4 : Rechercher des Modèles Premium sur GrabCAD/Printables](#recommandation-4--rechercher-des-modèles-premium-sur-grabcadprintables)
+- [**5. Ma Préconisation Finale**](#5-ma-préconisation-finale)
+- [**7. Schémas de Référence des Concepts Explorés**](#7-schémas-de-référence-des-concepts-explorés)
 
 ---
 
