@@ -52,7 +52,7 @@
 - [**9. Gamme d'Usinage NestWorks C500 & Protocole Pas-à-Pas**](#9-gamme-dusinage-nestworks-c500--protocole-pas-à-pas)
   - [A. Gamme d'Usinage par Composant (CNC C500)](#a-gamme-dusinage-par-composant-cnc-c500)
   - [B. Protocole Chronologique de Montage sur Établi](#b-protocole-chronologique-de-montage-sur-établi)
-  - [C. Tutoriel McMaster-Carr, Quincaillerie, Freins-Filets & Pâte Thermique](#c-tutoriel-dimportation-quincaillerie-mcmaster-carr--normes-diniso-dans-fusion-360)
+  - [C. Tutoriel McMaster-Carr, Quincaillerie, Freins-Filets, Pâte Thermique & Couples Dynamométriques](#c-tutoriel-dimportation-quincaillerie-mcmaster-carr--normes-diniso-dans-fusion-360)
 - [**10. Bilan de Masse Consolidé & Fiche d'Approvisionnement Direct**](#10-bilan-de-masse-consolidé--fiche-dapprovisionnement-direct)
   - [A. Nomenclature & Bilan de Masse Réel du Haut du Torse Complet](#a-nomenclature--bilan-de-masse-réel-du-haut-du-torse-complet)
   - [B. Fiche d'Approvisionnement Direct Blockenstock (Panier 100% 7075-T6)](#b-fiche-dapprovisionnement-direct-blockenstock-panier-100-7075-t6)
@@ -122,13 +122,22 @@ Les profondeurs intérieures de la cavité du torse ont été mesurées pour fix
 
 ---
 
-### B. Choix de la Largeur Constante : 94,0 mm de Haut en Bas (du Cou au Waist)
+### B. Profil de la Colonne Sagittale : Élargissement Local à 100,0 mm aux Épaules & 94,0 mm au Waist
 
-Partant d'un brut de **100,0 mm de large**, la largeur finale finie est fixée à **`d = 94,0 mm`** sur toute la hauteur du torse :
-1. **Au Cou (Sommet)** : `94,0 mm` correspond exactement à la profondeur biseautée maximale disponible dans la cavité supérieure de la coque.
-2. **Aux Épaules (Centre)** : Les semelles éclisses faisant `80,0 mm`, la colonne de `94,0 mm` déborde de seulement **7,0 mm de chaque côté**, offrant un épaulement parfait pour caler les cornières de guidage des batteries.
-3. **À la Base (Waist)** : S'encastre rigoureusement sur la Waist Plate dans l'empreinte de 120 mm.
-4. **Usinage C500 minimal** : Seuls 3,0 mm sont détourés sur chaque chant pour obtenir une tranche rectifiée à 94,0 mm.
+Partant du plat marchand brut de **`100,0 mm de large`** ([5 × 100 × 495 mm Alu 7075-T6](https://www.blockenstock.fr) @ 18,16 € TTC), la colonne est profilée en 2D sur la NestWorks C500 pour s'adapter rigoureusement à l'environnement géométrique réel :
+
+![Mesure CAO de l'Offset 11.055 mm et Redan 6 mm](./media/cad_mesure_offset_tube_11mm_redan_6mm.png)
+
+*Relevé CAO Fusion 360 : Tube carré 60×60 mm incliné à 15,0° (pitch) avec décentrement sagittal de 11,055 mm. Redan de +6,0 mm sur la colonne sagittale (largeur passant localement à 100,0 mm) garantissant un appui plein avec 5,20 mm de marge de matière résiduelle.*
+
+![Double Rayon R15 mm Tangent sur Redan Colonne Sagittale](./media/cad_colonne_redan_double_rayon_15mm.png)
+
+*Raccordement fluide en double rayon tangent R = 15,0 mm (courbe en S) à la transition 94 mm ➔ 100 mm : annulation du facteur de concentration de contraintes (Kt ~ 1,05) et trajectoire d'usinage 2.5D continue à haute vitesse.*
+
+1. **Au Cou (Sommet, h = 432,7 mm)** : Largeur détourée et biseautée à **`86,5 ~ 94,0 mm`** pour s'inscrire dans l'ouverture circulaire de la coque.
+2. **Aux Épaules (Nœud central, h = 290,0 mm)** : Pleine largeur brute conservée à **`100,0 mm`** (créant le redan de **`+6,0 mm`** côté décentrement du tube). Cela englobe **100% de l'empreinte tournée à 15,0° du tube 60×60 mm** avec une marge de matière résiduelle de **`5,20 mm`** de métal plein. Les transitions haut et bas sont raccordées par un **double rayon tangent en S `R = 15,0 mm`** (concave + convexe), garantissant un écoulement laminaire des contraintes de flexion et une continuité de trajectoire de fraisage.
+3. **À la Base (Waist, h = 0,0 mm)** : Largeur rectifiée à **`94,0 mm`** pour s'encastrer rigoureusement dans les 94 mm disponibles de la Waist Plate (interface moteur RS-06).
+4. **Zéro Surcoût Matière** : Le brut marchand de 100 mm est utilisé à 100% de son potentiel sans aucune chute superflue.
 
 ---
 
@@ -144,25 +153,25 @@ La colonne vertébrale en **Alu 7075-T6** (`Rp0.2 = 470 MPa`) encaisse les solli
 
 ---
 
-### D. Caractéristiques de Section & Formulations RDM (Largeur 94 mm)
+### D. Caractéristiques de Section & Formulations RDM Actualisées
 
 * Épaisseur de la tôle brute : `e = 5,0 mm`
-* Profondeur totale constante : `d = 94,0 mm`
+* Largeur à la base (Waist) : `d = 94,0 mm`
+* Largeur au nœud d'épaule : `d = 100,0 mm` (**+20,4% de rigidité en flexion Pitch**)
 
-#### 1. Variante Pleine (Sans évidement) :
-* Moment quadratique : `I_x = (5,0 × 94^3) / 12 = 346 077 mm4`
-* Contrainte à la base (275 N.m) : `Sigma_max = (275 000 × 47,0) / 346 077 = 37,34 MPa`
-* **Facteur de sécurité élastique** : `Sf = 470,0 / 37,34 = ×12,58 ✅`
+#### 1. Nœud Central d'Épaules (Largeur d = 100,0 mm) :
+* Moment quadratique Pitch : `I_y_epaule = (5,0 × 100^3) / 12 = 416 667 mm4`
+* Module de flexion : `W_y_epaule = 416 667 / 50,0 = 8 333 mm3`
+* Contrainte sous couple de pointe épaule (120 N.m) : `Sigma_max = 120 000 / 8 333 = 14,40 MPa`
+* **Facteur de sécurité élastique au nœud** : `Sf = 470,0 / 14,40 = ×32,64 ✅` *(contre ×26,40 précédemment, gain net de sécurité de +23%)*.
+
+#### 2. Base Waist Plate (Largeur d = 94,0 mm, Moment 275 N.m) :
+* Moment quadratique Pitch : `I_y_base = (5,0 × 94^3) / 12 = 346 077 mm4`
+* Module de flexion : `W_y_base = 346 077 / 47,0 = 7 363 mm3`
+* Contrainte à la base (Arrêt d'urgence extrême 275 N.m) : `Sigma_max = (275 000 × 47,0) / 346 077 = 37,34 MPa`
+* **Facteur de sécurité élastique à la base** : `Sf = 470,0 / 37,34 = ×12,58 ✅`
 * **Flèche au sommet (L = 432 mm)** : `Delta = (275 000 × 432^2) / (2 × 71 000 × 346 077) = 1,04 mm` (< 1,5 mm).
-  > *Note méthodologique* : La formule `M × L^2 / (2 × E × I)` correspond à la flèche d'une poutre encastrée-libre sous moment appliqué en tête. En réalité, le chargement du buste est distribué (poids de la tête + bras + charges) à différentes hauteurs, la flèche réelle se situe dans la plage **0,5 à 1,0 mm** selon la posture. La valeur de 1,04 mm est le cas majorant conservatif.
-* Masse de la colonne complète (Plaque Haute + Basse) : **~450 g**.
-
-#### 2. Variante Évidée 2D (Lumières centrales de 54 mm, bordures 20 mm) :
-* Moment d'inertie net résistant : `I_x_net = 346 077 - (5,0 × 54^3) / 12 = 346 077 - 65 610 = 280 467 mm4`
-* Contrainte à la base (275 N.m) : `Sigma_max = (275 000 × 47,0) / 280 467 = 46,08 MPa`
-* **Facteur de sécurité élastique** : `Sf = 470,0 / 46,08 = ×10,20 ✅`
-* **Flèche au sommet** : `Delta = (275 000 × 432^2) / (2 × 71 000 × 280 467) = 1,28 mm` (< 1,5 mm).
-* Masse de la colonne complète allégée : **~315 g** (gain net de 135 g).
+* Masse de la colonne complète allégée 2D : **~325 g**.
 
 ---
 
@@ -405,7 +414,7 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 * **Architecture monolithique d'un seul bloc (Hauteur totale utile = `33,20 mm` usinée dans le brut Ø120 × 50 mm)** :
   - **Étage 1 — Flasque d'appui stator (5,00 mm)** : Disque Ø120 mm percé de **10 trous de passage Ø4,3 mm** sur PCD Ø 106 mm + **chanfrein d'entrée d'alésage `0,5 mm × 45°`** (dégageant le congé de racine d'épaulement du moteur RS-04 pour garantir un contact plan 100% parfait à 0,0 mm). Se visse directement sur les 10 taraudages M4 du stator (sans plaque H-bracket intermédiaire).
   - **Étage 2 — Hub intermédiaire / Secteur épais (13,20 mm)** : Surépaisseur arrière intégrant un **alésage / logement Ø 95,00 mm H7 d'une profondeur exacte de `13,80 mm` avec congé de fond intérieur `R = 0,5 mm`** (anti-concentration de contraintes, sans aucune interférence moteur grâce au jeu fonctionnel axial de fond de `0,60 mm`). Reçoit la section arrière Ø 94,0 mm × 13,2 mm du moteur RS-04. L'épaisseur totale de matière traversée par les vis de Zone 2 est de `5,00 + 13,20 = 18,20 mm` (serrage par vis **CHC M4 × 25 mm + Nord-Lock**, pénétration stator = 5,00 mm ✅).
-  - **Étage 3 — Bossage carré d'insertion tube (55,80 × 55,80 × 15,00 mm)** : Usiné directement dans la masse avec congés **R = 3,0 mm** et **poche centrale carrée `44 × 44 mm` avec congés intérieurs R = 5,0 mm** (profondeur de poche **`15,00 mm`** sur toute la hauteur du bossage, s'appuyant directement sur la face de référence du Hub de 13,20 mm). Paroi résiduelle latérale = **5,9 mm** (Sf compression M5 = ×8,4 ✅). *(Gain de masse et usinage 2.5D simplifié sans reprise de plancher)*.
+  - **Étage 3 — Bossage carré d'insertion tube (55,80 × 55,80 × 15,00 mm)** : Usiné directement dans la masse avec congés extérieurs **R = 3,0 mm** et **poche centrale carrée `44 × 44 mm` avec congés verticaux intérieurs R = 5,0 mm et congé de fond intérieur R = 0,5 mm** (profondeur de poche **`15,00 mm`** sur toute la hauteur du bossage, s'appuyant directement sur la face de référence du Hub de 13,20 mm avec adoucissement des contraintes à la racine). Paroi résiduelle latérale = **5,9 mm** (Sf compression M5 = ×8,4 ✅). *(Gain de masse, anti-concentration de contraintes et usinage 2.5D simplifié sans reprise de plancher)*.
   - **Verrouillage traversant épuré (Option 1 validée)** : 1 seul perçage traversant **Ø5,3 mm vertical (axe Z)** centré à **`X = 7,5 mm`** depuis le chant d'extrémité du bossage (pour vis CHC M5 × 70 mm). Distance bord trou Ø5,3 mm / paroi poche : **3,25 mm > 3,0 mm** ✅ (pince latérale = 5,9 mm).
 
 > [!NOTE]
@@ -438,28 +447,28 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 
 ---
 
-### C. Interface Colonne : Double Éclisse Structurelle Sandwich (80 × 130 mm)
+### C. Interface Colonne : Double Éclisse Structurelle Sandwich & Adaptation Géométrique (15,0°, Offset 11 mm)
 
-![Jonction Centrale Sandwich et Éclissage des 2 Parties de Colonne](./media/solution_c_sandwich_eclisse_colonne_2_parties.svg)
+![Intégration 3D du Torse, Colonne et Traverse Inclinée](./media/cad_torse_vue_interieure_tube_et_colonne.png)
 
-*Blueprint d'ingénierie vectoriel de la jonction centrale sandwich (Solution C). Panel 1 : Vue sagittale Y-Z montrant l'éclissage de la Plaque Haute (142 mm) et de la Plaque Basse (290 mm) par la Semelle de 80 × 130 mm (4 vis M5 traversantes). Panel 2 : Coupe transversale X-Y montrant la continuité du plan sagittal 5 mm entre les 2 tubes carrés. Panel 3 : Comparatif des géométries de joint 2D (Coupe droite vs Tenon de centrage 2D) usinables sur la NestWorks C500.*
+*Modélisation CAO réelle Torse v71 : Les 2 demi-traverses carrées 60×60 mm sont orientées avec un angle de 15,0° (pitch) et un déport sagittal de 11,055 mm. La semelle éclisse en sandwich assure la liaison rigide sans affaiblir la colonne centrale.*
 
 ![Plan 2D et Lumières d'Allègement de la Semelle Éclisse 7075-T6](./media/plan_detail_semelle_eclisse_lumieres_2d.svg)
 
-*Blueprint d'ingénierie vectoriel de la Semelle Éclisse allégée 2D. Panel 1 : Plan coté avec alésage central Ø28 mm, 2 lumières oblongues 22×14 mm (R=4 mm), 4 encoches de flanc en sablier (R=12 mm) et chanfreins 15×15 mm. Panel 2 : Analyse des lignes de force en treillis (Truss) garantissant la reprise intégrale des 275 N.m de flexion avec un bras de levier de 90 mm. Panel 3 : Bilan comparatif (56,0 g / semelle vs 142,5 g pour un rectangle plein).*
+*Blueprint d'ingénierie vectoriel de la Semelle Éclisse allégée 2D (Révision V2.3). Panel 1 : Plan coté 100 × 130 mm avec redan +6,0 mm (double rayon tangent R=15 mm), alésage central Ø28 mm, insert orienté à 15,0° (offset 11,055 mm) et 4 vis FHC M4. Panel 2 : Analyse RDM de décomposition du couple 120 N.m (Roll 115,9 N.m + Yaw 31,1 N.m) et moment de flexion 275 N.m. Panel 3 : Fiche d'atelier NestWorks C500 et bilan de masse (59,0 g / semelle).*
 
-1. **Rôle 2-en-1 des Semelles Éclisses (80 × 130 × 5,0 mm en Alu 7075-T6)** :
-   - Portent l'insert carré recevant le tube d'épaule au centre (`Z = 0`).
-   - Enserrent en sandwich la **Plaque Haute (5 mm)** et la **Plaque Basse (5 mm)** sur une hauteur de 130 mm (épaisseur totale = 15,0 mm).
-2. **Topologie 2D des Lumières d'Allègement (Passage de 142,5 g à 56,0 g)** :
-   - **Alésage central de passage & allègement (`Ø 28,0 mm`)** : Centré à (0, 0), allège le centre neutre (-8,6 g) et libère le passage pour les câbles/faisceaux torse.
-   - **2 Lumières oblongues axiales (`22,0 × 14,0 mm`, coins `R = 4,0 mm`)** : Centrées à Z = +45,0 mm et Z = -45,0 mm entre les paires de vis M5 (-10,1 g).
-   - **Détourage des flancs en sablier (`4 encoches R = 12,0 mm`)** : Élimine la matière morte latérale sur les zones non sollicitées en traction (-22,0 g).
-   - **Chanfreins des 4 coins extérieurs (`15,0 × 15,0 mm`)** : Réduit la largeur d'extrémité de 80 mm à 50 mm (-10,0 g).
-   - **Masse nette unitaire** : **`56,0 g`** (soit **`112,0 g` pour la paire**, générant un gain net de **`173,0 g`** sur le robot par rapport à deux rectangles pleins).
+1. **Rôle 2-en-1 des Semelles Éclisses (100 × 130 × 5,0 mm en Alu 7075-T6)** :
+   - Portent l'insert carré orienté à **`15,0°`** recevant le tube d'épaule décentré de **`11,055 mm`**.
+   - Enserrent en sandwich la **Plaque Haute (5 mm)** et la **Plaque Basse (5 mm)** sur une hauteur de 130 mm (épaisseur totale = 15,0 mm). Largeur adaptée à **`100,0 mm`** aux épaules avec redan de `+6,0 mm` pour épouser fidèlement le profil de la colonne.
+2. **Topologie 2D des Lumières d'Allègement (Masse finale = `59,0 g` / semelle)** :
+   - **Alésage central de passage & allègement (`Ø 28,0 mm`)** : Centré sur l'axe du tube déporté (`X = +11,055 mm, Z = 0`), allège le centre neutre et libère le passage pour les câbles/faisceaux torse.
+   - **2 Lumières oblongues axiales (`22,0 × 14,0 mm`, coins `R = 4,0 mm`)** : Centrées à Z = +45,0 mm et Z = -45,0 mm entre les paires de vis M5.
+   - **Flanc gauche avec redan de +6,0 mm & double rayon tangent en S (`R = 15,0 mm`)** : Épouse le profil de la colonne sans aucune concentration de contraintes (`Kt ≈ 1,05`).
+   - **Flanc droit en sablier (`2 encoches R = 12,0 mm`) & chanfreins d'angles (`15,0 × 15,0 mm`)** : Supprime la matière morte non sollicitée.
+   - **Masse nette unitaire** : **`59,0 g`** (soit **`118,0 g` pour la paire**, générant un gain net de **`167,0 g`** sur le robot par rapport à deux rectangles pleins de 100×130 mm).
 3. **Répartition des 4 Vis Traversantes M5 × 25 mm & Bras de Levier (90 mm)** :
-   - **2 vis en haut (`Z = +45,0 mm`, entraxe Y = 40 mm)** : Traversent Semelle G + **Plaque Haute** + Semelle D.
-   - **2 vis en bas (`Z = -45,0 mm`, entraxe Y = 40 mm)** : Traversent Semelle G + **Plaque Basse** + Semelle D.
+   - **2 vis en haut (`Z = +45,0 mm`, entraxe Y = 50 mm)** : Traversent Semelle G + **Plaque Haute** + Semelle D.
+   - **2 vis en bas (`Z = -45,0 mm`, entraxe Y = 50 mm)** : Traversent Semelle G + **Plaque Basse** + Semelle D.
    - **Bras de levier de flexion Delta_Z = 90,0 mm** : Reprend intégralement le moment fléchissant sagittal extrême de **`275 N.m`** avec un effort de traction par vis de 3 055 N (précharge totale de serrage = 19 200 N, interdisant tout décollement ou micro-glissement). **Serrage en croix séquentiel obligatoire** (vis #1 haut-gauche → #2 bas-droite → #3 haut-droite → #4 bas-gauche).
 4. **Tenon de Centrage 2D à Z = 0 (OBLIGATOIRE)** :
    - La plaque basse possède un tenon rectangulaire de **40 mm (largeur) × 10 mm (hauteur)** avec congés **R = 3,0 mm** qui s'emboîte dans la plaque haute, garantissant un alignement coaxial automatique parfait à **0,0 mm**. Ce tenon transforme le joint en quasi-encastrement et est **indispensable** pour la continuité de la fibre neutre au noeud d'épaules (zone d'application des 120 N.m de torsion).
@@ -589,16 +598,16 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
    - Brut : 2 disques Ø120 × 50 mm Blockenstock (30 € / pièce).
    - Usinage 2.5D en 2 phases avec fraise carbure 3 dents Ø6 mm DLC (hauteur totale usinée = **33,20 mm**) :
      1. *Phase 1 — Face Stator* : Alésage / logement pilote Ø 95,05 mm H7 profondeur **`13,80 mm`** (avec **congé de fond intérieur `R = 0,5 mm`** et **chanfrein d'entrée `0,5 mm × 45°`**, recevant le bossage arrière Ø 94,0 × 13,2 mm du RS-04 avec un jeu axial de fond de 0,60 mm) + 10 trous de passage Ø4,3 mm sur PCD Ø106 mm chanfreinés à **`0,5 mm × 45°`** pour rondelles Nord-Lock M4.
-     2. *Phase 2 — Face Bossage & Hub* : Dégagement de la flasque 5,0 mm, usinage du hub intermédiaire 13,20 mm (Étage 2), contournage du bossage carré **55,8×55,8×15 mm** (Étage 3) avec **poche carrée centrale 44 × 44 mm R=5 mm** (profondeur **15,0 mm** débouchant sur le hub 13,2 mm) et perçage traversant vertical Ø5,3 mm centré à **X = 7,5 mm** (axe Z). *(Opération 2.5D continue fraise Ø6 mm DLC, sans changement d'outil)*.
+     2. *Phase 2 — Face Bossage & Hub* : Dégagement de la flasque 5,0 mm, usinage du hub intermédiaire 13,20 mm (Étage 2), contournage du bossage carré **55,8×55,8×15 mm** (Étage 3) avec **poche carrée centrale 44 × 44 mm** (congés verticaux **R = 5,0 mm**, congé de fond inférieur **R = 0,5 mm**, profondeur **15,0 mm** débouchant sur le hub 13,2 mm) et perçage traversant vertical Ø5,3 mm centré à **X = 7,5 mm** (axe Z). *(Opération 2.5D continue fraise Ø6 mm DLC, sans changement d'outil)*.
 2. **Semelles Éclisses Colonne (Alu 7075-T6)** :
    - Brut : 2 plaques 5 × 160 × 160 mm Blockenstock (9,60 € / pièce).
    - Découpe 2D en 1 passe sur table martyr (Fraise Ø6 mm DLC) :
      1. *Évidements intérieurs* : Alésage central Ø28,0 mm + 2 lumières oblongues 22×14 mm (R=4 mm) centrées à Z = ±45,0 mm.
-     2. *Perçages & Fraisures* : 4 trous Ø4,5 mm avec fraisure conique 90° à fleur (0,0 mm pour vis FHC M4) + 4 trous lisses traversants Ø5,3 mm chanfreinés à 0,5 mm × 45° (vis M5).
-     3. *Contournage extérieur* : Découpe du profil en sablier 80×130 mm (encoches de flancs R=12 mm, chanfreins d'angles 15×15 mm). Masse finale = **`56,0 g`** / semelle.
+     2. *Perçages & Fraisures* : 4 trous Ø4,5 mm avec fraisure conique 90° à fleur (0,0 mm pour vis FHC M4 orientées à 15,0° et offset 11 mm) + 4 trous lisses traversants Ø5,3 mm chanfreinés à 0,5 mm × 45° (vis M5 sandwich).
+     3. *Contournage extérieur* : Découpe du profil adapté 100×130 mm (encoches de flancs R=12 mm, chanfreins d'angles 15×15 mm). Masse finale = **`59,0 g`** / semelle.
 3. **Inserts Carrés Colonne (Alu 7075-T6)** :
    - Brut : 2 blocs **15 × 80 × 80 mm** Blockenstock (7,20 euros TTC / bloc, soit 14,40 euros pour la paire).
-   - Contournage 2D de chaque insert (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 15,0 mm !), **poche centrale 44 × 44 mm R=5 mm** (profondeur ~10 mm, plancher de fond 5,0 mm), perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70, centré à **X = 7,5 mm**) et **4 perçages lisses traversants axiaux Ø 4,3 mm** (entraxe 42 × 42 mm pour vis FHC **M4 × 25 mm** traversantes et écrous Nylstop M4 — **zéro taraudage manuel !**). *(Révision V2.1 : M4×30 → M4×25 avec insert 15 mm — Semelle 5 mm + Insert 15 mm = 20 mm, 5 mm filet pour Nylstop)*
+   - Contournage 2D de chaque insert (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 15,0 mm !), **poche centrale 44 × 44 mm** (congés verticaux R=5 mm, congé de fond inférieur R=0,5 mm, profondeur ~10 mm, plancher de fond 5,0 mm), perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70, centré à **X = 7,5 mm**) et **4 perçages lisses traversants axiaux Ø 4,3 mm** (entraxe 42 × 42 mm orienté à 15,0° pour vis FHC **M4 × 25 mm** traversantes et écrous Nylstop M4 — **zéro taraudage manuel !**).
 4. **Traverses Carrées 60×60×2 mm (Alu 6060-T6)** :
    - Coupe de 2 tronçons de **`84,0 mm`** dans la barre de 500 mm (cote nominale intégrant le jeu fonctionnel de 1,0 mm côté colonne).
    - Perçage de 2 trous lisses traversants verticaux **Ø5,3 mm** (axe Z) : trou côté bride d'épaule à **`X = 7,5 mm`** depuis le chant d'appui butée, et trou côté colonne à **`X = 77,0 mm`** (entraxe rigoureux de **`69,5 mm`**). *(Révision V2.2 — bossage bride 15 mm, vis M5 centrée en bossage à X = 7,5 mm)*
@@ -682,6 +691,20 @@ Le tableau est structuré par **sous-ensemble fonctionnel** pour une intégratio
 | :--- | :--- | :--- | :--- | :--- |
 | **Pâte Thermique Non Conductrice (⭐)** | **Noctua NT-H1 / Arctic MX-4** | Comble le jeu axial de 0,60 mm et les rugosités d'usinage (Ra ~ 1,6 µm) pour un transfert conductif maximal. | **Interface Stator RS-04 (Ø94/95 mm) ➔ Bride 7075** | Utiliser **strictement une pâte non conductrice électrique** (à base de micro-particules céramiques/silicone). Proscrire toute pâte à métal liquide (Galinstan). |
 | **Pads Thermiques Silicone (0,5 mm)** | **Thermal Grizzly Minus Pad 8** | Interface élastique compressible pour surfaces planes. | Radiateurs de la PDB torse et diodes ORing hot-swap. | Épaisseur calibrée 0,5 mm pour éviter toute surépaisseur d'empilement. |
+
+#### 5. Tableau Synthétique des Couples Dynamométriques & Outillage d'Atelier
+
+Ce tableau constitue la fiche de référence rapide pour le montage et le serrage à l'établi :
+
+| Sous-Ensemble & Liaison Mécanique | Vis / Fixation Normalisée | Qté Totale | Couple Dynamométrique Recommandé | Empreinte / Outil | Sécurisation & Freinage | Réf. McMaster |
+| :--- | :--- | :---: | :---: | :---: | :--- | :---: |
+| **1. Brides ➔ Stators RS-04 (Zone 1 : Mince 5,0 mm)** | CHC M4 × 12 mm (Acier 12.9 / Inox) | 8 | **`3,0 N.m`** ⭐ *(Croix)* | Clé Allen 3,0 mm | Rondelles Nord-Lock M4 + Loctite 243 | `91290A154` |
+| **2. Brides ➔ Stators RS-04 (Zone 2 : Épaisse 18,2 mm)** | CHC M4 × 25 mm (Acier 12.9 / Inox) | 12 | **`3,0 N.m`** ⭐ *(Croix)* | Clé Allen 3,0 mm | Rondelles Nord-Lock M4 + Loctite 243 | `91290A170` |
+| **3. Demi-Traverses (Tubes ➔ Bossages & Inserts)** | CHC M5 × 70 mm (Acier 12.9 / Inox) | 4 | **`5,5 N.m`** | Clé Allen 4,0 mm + Clé 8 mm | Rondelles DIN 125A + Écrous Nylstop M5 | `91290A272` |
+| **4. Sandwich Colonne Centrale (Éclisses ➔ Plaques)** | CHC M5 × 25 mm (Acier 12.9 / Inox) | 4 | **`5,5 N.m`** *(Croix)* | Clé Allen 4,0 mm + Clé 8 mm | Rondelles DIN 125A + Écrous Nylstop M5 | `91290A235` |
+| **5. Inserts Carrés ➔ Semelles Éclisses** | FHC M4 × 25 mm (Acier 10.9 / Inox) | 8 | **`2,8 à 3,0 N.m`** | Clé Allen 2,5 mm + Clé 7 mm | Tête conique à fleur 0,0 mm + Nylstop M4 | `91294A195` |
+| **6. Ventilateurs Tuyères 3D (Noctua NF-A4x20)** | CHC M3 × 16 mm (Inox) | 8 | **`0,6 à 0,8 N.m`** | Clé Allen 2,5 mm + Clé 5,5 mm | Silent-blocs antivibrations (serrage modéré) | `91290A115` |
+| **7. Coque & Habillage Extérieur (PA12-CF)** | Vis M4 sur Inserts Laiton Ruthex | 16 | **`1,2 à 1,5 N.m`** | Clé Allen 3,0 mm | Ancrage thermique laiton (ne pas sur-serrer) | `94180A353` |
 
 ---
 

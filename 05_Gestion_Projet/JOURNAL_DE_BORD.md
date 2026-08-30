@@ -2,6 +2,27 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-08-30 — Adaptation Géométrique Réelle CAO Torse v71 (Traverses 15,0°, Offset 11 mm, Colonne 100 mm & Semelles Éclisses)
+
+### 🎯 Objectif de la session
+1. **Intégration de la Géométrie Réelle de l'Assemblage CAO Torse v71** : Prise en compte de l'inclinaison angulaire des tubes d'épaules à 15,0° (pitch) et du décentrement sagittal de 11,055 mm.
+2. **Optimisation Profilée de la Colonne Sagittale (Alu 7075-T6, 5 mm)** : Élargissement local à 100,0 mm aux épaules avec redan asymétrique de +6,0 mm et double rayon tangent en S R = 15,0 mm (Kt ≈ 1,05), conservant 94,0 mm à la base pour l'empreinte de la Waist Plate.
+3. **Validation & Recalcul RDM Global** : Démonstration du gain de rigidité au nœud d'épaule (+20,4% en flexion Pitch, I_y = 416 667 mm4, Sf = ×32,64) et décomposition vectorielle du couple RS-04 120 N.m (Roll 115,9 N.m + Yaw 31,1 N.m) absorbé par le sandwich préchargé à 19 200 N.
+4. **Actualisation des Blueprints Vectoriels & Semelles Éclisses** : Mise à jour complète du plan 2D de la semelle éclisse (100 × 130 mm, insert orienté à 15,0°, 4 vis FHC M4, alésage Ø 28 mm, masse 59,0 g) et de la fiche des couples dynamométriques (§9.C.5).
+
+### 📝 Réalisations & Évolutions
+1. **Colonne Sagittale Profilée (Plat Marchand 5 × 100 × 495 mm 7075-T6)** :
+   - 86,5 ~ 94,0 mm au cou (biseauté), 100,0 mm aux épaules (marge 5,20 mm à l'arête du tube 15°), 94,0 mm au waist.
+   - Transitions raccordées par double rayon tangent R = 15,0 mm éliminant toute concentration de contraintes.
+2. **Semelles Éclisses V2.3 (Alu 7075-T6, 5 mm, 59,0 g)** :
+   - Semelle 100 × 130 mm épousant le profil de la colonne, insert carré 15 mm tourné de 15,0° (offset 11,055 mm).
+   - 4 vis FHC M4 × 25 mm traversantes à tête fraisée à fleur (0,0 mm) + 4 vis CHC M5 × 25 mm traversantes sandwich.
+3. **Schémas Vectoriels & Dossier Technique Synchronisés** :
+   - `plan_detail_semelle_eclisse_lumieres_2d.svg` et `solution_c_sandwich_eclisse_colonne_2_parties.svg` régénérés.
+   - `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` actualisé aux §2.B, §2.D, §5.C, §9.A, §9.C.5.
+
+---
+
 ## 📅 2026-08-29 — Optimisation V2.2 de la Bride d'Épaule 3 Étages (Alu 7075-T6), Intégration CAO Réelle, Interface Thermique & Reranking RAG
 
 ### 🎯 Objectif de la session
