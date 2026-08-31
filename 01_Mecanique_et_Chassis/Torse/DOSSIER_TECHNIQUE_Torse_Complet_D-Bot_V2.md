@@ -475,7 +475,19 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
    - **2 vis en haut (`Z = +45,0 mm`, entraxe Y = 50 mm)** : Traversent Semelle G + **Plaque Haute** + Semelle D.
    - **2 vis en bas (`Z = -45,0 mm`, entraxe Y = 50 mm)** : Traversent Semelle G + **Plaque Basse** + Semelle D.
    - **Bras de levier de flexion Delta_Z = 90,0 mm** : Reprend intégralement le moment fléchissant sagittal extrême de **`275 N.m`** avec un effort de traction par vis de 3 055 N (précharge totale de serrage = 19 200 N, interdisant tout décollement ou micro-glissement). **Serrage en croix séquentiel obligatoire** (vis #1 haut-gauche → #2 bas-droite → #3 haut-droite → #4 bas-gauche).
-4. **Tenon de Centrage 2D à Z = 0 (OBLIGATOIRE)** :
+4. **Tableau des Coordonnées d'Esquisse CAO (Repère Origine (0, 0) au Centre de la Semelle)** :
+
+| Perçage / Entité | Position (Y, Z) [mm] | Diamètre & Usinage | Spécification Fraisure | Fonction Mécanique |
+| :--- | :---: | :---: | :---: | :--- |
+| **Vis M5 Sandwich Haut G/D** | `Y = ±25,00 ; Z = +45,00` | 2× Ø 5,30 mm lisse | Chanfrein 0,5 mm × 45° | Pince de serrage Plaque Haute |
+| **Vis M5 Sandwich Bas G/D** | `Y = ±25,00 ; Z = -45,00` | 2× Ø 5,30 mm lisse | Chanfrein 0,5 mm × 45° | Pince de serrage Plaque Basse |
+| **Vis FHC M4 Haut-Gauche** | `Y = -36,77 ; Z = +14,85` | Ø 4,50 mm traversant | Fraisure 90° Ø 8,40 mm (prof. 2,2 mm, Face AR) | Fixation Insert 15° (à fleur 0,0 mm) |
+| **Vis FHC M4 Haut-Droit** | `Y = +3,79 ; Z = +25,72` | Ø 4,50 mm traversant | Fraisure 90° Ø 8,40 mm (prof. 2,2 mm, Face AR) | Fixation Insert 15° (à fleur 0,0 mm) |
+| **Vis FHC M4 Bas-Gauche** | `Y = -25,90 ; Z = -25,72` | Ø 4,50 mm traversant | Fraisure 90° Ø 8,40 mm (prof. 2,2 mm, Face AR) | Fixation Insert 15° (à fleur 0,0 mm) |
+| **Vis FHC M4 Bas-Droit** | `Y = +14,66 ; Z = -14,85` | Ø 4,50 mm traversant | Fraisure 90° Ø 8,40 mm (prof. 2,2 mm, Face AR) | Fixation Insert 15° (à fleur 0,0 mm) |
+| **Alésage Central Câblage** | `Y = -11,055 ; Z = 0,00` | Ø 28,00 mm traversant | Ébavurage 0,5 mm × 45° | Passage faisceaux moteur / bus CAN |
+
+5. **Tenon de Centrage 2D à Z = 0 (OBLIGATOIRE)** :
    - La plaque basse possède un tenon rectangulaire de **40 mm (largeur) × 10 mm (hauteur)** avec congés **R = 3,0 mm** qui s'emboîte dans la plaque haute, garantissant un alignement coaxial automatique parfait à **0,0 mm**. Ce tenon transforme le joint en quasi-encastrement et est **indispensable** pour la continuité de la fibre neutre au noeud d'épaules (zone d'application des 120 N.m de torsion).
 
 ---
