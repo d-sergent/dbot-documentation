@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="100%" height="100%">
   <defs>
     <!-- Background Grid Pattern -->
-    <pattern id="grid-pattern-semelle-v2" width="40" height="40" patternUnits="userSpaceOnUse">
+    <pattern id="grid-pattern-semelle-v3" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
       <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
     </pattern>
@@ -36,7 +36,7 @@
 
   <!-- Background Base -->
   <rect width="1400" height="960" fill="#0b1120" />
-  <rect width="1400" height="960" fill="url(#grid-pattern-semelle-v2)" />
+  <rect width="1400" height="960" fill="url(#grid-pattern-semelle-v3)" />
 
   <!-- ========================================================================= -->
   <!-- HEADER -->
@@ -46,46 +46,44 @@
     <circle cx="35" cy="35" r="18" fill="url(#grad-sky)" />
     <path d="M 26 35 L 44 35 M 35 26 L 35 44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
     <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="18" font-weight="700" fill="#f8fafc">
-      SEMELLE ÉCLISSE 7075-T6 (100 × 130 × 5,0 mm) : GÉOMÉTRIE ADAPTÉE &amp; INSERT INCLINÉ 15,0°
+      SEMELLE ÉCLISSE 7075-T6 (100 × 130 × 5,0 mm) : COTATION D'ESQUISSE CAO FUSION 360
     </text>
     <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
-      Topologie 2D avec redan +6,0 mm (double rayon tangent R=15 mm), offset tube 11,055 mm et angle pitch 15,0°
+      Cotation complète : Centres des encoches R=12 mm, Redan gauche R=15 mm, Insert 15,0° et 4 vis FHC M4
     </text>
     <rect x="1100" y="20" width="195" height="30" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1" />
     <text x="1197" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      RÉVISION RÉELLE V2.3 (59 g)
+      PLAN D'ATELIER V2.3
     </text>
   </g>
 
   <!-- ========================================================================= -->
-  <!-- PANEL 1: VUE DE FACE 2D COTÉE (Plan Y-Z) -->
+  <!-- PANEL 1: VUE DE FACE 2D COTÉE DÉTAILLÉE (Plan Y-Z) -->
   <!-- ========================================================================= -->
   <g transform="translate(40, 120)">
-    <rect width="540" height="800" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <rect x="15" y="15" width="450" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <rect width="570" height="800" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <rect x="15" y="15" width="480" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
     <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      1. PLAN 2D COTÉ (Plan Y-Z) — COTES D'USINAGE NESTWORKS C500
+      1. PLAN 2D COTÉ (Plan Y-Z) — ESQUISSE CAO TOTALEMENT CONTRAINTE
     </text>
 
     <!-- Dessin de la pièce centrée dans le panel -->
-    <g transform="translate(260, 420) scale(2.2)">
+    <g transform="translate(265, 420) scale(2.2)">
       <!-- Rectangle d'encombrement brut d'origine (Pointillés gris) -->
       <rect x="-53" y="-65" width="100" height="130" fill="none" stroke="#475569" stroke-width="0.8" stroke-dasharray="3,2" />
-      <text x="-56" y="-67" font-family="'Segoe UI', sans-serif" font-size="5" font-weight="600" fill="#64748b" text-anchor="end">Brut 100×130 mm</text>
+      <text x="-56" y="-67" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="600" fill="#64748b" text-anchor="end">Brut 100×130 mm</text>
 
-      <!-- Contour extérieur usiné de la semelle avec Redan asymétrique à gauche (Alu 7075-T6) -->
-      <!-- Flanc gauche (X négatif) avec redan +6 mm (largeur totale 100 mm = -53 à +47 mm) et double rayon R=15 mm -->
-      <!-- Flanc droit (X positif) à +47 mm avec encoches standard de sablier -->
+      <!-- Contour extérieur usiné de la semelle (Alu 7075-T6) -->
+      <!-- Flanc droit (X positif) avec les 2 encoches R=12 mm centrées en (47, -20) et (47, +20) -->
+      <!-- Flanc gauche (X négatif) avec redan +6 mm (-53 mm) et double rayon tangent R=15 mm -->
       <path d="
         M -35 -65 
         L 35 -65 
         L 47 -53 
-        L 47 -35 
-        A 12 12 0 0 0 38 -20
-        A 12 12 0 0 0 47 -5
-        L 47 5
-        A 12 12 0 0 0 38 20
-        A 12 12 0 0 0 47 35
+        L 47 -32 
+        A 12 12 0 0 0 47 -8
+        L 47 8
+        A 12 12 0 0 0 47 32
         L 47 53 
         L 35 65 
         L -35 65 
@@ -105,6 +103,41 @@
       <!-- Ligne d'axe Y (Z = 0) -->
       <line x1="-58" y1="0" x2="55" y2="0" stroke="#ec4899" stroke-width="0.7" stroke-dasharray="4,2" />
       <text x="56" y="1.5" font-family="'Segoe UI', sans-serif" font-size="4" font-weight="700" fill="#ec4899">Axe Y</text>
+
+      <!-- ============================================================ -->
+      <!-- COTATION GÉOMÉTRIQUE DES ENCOCHES DU FLANC DROIT -->
+      <!-- ============================================================ -->
+      <!-- Centre C1 Encoche Haute (Y = +47, Z = +20) -->
+      <circle cx="47" cy="20" r="1.2" fill="#f59e0b" stroke="#ffffff" stroke-width="0.5" />
+      <line x1="43" y1="20" x2="51" y2="20" stroke="#f59e0b" stroke-width="0.5" />
+      <line x1="47" y1="16" x2="47" y2="24" stroke="#f59e0b" stroke-width="0.5" />
+      <!-- Rayon R=12 mm encoche haute -->
+      <line x1="47" y1="20" x2="35" y2="20" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="1.5,1" />
+      <text x="53" y="18" font-family="'Segoe UI', sans-serif" font-size="3.6" font-weight="700" fill="#f59e0b">C1 (47; +20)</text>
+      <text x="53" y="22.5" font-family="'Segoe UI', sans-serif" font-size="3.4" font-weight="600" fill="#fcd34d">R = 12,0 mm</text>
+
+      <!-- Centre C2 Encoche Basse (Y = +47, Z = -20) -->
+      <circle cx="47" cy="-20" r="1.2" fill="#f59e0b" stroke="#ffffff" stroke-width="0.5" />
+      <line x1="43" y1="-20" x2="51" y2="-20" stroke="#f59e0b" stroke-width="0.5" />
+      <line x1="47" y1="-24" x2="47" y2="-16" stroke="#f59e0b" stroke-width="0.5" />
+      <!-- Rayon R=12 mm encoche basse -->
+      <line x1="47" y1="-20" x2="35" y2="-20" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="1.5,1" />
+      <text x="53" y="-22" font-family="'Segoe UI', sans-serif" font-size="3.6" font-weight="700" fill="#f59e0b">C2 (47; -20)</text>
+      <text x="53" y="-17.5" font-family="'Segoe UI', sans-serif" font-size="3.4" font-weight="600" fill="#fcd34d">R = 12,0 mm</text>
+
+      <!-- Cotes de niveau Z sur flanc droit -->
+      <line x1="48" y1="8" x2="51" y2="8" stroke="#94a3b8" stroke-width="0.4" />
+      <text x="52" y="9" font-family="'Segoe UI', sans-serif" font-size="2.8" fill="#94a3b8">Z=+8</text>
+      <line x1="48" y1="32" x2="51" y2="32" stroke="#94a3b8" stroke-width="0.4" />
+      <text x="52" y="33" font-family="'Segoe UI', sans-serif" font-size="2.8" fill="#94a3b8">Z=+32</text>
+      <line x1="48" y1="-8" x2="51" y2="-8" stroke="#94a3b8" stroke-width="0.4" />
+      <text x="52" y="-7" font-family="'Segoe UI', sans-serif" font-size="2.8" fill="#94a3b8">Z=-8</text>
+      <line x1="48" y1="-32" x2="51" y2="-32" stroke="#94a3b8" stroke-width="0.4" />
+      <text x="52" y="-31" font-family="'Segoe UI', sans-serif" font-size="2.8" fill="#94a3b8">Z=-32</text>
+
+      <!-- Cote de fond d'encoche Y = +35 mm -->
+      <line x1="35" y1="20" x2="35" y2="28" stroke="#f59e0b" stroke-width="0.4" />
+      <text x="35" y="31" font-family="'Segoe UI', sans-serif" font-size="3.2" font-weight="700" fill="#f59e0b" text-anchor="middle">Fond Y=35</text>
 
       <!-- ============================================================ -->
       <!-- SOUS-ENSEMBLE DU TUBE ET INSERT DÉCENTRÉ (-11.055 mm) & 15.0° -->
@@ -139,10 +172,10 @@
       </g>
 
       <!-- Indicateur Offset 11.055 mm -->
-      <line x1="0" y1="36" x2="-11.055" y2="36" stroke="#f59e0b" stroke-width="0.7" />
-      <circle cx="0" cy="36" r="0.8" fill="#f59e0b" />
-      <circle cx="-11.055" cy="36" r="0.8" fill="#f59e0b" />
-      <text x="-5.5" y="41" font-family="'Segoe UI', sans-serif" font-size="3.8" font-weight="700" fill="#f59e0b" text-anchor="middle">Offset = 11,05 mm</text>
+      <line x1="0" y1="38" x2="-11.055" y2="38" stroke="#f59e0b" stroke-width="0.7" />
+      <circle cx="0" cy="38" r="0.8" fill="#f59e0b" />
+      <circle cx="-11.055" cy="38" r="0.8" fill="#f59e0b" />
+      <text x="-5.5" y="42" font-family="'Segoe UI', sans-serif" font-size="3.6" font-weight="700" fill="#f59e0b" text-anchor="middle">Offset = 11,05 mm</text>
 
       <!-- Indicateur Angle 15.0° -->
       <path d="M 0 0 L -30 0 M 0 0 L -28.98 7.76" fill="none" stroke="#10b981" stroke-width="0.6" stroke-dasharray="2,1" />
@@ -172,23 +205,23 @@
       <text x="-3" y="-72" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle">100,0 mm (avec redan +6 mm)</text>
 
       <!-- Hauteur 130 mm -->
-      <line x1="53" y1="-65" x2="53" y2="65" stroke="#38bdf8" stroke-width="0.6" />
-      <line x1="50" y1="-65" x2="56" y2="-65" stroke="#38bdf8" stroke-width="0.6" />
-      <line x1="50" y1="65" x2="56" y2="65" stroke="#38bdf8" stroke-width="0.6" />
-      <text x="57" y="0" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle" transform="rotate(90,57,0)">130,0 mm</text>
+      <line x1="-58" y1="-65" x2="-58" y2="65" stroke="#38bdf8" stroke-width="0.6" />
+      <line x1="-55" y1="-65" x2="-61" y2="-65" stroke="#38bdf8" stroke-width="0.6" />
+      <line x1="-55" y1="65" x2="-61" y2="65" stroke="#38bdf8" stroke-width="0.6" />
+      <text x="-60" y="0" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle" transform="rotate(-90,-60,0)">130,0 mm</text>
 
       <!-- Marge de matière résiduelle 5.20 mm -->
-      <text x="-55" y="0" font-family="'Segoe UI', sans-serif" font-size="3.6" font-weight="700" fill="#10b981" text-anchor="end">Marge = 5,20 mm ✅</text>
+      <text x="-55" y="-3" font-family="'Segoe UI', sans-serif" font-size="3.4" font-weight="700" fill="#10b981" text-anchor="end">Marge = 5,20 mm ✅</text>
     </g>
 
     <!-- Cartouche bas Panel 1 -->
     <g transform="translate(20, 725)">
-      <rect width="500" height="55" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <rect width="530" height="55" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
       <text x="15" y="20" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">
-        USINAGE CNC 2.5D C500 : 100% FRAISABLE EN 1 PASSE (TABLE MARTYR)
+        RÈGLES D'ESQUISSE FUSION 360 (FLANC DROIT) :
       </text>
       <text x="15" y="38" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="500" fill="#94a3b8">
-        • Fraise carbure Ø6 mm DLC pour contournage en S (R=15 mm) + alésage Ø28 mm + perçages M5/M4
+        • Cercles C1 (47, +20) et C2 (47, -20) de R=12 mm tangents à la ligne Y=47 mm entre Z=±8 et Z=±32 mm.
       </text>
     </g>
   </g>
@@ -196,15 +229,15 @@
   <!-- ========================================================================= -->
   <!-- PANEL 2: ANALYSE RDM & TRANSMISSION DU COUPLE INCLINÉ 15° -->
   <!-- ========================================================================= -->
-  <g transform="translate(600, 120)">
-    <rect width="760" height="440" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+  <g transform="translate(630, 120)">
+    <rect width="730" height="440" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
     <rect x="15" y="15" width="490" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
     <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#10b981">
       2. ANALYSE RDM : COUPLE RS-04 (120 N.m @ 15,0°) &amp; SANDWICH CENTRAL
     </text>
 
     <!-- Schéma et Formulations RDM -->
-    <g transform="translate(25, 60)">
+    <g transform="translate(20, 60)">
       <!-- Vue Sandwich 15 mm -->
       <g transform="translate(10, 20)">
         <rect x="0" y="0" width="20" height="280" rx="2" fill="#0284c7" fill-opacity="0.5" stroke="#38bdf8" stroke-width="1.2" />
@@ -232,14 +265,14 @@
       </g>
 
       <!-- Cartouche Décomposition Vectorielle -->
-      <g transform="translate(180, 10)">
-        <rect width="520" height="320" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <g transform="translate(170, 10)">
+        <rect width="510" height="320" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
         
-        <text x="20" y="30" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#f59e0b">
+        <text x="20" y="30" font-family="'Segoe UI', sans-serif" font-size="12.5" font-weight="700" fill="#f59e0b">
           DÉCOMPOSITION DU COUPLE MOTEUR RS-04 (120 N.m @ 15,0°) :
         </text>
 
-        <g transform="translate(20, 50)">
+        <g transform="translate(15, 50)">
           <!-- Composante Roll -->
           <rect width="480" height="65" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
           <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#38bdf8">
@@ -274,47 +307,47 @@
   <!-- ========================================================================= -->
   <!-- PANEL 3: FICHE TECHNIQUE D'ATELIER &amp; BILAN DE MASSE C500 -->
   <!-- ========================================================================= -->
-  <g transform="translate(600, 580)">
-    <rect width="760" height="340" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+  <g transform="translate(630, 580)">
+    <rect width="730" height="340" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
     <rect x="15" y="15" width="460" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
     <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#f59e0b">
       3. FICHE D'ATELIER C500 &amp; APPROVISIONNEMENT BLOCKENSTOCK
     </text>
 
     <!-- Tableau récapitulatif -->
-    <g transform="translate(25, 55)">
-      <rect width="710" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <g transform="translate(20, 55)">
+      <rect width="690" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
       
       <!-- Lignes du tableau -->
       <g transform="translate(15, 20)">
         <text x="0" y="15" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#38bdf8">PARAMÈTRE DE FABRICATION</text>
-        <text x="320" y="15" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#38bdf8">SPÉCIFICATION RETENUE</text>
-        <text x="560" y="15" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#38bdf8">JUSTIFICATION ATELIER</text>
-        <line x1="0" y1="25" x2="680" y2="25" stroke="#334155" stroke-width="1" />
+        <text x="310" y="15" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#38bdf8">SPÉCIFICATION RETENUE</text>
+        <text x="540" y="15" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#38bdf8">JUSTIFICATION ATELIER</text>
+        <line x1="0" y1="25" x2="660" y2="25" stroke="#334155" stroke-width="1" />
 
         <text x="0" y="50" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Brut d'Approvisionnement</text>
-        <text x="320" y="50" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">2× Plaques 5 × 160 × 160 mm Alu 7075-T6</text>
-        <text x="560" y="50" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">9,60 € / plaque Blockenstock</text>
+        <text x="310" y="50" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">2× Plaques 5 × 160 × 160 mm Alu 7075-T6</text>
+        <text x="540" y="50" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">9,60 € / plaque Blockenstock</text>
 
         <text x="0" y="80" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Dimensions Finies Semelle</text>
-        <text x="320" y="80" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">100,0 × 130,0 × 5,00 mm (avec redan +6 mm)</text>
-        <text x="560" y="80" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">Masse = 59,0 g / semelle</text>
+        <text x="310" y="80" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">100,0 × 130,0 × 5,00 mm (avec redan +6 mm)</text>
+        <text x="540" y="80" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">Masse = 59,0 g / semelle</text>
 
-        <text x="0" y="110" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Orientation &amp; Offset Insert</text>
-        <text x="320" y="110" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">Angle = 15,0° (pitch) / Offset = 11,055 mm</text>
-        <text x="560" y="110" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">Aligné sur axe épaule RS-04</text>
+        <text x="0" y="110" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Encoches Flanc Droit (Sablier)</text>
+        <text x="310" y="110" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">Centres C1 (47; +20) &amp; C2 (47; -20) R=12 mm</text>
+        <text x="540" y="110" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">Fond Y=35 mm (Marge 9,3 mm)</text>
 
         <text x="0" y="140" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Fixation Insert ➔ Semelle</text>
-        <text x="320" y="140" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">4× FHC M4 × 25 mm traversantes + Nylstop</text>
-        <text x="560" y="140" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">Fraisures à fleur (0,0 mm)</text>
+        <text x="310" y="140" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">4× FHC M4 × 25 mm traversantes + Nylstop</text>
+        <text x="540" y="140" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">Fraisures à fleur (0,0 mm)</text>
 
         <text x="0" y="170" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Serrage Sandwich Central</text>
-        <text x="320" y="170" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">4× CHC M5 × 25 mm + Nylstop (Couple 5,5 N.m)</text>
-        <text x="560" y="170" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">Précharge 19 200 N</text>
+        <text x="310" y="170" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">4× CHC M5 × 25 mm + Nylstop (Couple 5,5 N.m)</text>
+        <text x="540" y="170" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">Précharge 19 200 N</text>
 
-        <text x="0" y="200" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Transitions de Profil</text>
-        <text x="320" y="200" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">Double rayon tangent R = 15,0 mm en S</text>
-        <text x="560" y="200" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">Kt ≈ 1,05 (zéro entaille)</text>
+        <text x="0" y="200" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Transitions Redan Gauche</text>
+        <text x="310" y="200" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">Double rayon tangent R = 15,0 mm en S</text>
+        <text x="540" y="200" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">Kt ≈ 1,05 (zéro entaille)</text>
       </g>
     </g>
   </g>

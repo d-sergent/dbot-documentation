@@ -464,7 +464,12 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
    - **Alésage central de passage & allègement (`Ø 28,0 mm`)** : Centré sur l'axe du tube déporté (`X = +11,055 mm, Z = 0`), allège le centre neutre et libère le passage pour les câbles/faisceaux torse.
    - **2 Lumières oblongues axiales (`22,0 × 14,0 mm`, coins `R = 4,0 mm`)** : Centrées à Z = +45,0 mm et Z = -45,0 mm entre les paires de vis M5.
    - **Flanc gauche avec redan de +6,0 mm & double rayon tangent en S (`R = 15,0 mm`)** : Épouse le profil de la colonne sans aucune concentration de contraintes (`Kt ≈ 1,05`).
-   - **Flanc droit en sablier (`2 encoches R = 12,0 mm`) & chanfreins d'angles (`15,0 × 15,0 mm`)** : Supprime la matière morte non sollicitée.
+   - **Flanc droit en sablier (Définition d'esquisse CAO Fusion 360)** :
+     - *Zone d'appui centrale (Z = 0)* : Segment vertical de hauteur 16,0 mm (de `Z = -8,0 mm` à `Z = +8,0 mm` à `Y = +47,0 mm`).
+     - *Zones de serrage M5 (Haut & Bas)* : Segments verticaux à `Y = +47,0 mm` (Haut : `Z = +32,0 mm` à `Z = +53,0 mm` ; Bas : `Z = -32,0 mm` à `Z = -53,0 mm`), terminés par des chanfreins d'angles `15,0 × 15,0 mm` rejoignant `Y = +32,0 mm` à `Z = ±65,0 mm`.
+     - *2 Encoches concaves de sablier (Demi-cercles tangents parfaits)* :
+       - **Encoche Haute** : Demi-cercle concave de rayon **`R = 12,0 mm`** raccordé tangentiellement entre `(Y = +47,0 mm, Z = +8,0 mm)` et `(Y = +47,0 mm, Z = +32,0 mm)`. Centre du cercle de découpe : **`C_haut = (Y = +47,0 mm, Z = +20,0 mm)`** (point le plus creux à `Y = +35,0 mm`, profondeur d'échancrure nette = `12,0 mm`, marge de matière résiduelle = `9,31 mm` avec l'insert).
+       - **Encoche Basse** : Symétrique miroir par rapport à l'axe horizontal Z = 0. Centre du cercle de découpe : **`C_bas = (Y = +47,0 mm, Z = -20,0 mm)`**, rayon **`R = 12,0 mm`** (entre `Z = -8,0 mm` et `Z = -32,0 mm`).
    - **Masse nette unitaire** : **`59,0 g`** (soit **`118,0 g` pour la paire**, générant un gain net de **`167,0 g`** sur le robot par rapport à deux rectangles pleins de 100×130 mm).
 3. **Répartition des 4 Vis Traversantes M5 × 25 mm & Bras de Levier (90 mm)** :
    - **2 vis en haut (`Z = +45,0 mm`, entraxe Y = 50 mm)** : Traversent Semelle G + **Plaque Haute** + Semelle D.
