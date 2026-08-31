@@ -475,17 +475,18 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
    - **2 vis en haut (`Z = +45,0 mm`, entraxe Y = 50 mm)** : Traversent Semelle G + **Plaque Haute** + Semelle D.
    - **2 vis en bas (`Z = -45,0 mm`, entraxe Y = 50 mm)** : Traversent Semelle G + **Plaque Basse** + Semelle D.
    - **Bras de levier de flexion Delta_Z = 90,0 mm** : Reprend intégralement le moment fléchissant sagittal extrême de **`275 N.m`** avec un effort de traction par vis de 3 055 N (précharge totale de serrage = 19 200 N, interdisant tout décollement ou micro-glissement). **Serrage en croix séquentiel obligatoire** (vis #1 haut-gauche → #2 bas-droite → #3 haut-droite → #4 bas-gauche).
-4. **Tableau des Coordonnées d'Esquisse CAO (Repère Origine (0, 0) au Centre de la Semelle)** :
+4. **Tableau des Coordonnées d'Esquisse CAO & Protocole d'Ébavurage 2 Faces** :
 
-| Perçage / Entité | Position (Y, Z) [mm] | Diamètre & Usinage | Spécification Fraisure | Fonction Mécanique |
-| :--- | :---: | :---: | :---: | :--- |
-| **Vis M5 Sandwich Haut G/D** | `Y = ±25,00 ; Z = +45,00` | 2× Ø 5,30 mm lisse | Chanfrein 0,5 mm × 45° | Pince de serrage Plaque Haute |
-| **Vis M5 Sandwich Bas G/D** | `Y = ±25,00 ; Z = -45,00` | 2× Ø 5,30 mm lisse | Chanfrein 0,5 mm × 45° | Pince de serrage Plaque Basse |
-| **Vis FHC M4 Haut-Gauche** | `Y = -36,77 ; Z = +14,85` | Ø 4,50 mm traversant | Fraisure 90° Ø 8,40 mm (prof. 2,2 mm, Face AR) | Fixation Insert 15° (à fleur 0,0 mm) |
-| **Vis FHC M4 Haut-Droit** | `Y = +3,79 ; Z = +25,72` | Ø 4,50 mm traversant | Fraisure 90° Ø 8,40 mm (prof. 2,2 mm, Face AR) | Fixation Insert 15° (à fleur 0,0 mm) |
-| **Vis FHC M4 Bas-Gauche** | `Y = -25,90 ; Z = -25,72` | Ø 4,50 mm traversant | Fraisure 90° Ø 8,40 mm (prof. 2,2 mm, Face AR) | Fixation Insert 15° (à fleur 0,0 mm) |
-| **Vis FHC M4 Bas-Droit** | `Y = +14,66 ; Z = -14,85` | Ø 4,50 mm traversant | Fraisure 90° Ø 8,40 mm (prof. 2,2 mm, Face AR) | Fixation Insert 15° (à fleur 0,0 mm) |
-| **Alésage Central Câblage** | `Y = -11,055 ; Z = 0,00` | Ø 28,00 mm traversant | Ébavurage 0,5 mm × 45° | Passage faisceaux moteur / bus CAN |
+| Perçage / Entité | Position (Y, Z) [mm] | Diamètre & Outil | Face Arrière (Côté Colonne) | Face Avant (Côté Insert / Tête) | Fonction & Règle d'Atelier |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Vis M5 Sandwich Haut G/D** | `Y = ±25,00 ; Z = +45,00` | Foret Ø 5,30 mm | **Chanfrein 0,5 mm × 45°** | **Chanfrein 0,5 mm × 45°** | **Ébavurage 2 faces obligatoire** : Face AR pour contact colonne 19 200 N, Face AV pour appui plat tête CHC / rondelle. |
+| **Vis M5 Sandwich Bas G/D** | `Y = ±25,00 ; Z = -45,00` | Foret Ø 5,30 mm | **Chanfrein 0,5 mm × 45°** | **Chanfrein 0,5 mm × 45°** | **Ébavurage 2 faces obligatoire** : Placage rigide sans surépaisseur parasite. |
+| **Vis FHC M4 #1 (Haut-G)** | `Y = -36,77 ; Z = +14,85` | Foret Ø 4,50 mm | **Fraisure 90° Ø 8,40 mm** | **Ébavurage 0,3 mm × 45°** | Face AR : tête FHC noyée à `0,0 mm` ; Face AV : ébavurage foret indispensable pour placage insert. |
+| **Vis FHC M4 #2 (Haut-D)** | `Y = +3,79 ; Z = +25,72` | Foret Ø 4,50 mm | **Fraisure 90° Ø 8,40 mm** | **Ébavurage 0,3 mm × 45°** | Face AR : tête FHC noyée à `0,0 mm` ; Face AV : ébavurage foret indispensable pour placage insert. |
+| **Vis FHC M4 #3 (Bas-G)** | `Y = -25,90 ; Z = -25,72` | Foret Ø 4,50 mm | **Fraisure 90° Ø 8,40 mm** | **Ébavurage 0,3 mm × 45°** | Face AR : tête FHC noyée à `0,0 mm` ; Face AV : ébavurage foret indispensable pour placage insert. |
+| **Vis FHC M4 #4 (Bas-D)** | `Y = +14,66 ; Z = -14,85` | Foret Ø 4,50 mm | **Fraisure 90° Ø 8,40 mm** | **Ébavurage 0,3 mm × 45°** | Face AR : tête FHC noyée à `0,0 mm` ; Face AV : ébavurage foret indispensable pour placage insert. |
+| **Alésage Central Faisceaux** | `Y = -11,055 ; Z = 0,00` | Fraise Ø 6 mm DLC | **Chanfrein 0,5 mm × 45°** | **Chanfrein 0,5 mm × 45°** | **Ébavurage 2 faces** : Évite l'abrasion/cisaillement des câbles et élimine les micro-entailles en fatigue. |
+| **Contour Extérieur 2D** | Contour 100×130 mm | Fraise Ø 6 mm DLC | **Chanfrein 0,5 mm × 45°** | **Chanfrein 0,5 mm × 45°** | Élimination des bavures sur tout le pourtour. |
 
 5. **Tenon de Centrage 2D à Z = 0 (OBLIGATOIRE)** :
    - La plaque basse possède un tenon rectangulaire de **40 mm (largeur) × 10 mm (hauteur)** avec congés **R = 3,0 mm** qui s'emboîte dans la plaque haute, garantissant un alignement coaxial automatique parfait à **0,0 mm**. Ce tenon transforme le joint en quasi-encastrement et est **indispensable** pour la continuité de la fibre neutre au noeud d'épaules (zone d'application des 120 N.m de torsion).
@@ -620,8 +621,8 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
    - Brut : 2 plaques 5 × 160 × 160 mm Blockenstock (9,60 € / pièce).
    - Découpe 2D en 1 passe sur table martyr (Fraise Ø6 mm DLC) :
      1. *Évidements intérieurs* : Alésage central Ø28,0 mm + 2 lumières oblongues 22×14 mm (R=4 mm) centrées à Z = ±45,0 mm.
-     2. *Perçages & Fraisures* : 4 trous Ø4,5 mm avec fraisure conique 90° à fleur (0,0 mm pour vis FHC M4 orientées à 15,0° et offset 11 mm) + 4 trous lisses traversants Ø5,3 mm chanfreinés à 0,5 mm × 45° (vis M5 sandwich).
-     3. *Contournage extérieur* : Découpe du profil adapté 100×130 mm (encoches de flancs R=12 mm, chanfreins d'angles 15×15 mm). Masse finale = **`59,0 g`** / semelle.
+     2. *Perçages & Fraisures* : 4 trous Ø4,5 mm avec fraisure conique 90° à fleur (0,0 mm pour vis FHC M4 orientées à 15,0° et offset 11 mm sur Face AR, et ébavurage 0,3×45° sur Face AV) + 4 trous lisses traversants Ø5,3 mm chanfreinés/ébavurés **obligatoirement des 2 côtés** à 0,5 mm × 45° (vis M5 sandwich).
+     3. *Contournage extérieur* : Découpe du profil adapté 100×130 mm (encoches de flancs R=12 mm, chanfreins d'angles 15×15 mm, ébavurage 0,5×45° des 2 faces). Masse finale = **`59,0 g`** / semelle.
 3. **Inserts Carrés Colonne (Alu 7075-T6)** :
    - Brut : 2 blocs **15 × 80 × 80 mm** Blockenstock (7,20 euros TTC / bloc, soit 14,40 euros pour la paire).
    - Contournage 2D de chaque insert (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 15,0 mm !), **poche centrale 44 × 44 mm** (congés verticaux R=5 mm, congé de fond inférieur R=0,5 mm, profondeur ~10 mm, plancher de fond 5,0 mm), perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70, centré à **X = 7,5 mm**) et **4 perçages lisses traversants axiaux Ø 4,3 mm** (entraxe 42 × 42 mm orienté à 15,0° pour vis FHC **M4 × 25 mm** traversantes et écrous Nylstop M4 — **zéro taraudage manuel !**).

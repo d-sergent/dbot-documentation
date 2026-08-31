@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="100%" height="100%">
   <defs>
     <!-- Background Grid Pattern -->
-    <pattern id="grid-pattern-semelle-v4" width="40" height="40" patternUnits="userSpaceOnUse">
+    <pattern id="grid-pattern-semelle-v5" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
       <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
     </pattern>
@@ -36,39 +36,39 @@
 
   <!-- Background Base -->
   <rect width="1400" height="960" fill="#0b1120" />
-  <rect width="1400" height="960" fill="url(#grid-pattern-semelle-v4)" />
+  <rect width="1400" height="960" fill="url(#grid-pattern-semelle-v5)" />
 
   <!-- ========================================================================= -->
   <!-- HEADER -->
   <!-- ========================================================================= -->
-  <g transform="translate(40, 30)">
-    <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <circle cx="35" cy="35" r="18" fill="url(#grad-sky)" />
-    <path d="M 26 35 L 44 35 M 35 26 L 35 44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
-    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="18" font-weight="700" fill="#f8fafc">
-      SEMELLE ÉCLISSE 7075-T6 (100 × 130 × 5,0 mm) : PLAN DE PERÇAGE &amp; FRAISURES FHC M4
+  <g transform="translate(40, 25)">
+    <rect width="1320" height="65" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <circle cx="35" cy="32.5" r="18" fill="url(#grad-sky)" />
+    <path d="M 26 32.5 L 44 32.5 M 35 23.5 L 35 41.5" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <text x="68" y="30" font-family="'Segoe UI', sans-serif" font-size="18" font-weight="700" fill="#f8fafc">
+      SEMELLE ÉCLISSE 7075-T6 (100 × 130 × 5,0 mm) : PLAN D'USINAGE, PERÇAGE &amp; ÉBAVURAGE
     </text>
-    <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
-      Cotation complète des perçages (4× M5 lisses, 4× M4 fraisés 90° à fleur, alésage central Ø28 mm, 2 lumières oblongues)
+    <text x="68" y="50" font-family="'Segoe UI', sans-serif" font-size="12.5" font-weight="500" fill="#94a3b8">
+      Cotation complète d'esquisse CAO, coupe macro fraisure FHC M4, décomposition RDM et protocole de chanfreinage
     </text>
-    <rect x="1100" y="20" width="195" height="30" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1" />
-    <text x="1197" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      PLAN CNC COMPLET V2.3
+    <rect x="1110" y="17.5" width="185" height="30" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1" />
+    <text x="1202" y="37.5" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      PLAN CNC COMPLET V2.4
     </text>
   </g>
 
   <!-- ========================================================================= -->
-  <!-- PANEL 1: VUE DE FACE 2D COTÉE DÉTAILLÉE (Plan Y-Z) -->
+  <!-- PANEL 1: VUE DE FACE 2D COTÉE (Plan Y-Z) -->
   <!-- ========================================================================= -->
-  <g transform="translate(40, 120)">
-    <rect width="570" height="800" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+  <g transform="translate(40, 105)">
+    <rect width="560" height="825" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
     <rect x="15" y="15" width="480" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
     <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
       1. PLAN 2D COTÉ &amp; POSITION DES PERÇAGES (Plan Y-Z)
     </text>
 
     <!-- Dessin de la pièce centrée dans le panel -->
-    <g transform="translate(265, 420) scale(2.2)">
+    <g transform="translate(265, 430) scale(2.2)">
       <!-- Rectangle d'encombrement brut d'origine (Pointillés gris) -->
       <rect x="-53" y="-65" width="100" height="130" fill="none" stroke="#475569" stroke-width="0.8" stroke-dasharray="3,2" />
       <text x="-56" y="-67" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="600" fill="#64748b" text-anchor="end">Brut 100×130 mm</text>
@@ -103,6 +103,27 @@
       <text x="56" y="1.5" font-family="'Segoe UI', sans-serif" font-size="4" font-weight="700" fill="#ec4899">Axe Y</text>
 
       <!-- ============================================================ -->
+      <!-- COTATION DES ENCOCHES DU FLANC DROIT -->
+      <!-- ============================================================ -->
+      <!-- Centre C1 Encoche Haute (Y = +47, Z = +20) -->
+      <circle cx="47" cy="20" r="1.2" fill="#f59e0b" stroke="#ffffff" stroke-width="0.5" />
+      <line x1="43" y1="20" x2="51" y2="20" stroke="#f59e0b" stroke-width="0.5" />
+      <line x1="47" y1="16" x2="47" y2="24" stroke="#f59e0b" stroke-width="0.5" />
+      <text x="53" y="19" font-family="'Segoe UI', sans-serif" font-size="3.5" font-weight="700" fill="#f59e0b">C1 (47; +20)</text>
+      <text x="53" y="23" font-family="'Segoe UI', sans-serif" font-size="3.2" font-weight="600" fill="#fcd34d">R = 12,0 mm</text>
+
+      <!-- Centre C2 Encoche Basse (Y = +47, Z = -20) -->
+      <circle cx="47" cy="-20" r="1.2" fill="#f59e0b" stroke="#ffffff" stroke-width="0.5" />
+      <line x1="43" y1="-20" x2="51" y2="-20" stroke="#f59e0b" stroke-width="0.5" />
+      <line x1="47" y1="-24" x2="47" y2="-16" stroke="#f59e0b" stroke-width="0.5" />
+      <text x="53" y="-21" font-family="'Segoe UI', sans-serif" font-size="3.5" font-weight="700" fill="#f59e0b">C2 (47; -20)</text>
+      <text x="53" y="-17" font-family="'Segoe UI', sans-serif" font-size="3.2" font-weight="600" fill="#fcd34d">R = 12,0 mm</text>
+
+      <!-- Cote de fond d'encoche Y = +35 mm -->
+      <line x1="35" y1="20" x2="35" y2="28" stroke="#f59e0b" stroke-width="0.4" />
+      <text x="35" y="31" font-family="'Segoe UI', sans-serif" font-size="3.2" font-weight="700" fill="#f59e0b" text-anchor="middle">Fond Y=35</text>
+
+      <!-- ============================================================ -->
       <!-- SOUS-ENSEMBLE DU TUBE ET INSERT DÉCENTRÉ (-11.055 mm) & 15.0° -->
       <!-- ============================================================ -->
       <g transform="translate(-11.055, 0) rotate(-15)">
@@ -117,19 +138,15 @@
         <text x="0" y="1.5" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle">Ø 28 mm</text>
 
         <!-- 4 Trous Fraisés FHC M4 pour Fixation Insert (Entraxe 42x42 mm) -->
-        <!-- Trou 1 (-21, -21) -->
         <circle cx="-21" cy="-21" r="2.25" fill="#f8fafc" stroke="#0284c7" stroke-width="0.6" />
         <circle cx="-21" cy="-21" r="4.2" fill="none" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="1.5,1" />
 
-        <!-- Trou 2 (21, -21) -->
         <circle cx="21" cy="-21" r="2.25" fill="#f8fafc" stroke="#0284c7" stroke-width="0.6" />
         <circle cx="21" cy="-21" r="4.2" fill="none" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="1.5,1" />
 
-        <!-- Trou 3 (-21, 21) -->
         <circle cx="-21" cy="21" r="2.25" fill="#f8fafc" stroke="#0284c7" stroke-width="0.6" />
         <circle cx="-21" cy="21" r="4.2" fill="none" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="1.5,1" />
 
-        <!-- Trou 4 (21, 21) -->
         <circle cx="21" cy="21" r="2.25" fill="#f8fafc" stroke="#0284c7" stroke-width="0.6" />
         <circle cx="21" cy="21" r="4.2" fill="none" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="1.5,1" />
 
@@ -144,7 +161,7 @@
       <line x1="-25" y1="12" x2="-45" y2="12" stroke="#f59e0b" stroke-width="0.5" />
       <circle cx="-25" cy="12" r="0.7" fill="#f59e0b" />
       <text x="-46" y="10" font-family="'Segoe UI', sans-serif" font-size="3.2" font-weight="700" fill="#f59e0b" text-anchor="end">4× Trous FHC M4 :</text>
-      <text x="-46" y="14" font-family="'Segoe UI', sans-serif" font-size="3.0" font-weight="600" fill="#fcd34d" text-anchor="end">Ø4,5 traversant + Fraisure Ø8,4 × 90°</text>
+      <text x="-46" y="14" font-family="'Segoe UI', sans-serif" font-size="3.0" font-weight="600" fill="#fcd34d" text-anchor="end">Ø4,5 + Fraisure Ø8,4 × 90° (Face AR)</text>
 
       <!-- Indicateur Offset 11.055 mm -->
       <line x1="0" y1="38" x2="-11.055" y2="38" stroke="#f59e0b" stroke-width="0.7" />
@@ -152,238 +169,275 @@
       <circle cx="-11.055" cy="38" r="0.8" fill="#f59e0b" />
       <text x="-5.5" y="42" font-family="'Segoe UI', sans-serif" font-size="3.6" font-weight="700" fill="#f59e0b" text-anchor="middle">Offset = 11,05 mm</text>
 
-      <!-- 2. Lumière Oblongue Supérieure (22 x 14 mm avec R=4 mm) à Z = +45 mm -->
+      <!-- 2. Lumière Oblongue Supérieure & Inférieure -->
       <rect x="-11" y="-52" width="22" height="14" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" />
       <text x="0" y="-44" font-family="'Segoe UI', sans-serif" font-size="4" font-weight="600" fill="#93c5fd" text-anchor="middle">22 × 14 mm</text>
 
-      <!-- 3. Lumière Oblongue Inférieure (22 x 14 mm avec R=4 mm) à Z = -45 mm -->
       <rect x="-11" y="38" width="22" height="14" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" />
       <text x="0" y="46" font-family="'Segoe UI', sans-serif" font-size="4" font-weight="600" fill="#93c5fd" text-anchor="middle">22 × 14 mm</text>
 
-      <!-- 4 Trous Lisses Ø 5.3 mm pour Vis Traversantes M5 (Z = +/-45 mm, Entraxe Y = 50 mm -> Y = +/-25 mm) -->
-      <!-- Trou Haut-Gauche (-25, -45) -->
+      <!-- 4 Trous Lisses Ø 5.3 mm pour Vis M5 -->
       <circle cx="-25" cy="-45" r="2.65" fill="#f43f5e" stroke="#ffffff" stroke-width="0.8" />
-      <!-- Trou Haut-Droit (25, -45) -->
       <circle cx="25" cy="-45" r="2.65" fill="#f43f5e" stroke="#ffffff" stroke-width="0.8" />
-      <!-- Trou Bas-Gauche (-25, 45) -->
       <circle cx="-25" cy="45" r="2.65" fill="#f43f5e" stroke="#ffffff" stroke-width="0.8" />
-      <!-- Trou Bas-Droit (25, 45) -->
       <circle cx="25" cy="45" r="2.65" fill="#f43f5e" stroke="#ffffff" stroke-width="0.8" />
 
-      <!-- Entraxe M5 Y = 50 mm -->
+      <!-- Entraxe M5 Y = 50 mm & Z = 90 mm -->
       <line x1="-25" y1="-56" x2="25" y2="-56" stroke="#f43f5e" stroke-width="0.6" />
-      <line x1="-25" y1="-54" x2="-25" y2="-58" stroke="#f43f5e" stroke-width="0.6" />
-      <line x1="25" y1="-54" x2="25" y2="-58" stroke="#f43f5e" stroke-width="0.6" />
       <text x="0" y="-58" font-family="'Segoe UI', sans-serif" font-size="3.8" font-weight="700" fill="#f43f5e" text-anchor="middle">Entraxe M5 (Y) = 50,0 mm</text>
 
-      <!-- Entraxe M5 Z = 90 mm -->
       <line x1="-33" y1="-45" x2="-33" y2="45" stroke="#f43f5e" stroke-width="0.6" />
-      <line x1="-31" y1="-45" x2="-35" y2="-45" stroke="#f43f5e" stroke-width="0.6" />
-      <line x1="-31" y1="45" x2="-35" y2="45" stroke="#f43f5e" stroke-width="0.6" />
       <text x="-36" y="0" font-family="'Segoe UI', sans-serif" font-size="3.8" font-weight="700" fill="#f43f5e" text-anchor="middle" transform="rotate(-90,-36,0)">Entraxe M5 (Z) = 90,0 mm</text>
 
-      <!-- Callout Vis M5 -->
-      <line x1="25" y1="-45" x2="35" y2="-55" stroke="#f43f5e" stroke-width="0.5" />
-      <text x="36" y="-56" font-family="'Segoe UI', sans-serif" font-size="3.2" font-weight="700" fill="#f43f5e">4× Trous Lisses Ø5,3 mm (M5)</text>
-
-      <!-- Cotations Principales -->
-      <!-- Largeur 100 mm totale -->
+      <!-- Cotations Générales -->
       <line x1="-53" y1="-70" x2="47" y2="-70" stroke="#38bdf8" stroke-width="0.6" />
-      <line x1="-53" y1="-67" x2="-53" y2="-73" stroke="#38bdf8" stroke-width="0.6" />
-      <line x1="47" y1="-67" x2="47" y2="-73" stroke="#38bdf8" stroke-width="0.6" />
-      <text x="-3" y="-72" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle">100,0 mm (avec redan +6 mm)</text>
+      <text x="-3" y="-72" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle">Largeur 100,0 mm (avec redan +6 mm)</text>
 
-      <!-- Hauteur 130 mm -->
       <line x1="-58" y1="-65" x2="-58" y2="65" stroke="#38bdf8" stroke-width="0.6" />
-      <line x1="-55" y1="-65" x2="-61" y2="-65" stroke="#38bdf8" stroke-width="0.6" />
-      <line x1="-55" y1="65" x2="-61" y2="65" stroke="#38bdf8" stroke-width="0.6" />
-      <text x="-60" y="0" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle" transform="rotate(-90,-60,0)">130,0 mm</text>
+      <text x="-60" y="0" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle" transform="rotate(-90,-60,0)">Hauteur 130,0 mm</text>
     </g>
 
     <!-- Cartouche bas Panel 1 -->
-    <g transform="translate(20, 725)">
+    <g transform="translate(15, 750)">
       <rect width="530" height="55" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
       <text x="15" y="20" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">
-        OPÉRATIONS DE PERÇAGE CNC C500 :
+        RÈGLES D'ESQUISSE FUSION 360 (FLANC DROIT &amp; PERÇAGES) :
       </text>
-      <text x="15" y="38" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="500" fill="#94a3b8">
-        • Foret Ø4,5 mm + Fraise à noyer 90° (Face AR) + Foret Ø5,3 mm + Ébavurage 0,5×45°
+      <text x="15" y="38" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#94a3b8">
+        • Cercles C1(47, +20) et C2(47, -20) R=12 mm tangents Y=47 mm | Entraxes M5 50×90 mm
       </text>
     </g>
   </g>
 
   <!-- ========================================================================= -->
-  <!-- PANEL 2: DÉTAIL EN COUPE DES FRAISURES FHC M4 &amp; TROUS M5 -->
+  <!-- PANEL 2: COUPE MACRO FRAISURE FHC M4 & DÉCOMPOSITION RDM -->
   <!-- ========================================================================= -->
-  <g transform="translate(630, 120)">
-    <rect width="730" height="440" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <rect x="15" y="15" width="490" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+  <g transform="translate(620, 105)">
+    <rect width="740" height="370" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <rect x="15" y="15" width="530" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
     <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#f59e0b">
-      2. COUPE MACRO : FRAISURE FHC M4 NOYÉE À FLEUR (0,0 mm) &amp; APPUI
+      2. COUPE MACRO : FRAISURE FHC M4 À FLEUR (0,0 mm) &amp; DÉCOMPOSITION RDM
     </text>
 
-    <g transform="translate(20, 55)">
-      <!-- Vue en Coupe de la Fraisure FHC M4 -->
-      <g transform="translate(10, 10)">
-        <rect width="330" height="340" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
-        <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#38bdf8">
-          COUPE A-A : FRAISURE FHC M4 (Ép. 5,0 mm)
+    <g transform="translate(20, 50)">
+      <!-- Sous-Cadre 1 : Coupe Macro A-A Fraisure FHC M4 -->
+      <g transform="translate(0, 5)">
+        <rect width="335" height="295" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="15" y="22" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">
+          COUPE A-A : FRAISURE FHC M4 (Face AR)
         </text>
 
-        <!-- Dessin de la coupe macro -->
-        <g transform="translate(165, 140) scale(1.5)">
-          <!-- Matière Semelle (Alu 7075-T6 épaisseur 5 mm = 50 px) -->
-          <!-- Face Arrière (Haut = appui colonne) à Y = -25 px -->
-          <!-- Face Avant (Bas = appui insert) à Y = +25 px -->
-          <path d="
-            M -60 -25 
-            L -28 -25 
-            L -15 0 
-            L -15 25 
-            L -60 25 
-            Z
-          " fill="#0284c7" fill-opacity="0.4" stroke="#38bdf8" stroke-width="1.2" />
+        <g transform="translate(165, 125) scale(1.4)">
+          <!-- Matière Semelle Alu 7075-T6 (5 mm) -->
+          <path d="M -60 -25 L -28 -25 L -15 0 L -15 25 L -60 25 Z" fill="#0284c7" fill-opacity="0.4" stroke="#38bdf8" stroke-width="1.2" />
+          <path d="M 60 -25 L 28 -25 L 15 0 L 15 25 L 60 25 Z" fill="#0284c7" fill-opacity="0.4" stroke="#38bdf8" stroke-width="1.2" />
 
-          <path d="
-            M 60 -25 
-            L 28 -25 
-            L 15 0 
-            L 15 25 
-            L 60 25 
-            Z
-          " fill="#0284c7" fill-opacity="0.4" stroke="#38bdf8" stroke-width="1.2" />
-
-          <!-- Hachures de coupe -->
+          <!-- Hachures -->
           <line x1="-50" y1="-20" x2="-35" y2="20" stroke="#38bdf8" stroke-width="0.6" stroke-dasharray="3,3" />
-          <line x1="-40" y1="-20" x2="-25" y2="20" stroke="#38bdf8" stroke-width="0.6" stroke-dasharray="3,3" />
           <line x1="35" y1="-20" x2="50" y2="20" stroke="#38bdf8" stroke-width="0.6" stroke-dasharray="3,3" />
-          <line x1="25" y1="-20" x2="40" y2="20" stroke="#38bdf8" stroke-width="0.6" stroke-dasharray="3,3" />
 
-          <!-- Tête de vis FHC M4 dessinée à fleur 0,0 mm -->
-          <path d="
-            M -27 -25 
-            L 27 -25 
-            L 14 -1 
-            L 14 50 
-            L -14 50 
-            L -14 -1 
-            Z
-          " fill="#f8fafc" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1.5" />
-
-          <!-- Ligne d'axe central -->
-          <line x1="0" y1="-35" x2="0" y2="60" stroke="#ec4899" stroke-width="0.8" stroke-dasharray="4,2" />
+          <!-- Tête de vis FHC M4 à fleur 0,0 mm -->
+          <path d="M -27 -25 L 27 -25 L 14 -1 L 14 45 L -14 45 L -14 -1 Z" fill="#f8fafc" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1.5" />
+          <line x1="0" y1="-35" x2="0" y2="55" stroke="#ec4899" stroke-width="0.8" stroke-dasharray="4,2" />
 
           <!-- Cotations Macro -->
-          <!-- Diamètre fraisure Ø 8,40 mm -->
-          <line x1="-28" y1="-29" x2="28" y2="-29" stroke="#f59e0b" stroke-width="0.6" />
-          <line x1="-28" y1="-26" x2="-28" y2="-32" stroke="#f59e0b" stroke-width="0.6" />
-          <line x1="28" y1="-26" x2="28" y2="-32" stroke="#f59e0b" stroke-width="0.6" />
-          <text x="0" y="-31" font-family="'Segoe UI', sans-serif" font-size="5" font-weight="700" fill="#f59e0b" text-anchor="middle">Ø 8,40 mm</text>
-
-          <!-- Angle 90° -->
-          <text x="0" y="-10" font-family="'Segoe UI', sans-serif" font-size="5" font-weight="700" fill="#fcd34d" text-anchor="middle">90°</text>
-
-          <!-- Diamètre perçage lisse Ø 4,50 mm -->
-          <line x1="-15" y1="35" x2="15" y2="35" stroke="#38bdf8" stroke-width="0.6" />
-          <line x1="-15" y1="32" x2="-15" y2="38" stroke="#38bdf8" stroke-width="0.6" />
-          <line x1="15" y1="32" x2="15" y2="38" stroke="#38bdf8" stroke-width="0.6" />
-          <text x="0" y="42" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle">Ø 4,50 mm</text>
-
-          <!-- Épaisseur 5,0 mm -->
-          <line x1="45" y1="-25" x2="45" y2="25" stroke="#10b981" stroke-width="0.6" />
-          <line x1="42" y1="-25" x2="48" y2="-25" stroke="#10b981" stroke-width="0.6" />
-          <line x1="42" y1="25" x2="48" y2="25" stroke="#10b981" stroke-width="0.6" />
+          <text x="0" y="-30" font-family="'Segoe UI', sans-serif" font-size="4.8" font-weight="700" fill="#f59e0b" text-anchor="middle">Ø 8,40 mm (90°)</text>
+          <text x="0" y="38" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#38bdf8" text-anchor="middle">Ø 4,50 mm</text>
           <text x="50" y="2" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#10b981">5,0 mm</text>
-
-          <!-- Profondeur fraisure 2,2 mm -->
-          <line x1="-40" y1="-25" x2="-40" y2="0" stroke="#f59e0b" stroke-width="0.6" />
-          <text x="-43" y="-10" font-family="'Segoe UI', sans-serif" font-size="4" font-weight="700" fill="#f59e0b" text-anchor="end">2,2 mm</text>
-
-          <text x="0" y="-42" font-family="'Segoe UI', sans-serif" font-size="4.5" font-weight="700" fill="#10b981" text-anchor="middle">FACE ARRIÈRE : TÊTE NOYÉE À FLEUR (0,0 mm) ✅</text>
+          <text x="0" y="-40" font-family="'Segoe UI', sans-serif" font-size="4.2" font-weight="700" fill="#10b981" text-anchor="middle">TÊTE NOYÉE À FLEUR (0,0 mm) ✅</text>
         </g>
       </g>
 
-      <!-- Cartouche Explications & Règles d'Usinage -->
-      <g transform="translate(360, 10)">
-        <rect width="330" height="340" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
-        <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#10b981">
-          RÈGLES D'USINAGE DES PERÇAGES :
+      <!-- Sous-Cadre 2 : Décomposition Vectorielle RDM -->
+      <g transform="translate(355, 5)">
+        <rect width="345" height="295" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="15" y="22" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#10b981">
+          DÉCOMPOSITION DU COUPLE (120 N.m @ 15°)
         </text>
 
-        <g transform="translate(15, 45)">
-          <text x="0" y="15" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#f59e0b">1. Fraisures FHC M4 (Sur Face ARRIÈRE) :</text>
-          <text x="10" y="32" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">• Percer à Ø4,5 mm traversant toute la semelle.</text>
-          <text x="10" y="47" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">• Fraiser à 90° jusqu'à Ø8,40 mm sur la face arrière.</text>
-          <text x="10" y="62" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#fcd34d">• Objectif : Tête FHC à 0,0 mm d'affleurement franc.</text>
+        <g transform="translate(12, 35)">
+          <rect width="320" height="70" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+          <text x="10" y="20" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#38bdf8">
+            • Roll (Sagittal) : 120 × cos(15°) = 115,9 N.m
+          </text>
+          <text x="10" y="38" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+            Repris par contact de forme carré 55,8×55,8 mm
+          </text>
+          <text x="10" y="54" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#10b981">
+            + Tenon 2D 40×10 mm (Sf &gt; 50 ✅)
+          </text>
 
-          <text x="0" y="90" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#f43f5e">2. Trous Lisses M5 (Sandwich Central) :</text>
-          <text x="10" y="107" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">• Percer à Ø5,3 mm (H13) traversant toute la semelle.</text>
-          <text x="10" y="122" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">• Chanfreiner 0,5 mm × 45° sur les 2 faces.</text>
-          <text x="10" y="137" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">• Têtes CHC M5 + rondelles plates en appui direct.</text>
+          <rect y="80" width="320" height="70" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="1" />
+          <text x="10" y="100" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#10b981">
+            • Yaw (Transversal) : 120 × sin(15°) = 31,1 N.m
+          </text>
+          <text x="10" y="118" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+            Repris par les 4 vis M5 (Précharge 19 200 N)
+          </text>
+          <text x="10" y="134" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#10b981">
+            Effort induit = 345 N ≪ 4 800 N/vis ✅
+          </text>
 
-          <text x="0" y="165" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#38bdf8">3. Alésage Central Ø28,0 mm :</text>
-          <text x="10" y="182" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">• Usinage par interpolation hélicoïdale (fraise Ø6 mm).</text>
-          <text x="10" y="197" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">• Libère le passage central pour les câbles moteur/CAN.</text>
+          <rect y="160" width="320" height="85" rx="4" fill="#1e293b" stroke="#f43f5e" stroke-width="1" />
+          <text x="10" y="180" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#f43f5e">
+            • Moment Flexion Pitch : 275,0 N.m (Arrêt)
+          </text>
+          <text x="10" y="198" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+            Bras de levier Delta_Z = 90,0 mm
+          </text>
+          <text x="10" y="214" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+            Traction par vis = 3 055 N
+          </text>
+          <text x="10" y="232" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#38bdf8">
+            Facteur de sécurité Sf = ×6,28 ✅
+          </text>
         </g>
       </g>
     </g>
   </g>
 
   <!-- ========================================================================= -->
-  <!-- PANEL 3: TABLEAU DES COORDONNÉES CARTÉSIENNES D'ESQUISSE (Y, Z) -->
+  <!-- PANEL 3: TABLEAU DES COORDONNÉES D'ESQUISSE (Y, Z) -->
   <!-- ========================================================================= -->
-  <g transform="translate(630, 580)">
-    <rect width="730" height="340" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <rect x="15" y="15" width="530" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
-    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      3. TABLEAU DES COORDONNÉES D'ESQUISSE (Repère Origine (0, 0) au Centre)
+  <g transform="translate(620, 495)">
+    <rect width="400" height="435" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
+    <rect x="15" y="15" width="370" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#38bdf8">
+      3. COORDONNÉES D'ESQUISSE (Y, Z) [mm]
     </text>
 
-    <!-- Tableau récapitulatif des coordonnées exactes -->
-    <g transform="translate(20, 55)">
-      <rect width="690" height="260" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <!-- Tableau -->
+    <g transform="translate(15, 50)">
+      <rect width="370" height="365" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
       
-      <g transform="translate(15, 20)">
-        <text x="0" y="15" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">PERÇAGE / ENTITÉ</text>
-        <text x="200" y="15" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">POSITION (Y, Z) [mm]</text>
-        <text x="380" y="15" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">DIAMÈTRE &amp; USINAGE</text>
-        <text x="560" y="15" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">FONCTION</text>
-        <line x1="0" y1="25" x2="660" y2="25" stroke="#334155" stroke-width="1" />
+      <g transform="translate(12, 18)">
+        <text x="0" y="12" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">ENTITÉ / PERÇAGE</text>
+        <text x="180" y="12" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">POS (Y, Z)</text>
+        <text x="290" y="12" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">USINAGE</text>
+        <line x1="0" y1="20" x2="345" y2="20" stroke="#334155" stroke-width="1" />
 
-        <text x="0" y="48" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#f8fafc">Vis Sandwich M5 Haut G/D</text>
-        <text x="200" y="48" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f43f5e">Y = ±25,00 ; Z = +45,00</text>
-        <text x="380" y="48" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#cbd5e1">2× Ø 5,30 mm lisse</text>
-        <text x="560" y="48" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#10b981">Pince Plaque Haute</text>
+        <text x="0" y="42" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Vis M5 Haut G/D</text>
+        <text x="180" y="42" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#f43f5e">±25,0 ; +45,0</text>
+        <text x="290" y="42" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">2× Ø5,3</text>
 
-        <text x="0" y="73" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#f8fafc">Vis Sandwich M5 Bas G/D</text>
-        <text x="200" y="73" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f43f5e">Y = ±25,00 ; Z = -45,00</text>
-        <text x="380" y="73" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#cbd5e1">2× Ø 5,30 mm lisse</text>
-        <text x="560" y="73" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#10b981">Pince Plaque Basse</text>
+        <text x="0" y="67" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Vis M5 Bas G/D</text>
+        <text x="180" y="67" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#f43f5e">±25,0 ; -45,0</text>
+        <text x="290" y="67" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">2× Ø5,3</text>
 
-        <text x="0" y="98" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#f8fafc">Vis FHC M4 Haut-Gauche</text>
-        <text x="200" y="98" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f59e0b">Y = -36,77 ; Z = +14,85</text>
-        <text x="380" y="98" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#cbd5e1">Ø4,50 mm + Fraisure Ø8,4</text>
-        <text x="560" y="98" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#10b981">Fixation Insert 15°</text>
+        <text x="0" y="92" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Vis FHC M4 #1</text>
+        <text x="180" y="92" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#f59e0b">-36,77 ; +14,85</text>
+        <text x="290" y="92" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">Ø4,5 FHC</text>
 
-        <text x="0" y="123" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#f8fafc">Vis FHC M4 Haut-Droit</text>
-        <text x="200" y="123" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f59e0b">Y = +3,79 ; Z = +25,72</text>
-        <text x="380" y="123" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#cbd5e1">Ø4,50 mm + Fraisure Ø8,4</text>
-        <text x="560" y="123" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#10b981">Fixation Insert 15°</text>
+        <text x="0" y="117" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Vis FHC M4 #2</text>
+        <text x="180" y="117" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#f59e0b">+3,79 ; +25,72</text>
+        <text x="290" y="117" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">Ø4,5 FHC</text>
 
-        <text x="0" y="148" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#f8fafc">Vis FHC M4 Bas-Gauche</text>
-        <text x="200" y="148" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f59e0b">Y = -25,90 ; Z = -25,72</text>
-        <text x="380" y="148" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#cbd5e1">Ø4,50 mm + Fraisure Ø8,4</text>
-        <text x="560" y="148" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#10b981">Fixation Insert 15°</text>
+        <text x="0" y="142" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Vis FHC M4 #3</text>
+        <text x="180" y="142" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#f59e0b">-25,90 ; -25,72</text>
+        <text x="290" y="142" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">Ø4,5 FHC</text>
 
-        <text x="0" y="173" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#f8fafc">Vis FHC M4 Bas-Droit</text>
-        <text x="200" y="173" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f59e0b">Y = +14,66 ; Z = -14,85</text>
-        <text x="380" y="173" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#cbd5e1">Ø4,50 mm + Fraisure Ø8,4</text>
-        <text x="560" y="173" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#10b981">Fixation Insert 15°</text>
+        <text x="0" y="167" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Vis FHC M4 #4</text>
+        <text x="180" y="167" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#f59e0b">+14,66 ; -14,85</text>
+        <text x="290" y="167" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">Ø4,5 FHC</text>
 
-        <text x="0" y="198" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#f8fafc">Alésage Central Faisceaux</text>
-        <text x="200" y="198" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Y = -11,055 ; Z = 0,00</text>
-        <text x="380" y="198" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#cbd5e1">Ø 28,00 mm traversant</text>
-        <text x="560" y="198" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#10b981">Passage Câbles Torse</text>
+        <text x="0" y="192" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Alésage Câbles</text>
+        <text x="180" y="192" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#38bdf8">-11,055 ; 0,00</text>
+        <text x="290" y="192" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">Ø 28,0</text>
+
+        <text x="0" y="217" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Lumière Haute</text>
+        <text x="180" y="217" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#93c5fd">0,00 ; +45,00</text>
+        <text x="290" y="217" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">22×14 R4</text>
+
+        <text x="0" y="242" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Lumière Basse</text>
+        <text x="180" y="242" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#93c5fd">0,00 ; -45,00</text>
+        <text x="290" y="242" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">22×14 R4</text>
+
+        <text x="0" y="267" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Centre C1 Haut</text>
+        <text x="180" y="267" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#fcd34d">+47,00 ; +20,00</text>
+        <text x="290" y="267" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">R = 12,0</text>
+
+        <text x="0" y="292" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Centre C2 Bas</text>
+        <text x="180" y="292" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#fcd34d">+47,00 ; -20,00</text>
+        <text x="290" y="292" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">R = 12,0</text>
+
+        <text x="0" y="317" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#f8fafc">Redan Gauche</text>
+        <text x="180" y="317" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#38bdf8">Y = -53,00</text>
+        <text x="290" y="317" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">2× R=15</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 4: CADRE DÉDIÉ PROTOCOLE D'ÉBAVURAGE & CHANFREINAGE (2 FACES) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(1035, 495)">
+    <rect width="325" height="435" rx="10" fill="url(#grad-card)" stroke="#10b981" stroke-width="1.8" filter="url(#drop-shadow)" />
+    <rect x="15" y="15" width="295" height="26" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#6ee7b7">
+      4. PROTOCOLE D'ÉBAVURAGE (2 FACES)
+    </text>
+
+    <!-- Contenu Dédié Ébavurage -->
+    <g transform="translate(15, 50)">
+      <rect width="295" height="365" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+
+      <g transform="translate(12, 15)">
+        <!-- 1. Trous M5 -->
+        <rect width="270" height="75" rx="4" fill="#1e293b" stroke="#f43f5e" stroke-width="1" />
+        <text x="8" y="18" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#f43f5e">
+          1. TROUS LISSES M5 (Ø5,3 mm) :
+        </text>
+        <text x="12" y="36" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+          • <tspan font-weight="700" fill="#f8fafc">Face AV (Ext.)</tspan> : Chanfrein 0,5×45° (appui tête CHC).
+        </text>
+        <text x="12" y="52" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+          • <tspan font-weight="700" fill="#fcd34d">Face AR (Int.)</tspan> : Chanfrein 0,5×45° (contact colonne).
+        </text>
+        <text x="12" y="68" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#10b981">
+          ➔ Ébavurage 2 faces obligatoire (19 200 N).
+        </text>
+
+        <!-- 2. Trous M4 -->
+        <rect y="85" width="270" height="75" rx="4" fill="#1e293b" stroke="#f59e0b" stroke-width="1" />
+        <text x="8" y="103" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#f59e0b">
+          2. TROUS FRAISÉS M4 (Ø4,5 mm) :
+        </text>
+        <text x="12" y="121" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+          • <tspan font-weight="700" fill="#fcd34d">Face AR (Int.)</tspan> : Fraisure 90° Ø8,40 mm à fleur (0,0 mm).
+        </text>
+        <text x="12" y="137" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+          • <tspan font-weight="700" fill="#f8fafc">Face AV (Ext.)</tspan> : Ébavurage 0,3×45° (placage insert).
+        </text>
+        <text x="12" y="153" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#10b981">
+          ➔ Zéro bourrelet résiduel côté insert.
+        </text>
+
+        <!-- 3. Alésage & Lumières -->
+        <rect y="170" width="270" height="85" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+        <text x="8" y="188" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#38bdf8">
+          3. ALÉSAGE Ø28 &amp; LUMIÈRES :
+        </text>
+        <text x="12" y="206" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+          • <tspan font-weight="700" fill="#f8fafc">Chanfrein 0,5 mm × 45°</tspan> des deux côtés.
+        </text>
+        <text x="12" y="222" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+          • Protection des faisceaux électriques / CAN.
+        </text>
+        <text x="12" y="238" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+          • Suppression des entailles en fatigue (2 Hz).
+        </text>
+
+        <!-- 4. Contour Extérieur -->
+        <rect y="265" width="270" height="70" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="1" />
+        <text x="8" y="283" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#10b981">
+          4. CONTOUR EXTÉRIEUR 2D :
+        </text>
+        <text x="12" y="301" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+          • <tspan font-weight="700" fill="#f8fafc">Ébavurage 0,5 mm × 45°</tspan> sur les 2 faces.
+        </text>
+        <text x="12" y="317" font-family="'Segoe UI', sans-serif" font-size="9" fill="#cbd5e1">
+          • Sécurité de manipulation &amp; zéro arête vive.
+        </text>
       </g>
     </g>
   </g>
