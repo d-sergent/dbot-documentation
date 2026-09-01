@@ -488,7 +488,24 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 | **Alésage Central Faisceaux** | `Y = -11,055 ; Z = 0,00` | Fraise Ø 6 mm DLC | **Chanfrein 0,5 mm × 45°** | **Chanfrein 0,5 mm × 45°** | **Ébavurage 2 faces** : Évite l'abrasion/cisaillement des câbles et élimine les micro-entailles en fatigue. |
 | **Contour Extérieur 2D** | Contour 100×130 mm | Fraise Ø 6 mm DLC | **Chanfrein 0,5 mm × 45°** | **Chanfrein 0,5 mm × 45°** | Élimination des bavures sur tout le pourtour. |
 
-5. **Tenon de Centrage 2D à Z = 0 (OBLIGATOIRE)** :
+5. **Guide de Modélisation CAO Fusion 360 pour les Fraisures FHC M4 (Outil `Hole` / Touche `H`)** :
+
+Pour une modélisation paramétrique propre, standardisée et directement reconnue par le module d'usinage **Fusion 360 CAM / Fabrication** :
+1. **Dans l'esquisse 2D (Face Arrière de la semelle)** :
+   * Utiliser l'outil **Point** (`Create > Point`) pour placer les 4 centres aux coordonnées cartésiennes $(Y, Z)$ du tableau ci-dessus (ou sur les 4 sommets du carré d'entraxe $42 \times 42\text{ mm}$ tourné de 15°).
+   * Cliquer sur **Terminer l'esquisse** (`Finish Sketch`).
+2. **Lancer la commande Perçage (`Hole`, raccourci `H`)** :
+   * **Placement** : Sélectionner `À partir de l'esquisse (plusieurs trous)` et cliquer sur les 4 points.
+   * **Type de perçage (`Hole Type`)** : Choisir **Fraisé (`Countersink`)** (icône conique).
+   * **Type de trou (`Hole Tap Type`)** : Simple (`Simple`).
+   * **Étendue (`Extent`)** : `À travers tout` (`All`) ou Distance `5,0 mm`.
+3. **Renseigner les 3 paramètres standards dans le panneau de droite** :
+   * **Diamètre de Fraisure (haut du cône)** : **`8,40 mm`** (standard ISO 10642 / DIN 7991 pour tête FHC M4).
+   * **Angle de Fraisure** : **`90,0 deg`** (standard métrique européen).
+   * **Diamètre de Perçage Lisse** : **`4,50 mm`** (passage normalisé M4).
+4. **Validation** : La profondeur de fraisure (`2,20 mm`) est calculée automatiquement par Fusion 360, garantissant un **affleurement franc à fleur (`0,0 mm`)** sur la face arrière d'appui colonne.
+
+6. **Tenon de Centrage 2D à Z = 0 (OBLIGATOIRE)** :
    - La plaque basse possède un tenon rectangulaire de **40 mm (largeur) × 10 mm (hauteur)** avec congés **R = 3,0 mm** qui s'emboîte dans la plaque haute, garantissant un alignement coaxial automatique parfait à **0,0 mm**. Ce tenon transforme le joint en quasi-encastrement et est **indispensable** pour la continuité de la fibre neutre au noeud d'épaules (zone d'application des 120 N.m de torsion).
 
 ---
