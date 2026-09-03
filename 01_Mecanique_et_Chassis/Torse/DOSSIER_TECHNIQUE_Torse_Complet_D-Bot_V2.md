@@ -503,7 +503,7 @@ Pour une modélisation paramétrique propre, standardisée et directement reconn
    * **Diamètre de Fraisure (haut du cône)** : **`8,40 mm`** (standard ISO 10642 / DIN 7991 pour tête FHC M4).
    * **Angle de Fraisure** : **`90,0 deg`** (standard métrique européen).
    * **Diamètre de Perçage Lisse** : **`4,50 mm`** (passage normalisé M4).
-4. **Validation** : La profondeur de fraisure (`2,20 mm`) est calculée automatiquement par Fusion 360, garantissant un **affleurement franc à fleur (`0,0 mm`)** sur la face arrière d'appui colonne.
+4. **Validation** : La profondeur du cône de fraisure (**`1,95 mm`**) est calculée automatiquement par Fusion 360 jusqu'au perçage lisse de passage Ø 4,50 mm (la tête conique de la vis FHC M4 descendant sur 2,20 mm au total jusqu'au diamètre nominal Ø 4,0 mm), garantissant un **affleurement franc à fleur (`0,0 mm`)** sur la face arrière d'appui colonne.
 
 6. **Tenon de Centrage 2D à Z = 0 (OBLIGATOIRE)** :
    - La plaque basse possède un tenon rectangulaire de **40 mm (largeur) × 10 mm (hauteur)** avec congés **R = 3,0 mm** qui s'emboîte dans la plaque haute, garantissant un alignement coaxial automatique parfait à **0,0 mm**. Ce tenon transforme le joint en quasi-encastrement et est **indispensable** pour la continuité de la fibre neutre au noeud d'épaules (zone d'application des 120 N.m de torsion).
@@ -635,7 +635,7 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
    - Brut : 2 disques Ø120 × 50 mm Blockenstock (30 € / pièce).
    - Usinage 2.5D en 2 phases avec fraise carbure 3 dents Ø6 mm DLC (hauteur totale usinée = **33,20 mm**) :
      1. *Phase 1 — Face Stator* : Alésage / logement pilote Ø 95,05 mm H7 profondeur **`13,80 mm`** (avec **congé de fond intérieur `R = 0,5 mm`** et **chanfrein d'entrée `0,5 mm × 45°`**, recevant le bossage arrière Ø 94,0 × 13,2 mm du RS-04 avec un jeu axial de fond de 0,60 mm) + 10 trous de passage Ø4,3 mm sur PCD Ø106 mm chanfreinés à **`0,5 mm × 45°`** pour rondelles Nord-Lock M4.
-     2. *Phase 2 — Face Bossage & Hub* : Dégagement de la flasque 5,0 mm, usinage du hub intermédiaire 13,20 mm (Étage 2), contournage du bossage carré **55,8×55,8×15 mm** (Étage 3) avec **poche carrée centrale 44 × 44 mm** (congés verticaux **R = 5,0 mm**, congé de fond inférieur **R = 0,5 mm**, profondeur **15,0 mm** débouchant sur le hub 13,2 mm) et perçage traversant vertical Ø5,3 mm centré à **X = 7,5 mm** (axe Z). *(Opération 2.5D continue fraise Ø6 mm DLC, sans changement d'outil)*.
+     2. *Phase 2 — Face Bossage & Hub* : Dégagement de la flasque 5,0 mm, usinage du hub intermédiaire 13,20 mm (Étage 2), contournage du bossage carré **55,8×55,8×15 mm** (Étage 3) avec **poche carrée centrale 44 × 44 mm** (congés verticaux **R = 5,0 mm**, congé de fond inférieur **R = 0,5 mm**, profondeur **15,0 mm** débouchant sur le hub 13,2 mm), **chanfrein d'entrée d'emmanchement de `1,0 mm × 45°`** sur les 4 arêtes d'extrémité du bossage, et perçage traversant vertical Ø5,3 mm centré à **X = 7,5 mm** (axe Z). *(Opération 2.5D continue fraise Ø6 mm DLC, sans changement d'outil)*.
 2. **Semelles Éclisses Colonne (Alu 7075-T6)** :
    - Brut : 2 plaques 5 × 160 × 160 mm Blockenstock (9,60 € / pièce).
    - Découpe 2D en 1 passe sur table martyr (Fraise Ø6 mm DLC) :
@@ -644,10 +644,16 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
      3. *Contournage extérieur* : Découpe du profil adapté 100×130 mm (encoches de flancs R=12 mm, chanfreins d'angles 15×15 mm, ébavurage 0,5×45° des 2 faces). Masse finale = **`67,6 g`** / semelle.
 3. **Inserts Carrés Colonne (Alu 7075-T6 — Option B Validée)** :
    - Brut : 2 blocs **15 × 80 × 80 mm** Blockenstock (7,20 euros TTC / bloc, soit 14,40 euros pour la paire).
-   - Contournage 2D de chaque insert (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 15,0 mm !), **alésage circulaire traversant débouchant Ø 35,0 mm sur toute la hauteur de 15,0 mm** (Option B : usinage rapide 1 passe sur martyr, gain -40,5 g / insert, zéro poche borgne à fond plat !), perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70, centré à **X = 7,5 mm**) et **4 perçages lisses traversants axiaux Ø 4,5 mm** (entraxe 42 × 42 mm orienté à 15,0° pour vis FHC **M4 × 30 mm** traversantes et écrous Nylstop M4 — **portée sous chaque écrou = +8,20 mm de métal plein continu, zéro taraudage manuel, marge de filet Nylstop = 10 mm !**). Masse finale = **`86,5 g`** / insert.
+   - Contournage 2D de chaque insert (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 15,0 mm !), **alésage circulaire traversant débouchant Ø 35,0 mm sur toute la hauteur de 15,0 mm** (Option B : usinage rapide 1 passe sur martyr, gain -40,5 g / insert, zéro poche borgne à fond plat !), perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70, centré à **X = 7,5 mm**) et **4 perçages lisses traversants axiaux Ø 4,5 mm** (entraxe 42 × 42 mm orienté à 15,0° pour vis FHC **M4 × 30 mm** traversantes et écrous Nylstop M4 — **portée sous chaque écrou = +8,20 mm de métal plein continu, zéro taraudage manuel, marge de filet Nylstop = 10 mm !**).
+   - **Chanfrein d'entrée d'emmanchement tube** : Chanfrein franc de **`1,0 mm × 45°`** sur les 4 arêtes d'extrémité de la face avant (indispensable pour guider et enfiler sans grippage le tube carré 60×60×2 mm avec le jeu radial serré de 0,10 mm).
+   - **Ébavurage & Chanfreinage des perçages** : Cassage des arêtes à **`0,3 mm × 45°`** des deux côtés de l'alésage Ø 35,0 mm et des 4 trous Ø 4,5 mm (Face AR : contact plan franc 0,0 mm contre la semelle ; Face AV : assise propre des écrous Nylstop M4 sans bavure parasite). Masse finale = **`86,5 g`** / insert.
 4. **Traverses Carrées 60×60×2 mm (Alu 6060-T6)** :
    - Longueur réelle mesurée du tube (CAO Fusion 360) : **`L = 80,05 mm`** (jeu fonctionnel résultant de 1,0 mm côté colonne, engagement insert = 14,0 mm, portée théorique assemblée = 81,05 mm).
-   - Perçage de 2 trous lisses traversants verticaux **Ø5,3 mm** (axe Z) : trou côté bride d'épaule à **`X = 7,5 mm`** depuis le chant d'appui butée, et trou côté colonne à **`X = 72,55 mm`** (entraxe rigoureux de **`65,05 mm`**). *(Révision V2.5 — tube mesuré 80,05 mm, bossage bride 15 mm, vis M5 centrée en bossage à X = 7,5 mm)*
+   - **Chanfreinage & Ébavurage des chants du tube (Indispensable pour l'isostatisme)** :
+     - *Côté Bride d'Épaule (Intérieur)* : **Chanfrein intérieur de `0,5 mm × 45°`** sur les 4 arêtes internes (dégage le congé de racine d'usinage de l'épaulement de la bride et garantit un appui franc métal-métal à 0,0 mm sans talonnage).
+     - *Côté Bride d'Épaule (Extérieur)* : **Cassage d'arête de `0,3 mm × 45°`** (élimine les bavures de scie sans réduire la surface d'appui axial de 464 mm2 de la butée franche).
+     - *Côté Colonne (Intérieur & Extérieur)* : **Chanfrein intérieur de `0,5 mm × 45°`** (facilite l'emboîtement sur l'insert de 15 mm) + cassage d'arête extérieur de `0,3 mm × 45°`.
+   - Perçage de 2 trous lisses traversants verticaux **Ø5,3 mm** (axe Z) chanfreinés à 0,5 mm × 45° des deux côtés : trou côté bride d'épaule à **`X = 7,5 mm`** depuis le chant d'appui butée, et trou côté colonne à **`X = 72,55 mm`** (entraxe rigoureux de **`65,05 mm`**). *(Révision V2.5 — tube mesuré 80,05 mm, bossage bride 15 mm, vis M5 centrée en bossage à X = 7,5 mm)*
 5. **Colonnes Sagittales 2D (Alu 7075-T6, 5,0 mm)** :
    - Brut : 1 plat marchand **5 × 100 × 495 mm Alu 7075-T6** Blockenstock (18,16 € TTC).
    - Plaque Basse (290 × 94 mm) : Découpée en diagonale à 25° sur la table C500 (lumières R = 18 mm).
@@ -675,19 +681,54 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
 
 ---
 
-### C. Tutoriel d'Importation Quincaillerie McMaster-Carr & Normes DIN/ISO dans Fusion 360
+### C. Quincaillerie Torse : Approvisionnement Français (Bricovis, Vis-Express, RS) & Import CAO Fusion 360
+
+> [!NOTE]
+> **Rôle de McMaster-Carr vs Réalité d'Atelier en France** :  
+> McMaster-Carr n'expédie pas aux particuliers ou nouvelles structures en Europe/France (restrictions d'exportation américaines et douanes). Dans Fusion 360, McMaster-Carr sert **exclusivement de bibliothèque CAO 3D gratuite** pour télécharger en deux clics les modèles 3D STEP normalisés.  
+> Pour l'approvisionnement physique réel, **100% de la visserie est standardisée aux normes métriques européennes (DIN / ISO)** et s'achète directement au détail ou en petits sachets chez les distributeurs spécialisés français ci-dessous.
+
+#### 1. Sourcing Quincaillerie Recommandé en France
+
+| Fournisseur Français | Lien Web Direct | Spécialité & Points Forts | Recommandé pour D-Bot |
+| :--- | :--- | :--- | :--- |
+| **Bricovis** ⭐ | [bricovis.fr](https://www.bricovis.fr) | Le site de référence pour makers & usineurs : vente au détail, grand choix de classes haute résistance (Acier 10.9, 12.9 noir, Inox A2/A4). | **100% de la visserie structurelle** (CHC M5×70, FHC M4×30, écrous Nylstop DIN 985). |
+| **Vis-Express** | [vis-express.fr](https://www.vis-express.fr) | Très grand catalogue français, sachets de 10 à 50 pièces, expédition rapide 24/48h. | Visserie générale, rondelles plates DIN 125A, vis moteur. |
+| **FixnVis** | [fixnvis.fr](https://www.fixnvis.fr) | Quincaillerie métrique industrielle au détail, prix très bas. | Petites séries et compléments de quincaillerie. |
+| **RS Particuliers** | [rs-particuliers.com](https://www.rs-particuliers.com) | Accès catalogue RS Components pour les particuliers (livraison gratuite le weekend). | **Paires de rondelles frein Nord-Lock M4 d'origine**. |
+| **Amazon.fr** | [amazon.fr](https://www.amazon.fr) | Livraison prime le lendemain. | **Inserts laiton Ruthex M4** officiels, pâte thermique Noctua NT-H1. |
+
+#### 2. Tableau de Commande Rapide en Quincaillerie Française (Désignations DIN / ISO)
+
+Ce tableau reprend les désignations standardisées à taper directement dans les moteurs de recherche de **Bricovis** ou **Vis-Express** :
+
+| Rôle Mécanique sur le Torse | Désignation Normalisée d'Atelier (Bricovis / Vis-Express) | Norme | Quantité Utile (+ Réserve) | Spécification Technique |
+| :--- | :--- | :---: | :---: | :--- |
+| **Brides ➔ Stators RS-04 (Mince 5 mm)** | **Vis CHC M4 × 12 mm** | DIN 912 / ISO 4762 | **15 pièces** | Acier 12.9 (noir) ou Inox A2 (clé Allen 3 mm) |
+| **Brides ➔ Stators RS-04 (Épaisse 18 mm)** | **Vis CHC M4 × 25 mm** | DIN 912 / ISO 4762 | **15 pièces** | Acier 12.9 (noir) ou Inox A2 (clé Allen 3 mm) |
+| **Sécurité Anti-Vibrations Stators** | **Rondelles Nord-Lock M4** | Nord-Lock NL4 | **20 à 25 paires** | Acier zingué ou Inox (ép. 1,8 mm, Ø ext 7,6 mm) |
+| **Liaison Traverses 60×60 (Tubes)** | **Vis CHC M5 × 70 mm** | DIN 912 / ISO 4762 | **6 à 10 pièces** | Acier 12.9 (noir) ou Inox A2 (clé Allen 4 mm) |
+| **Rondelles d'Appui Traverses** | **Rondelles plates M5 DIN 125A** | DIN 125A / ISO 7089 | **15 à 20 pièces** | Inox A2 (Ø int 5,3 mm / Ø ext 10 mm / ép 1 mm) |
+| **Écrous Verrouillage Traverses** | **Écrous frein Nylstop M5** | DIN 985 / ISO 7040 | **6 à 10 pièces** | Inox A2 ou Acier classe 8 (clé 8 mm) |
+| **Inserts ➔ Semelles Éclisses** | **Vis FHC M4 × 30 mm (tête fraisée 90°)** | DIN 7991 / ISO 10642 | **12 à 15 pièces** | Acier 10.9 ou Inox A2 (empreinte Allen 2,5 mm) |
+| **Écrous Verrouillage Inserts** | **Écrous frein Nylstop M4** | DIN 985 / ISO 7040 | **12 à 15 pièces** | Inox A2 ou Acier classe 8 (clé 7 mm) |
+| **Sandwich Colonne Centrale** | **Vis CHC M5 × 25 mm** | DIN 912 / ISO 4762 | **6 à 10 pièces** | Acier 12.9 (noir) ou Inox A2 (clé Allen 4 mm) |
+| **Ventilateurs 4020 ➔ Tuyères** | **Vis CHC M3 × 16 mm + écrous M3** | DIN 912 / ISO 4762 | **10 paires** | Inox A2 (serrage avec silent-blocs) |
+| **Bossages Coque PA12-CF** | **Inserts filetés laiton M4 Ruthex** | Standard Ruthex | **1 boîte (50 ou 100)** | Pose au fer à souder (260 °C) |
+
+---
+
+#### 3. Tutoriel d'Importation Quincaillerie McMaster-Carr dans Fusion 360 (Modélisation CAO)
 
 Pour intégrer directement la visserie exacte avec ses filetages et formes normalisées dans votre assemblage CAO Fusion 360 :
 
-#### 1. Procédure d'Importation Pas-à-Pas
+##### Procédure Pas-à-Pas
 1. Dans le ruban supérieur de Fusion 360, cliquer sur **Insert** ➔ **Insert McMaster-Carr Component**.
 2. Une fenêtre de catalogue s'ouvre : naviguer ou taper directement la désignation ou la **référence catalogue McMaster** indiquée ci-dessous.
 3. Sélectionner le produit, dérouler la section **Product Detail**, choisir le format **3D STEP** (ou 3D SolidWorks), puis cliquer sur **Download**.
 4. La vis / écrou s'insère automatiquement comme composant dans votre modèle. Appliquer une contrainte d'assemblage **Joint** (raccourci `J`) de type **Cylindrical** ou **Rigid** coaxialement sur l'arête du perçage.
 
-#### 2. Tableau des Références McMaster-Carr & Quincaillerie Standardisée du Torse V2
-
-Le tableau est structuré par **sous-ensemble fonctionnel** pour une intégration fluide dans l'arborescence CAO Fusion 360 :
+##### Tableau des Références McMaster-Carr pour Modélisation CAO Fusion 360
 
 | Sous-Ensemble & Rôle Mécanique | Composant Normalisé | Norme / Standard | Réf Catalogue McMaster | Quantité (Robot Complet) | Spécifications d'Usinage & Chanfreins Associés |
 | :--- | :--- | :--- | :---: | :---: | :--- |
@@ -751,8 +792,8 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 
 | Composant / Pièce | Matériau | Quantité | Masse Unitaire | Masse Totale |
 | :--- | :--- | :---: | :---: | :---: |
-| **Brides d'Épaules Monoblocs** | Alu 7075-T651 (Flasque 5,0 mm + Hub 13,2 mm + Bossage **15,0 mm**, poche 44×44 mm R5) | 2 | **78,0 g** | **156,0 g** |
-| **Tronçons de Tubes Carrés** | Alu 6060-T6 (60 × 60 × 2,0 mm, L = 80,05 mm mesuré CAO) | 2 | 100,3 g | **200,6 g** |
+| **Brides d'Épaules Monoblocs** | Alu 7075-T651 (Flasque 5,0 mm + Hub 13,2 mm + Bossage **15,0 mm**, mesuré CAO Fusion 360) | 2 | **266,9 g** | **533,7 g** |
+| **Tronçons de Tubes Carrés** | Alu 6060-T6 (60 × 60 × 2,0 mm, L = 80,05 mm, mesuré CAO Fusion 360) | 2 | **100,0 g** | **200,1 g** |
 | **Inserts Carrés Colonne** | Alu 7075-T6 (55,8 × 55,8 × **15,0 mm**, alésage traversant Ø 35 mm Option B) | 2 | **86,5 g** | **173,0 g** |
 | **Semelles Éclisses Colonne** | Alu 7075-T6 (Plaque 5,0 mm, 100 × 130 mm pleine sous insert) | 2 | **67,6 g** | **135,2 g** |
 | **Plaques Colonne Sagittale (Haute + Basse)** | Alu 7075-T6 (Plaque 5,0 mm, 94 mm de large évidée) | 2 | ~158 g | **~315,0 g** |
@@ -760,12 +801,13 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **Ventilateurs Épaules 40×40×20 mm** | Noctua NF-A4x20 5V PWM (datasheet officielle) | 2 | 20,0 g | **40,0 g** |
 | **Visserie Liaison Traverses & Sandwich Colonne** | Vis FHC M4, CHC M5 traversantes + rondelles & écrous Nylstop | Lot | - | **106,0 g** |
 | **Visserie Stators RS-04 (8× M4×12 + 12× M4×25 + Nord-Lock)** | Vis CHC M4×12 & M4×25 + 20 paires rondelles Nord-Lock M4 | 20 | ~2,7 g | **~54,0 g** |
-| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 220 g (~1,22 kg)** |
+| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 605 g (~1,61 kg)** |
 
 > [!TIP]
-> **Gain Net de Masse de l'Architecture V2.5 (Option B Traversante)** :  
-> L'architecture directe en bride monobloc Alu 7075-T6 (bossage 15 mm, poche 44×44 mm) sur tube 60×60×2 mm (L = 80,05 mm, CAO finale), avec inserts colonne à alésage traversant Dia 35 mm (Option B) et semelle éclisse 100% pleine, permet d'intégrer le système complet de refroidissement actif (+88 g) tout en restant **plus légère de ~340 g** que les anciennes architectures à cages et tirants externes. Vis FHC M4 × 30 mm (marge de filet Nylstop doublée à 10 mm).
-> **Masses à consolider via Fusion 360** : Les masses de la colonne sagittale et des brides devront être confirmées par assignation du matériau `Aluminum, 7075-T6` (rho = 2,81 g/cm3) dans les propriétés physiques de Fusion 360 (voir Méthodologie Section 10.C ci-dessous).
+> **Consolidation Réelle CAO Fusion 360 (Août/Septembre 2026)** :  
+> Les masses réelles extraites de l'arbre CAO Fusion 360 avec les matériaux physiques rigoureusement affectés (Alu 7075-T6 à 2,81 g/cm3, Alu 6060-T6 à 2,70 g/cm3) établissent le haut du torse complet (avec ses 2 actionneurs RS-04 fixés et le système aéraulique actif complet) à **~1,605 kg**.  
+> Le tube carré 60×60×2 mm est confirmé à **100,0 g** (avec ses perçages M5).  
+> La bride monobloc réelle pèse **266,9 g** (la couronne pleine Ø 120 mm / alésage Ø 95 mm sur 18,2 mm représente à elle seule ~216 g). Des pistes d'allègement par contournage festonné permettent si nécessaire de gagner ~80 à 100 g par bride.
 
 ---
 
@@ -779,7 +821,7 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **Bloc Alu 7075 T6 (Inserts)** | [Blockenstock — Bloc 15×80×80mm 7075 T6](https://www.blockenstock.fr/15x80x80mm-alu-7075-t6) | **15 × 80 × 80 mm** | **2** | **7,20 €** | **14,40 €** | 2 Inserts Carrés Colonne (55,8 × 55,8 × 15 mm), 1 insert par bloc |
 | **Tube Carré Alu 6060 T6** | [Blockenstock — Tube Carré 60×2×500mm](https://www.blockenstock.fr/60x2x500mm-tube-carre-6060-t6-c2x24054508) | **60 × 2 × 500 mm** | **1** | **12,80 €** | **12,80 €** | 2 Tronçons de Traverses de 80,05 mm (reste ~340 mm de réserve) |
 | **Ventilateurs 40×40×20 mm PWM** | [Noctua NF-A4x20 PWM (Amazon)](https://www.amazon.fr/dp/B071W9E6NW) | **NF-A4x20 PWM (5V ou 12V)** | **2** | **~15,00 €** | **~30,00 €** | 2 Ventilateurs haute pression statique pour tuyères d'épaules |
-| **Lot Visserie M3, M4 & M5** | McMaster-Carr / Vis-Express | **FHC M4×25, CHC M4×12, CHC M4×20, CHC M5, Nylstop** | Lot | **~14,00 €** | **~14,00 €** | Visserie complète structure, moteurs, tuyières et sandwich |
+| **Lot Visserie M3, M4 & M5** | [Bricovis](https://www.bricovis.fr) / [Vis-Express](https://www.vis-express.fr) / [Amazon](https://www.amazon.fr) / [RS](https://www.rs-particuliers.com) | **FHC M4×30, CHC M4×12, CHC M4×25, CHC M5×70, CHC M5×25, Nylstop M4/M5, Nord-Lock M4, Ruthex M4** | Lot complet | **~18,00 €** | **~18,00 €** | Visserie complète structure, moteurs, tuyères et coque |
 | **TOTAL PANIER MATIÈRE & THERMIQUE** | **Blockenstock + Quincaillerie** | - | - | - | **~168,56 €** | **Structure Torse Complète en Alu 7075 + Circuit Aéraulique Intégré** |
 
 ---
