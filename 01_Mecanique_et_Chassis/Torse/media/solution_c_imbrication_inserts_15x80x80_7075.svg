@@ -22,7 +22,7 @@
   <rect width="1200" height="500" fill="url(#grid)"/>
 
   <!-- Title -->
-  <text x="600" y="30" text-anchor="middle" fill="#f8fafc" font-size="16" font-weight="bold">IMBRICATION INSERTS COLONNE — BRUT 15×80×80 mm ALU 7075-T6 (Révision V2.1)</text>
+  <text x="600" y="30" text-anchor="middle" fill="#f8fafc" font-size="16" font-weight="bold">IMBRICATION INSERTS COLONNE — BRUT 15×80×80 mm ALU 7075-T6 (OPTION B : Ø 35 mm TRAVERSANT)</text>
 
   <!-- ============ PANEL 1: Imbrication 2D ============ -->
   <rect x="20" y="45" width="370" height="440" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
@@ -34,26 +34,26 @@
 
   <!-- Insert outline (centered in brut) -->
   <rect x="116" y="136" width="168" height="168" rx="4" fill="#1e3a5f" stroke="#fbbf24" stroke-width="2"/>
-  <text x="200" y="230" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="bold">Insert 55,8 × 55,8 mm</text>
-  <text x="200" y="245" text-anchor="middle" fill="#94a3b8" font-size="9">(h = 15,0 mm, R = 3 mm)</text>
+  <text x="200" y="248" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="bold">Insert 55,8 × 55,8 mm</text>
+  <text x="200" y="260" text-anchor="middle" fill="#94a3b8" font-size="9">(h = 15,0 mm, R = 3 mm)</text>
 
-  <!-- Poche centrale -->
-  <rect x="148" y="168" width="104" height="104" rx="6" fill="#0f172a" stroke="#f97316" stroke-width="1.5" stroke-dasharray="4,2"/>
-  <text x="200" y="225" text-anchor="middle" fill="#f97316" font-size="9">Poche 44×44 R5</text>
-  <text x="200" y="237" text-anchor="middle" fill="#94a3b8" font-size="8">Prof. 10 mm</text>
+  <!-- Alésage central Ø 35 mm traversant -->
+  <circle cx="200" cy="220" r="52.5" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
+  <text x="200" y="217" text-anchor="middle" fill="#f97316" font-size="9.5" font-weight="bold">Alésage Traversant</text>
+  <text x="200" y="230" text-anchor="middle" fill="#f97316" font-size="10" font-weight="bold">Ø 35,0 mm</text>
 
   <!-- Vis M5 hole -->
-  <circle cx="200" cy="170" r="4" fill="none" stroke="#ef4444" stroke-width="1.5"/>
-  <circle cx="200" cy="170" r="1.5" fill="#ef4444"/>
-  <text x="215" y="165" fill="#ef4444" font-size="8">Ø5,3 mm</text>
-  <text x="215" y="175" fill="#ef4444" font-size="8">X = 7,5 mm</text>
+  <circle cx="200" cy="158" r="4" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+  <circle cx="200" cy="158" r="1.5" fill="#ef4444"/>
+  <text x="215" y="156" fill="#ef4444" font-size="8">Ø5,3 mm</text>
+  <text x="215" y="166" fill="#ef4444" font-size="8">X = 7,5 mm</text>
 
-  <!-- 4 FHC M4 holes -->
-  <circle cx="160" cy="178" r="3" fill="none" stroke="#a78bfa" stroke-width="1"/>
-  <circle cx="240" cy="178" r="3" fill="none" stroke="#a78bfa" stroke-width="1"/>
-  <circle cx="160" cy="258" r="3" fill="none" stroke="#a78bfa" stroke-width="1"/>
-  <circle cx="240" cy="258" r="3" fill="none" stroke="#a78bfa" stroke-width="1"/>
-  <text x="200" y="285" text-anchor="middle" fill="#a78bfa" font-size="8">4× FHC M4 (42×42 mm)</text>
+  <!-- 4 FHC M4 holes (entraxe 42x42 mm -> demi-entraxe 21 mm = 63 px) -->
+  <circle cx="137" cy="157" r="3.5" fill="none" stroke="#a78bfa" stroke-width="1.2"/>
+  <circle cx="263" cy="157" r="3.5" fill="none" stroke="#a78bfa" stroke-width="1.2"/>
+  <circle cx="137" cy="283" r="3.5" fill="none" stroke="#a78bfa" stroke-width="1.2"/>
+  <circle cx="263" cy="283" r="3.5" fill="none" stroke="#a78bfa" stroke-width="1.2"/>
+  <text x="200" y="295" text-anchor="middle" fill="#a78bfa" font-size="8">4× FHC M4 (42×42 mm, portée +8,2 mm)</text>
 
   <!-- Dimension lines — Left margin -->
   <line x1="75" y1="136" x2="75" y2="100" stroke="#4ade80" stroke-width="0.8" marker-start="url(#arrow-green-rev)" marker-end="url(#arrow-green)"/>
@@ -83,31 +83,20 @@
 
   <!-- ============ PANEL 2: Coupe en épaisseur ============ -->
   <rect x="410" y="45" width="370" height="440" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-  <text x="595" y="68" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="bold">PANEL 2 — Cotation Insert 15,0 mm (Coupe axiale)</text>
+  <text x="595" y="68" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="bold">PANEL 2 — Cotation Insert 15,0 mm (Coupe axiale Option B)</text>
 
   <!-- Insert cross-section (side view) -->
   <rect x="460" y="120" width="260" height="100" rx="3" fill="#1e3a5f" stroke="#fbbf24" stroke-width="2"/>
 
-  <!-- Poche cutout -->
-  <rect x="524" y="120" width="130" height="66" rx="4" fill="#0f172a" stroke="#f97316" stroke-width="1.5"/>
-  <text x="589" y="155" text-anchor="middle" fill="#f97316" font-size="9">Poche 44×44</text>
-  <text x="589" y="167" text-anchor="middle" fill="#94a3b8" font-size="8">Prof. 10 mm</text>
-
-  <!-- Plancher -->
-  <line x1="524" y1="186" x2="654" y2="186" stroke="#f97316" stroke-width="0.5" stroke-dasharray="3,2"/>
-  <text x="589" y="203" text-anchor="middle" fill="#94a3b8" font-size="8">Plancher 5,0 mm</text>
+  <!-- Alésage traversant Ø 35 mm cutout (sur les 100 px = 15 mm) -->
+  <rect x="515" y="120" width="150" height="100" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
+  <text x="590" y="165" text-anchor="middle" fill="#f97316" font-size="11" font-weight="bold">ALÉSAGE DÉBOUCHANT</text>
+  <text x="590" y="180" text-anchor="middle" fill="#f97316" font-size="12" font-weight="bold">Ø 35,0 mm</text>
+  <text x="590" y="195" text-anchor="middle" fill="#94a3b8" font-size="9">(Traversant h = 15,0 mm)</text>
 
   <!-- Insert height dimension (left) -->
   <line x1="445" y1="120" x2="445" y2="220" stroke="#fbbf24" stroke-width="0.8" marker-start="url(#arrow-rev)" marker-end="url(#arrow)"/>
   <text x="438" y="175" text-anchor="end" fill="#fbbf24" font-size="11" font-weight="bold">15,0</text>
-
-  <!-- Poche depth dimension (right) -->
-  <line x1="735" y1="120" x2="735" y2="186" stroke="#f97316" stroke-width="0.8" marker-start="url(#arrow-rev)" marker-end="url(#arrow)"/>
-  <text x="752" y="158" fill="#f97316" font-size="9">10,0</text>
-
-  <!-- Plancher dimension -->
-  <line x1="735" y1="186" x2="735" y2="220" stroke="#94a3b8" stroke-width="0.8" marker-start="url(#arrow-rev)" marker-end="url(#arrow)"/>
-  <text x="752" y="208" fill="#94a3b8" font-size="9">5,0</text>
 
   <!-- Vis M5 hole -->
   <line x1="489" y1="115" x2="489" y2="225" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,2"/>
@@ -129,84 +118,56 @@
 
   <!-- Comparison table -->
   <rect x="435" y="345" width="320" height="130" rx="4" fill="#1a2744" stroke="#334155" stroke-width="1"/>
-  <text x="595" y="365" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="bold">Comparatif Insert V2 → V2.1</text>
+  <text x="595" y="365" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="bold">Comparatif Insert Option A vs Option B</text>
 
   <text x="445" y="385" fill="#94a3b8" font-size="9">Paramètre</text>
-  <text x="590" y="385" text-anchor="middle" fill="#94a3b8" font-size="9">V2 (20 mm)</text>
-  <text x="720" y="385" text-anchor="end" fill="#4ade80" font-size="9">V2.1 (15 mm)</text>
+  <text x="590" y="385" text-anchor="middle" fill="#94a3b8" font-size="9">Option A (Fond 5 mm)</text>
+  <text x="720" y="385" text-anchor="end" fill="#4ade80" font-size="9">Option B (Traversant)</text>
   <line x1="440" y1="390" x2="750" y2="390" stroke="#334155" stroke-width="0.5"/>
 
   <text x="445" y="405" fill="#f8fafc" font-size="9">Masse unitaire</text>
-  <text x="590" y="405" text-anchor="middle" fill="#f8fafc" font-size="9">34,0 g</text>
-  <text x="720" y="405" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">25,5 g (-25%)</text>
+  <text x="590" y="405" text-anchor="middle" fill="#f8fafc" font-size="9">99,0 g</text>
+  <text x="720" y="405" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">85,5 g (-13,5 g)</text>
 
-  <text x="445" y="422" fill="#f8fafc" font-size="9">Brut (coût)</text>
-  <text x="590" y="422" text-anchor="middle" fill="#f8fafc" font-size="9">16,80 €</text>
-  <text x="720" y="422" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">14,40 € (-14%)</text>
+  <text x="445" y="422" fill="#f8fafc" font-size="9">Usinage fond</text>
+  <text x="590" y="422" text-anchor="middle" fill="#f8fafc" font-size="9">Poche 10 mm borgne</text>
+  <text x="720" y="422" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">Débouchant 1 passe</text>
 
-  <text x="445" y="439" fill="#f8fafc" font-size="9">Sf torsion</text>
-  <text x="590" y="439" text-anchor="middle" fill="#f8fafc" font-size="9">> 150</text>
+  <text x="445" y="439" fill="#f8fafc" font-size="9">Sf torsion (120 Nm)</text>
+  <text x="590" y="439" text-anchor="middle" fill="#f8fafc" font-size="9">> 100</text>
   <text x="720" y="439" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">> 100 ✅</text>
 
-  <text x="445" y="456" fill="#f8fafc" font-size="9">Sf flexion</text>
-  <text x="590" y="456" text-anchor="middle" fill="#f8fafc" font-size="9">> 30</text>
-  <text x="720" y="456" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">> 72 ✅</text>
+  <text x="445" y="456" fill="#f8fafc" font-size="9">Portée sous Nylstop</text>
+  <text x="590" y="456" text-anchor="middle" fill="#f8fafc" font-size="9">+8,20 mm</text>
+  <text x="720" y="456" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">+8,20 mm ✅</text>
 
-  <text x="445" y="473" fill="#f8fafc" font-size="9">Vis M5 position</text>
-  <text x="590" y="473" text-anchor="middle" fill="#f8fafc" font-size="9">X = 10,0 mm</text>
-  <text x="720" y="473" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">X = 7,5 mm</text>
+  <text x="445" y="473" fill="#f8fafc" font-size="9">Fond fermé par</text>
+  <text x="590" y="473" text-anchor="middle" fill="#f8fafc" font-size="9">Plancher insert</text>
+  <text x="720" y="473" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">Semelle pleine 5 mm</text>
 
   <!-- ============ PANEL 3: Récapitulatif global ============ -->
   <rect x="800" y="45" width="380" height="440" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-  <text x="990" y="68" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="bold">PANEL 3 — Récapitulatif Matière 100% 7075-T6</text>
+  <text x="990" y="68" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="bold">PANEL 3 — Synthèse Matière &amp; Usinage Option B</text>
 
-  <!-- BOM lines -->
-  <rect x="820" y="85" width="340" height="28" rx="3" fill="#1e3a5f" stroke="#fbbf24" stroke-width="1"/>
-  <text x="830" y="103" fill="#fbbf24" font-size="10" font-weight="bold">Inserts Colonne (×2)</text>
-  <text x="1145" y="103" text-anchor="end" fill="#f8fafc" font-size="10">15×80×80 mm → 14,40 €</text>
+  <rect x="820" y="90" width="340" height="100" rx="4" fill="#0f172a" stroke="#4ade80" stroke-width="1"/>
+  <text x="835" y="112" fill="#4ade80" font-size="11" font-weight="bold">AVANTAGES OPTION B (TRAVERSANT Ø 35) :</text>
+  <text x="835" y="132" fill="#e2e8f0" font-size="9.5">• Zéro fond de poche à surfacer sur C500</text>
+  <text x="835" y="150" fill="#e2e8f0" font-size="9.5">• Découpe 2D directe en interpolation hélicoïdale</text>
+  <text x="835" y="168" fill="#e2e8f0" font-size="9.5">• Allègement maximal : -81,0 g sur le torse</text>
+  <text x="835" y="184" fill="#38bdf8" font-size="9.5">• Obturation naturelle par la semelle pleine</text>
 
-  <rect x="820" y="120" width="340" height="28" rx="3" fill="#1e3a5f" stroke="#60a5fa" stroke-width="1"/>
-  <text x="830" y="138" fill="#60a5fa" font-size="10" font-weight="bold">Brides Monoblocs (×2)</text>
-  <text x="1145" y="138" text-anchor="end" fill="#f8fafc" font-size="10">Ø120×50 mm → 60,00 €</text>
+  <rect x="820" y="205" width="340" height="135" rx="4" fill="#0f172a" stroke="#fbbf24" stroke-width="1"/>
+  <text x="835" y="227" fill="#fbbf24" font-size="11" font-weight="bold">CONSERVATION INTÉGRITÉ STRUCTURALE :</text>
+  <text x="835" y="247" fill="#cbd5e1" font-size="9.5">• Colonne vertébrale : 100% pleine et continue</text>
+  <text x="835" y="265" fill="#cbd5e1" font-size="9.5">• Semelle éclisse : 100% pleine sous l'insert</text>
+  <text x="835" y="283" fill="#cbd5e1" font-size="9.5">• Écrous Nylstop M4 : Portée de +8,2 mm de métal</text>
+  <text x="835" y="301" fill="#cbd5e1" font-size="9.5">• Paroi résiduelle insert : 10,40 mm sur 4 faces</text>
+  <text x="835" y="319" fill="#10b981" font-size="9.5" font-weight="bold">• Transmission torsion 120 Nm garantie à 100%</text>
 
-  <rect x="820" y="155" width="340" height="28" rx="3" fill="#1e3a5f" stroke="#60a5fa" stroke-width="1"/>
-  <text x="830" y="173" fill="#60a5fa" font-size="10" font-weight="bold">Semelles Éclisses (×2)</text>
-  <text x="1145" y="173" text-anchor="end" fill="#f8fafc" font-size="10">5×160×160 mm → 19,20 €</text>
-
-  <rect x="820" y="190" width="340" height="28" rx="3" fill="#1e3a5f" stroke="#60a5fa" stroke-width="1"/>
-  <text x="830" y="208" fill="#60a5fa" font-size="10" font-weight="bold">Colonne Sagittale</text>
-  <text x="1145" y="208" text-anchor="end" fill="#f8fafc" font-size="10">5×100×495 mm → 18,16 €</text>
-
-  <rect x="820" y="225" width="340" height="28" rx="3" fill="#1e3a5f" stroke="#a78bfa" stroke-width="1"/>
-  <text x="830" y="243" fill="#a78bfa" font-size="10" font-weight="bold">Tube Carré 6060-T6</text>
-  <text x="1145" y="243" text-anchor="end" fill="#f8fafc" font-size="10">60×2×500 mm → 12,80 €</text>
-
-  <!-- Total matière -->
-  <rect x="820" y="270" width="340" height="35" rx="4" fill="#1a2744" stroke="#4ade80" stroke-width="1.5"/>
-  <text x="830" y="292" fill="#4ade80" font-size="11" font-weight="bold">TOTAL MATIÈRE ALU</text>
-  <text x="1145" y="292" text-anchor="end" fill="#4ade80" font-size="13" font-weight="bold">124,56 € TTC</text>
-
-  <!-- Mass summary -->
-  <rect x="820" y="320" width="340" height="155" rx="4" fill="#1a2744" stroke="#fbbf24" stroke-width="1"/>
-  <text x="990" y="342" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="bold">BILAN DE MASSE V2.1</text>
-
-  <text x="830" y="362" fill="#f8fafc" font-size="9">2× Brides monoblocs</text>
-  <text x="1145" y="362" text-anchor="end" fill="#f8fafc" font-size="9">176,0 g</text>
-
-  <text x="830" y="379" fill="#f8fafc" font-size="9">2× Tubes carrés 60×60</text>
-  <text x="1145" y="379" text-anchor="end" fill="#f8fafc" font-size="9">210,0 g</text>
-
-  <text x="830" y="396" fill="#4ade80" font-size="9" font-weight="bold">2× Inserts 15 mm</text>
-  <text x="1145" y="396" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">51,0 g (was 68 g)</text>
-
-  <text x="830" y="413" fill="#f8fafc" font-size="9">2× Semelles éclisses</text>
-  <text x="1145" y="413" text-anchor="end" fill="#f8fafc" font-size="9">112,0 g</text>
-
-  <text x="830" y="430" fill="#f8fafc" font-size="9">Colonne sagittale évidée</text>
-  <text x="1145" y="430" text-anchor="end" fill="#f8fafc" font-size="9">315,0 g</text>
-
-  <line x1="825" y1="438" x2="1155" y2="438" stroke="#fbbf24" stroke-width="0.5"/>
-  <text x="830" y="455" fill="#fbbf24" font-size="10" font-weight="bold">SQUELETTE COMPLET</text>
-  <text x="1145" y="455" text-anchor="end" fill="#fbbf24" font-size="12" font-weight="bold">1 124 g</text>
-  <text x="1145" y="470" text-anchor="end" fill="#4ade80" font-size="9">(-17 g vs V2)</text>
+  <rect x="820" y="355" width="340" height="115" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <text x="835" y="377" fill="#38bdf8" font-size="11" font-weight="bold">RÉCAPITULATIF SOURCING BLOCKENSTOCK :</text>
+  <text x="835" y="397" fill="#e2e8f0" font-size="9.5">• 2× Blocs 15 × 80 × 80 mm Alu 7075-T6 (7,20 €)</text>
+  <text x="835" y="415" fill="#e2e8f0" font-size="9.5">• 2× Plaques 5 × 160 × 160 mm Alu 7075-T6 (9,60 €)</text>
+  <text x="835" y="433" fill="#e2e8f0" font-size="9.5">• 1× Plat 5 × 100 × 495 mm Alu 7075-T6 (18,16 €)</text>
+  <text x="835" y="451" fill="#4ade80" font-size="10" font-weight="bold">TOTAL MATIÈRE 100% 7075-T6 = 51,76 € TTC</text>
 </svg>

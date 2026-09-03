@@ -239,9 +239,9 @@ Pour éviter tout conflit d'hyperstatisme axial ou de tolérances de débit à l
    - Reprend **100% des chocs latéraux en compression** (écrasement du bras vers le torse lors d'une chute) en contact direct sans solliciter la vis M5 en cisaillement.
 
 2. **Côté Semelle Colonne ➔ JEU FONCTIONNEL AXIAL (j = 1,0 mm)** :
-   - La longueur de débit du tube est fixée à **`L = 84,0 mm`** (pour une portée théorique de 85,0 mm).
+   - La longueur réelle du tube (mesurée sur CAO Fusion 360) est de **`L = 80,05 mm`** (portée théorique assemblée = 81,05 mm).
    - Un jeu d'aisance de **`1,0 mm`** subsiste entre le chant du tube et la face de la semelle éclisse.
-   - L'insert mâle reste engagé sur **`14,0 mm`** à l'intérieur du tube (perte de portée négligeable de 7%).
+   - L'insert mâle reste engagé sur **`14,0 mm`** à l'intérieur du tube (portée de 93% de la hauteur d'insert, structurellement optimale).
    - Ce jeu absorbe les dispersions de coupe de scie et empêche tout décalage entre les trous traversants M5.
 
 3. **Reprise des Efforts Axiaux en Traction (Traction Extérieure Bras)** :
@@ -455,13 +455,13 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 
 ![Plan 2D et Lumières d'Allègement de la Semelle Éclisse 7075-T6](./media/plan_detail_semelle_eclisse_lumieres_2d.svg)
 
-*Blueprint d'ingénierie vectoriel de la Semelle Éclisse allégée 2D (Révision V2.3). Panel 1 : Plan coté 100 × 130 mm avec redan +6,0 mm (double rayon tangent R=15 mm), alésage central Ø28 mm, insert orienté à 15,0° (offset 11,055 mm) et 4 vis FHC M4. Panel 2 : Analyse RDM de décomposition du couple 120 N.m (Roll 115,9 N.m + Yaw 31,1 N.m) et moment de flexion 275 N.m. Panel 3 : Fiche d'atelier NestWorks C500 et bilan de masse (59,0 g / semelle).*
+*Blueprint d'ingénierie vectoriel de la Semelle Éclisse allégée 2D (Révision V2.4 — Option B). Panel 1 : Plan coté 100 × 130 mm avec redan +6,0 mm (double rayon tangent R=15 mm), semelle 100% pleine sous l'insert (zéro trou central), insert orienté à 15,0° (offset 11,055 mm) et 4 vis FHC M4. Panel 2 : Analyse RDM de décomposition du couple 120 N.m (Roll 115,9 N.m + Yaw 31,1 N.m) et moment de flexion 275 N.m. Panel 3 : Tableau de coordonnées cartésiennes et cadre dédié chanfreinage/ébavurage 2 faces. Masse finale = 67,6 g / semelle.*
 
 1. **Rôle 2-en-1 des Semelles Éclisses (100 × 130 × 5,0 mm en Alu 7075-T6)** :
    - Portent l'insert carré orienté à **`15,0°`** recevant le tube d'épaule décentré de **`11,055 mm`**.
    - Enserrent en sandwich la **Plaque Haute (5 mm)** et la **Plaque Basse (5 mm)** sur une hauteur de 130 mm (épaisseur totale = 15,0 mm). Largeur adaptée à **`100,0 mm`** aux épaules avec redan de `+6,0 mm` pour épouser fidèlement le profil de la colonne.
-2. **Topologie 2D des Lumières d'Allègement (Masse finale = `59,0 g` / semelle)** :
-   - **Alésage central de passage & allègement (`Ø 28,0 mm`)** : Centré sur l'axe du tube déporté (`X = +11,055 mm, Z = 0`), allège le centre neutre et libère le passage pour les câbles/faisceaux torse.
+2. **Topologie 2D des Lumières d'Allègement (Masse finale = `67,6 g` / semelle)** :
+   - **Zone centrale sous insert 100% pleine** : Aucun perçage central (les câbles ne passent pas par ici). La semelle forme une face d'appui rigide et continue qui referme naturellement le fond de l'alésage traversant Ø 35 mm de l'insert.
    - **2 Lumières oblongues axiales (`22,0 × 14,0 mm`, coins `R = 4,0 mm`)** : Centrées à Z = +45,0 mm et Z = -45,0 mm entre les paires de vis M5.
    - **Flanc gauche avec redan de +6,0 mm & double rayon tangent en S (`R = 15,0 mm`)** : Épouse le profil de la colonne sans aucune concentration de contraintes (`Kt ≈ 1,05`).
    - **Flanc droit en sablier (Définition d'esquisse CAO Fusion 360)** :
@@ -470,7 +470,7 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
      - *2 Encoches concaves de sablier (Demi-cercles tangents parfaits)* :
        - **Encoche Haute** : Demi-cercle concave de rayon **`R = 12,0 mm`** raccordé tangentiellement entre `(Y = +47,0 mm, Z = +8,0 mm)` et `(Y = +47,0 mm, Z = +32,0 mm)`. Centre du cercle de découpe : **`C_haut = (Y = +47,0 mm, Z = +20,0 mm)`** (point le plus creux à `Y = +35,0 mm`, profondeur d'échancrure nette = `12,0 mm`, marge de matière résiduelle = `9,31 mm` avec l'insert).
        - **Encoche Basse** : Symétrique miroir par rapport à l'axe horizontal Z = 0. Centre du cercle de découpe : **`C_bas = (Y = +47,0 mm, Z = -20,0 mm)`**, rayon **`R = 12,0 mm`** (entre `Z = -8,0 mm` et `Z = -32,0 mm`).
-   - **Masse nette unitaire** : **`59,0 g`** (soit **`118,0 g` pour la paire**, générant un gain net de **`167,0 g`** sur le robot par rapport à deux rectangles pleins de 100×130 mm).
+   - **Masse nette unitaire** : **`67,6 g`** (soit **`135,2 g` pour la paire**, intégrant les +8,6 g de matière pleine sous l'insert suite à la fermeture du trou central).
 3. **Répartition des 4 Vis Traversantes M5 × 25 mm & Bras de Levier (90 mm)** :
    - **2 vis en haut (`Z = +45,0 mm`, entraxe Y = 50 mm)** : Traversent Semelle G + **Plaque Haute** + Semelle D.
    - **2 vis en bas (`Z = -45,0 mm`, entraxe Y = 50 mm)** : Traversent Semelle G + **Plaque Basse** + Semelle D.
@@ -485,14 +485,14 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 | **Vis FHC M4 #2 (Haut-D)** | `Y = +3,79 ; Z = +25,72` | Foret Ø 4,50 mm | **Fraisure 90° Ø 8,40 mm** | **Ébavurage 0,3 mm × 45°** | Face AR : tête FHC noyée à `0,0 mm` ; Face AV : ébavurage foret indispensable pour placage insert. |
 | **Vis FHC M4 #3 (Bas-G)** | `Y = -25,90 ; Z = -25,72` | Foret Ø 4,50 mm | **Fraisure 90° Ø 8,40 mm** | **Ébavurage 0,3 mm × 45°** | Face AR : tête FHC noyée à `0,0 mm` ; Face AV : ébavurage foret indispensable pour placage insert. |
 | **Vis FHC M4 #4 (Bas-D)** | `Y = +14,66 ; Z = -14,85` | Foret Ø 4,50 mm | **Fraisure 90° Ø 8,40 mm** | **Ébavurage 0,3 mm × 45°** | Face AR : tête FHC noyée à `0,0 mm` ; Face AV : ébavurage foret indispensable pour placage insert. |
-| **Alésage Central Faisceaux** | `Y = -11,055 ; Z = 0,00` | Fraise Ø 6 mm DLC | **Chanfrein 0,5 mm × 45°** | **Chanfrein 0,5 mm × 45°** | **Ébavurage 2 faces** : Évite l'abrasion/cisaillement des câbles et élimine les micro-entailles en fatigue. |
+| **Semelle sous Insert** | `Y = -11,055 ; Z = 0,00` | Fraise Ø 6 mm DLC | **Pleine continue (0,0 mm)** | **Pleine continue (0,0 mm)** | **Semelle 100% pleine sous l'insert** : Plan d'appui rigide continu fermant le fond de l'alésage traversant Ø 35 mm de l'insert (les câbles ne passent pas par ici). |
 | **Contour Extérieur 2D** | Contour 100×130 mm | Fraise Ø 6 mm DLC | **Chanfrein 0,5 mm × 45°** | **Chanfrein 0,5 mm × 45°** | Élimination des bavures sur tout le pourtour. |
 
 5. **Guide de Modélisation CAO Fusion 360 pour les Fraisures FHC M4 (Outil `Hole` / Touche `H`)** :
 
 Pour une modélisation paramétrique propre, standardisée et directement reconnue par le module d'usinage **Fusion 360 CAM / Fabrication** :
 1. **Dans l'esquisse 2D (Face Arrière de la semelle)** :
-   * Utiliser l'outil **Point** (`Create > Point`) pour placer les 4 centres aux coordonnées cartésiennes $(Y, Z)$ du tableau ci-dessus (ou sur les 4 sommets du carré d'entraxe $42 \times 42\text{ mm}$ tourné de 15°).
+   * Utiliser l'outil **Point** (`Create > Point`) pour placer les 4 centres aux coordonnées cartésiennes (Y, Z) du tableau ci-dessus (ou sur les 4 sommets du carré d'entraxe 42 × 42 mm tourné de 15°).
    * Cliquer sur **Terminer l'esquisse** (`Finish Sketch`).
 2. **Lancer la commande Perçage (`Hole`, raccourci `H`)** :
    * **Placement** : Sélectionner `À partir de l'esquisse (plusieurs trous)` et cliquer sur les 4 points.
@@ -514,11 +514,13 @@ Pour une modélisation paramétrique propre, standardisée et directement reconn
 
 ![Imbrication Brut 7075 et Détail d'Insertion des Vis Fraisées FHC M4](./media/solution_c_detail_fraisage_fhc_et_imbrication_7075.svg)
 
-*Blueprint d'ingénierie vectoriel des détails d'usinage et d'assemblage (Solution C, Révision V2.4). Panel 1 : Imbrication 2D de la Semelle Éclisse (100 × 130 mm avec redan +6 mm) dans la plaque carrée Blockenstock 5 × 160 × 160 mm Alu 7075-T6 (9,60 €). Panel 2 : Vue en coupe macro montrant la Semelle (5,0 mm) + Insert (15,0 mm) avec sa poche centrale 44 × 44 mm usinée sur 10,0 mm de profondeur (plancher de fond de 5,0 mm), l'alésage central traversant Ø 28,0 mm, et les 4 vis FHC M4 × 25 mm traversantes (noyées à 0,0 mm sur la face arrière de la semelle) verrouillées par 4 écrous Nylstop M4 sur la face avant de l'insert à l'établi. Panel 3 : Vérification géométrique d'appui des écrous Nylstop M4 (entraxe 42×42 mm, portée 100% pleine sur les coins extérieurs en Alu 7075-T6).*
+*Blueprint d'ingénierie vectoriel des détails d'usinage et d'assemblage (Solution C, Révision V2.4 — Option B). Panel 1 : Imbrication 2D de la Semelle Éclisse (100 × 130 mm avec redan +6 mm) dans la plaque carrée Blockenstock 5 × 160 × 160 mm Alu 7075-T6 (9,60 €), semelle 100% pleine sous l'insert. Panel 2 : Vue en coupe macro montrant la Semelle (5,0 mm pleine) + Insert (15,0 mm avec alésage circulaire traversant débouchant Ø 35,0 mm sur toute l'épaisseur, gain -40,5 g/insert), et les 4 vis FHC M4 × 30 mm traversantes (noyées à 0,0 mm sur la face arrière de la semelle) verrouillées par 4 écrous Nylstop M4 sur la face avant de l'insert à l'établi (marge de filet Nylstop = 10 mm). Panel 3 : Vérification géométrique d'appui des écrous Nylstop M4 (entraxe 42×42 mm, portée 100% pleine de +8,20 mm de métal continu autour du trou Ø 35 mm en Alu 7075-T6).*
 
 ![Imbrication des 2 Inserts dans le Brut 15x80x80 mm Alu 7075](./media/solution_c_imbrication_inserts_15x80x80_7075.svg)
 
-*Blueprint d'ingénierie vectoriel d'usinage des inserts (Solution C, Révision V2.1). Panel 1 : Imbrication 2D d'1 insert carré (55,8 × 55,8 mm) dans chaque bloc Blockenstock 15 × 80 × 80 mm (7,20 euros TTC) en Alu 7075-T6 avec marges de bridage de 12,1 mm. Panel 2 : Cotation exacte de l'insert de 15,0 mm avec poche centrale 44 × 44 mm R=5 mm et vis traversante unique centrée à X=7,5 mm. Panel 3 : Récapitulatif global matière 100% 7075-T6.*
+![Modélisation CAO Fusion 360 de l'Insert avec Évidement Circulaire Ø 35 mm](./media/cad_insert_evidement_diametre_35mm_fusion360.png)
+
+*Modélisation CAO réelle sous Fusion 360 de l'Insert carré 55,8 × 55,8 mm (vert) incliné à 15,0° monté sur la Semelle Éclisse (orange). L'évidement circulaire de diamètre Ø 35 mm (Option B traversante dans l'insert) s'intègre parfaitement avec une marge de portée radiale sous les écrous Nylstop M4 (entraxe 42×42 mm) de +8,20 mm de métal plein continu. La semelle éclisse et la colonne restent 100% pleines.*
 
 ---
 
@@ -637,15 +639,15 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
 2. **Semelles Éclisses Colonne (Alu 7075-T6)** :
    - Brut : 2 plaques 5 × 160 × 160 mm Blockenstock (9,60 € / pièce).
    - Découpe 2D en 1 passe sur table martyr (Fraise Ø6 mm DLC) :
-     1. *Évidements intérieurs* : Alésage central Ø28,0 mm + 2 lumières oblongues 22×14 mm (R=4 mm) centrées à Z = ±45,0 mm.
+     1. *Évidements intérieurs* : 2 lumières oblongues 22×14 mm (R=4 mm) centrées à Z = ±45,0 mm. (Semelle 100% pleine sous l'insert, zéro alésage central car les câbles ne passent pas par ici).
      2. *Perçages & Fraisures* : 4 trous Ø4,5 mm avec fraisure conique 90° à fleur (0,0 mm pour vis FHC M4 orientées à 15,0° et offset 11 mm sur Face AR, et ébavurage 0,3×45° sur Face AV) + 4 trous lisses traversants Ø5,3 mm chanfreinés/ébavurés **obligatoirement des 2 côtés** à 0,5 mm × 45° (vis M5 sandwich).
-     3. *Contournage extérieur* : Découpe du profil adapté 100×130 mm (encoches de flancs R=12 mm, chanfreins d'angles 15×15 mm, ébavurage 0,5×45° des 2 faces). Masse finale = **`59,0 g`** / semelle.
-3. **Inserts Carrés Colonne (Alu 7075-T6)** :
+     3. *Contournage extérieur* : Découpe du profil adapté 100×130 mm (encoches de flancs R=12 mm, chanfreins d'angles 15×15 mm, ébavurage 0,5×45° des 2 faces). Masse finale = **`67,6 g`** / semelle.
+3. **Inserts Carrés Colonne (Alu 7075-T6 — Option B Validée)** :
    - Brut : 2 blocs **15 × 80 × 80 mm** Blockenstock (7,20 euros TTC / bloc, soit 14,40 euros pour la paire).
-   - Contournage 2D de chaque insert (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 15,0 mm !), **poche centrale 44 × 44 mm** (congés verticaux R=5 mm, congé de fond inférieur R=0,5 mm, profondeur ~10 mm, plancher de fond 5,0 mm), perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70, centré à **X = 7,5 mm**) et **4 perçages lisses traversants axiaux Ø 4,3 mm** (entraxe 42 × 42 mm orienté à 15,0° pour vis FHC **M4 × 25 mm** traversantes et écrous Nylstop M4 — **zéro taraudage manuel !**).
+   - Contournage 2D de chaque insert (section 55,8 × 55,8 mm avec **congés R = 3,0 mm aux 4 coins**, sans surfaçage en épaisseur car le brut fait déjà 15,0 mm !), **alésage circulaire traversant débouchant Ø 35,0 mm sur toute la hauteur de 15,0 mm** (Option B : usinage rapide 1 passe sur martyr, gain -40,5 g / insert, zéro poche borgne à fond plat !), perçage traversant vertical Ø5,3 mm (axe Z pour vis M5×70, centré à **X = 7,5 mm**) et **4 perçages lisses traversants axiaux Ø 4,5 mm** (entraxe 42 × 42 mm orienté à 15,0° pour vis FHC **M4 × 30 mm** traversantes et écrous Nylstop M4 — **portée sous chaque écrou = +8,20 mm de métal plein continu, zéro taraudage manuel, marge de filet Nylstop = 10 mm !**). Masse finale = **`86,5 g`** / insert.
 4. **Traverses Carrées 60×60×2 mm (Alu 6060-T6)** :
-   - Coupe de 2 tronçons de **`84,0 mm`** dans la barre de 500 mm (cote nominale intégrant le jeu fonctionnel de 1,0 mm côté colonne).
-   - Perçage de 2 trous lisses traversants verticaux **Ø5,3 mm** (axe Z) : trou côté bride d'épaule à **`X = 7,5 mm`** depuis le chant d'appui butée, et trou côté colonne à **`X = 77,0 mm`** (entraxe rigoureux de **`69,5 mm`**). *(Révision V2.2 — bossage bride 15 mm, vis M5 centrée en bossage à X = 7,5 mm)*
+   - Longueur réelle mesurée du tube (CAO Fusion 360) : **`L = 80,05 mm`** (jeu fonctionnel résultant de 1,0 mm côté colonne, engagement insert = 14,0 mm, portée théorique assemblée = 81,05 mm).
+   - Perçage de 2 trous lisses traversants verticaux **Ø5,3 mm** (axe Z) : trou côté bride d'épaule à **`X = 7,5 mm`** depuis le chant d'appui butée, et trou côté colonne à **`X = 72,55 mm`** (entraxe rigoureux de **`65,05 mm`**). *(Révision V2.5 — tube mesuré 80,05 mm, bossage bride 15 mm, vis M5 centrée en bossage à X = 7,5 mm)*
 5. **Colonnes Sagittales 2D (Alu 7075-T6, 5,0 mm)** :
    - Brut : 1 plat marchand **5 × 100 × 495 mm Alu 7075-T6** Blockenstock (18,16 € TTC).
    - Plaque Basse (290 × 94 mm) : Découpée en diagonale à 25° sur la table C500 (lumières R = 18 mm).
@@ -659,9 +661,9 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
 
 *Blueprint d'ingénierie vectoriel des détails de liaisons et d'atelier (Solution C).*
 
-1. **Étape 1 (Pré-assemblage Inserts / Semelles sur Établi)** : Assembler les 2 inserts **15 mm** au dos des 2 semelles éclisses en insérant les **4 vis FHC M4 × 25 mm** depuis la face arrière et en bloquant les **4 écrous Nylstop M4** à la clé de 7 mm. Vérifier que les têtes coniques sont **100% à fleur (0,0 mm)** sur la face interne d'appui colonne. L'ensemble forme instantanément un sous-ensemble rigide monobloc.
+1. **Étape 1 (Pré-assemblage Inserts / Semelles sur Établi)** : Assembler les 2 inserts **15 mm** au dos des 2 semelles éclisses en insérant les **4 vis FHC M4 × 30 mm** depuis la face arrière et en bloquant les **4 écrous Nylstop M4** à la clé de 7 mm (marge de filet Nylstop = 10 mm au lieu de 5 mm avec l'ancienne M4×25). Vérifier que les têtes coniques sont **100% à fleur (0,0 mm)** sur la face interne d'appui colonne. L'ensemble forme instantanément un sous-ensemble rigide monobloc.
 2. **Étape 2 (Formation des Demi-Traverses & Butée Franche)** :
-   - Emboîter le tube carré 60×60 mm (**L = 84,0 mm**) d'abord **en BUTÉE FRANCHE (contact métal-métal à 0,0 mm)** contre l'épaulement usiné de la bride d'épaule monobloc.
+   - Emboîter le tube carré 60×60 mm (**L = 80,05 mm**) d'abord **en BUTÉE FRANCHE (contact métal-métal à 0,0 mm)** contre l'épaulement usiné de la bride d'épaule monobloc.
    - Glisser l'autre extrémité sur l'insert de colonne (portée de 14,0 mm) : le jeu d'aisance fonctionnel de **`1,0 mm`** côté semelle absorbe toute tolérance de coupe et aligne automatiquement les perçages M5 sans forcer.
 3. **Étape 3 (Verrouillage Traversant)** : Insérer les **4 vis traversantes CHC M5 × 70 mm + écrous frein Nylstop** (2 côté colonne, 2 côté épaule) et serrer à **5,5 N.m**.
 4. **Étape 4 (Fixation Directe Brides → Stators RS-04 & Tuyères Aérauliques)** :
@@ -698,7 +700,7 @@ Le tableau est structuré par **sous-ensemble fonctionnel** pour une intégratio
 | • **Rondelles d'Appui Tube** | Rondelles Plates M5 DIN 125A | ISO 7089 / DIN 125A | **`93475A240`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | Ø int 5,3 mm / Ø ext 10,0 mm / ép 1,0 mm. Répartit l'effort de serrage sur les parois du tube 60×60×2 mm. |
 | • **Écrous de Verrouillage Tube** | Écrous Frein Nylstop M5 | ISO 7040 / DIN 985 | **`90631A113`** (Inox 18-8) | **4 écrous** (2 / épaule) | Bague nylon autofreinée, indesserrable aux vibrations (couple 5,5 N.m). |
 | **3. JONCTION CENTRALE SAGITTALE & INSERTS COLONNE** | | | | | |
-| • **Fixation Inserts ➔ Semelles (Vis Traversantes)** | Vis FHC M4 × 25 mm | ISO 10642 / DIN 7991 | **`91294A195`** (Acier 10.9)<br>**`92125A195`** (Inox 18-8) | **8 vis** (4 / semelle) | **Fraisures coniques 90° à fleur exacte (0,0 mm)** sur semelles 5 mm. Traversent Semelle (5 mm) + Insert (15 mm) = 20 mm total. |
+| • **Fixation Inserts ➔ Semelles (Vis Traversantes)** | Vis FHC M4 × 30 mm | ISO 10642 / DIN 7991 | **`91294A200`** (Acier 10.9)<br>**`92125A200`** (Inox 18-8) | **8 vis** (4 / semelle) | **Fraisures coniques 90° à fleur exacte (0,0 mm)** sur semelles 5 mm. Traversent Semelle (5 mm) + Insert (15 mm) = 20 mm total. Marge de filet libre pour Nylstop = 10 mm (vs 5 mm avec M4×25). |
 | • **Écrous de Verrouillage Inserts ➔ Semelles** | Écrous Frein Nylstop M4 | ISO 7040 / DIN 985 | **`90631A109`** (Inox 18-8) | **8 écrous** (4 / semelle) | Serrage sur établi à plat contre la face avant de l'insert (appui 100% plein, marges +8,15 mm int. et +2,85 mm ext.). |
 | • **Sandwich Colonne Centrale** | Vis CHC M5 × 25 mm | ISO 4762 / DIN 912 | **`91290A235`** (Acier 12.9)<br>**`92290A235`** (Inox 18-8) | **4 vis** (2 avant, 2 arrière) | Perçages lisses Ø 5,3 mm chanfreinés à **`0,5 mm × 45°`** traversant le sandwich 15 mm (2 semelles 5 mm + plaque 5 mm). |
 | • **Rondelles Sandwich Colonne** | Rondelles Plates M5 DIN 125A | ISO 7089 / DIN 125A | **`93475A240`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | Ø int 5,3 mm / Ø ext 10,0 mm / ép 1,0 mm. |
@@ -737,7 +739,7 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **2. Brides ➔ Stators RS-04 (Zone 2 : Épaisse 18,2 mm)** | CHC M4 × 25 mm (Acier 12.9 / Inox) | 12 | **`3,0 N.m`** ⭐ *(Croix)* | Clé Allen 3,0 mm | Rondelles Nord-Lock M4 + Loctite 243 | `91290A170` |
 | **3. Demi-Traverses (Tubes ➔ Bossages & Inserts)** | CHC M5 × 70 mm (Acier 12.9 / Inox) | 4 | **`5,5 N.m`** | Clé Allen 4,0 mm + Clé 8 mm | Rondelles DIN 125A + Écrous Nylstop M5 | `91290A272` |
 | **4. Sandwich Colonne Centrale (Éclisses ➔ Plaques)** | CHC M5 × 25 mm (Acier 12.9 / Inox) | 4 | **`5,5 N.m`** *(Croix)* | Clé Allen 4,0 mm + Clé 8 mm | Rondelles DIN 125A + Écrous Nylstop M5 | `91290A235` |
-| **5. Inserts Carrés ➔ Semelles Éclisses** | FHC M4 × 25 mm (Acier 10.9 / Inox) | 8 | **`2,8 à 3,0 N.m`** | Clé Allen 2,5 mm + Clé 7 mm | Tête conique à fleur 0,0 mm + Nylstop M4 | `91294A195` |
+| **5. Inserts Carrés ➔ Semelles Éclisses** | FHC M4 × 30 mm (Acier 10.9 / Inox) | 8 | **`2,8 à 3,0 N.m`** | Clé Allen 2,5 mm + Clé 7 mm | Tête conique à fleur 0,0 mm + Nylstop M4 (marge filet 10 mm) | `91294A200` |
 | **6. Ventilateurs Tuyères 3D (Noctua NF-A4x20)** | CHC M3 × 16 mm (Inox) | 8 | **`0,6 à 0,8 N.m`** | Clé Allen 2,5 mm + Clé 5,5 mm | Silent-blocs antivibrations (serrage modéré) | `91290A115` |
 | **7. Coque & Habillage Extérieur (PA12-CF)** | Vis M4 sur Inserts Laiton Ruthex | 16 | **`1,2 à 1,5 N.m`** | Clé Allen 3,0 mm | Ancrage thermique laiton (ne pas sur-serrer) | `94180A353` |
 
@@ -750,19 +752,20 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | Composant / Pièce | Matériau | Quantité | Masse Unitaire | Masse Totale |
 | :--- | :--- | :---: | :---: | :---: |
 | **Brides d'Épaules Monoblocs** | Alu 7075-T651 (Flasque 5,0 mm + Hub 13,2 mm + Bossage **15,0 mm**, poche 44×44 mm R5) | 2 | **78,0 g** | **156,0 g** |
-| **Tronçons de Tubes Carrés** | Alu 6060-T6 (60 × 60 × 2,0 mm, L = 84 mm) | 2 | 105,0 g | **210,0 g** |
-| **Inserts Carrés Colonne** | Alu 7075-T6 (55,8 × 55,8 × **15,0 mm**, poche centrale 44×44 mm R5) | 2 | **25,5 g** | **51,0 g** |
-| **Semelles Éclisses Colonne** | Alu 7075-T6 (Plaque 5,0 mm, 80 × 130 mm allégée 2D) | 2 | **56,0 g** | **112,0 g** |
+| **Tronçons de Tubes Carrés** | Alu 6060-T6 (60 × 60 × 2,0 mm, L = 80,05 mm mesuré CAO) | 2 | 100,3 g | **200,6 g** |
+| **Inserts Carrés Colonne** | Alu 7075-T6 (55,8 × 55,8 × **15,0 mm**, alésage traversant Ø 35 mm Option B) | 2 | **86,5 g** | **173,0 g** |
+| **Semelles Éclisses Colonne** | Alu 7075-T6 (Plaque 5,0 mm, 100 × 130 mm pleine sous insert) | 2 | **67,6 g** | **135,2 g** |
 | **Plaques Colonne Sagittale (Haute + Basse)** | Alu 7075-T6 (Plaque 5,0 mm, 94 mm de large évidée) | 2 | ~158 g | **~315,0 g** |
 | **Tuyères Convergentes 3D** | PA12-CF ou TPU 95A (ép. 1,6 mm, collerette Ø124 mm) | 2 | 24,0 g | **48,0 g** |
-| **Ventilateurs Épaules 40×40×20 mm** | Noctua NF-A4x20 PWM (5V ou 12V) | 2 | 26,0 g | **52,0 g** |
+| **Ventilateurs Épaules 40×40×20 mm** | Noctua NF-A4x20 5V PWM (datasheet officielle) | 2 | 20,0 g | **40,0 g** |
 | **Visserie Liaison Traverses & Sandwich Colonne** | Vis FHC M4, CHC M5 traversantes + rondelles & écrous Nylstop | Lot | - | **106,0 g** |
 | **Visserie Stators RS-04 (8× M4×12 + 12× M4×25 + Nord-Lock)** | Vis CHC M4×12 & M4×25 + 20 paires rondelles Nord-Lock M4 | 20 | ~2,7 g | **~54,0 g** |
-| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 104 g** |
+| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 220 g (~1,22 kg)** |
 
 > [!TIP]
-> **Gain Net de Masse de l'Architecture V2.2 Monobloc** :  
-> L'architecture directe en bride monobloc Alu 7075-T6 (bossage 15 mm, poche 44×44 mm) sur tube 60×60 mm avec inserts colonne optimisés à 15 mm permet d'intégrer le système complet de refroidissement actif (+100 g) tout en restant **plus légère de ~315 g** que les anciennes architectures à cages et tirants externes. Gain total Révision V2.2 vs V2.1 : **-33 g** (bossage bride 20 → 15 mm).
+> **Gain Net de Masse de l'Architecture V2.5 (Option B Traversante)** :  
+> L'architecture directe en bride monobloc Alu 7075-T6 (bossage 15 mm, poche 44×44 mm) sur tube 60×60×2 mm (L = 80,05 mm, CAO finale), avec inserts colonne à alésage traversant Dia 35 mm (Option B) et semelle éclisse 100% pleine, permet d'intégrer le système complet de refroidissement actif (+88 g) tout en restant **plus légère de ~340 g** que les anciennes architectures à cages et tirants externes. Vis FHC M4 × 30 mm (marge de filet Nylstop doublée à 10 mm).
+> **Masses à consolider via Fusion 360** : Les masses de la colonne sagittale et des brides devront être confirmées par assignation du matériau `Aluminum, 7075-T6` (rho = 2,81 g/cm3) dans les propriétés physiques de Fusion 360 (voir Méthodologie Section 10.C ci-dessous).
 
 ---
 
@@ -774,8 +777,41 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **Plaque Alu 7075 T6** | [Blockenstock — Plaque 5×160×160mm 7075 T6](https://www.blockenstock.fr/20x200x500mm-alu-7075-t6-c2x40149808) | **5 × 160 × 160 mm** | **2** | **9,60 €** | **19,20 €** | 2 Semelles Éclisses Colonne (80 × 130 mm) + chutes réutilisables |
 | **Plat Alu 7075 T6 (Colonne)** | [Blockenstock — Plat 5×100×495mm 7075](https://www.blockenstock.fr/5x100x495mm-alu-7075-t6-c2x20906524) | **5 × 100 × 495 mm** | **1** | **18,16 €** | **18,16 €** | **100% de la Colonne Sagittale (Plaque Haute + Plaque Basse)** |
 | **Bloc Alu 7075 T6 (Inserts)** | [Blockenstock — Bloc 15×80×80mm 7075 T6](https://www.blockenstock.fr/15x80x80mm-alu-7075-t6) | **15 × 80 × 80 mm** | **2** | **7,20 €** | **14,40 €** | 2 Inserts Carrés Colonne (55,8 × 55,8 × 15 mm), 1 insert par bloc |
-| **Tube Carré Alu 6060 T6** | [Blockenstock — Tube Carré 60×2×500mm](https://www.blockenstock.fr/60x2x500mm-tube-carre-6060-t6-c2x24054508) | **60 × 2 × 500 mm** | **1** | **12,80 €** | **12,80 €** | 2 Tronçons de Traverses de 84 mm (reste 330 mm de réserve) |
+| **Tube Carré Alu 6060 T6** | [Blockenstock — Tube Carré 60×2×500mm](https://www.blockenstock.fr/60x2x500mm-tube-carre-6060-t6-c2x24054508) | **60 × 2 × 500 mm** | **1** | **12,80 €** | **12,80 €** | 2 Tronçons de Traverses de 80,05 mm (reste ~340 mm de réserve) |
 | **Ventilateurs 40×40×20 mm PWM** | [Noctua NF-A4x20 PWM (Amazon)](https://www.amazon.fr/dp/B071W9E6NW) | **NF-A4x20 PWM (5V ou 12V)** | **2** | **~15,00 €** | **~30,00 €** | 2 Ventilateurs haute pression statique pour tuyères d'épaules |
 | **Lot Visserie M3, M4 & M5** | McMaster-Carr / Vis-Express | **FHC M4×25, CHC M4×12, CHC M4×20, CHC M5, Nylstop** | Lot | **~14,00 €** | **~14,00 €** | Visserie complète structure, moteurs, tuyières et sandwich |
 | **TOTAL PANIER MATIÈRE & THERMIQUE** | **Blockenstock + Quincaillerie** | - | - | - | **~168,56 €** | **Structure Torse Complète en Alu 7075 + Circuit Aéraulique Intégré** |
 
+---
+
+### C. Méthodologie Fusion 360 — Estimation de Masse par Pièce (Assignation Matériau)
+
+Pour obtenir des masses précises directement depuis la CAO Fusion 360, appliquer le matériau physique correct à chaque corps (Body) :
+
+#### 1. Procédure Pas-à-Pas
+1. Dans le navigateur à gauche, déplier le composant et sélectionner le **Body** concerné.
+2. **Clic droit sur le body** ➔ **Physical Material** (ou **Modifier le matériau physique**).
+3. Dans la fenêtre de bibliothèque, **chercher et appliquer** le matériau exact indiqué dans le tableau ci-dessous.
+4. **Vérifier la masse** : Clic droit sur le body ➔ **Properties** ➔ **Physical** ➔ **Mass** (en grammes).
+5. **Vérification croisée** : Comparer la masse Fusion 360 avec le calcul analytique `Masse = Volume_net (mm3) x Densité (g/mm3)`. L'écart doit être < 2%.
+
+#### 2. Tableau des Matériaux Fusion 360 par Pièce du Torse
+
+| Pièce D-Bot | Matériau à Assigner | Densité (g/cm3) | Nom Exact dans la Bibliothèque Fusion 360 |
+| :--- | :--- | :---: | :--- |
+| **Brides d'Épaules Monoblocs** | Aluminium 7075-T6 | 2,81 | `Aluminum, 7075-T6` (Metal ➔ Aluminum) |
+| **Inserts Carrés** | Aluminium 7075-T6 | 2,81 | `Aluminum, 7075-T6` |
+| **Semelles Éclisses** | Aluminium 7075-T6 | 2,81 | `Aluminum, 7075-T6` |
+| **Colonne Sagittale (Plaque Haute + Basse)** | Aluminium 7075-T6 | 2,81 | `Aluminum, 7075-T6` |
+| **Tubes Carrés 60×60×2** | Aluminium 6060-T6 | 2,70 | `Aluminum, 6060` *(si absent : créer un Custom Material avec rho = 2,70)* |
+| **Coque PA12-CF** | PA12 + Fibres Carbone | 1,01 | `Nylon 12, Carbon Fiber Filled` *(ou Custom Material rho = 1,01)* |
+| **Tuyères Aérauliques** | PA12-CF ou TPU 95A | 1,01 / 1,22 | Idem coque ou Custom Material TPU (rho = 1,22) |
+
+#### 3. Création d'un Matériau Personnalisé (Si Absent de la Bibliothèque)
+1. Dans le panneau **Physical Material**, cliquer sur l'icône **+** (New Physical Material).
+2. Nommer le matériau (ex : `Alu 6060-T6 Custom`).
+3. Renseigner **uniquement la densité** (`2,70 g/cm3` pour le 6060-T6) dans le champ **Density**.
+4. Appliquer au body par glisser-déposer.
+
+> [!TIP]
+> **Astuce Multi-Body** : Pour peser l'assemblage complet, sélectionner le composant racine (et non un body individuel) puis **Properties** ➔ **Mass**. Fusion 360 additionne automatiquement les masses de tous les bodies enfants avec leurs matériaux respectifs.
