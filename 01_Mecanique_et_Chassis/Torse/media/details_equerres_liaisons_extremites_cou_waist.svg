@@ -135,9 +135,14 @@
         <!-- Profil L : 30x30x3 mm (Échelle 4.0 px/mm -> 120 px, ép = 12 px) -->
         <path d="M 0 0 L 120 0 L 120 12 L 12 12 L 12 120 L 0 120 Z" fill="url(#aluEquerre)" stroke="#ffffff" stroke-width="1.5"/>
         
-        <!-- Taraudage M4 vertical : Axe à 12.5 mm du pli extérieur (x = 50 px) -->
+        <!-- Perçage lisse vertical Ø 4,3 mm : Axe à 12.5 mm du pli extérieur (x = 50 px) -->
         <rect x="44" y="0" width="12" height="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
-        <line x1="50" y1="-12" x2="50" y2="26" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4,2"/>
+        <line x1="50" y1="-12" x2="50" y2="35" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+        <!-- Écrou frein Nylstop M4 sous l'aile (Option C Zéro Taraudage) -->
+        <rect x="41" y="12" width="18" height="14" rx="2" fill="#1e293b" stroke="#facc15" stroke-width="1.2"/>
+        <rect x="44" y="12" width="12" height="3" fill="#38bdf8" opacity="0.9"/>
+        <text x="63" y="23" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700">Nylstop M4</text>
 
         <!-- Chaîne de cotes sur l'aile horizontale 30 mm -->
         <!-- 0 à 12.5 mm (Pli -> Axe trou) -->
@@ -149,8 +154,8 @@
         <text x="85" y="-10" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" text-anchor="middle">17,5 mm (Largeur 30 mm)</text>
 
         <!-- Matière résiduelle côté intérieur : 12.5 - 3.0 = 9.5 mm -->
-        <line x1="12" y1="22" x2="50" y2="22" stroke="#4ade80" stroke-width="1" marker-start="url(#arrowRevGreen)" marker-end="url(#arrowGreen)"/>
-        <text x="31" y="34" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">9,5 mm</text>
+        <line x1="12" y1="22" x2="41" y2="22" stroke="#4ade80" stroke-width="1" marker-start="url(#arrowRevGreen)" marker-end="url(#arrowGreen)"/>
+        <text x="26" y="34" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">9,5 mm</text>
 
         <!-- Oblong sur aile verticale -->
         <rect x="0" y="44" width="12" height="18" rx="2" fill="#0f172a" stroke="#ef4444" stroke-width="1.2"/>
@@ -163,12 +168,12 @@
         <line x1="0" y1="130" x2="120" y2="130" stroke="#94a3b8" stroke-width="1" marker-start="url(#arrowCyan)" marker-end="url(#arrowCyan)"/>
         <text x="60" y="145" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="9.5" text-anchor="middle">30,0 mm</text>
 
-        <!-- Spécifications Taraudage -->
+        <!-- Spécifications Perçage Option C Zéro Taraudage -->
         <rect x="115" y="25" width="180" height="70" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
-        <text x="123" y="42" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700">DÉTAIL TARAUDAGE M4 :</text>
-        <text x="123" y="56" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Foret avant-trou : <tspan fill="#facc15" font-weight="700">Ø 3,30 mm</tspan></text>
-        <text x="123" y="69" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Taraudage : <tspan fill="#facc15" font-weight="700">M4 × 0,70 mm débouchant</tspan></text>
-        <text x="123" y="82" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Épaisseur taraudée : <tspan fill="#4ade80" font-weight="700">3,00 mm</tspan></text>
+        <text x="123" y="42" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700">DÉTAIL PERÇAGES OPTION C :</text>
+        <text x="123" y="56" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Perçage lisse : <tspan fill="#facc15" font-weight="700">Ø 4,30 mm débouchant</tspan></text>
+        <text x="123" y="69" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Visserie : <tspan fill="#facc15" font-weight="700">FHC M4 × 16 + Nylstop M4</tspan></text>
+        <text x="123" y="82" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Taraudage alu : <tspan fill="#4ade80" font-weight="700">ZÉRO (100% écrou acier)</tspan></text>
       </g>
     </g>
 
@@ -182,7 +187,7 @@
       <text x="15" y="42" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Profil brut : <tspan fill="#f8fafc" font-weight="700">Cornière Alu 6060-T6 Blockenstock</tspan></text>
       <text x="15" y="58" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Section : <tspan fill="#38bdf8" font-weight="700">30 × 30 × 3,0 mm</tspan> · Longueur <tspan fill="#38bdf8" font-weight="700">50,0 mm</tspan></text>
       <text x="15" y="74" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Masse unitaire nette : <tspan fill="#4ade80" font-weight="700">22,8 g / pièce</tspan> (soit <tspan fill="#4ade80" font-weight="700">45,6 g la paire</tspan>)</text>
-      <text x="15" y="90" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Aile Horizontale : <tspan fill="#38bdf8" font-weight="700">2× Taraudages M4 (X = 10 et 40 mm · axe Y = 12,5 mm)</tspan></text>
+      <text x="15" y="90" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Aile Horizontale : <tspan fill="#38bdf8" font-weight="700">2× Perçages lisses Ø 4,30 mm (X = 10 et 40 mm · axe Y = 12,5 mm)</tspan></text>
       <text x="15" y="106" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Aile Verticale : <tspan fill="#ef4444" font-weight="700">2× Oblongs 4,3 × 6,5 mm (Z = ±1,1 mm · entraxe 30 mm)</tspan></text>
       <text x="15" y="122" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Raideur &amp; Résistance : <tspan fill="#4ade80" font-weight="700">E = 69 GPa (identique 7075) · Sf = 20,7</tspan></text>
 
