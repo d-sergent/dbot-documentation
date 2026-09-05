@@ -57,7 +57,7 @@
   - [C. Tutoriel McMaster-Carr, Quincaillerie, Freins-Filets, Pâte Thermique & Couples Dynamométriques](#c-tutoriel-dimportation-quincaillerie-mcmaster-carr--normes-diniso-dans-fusion-360)
 - [**10. Bilan de Masse Consolidé & Fiche d'Approvisionnement Direct**](#10-bilan-de-masse-consolidé--fiche-dapprovisionnement-direct)
   - [A. Nomenclature & Bilan de Masse Réel du Haut du Torse Complet](#a-nomenclature--bilan-de-masse-réel-du-haut-du-torse-complet)
-  - [B. Fiche d'Approvisionnement Direct Blockenstock (Panier 100% 7075-T6)](#b-fiche-dapprovisionnement-direct-blockenstock-panier-100-7075-t6)
+  - [B. Fiche d'Approvisionnement Direct Blockenstock (Panier Alu 7075-T6 & Profilés 6060-T6)](#b-fiche-dapprovisionnement-direct-blockenstock-panier-alu-7075-t6--profilés-6060-t6)
 
 ---
 
@@ -580,55 +580,63 @@ Le circuit électrique permet de remplacer un pack déchargé sans interrompre l
 
 ---
 
-### C. Conception Détaillée des Équerres Hautes & Basses (Cotations & Usinages)
+### C. Conception Détaillée des Équerres Hautes & Basses (Profilé Commercial 30 × 30 × 3 mm — Option C Validée)
 
 ![Design Détaillé des Équerres Hautes et Basses et Montage en Espace Restreint](./media/details_equerres_liaisons_extremites_cou_waist.svg)
 
-*Blueprint d'ingénierie vectoriel des liaisons d'extrémités. Panel 1 : Équerres Hautes du Cou compactes (25 × 25 × 3 mm, L = 50,0 mm) avec lumières oblongues 4,3 × 6,5 mm (débattement Z = +/- 1,10 mm, entraxe 30 mm) et taraudages M4 pour vissage par le dessus. Panel 2 : Équerres Basses Waist Yaw compactes (25 × 25 × 4 mm, L = 80,0 mm) avec 4 perçages Ø 4,3 mm (entraxes 3 × 18 = 54 mm) pour encastrement rigide 36 N.m aligné sur le carter RS-06. Panel 3 : Coupe d'assemblage de la fourche de cou et protocole de montage pas-à-pas en espace restreint.*
+*Blueprint d'ingénierie vectoriel des liaisons d'extrémités. Panel 1 : Équerres Hautes du Cou en cornière marchande Blockenstock 30 × 30 × 3,0 mm (L = 50,0 mm, Alu 6060-T6) avec lumières oblongues 4,3 × 6,5 mm (débattement Z = +/- 1,10 mm, entraxe 30 mm) et perçages lisses traversants Ø 4,30 mm (Option C : zéro taraudage, carré de vissage 30 × 30 mm, fixation traversante acier/acier par vis FHC M4 × 16 mm + écrous Nylstop M4 sous l'équerre). Panel 2 : Équerres Basses Waist Yaw (30 × 30 × 3,0 mm, L = 80,0 mm) avec 4 perçages Ø 4,3 mm (entraxes 3 × 18 = 54 mm) pour encastrement rigide 36 N.m aligné sur le carter RS-06. Panel 3 : Coupe d'assemblage de la fourche de cou, schéma de débit sur barre 500 mm et protocole de montage pas-à-pas en espace restreint.*
 
-#### 1. Équerres Hautes du Cou Compactes (L = 50,0 mm — Liaison Découplée Isostatique)
-* **Profil Brut & Matière** : Cornière en aluminium **7075-T6** (ou profilé extrudé 6060-T6), section **`25 × 25 × 3,0 mm`**, longueur compacte **`L = 50,0 mm`** (laisse **`22,0 mm de dégagement libre`** de chaque côté sous le sommet de 94 mm de la plaque sagittale haute).
-* **Masse Nette** : **`19,1 g`** par pièce (soit **`38,2 g` pour la paire** gauche + droite — gain direct de **-22,8 g** par rapport à L = 80 mm).
-* **Aile Horizontale — Cotation Précise des 2 Taraudages M4 (Fixation Plaque de Cou 5,0 mm)** :
-  - **Position dans la largeur de l'aile (25,0 mm)** :
-    - Distance depuis l'arête extérieure du pli : **`12,50 mm`** (pile au milieu de la portée de 25 mm).
-    - Distance restante jusqu'au chant libre extérieur : **`12,50 mm`**.
-    - Distance de matière pleine résiduelle côté vertical intérieur : `12,50 - 3,00 =` **`9,50 mm`** (dégagement parfait évitant tout contact avec le rayon de pliage).
+#### 1. Équerres Hautes du Cou Compactes (L = 50,0 mm — Liaison Découplée Isostatique — Option C Zéro Taraudage)
+* **Profil Brut & Matière** : Cornière marchande en aluminium **6060-T6** (profilé extrudé commercial Blockenstock, réf `30x30x3-lg500mm-corniere-alu-6060t6`), section brute **`30 × 30 × 3,0 mm`**, longueur compacte **`L = 50,0 mm`**.
+  - Largeur totale assemblée de la fourche : `5,0 mm` (colonne) + `2 × 30,0 mm` = **`65,0 mm`**.
+  - Dégagement libre sous la plaque supérieure de 94 mm : `(94,0 - 65,0) / 2 =` **`14,50 mm de chaque côté`** (dégagement parfait, aucun usinage en largeur requis, ailes brutes 30 mm conservées).
+* **Masse Nette** : **`22,8 g`** par pièce (soit **`45,6 g` pour la paire** gauche + droite).
+* **Aile Horizontale — Cotation Précise des 2 Perçages Lisses Ø 4,30 mm (Option C Zéro Taraudage — Fixation Plaque de Cou 5,0 mm)** :
+  - **Position dans la largeur de l'aile (30,0 mm)** :
+    - Distance depuis l'arête extérieure du pli : **`12,50 mm`**.
+    - Distance restante jusqu'au chant libre extérieur : **`17,50 mm`**.
+    - Distance de matière pleine résiduelle côté vertical intérieur : `12,50 - 3,00 =` **`9,50 mm`** (dégagement optimal évitant tout contact avec le rayon de pliage intérieur R ~ 2 mm).
   - **Position le long de l'équerre (L = 50,0 mm)** :
     - Trou #1 : situé à **`10,00 mm`** du premier chant d'extrémité.
     - Trou #2 : situé à **`40,00 mm`** du premier chant d'extrémité (soit **`10,00 mm`** du second chant).
     - **Entraxe longitudinal** : **`30,00 mm`** pile.
-  - **Spécification d'Usinage** : Foret avant-trou **`Ø 3,30 mm`**, taraudage **`M4 × 0,70 mm débouchant`** à travers les 3,0 mm, chanfrein d'entrée **`0,4 mm × 45°`** des 2 côtés.
-  - **Visserie associée** : **4 vis FHC M4 × 12 mm** (ISO 10642 / DIN 7991, classe 10.9 ou Inox A2). Les têtes coniques 90° sont fraisées directement dans la face supérieure de la plaque de cou et viennent **strictement à fleur (0,0 mm)**.
+  - **Spécification d'Usinage (Option C)** : 2 perçages lisses traversants **`Ø 4,30 mm`** débouchant à travers les 3,0 mm, chanfrein d'entrée **`0,3 mm × 45°`** des 2 côtés. **ZÉRO taraudage machine ou manuel, perçage direct en 1 passe fraise/foret carbure sur la C500**.
+  - **Visserie associée** : **4 vis FHC M4 × 16 mm** (ISO 10642 / DIN 7991, classe 10.9 ou Inox A2) traversant la plaque (5 mm) + l'équerre (3 mm) = 8 mm + **4 écrous frein Nylstop M4** (DIN 985 / ISO 7040, classe 8/10) serrés sous l'aile de cornière lors du pré-assemblage sur établi.
+  - **Avantages & Sécurité Mécanique de l'Option C** :
+    - **Liaison 100% Acier-sur-Acier** : Prise de filet dans la bague acier de l'écrou Nylstop (hauteur 5,0 mm = 7,1 filets acier), résistance à l'arrachement > 10 000 N par vis.
+    - **Zéro risque de foirage de taraudage alu** : Serrage franc au couple de 2,8 à 3,0 N.m sans aucune crainte d'abîmer le profilé d'aluminium.
+    - **Démontages / Remontages illimités** : Remplacement immédiat d'un écrou si nécessaire.
 * **Aile Verticale — Cotation des 2 Lumières Oblongues (Pincement Plaque Sagittale Haute 5,0 mm)** :
-  - **Position en hauteur Z sur l'aile** : axe médian horizontal situé à **`12,50 mm`** du pli extérieur (mi-hauteur de l'aile de 25 mm).
-  - **Position en longueur** : coaxiale avec les taraudages horizontaux, entraxe = **`30,00 mm`** (à 10,0 mm des chants d'extrémité).
+  - **Position en hauteur Z sur l'aile (30,0 mm)** : axe médian horizontal situé à **`12,50 mm`** du pli extérieur (laisse 17,5 mm de chant vertical libre).
+  - **Position en longueur** : coaxiale avec les perçages horizontaux, entraxe = **`30,00 mm`** (à 10,0 mm des chants d'extrémité).
   - **Géométrie de l'oblong** : largeur **`4,30 mm`**, hauteur **`6,50 mm`** (2 demi-cercles de rayon R = 2,15 mm). Débattement axial utile : **`+/- 1,10 mm en Z`**.
-  - **Facteur de sécurité RDM** : **`Sf = 20,7`** (couple résistant au décollement = **114 N.m** face au couple pic de **5,5 N.m** des moteurs RS-05 du cou).
-  - **Visserie associée** : **2 vis CHC M4 × 20 mm** traversantes (ISO 4762) + **4 rondelles larges ISO 7093 M4** (Ø extérieur 12,0 mm, épaisseur 1,0 mm) recouvrant largement l'oblong + **2 écrous Nylstop M4** (McMaster `93625A150`).
+  - **Facteur de sécurité RDM** : **`Sf = 20,7`** (couple résistant au décollement = **114 N.m** face au couple pic de **5,5 N.m** des moteurs RS-05 du cou ; contrainte de flexion Sigma_max < 7,7 MPa vs Re = 160 MPa).
+  - **Visserie associée** : **2 vis CHC M4 × 20 mm** traversantes (ISO 4762) + **4 rondelles larges ISO 7093 M4** (Ø extérieur 12,0 mm, épaisseur 1,0 mm) recouvrant largement l'oblong + **2 écrous Nylstop M4** (McMaster `93625A150` ou Bricovis DIN 985).
 
 #### 2. Équerres Basses du Waist Compactes (L = 80,0 mm — Ancrage Rigide 36 N.m)
-* **Profil Brut & Matière** : Cornière renforcée en aluminium **7075-T6**, section **`25 × 25 × 4,0 mm`**, longueur optimisée **`L = 80,0 mm`** (s'aligne parfaitement sur l'enveloppe circulaire Ø 88 mm du moteur RobStride RS-06 et laisse 20 mm de dégagement de chaque côté de la base 120 mm).
-* **Masse Nette** : **`39,6 g`** par pièce (soit **`79,2 g` pour la paire** — gain direct de **-19,8 g** par rapport à L = 100 mm).
+* **Profil Brut & Matière** : Même cornière marchande en aluminium **6060-T6** débitée sur la même barre Blockenstock `30 × 30 × 3,0 mm`, longueur optimisée **`L = 80,0 mm`**.
+  - Largeur totale assemblée : `5,0 mm` + `2 × 30,0 mm` = **`65,0 mm`**.
+  - S'inscrit rigoureusement à l'intérieur de l'enveloppe circulaire **Ø 88 mm** du moteur RobStride RS-06 (marge radiale de 11,5 mm de chaque côté) et laisse **`27,50 mm de dégagement`** sur les flancs de la Waist Plate de 120 mm.
+* **Masse Nette** : **`36,0 g`** par pièce (soit **`72,0 g` pour la paire** gauche + droite).
 * **Aile Horizontale — Cotation des 4 Trous de Passage (Fixation sur Waist Plate 6,0 mm)** :
-  - **Position dans la largeur de l'aile (25,0 mm)** : axe des trous à **`12,50 mm`** du pli extérieur et **`12,50 mm`** du chant libre (matière résiduelle intérieure = `12,50 - 4,00 =` **`8,50 mm`**).
+  - **Position dans la largeur de l'aile (30,0 mm)** : axe des trous à **`12,50 mm`** du pli extérieur et **`17,50 mm`** du chant libre (matière résiduelle intérieure = `12,50 - 3,00 =` **`9,50 mm`**).
   - **Position le long de l'équerre (L = 80,0 mm)** : 4 trous lisses traversants **`Ø 4,30 mm`** répartis à entraxe régulier de **`18,00 mm`** (entraxe total = **`54,00 mm`**). Pinces aux chants d'extrémité = **`13,00 mm`** de chaque côté (`X = 13,0 / 31,0 / 49,0 / 67,0 mm`).
 * **Aile Verticale — Cotation des 4 Trous Ronds (Pincement Plaque Sagittale Basse 5,0 mm)** :
-  - **Position en hauteur Z** : axe centré à **`Z = 10,00 mm`** de la base.
+  - **Position en hauteur Z** : axe centré à **`Z = 12,50 mm`** du pli extérieur.
   - **Position en longueur** : coaxiale avec l'aile horizontale (4 trous Ø 4,30 mm ronds, entraxes 18,0 mm, pas d'oblong : référence rigide Z = 0 absolu du torse).
-  - **Facteur de sécurité RDM** : **`Sf = 2,78`** (couple de frottement résistant au lacet = **100 N.m** face au couple pic de **36 N.m** du moteur RS-06).
-  - **Visserie associée** : **4 vis CHC M4 × 22 mm** traversantes + 8 rondelles DIN 125A M4 + 4 écrous Nylstop M4 (serrage direct à 3,0 N.m).
+  - **Facteur de sécurité RDM** : **`Sf = 2,78`** (couple de frottement résistant au lacet = **100 N.m** face au couple pic de **36 N.m** du moteur RS-06 ; cisaillement admissible boulonnerie 4× M4 classe 10.9/12.9 = 24 kN).
+  - **Visserie associée** : **4 vis CHC M4 × 20 mm** traversantes (traverse Équerre G 3 mm + Colonne 5 mm + Équerre D 3 mm = 11 mm) + 8 rondelles DIN 125A M4 + 4 écrous Nylstop M4 (serrage direct à 3,0 N.m).
 
 #### 3. Tableau des Coordonnées Cartésiennes pour Modélisation CAO Fusion 360
 
 Dans le repère global du robot D-Bot (Origine au centre du nœud d'épaules, `X` = sagittal avant/arrière, `Y` = frontal gauche/droite, `Z` = vertical haut/bas), la colonne sagittale 5,0 mm est centrée sur le plan médian `Y = 0` (face gauche à `Y = -2,50 mm`, face droite à `Y = +2,50 mm`). Les équerres sont orientées avec leurs ailes horizontales tournées **vers l'extérieur** :
 
-| Vis / Entité | Pièce Porteuse | Coordonnée X (Sagittal) | Coordonnée Y (Transversal) | Coordonnée Z (Vertical) | Outil & Spécification Usinage |
+| Vis / Entité | Pièce Porteuse | Coordonnée X (Sagittal) | Coordonnée Y (Transversal) | Coordonnée Z (Vertical) | Outil & Spécification Usinage (Option C) |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| **FHC Cou #1 (Av-G)** | Plaque Cou & Équerre G | **`+15,00 mm`** | **`-15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Taraudage M4 sur équerre |
-| **FHC Cou #2 (Av-D)** | Plaque Cou & Équerre D | **`+15,00 mm`** | **`+15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Taraudage M4 sur équerre |
-| **FHC Cou #3 (Ar-G)** | Plaque Cou & Équerre G | **`-15,00 mm`** | **`-15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Taraudage M4 sur équerre |
-| **FHC Cou #4 (Ar-D)** | Plaque Cou & Équerre D | **`-15,00 mm`** | **`+15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Taraudage M4 sur équerre |
+| **FHC Cou #1 (Av-G)** | Plaque Cou & Équerre G | **`+15,00 mm`** | **`-15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Perçage lisse Ø 4,30 mm sur équerre + Écrou Nylstop M4 dessous |
+| **FHC Cou #2 (Av-D)** | Plaque Cou & Équerre D | **`+15,00 mm`** | **`+15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Perçage lisse Ø 4,30 mm sur équerre + Écrou Nylstop M4 dessous |
+| **FHC Cou #3 (Ar-G)** | Plaque Cou & Équerre G | **`-15,00 mm`** | **`-15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Perçage lisse Ø 4,30 mm sur équerre + Écrou Nylstop M4 dessous |
+| **FHC Cou #4 (Ar-D)** | Plaque Cou & Équerre D | **`-15,00 mm`** | **`+15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Perçage lisse Ø 4,30 mm sur équerre + Écrou Nylstop M4 dessous |
 | **Oblong Cou Avant** | Équerres & Colonne | **`+15,00 mm`** | `Y = ±2,50 mm` | `Z = +135,00 mm` | Oblong 4,3 × 6,5 mm sur équerres / Trou Ø 4,3 mm sur colonne |
 | **Oblong Cou Arrière** | Équerres & Colonne | **`-15,00 mm`** | `Y = ±2,50 mm` | `Z = +135,00 mm` | Oblong 4,3 × 6,5 mm sur équerres / Trou Ø 4,3 mm sur colonne |
 | **Waist Vis #1 (Arrière)** | Waist Plate & Équerres | **`-27,00 mm`** | `Y = ±15,00 mm` | `Z = -290,00 mm` | Perçage lisse Ø 4,30 mm traversant |
@@ -638,12 +646,13 @@ Dans le repère global du robot D-Bot (Origine au centre du nœud d'épaules, `X
 
 > [!TIP]
 > **Règle d'Or CAO — Le Carré de Vissage 30 × 30 mm du Cou** :  
-> Sur la Plaque Supérieure de Cou, les 4 vis coniques FHC M4 forment un **carré parfait de `30,0 mm × 30,0 mm`** centré sur l'origine.  
-> Sous Fusion 360, il suffit de créer une esquisse sur la face supérieure de la plaque, d'appeler l'outil **Rectangle par le Centre (`Create > Rectangle > Center Rectangle`)** coté à `30 × 30 mm`, puis d'appliquer la commande **Perçage Fraisé (`Hole`, raccourci `H`)** avec fraisure 90° Ø 8,40 mm sur les 4 sommets. L'alignement avec les taraudages des équerres est rigoureusement parfait à 0,0 mm.
+> Sur la Plaque Supérieure de Cou, les 4 vis coniques FHC M4 forment un **carré parfait de `30,0 mm × 30,0 mm`** centré sur l'origine (`X = ±15,0 mm`, `Y = ±15,0 mm`).  
+> En plaçant l'axe des perçages à **`12,50 mm`** du pli extérieur sur une colonne de `5,0 mm` (`Y = ±2,50 mm`), on obtient exactement `2,50 + 12,50 =` **`15,00 mm`**.  
+> Sous Fusion 360, il suffit de créer une esquisse sur la face supérieure de la plaque, d'appeler l'outil **Rectangle par le Centre (`Create > Rectangle > Center Rectangle`)** coté à `30 × 30 mm`, puis d'appliquer la commande **Perçage Fraisé (`Hole`, raccourci `H`)** avec fraisure 90° Ø 8,40 mm sur les 4 sommets. L'alignement avec les trous lisses Ø 4,3 mm des équerres est rigoureusement parfait à 0,0 mm.
 
 ---
 
-### D. Stratégie d'Assemblage en Espace Restreint au Cou (Fourche Pré-assemblée)
+### D. Stratégie d'Assemblage en Espace Restreint au Cou (Fourche Pré-assemblée — Option C)
 
 En partie haute du torse, la convergence des deux demi-coques en PA12-CF, le tablier d'épaule et le collet du cou créent un espace confiné. Pour éliminer toute difficulté d'accessibilité (impossibilité de glisser les doigts ou une clé sous la plaque de cou), la conception intègre un principe d'assemblage ergonomique :
 
@@ -651,15 +660,16 @@ En partie haute du torse, la convergence des deux demi-coques en PA12-CF, le tab
              ACCÈS CLÉ ALLEN 100% LIBRE PAR LE DESSUS
                          │               │
                          ▼               ▼
-                 Vis FHC M4 × 12 mm (Fraisées à 0,0 mm)
+                 Vis FHC M4 × 16 mm (Fraisées à 0,0 mm)
             ┌─────────────────────────────────────────┐
             │   PLAQUE SUPÉRIEURE DE COU (Alu 5 mm)   │
             └──────┬───────────────────────────┬──────┘
-                   │ Taraudages M4 intégrés    │
+                   │ (Perçages lisses Ø4,3 mm) │
             ┌──────┴──────┐             ┌──────┴──────┐
             │ Équerre G   │ ◄─ 5,1 mm ─►│ Équerre D   │  ◄── SOUS-ENSEMBLE
-            │ (25×25×3 mm)│             │ (25×25×3 mm)│      « FOURCHE »
-            └───┬─────────┘             └─────────┬───┘      PRÉ-MONTÉ SUR ÉTABLI
+            │ (30×30×3 mm)│             │ (30×30×3 mm)│      « FOURCHE »
+            │[Nylstop M4] │             │ [Nylstop M4]│      PRÉ-MONTÉ SUR ÉTABLI
+            └───┬─────────┘             └─────────┬───┘      (4 Écrous sous cornières)
                 │      ┌───────────────┐          │
   Accès Latéral │      │ Plaque        │          │ Accès Latéral
   Clé Allen     │      │ Sagittale     │          │ Clé Plate 7 mm
@@ -670,9 +680,10 @@ En partie haute du torse, la convergence des deux demi-coques en PA12-CF, le tab
 
 #### Protocole d'Atelier en 5 Étapes Chronologiques
 
-1. **Étape 1 — Pré-assemblage du Sous-Ensemble « Fourche de Cou » sur Établi** :
+1. **Étape 1 — Pré-assemblage du Sous-Ensemble « Fourche de Cou » sur Établi (Option C)** :
    * Les 2 équerres hautes sont boulonnées sous la plaque supérieure de cou à l'établi, en dehors du torse.
-   * Le serrage des 4 vis FHC M4 × 12 mm s'effectue par le dessus de la plaque à plat sur l'établi, avec un couple de 2,8 N.m et une goutte de Loctite 243 bleu.
+   * On insère les **4 vis FHC M4 × 16 mm** par le dessus de la plaque (têtes coniques 90° venant à fleur 0,0 mm) et on bloque les **4 écrous Nylstop M4** vissés sous l'aile de cornière à l'aide d'une clé plate de 7 mm.
+   * Le serrage s'effectue au couple franc de **`2,8 à 3,0 N.m`** : la liaison est **100% acier-sur-acier autofreinée**, sans aucun risque de détérioration de filetage alu.
    * L'écartement entre les deux ailes verticales est verrouillé à **`5,10 mm`** (à l'aide d'une cale d'épaisseur de 5,0 mm + clinquant de 0,1 mm).
 2. **Étape 2 — Emboîtement Glissant par le Haut** :
    * Une fois le sous-ensemble cou prêt, on vient coiffer le sommet de la plaque sagittale haute avec cette fourche.
@@ -768,6 +779,20 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
    - Brut : 1 plat marchand **5 × 100 × 495 mm Alu 7075-T6** Blockenstock (18,16 € TTC).
    - Plaque Basse (290 × 94 mm) : Découpée en diagonale à 25° sur la table C500 (lumières R = 18 mm).
    - Plaque Haute (142,7 × 94 mm) : Découpée à plat dans le reste de la barre de 495 mm.
+6. **Équerres de Liaison Cou & Waist (Profilé Commercial Alu 6060-T6, 30 × 30 × 3,0 mm)** :
+   - Brut : 1 barre profilée cornière marchande **30 × 30 × 3 mm lg 500 mm Alu 6060-T6** Blockenstock (Réf `30x30x3-lg500mm-corniere-alu-6060t6`, **4,80 € TTC**).
+   - Débit des 4 tronçons (à la scie à ruban d'atelier ou bridage étau sur table C500) :
+     - 2 tronçons de **`L = 50,0 mm`** (Équerres Hautes de Cou).
+     - 2 tronçons de **`L = 80,0 mm`** (Équerres Basses de Waist Yaw).
+     - Matière débitée : `2 × 50 + 2 × 80 = 260 mm` (+ ~10 mm de traits de scie). Il reste **`~230 mm de cornière brute en réserve`** pour platines de capteurs ou équerres d'habillage.
+   - Usinage 2D sur NestWorks C500 (bridage d'équerre en étau de précision ou mors doux) :
+     - *Équerres Cou (L = 50 mm — Option C Zéro Taraudage)* :
+       1. Aile horizontale : 2 perçages lisses traversants **Ø 4,30 mm** (entraxe 30,0 mm, axe à **12,50 mm** du pli extérieur) chanfreinés à **0,3 mm × 45°** des 2 côtés (**ZÉRO taraudage machine ou manuel, perçage direct en 1 passe foret/fraise carbure sur la C500**).
+       2. Aile verticale : 2 lumières oblongues **4,30 × 6,50 mm** (fraise 2 dents DLC Ø 4 mm, balayage vertical Z = ±1,10 mm, entraxe 30,0 mm coaxiale aux perçages horizontaux).
+     - *Équerres Waist (L = 80 mm)* :
+       1. Aile horizontale : 4 perçages lisses traversants **Ø 4,30 mm** (entraxe 18,0 mm, axe à **12,50 mm** du pli extérieur) chanfreinés à 0,3 mm × 45°.
+       2. Aile verticale : 4 perçages lisses traversants **Ø 4,30 mm** (entraxe 18,0 mm, axe à **12,50 mm** du pli extérieur, pas d'oblong : encastrement rigide Z = 0) chanfreinés à 0,3 mm × 45°.
+   - Finition : Ébavurage soigné des chants sciés et cassage d'arêtes à **0,3 mm × 45°** pour un appui plan parfait à 0,0 mm.
 
 ---
 
@@ -821,7 +846,11 @@ Ce tableau reprend les désignations standardisées à taper directement dans le
 | **Rondelles d'Appui Traverses** | **Rondelles plates M5 DIN 125A** | DIN 125A / ISO 7089 | **15 à 20 pièces** | Inox A2 (Ø int 5,3 mm / Ø ext 10 mm / ép 1 mm) |
 | **Écrous Verrouillage Traverses** | **Écrous frein Nylstop M5** | DIN 985 / ISO 7040 | **6 à 10 pièces** | Inox A2 ou Acier classe 8 (clé 8 mm) |
 | **Inserts ➔ Semelles Éclisses** | **Vis FHC M4 × 30 mm (tête fraisée 90°)** | DIN 7991 / ISO 10642 | **12 à 15 pièces** | Acier 10.9 ou Inox A2 (empreinte Allen 2,5 mm) |
-| **Écrous Verrouillage Inserts** | **Écrous frein Nylstop M4** | DIN 985 / ISO 7040 | **12 à 15 pièces** | Inox A2 ou Acier classe 8 (clé 7 mm) |
+| **Fixation Plaque Cou ➔ Équerres (Option C)** | **Vis FHC M4 × 16 mm (tête fraisée 90°)** | DIN 7991 / ISO 10642 | **6 à 8 pièces** | Acier 10.9 ou Inox A2 (traversent plaque 5 mm + équerre 3 mm) |
+| **Pincement Colonne (Cou Oblongs & Waist)** | **Vis CHC M4 × 20 mm** | DIN 912 / ISO 4762 | **10 à 12 pièces** | Acier 12.9 ou Inox A2 (2 traversantes cou + 4 traversantes waist) |
+| **Rondelles Larges Cou (Oblongs Z)** | **Rondelles larges M4 ISO 7093** | ISO 7093 / DIN 9021 | **6 à 8 pièces** | Inox A2 (Ø ext 12,0 mm / ép 1,0 mm, recouvrement oblong 6,5 mm) |
+| **Rondelles Plates Waist M4** | **Rondelles plates M4 DIN 125A** | DIN 125A / ISO 7089 | **10 à 12 pièces** | Inox A2 (Ø int 4,3 mm / Ø ext 9,0 mm / ép 0,8 mm) |
+| **Écrous Verrouillage Inserts & Équerres** | **Écrous frein Nylstop M4** | DIN 985 / ISO 7040 | **25 à 30 pièces** | Inox A2 ou Acier classe 8 (clé 7 mm, pour inserts 8× + cou plaque 4× + cou flanc 2× + waist 4×) |
 | **Sandwich Colonne Centrale** | **Vis CHC M5 × 25 mm** | DIN 912 / ISO 4762 | **6 à 10 pièces** | Acier 12.9 (noir) ou Inox A2 (clé Allen 4 mm) |
 | **Ventilateurs 4020 ➔ Tuyères** | **Vis CHC M3 × 16 mm + écrous M3** | DIN 912 / ISO 4762 | **10 paires** | Inox A2 (serrage avec silent-blocs) |
 | **Bossages Coque PA12-CF** | **Inserts filetés laiton M4 Ruthex** | Standard Ruthex | **1 boîte (50 ou 100)** | Pose au fer à souder (260 °C) |
@@ -856,17 +885,19 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 | • **Sandwich Colonne Centrale** | Vis CHC M5 × 25 mm | ISO 4762 / DIN 912 | **`91290A235`** (Acier 12.9)<br>**`92290A235`** (Inox 18-8) | **4 vis** (2 avant, 2 arrière) | Perçages lisses Ø 5,3 mm chanfreinés à **`0,5 mm × 45°`** traversant le sandwich 15 mm (2 semelles 5 mm + plaque 5 mm). |
 | • **Rondelles Sandwich Colonne** | Rondelles Plates M5 DIN 125A | ISO 7089 / DIN 125A | **`93475A240`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | Ø int 5,3 mm / Ø ext 10,0 mm / ép 1,0 mm. |
 | • **Écrous Sandwich Colonne** | Écrous Frein Nylstop M5 | ISO 7040 / DIN 985 | **`90631A113`** (Inox 18-8) | **4 écrous** | Bague nylon autofreinée (couple 5,5 N.m). |
-| **4. LIAISONS D'EXTRÉMITÉS (ÉQUERRES COU & WAIST RS-06)** | | | | | |
-| • **Fixation Plaque Cou ➔ Équerres Hautes** | Vis FHC M4 × 12 mm | ISO 10642 / DIN 7991 | **`91294A190`** (Acier 10.9)<br>**`92125A190`** (Inox 18-8) | **4 vis** (2 / équerre) | Vissage par le DESSUS de la plaque de cou à fleur (0,0 mm) dans les taraudages M4 des équerres. |
+| **4. LIAISONS D'EXTRÉMITÉS (ÉQUERRES COU & WAIST RS-06 — OPTION C)** | | | | | |
+| • **Fixation Plaque Cou ➔ Équerres Hautes (Option C)** | Vis FHC M4 × 16 mm | ISO 10642 / DIN 7991 | **`91294A194`** (Acier 10.9)<br>**`92125A194`** (Inox 18-8) | **4 vis** (2 / équerre) | Vissage par le DESSUS de la plaque de cou à fleur (0,0 mm) traversant l'équerre 3 mm + 4 écrous Nylstop M4 sous l'équerre sur établi. |
 | • **Pincement Colonne Haute (Oblongs Cou)** | Vis CHC M4 × 20 mm | ISO 4762 / DIN 912 | **`91290A160`** (Acier 12.9)<br>**`92290A146`** (Inox 18-8) | **2 vis** traversantes | Traversent les lumières oblongues 4,3 × 6,5 mm et la colonne 5 mm (débattement Z = +/- 1,10 mm). |
 | • **Rondelles Larges Cou (Couverture Oblongs)** | Rondelles Larges ISO 7093 M4 | ISO 7093 (Ø ext. 12 mm) | **`98041A121`** (Inox 18-8) | **4 rondelles** (2 / vis) | Recouvrent intégralement l'oblong de 6,5 mm sous tête et sous écrou (répartition 3,0 N.m). |
-| • **Pincement Colonne Basse (Waist RS-06)** | Vis CHC M4 × 22 mm | ISO 4762 / DIN 912 | **`91290A164`** (Acier 12.9)<br>**`92290A147`** (Inox 18-8) | **4 vis** traversantes | Traversent Équerre G (4 mm) + Colonne (5 mm) + Équerre D (4 mm) = 13 mm. Point fixe Z = 0. |
-| • **Écrous de Verrouillage Équerres (Cou & Waist)** | Écrous Frein Nylstop M4 | ISO 7040 / DIN 985 | **`93625A150`** (Inox 18-8)<br>**`94645A101`** (Acier Cl.10) | **6 écrous** (2 cou, 4 waist) | Bague nylon autofreinée indesserrable aux vibrations (couple 3,0 N.m). |
+| • **Pincement Colonne Basse (Waist RS-06)** | Vis CHC M4 × 20 mm | ISO 4762 / DIN 912 | **`91290A160`** (Acier 12.9)<br>**`92290A146`** (Inox 18-8) | **4 vis** traversantes | Traversent Équerre G (3 mm) + Colonne (5 mm) + Équerre D (3 mm) = 11 mm. Point fixe Z = 0. |
+| • **Écrous de Verrouillage Équerres (Cou & Waist)** | Écrous Frein Nylstop M4 | ISO 7040 / DIN 985 | **`93625A150`** (Inox 18-8)<br>**`94645A101`** (Acier Cl.10) | **10 écrous** (4 plaque cou, 2 flanc cou, 4 waist) | Bague nylon autofreinée indesserrable aux vibrations (couple 2,8 à 3,0 N.m). |
 | **5. SYSTÈME AÉRAULIQUE & HABILLAGE COQUE** | | | | | |
 | • **Ventilateurs Tuyères 4020** | Vis CHC M3 × 16 mm + Écrous M3 | ISO 4762 / DIN 912 | **`91290A115`** (Inox 18-8) | **8 vis + 8 écrous** | 4 vis par ventilateur Noctua NF-A4x20 avec silent-blocs anti-vibrations. |
 | • **Fixation Coque PA12-CF** | Inserts Filetés Laiton M4 | Standard Ruthex | **`94180A353`** (Laiton) | **16 inserts** | Inserts thermiques M4 à poser au fer à souder (260 °C) dans les bossages d'habillage. |
 
-#### 3. Guide & Règles d'Emploi des Freins-Filets Chimiques sur le Robot D-Bot
+---
+
+#### 4. Guide & Règles d'Emploi des Freins-Filets Chimiques sur le Robot D-Bot
 
 | Type de Frein-Filet | Couleur / Référence | Couple Résiduel & Démontabilité | Usage Recommandé D-Bot | Danger / Contre-indication |
 | :--- | :--- | :--- | :--- | :--- |
@@ -879,13 +910,6 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 > 1. Déposer **1 seule micro-gouttelette** sur les 2 ou 3 premiers filets de la vis (ne pas noyer le taraudage borgne du moteur pour éviter toute surpression hydraulique au vissage).
 > 2. En association avec les **rondelles Nord-Lock**, la Loctite 243 apporte une barrière d'étanchéité anti-poussière/anti-humidité et neutralise tout couple galvanique entre l'acier de la vis et l'aluminium 7075 du stator.
 
-#### 4. Consommables d'Interface Thermique Recommandés
-
-| Consommable | Référence / Marque | Rôle Mécanique & Thermique | Application D-Bot | Précautions d'Emploi |
-| :--- | :--- | :--- | :--- | :--- |
-| **Pâte Thermique Non Conductrice (⭐)** | **Noctua NT-H1 / Arctic MX-4** | Comble le jeu axial de 0,60 mm et les rugosités d'usinage (Ra ~ 1,6 µm) pour un transfert conductif maximal. | **Interface Stator RS-04 (Ø94/95 mm) ➔ Bride 7075** | Utiliser **strictement une pâte non conductrice électrique** (à base de micro-particules céramiques/silicone). Proscrire toute pâte à métal liquide (Galinstan). |
-| **Pads Thermiques Silicone (0,5 mm)** | **Thermal Grizzly Minus Pad 8** | Interface élastique compressible pour surfaces planes. | Radiateurs de la PDB torse et diodes ORing hot-swap. | Épaisseur calibrée 0,5 mm pour éviter toute surépaisseur d'empilement. |
-
 #### 5. Tableau Synthétique des Couples Dynamométriques & Outillage d'Atelier
 
 Ce tableau constitue la fiche de référence rapide pour le montage et le serrage à l'établi :
@@ -897,8 +921,10 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **3. Demi-Traverses (Tubes ➔ Bossages & Inserts)** | CHC M5 × 70 mm (Acier 12.9 / Inox) | 4 | **`5,5 N.m`** | Clé Allen 4,0 mm + Clé 8 mm | Rondelles DIN 125A + Écrous Nylstop M5 | `91290A272` |
 | **4. Sandwich Colonne Centrale (Éclisses ➔ Plaques)** | CHC M5 × 25 mm (Acier 12.9 / Inox) | 4 | **`5,5 N.m`** *(Croix)* | Clé Allen 4,0 mm + Clé 8 mm | Rondelles DIN 125A + Écrous Nylstop M5 | `91290A235` |
 | **5. Inserts Carrés ➔ Semelles Éclisses** | FHC M4 × 30 mm (Acier 10.9 / Inox) | 8 | **`2,8 à 3,0 N.m`** | Clé Allen 2,5 mm + Clé 7 mm | Tête conique à fleur 0,0 mm + Nylstop M4 (marge filet 10 mm) | `91294A200` |
-| **6. Ventilateurs Tuyères 3D (Noctua NF-A4x20)** | CHC M3 × 16 mm (Inox) | 8 | **`0,6 à 0,8 N.m`** | Clé Allen 2,5 mm + Clé 5,5 mm | Silent-blocs antivibrations (serrage modéré) | `91290A115` |
-| **7. Coque & Habillage Extérieur (PA12-CF)** | Vis M4 sur Inserts Laiton Ruthex | 16 | **`1,2 à 1,5 N.m`** | Clé Allen 3,0 mm | Ancrage thermique laiton (ne pas sur-serrer) | `94180A353` |
+| **6. Fourche Cou (Plaque ➔ Équerres Option C)** | FHC M4 × 16 mm (Acier 10.9 / Inox) | 4 | **`2,8 à 3,0 N.m`** | Clé Allen 2,5 mm + Clé 7 mm | Tête à fleur 0,0 mm + Nylstop M4 sous équerre (liaison acier/acier) | `91294A194` |
+| **7. Équerres Torse (Flancs Colonne Cou & Waist)** | CHC M4 × 20 mm (Acier 12.9 / Inox) | 6 | **`3,0 N.m`** | Clé Allen 3,0 mm + Clé 7 mm | Rondelles ISO 7093 (Cou) / DIN 125A (Waist) + Nylstop M4 | `91290A160` |
+| **8. Ventilateurs Tuyères 3D (Noctua NF-A4x20)** | CHC M3 × 16 mm (Inox) | 8 | **`0,6 à 0,8 N.m`** | Clé Allen 2,5 mm + Clé 5,5 mm | Silent-blocs antivibrations (serrage modéré) | `91290A115` |
+| **9. Coque & Habillage Extérieur (PA12-CF)** | Vis M4 sur Inserts Laiton Ruthex | 16 | **`1,2 à 1,5 N.m`** | Clé Allen 3,0 mm | Ancrage thermique laiton (ne pas sur-serrer) | `94180A353` |
 
 ---
 
@@ -913,21 +939,23 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **Inserts Carrés Colonne** | Alu 7075-T6 (55,8 × 55,8 × **15,0 mm**, alésage traversant Ø 35 mm Option B) | 2 | **86,5 g** | **173,0 g** |
 | **Semelles Éclisses Colonne** | Alu 7075-T6 (Plaque 5,0 mm, 100 × 130 mm pleine sous insert) | 2 | **67,6 g** | **135,2 g** |
 | **Plaques Colonne Sagittale (Haute + Basse)** | Alu 7075-T6 (Plaque 5,0 mm, 94 mm de large évidée) | 2 | ~158 g | **~315,0 g** |
+| **Équerres de Liaison Cou & Waist** | Alu 6060-T6 (Profilé 30 × 30 × 3,0 mm, 2× 50 mm + 2× 80 mm) | 4 | 2× 22,8 g + 2× 36,0 g | **117,6 g** |
 | **Tuyères Convergentes 3D** | PA12-CF ou TPU 95A (ép. 1,6 mm, collerette Ø124 mm) | 2 | 24,0 g | **48,0 g** |
 | **Ventilateurs Épaules 40×40×20 mm** | Noctua NF-A4x20 5V PWM (datasheet officielle) | 2 | 20,0 g | **40,0 g** |
 | **Visserie Liaison Traverses & Sandwich Colonne** | Vis FHC M4, CHC M5 traversantes + rondelles & écrous Nylstop | Lot | - | **106,0 g** |
+| **Visserie Équerres Cou & Waist (Option C)** | 4× FHC M4×16 + 6× CHC M4×20 + 10× Nylstop M4 + rondelles larges/plates | Lot | - | **~28,0 g** |
 | **Visserie Stators RS-04 (8× M4×12 + 12× M4×25 + Nord-Lock)** | Vis CHC M4×12 & M4×25 + 20 paires rondelles Nord-Lock M4 | 20 | ~2,7 g | **~54,0 g** |
-| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Ventilation** | - | - | **~1 605 g (~1,61 kg)** |
+| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Équerres + Ventilation** | - | - | **~1 751 g (~1,75 kg)** |
 
 > [!TIP]
 > **Consolidation Réelle CAO Fusion 360 (Août/Septembre 2026)** :  
-> Les masses réelles extraites de l'arbre CAO Fusion 360 avec les matériaux physiques rigoureusement affectés (Alu 7075-T6 à 2,81 g/cm3, Alu 6060-T6 à 2,70 g/cm3) établissent le haut du torse complet (avec ses 2 actionneurs RS-04 fixés et le système aéraulique actif complet) à **~1,605 kg**.  
+> Les masses réelles extraites de l'arbre CAO Fusion 360 avec les matériaux physiques rigoureusement affectés (Alu 7075-T6 à 2,81 g/cm3, Alu 6060-T6 à 2,70 g/cm3) établissent le haut du torse complet (avec ses 2 actionneurs RS-04 fixés, les 4 équerres usinées 30×30×3 mm et le système aéraulique actif complet) à **~1,751 kg**.  
 > Le tube carré 60×60×2 mm est confirmé à **100,0 g** (avec ses perçages M5).  
 > La bride monobloc réelle pèse **266,9 g** (la couronne pleine Ø 120 mm / alésage Ø 95 mm sur 18,2 mm représente à elle seule ~216 g). Des pistes d'allègement par contournage festonné permettent si nécessaire de gagner ~80 à 100 g par bride.
 
 ---
 
-### B. Fiche d'Approvisionnement Direct Blockenstock (Panier 100% 7075-T6)
+### B. Fiche d'Approvisionnement Direct Blockenstock (Panier Alu 7075-T6 & Profilés 6060-T6)
 
 | Désignation Fournisseur | Lien Catalogue Direct Blockenstock | Dimensions Brut | Quantité | Prix Unitaire TTC | Prix Total TTC | Utilisation Projet D-Bot |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
@@ -936,9 +964,10 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **Plat Alu 7075 T6 (Colonne)** | [Blockenstock — Plat 5×100×495mm 7075](https://www.blockenstock.fr/5x100x495mm-alu-7075-t6-c2x20906524) | **5 × 100 × 495 mm** | **1** | **18,16 €** | **18,16 €** | **100% de la Colonne Sagittale (Plaque Haute + Plaque Basse)** |
 | **Bloc Alu 7075 T6 (Inserts)** | [Blockenstock — Bloc 15×80×80mm 7075 T6](https://www.blockenstock.fr/15x80x80mm-alu-7075-t6) | **15 × 80 × 80 mm** | **2** | **7,20 €** | **14,40 €** | 2 Inserts Carrés Colonne (55,8 × 55,8 × 15 mm), 1 insert par bloc |
 | **Tube Carré Alu 6060 T6** | [Blockenstock — Tube Carré 60×2×500mm](https://www.blockenstock.fr/60x2x500mm-tube-carre-6060-t6-c2x24054508) | **60 × 2 × 500 mm** | **1** | **12,80 €** | **12,80 €** | 2 Tronçons de Traverses de 80,05 mm (reste ~340 mm de réserve) |
+| **Cornière Alu 6060 T6 (Équerres)** | [Blockenstock — Cornière 30×30×3 lg 500mm](https://www.blockenstock.fr/30x30x3-lg500mm-corniere-alu-6060t6-c2x29839847) | **30 × 30 × 3 × 500 mm** | **1** | **4,80 €** | **4,80 €** | **100% des 4 Équerres Torse (2× Cou L=50 mm + 2× Waist L=80 mm + 230 mm réserve)** |
 | **Ventilateurs 40×40×20 mm PWM** | [Noctua NF-A4x20 PWM (Amazon)](https://www.amazon.fr/dp/B071W9E6NW) | **NF-A4x20 PWM (5V ou 12V)** | **2** | **~15,00 €** | **~30,00 €** | 2 Ventilateurs haute pression statique pour tuyères d'épaules |
-| **Lot Visserie M3, M4 & M5** | [Bricovis](https://www.bricovis.fr) / [Vis-Express](https://www.vis-express.fr) / [Amazon](https://www.amazon.fr) / [RS](https://www.rs-particuliers.com) | **FHC M4×30, CHC M4×12, CHC M4×25, CHC M5×70, CHC M5×25, Nylstop M4/M5, Nord-Lock M4, Ruthex M4** | Lot complet | **~18,00 €** | **~18,00 €** | Visserie complète structure, moteurs, tuyères et coque |
-| **TOTAL PANIER MATIÈRE & THERMIQUE** | **Blockenstock + Quincaillerie** | - | - | - | **~168,56 €** | **Structure Torse Complète en Alu 7075 + Circuit Aéraulique Intégré** |
+| **Lot Visserie M3, M4 & M5** | [Bricovis](https://www.bricovis.fr) / [Vis-Express](https://www.vis-express.fr) / [Amazon](https://www.amazon.fr) / [RS](https://www.rs-particuliers.com) | **FHC M4×16/30, CHC M4×12/20/25, CHC M5×70, CHC M5×25, Nylstop M4/M5, Nord-Lock M4, Ruthex M4** | Lot complet | **~18,00 €** | **~18,00 €** | Visserie complète structure, moteurs, tuyères et coque |
+| **TOTAL PANIER MATIÈRE & THERMIQUE** | **Blockenstock + Quincaillerie** | - | - | - | **~177,36 €** | **Structure Torse Complète en Alu 7075/6060 + Circuit Aéraulique Intégré** |
 
 ---
 
@@ -961,6 +990,7 @@ Pour obtenir des masses précises directement depuis la CAO Fusion 360, applique
 | **Inserts Carrés** | Aluminium 7075-T6 | 2,81 | `Aluminum, 7075-T6` |
 | **Semelles Éclisses** | Aluminium 7075-T6 | 2,81 | `Aluminum, 7075-T6` |
 | **Colonne Sagittale (Plaque Haute + Basse)** | Aluminium 7075-T6 | 2,81 | `Aluminum, 7075-T6` |
+| **Équerres de Liaison (Cou & Waist)** | Aluminium 6060-T6 | 2,70 | `Aluminum, 6060` *(si absent : créer un Custom Material avec rho = 2,70)* |
 | **Tubes Carrés 60×60×2** | Aluminium 6060-T6 | 2,70 | `Aluminum, 6060` *(si absent : créer un Custom Material avec rho = 2,70)* |
 | **Coque PA12-CF** | PA12 + Fibres Carbone | 1,01 | `Nylon 12, Carbon Fiber Filled` *(ou Custom Material rho = 1,01)* |
 | **Tuyères Aérauliques** | PA12-CF ou TPU 95A | 1,01 / 1,22 | Idem coque ou Custom Material TPU (rho = 1,22) |
