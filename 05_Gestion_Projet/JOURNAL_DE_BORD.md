@@ -2,6 +2,32 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-09-03 — Consolidation Réelle CAO Torse V2.5 (Option B Traversante, Mesures Fusion 360, Sourcing France & Protocole d'Atelier)
+
+### 🎯 Objectif de la session
+1. **Validation & Intégration de l'Option B Traversante (Inserts & Semelles)** : Alésage circulaire débouchant Ø 35,0 mm traversant sur toute l'épaisseur de 15,0 mm de l'insert, semelle éclisse 100% pleine en dessous (fermeture naturelle, étanchéité poussière) et colonne sagittale pleine.
+2. **Ajustement Géométrique Réel du Tube Carré 60×60×2 mm (Fusion 360)** : Prise en compte de la longueur réelle mesurée sur CAO L = 80,05 mm, maintien du jeu axial de 1,0 mm côté semelle, portée insert/tube de 14,0 mm (93% de l'insert), entraxe perçages M5 recalculé à 65,05 mm (X = 7,5 mm et X = 72,55 mm).
+3. **Extraction & Consolidation des Masses Réelles sous Fusion 360** : Mesure des masses réelles avec affectation rigoureuse des matériaux physiques (Alu 7075-T6 à 2,81 g/cm3, Alu 6060-T6 à 2,70 g/cm3) : confirmation du tube à 100,0 g et de la bride monobloc réelle à 266,9 g (anneau Ø 120 / alésage Ø 95 mm sur 18,2 mm). Bilan de masse haut du torse actualisé à ~1 605 g (~1,61 kg).
+4. **Sécurisation de la Visserie & Précision Géométrique** : Validation du passage aux vis FHC M4 × 30 mm traversantes (marge de filet libre de 10 mm sous écrous Nylstop M4). Analyse trigonométrique de la fraisure conique 90° (profondeur de 1,95 mm calculée par Fusion 360 pour perçage Ø 4,50 mm, affleurement parfait à 0,0 mm).
+5. **Gamme d'Atelier, Chanfreinage & Approvisionnement France** : Spécification des chanfreins d'emmanchement de 1,0 mm × 45° (insert et bossage bride), chanfrein intérieur anti-talonnage de 0,5 mm × 45° sur le tube pour appui franc à 0,0 mm, ébavurage 2 faces à 0,3 mm × 45°. Ajout du guide d'achat quincaillerie en France (Bricovis, Vis-Express, FixnVis, RS Particuliers, Amazon) avec tableau normalisé DIN/ISO.
+
+### 📝 Réalisations & Évolutions
+1. **Architecture V2.5 Consolidée (Option B Traversante)** :
+   - Usinage simplifié de l'insert 15 mm en 1 passe sur table martyr (zéro poche borgne, gain -40,5 g / insert).
+   - Semelles éclisses 100% pleines sous l'insert (masse 67,6 g / semelle).
+   - Vis FHC M4 × 30 mm à tête fraisée à fleur (0,0 mm) et écrous frein Nylstop M4 (portée pleine continue de +8,20 mm autour du trou Ø 35 mm).
+2. **Mesures Réelles Fusion 360 & Méthodologie Documentée** :
+   - Tube 60×60×2 mm mesuré à 100,036 g (en parfait accord avec les 100,27 g analytiques diminués des perçages M5).
+   - Bride monobloc mesurée à 266,86 g (due à la couronne Ø 120 mm / alésage Ø 95 mm sur 18,2 mm représentant 216 g). Analyse des pistes d'allègement et validation du design actuel plein pour rigidité maximale aux 120 N.m du RS-04.
+   - Ajout d'une section méthodologique détaillée (Section 10.C) pour l'assignation des matériaux dans Fusion 360.
+3. **Alimentation du Refroidissement Actif Épaules (Noctua 5V PWM)** :
+   - Confirmation de la compatibilité directe avec le Rail 5V Always-On existant (Buck 48V -> 5V 5A). Les 2 ventilateurs (0,2 A) puisent sur la marge disponible de 3,3 A sans composant additionnel.
+4. **Plans Vectoriels, Captures CAO & Dossier Technique Synchronisés** :
+   - `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` synchronisé sur toutes les sections.
+   - Blueprints vectoriels SVG (`plan_detail_semelle_eclisse_lumieres_2d.svg`, `solution_c_detail_fraisage_fhc_et_imbrication_7075.svg`, `solution_c_imbrication_inserts_15x80x80_7075.svg`) et capture CAO (`cad_insert_evidement_diametre_35mm_fusion360.png`) à jour.
+
+---
+
 ## 📅 2026-08-30 — Adaptation Géométrique Réelle CAO Torse v71 (Traverses 15,0°, Offset 11 mm, Colonne 100 mm & Semelles Éclisses)
 
 ### 🎯 Objectif de la session
