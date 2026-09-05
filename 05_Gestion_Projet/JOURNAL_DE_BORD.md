@@ -2,6 +2,35 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-09-05 — Standardisation Équerres Torse V2 (Cornière Alu 6060-T6 30×30×3 mm, Option C Zéro Taraudage, Sourcing Blockenstock & Blueprints SVG)
+
+### 🎯 Objectif de la session
+1. **Passage au Profilé Commercial Standard (Blockenstock)** : Abandon des équerres spécifiques découpées sur mesure (40×40 mm et 20×20 mm) au profit d'une cornière marchande unique en Aluminium 6060-T6 `30 × 30 × 3,0 mm` (barre de 500 mm, réf. `30x30x3-lg500mm-corniere-alu-6060t6`, 4,80 € TTC).
+2. **Débit & Dégagements Géométriques Torse V2** : Vérification des largeurs et découpe CNC NestWorks C500 : 2 équerres de Cou L = 50,0 mm (dégagement latéral de 14,5 mm sous Neck Plate de 94 mm, fourche assemblée 65 mm sur colonne de 5 mm) et 2 équerres de Waist L = 80,0 mm (dégagement de 27,5 mm sur embase de 120 mm, marge radiale de 11,5 mm par rapport au stator Ø 88 mm du moteur RS-06). Total débité : 260 mm (230 mm de réserve matière).
+3. **Sécurisation Mécanique & Choix de l'Option C (Zéro Taraudage)** : Analyse de la prise de filet dans 3 mm d'alu (seulement 4,3 filets, risque de foirage > 3,2 N.m). Adoption de l'Option C : 2 perçages lisses débouchants Ø 4,30 mm par équerre, boulonnés de part en part avec vis FHC M4 × 16 mm (tête conique affleurant à 0,0 mm sur la Neck Plate) et écrous de sécurité acier zingué Nylstop M4 serrés par le dessous de l'équerre à l'établi avant montage sur colonne. Résistance acier sur acier intégrale (> 10 kN à l'arrachement), 7,1 filets en prise, démontages illimités sans usure.
+4. **Préservation Stricte du Carré de Vissage CAO (30 × 30 mm)** : Trous positionnés à 12,50 mm du pli extérieur de l'équerre. Avec l'appui contre la colonne centrale de 5 mm (demi-épaisseur 2,50 mm), les coordonnées restent exactement à Y = +/- (2,50 + 12,50) = +/- 15,00 mm et X = +/- 15,00 mm (zéro modification de l'entraxe 30×30 mm existant sur la Neck Plate).
+5. **Harmonisation de la Visserie, Devis & Blueprints Vectoriels** : Standardisation de la visserie de flanc sur vis CHC M4 × 20 mm traversant la colonne (écrous Nylstop M4), mise à jour du devis Blockenstock (129,36 € TTC) et Bricovis / Vis-Express (~48,00 € TTC), et actualisation intégrale des schémas SVG de fabrication.
+
+### 📝 Réalisations & Évolutions
+1. **Équerres Hautes et Basses Unifiées (Cornière Alu 6060-T6 30×30×3 mm)** :
+   - Cou (Haut) : 2 équerres L = 50,0 mm, 2 trous lisses Ø 4,30 mm à plat + 2 trous lisses Ø 4,30 mm de flanc, masse 22,6 g / équerre.
+   - Waist (Bas) : 2 équerres L = 80,0 mm, 3 trous lisses Ø 4,30 mm à plat + 3 trous lisses Ø 4,30 mm de flanc, masse 36,2 g / équerre.
+   - Masse cumulée des 4 équerres : 117,6 g (+ ~28,0 g de visserie/écrous). Bilan de masse haut du torse actualisé à ~1 751 g (~1,75 kg).
+2. **Option C Opérationnelle (Protocole d'Assemblage en 5 Étapes)** :
+   - Étape 1 : Perçages Ø 4,30 mm sur cornière à la CNC C500 (zéro taraudage machine ni manuel).
+   - Étape 2 : Pré-assemblage sur établi de la fourche Neck Plate + 2 équerres via 4× FHC M4 × 16 mm + 4× écrous Nylstop M4 serrés par le dessous à 2,8 ~ 3,0 N.m à la clé plate de 7 mm.
+   - Étape 3 : Emmanchement du bloc fourche sur le haut de la colonne 5 mm.
+   - Étape 4 : Clamping transversal via 2× vis traversantes CHC M4 × 20 mm + écrous Nylstop M4.
+   - Étape 5 : Fixation du support RS-05 du cou sur la face supérieure plane.
+3. **Mise à Jour Intégrale de la Documentation & des Devis** :
+   - `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` synchronisé (§7.C.1, §7.C.2, §7.C.3, §7.D, §9.A, §9.C.2, §9.C.3, §9.C.5, §10.A, §10.B).
+   - Références marchandes et normalisées ajoutées (Blockenstock réf. `30x30x3-lg500mm-corniere-alu-6060t6`, DIN 7991 / ISO 10642 pour FHC M4×16, DIN 985 / ISO 7040 pour Nylstop M4, McMaster-Carr `90576A103`).
+4. **Régénération des Blueprints Vectoriels SVG** :
+   - `details_equerres_liaisons_extremites_cou_waist.svg` régénéré avec géométrie 30×30×3 mm, cotes d'usinage, coupe de montage Option C et plan de débitage sur barre de 500 mm.
+   - `solution_liaison_embase_cou.svg` actualisé avec la section de vissage FHC M4×16 + Nylstop M4 et CHC M4×20.
+
+---
+
 ## 📅 2026-09-03 — Consolidation Réelle CAO Torse V2.5 (Option B Traversante, Mesures Fusion 360, Sourcing France & Protocole d'Atelier)
 
 ### 🎯 Objectif de la session
