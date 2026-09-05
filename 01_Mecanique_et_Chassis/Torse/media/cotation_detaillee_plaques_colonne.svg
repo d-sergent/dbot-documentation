@@ -159,15 +159,15 @@
       </g>
       <text x="96" y="16" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">4× Ø 4,3 mm (Fixation Bride Inf. Nœud Central)</text>
 
-      <!-- Perçages M4 Bas (Fixation Waist Plate via Équerres Sandwich) -->
-      <!-- 4 trous Ø4.3mm à Z = 10 mm (Y_svg = 448 px) -->
+      <!-- Perçages M4 Bas (Fixation Waist Plate via Équerres Sandwich L=80 mm) -->
+      <!-- 4 trous Ø4.3mm à Z = 10 mm (Y_svg = 448 px), entraxe 3x 18 = 54 mm -->
       <g fill="#0f172a" stroke="#f8fafc" stroke-width="1.2">
-        <circle cx="24" cy="448" r="3.5"/>
-        <circle cx="72" cy="448" r="3.5"/>
-        <circle cx="120" cy="448" r="3.5"/>
-        <circle cx="168" cy="448" r="3.5"/>
+        <circle cx="52.8" cy="448" r="3.5"/>
+        <circle cx="81.6" cy="448" r="3.5"/>
+        <circle cx="110.4" cy="448" r="3.5"/>
+        <circle cx="139.2" cy="448" r="3.5"/>
       </g>
-      <text x="96" y="440" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">4× Ø 4,3 mm (Fixation Waist Plate)</text>
+      <text x="96" y="440" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">4× Ø 4,3 mm (Entraxe 54 mm · Fixation Waist Plate)</text>
 
       <!-- Lignes de centre des lumières & Textes descriptifs -->
       <!-- Lumière 3 (Haute) : Centre Z = 225 mm (Y_svg = 104) -->
@@ -287,13 +287,13 @@
         M 62.8,180 L 225.2,180 A 36 36 0 0 1 252.0,210.8 L 262.4,264.4 A 36 36 0 0 1 233.6,295.2 L 54.4,295.2 A 36 36 0 0 1 25.6,264.4 L 36.0,210.8 A 36 36 0 0 1 62.8,180 Z
       " fill="url(#aluSup)" fill-rule="evenodd" stroke="#a5b4fc" stroke-width="1.8"/>
 
-      <!-- Perçages M4 Haut (Liaison Cou & Équerres Oblongues Sandwich) -->
-      <!-- 2 trous M4 Ø4.3mm à Z = 135 mm (Y_svg = 18 px) -->
+      <!-- Perçages M4 Haut (Liaison Cou & Équerres Oblongues Sandwich L=50 mm) -->
+      <!-- 2 trous M4 Ø4.3mm à Z = 135 mm (Y_svg = 18 px), entraxe 30,0 mm -> cx = 108 px et 180 px -->
       <g fill="#0f172a" stroke="#f8fafc" stroke-width="1.2">
-        <circle cx="80" cy="18" r="3.5"/>
-        <circle cx="208" cy="18" r="3.5"/>
+        <circle cx="108" cy="18" r="3.5"/>
+        <circle cx="180" cy="18" r="3.5"/>
       </g>
-      <text x="144" y="12" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">2× Ø 4,3 mm (Liaison Équerres Découplage Cou Z±1mm)</text>
+      <text x="144" y="12" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">2× Ø 4,3 mm (Entraxe 30 mm · Liaison Équerres Cou Z±1,1mm)</text>
 
       <!-- Perçages M4 Bas (Fixation Bride Supérieure Nœud Central) -->
       <!-- 4 trous M4 Ø4.3mm à Z = 10 mm du bas (Y_svg = 320 px) -->

@@ -44,6 +44,8 @@
 - [**7. Liaisons d'Extrémités : Cou & Waist Yaw RS-06**](#7-liaisons-dextrémités--cou--waist-yaw-rs-06)
   - [A. Plaque Supérieure de Cou (Alu 5,0 mm) & Découplage Isostatique en Z](#a-plaque-supérieure-de-cou-alu-50-mm--découplage-isostatique-en-z)
   - [B. Plaque Inférieure / Waist Plate (Alu 6,0 mm) & Actionneur RS-06](#b-plaque-inférieure--waist-plate-alu-60-mm--actionneur-rs-06)
+  - [C. Conception Détaillée des Équerres Hautes & Basses (Cotations & Usinages)](#c-conception-détaillée-des-équerres-hautes--basses-cotations--usinages)
+  - [D. Stratégie d'Assemblage en Espace Restreint au Cou (Fourche Pré-assemblée)](#d-stratégie-dassemblage-en-espace-restreint-au-cou-fourche-pré-assemblée)
 - [**8. Coque Secondaire PA12-CF & Impression 3D (Qidi Plus 4)**](#8-coque-secondaire-pa12-cf--impression-3d-qidi-plus-4)
   - [A. Impression Verticale (Debout) & Réduction des Supports](#a-impression-verticale-debout--réduction-des-supports)
   - [B. Stratégie de Découpe CAO : 2 Demi-Coques 360° Monoblocs](#b-stratégie-de-découpe-cao--2-demi-coques-360-monoblocs)
@@ -578,6 +580,114 @@ Le circuit électrique permet de remplacer un pack déchargé sans interrompre l
 
 ---
 
+### C. Conception Détaillée des Équerres Hautes & Basses (Cotations & Usinages)
+
+![Design Détaillé des Équerres Hautes et Basses et Montage en Espace Restreint](./media/details_equerres_liaisons_extremites_cou_waist.svg)
+
+*Blueprint d'ingénierie vectoriel des liaisons d'extrémités. Panel 1 : Équerres Hautes du Cou compactes (25 × 25 × 3 mm, L = 50,0 mm) avec lumières oblongues 4,3 × 6,5 mm (débattement Z = +/- 1,10 mm, entraxe 30 mm) et taraudages M4 pour vissage par le dessus. Panel 2 : Équerres Basses Waist Yaw compactes (25 × 25 × 4 mm, L = 80,0 mm) avec 4 perçages Ø 4,3 mm (entraxes 3 × 18 = 54 mm) pour encastrement rigide 36 N.m aligné sur le carter RS-06. Panel 3 : Coupe d'assemblage de la fourche de cou et protocole de montage pas-à-pas en espace restreint.*
+
+#### 1. Équerres Hautes du Cou Compactes (L = 50,0 mm — Liaison Découplée Isostatique)
+* **Profil Brut & Matière** : Cornière en aluminium **7075-T6** (ou profilé extrudé 6060-T6), section **`25 × 25 × 3,0 mm`**, longueur compacte **`L = 50,0 mm`** (laisse **`22,0 mm de dégagement libre`** de chaque côté sous le sommet de 94 mm de la plaque sagittale haute).
+* **Masse Nette** : **`19,1 g`** par pièce (soit **`38,2 g` pour la paire** gauche + droite — gain direct de **-22,8 g** par rapport à L = 80 mm).
+* **Aile Horizontale — Cotation Précise des 2 Taraudages M4 (Fixation Plaque de Cou 5,0 mm)** :
+  - **Position dans la largeur de l'aile (25,0 mm)** :
+    - Distance depuis l'arête extérieure du pli : **`12,50 mm`** (pile au milieu de la portée de 25 mm).
+    - Distance restante jusqu'au chant libre extérieur : **`12,50 mm`**.
+    - Distance de matière pleine résiduelle côté vertical intérieur : `12,50 - 3,00 =` **`9,50 mm`** (dégagement parfait évitant tout contact avec le rayon de pliage).
+  - **Position le long de l'équerre (L = 50,0 mm)** :
+    - Trou #1 : situé à **`10,00 mm`** du premier chant d'extrémité.
+    - Trou #2 : situé à **`40,00 mm`** du premier chant d'extrémité (soit **`10,00 mm`** du second chant).
+    - **Entraxe longitudinal** : **`30,00 mm`** pile.
+  - **Spécification d'Usinage** : Foret avant-trou **`Ø 3,30 mm`**, taraudage **`M4 × 0,70 mm débouchant`** à travers les 3,0 mm, chanfrein d'entrée **`0,4 mm × 45°`** des 2 côtés.
+  - **Visserie associée** : **4 vis FHC M4 × 12 mm** (ISO 10642 / DIN 7991, classe 10.9 ou Inox A2). Les têtes coniques 90° sont fraisées directement dans la face supérieure de la plaque de cou et viennent **strictement à fleur (0,0 mm)**.
+* **Aile Verticale — Cotation des 2 Lumières Oblongues (Pincement Plaque Sagittale Haute 5,0 mm)** :
+  - **Position en hauteur Z sur l'aile** : axe médian horizontal situé à **`12,50 mm`** du pli extérieur (mi-hauteur de l'aile de 25 mm).
+  - **Position en longueur** : coaxiale avec les taraudages horizontaux, entraxe = **`30,00 mm`** (à 10,0 mm des chants d'extrémité).
+  - **Géométrie de l'oblong** : largeur **`4,30 mm`**, hauteur **`6,50 mm`** (2 demi-cercles de rayon R = 2,15 mm). Débattement axial utile : **`+/- 1,10 mm en Z`**.
+  - **Facteur de sécurité RDM** : **`Sf = 20,7`** (couple résistant au décollement = **114 N.m** face au couple pic de **5,5 N.m** des moteurs RS-05 du cou).
+  - **Visserie associée** : **2 vis CHC M4 × 20 mm** traversantes (ISO 4762) + **4 rondelles larges ISO 7093 M4** (Ø extérieur 12,0 mm, épaisseur 1,0 mm) recouvrant largement l'oblong + **2 écrous Nylstop M4** (McMaster `93625A150`).
+
+#### 2. Équerres Basses du Waist Compactes (L = 80,0 mm — Ancrage Rigide 36 N.m)
+* **Profil Brut & Matière** : Cornière renforcée en aluminium **7075-T6**, section **`25 × 25 × 4,0 mm`**, longueur optimisée **`L = 80,0 mm`** (s'aligne parfaitement sur l'enveloppe circulaire Ø 88 mm du moteur RobStride RS-06 et laisse 20 mm de dégagement de chaque côté de la base 120 mm).
+* **Masse Nette** : **`39,6 g`** par pièce (soit **`79,2 g` pour la paire** — gain direct de **-19,8 g** par rapport à L = 100 mm).
+* **Aile Horizontale — Cotation des 4 Trous de Passage (Fixation sur Waist Plate 6,0 mm)** :
+  - **Position dans la largeur de l'aile (25,0 mm)** : axe des trous à **`12,50 mm`** du pli extérieur et **`12,50 mm`** du chant libre (matière résiduelle intérieure = `12,50 - 4,00 =` **`8,50 mm`**).
+  - **Position le long de l'équerre (L = 80,0 mm)** : 4 trous lisses traversants **`Ø 4,30 mm`** répartis à entraxe régulier de **`18,00 mm`** (entraxe total = **`54,00 mm`**). Pinces aux chants d'extrémité = **`13,00 mm`** de chaque côté (`X = 13,0 / 31,0 / 49,0 / 67,0 mm`).
+* **Aile Verticale — Cotation des 4 Trous Ronds (Pincement Plaque Sagittale Basse 5,0 mm)** :
+  - **Position en hauteur Z** : axe centré à **`Z = 10,00 mm`** de la base.
+  - **Position en longueur** : coaxiale avec l'aile horizontale (4 trous Ø 4,30 mm ronds, entraxes 18,0 mm, pas d'oblong : référence rigide Z = 0 absolu du torse).
+  - **Facteur de sécurité RDM** : **`Sf = 2,78`** (couple de frottement résistant au lacet = **100 N.m** face au couple pic de **36 N.m** du moteur RS-06).
+  - **Visserie associée** : **4 vis CHC M4 × 22 mm** traversantes + 8 rondelles DIN 125A M4 + 4 écrous Nylstop M4 (serrage direct à 3,0 N.m).
+
+#### 3. Tableau des Coordonnées Cartésiennes pour Modélisation CAO Fusion 360
+
+Dans le repère global du robot D-Bot (Origine au centre du nœud d'épaules, `X` = sagittal avant/arrière, `Y` = frontal gauche/droite, `Z` = vertical haut/bas), la colonne sagittale 5,0 mm est centrée sur le plan médian `Y = 0` (face gauche à `Y = -2,50 mm`, face droite à `Y = +2,50 mm`). Les équerres sont orientées avec leurs ailes horizontales tournées **vers l'extérieur** :
+
+| Vis / Entité | Pièce Porteuse | Coordonnée X (Sagittal) | Coordonnée Y (Transversal) | Coordonnée Z (Vertical) | Outil & Spécification Usinage |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| **FHC Cou #1 (Av-G)** | Plaque Cou & Équerre G | **`+15,00 mm`** | **`-15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Taraudage M4 sur équerre |
+| **FHC Cou #2 (Av-D)** | Plaque Cou & Équerre D | **`+15,00 mm`** | **`+15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Taraudage M4 sur équerre |
+| **FHC Cou #3 (Ar-G)** | Plaque Cou & Équerre G | **`-15,00 mm`** | **`-15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Taraudage M4 sur équerre |
+| **FHC Cou #4 (Ar-D)** | Plaque Cou & Équerre D | **`-15,00 mm`** | **`+15,00 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm sur plaque / Taraudage M4 sur équerre |
+| **Oblong Cou Avant** | Équerres & Colonne | **`+15,00 mm`** | `Y = ±2,50 mm` | `Z = +135,00 mm` | Oblong 4,3 × 6,5 mm sur équerres / Trou Ø 4,3 mm sur colonne |
+| **Oblong Cou Arrière** | Équerres & Colonne | **`-15,00 mm`** | `Y = ±2,50 mm` | `Z = +135,00 mm` | Oblong 4,3 × 6,5 mm sur équerres / Trou Ø 4,3 mm sur colonne |
+| **Waist Vis #1 (Arrière)** | Waist Plate & Équerres | **`-27,00 mm`** | `Y = ±15,00 mm` | `Z = -290,00 mm` | Perçage lisse Ø 4,30 mm traversant |
+| **Waist Vis #2** | Waist Plate & Équerres | **`-9,00 mm`** | `Y = ±15,00 mm` | `Z = -290,00 mm` | Perçage lisse Ø 4,30 mm traversant |
+| **Waist Vis #3** | Waist Plate & Équerres | **`+9,00 mm`** | `Y = ±15,00 mm` | `Z = -290,00 mm` | Perçage lisse Ø 4,30 mm traversant |
+| **Waist Vis #4 (Avant)** | Waist Plate & Équerres | **`+27,00 mm`** | `Y = ±15,00 mm` | `Z = -290,00 mm` | Perçage lisse Ø 4,30 mm traversant |
+
+> [!TIP]
+> **Règle d'Or CAO — Le Carré de Vissage 30 × 30 mm du Cou** :  
+> Sur la Plaque Supérieure de Cou, les 4 vis coniques FHC M4 forment un **carré parfait de `30,0 mm × 30,0 mm`** centré sur l'origine.  
+> Sous Fusion 360, il suffit de créer une esquisse sur la face supérieure de la plaque, d'appeler l'outil **Rectangle par le Centre (`Create > Rectangle > Center Rectangle`)** coté à `30 × 30 mm`, puis d'appliquer la commande **Perçage Fraisé (`Hole`, raccourci `H`)** avec fraisure 90° Ø 8,40 mm sur les 4 sommets. L'alignement avec les taraudages des équerres est rigoureusement parfait à 0,0 mm.
+
+---
+
+### D. Stratégie d'Assemblage en Espace Restreint au Cou (Fourche Pré-assemblée)
+
+En partie haute du torse, la convergence des deux demi-coques en PA12-CF, le tablier d'épaule et le collet du cou créent un espace confiné. Pour éliminer toute difficulté d'accessibilité (impossibilité de glisser les doigts ou une clé sous la plaque de cou), la conception intègre un principe d'assemblage ergonomique :
+
+```
+             ACCÈS CLÉ ALLEN 100% LIBRE PAR LE DESSUS
+                         │               │
+                         ▼               ▼
+                 Vis FHC M4 × 12 mm (Fraisées à 0,0 mm)
+            ┌─────────────────────────────────────────┐
+            │   PLAQUE SUPÉRIEURE DE COU (Alu 5 mm)   │
+            └──────┬───────────────────────────┬──────┘
+                   │ Taraudages M4 intégrés    │
+            ┌──────┴──────┐             ┌──────┴──────┐
+            │ Équerre G   │ ◄─ 5,1 mm ─►│ Équerre D   │  ◄── SOUS-ENSEMBLE
+            │ (25×25×3 mm)│             │ (25×25×3 mm)│      « FOURCHE »
+            └───┬─────────┘             └─────────┬───┘      PRÉ-MONTÉ SUR ÉTABLI
+                │      ┌───────────────┐          │
+  Accès Latéral │      │ Plaque        │          │ Accès Latéral
+  Clé Allen     │      │ Sagittale     │          │ Clé Plate 7 mm
+  ────────────► ├──O───┤ Haute 5,0 mm  ├───O──────┤ ◄─────────────
+   (Vis CHC M4) │(4,3× │ (Trou Ø4,3 mm)│  (4,3×   │ (Écrou Nylstop M4)
+                │ 6,5) │               │   6,5)   │
+```
+
+#### Protocole d'Atelier en 5 Étapes Chronologiques
+
+1. **Étape 1 — Pré-assemblage du Sous-Ensemble « Fourche de Cou » sur Établi** :
+   * Les 2 équerres hautes sont boulonnées sous la plaque supérieure de cou à l'établi, en dehors du torse.
+   * Le serrage des 4 vis FHC M4 × 12 mm s'effectue par le dessus de la plaque à plat sur l'établi, avec un couple de 2,8 N.m et une goutte de Loctite 243 bleu.
+   * L'écartement entre les deux ailes verticales est verrouillé à **`5,10 mm`** (à l'aide d'une cale d'épaisseur de 5,0 mm + clinquant de 0,1 mm).
+2. **Étape 2 — Emboîtement Glissant par le Haut** :
+   * Une fois le sous-ensemble cou prêt, on vient coiffer le sommet de la plaque sagittale haute avec cette fourche.
+   * Grâce au jeu calibré de 0,10 mm, la colonne glisse sans aucun effort ni frottement dur entre les deux cornières.
+3. **Étape 3 — Insertion Latérale des Vis Traversantes M4** :
+   * Les 2 vis CHC M4 × 20 mm munies de leurs rondelles larges ISO 7093 sont insérées horizontalement depuis le flanc du torse à travers les lumières oblongues 4,3 × 6,5 mm et la colonne 5 mm.
+   * Les 2 écrous Nylstop M4 sont vissés à la main avec quelques tours de filet, **en laissant l'assemblage totalement flottant** (vis non bloquées).
+4. **Étape 4 — Blocage du Nœud Central & Fixation Basse Waist** :
+   * Serrage au couple des 4 vis CHC M5 du sandwich central (19 200 N de précharge) et des 4 vis CHC M5 des traverses 60×60 mm (Option 1).
+   * Serrage des 4 vis M4 de l'équerre basse de Waist (bloquée rigide à Z = 0).
+   * À ce stade, la colonne et les demi-traverses ont pris leur assiette géométrique définitive et leur équilibre thermique naturel.
+5. **Étape 5 — Serrage Final des Vis du Cou (EN TOUT DERNIER)** :
+   * À l'aide d'une clé Allen à tête sphérique (*ball-end hex key* 3,0 mm autorisant un angle d'inclinaison de 25°) et d'une clé plate fine de 7 mm, serrer les 2 vis CHC M4 du cou au couple prescrit de **`3,0 N.m`**.
+   * Les rondelles larges ISO 7093 (Ø 12 mm) pincent fermement l'équerre contre la plaque 5 mm, transférant 100% des moments de basculement Pitch/Roll du cou tout en absorbant le jeu axial sans induire la moindre force de traction parasite sur le tube ou la colonne.
+
 ## 8. Coque Secondaire PA12-CF & Impression 3D (Qidi Plus 4)
 
 ### A. Impression Verticale (Debout) & Réduction des Supports
@@ -746,7 +856,13 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 | • **Sandwich Colonne Centrale** | Vis CHC M5 × 25 mm | ISO 4762 / DIN 912 | **`91290A235`** (Acier 12.9)<br>**`92290A235`** (Inox 18-8) | **4 vis** (2 avant, 2 arrière) | Perçages lisses Ø 5,3 mm chanfreinés à **`0,5 mm × 45°`** traversant le sandwich 15 mm (2 semelles 5 mm + plaque 5 mm). |
 | • **Rondelles Sandwich Colonne** | Rondelles Plates M5 DIN 125A | ISO 7089 / DIN 125A | **`93475A240`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | Ø int 5,3 mm / Ø ext 10,0 mm / ép 1,0 mm. |
 | • **Écrous Sandwich Colonne** | Écrous Frein Nylstop M5 | ISO 7040 / DIN 985 | **`90631A113`** (Inox 18-8) | **4 écrous** | Bague nylon autofreinée (couple 5,5 N.m). |
-| **4. SYSTÈME AÉRAULIQUE & HABILLAGE COQUE** | | | | | |
+| **4. LIAISONS D'EXTRÉMITÉS (ÉQUERRES COU & WAIST RS-06)** | | | | | |
+| • **Fixation Plaque Cou ➔ Équerres Hautes** | Vis FHC M4 × 12 mm | ISO 10642 / DIN 7991 | **`91294A190`** (Acier 10.9)<br>**`92125A190`** (Inox 18-8) | **4 vis** (2 / équerre) | Vissage par le DESSUS de la plaque de cou à fleur (0,0 mm) dans les taraudages M4 des équerres. |
+| • **Pincement Colonne Haute (Oblongs Cou)** | Vis CHC M4 × 20 mm | ISO 4762 / DIN 912 | **`91290A160`** (Acier 12.9)<br>**`92290A146`** (Inox 18-8) | **2 vis** traversantes | Traversent les lumières oblongues 4,3 × 6,5 mm et la colonne 5 mm (débattement Z = +/- 1,10 mm). |
+| • **Rondelles Larges Cou (Couverture Oblongs)** | Rondelles Larges ISO 7093 M4 | ISO 7093 (Ø ext. 12 mm) | **`98041A121`** (Inox 18-8) | **4 rondelles** (2 / vis) | Recouvrent intégralement l'oblong de 6,5 mm sous tête et sous écrou (répartition 3,0 N.m). |
+| • **Pincement Colonne Basse (Waist RS-06)** | Vis CHC M4 × 22 mm | ISO 4762 / DIN 912 | **`91290A164`** (Acier 12.9)<br>**`92290A147`** (Inox 18-8) | **4 vis** traversantes | Traversent Équerre G (4 mm) + Colonne (5 mm) + Équerre D (4 mm) = 13 mm. Point fixe Z = 0. |
+| • **Écrous de Verrouillage Équerres (Cou & Waist)** | Écrous Frein Nylstop M4 | ISO 7040 / DIN 985 | **`93625A150`** (Inox 18-8)<br>**`94645A101`** (Acier Cl.10) | **6 écrous** (2 cou, 4 waist) | Bague nylon autofreinée indesserrable aux vibrations (couple 3,0 N.m). |
+| **5. SYSTÈME AÉRAULIQUE & HABILLAGE COQUE** | | | | | |
 | • **Ventilateurs Tuyères 4020** | Vis CHC M3 × 16 mm + Écrous M3 | ISO 4762 / DIN 912 | **`91290A115`** (Inox 18-8) | **8 vis + 8 écrous** | 4 vis par ventilateur Noctua NF-A4x20 avec silent-blocs anti-vibrations. |
 | • **Fixation Coque PA12-CF** | Inserts Filetés Laiton M4 | Standard Ruthex | **`94180A353`** (Laiton) | **16 inserts** | Inserts thermiques M4 à poser au fer à souder (260 °C) dans les bossages d'habillage. |
 
