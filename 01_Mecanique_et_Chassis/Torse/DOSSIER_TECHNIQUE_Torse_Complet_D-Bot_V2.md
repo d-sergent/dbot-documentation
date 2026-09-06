@@ -45,6 +45,7 @@
   - [A. Plaque Supérieure de Cou (Alu 5,0 mm) & Liaison Rigide de Précision C500](#a-plaque-supérieure-de-cou-alu-50-mm--liaison-rigide-de-précision-c500)
   - [B. Plaque Inférieure / Waist Plate (Alu 6,0 mm) & Actionneur RS-06](#b-plaque-inférieure--waist-plate-alu-60-mm--actionneur-rs-06)
   - [C. Conception Détaillée des Équerres Hautes & Basses (Cotations & Usinages)](#c-conception-détaillée-des-équerres-hautes--basses-profilé-commercial-30--30--3-mm--option-c-validée)
+    - [Cartographie Complète des Chanfreins, Fraisures & Protocole d'Ébavurage d'Atelier](#4-cartographie-complète-des-chanfreins-fraisures--protocole-débavurage-datelier)
   - [D. Protocole d'Atelier Naturel & Ergonomique (Torse V2.6)](#d-protocole-datelier-naturel--ergonomique-torse-v26)
 - [**8. Coque Secondaire PA12-CF & Impression 3D (Qidi Plus 4)**](#8-coque-secondaire-pa12-cf--impression-3d-qidi-plus-4)
   - [A. Impression Verticale (Debout) & Réduction des Supports](#a-impression-verticale-debout--réduction-des-supports)
@@ -648,6 +649,29 @@ Dans le repère global du robot D-Bot (Origine au centre du nœud d'épaules, `X
 > Sur la Plaque Supérieure de Cou, les 4 vis coniques FHC M4 forment un **rectangle de `30,0 mm × 45,0 mm`** centré sur l'origine (`X = ±15,0 mm`, `Y = ±22,5 mm`).  
 > En plaçant l'axe des perçages à **`20,00 mm`** du pli extérieur sur une colonne de `5,0 mm` (`Y = ±2,50 mm`), on obtient exactement `2,50 + 20,00 =` **`22,50 mm`**.  
 > Sous Fusion 360, il suffit de créer une esquisse sur la face supérieure de la plaque, d'appeler l'outil **Rectangle par le Centre (`Create > Rectangle > Center Rectangle`)** coté à `30 × 45 mm`, puis d'appliquer la commande **Perçage Fraisé (`Hole`, raccourci `H`)** avec fraisure 90° Ø 8,40 mm sur les 4 sommets. L'alignement avec les trous lisses Ø 4,3 mm des équerres est rigoureusement parfait à 0,0 mm.
+
+---
+
+#### 4. Cartographie Complète des Chanfreins, Fraisures & Protocole d'Ébavurage d'Atelier
+
+Dans un assemblage métallique haute performance soumis aux vibrations dynamiques d'actionneurs QDD (chocs de marche et couples pics de 120 N.m), **le chanfreinage et l'ébavurage ne sont pas de simples finitions cosmétiques, mais des exigences mécaniques critiques conditionnant l'isostatisme et la tenue au desserrage** :
+* **Danger mécanique du morfil / bavure** : Tout perçage (foret ou fraise) crée un refoulement de matière circulaire en sortie de perçage (bavure de 0,05 à 0,15 mm). Si deux pièces planes sont boulonnées sans ébavurage préalable, cette micro-bavure porte 100% de la précharge sur quelques dixièmes de millimètre carré. Sous vibration, la bavure s'écrase ou se rompt, provoquant une perte immédiate de tension de la vis et le desserrage de la liaison.
+* **Règle d'or d'atelier** : Tout perçage traversant doit être **chanfreiné sur ses 2 faces**, et tout chant scié doit recevoir un **cassage d'arête franc**.
+
+##### Tableau Récapitulatif des Chanfreins, Fraisures & Ébavurages des Liaisons d'Extrémités
+
+| Composant & Zone | Face / Arête Concernée | Type d'Usinage / Outil | Cote Spécifiée | Rôle Mécanique & Justification d'Atelier |
+| :--- | :--- | :--- | :---: | :--- |
+| **1. Équerres Cou & Waist (Aile Horizontale)** | Face Supérieure (contact avec Neck Plate ou Waist Plate) | Fraise à noyer 90° ou fraise à chanfreiner C500 | **`0,3 mm × 45°`** | **Obligatoire** : Élimine toute bavure de sortie de foret pour garantir un **contact plan métal-métal rigoureusement franc à 0,0 mm** avec la plaque de cou ou de taille. |
+| **1. Équerres Cou & Waist (Aile Horizontale)** | Face Inférieure (côté écrou Nylstop M4 sous l'aile) | Fraise à noyer 90° à main ou C500 | **`0,3 mm × 45°`** | Assise plane parfaite pour la portée de l'écrou frein Nylstop M4, évite l'amorçage de criques sous précharge. |
+| **2. Équerres Cou & Waist (Aile Verticale)** | Face Intérieure (contact d'appui contre le flanc colonne 5 mm) | Fraise à chanfreiner C500 ou outil d'ébavurage | **`0,3 mm × 45°`** | **Obligatoire** : Assure un placage plan sans aucun jour entre les cornières et la plaque sagittale en Alu 7075-T6. |
+| **2. Équerres Cou & Waist (Aile Verticale)** | Face Extérieure (sous tête de vis CHC M4 ou rondelle DIN 125A) | Fraise à chanfreiner C500 ou outil à main | **`0,3 mm × 45°`** | Permet à la rondelle plate standard DIN 125A M4 (Ø 9,0 mm) d'épouser 100% de la surface d'appui. |
+| **3. Équerres Cou & Waist (Chants Débités)** | 4 chants sciés d'extrémités (L = 50 mm et L = 80 mm) | Lime fine d'ajusteur ou ébavureuse à bande | **`0,5 mm × 45°`** | Cassage des bavures de sciage, sécurité des mains lors des manipulations d'atelier, élimination des éclats d'alu. |
+| **3. Équerres Cou & Waist (Arêtes Libres)** | Bords longitudinaux des ailes (extrémités à 30 mm du pli) | Toile émeri grain 400 ou ébavureur à lame tournante | **`0,3 mm × 45°`** | Doucissage des chants extrudés marchands pour un aspect visuel et tactile premium. |
+| **4. Plaque Supérieure de Cou (5,0 mm 7075-T6)** | Face Supérieure (4 perçages rectangle 30 × 45 mm) | Fraise conique 90° (Hole command Fusion 360) | **Fraisure 90° Ø 8,40 mm (prof. 2,30 mm)** | **Noyage à fleur 0,0 mm** des têtes coniques des 4 vis FHC M4. Aucune surépaisseur ne doit dépasser sous l'embase circulaire du moteur RS-05. |
+| **4. Plaque Supérieure de Cou (5,0 mm 7075-T6)** | Face Inférieure (débouché des 4 perçages FHC M4) | Fraise à chanfreiner C500 | **`0,3 mm × 45°`** | Ébavurage propre évitant toute portée sur morfil lors du placage sur les ailes de cornières. |
+| **5. Colonne Sagittale Haute (5,0 mm 7075-T6)** | Chants supérieurs au collet du cou (Z = +142,67 mm) | Fraise à chanfreiner 45° C500 | **`0,5 mm × 45°`** | Dégage l'arête vive de colonne face au micro-rayon de raccordement intérieur naturel de la cornière. |
+| **5. Colonne Sagittale Haute (5,0 mm 7075-T6)** | 2 perçages traversants Ø 4,30 mm de flanc de cou | Fraise à chanfreiner 45° (Faces Gauche & Droite) | **`0,3 mm × 45°`** (des 2 côtés) | Permet un guidage sans grippage des vis CHC M4 × 20 mm et garantit un appui bilatéral franc des deux cornières. |
 
 ---
 

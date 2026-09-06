@@ -74,6 +74,7 @@
     <circle cx="229" cy="48" r="5" fill="#38bdf8"/>
     <rect x="221" y="89" width="16" height="12" rx="2" fill="#1e293b" stroke="#facc15" stroke-width="1"/>
 
+    <text x="182" y="32" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.2" font-weight="bold" text-anchor="middle">Fraisures Coniques 90° Ø 8,4 mm à fleur 0,0 mm</text>
     <text x="182" y="47" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">FHC M4 × 16 mm + Nylstop M4 (Rectangle 30×45 mm)</text>
 
     <!-- Vers Nœud Central en Bas -->
@@ -84,21 +85,22 @@
     <rect x="15" y="325" width="335" height="260" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1.2"/>
     <text x="182" y="345" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9.5" font-weight="bold" text-anchor="middle">🛡️ Fin du Découplage V1 : Colonne 7075-T6 C500</text>
     
-    <text x="25" y="368" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">1. Contexte Historique V1 Révolu :</text>
-    <text x="35" y="384" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">• Le tube carbone et le split-clamp ont disparu.</text>
-    <text x="35" y="398" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">• L'oblong n'était nécessaire que pour absorber</text>
-    <text x="35" y="412" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">  la tolérance de coupe manuelle du tube carbone.</text>
+    <text x="25" y="366" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">1. Contexte Historique V1 Révolu :</text>
+    <text x="35" y="381" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">• Le tube carbone et le split-clamp ont disparu.</text>
+    <text x="35" y="395" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">• L'oblong n'était nécessaire que pour absorber</text>
+    <text x="35" y="409" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">  la tolérance de coupe manuelle du tube carbone.</text>
     
-    <text x="25" y="434" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">2. Conception Torse V2.6 Rigide :</text>
-    <text x="35" y="450" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8">• Colonne 7075-T6 5 mm usinée à ±0,02 mm sur C500.</text>
-    <text x="35" y="464" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8">• Trous ronds Ø 4,3 mm : butée mécanique d'obstacle.</text>
-    <text x="35" y="478" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">  ➔ ZÉRO glissement sous choc ou secousse du cou !</text>
+    <text x="25" y="430" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">2. Conception Torse V2.6 Rigide &amp; Chanfreins :</text>
+    <text x="35" y="445" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8">• Colonne 7075-T6 5 mm usinée à ±0,02 mm sur C500.</text>
+    <text x="35" y="458" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8">• Trous ronds Ø 4,3 mm : butée mécanique d'obstacle.</text>
+    <text x="35" y="471" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="7.8">• <tspan fill="#38bdf8" font-weight="bold">Chanfreins 0,3 mm × 45° (2 faces)</tspan> : appui plan 0,0 mm.</text>
+    <text x="35" y="484" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">  ➔ ZÉRO glissement sous choc ou secousse du cou !</text>
     
-    <text x="25" y="500" fill="#facc15" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">3. Ergonomie d'Atelier Inversée :</text>
-    <text x="35" y="516" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">• Équerres montées sur la colonne à l'établi (accès 360°).</text>
-    <text x="35" y="530" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">• Insertion par le bas du thorax (encombrement 65 mm).</text>
-    <text x="35" y="544" fill="#facc15" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">• Finition au centre du torse en zone 100% dégagée ✅</text>
-    <text x="35" y="562" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="start">Vis CHC M4 bloquées au couple avant mise en place des coques</text>
+    <text x="25" y="504" fill="#facc15" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">3. Ergonomie d'Atelier Inversée :</text>
+    <text x="35" y="519" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">• Équerres montées sur la colonne à l'établi (accès 360°).</text>
+    <text x="35" y="533" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">• Insertion par le bas du thorax (encombrement 65 mm).</text>
+    <text x="35" y="547" fill="#facc15" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">• Finition au centre du torse en zone 100% dégagée ✅</text>
+    <text x="35" y="563" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="start">Vis CHC M4 bloquées au couple avant mise en place des coques</text>
   </g>
 
   <!-- ════════════════════════════════════════════ -->
