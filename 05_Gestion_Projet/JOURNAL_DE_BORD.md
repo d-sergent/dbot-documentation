@@ -2,6 +2,30 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-09-06 — Optimisation Géométrique Équerres Cou V2.6 (Rectangle 30×45 mm, Zéro Oblong, Protocole Inversé Naturel & Blueprints SVG)
+
+### 🎯 Objectif de la session
+1. **Dégagement Central Moteur Cou RS-05 & Élargissement Vissage (Rectangle 30 × 45 mm)** : Déport des perçages horizontaux des équerres de cou de 12,5 mm à **20,00 mm du pli extérieur**. Cette modification libère un **corridor central libre de 45,0 mm** entre les écrous sous la Neck Plate (passage direct du carter moteur RobStride RS-05, vis et câblages) tout en augmentant la rigidité en roulis (Roll) de **+50%** (bras de levier d'entraxe Y passant de 30 mm à 45 mm).
+2. **Élimination Définitive des Lumières Oblongues (Zéro Oblong)** : Constat que les lumières oblongues verticales (4,3 × 6,5 mm, Z = +/- 1,1 mm) étaient un reliquat de la V1 hybride (découplage pour éviter d'ouvrir la fente de 1,0 mm du split-clamp de tube carbone). Dans le Torse V2.6, la colonne monolithique en **Alu 7075-T6 de 5,0 mm** usinée sur NestWorks C500 (+/- 0,02 mm) élimine tout besoin de découplage axial. Remplacement par **2 perçages ronds lisses Ø 4,30 mm** assurant une butée franche d'obstacle en Z, zéro risque de glissement sous choc dynamique, et un usinage simplifié (1 seul foret Ø 4,3 mm sur la C500).
+3. **Validation du Protocole de Montage Inversé Naturel** : Grâce à l'absence de réglage exigu au cou, adoption d'une séquence ergonomique d'atelier :
+   - Étape 1 : Pré-assemblage sur établi des équerres hautes sur le haut de la colonne 5 mm (2× CHC M4 × 20 mm + Nylstop M4 à 3,0 N.m).
+   - Étape 2 : Vissage de la Neck Plate par le dessus (4× FHC M4 × 16 mm + Nylstop M4 à 3,0 N.m sur rectangle 30 × 45 mm).
+   - Étape 3 : Vissage de la Waist Plate en bas (4× CHC M4 × 20 mm + Nylstop M4).
+   - Étape 4 : Glissement de la colonne équipée par le bas du thorax (encombrement 86,5 × 65 mm traversant sans frottement l'ouverture abdominale ~200 × 160 mm).
+   - Étape 5 : **Verrouillage final du nœud central d'épaules EN DERNIER** (4× CHC M5 × 25 mm + Nylstop M5 à 5,5 N.m) dans la zone la plus spacieuse et accessible du thorax !
+4. **Standardisation Quincaillerie** : Remplacement des rondelles larges ISO 7093 par des rondelles plates standard DIN 125A M4.
+5. **Synchronisation Intégrale des Schémas SVG & Dossier Technique** : Mise à jour des 3 blueprints vectoriels et du dossier technique V2.
+
+### 📝 Réalisations & Évolutions
+1. **Plans Vectoriels SVG Synchronisés** :
+   - `details_equerres_liaisons_extremites_cou_waist.svg` : Panneau 1 mis à jour (trous ronds Ø 4,3 mm sans oblong, trou horizontal à 20 mm du pli, pince 10 mm, dégagement clé 17 mm) ; Panneau 3 mis à jour (Rectangle de perçage Neck Plate 30 × 45 mm avec cotes DX = 30 mm, DY = 45 mm, Y = +/- 22,5 mm et corridor central vert 45 mm).
+   - `solution_liaison_embase_cou.svg` : Régénération complète en blueprint sombre (Panneau A : cotation FHC M4 sur entraxe 45 mm, trous ronds colonne ; Panneau B : Protocole en 5 étapes inversées ; Panneau C : Tableau comparatif V1 vs V2.6).
+   - `cotation_detaillee_plaques_colonne.svg` : Lignes 296, 335, 338 mises à jour (2x Ø 4,3 mm butée rigide Z, zéro oblong, pré-assemblage sur établi).
+2. **Dossier Technique Torse V2 Actualisé** :
+   - `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` : Sections 7.A, 7.C.1, 7.C.3 (coordonnées cartésiennes Y = +/- 22,50 mm, conseil CAO Center Rectangle 30×45 mm), 7.D (protocole chronologique inversé), 9.A (gamme C500 équerres et inserts), 9.C.2, 9.C.3 (tableau McMaster) et 9.C.5 (couples dynamométriques).
+
+---
+
 ## 📅 2026-09-05 — Standardisation Équerres Torse V2 (Cornière Alu 6060-T6 30×30×3 mm, Option C Zéro Taraudage, Sourcing Blockenstock & Blueprints SVG)
 
 ### 🎯 Objectif de la session

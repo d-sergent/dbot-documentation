@@ -287,13 +287,13 @@
         M 62.8,180 L 225.2,180 A 36 36 0 0 1 252.0,210.8 L 262.4,264.4 A 36 36 0 0 1 233.6,295.2 L 54.4,295.2 A 36 36 0 0 1 25.6,264.4 L 36.0,210.8 A 36 36 0 0 1 62.8,180 Z
       " fill="url(#aluSup)" fill-rule="evenodd" stroke="#a5b4fc" stroke-width="1.8"/>
 
-      <!-- Perçages M4 Haut (Liaison Cou & Équerres Oblongues Sandwich L=50 mm) -->
+      <!-- Perçages M4 Haut (Liaison Cou & Équerres Sandwich L=50 mm) -->
       <!-- 2 trous M4 Ø4.3mm à Z = 135 mm (Y_svg = 18 px), entraxe 30,0 mm -> cx = 108 px et 180 px -->
       <g fill="#0f172a" stroke="#f8fafc" stroke-width="1.2">
         <circle cx="108" cy="18" r="3.5"/>
         <circle cx="180" cy="18" r="3.5"/>
       </g>
-      <text x="144" y="12" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">2× Ø 4,3 mm (Entraxe 30 mm · Liaison Équerres Cou Z±1,1mm)</text>
+      <text x="144" y="12" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="7" font-weight="bold" text-anchor="middle">2× Ø 4,3 mm (Entraxe 30 mm · Butée Rigide Z Équerres Cou)</text>
 
       <!-- Perçages M4 Bas (Fixation Bride Supérieure Nœud Central) -->
       <!-- 4 trous M4 Ø4.3mm à Z = 10 mm du bas (Y_svg = 320 px) -->
@@ -332,10 +332,10 @@
       <text x="15" y="116" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• Rayons de congés internes : <tspan fill="#facc15" font-weight="bold">R = 15,0 mm (8 angles)</tspan></text>
       <text x="15" y="134" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• Surface nette : <tspan fill="#4ade80" font-weight="bold">~10 066 mm²</tspan> (Masse nette : <tspan fill="#4ade80" font-weight="bold">~136 g / -34%</tspan>)</text>
       <text x="15" y="152" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• Inertie nette au cou : <tspan fill="#4ade80" font-weight="bold">I_net = 280 467 mm4</tspan> (Sigma_cou = 2.5 MPa, Sf = 96×)</text>
-      <text x="15" y="170" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• Découplage Z sommet : <tspan fill="#7dd3fc" font-weight="bold">Lumières oblongues 4.3 × 6.5 mm (±1.0 mm)</tspan></text>
+      <text x="15" y="170" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="8.5">• Liaison Cou sommet : <tspan fill="#4ade80" font-weight="bold">Trous ronds Ø 4,3 mm (Zéro oblong · Butée rigide)</tspan></text>
       
       <rect x="15" y="182" width="400" height="28" rx="4" fill="#4f46e5" opacity="0.2" stroke="#4f46e5" stroke-width="0.8"/>
-      <text x="215" y="200" fill="#a5b4fc" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">✨ Découplage Isostatique Z : Zéro traction parasite sur le nœud central d'épaule.</text>
+      <text x="215" y="200" fill="#a5b4fc" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">✨ Montage Isostatique &amp; Précis : Pré-assemblage sur établi et verrouillage au centre.</text>
     </g>
   </g>
 

@@ -67,7 +67,7 @@
       BLUEPRINT D'INGÉNIERIE : ÉQUERRES EN CORNIÈRE BRUTE BLOCKENSTOCK 30 × 30 × 3 mm (ALU 6060-T6)
     </text>
     <text x="645" y="42" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" text-anchor="middle">
-      Sourcing Blockenstock 4,80 € TTC (Barre 500 mm) · Cou L = 50 mm (Carré 30×30 mm) · Waist L = 80 mm (Entraxe 54 mm) · Cotes 12,5 / 17,5 mm
+      Sourcing Blockenstock 4,80 € TTC (Barre 500 mm) · Cou L = 50 mm (Rectangle 30×45 mm) · Waist L = 80 mm · Trous Ronds Ø 4,3 mm (Zéro Oblong)
     </text>
   </g>
 
@@ -81,32 +81,32 @@
       1. ÉQUERRES COU (30 × 30 × 3 × 50 mm)
     </text>
 
-    <!-- Vue Face Aile Verticale (Oblongs) -->
+    <!-- Vue Face Aile Verticale (Trous Ronds) -->
     <g transform="translate(25, 50)">
       <rect width="365" height="170" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="182" y="18" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">
-        AILE VERTICALE (30 mm) : OBLONGS &amp; AXE DE HAUTEUR Z
+      <text x="182" y="18" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">
+        AILE VERTICALE (30 mm) : 2 TROUS RONDS Ø 4,3 mm (ZÉRO OBLONG)
       </text>
 
       <!-- Équerre L = 50 mm, H = 30 mm (Échelle 4.2 px/mm) -> 210 x 126 px -->
       <g transform="translate(77, 30)">
         <rect x="0" y="0" width="210" height="126" fill="url(#aluEquerre)" stroke="#ffffff" stroke-width="1.2"/>
         
-        <!-- Axe médian horizontal des oblongs : Z = 12.5 mm du pli supérieur -> Y = 52.5 px -->
+        <!-- Axe médian horizontal des perçages : Z = 12.5 mm du pli supérieur -> Y = 52.5 px -->
         <line x1="-15" y1="52.5" x2="225" y2="52.5" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="6,3"/>
 
-        <!-- 2 Lumières oblongues 4.3 mm x 6.5 mm (18 x 27.3 px), entraxe 30 mm (126 px) -->
+        <!-- 2 Perçages ronds lisses Ø 4.3 mm (Échelle 4.2 px/mm -> r = 9 px), entraxe 30 mm (126 px) -->
         <!-- Centre gauche : X = 10 mm -> X_px = 42. Centre droit : X = 40 mm -> X_px = 168 -->
-        <g fill="#0f172a" stroke="#ef4444" stroke-width="1.8">
-          <rect x="33" y="38.8" width="18" height="27.3" rx="9"/>
-          <rect x="159" y="38.8" width="18" height="27.3" rx="9"/>
+        <g fill="#0f172a" stroke="#38bdf8" stroke-width="1.8">
+          <circle cx="42" cy="52.5" r="9"/>
+          <circle cx="168" cy="52.5" r="9"/>
         </g>
-        <line x1="42" y1="25" x2="42" y2="80" stroke="#ef4444" stroke-width="0.8" stroke-dasharray="4,2"/>
-        <line x1="168" y1="25" x2="168" y2="80" stroke="#ef4444" stroke-width="0.8" stroke-dasharray="4,2"/>
+        <line x1="42" y1="25" x2="42" y2="80" stroke="#38bdf8" stroke-width="0.8" stroke-dasharray="4,2"/>
+        <line x1="168" y1="25" x2="168" y2="80" stroke="#38bdf8" stroke-width="0.8" stroke-dasharray="4,2"/>
 
         <!-- Cotes Entraxe 30 mm -->
         <line x1="42" y1="-8" x2="168" y2="-8" stroke="#38bdf8" stroke-width="1.2" marker-start="url(#arrowRevCyan)" marker-end="url(#arrowCyan)"/>
-        <text x="105" y="-12" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">Entraxe X = 30,0 mm</text>
+        <text x="105" y="-12" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">Entraxe X = 30,0 mm (Butée Mécanique Z)</text>
 
         <!-- Cotes Longueur L = 50 mm -->
         <line x1="0" y1="135" x2="210" y2="135" stroke="#38bdf8" stroke-width="1.2" marker-start="url(#arrowRevCyan)" marker-end="url(#arrowCyan)"/>
@@ -128,38 +128,38 @@
     <g transform="translate(25, 230)">
       <rect width="365" height="235" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
       <text x="182" y="18" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">
-        COUPE PROFIL : CORNIÈRE 30 × 30 × 3 mm (COTES 12,5 / 17,5 mm)
+        COUPE PROFIL : CORNIÈRE 30 × 30 × 3 mm (COTES 20,0 / 10,0 mm)
       </text>
 
       <g transform="translate(60, 42)">
         <!-- Profil L : 30x30x3 mm (Échelle 4.0 px/mm -> 120 px, ép = 12 px) -->
         <path d="M 0 0 L 120 0 L 120 12 L 12 12 L 12 120 L 0 120 Z" fill="url(#aluEquerre)" stroke="#ffffff" stroke-width="1.5"/>
         
-        <!-- Perçage lisse vertical Ø 4,3 mm : Axe à 12.5 mm du pli extérieur (x = 50 px) -->
-        <rect x="44" y="0" width="12" height="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
-        <line x1="50" y1="-12" x2="50" y2="35" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4,2"/>
+        <!-- Perçage lisse vertical Ø 4,3 mm : Axe à 20.0 mm du pli extérieur (x = 80 px) -->
+        <rect x="74" y="0" width="12" height="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+        <line x1="80" y1="-12" x2="80" y2="35" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4,2"/>
 
         <!-- Écrou frein Nylstop M4 sous l'aile (Option C Zéro Taraudage) -->
-        <rect x="41" y="12" width="18" height="14" rx="2" fill="#1e293b" stroke="#facc15" stroke-width="1.2"/>
-        <rect x="44" y="12" width="12" height="3" fill="#38bdf8" opacity="0.9"/>
-        <text x="63" y="23" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700">Nylstop M4</text>
+        <rect x="71" y="12" width="18" height="14" rx="2" fill="#1e293b" stroke="#facc15" stroke-width="1.2"/>
+        <rect x="74" y="12" width="12" height="3" fill="#38bdf8" opacity="0.9"/>
+        <text x="93" y="23" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700">Nylstop M4</text>
 
         <!-- Chaîne de cotes sur l'aile horizontale 30 mm -->
-        <!-- 0 à 12.5 mm (Pli -> Axe trou) -->
-        <line x1="0" y1="-6" x2="50" y2="-6" stroke="#38bdf8" stroke-width="1.2" marker-start="url(#arrowRevCyan)" marker-end="url(#arrowCyan)"/>
-        <text x="25" y="-10" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" text-anchor="middle">12,5 mm</text>
+        <!-- 0 à 20.0 mm (Pli -> Axe trou) -->
+        <line x1="0" y1="-6" x2="80" y2="-6" stroke="#38bdf8" stroke-width="1.2" marker-start="url(#arrowRevCyan)" marker-end="url(#arrowCyan)"/>
+        <text x="40" y="-10" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" text-anchor="middle">20,0 mm</text>
 
-        <!-- 12.5 mm à 30 mm (Axe trou -> Chant extérieur libre) = 17.5 mm -->
-        <line x1="50" y1="-6" x2="120" y2="-6" stroke="#f59e0b" stroke-width="1.2" marker-start="url(#arrowRevAmber)" marker-end="url(#arrowAmber)"/>
-        <text x="85" y="-10" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" text-anchor="middle">17,5 mm (Largeur 30 mm)</text>
+        <!-- 20.0 mm à 30 mm (Axe trou -> Chant extérieur libre) = 10.0 mm -->
+        <line x1="80" y1="-6" x2="120" y2="-6" stroke="#f59e0b" stroke-width="1.2" marker-start="url(#arrowRevAmber)" marker-end="url(#arrowAmber)"/>
+        <text x="100" y="-10" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" text-anchor="middle">10,0 mm</text>
 
-        <!-- Matière résiduelle côté intérieur : 12.5 - 3.0 = 9.5 mm -->
-        <line x1="12" y1="22" x2="41" y2="22" stroke="#4ade80" stroke-width="1" marker-start="url(#arrowRevGreen)" marker-end="url(#arrowGreen)"/>
-        <text x="26" y="34" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">9,5 mm</text>
+        <!-- Matière résiduelle côté intérieur : 20.0 - 3.0 = 17.0 mm -->
+        <line x1="12" y1="22" x2="71" y2="22" stroke="#4ade80" stroke-width="1" marker-start="url(#arrowRevGreen)" marker-end="url(#arrowGreen)"/>
+        <text x="41" y="34" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">17,0 mm (Clé 7 mm libre)</text>
 
-        <!-- Oblong sur aile verticale -->
-        <rect x="0" y="44" width="12" height="18" rx="2" fill="#0f172a" stroke="#ef4444" stroke-width="1.2"/>
-        <line x1="-10" y1="50" x2="25" y2="50" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,2"/>
+        <!-- Trou rond sur aile verticale (Z = 12.5 mm -> y = 50 px) -->
+        <circle cx="6" cy="50" r="5" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+        <line x1="-10" y1="50" x2="25" y2="50" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,2"/>
 
         <!-- Cotes globales 30 x 30 mm -->
         <line x1="130" y1="0" x2="130" y2="120" stroke="#94a3b8" stroke-width="1" marker-start="url(#arrowCyan)" marker-end="url(#arrowCyan)"/>
@@ -170,10 +170,10 @@
 
         <!-- Spécifications Perçage Option C Zéro Taraudage -->
         <rect x="115" y="25" width="180" height="70" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
-        <text x="123" y="42" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700">DÉTAIL PERÇAGES OPTION C :</text>
+        <text x="123" y="42" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700">DÉTAIL PERÇAGES COU :</text>
         <text x="123" y="56" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Perçage lisse : <tspan fill="#facc15" font-weight="700">Ø 4,30 mm débouchant</tspan></text>
         <text x="123" y="69" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Visserie : <tspan fill="#facc15" font-weight="700">FHC M4 × 16 + Nylstop M4</tspan></text>
-        <text x="123" y="82" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Taraudage alu : <tspan fill="#4ade80" font-weight="700">ZÉRO (100% écrou acier)</tspan></text>
+        <text x="123" y="82" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Aile verticale : <tspan fill="#4ade80" font-weight="700">Trous ronds Ø 4,30 mm</tspan></text>
       </g>
     </g>
 
@@ -187,9 +187,9 @@
       <text x="15" y="42" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Profil brut : <tspan fill="#f8fafc" font-weight="700">Cornière Alu 6060-T6 Blockenstock</tspan></text>
       <text x="15" y="58" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Section : <tspan fill="#38bdf8" font-weight="700">30 × 30 × 3,0 mm</tspan> · Longueur <tspan fill="#38bdf8" font-weight="700">50,0 mm</tspan></text>
       <text x="15" y="74" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Masse unitaire nette : <tspan fill="#4ade80" font-weight="700">22,8 g / pièce</tspan> (soit <tspan fill="#4ade80" font-weight="700">45,6 g la paire</tspan>)</text>
-      <text x="15" y="90" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Aile Horizontale : <tspan fill="#38bdf8" font-weight="700">2× Perçages lisses Ø 4,30 mm (X = 10 et 40 mm · axe Y = 12,5 mm)</tspan></text>
-      <text x="15" y="106" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Aile Verticale : <tspan fill="#ef4444" font-weight="700">2× Oblongs 4,3 × 6,5 mm (Z = ±1,1 mm · entraxe 30 mm)</tspan></text>
-      <text x="15" y="122" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Raideur &amp; Résistance : <tspan fill="#4ade80" font-weight="700">E = 69 GPa (identique 7075) · Sf = 20,7</tspan></text>
+      <text x="15" y="90" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Aile Horizontale : <tspan fill="#38bdf8" font-weight="700">2× Perçages lisses Ø 4,30 mm (axe Y = 20,0 mm du pli)</tspan></text>
+      <text x="15" y="106" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Aile Verticale : <tspan fill="#4ade80" font-weight="700">2× Trous ronds Ø 4,30 mm (Z = 12,5 mm · ZÉRO OBLONG)</tspan></text>
+      <text x="15" y="122" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="8.5">• Raideur &amp; Résistance : <tspan fill="#4ade80" font-weight="700">E = 69 GPa (identique 7075) · Sf = 34 face au RS-05</tspan></text>
 
       <rect x="12" y="135" width="341" height="138" rx="4" fill="#1e293b" stroke="#0284c7" stroke-width="1"/>
       <text x="20" y="152" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700">RÉSUMÉ QUINCAILLERIE HAUTE (COU) :</text>
@@ -197,7 +197,7 @@
       <text x="20" y="183" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="7.8">  Têtes coniques noyées à fleur 0,0 mm sur face supérieure</text>
       <text x="20" y="198" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• 2× Vis CHC M4 × 20 mm Traversantes (Pincement Sagittal)</text>
       <text x="20" y="212" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="7.8">  Traversent Équerre G (3mm) + Colonne (5mm) + Équerre D (3mm)</text>
-      <text x="20" y="227" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• 4× Rondelles Larges ISO 7093 M4 (Ø ext. 12 mm)</text>
+      <text x="20" y="227" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• 4× Rondelles standard DIN 125A M4 (Ø ext. 9 mm)</text>
       <text x="20" y="242" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700">• 2× Écrous Nylstop M4 Inox 18-8 (McMaster 93625A150)</text>
       <text x="20" y="258" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700">• Encombrement transversal = 65,0 mm (Dégagement +14,5 mm de chaque côté)</text>
     </g>
@@ -329,24 +329,24 @@
   </g>
 
   <!-- ========================================================================================== -->
-  <!-- PANNEAU 3 (DROITE) : VUE DE DESSUS DE LA PLAQUE DE COU (LE CARRÉ DE VISSAGE 30 × 30 mm)   -->
+  <!-- PANNEAU 3 (DROITE) : VUE DE DESSUS DE LA PLAQUE DE COU (RECTANGLE DE VISSAGE 30 × 45 mm)   -->
   <!-- ========================================================================================== -->
   <g transform="translate(900, 85)">
     <rect width="420" height="785" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.6"/>
     <rect width="420" height="38" rx="8" fill="#b45309" opacity="0.3"/>
     <text x="210" y="24" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" text-anchor="middle">
-      3. PLAN DE PERÇAGE PLAQUE DE COU (30 × 30 mm)
+      3. PLAN DE PERÇAGE PLAQUE DE COU (30 × 45 mm)
     </text>
 
     <!-- Vue de Dessus de la Plaque de Cou avec les 4 vis FHC M4 -->
     <g transform="translate(20, 50)">
       <rect width="380" height="280" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
       <text x="190" y="18" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" text-anchor="middle">
-        VUE DE DESSUS : LES 4 FRAISURES FHC M4 (30 × 30 mm)
+        VUE DE DESSUS : LES 4 FRAISURES FHC M4 (RECTANGLE 30 × 45 mm)
       </text>
 
       <g transform="translate(49, 38)">
-        <!-- Contour Plaque de Cou -->
+        <!-- Contour Plaque de Cou (94 mm de large -> H = 170 px) -->
         <rect x="0" y="0" width="282" height="170" rx="10" fill="url(#aluPlaqueCou)" opacity="0.25" stroke="#38bdf8" stroke-width="1.5"/>
         
         <!-- Axe Sagittal Médian X -->
@@ -360,45 +360,49 @@
         <!-- Colonne Sagittale 5 mm (entre y = 77.5 et y = 92.5) -->
         <rect x="25" y="77.5" width="232" height="15" fill="url(#colonneGrad)" stroke="#818cf8" stroke-width="0.8" opacity="0.6"/>
 
-        <!-- Équerre Gauche 30 mm (sous la plaque, entre y = 17.5 et y = 77.5 -> largeur 60 px) -->
-        <rect x="66" y="17.5" width="150" height="60" fill="#0284c7" opacity="0.2" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,2"/>
-        <text x="75" y="34" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700">Équerre G (30 mm)</text>
+        <!-- Équerre Gauche 30 mm (sous la plaque, entre y = 10.0 et y = 77.5 -> largeur 30 mm) -->
+        <rect x="66" y="10.0" width="150" height="67.5" fill="#0284c7" opacity="0.2" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,2"/>
+        <text x="75" y="26" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700">Équerre G (30 mm)</text>
 
-        <!-- Équerre Droite 30 mm (sous la plaque, entre y = 92.5 et y = 152.5 -> largeur 60 px) -->
-        <rect x="66" y="92.5" width="150" height="60" fill="#0284c7" opacity="0.2" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,2"/>
-        <text x="75" y="145" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700">Équerre D (30 mm)</text>
+        <!-- Équerre Droite 30 mm (sous la plaque, entre y = 92.5 et y = 160.0 -> largeur 30 mm) -->
+        <rect x="66" y="92.5" width="150" height="67.5" fill="#0284c7" opacity="0.2" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,2"/>
+        <text x="75" y="152" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700">Équerre D (30 mm)</text>
 
-        <!-- Carré de liaison 30x30 mm en pointillés dorés -->
-        <rect x="96" y="40" width="90" height="90" fill="none" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <!-- Rectangle de liaison 30x45 mm en pointillés dorés -->
+        <rect x="96" y="27" width="90" height="116" fill="none" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="4,3"/>
 
-        <!-- Les 4 Vis Fraisées FHC M4 -->
+        <!-- Couloir central libre pour moteur RS-05 -->
+        <rect x="98" y="44" width="86" height="82" rx="4" fill="#10b981" opacity="0.12" stroke="#10b981" stroke-width="0.8" stroke-dasharray="2,2"/>
+        <text x="141" y="88" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">Couloir Libre 45 mm (RS-05)</text>
+
+        <!-- Les 4 Vis Fraisées FHC M4 (à Y = ±22.5 mm -> cy = 27 et 143) -->
         <g fill="url(#visGold)" stroke="#d97706" stroke-width="1">
-          <circle cx="96" cy="40" r="10"/>
-          <circle cx="96" cy="40" r="4.5" fill="#0f172a"/>
+          <circle cx="96" cy="27" r="9"/>
+          <circle cx="96" cy="27" r="4" fill="#0f172a"/>
           
-          <circle cx="186" cy="40" r="10"/>
-          <circle cx="186" cy="40" r="4.5" fill="#0f172a"/>
+          <circle cx="186" cy="27" r="9"/>
+          <circle cx="186" cy="27" r="4" fill="#0f172a"/>
 
-          <circle cx="96" cy="130" r="10"/>
-          <circle cx="96" cy="130" r="4.5" fill="#0f172a"/>
+          <circle cx="96" cy="143" r="9"/>
+          <circle cx="96" cy="143" r="4" fill="#0f172a"/>
 
-          <circle cx="186" cy="130" r="10"/>
-          <circle cx="186" cy="130" r="4.5" fill="#0f172a"/>
+          <circle cx="186" cy="143" r="9"/>
+          <circle cx="186" cy="143" r="4" fill="#0f172a"/>
         </g>
 
-        <!-- Cotes Carré 30 x 30 mm -->
-        <line x1="96" y1="18" x2="186" y2="18" stroke="#f59e0b" stroke-width="1.2" marker-start="url(#arrowRevAmber)" marker-end="url(#arrowAmber)"/>
-        <text x="141" y="12" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" text-anchor="middle">DX = 30,0 mm</text>
+        <!-- Cotes Rectangle 30 x 45 mm -->
+        <line x1="96" y1="12" x2="186" y2="12" stroke="#f59e0b" stroke-width="1.2" marker-start="url(#arrowRevAmber)" marker-end="url(#arrowAmber)"/>
+        <text x="141" y="7" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" text-anchor="middle">DX = 30,0 mm</text>
 
-        <line x1="202" y1="40" x2="202" y2="130" stroke="#f59e0b" stroke-width="1.2" marker-start="url(#arrowRevAmber)" marker-end="url(#arrowAmber)"/>
-        <text x="212" y="88" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700">DY = 30,0 mm</text>
+        <line x1="202" y1="27" x2="202" y2="143" stroke="#f59e0b" stroke-width="1.2" marker-start="url(#arrowRevAmber)" marker-end="url(#arrowAmber)"/>
+        <text x="212" y="88" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700">DY = 45,0 mm</text>
 
-        <!-- Cotes par rapport au centre Y=0 (±15 mm) -->
-        <line x1="45" y1="40" x2="45" y2="85" stroke="#38bdf8" stroke-width="0.8" marker-start="url(#arrowRevCyan)" marker-end="url(#arrowCyan)"/>
-        <text x="38" y="65" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="7.5" text-anchor="end">15 mm</text>
+        <!-- Cotes par rapport au centre Y=0 (±22.5 mm) -->
+        <line x1="45" y1="27" x2="45" y2="85" stroke="#38bdf8" stroke-width="0.8" marker-start="url(#arrowRevCyan)" marker-end="url(#arrowCyan)"/>
+        <text x="38" y="58" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="7.5" text-anchor="end">22,5 mm</text>
 
-        <line x1="45" y1="85" x2="45" y2="130" stroke="#38bdf8" stroke-width="0.8" marker-start="url(#arrowRevCyan)" marker-end="url(#arrowCyan)"/>
-        <text x="38" y="110" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="7.5" text-anchor="end">15 mm</text>
+        <line x1="45" y1="85" x2="45" y2="143" stroke="#38bdf8" stroke-width="0.8" marker-start="url(#arrowRevCyan)" marker-end="url(#arrowCyan)"/>
+        <text x="38" y="116" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="7.5" text-anchor="end">22,5 mm</text>
       </g>
     </g>
 
@@ -434,8 +438,8 @@
       <g transform="translate(15, 272)">
         <rect x="0" y="0" width="350" height="85" rx="4" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
         <text x="12" y="18" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700">⭐ Résumé des Coordonnées Robot :</text>
-        <text x="12" y="34" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 4× FHC M4 : <tspan fill="#facc15" font-weight="700">Carré 30 × 30 mm</tspan> (X = ±15 mm, Y = ±15 mm)</text>
-        <text x="12" y="49" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 2× Oblongs : <tspan fill="#ef4444" font-weight="700">X = ±15 mm , Z = +135 mm</tspan></text>
+        <text x="12" y="34" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 4× FHC M4 : <tspan fill="#facc15" font-weight="700">Rectangle 30 × 45 mm</tspan> (X = ±15 mm, Y = ±22,5 mm)</text>
+        <text x="12" y="49" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 2× Vis CHC M4 : <tspan fill="#4ade80" font-weight="700">Trous ronds Ø 4,3 mm</tspan> (X = ±15 mm, Z = +135 mm)</text>
         <text x="12" y="64" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Waist 4× Vis M4 : <tspan fill="#4ade80" font-weight="700">Y = ±15 mm , X = -27, -9, +9, +27 mm</tspan></text>
       </g>
     </g>
