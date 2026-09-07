@@ -28,6 +28,11 @@
       <stop offset="50%" stop-color="#eab308"/>
       <stop offset="100%" stop-color="#ca8a04"/>
     </linearGradient>
+    <linearGradient id="visCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a5f3fc"/>
+      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
     <linearGradient id="nylstopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#94a3b8"/>
       <stop offset="60%" stop-color="#64748b"/>
@@ -376,11 +381,35 @@
         <rect x="96" y="27" width="90" height="116" fill="none" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="4,3"/>
 
         <!-- Couloir central libre pour moteur RS-05 -->
-        <rect x="98" y="44" width="86" height="82" rx="4" fill="#10b981" opacity="0.12" stroke="#10b981" stroke-width="0.8" stroke-dasharray="2,2"/>
-        <text x="141" y="88" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">Couloir Libre 45 mm (RS-05)</text>
-        <text x="141" y="22" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="7.2" font-weight="700" text-anchor="middle">4× Fraisures Coniques 90° Ø 8,4 mm (à fleur 0,0 mm)</text>
+        <rect x="98" y="44" width="86" height="82" rx="4" fill="#10b981" opacity="0.10" stroke="#10b981" stroke-width="0.8" stroke-dasharray="2,2"/>
+        <text x="141" y="60" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">Couloir Libre 45 mm (RS-05)</text>
+        <text x="141" y="22" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="7.2" font-weight="700" text-anchor="middle">4× Fraisures Coniques 90° Ø 8,4 mm FHC M4 (Dessus à fleur 0,0 mm)</text>
 
-        <!-- Les 4 Vis Fraisées FHC M4 (à Y = ±22.5 mm -> cy = 27 et 143) -->
+        <!-- Cercle Primitif PCD Ø 38,50 mm Moteur RS-05 (R = 57,75 px à l'échelle) -->
+        <circle cx="141" cy="85" r="41" fill="none" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3,2" opacity="0.8"/>
+        <text x="141" y="88" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="6.8" font-weight="700" text-anchor="middle">PCD Ø 38,5 mm (RS-05)</text>
+        <text x="141" y="108" fill="#a5f3fc" font-family="'Segoe UI', sans-serif" font-size="6.5" text-anchor="middle">4× FHC M3 × 8 (Fraisure 90° Ø 6,5 dessous)</text>
+
+        <!-- Les 4 Vis Fraisées FHC M3 du Moteur RS-05 à 45° (par le DESSOUS, à fleur 0,0 mm) -->
+        <g fill="url(#visCyan)" stroke="#0284c7" stroke-width="0.8">
+          <!-- Haut-Gauche : (141 - 29, 85 - 29) = (112, 56) -->
+          <circle cx="112" cy="56" r="6.5" stroke-dasharray="2,1" fill-opacity="0.85"/>
+          <circle cx="112" cy="56" r="3.2" fill="#0f172a"/>
+
+          <!-- Haut-Droite : (141 + 29, 85 - 29) = (170, 56) -->
+          <circle cx="170" cy="56" r="6.5" stroke-dasharray="2,1" fill-opacity="0.85"/>
+          <circle cx="170" cy="56" r="3.2" fill="#0f172a"/>
+
+          <!-- Bas-Gauche : (141 - 29, 85 + 29) = (112, 114) -->
+          <circle cx="112" cy="114" r="6.5" stroke-dasharray="2,1" fill-opacity="0.85"/>
+          <circle cx="112" cy="114" r="3.2" fill="#0f172a"/>
+
+          <!-- Bas-Droite : (141 + 29, 85 + 29) = (170, 114) -->
+          <circle cx="170" cy="114" r="6.5" stroke-dasharray="2,1" fill-opacity="0.85"/>
+          <circle cx="170" cy="114" r="3.2" fill="#0f172a"/>
+        </g>
+
+        <!-- Les 4 Vis Fraisées FHC M4 pour Équerres (à Y = ±22.5 mm -> cy = 27 et 143) -->
         <g fill="url(#visGold)" stroke="#d97706" stroke-width="1">
           <circle cx="96" cy="27" r="9"/>
           <circle cx="96" cy="27" r="4" fill="#0f172a"/>
@@ -441,11 +470,13 @@
 
       <!-- Cartouche d'aide Fusion 360 -->
       <g transform="translate(15, 272)">
-        <rect x="0" y="0" width="350" height="85" rx="4" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
-        <text x="12" y="18" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700">⭐ Résumé des Coordonnées Robot :</text>
-        <text x="12" y="34" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 4× FHC M4 : <tspan fill="#facc15" font-weight="700">Rectangle 30 × 45 mm</tspan> (X = ±15 mm, Y = ±22,5 mm)</text>
-        <text x="12" y="49" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 2× Vis CHC M4 : <tspan fill="#4ade80" font-weight="700">Trous ronds Ø 4,3 mm</tspan> (X = ±15 mm, Z = +135 mm)</text>
-        <text x="12" y="64" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Waist 4× Vis M4 : <tspan fill="#4ade80" font-weight="700">Y = ±15 mm , X = -27, -9, +9, +27 mm</tspan></text>
+        <rect x="0" y="0" width="350" height="100" rx="4" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+        <text x="12" y="17" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700">⭐ Résumé des Coordonnées Robot :</text>
+        <text x="12" y="32" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 4× FHC M4 : <tspan fill="#facc15" font-weight="700">Rectangle 30 × 45 mm</tspan> (X = ±15 mm, Y = ±22,5 mm, dessus)</text>
+        <text x="12" y="46" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 4× FHC M3 (RS-05) : <tspan fill="#38bdf8" font-weight="700">PCD Ø 38,5 mm à 45°</tspan> (X = ±13,61 mm, Y = ±13,61 mm, dessous)</text>
+        <text x="12" y="60" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 2× Vis CHC M4 : <tspan fill="#4ade80" font-weight="700">Trous ronds Ø 4,3 mm</tspan> (X = ±15 mm, Z = +135 mm)</text>
+        <text x="12" y="74" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Waist 4× Vis M4 : <tspan fill="#4ade80" font-weight="700">Y = ±15 mm , X = -27, -9, +9, +27 mm</tspan></text>
+        <text x="12" y="89" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="7.2">FHC M3 : pénétration moteur 3,32 mm (garde 2,68 mm) · Têtes à fleur 0,0 mm</text>
       </g>
     </g>
   </g>

@@ -2,6 +2,33 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-09-07 — Intégration Directe Moteur Cou RS-05 sur Plaque de Cou (Vis FHC M3×8 mm Dessous à Fleur 0,0 mm, Sécurisation Bobinages & Gamme CNC C500)
+
+### 🎯 Objectif de la session
+1. **Fixation Directe du Moteur Cou RobStride RS-05 sur la Plaque Métallique (Épaisseur réelle 4,68 mm)** : Analyse de l'assemblage CAO pour monter l'actionneur de lacet du cou (RS-05) directement sur la plaque de cou sans pièce intermédiaire, via 4 vis à tête fraisée conique 90° FHC insérées par le dessous.
+2. **Dimensionnement Rigoureux & Sécurisation Absolue des Bobinages Stator RS-05** :
+   - Consultation du manuel constructeur officiel RobStride RS-05 (page 10) : 4 taraudages borgnes M3 sur PCD Ø 38,50 mm, profondeur taraudée utile de 6,0 à 8,0 mm, alerte formelle interdisant tout dépassement de vis sous peine d'écraser les bobinages de cuivre ou le PCB des encodeurs magnétiques.
+   - Validation de la vis **FHC M3 × 8 mm** (ISO 10642 / DIN 7991) : la longueur nominale de 8,00 mm inclut la tête fraisée conique. Traversant la plaque de 4,68 mm, la pénétration axiale effective dans le carter moteur est de `8,00 - 4,68 = 3,32 mm` (~6,6 filets en prise, soit 1,11 × d, parfait dans l'aluminium).
+   - Marge de sécurité de fond de taraudage : `6,00 - 3,32 = 2,68 mm de vide d'air franc` résiduel (et jusqu'à 4,68 mm par rapport au fond foré). Zéro risque de talonnage ou d'interférence avec les bobinages.
+3. **Paramétrage CAO Fusion 360 & Gamme d'Usinage NestWorks C500** :
+   - Fonction Perçage `Hole` depuis la face inférieure de la plaque : perçage lisse traversant Ø 3,20 mm (tolérance fine ISO 273), fraisure conique 90° de Ø 6,50 mm (profondeur de cône 1,65 mm), conservant 3,03 mm de métal plein (65% de l'épaisseur).
+   - Micro-chanfrein d'ébavurage de 0,2 mm × 45° sur la face supérieure pour un appui plan 100% franc et coplanaire à 0,0 mm contre le carter RS-05.
+   - Couple de serrage calibré à 1,2 ~ 1,4 N.m (clé Allen 2,0 mm) avec 1 micro-gouttelette de Loctite 243.
+4. **Mise à Jour Complète des Références de Quincaillerie, SVG & Dossier Technique** :
+   - Références normalisées Bricovis / Vis-Express (FHC M3 × 8 mm classe 10.9 ou Inox A2) et McMaster-Carr (91294A112 / 92125A112).
+   - Intégration du PCD Ø 38,50 mm et des 4 vis FHC M3 à 45° dans le Panneau 3 du blueprint vectoriel SVG `details_equerres_liaisons_extremites_cou_waist.svg`.
+   - Mise à jour du bilan de masse consolidé (+2,8 g pour les 4 vis M3) à ~1 754 g.
+
+### 📝 Réalisations & Évolutions
+1. **Dossier Technique Torse V2 Actualisé** :
+   - `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` : Section 7.A (sous-section détaillée 1 : données interface RS-05, calcul de pénétration FHC M3×8 mm, paramètres de fraisage CAO), Section 7.C.3 (coordonnées X = ±13,61 mm, Y = ±13,61 mm, Z = +142,67 mm), Section 7.C.4 (cartographie chanfreins & fraisures), Section 9.A (gamme C500 plaque de cou), Section 9.C.2 (tableau commande rapide France), Section 9.C.3 (tableau CAO McMaster), Section 9.C.5 (couples dynamométriques), Section 10.A (bilan de masse consolidé).
+2. **Plan Vectoriel SVG Synchronisé** :
+   - `details_equerres_liaisons_extremites_cou_waist.svg` : Panneau 3 mis à jour avec le cercle d'implantation PCD Ø 38,50 mm, les 4 vis FHC M3×8 mm représentées avec fraisure 90° par le dessous, les callouts techniques et le cartouche résumé complété.
+3. **Planification & Suivi** :
+   - `todo_court_terme.md` : Jalon mécanique mis à jour avec la validation de la fixation du moteur RS-05.
+
+---
+
 ## 📅 2026-09-06 — Optimisation Géométrique Équerres Cou V2.6 (Rectangle 30×45 mm, Zéro Oblong, Protocole Inversé Naturel & Blueprints SVG)
 
 ### 🎯 Objectif de la session
