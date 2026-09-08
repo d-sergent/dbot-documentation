@@ -2,6 +2,25 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-09-08 — Simplification Liaison Plaque Cou ➔ Équerres (Passage en Vis CHC M4×16 mm, Zéro Fraisure & Standardisation Clé Allen 3 mm)
+
+### 🎯 Objectif de la session
+1. **Validation Visuelle CAO du Dégagement Moteur Cou RS-05** : L'inspection détaillée du modèle d'assemblage 3D confirme que les 4 perçages de fixation des équerres hautes sur la plaque de cou (`rectangle 30 × 45 mm`, `Y = ±22,50 mm`) sont largement distants de l'enveloppe extérieure du moteur RobStride RS-05. Le carter moteur ne chevauche aucunement ces perçages.
+2. **Suppression de la Fraisure & Passage aux Vis CHC M4 × 16 mm** :
+   - Abandon des vis à tête fraisée conique FHC M4 au profit de vis standard à tête cylindrique **CHC M4 × 16 mm** (ISO 4762 / DIN 912) insérées par le dessus avec rondelles plates DIN 125A M4.
+   - **Suppression intégrale de la fraisure 90° Ø 8,4 mm** sur la face supérieure de la plaque de cou : les 4 trous deviennent de simples perçages lisses traversants **Ø 4,30 mm** (ou Ø 4,50 mm) avec simple chanfrein d'ébavurage `0,3 mm × 45°` des deux côtés.
+   - **Bénéfice usinage NestWorks C500** : Suppression d'une opération d'usinage conique sur la face supérieure, perçage direct 1 passe fraise/foret carbure.
+   - **Bénéfice atelier & outillage** : Unification complète des têtes de vis de structure M4 du torse sur l'empreinte hexagonale **Allen 3,0 mm** (éliminant la clé Allen 2,5 mm requise auparavant par les FHC M4). Serrage au couple nominal franc de **3,0 N.m**.
+3. **Mise à Jour de la Documentation & des Schémas SVG** :
+   - Mise à jour du dossier technique `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` (Sections 7.C.1, 7.C.3, 7.C.4, 7.D, 9.A.7, 9.C.2, 9.C.3, 9.C.5, 10.A).
+   - Synchronisation des blueprints SVG `details_equerres_liaisons_extremites_cou_waist.svg` et `solution_liaison_embase_cou.svg`.
+
+### 📝 Réalisations & Évolutions
+1. **Dossier Technique Actualisé** : Visserie équerres cou passée en CHC M4 × 16 mm (McMaster `91290A158` / `92290A145`), zéro fraisure sur plaque, couple 3,0 N.m à la clé Allen 3 mm.
+2. **Schémas SVG Validés** : Panneaux actualisés et syntaxe XML validée.
+
+---
+
 ## 📅 2026-09-07 — Intégration Directe Moteur Cou RS-05 sur Plaque de Cou (Vis FHC M3×8 mm Dessous à Fleur 0,0 mm, Sécurisation Bobinages & Gamme CNC C500)
 
 ### 🎯 Objectif de la session

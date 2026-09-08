@@ -177,7 +177,7 @@
         <rect x="115" y="15" width="180" height="88" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
         <text x="123" y="30" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700">DÉTAIL PERÇAGES &amp; CHANFREINS :</text>
         <text x="123" y="44" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Perçage lisse : <tspan fill="#facc15" font-weight="700">Ø 4,30 mm débouchant</tspan></text>
-        <text x="123" y="57" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Visserie : <tspan fill="#facc15" font-weight="700">FHC M4 × 16 + Nylstop M4</tspan></text>
+        <text x="123" y="57" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Visserie : <tspan fill="#facc15" font-weight="700">CHC M4 × 16 + Nylstop M4</tspan></text>
         <text x="123" y="70" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Aile verticale : <tspan fill="#4ade80" font-weight="700">Trous ronds Ø 4,30 mm</tspan></text>
         <text x="123" y="83" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• <tspan fill="#38bdf8" font-weight="700">Chanfreins 0,3 mm × 45° (2 faces)</tspan></text>
         <text x="123" y="96" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="7.5">• Chants sciés : <tspan fill="#f8fafc">Cassage 0,5 mm × 45°</tspan></text>
@@ -200,8 +200,8 @@
 
       <rect x="12" y="135" width="341" height="138" rx="4" fill="#1e293b" stroke="#0284c7" stroke-width="1"/>
       <text x="20" y="152" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700">RÉSUMÉ QUINCAILLERIE HAUTE (COU) :</text>
-      <text x="20" y="169" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• 4× Vis FHC M4 × 16 mm + 4× Écrous Nylstop M4 (Option C)</text>
-      <text x="20" y="183" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="7.8">  Têtes coniques noyées à fleur 0,0 mm sur face supérieure</text>
+      <text x="20" y="169" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• 4× Vis CHC M4 × 16 mm + 4× Écrous Nylstop M4 (Option C)</text>
+      <text x="20" y="183" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="7.8">  Têtes cylindriques Ø 7 mm hors carter RS-05 (ZÉRO fraisure)</text>
       <text x="20" y="198" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• 2× Vis CHC M4 × 20 mm Traversantes (Pincement Sagittal)</text>
       <text x="20" y="212" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="7.8">  Traversent Équerre G (3mm) + Colonne (5mm) + Équerre D (3mm)</text>
       <text x="20" y="227" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• 4× Rondelles standard DIN 125A M4 (Ø ext. 9 mm)</text>
@@ -351,7 +351,7 @@
     <g transform="translate(20, 50)">
       <rect width="380" height="280" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
       <text x="190" y="18" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" text-anchor="middle">
-        VUE DE DESSUS : LES 4 FRAISURES FHC M4 (RECTANGLE 30 × 45 mm)
+        VUE DE DESSUS : LES 4 VIS CHC M4 (RECTANGLE 30 × 45 mm — ZÉRO FRAISURE)
       </text>
 
       <g transform="translate(49, 38)">
@@ -383,7 +383,7 @@
         <!-- Couloir central libre pour moteur RS-05 -->
         <rect x="98" y="44" width="86" height="82" rx="4" fill="#10b981" opacity="0.10" stroke="#10b981" stroke-width="0.8" stroke-dasharray="2,2"/>
         <text x="141" y="60" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">Couloir Libre 45 mm (RS-05)</text>
-        <text x="141" y="22" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="7.2" font-weight="700" text-anchor="middle">4× Fraisures Coniques 90° Ø 8,4 mm FHC M4 (Dessus à fleur 0,0 mm)</text>
+        <text x="141" y="22" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="7.2" font-weight="700" text-anchor="middle">4× Vis CHC M4 × 16 mm par le dessus (Perçages lisses Ø 4,3 mm — ZÉRO Fraisure)</text>
 
         <!-- Cercle Primitif PCD Ø 38,50 mm Moteur RS-05 (R = 57,75 px à l'échelle) -->
         <circle cx="141" cy="85" r="41" fill="none" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3,2" opacity="0.8"/>
@@ -409,7 +409,7 @@
           <circle cx="170" cy="114" r="3.2" fill="#0f172a"/>
         </g>
 
-        <!-- Les 4 Vis Fraisées FHC M4 pour Équerres (à Y = ±22.5 mm -> cy = 27 et 143) -->
+        <!-- Les 4 Vis Cylindriques CHC M4 pour Équerres (à Y = ±22.5 mm -> cy = 27 et 143) -->
         <g fill="url(#visGold)" stroke="#d97706" stroke-width="1">
           <circle cx="96" cy="27" r="9"/>
           <circle cx="96" cy="27" r="4" fill="#0f172a"/>
@@ -472,7 +472,7 @@
       <g transform="translate(15, 272)">
         <rect x="0" y="0" width="350" height="100" rx="4" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
         <text x="12" y="17" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700">⭐ Résumé des Coordonnées Robot :</text>
-        <text x="12" y="32" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 4× FHC M4 : <tspan fill="#facc15" font-weight="700">Rectangle 30 × 45 mm</tspan> (X = ±15 mm, Y = ±22,5 mm, dessus)</text>
+        <text x="12" y="32" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 4× CHC M4 : <tspan fill="#facc15" font-weight="700">Rectangle 30 × 45 mm</tspan> (X = ±15 mm, Y = ±22,5 mm, dessus)</text>
         <text x="12" y="46" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 4× FHC M3 (RS-05) : <tspan fill="#38bdf8" font-weight="700">PCD Ø 38,5 mm à 45°</tspan> (X = ±13,61 mm, Y = ±13,61 mm, dessous)</text>
         <text x="12" y="60" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Cou 2× Vis CHC M4 : <tspan fill="#4ade80" font-weight="700">Trous ronds Ø 4,3 mm</tspan> (X = ±15 mm, Z = +135 mm)</text>
         <text x="12" y="74" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="8">• Waist 4× Vis M4 : <tspan fill="#4ade80" font-weight="700">Y = ±15 mm , X = -27, -9, +9, +27 mm</tspan></text>

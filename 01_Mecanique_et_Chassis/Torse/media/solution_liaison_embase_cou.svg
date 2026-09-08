@@ -74,8 +74,8 @@
     <circle cx="229" cy="48" r="5" fill="#38bdf8"/>
     <rect x="221" y="89" width="16" height="12" rx="2" fill="#1e293b" stroke="#facc15" stroke-width="1"/>
 
-    <text x="182" y="32" fill="#facc15" font-family="system-ui,sans-serif" font-size="7.2" font-weight="bold" text-anchor="middle">Fraisures Coniques 90° Ø 8,4 mm à fleur 0,0 mm</text>
-    <text x="182" y="47" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">FHC M4 × 16 mm + Nylstop M4 (Rectangle 30×45 mm)</text>
+    <text x="182" y="32" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.2" font-weight="bold" text-anchor="middle">Perçages lisses Ø 4,3 mm (ZÉRO Fraisure sur plaque)</text>
+    <text x="182" y="47" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">4× CHC M4 × 16 mm + Nylstop M4 (Rectangle 30×45 mm)</text>
 
     <!-- Vers Nœud Central en Bas -->
     <rect x="110" y="278" width="144" height="26" rx="3" fill="#334155" stroke="#64748b" stroke-width="1"/>
@@ -126,7 +126,7 @@
     <text x="36" y="177" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">2</text>
     <text x="60" y="168" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9.5" font-weight="bold">Pose de la Plaque de Cou &amp; Moteur RS-05</text>
     <text x="60" y="183" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">Boulonner la Plaque de Cou 5 mm sur les cornières (Option C).</text>
-    <text x="60" y="197" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">4× Vis FHC M4 × 16 mm + écrous Nylstop serrés à 2,8-3,0 N.m.</text>
+    <text x="60" y="197" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">4× Vis CHC M4 × 16 mm + écrous Nylstop serrés à 3,0 N.m.</text>
     <text x="60" y="211" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8">Couloir libre 45 mm (Y=±22,5 mm) dégageant le moteur RS-05.</text>
 
     <!-- Étape 3 -->
@@ -239,7 +239,7 @@
 
     <rect x="22" y="452" width="338" height="64" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
     <text x="30" y="468" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">3. Visserie Standardisée Recommandée (Option C) :</text>
-    <text x="30" y="482" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5">• Cou Plaque : 4× Vis FHC M4 × 16 mm + Écrous Nylstop M4 dessous</text>
+    <text x="30" y="482" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5">• Cou Plaque : 4× Vis CHC M4 × 16 mm + Écrous Nylstop M4 dessous (sans fraisure)</text>
     <text x="30" y="494" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5">• Colonne Flancs : 6× Vis CHC M4 × 20 mm + Rondelles standard DIN 125A</text>
     <text x="30" y="506" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold">• Écrous Frein : 10× ISO 7040 M4 autofreinés (Nylstop classe 8/10)</text>
 

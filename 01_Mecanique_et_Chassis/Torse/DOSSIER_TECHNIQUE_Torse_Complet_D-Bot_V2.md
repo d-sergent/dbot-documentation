@@ -627,7 +627,7 @@ Dans Fusion 360, sur une esquisse tracée sur la **face inférieure (dessous)** 
 
 ![Design Détaillé des Équerres Hautes et Basses et Montage en Espace Restreint](./media/details_equerres_liaisons_extremites_cou_waist.svg)
 
-*Blueprint d'ingénierie vectoriel des liaisons d'extrémités. Panel 1 : Équerres Hautes du Cou en cornière marchande Blockenstock 30 × 30 × 3,0 mm (L = 50,0 mm, Alu 6060-T6) avec perçages lisses ronds Ø 4,30 mm (Zéro oblong, entraxe 30 mm, butée mécanique Z) et perçages horizontaux à 20,0 mm du pli (Rectangle 30 × 45 mm, fixation traversante acier/acier par vis FHC M4 × 16 mm + écrous Nylstop M4 sous l'équerre). Panel 2 : Équerres Basses Waist Yaw (30 × 30 × 3,0 mm, L = 80,0 mm) avec 4 perçages Ø 4,3 mm (entraxes 3 × 18 = 54 mm) pour encastrement rigide 36 N.m aligné sur le carter RS-06. Panel 3 : Plan de perçage de la plaque de cou (rectangle 30 × 45 mm dégageant un couloir libre de 45 mm pour le moteur RS-05), schéma de débit sur barre 500 mm et protocole de montage.*
+*Blueprint d'ingénierie vectoriel des liaisons d'extrémités. Panel 1 : Équerres Hautes du Cou en cornière marchande Blockenstock 30 × 30 × 3,0 mm (L = 50,0 mm, Alu 6060-T6) avec perçages lisses ronds Ø 4,30 mm (Zéro oblong, entraxe 30 mm, butée mécanique Z) et perçages horizontaux à 20,0 mm du pli (Rectangle 30 × 45 mm, fixation traversante acier/acier par vis CHC M4 × 16 mm + rondelles DIN 125A + écrous Nylstop M4 sous l'équerre, zéro fraisure sur la plaque de cou). Panel 2 : Équerres Basses Waist Yaw (30 × 30 × 3,0 mm, L = 80,0 mm) avec 4 perçages Ø 4,3 mm (entraxes 3 × 18 = 54 mm) pour encastrement rigide 36 N.m aligné sur le carter RS-06. Panel 3 : Plan de perçage de la plaque de cou (rectangle 30 × 45 mm dégageant un couloir libre de 45 mm pour le moteur RS-05), schéma de débit sur barre 500 mm et protocole de montage.*
 
 #### 1. Équerres Hautes du Cou Compactes (L = 50,0 mm — Liaison Rigide de Précision — Option C Zéro Taraudage)
 * **Profil Brut & Matière** : Cornière marchande en aluminium **6060-T6** (profilé extrudé commercial Blockenstock, réf `30x30x3-lg500mm-corniere-alu-6060t6`), section brute **`30 × 30 × 3,0 mm`**, longueur compacte **`L = 50,0 mm`**.
@@ -644,9 +644,9 @@ Dans Fusion 360, sur une esquisse tracée sur la **face inférieure (dessous)** 
     - Trou #2 : situé à **`40,00 mm`** du premier chant d'extrémité (soit **`10,00 mm`** du second chant).
     - **Entraxe longitudinal** : **`30,00 mm`** pile (`X = +/- 15,00 mm`).
   - **Spécification d'Usinage (Option C)** : 2 perçages lisses traversants **`Ø 4,30 mm`** débouchant à travers les 3,0 mm, chanfrein d'entrée **`0,3 mm × 45°`** des 2 côtés. **ZÉRO taraudage machine ou manuel, perçage direct en 1 passe fraise/foret carbure sur la C500**.
-  - **Visserie associée** : **4 vis FHC M4 × 16 mm** (ISO 10642 / DIN 7991, classe 10.9 ou Inox A2) traversant la plaque (5 mm) + l'équerre (3 mm) = 8 mm + **4 écrous frein Nylstop M4** (DIN 985 / ISO 7040, classe 8/10) serrés sous l'aile de cornière.
+  - **Visserie associée & Zéro Fraisure sur la Plaque de Cou** : **4 vis CHC M4 × 16 mm** (ISO 4762 / DIN 912, classe 12.9 noir ou Inox A2) insérées par le dessus traversant la plaque de cou (4,68 mm) + rondelles DIN 125A M4 (0,8 mm) + l'équerre (3,0 mm) = 8,48 mm + **4 écrous frein Nylstop M4** (DIN 985 / ISO 7040, classe 8/10) serrés sous l'aile de cornière à la clé de 7 mm. L'inspection CAO confirme que les perçages sont suffisamment distants de l'enveloppe du moteur RS-05 pour loger librement les têtes cylindriques CHC (Ø 7,0 mm, h = 4,0 mm) sans interférence. **ZÉRO fraisure requise sur la plaque de cou** (perçage lisse débouchant Ø 4,30 mm standard chanfreiné à 0,3 mm × 45°).
   - **Avantages de la Géométrie Élargie (Rectangle 30 × 45 mm)** :
-    - **Couloir central libre de 45 mm** : Dégage complètement l'embase et les vis du moteur de cou RobStride RS-05 ainsi que le passage des câbles moteur (alimentation 48V et bus CAN).
+    - **Couloir central libre de 45 mm & Dégagement CHC** : Dégage complètement l'embase et les vis du moteur de cou RobStride RS-05 ainsi que le passage des câbles moteur (alimentation 48V et bus CAN), tout en laissant une marge périphérique suffisante pour les têtes de vis CHC M4 et leur clé de serrage Allen 3,0 mm.
     - **Rigidité en Roulis (Roll) accrue de +50%** : Entraxe transversal élargi de 30 mm à 45 mm, augmentant considérablement le bras de levier stabilisateur face aux accélérations latérales de la tête.
 * **Aile Verticale — Cotation des 2 Trous Ronds de Précision (Pincement Plaque Sagittale Haute 5,0 mm)** :
   - **Position en hauteur Z sur l'aile (30,0 mm)** : axe médian horizontal situé à **`12,50 mm`** du pli extérieur (laisse 17,5 mm de chant vertical libre).
@@ -675,10 +675,10 @@ Dans le repère global du robot D-Bot (Origine au centre du nœud d'épaules, `X
 
 | Vis / Entité | Pièce Porteuse | Coordonnée X (Sagittal) | Coordonnée Y (Transversal) | Coordonnée Z (Vertical) | Outil & Spécification Usinage (Option C) |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| **FHC Cou #1 (Av-G)** | Plaque Cou & Équerre G | **`+15,00 mm`** | **`-22,50 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm par le DESSUS / Perçage lisse Ø 4,30 mm sur équerre + Écrou Nylstop M4 dessous |
-| **FHC Cou #2 (Av-D)** | Plaque Cou & Équerre D | **`+15,00 mm`** | **`+22,50 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm par le DESSUS / Perçage lisse Ø 4,30 mm sur équerre + Écrou Nylstop M4 dessous |
-| **FHC Cou #3 (Ar-G)** | Plaque Cou & Équerre G | **`-15,00 mm`** | **`-22,50 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm par le DESSUS / Perçage lisse Ø 4,30 mm sur équerre + Écrou Nylstop M4 dessous |
-| **FHC Cou #4 (Ar-D)** | Plaque Cou & Équerre D | **`-15,00 mm`** | **`+22,50 mm`** | `Z = +142,67 mm` | Fraisure 90° Ø 8,4 mm par le DESSUS / Perçage lisse Ø 4,30 mm sur équerre + Écrou Nylstop M4 dessous |
+| **CHC Cou #1 (Av-G)** | Plaque Cou & Équerre G | **`+15,00 mm`** | **`-22,50 mm`** | `Z = +142,67 mm` | Perçage lisse traversant Ø 4,30 mm (ZÉRO fraisure) / Vis CHC M4 × 16 mm par le DESSUS + Écrou Nylstop M4 dessous |
+| **CHC Cou #2 (Av-D)** | Plaque Cou & Équerre D | **`+15,00 mm`** | **`+22,50 mm`** | `Z = +142,67 mm` | Perçage lisse traversant Ø 4,30 mm (ZÉRO fraisure) / Vis CHC M4 × 16 mm par le DESSUS + Écrou Nylstop M4 dessous |
+| **CHC Cou #3 (Ar-G)** | Plaque Cou & Équerre G | **`-15,00 mm`** | **`-22,50 mm`** | `Z = +142,67 mm` | Perçage lisse traversant Ø 4,30 mm (ZÉRO fraisure) / Vis CHC M4 × 16 mm par le DESSUS + Écrou Nylstop M4 dessous |
+| **CHC Cou #4 (Ar-D)** | Plaque Cou & Équerre D | **`-15,00 mm`** | **`+22,50 mm`** | `Z = +142,67 mm` | Perçage lisse traversant Ø 4,30 mm (ZÉRO fraisure) / Vis CHC M4 × 16 mm par le DESSUS + Écrou Nylstop M4 dessous |
 | **FHC M3 RS-05 #1 (Av-G)** | Plaque Cou ➔ RS-05 | **`+13,61 mm`** | **`-13,61 mm`** | `Z = +142,67 mm` | Fraisure conique 90° Ø 6,50 mm par le DESSOUS (prof. 1,65 mm) / Perçage traversant Ø 3,20 mm (PCD Ø 38,5 mm) |
 | **FHC M3 RS-05 #2 (Av-D)** | Plaque Cou ➔ RS-05 | **`+13,61 mm`** | **`+13,61 mm`** | `Z = +142,67 mm` | Fraisure conique 90° Ø 6,50 mm par le DESSOUS (prof. 1,65 mm) / Perçage traversant Ø 3,20 mm (PCD Ø 38,5 mm) |
 | **FHC M3 RS-05 #3 (Ar-G)** | Plaque Cou ➔ RS-05 | **`-13,61 mm`** | **`-13,61 mm`** | `Z = +142,67 mm` | Fraisure conique 90° Ø 6,50 mm par le DESSOUS (prof. 1,65 mm) / Perçage traversant Ø 3,20 mm (PCD Ø 38,5 mm) |
@@ -691,10 +691,10 @@ Dans le repère global du robot D-Bot (Origine au centre du nœud d'épaules, `X
 | **Waist Vis #4 (Avant)** | Waist Plate & Équerres | **`+27,00 mm`** | `Y = ±15,00 mm` | `Z = -290,00 mm` | Perçage lisse Ø 4,30 mm traversant |
 
 > [!TIP]
-> **Règle d'Or CAO — Le Rectangle de Vissage 30 × 45 mm du Cou** :  
-> Sur la Plaque Supérieure de Cou, les 4 vis coniques FHC M4 forment un **rectangle de `30,0 mm × 45,0 mm`** centré sur l'origine (`X = ±15,0 mm`, `Y = ±22,5 mm`).  
-> En plaçant l'axe des perçages à **`20,00 mm`** du pli extérieur sur une colonne de `5,0 mm` (`Y = ±2,50 mm`), on obtient exactement `2,50 + 20,00 =` **`22,50 mm`**.  
-> Sous Fusion 360, il suffit de créer une esquisse sur la face supérieure de la plaque, d'appeler l'outil **Rectangle par le Centre (`Create > Rectangle > Center Rectangle`)** coté à `30 × 45 mm`, puis d'appliquer la commande **Perçage Fraisé (`Hole`, raccourci `H`)** avec fraisure 90° Ø 8,40 mm sur les 4 sommets. L'alignement avec les trous lisses Ø 4,3 mm des équerres est rigoureusement parfait à 0,0 mm.
+> **Règle d'Or CAO — Le Rectangle de Vissage 30 × 45 mm du Cou (Zéro Fraisure)** :  
+> Sur la Plaque Supérieure de Cou, les 4 vis cylindriques CHC M4 forment un **rectangle de `30,0 mm × 45,0 mm`** centré sur l'origine (`X = ±15,0 mm`, `Y = ±22,5 mm`).  
+> En plaçant l'axe des perçages à **`20,00 mm`** du pli extérieur sur une colonne de `5,0 mm` (`Y = ±2,50 mm`), on obtient exactement `2,50 + 20,00 =` **`22,50 mm`**. Les têtes de vis cylindriques CHC M4 (Ø 7,0 mm) sont situées hors de l'enveloppe du moteur RS-05, évitant tout besoin de fraisure à cet endroit.  
+> Sous Fusion 360, il suffit de créer une esquisse sur la face supérieure de la plaque, d'appeler l'outil **Rectangle par le Centre (`Create > Rectangle > Center Rectangle`)** coté à `30 × 45 mm`, puis d'appliquer la commande **Perçage Simple (`Hole > Simple Hole`)** lisse débouchant **`Ø 4,30 mm`** (ou `Ø 4,50 mm`) sans cône de fraisure, avec simple chanfrein d'ébavurage de **`0,3 mm × 45°`** des deux côtés. L'alignement avec les trous lisses Ø 4,3 mm des équerres est rigoureusement parfait à 0,0 mm.
 
 ---
 
@@ -714,8 +714,8 @@ Dans un assemblage métallique haute performance soumis aux vibrations dynamique
 | **2. Équerres Cou & Waist (Aile Verticale)** | Face Extérieure (sous tête de vis CHC M4 ou rondelle DIN 125A) | Fraise à chanfreiner C500 ou outil à main | **`0,3 mm × 45°`** | Permet à la rondelle plate standard DIN 125A M4 (Ø 9,0 mm) d'épouser 100% de la surface d'appui. |
 | **3. Équerres Cou & Waist (Chants Débités)** | 4 chants sciés d'extrémités (L = 50 mm et L = 80 mm) | Lime fine d'ajusteur ou ébavureuse à bande | **`0,5 mm × 45°`** | Cassage des bavures de sciage, sécurité des mains lors des manipulations d'atelier, élimination des éclats d'alu. |
 | **3. Équerres Cou & Waist (Arêtes Libres)** | Bords longitudinaux des ailes (extrémités à 30 mm du pli) | Toile émeri grain 400 ou ébavureur à lame tournante | **`0,3 mm × 45°`** | Doucissage des chants extrudés marchands pour un aspect visuel et tactile premium. |
-| **4. Plaque Cou (Liaison Équerres M4)** | Face Supérieure (4 perçages rectangle 30 × 45 mm) | Fraise conique 90° (Hole command Fusion 360) | **Fraisure 90° Ø 8,40 mm (prof. 2,30 mm)** | **Noyage à fleur 0,0 mm** des têtes coniques des 4 vis FHC M4. Aucune surépaisseur ne doit dépasser sous l'embase circulaire du moteur RS-05. |
-| **4. Plaque Cou (Liaison Équerres M4)** | Face Inférieure (débouché des 4 perçages FHC M4) | Fraise à chanfreiner C500 | **`0,3 mm × 45°`** | Ébavurage propre évitant toute portée sur morfil lors du placage sur les ailes de cornières. |
+| **4. Plaque Cou (Liaison Équerres M4)** | Face Supérieure (4 perçages rectangle 30 × 45 mm) | Foret Ø 4,30 mm + fraise à chanfreiner C500 | **Perçage lisse Ø 4,30 mm + chanfrein `0,3 mm × 45°`** | **ZÉRO FRAISURE CONIQUE**. Les perçages sont suffisamment distants du moteur RS-05 pour recevoir directement l'assise des têtes cylindriques CHC M4 (Ø 7,0 mm) sur rondelles DIN 125A. |
+| **4. Plaque Cou (Liaison Équerres M4)** | Face Inférieure (débouché des 4 perçages CHC M4) | Fraise à chanfreiner C500 | **`0,3 mm × 45°`** | Ébavurage propre évitant toute portée sur morfil lors du placage sur les ailes de cornières. |
 | **4. Plaque Cou (Fixation Moteur RS-05 M3)** | Face Inférieure (4 perçages PCD Ø 38,50 mm) | Fraise conique 90° (Hole command Fusion 360) | **Fraisure 90° Ø 6,50 mm (prof. 1,65 mm)** | **Noyage à fleur 0,0 mm** des têtes des 4 vis FHC M3 × 8 mm sous la plaque (épaisseur 4,68 mm). Assise pleine résiduelle 3,03 mm (65%). |
 | **4. Plaque Cou (Fixation Moteur RS-05 M3)** | Face Supérieure (sortie des 4 perçages vers RS-05) | Fraise à chanfreiner C500 | **`0,2 mm × 45°`** | Micro-ébavurage garantissant un appui plan 100% parallèle sous le carter stator du moteur RS-05. |
 | **5. Colonne Sagittale Haute (5,0 mm 7075-T6)** | Chants supérieurs au collet du cou (Z = +142,67 mm) | Fraise à chanfreiner 45° C500 | **`0,5 mm × 45°`** | Dégage l'arête vive de colonne face au micro-rayon de raccordement intérieur naturel de la cornière. |
@@ -731,7 +731,7 @@ En éliminant les oblongs au profit de perçages de précision `Ø 4,30 mm` usin
                   ACCÈS CLÉ ALLEN LIBRE PAR LE DESSUS (Y = ±22,5 mm)
                               │                       │
                               ▼                       ▼
-                      Vis FHC M4 × 16 mm (Fraisées à 0,0 mm)
+                      Vis CHC M4 × 16 mm (Tête cylindrique Ø 7 mm)
                  ┌─────────────────────────────────────────────────┐
                  │       PLAQUE SUPÉRIEURE DE COU (Alu 5 mm)       │
                  └──────────┬───────────────────────────┬──────────┘
@@ -758,8 +758,8 @@ En éliminant les oblongs au profit de perçages de précision `Ø 4,30 mm` usin
    * *Résultat* : Les équerres sont instantanément verrouillées en butée mécanique d'obstacle (déplacement Z nul), d'équerre et alignées au centième de millimètre grâce à la précision C500, sans aucune contorsion.
 2. **Étape 2 — Pose de la Plaque Supérieure de Cou & Moteur RS-05** :
    * Positionner la Plaque Supérieure de Cou de 5,0 mm sur les ailes horizontales des cornières.
-   * Insérer les **4 vis FHC M4 × 16 mm** par le dessus (têtes coniques 90° venant à fleur 0,0 mm sur le rectangle `30 × 45 mm`).
-   * Visser les **4 écrous Nylstop M4** sous l'aile de cornière à la clé de 7 mm (le déport à 20,0 mm du pli offre un dégagement de 17 mm pour la clé) et serrer à **`2,8 à 3,0 N.m`**.
+   * Insérer les **4 vis CHC M4 × 16 mm** (avec rondelles plates DIN 125A) par le dessus à travers les perçages lisses Ø 4,30 mm du rectangle `30 × 45 mm` (les têtes cylindriques logent librement sans chevaucher le carter du moteur RS-05).
+   * Visser les **4 écrous Nylstop M4** sous l'aile de cornière à la clé de 7 mm (le déport à 20,0 mm du pli offre un dégagement de 17 mm pour la clé) et serrer à **`3,0 N.m`** (clé Allen 3,0 mm).
    * Fixer le moteur RS-05 du cou et son étrier : le couloir central libre de **45 mm** entre les vis garantit zéro interférence avec l'embase moteur et le passage des faisceaux de câbles.
 3. **Étape 3 — Fixation Basse des Équerres de Waist (Taille)** :
    * À la base de la colonne de 5 mm, boulonner les 2 équerres basses de Waist (`L = 80,0 mm`) à l'aide de **4 vis CHC M4 × 20 mm traversantes + 8 rondelles DIN 125A + 4 écrous Nylstop M4** serrés à **`3,0 N.m`**.
@@ -871,7 +871,7 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
    - Brut : Tôle / plaque aluminium 4,68 mm.
    - Usinage 2D sur NestWorks C500 :
      1. *Perçages & Fraisures Moteur Cou RS-05 (Face Inférieure)* : 4 perçages lisses traversants **Ø 3,20 mm** (foret carbure Ø 3,2 mm, tolérance fine ISO 273) répartis à 45° sur PCD **Ø 38,50 mm** avec fraisure conique 90° **Ø 6,50 mm** (profondeur de cône 1,65 mm) usinée depuis le **dessous** de la plaque (têtes coniques FHC M3 × 8 mm 100% à fleur à 0,0 mm pour un passage libre total).
-     2. *Perçages & Fraisures Équerres Hautes (Face Supérieure)* : 4 perçages lisses traversants **Ø 4,30 mm** sur rectangle 30 × 45 mm (X = ±15,0 mm, Y = ±22,5 mm) avec fraisure conique 90° **Ø 8,40 mm** réalisée depuis le **dessus** de la plaque (têtes FHC M4 × 16 mm à fleur 0,0 mm).
+     2. *Perçages Équerres Hautes (Face Supérieure)* : 4 perçages lisses traversants **Ø 4,30 mm** sur rectangle 30 × 45 mm (`X = ±15,0 mm`, `Y = ±22,5 mm`), débouchant à travers les 4,68 mm, chanfreinés à **`0,3 mm × 45°`** des 2 côtés (**ZÉRO fraisure conique**, assise de vis cylindriques CHC M4 × 16 mm sur rondelles DIN 125A à distance libre du moteur RS-05).
      3. *Ébavurage & Finition* : Micro-chanfreins d'ébavurage de **0,2 mm × 45°** sur la face supérieure pour un contact coplanaire parfait à 0,0 mm contre le carter du moteur RS-05, et cassage d'arêtes périphérique à **0,3 mm × 45°**.
 
 ---
@@ -927,7 +927,7 @@ Ce tableau reprend les désignations standardisées à taper directement dans le
 | **Écrous Verrouillage Traverses** | **Écrous frein Nylstop M5** | DIN 985 / ISO 7040 | **6 à 10 pièces** | Inox A2 ou Acier classe 8 (clé 8 mm) |
 | **Inserts ➔ Semelles Éclisses** | **Vis FHC M4 × 30 mm (tête fraisée 90°)** | DIN 7991 / ISO 10642 | **12 à 15 pièces** | Acier 10.9 ou Inox A2 (empreinte Allen 2,5 mm) |
 | **Fixation Moteur RS-05 ➔ Plaque Cou** | **Vis FHC M3 × 8 mm (tête fraisée 90°)** | DIN 7991 / ISO 10642 | **6 à 8 pièces** | Acier 10.9 ou Inox A2 (empreinte Allen 2,0 mm, vissage par le dessous à fleur 0,0 mm sur PCD Ø 38,5 mm) |
-| **Fixation Plaque Cou ➔ Équerres (Option C)** | **Vis FHC M4 × 16 mm (tête fraisée 90°)** | DIN 7991 / ISO 10642 | **6 à 8 pièces** | Acier 10.9 ou Inox A2 (traversent plaque 4,68 mm + équerre 3 mm, rectangle 30×45 mm) |
+| **Fixation Plaque Cou ➔ Équerres (Option C)** | **Vis CHC M4 × 16 mm** | DIN 912 / ISO 4762 | **6 à 8 pièces** | Acier 12.9 (noir) ou Inox A2 (clé Allen 3 mm, tête cylindrique hors carter RS-05, rectangle 30×45 mm) |
 | **Pincement Colonne (Cou & Waist)** | **Vis CHC M4 × 20 mm** | DIN 912 / ISO 4762 | **10 à 12 pièces** | Acier 12.9 ou Inox A2 (2 traversantes cou + 4 traversantes waist) |
 | **Rondelles d'Appui Équerres M4** | **Rondelles plates M4 DIN 125A** | DIN 125A / ISO 7089 | **15 à 20 pièces** | Inox A2 (Ø int 4,3 mm / Ø ext 9,0 mm / ép 0,8 mm, sous têtes et écrous M4) |
 | **Écrous Verrouillage Inserts & Équerres** | **Écrous frein Nylstop M4** | DIN 985 / ISO 7040 | **25 à 30 pièces** | Inox A2 ou Acier classe 8 (clé 7 mm, pour inserts 8× + cou plaque 4× + cou flanc 2× + waist 4×) |
@@ -967,7 +967,7 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 | • **Écrous Sandwich Colonne** | Écrous Frein Nylstop M5 | ISO 7040 / DIN 985 | **`90631A113`** (Inox 18-8) | **4 écrous** | Bague nylon autofreinée (couple 5,5 N.m). |
 | **4. LIAISONS D'EXTRÉMITÉS (ÉQUERRES COU, MOTEUR RS-05 & WAIST RS-06 — OPTION C)** | | | | | |
 | • **Fixation Moteur RS-05 ➔ Plaque Cou (PCD Ø 38,5 mm)** | Vis FHC M3 × 8 mm | ISO 10642 / DIN 7991 | **`91294A112`** (Acier 10.9)<br>**`92125A112`** (Inox 18-8) | **4 vis** | Vissage par le DESSOUS à fleur (0,0 mm), perçages Ø 3,2 mm, fraisures 90° Ø 6,5 mm. Pénétration moteur = 3,32 mm (garde de sécurité fond = 2,68 mm). |
-| • **Fixation Plaque Cou ➔ Équerres Hautes (Option C)** | Vis FHC M4 × 16 mm | ISO 10642 / DIN 7991 | **`91294A194`** (Acier 10.9)<br>**`92125A194`** (Inox 18-8) | **4 vis** (2 / équerre) | Vissage par le DESSUS de la plaque de cou à fleur (0,0 mm) sur rectangle 30×45 mm + 4 écrous Nylstop M4 sous l'équerre. |
+| • **Fixation Plaque Cou ➔ Équerres Hautes (Option C)** | Vis CHC M4 × 16 mm | ISO 4762 / DIN 912 | **`91290A158`** (Acier 12.9)<br>**`92290A145`** (Inox 18-8) | **4 vis** (2 / équerre) | Vissage par le DESSUS de la plaque de cou (tête cylindrique Ø 7 mm hors carter RS-05, perçage lisse Ø 4,3 mm, zéro fraisure) sur rectangle 30×45 mm + 4 écrous Nylstop M4 sous l'équerre. |
 | • **Pincement Colonne Haute (Cou Trous Ronds)** | Vis CHC M4 × 20 mm | ISO 4762 / DIN 912 | **`91290A160`** (Acier 12.9)<br>**`92290A146`** (Inox 18-8) | **2 vis** traversantes | Traversent les trous ronds Ø 4,3 mm de l'équerre et de la colonne 5 mm (butée mécanique Z). |
 | • **Rondelles Plates Cou & Waist M4** | Rondelles Plates DIN 125A M4 | ISO 7089 / DIN 125A | **`93475A220`** (Inox 18-8) | **12 rondelles** | Ø ext. 9,0 mm / ép 0,8 mm sous tête et écrous CHC M4 cou et waist. |
 | • **Pincement Colonne Basse (Waist RS-06)** | Vis CHC M4 × 20 mm | ISO 4762 / DIN 912 | **`91290A160`** (Acier 12.9)<br>**`92290A146`** (Inox 18-8) | **4 vis** traversantes | Traversent Équerre G (3 mm) + Colonne (5 mm) + Équerre D (3 mm) = 11 mm. Point fixe Z = 0. |
@@ -1003,7 +1003,7 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **4. Sandwich Colonne Centrale (Éclisses ➔ Plaques)** | CHC M5 × 25 mm (Acier 12.9 / Inox) | 4 | **`5,5 N.m`** *(Croix)* | Clé Allen 4,0 mm + Clé 8 mm | Rondelles DIN 125A + Écrous Nylstop M5 | `91290A235` |
 | **5. Inserts Carrés ➔ Semelles Éclisses** | FHC M4 × 30 mm (Acier 10.9 / Inox) | 8 | **`2,8 à 3,0 N.m`** | Clé Allen 2,5 mm + Clé 7 mm | Tête conique à fleur 0,0 mm + Nylstop M4 (marge filet 10 mm) | `91294A200` |
 | **6. Moteur Cou RS-05 ➔ Plaque de Cou** | FHC M3 × 8 mm (Acier 10.9 / Inox) | 4 | **`1,2 à 1,4 N.m`** | Clé Allen 2,0 mm | Tête conique à fleur 0,0 mm dessous + Loctite 243 (PCD Ø 38,5 mm) | `91294A112` |
-| **7. Fourche Cou (Plaque ➔ Équerres Option C)** | FHC M4 × 16 mm (Acier 10.9 / Inox) | 4 | **`2,8 à 3,0 N.m`** | Clé Allen 2,5 mm + Clé 7 mm | Tête à fleur 0,0 mm + Nylstop M4 sous équerre (rectangle 30×45 mm) | `91294A194` |
+| **7. Fourche Cou (Plaque ➔ Équerres Option C)** | CHC M4 × 16 mm (Acier 12.9 / Inox) | 4 | **`3,0 N.m`** | Clé Allen 3,0 mm + Clé 7 mm | Tête cylindrique + rondelle DIN 125A + Nylstop M4 sous équerre (rectangle 30×45 mm) | `91290A158` |
 | **8. Équerres Torse (Flancs Colonne Cou & Waist)** | CHC M4 × 20 mm (Acier 12.9 / Inox) | 6 | **`3,0 N.m`** | Clé Allen 3,0 mm + Clé 7 mm | Rondelles DIN 125A M4 (Cou & Waist) + Nylstop M4 | `91290A160` |
 | **9. Ventilateurs Tuyères 3D (Noctua NF-A4x20)** | CHC M3 × 16 mm (Inox) | 8 | **`0,6 à 0,8 N.m`** | Clé Allen 2,5 mm + Clé 5,5 mm | Silent-blocs antivibrations (serrage modéré) | `91290A115` |
 | **10. Coque & Habillage Extérieur (PA12-CF)** | Vis M4 sur Inserts Laiton Ruthex | 16 | **`1,2 à 1,5 N.m`** | Clé Allen 3,0 mm | Ancrage thermique laiton (ne pas sur-serrer) | `94180A353` |
@@ -1026,7 +1026,7 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **Ventilateurs Épaules 40×40×20 mm** | Noctua NF-A4x20 5V PWM (datasheet officielle) | 2 | 20,0 g | **40,0 g** |
 | **Visserie Liaison Traverses & Sandwich Colonne** | Vis FHC M4, CHC M5 traversantes + rondelles & écrous Nylstop | Lot | - | **106,0 g** |
 | **Visserie Moteur Cou RS-05 (Fixation Directe Plaque)** | 4× Vis FHC M3 × 8 mm Classe 10.9 / Inox (ISO 10642) | 4 | ~0,7 g | **~2,8 g** |
-| **Visserie Équerres Cou & Waist (Option C)** | 4× FHC M4×16 + 6× CHC M4×20 + 10× Nylstop M4 + rondelles larges/plates | Lot | - | **~28,0 g** |
+| **Visserie Équerres Cou & Waist (Option C)** | 4× CHC M4×16 + 6× CHC M4×20 + 10× Nylstop M4 + rondelles plates DIN 125A | Lot | - | **~30,0 g** |
 | **Visserie Stators RS-04 (8× M4×12 + 12× M4×25 + Nord-Lock)** | Vis CHC M4×12 & M4×25 + 20 paires rondelles Nord-Lock M4 | 20 | ~2,7 g | **~54,0 g** |
 | **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Moteur RS-05 + Équerres + Ventilation** | - | - | **~1 754 g (~1,75 kg)** |
 
@@ -1049,7 +1049,7 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **Tube Carré Alu 6060 T6** | [Blockenstock — Tube Carré 60×2×500mm](https://www.blockenstock.fr/60x2x500mm-tube-carre-6060-t6-c2x24054508) | **60 × 2 × 500 mm** | **1** | **12,80 €** | **12,80 €** | 2 Tronçons de Traverses de 80,05 mm (reste ~340 mm de réserve) |
 | **Cornière Alu 6060 T6 (Équerres)** | [Blockenstock — Cornière 30×30×3 lg 500mm](https://www.blockenstock.fr/30x30x3-lg500mm-corniere-alu-6060t6-c2x29839847) | **30 × 30 × 3 × 500 mm** | **1** | **4,80 €** | **4,80 €** | **100% des 4 Équerres Torse (2× Cou L=50 mm + 2× Waist L=80 mm + 230 mm réserve)** |
 | **Ventilateurs 40×40×20 mm PWM** | [Noctua NF-A4x20 PWM (Amazon)](https://www.amazon.fr/dp/B071W9E6NW) | **NF-A4x20 PWM (5V ou 12V)** | **2** | **~15,00 €** | **~30,00 €** | 2 Ventilateurs haute pression statique pour tuyères d'épaules |
-| **Lot Visserie M3, M4 & M5** | [Bricovis](https://www.bricovis.fr) / [Vis-Express](https://www.vis-express.fr) / [Amazon](https://www.amazon.fr) / [RS](https://www.rs-particuliers.com) | **FHC M4×16/30, CHC M4×12/20/25, CHC M5×70, CHC M5×25, Nylstop M4/M5, Nord-Lock M4, Ruthex M4** | Lot complet | **~18,00 €** | **~18,00 €** | Visserie complète structure, moteurs, tuyères et coque |
+| **Lot Visserie M3, M4 & M5** | [Bricovis](https://www.bricovis.fr) / [Vis-Express](https://www.vis-express.fr) / [Amazon](https://www.amazon.fr) / [RS](https://www.rs-particuliers.com) | **FHC M3×8, FHC M4×30, CHC M4×12/16/20/25, CHC M5×70, CHC M5×25, Nylstop M4/M5, Nord-Lock M4, Ruthex M4** | Lot complet | **~18,00 €** | **~18,00 €** | Visserie complète structure, moteurs, tuyères et coque |
 | **TOTAL PANIER MATIÈRE & THERMIQUE** | **Blockenstock + Quincaillerie** | - | - | - | **~177,36 €** | **Structure Torse Complète en Alu 7075/6060 + Circuit Aéraulique Intégré** |
 
 ---
