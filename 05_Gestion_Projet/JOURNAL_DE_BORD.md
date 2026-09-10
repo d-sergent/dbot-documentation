@@ -2,6 +2,36 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-09-10 — Qualification Liaison Waist Yaw V1.2 (Roulement Rouleaux Croisés CRBH 8016 UU, Platine d'Interface CNC C500 & Synchronisation SSOT)
+
+### 🎯 Objectif de la session
+1. **Audit Expert Mécanique Torse & Bassin** : Analyse critique d'ingénierie humanoïde des dossiers du torse et du bassin, identification des incohérences de références roulement, d'actionneur et de chaîne de cotes.
+2. **Qualification Industrielle du Roulement Waist Yaw (CRBH 8016 UU)** :
+   - Remplacement de la référence théorique introuvable CSXB090 (90 x 110 x 10 mm) par le roulement industriel standardisé à rouleaux croisés **CRBH 8016 UU** (80 x 120 x 16 mm, C_0 = 17.2 kN).
+   - Moment de basculement admissible : **520 N.m** (facteur de sécurité Sf = 2.36 face aux 220 N.m dynamiques sous accélération 1.5g pour 17.3 kg de masse suspendue).
+   - Validation sourcing avec liens directs fournisseurs (AliExpress JieMao / ZYS Bearings ~65-85 EUR TTC).
+3. **Conception de la Platine d'Interface Waist Monolithique (Usinage CNC NestWorks C500)** :
+   - Résolution du conflit d'interférence radiale entre la bride Asimov et la bague extérieure du CRBH.
+   - Fusion de la bague adaptatrice et du logement de roulement en une seule pièce monolithique Ø 140 x 12 mm en Alu 7075-T651 (brut disque Ø 150 x 15 mm Blockenstock).
+   - Tolérances d'usinage définies : centrage stator Ø 88 H7 (+0.035/0 mm), lamage roulement Ø 120 H7 (+0.035/0 mm) profondeur 3 mm, corridor de câblage central Ø 80 mm.
+4. **Mise à Jour SSOT & Synchronisation Globale** :
+   - Correction dans `FINAL_Dimensions_et_Leviers.md` : moteur Waist Yaw harmonisé en RobStride RS-06 (36 N.m, ID 21).
+   - Tableau Torse V2 intégré (1 754 g) et masse haut du corps révisée à 17.3 kg.
+   - Dossier technique `DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md` mis à jour en V1.2 et `todo_court_terme.md` actualisé.
+
+### 📝 Réalisations & Évolutions
+1. **Dossier Technique Bassin V1.2** ([DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md)) :
+   - Sections 3.3, 3.4 et 3.5 actualisées avec CRBH 8016 UU et tableau comparatif de sélection.
+   - Section 4.2 refondue avec la cotation complète de la Platine d'Interface Waist monolithique (Ø 140 x 12 mm, masse ~265 g).
+   - Nomenclature (BOM) et budget de masse ajustés (17 324 g).
+2. **Architecture Centrale SSOT** ([FINAL_Dimensions_et_Leviers.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/00_Architecture_Centrale/FINAL_Dimensions_et_Leviers.md)) :
+   - Tableaux d'architecture Torse V2 et Bassin synchronisés avec les dimensions réelles et références validées.
+   - Sommaire cliquable général ajouté.
+3. **Planification & Suivi** ([todo_court_terme.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/todo_court_terme.md)) :
+   - Ligne de synthèse Bassin actualisée en V1.2.
+
+---
+
 ## 📅 2026-09-08 — Simplification Liaison Plaque Cou ➔ Équerres (Passage en Vis CHC M4×16 mm, Zéro Fraisure & Standardisation Clé Allen 3 mm)
 
 ### 🎯 Objectif de la session
