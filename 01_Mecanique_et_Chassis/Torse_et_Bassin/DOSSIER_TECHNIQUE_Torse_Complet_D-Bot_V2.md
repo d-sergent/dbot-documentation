@@ -615,11 +615,21 @@ Dans Fusion 360, sur une esquisse tracée sur la **face inférieure (dessous)** 
 
 ---
 
-### B. Plaque Inférieure / Waist Plate (Alu 6,0 mm) & Actionneur RS-06
-* **Fonction** : Fermeture basse du torse, interface rigide avec le module Waist Yaw actif.
-* **Moteur Waist** : **RobStride RS-06** (36 N.m pic / 11 N.m nominal, Ø88 mm, 621 g, bus CAN-FD ID 21).
-* **Bague d'adaptation CNC** : Alu 6061-T6 (Ø int. 88 mm / Ø ext. 115,6 mm) adaptant le carter au moteur RS-06.
-* **Roulement Principal** : Section fine Ø110 mm à 4 points de contact pour reprendre les moments de basculement du bassin.
+### B. Plaque Inférieure / Waist Plate (Alu 6,0 mm) & Liaison Active Waist Yaw (CRBH 8016)
+* **Fonction** : Fermeture basse du torse, interface mobile rigide avec la liaison active Waist Yaw.
+* **Moteur Waist** : **RobStride RS-06** (36 N.m pic / 11 N.m nominal, stator Ø 88 mm h6, carter arrière fermé sans arbre creux, bus CAN-FD ID 21).
+* **Platine d'Interface Monolithique** : Alu 7075-T6 (Ø 140 × 12 mm) intégrant le centrage moteur Ø 88 H7 et le siège roulement Ø 120 H7 × 3 mm (remplace l'ancienne bague d'adaptation).
+* **Roulement Principal** : Roulement à rouleaux croisés **CRBH 8016 UU / RB 8016 UU** (Ø int 80 mm, Ø ext 120 mm, ép. 16 mm, capacité moment 520 N.m) assurant le découplage mécanique intégral.
+* **Import CAO 3D Fusion 360** : Insérer directement le modèle STEP officiel via le menu *Insérer > Contenu du fabricant (TraceParts / PartCommunity)* en recherchant `RB8016` (ou glisser-déposer STEP depuis THK CAD).
+* **Référence Dossier Spécifique** : Consulter le dossier dédié [DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md).
+
+![Guide d'Empilement Visuel & Cinématique Waist Yaw](./media/schema_empilement_eclate_et_cinematique_waist.svg)
+
+*Guide d'ingénierie visuel officiel (D-Bot V1.2) : Panneau 1 — Vue éclatée axiale Z. Panneau 2 — Découplage cinématique bicolore (Bleu = Fixe bassin, Orange = Mobile torse, Vert = Entrefer d'air 1.5 mm). Panneau 3 — Recette de modélisation CAO pas-à-pas sous Fusion 360 (4 pièces simples et 3 liaisons Joints).*
+
+![Guide Officiel de Modélisation CAO Fusion 360 — Liaison Waist Torse](./media/schema_cao_assemblage_waist_rs06_fusion360.svg)
+
+*Blueprint vectoriel d'ingénierie officiel de la liaison Waist Yaw (D-Bot V1.2) : Détails d'usinage, cotes 2D pour Fusion 360 et usinage CNC C500.*
 
 ---
 

@@ -1,0 +1,368 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1650 1350" width="100%" height="100%">
+  <defs>
+    <!-- Styles CSS -->
+    <style>
+      .bg-canvas { fill: #0f172a; }
+      .panel-card { fill: #1e293b; stroke: #475569; stroke-width: 1.5; rx: 8; }
+      .grid-line { stroke: #2a3449; stroke-width: 0.6; stroke-dasharray: 4,4; }
+      .title-main { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 800; fill: #38bdf8; letter-spacing: 0.5px; }
+      .title-sub { font-family: 'Inter', sans-serif; font-size: 13px; fill: #94a3b8; }
+      .panel-header { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; fill: #f8fafc; }
+      .badge-text { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: bold; fill: #0f172a; }
+      .dim-line { stroke: #38bdf8; stroke-width: 1; marker-start: url(#arrow-start); marker-end: url(#arrow-end); }
+      .dim-line-sec { stroke: #f59e0b; stroke-width: 1; marker-start: url(#arrow-start-amber); marker-end: url(#arrow-end-amber); }
+      .dim-text { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: bold; fill: #38bdf8; text-anchor: middle; }
+      .dim-text-amber { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: bold; fill: #f59e0b; text-anchor: middle; }
+      .callout-title { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: bold; fill: #e2e8f0; }
+      .callout-desc { font-family: 'Inter', sans-serif; font-size: 10.5px; fill: #94a3b8; }
+      .axis-center { stroke: #ef4444; stroke-width: 1.2; stroke-dasharray: 8,3,2,3; }
+      .part-alu7075 { fill: url(#gradAlu7075); stroke: #94a3b8; stroke-width: 1.2; }
+      .part-alu6061 { fill: url(#gradAlu6061); stroke: #64748b; stroke-width: 1.2; }
+      .part-bearing-ext { fill: url(#gradSteelExt); stroke: #cbd5e1; stroke-width: 1.2; }
+      .part-bearing-int { fill: url(#gradSteelInt); stroke: #38bdf8; stroke-width: 1.2; }
+      .part-motor-stator { fill: url(#gradMotorStator); stroke: #6366f1; stroke-width: 1.2; }
+      .part-motor-rotor { fill: url(#gradMotorRotor); stroke: #a855f7; stroke-width: 1.2; }
+      .part-screw { fill: #10b981; stroke: #047857; stroke-width: 1; }
+      .part-pin { fill: #f59e0b; stroke: #b45309; stroke-width: 1; }
+      .gap-highlight { fill: #ef4444; opacity: 0.25; stroke: #ef4444; stroke-width: 1; stroke-dasharray: 3,2; }
+    </style>
+
+    <!-- Marqueurs de cotation -->
+    <marker id="arrow-end" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M 0 0 L 6 3 L 0 6 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrow-start" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto">
+      <path d="M 6 0 L 0 3 L 6 6 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrow-end-amber" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M 0 0 L 6 3 L 0 6 z" fill="#f59e0b" />
+    </marker>
+    <marker id="arrow-start-amber" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto">
+      <path d="M 6 0 L 0 3 L 6 6 z" fill="#f59e0b" />
+    </marker>
+
+    <!-- Gradients Matériaux -->
+    <linearGradient id="gradAlu7075" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="50%" stop-color="#475569" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+
+    <linearGradient id="gradAlu6061" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#475569" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+
+    <linearGradient id="gradSteelExt" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#cbd5e1" />
+      <stop offset="50%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#64748b" />
+    </linearGradient>
+
+    <linearGradient id="gradSteelInt" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+
+    <linearGradient id="gradMotorStator" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="50%" stop-color="#312e81" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+
+    <linearGradient id="gradMotorRotor" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9333ea" />
+      <stop offset="50%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#7e22ce" />
+    </linearGradient>
+
+    <linearGradient id="gradCopper" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b45309" />
+      <stop offset="50%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#92400e" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fond Général -->
+  <rect width="1650" height="1350" class="bg-canvas" />
+
+  <!-- HEADER -->
+  <g transform="translate(40, 35)">
+    <text x="0" y="0" class="title-main">GUIDE OFFICIEL DE MODÉLISATION CAO FUSION 360 : ENSEMBLE WAIST &amp; LIAISON TORSE</text>
+    <text x="0" y="24" class="title-sub">D-Bot V1.2 — Découplage Structurel : Actionneur RobStride RS-06 (Arbre Plein) + Roulement CRBH 8016 UU + Platine 7075-T6 + Waist Plate 6 mm</text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANNEAU 1 : VUE EN COUPE AXIALE DÉTAILLÉE (HAUT GAUCHE)                  -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 80)">
+    <rect width="760" height="580" class="panel-card" />
+    <!-- Titre Panneau -->
+    <rect x="0" y="0" width="760" height="38" rx="8" fill="#334155" />
+    <text x="20" y="24" class="panel-header">PANNEAU 1 : COUPE AXIALE SAGITTALE (Z-X) — EMPILAGE GÉOMÉTRIQUE EXACT</text>
+    <rect x="630" y="8" width="115" height="22" rx="4" fill="#38bdf8" />
+    <text x="687" y="23" class="badge-text" text-anchor="middle">ÉCHELLE 1:1 C500</text>
+
+    <!-- Axe central Z -->
+    <line x1="380" y1="45" x2="380" y2="550" class="axis-center" />
+    <text x="390" y="60" fill="#ef4444" font-family="Inter" font-size="10" font-weight="bold">AXE ROTATION Z (YAW)</text>
+
+    <!-- CHÂSSIS PELVIEN FIXE (Base) -->
+    <path d="M 60 480 L 140 480 L 140 400 L 230 400 L 230 520 L 530 520 L 530 400 L 620 400 L 620 480 L 700 480 L 700 550 L 60 550 Z" fill="#0b1120" stroke="#475569" stroke-width="1.5" />
+    <text x="380" y="538" fill="#64748b" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">CHÂSSIS PELVIEN ASIMOV SCALÉ +18% (ALÉSAGE CENTRAL Ø 115,6 mm)</text>
+
+    <!-- Goupille trempée DIN 6325 Ø 8 mm emmanchée dans pelvis -->
+    <!-- Position R = 45 mm (x = 380 - 110 = 270) -->
+    <rect x="260" y="374" width="20" height="42" rx="2" class="part-pin" />
+    <text x="248" y="395" fill="#f59e0b" font-family="Inter" font-size="10" font-weight="bold" text-anchor="end">GOUPILLE DIN 6325 Ø 8 mm</text>
+    <text x="248" y="408" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="end">(Dépassement +2,4 mm)</text>
+
+    <!-- PLATINE D'INTERFACE MONOLITHIQUE ALU 7075-T6 (Ø 140 × 12 mm) -->
+    <!-- Gauche Platine -->
+    <path d="M 205 409 L 205 397 L 230 397 L 230 400 L 270 400 L 270 409 Z" class="part-alu7075" />
+    <!-- Droite Platine -->
+    <path d="M 555 409 L 555 397 L 530 397 L 530 400 L 490 400 L 490 409 Z" class="part-alu7075" />
+    <!-- Flèches Platine -->
+    <text x="195" y="405" fill="#38bdf8" font-family="Inter" font-size="11" font-weight="bold" text-anchor="end">PLATINE CNC 7075-T6</text>
+    <text x="195" y="418" fill="#94a3b8" font-family="Inter" font-size="9.5" text-anchor="end">(Ø 140 mm × 12 mm)</text>
+
+    <!-- MOTEUR ROBSTRIDE RS-06 (QDD) -->
+    <!-- Stator Ø 88 mm : de x=270 à 490. Hauteur 35 mm (y=372 à 495) -->
+    <rect x="270" y="372" width="220" height="95" rx="3" class="part-motor-stator" />
+    <!-- Culot arrière fermé (plaque cuivre) -->
+    <rect x="275" y="467" width="210" height="18" rx="2" fill="url(#gradCopper)" stroke="#92400e" stroke-width="1" />
+    <!-- Encoche latérale câbles arrière -->
+    <rect x="445" y="455" width="35" height="15" fill="#0f172a" stroke="#f59e0b" stroke-width="1" />
+    <path d="M 465 470 Q 490 490 520 510" stroke="#f59e0b" stroke-width="2.5" fill="none" stroke-dasharray="3,2" />
+    <text x="525" y="508" fill="#f59e0b" font-family="Inter" font-size="10" font-weight="bold">SORTIE CÂBLES RS-06 LATÉRALE ARRIÈRE</text>
+
+    <!-- Rotor central RS-06 (violet) -->
+    <rect x="320" y="358" width="120" height="14" rx="2" class="part-motor-rotor" />
+    <text x="380" y="415" fill="#ffffff" font-family="Inter" font-size="13" font-weight="bold" text-anchor="middle">ROBSTRIDE RS-06 (QDD)</text>
+    <text x="380" y="432" fill="#94a3b8" font-family="Inter" font-size="10" text-anchor="middle">Axe Plein • Fond Fermé • Ø 88 mm • 36 N.m Pic</text>
+
+    <!-- ROULEMENT À ROULEAUX CROISÉS CRBH 8016 UU (80 × 120 × 16 mm) -->
+    <!-- Bague Extérieure Fixe -->
+    <rect x="230" y="360" width="20" height="40" class="part-bearing-ext" />
+    <rect x="510" y="360" width="20" height="40" class="part-bearing-ext" />
+    <!-- Rouleaux croisés internes (symbolisés par X) -->
+    <rect x="250" y="360" width="10" height="40" fill="#0284c7" opacity="0.3" stroke="#0284c7" stroke-width="0.8" />
+    <text x="255" y="384" fill="#38bdf8" font-family="Inter" font-size="9" text-anchor="middle">✕</text>
+    <rect x="500" y="360" width="10" height="40" fill="#0284c7" opacity="0.3" stroke="#0284c7" stroke-width="0.8" />
+    <text x="505" y="384" fill="#38bdf8" font-family="Inter" font-size="9" text-anchor="middle">✕</text>
+    <!-- Bague Intérieure Tournante -->
+    <rect x="260" y="360" width="20" height="40" class="part-bearing-int" />
+    <rect x="480" y="360" width="20" height="40" class="part-bearing-int" />
+
+    <!-- Flasque Mince de Retenue Axiale Z (Alu 2.5 mm) -->
+    <rect x="220" y="356" width="22" height="6" rx="1" fill="#94a3b8" stroke="#f8fafc" stroke-width="0.8" />
+    <rect x="518" y="356" width="22" height="6" rx="1" fill="#94a3b8" stroke="#f8fafc" stroke-width="0.8" />
+    <line x1="225" y1="353" x2="225" y2="400" stroke="#10b981" stroke-width="1.5" />
+    <text x="210" y="348" fill="#10b981" font-family="Inter" font-size="9.5" font-weight="bold">FLASQUE AXIAL Z (FHC M3)</text>
+
+    <!-- ENTREFER DE SÉCURITÉ DE 1.5 mm (Zone rouge transparente) -->
+    <rect x="215" y="346" width="42" height="10" class="gap-highlight" />
+    <rect x="503" y="346" width="42" height="10" class="gap-highlight" />
+    <text x="160" y="335" fill="#ef4444" font-family="Inter" font-size="10" font-weight="bold">ENTREFER 1,5 mm</text>
+    <text x="160" y="347" fill="#94a3b8" font-family="Inter" font-size="8.5">(Aucun contact bague fixe)</text>
+    <path d="M 170 338 L 220 351" stroke="#ef4444" stroke-width="1" marker-end="url(#arrow-end)" />
+
+    <!-- WAIST PLATE MOBILE (6,0 mm) -->
+    <path d="M 220 346 L 258 346 L 258 360 L 290 360 L 290 346 L 470 346 L 470 360 L 502 360 L 502 346 L 540 346 L 540 331 L 220 331 Z" class="part-alu6061" />
+    <!-- Rainure de butée sous Waist Plate à gauche -->
+    <rect x="257" y="346" width="26" height="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2,2" />
+    <text x="245" y="318" fill="#f59e0b" font-family="Inter" font-size="9.5" font-weight="bold">RAINURE 9×3 mm (ARC 190°)</text>
+    <path d="M 255 321 L 268 343" stroke="#f59e0b" stroke-width="1" marker-end="url(#arrow-end-amber)" />
+
+    <!-- ÉQUERRES BASSES (30 × 30 × 3 mm, L = 80 mm) -->
+    <path d="M 335 331 L 335 240 L 343 240 L 343 323 L 368 323 L 368 331 Z" fill="#475569" stroke="#94a3b8" stroke-width="1" />
+    <path d="M 425 331 L 425 240 L 417 240 L 417 323 L 392 323 L 392 331 Z" fill="#475569" stroke="#94a3b8" stroke-width="1" />
+
+    <!-- COLONNE SAGITTALE 5,0 mm EN SANDWICH -->
+    <rect x="374" y="100" width="12" height="231" fill="url(#gradAlu7075)" stroke="#38bdf8" stroke-width="1.2" />
+    <!-- 4 Vis de pincement traversantes M4 -->
+    <circle cx="380" cy="255" r="4" class="part-screw" />
+    <circle cx="380" cy="275" r="4" class="part-screw" />
+    <circle cx="380" cy="295" r="4" class="part-screw" />
+    <circle cx="380" cy="315" r="4" class="part-screw" />
+    <text x="395" y="288" fill="#10b981" font-family="Inter" font-size="9.5" font-weight="bold">4× CHC M4 TRAVERSANTES</text>
+
+    <!-- Repères de cotation principaux -->
+    <line x1="230" y1="210" x2="530" y2="210" class="dim-line" />
+    <text x="380" y="204" class="dim-text">SIÈGE ROULEMENT Ø 120,00 mm H7 (CRBH 8016)</text>
+    <line x1="230" y1="205" x2="230" y2="360" stroke="#38bdf8" stroke-width="0.6" stroke-dasharray="2,2" />
+    <line x1="530" y1="205" x2="530" y2="360" stroke="#38bdf8" stroke-width="0.6" stroke-dasharray="2,2" />
+
+    <line x1="270" y1="230" x2="490" y2="230" class="dim-line" />
+    <text x="380" y="224" class="dim-text">ALÉSAGE MOTEUR Ø 88,03 mm H7</text>
+
+    <line x1="575" y1="397" x2="575" y2="409" class="dim-line-sec" />
+    <text x="615" y="406" class="dim-text-amber">12,0 mm</text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANNEAU 2 : VUE ÉCLATÉE D'ASSEMBLAGE (HAUT DROITE)                       -->
+  <!-- ========================================================================= -->
+  <g transform="translate(840, 80)">
+    <rect width="770" height="580" class="panel-card" />
+    <rect x="0" y="0" width="770" height="38" rx="8" fill="#334155" />
+    <text x="20" y="24" class="panel-header">PANNEAU 2 : CHRONOLOGIE &amp; ORDRE DE MONTAGE ÉCLATÉ (AXE Z)</text>
+    <rect x="640" y="8" width="115" height="22" rx="4" fill="#10b981" />
+    <text x="697" y="23" class="badge-text" text-anchor="middle">SÉQUENCE ATELIER</text>
+
+    <!-- Étape 1 : Colonne + Équerres -->
+    <g transform="translate(40, 55)">
+      <rect x="0" y="0" width="40" height="40" rx="6" fill="#38bdf8" />
+      <text x="20" y="26" fill="#0f172a" font-family="Inter" font-size="16" font-weight="900" text-anchor="middle">1</text>
+      <text x="55" y="18" class="callout-title">COLONNE SAGITTALE 5,0 mm &amp; 2× ÉQUERRES BASSES (30×30×3 mm)</text>
+      <text x="55" y="34" class="callout-desc">Pincement par 4 vis CHC M4 × 20 mm classe 12.9 + rondelles DIN 125A + écrous Nylstop (couple 3.0 N.m).</text>
+    </g>
+
+    <!-- Étape 2 : Waist Plate 6 mm -->
+    <g transform="translate(40, 125)">
+      <rect x="0" y="0" width="40" height="40" rx="6" fill="#38bdf8" />
+      <text x="20" y="26" fill="#0f172a" font-family="Inter" font-size="16" font-weight="900" text-anchor="middle">2</text>
+      <text x="55" y="18" class="callout-title">WAIST PLATE 6,0 mm ALU (120 × 94 mm)</text>
+      <text x="55" y="34" class="callout-desc">Vissage des 2 équerres par 8 vis M4. Face inf : Redan +1.5 mm (portée bague int.) + Rainure arc 190°.</text>
+    </g>
+
+    <!-- Étape 3 : Roulement CRBH 8016 -->
+    <g transform="translate(40, 195)">
+      <rect x="0" y="0" width="40" height="40" rx="6" fill="#0284c7" />
+      <text x="20" y="26" fill="#ffffff" font-family="Inter" font-size="16" font-weight="900" text-anchor="middle">3</text>
+      <text x="55" y="18" class="callout-title">ROULEMENT À ROULEAUX CROISÉS CRBH 8016 UU (80×120×16 mm)</text>
+      <text x="55" y="34" class="callout-desc">Insertion glissante douce dans le siège Ø 120 H7 de la Platine. Bague mobile vissée sur redan Waist Plate.</text>
+    </g>
+
+    <!-- Étape 4 : Flasque de retenue Z -->
+    <g transform="translate(40, 265)">
+      <rect x="0" y="0" width="40" height="40" rx="6" fill="#f59e0b" />
+      <text x="20" y="26" fill="#0f172a" font-family="Inter" font-size="16" font-weight="900" text-anchor="middle">4</text>
+      <text x="55" y="18" class="callout-title">FLASQUE D'ARRÊT AXIAL Z (ANNEAU ALU 2,5 mm, Ø 118 / Ø 136 mm)</text>
+      <text x="55" y="34" class="callout-desc">Fixation par 4 vis FHC M3 × 8 mm sur PCD Ø 128 mm (Loctite 243). Verrouille la bague ext. vers le haut.</text>
+    </g>
+
+    <!-- Étape 5 : Moteur RS-06 -->
+    <g transform="translate(40, 335)">
+      <rect x="0" y="0" width="40" height="40" rx="6" fill="#6366f1" />
+      <text x="20" y="26" fill="#ffffff" font-family="Inter" font-size="16" font-weight="900" text-anchor="middle">5</text>
+      <text x="55" y="18" class="callout-title">MOTEUR ROBSTRIDE RS-06 (QDD 36 N.m, CARTER FERMÉ, Ø 88 mm)</text>
+      <text x="55" y="34" class="callout-desc">Glissé dans alésage Ø 88 H7. Rotor accouplé au centre de la Waist Plate. Câbles sortant à l'arrière.</text>
+    </g>
+
+    <!-- Étape 6 : Platine Monolithique -->
+    <g transform="translate(40, 405)">
+      <rect x="0" y="0" width="40" height="40" rx="6" fill="#10b981" />
+      <text x="20" y="26" fill="#0f172a" font-family="Inter" font-size="16" font-weight="900" text-anchor="middle">6</text>
+      <text x="55" y="18" class="callout-title">PLATINE MONOLITHIQUE ALU 7075-T6 (Ø 140 × 12 mm)</text>
+      <text x="55" y="34" class="callout-desc">Centrage simultané du moteur et du siège roulement. 6 vis CHC M5 × 20 mm fixées sur le pelvis.</text>
+    </g>
+
+    <!-- Étape 7 : Pelvis & Goupille Butée -->
+    <g transform="translate(40, 475)">
+      <rect x="0" y="0" width="40" height="40" rx="6" fill="#475569" />
+      <text x="20" y="26" fill="#ffffff" font-family="Inter" font-size="16" font-weight="900" text-anchor="middle">7</text>
+      <text x="55" y="18" class="callout-title">CHÂSSIS PELVIEN FIXE &amp; GOUPILLE TREMPÉE DIN 6325 Ø 8 mm × 16 mm</text>
+      <text x="55" y="34" class="callout-desc">Goupille emmanchée à R = 45 mm, débord +2,4 mm coulissant dans la rainure 190° de la Waist Plate.</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANNEAU 3 : GUIDE CAO FUSION 360 — WAIST PLATE FACE INF (BAS GAUCHE)     -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 690)">
+    <rect width="760" height="620" class="panel-card" />
+    <rect x="0" y="0" width="760" height="38" rx="8" fill="#334155" />
+    <text x="20" y="24" class="panel-header">PANNEAU 3 : ESQUISSE FUSION 360 — WAIST PLATE (VUE DE DESSOUS FACE MOBILE)</text>
+    <rect x="630" y="8" width="115" height="22" rx="4" fill="#a855f7" />
+    <text x="687" y="23" class="badge-text" text-anchor="middle">COTES CAO 2D</text>
+
+    <!-- Rectangle Waist Plate (120 x 94 mm) -->
+    <rect x="152" y="160" width="456" height="357" rx="4" class="part-alu6061" />
+
+    <!-- Axes médians -->
+    <line x1="380" y1="120" x2="380" y2="540" class="axis-center" />
+    <line x1="120" y1="338" x2="640" y2="338" class="axis-center" />
+    <text x="645" y="342" fill="#ef4444" font-family="Inter" font-size="10" font-weight="bold">AXE Y (LATÉRAL)</text>
+    <text x="380" y="110" fill="#ef4444" font-family="Inter" font-size="10" font-weight="bold" text-anchor="middle">AXE X (SAGITTAL AVANT ➔)</text>
+
+    <!-- Redan circulaire saillant +1.5 mm (Ø 80 à Ø 92 mm) -->
+    <circle cx="380" cy="338" r="175" fill="#0284c7" opacity="0.3" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,2" />
+    <circle cx="380" cy="338" r="152" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="380" y="230" fill="#38bdf8" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">REDAN SAILLANT +1,5 mm (APPUI BAGUE INT. CRBH 8016)</text>
+    <text x="380" y="245" fill="#94a3b8" font-family="Inter" font-size="9.5" text-anchor="middle">Plage active : Ø 80,0 mm à Ø 92,0 mm</text>
+
+    <!-- Rainure en arc de cercle 190° (R = 45 mm) -->
+    <path d="M 295 338 A 85 85 0 1 0 465 338" fill="none" stroke="#f59e0b" stroke-width="17" stroke-linecap="round" />
+    <text x="380" y="445" fill="#f59e0b" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">RAINURE DE BUTÉE (LARG 9,0 mm × PROF 3,0 mm)</text>
+    <text x="380" y="460" fill="#f8fafc" font-family="Inter" font-size="10" text-anchor="middle">Rayon moyen R = 45,0 mm • Débattement franc 190° (+/- 95°)</text>
+
+    <!-- Lumière de passage de câble déportée arrière (25 x 15 mm) -->
+    <rect x="180" y="310" width="45" height="60" rx="20" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+    <text x="170" y="295" fill="#10b981" font-family="Inter" font-size="10.5" font-weight="bold">LUMIÈRE 25×15 mm</text>
+    <text x="170" y="307" fill="#94a3b8" font-family="Inter" font-size="8.5">Faisceau 48V + CAN déporté</text>
+
+    <!-- Perçages de liaison rotor au centre -->
+    <circle cx="380" cy="300" r="4" class="part-screw" />
+    <circle cx="380" cy="376" r="4" class="part-screw" />
+    <circle cx="342" cy="338" r="4" class="part-screw" />
+    <circle cx="418" cy="338" r="4" class="part-screw" />
+    <text x="380" y="342" fill="#a855f7" font-family="Inter" font-size="10" font-weight="bold" text-anchor="middle">FIXATION ROTOR RS-06</text>
+
+    <!-- Cotes hors tout -->
+    <line x1="152" y1="535" x2="608" y2="535" class="dim-line" />
+    <text x="380" y="552" class="dim-text">LONGUEUR SAGITTALE = 120,0 mm</text>
+    <line x1="130" y1="160" x2="130" y2="517" class="dim-line" />
+    <text x="100" y="342" class="dim-text" transform="rotate(-90 100 342)">LARGEUR = 94,0 mm</text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANNEAU 4 : GUIDE CAO FUSION 360 — PLATINE MONOLITHIQUE (BAS DROITE)      -->
+  <!-- ========================================================================= -->
+  <g transform="translate(840, 690)">
+    <rect width="770" height="620" class="panel-card" />
+    <rect x="0" y="0" width="770" height="38" rx="8" fill="#334155" />
+    <text x="20" y="24" class="panel-header">PANNEAU 4 : ESQUISSE FUSION 360 — PLATINE MONOLITHIQUE 7075-T6 (FACE SUP)</text>
+    <rect x="640" y="8" width="115" height="22" rx="4" fill="#38bdf8" />
+    <text x="697" y="23" class="badge-text" text-anchor="middle">USINAGE C500</text>
+
+    <!-- Centre platine -->
+    <!-- Disque Extérieur Ø 140 mm -->
+    <circle cx="385" cy="340" r="210" class="part-alu7075" />
+
+    <!-- Siège Roulement Ø 120 mm H7 prof 3 mm -->
+    <circle cx="385" cy="340" r="180" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8" />
+    <text x="385" y="180" fill="#38bdf8" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">SIÈGE ROULEMENT CRBH 8016 : Ø 120,000 mm H7 (PROF 3,0 mm)</text>
+
+    <!-- Alésage Central Traversant Moteur Ø 88 mm H7 -->
+    <circle cx="385" cy="340" r="132" fill="#0f172a" stroke="#6366f1" stroke-width="2" />
+    <text x="385" y="335" fill="#6366f1" font-family="Inter" font-size="12" font-weight="bold" text-anchor="middle">ALÉSAGE CENTRAL TRAVERSANT</text>
+    <text x="385" y="352" fill="#ffffff" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">Ø 88,03 mm H7 (STATOR RS-06)</text>
+
+    <!-- PCD Ø 132 mm : 6 perçages Ø 5.3 mm traversants -->
+    <circle cx="385" cy="340" r="198" fill="none" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="6,3" />
+    <!-- 6 Trous à 60° -->
+    <circle cx="583" cy="340" r="6" class="part-screw" />
+    <circle cx="187" cy="340" r="6" class="part-screw" />
+    <circle cx="484" cy="168" r="6" class="part-screw" />
+    <circle cx="286" cy="168" r="6" class="part-screw" />
+    <circle cx="484" cy="512" r="6" class="part-screw" />
+    <circle cx="286" cy="512" r="6" class="part-screw" />
+    <text x="590" y="325" fill="#f59e0b" font-family="Inter" font-size="10" font-weight="bold">6× Ø 5,3 mm (M5)</text>
+    <text x="590" y="337" fill="#94a3b8" font-family="Inter" font-size="8.5">sur PCD Ø 132 mm</text>
+
+    <!-- PCD Ø 128 mm : 4 taraudages M3 pour Flasque axial Z -->
+    <circle cx="385" cy="340" r="192" fill="none" stroke="#10b981" stroke-width="0.8" stroke-dasharray="3,3" />
+    <circle cx="385" cy="148" r="4.5" fill="#10b981" stroke="#ffffff" stroke-width="1" />
+    <circle cx="385" cy="532" r="4.5" fill="#10b981" stroke="#ffffff" stroke-width="1" />
+    <circle cx="193" cy="340" r="4.5" fill="#10b981" stroke="#ffffff" stroke-width="1" />
+    <circle cx="577" cy="340" r="4.5" fill="#10b981" stroke="#ffffff" stroke-width="1" />
+    <text x="385" y="138" fill="#10b981" font-family="Inter" font-size="10" font-weight="bold" text-anchor="middle">4× TARAUDAGES M3 BORGNE (PROF 6 mm) SUR PCD Ø 128 mm</text>
+    <text x="385" y="555" fill="#10b981" font-family="Inter" font-size="9" text-anchor="middle">(Serrage Flasque Retenue Axiale Z)</text>
+
+    <!-- Cotes de concentricité -->
+    <text x="385" y="585" fill="#e2e8f0" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">TOLÉRANCE D'USINAGE C500 : CONCENTRICITÉ Ø 88 / Ø 120 &lt; 0,02 mm (MONOMONTAGE MANDRIN)</text>
+  </g>
+
+</svg>

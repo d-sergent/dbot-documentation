@@ -95,7 +95,7 @@ graph TD
 ## 3. Rôle, Emplacement et Complexité des Poulies Usinées
 
 ### 3.1 Emplacement
-Les poulies d'enroulement (*spools*) sont positionnées **dans l'avant-bras, fixées directement sur les arbres de sortie cannelés de vos 8 servomoteurs**. Le tendon Dyneema s'enroule autour de ces poulies et chemine à travers le poignet RS-00 creux jusqu'aux doigts.
+Les poulies d'enroulement (*spools*) sont positionnées **dans l'avant-bras, fixées directement sur les arbres de sortie cannelés de vos 8 servomoteurs**. Le tendon Dyneema s'enroule autour de ces poulies et chemine via un corridor de guidage latéral déporté le long du poignet RS-00 (arbre plein, zéro alésage central) jusqu'aux doigts.
 
 ### 3.2 Complexité de Fabrication sur la NestWorks C500
 Bien que l'usinage soit tout à fait réalisable sur votre CNC 3 axes in-house, la pièce demande une excellente précision :

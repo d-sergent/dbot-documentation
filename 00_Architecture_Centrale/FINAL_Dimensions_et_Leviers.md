@@ -86,7 +86,7 @@ Le bassin constitue le noeud structurel le plus sollicité du robot. Il reçoit 
 
 | Paramètre Bassin | Valeur | Statut |
 | :--- | :---: | :--- |
-| **Moteur Waist Yaw** | **RobStride RS-06** (36 N.m pic, 11 N.m nom., Ø 88 mm, 621 g) | ✅ Acheté & Validé |
+| **Moteur Waist Yaw** | **RobStride RS-06** (36 N.m pic, 11 N.m nom., Ø 88 mm, 621 g, arbre plein / carter fermé) | ✅ Acheté & Validé |
 | **Roulement Structurel Principal** | **Roulement a rouleaux croises CRBH 8016 UU (80x120x16 mm, P5)** | ✅ Validé, a commander (AliExpress ~60-90 EUR, 2-4 sem.) |
 | **Platine d'Interface Waist** | Alu 7075-T6, Ø 140 x 12 mm, alésage Ø 88 H7, siège roulement Ø 120 H7 x 3 mm, ~265 g | ✅ Dimensionnée (usiner après réception roulement) |
 | **Entraxe Hanches (RS-04 Hip Pitch)** | **~378 mm** | ✅ Scalé +18% |
@@ -96,7 +96,7 @@ Le bassin constitue le noeud structurel le plus sollicité du robot. Il reçoit 
 
 ### Sourcing du Roulement Structurel Waist (Chemin Critique)
 
-Le roulement structurel du Waist est le composant le plus critique et à délai le plus long du bassin. Il doit reprendre les moments de basculement (56 à 220 N.m) et les charges radiales (90 à 300 N) tout en laissant un passage central d'au moins Ø 40 mm pour les câbles 48V et CAN-FD.
+Le roulement structurel du Waist est le composant le plus critique et à délai le plus long du bassin. Il doit reprendre les moments de basculement (56 à 220 N.m) et les charges radiales (90 à 300 N) pour découpler totalement l'actionneur RS-06 (le faisceau 48V et CAN-FD transitant par un corridor postérieur déporté avec boucle de service).
 
 #### Option A — Roulement à Rouleaux Croisés RB 8016 / CRBH 8016 (80x120x16 mm) ⭐ Recommandée
 

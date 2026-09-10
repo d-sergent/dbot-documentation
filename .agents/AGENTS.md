@@ -35,3 +35,8 @@
 ## Documentation Structure & Navigation
 - **Systematic Table of Contents (Sommaire Cliquable)** : In every main technical Markdown document (`.md`), ALWAYS include a structured `## 📑 Sommaire` / `## 📑 Sommaire Général` at the beginning of the file (immediately after the header / intro callout) with markdown anchor links (`[Titre](#slug-ancre)`) pointing directly to all major sections (`##`) and sub-sections (`###`).
 
+## Actionneurs RobStride — Règle Matérielle Inviolable (Arbres Pleins / Zéro Arbre Creux)
+- **Architecture Pleine & Fermée** : TOUS les moteurs de la gamme RobStride (RS-00, RS-02, RS-03, RS-04, RS-05, RS-06) possèdent un arbre de sortie plein, un centre borgne/obstrué et un carter arrière totalement fermé.
+- **Interdiction Formelle d'Arbre Creux** : AUCUN moteur RobStride n'a d'arbre creux traversant (ZÉRO hollow shaft / ZÉRO through-bore).
+- **Routage Obligatoire Déporté** : Tout passage de faisceau électrique (lignes de puissance 48V, paires CAN-FD, câblage capteurs) ou de transmission par câble/tendon (mains D-Hand) doit IMPÉRATIVEMENT contourner le moteur via un corridor latéral ou postérieur déporté (lumière oblongue avec passe-fil et boucle de service). Il est STRICTEMENT INTERDIT de concevoir ou de suggérer un passage de câbles ou de tendons à travers l'axe d'un moteur RobStride.
+

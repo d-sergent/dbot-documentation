@@ -30,14 +30,18 @@
   - [4.1 Spécifications de l'Actionneur RS-06](#41-spécifications-de-lactionneur-rs-06)
   - [4.2 Platine d'Interface Waist Monolithique CNC (Alu 7075-T6, Ø 140 × 12 mm)](#42-platine-dinterface-waist-monolithique-cnc-alu-7075-t6-ø-140--12-mm)
   - [4.3 Schéma de Transmission & Découplage des Charges](#43-schéma-de-transmission--découplage-des-charges)
+  - [4.4 Schéma Vectoriel d'Ingénierie & Détails d'Exécution CRBH 8016](#44-schéma-vectoriel-dingénierie--détails-dexécution-crbh-8016)
 - [5. Interfaces Mécaniques & Chaîne Cinématique Pelvienne](#5-interfaces-mécaniques--chaîne-cinématique-pelvienne)
   - [5.1 Interface Supérieure : Waist Plate 6,0 mm & Équerres Basses L = 80,0 mm](#51-interface-supérieure--waist-plate-60-mm--équerres-basses-l--800-mm)
   - [5.2 Le Bloc Pelvien Inférieur (Pelvis Asimov Scalé +18 %)](#52-le-bloc-pelvien-inférieur-pelvis-asimov-scalé-18-)
   - [5.3 Connexion avec les Hanches en Chaîne F-A-R (RS-04 Hip Pitch)](#53-connexion-avec-les-hanches-en-chaîne-f-a-r-rs-04-hip-pitch)
-  - [5.4 Système de Butée Angulaire à Double Ergot & Rainure en Arc (Inspiré Asimov v1)](#54-système-de-butée-angulaire-à-double-ergot--rainure-en-arc-inspiré-asimov-v1)
-  - [5.5 Corridor Central Traversant (Faisceau 48V & Bus CAN-FD)](#55-corridor-central-traversant-faisceau-48v--bus-can-fd)
+  - [5.4 Système de Butée Angulaire Optimisé (Goupille Unique DIN 6325 Ø 8 mm)](#54-système-de-butée-angulaire-optimisé-goupille-unique-din-6325-ø-8-mm)
+  - [5.5 Corridor de Traversée du Faisceau (48V & Bus CAN-FD)](#55-corridor-de-traversée-du-faisceau-48v--bus-can-fd)
 - [6. Nomenclature Matérielle & Approvisionnement (BOM)](#6-nomenclature-matérielle--approvisionnement-bom)
 - [7. Recommandations de Modélisation CAO Fusion 360](#7-recommandations-de-modélisation-cao-fusion-360)
+  - [7.1 Import Direct du Modèle 3D CAO du Roulement (Méthode Recommandée Fusion 360)](#71-import-direct-du-modèle-3d-cao-du-roulement-méthode-recommandée-fusion-360)
+  - [7.2 Procédure de Modélisation & Assemblage Sous Fusion 360](#72-procédure-de-modélisation--assemblage-sous-fusion-360)
+- [8. Checklist de Contrôle & Métrologie Avant Usinage C500](#8-checklist-de-contrôle--métrologie-avant-usinage-c500)
 
 ---
 
@@ -280,7 +284,8 @@ Le châssis pelvien d'Asimov v1 comportait initialement un logement circulaire d
 - **Épaisseur Finie** : **`12,0 mm (+/- 0,05 mm)`** (surfaçage CNC des 2 faces).
 - **Alésage Central (Moteur RS-06)** : **`Ø 88,03 mm H7 (+0,000 / +0,035)`** — traversant sur toute l'épaisseur. Ajustement glissant juste sur le carter cylindrique Ø 88 h6 du RS-06.
 - **Siège Roulement (Recess Face Supérieure)** : **`Ø 120,000 mm H7 (+0,000 / +0,035)`**, profondeur **`3,0 mm (+/- 0,05 mm)`** — centre et retient axialement la bague externe du CRBH 8016. Épaisseur résiduelle sous le siège = 9,0 mm.
-- **6× Trous de Fixation** : **`Ø 5,3 mm traversants`**, répartis sur PCD **`Ø 132 mm`** à 60° — pour vis CHC M5 × 20 mm fixant la Platine sur la face supérieure du pelvis.
+- **6× Trous de Fixation Platine ➔ Pelvis** : **`Ø 5,3 mm traversants`**, répartis sur PCD **`Ø 132 mm`** à 60° — pour vis CHC M5 × 20 mm fixant la Platine sur la face supérieure du pelvis.
+- **4× Taraudages M3 pour Flasque de Retenue Axiale Z** : 4 perçages borgnes taraudés M3 à 90° sur PCD **`Ø 128,0 mm`**, profondeur taraudée utile 6,0 mm. Ils reçoivent un flasque circulaire mince en aluminium (épaisseur 2,5 à 3,0 mm, Ø int 118 mm / Ø ext 136 mm) bridé par 4 vis FHC M3 × 8 mm pour empêcher tout glissement de la bague extérieure du roulement vers le haut (+Z) en cas de saut ou choc dynamique.
 - **Concentricité Ø 88 / Ø 120** : **`< 0,02 mm`** (usiner les deux alésages dans le même montage mandrin sur la C500).
 - **Planéité Face Inférieure** : **`< 0,03 mm`** (appui franc sur le pelvis).
 - **Chanfreins** : 0,5 mm × 45° en entrée des alésages Ø 88 et Ø 120 (2 côtés), 0,3 mm × 45° périphérique.
@@ -288,18 +293,29 @@ Le châssis pelvien d'Asimov v1 comportait initialement un logement circulaire d
 - **Fonction Thermique** : Les 12 mm d'Alu 7075-T6 autour du Ø 88 du moteur (section radiale de 26 mm de large) assurent la conduction thermique du stator RS-06 vers la structure du pelvis (~15-20 W en régime nominal de 11 N.m continu).
 
 > [!IMPORTANT]
-> **Gamme d'usinage** : Pièce 2.5D usinable en 2 retournements sur la NestWorks C500 (~45 min). Phase 1 (face sup) : surfaçage + siège Ø 120 H7 × 3 mm + alésage Ø 88 H7 traversant + 6 perçages PCD Ø 132 + chanfreins. Phase 2 (retournement) : surfaçage face inf à 12 mm + chanfrein alésage Ø 88 côté inf + ébavurage.
+> **Gamme d'usinage sur NestWorks C500** : Pièce 2.5D usinable en 2 retournements sur la NestWorks C500 (~45 min).
+> - Phase 1 (face sup) : surfaçage + siège Ø 120 H7 × 3 mm + alésage Ø 88 H7 traversant + 6 perçages PCD Ø 132 + 4 taraudages M3 PCD Ø 128 + chanfreins.
+> - Phase 2 (retournement) : surfaçage face inf à 12 mm + chanfrein alésage Ø 88 côté inf + ébavurage.
 >
-> **NE PAS usiner avant réception du roulement CRBH 8016.** Vérifier les cotes réelles au pied à coulisse et ajuster le Ø 120 H7 en conséquence.
+> **RÈGLE ATELIER INVIOLABLE** : Ne pas usiner le siège Ø 120 H7 avant d'avoir réceptionné le roulement CRBH 8016 UU. Mesurer le diamètre extérieur effectif au palmer et ajuster le parcours d'outil pour un ajustement glissant juste (**H7/h6**, soit 0.000 à +0.020 mm de jeu effectif).
 
 ### 4.3 Schéma de Transmission & Découplage des Charges
 
 Le principe fondamental de la conception mécanique du D-Bot est le **découplage absolu entre la génération de couple et la reprise des charges structurales** :
 
-*(Se référer à la coupe axiale du **Panneau 1 du blueprint vectoriel** pour la visualisation des flux d'efforts et de l'implantation des composants).*
-
 1. **Le Roulement CRBH 8016 (Ø 80×120×16 mm)** encaisse l'intégralité des efforts perturbateurs : les `~17,3 kg` de compression axiale, les `180 N` de cisaillement et les `56 à 220 N.m` de moment de basculement. Sa capacité en moment (520 N.m) offre un facteur de sécurité de x2,36 dans le pire cas.
 2. **Le Moteur RobStride RS-06** n'encaisse strictement aucun effort de basculement. Son arbre de sortie (rotor) ne transmet que le couple de rotation pur en lacet (**36 N.m max**), garantissant une durée de vie maximale et l'absence d'usure anormale des réducteurs.
+
+### 4.4 Schéma Vectoriel d'Ingénierie & Détails d'Exécution CRBH 8016
+
+Le schéma vectoriel ci-dessous regroupe les détails d'exécution géométrique issus de l'expertise mécanique pour un montage sans frottement et sans perte de course :
+
+![Schéma d'Expertise et Points de Vigilance Waist Yaw](./media/schema_vigilances_mecaniques_waist_crbh8016.svg)
+
+*Schéma technique d'ingénierie vectoriel officiel (D-Bot V1.2).*
+- **Panneau 1 (Coupe Axiale Z)** : Détaillant le flasque mince de retenue axiale Z fixé sur la Platine (PCD Ø 128 mm) pour bloquer la bague extérieure, et le redan de +1.5 mm sous la Waist Plate créant un entrefer de sécurité de 1.5 mm face à la bague extérieure fixe.
+- **Panneau 2 (Cinématique de Butée)** : Démontrant que 2 goupilles espacées de 15 mm consomment 19.2° d'angle mort sur une rainure de 190°, et validant la solution optimale à goupille unique DIN 6325 Ø 8 mm (course nominale +/- 95° préservée, tenue > 45 kN).
+- **Panneau 3 (Traversée Électrique & Gamme C500)** : Implantation du corridor latéral déporté (25 × 15 mm) avec boucle de service (L = 150 mm) et checklist de validation avant usinage.
 
 ---
 
@@ -314,6 +330,12 @@ La connexion avec le haut du corps s'effectue via la **Waist Plate** (plaque inf
   - Flanc vertical pincé sur la colonne par **4 vis CHC M4 × 20 mm traversantes + 8 rondelles DIN 125A + 4 écrous Nylstop M4** (entraxes réguliers de 18 mm, entraxe total 54 mm).
   - Aile horizontale fixée sur la Waist Plate par **8 vis M4** réparties (4 par équerre).
   - Couple de serrage normalisé : **`3,0 N.m`** (facteur de sécurité au glissement par adhérence `Sf = 2,78` face aux 36 N.m du moteur).
+- **Redan d'Appui Bague Intérieure (Face Inférieure)** :
+  - Usinage d'une portée circulaire en saillie de **`+1,5 mm`** sur la plage de diamètre comprise entre **`Ø 80,0 mm et Ø 92,0 mm`** (zone de contact exclusive avec la bague intérieure mobile du CRBH 8016).
+  - La surface au-delà de Ø 95,0 mm reste usinée en retrait de 1,5 mm, garantissant un **entrefer d'air franc de 1,5 mm** au-dessus de la bague extérieure fixe et du flasque de retenue axiale. Zéro frottement parasite aluminium/acier garanti.
+- **Lumière Oblongue de Traversée de Faisceau** :
+  - Découpe traversante de **`25,0 mm × 15,0 mm`** (rayons R = 7,5 mm) usinée en zone postérieure libre (en retrait du roulement).
+  - Bords chanfreinés à 1,0 mm × 45° sur les deux faces et équipés d'un passe-fil souple en TPU imprimé 3D ou caoutchouc EPDM pour protéger le faisceau 48V et CAN-FD.
 
 ### 5.2 Le Bloc Pelvien Inférieur (Pelvis Asimov Scalé +18 %)
 
@@ -339,43 +361,53 @@ Le D-Bot V1.x utilise officiellement l'ordre cinématique **F-A-R (Flexion Pitch
 
 *(Consulter la représentation anatomique complète de la chaîne cinématique pelvienne F-A-R dans le **Panneau 2 du blueprint vectoriel** en tête de dossier).*
 
-### 5.4 Système de Butée Angulaire à Double Ergot & Rainure en Arc (Inspiré Asimov v1)
+### 5.4 Système de Butée Angulaire Optimisé (Goupille Unique DIN 6325 Ø 8 mm)
 
-Afin de sécuriser physiquement la rotation du torse, nous adoptons l'élégante solution d'obstacle mécanique observée sur Asimov v1 :
+Afin de sécuriser physiquement la rotation de taille sans perte d'angle mort ni affaiblissement mécanique :
 
 ```
        [WAIST PLATE 6,0 mm - Face Inférieure Mobile]
             ┌──────────────────────────────────────────────┐
-            │   (=== Rainure en Arc de Cercle Borgne ===)  │ Profondeur 3,0 mm
+            │   (=== Rainure en Arc de Cercle Borgne ===)  │ Largeur 9,0 mm / Profondeur 3,0 mm
             └──────────────────────▲───────────────────────┘
                                    │
-                           [2 Ergots Coulissants]
+                           [1 Ergot de Guidage]
                                    │ (Course libre +/- 95°)
             ┌──────────────────────┴───────────────────────┐
-            │   (●) (●)  2× Goupilles DIN 6325 Ø 5 mm      │
+            │   (●)  1× Goupille Trempée DIN 6325 Ø 8 mm   │ Section 50,2 mm² (> 45 kN)
             └──────────────────────────────────────────────┘
        [PLATINE PELVIENNE SUPÉRIEURE - Châssis Fixe]
 ```
 
 #### Définition & Rôle Mécanique :
-1. **La Rainure en Arc de Cercle (Waist Plate 6,0 mm)** :
-   - Usinée directement par fraisage CNC C500 dans la face inférieure de la Waist Plate en aluminium.
-   - **Profondeur** : `3,00 mm` (laisse 3,0 mm de matière pleine supérieure rigide).
-   - **Largeur de gorge** : `6,20 mm` (pour laisser 0,6 mm de jeu avec les goupilles de Ø 5,0 mm).
+1. **Correction Cinématique de la Butée (Gain de 19,2°)** :
+   - L'étude cinématique a démontré que disposer deux goupilles de Ø 5,0 mm avec un entraxe linéaire de 15 mm sur le rayon moyen R = 45 mm consommait un angle mort parasite :
+     `Delta_theta = 2 * arcsin(15 / (2 * 45)) = 19.2°`
+   - Sur une rainure de 190°, la course effective se trouvait bridée à `190° - 19.2° = 170.8°` (soit seulement `+/- 85.4°`), amputant la rotation nominale logicielle de `+/- 90.0°`.
+   - **Solution Optimale Validée** : Remplacement des 2 goupilles par une **unique goupille cylindrique rectifiée trempée ISO 8734 / DIN 6325 (Acier trempé 60 HRC, Ø 8,0 mm × 16 mm)**.
+2. **Dimensionnement au Cisaillement de la Goupille Ø 8 mm** :
+   - Section résistante de la goupille : `S = pi * 8^2 / 4 = 50.2 mm^2`.
+   - Avec une résistance admissible au cisaillement `tau_adm = 900 MPa` pour un acier DIN 6325, l'effort tranchant admissible dépasse :
+     `F_adm = 50.2 mm^2 * 900 MPa = 45.2 kN`
+   - Sur le bras de levier R = 45 mm, le couple maximal d'arrêt brutal du moteur RS-06 (36 N.m) ne produit qu'un effort tangentiel de :
+     `F_tang = 36 N.m / 0.045 m = 800 N`
+   - Le facteur de sécurité au cisaillement est donc colossal : `Sf = 45 200 / 800 = 56.5` (marge > 50).
+3. **Usinage de la Rainure en Arc de Cercle (Waist Plate 6,0 mm)** :
+   - Usinée par fraisage CNC C500 dans la face inférieure de la Waist Plate en aluminium.
+   - **Profondeur** : `3,00 mm` (laisse 3,0 mm de matière pleine rigide au-dessus).
+   - **Largeur de gorge** : `9,00 mm` (laisse 0,5 mm de jeu radial de chaque côté avec la goupille Ø 8,0 mm).
    - **Débattement angulaire physique** : Arc circulaire ouvert sur **`190°` (soit `+/- 95°`)**, permettant de couvrir sans frottement la course nominale logicielle de **`+/- 90°`**.
-   - **Fonds de gorge arrondis** : Butée mécanique franche d'arrêt d'urgence.
-2. **Le Double Ergot Cylindrique (Pelvis Fixe)** :
-   - Deux goupilles cylindriques rectifiées trempées **ISO 8734 / DIN 6325 (Acier trempé 60 HRC, Ø 5,0 mm × 14 mm)** emmanchées serrées dans la platine supérieure du bassin.
-   - **Doublement de la résistance au cisaillement** : Répartit l'impact sur deux sections pleines d'acier trempé (résistance au cisaillement combinée > 35 kN).
-   - Élimine tout risque de matage de la matière alu lors des arrêts d'urgence brutaux.
-3. **Protection Absolue du Faisceau Électrique (Anti-Cable-Wrap)** :
+   - **Fonds de gorge arrondis** à R = 4,5 mm pour épouser parfaitement le profil de la goupille en fin de course.
+4. **Protection Absolue du Faisceau Électrique (Anti-Cable-Wrap)** :
    - Empêche physiquement le torse de tourner à 360° en cas de défaillance de l'encodeur moteur ou de plantage logiciel. Les câbles 48V et bus CAN ne peuvent en aucun cas être vrillés ou arrachés.
 
-### 5.5 Corridor Central Traversant (Faisceau 48V & Bus CAN-FD)
+### 5.5 Corridor de Traversée du Faisceau (48V & Bus CAN-FD)
 
-Pour permettre la rotation du Waist Yaw sans risque d'arrachement ou d'usure par frottement des câbles :
-- Le diamètre intérieur du roulement CRBH 8016 (**`Ø int. 80 mm`**) ménage un **corridor central dégagé de plus de 40 mm de diamètre** autour de l'arbre moteur RS-06. L'espace annulaire disponible entre le shaft rotor (~Ø 40-50 mm) et le bore Ø 80 mm laisse un passage de **15 à 20 mm** sur tout le pourtour pour les câbles.
-- **Faisceau Électrique Traversant le Waist** :
+Pour permettre la rotation de la taille sans risque d'arrachement, d'écrasement ou d'usure par frottement des câbles :
+- **Spécificité de l'Actionneur RS-06** : Le moteur RobStride RS-06 possède un carter fermé et un arbre plein (aucun arbre creux central traversant). Ses propres câbles (48V et CAN-FD ID 21) émergent par une encoche latérale à l'arrière du stator directement dans le volume intérieur du caisson pelvien fixe.
+- **Corridor de Traversée Torse ➔ Pelvis** : Le faisceau reliant le haut du corps aux membres inférieurs transite par un **corridor latéral / postérieur déporté** (lumière oblongue 25 × 15 mm avec bords chanfreinés et passe-fil souple TPU/caoutchouc) usiné dans la zone arrière de la Waist Plate et du pelvis, en dehors de la zone balayée par le roulement CRBH 8016.
+- **Boucle de Service Souple** : Une surlongueur libre de **`L = 140 à 180 mm`** garantit un rayon de courbure dynamique `R >= 40 mm` absorbant les rotations de **`-90° à +90°`** sans contrainte de traction.
+- **Composition du Faisceau Traversant le Waist** :
   1. **Ligne de Puissance Haute Tension (48V)** : Câbles silicone 10 AWG (GND / +48V) reliant les 2 packs batteries situés dans le torse bas vers les 2 mini-busbars pelviens qui alimentent les 12 moteurs des jambes.
   2. **Ligne Bus CAN-FD Jambes** : Paire torsadée blindée CAN-H / CAN-L / GND allant du Jetson vers le contrôleur maître des membres inférieurs.
   3. **Alimentation Auxiliaire 12V / 5V** : Pour les capteurs d'efforts ou caméras de bassin.
@@ -386,15 +418,17 @@ Pour permettre la rotation du Waist Yaw sans risque d'arrachement ou d'usure par
 
 | Repère | Désignation Composant | Spécification Technique | Réf Fournisseur / Standard | Qté | Fonction Mécanique |
 | :---: | :--- | :--- | :--- | :---: | :--- |
-| **M-04** | **Moteur Waist Yaw** | RobStride RS-06 (36 N.m pic, 11 N.m nom., CAN-FD) | RobStride / RS-06-V1 | 1 | Motorisation active du lacet de taille (Acheté & Monté) |
+| **M-04** | **Moteur Waist Yaw** | RobStride RS-06 (36 N.m pic, 11 N.m nom., CAN-FD, arbre plein) | RobStride / RS-06-V1 | 1 | Motorisation active du lacet de taille (Acheté & Monté) |
 | **B-01** | **Roulement Principal Waist** | **Roulement à rouleaux croisés CRBH 8016 UU (Ø int 80 mm, Ø ext 120 mm, ép 16 mm, P5)** | **CRBH8016 UU / RB8016 UU (AliExpress Luoyang)** | 1 | Reprise intégrale de F_z, F_xy, M_pitch et M_roll (520 N.m) |
-| **A-01** | **Platine d'Interface Waist** | **Platine monolithique CNC Alu 7075-T6 (Ø 140 × 12 mm, alésage Ø 88 H7, siège roulement Ø 120 H7 × 3 mm)** | **Usinage interne CNC C500** | 1 | Siège roulement + centrage RS-06 + dissipateur thermique (remplace l'ancienne bague d'adaptation) |
-| **P-01** | **Waist Plate** | Plaque usinée Alu 6061-T6 (ép. 6,0 mm, 120 × 94 mm, avec rainure d'arc borgne 3 mm) | Découpe & Usinage CNC C500 | 1 | Fermeture basse torse, interface rotor et chemin de butée |
-| **G-01** | **Goupilles Butée Angulaire** | Goupilles cylindriques rectifiées trempées Ø 5,0 mm × 14 mm | ISO 8734 / DIN 6325 (Acier 60 HRC) | 2 | Double ergot de butée mécanique franche (+/- 95°) |
+| **A-01** | **Platine d'Interface Waist** | **Platine monolithique CNC Alu 7075-T6 (Ø 140 × 12 mm, alésage Ø 88 H7, siège roulement Ø 120 H7 × 3 mm, 4 taraudages M3)** | **Usinage interne CNC C500** | 1 | Siège roulement + centrage RS-06 + dissipateur thermique (remplace l'ancienne bague) |
+| **F-01** | **Flasque Retenue Axiale Z** | Anneau plat Alu 6061 ou 7075 (ép. 2,5 mm, Ø int 118 mm, Ø ext 136 mm, 4 perçages fraisés M3) | Découpe CNC C500 | 1 | Maintien axial positif (+Z) de la bague extérieure du CRBH 8016 |
+| **P-01** | **Waist Plate** | Plaque usinée Alu 6061-T6 (ép. 6,0 mm, 120 × 94 mm, avec redan +1,5 mm, rainure d'arc 9 mm et lumière 25×15 mm) | Découpe & Usinage CNC C500 | 1 | Fermeture basse torse, portée bague intérieure, chemin de butée et passage faisceau |
+| **G-01** | **Goupille Butée Angulaire** | Goupille cylindrique rectifiée trempée ISO 8734 / DIN 6325 (Acier trempé 60 HRC, Ø 8,0 mm × 16 mm) | ISO 8734 / DIN 6325 | 1 | Ergot unique de butée mécanique franche (+/- 95°, tenue > 45 kN) |
 | **E-02** | **Équerres Basses Waist** | Cornière marchande Alu 6060-T6 (30 × 30 × 3,0 mm, L = 80,0 mm) | Blockenstock `30x30x3-lg500mm` | 2 | Ancrage rigide colonne sagittale 5 mm ➔ Waist Plate |
 | **V-01** | **Vis Pincement Colonne** | Vis CHC M4 × 20 mm classe 12.9 noir ou Inox A2 | ISO 4762 / DIN 912 | 4 | Pincement traversant des équerres sur colonne 5 mm |
 | **V-02** | **Vis Fixation Waist Plate** | Vis CHC M4 × 16 mm classe 12.9 noir | ISO 4762 / DIN 912 | 8 | Fixation des ailes horizontales d'équerres sur Waist Plate |
 | **V-03** | **Vis Fixation Platine → Pelvis** | **Vis CHC M5 × 20 mm classe 12.9 noir ou Inox A2** | **ISO 4762 / DIN 912** | **6** | **Fixation de la Platine d'Interface sur le pelvis (PCD Ø 132 mm, 60°)** |
+| **V-04** | **Vis Flasque Axial Roulement** | Vis FHC M3 × 8 mm classe 10.9 ou Inox A2 | ISO 10642 / DIN 7991 | 4 | Serrage du flasque de retenue axiale sur la Platine (couple 1,2 N.m + Loctite 243) |
 | **N-01** | **Écrous Frein Nylstop M4** | Écrous autofreinés bague nylon classe 8/10 | ISO 7040 / DIN 985 | 12 | Verrouillage anti-vibrations visserie d'équerres (3,0 N.m) |
 | **W-01** | **Rondelles Plates M4** | Rondelles plates standard DIN 125A M4 (Ø ext 9 mm) | ISO 7089 / DIN 125A | 16 | Répartition de contrainte sous têtes et écrous M4 |
 | **D-01** | **Disque Brut Platine** | **Disque Ø 150 × 15 mm Alu 7075-T651** | **Blockenstock (~12-15 EUR TTC)** | **1** | **Brut d'usinage pour Platine d'Interface Waist** |
@@ -403,26 +437,75 @@ Pour permettre la rotation du Waist Yaw sans risque d'arrachement ou d'usure par
 
 ## 7. Recommandations de Modélisation CAO Fusion 360
 
+![Vue Éclatée, Découplage Bicolore et Guide CAO Fusion 360 Waist](./media/schema_empilement_eclate_et_cinematique_waist.svg)
+
+*Guide d'ingénierie visuel officiel (D-Bot V1.2) : Panneau 1 — Vue éclatée axiale verticale Z (lévitation des 6 étages). Panneau 2 — Schéma fonctionnel bicolore (Bleu = Bâti fixe bassin, Orange = Équipage mobile torse, Vert = Entrefer d'air franc de 1.5 mm). Panneau 3 — Recette de modélisation CAO pas-à-pas sous Autodesk Fusion 360 (4 corps simples et 3 liaisons Joints).*
+
+### 7.1 Import Direct du Modèle 3D CAO du Roulement (Méthode Recommandée Fusion 360)
+
+Pour intégrer le roulement **RB8016** (ou **CRBH8016**) dans l'assemblage sans avoir à redessiner les rouleaux et chemins de roulement internes, il est fortement recommandé d'insérer directement le composant 3D STEP normalisé via la bibliothèque intégrée à Autodesk Fusion 360 :
+
+1. **Accès au Menu Intégré** :
+   - Dans le ruban supérieur de l'espace de travail **Conception** (*Design*), cliquer sur le menu déroulant **Insérer** (*Insert*).
+   - Sélectionner **Contenu du fabricant** (*Manufacturer Part Content*) ou l'icône de catalogue de composants partenaires (**PartCommunity / TraceParts**).
+2. **Recherche de la Référence Normalisée** :
+   - Dans la barre de recherche du catalogue intégré, taper la désignation normalisée : `RB8016` ou `RB 8016 UU` (ou alternativement `CRBH8016`).
+   - Sélectionner le modèle standard (fabricant THK, IKO ou générique Luoyang / Cadenas, cotes 80 × 120 × 16 mm).
+3. **Téléchargement & Insertion Directe dans l'Assemblage** :
+   - Choisir le format d'export : **3D STEP (.stp)** ou **Autodesk Fusion 360 (.f3d)**.
+   - Cliquer sur **Insérer directement dans le design** (*Insert into current design*).
+   - Le composant 3D s'ajoute automatiquement dans l'arborescence du projet, avec ses surfaces cylindriques et arêtes d'appui immédiatement prêtes pour l'application des contraintes d'assemblage (*Joints* / *Rigid* / *Revolute*).
+
+> [!TIP]
+> **Alternative Hors Ligne / Glisser-Déposer** :
+> Si la bibliothèque en ligne Autodesk est indisponible, télécharger directement le fichier STEP `RB8016UU` depuis la bibliothèque **THK CAD Data Library** ([thk.com](https://www.thk.com)) ou **TraceParts**, puis le glisser-déposer (*Drag & Drop*) dans le panneau de données (*Data Panel*) de Fusion 360.
+
+### 7.2 Procédure de Modélisation & Assemblage Sous Fusion 360
+
+![Plans d'Usinage et Cotation 2D Fusion 360 — Waist Yaw](./media/schema_cao_assemblage_waist_rs06_fusion360.svg)
+
+*Blueprint vectoriel d'ingénierie officiel pour les cotes d'usinage et esquisses CAO : Coupe axiale Z-X cotée, chronologie d'atelier, esquisse cotée de la Waist Plate 6 mm et esquisse cotée de la Platine monolithique Ø 140 mm.*
+
 1. **Insertion du Waist dans l'Arborescence Fusion 360** :
    - Créer un composant maître `[02_Bassin_Pelvis]` distinct du composant `[01_Torse]`.
    - Appliquer le composant dérivé de la taille Asimov v1 en lui appliquant la commande **Scale** avec le facteur uniforme **`1,18`** depuis son point d'origine.
-2. **Modélisation de la Rainure en Arc de Cercle (Waist Plate 6,0 mm)** :
-   - Sur l'esquisse de la face inférieure de la Waist Plate, tracer une rainure circulaire borgne concentrique à l'axe Z (rayon moyen aligné sur les goupilles du pelvis).
-   - Régler l'angle d'ouverture à **`190°` (`+/- 95°`)** avec des extrémités arrondies tangentes.
-   - Effectuer une extrusion de découpe de **`3,00 mm`** de profondeur.
-3. **Implantation des Goupilles de Butée sur le Pelvis** :
-   - Percer deux trous borgnes **Ø 5,00 mm (tolérance H7)** espacés de 10 à 15 mm sur la face supérieure de la platine pelvienne pour emmancher les 2 goupilles DIN 6325.
-   - Laisser dépasser les goupilles de **`2,40 mm`** pour un coulissement libre avec 0,60 mm de garde en fond de gorge.
-4. **Définition de la Liaison Pivot (Revolute Joint)** :
+2. **Modélisation de la Waist Plate 6,0 mm (`Waist_Plate_6mm`)** :
+   - **Face inférieure — Redan d'appui bague intérieure** : Dessiner un redan circulaire de saillie **`+1,50 mm`** entre Ø 80,0 mm et Ø 92,0 mm. Le reste de la face au-delà de Ø 95,0 mm est laissé à la cote de dégagement (créant un entrefer de sécurité de 1,5 mm face à la bague extérieure fixe).
+   - **Face inférieure — Rainure de butée angulaire** : Tracer une rainure circulaire borgne concentrique à l'axe Z (rayon moyen R = 45,0 mm), largeur **`9,00 mm`**, profondeur **`3,00 mm`**, ouverture d'arc **`190°` (`+/- 95°`)** avec extrémités arrondies tangentes à R = 4,5 mm.
+   - **Zone postérieure — Lumière de faisceau déporté** : Tracer une lumière oblongue traversante de **`25,0 × 15,0 mm`** (R = 7,5 mm) située derrière le cercle de roulement. Appliquer des chanfreins de 1,0 mm × 45° sur les deux arêtes d'entrée/sortie.
+3. **Modélisation de la Platine d'Interface (`Platine_Interface_Waist_7075`)** :
+   - Corps cylindrique Ø 140,0 mm × 12,0 mm.
+   - Siège roulement face supérieure : Ø 120,00 mm H7, profondeur 3,0 mm.
+   - Alésage moteur central : Ø 88,03 mm H7 traversant.
+   - 6 perçages de fixation : Ø 5,3 mm traversants sur PCD Ø 132,0 mm à 60°.
+   - 4 perçages de flasque axial : borgnes taraudés M3 profondeur 6,0 mm sur PCD Ø 128,0 mm à 90°.
+4. **Modélisation de la Goupille de Butée sur le Pelvis** :
+   - Percer un trou borgne **Ø 8,00 mm (tolérance H7)** sur la face supérieure du châssis pelvien (au rayon R = 45,0 mm sur l'axe sagittal X).
+   - Emmancher la goupille DIN 6325 Ø 8,0 mm × 16 mm avec une saillie supérieure de **`2,40 mm`** pour coulisser librement dans la rainure avec 0,60 mm de garde en fond de gorge.
+5. **Définition de la Liaison Pivot (Revolute Joint)** :
    - **Origine du Joint** : Centre géométrique de la face inférieure de la Waist Plate (`Z = -290,0 mm` par rapport au nœud d'épaules).
    - **Axe de Rotation** : Axe `Z` global (Yaw).
    - **Limites Angulaires logicielles (Joint Limits)** : Définir un débattement nominal de **`-90,0°` à `+90,0°`** (la butée physique intervenant à `+/- 95°`).
-5. **Contrôle d'Interférence Statique & Dynamique** :
+6. **Contrôle d'Interférence Statique & Dynamique** :
    - Exécuter la fonction `Interference Detection` entre la Waist Plate en rotation (+/- 45°) et les carters des deux moteurs **RS-04 Hip Pitch** du bassin.
    - S'assurer que le jeu mécanique radial minimal reste supérieur à **`8,0 mm`** sur toute la course angulaire pour éviter tout pincement de câbles.
-6. **Export URDF / Isaac Gym** :
+7. **Export URDF / Isaac Gym** :
    - Nom du joint dans l'URDF officiel : `waist_yaw_joint`.
    - Limites URDF associées : `lower="-1.5708"`, `upper="1.5708"`, `effort="36.0"`, `velocity="31.4"`.
+
+---
+
+## 8. Checklist de Contrôle & Métrologie Avant Usinage C500
+
+- [ ] **Roulement CRBH 8016 UU commandé** (AliExpress JieMao / Luoyang ou ZYS Bearings).
+- [ ] **Brut commandé** : Disque Alu 7075-T651 Ø 150 × 15 mm (Blockenstock).
+- [ ] **Métrologie Réception** : Mesurer le diamètre extérieur réel du CRBH 8016 au micromètre/palmer avant d'usiner le siège Ø 120 H7 de la Platine.
+- [ ] **CAO Fusion 360 à jour** : Redan +1,5 mm modélisé sous la Waist Plate (Ø 80 à Ø 92 mm).
+- [ ] **CAO Fusion 360 à jour** : 4 perçages taraudés M3 pour flasque axial ajoutés sur la Platine (PCD Ø 128 mm).
+- [ ] **CAO Fusion 360 à jour** : Lumière oblongue 25 × 15 mm chanfreinée modélisée pour le passage de faisceau en zone arrière.
+- [ ] **Butée d'angle qualifiée** : Goupille unique trempée DIN 6325 Ø 8 mm adoptée dans l'assemblage (rainure largeur 9,0 mm, arc 190°).
+- [ ] **Contrôle d'interférence dynamique** : Vérification sous Fusion 360 de l'absence totale de contact entre la Waist Plate et les carters des RS-04 Hip Pitch sur toute la rotation de +/- 90°.
+- [ ] **Boucle de service électrique qualifiée** : Vérification que la surlongueur libre de câble (L = 140 à 180 mm) respecte un rayon de courbure `R >= 40 mm` sans pincement à +/- 90°.
 
 ---
 *Fin du Dossier Technique — Validé pour modélisation CAO et fabrication atelier D-Bot V1.x.*

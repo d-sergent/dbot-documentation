@@ -16,10 +16,6 @@ Voici les caractéristiques officielles de l'actionneur utilisé pour le coude (
 
 *Figure 0.1 : Schéma fonctionnel annoté du joint Oldham pour actionneur Robstride.*
 
-![Assemblage Joint Oldham Robstride](./assets/robstride_oldham_assembly.png)
-
-*Figure 0.2 : Vue éclatée de l'assemblage de l'accouplement Oldham.*
-
 ---
 
 ## Principes Architecturaux : Montage Direct vs Découplé
@@ -117,6 +113,9 @@ Si vous avez le budget et l'espace, l'achat d'une **Hollow Rotary Platform** nue
 ---
 
 ## 4. Cas Spécifique : Moteurs QDD (Type Robstride RS-02)
+
+> [!IMPORTANT]
+> **Rappel Matériel Strict — Zéro Arbre Creux sur la Gamme RobStride** : Les actionneurs RobStride (séries RS-00, RS-02, RS-03, RS-04, RS-05, RS-06) ont une face avant avec bride taraudée ou rotor plein et un carter arrière totalement fermé. **Aucun d'entre eux n'a d'arbre creux traversant (Zéro Hollow Shaft)**. Tout passage de faisceau électrique ou de tendons doit impérativement être routé à l'extérieur par un corridor déporté.
 
 Les moteurs quasi-directs (QDD) comme le Robstride RS-02 ou les moteurs Unitree possèdent déjà un réducteur planétaire et un roulement de sortie haute capacité intégrés. De plus, ils n'ont **pas d'arbre de transmission cylindrique**, mais une **bride plate taraudée** (ex: 6x M4).
 

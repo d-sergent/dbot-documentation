@@ -15,6 +15,7 @@ Ce document centralise et définit les termes techniques, cinématiques et archi
 | **Stacked Perpendicular** | Architecture | Architecture d'épaule/hanche où les 3 moteurs sont **empilés en série**, chacun monté perpendiculairement au précédent. Le stator de chaque moteur est fixé au rotor du moteur précédent via un bracket. C'est l'architecture la plus simple et la plus reproductible pour les robots utilisant des moteurs off-the-shelf. |
 | **Direct-Drive** | Motorisation | Configuration où le rotor du moteur est **directement connecté** à la charge, sans réducteur ni engrenage intermédiaire. Avantages : zéro backlash, backdrivable, contrôle en couple précis. Inconvénient : couple limité au couple natif du moteur. Les moteurs RobStride sont **quasi direct-drive** (réducteur planétaire à faible ratio ~9:1). |
 | **Bracket** | Pièce mécanique | Pièce de liaison (équerre, support) reliant le **rotor d'un moteur** au **stator du moteur suivant** dans un empilement série. Usiné en Alu 6061-T6 sur CNC (C500) pour le D-Bot. Sa compacité détermine directement le décalage inter-axe. |
+| **Arbre Plein / Solid Shaft (RobStride)** | Motorisation | **Spécification matérielle absolue** — Tous les moteurs RobStride (séries RS-00, RS-02, RS-03, RS-04, RS-05, RS-06) possèdent un rotor plein et un carter arrière fermé sans aucun trou central (**Zéro Hollow Shaft**). Tout routage de câblage (48V, CAN-FD) ou de tendons (mains D-Hand) doit obligatoirement transiter par des corridors latéraux ou postérieurs déportés à l'extérieur des moteurs. |
 
 ---
 

@@ -126,7 +126,7 @@ VUE LONGITUDINALE — AVANT-BRAS (coupe latérale)
 **Parcours du tendon (exemple : Index, Curl) :**
 ```
 XC430 #3 → Poulie Ø14mm CNC (r=7mm) → Tendon Dyneema Ø0.6mm dans gaine PTFE
-  → Traverse le poignet (RS-00 creux) → Renvoi base de la main
+  → Contourne le poignet (RS-00 arbre plein, corridor déporté) → Renvoi base de la main
   → Phalange proximale (MCP) → Phalange médiale (PIP)
   → Attache sur phalange distale (DIP)
 
@@ -1039,7 +1039,7 @@ Le tableau ci-dessous compare les choix d'architecture pour le routage des tendo
 | **Matière poulies** | **Alu 6061 Ø8mm (CNC C500)** | Imprimées PLA renforcé | Imprimées PLA | Imprimées PLA |
 | **Retour passif** | Ressorts torsion 0.05 N.m | Ressorts torsion intégrés | Ressorts enrobés dans la phalange | Ressorts impression TPU |
 | **Fixation tendon** | Nœud + cyanoacrylate | Serre-câble + manchon | Nœud + époxy | Nœud |
-| **Chemin de câble** | Traversée RS-00 (poignet creux) | Poignet propriétaire | Poignet tubulaire dédié | Proximal Sleeve tubulaire |
+| **Chemin de câble** | Corridor latéral déporté (RS-00 arbre plein) | Poignet propriétaire | Poignet tubulaire dédié | Proximal Sleeve tubulaire |
 
 **Avantage D-Hand** : les poulies en aluminium usiné CNC offrent une durabilité supérieure aux poulies imprimées (usure quasi nulle sur Dyneema vs PLA qui creuse à l'usage).
 

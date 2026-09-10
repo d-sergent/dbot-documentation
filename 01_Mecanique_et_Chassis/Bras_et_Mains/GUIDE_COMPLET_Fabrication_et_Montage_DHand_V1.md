@@ -275,7 +275,7 @@ Le rappel principal d'extension est assuré par un cordon élastique technique m
 
 ## ⚡ 4. Routage, Tensionnement & Raccordement Final (Vers l'Avant-Bras)
 
-Le raccordement entre la main (paume CNC) et la motorisation (avant-bras) s'effectue à travers le poignet creux.
+Le raccordement entre la main (paume CNC) et la motorisation (avant-bras) s'effectue le long de l'articulation du poignet via un corridor de guidage latéral déporté (rappel matériel : le moteur RobStride RS-00 possède un arbre plein sans aucun passage central creux).
 
 ```
        SCHÉMA DE CHEMINEMENT DES TENDONS DANS L'AVANT-BRAS
@@ -283,7 +283,7 @@ Le raccordement entre la main (paume CNC) et la motorisation (avant-bras) s'effe
         [Doigts]
            │ (Tendons Dyneema / Vectran gainés PTFE)
            ▼
-     [Poignet RS-00] (Passage creux central)
+     [Poignet RS-00 (Arbre Plein)] (Corridor latéral déporté avec gaines PTFE)
            │
            ├───────────────────────────────┐ (Séparation des 8 lignes)
            ▼                               ▼
@@ -294,10 +294,10 @@ Le raccordement entre la main (paume CNC) et la motorisation (avant-bras) s'effe
             └──────► [Poulies CNC Ø14mm] ◄──┘
 ```
 
-### Étape 5 : Routage à travers le poignet creux
-1.  Regroupez les 8 tendons sortant de la paume.
-2.  Faites-les glisser délicatement à l'intérieur du poignet creux de pronosupination **RS-00**. Veillez à ce que les câbles ne se croisent pas et ne s'entortillent pas lors de cette étape.
-3.  Une fois les câbles sortis du poignet à l'intérieur de la structure d'avant-bras (entre la plaque alu isogrid et les coques), distribuez-les vers leurs moteurs respectifs.
+### Étape 5 : Routage le long du poignet (Corridor Déporté)
+1.  Regroupez les 8 tendons sortant de la paume dans leurs gaines PTFE respectives.
+2.  Faites-les cheminer le long du corridor latéral déporté de l'articulation de poignet **RS-00** (contournement extérieur évitant l'arbre plein du moteur). Veillez à ce que les câbles ne se croisent pas et conservent une boucle de courbure souple lors des flexions du poignet.
+3.  Une fois les câbles guidés à l'intérieur de la structure d'avant-bras (entre la plaque alu isogrid et les coques), distribuez-les vers leurs moteurs respectifs.
 
 ### Étape 6 : Montage des Poulies (Spools) sur les Moteurs
 1.  Montez les 8 spools en aluminium CNC sur les arbres cannelés des servomoteurs **STS3250** et **HL-3915**.
