@@ -58,7 +58,7 @@ Ce document fait le bilan complet de tout le travail de conception réalisé à 
 
 ### A. V1 : Cage Tubulaire Boulonnée en Aluminium
 
-**Documents** : [STUDY_Squelette_Torse.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/STUDY_Squelette_Torse.md) · [FINAL_CONSOLIDE_Torse.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/FINAL_CONSOLIDE_Torse.md) · [AUDIT_ETUDE_Torse.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/AUDIT_ETUDE_Torse.md)
+**Documents** : [STUDY_Squelette_Torse.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/STUDY_Squelette_Torse.md) · [FINAL_CONSOLIDE_Torse.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/FINAL_CONSOLIDE_Torse.md) · [AUDIT_ETUDE_Torse.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/AUDIT_ETUDE_Torse.md)
 
 - **Principe** : 12 profilés carrés alu (40x40, 60x60, 35x35 mm), 8 nœuds CNC tri-axiaux en 6061-T6, 48 vis M6.
 - **Bilan** : Calculs statiques très solides (FS de 8 à 155), mais **784 g de poids mort** (33% du squelette) uniquement en connexions. Le facteur dynamique x3 n'a jamais été validé par simulation. L'usinage des nœuds 3 axes sur la Carvera est très complexe.
@@ -70,7 +70,7 @@ Ce document fait le bilan complet de tout le travail de conception réalisé à 
 
 ### B. Option A : Spine Carbone Centrale + Clamps
 
-**Document** : [GUIDE_Modelisation_et_Securisation_Torse.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/GUIDE_Modelisation_et_Securisation_Torse.md)
+**Document** : [GUIDE_Modelisation_et_Securisation_Torse.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/GUIDE_Modelisation_et_Securisation_Torse.md)
 
 - **Principe** : Un tube carbone central de Ø50 mm, deux plaques d'extrémités alu CNC, des cages modulaires clampées autour du tube.
 - **Bilan** : L'option la plus légère (~1.2 kg), simple à fabriquer. Mais nécessite 2 plaques alu usinées CNC, et le clampage sur carbone lisse présente un risque de glissement documenté.
@@ -79,7 +79,7 @@ Ce document fait le bilan complet de tout le travail de conception réalisé à 
 
 ### C. Option C : Split-Monocoque Hybride PA12-CF (Retenue)
 
-**Documents** : [GUIDE_Modelisation_et_Securisation_Torse.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/GUIDE_Modelisation_et_Securisation_Torse.md) · [generate_option_c_torso.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/fusion360/generate_option_c_torso.py)
+**Documents** : [GUIDE_Modelisation_et_Securisation_Torse.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/GUIDE_Modelisation_et_Securisation_Torse.md) · [generate_option_c_torso.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/fusion360/generate_option_c_torso.py)
 
 - **Principe** : 2 boîtiers structurels fermés en PA12-CF (Pelvis 140 mm + Thorax 140 mm), reliés par 4 tubes carbone Ø25 mm, avec platine centrale porte-batterie/Jetson.
 - **Bilan** : Le design le plus moderne et le plus adapté à votre setup. Un script Fusion 360 a été créé pour automatiser la génération de la base géométrique.
@@ -235,7 +235,7 @@ Pour votre contexte spécifique (temps limité, Qidi Plus 4, PA12-CF, design pre
 
 ---
 
-### 7. Schémas de Référence des Concepts Explorés
+### 6. Schémas de Référence des Concepts Explorés
 
 ![Solution Colonne 2 Parties Bride Longue](./media/solution_colonne_2_parties_bride_longue.svg)
 
