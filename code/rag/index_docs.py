@@ -112,7 +112,8 @@ DB_PATH   = Path("/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db")
 INDEX_LOG = DB_PATH / "indexed_files.json"
 
 EXCLUDE_DIRS = {".git", ".continue", "__pycache__", "Archives",
-                "Images_ORCA", ".DS_Store", "lightrag_dbot_db", "00_Archives_Recherche"}
+                "Images_ORCA", ".DS_Store", "lightrag_dbot_db", "00_Archives_Recherche",
+                ".kilo", ".gemini", ".cursor"}
 INCLUDE_EXTS = {".md", ".py", ".txt", ".png", ".jpg", ".jpeg", ".webp", ".pdf"}
 IMAGE_EXTS   = {".png", ".jpg", ".jpeg", ".webp"}
 PDF_EXTS     = {".pdf"}
@@ -460,7 +461,13 @@ async def run_indexing(args):
     all_files_str = set(str(p) for p in all_files)
     log_idx = load_index_log() if not args.full else {}
     
-    to_update = [p for p in all_files if str(p) not in log_idx or log_idx[str(p)]["mtime"] < os.path.getmtime(p)]
+    if args.files:
+        to_update = [Path(f).resolve() for f in args.files if Path(f).exists()]
+    elif args.update:
+        # Forcer la réindexation de tous les fichiers dont le hash ou mtime a bougé
+        to_update = [p for p in all_files if str(p) not in log_idx or log_idx[str(p)]["mtime"] < os.path.getmtime(p)]
+    else:
+        to_update = [p for p in all_files if str(p) not in log_idx or log_idx[str(p)]["mtime"] < os.path.getmtime(p)]
     to_delete = [path_str for path_str in list(log_idx.keys()) if path_str not in all_files_str]
 
     if not to_update and not to_delete:
@@ -502,6 +509,28 @@ async def run_indexing(args):
         if not content: continue
         logger.info(f"[{i:3d}/{len(to_update)}] 📄 {path.name}")
         try:
+            # Remplacement propre : purger TOUTES les entrées existantes (anciennes versions et entrées fantômes dup-*)
+            try:
+                async with rag.doc_status._storage_lock:
+                    matching_ids = [
+                        d_id for d_id, d_data in rag.doc_status._data.items()
+                        if os.path.basename(d_data.get("file_path", "")) == path.name
+                    ]
+                if matching_ids:
+                    logger.info(f"   🔄 Remplacement : purge de {len(matching_ids)} ancienne(s) entrée(s) dans LightRAG...")
+                    for old_id in matching_ids:
+                        if not old_id.startswith("dup-"):
+                            try:
+                                await rag.adelete_by_doc_id(old_id)
+                            except Exception:
+                                pass
+                        try:
+                            await rag.doc_status.delete([old_id])
+                        except Exception:
+                            pass
+            except Exception as purge_err:
+                logger.debug(f"Info purge doc_status pour {path.name}: {purge_err}")
+
             await rag.ainsert(content, file_paths=[str(path)])
             log_idx[str(path)] = {"mtime": os.path.getmtime(path), "doc_id": compute_doc_id(content)}
         except Exception as e:
@@ -515,8 +544,9 @@ async def run_indexing(args):
 
 async def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--full", action="store_true")
-    parser.add_argument("--update", action="store_true")
+    parser.add_argument("--full", action="store_true", help="Réindexation complète depuis zéro")
+    parser.add_argument("--update", action="store_true", help="Forcer la vérification et mise à jour incrémentale")
+    parser.add_argument("--files", nargs="+", help="Chemins de fichiers spécifiques à réindexer")
     parser.add_argument("--provider", choices=["local", "online", "openrouter", "gemini"], default="online")
     parser.add_argument("--model", type=str, help="Forcer un modèle spécifique (uniquement avec --provider openrouter)")
     parser.add_argument("--api-key", type=str)
