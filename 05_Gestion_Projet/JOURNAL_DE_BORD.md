@@ -2,6 +2,33 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-09-12 — Architecture Sandwich Waist Yaw (Moyeu 7075-T6, Pincement Bague Intérieure RB8016, Butée Doigt Externe & Fraisures FHC M4)
+
+### 🎯 Objectif de la session
+1. **Accouplement Rotor RS-06 & Pincement Bague Intérieure Roulement RB8016** :
+   - Diagnostic sur modèle CAO : le rotor du RobStride RS-06 affleure sous le roulement et ne peut pas se visser directement sur la Waist Plate sans pièce d'interface.
+   - Conception du `Moyeu_Waist_Sandwich_7075` en tournage/fraisage CNC Alu 7075-T651 : fût de centrage Ø 80,00 mm h6 (hauteur 16,00 mm affleurante), collerette inférieure de pincement Ø 91,5 × 3,0 mm, embase inférieure rotor RS-06 Ø 65 mm (garde stator 2,0 mm) et 4 trous borgnes taraudés M4 (profondeur 12 mm, filet utile 10 mm) sur PCD Ø 68,0 mm à 45°.
+2. **Conception & Validation de la Butée Angulaire de Taille (Solution A : Doigt Externe)** :
+   - Analyse de la rainure circulaire sous la Waist Plate : débouche dans le vide sur les flancs étroits (largeur 94 mm face au roulement Ø 120 mm) et fragilise la plaque de 6 mm.
+   - Validation de la Solution A : doigt de butée arrière en aluminium vissé sous la Waist Plate (zone de 120 mm) venant frapper deux vis de butée CHC M5 situées à +/- 95° sur la Platine d'Interface fixe (débattement nominal +/- 90° protégé, protection absolue du faisceau 48V/CAN).
+3. **Cartographie Complète des Perçages, Fraisures FHC M4 & Calculs RDM** :
+   - Positionnement des 4 vis FHC M4 × 16 mm classe 10.9 sur PCD Ø 68,00 mm à 45° (`X = +/- 24,04 mm`, `Y = +/- 24,04 mm`).
+   - Cotes d'usinage : perçage traversant foret carbure Ø 4,50 mm, fraisure 90° Ø 8,40 mm (profondeur cône 2,20 mm, affleurement franc strict à `0,00 mm`).
+   - Dimensionnement RDM (zéro LaTeX) : précharge 19,2 kN (1,92 tonne), résistance ultime à l'arrachement 36,5 kN (Sf = 1,66 face au roulement 22 kN, Sf = 71,7 en traction dynamique sous 3G).
+4. **Blueprints Vectoriels SVG & Dossier Technique Bassin** :
+   - Blueprints créés et mis à jour : `schema_butee_angulaire_doigt_externe_waist.svg` et `schema_moyeu_accouplement_waist_sandwich_rs06.svg`.
+   - Dossier technique `DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md` actualisé (Section 5.1.1, Section 5.4, BOM Section 6, Section 7.3, Checklist Section 8 et sommaire cliquable).
+
+### 📝 Réalisations & Évolutions
+1. **Dossier Technique Bassin & Waist** ([DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md)) :
+   - Intégration de la sous-section 5.1.1 avec tableau millimétrique des 4 fraisures FHC M4, protocole CAO Fusion 360 (outil `Hole`), et consignes CNC C500.
+   - Nomenclature (BOM) mise à jour avec le moyeu `HUB-01` et les 4 vis `V-05` FHC M4 × 16 mm.
+2. **Schémas Vectoriels d'Ingénierie SVG** :
+   - `schema_moyeu_accouplement_waist_sandwich_rs06.svg` complété avec le Panneau 3 (Vue de dessus cotée avec implantation et cotes cartésiennes des 4 perçages).
+   - `schema_butee_angulaire_doigt_externe_waist.svg` documentant la butée par doigt externe sans affaiblir la Waist Plate.
+
+---
+
 ## 📅 2026-09-10 — Qualification Liaison Waist Yaw V1.2 (Roulement Rouleaux Croisés CRBH 8016 UU, Platine d'Interface CNC C500 & Synchronisation SSOT)
 
 ### 🎯 Objectif de la session

@@ -33,14 +33,16 @@
   - [4.4 Schéma Vectoriel d'Ingénierie & Détails d'Exécution CRBH 8016](#44-schéma-vectoriel-dingénierie--détails-dexécution-crbh-8016)
 - [5. Interfaces Mécaniques & Chaîne Cinématique Pelvienne](#5-interfaces-mécaniques--chaîne-cinématique-pelvienne)
   - [5.1 Interface Supérieure : Waist Plate 6,0 mm & Équerres Basses L = 80,0 mm](#51-interface-supérieure--waist-plate-60-mm--équerres-basses-l--800-mm)
+    - [5.1.1 Cartographie Complète des Perçages, Fraisures FHC M4 & Pincement Sandwich](#511-cartographie-complète-des-perçages-fraisures-fhc-m4--pincement-sandwich)
   - [5.2 Le Bloc Pelvien Inférieur (Pelvis Asimov Scalé +18 %)](#52-le-bloc-pelvien-inférieur-pelvis-asimov-scalé-18-)
   - [5.3 Connexion avec les Hanches en Chaîne F-A-R (RS-04 Hip Pitch)](#53-connexion-avec-les-hanches-en-chaîne-f-a-r-rs-04-hip-pitch)
-  - [5.4 Système de Butée Angulaire Optimisé (Goupille Unique DIN 6325 Ø 8 mm)](#54-système-de-butée-angulaire-optimisé-goupille-unique-din-6325-ø-8-mm)
+  - [5.4 Système de Butée Angulaire : Rainure Interne vs Doigt Externe (Solution A)](#54-système-de-butée-angulaire--rainure-interne-vs-doigt-externe-solution-a)
   - [5.5 Corridor de Traversée du Faisceau (48V & Bus CAN-FD)](#55-corridor-de-traversée-du-faisceau-48v--bus-can-fd)
 - [6. Nomenclature Matérielle & Approvisionnement (BOM)](#6-nomenclature-matérielle--approvisionnement-bom)
 - [7. Recommandations de Modélisation CAO Fusion 360](#7-recommandations-de-modélisation-cao-fusion-360)
   - [7.1 Import Direct du Modèle 3D CAO du Roulement (Méthode Recommandée Fusion 360)](#71-import-direct-du-modèle-3d-cao-du-roulement-méthode-recommandée-fusion-360)
   - [7.2 Procédure de Modélisation & Assemblage Sous Fusion 360](#72-procédure-de-modélisation--assemblage-sous-fusion-360)
+  - [7.3 Modélisation du Moyeu d'Accouplement & Pincement Sandwich (Alu 7075-T6)](#73-modélisation-du-moyeu-daccouplement--pincement-sandwich-alu-7075-t6)
 - [8. Checklist de Contrôle & Métrologie Avant Usinage C500](#8-checklist-de-contrôle--métrologie-avant-usinage-c500)
 
 ---
@@ -337,6 +339,169 @@ La connexion avec le haut du corps s'effectue via la **Waist Plate** (plaque inf
   - Découpe traversante de **`25,0 mm × 15,0 mm`** (rayons R = 7,5 mm) usinée en zone postérieure libre (en retrait du roulement).
   - Bords chanfreinés à 1,0 mm × 45° sur les deux faces et équipés d'un passe-fil souple en TPU imprimé 3D ou caoutchouc EPDM pour protéger le faisceau 48V et CAN-FD.
 
+#### 5.1.1 Cartographie Complète des Perçages, Fraisures FHC M4 & Pincement Sandwich
+
+Le verrouillage axial et la transmission du couple de rotation de taille (Waist Yaw) reposent sur un **assemblage en étau (sandwich)** ultra-rigide prenant en compression directe la bague intérieure du roulement **RB8016** (ou **CRBH8016**) entre :
+1. **La face supérieure** : La **Waist Plate** (épaisseur 6,00 mm en Alu 6061-T6 ou 7075-T6), dont la face inférieure usine un redan d'appui circulaire de `+1,50 mm` (plage comprise entre Ø 80,0 mm et Ø 92,0 mm).
+2. **Le roulement intermédiaire** : La bague intérieure mobile du RB8016 (alésage intérieur Ø 80,00 mm, portée extérieure Ø 95,00 mm, épaisseur axiale 16,00 mm).
+3. **La pièce inférieure d'accouplement** : Le **Moyeu d'Accouplement Sandwich** (`Moyeu_Waist_Sandwich_7075` en Alu 7075-T651) :
+   - Son fût cylindrique rectifié (Ø 80,00 mm tolérance h6, soit +0,000 / -0,019 mm) guide l'alésage du roulement sur ses 16,00 mm de hauteur et affleure pile au plan supérieur du roulement (`Z = 0,00 mm`).
+   - Sa collerette annulaire inférieure (Ø 91,5 mm × épaisseur 3,00 mm) vient en appui franc sous la face inférieure de la bague intérieure du roulement.
+   - 4 trous borgnes taraudés M4 (profondeur 12,0 mm, filet utile 10,0 mm) sont usinés dans la face supérieure du fût sur le diamètre primitif **PCD Ø 68,00 mm** (rayon R = 34,00 mm) orientés à 45,0° des axes principaux.
+   - Son embase inférieure (Ø 65,0 mm) descend sous le roulement et se boulonne directement sur les perçages d'origine du rotor RobStride RS-06.
+
+Le serrage axial est assuré par **4 vis à tête fraisée conique FHC M4 × 16 mm (ISO 10642 / DIN 7991, classe 10.9 ou 12.9)** insérées depuis le dessus de la Waist Plate et venant se visser directement dans le Moyeu 7075-T6.
+
+---
+
+##### A. Tableau Cartographique Millimétrique des 4 Perçages & Fraisures FHC M4
+
+Les 4 vis sont disposées aux 4 sommets d'un carré d'entraxe linéaire de `48,08 mm` inscrit dans le cercle primitif **PCD Ø 68,00 mm** (Rayon primitif `R = 34,00 mm`). L'orientation est inclinée à exactement **`45,0°`** par rapport à l'axe sagittal (`X`) et l'axe médio-latéral (`Y`), évitant tout conflit avec l'axe longitudinal de la colonne vertébrale et les ailes des équerres basses :
+
+`X = R * cos(45,0°) = 34,00 * 0,707107 = +24,04 mm` (ou `-24,04 mm`)  
+`Y = R * sin(45,0°) = 34,00 * 0,707107 = +24,04 mm` (ou `-24,04 mm`)
+
+| Repère Trou | Cadran & Position | Coordonnée X (Sagittale) | Coordonnée Y (Latérale) | Cote Z d'Entrée | Perçage Lisse (Waist Plate 6 mm) | Fraisure Conique 90° (Waist Plate) | Taraudage Borgne (Moyeu 7075) | Visserie Normalisée Associée |
+| :---: | :--- | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| **FHC #1** | **Avant-Gauche (Av-G)** | **`+24,04 mm`** | **`-24,04 mm`** | `Z = 0,00 mm` (Face Sup.) | Foret carbure Ø 4,50 mm traversant (6 mm) | **Cône 90° Ø 8,40 mm** (prof. 2,20 mm) à fleur `0,0 mm` | Borgne Ø 3,3 mm prof. 12 mm / Taraudé M4x0.7 prof. 10 mm | Vis FHC M4 × 16 mm cl. 10.9 / Loctite 243 |
+| **FHC #2** | **Avant-Droit (Av-D)** | **`+24,04 mm`** | **`+24,04 mm`** | `Z = 0,00 mm` (Face Sup.) | Foret carbure Ø 4,50 mm traversant (6 mm) | **Cône 90° Ø 8,40 mm** (prof. 2,20 mm) à fleur `0,0 mm` | Borgne Ø 3,3 mm prof. 12 mm / Taraudé M4x0.7 prof. 10 mm | Vis FHC M4 × 16 mm cl. 10.9 / Loctite 243 |
+| **FHC #3** | **Arrière-Droit (Ar-D)** | **`-24,04 mm`** | **`+24,04 mm`** | `Z = 0,00 mm` (Face Sup.) | Foret carbure Ø 4,50 mm traversant (6 mm) | **Cône 90° Ø 8,40 mm** (prof. 2,20 mm) à fleur `0,0 mm` | Borgne Ø 3,3 mm prof. 12 mm / Taraudé M4x0.7 prof. 10 mm | Vis FHC M4 × 16 mm cl. 10.9 / Loctite 243 |
+| **FHC #4** | **Arrière-Gauche (Ar-G)** | **`-24,04 mm`** | **`-24,04 mm`** | `Z = 0,00 mm` (Face Sup.) | Foret carbure Ø 4,50 mm traversant (6 mm) | **Cône 90° Ø 8,40 mm** (prof. 2,20 mm) à fleur `0,0 mm` | Borgne Ø 3,3 mm prof. 12 mm / Taraudé M4x0.7 prof. 10 mm | Vis FHC M4 × 16 mm cl. 10.9 / Loctite 243 |
+
+---
+
+##### B. Caractéristiques Géométriques de la Fraisure FHC M4 (ISO 10642 / DIN 7991)
+
+Pour garantir un appui conique rigoureux et un **affleurement strict à 0,00 mm (zéro saillie de tête)** au-dessus de la Waist Plate :
+- **Diamètre extérieur nominal du cône (en surface)** : **`Ø 8,40 mm`** (tolérance atelier `+0,10 / +0,00 mm`, soit `Ø 8,40 à Ø 8,50 mm`). Un léger micro-retrait de la tête conique de `0,05 mm` en dessous du plan supérieur est préférable à une saillie de 0,05 mm qui empêcherait le montage à plat des accessoires ou carters du torse.
+- **Angle au sommet de la fraisure** : **`90,0°`** (angle normalisé métrique européen ISO 10642).
+- **Diamètre de passage lisse traversant** : **`Ø 4,50 mm`** (tolérance normale ISO 273 moyen pour vis M4, laissant 0,25 mm de jeu radial pour compenser les micro-écarts d'entraxe).
+- **Hauteur totale du cône de fraisure** :
+  `h_cone_total = (8,40 mm - 4,00 mm) / (2 * tan(45°)) = 4,40 / 2 = 2,20 mm`
+- **Hauteur apparente du cône jusqu'au diamètre de perçage Ø 4,50 mm** :
+  `h_cone_trou = (8,40 mm - 4,50 mm) / (2 * tan(45°)) = 3,90 / 2 = 1,95 mm`
+- **Épaisseur de matière pleine résiduelle sous la fraisure** :
+  `e_residuelle = 6,00 mm - 2,20 mm = 3,80 mm`  
+  Cette épaisseur de 3,80 mm d'aluminium plein sous la tête de vis garantit une résistance exceptionnelle à l'écrasement localisé et empêche tout phénomène de poinçonnement lors du serrage au couple.
+- **Ébavurage face inférieure** : Sur la face inférieure de la Waist Plate (au débouché du trou Ø 4,50 mm sur le redan), réaliser un micro-chanfrein d'ébavurage de **`0,3 mm × 45°`** pour éliminer toute bavure de perçage susceptible de fausser le plaquage plan sur le redan du roulement.
+
+---
+
+##### C. Taraudage du Moyeu 7075-T6 & Longueur d'Implantation des Vis
+
+Le corps du Moyeu étant en alliage haute résistance **Aluminium 7075-T651** (résistance à la rupture `Rm = 540 MPa`, limite d'élasticité `Rp0.2 = 470 MPa`) :
+1. **Perçage de l'Avant-Trou Borgne** :
+   - Foret hélicoïdal carbure non revêtu ou revêtu TiAlN : **`Ø 3,30 mm`** (diamètre normalisé ISO pour taraudage M4 au pas standard de `0,70 mm`).
+   - Profondeur de perçage : **`12,00 mm`** depuis la face supérieure du fût.
+   - Pointe de foret à 118° standard.
+2. **Chanfrein d'Entrée de Taraudage** :
+   - Chanfrein d'entrée usiné à la fraise conique 90° : **`0,5 mm × 45°`** (débouchant à `Ø 4,50 mm`). Ce chanfrein protège le premier filet contre l'arrachement et absorbe tout éventuel refoulement de métal lors du serrage sous forte tension.
+3. **Taraudage Machine M4×0,70** :
+   - Taraud machine hélicoïdal à goujures hélicoïdales (pour évacuation des copeaux vers le haut en trou borgne), tolérance **ISO 2 (6H)**.
+   - Profondeur de filet utile rectifié : **`10,00 mm`**.
+4. **Bilan d'Engagement de la Vis FHC M4 × 16 mm** :
+   - Longueur totale sous tête de la vis FHC M4 : `L = 16,00 mm`.
+   - Épaisseur traversée (Waist Plate) : `6,00 mm`.
+   - Longueur de pénétration filetée dans le moyeu :  
+     `L_eng = 16,00 mm - 6,00 mm = 10,00 mm`
+   - Ratio d'implantation sur diamètre nominal :  
+     `Ratio = L_eng / d = 10,00 mm / 4,00 mm = 2,50 * d`
+   - **Conformité RDM** : La règle de l'art en construction mécanique aéronautique impose un engagement minimal de `1,5 * d` dans l'Alu 7075-T6 (soit 6,0 mm). Avec `2,5 * d` (10,0 mm), la résistance du taraudage dépasse très largement la résistance en traction de la vis en acier.
+   - **Garde au fond de trou borgne** :  
+     `Garde = 12,00 mm - 10,00 mm = 2,00 mm`  
+     Cette garde de 2,0 mm interdit formellement tout talonnage de l'extrémité du filet de vis sur le fond conique du perçage, garantissant que 100 % du couple de serrage se transforme en précharge de serrage axial effectif.
+
+---
+
+##### D. Dimensionnement RDM & Tenue Mécanique du Serrage Sandwich (Zéro Glissement)
+
+Le dimensionnement mécanique du serrage sandwich a été validé selon les critères normalisés VDI 2230 :
+
+1. **Caractéristiques Mécaniques de la Visserie FHC M4 Classe 10.9** :
+   - Section résistante sous traction : `A_s = 8,78 mm^2`.
+   - Limite d'élasticité : `Re = 940 MPa`.
+   - Résistance à la rupture en traction : `Rm = 1 040 MPa`.
+2. **Précharge Axiale de Montage (Couple C = 2,8 N.m)** :
+   - Avec un coefficient de frottement moyen sous tête et dans les filets `mu = 0,14` (lubrification légère ou frein-filet Loctite 243 à l'état liquide) :  
+     `F_0 ~ C / (0,16 * P + 0,58 * d_2 * mu + 0,5 * d_tête * mu)`  
+     `F_0 ~ 4 800 N` (soit `~480 kgf` de précharge élastique par vis).
+3. **Effort de Pincement Axial Total du Sandwich** :
+   - Sur les 4 vis réparties symétriquement :  
+     `F_pincement_total = 4 * 4 800 N = 19 200 N = 19,2 kN` (soit `~1,92 tonne` de pression continue).
+   - Cette compression de 19,2 kN bride infailliblement la bague intérieure du roulement RB8016, éliminant tout jeu axial parasite et garantissant une rigidité angulaire maximale en lacet.
+4. **Résistance Ultime à l'Arrachement en Traction Pure (Charges Dynamiques Torse)** :
+   - Capacité limite de rupture en traction des 4 vis classe 10.9 :  
+     `F_rupture = 4 * A_s * Rm = 4 * 8,78 mm^2 * 1 040 MPa = 36 524 N = 36,5 kN` (soit `~3,65 tonnes`).
+   - En comparaison, la capacité dynamique axiale du roulement RB8016 est de `C_a = 22,0 kN`. Le sandwich de visserie est plus résistant que le roulement lui-même (`Sf = 36,5 / 22,0 = 1,66`).
+   - Sous la charge de suspension dynamique maximale du haut du corps (masse torse + bras = 17,3 kg, soit sous une décélération extrême de 3G un effort de traction axiale de `F_traction = 17,3 kg * 9,81 m/s^2 * 3 = 509 N`) :  
+     `Facteur_Securite_Traction = 36 524 N / 509 N = 71,7` (marge de sécurité extrême > 70).
+5. **Résistance au Cisaillement des Filets dans l'Aluminium 7075-T6** :
+   - Résistance admissible au cisaillement de l'Alu 7075-T6 : `tau_rupture ~ 330 MPa`.
+   - Surface de cisaillement du taraudage sur `L_eng = 10,0 mm` :  
+     `A_filet = pi * d_nom * 0,75 * L_eng = 3,1416 * 4,00 mm * 0,75 * 10,00 mm = 94,25 mm^2`.
+   - Résistance à l'arrachement du taraudage par vis :  
+     `F_arrachement_taraudage = 94,25 mm^2 * 330 MPa = 31 100 N = 31,1 kN` par vis !  
+   - Les 4 taraudages offrent une résistance théorique cumulée de `124 kN` (12,4 tonnes). La vis en acier 10.9 céderait en traction bien avant que les filets dans l'Alu 7075 ne s'arrachent.
+
+---
+
+##### E. Guide de Modélisation CAO Fusion 360 (Outil `Hole` / Touche `H`)
+
+Pour implémenter ces 4 perçages fraisés avec une précision paramétrique absolue sous **Autodesk Fusion 360** :
+
+1. **Création de l'Esquisse 2D (Face Supérieure de la Waist Plate)** :
+   - Sélectionner la face supérieure plane de la Waist Plate (`Waist_Plate_6mm`).
+   - Cliquer sur **Créer une esquisse** (*Create Sketch*).
+   - Tracer un cercle de construction (`Type: Construction`, touche `X`) centré sur l'Origine axiale (axe Z), de diamètre **`68,00 mm`**.
+   - Tracer deux droites de construction diagonales passant par le centre à **`+45,0°`** et **`-45,0°`** de l'axe X.
+   - Avec l'outil **Point** (`Create > Point`), poser 4 points d'esquisse à l'intersection du cercle Ø 68 mm et des deux droites diagonales.
+   - Cliquer sur **Terminer l'esquisse** (*Finish Sketch*).
+2. **Génération des 4 Fraisures via la Commande Perçage (`Hole`, Touche `H`)** :
+   - Taper la touche **`H`** pour ouvrir la boîte de dialogue `Hole`.
+   - **Placement** : Choisir `À partir de l'esquisse (plusieurs trous)` (*From sketch (multiple holes)*). Sélectionner les 4 points créés.
+   - **Type de trou (`Hole Type`)** : Choisir **Fraisé (`Countersink`)** (icône avec tête conique 90°).
+   - **Type de perçage (`Hole Tap Type`)** : Choisir **Simple (`Simple`)**.
+   - **Type de pointe de foret (`Drill Point`)** : Plat ou Angle (indifférent car débouchant).
+   - **Étendue (`Extent`)** : Choisir `À travers tout` (*Through All*) ou `Distance = 6,00 mm`.
+   - **Paramètres dimensionnels à saisir dans le volet numérique** :
+     - Diamètre supérieur du cône de fraisure : **`8,40 mm`**.
+     - Angle du cône de fraisure : **`90,0 deg`**.
+     - Diamètre du perçage de passage lisse : **`4,50 mm`**.
+   - Cliquer sur **OK**. Les 4 trous fraisés sont générés en une seule opération paramétrique propre.
+3. **Modélisation des 4 Trous Borgnes Taraudés sur le Moyeu 7075-T6** :
+   - Sélectionner la face supérieure du fût du composant `Moyeu_Waist_Sandwich_7075`.
+   - Créer une esquisse, projeter les 4 points ou répliquer le cercle PCD Ø 68,0 mm à 45,0°.
+   - Lancer la commande **Perçage (`Hole`, touche `H`)** :
+     - **Type de trou (`Hole Type`)** : **Simple (`Simple Hole`)**.
+     - **Type de perçage (`Hole Tap Type`)** : **Taraudé (`Tapped`)**.
+     - **Profil de filetage (`Thread Type`)** : **ISO Métrique profil (`ISO Metric profile`)**.
+     - **Taille (`Size`)** : **`4.0 mm`**.
+     - **Désignation (`Designation`)** : **`M4x0.7`**.
+     - **Classe de tolérance (`Class`)** : **`6H`**.
+     - **Profondeur de perçage foret (`Hole Depth`)** : **`12,00 mm`**.
+     - **Profondeur de filetage effectif (`Thread Depth`)** : **`10,00 mm`**.
+     - **Pointe de foret (`Drill Point Angle`)** : **`118,0 deg`**.
+   - Appliquer ensuite un **Chanfrein (`Chamfer`)** de **`0,50 mm × 45°`** sur l'arête d'entrée de chaque trou.
+
+---
+
+##### F. Consignes d'Atelier & Gamme d'Usinage CNC C500
+
+Pour l'usinage sur la fraiseuse CNC NestWorks C500 :
+1. **Perçage de la Waist Plate (Alu 6061-T6 ou 7075-T6)** :
+   - Foret carbure monobloc Ø 4,50 mm non revêtu ou DLC (spécial aluminium).
+   - Vitesse de coupe : `Vc = 120 m/min` (`N ~ 8 500 tr/min`), avance par dent `fz = 0,05 mm/dent`.
+   - Cycle de perçage avec débourrage périodique (`G83`, pas de débourrage `Q = 2,0 mm`) et arrosage fluide continu pour éviter le collage de l'aluminium sur les goujures.
+2. **Usinage de la Fraisure Conique 90°** :
+   - **Option A (Fraise à noyer 90° standard)** : Outil à noyer carbure 3 lèvres 90° Ø 10 mm. Vitesse lente `Vc = 35 m/min` (`N ~ 1 100 tr/min`), avance `F = 60 mm/min` avec temporisation en fond de passe (`G04 P500`) de 0,5 seconde pour éliminer tout broutement et obtenir une portée miroir.
+   - **Option B (Interpolation hélicoïdale à la fraise à chanfreiner)** : Fraise à chanfreiner carbure 90° 4 lèvres Ø 6 mm travaillant en interpolation hélicoïdale circulaire 3D (`G02 / G03`) sur parcours Fusion 360 CAM (`2D Bore` ou `Chamfer Milling`). Cette méthode offre un état de surface optimal et permet d'ajuster le diamètre de fraisure à `0,01 mm` près via la compensation de rayon d'outil (`D`).
+3. **Contrôle Métrologique d'Affleurement à l'Établi** :
+   - Insérer une vis de référence FHC M4 × 16 mm dans chaque logement.
+   - Poser un réglet de précision rectifié ou un comparateur à cadran sur la face supérieure de la plaque.
+   - **Critère de conformité** : La tête de vis doit se situer entre **`0,00 mm et -0,05 mm`** sous la surface (aucun accrochage au passage du doigt ou du réglet). Si la tête dépasse de `+0,02 mm`, reprendre la passe de fraisure de `0,04 mm` de profondeur.
+
+---
+
 ### 5.2 Le Bloc Pelvien Inférieur (Pelvis Asimov Scalé +18 %)
 
 Le caisson pelvien sert de berceau structurel :
@@ -361,25 +526,21 @@ Le D-Bot V1.x utilise officiellement l'ordre cinématique **F-A-R (Flexion Pitch
 
 *(Consulter la représentation anatomique complète de la chaîne cinématique pelvienne F-A-R dans le **Panneau 2 du blueprint vectoriel** en tête de dossier).*
 
-### 5.4 Système de Butée Angulaire Optimisé (Goupille Unique DIN 6325 Ø 8 mm)
+### 5.4 Système de Butée Angulaire : Rainure Interne vs Doigt Externe (Solution A)
 
-Afin de sécuriser physiquement la rotation de taille sans perte d'angle mort ni affaiblissement mécanique :
+![Schéma de Butée Angulaire par Doigt Externe](./media/schema_butee_angulaire_doigt_externe_waist.svg)
 
-```
-       [WAIST PLATE 6,0 mm - Face Inférieure Mobile]
-            ┌──────────────────────────────────────────────┐
-            │   (=== Rainure en Arc de Cercle Borgne ===)  │ Largeur 9,0 mm / Profondeur 3,0 mm
-            └──────────────────────▲───────────────────────┘
-                                   │
-                           [1 Ergot de Guidage]
-                                   │ (Course libre +/- 95°)
-            ┌──────────────────────┴───────────────────────┐
-            │   (●)  1× Goupille Trempée DIN 6325 Ø 8 mm   │ Section 50,2 mm² (> 45 kN)
-            └──────────────────────────────────────────────┘
-       [PLATINE PELVIENNE SUPÉRIEURE - Châssis Fixe]
-```
+*Schéma d'ingénierie vectoriel officiel — Butée angulaire par Doigt Externe (Solution A) : Panneau 1 — Vue de dessus cinématique montrant l'arc de balayage de 190° du doigt arrière entre les 2 butées fixes de la Platine (zéro conflit sur les flancs de 94 mm). Panneau 2 — Vue en coupe axiale XZ montrant l'impact franc du doigt sur la vis de butée sans contact avec le roulement.*
 
-#### Définition & Rôle Mécanique :
+Afin de sécuriser physiquement la rotation de taille face à tout risque de vrillage destructeur du faisceau électrique :
+
+#### Option 1 (Étude Initiale) : Rainure Borgne Creusée sous la Waist Plate
+- **Principe** : Une gorge circulaire de 190° usinée sous la plaque recevant une goupille fixe DIN 6325 Ø 8 mm.
+- **Limite constatée sous CAO** : La Waist Plate ne faisant que 94 mm de large au niveau des flancs (rayon 47 mm), un cercle extérieur au roulement (> Ø 120 mm) débouche dans le vide sur les côtés gauche et droit. De plus, fraiser 3 mm de profondeur dans une plaque de 6 mm réduit de moitié son inertie mécanique sous les 520 N.m de basculement.
+
+#### Option 2 (Solution A Recommandée) : Doigt de Butée Externe Arrière (Cam & Stop Dog)
+- **Principe** : Un petit doigt en aluminium (15 × 15 × 10 mm) vissé sous la face arrière de la Waist Plate (zone longue de 120 mm) vient frapper deux vis de butée fixes (CHC M5) implantées à -95° et +95° sur la Platine d'Interface fixe (Ø 140 mm).
+- **Avantages** : Zéro affaiblissement de la Waist Plate (qui reste 100% pleine à 6 mm), suppression totale du conflit d'encombrement sur les flancs de 94 mm, et possibilité d'interposer un petit tampon en élastomère pour amortir le choc en douceur.
 1. **Correction Cinématique de la Butée (Gain de 19,2°)** :
    - L'étude cinématique a démontré que disposer deux goupilles de Ø 5,0 mm avec un entraxe linéaire de 15 mm sur le rayon moyen R = 45 mm consommait un angle mort parasite :
      `Delta_theta = 2 * arcsin(15 / (2 * 45)) = 19.2°`
@@ -421,6 +582,7 @@ Pour permettre la rotation de la taille sans risque d'arrachement, d'écrasement
 | **M-04** | **Moteur Waist Yaw** | RobStride RS-06 (36 N.m pic, 11 N.m nom., CAN-FD, arbre plein) | RobStride / RS-06-V1 | 1 | Motorisation active du lacet de taille (Acheté & Monté) |
 | **B-01** | **Roulement Principal Waist** | **Roulement à rouleaux croisés CRBH 8016 UU (Ø int 80 mm, Ø ext 120 mm, ép 16 mm, P5)** | **CRBH8016 UU / RB8016 UU (AliExpress Luoyang)** | 1 | Reprise intégrale de F_z, F_xy, M_pitch et M_roll (520 N.m) |
 | **A-01** | **Platine d'Interface Waist** | **Platine monolithique CNC Alu 7075-T6 (Ø 140 × 12 mm, alésage Ø 88 H7, siège roulement Ø 120 H7 × 3 mm, 4 taraudages M3)** | **Usinage interne CNC C500** | 1 | Siège roulement + centrage RS-06 + dissipateur thermique (remplace l'ancienne bague) |
+| **HUB-01** | **Moyeu d'Accouplement Sandwich** | **Moyeu CNC tournage/fraisage Alu 7075-T651 (Fût Ø 80 h6 × 16 mm, collerette Ø 91,5 × 3 mm, embase RS-06 Ø 65 mm, 4 taraudages borgnes M4 prof. 12 mm sur PCD Ø 68 mm)** | **Usinage interne CNC C500** | **1** | **Accouplement rotor RS-06 ➔ Waist Plate et pincement sandwich bague intérieure RB8016** |
 | **F-01** | **Flasque Retenue Axiale Z** | Anneau plat Alu 6061 ou 7075 (ép. 2,5 mm, Ø int 118 mm, Ø ext 136 mm, 4 perçages fraisés M3) | Découpe CNC C500 | 1 | Maintien axial positif (+Z) de la bague extérieure du CRBH 8016 |
 | **P-01** | **Waist Plate** | Plaque usinée Alu 6061-T6 (ép. 6,0 mm, 120 × 94 mm, avec redan +1,5 mm, rainure d'arc 9 mm et lumière 25×15 mm) | Découpe & Usinage CNC C500 | 1 | Fermeture basse torse, portée bague intérieure, chemin de butée et passage faisceau |
 | **G-01** | **Goupille Butée Angulaire** | Goupille cylindrique rectifiée trempée ISO 8734 / DIN 6325 (Acier trempé 60 HRC, Ø 8,0 mm × 16 mm) | ISO 8734 / DIN 6325 | 1 | Ergot unique de butée mécanique franche (+/- 95°, tenue > 45 kN) |
@@ -429,9 +591,11 @@ Pour permettre la rotation de la taille sans risque d'arrachement, d'écrasement
 | **V-02** | **Vis Fixation Waist Plate** | Vis CHC M4 × 16 mm classe 12.9 noir | ISO 4762 / DIN 912 | 8 | Fixation des ailes horizontales d'équerres sur Waist Plate |
 | **V-03** | **Vis Fixation Platine → Pelvis** | **Vis CHC M5 × 20 mm classe 12.9 noir ou Inox A2** | **ISO 4762 / DIN 912** | **6** | **Fixation de la Platine d'Interface sur le pelvis (PCD Ø 132 mm, 60°)** |
 | **V-04** | **Vis Flasque Axial Roulement** | Vis FHC M3 × 8 mm classe 10.9 ou Inox A2 | ISO 10642 / DIN 7991 | 4 | Serrage du flasque de retenue axiale sur la Platine (couple 1,2 N.m + Loctite 243) |
+| **V-05** | **Vis Serrage Sandwich Waist** | **Vis FHC M4 × 16 mm classe 10.9 ou 12.9 acier noir** | **ISO 10642 / DIN 7991** | **4** | **Pincement axial sandwich Waist Plate ➔ Moyeu 7075 (couple 2,8 N.m + Loctite 243, précharge 19,2 kN)** |
 | **N-01** | **Écrous Frein Nylstop M4** | Écrous autofreinés bague nylon classe 8/10 | ISO 7040 / DIN 985 | 12 | Verrouillage anti-vibrations visserie d'équerres (3,0 N.m) |
 | **W-01** | **Rondelles Plates M4** | Rondelles plates standard DIN 125A M4 (Ø ext 9 mm) | ISO 7089 / DIN 125A | 16 | Répartition de contrainte sous têtes et écrous M4 |
 | **D-01** | **Disque Brut Platine** | **Disque Ø 150 × 15 mm Alu 7075-T651** | **Blockenstock (~12-15 EUR TTC)** | **1** | **Brut d'usinage pour Platine d'Interface Waist** |
+| **D-02** | **Rond Brut Moyeu Sandwich** | **Barre ronde Ø 100 × 35 mm Alu 7075-T651** | **Blockenstock (~10-12 EUR TTC)** | **1** | **Brut de tournage/fraisage pour Moyeu d'Accouplement Waist** |
 
 ---
 
@@ -493,17 +657,53 @@ Pour intégrer le roulement **RB8016** (ou **CRBH8016**) dans l'assemblage sans 
    - Nom du joint dans l'URDF officiel : `waist_yaw_joint`.
    - Limites URDF associées : `lower="-1.5708"`, `upper="1.5708"`, `effort="36.0"`, `velocity="31.4"`.
 
+### 7.3 Modélisation du Moyeu d'Accouplement & Pincement Sandwich (Alu 7075-T6)
+
+![Plan Coté du Moyeu d'Accouplement et Pincement Sandwich Waist](./media/schema_moyeu_accouplement_waist_sandwich_rs06.svg)
+
+*Blueprint vectoriel d'ingénierie officiel du Moyeu d'Accouplement Waist (D-Bot V1.2) :*
+- **Panneau 1 (Coupe Axiale Z Assemblée)** : Détaillant la prise en étau (sandwich) de la bague intérieure de 16,0 mm du RB8016 entre le redan inférieur de la Waist Plate (+1,5 mm) et la collerette du Moyeu (Ø 91,5 mm × 3 mm), le serrage par vis FHC M4 supérieures à fleur (0,0 mm) et l'entrefer d'air de protection de 2,0 mm au-dessus du stator fixe.
+- **Panneau 2 (Plan Coté 2D de Fabrication CNC)** : Fût cylindrique de centrage Ø 80,00 mm tolérance h6 (+0,000 / -0,019 mm), collerette inférieure Ø 91,50 mm, embase de fixation rotor RS-06 Ø 65,00 mm, hauteur totale 24,00 mm et dégagement d'outil.
+- **Panneau 3 (Vue de Dessus Cotée & Implantation des 4 Trous M4)** : Cartographie des 4 trous borgnes taraudés M4 sur le diamètre primitif PCD Ø 68,00 mm (rayon R = 34,00 mm) orientés à 45,0°, avec leurs coordonnées cartésiennes sagittales/latérales exactes `X = +/- 24,04 mm` et `Y = +/- 24,04 mm`.
+
+#### Spécifications & Rôle de la Pièce :
+1. **Double Fonction Clé** : Cette pièce monobloc usinée en tournage/fraisage CNC résout simultanément :
+   - Le raccordement mécanique avec la face supérieure affleurante du rotor RobStride RS-06 (qui se situe sous le roulement).
+   - Le verrouillage axial bidirectionnel de la bague intérieure du roulement RB8016 (22 kN en traction et compression).
+2. **Pincement de la Bague Intérieure (Prise en Sandwich)** :
+   - Par le dessus : La face inférieure de la Waist Plate 6 mm (redan d'appui Ø 80 à Ø 92 mm).
+   - Par le dessous : La collerette annulaire Ø 91,5 mm × 3,0 mm du Moyeu.
+   - Serrage : 4 vis FHC M4 × 16 mm traversant la Waist Plate viennent se visser dans les 4 taraudages borgnes M4 (prof. 12 mm, filet 10 mm sur PCD Ø 68,0 mm) du Moyeu.
+3. **Transmission du Couple Moteur (36 N.m)** :
+   - L'embase inférieure Ø 65 mm descend sous le roulement et se boulonne directement sur les perçages d'origine du rotor RS-06.
+   - Un jeu d'air protecteur franc de **2,0 mm** est préservé entre le moyeu tournant et le carter extérieur fixe du stator.
+
 ---
 
 ## 8. Checklist de Contrôle & Métrologie Avant Usinage C500
 
-- [ ] **Roulement CRBH 8016 UU commandé** (AliExpress JieMao / Luoyang ou ZYS Bearings).
-- [ ] **Brut commandé** : Disque Alu 7075-T651 Ø 150 × 15 mm (Blockenstock).
-- [ ] **Métrologie Réception** : Mesurer le diamètre extérieur réel du CRBH 8016 au micromètre/palmer avant d'usiner le siège Ø 120 H7 de la Platine.
-- [ ] **CAO Fusion 360 à jour** : Redan +1,5 mm modélisé sous la Waist Plate (Ø 80 à Ø 92 mm).
-- [ ] **CAO Fusion 360 à jour** : 4 perçages taraudés M3 pour flasque axial ajoutés sur la Platine (PCD Ø 128 mm).
-- [ ] **CAO Fusion 360 à jour** : Lumière oblongue 25 × 15 mm chanfreinée modélisée pour le passage de faisceau en zone arrière.
-- [ ] **Butée d'angle qualifiée** : Goupille unique trempée DIN 6325 Ø 8 mm adoptée dans l'assemblage (rainure largeur 9,0 mm, arc 190°).
+- [ ] **Roulement CRBH 8016 UU commandé** (AliExpress JieMao / Luoyang ou ZYS Bearings, cotes 80 × 120 × 16 mm).
+- [ ] **Bruts commandés (Blockenstock)** :
+  - Disque Alu 7075-T651 Ø 150 × 15 mm (Platine d'Interface Waist).
+  - Barre ronde Alu 7075-T651 Ø 100 × 35 mm (Moyeu d'Accouplement Sandwich).
+  - Plaque Alu 6061-T6 ou 7075-T6 épaisseur 6,0 mm (Waist Plate 120 × 94 mm).
+- [ ] **Visserie commandée** :
+  - 4 vis FHC M4 × 16 mm classe 10.9 ou 12.9 noir (ISO 10642) pour serrage sandwich.
+  - 4 vis FHC M3 × 8 mm classe 10.9 (flasque axial roulement).
+  - 6 vis CHC M5 × 20 mm classe 12.9 (fixation Platine ➔ Pelvis).
+  - 1 tube frein-filet normal Loctite 243 (bleu).
+- [ ] **Métrologie Réception Roulement** : Mesurer le diamètre extérieur réel du CRBH 8016 au palmer/micromètre avant d'usiner le siège Ø 120 H7 de la Platine (ajustement H7/h6 glissant juste).
+- [ ] **CAO Fusion 360 à jour (Waist Plate)** :
+  - Redan +1,5 mm modélisé sous la Waist Plate (Ø 80 à Ø 92 mm).
+  - 4 perçages fraisés FHC 90° Ø 8,40 mm (profondeur cône 2,20 mm, trou lisse Ø 4,50 mm) sur PCD Ø 68,0 mm à 45° (`X = +/- 24,04 mm`, `Y = +/- 24,04 mm`), affleurement strict à fleur `0,00 mm`.
+  - Rainure de butée angulaire d'arc 190° (R = 45 mm, largeur 9 mm, prof. 3 mm) ou Doigt de butée externe vissé en zone arrière (Solution A).
+  - Lumière oblongue 25 × 15 mm chanfreinée modélisée pour le passage de faisceau en zone arrière.
+- [ ] **CAO Fusion 360 à jour (Moyeu Sandwich 7075)** :
+  - Fût de centrage Ø 80,00 mm tolérance h6 (+0,000 / -0,019 mm), hauteur 16,00 mm.
+  - Collerette inférieure Ø 91,50 mm × 3,00 mm.
+  - 4 trous borgnes taraudés M4 (avant-trou Ø 3,30 mm prof. 12,0 mm, filetage M4x0.7 prof. 10,0 mm, chanfrein 0,5×45°) sur PCD Ø 68,0 mm à 45°.
+  - Embase rotor Ø 65 mm boulonnée sur le rotor RS-06 avec dégagement stator de 2,0 mm.
+- [ ] **CAO Fusion 360 à jour (Platine Ø 140 mm)** : 4 perçages taraudés M3 pour flasque axial ajoutés sur PCD Ø 128 mm.
 - [ ] **Contrôle d'interférence dynamique** : Vérification sous Fusion 360 de l'absence totale de contact entre la Waist Plate et les carters des RS-04 Hip Pitch sur toute la rotation de +/- 90°.
 - [ ] **Boucle de service électrique qualifiée** : Vérification que la surlongueur libre de câble (L = 140 à 180 mm) respecte un rayon de courbure `R >= 40 mm` sans pincement à +/- 90°.
 

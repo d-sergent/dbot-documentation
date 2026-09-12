@@ -1,0 +1,427 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 1080" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+
+    <!-- Panel Background Gradient -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <!-- Functional Colors -->
+    <!-- Mobile Torso (Red/Orange) -->
+    <linearGradient id="mobileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+
+    <!-- Fixed Platine / Pelvis (Blue) -->
+    <linearGradient id="fixedGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+
+    <!-- Bearing Ring (Green) -->
+    <linearGradient id="bearingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="100%" stop-color="#22c55e"/>
+    </linearGradient>
+
+    <!-- Stop Finger (Gold/Amber) -->
+    <linearGradient id="fingerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+
+    <!-- Stop Posts (Purple/Magenta) -->
+    <linearGradient id="postGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7e22ce"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+
+    <!-- Drop Shadow Filters -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+    <filter id="glowAmber" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#f59e0b" flood-opacity="0.8"/>
+    </filter>
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#38bdf8" flood-opacity="0.7"/>
+    </filter>
+
+    <!-- Grid Pattern -->
+    <pattern id="techGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.5" stroke-opacity="0.25"/>
+    </pattern>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1680" height="1080" fill="url(#bgGrad)"/>
+  <rect width="1680" height="1080" fill="url(#techGrid)"/>
+
+  <!-- ========================================================================= -->
+  <!-- HEADER BANNER                                                             -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 25)">
+    <rect width="1600" height="70" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#dropShadow)"/>
+    <circle cx="35" cy="35" r="18" fill="#f59e0b" fill-opacity="0.2" stroke="#fbbf24" stroke-width="2"/>
+    <text x="35" y="42" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#fbbf24" text-anchor="middle">A</text>
+    
+    <text x="70" y="32" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#f8fafc">
+      SOLUTION A : BUTÉE MÉCANIQUE PAR DOIGT EXTERNE (CAM &amp; STOP DOG)
+    </text>
+    <text x="70" y="54" font-family="Arial, sans-serif" font-size="13" fill="#94a3b8">
+      Alternative sans usinage de gorge : un doigt mobile à l'arrière de la Waist Plate venant frapper 2 butées fixes sur la Platine Ø 140 mm
+    </text>
+
+    <rect x="1360" y="18" width="220" height="34" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="1470" y="40" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399" text-anchor="middle">
+      Zéro Fragilisation Plaque
+    </text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 1 (LEFT) : VUE DE DESSUS CINÉMATIQUE (TRAJECTOIRE ANGULAIRE 190°)     -->
+  <!-- ========================================================================= -->
+  <g transform="translate(40, 115)">
+    <rect width="840" height="925" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)"/>
+    
+    <!-- Header -->
+    <rect width="840" height="42" rx="12" fill="#1e293b"/>
+    <rect y="30" width="840" height="12" fill="#1e293b"/>
+    <line x1="0" y1="42" x2="840" y2="42" stroke="#f59e0b" stroke-width="2"/>
+    <text x="20" y="27" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#f8fafc">
+      PANNEAU 1 : VUE DE DESSUS CINÉMATIQUE (PLAN HORIZONTAL XY)
+    </text>
+    <text x="680" y="27" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">
+      COURSE LIBRE : -90° À +90°
+    </text>
+
+    <!-- Drawing Area (Center = 420, 480) -->
+    <g transform="translate(420, 470)">
+      
+      <!-- Coordinate Axes -->
+      <line x1="-380" y1="0" x2="380" y2="0" stroke="#475569" stroke-width="1" stroke-dasharray="4,4"/>
+      <line x1="0" y1="-390" x2="0" y2="390" stroke="#475569" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="350" y="-10" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ef4444">Y (LATÉRAL)</text>
+      <text x="10" y="-360" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ef4444">X (AVANT ➔)</text>
+      <text x="10" y="375" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ef4444">X (ARRIÈRE ➔)</text>
+
+      <!-- 1. PLATINE D'INTERFACE FIXE (Ø 140 mm) -> R = 210 px -->
+      <circle cx="0" cy="0" r="210" fill="#1e3a8a" fill-opacity="0.25" stroke="#3b82f6" stroke-width="2"/>
+      <text x="0" y="-220" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#60a5fa" text-anchor="middle">
+        PLATINE D'INTERFACE FIXE (Ø 140 mm / R = 70 mm)
+      </text>
+
+      <!-- 2. ROULEMENT RB8016 (Ø 120 mm EXT / Ø 80 mm INT) -> R_ext = 180 px, R_int = 120 px -->
+      <circle cx="0" cy="0" r="180" fill="#15803d" fill-opacity="0.3" stroke="#22c55e" stroke-width="2" stroke-dasharray="6,3"/>
+      <circle cx="0" cy="0" r="120" fill="#0f172a" stroke="#22c55e" stroke-width="1.5"/>
+      <text x="0" y="-155" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#4ade80" text-anchor="middle">
+        ROULEMENT RB8016 (Ø 120 mm EXT)
+      </text>
+
+      <!-- 3. WAIST PLATE ROUGE (120 × 94 mm) -> Rect = 360 × 282 px -->
+      <!-- Center is at (0, 0), Width Y = 94mm (282px, from -141 to +141), Length X = 120mm (360px, from -180 to +180) -->
+      <rect x="-141" y="-180" width="282" height="360" rx="20" fill="#c2410c" fill-opacity="0.4" stroke="#ea580c" stroke-width="2.5"/>
+      <text x="-90" y="-120" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fdba74">
+        WAIST PLATE (Largeur 94 mm)
+      </text>
+
+      <!-- Flank Overflow Highlight (Proof of why groove is impossible on flanks) -->
+      <!-- Left flank gap -->
+      <path d="M -141 -112 A 180 180 0 0 1 -141 112 Z" fill="#ef4444" fill-opacity="0.5"/>
+      <!-- Right flank gap -->
+      <path d="M 141 -112 A 180 180 0 0 0 141 112 Z" fill="#ef4444" fill-opacity="0.5"/>
+      <text x="-210" y="30" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#fca5a5" text-anchor="end">
+        Le roulement déborde de 13 mm dans le vide !
+      </text>
+      <text x="-210" y="45" font-family="Arial, sans-serif" font-size="8.5" fill="#f87171" text-anchor="end">
+        (Impossible d'usiner la gorge ici)
+      </text>
+
+      <!-- 4. DOIGT DE BUTÉE EXTERNE (Fixé sur l'arrière de la Waist Plate à R = 68 mm / 204 px) -->
+      <!-- Circular Trajectory Arc of the Finger (190° : from -95° to +95°) -->
+      <!-- In our view, Posterior is along +X (Downwards). Angle 0° is Downward (+X direction, 90° in standard polar). -->
+      <!-- 190° arc: from -95° (to the right) to +95° (to the left) -->
+      <path d="M -203 17 A 204 204 0 0 0 203 17" fill="none" stroke="#f59e0b" stroke-width="20" stroke-opacity="0.25" stroke-linecap="round"/>
+      <path d="M -203 17 A 204 204 0 0 0 203 17" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="6,4"/>
+
+      <!-- BUTÉE FIXE GAUCHE (-95°) on Platine -->
+      <!-- Angle = -95° from bottom (+X axis) -> Angle in svg: 90 - 95 = -5° or 90 + 95 = 185° -->
+      <g transform="translate(-203, 17)">
+        <circle cx="0" cy="0" r="14" fill="url(#postGrad)" stroke="#f8fafc" stroke-width="2" filter="url(#dropShadow)"/>
+        <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+        <text x="-25" y="-18" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#c084fc">
+          BUTÉE FIXE GAUCHE (-95°)
+        </text>
+        <text x="-25" y="-5" font-family="Arial, sans-serif" font-size="9" fill="#e9d5ff">
+          Vis M5 sur Platine fixe
+        </text>
+      </g>
+
+      <!-- BUTÉE FIXE DROITE (+95°) on Platine -->
+      <g transform="translate(203, 17)">
+        <circle cx="0" cy="0" r="14" fill="url(#postGrad)" stroke="#f8fafc" stroke-width="2" filter="url(#dropShadow)"/>
+        <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+        <text x="25" y="-18" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#c084fc">
+          BUTÉE FIXE DROITE (+95°)
+        </text>
+        <text x="25" y="-5" font-family="Arial, sans-serif" font-size="9" fill="#e9d5ff">
+          Vis M5 sur Platine fixe
+        </text>
+      </g>
+
+      <!-- POSITION NEUTRE DU DOIGT MOBILE (0° - Centre Arrière) -->
+      <g transform="translate(0, 204)" filter="url(#glowAmber)">
+        <!-- The stop finger attached under Waist plate -->
+        <rect x="-18" y="-15" width="36" height="30" rx="5" fill="url(#fingerGrad)" stroke="#ffffff" stroke-width="2"/>
+        <circle cx="-7" cy="0" r="2.5" fill="#000000"/>
+        <circle cx="7" cy="0" r="2.5" fill="#000000"/>
+        <text x="0" y="32" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fbbf24" text-anchor="middle">
+          DOIGT MOBILE (Position 0°)
+        </text>
+        <text x="0" y="46" font-family="Arial, sans-serif" font-size="9.5" fill="#cbd5e1" text-anchor="middle">
+          Vissé sous l'arrière de la Waist Plate
+        </text>
+      </g>
+
+      <!-- Ghost / Simulation at -95° (Striking left stop) -->
+      <g transform="translate(-185, 30)" opacity="0.6">
+        <rect x="-12" y="-12" width="24" height="24" rx="4" fill="#fbbf24" stroke="#ffffff" stroke-dasharray="3,2"/>
+        <line x1="0" y1="0" x2="-18" y2="-13" stroke="#ef4444" stroke-width="2"/>
+        <text x="-35" y="25" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#ef4444" text-anchor="middle">
+          CHOC À -95°
+        </text>
+      </g>
+
+      <!-- Ghost / Simulation at +95° (Striking right stop) -->
+      <g transform="translate(185, 30)" opacity="0.6">
+        <rect x="-12" y="-12" width="24" height="24" rx="4" fill="#fbbf24" stroke="#ffffff" stroke-dasharray="3,2"/>
+        <line x1="0" y1="0" x2="18" y2="-13" stroke="#ef4444" stroke-width="2"/>
+        <text x="35" y="25" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#ef4444" text-anchor="middle">
+          CHOC À +95°
+        </text>
+      </g>
+
+      <!-- Trajectory Arrow Labels -->
+      <text x="0" y="150" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f59e0b" text-anchor="middle">
+        ARC DE ROTATION LIBRE = 190° (+/- 95°)
+      </text>
+      <text x="0" y="168" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1" text-anchor="middle">
+        Rayon de balayage du doigt : R = 68 mm (juste à l'extérieur du roulement)
+      </text>
+    </g>
+
+    <!-- Bottom Legend Box -->
+    <g transform="translate(25, 840)">
+      <rect width="790" height="65" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+      <circle cx="25" cy="32" r="10" fill="#ea580c"/>
+      <text x="45" y="26" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc">
+        Orange = Équipage Mobile (Torse) :
+      </text>
+      <text x="45" y="44" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">
+        Le doigt tourne solidairement avec le torse à l'arrière.
+      </text>
+
+      <circle cx="430" cy="32" r="10" fill="#a855f7"/>
+      <text x="450" y="26" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc">
+        Violet = Bâti Fixe (Pelvis) :
+      </text>
+      <text x="450" y="44" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">
+        Les 2 vis d'arrêt sont immobiles sur la Platine Ø 140 mm.
+      </text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL 2 (RIGHT) : VUE EN COUPE VERTICALE XZ & FONCTIONNEMENT ATELIER       -->
+  <!-- ========================================================================= -->
+  <g transform="translate(900, 115)">
+    <rect width="740" height="925" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)"/>
+    
+    <!-- Header -->
+    <rect width="740" height="42" rx="12" fill="#1e293b"/>
+    <rect y="30" width="740" height="12" fill="#1e293b"/>
+    <line x1="0" y1="42" x2="740" y2="42" stroke="#3b82f6" stroke-width="2"/>
+    <text x="20" y="27" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#f8fafc">
+      PANNEAU 2 : VUE EN COUPE AXIALE (COMMENT LE DOIGT TOUCHE LA BUTÉE)
+    </text>
+
+    <!-- Detailed Elevation View of the Stop Mechanism -->
+    <g transform="translate(40, 65)">
+      
+      <text x="10" y="20" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">
+        1. COUPE ÉLÉVATION SUR LA ZONE ARRIÈRE (RAYON R = 68 mm)
+      </text>
+
+      <!-- Diagram Frame -->
+      <rect y="35" width="660" height="340" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+
+      <!-- ================= LAYER: WAIST PLATE (MOBILE - ORANGE) ================= -->
+      <!-- Waist Plate Cross-section (Z = 50 to 90) -->
+      <g transform="translate(30, 60)">
+        <rect x="0" y="0" width="600" height="35" rx="4" fill="url(#mobileGrad)" stroke="#fdba74" stroke-width="1.5"/>
+        <text x="300" y="22" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">
+          WAIST PLATE 6.0 mm (ÉQUIPAGE MOBILE EN ROTATION YAW)
+        </text>
+
+        <!-- Redan Saillant underneath (+1.5 mm) touching Bearing -->
+        <rect x="50" y="35" width="200" height="12" fill="#c2410c" stroke="#fdba74" stroke-width="1"/>
+        <text x="150" y="44" font-family="Arial, sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff" text-anchor="middle">
+          Redan +1.5 mm (Appui Bague Intérieure)
+        </text>
+
+        <!-- LE DOIGT DE BUTÉE (Vissé sous la Waist Plate à l'arrière) -->
+        <g transform="translate(470, 35)" filter="url(#glowAmber)">
+          <rect x="0" y="0" width="60" height="55" rx="4" fill="url(#fingerGrad)" stroke="#ffffff" stroke-width="2"/>
+          <text x="30" y="24" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#000000" text-anchor="middle">
+            DOIGT
+          </text>
+          <text x="30" y="38" font-family="Arial, sans-serif" font-size="8.5" font-weight="bold" fill="#000000" text-anchor="middle">
+            ALU
+          </text>
+          <text x="30" y="49" font-family="Arial, sans-serif" font-size="8" fill="#000000" text-anchor="middle">
+            (Saillie 10 mm)
+          </text>
+
+          <!-- 2 Screws M4 through Waist plate holding the finger -->
+          <line x1="18" y1="-35" x2="18" y2="15" stroke="#000000" stroke-width="2"/>
+          <line x1="42" y1="-35" x2="42" y2="15" stroke="#000000" stroke-width="2"/>
+        </g>
+        <text x="500" y="-10" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#fbbf24" text-anchor="middle">
+          2 vis M4 par le dessus
+        </text>
+        <line x1="500" y1="-5" x2="500" y2="2" stroke="#fbbf24" stroke-width="1.5"/>
+      </g>
+
+      <!-- ================= LAYER: BEARING RB8016 (MIDDLE) ================= -->
+      <g transform="translate(80, 107)">
+        <!-- Bearing Body (d=80, D=120, h=16mm) -->
+        <rect x="0" y="0" width="200" height="70" rx="3" fill="url(#bearingGrad)" stroke="#86efac" stroke-width="1.5"/>
+        <text x="100" y="38" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">
+          ROULEMENT RB8016 (Ép. 16 mm)
+        </text>
+      </g>
+
+      <!-- ================= LAYER: PLATINE MONOLITHIQUE (FIXE - BLEU) ================= -->
+      <g transform="translate(30, 177)">
+        <!-- Main Plate Body 12 mm -->
+        <rect x="0" y="0" width="600" height="50" rx="4" fill="url(#fixedGrad)" stroke="#93c5fd" stroke-width="1.5"/>
+        <text x="250" y="30" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">
+          PLATINE MONOLITHIQUE FIXE 12.0 mm (Ø 140 mm)
+        </text>
+
+        <!-- LA BUTÉE FIXE (Vis CHC M5 plantée sur la Platine) -->
+        <!-- Positioned at X = 430, facing the Finger when it rotates -->
+        <g transform="translate(415, -42)" filter="url(#dropShadow)">
+          <!-- Screw Head CHC M5 (Cylindrical) -->
+          <rect x="0" y="0" width="26" height="42" rx="3" fill="url(#postGrad)" stroke="#f8fafc" stroke-width="1.5"/>
+          <text x="13" y="24" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle">
+            PLOT
+          </text>
+          <text x="13" y="34" font-family="Arial, sans-serif" font-size="7" fill="#e9d5ff" text-anchor="middle">
+            M5
+          </text>
+          <!-- Thread into Platine -->
+          <rect x="6" y="42" width="14" height="25" fill="#475569"/>
+        </g>
+
+        <!-- Impact Arrow -->
+        <line x1="470" y1="-15" x2="445" y2="-15" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="3,2"/>
+        <text x="457" y="-22" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#ef4444" text-anchor="middle">
+          CHOC
+        </text>
+      </g>
+
+      <!-- Pelvis Wall Below -->
+      <rect x="30" y="235" width="600" height="35" rx="4" fill="#0f172a" stroke="#1e3a8a" stroke-width="1.5"/>
+      <text x="330" y="257" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#60a5fa" text-anchor="middle">
+        CHÂSSIS DU BASSIN / PELVIS (BÂTI STATIQUE)
+      </text>
+
+      <!-- Dimension Callout : Air Clearance Z -->
+      <line x1="580" y1="95" x2="580" y2="177" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="590" y="140" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#38bdf8">
+        H = 17.5 mm d'espace libre
+      </text>
+    </g>
+
+    <!-- Step by Step Implementation Notes -->
+    <g transform="translate(40, 460)">
+      <text x="10" y="0" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#34d399">
+        2. POURQUOI CETTE SOLUTION EST TELLEMENT PLUS SIMPLE EN ATELIER :
+      </text>
+
+      <!-- Point 1 -->
+      <g transform="translate(10, 20)">
+        <rect width="660" height="75" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <circle cx="25" cy="37" r="14" fill="#10b981"/>
+        <text x="25" y="42" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#000000" text-anchor="middle">1</text>
+        <text x="50" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">
+          Zéro gorge circulaire à fraiser dans la Waist Plate
+        </text>
+        <text x="50" y="44" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">
+          La Waist Plate reste une plaque 100% pleine de 6.0 mm. Pas de fraisage profond de 3 mm
+        </text>
+        <text x="50" y="60" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">
+          qui diviserait par deux sa résistance mécanique sous les 520 N.m de basculement.
+        </text>
+      </g>
+
+      <!-- Point 2 -->
+      <g transform="translate(10, 105)">
+        <rect width="660" height="75" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <circle cx="25" cy="37" r="14" fill="#3b82f6"/>
+        <text x="25" y="42" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">2</text>
+        <text x="50" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">
+          Aucun problème d'encombrement sur les flancs de 94 mm
+        </text>
+        <text x="50" y="44" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">
+          Le doigt est situé exclusivement à l'arrière de la plaque (zone longue de 120 mm).
+        </text>
+        <text x="50" y="60" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">
+          Les côtés étroits de 94 mm ne sont plus du tout un problème géométrique !
+        </text>
+      </g>
+
+      <!-- Point 3 -->
+      <g transform="translate(10, 190)">
+        <rect width="660" height="75" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+        <circle cx="25" cy="37" r="14" fill="#f59e0b"/>
+        <text x="25" y="42" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#000000" text-anchor="middle">3</text>
+        <text x="50" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">
+          Usinage élémentaire en 5 minutes sur la C500
+        </text>
+        <text x="50" y="44" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">
+          Le doigt est un simple petit cube d'alu 7075 de 15 × 15 × 10 mm avec 2 taraudages M4.
+        </text>
+        <text x="50" y="60" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">
+          Les 2 butées sont simplement 2 vis CHC M5 vissées dans la Platine Ø 140 mm.
+        </text>
+      </g>
+
+      <!-- Point 4 -->
+      <g transform="translate(10, 275)">
+        <rect width="660" height="75" rx="6" fill="#1e293b" stroke="#a855f7" stroke-width="1"/>
+        <circle cx="25" cy="37" r="14" fill="#a855f7"/>
+        <text x="25" y="42" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">4</text>
+        <text x="50" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">
+          Possibilité d'ajouter un amortisseur en élastomère
+        </text>
+        <text x="50" y="44" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">
+          On peut visser un petit tampon en caoutchouc ou TPU sur la face du doigt pour que
+        </text>
+        <text x="50" y="60" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">
+          le choc de fin de course soit progressif et silencieux (zéro claquement métal/métal).
+        </text>
+      </g>
+    </g>
+  </g>
+
+</svg>
