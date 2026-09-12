@@ -345,10 +345,12 @@ Le verrouillage axial et la transmission du couple de rotation de taille (Waist 
 1. **La face supérieure** : La **Waist Plate** (épaisseur 6,00 mm en Alu 6061-T6 ou 7075-T6), dont la face inférieure usine un redan d'appui circulaire de `+1,50 mm` (plage comprise entre Ø 80,0 mm et Ø 92,0 mm).
 2. **Le roulement intermédiaire** : La bague intérieure mobile du RB8016 (alésage intérieur Ø 80,00 mm, portée extérieure Ø 95,00 mm, épaisseur axiale 16,00 mm).
 3. **La pièce inférieure d'accouplement** : Le **Moyeu d'Accouplement Sandwich** (`Moyeu_Waist_Sandwich_7075` en Alu 7075-T651) :
-   - Son fût cylindrique rectifié (Ø 80,00 mm tolérance h6, soit +0,000 / -0,019 mm) guide l'alésage du roulement sur ses 16,00 mm de hauteur et affleure pile au plan supérieur du roulement (`Z = 0,00 mm`).
+   - Son fût cylindrique rectifié (Ø 80,00 mm tolérance h6, soit +0,000 / -0,019 mm) guide l'alésage du roulement sur **`15,60 mm`** de hauteur axiale (préservant 97,5 % de la portée de guidage).
+   - **Règle d'or de précharge anti-talonnage (Jeu axial obligatoire)** : Le sommet du fût est volontairement usiné en **retrait axial de `0,40 mm`** sous la face supérieure de la bague intérieure du roulement (`Z = -0,40 mm`). Ce jeu d'entrefer franc interdit tout contact direct aluminium/aluminium entre le sommet du moyeu et la Waist Plate lors du serrage, garantissant que 100 % de la force de précharge axiale des 4 vis FHC M4 (19,2 kN) compresse exclusivement la bague intérieure en acier du roulement sans aucun court-circuit d'effort.
    - Sa collerette annulaire inférieure (Ø 91,5 mm × épaisseur 3,00 mm) vient en appui franc sous la face inférieure de la bague intérieure du roulement.
    - 4 trous borgnes taraudés M4 (profondeur 12,0 mm, filet utile 10,0 mm) sont usinés dans la face supérieure du fût sur le diamètre primitif **PCD Ø 68,00 mm** (rayon R = 34,00 mm) orientés à 45,0° des axes principaux.
-   - Son embase inférieure (Ø 65,0 mm) descend sous le roulement et se boulonne directement sur les perçages d'origine du rotor RobStride RS-06.
+   - Son embase inférieure (Ø 65,0 mm × hauteur 5,00 mm) descend sous le roulement et se boulonne directement sur les perçages d'origine du rotor RobStride RS-06.
+   - **Hauteur totale monobloc du moyeu** : `3,00 mm (collerette) + 15,60 mm (fût) + 5,00 mm (embase) =` **`23,60 mm`**.
 
 Le serrage axial est assuré par **4 vis à tête fraisée conique FHC M4 × 16 mm (ISO 10642 / DIN 7991, classe 10.9 ou 12.9)** insérées depuis le dessus de la Waist Plate et venant se visser directement dans le Moyeu 7075-T6.
 
@@ -399,17 +401,18 @@ Le corps du Moyeu étant en alliage haute résistance **Aluminium 7075-T651** (r
 3. **Taraudage Machine M4×0,70** :
    - Taraud machine hélicoïdal à goujures hélicoïdales (pour évacuation des copeaux vers le haut en trou borgne), tolérance **ISO 2 (6H)**.
    - Profondeur de filet utile rectifié : **`10,00 mm`**.
-4. **Bilan d'Engagement de la Vis FHC M4 × 16 mm** :
+4. **Bilan d'Engagement de la Vis FHC M4 × 16 mm (avec Retrait Anti-Talonnage)** :
    - Longueur totale sous tête de la vis FHC M4 : `L = 16,00 mm`.
    - Épaisseur traversée (Waist Plate) : `6,00 mm`.
-   - Longueur de pénétration filetée dans le moyeu :  
-     `L_eng = 16,00 mm - 6,00 mm = 10,00 mm`
+   - Entrefer de précharge libre (retrait fût) : `0,40 mm`.
+   - Longueur de pénétration filetée effective dans le moyeu :  
+     `L_eng = 16,00 mm - 6,00 mm - 0,40 mm = 9,60 mm`
    - Ratio d'implantation sur diamètre nominal :  
-     `Ratio = L_eng / d = 10,00 mm / 4,00 mm = 2,50 * d`
-   - **Conformité RDM** : La règle de l'art en construction mécanique aéronautique impose un engagement minimal de `1,5 * d` dans l'Alu 7075-T6 (soit 6,0 mm). Avec `2,5 * d` (10,0 mm), la résistance du taraudage dépasse très largement la résistance en traction de la vis en acier.
+     `Ratio = L_eng / d = 9,60 mm / 4,00 mm = 2,40 * d`
+   - **Conformité RDM** : La règle de l'art en construction mécanique aéronautique impose un engagement minimal de `1,5 * d` dans l'Alu 7075-T6 (soit 6,0 mm). Avec `2,4 * d` (9,60 mm), la résistance du taraudage dépasse très largement la résistance en traction de la vis en acier.
    - **Garde au fond de trou borgne** :  
-     `Garde = 12,00 mm - 10,00 mm = 2,00 mm`  
-     Cette garde de 2,0 mm interdit formellement tout talonnage de l'extrémité du filet de vis sur le fond conique du perçage, garantissant que 100 % du couple de serrage se transforme en précharge de serrage axial effectif.
+     `Garde = 12,00 mm - 9,60 mm = 2,40 mm`  
+     Cette garde de 2,40 mm interdit formellement tout talonnage de l'extrémité du filet de vis sur le fond conique du perçage, garantissant que 100 % du couple de serrage se transforme en précharge de serrage axial effectif.
 
 ---
 
@@ -582,7 +585,7 @@ Pour permettre la rotation de la taille sans risque d'arrachement, d'écrasement
 | **M-04** | **Moteur Waist Yaw** | RobStride RS-06 (36 N.m pic, 11 N.m nom., CAN-FD, arbre plein) | RobStride / RS-06-V1 | 1 | Motorisation active du lacet de taille (Acheté & Monté) |
 | **B-01** | **Roulement Principal Waist** | **Roulement à rouleaux croisés CRBH 8016 UU (Ø int 80 mm, Ø ext 120 mm, ép 16 mm, P5)** | **CRBH8016 UU / RB8016 UU (AliExpress Luoyang)** | 1 | Reprise intégrale de F_z, F_xy, M_pitch et M_roll (520 N.m) |
 | **A-01** | **Platine d'Interface Waist** | **Platine monolithique CNC Alu 7075-T6 (Ø 140 × 12 mm, alésage Ø 88 H7, siège roulement Ø 120 H7 × 3 mm, 4 taraudages M3)** | **Usinage interne CNC C500** | 1 | Siège roulement + centrage RS-06 + dissipateur thermique (remplace l'ancienne bague) |
-| **HUB-01** | **Moyeu d'Accouplement Sandwich** | **Moyeu CNC tournage/fraisage Alu 7075-T651 (Fût Ø 80 h6 × 16 mm, collerette Ø 91,5 × 3 mm, embase RS-06 Ø 65 mm, 4 taraudages borgnes M4 prof. 12 mm sur PCD Ø 68 mm)** | **Usinage interne CNC C500** | **1** | **Accouplement rotor RS-06 ➔ Waist Plate et pincement sandwich bague intérieure RB8016** |
+| **HUB-01** | **Moyeu d'Accouplement Sandwich** | **Moyeu CNC tournage/fraisage Alu 7075-T651 (Fût Ø 80 h6 × 15,60 mm avec retrait anti-talonnage 0,40 mm, collerette Ø 91,5 × 3 mm, embase RS-06 Ø 65 mm × 5 mm, hauteur totale 23,60 mm, 4 taraudages borgnes M4 prof. 12 mm sur PCD Ø 68 mm)** | **Usinage interne CNC C500** | **1** | **Accouplement rotor RS-06 ➔ Waist Plate et pincement sandwich bague intérieure RB8016** |
 | **F-01** | **Flasque Retenue Axiale Z** | Anneau plat Alu 6061 ou 7075 (ép. 2,5 mm, Ø int 118 mm, Ø ext 136 mm, 4 perçages fraisés M3) | Découpe CNC C500 | 1 | Maintien axial positif (+Z) de la bague extérieure du CRBH 8016 |
 | **P-01** | **Waist Plate** | Plaque usinée Alu 6061-T6 (ép. 6,0 mm, 120 × 94 mm, avec redan +1,5 mm, rainure d'arc 9 mm et lumière 25×15 mm) | Découpe & Usinage CNC C500 | 1 | Fermeture basse torse, portée bague intérieure, chemin de butée et passage faisceau |
 | **G-01** | **Goupille Butée Angulaire** | Goupille cylindrique rectifiée trempée ISO 8734 / DIN 6325 (Acier trempé 60 HRC, Ø 8,0 mm × 16 mm) | ISO 8734 / DIN 6325 | 1 | Ergot unique de butée mécanique franche (+/- 95°, tenue > 45 kN) |
@@ -662,8 +665,8 @@ Pour intégrer le roulement **RB8016** (ou **CRBH8016**) dans l'assemblage sans 
 ![Plan Coté du Moyeu d'Accouplement et Pincement Sandwich Waist](./media/schema_moyeu_accouplement_waist_sandwich_rs06.svg)
 
 *Blueprint vectoriel d'ingénierie officiel du Moyeu d'Accouplement Waist (D-Bot V1.2) :*
-- **Panneau 1 (Coupe Axiale Z Assemblée)** : Détaillant la prise en étau (sandwich) de la bague intérieure de 16,0 mm du RB8016 entre le redan inférieur de la Waist Plate (+1,5 mm) et la collerette du Moyeu (Ø 91,5 mm × 3 mm), le serrage par vis FHC M4 supérieures à fleur (0,0 mm) et l'entrefer d'air de protection de 2,0 mm au-dessus du stator fixe.
-- **Panneau 2 (Plan Coté 2D de Fabrication CNC)** : Fût cylindrique de centrage Ø 80,00 mm tolérance h6 (+0,000 / -0,019 mm), collerette inférieure Ø 91,50 mm, embase de fixation rotor RS-06 Ø 65,00 mm, hauteur totale 24,00 mm et dégagement d'outil.
+- **Panneau 1 (Coupe Axiale Z Assemblée)** : Détaillant la prise en étau (sandwich) de la bague intérieure de 16,0 mm du RB8016 entre le redan inférieur de la Waist Plate (+1,5 mm) et la collerette du Moyeu (Ø 91,5 mm × 3 mm), le serrage par vis FHC M4 supérieures, l'entrefer de précharge anti-talonnage de 0,40 mm entre le fût du moyeu et la Waist Plate (garantissant 100% du serrage sur l'acier du roulement), et l'entrefer d'air de protection de 2,0 mm au-dessus du stator fixe.
+- **Panneau 2 (Plan Coté 2D de Fabrication CNC)** : Fût cylindrique de centrage Ø 80,00 mm tolérance h6 (+0,000 / -0,019 mm) de hauteur 15,60 mm (retrait de 0,40 mm sous bague), collerette inférieure Ø 91,50 mm, embase de fixation rotor RS-06 Ø 65,00 mm, hauteur totale 23,60 mm et dégagement d'outil.
 - **Panneau 3 (Vue de Dessus Cotée & Implantation des 4 Trous M4)** : Cartographie des 4 trous borgnes taraudés M4 sur le diamètre primitif PCD Ø 68,00 mm (rayon R = 34,00 mm) orientés à 45,0°, avec leurs coordonnées cartésiennes sagittales/latérales exactes `X = +/- 24,04 mm` et `Y = +/- 24,04 mm`.
 
 #### Spécifications & Rôle de la Pièce :
@@ -673,6 +676,7 @@ Pour intégrer le roulement **RB8016** (ou **CRBH8016**) dans l'assemblage sans 
 2. **Pincement de la Bague Intérieure (Prise en Sandwich)** :
    - Par le dessus : La face inférieure de la Waist Plate 6 mm (redan d'appui Ø 80 à Ø 92 mm).
    - Par le dessous : La collerette annulaire Ø 91,5 mm × 3,0 mm du Moyeu.
+   - Sommet du fût : Usiné à **`15,60 mm`** de hauteur, ménageant un **entrefer d'air de précharge de `0,40 mm`** sous la Waist Plate.
    - Serrage : 4 vis FHC M4 × 16 mm traversant la Waist Plate viennent se visser dans les 4 taraudages borgnes M4 (prof. 12 mm, filet 10 mm sur PCD Ø 68,0 mm) du Moyeu.
 3. **Transmission du Couple Moteur (36 N.m)** :
    - L'embase inférieure Ø 65 mm descend sous le roulement et se boulonne directement sur les perçages d'origine du rotor RS-06.
@@ -699,10 +703,11 @@ Pour intégrer le roulement **RB8016** (ou **CRBH8016**) dans l'assemblage sans 
   - Rainure de butée angulaire d'arc 190° (R = 45 mm, largeur 9 mm, prof. 3 mm) ou Doigt de butée externe vissé en zone arrière (Solution A).
   - Lumière oblongue 25 × 15 mm chanfreinée modélisée pour le passage de faisceau en zone arrière.
 - [ ] **CAO Fusion 360 à jour (Moyeu Sandwich 7075)** :
-  - Fût de centrage Ø 80,00 mm tolérance h6 (+0,000 / -0,019 mm), hauteur 16,00 mm.
+  - Fût de centrage Ø 80,00 mm tolérance h6 (+0,000 / -0,019 mm), hauteur **`15,60 mm`** (retrait anti-talonnage de `0,40 mm` sous la bague intérieure pour garantir 100% de serrage effectif sur le roulement).
   - Collerette inférieure Ø 91,50 mm × 3,00 mm.
   - 4 trous borgnes taraudés M4 (avant-trou Ø 3,30 mm prof. 12,0 mm, filetage M4x0.7 prof. 10,0 mm, chanfrein 0,5×45°) sur PCD Ø 68,0 mm à 45°.
-  - Embase rotor Ø 65 mm boulonnée sur le rotor RS-06 avec dégagement stator de 2,0 mm.
+  - Embase rotor Ø 65 mm × 5,0 mm boulonnée sur le rotor RS-06 avec dégagement stator de 2,0 mm.
+  - Hauteur totale de pièce : **`23,60 mm`**.
 - [ ] **CAO Fusion 360 à jour (Platine Ø 140 mm)** : 4 perçages taraudés M3 pour flasque axial ajoutés sur PCD Ø 128 mm.
 - [ ] **Contrôle d'interférence dynamique** : Vérification sous Fusion 360 de l'absence totale de contact entre la Waist Plate et les carters des RS-04 Hip Pitch sur toute la rotation de +/- 90°.
 - [ ] **Boucle de service électrique qualifiée** : Vérification que la surlongueur libre de câble (L = 140 à 180 mm) respecte un rayon de courbure `R >= 40 mm` sans pincement à +/- 90°.

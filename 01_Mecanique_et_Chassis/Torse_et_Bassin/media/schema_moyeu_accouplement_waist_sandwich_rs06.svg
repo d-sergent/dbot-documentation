@@ -179,14 +179,15 @@
       <!-- ========================================================= -->
       <g filter="url(#glowGold)">
         <!-- The Moyeu Cross-section Body -->
-        <!-- Spigot (Fût Ø 80 h6): X = -120 to +120, Y = 30 to 160 (H = 130px) -->
-        <!-- Lower Collar (Ø 91.5 mm): X = -140 to +140, Y = 160 to 185 (Ep = 25px) -->
-        <!-- Rotor Hub (Ø 65 mm): X = -100 to +100, Y = 185 to 225 (H = 40px) -->
-        <!-- Central Bore (Allègement Ø 40 mm): X = -60 to +60, Y = 30 to 225 -->
+        <!-- Spigot (Fût Ø 80 h6): X = -120 to +120, Y = 36 to 160 (H = 15.6 mm coté) -->
+        <!-- Retrait anti-talonnage de 0.40 mm sous la Waist Plate (Y = 30 to 36) -->
+        <!-- Lower Collar (Ø 91.5 mm): X = -140 to +140, Y = 160 to 185 (Ep = 3.0 mm) -->
+        <!-- Rotor Hub (Ø 65 mm): X = -100 to +100, Y = 185 to 225 (H = 5.0 mm) -->
+        <!-- Central Bore (Allègement Ø 40 mm): X = -60 to +60, Y = 36 to 225 -->
         
         <!-- Left Cross-section half -->
-        <path d="M -120 30 
-                 L -60 30 
+        <path d="M -120 36 
+                 L -60 36 
                  L -60 225 
                  L -100 225 
                  L -100 185 
@@ -196,8 +197,8 @@
               fill="url(#hubGrad)" stroke="#ffffff" stroke-width="1.5"/>
 
         <!-- Right Cross-section half -->
-        <path d="M 120 30 
-                 L 60 30 
+        <path d="M 120 36 
+                 L 60 36 
                  L 60 225 
                  L 100 225 
                  L 100 185 
@@ -211,6 +212,26 @@
         </text>
         <text x="0" y="132" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1e293b" text-anchor="middle">
           ALU 7075-T6 (MONOBLOC)
+        </text>
+      </g>
+
+      <!-- ========================================================= -->
+      <!-- ZONE CLÉ : ENTREFER DE PRÉCHARGE 0.40 mm (ANTI-TALONNAGE) -->
+      <!-- ========================================================= -->
+      <g>
+        <!-- Clearance visual indicators between Waist Plate and Hub -->
+        <rect x="-120" y="30" width="60" height="6" fill="#10b981" fill-opacity="0.35" stroke="#34d399" stroke-width="1" stroke-dasharray="2,2"/>
+        <rect x="60" y="30" width="60" height="6" fill="#10b981" fill-opacity="0.35" stroke="#34d399" stroke-width="1" stroke-dasharray="2,2"/>
+
+        <!-- Callout Banner Top -->
+        <line x1="-90" y1="33" x2="-90" y2="10" stroke="#34d399" stroke-width="1.5"/>
+        <line x1="-90" y1="10" x2="-140" y2="10" stroke="#34d399" stroke-width="1.5"/>
+        <rect x="-310" y="-3" width="165" height="24" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+        <text x="-227" y="13" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#34d399" text-anchor="middle">
+          JEU RETRAIT : 0,40 mm
+        </text>
+        <text x="-227" y="27" font-family="Arial, sans-serif" font-size="8" fill="#94a3b8" text-anchor="middle">
+          (Zéro talonnage alu/alu)
         </text>
       </g>
 
@@ -435,28 +456,34 @@
       </text>
 
       <!-- 4. Heights on the Right Side -->
-      <!-- Spigot Height H = 16.0 mm -->
-      <line x1="165" y1="100" x2="165" y2="190" stroke="#f8fafc" stroke-width="1.5"/>
-      <text x="175" y="150" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc">
-        H = 16,0 mm (Épaisseur roulement)
+      <!-- Spigot Height H = 15.60 mm (Retrait volontaire de 0.40 mm) -->
+      <line x1="165" y1="100" x2="165" y2="188" stroke="#10b981" stroke-width="2"/>
+      <text x="175" y="140" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">
+        H = 15,60 mm
+      </text>
+      <text x="175" y="155" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#10b981">
+        (Retrait -0,40 mm sous bague)
+      </text>
+      <text x="175" y="168" font-family="Arial, sans-serif" font-size="8" fill="#94a3b8">
+        Zéro talonnage : 100% serrage bague int
       </text>
 
       <!-- Collar Thickness Ep = 3.0 mm -->
-      <line x1="165" y1="190" x2="165" y2="207" stroke="#f8fafc" stroke-width="1.5"/>
-      <text x="175" y="202" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fbbf24">
-        Ép. 3,0 mm
+      <line x1="165" y1="188" x2="165" y2="207" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="175" y="200" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fbbf24">
+        Ép. 3,00 mm
       </text>
 
       <!-- Rotor clearance boss = 5.0 mm -->
       <line x1="165" y1="207" x2="165" y2="235" stroke="#f8fafc" stroke-width="1.5"/>
-      <text x="175" y="225" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#34d399">
-        Dégagement 5,0 mm
+      <text x="175" y="223" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#c084fc">
+        Embase rotor 5,00 mm
       </text>
 
-      <!-- Total Height = 24.0 mm -->
-      <line x1="265" y1="100" x2="265" y2="235" stroke="#38bdf8" stroke-width="2"/>
-      <text x="275" y="172" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">
-        HAUTEUR TOTALE = 24,0 mm
+      <!-- Total Height = 23.60 mm -->
+      <line x1="285" y1="100" x2="285" y2="235" stroke="#38bdf8" stroke-width="2"/>
+      <text x="295" y="170" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">
+        HAUTEUR TOTALE = 23,60 mm
       </text>
     </g>
 
