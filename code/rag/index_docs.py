@@ -126,6 +126,9 @@ MODELS_ROTATION = [
     {"name": "gemini-2.5-flash", "type": "gemini"},
     {"name": "poolside/laguna-s-2.1:free", "type": "openrouter"},
     {"name": "nvidia/nemotron-3-super-120b-a12b:free", "type": "openrouter"},
+    {"name": "nvidia/nemotron-3-ultra-550b-a55b:free", "type": "openrouter"},
+    {"name": "inclusionai/ling-3.0-flash-fin:free", "type": "openrouter"},
+    {"name": "nvidia/nemotron-3.5-lightning:free", "type": "openrouter"},
 ]
 model_cycle = cycle(MODELS_ROTATION)
 # Au lieu de tuer un modèle après 3 erreurs, on le met en "pause" jusqu'à un certain timestamp
