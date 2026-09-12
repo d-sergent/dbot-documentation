@@ -124,7 +124,6 @@ import aiohttp
 MODELS_ROTATION = [
     {"name": "models/gemini-3.1-flash-lite", "type": "gemini"},
     {"name": "gemini-2.5-flash", "type": "gemini"},
-    {"name": "inclusionai/ling-3.0-flash:free", "type": "openrouter"},
     {"name": "poolside/laguna-s-2.1:free", "type": "openrouter"},
     {"name": "nvidia/nemotron-3-super-120b-a12b:free", "type": "openrouter"},
 ]
@@ -461,13 +460,34 @@ async def run_indexing(args):
     all_files_str = set(str(p) for p in all_files)
     log_idx = load_index_log() if not args.full else {}
     
+    # Identifier les fichiers dont l'état dans LightRAG n'est pas encore 'processed'
+    status_file = DB_PATH / "kv_store_doc_status.json"
+    processed_basenames = set()
+    if status_file.exists():
+        try:
+            with open(status_file, "r", encoding="utf-8") as sf:
+                ds = json.load(sf)
+                for v in ds.values():
+                    if v.get("status") == "processed":
+                        processed_basenames.add(os.path.basename(v.get("file_path", "")))
+        except Exception:
+            pass
+
+    def file_needs_update(p: Path) -> bool:
+        if str(p) not in log_idx:
+            return True
+        if log_idx[str(p)].get("mtime", 0) < os.path.getmtime(p):
+            return True
+        if p.name not in processed_basenames:
+            return True
+        return False
+
     if args.files:
         to_update = [Path(f).resolve() for f in args.files if Path(f).exists()]
-    elif args.update:
-        # Forcer la réindexation de tous les fichiers dont le hash ou mtime a bougé
-        to_update = [p for p in all_files if str(p) not in log_idx or log_idx[str(p)]["mtime"] < os.path.getmtime(p)]
+    elif args.full:
+        to_update = all_files
     else:
-        to_update = [p for p in all_files if str(p) not in log_idx or log_idx[str(p)]["mtime"] < os.path.getmtime(p)]
+        to_update = [p for p in all_files if file_needs_update(p)]
     to_delete = [path_str for path_str in list(log_idx.keys()) if path_str not in all_files_str]
 
     if not to_update and not to_delete:
