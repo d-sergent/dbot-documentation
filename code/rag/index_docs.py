@@ -123,7 +123,8 @@ import aiohttp
 
 MODELS_ROTATION = [
     {"name": "models/gemini-3.1-flash-lite", "type": "gemini"},
-    {"name": "gemini-2.5-flash", "type": "gemini"},
+    {"name": "models/gemini-3.6-flash", "type": "gemini"},
+    {"name": "models/gemini-3.5-flash-lite", "type": "gemini"},
     {"name": "poolside/laguna-s-2.1:free", "type": "openrouter"},
     {"name": "nvidia/nemotron-3-super-120b-a12b:free", "type": "openrouter"},
     {"name": "nvidia/nemotron-3-ultra-550b-a55b:free", "type": "openrouter"},
@@ -375,10 +376,10 @@ def compute_doc_id(content: str) -> str:
     return "doc-" + hashlib.md5(content.encode("utf-8")).hexdigest()
 
 VLM_MODELS = [
-    "models/gemini-2.5-flash",
     "models/gemini-3.1-flash-lite",
-    "models/gemini-2.0-flash",
-    "models/gemini-1.5-flash"
+    "models/gemini-3.6-flash",
+    "models/gemini-3.5-flash-lite",
+    "models/gemini-2.5-flash"
 ]
 
 def analyze_image_with_vlm(client: genai.Client, image_path: Path) -> str:
