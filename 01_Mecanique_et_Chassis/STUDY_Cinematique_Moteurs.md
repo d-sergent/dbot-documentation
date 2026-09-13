@@ -98,18 +98,35 @@ Les moteurs QDD tels que les **RobStride** de notre inventaire sont devenus le s
 Voici les données techniques consolidées pour l'ensemble de la gamme RobStride (Février 2025).  
 *Prix officiels RobStride ou sources vérifiées (OpenELAB, AiFitLab) - Hors taxes/livraison.*
 
-| Modèle | Pic<br/>(N.m) | Nom.<br/>(N.m) | V.Nom/Max<br/>(RPM) | Poids<br/>(g) | Dim.<br/>(mm) | Ratio | Prix<br/>($) | Volt.<br/>(V) | Usage D-Bot |
+| Modèle | Pic<br/>(N.m) | Nom.<br/>(N.m) | V.Nom/Max<br/>(RPM) | Poids<br/>(g) | Dim.<br/>(mm) | Ratio | Prix<br/>(USD) | Volt.<br/>(V) | Usage D-Bot |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **RS-05** | **5.5** | 1.6 | 100 / 480 | **191** | 46×46×44 | 7.75:1 | **$120** | 48V (15-60V) | **Cou**, Doigts (futur) |
-| **RS-00** | **14.0** | 5.0 | 260 / 315 | **310** | 57×57×51 | 10:1 | **$135** | 48V (24-60V) | **Poignet** (Compact, fort couple) |
-| **RS-01** | **17.0** | 6.0 | 275 / 315 | **380** | 78.5×78.5×40 | 7.75:1 | **$140** | 36V (24-48V) | Alternative RS-02 (36V) |
-| **RS-02** | **17.0** | 6.0 | 360 / 410 | **405** | 78.5×78.5×45.5 | 7.75:1 | **$160** | 48V (24-60V) | **Coude**, Biceps, Poignet |
-| **RS-06** | **36.0** | 11.0 | — / 480 | **621** | 88×88×49 | 9:1 | **$230** | 48V (15-60V) | Entre-deux (Épaule légère) |
-| **RS-03** | **60.0** | 20.0 | 180 / 195 | **880** | 106×106×56 | 9:1 | **$250** | 48V (15-60V) | **Épaule**, Hanche rot. |
-| **RS-04** | **120.0** | 40.0 | 167 / 200 | **1420** | 120×120×56 | 9:1 | **$280** | 48V (15-60V) | **Hanche**, Genou, Cheville |
-| *Unitree GO-M8* | *23.7* | *~8.0* | *— / 286* | *530* | *96.5×96.5×42.3* | *6.33:1* | *$369* | *24V (12-30V)* | *Alternative (Non CAN)* |
+| **RS-05** | **5.5** | 1.6 | 100 / 480 | **191** | 46×46×44 | 7.75:1 | **120 USD** | 48V (15-60V) | **Cou**, Doigts (futur) |
+| **RS-00** | **14.0** | 5.0 | 260 / 315 | **310** | 57×57×51 | 10:1 | **135 USD** | 48V (24-60V) | **Poignet** (Compact, fort couple) |
+| **RS-01** | **17.0** | 6.0 | 275 / 315 | **380** | 78.5×78.5×40 | 7.75:1 | **140 USD** | 36V (24-48V) | Alternative RS-02 (36V) |
+| **RS-02** | **17.0** | 6.0 | 360 / 410 | **405** | 78.5×78.5×45.5 | 7.75:1 | **160 USD** | 48V (24-60V) | **Coude**, Biceps, Poignet |
+| **RS-06** | **36.0** | 11.0 | — / 480 | **621** | 88×88×49 | 9:1 | **230 USD** | 48V (15-60V) | Entre-deux (Taille / Waist Yaw) |
+| **RS-10P** | **42.0** | 14.0 | 50 / 125 | **460** | Ø57 × 59.1 | 25:1 | **~210-240 USD** | 48V (15-60V) | **Poignet lourd / Supination** (Planétaire fort couple) |
+| **RS-03** | **60.0** | 20.0 | 180 / 195 | **880** | 106×106×56 | 9:1 | **250 USD** | 48V (15-60V) | **Épaule**, Hanche rot., Cheville Cardan |
+| **RS-04** | **120.0** | 40.0 | 167 / 200 | **1420** | 120×120×56 | 9:1 | **280 USD** | 48V (15-60V) | **Hanche**, Genou |
+| *Unitree GO-M8* | *23.7* | *~8.0* | *— / 286* | *530* | *96.5×96.5×42.3* | *6.33:1* | *369 USD* | *24V (12-30V)* | *Alternative (Non CAN)* |
 
 ### Analyse Comparative
+
+#### RS-10P (Nouveau Planétaire Fort Couple 25:1)
+*   **Architecture & Positionnement** : Le RobStride RS-10P introduit un réducteur planétaire à fort rapport de réduction (**25:1**, 28 pôles, FOC 48V). Contrairement aux actionneurs QDD à faible ratio (7.75:1 à 10:1), il privilégie une **densité volumique de couple phénoménale** dans un diamètre ultra-étroit de seulement **Ø 57 mm** (identique au diamètre frontal du petit RS-00).
+*   **Performances clés (Manuel Officiel Septembre 2026)** :
+    *   Couple nominal continu : **14.0 N.m** (à 50 RPM).
+    *   Couple de crête (Peak) : **42.0 N.m** (sous 19 Apk).
+    *   Masse : **460 g (+/- 3 g)**.
+    *   Vitesse à vide : **125 RPM (+/- 10%)**.
+    *   Encombrement : Corps cylindrique Ø 57 (+/- 0.15 mm), Longueur axiale 59.1 (+/- 0.2 mm).
+    *   Connectique intégrée : AMASS XT30PB(2+2)-M.G.B (48V + Bus CAN).
+    *   Fixation rotor : 6 taraudages M4 (profondeur 5.0 mm) sur PCD Ø 51.0 mm + 3 goupilles de centrage Ø 3 mm (+0.03/+0.01 mm) à 120 deg.
+    *   Fixation stator (arrière) : 4 taraudages M3 (profondeur 4.0 mm) sur PCD Ø 38.0 mm. Carter arrière fermé, zéro arbre creux.
+*   **Intérêt pour le D-Bot** :
+    1.  **Surclassement du Poignet Pitch** : Avec 14 N.m nominal continu dans le même diamètre frontal (Ø 57 mm) que le RS-00 (qui plafonne à 5 N.m), il multiplie par 2.8 la capacité de maintien continu à bout de bras. Le portage horizontal à bout de bras passe de 4.1 kg à plus de 11 kg sans surchauffe.
+    2.  **Alternative pour la Supination de l'Avant-Bras** : Avec 42 N.m pic et 14 N.m nominal pour seulement 460 g et Ø 57 mm, il délivre plus du double du couple du RS-02 (6 N.m nom / 17 N.m pic, Ø 78.5 mm), tout en réduisant l'encombrement radial de l'avant-bras de plus de 21 mm.
+    3.  **Contrepartie** : Vitesse maximale limitée à 125 RPM (environ 13 rad/s) et réversibilité mécanique (backdrivability) plus ferme due au ratio 25:1. Parfait pour les membres supérieurs (poignet, coude, supination), mais inadapté pour la marche dynamique ou la course.
 
 ####  RS-05 vs RS-00 (Petits Moteurs)
 *   **RS-05** : Ultraléger (191g), idéal pour le cou où chaque gramme compte. Couple modeste (5.5 N.m) mais suffisant pour orientation.

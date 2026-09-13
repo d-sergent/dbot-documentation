@@ -22,15 +22,16 @@ Les moteurs QDD tels que les **RobStride** de notre inventaire sont devenus le s
 Voici les données techniques consolidées pour l'ensemble de la gamme RobStride (Février 2025).  
 *Prix officiels RobStride ou sources vérifiées (OpenELAB, AiFitLab) - Hors taxes/livraison.*
 
-| Modèle | Pic (N.m) | Nom. (N.m) | V.Nom/Max (RPM) | Poids (g) | Dim. (mm) | Ratio | Prix ($) | Volt. (V) | Usage D-Bot |
+| Modèle | Pic (N.m) | Nom. (N.m) | V.Nom/Max (RPM) | Poids (g) | Dim. (mm) | Ratio | Prix (USD) | Volt. (V) | Usage D-Bot |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **RS-05** | **5.5** | 1.6 | 100 / 480 | **191** | 46×46×44 | 7.75:1 | **$120** | 48V (15-60V) | **Cou**, Doigts (futur) |
-| **RS-00** | **14.0** | 5.0 | 260 / 315 | **310** | 57×57×51 | 10:1 | **$135** | 48V (24-60V) | **Poignet** (Compact, fort couple) |
-| **RS-01** | **17.0** | 6.0 | 275 / 315 | **380** | 78.5×78.5×40 | 7.75:1 | **$140** | 36V (24-48V) | Alternative RS-02 (36V) |
-| **RS-02** | **17.0** | 6.0 | 360 / 410 | **405** | 78.5×78.5×45.5 | 7.75:1 | **$160** | 48V (24-60V) | **Coude**, Biceps, Poignet |
-| **RS-06** | **36.0** | 11.0 | — / 480 | **621** | 88×88×49 | 9:1 | **$230** | 48V (15-60V) | Entre-deux (Épaule légère) |
-| **RS-03** | **60.0** | 20.0 | 180 / 195 | **880** | 106×106×56 | 9:1 | **$250** | 48V (15-60V) | **Épaule**, Hanche rot. |
-| **RS-04** | **120.0** | 40.0 | 167 / 200 | **1420** | 120×120×56 | 9:1 | **$280** | 48V (15-60V) | **Hanche**, Genou, Cheville |
+| **RS-05** | **5.5** | 1.6 | 100 / 480 | **191** | 46×46×44 | 7.75:1 | **120 USD** | 48V (15-60V) | **Cou**, Doigts (futur) |
+| **RS-00** | **14.0** | 5.0 | 260 / 315 | **310** | 57×57×51 | 10:1 | **135 USD** | 48V (24-60V) | **Poignet** (Compact, fort couple) |
+| **RS-01** | **17.0** | 6.0 | 275 / 315 | **380** | 78.5×78.5×40 | 7.75:1 | **140 USD** | 36V (24-48V) | Alternative RS-02 (36V) |
+| **RS-02** | **17.0** | 6.0 | 360 / 410 | **405** | 78.5×78.5×45.5 | 7.75:1 | **160 USD** | 48V (24-60V) | **Coude**, Biceps, Poignet |
+| **RS-06** | **36.0** | 11.0 | — / 480 | **621** | 88×88×49 | 9:1 | **230 USD** | 48V (15-60V) | Entre-deux (Taille / Waist Yaw) |
+| **RS-10P** | **42.0** | 14.0 | 50 / 125 | **460** | Ø57 × 59.1 | 25:1 | **~210-240 USD** | 48V (15-60V) | **Poignet lourd / Supination** (Planétaire fort couple) |
+| **RS-03** | **60.0** | 20.0 | 180 / 195 | **880** | 106×106×56 | 9:1 | **250 USD** | 48V (15-60V) | **Épaule**, Hanche rot., Cheville Cardan |
+| **RS-04** | **120.0** | 40.0 | 167 / 200 | **1420** | 120×120×56 | 9:1 | **280 USD** | 48V (15-60V) | **Hanche**, Genou |
 
 ### 2.1 Analyse Comparative Électrique & Intégration
 
@@ -44,8 +45,8 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 
 #### 🌡️ Analyse Thermique Statique (Charge de 40 kg - Maintien debout)
 Pour maintenir le robot de 40 kg debout avec les genoux légèrement fléchis ("crouch stance"), chaque hanche et genou requiert environ **20.6 N.m** de couple de maintien permanent.
-*   **Avec le RS-03** (Résistance interne 0.39 Ω, Constante $K_t$ 2.36 N.m/A) : Consomme ~8.5 A continus. La dissipation thermique par effet Joule ($P=R \cdot I^2$) s'élève à **~28 Watts**. Le moteur est à 100% de son nominal et surchauffera rapidement jusqu'à la coupure de sécurité.
-*   **Avec le RS-04** (Résistance interne 0.16 Ω, Constante $K_t$ 2.10 N.m/A) : Consomme ~9.5 A. La dissipation thermique chute à **~14.5 Watts**. Le RS-04 dissipe deux fois moins de chaleur et possède 61% de masse métallique en plus pour absorber les calories.
+*   **Avec le RS-03** (Résistance interne 0.39 Ohm, Constante Kt = 2.36 N.m/A) : Consomme ~8.5 A continus. La dissipation thermique par effet Joule (P = R * I^2) s'élève à **~28 Watts**. Le moteur est à 100% de son nominal et surchauffera rapidement jusqu'à la coupure de sécurité.
+*   **Avec le RS-04** (Résistance interne 0.16 Ohm, Constante Kt = 2.10 N.m/A) : Consomme ~9.5 A. La dissipation thermique chute à **~14.5 Watts**. Le RS-04 dissipe deux fois moins de chaleur et possède 61% de masse métallique en plus pour absorber les calories.
 *   **Verdict** : Le **RS-04** est obligatoire pour les hanches et genoux pour prévenir la surchauffe statique. Les plaques d'interface en aluminium CNC sont critiques pour dissiper les 14.5W restants.
 
 #### 🔌 Système de Verrouillage Statique (SVS) - Perspectives
