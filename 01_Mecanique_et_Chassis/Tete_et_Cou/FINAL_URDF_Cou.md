@@ -6,6 +6,20 @@ Ce document détaille les conventions de nommage et d'orientation à respecter d
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Convention d'Axes : Fusion 360 vs URDF**](#1-convention-daxes-fusion-360-vs-urdf)
+- [**2. Renommage des Pièces Fusion 360 → URDF**](#2-renommage-des-pièces-fusion-360-urdf)
+  - [2.1 Règles de nommage URDF](#21-règles-de-nommage-urdf)
+  - [2.2 Tableau de correspondance (assemblage Neck v28)](#22-tableau-de-correspondance-assemblage-neck-v28)
+- [**3. Chaîne Cinématique URDF du Cou**](#3-chaîne-cinématique-urdf-du-cou)
+- [**4. Définition des Joints (DOF)**](#4-définition-des-joints-dof)
+- [**5. Workflow d'Export Fusion 360 → URDF**](#5-workflow-dexport-fusion-360-urdf)
+- [**6. Résumé des Links URDF à créer**](#6-résumé-des-links-urdf-à-créer)
+
+---
+
 ## 1. Convention d'Axes : Fusion 360 vs URDF
 
 Fusion 360 (en mode **Z-up**, réglable dans *Préférences → Conception → Orientation de modélisation par défaut*) utilise les axes suivants :

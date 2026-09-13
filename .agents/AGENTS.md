@@ -33,10 +33,24 @@
 - **Mandatory Markdown Image Embedding**: NEVER create, generate, or save any image file (PNG, JPG, SVG, WebP) in the workspace without IMMEDIATELY embedding and referencing it in a corresponding active Markdown document (e.g. `![Description](./media/<image_name>.png)`). No orphan media files are allowed in the repository.
 
 ## Documentation Structure & Navigation
-- **Systematic Table of Contents (Sommaire Cliquable)** : In every main technical Markdown document (`.md`), ALWAYS include a structured `## 📑 Sommaire` / `## 📑 Sommaire Général` at the beginning of the file (immediately after the header / intro callout) with markdown anchor links (`[Titre](#slug-ancre)`) pointing directly to all major sections (`##`) and sub-sections (`###`).
+- **Systematic Table of Contents (Sommaire Cliquable Obligatoire)** : In every active technical Markdown document of Level 1 (`FINAL_`, `GUIDE_COMPLET_`, `DOSSIER_TECHNIQUE_`) and Level 2 (`STUDY_`, `AUDIT_`), you MUST include a structured `## 📑 Sommaire` / `## 📑 Sommaire Général` at the beginning of the file (immediately after the header / intro callout) with functional markdown anchor links (`[Titre](#slug-ancre)`) pointing directly to all major sections (`##`) and sub-sections (`###`).
 
 ## Actionneurs RobStride — Règle Matérielle Inviolable (Arbres Pleins / Zéro Arbre Creux)
 - **Architecture Pleine & Fermée** : TOUS les moteurs de la gamme RobStride (RS-00, RS-02, RS-03, RS-04, RS-05, RS-06) possèdent un arbre de sortie plein, un centre borgne/obstrué et un carter arrière totalement fermé.
 - **Interdiction Formelle d'Arbre Creux** : AUCUN moteur RobStride n'a d'arbre creux traversant (ZÉRO hollow shaft / ZÉRO through-bore).
 - **Routage Obligatoire Déporté** : Tout passage de faisceau électrique (lignes de puissance 48V, paires CAN-FD, câblage capteurs) ou de transmission par câble/tendon (mains D-Hand) doit IMPÉRATIVEMENT contourner le moteur via un corridor latéral ou postérieur déporté (lumière oblongue avec passe-fil et boucle de service). Il est STRICTEMENT INTERDIT de concevoir ou de suggérer un passage de câbles ou de tendons à travers l'axe d'un moteur RobStride.
+
+## Rigueur d'Ingénierie Système & Prévention des Biais de Cadrage
+- **Interdiction Formelle d'Affirmation de Mémoire (Zéro Raccourci)** :
+  - Dès qu'une réponse cite, compare, dimensionne ou prend en exemple un sous-ensemble, un composant, une référence de pièce ou un inventaire, il est STRICTEMENT INTERDIT de se baser sur une restitution intuitive ou un souvenir de conversation.
+  - Tout état des lieux ou exemple illustratif DOIT être formellement recoupé avec la source de vérité consolidée active (dossiers `00_Architecture_Centrale/` ou `05_Gestion_Projet/`) AVANT de formuler la réponse.
+- **Principe de Complétude & Non-Fragmentation (Vue Système Holistique)** :
+  - Lorsqu'une question porte sur un composant ou une articulation isolée, l'analyse ne doit JAMAIS fragmenter ou simplifier arbitrairement le sous-ensemble auquel il se rattache.
+  - Tout sous-ensemble mentionné (ex. chaîne cinématique, organe terminal, alimentation, bus de données) doit être décrit dans son **intégralité fonctionnelle exacte**, sans omettre les éléments complémentaires qui le constituent.
+- **Hiérarchie Stricte des Sources Documentaires** :
+  - **Niveau 1 (Vérité Terrain Active)** : Les documents préfixés `FINAL_`, `GUIDE_COMPLET_`, `DOSSIER_TECHNIQUE_`, ainsi que `05_Gestion_Projet/FINAL_Liste_Achats_BOM.md`, `05_Gestion_Projet/JOURNAL_DE_BORD.md` et `05_Gestion_Projet/ROADMAP_STRATEGIQUE_V1.md` font foi absolue.
+  - **Niveau 2 (Études & R&D en cours)** : Les documents préfixés `STUDY_` ou `AUDIT_` fournissent le contexte technique et les calculs justificatifs.
+  - **Niveau 3 (Interdit d'affirmation)** : Les documents historiques, brouillons ou archives (ex. dossiers `Archives`, `00_Archives_Recherche`) ne doivent JAMAIS être utilisés pour énoncer l'état actuel du robot, sauf si l'utilisateur demande explicitement l'historique d'une décision.
+- **Auto-Vérification Pré-Génération (Sanity Check)** :
+  - Avant de valider le message final, vérifier la cohérence interne entre tous les composants cités dans le message et les inventaires validés de la session. En cas de doute ou d'information manquante, expliciter la nuance plutôt que d'extrapoler.
 

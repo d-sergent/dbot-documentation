@@ -2,6 +2,31 @@
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Vue d’Ensemble (Version Actuelle)**](#1-vue-densemble-version-actuelle)
+- [**2. Spécifications Matérielles Validées**](#2-spécifications-matérielles-validées)
+  - [2.1 Tableau récapitulatif des joints (URDF)](#21-tableau-récapitulatif-des-joints-urdf)
+  - [2.2 Moteurs RS‑05 (2 unités)](#22-moteurs-rs05-2-unités)
+  - [2.3 Roulements (solution de support externe – **Solution 4**)](#23-roulements-solution-de-support-externe-solution-4)
+  - [2.4 Pièces mécaniques associées (Solution 4 – Hub réduit)](#24-pièces-mécaniques-associées-solution-4-hub-réduit)
+- [**3. Nomenclature (BOM Locale)**](#3-nomenclature-bom-locale)
+- [**4. État de la Conception (CAD & Simulation)**](#4-état-de-la-conception-cad-simulation)
+- [**5. Instructions de Montage Critiques**](#5-instructions-de-montage-critiques)
+  - [5.1 Généralités](#51-généralités)
+  - [5.2 Montage du Yaw (Solution 4 – 6804‑2RS)](#52-montage-du-yaw-solution-4-68042rs)
+  - [5.3 Montage du Pitch (Tilt) – Yoke Mount avec 2× 6804‑2RS](#53-montage-du-pitch-tilt-yoke-mount-avec-2-68042rs)
+  - [5.4 Points de Vigilance](#54-points-de-vigilance)
+- [**6. Backlog Technique & Questions en Suspens**](#6-backlog-technique-questions-en-suspens)
+- [**7. Roadmap & Itérations Futures**](#7-roadmap-itérations-futures)
+- [**8. Validation CAO Haute Précision (Fusion 360)**](#8-validation-cao-haute-précision-fusion-360)
+  - [8.1 Caractéristiques Physiques CAO (Matériau Acier par défaut)](#81-caractéristiques-physiques-cao-matériau-acier-par-défaut)
+  - [8.2 Calcul de la Masse Réelle Imprimée (PLA à 20% d'infill)](#82-calcul-de-la-masse-réelle-imprimée-pla-à-20-dinfill)
+  - [8.3 Noms de Référence CAO Validés (Nomenclature CAO)](#83-noms-de-référence-cao-validés-nomenclature-cao)
+
+---
+
 ## 1. Vue d’Ensemble (Version Actuelle)
 
 Le sous‑assemblage **Cou (Neck)** du D‑Bot comporte **2 DOF (Degrés de Liberté)** :

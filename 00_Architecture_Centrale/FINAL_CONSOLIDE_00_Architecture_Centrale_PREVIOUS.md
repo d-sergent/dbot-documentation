@@ -7,6 +7,22 @@ Les itérations futures (V2, V3, …) sont regroupées dans la section 7 uniqu
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Vue d’Ensemble (Version Actuelle)**](#1-vue-densemble-version-actuelle)
+- [**2. Spécifications Matérielles Validées**](#2-spécifications-matérielles-validées)
+  - [2.1 Tableau récapitulatif des DOF, couples et rapports de réduction](#21-tableau-récapitulatif-des-dof-couples-et-rapports-de-réduction)
+  - [2.2 Marges de couple (exemple)](#22-marges-de-couple-exemple)
+- [**3. Nomenclature (BOM Locale)**](#3-nomenclature-bom-locale)
+  - [3.1 D‑Hand Hybrid – Détail masse (extrait de FINAL_Dimensions_et_Leviers.md)](#31-dhand-hybrid-détail-masse-extrait-de-finaldimensionsetleviersmd)
+- [**4. État de la Conception (CAD & Simulation)**](#4-état-de-la-conception-cad-simulation)
+- [**5. Instructions de Montage Critiques**](#5-instructions-de-montage-critiques)
+- [**6. Backlog Technique & Questions en Suspens**](#6-backlog-technique-questions-en-suspens)
+- [**7. Roadmap & Itérations Futures (Optionnel)**](#7-roadmap-itérations-futures-optionnel)
+
+---
+
 ## 1. Vue d’Ensemble (Version Actuelle)
 
 | Sous‑système | Architecture retenue (V1) | Principaux composants | Statut |

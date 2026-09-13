@@ -1,5 +1,28 @@
 # 🦾 Spécifications Finales : Bras et Mains (D-Bot)
 
+
+## 📑 Sommaire
+
+- [**1. Vue d'Ensemble (Version Actuelle)**](#1-vue-densemble-version-actuelle)
+- [**2. Spécifications Matérielles Validées**](#2-spécifications-matérielles-validées)
+  - [2.1 Architecture Cinématique et Actionneurs](#21-architecture-cinématique-et-actionneurs)
+  - [2.2 Structure des Membres Supérieurs](#22-structure-des-membres-supérieurs)
+  - [2.3 Système de Tendons et Guidage (Main)](#23-système-de-tendons-et-guidage-main)
+  - [2.4 Convertisseur et Gestion Thermique](#24-convertisseur-et-gestion-thermique)
+  - [2.5 Performances Validées](#25-performances-validées)
+  - [2.6 Capacité de Portage du Bras (Analyse par Articulation)](#26-capacité-de-portage-du-bras-analyse-par-articulation)
+- [**3. Nomenclature (BOM Locale)**](#3-nomenclature-bom-locale)
+  - [3.1 Composants Majeurs (par bras)](#31-composants-majeurs-par-bras)
+  - [3.2 Matériaux Structurels & Quincaillerie (par bras)](#32-matériaux-structurels-quincaillerie-par-bras)
+  - [3.3 Fournisseurs Dyneema DM20 / Liros D-Pro Static (depuis la France)](#33-fournisseurs-dyneema-dm20-liros-d-pro-static-depuis-la-france)
+  - [3.4 Coût Total Estimé (par bras)](#34-coût-total-estimé-par-bras)
+- [**4. État de la Conception (CAD & Simulation)**](#4-état-de-la-conception-cad-simulation)
+- [**5. Instructions de Montage Critiques**](#5-instructions-de-montage-critiques)
+- [**6. Backlog Technique & Questions en suspens**](#6-backlog-technique-questions-en-suspens)
+- [**7. Roadmap & Itérations Futures**](#7-roadmap-itérations-futures)
+
+---
+
 ## 1. Vue d'Ensemble (Version Actuelle)
 
 Le sous-ensemble **Bras et Mains** du D-Bot est conçu pour offrir une dextérité avancée et une capacité de manipulation robuste, s'inspirant des architectures biomimétiques des humanoïdes de pointe comme le Tesla Optimus. La conception privilégie la réduction de l'inertie distale, la robustesse structurelle et l'intégration de capteurs tactiles pour un contrôle adaptatif.

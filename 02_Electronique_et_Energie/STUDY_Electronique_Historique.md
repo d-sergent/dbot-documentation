@@ -1,5 +1,61 @@
 # Électronique & Câblage
 
+
+## 📑 Sommaire
+
+- [**1. Schéma Global de Connexion**](#1-schéma-global-de-connexion)
+  - [Cerveau Principal (NVIDIA Jetson Orin Nano)](#cerveau-principal-nvidia-jetson-orin-nano)
+  - [1.1 Stratégie de Perception Multi-Couches](#11-stratégie-de-perception-multi-couches)
+  - [1.2 Diagramme de Branchement (Flux Énergie & Data)](#12-diagramme-de-branchement-flux-énergie-data)
+- [**2. Bus CAN (Moteurs Robstride)**](#2-bus-can-moteurs-robstride)
+  - [Principe du Bus CAN](#principe-du-bus-can)
+  - [Combien de bus CAN et pourquoi ?](#combien-de-bus-can-et-pourquoi)
+  - [Choix du matériel USB2CAN — Étude Comparative](#choix-du-matériel-usb2can-étude-comparative)
+  - [2.5 Architecture USB & Hub de Données](#25-architecture-usb-hub-de-données)
+  - [Topologie du Câblage Data (CAN) par Bus](#topologie-du-câblage-data-can-par-bus)
+  - [Module de Debug (✅ Déjà Acheté)](#module-de-debug-déjà-acheté)
+- [**3. Sony Spresense & OAK-D Pro**](#3-sony-spresense-oak-d-pro)
+  - [OAK-D Pro (Vision)](#oak-d-pro-vision)
+  - [Sony Spresense (Watchdog & I/O)](#sony-spresense-watchdog-io)
+  - [Circuit de commande des solénoïdes (Tête)](#circuit-de-commande-des-solénoïdes-tête)
+  - [Mise sous tension (Sécurité Wanptek)](#mise-sous-tension-sécurité-wanptek)
+- [**4. Alimentation & Batterie**](#4-alimentation-batterie)
+  - [4.1 Inventaire des Tensions Secondaires (Non-48V)](#41-inventaire-des-tensions-secondaires-non-48v)
+  - [4.2 Alimentation & Batterie (Spécifications)](#42-alimentation-batterie-spécifications)
+  - [Choix de Batteries — Stratégie Progressive (Avril 2026)](#choix-de-batteries-stratégie-progressive-avril-2026)
+  - [Sécurité Incendie (NMC)](#sécurité-incendie-nmc)
+  - [Positionnement dans le Robot](#positionnement-dans-le-robot)
+  - [Topologie de Puissance (48V) : ÉTOILE OBLIGATOIRE](#topologie-de-puissance-48v-étoile-obligatoire)
+  - [Distribution : Système Busbar + Pigtails (Sans Soudure)](#distribution-système-busbar-pigtails-sans-soudure)
+- [**4b. Câbles de Puissance Moteurs — Guide d'Achat et Longueurs**](#4b-câbles-de-puissance-moteurs-guide-dachat-et-longueurs)
+  - [Courants par Modèle de Moteur](#courants-par-modèle-de-moteur)
+  - [Stratégie Rationalisée — 2 Calibres Seulement](#stratégie-rationalisée-2-calibres-seulement)
+  - [Wanptek — Quelle borne utiliser ?](#wanptek-quelle-borne-utiliser)
+  - [Longueurs Estimées par Zone — Câble 14 AWG (RS-04)](#longueurs-estimées-par-zone-câble-14-awg-rs-04)
+  - [Longueurs Estimées par Zone — Câble 18 AWG (Tous les autres)](#longueurs-estimées-par-zone-câble-18-awg-tous-les-autres)
+  - [Recommandations d'Achat (disponible en France)](#recommandations-dachat-disponible-en-france)
+  - [Récapitulatif Budget Câble Puissance](#récapitulatif-budget-câble-puissance)
+- [**4.3 Séquence de Validation — Wanptek → Batterie**](#43-séquence-de-validation-wanptek-batterie)
+- [**4.4 Guide de Test sur Banc (Alimentation Labo)**](#44-guide-de-test-sur-banc-alimentation-labo)
+  - [1. Configuration de la Wanptek (À VIDE)](#1-configuration-de-la-wanptek-à-vide)
+  - [2. Branchement Physique](#2-branchement-physique)
+  - [3. Séquence d'Allumage](#3-séquence-dallumage)
+  - [4. Limites de ce montage](#4-limites-de-ce-montage)
+  - [Composition du Bras — Rappel (Pourquoi pas de "test bras complet" avec Wanptek)](#composition-du-bras-rappel-pourquoi-pas-de-test-bras-complet-avec-wanptek)
+  - [Intégration de la Main — Architecture Buck 48V→12V](#intégration-de-la-main-architecture-buck-48v12v)
+  - [Roadmap Complète — Tous les Tests Possibles par Segment](#roadmap-complète-tous-les-tests-possibles-par-segment)
+- [**5. Capteurs de Force (FSR) - Phase 4**](#5-capteurs-de-force-fsr---phase-4)
+  - [Schéma de Câblage (Pont Diviseur)](#schéma-de-câblage-pont-diviseur)
+  - [Connexion Spresense](#connexion-spresense)
+- [**6. Pilotage des Solénoïdes (Blocage Tête)**](#6-pilotage-des-solénoïdes-blocage-tête)
+  - [6.1 Schéma Électronique du Driver (Module D4184)](#61-schéma-électronique-du-driver-module-d4184)
+- [**7. Algorithmes de Perception Collaborative**](#7-algorithmes-de-perception-collaborative)
+  - [7.1 Niveau 1 : Détection Réflexe (Spresense)](#71-niveau-1-détection-réflexe-spresense)
+  - [7.2 Niveau 2 : Confirmation Cognitive (Jetson & OAK-D)](#72-niveau-2-confirmation-cognitive-jetson-oak-d)
+  - [7.3 Niveau 3 : Réflexe de Survie (Watchdog)](#73-niveau-3-réflexe-de-survie-watchdog)
+
+---
+
 ## 1. Schéma Global de Connexion
 L'architecture repose sur un bus CAN centralisé et des liaisons USB High-Speed.
 

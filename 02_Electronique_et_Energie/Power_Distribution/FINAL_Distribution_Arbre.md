@@ -2,6 +2,17 @@
 
 L'architecture de distribution du D-Bot suit un modèle hiérarchique "en arbre" pour minimiser le poids des câbles et isoler les pannes.
 
+
+## 📑 Sommaire
+
+- [**1. Topologie de Distribution**](#1-topologie-de-distribution)
+  - [Découpage des Zones de Puissance](#découpage-des-zones-de-puissance)
+- [**2. Spécifications des Câbles (Silicone Souple)**](#2-spécifications-des-câbles-silicone-souple)
+- [**3. Méthodes de Connexion**](#3-méthodes-de-connexion)
+- [**4. Composants de Distribution**](#4-composants-de-distribution)
+
+---
+
 ## 1. Topologie de Distribution
 Un **busbar central** (torse) alimente des lignes "tronc" protégées par fusibles vers chaque membre. Chaque membre possède ensuite un **splitter local** (WAGO ou mini-busbar).
 

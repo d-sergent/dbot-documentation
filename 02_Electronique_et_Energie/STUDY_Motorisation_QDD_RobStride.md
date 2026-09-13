@@ -2,6 +2,16 @@
 
 Ce document détaille les justifications physiques du choix des moteurs QDD (Quasi-Direct Drive), les fiches techniques électriques et CAN de la gamme RobStride, ainsi que les contraintes thermiques et d'alimentation associées à la motorisation du D-Bot.
 
+
+## 📑 Sommaire
+
+- [**1. Pourquoi choisir les moteurs QDD (Quasi-Direct Drive) ?**](#1-pourquoi-choisir-les-moteurs-qdd-quasi-direct-drive)
+- [**2. Spécifications Moteurs RobStride (Gamme Complète)**](#2-spécifications-moteurs-robstride-gamme-complète)
+  - [2.1 Analyse Comparative Électrique & Intégration](#21-analyse-comparative-électrique-intégration)
+- [**3. Communication, Connectique & Alimentation**](#3-communication-connectique-alimentation)
+
+---
+
 ## 1. Pourquoi choisir les moteurs QDD (Quasi-Direct Drive) ?
 
 Les moteurs QDD tels que les **RobStride** de notre inventaire sont devenus le standard *de facto* pour la robotique agile (bipèdes, quadrupèdes) parce qu'ils réussissent là où les servos traditionnels échouent dans l'interaction avec le monde physique :

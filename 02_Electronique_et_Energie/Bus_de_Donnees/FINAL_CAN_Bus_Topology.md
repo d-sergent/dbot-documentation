@@ -2,6 +2,16 @@
 
 Le bus CAN est la colonne vertébrale du robot. Cette fiche définit l'adressage, la segmentation et le matériel de communication.
 
+
+## 📑 Sommaire
+
+- [**1. Principe du Bus CAN**](#1-principe-du-bus-can)
+- [**2. Segmentation des Bus (Bande passante)**](#2-segmentation-des-bus-bande-passante)
+- [**3. Matériel et Architecture USB**](#3-matériel-et-architecture-usb)
+- [**4. Câblage et Couleurs**](#4-câblage-et-couleurs)
+
+---
+
 ## 1. Principe du Bus CAN
 *   **Protocole** : CAN (Controller Area Network).
 *   **Vitesse** : 1 Mbps.

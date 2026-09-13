@@ -1,5 +1,22 @@
 # Synthèse du Projet D-Bot (Évolution)
 
+
+## 📑 Sommaire
+
+- [**1. Vision et Objectifs**](#1-vision-et-objectifs)
+  - [Améliorations Clés (vs K-Bot Original)](#améliorations-clés-vs-k-bot-original)
+- [**2. Feuille de Route (Roadmap)**](#2-feuille-de-route-roadmap)
+  - [Phase 1 : Tête, Torse et Cou (Focus Actuel)](#phase-1-tête-torse-et-cou-focus-actuel)
+  - [Phase 2 : Premier Bras (6-DOF)](#phase-2-premier-bras-6-dof)
+  - [Phase 3 : Deuxième Bras](#phase-3-deuxième-bras)
+  - [Phase 4 : Marche (Jambes)](#phase-4-marche-jambes)
+- [**3. Architecture Matérielle**](#3-architecture-matérielle)
+  - [Spécifications Globales (Version Finale 6-DOF / 27-DOF)](#spécifications-globales-version-finale-6-dof-27-dof)
+- [**4. Stratégie de Fabrication**](#4-stratégie-de-fabrication)
+- [**5. Points de Vigilance Critique (Audit Discussion)**](#5-points-de-vigilance-critique-audit-discussion)
+
+---
+
 ## 1. Vision et Objectifs
 Le projet consiste à construire un robot humanoïde baptisé **D-Bot**.
 Il s'agit d'une **évolution majeure** de la plateforme open-source **K-Bot**, améliorée avec des actionneurs modernes et une intelligence embarquée avancée. Ce n'est pas un simple fork, mais une refonte complète de l'architecture électronique et motrice.

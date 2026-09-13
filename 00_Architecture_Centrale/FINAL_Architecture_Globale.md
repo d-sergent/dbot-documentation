@@ -6,6 +6,32 @@ Ce document présente uniquement les **décisions définitives** pour le D-Bot. 
 
 ---
 
+
+## 📑 Sommaire
+
+- [**Résumé Exécutif**](#résumé-exécutif)
+- [**1. Cheville — Architecture Cardan + 2× RS-03**](#1-cheville-architecture-cardan-2-rs-03)
+- [**2. Genou — RS-04 + Courroie GT3 (S6)**](#2-genou-rs-04-courroie-gt3-s6)
+- [**3. Hanches — RS-04 (Pitch) + RS-03 (Roll + Yaw) en F-A-R**](#3-hanches-rs-04-pitch-rs-03-roll-yaw-en-f-a-r)
+- [**4. Bras — RS-04 / RS-03 / RS-02 / RS-00 ⭐ UPGRADE HYBRIDE**](#4-bras-rs-04-rs-03-rs-02-rs-00-upgrade-hybride)
+  - [🔮 Évolution Future — GT3 Coude (Non déployée en V1)](#évolution-future-gt3-coude-non-déployée-en-v1)
+- [**5. Main — D-Hand Hybrid Premium (5× STS3250 + 3× HL-3915 + eFlesh)**](#5-main-d-hand-hybrid-premium-5-sts3250-3-hl-3915-eflesh)
+- [**6. Matériaux — Stratégie Hybride**](#6-matériaux-stratégie-hybride)
+- [**7. Performances Globales Estimées**](#7-performances-globales-estimées)
+- [**8. Points d'Attention V1**](#8-points-dattention-v1)
+- [**9. Bilan Masse Détaillé (Moteurs vs Structure)**](#9-bilan-masse-détaillé-moteurs-vs-structure)
+  - [9.1 Masse des Moteurs — Inventaire Complet](#91-masse-des-moteurs-inventaire-complet)
+  - [9.2 Masse Structurelle Estimée](#92-masse-structurelle-estimée)
+  - [9.3 Masse Totale Robot — 3 Scénarios](#93-masse-totale-robot-3-scénarios)
+- [**10. Analyse : Épaule — RS-04 Pitch + RS-03 Roll (Config Hybride)**](#10-analyse-épaule-rs-04-pitch-rs-03-roll-config-hybride)
+  - [10.1 Justification Biomécanique](#101-justification-biomécanique)
+  - [10.2 Comparatif des Options Épaule](#102-comparatif-des-options-épaule)
+- [**11. Stratégie Allégement — Impression 3D & Optimisation**](#11-stratégie-allégement-impression-3d-optimisation)
+  - [11.1 Leviers d'Allégement par Priorité](#111-leviers-dallégement-par-priorité)
+  - [11.2 Impact sur les Marges de Marche](#112-impact-sur-les-marges-de-marche)
+
+---
+
 ## Résumé Exécutif
 
 | Zone | Solution Retenue | Couple / Perf | Statut |
@@ -369,4 +395,3 @@ Masse cible : 40.2 - 2.0 = ~38.2 kg
 v_max (marche sans phase de vol) ≈ 9.3 × (38.5/39)^-1 → ~9.5 km/h théorique
 En pratique (marge thermique + contrôle) : ~4-5 km/h → BIEN meilleur que 2-3 km/h actuel
 ```
-

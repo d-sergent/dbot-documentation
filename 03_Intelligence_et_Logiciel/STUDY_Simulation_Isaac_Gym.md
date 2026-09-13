@@ -8,6 +8,25 @@ Ce document analyse les attentes "standards" de ces algorithmes pour la totalit�
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Le Tronc (Waist / Torso) : La Rotation Z (Yaw)**](#1-le-tronc-waist-torso-la-rotation-z-yaw)
+  - [La Réponse Courte : C'est très fréquent, mais pas universel.](#la-réponse-courte-cest-très-fréquent-mais-pas-universel)
+  - [Faut-il ajouter un Waist Yaw au D-Bot V1 ?](#faut-il-ajouter-un-waist-yaw-au-d-bot-v1)
+- [**2. Le Haut du Corps : Épaules et Coudes**](#2-le-haut-du-corps-épaules-et-coudes)
+  - [2.1 Les Épaules (3 DOFs) : Le Standard Absolu](#21-les-épaules-3-dofs-le-standard-absolu)
+  - [2.2 Le Coude (1 ou 2 DOFs)](#22-le-coude-1-ou-2-dofs)
+- [**3. L'Extrémité : Le Poignet et la Main (End-Effectors)**](#3-lextrémité-le-poignet-et-la-main-end-effectors)
+  - [3.1 Le Poignet (1 à 3 DOFs)](#31-le-poignet-1-à-3-dofs)
+  - [3.2 La Main (L'approche IA)](#32-la-main-lapproche-ia)
+- [**4. La Tête et le Cou (Active Vision)**](#4-la-tête-et-le-cou-active-vision)
+  - [4.1 La Tête dans Isaac Gym (Active Vision)](#41-la-tête-dans-isaac-gym-active-vision)
+  - [4.2 Le "Head Pan" comme Substitut Ultime au "Waist Yaw"](#42-le-head-pan-comme-substitut-ultime-au-waist-yaw)
+- [**Bilan Cinématique D-Bot vs Standards RL**](#bilan-cinématique-d-bot-vs-standards-rl)
+
+---
+
 ## 1. Le Tronc (Waist / Torso) : La Rotation Z (Yaw)
 
 **Question** : *Les algorithmes s'attendent-ils à avoir un degré de liberté en rotation Z juste au-dessus des hanches (Waist Yaw) ?*

@@ -4,6 +4,19 @@ Ce document détaille la cinématique du robot **D-Bot (Standard 27 DOF)**, son 
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Architecture Cinématique D-Bot (27 Degrés de Liberté)**](#1-architecture-cinématique-d-bot-27-degrés-de-liberté)
+  - [🦾 Répartition des 27 Degrés de Liberté (RobStride)](#répartition-des-27-degrés-de-liberté-robstride)
+- [**2. Inventaire Physique des Moteurs RobStride du D-Bot**](#2-inventaire-physique-des-moteurs-robstride-du-d-bot)
+- [**3. Évolution D-Bot par rapport au Standard K-Scale**](#3-évolution-d-bot-par-rapport-au-standard-k-scale)
+  - [3.1 Nouveaux Degrés de Liberté (Additions DOF)](#31-nouveaux-degrés-de-liberté-additions-dof)
+  - [3.2 Upgrades de Puissance (Moteurs surclassés)](#32-upgrades-de-puissance-moteurs-surclassés)
+- [**4. Benchmark Industrie — D-Bot vs Robots Humanoïdes**](#4-benchmark-industrie-d-bot-vs-robots-humanoïdes)
+
+---
+
 ## 1. Architecture Cinématique D-Bot (27 Degrés de Liberté)
 
 Le D-Bot est un robot humanoïde de performance agile conçu pour la recherche dynamique (marche rapide, course, manipulation fine). Son squelette hybride intègre **27 moteurs RobStride (Quasi-Direct Drive)** ainsi que **16 servomoteurs Feetech** pour ses mains articulées (D-Hand).

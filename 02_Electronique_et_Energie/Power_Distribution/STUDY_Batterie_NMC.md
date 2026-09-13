@@ -5,6 +5,23 @@
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Cible Énergétique et Topologie**](#1-cible-énergétique-et-topologie)
+- [**2. Chimies Comparées**](#2-chimies-comparées)
+  - [NMC/NCA (21700) — ✅ Recommandé](#nmcnca-21700-recommandé)
+  - [LiFePO4 — ⚠️ Trop lourd](#lifepo4-trop-lourd)
+- [**3. Option Recommandée : AT WEY NMC 48V 10 Ah**](#3-option-recommandée-at-wey-nmc-48v-10-ah)
+  - [Configuration Robot (2 packs)](#configuration-robot-2-packs)
+  - [Topologies possibles](#topologies-possibles)
+- [**4. Autres Fournisseurs NMC FR**](#4-autres-fournisseurs-nmc-fr)
+- [**5. Sur-Mesure FR (Meilleur Compromis)**](#5-sur-mesure-fr-meilleur-compromis)
+- [**6. Intégration (Schéma Électrique 48V)**](#6-intégration-schéma-électrique-48v)
+- [**7. Résumé Achats**](#7-résumé-achats)
+
+---
+
 ## 1. Cible Énergétique et Topologie
 
 Les specs K-Scale parlent d'un pack hot-swappable 48V 15 Ah (~720 Wh). Pour le D-Bot :

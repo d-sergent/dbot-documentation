@@ -8,6 +8,20 @@ Voici la stratégie d'ingénierie optimisée composant par composant.
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Le Tibia (Corps de la Jambe)**](#1-le-tibia-corps-de-la-jambe)
+  - [📐 Pourquoi un Tube Carbone et pas un Tube en Aluminium/Acier ?](#pourquoi-un-tube-carbone-et-pas-un-tube-en-aluminiumacier)
+  - [📐 Tube Carbone vs Lame de Carbone pour le Tibia ?](#tube-carbone-vs-lame-de-carbone-pour-le-tibia)
+- [**2. Le Bloc Moteurs Cheville (Sous le genou)**](#2-le-bloc-moteurs-cheville-sous-le-genou)
+- [**3. Les Bielles de Cheville (Pitch/Roll)**](#3-les-bielles-de-cheville-pitchroll)
+- [**4. Le Cardan de Cheville (Joint Universel)**](#4-le-cardan-de-cheville-joint-universel)
+- [**5. Le Pied (Structure et Semelle)**](#5-le-pied-structure-et-semelle)
+- [**Bilan Massique Souhaité (Sous l'axe genou)**](#bilan-massique-souhaité-sous-laxe-genou)
+
+---
+
 ## 1. Le Tibia (Corps de la Jambe)
 
 * **❌ À proscrire** : Un tibia usiné en bloc d'aluminium (trop lourd, inertie catastrophique).

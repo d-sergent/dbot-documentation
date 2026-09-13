@@ -7,6 +7,39 @@
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Besoin Fonctionnel**](#1-besoin-fonctionnel)
+- [**2. Retour d'Expérience — Unitree L2**](#2-retour-dexpérience-unitree-l2)
+  - [2.1 Points Forts](#21-points-forts)
+  - [2.2 Problèmes Identifiés (Retours Communauté)](#22-problèmes-identifiés-retours-communauté)
+- [**3. Benchmark Industrie — Comment les Concurrents Perçoivent l'Espace**](#3-benchmark-industrie-comment-les-concurrents-perçoivent-lespace)
+- [**4. Alternatives Évaluées**](#4-alternatives-évaluées)
+  - [4.1 LiDARs 3D](#41-lidars-3d)
+  - [4.2 LiDARs 2D (paire avant + arrière)](#42-lidars-2d-paire-avant-arrière)
+  - [4.3 Vision Pure (Multi-Caméras)](#43-vision-pure-multi-caméras)
+- [**5. Solution Retenue — Triple Fusion L2 + OAK-D Pro + BMI270**](#5-solution-retenue-triple-fusion-l2-oak-d-pro-bmi270)
+  - [5.1 Principe](#51-principe)
+  - [5.2 Pourquoi Cette Architecture (L2 Torse / OAK-D Tête)](#52-pourquoi-cette-architecture-l2-torse-oak-d-tête)
+  - [5.3 Comparaison Densité Effective (Zone Avant 80°)](#53-comparaison-densité-effective-zone-avant-80)
+  - [5.4 Intégration Logicielle (ROS2)](#54-intégration-logicielle-ros2)
+  - [5.5 Mitigation des Faiblesses du L2](#55-mitigation-des-faiblesses-du-l2)
+- [**6. Matrice Décisionnelle Finale**](#6-matrice-décisionnelle-finale)
+- [**7. Évolutions Possibles**](#7-évolutions-possibles)
+- [**8. Montage Physique**](#8-montage-physique)
+- [**9. Stabilisation Active du Regard (Gaze Control)**](#9-stabilisation-active-du-regard-gaze-control)
+  - [9.1 Le Problème en Marche Rapide / Course](#91-le-problème-en-marche-rapide-course)
+  - [9.2 La Solution : le Réflexe Vestibulo-Oculaire (VOR) du D-Bot](#92-la-solution-le-réflexe-vestibulo-oculaire-vor-du-d-bot)
+  - [9.3 Modes de Regard par Phase de Locomotion](#93-modes-de-regard-par-phase-de-locomotion)
+  - [9.4 Implémentation ROS2 (Gaze Stabilization Node)](#94-implémentation-ros2-gaze-stabilization-node)
+- [**10. Analyse par Régime de Vitesse**](#10-analyse-par-régime-de-vitesse)
+  - [10.1 La Triple Fusion est-elle Suffisante en Course ?](#101-la-triple-fusion-est-elle-suffisante-en-course)
+  - [10.2 Pourquoi la Course Reste Viable](#102-pourquoi-la-course-reste-viable)
+  - [10.3 Facteur Limitant Réel](#103-facteur-limitant-réel)
+
+---
+
 ## 1. Besoin Fonctionnel
 
 Le D-Bot a besoin de percevoir son environnement en 3D pour :

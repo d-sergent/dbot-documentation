@@ -2,6 +2,19 @@
 
 L'architecture électrique du D-Bot repose sur une source principale 48V (Batterie 13S) et quatre rails de tensions secondaires régulés.
 
+
+## 📑 Sommaire
+
+- [**1. Inventaire des Rails de Tension**](#1-inventaire-des-rails-de-tension)
+- [**2. Détails par Rail**](#2-détails-par-rail)
+  - [Rail 19V : Calculateur IA](#rail-19v-calculateur-ia)
+  - [Rail 12V Logique (10A)](#rail-12v-logique-10a)
+  - [Rail 12V Puissance (20A)](#rail-12v-puissance-20a)
+  - [Rail 5V : Logique Always-On & Capteurs](#rail-5v-logique-always-on-capteurs)
+  - [Rail 3.3V : Capteurs Fins & Tactile](#rail-33v-capteurs-fins-tactile)
+
+---
+
 ## 1. Inventaire des Rails de Tension
 
 | Rail | Composant Principal | Tension | Intensité Max | Source |

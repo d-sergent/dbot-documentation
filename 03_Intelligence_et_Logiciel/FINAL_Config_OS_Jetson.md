@@ -1,5 +1,23 @@
 # Logiciel & Configuration
 
+
+## 📑 Sommaire
+
+- [**0. Installation de base (JetPack & Accès Distant)**](#0-installation-de-base-jetpack-accès-distant)
+- [**1. NVIDIA Jetson (SocketCAN)**](#1-nvidia-jetson-socketcan)
+  - [Prérequis Linux](#prérequis-linux)
+  - [Couche Jetson (Middleware)](#couche-jetson-middleware)
+  - [Couche Spresense (Temps Réel)](#couche-spresense-temps-réel)
+  - [Maintenance et Sauvegarde Système](#maintenance-et-sauvegarde-système)
+  - [Activation de l'Interface CAN](#activation-de-linterface-can)
+  - [Dépannage](#dépannage)
+- [**2. Architecture ROS2**](#2-architecture-ros2)
+  - [Noeuds ROS2 Suggérés](#noeuds-ros2-suggérés)
+  - [Idées Algorithmiques](#idées-algorithmiques)
+- [**3. Outils de Développement**](#3-outils-de-développement)
+
+---
+
 ## 0. Installation de base (JetPack & Accès Distant)
 Pour rappel, la configuration initiale complète du cerveau du D-Bot (Jetson Orin Nano Super) est documentée en annexe :
 - **[40 — Installation JetPack (BalenaEtcher)](./annexes/jetson/installation/40_Installation_JetPack_6.md)** : Flashage de l'image `JP6.2.1` et premier démarrage.

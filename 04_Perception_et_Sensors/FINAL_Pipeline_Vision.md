@@ -1,5 +1,18 @@
 # 07 - Vision, Intelligence Artificielle & Traitement Spatiale 3D
 
+
+## 📑 Sommaire
+
+- [**1. Capteur Principal : Luxonis OAK-D Pro (FF) ⭐ CONFIRMÉ (Juillet 2026)**](#1-capteur-principal-luxonis-oak-d-pro-ff-confirmé-juillet-2026)
+  - [1.1 Repartition de la Charge de Calcul (OAK-D VPU ↔ Jetson GPU ↔ Mac M1 Max)](#11-repartition-de-la-charge-de-calcul-oak-d-vpu-jetson-gpu-mac-m1-max)
+  - [1.2 Impacts Concrets du Passage à TensorRT FP16 (80+ FPS)](#12-impacts-concrets-du-passage-à-tensorrt-fp16-80-fps)
+- [**2. Intégration Mécanique & Optique**](#2-intégration-mécanique-optique)
+- [**3. Architecture Logicielle (`dbot/vision`)**](#3-architecture-logicielle-dbotvision)
+- [**4. Pipeline de Reconnaissance Faciale Nommée (`face_tracker.py`)**](#4-pipeline-de-reconnaissance-faciale-nommée-facetrackerpy)
+  - [4.1 Caractéristiques Clés & Performances](#41-caractéristiques-clés-performances)
+
+---
+
 ## 1. Capteur Principal : Luxonis OAK-D Pro (FF) ⭐ CONFIRMÉ (Juillet 2026)
 Le choix s'est porté sur la version **Fixed Focus (FF)** pour garantir la stabilité de la perception visuelle malgré les vibrations mécaniques des moteurs RobStride.
 

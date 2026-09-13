@@ -3,6 +3,28 @@
 
 ---  
 
+
+## 📑 Sommaire
+
+- [**1. Vue d’Ensemble (Version Actuelle)**](#1-vue-densemble-version-actuelle)
+- [**2. Spécifications Matérielles Validées**](#2-spécifications-matérielles-validées)
+  - [2.1. Bilan de Couple vs. Besoins (extraits des études)](#21-bilan-de-couple-vs-besoins-extraits-des-études)
+- [**3. Nomenclature (BOM Locale)**](#3-nomenclature-bom-locale)
+- [**4. État de la Conception (CAD & Simulation)**](#4-état-de-la-conception-cad-simulation)
+- [**5. Instructions de Montage Critiques**](#5-instructions-de-montage-critiques)
+- [**6. Backlog Technique & Questions en Suspens**](#6-backlog-technique-questions-en-suspens)
+- [**7. Roadmap & Itérations Futures (Optionnel)**](#7-roadmap-itérations-futures-optionnel)
+  - [Annexes (références rapides)](#annexes-références-rapides)
+- [**8. Capteurs Tactiles Plantaires — Semelle Intelligente (Ajout V1.1)**](#8-capteurs-tactiles-plantaires-semelle-intelligente-ajout-v11)
+  - [8.1 Décision d'Architecture](#81-décision-darchitecture)
+  - [8.2 Les Capteurs Plantaires sont-ils Utiles si le Robot a un IMU ?](#82-les-capteurs-plantaires-sont-ils-utiles-si-le-robot-a-un-imu)
+  - [8.3 Nouvelles Entrées BOM (par pied)](#83-nouvelles-entrées-bom-par-pied)
+  - [8.4 Disposition des 4 PCBs dans la Semelle (120×80mm)](#84-disposition-des-4-pcbs-dans-la-semelle-12080mm)
+  - [8.5 Centre de Pression (CoP) — Principe de Calcul](#85-centre-de-pression-cop-principe-de-calcul)
+  - [8.6 Câblage I2C Pied](#86-câblage-i2c-pied)
+
+---
+
 ## 1. Vue d’Ensemble (Version Actuelle)
 
 Le module **Jambes et Pieds** du D‑Bot (masse totale ≈ 40.2 kg) repose sur l’architecture **F‑A‑R** (Pitch → Roll → Yaw) pour la hanche, un **genou à transmission GT3 2.5 : 1** et une **cheville à cardan DIN 808** pilotée par **2 × RS‑03** (bielles différentielles).  

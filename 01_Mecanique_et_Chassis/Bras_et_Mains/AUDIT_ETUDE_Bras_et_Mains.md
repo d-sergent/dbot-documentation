@@ -4,6 +4,18 @@ En tant qu'Ingénieur Senior en Revue de Conception pour le projet D-Bot, j'ai p
 
 ---
 
+
+## 📑 Sommaire
+
+- [**0. Décision d'Architecture Retenue**](#0-décision-darchitecture-retenue)
+- [**1. Vérification des Calculs Clés et des Hypothèses**](#1-vérification-des-calculs-clés-et-des-hypothèses)
+- [**2. Carte des Dépendances Inter-Membres**](#2-carte-des-dépendances-inter-membres)
+- [**3. Manques Critiques & Incertitudes Résolus**](#3-manques-critiques-incertitudes-résolus)
+- [**4. Propositions d'Amélioration Validées**](#4-propositions-damélioration-validées)
+- [**5. Synthèse du Niveau de Maturité**](#5-synthèse-du-niveau-de-maturité)
+
+---
+
 ## 0. Décision d'Architecture Retenue
 
 L'architecture du membre supérieur du D-Bot est définitivement gelée en configuration **14 Degrés de Liberté (14 DOF)** unifiée :

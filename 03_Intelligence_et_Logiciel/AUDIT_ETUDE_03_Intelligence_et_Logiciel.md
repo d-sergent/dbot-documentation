@@ -2,6 +2,14 @@
 
 En tant qu'Ingénieur Senior en Revue de Conception, j'ai examiné les documents fournis pour le module "03 Intelligence et Logiciel" du projet D-Bot. Mon objectif est de fournir une analyse critique, constructive et propositionnelle, en me concentrant sur la cohérence, les dépendances, les manques et les opportunités d'amélioration.
 
+
+## 📑 Sommaire
+
+- [**0. Décision d'Architecture Retenue**](#0-décision-darchitecture-retenue)
+- [**0. Décision d'Architecture Retenue**](#0-décision-darchitecture-retenue)
+
+---
+
 ## 0. Décision d'Architecture Retenue
 
 | Choix de Conception | Justification Technique Clé | Source(s) |

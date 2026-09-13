@@ -11,6 +11,20 @@ Ce document recalcule toutes les performances de marche et de portage avec les p
 
 ---
 
+
+## 📑 Sommaire
+
+- [**11. Re-Analyse Biomécanique — Configuration Cardan (Mars 2026)**](#11-re-analyse-biomécanique-configuration-cardan-mars-2026)
+  - [11.1 Nouveaux Paramètres de Référence](#111-nouveaux-paramètres-de-référence)
+  - [11.2 Marche Lente (< 1 km/h) — Recalcul](#112-marche-lente-1-kmh-recalcul)
+  - [11.3 Marche Normale (2–3 km/h) — Recalcul](#113-marche-normale-23-kmh-recalcul)
+  - [11.4 Seuil de Course (> 4 km/h) — Estimation](#114-seuil-de-course-4-kmh-estimation)
+  - [11.5 Vitesse de Marche Maximale Estimée](#115-vitesse-de-marche-maximale-estimée)
+  - [11.6 Re-Analyse du Portage (Impact de la Masse Supplémentaire)](#116-re-analyse-du-portage-impact-de-la-masse-supplémentaire)
+  - [11.7 Synthèse de la Validité — Configuration Cardan 40.2 kg](#117-synthèse-de-la-validité-configuration-cardan-402-kg)
+
+---
+
 ## 11. Re-Analyse Biomécanique — Configuration Cardan (Mars 2026)
 
 > *Cette section met à jour l'ensemble des calculs précédents avec les nouveaux paramètres du D-Bot : masse 40.2 kg et architecture cheville à Cardan DIN 808 + 2× RS-03 (120 N.m par cheville, Pitch ET Roll).*
@@ -195,4 +209,3 @@ Les tableaux de portage précédents (Section 3) **restent valides** → la capa
 
 ---
 ---
-

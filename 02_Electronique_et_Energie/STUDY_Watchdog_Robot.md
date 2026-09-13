@@ -13,6 +13,22 @@ Ce guide détaille l'intégration de l'**IMU torse** (SparkFun BMI270) et la mis
 > [!WARNING]
 > **Migration SensiEDGE → BMI270** : La carte SensiEDGE CommonSense initialement prévue **n'est pas disponible au grand public** (réservée aux professionnels). Ce guide a été mis à jour pour utiliser la **SparkFun 6DoF IMU Breakout - BMI270 (SEN-22397)** couplée à un câble Qwiic, beaucoup plus simple à sourcer en Europe.
 
+
+## 📑 Sommaire
+
+- [**1. Matériel : IMU Torse**](#1-matériel-imu-torse)
+  - [Option Recommandée : SparkFun BMI270 (SEN-22397)](#option-recommandée-sparkfun-bmi270-sen-22397)
+  - [Alternative Haute Précision : Sony Spresense Multi-IMU Add-on Board](#alternative-haute-précision-sony-spresense-multi-imu-add-on-board)
+  - [~~SensiEDGE CommonSense~~ (Indisponible)](#sensiedge-commonsense-indisponible)
+  - [Montage Mécanique](#montage-mécanique)
+- [**2. Architecture "Power Manager" (Veille & Réveil)**](#2-architecture-power-manager-veille-réveil)
+  - [Schéma de Câblage (Protection 13S NMC)](#schéma-de-câblage-protection-13s-nmc)
+- [**3. Code Spresense (C++)**](#3-code-spresense-c)
+  - [Gestionnaire d'Alimentation & Watchdog](#gestionnaire-dalimentation-watchdog)
+  - [Intégration des Capteurs SensiEDGE](#intégration-des-capteurs-sensiedge)
+
+---
+
 ## 1. Matériel : IMU Torse
 
 ### Option Recommandée : SparkFun BMI270 (SEN-22397)

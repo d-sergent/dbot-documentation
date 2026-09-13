@@ -4,6 +4,13 @@ En tant qu'Ingénieur Senior en Revue de Conception, j'ai procédé à une analy
 
 # 🔍 Rapport d'Audit d'Ingénierie : 02 Electronique et Energie (D-Bot)
 
+
+## 📑 Sommaire
+
+- [**0. Décision d'Architecture Retenue**](#0-décision-darchitecture-retenue)
+
+---
+
 ## 0. Décision d'Architecture Retenue
 
 L'architecture électrique du D-Bot V1.x est basée sur une approche robuste et modulaire, privilégiant la sécurité et la performance pour un robot humanoïde de 40 kg.

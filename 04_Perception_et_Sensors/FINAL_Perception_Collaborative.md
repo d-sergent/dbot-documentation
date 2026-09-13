@@ -2,6 +2,16 @@
 
 Le D-Bot utilise une architecture de vision en "cascade" pour optimiser la sécurité sans saturer les processeurs.
 
+
+## 📑 Sommaire
+
+- [**1. Niveaux de Perception**](#1-niveaux-de-perception)
+  - [Niveau 1 : Détection Réflexe (Spresense)](#niveau-1-détection-réflexe-spresense)
+  - [Niveau 2 : Confirmation Cognitive (Jetson & OAK-D)](#niveau-2-confirmation-cognitive-jetson-oak-d)
+  - [Niveau 3 : Réflexe de Survie (Watchdog)](#niveau-3-réflexe-de-survie-watchdog)
+
+---
+
 ## 1. Niveaux de Perception
 
 ### Niveau 1 : Détection Réflexe (Spresense)

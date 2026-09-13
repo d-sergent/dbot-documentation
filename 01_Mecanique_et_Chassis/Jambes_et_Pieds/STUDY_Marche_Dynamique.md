@@ -12,6 +12,21 @@
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Le Diagnostic : Sollicitation du Genou à Vide**](#1-le-diagnostic-sollicitation-du-genou-à-vide)
+- [**2. Capacité de Portage Effective**](#2-capacité-de-portage-effective)
+  - [⚖️ Calcul du Surplus](#calcul-du-surplus)
+  - [🐢 Modulation par la Vitesse de Marche](#modulation-par-la-vitesse-de-marche)
+- [**3. Stratégies et Solutions Correctrices**](#3-stratégies-et-solutions-correctrices)
+  - [🕹️ A. Algorithme de Marche Adaptatif (Soft)](#a-algorithme-de-marche-adaptatif-soft)
+  - [⚙️ B. Solution S2 : Le Tirant Mécanique (Mécanique)](#b-solution-s2-le-tirant-mécanique-mécanique)
+  - [🔄 C. Swap Moteur : Unitree M107 (Matériel)](#c-swap-moteur-unitree-m107-matériel)
+- [**📋 Tableau Synthèse de Performance**](#tableau-synthèse-de-performance)
+
+---
+
 ## 1. Le Diagnostic : Sollicitation du Genou à Vide
 
 Pour comprendre l'impact du portage de charges, il faut rappeler la situation de base du genou du robot **sans charge** :

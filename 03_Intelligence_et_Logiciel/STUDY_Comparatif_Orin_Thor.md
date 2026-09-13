@@ -3,6 +3,16 @@
 
 # Étude Matérielle : Orin vs Thor (Horizon 2026-2027)
 
+
+## 📑 Sommaire
+
+- [**1. Comparatif des Générations**](#1-comparatif-des-générations)
+- [**2. Analyse Stratégique pour le D-Bot**](#2-analyse-stratégique-pour-le-d-bot)
+  - [Option A : Jetson Orin Nano (8 Go) — Déjà achetée](#option-a-jetson-orin-nano-8-go-déjà-achetée)
+  - [Option B : Évolution vers Orin AGX (64 Go)](#option-b-évolution-vers-orin-agx-64-go)
+
+---
+
 ## 1. Comparatif des Générations
 
 | Caractéristique | Jetson AGX Orin (64 Go) | Jetson AGX Thor (128 Go) | Gain / Écart |

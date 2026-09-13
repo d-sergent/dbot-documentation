@@ -4,6 +4,21 @@ Ce document présente l'analyse d'ingénierie mécanique justifiant le rejet du 
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Pourquoi le Tube Carbone Rond est rejeté pour le Fémur ?**](#1-pourquoi-le-tube-carbone-rond-est-rejeté-pour-le-fémur)
+- [**2. Comparatif des 3 Concepts Alternatifs pour le Fémur**](#2-comparatif-des-3-concepts-alternatifs-pour-le-fémur)
+  - [Concept 1 : La Poutre en U (Aluminium Plein CNC)](#concept-1-la-poutre-en-u-aluminium-plein-cnc)
+  - [Concept 2 : L'Exosquelette en Treillis (Plates Carbone + Entretoises Alu)](#concept-2-lexosquelette-en-treillis-plates-carbone-entretoises-alu)
+  - [Concept 3 : La Structure Hybride Sandwich (Coque PA12-CF + Renforts Carbone)](#concept-3-la-structure-hybride-sandwich-coque-pa12-cf-renforts-carbone)
+  - [Concept 3 : La Solution Hybride (Alu *Iso-grid* évidé + Habillage PA12-CF) 🏆](#concept-3-la-solution-hybride-alu-iso-grid-évidé-habillage-pa12-cf)
+- [**3. Ingénierie de Fabrication & Assemblage "Sandwich"**](#3-ingénierie-de-fabrication-assemblage-sandwich)
+- [**4. Directives de Modélisation CAO & Fraisage FAO (C500)**](#4-directives-de-modélisation-cao-fraisage-fao-c500)
+- [**5. Synthèse Comparative des Solutions de Fémur**](#5-synthèse-comparative-des-solutions-de-fémur)
+
+---
+
 ## 1. Pourquoi le Tube Carbone Rond est rejeté pour le Fémur ?
 
 L'application d'un tube carbone cylindrique classique au fémur, bien que séduisante pour le gain de poids, se heurte à deux problèmes majeurs d'architecture système :

@@ -1,5 +1,34 @@
 # Guide Mécanique et Impression 3D
 
+
+## 📑 Sommaire
+
+- [**1. Paramètres### Visserie Industrielle**](#1-paramètres-visserie-industrielle)
+  - [Inserts et Roulements](#inserts-et-roulements)
+  - [Commande CNC (Aluminium 6061)](#commande-cnc-aluminium-6061)
+  - [Chambrages (Counterbore) pour têtes de vis DIN 912](#chambrages-counterbore-pour-têtes-de-vis-din-912)
+  - [Trous pour Inserts (Heat-set)](#trous-pour-inserts-heat-set)
+- [**2. Impression 3D (Qidi Plus 4)**](#2-impression-3d-qidi-plus-4)
+  - [Matériau Recommandé : PETG-CF](#matériau-recommandé-petg-cf)
+  - [Comparatif Matériaux](#comparatif-matériaux)
+  - [Paramètres de Slicer (OrcaSlicer / QidiSlicer)](#paramètres-de-slicer-orcaslicer-qidislicer)
+- [**3. Montage des Moteurs Robstride**](#3-montage-des-moteurs-robstride)
+  - [Sécurisation Haute Charge (RS-04: 120 N.m)](#sécurisation-haute-charge-rs-04-120-nm)
+  - [Intégration Robstride 05 (RS-05) - Cou](#intégration-robstride-05-rs-05---cou)
+  - [Maintenance Rapide (Connectique Tête/Cou)](#maintenance-rapide-connectique-têtecou)
+  - [Roulements à Section Fine (Articulations Actives)](#roulements-à-section-fine-articulations-actives)
+  - [Architecture Articulaire : Montage en Chape (Simple Soutien) vs Double Soutien](#architecture-articulaire-montage-en-chape-simple-soutien-vs-double-soutien)
+  - [Fixation Axiale des Roulements sur Arbre (Aluminium CNC)](#fixation-axiale-des-roulements-sur-arbre-aluminium-cnc)
+- [**4. Intégration Cheville 2-DOF (Roll + Pitch) [Phase 4] — Architecture Cardan DIN 808**](#4-intégration-cheville-2-dof-roll-pitch-phase-4-architecture-cardan-din-808)
+  - [Principe](#principe)
+  - [Avantages vs Ancien Design](#avantages-vs-ancien-design)
+  - [Pièces Clés](#pièces-clés)
+- [**5. Intégration de l'Avant-Bras (Architecture "Forearm Supination")**](#5-intégration-de-lavant-bras-architecture-forearm-supination)
+  - [Le défi du découplage mécanique (Coude)](#le-défi-du-découplage-mécanique-coude)
+  - [Avantages de l'assemblage](#avantages-de-lassemblage)
+
+---
+
 ## 1. Paramètres### Visserie Industrielle
 Le projet utilise deux standards principaux :
 1.  **ISO 7380 (Tête Bombée)** : Profil bas, idéal pour l'esthétique et éviter d'accrocher les câbles.

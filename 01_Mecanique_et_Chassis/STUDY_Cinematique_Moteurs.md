@@ -2,6 +2,29 @@
 
 Ce document détaille l'architecture cinématique du D-Bot (**Standard 27 DOF**) et les spécifications techniques des actionneurs **RobStride**.
 
+
+## 📑 Sommaire
+
+- [**1. Configuration K-Bot Standard (20 DOF)**](#1-configuration-k-bot-standard-20-dof)
+  - [📊 Architecture Officielle K-Scale](#architecture-officielle-k-scale)
+  - [🦾 BRAS (10 moteurs - 5 par bras)](#bras-10-moteurs---5-par-bras)
+  - [🦵 JAMBES (10 moteurs - 5 par jambe)](#jambes-10-moteurs---5-par-jambe)
+  - [🔢 INVENTAIRE MOTEURS D-BOT V1 (27 DOF)](#inventaire-moteurs-d-bot-v1-27-dof)
+  - [🤖 ÉVOLUTION D-BOT (27 DOF — "D-Bot Performance")](#évolution-d-bot-27-dof-d-bot-performance)
+- [**2. Pourquoi choisir les moteurs QDD (Quasi-Direct Drive) ?**](#2-pourquoi-choisir-les-moteurs-qdd-quasi-direct-drive)
+- [**3. Spécifications Moteurs RobStride (Gamme Complète)**](#3-spécifications-moteurs-robstride-gamme-complète)
+  - [Analyse Comparative](#analyse-comparative)
+  - [Choix pour le D-Bot — Répartition Complète (27 DOF)](#choix-pour-le-d-bot-répartition-complète-27-dof)
+- [**4. Communication & Alimentation**](#4-communication-alimentation)
+- [**5. Benchmark Industrie — D-Bot vs Robots Haut de Gamme**](#5-benchmark-industrie-d-bot-vs-robots-haut-de-gamme)
+  - [4.1 Comparatif Global (Corps Entier)](#41-comparatif-global-corps-entier)
+  - [4.2 Mécanismes de Cheville — Les 4 Approches](#42-mécanismes-de-cheville-les-4-approches)
+  - [4.3 Composants Pré-Assemblés pour Solution Parallèle (Sourcing)](#43-composants-pré-assemblés-pour-solution-parallèle-sourcing)
+  - [4.4 Impact sur la Marche et la Course](#44-impact-sur-la-marche-et-la-course)
+  - [4.5 Recommandation Évolutive](#45-recommandation-évolutive)
+
+---
+
 ## 1. Configuration K-Bot Standard (20 DOF)
 
 ### 📊 Architecture Officielle K-Scale
@@ -409,4 +432,3 @@ V3 (parallèle):    ~40g             ~0.70 m              ~20 g.m²  ← Optimal
 > **Progression V1 → V2** : Le **RS-06** (36 N.m) est l'upgrade parfait. Il double le couple du RS-02 (72 N.m effectif) pour seulement +75g, permettant la marche rapide et l'absorption des chocs. Le RS-03 (V3) est réservé aux usages extrêmes.
 >
 > **Progression V2 → V3** : Remplace le tirant + RS-00 par 2 bielles parallèles rotulées. Les 2 moteurs (RS-02 ou RS-03) en parallèle donnent Pitch + Roll par coordination/différentiel. Aucun moteur à la cheville = inertie minimale.
-

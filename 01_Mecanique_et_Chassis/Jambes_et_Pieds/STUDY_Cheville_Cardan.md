@@ -4,6 +4,27 @@ Ce document retrace l'évolution des solutions envisagées pour la cheville du D
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Historique des Solutions Étudiées**](#1-historique-des-solutions-étudiées)
+  - [Étape 1 — K-Bot Standard (Architecture de Base)](#étape-1-k-bot-standard-architecture-de-base)
+  - [Étape 2 — Rotule GE12UK (Premier Pivot Envisagé)](#étape-2-rotule-ge12uk-premier-pivot-envisagé)
+  - [Étape 3 — Ajout RS-00 Roll Direct-Drive (D-Bot V1)](#étape-3-ajout-rs-00-roll-direct-drive-d-bot-v1)
+  - [Étape 4 — RS-06 "Sweet Spot" avec Tirant (D-Bot V2)](#étape-4-rs-06-sweet-spot-avec-tirant-d-bot-v2)
+  - [Étape 5 — Architecture Cardan + Double Bielles (RETENUE ✅)](#étape-5-architecture-cardan-double-bielles-retenue)
+- [**2. Architecture Retenue — Cheville Différentielle à Cardan**](#2-architecture-retenue-cheville-différentielle-à-cardan)
+  - [Principe de Fonctionnement](#principe-de-fonctionnement)
+  - [Bilan des Performances](#bilan-des-performances)
+- [**3. Achats et Montage**](#3-achats-et-montage)
+  - [A. Joint de Cardan Central](#a-joint-de-cardan-central)
+  - [B. Fixation et Maintien Axial](#b-fixation-et-maintien-axial)
+  - [C. Bielles (Pushrods) et Rotules](#c-bielles-pushrods-et-rotules)
+  - [D. Protection (Soufflet)](#d-protection-soufflet)
+- [**4. Impact sur la Configuration Globale**](#4-impact-sur-la-configuration-globale)
+
+---
+
 ## 1. Historique des Solutions Étudiées
 
 L'architecture de la cheville a traversé cinq itérations avant d'aboutir au design final.

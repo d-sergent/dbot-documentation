@@ -56,6 +56,30 @@ F_impact    = pic à l'atterrissage (contact du pied)
 
 ---
 
+
+## 📑 Sommaire
+
+  - [1.2 Illustations des Concepts et Transmission GT3](#12-illustations-des-concepts-et-transmission-gt3)
+  - [1.1 Analyse des Facteurs Limitants](#11-analyse-des-facteurs-limitants)
+- [**2. Solutions Explorées (S1 à S5)**](#2-solutions-explorées-s1-à-s5)
+  - [S1 — Optimisation Algorithmique de la Foulée (Gratuit, immédiat)](#s1-optimisation-algorithmique-de-la-foulée-gratuit-immédiat)
+  - [S2 — Mécanisme Tirant au Genou](#s2-mécanisme-tirant-au-genou)
+  - [S3 — SEA (Series Elastic Actuator)](#s3-sea-series-elastic-actuator)
+  - [S4 — Double RS-04 en Parallèle](#s4-double-rs-04-en-parallèle)
+  - [S5 — Tibia Carbone Flexible (Leg Spring)](#s5-tibia-carbone-flexible-leg-spring)
+  - [Comparatif S1-S5](#comparatif-s1-s5)
+- [**3. Solution Retenue — S6 : Courroie GT3**](#3-solution-retenue-s6-courroie-gt3)
+  - [3.1 Pourquoi la GT3 et pas le Tirant (S2) ?](#31-pourquoi-la-gt3-et-pas-le-tirant-s2)
+  - [3.2 Principe de la Solution S6](#32-principe-de-la-solution-s6)
+  - [3.3 Performances Calculées (Ratio 2.5:1)](#33-performances-calculées-ratio-251)
+  - [3.4 BOM & Masse Ajoutée](#34-bom-masse-ajoutée)
+  - [3.5 Comparatif GT3 vs Autres Solutions](#35-comparatif-gt3-vs-autres-solutions)
+  - [3.6 Points de Vigilance](#36-points-de-vigilance)
+  - [3.7 Guide de Montage](#37-guide-de-montage)
+- [**4. Roadmap d'Évolution**](#4-roadmap-dévolution)
+
+---
+
 ## 2. Solutions Explorées (S1 à S5)
 
 ### S1 — Optimisation Algorithmique de la Foulée (Gratuit, immédiat)

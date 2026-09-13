@@ -8,6 +8,24 @@
 
 ---
 
+
+## 📑 Sommaire
+
+- [**Étape 00 — Introduction : Tendons et Nœuds**](#étape-00-introduction-tendons-et-nœuds)
+  - [Principes Fondamentaux](#principes-fondamentaux)
+  - [Règles impératives avant de commencer :](#règles-impératives-avant-de-commencer)
+- [**Étape 01 — Routage des Tendons de la Pulpe Distale (Fingertip)**](#étape-01-routage-des-tendons-de-la-pulpe-distale-fingertip)
+- [**Étape 02 — Routage du Tendon de la Phalange Proximale (PP)**](#étape-02-routage-du-tendon-de-la-phalange-proximale-pp)
+- [**Étape 03 — Routage des Tendons d'Abduction (Écartement des Doigts)**](#étape-03-routage-des-tendons-dabduction-écartement-des-doigts)
+- [**Étape 04 — Coulée de la Peau en Silicone (Skin Casting)**](#étape-04-coulée-de-la-peau-en-silicone-skin-casting)
+- [**Étape 05 — Assemblage Final du Doigt**](#étape-05-assemblage-final-du-doigt)
+- [**Étape 06 — Routage du Tendon d'Abduction du Pouce**](#étape-06-routage-du-tendon-dabduction-du-pouce)
+- [**Étape 07 — Assemblage du Pouce Complet**](#étape-07-assemblage-du-pouce-complet)
+- [**Étape 26 — Enroulement des Tendons sur les Spools (Poulies CNC)**](#étape-26-enroulement-des-tendons-sur-les-spools-poulies-cnc)
+- [**Étape 31 — Assemblage Final et Calibration**](#étape-31-assemblage-final-et-calibration)
+
+---
+
 ## Étape 00 — Introduction : Tendons et Nœuds
 
 ### Principes Fondamentaux

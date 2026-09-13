@@ -2,6 +2,21 @@
 
 Ce document présente l'analyse des différentes architectures d'articulations de cheville pour le D-Bot, le sourcing des composants de transmission, et l'impact de l'inertie distale sur les performances de marche et de course.
 
+
+## 📑 Sommaire
+
+- [**1. Mécanismes de Cheville — Les 4 Approches**](#1-mécanismes-de-cheville-les-4-approches)
+  - [A. Série Direct-Drive (❌ Abandonné)](#a-série-direct-drive-abandonné)
+  - [B. Tirant simple / Linkage (K-Bot Original)](#b-tirant-simple-linkage-k-bot-original)
+  - [C. Hybride Tirant + Roll Direct (D-Bot V1 & V2)](#c-hybride-tirant-roll-direct-d-bot-v1-v2)
+  - [D. Parallèle à 2 Bielles Rotulées (Unitree G1, Tesla Optimus)](#d-parallèle-à-2-bielles-rotulées-unitree-g1-tesla-optimus)
+- [**2. Composants de Transmission pour Solution Parallèle (Sourcing)**](#2-composants-de-transmission-pour-solution-parallèle-sourcing)
+- [**3. Analyse de l'Inertie Distale & Impact Dynamique**](#3-analyse-de-linertie-distale-impact-dynamique)
+  - [Conséquences sur la locomotion :](#conséquences-sur-la-locomotion)
+- [**4. Recommandation d'Itération Évolutive**](#4-recommandation-ditération-évolutive)
+
+---
+
 ## 1. Mécanismes de Cheville — Les 4 Approches
 
 L'articulation de la cheville est l'une des zones les plus critiques d'un robot humanoïde bipède de 40 kg. Elle doit supporter d'importants impacts dynamiques tout en gardant une masse minimale pour réduire l'inertie de la jambe lors de la phase de balancement.

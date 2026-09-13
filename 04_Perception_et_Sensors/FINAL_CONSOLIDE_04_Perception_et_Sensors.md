@@ -5,6 +5,15 @@
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Vue d’Ensemble & Répartition Tri-Niveaux (Jetson / VPU / Mac)**](#1-vue-densemble-répartition-tri-niveaux-jetson-vpu-mac)
+- [**2. Spécifications Matérielles Validées**](#2-spécifications-matérielles-validées)
+- [**3. Architecture Logicielle & Flux de Données**](#3-architecture-logicielle-flux-de-données)
+
+---
+
 ## 1. Vue d’Ensemble & Répartition Tri-Niveaux (Jetson / VPU / Mac)
 
 Le module **Perception & Sensors** regroupe :

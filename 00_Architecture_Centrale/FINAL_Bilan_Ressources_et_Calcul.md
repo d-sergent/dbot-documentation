@@ -4,6 +4,16 @@ Ce document établit la **matrice officielle d'allocation des ressources (CPU, R
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Vue d'Ensemble & Découpage Matériel de la Charge Calculatoire**](#1-vue-densemble-découpage-matériel-de-la-charge-calculatoire)
+- [**2. Matrice d'Allocation Cumulée des Ressources (Robot en Action Maximale)**](#2-matrice-dallocation-cumulée-des-ressources-robot-en-action-maximale)
+- [**3. Analyse Comparative : D-Bot V1 vs Concurrence Humanoïde**](#3-analyse-comparative-d-bot-v1-vs-concurrence-humanoïde)
+- [**4. Synthèse et Perspectives d'Évolution**](#4-synthèse-et-perspectives-dévolution)
+
+---
+
 ## 1. Vue d'Ensemble & Découpage Matériel de la Charge Calculatoire
 
 La Jetson Orin Nano Super 8 Go (67 TOPS) est déchargée de la majorité des calculs basse couche grâce à une architecture matérielle distribuant la charge sur 4 calculateurs :

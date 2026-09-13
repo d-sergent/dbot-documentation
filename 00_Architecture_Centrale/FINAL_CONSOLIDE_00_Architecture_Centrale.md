@@ -5,6 +5,22 @@ Toutes les valeurs proviennent des sources indiquées. En cas de contradiction, 
 
 ---  
 
+
+## 📑 Sommaire
+
+- [**1. Vue d’Ensemble (Version Actuelle)**](#1-vue-densemble-version-actuelle)
+- [**2. Spécifications Matérielles Validées**](#2-spécifications-matérielles-validées)
+  - [2.1 Tableau récapitulatif des DOF, couples et réductions](#21-tableau-récapitulatif-des-dof-couples-et-réductions)
+  - [2.2 Masse des moteurs (BOM moteur)](#22-masse-des-moteurs-bom-moteur)
+- [**3. Nomenclature (BOM Locale)**](#3-nomenclature-bom-locale)
+- [**4. État de la Conception (CAD & Simulation)**](#4-état-de-la-conception-cad-simulation)
+- [**5. Instructions de Montage Critiques**](#5-instructions-de-montage-critiques)
+- [**6. Backlog Technique & Questions en Suspens**](#6-backlog-technique-questions-en-suspens)
+- [**7. Roadmap & Itérations Futures (Optionnel)**](#7-roadmap-itérations-futures-optionnel)
+  - [Annexes (facultatives)](#annexes-facultatives)
+
+---
+
 ## 1. Vue d’Ensemble (Version Actuelle)
 
 Le D‑Bot V1.x est un humanoïde de **≈ 1,55 m** de haut (avec le module Waist), **≈ 40,4 kg** au repos, doté de **27 moteurs RobStride** (QDD) et **16 servomoteurs Feetech** (D‑Hand Hybrid Premium).  

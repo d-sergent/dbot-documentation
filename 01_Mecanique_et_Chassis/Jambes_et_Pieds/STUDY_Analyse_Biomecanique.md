@@ -4,6 +4,14 @@ Cette section a été restructurée pour plus de clarté. Le contenu est désorm
 
 ---
 
+
+## 📑 Sommaire
+
+- [**Navigation**](#navigation)
+- [**Logique de Lecture Recommandée**](#logique-de-lecture-recommandée)
+
+---
+
 ## Navigation
 
 | # | Document | Contenu | Lignes |

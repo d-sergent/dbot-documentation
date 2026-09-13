@@ -1,5 +1,31 @@
 # Liste des Achats (BOM Consolidée)
 
+
+## 📑 Sommaire
+
+- [**1. Visserie & Fixations (Hardware)**](#1-visserie-fixations-hardware)
+  - [Quantités Requises (D-Bot + 2x RS-05)](#quantités-requises-d-bot-2x-rs-05)
+  - [Liens d'Achat Recommandés](#liens-dachat-recommandés)
+  - [Inserts Filetés (Heat-set)](#inserts-filetés-heat-set)
+  - [Roulements à Section Fine (Articulations)](#roulements-à-section-fine-articulations)
+  - [Accouplements à Bride (Pour moteurs QDD plats RS-02 / RS-00)](#accouplements-à-bride-pour-moteurs-qdd-plats-rs-02-rs-00)
+- [**2. Moteurs & Actionneurs (Par Phase)**](#2-moteurs-actionneurs-par-phase)
+  - [Phase 1 : Tête / Torse (Aucun Moteur)](#phase-1-tête-torse-aucun-moteur)
+  - [Phase 2 : Premier Bras (6 DOF)](#phase-2-premier-bras-6-dof)
+  - [Phase 3 : Deuxième Bras (6 DOF identiques)](#phase-3-deuxième-bras-6-dof-identiques)
+  - [Phase 4 : Jambes + Cou + Taille (15 DOF)](#phase-4-jambes-cou-taille-15-dof)
+  - [Phase 5 : Mains (16 DOF — 8 par main)](#phase-5-mains-16-dof-8-par-main)
+  - [Autres Composants Électroniques](#autres-composants-électroniques)
+- [**3. Électronique & Cerveau (Détail Phase 1 & 2)**](#3-électronique-cerveau-détail-phase-1-2)
+  - [Électronique de Contrôle](#électronique-de-contrôle)
+  - [Capteurs d'Équilibre (Phase 4)](#capteurs-déquilibre-phase-4)
+  - [Sécurité & Gestion d'Énergie (Power Management)](#sécurité-gestion-dénergie-power-management)
+  - [Interface CAN & Perception](#interface-can-perception)
+- [**4. Infrastructure & Connexion**](#4-infrastructure-connexion)
+- [**5. Consommables & Outils**](#5-consommables-outils)
+
+---
+
 ## 1. Visserie & Fixations (Hardware)
 **Stratégie** : Utilisation de vis **DIN 912 (Tête Cylindrique)** en Acier Inoxydable A2 (Inox 304) pour la résistance à la corrosion, ou Acier Noir 12.9 pour les axes moteurs de force.
 

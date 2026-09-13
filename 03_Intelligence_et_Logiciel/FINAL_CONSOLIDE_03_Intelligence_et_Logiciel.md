@@ -2,6 +2,19 @@
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Vue d’Ensemble (Version Actuelle)**](#1-vue-densemble-version-actuelle)
+- [**2. Spécifications Matérielles Validées**](#2-spécifications-matérielles-validées)
+- [**3. Nomenclature (BOM Locale)**](#3-nomenclature-bom-locale)
+- [**4. État de la Conception (CAD & Simulation)**](#4-état-de-la-conception-cad-simulation)
+- [**5. Instructions de Montage Critiques**](#5-instructions-de-montage-critiques)
+- [**6. Backlog Technique & Questions en Suspens**](#6-backlog-technique-questions-en-suspens)
+- [**7. Roadmap & Itérations Futures (Optionnel)**](#7-roadmap-itérations-futures-optionnel)
+
+---
+
 ## 1. Vue d’Ensemble (Version Actuelle)
 
 Le module **Intelligence & Logiciel** regroupe l’ensemble du « cerveau » du D‑Bot :  

@@ -1,5 +1,20 @@
 # 08 - Architecture Audio (XVF-3800 & Stack dbot_next)
 
+
+## 📑 Sommaire
+
+- [**1. Cerveau IA & Pipeline Audio Conversationnel (dbot_next)**](#1-cerveau-ia-pipeline-audio-conversationnel-dbotnext)
+  - [Modes d'Architecture Déployés :](#modes-darchitecture-déployés)
+- [**2. Architecture Audio Simplifiée (ReSpeaker XVF-3800)**](#2-architecture-audio-simplifiée-respeaker-xvf-3800)
+  - [2.1 Module Unique : Seeed ReSpeaker XVF-3800](#21-module-unique-seeed-respeaker-xvf-3800)
+  - [2.2 Haut-Parleur Externe (TTS)](#22-haut-parleur-externe-tts)
+  - [2.3 Placement dans le Robot](#23-placement-dans-le-robot)
+  - [2.4 Intégration Logicielle et Tests Système (Validés sur Banc)](#24-intégration-logicielle-et-tests-système-validés-sur-banc)
+  - [2.5 Schéma de Routage Audio](#25-schéma-de-routage-audio)
+  - [2.6 Comparatif Ancien vs Nouveau Système](#26-comparatif-ancien-vs-nouveau-système)
+
+---
+
 ## 1. Cerveau IA & Pipeline Audio Conversationnel (dbot_next)
 Le traitement audio et cognitif de D-Bot s'appuie sur une **Architecture Hybride Master Déportée (Jetson Orin Nano 8 Go ↔ Mac M1 Max 64 Go)** via WebSocket bidirectionnel ultra-basse latence :
 - **ASR (Speech-to-Text)** : **Groq Cloud Whisper Large v3 Turbo** (< 300 ms) avec Fallback local **Faster-Whisper** (modèle `small` sur CPU Mac, ~900 ms).

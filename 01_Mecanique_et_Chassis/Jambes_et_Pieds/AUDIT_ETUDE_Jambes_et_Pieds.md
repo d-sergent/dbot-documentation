@@ -4,6 +4,20 @@ En tant qu'Ingénieur Senior en Revue de Conception pour le projet D-Bot, j'ai p
 
 # 🔍 Rapport d'Audit d'Ingénierie : Jambes et Pieds (D-Bot)
 
+
+## 📑 Sommaire
+
+- [**0. Décision d'Architecture Retenue**](#0-décision-darchitecture-retenue)
+- [**1. Vérification des Calculs Clés**](#1-vérification-des-calculs-clés)
+  - [1.1. Bilan de Couple vs. Besoins (FINAL_CONSOLIDE §2.1)](#11-bilan-de-couple-vs-besoins-finalconsolide-21)
+  - [1.2. Autres Calculs et Valeurs Clés](#12-autres-calculs-et-valeurs-clés)
+- [**2. Carte des Dépendances Inter-Membres**](#2-carte-des-dépendances-inter-membres)
+- [**3. Manques Critiques & Incertitudes**](#3-manques-critiques-incertitudes)
+- [**4. Propositions d'Amélioration**](#4-propositions-damélioration)
+- [**5. Synthèse du Niveau de Maturité**](#5-synthèse-du-niveau-de-maturité)
+
+---
+
 ## 0. Décision d'Architecture Retenue
 
 | Choix de Conception Final | Justification Technique Clé | Source(s) |

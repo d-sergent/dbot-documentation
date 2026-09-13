@@ -2,6 +2,13 @@
 
 Ce document centralise et définit les termes techniques, cinématiques et architecturaux employés tout au long de l'ingénierie du **D-Bot**.
 
+
+## 📑 Sommaire
+
+- [**Définitions**](#définitions)
+
+---
+
 ## Définitions
 
 | Terme | Catégorie | Définition |

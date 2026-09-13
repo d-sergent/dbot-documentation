@@ -6,6 +6,19 @@ Ce document détaille l'intégration de la boucle conversationnelle de D-Bot, ba
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Architecture Logicielle "Cerveau Déporté"**](#1-architecture-logicielle-cerveau-déporté)
+- [**2. Défis Résolus et Optimisations (Jetson Orin Nano)**](#2-défis-résolus-et-optimisations-jetson-orin-nano)
+  - [A. Le Conflit Audio GDM (Headless)](#a-le-conflit-audio-gdm-headless)
+  - [B. Optimisation de la Latence Cloud](#b-optimisation-de-la-latence-cloud)
+- [**3. Capacité d'Action (Function Calling)**](#3-capacité-daction-function-calling)
+- [**4. Mode d'Emploi (Démarrage Automatisé)**](#4-mode-demploi-démarrage-automatisé)
+- [**5. Fichiers Sources de Référence**](#5-fichiers-sources-de-référence)
+
+---
+
 ## 1. Architecture Logicielle "Cerveau Déporté"
 
 Pour atteindre une latence de réponse quasi-instantanée (< 1 seconde) tout en conservant une intelligence de haut niveau, l'architecture suivante est utilisée :

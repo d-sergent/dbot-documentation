@@ -8,6 +8,43 @@
 
 ---
 
+
+## 📑 Sommaire
+
+- [**🎯 Introduction & Objectifs de ce Guide**](#introduction-objectifs-de-ce-guide)
+- [**📦 1. Nomenclature Globale (BOM Complète & Validée)**](#1-nomenclature-globale-bom-complète-validée)
+  - [1.1 Motorisation & Électronique (Dans l'Avant-Bras)](#11-motorisation-électronique-dans-lavant-bras)
+  - [1.2 Structure & Quincaillerie Mécanique](#12-structure-quincaillerie-mécanique)
+  - [1.3 Matières Premières & Consommables](#13-matières-premières-consommables)
+  - [1.4 Tactile Sensing (Système de Préhension)](#14-tactile-sensing-système-de-préhension)
+  - [1.5 Choix de Conception : Tresse Dyneema DM20 1.0 mm (Zéro-Fluage)](#15-choix-de-conception-tresse-dyneema-dm20-10-mm-zéro-fluage)
+  - [1.6 Choix de Conception : Mécanisme de Retour Passif (Tendons Élastiques Dorsaux)](#16-choix-de-conception-mécanisme-de-retour-passif-tendons-élastiques-dorsaux)
+- [**🛠️ 2. Fabrication des Composants (Usinage, Impression, Moulage)**](#2-fabrication-des-composants-usinage-impression-moulage)
+  - [2.1 Impression 3D des Doigts (Qidi Plus 4 — Filament PA12-CF)](#21-impression-3d-des-doigts-qidi-plus-4-filament-pa12-cf)
+  - [2.2 Fabrication de la Paume (Palm Block) & DFM (Design for Manufacturing)](#22-fabrication-de-la-paume-palm-block-dfm-design-for-manufacturing)
+  - [2.3 Les 8 Poulies d'Enroulement (Spools) — Aluminium 7075-T6 (ou Bronze)](#23-les-8-poulies-denroulement-spools-aluminium-7075-t6-ou-bronze)
+  - [2.3 Impression 3D des Gaines Articulaires et Pulpes eFlesh en TPU (Rappel Élastique Secondaire & Protection)](#23-impression-3d-des-gaines-articulaires-et-pulpes-eflesh-en-tpu-rappel-élastique-secondaire-protection)
+  - [2.4 Le Mécanisme de Retour Passif Principal : Les Tendons Élastiques Dorsaux](#24-le-mécanisme-de-retour-passif-principal-les-tendons-élastiques-dorsaux)
+- [**🔩 3. Assemblage Mécanique Étape par Étape**](#3-assemblage-mécanique-étape-par-étape)
+  - [Étape 1 : Préparation et Pré-tensionnement des Tendons](#étape-1-préparation-et-pré-tensionnement-des-tendons)
+  - [Étape 2 : Assemblage des Phalanges](#étape-2-assemblage-des-phalanges)
+  - [Étape 3 : Routage des Tendons dans les Doigts](#étape-3-routage-des-tendons-dans-les-doigts)
+  - [Étape 4 : Assemblage de la Paume (Palm Block) et Guidage des Élastiques](#étape-4-assemblage-de-la-paume-palm-block-et-guidage-des-élastiques)
+- [**⚡ 4. Routage, Tensionnement & Raccordement Final (Vers l'Avant-Bras)**](#4-routage-tensionnement-raccordement-final-vers-lavant-bras)
+  - [Étape 5 : Routage le long du poignet (Corridor Déporté)](#étape-5-routage-le-long-du-poignet-corridor-déporté)
+  - [Étape 6 : Montage des Poulies (Spools) sur les Moteurs](#étape-6-montage-des-poulies-spools-sur-les-moteurs)
+  - [Étape 7 : Raccordement sans nœud et Tensionnement](#étape-7-raccordement-sans-nœud-et-tensionnement)
+- [**🔌 5. Intégration Tactile & Câblage Électrique**](#5-intégration-tactile-câblage-électrique)
+  - [5.1 Raccordement et Dissipation du Convertisseur Buck DROK 48V→12V](#51-raccordement-et-dissipation-du-convertisseur-buck-drok-48v12v)
+  - [5.2 Chaînage des Servomoteurs (Bus Unique SCServo)](#52-chaînage-des-servomoteurs-bus-unique-scservo)
+  - [5.3 Montage des Capteurs Tactiles eFlesh en TPU (Phase V1 Actuelle)](#53-montage-des-capteurs-tactiles-eflesh-en-tpu-phase-v1-actuelle)
+- [**📈 6. Mise en Route, Tensionnement & Calibration Logicielle**](#6-mise-en-route-tensionnement-calibration-logicielle)
+  - [6.1 Premier Allumage et Vérification du Bus](#61-premier-allumage-et-vérification-du-bus)
+  - [6.2 Script de Tensionnement Automatique des Tendons](#62-script-de-tensionnement-automatique-des-tendons)
+  - [6.3 Calibration des Butées de Course](#63-calibration-des-butées-de-course)
+
+---
+
 ## 🎯 Introduction & Objectifs de ce Guide
 
 Ce manuel rassemble et unifie l'intégralité des instructions, méthodes, tolérances et références nécessaires pour fabriquer et assembler la main robotique **D-Hand V1 Révisée**. 

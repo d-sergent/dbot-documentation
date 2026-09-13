@@ -7,6 +7,20 @@ Le D-Bot exploite **3 IMUs** positionnées stratégiquement, chacune avec un rô
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Matrice des Rôles IMU**](#1-matrice-des-rôles-imu)
+- [**2. Architecture de Fusion et Flux de Données**](#2-architecture-de-fusion-et-flux-de-données)
+- [**3. Justifications et Règles d'Ingénierie**](#3-justifications-et-règles-dingénierie)
+  - [3.1 Indépendance Tête/Corps](#31-indépendance-têtecorps)
+  - [3.2 Migration depuis SensiEDGE CommonSense](#32-migration-depuis-sensiedge-commonsense)
+- [**4. Évolutions et Précision Extrême**](#4-évolutions-et-précision-extrême)
+  - [4.1 Option High-End : Spresense Multi-IMU](#41-option-high-end-spresense-multi-imu)
+  - [4.2 Surveillance Interne du Torse](#42-surveillance-interne-du-torse)
+
+---
+
 ## 1. Matrice des Rôles IMU
 
 | IMU | Capteur | Position | Fréquence | Rôle Principal | Rôle Secondaire |

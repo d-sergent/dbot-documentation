@@ -2,6 +2,18 @@
 
 En tant qu'Ingénieur Senior en Revue de Conception, j'ai examiné les documents fournis pour le module "04 Perception et Sensors" du projet D-Bot. L'architecture proposée est ambitieuse et bien pensée, notamment la stratégie de fusion sensorielle et la gestion des IMU. Cependant, plusieurs points nécessitent une clarification, une validation ou une optimisation pour garantir la robustesse et la performance attendues en V1.x.
 
+
+## 📑 Sommaire
+
+- [**0. Décision d'Architecture Retenue**](#0-décision-darchitecture-retenue)
+- [**1. Vérification des Calculs Clés**](#1-vérification-des-calculs-clés)
+- [**2. Carte des Dépendances Inter-Membres**](#2-carte-des-dépendances-inter-membres)
+- [**3. Manques Critiques & Incertitudes**](#3-manques-critiques-incertitudes)
+- [**4. Propositions d'Amélioration**](#4-propositions-damélioration)
+- [**5. Synthèse du Niveau de Maturité**](#5-synthèse-du-niveau-de-maturité)
+
+---
+
 ## 0. Décision d'Architecture Retenue
 
 L'architecture de perception du D-Bot V1.x repose sur une **fusion sensorielle hétérogène** pour une localisation globale robuste et une perception locale agile.

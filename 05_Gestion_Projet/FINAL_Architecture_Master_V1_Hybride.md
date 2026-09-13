@@ -3,6 +3,27 @@
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Executive Summary & Découpage Système (100% Focus V1)**](#1-executive-summary-découpage-système-100-focus-v1)
+  - [**Principe d'Architecture Hybride V1 : "Réflexe Local ↔ Cognition Déportée"**](#principe-darchitecture-hybride-v1-réflexe-local-cognition-déportée)
+- [**2. Cartographie Globale des 8 Sous-Systèmes V1 (Jetson ↔ Mac)**](#2-cartographie-globale-des-8-sous-systèmes-v1-jetson-mac)
+- [**3. Analyse Détallée par Composant Système V1 (Latence, Mémoire & Bande Passante)**](#3-analyse-détallée-par-composant-système-v1-latence-mémoire-bande-passante)
+  - [**1. Vision Temps Réel, V-SLAM & Triade de Perception (Luxonis OAK-D Pro FF)**](#1-vision-temps-réel-v-slam-triade-de-perception-luxonis-oak-d-pro-ff)
+  - [**2. Système Audio, Vocal & Interruption (Barge-In)**](#2-système-audio-vocal-interruption-barge-in)
+  - [**3. Mémoire RAG & Base de Connaissances (LightRAG)**](#3-mémoire-rag-base-de-connaissances-lightrag)
+  - [**4. Cinématique, Moteurs CAN & Microcontrôleurs**](#4-cinématique-moteurs-can-microcontrôleurs)
+  - [**5. Infrastructure Réseau & Topologie des Protocoles Hybrides**](#5-infrastructure-réseau-topologie-des-protocoles-hybrides)
+- [**4. Matrice Globale des Ressources & Latences V1**](#4-matrice-globale-des-ressources-latences-v1)
+- [**5. Bilan Mémoire & Marge de Sécurité Jetson Orin Nano (8 Go) V1**](#5-bilan-mémoire-marge-de-sécurité-jetson-orin-nano-8-go-v1)
+- [**6. Stratégie de Résilience V1 & Heartbeat à Double Seuil (Gestion des Coupures Wi-Fi)**](#6-stratégie-de-résilience-v1-heartbeat-à-double-seuil-gestion-des-coupures-wi-fi)
+- [**7. Bilan Cumulé des Ressources et Analyse Comparative (Jetson Orin Nano 8 Go)**](#7-bilan-cumulé-des-ressources-et-analyse-comparative-jetson-orin-nano-8-go)
+  - [**A. Matrice d'Allocation Cumulée des Ressources (Robot en Action Maximale)**](#a-matrice-dallocation-cumulée-des-ressources-robot-en-action-maximale)
+  - [**B. Matrice Comparative : D-Bot V1 vs Concurrence Humanoïde**](#b-matrice-comparative-d-bot-v1-vs-concurrence-humanoïde)
+
+---
+
 ## 1. Executive Summary & Découpage Système (100% Focus V1)
 
 La présente spécification établit **l'architecture Master officielle du D-Bot V1**, couvrant 100 % des sous-systèmes matériels et logiciels qualifiés pour la Phase 1 : **Perception Visuelle Multi-Niveaux (OAK-D Pro V-SLAM & Depth Reflex)**, **Audio & Parole (ReSpeaker XVF-3800 360° & Barge-In)**, **Cinématique & Moteurs CAN (RobStride RS)**, **Microcontrôleurs Temps Réel (Teensy 4.1 & Spresense)**, **Mémoire RAG & LLM (LightRAG & Gemini)**, et **Infrastructure Réseau Hybride / Sécurité Double Seuil**.
@@ -189,4 +210,3 @@ Lorsque **tous les sous-systèmes du robot fonctionnent simultanément** (Vision
 | **Altimétrie du Sol (Elevation Grid 2.5D)** | **✅ Ground Grid 3D** | **✅ Elevation Grid** | **✅ Occupancy 3D** | 🏆 **LiDAR Unitree L2 Pubis + OAK-D Pro** |
 | **Reconnaissance de Gestes de la Main** | **✅ Hand Gestures** | **✅ Hand Pose** | **✅ Tactile/Gestures** | 🏆 **YOLO-Pose TensorRT (60 FPS @ 8 ms)** |
 | **Suivi d'Attitude Humaine 3D** | **✅ Social Navigation** | **✅ Human Tracking** | **✅ People 3D** | 🏆 **Filtre Kalman 3D Multi-Objets** |
-

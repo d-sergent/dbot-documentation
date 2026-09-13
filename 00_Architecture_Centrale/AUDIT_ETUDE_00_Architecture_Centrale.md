@@ -6,6 +6,19 @@ Mon objectif est de fournir une évaluation synthétique, critique et vérifiée
 
 ---
 
+
+## 📑 Sommaire
+
+- [**0. Décisions d'Architecture Retenues**](#0-décisions-darchitecture-retenues)
+- [**1. Synthèse des Degrés de Liberté (26 DOF)**](#1-synthèse-des-degrés-de-liberté-26-dof)
+- [**2. Vérification de Cohérence & Points de Vigilance**](#2-vérification-de-cohérence-points-de-vigilance)
+  - [2.1 Bilan de Masse et Centrage](#21-bilan-de-masse-et-centrage)
+  - [2.2 Chaîne de Communication CAN-FD](#22-chaîne-de-communication-can-fd)
+  - [2.3 Gestion Thermique et Structurelle](#23-gestion-thermique-et-structurelle)
+- [**3. Conclusion d'Audit**](#3-conclusion-daudit)
+
+---
+
 ## 0. Décisions d'Architecture Retenues
 
 | Choix Architectural | Spécification Technique | Justification & Impact D-Bot |

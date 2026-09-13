@@ -2,6 +2,16 @@
 
 Le blocage de la tête (Tilt) est assuré par deux solénoïdes **LEX-SOLEN-04** (12V, 0.6A chacun). Ils fonctionnent en mode **"Power to Unlock"** (alimentés pour débloquer).
 
+
+## 📑 Sommaire
+
+- [**1. Composants Requis**](#1-composants-requis)
+- [**2. Schéma de Câblage**](#2-schéma-de-câblage)
+- [**3. Sécurité Critique**](#3-sécurité-critique)
+- [**4. Logique de Contrôle**](#4-logique-de-contrôle)
+
+---
+
 ## 1. Composants Requis
 *   **Module de commande MOSFET** : Dual MOSFET D4184 (compatible logique 3.3V).
 *   **Inductive Protection** : 2x Diodes **1N4007** (roue libre).

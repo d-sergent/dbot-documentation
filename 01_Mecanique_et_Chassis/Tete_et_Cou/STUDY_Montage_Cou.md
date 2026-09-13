@@ -8,6 +8,49 @@ Cette annexe détaille la conception du montage vertical d'un moteur **RobStride
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Contexte et Problématique**](#1-contexte-et-problématique)
+  - [1.1 Cahier des Charges](#11-cahier-des-charges)
+  - [1.2 Particularité Critique : Interface Rotor RS-05 (Pas de Sortie d'Arbre !)](#12-particularité-critique-interface-rotor-rs-05-pas-de-sortie-darbre)
+  - [Interface du Rotor RS-05 (données plan officiel)](#interface-du-rotor-rs-05-données-plan-officiel)
+- [**2. ⚠️ Conflit Géométrique : Pourquoi un Roulement Coplanaire ne Rentre PAS**](#2-conflit-géométrique-pourquoi-un-roulement-coplanaire-ne-rentre-pas)
+  - [2.1 Analyse Dimensionnelle du Problème](#21-analyse-dimensionnelle-du-problème)
+  - [2.2 Détail des Cotes Critiques](#22-détail-des-cotes-critiques)
+- [**3. Solutions Étudiées**](#3-solutions-étudiées)
+  - [3.1 Solution 1 — Hub Surélevé + Roulement 6806-2RS](#31-solution-1-hub-surélevé-roulement-6806-2rs)
+  - [3.2 Solution 2 — Roulement Ultra-Mince 6706-2RS (Coplanaire)](#32-solution-2-roulement-ultra-mince-6706-2rs-coplanaire)
+  - [3.3 Solution 3 — Butée à Aiguilles AXK 2035 (Axial Uniquement)](#33-solution-3-butée-à-aiguilles-axk-2035-axial-uniquement)
+  - [3.4 Solution 4 — Hub Réduit + Roulement 6804-2RS ⭐ PROTOTYPÉE ET VALIDÉE](#34-solution-4-hub-réduit-roulement-6804-2rs-prototypée-et-validée)
+- [**4. Comparatif des 4 Solutions**](#4-comparatif-des-4-solutions)
+- [**5. Séquence de Montage (Solution 4 — 6804-2RS)**](#5-séquence-de-montage-solution-4-6804-2rs)
+- [**6. Vérification du Couple Nécessaire pour le Yaw**](#6-vérification-du-couple-nécessaire-pour-le-yaw)
+  - [6.1 Couple Gravitationnel et Inertiel](#61-couple-gravitationnel-et-inertiel)
+  - [6.2 Marge RS-05 (Yaw)](#62-marge-rs-05-yaw)
+- [**7. BOM — Récapitulatif Achat (Axe Yaw - Prototype Validé)**](#7-bom-récapitulatif-achat-axe-yaw---prototype-validé)
+- [**8. Assurer la Concentricité des Axes (Rotor vs Stator)**](#8-assurer-la-concentricité-des-axes-rotor-vs-stator)
+  - [8.1 Côté Rotor : Concentricité par usinage CNC (Bague intérieure)](#81-côté-rotor-concentricité-par-usinage-cnc-bague-intérieure)
+  - [8.2 Côté Stator : Auto-centrage au montage (Bague extérieure)](#82-côté-stator-auto-centrage-au-montage-bague-extérieure)
+- [**9. Conclusion**](#9-conclusion)
+- [**10. Moteur Tilt (Pitch) — Montage "Chape en U" (Yoke Mount)**](#10-moteur-tilt-pitch-montage-chape-en-u-yoke-mount)
+  - [10.1 Principe du Montage "Moteur Flottant"](#101-principe-du-montage-moteur-flottant)
+  - [10.2 Tableau des Composants](#102-tableau-des-composants)
+  - [10.3 Analyse des Charges](#103-analyse-des-charges)
+  - [10.4 Contrainte Critique : Coaxialité Avant-Arrière](#104-contrainte-critique-coaxialité-avant-arrière)
+  - [10.5 Séquence d'Assemblage](#105-séquence-dassemblage)
+  - [10.6 Avantages et Limites](#106-avantages-et-limites)
+- [**11. Historique de Maintenance et Firmware**](#11-historique-de-maintenance-et-firmware)
+- [**12. Système de Verrouillage Statique du Tilt (Parking Brake)**](#12-système-de-verrouillage-statique-du-tilt-parking-brake)
+  - [12.1 Justification Technique](#121-justification-technique)
+  - [12.2 Spécifications du Solénoïde (LEX-SOLEN-04)](#122-spécifications-du-solénoïde-lex-solen-04)
+  - [12.3 Intégration Mécanique](#123-intégration-mécanique)
+  - [12.4 Pilotage Électronique](#124-pilotage-électronique)
+  - [12.5 Workflow Logiciel (ROS 2)](#125-workflow-logiciel-ros-2)
+  - [12.6 Bilan Électrique et Consolidation 12V](#126-bilan-électrique-et-consolidation-12v)
+
+---
+
 ## 1. Contexte et Problématique
 
 ### 1.1 Cahier des Charges

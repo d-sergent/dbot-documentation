@@ -4,6 +4,21 @@ Ce document définit l'architecture de travail pour l'utilisation d'IA locales (
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. Réorganisation de la Documentation**](#1-réorganisation-de-la-documentation)
+  - [Solution d'Indexation (Le "RAG" Local via MCP)](#solution-dindexation-le-rag-local-via-mcp)
+- [**2. Stratégie des Modèles (Le Duo LM Studio / MLX)**](#2-stratégie-des-modèles-le-duo-lm-studio-mlx)
+  - [A. Le "Scout" / L'Exécuteur (Rapide, Spécialiste Outils MCP & Code)](#a-le-scout-lexécuteur-rapide-spécialiste-outils-mcp-code)
+  - [B. L'"Architecte" (Raisonnement Profond, Mécanique & Cinématique)](#b-larchitecte-raisonnement-profond-mécanique-cinématique)
+- [**3. Workflow (Le "Relais" Local & Escalade Cloud)**](#3-workflow-le-relais-local-escalade-cloud)
+  - [A. Le Relais Local (Résoudre le problème DeepSeek + MCP)](#a-le-relais-local-résoudre-le-problème-deepseek-mcp)
+  - [B. L'Escalade Cloud (Hybride)](#b-lescalade-cloud-hybride)
+- [**4. Prochaines Étapes Techniques (À réaliser ensemble)**](#4-prochaines-étapes-techniques-à-réaliser-ensemble)
+
+---
+
 ## 1. Réorganisation de la Documentation
 
 Pour optimiser le contexte de l'IA (le "KV Cache") et éviter de saturer la mémoire avec les 50 documents actuels, l'arborescence sera structurée hiérarchiquement :

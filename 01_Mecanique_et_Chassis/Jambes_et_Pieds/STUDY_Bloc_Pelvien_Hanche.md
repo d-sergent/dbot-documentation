@@ -6,6 +6,29 @@ L'**Addendum 11 de la page 15b** montrait l'architecture historique du K-Bot. Co
 
 ---
 
+
+## 📑 Sommaire
+
+- [**1. La Problématique des Moteurs QDD (Quasi-Direct Drive)**](#1-la-problématique-des-moteurs-qdd-quasi-direct-drive)
+- [**2. Benchmark de l'Industrie**](#2-benchmark-de-lindustrie)
+  - [A. L'approche K-Bot Originale](#a-lapproche-k-bot-originale)
+  - [B. L'approche Tesla Optimus : séquentielle A-R-F](#b-lapproche-tesla-optimus-séquentielle-a-r-f)
+  - [C. L'approche Unitree H1 / H1-2 : Sphérique (Grappe Concentrée)](#c-lapproche-unitree-h1-h1-2-sphérique-grappe-concentrée)
+  - [D. L'approche Gen2 (Figure 02, Unitree G1) : F-A-R](#d-lapproche-gen2-figure-02-unitree-g1-f-a-r)
+- [**3. L'Architecture D-Bot : Chaîne F-A-R (Méthode Gen2)**](#3-larchitecture-d-bot-chaîne-f-a-r-méthode-gen2)
+  - [Maillon 1 : L'Axe Pitch (Moteur RS-04)](#maillon-1-laxe-pitch-moteur-rs-04)
+  - [Maillon 2 : L'Axe Roll (Moteur RS-03)](#maillon-2-laxe-roll-moteur-rs-03)
+  - [Maillon 3 : L'Axe Yaw (Moteur RS-03)](#maillon-3-laxe-yaw-moteur-rs-03)
+  - [Le Bout de la Chaîne : Le Fémur Hybride](#le-bout-de-la-chaîne-le-fémur-hybride)
+- [**4. Analyse des Marges de Couple en F-A-R**](#4-analyse-des-marges-de-couple-en-f-a-r)
+- [**5. Étude Option GT3 Hip Pitch — Analyse et Rejet**](#5-étude-option-gt3-hip-pitch-analyse-et-rejet)
+  - [Principe étudié](#principe-étudié)
+  - [Avantages identifiés](#avantages-identifiés)
+  - [Raisons du rejet](#raisons-du-rejet)
+- [**6. Conséquences pour l'Ingénierie (Usinage C500)**](#6-conséquences-pour-lingénierie-usinage-c500)
+
+---
+
 ## 1. La Problématique des Moteurs QDD (Quasi-Direct Drive)
 
 Dans le corps humain, la hanche est une articulation sphérique parfaite : les 3 axes de rotation (Yaw, Roll, Pitch) se croisent exactement au même point x,y,z (le centre de la tête du fémur).
