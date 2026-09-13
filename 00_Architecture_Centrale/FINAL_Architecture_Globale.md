@@ -109,20 +109,24 @@ Fournisseurs : Cardan **Michaud Chailly** A5-473-12, bielles carbone 3K Ø10/8mm
 
 ---
 
-## 4. Bras — RS-04 / RS-03 / RS-02 / RS-00 ⭐ UPGRADE HYBRIDE
+## 4. Bras — RS-04 / RS-03 / RS-02 / RS-00 (Option B : RS-10P) ⭐ UPGRADE HYBRIDE
 
-**Décision : Épaule Pitch RS-04 + Épaule Roll RS-03 + Coude RS-03 + Supination RS-02 + Poignet RS-00 (Architecture "Forearm Supination" — Biomimétique Tesla Optimus Gen 3).**
+**Décision : Épaule Pitch RS-04 + Épaule Roll RS-03 + Coude RS-03 + Supination RS-02 (ou RS-10P) + Poignet RS-00 (Architecture "Forearm Supination" — Biomimétique Tesla Optimus Gen 3).**
 
-> 🆕 **Changement vs K-Bot** : L'épaule Pitch passe de RS-03 (60 N.m, 880g) à **RS-04 (120 N.m, 1420g)** pour ×2.5 de portage frontal. L'épaule Roll reste en **RS-03** (suffisant en latéral). Le coude passe de RS-02 (17 N.m) à **RS-03 (60 N.m)** pour ×3.5 de flexion (décision validée fin mai 2026 pour doubler la capacité de portage à 4.3 kg continu). Un **RS-02 de Supination** est ajouté directement après le RS-03 : il fait pivoter l'avant-bras entier (architecture biomimétique, voir [Doc 22b](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Poignet_Optimus.md)). Le **RS-00** est redéfini uniquement comme moteur de **Poignet Pitch** (extrémité distale).
+> 🆕 **Changement vs K-Bot** : L'épaule Pitch passe de RS-03 (60 N.m, 880g) à **RS-04 (120 N.m, 1420g)** pour ×2.5 de portage frontal. L'épaule Roll reste en **RS-03** (suffisant en latéral). Le coude passe de RS-02 (17 N.m) à **RS-03 (60 N.m)** pour ×3.5 de flexion (décision validée fin mai 2026 pour doubler la capacité de portage à 4.3 kg continu). Un moteur de **Supination Avant-Bras** est ajouté directement après le RS-03 : il fait pivoter l'avant-bras entier (architecture biomimétique, voir [Doc 22b](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Poignet_Optimus.md)). Le **RS-00** est redéfini uniquement comme moteur de **Poignet Pitch** (extrémité distale).
 
-| Articulation | Moteur | Couple Pic | Couple Nom. | Masse | Notes |
-| :--- | :---: | :---: | :---: | :---: | :--- |
-| Épaule Pitch | **RS-04** | **120 N.m** | 40 N.m | 1420g | |
-| Épaule Roll | **RS-03** | 60 N.m | 20 N.m | 880g | |
-| Épaule Yaw | **RS-02** | 17 N.m | 6 N.m | 405g | |
-| Coude Pitch | **RS-03** | **60 N.m** | 20 N.m | 880g | |
-| **Supination Avant-Bras** | **RS-02** | **17 N.m** | 6 N.m | 405g | 🆕 Biomimétique (Doc 22b) |
-| Poignet Pitch | **RS-00** | 14 N.m | 5 N.m | 310g | (Pitch uniquement) |
+| Articulation | Moteur (Option A / Std) | Moteur (Option B / Optimisée) | Couple Pic | Couple Nom. | Masse | Notes |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| Épaule Pitch | **RS-04** | **RS-04** | **120 N.m** | 40 N.m | 1420g | Levage frontal |
+| Épaule Roll | **RS-03** | **RS-03** | 60 N.m | 20 N.m | 880g | Écartement latéral |
+| Épaule Yaw | **RS-02** | **RS-02** | 17 N.m | 6 N.m | 405g | Rotation humérus |
+| Coude Pitch | **RS-03** | **RS-03** | **60 N.m** | 20 N.m | 880g | Flexion du coude |
+| **Supination Avant-Bras** | **RS-02** *(Ø 78.5 mm)* | **RS-10P** *(Ø 57 mm)* ⭐ | **17 N.m / 42 N.m** | 6 N.m / 14 N.m | 405g / 460g | **Option B** : avant-bras affiné de 21.5 mm, couple ×2.5 |
+| Poignet Pitch | **RS-00** | **RS-00** | 14 N.m | 5 N.m | 310g | Extrémité distale ultra-légère |
+
+> [!TIP]
+> **Pourquoi l'Option B (RS-10P à la supination) est recommandée ?**  
+> Le RS-10P pèse 460 g (+55 g vs RS-02), mais son diamètre de seulement **Ø 57 mm** (contre Ø 78.5 mm pour le RS-02) permet d'affiner considérablement la ligne esthétique et le volume de l'avant-bras. Placé juste sous le coude, son surpoids de 55 g n'engendre qu'une inertie négligeable (+0.0043 kg.m²), tout en offrant un couple crête de 42 N.m éliminant tout risque de calage en rotation avec charge lourde.
 
 **Capacité de portage (avec D-Hand +850g total, bras = ~3 kg) — 1 bras :**
 

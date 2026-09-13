@@ -75,38 +75,58 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 
 ---
 
-## 2. Moteurs & Actionneurs (Par Phase)
+## 2. Moteurs & Actionneurs (Par Phase & Bilan Global)
 
-### Phase 1 : Tête / Torse (Aucun Moteur)
-*   Focus uniquement sur les capteurs et l'intelligence.
+### 📊 Bilan Synthétique des Moteurs : Acquis vs Reste à Acheter
+
+| Modèle Moteur | Emplacements / Fonctions prévues | Total Requis | Déjà Acquis | Reste à Acheter (Option A : Std) | Reste à Acheter (Option B : RS-10P) |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **Robstride RS-06** | Taille (Waist Yaw) | 1 | 1 (**✅ Acheté & Monté**) | **0** | **0** |
+| **Robstride RS-05** | Cou (Pan + Tilt) | 2 | 2 (**✅ Achetés & Montés**) | **0** | **0** |
+| **Robstride RS-04** | Épaules Pitch (2) + Genoux (2) + Hanches Pitch (2) | 6 | 2 (**✅ Achetés**) | **4** (2 Genoux + 2 Hanches P) | **4** (2 Genoux + 2 Hanches P) |
+| **Robstride RS-03** | Épaules Roll (2) + Coudes Pitch (2) + Hanches R/Y (4) + Chevilles (4) | 12 | 3 (**✅ Achetés**) | **9** (1 Épaule R + 4 Hanches + 4 Chevilles) | **9** (1 Épaule R + 4 Hanches + 4 Chevilles) |
+| **Robstride RS-02** | Épaules Yaw (2) + Supinations Avant-bras (2 en std / 0 en Option B) | 4 *(std)* / 2 *(opt B)* | 1 (**✅ Acheté**) | **3** (1 Épaule Yaw + 2 Supinations) | **1** (1 Épaule Yaw Bras 2) |
+| **Robstride RS-00** | Poignets Pitch (2) | 2 | 1 (**✅ Acheté**) | **1** (Poignet Pitch Bras 2) | **1** (Poignet Pitch Bras 2) |
+| **Robstride RS-10P** | Supinations Avant-bras (2) *(Ø 57 mm au lieu de 78.5 mm)* | 0 *(std)* / 2 *(opt B)* | 0 | **0** | **2** (Supination Bras 1 & 2) |
+| **TOTAL ROBSTRIDE** | **Corps complet bipède (27 DOF)** | **27** | **10** | **17 moteurs** | **17 moteurs** |
+| **Feetech STS3250** | Flexion puissance des 5 doigts (mains D-Hand) | 10 | 10 (**✅ Achetés**) | **0** (5 par main, 100% complet) | **0** (5 par main, 100% complet) |
+| **Feetech HL-3915** | Opposition pouce + Abduction + Curl palmaire | 6 | 6 (**✅ Achetés**) | **0** (3 par main, 100% complet) | **0** (3 par main, 100% complet) |
+| **TOTAL FEETECH** | **2 mains complètes D-Hand (16 DOF)** | **16** | **16** | **0 (Complet)** | **0 (Complet)** |
+
+---
+
+### Phase 1 : Tête / Torse (Aucun Moteur Additionnel)
+*   Cou (2× RS-05) et Taille (1× RS-06) : **100% acquis et montés**.
+*   Focus sur les capteurs, structure usinée et intégration électronique.
 
 ### Phase 2 : Premier Bras (6 DOF)
-| Modèle | Quantité | Couple (Peak) | Usage |
-| :--- | :--- | :--- | :--- |
-| **Robstride 04** | 1 (**✅ Acheté**) | **120 Nm** | Épaule Pitch (Force levage frontal) |
-| **Robstride 03** | 2 (**✅ Achetés**) | **60 Nm** | Épaule Roll + Coude Pitch |
-| **Robstride 02** | 2 (**1× ✅ Acheté** / 1× à commander) | **17 Nm** | Épaule Yaw (1× ✅ Acheté) + Supination Avant-Bras (1× à commander) |
-| **Robstride 00** | 1 (**✅ Acheté**) | **14 Nm** | Poignet Pitch |
-| **Robstride 06** | 0 | **36 Nm** | (Le RS-06 acheté a été relocalisé comme actuateur actif pour la Taille/Waist Yaw) |
+| Modèle | Quantité | Couple (Peak) | Usage | Statut |
+| :--- | :--- | :--- | :--- | :--- |
+| **Robstride RS-04** | 1 | **120 Nm** | Épaule Pitch (Force levage frontal) | **✅ Acheté** |
+| **Robstride RS-03** | 2 | **60 Nm** | Épaule Roll (1) + Coude Pitch (1) | **✅ Achetés** |
+| **Robstride RS-02** | 1 | **17 Nm** | Épaule Yaw | **✅ Acheté** |
+| **Robstride RS-00** | 1 | **14 Nm** | Poignet Pitch | **✅ Acheté** |
+| **Robstride RS-10P** *(Option B)* | 1 | **42 Nm** | Supination Avant-bras *(Ø 57 mm, compact)* | À commander (ou RS-02 en Option A) |
+
+> **Capacité immédiate Phase 2** : Le premier bras dispose déjà de 5 DOF complets sur 6 (seule la supination reste à commander pour avoir les 6 DOF).
 
 ### Phase 3 : Deuxième Bras (6 DOF identiques)
-| Modèle | Quantité | Couple (Peak) | Usage |
-| :--- | :--- | :--- | :--- |
-| **Robstride 04** | 1 (**✅ Acheté**) | **120 Nm** | Épaule Pitch |
-| **Robstride 03** | 2 (**1× ✅ Acheté** / 1× à commander) | **60 Nm** | Épaule Roll (1× ✅ Acheté) + Coude Pitch (1× à commander) |
-| **Robstride 02** | 2 | **17 Nm** | Épaule Yaw + Supination Avant-Bras (À commander) |
-| **Robstride 00** | 1 | **14 Nm** | Poignet Pitch (À commander) |
+| Modèle | Quantité | Couple (Peak) | Usage | Statut |
+| :--- | :--- | :--- | :--- | :--- |
+| **Robstride RS-04** | 1 | **120 Nm** | Épaule Pitch | **✅ Acheté** |
+| **Robstride RS-03** | 2 | **60 Nm** | Épaule Roll (1× ✅ Acheté) + Coude Pitch (1× à commander) | 1× ✅ Acheté / 1× À commander |
+| **Robstride RS-02** | 1 | **17 Nm** | Épaule Yaw | À commander |
+| **Robstride RS-00** | 1 | **14 Nm** | Poignet Pitch | À commander |
+| **Robstride RS-10P** *(Option B)* | 1 | **42 Nm** | Supination Avant-bras *(Ø 57 mm, compact)* | À commander (ou RS-02 en Option A) |
 
-### Phase 4 : Jambes + Cou + Taille (15 DOF)
-| Modèle | Quantité | Couple (Peak) | Usage |
-| :--- | :--- | :--- | :--- |
-| **Robstride 04** | 4 | **120 Nm** | Hanches Pitch + Genoux |
-| **Robstride 03** | 4 | **60 Nm** | Hanches Roll/Yaw |
-| **Robstride 03** | 4 | **60 Nm** | Chevilles Pitch+Roll (**2× par cheville**, architecture cardan + bielles) |
-| **Robstride 05** | 2 (**✅ Achetés & Montés**) | **5.5 Nm** | Cou Pan/Tilt |
-| **Robstride 06** | 1 (**✅ Acheté & Monté**) | **36 Nm** | Taille (Waist Yaw) |
+### Phase 4 : Jambes (12 DOF)
+| Modèle | Quantité | Couple (Peak) | Usage | Statut |
+| :--- | :--- | :--- | :--- | :--- |
+| **Robstride RS-04** | 4 | **120 Nm** | Hanches Pitch (2) + Genoux (2) | À commander |
+| **Robstride RS-03** | 4 | **60 Nm** | Hanches Roll (2) + Hanches Yaw (2) | À commander |
+| **Robstride RS-03** | 4 | **60 Nm** | Chevilles Pitch+Roll (**2× par cheville**, cardan + bielles) | À commander |
 
-> **Note** : Architecture cheville = Cardan DIN 808 + 2× RS-03 par cheville (différentiel Pitch/Roll). Voir [Étude Cheville](../01_Mecanique_et_Chassis/Jambes_et_Pieds/STUDY_Cheville_Cardan.md) pour le détail.
+> **Note Architecture Cheville** : Cardan DIN 808 + 2× RS-03 par cheville (différentiel Pitch/Roll). Voir [Étude Cheville](../01_Mecanique_et_Chassis/Jambes_et_Pieds/STUDY_Cheville_Cardan.md).
 
 ### Phase 5 : Mains (16 DOF — 8 par main)
 Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une quincaillerie de haute précision pour le passage des tendons, des capteurs tactiles magnétiques 3 axes (eFlesh) et des consommables spécifiques. Les quantités indiquées ci-dessous correspondent au **robot complet (2 mains)**.
