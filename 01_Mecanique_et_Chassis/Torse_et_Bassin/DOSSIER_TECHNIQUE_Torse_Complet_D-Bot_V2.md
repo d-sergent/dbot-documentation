@@ -637,7 +637,7 @@ Dans Fusion 360, sur une esquisse tracée sur la **face inférieure (dessous)** 
 
 ![Design Détaillé des Équerres Hautes et Basses et Montage en Espace Restreint](./media/details_equerres_liaisons_extremites_cou_waist.svg)
 
-*Blueprint d'ingénierie vectoriel des liaisons d'extrémités. Panel 1 : Équerres Hautes du Cou en cornière marchande Blockenstock 30 × 30 × 3,0 mm (L = 50,0 mm, Alu 6060-T6) avec perçages lisses ronds Ø 4,30 mm (Zéro oblong, entraxe 30 mm, butée mécanique Z) et perçages horizontaux à 20,0 mm du pli (Rectangle 30 × 45 mm, fixation traversante acier/acier par vis CHC M4 × 16 mm + rondelles DIN 125A + écrous Nylstop M4 sous l'équerre, zéro fraisure sur la plaque de cou). Panel 2 : Équerres Basses Waist Yaw (30 × 30 × 3,0 mm, L = 80,0 mm) avec 4 perçages Ø 4,3 mm (entraxes 3 × 18 = 54 mm) pour encastrement rigide 36 N.m aligné sur le carter RS-06. Panel 3 : Plan de perçage de la plaque de cou (rectangle 30 × 45 mm dégageant un couloir libre de 45 mm pour le moteur RS-05), schéma de débit sur barre 500 mm et protocole de montage.*
+*Blueprint d'ingénierie vectoriel des liaisons d'extrémités. Panel 1 : Équerres Hautes du Cou en cornière marchande Blockenstock 30 × 30 × 3,0 mm (L = 50,0 mm, Alu 6060-T6) avec perçages lisses ronds Ø 4,30 mm (Zéro oblong, entraxe 30 mm, butée mécanique Z) et perçages horizontaux à 20,0 mm du pli (Rectangle 30 × 45 mm, fixation traversante acier/acier par vis CHC M4 × 16 mm + rondelles DIN 125A + écrous Nylstop M4 sous l'équerre, zéro fraisure sur la plaque de cou). Panel 2 : Équerres Basses Waist Yaw (30 × 30 × 3,0 mm, L = 90,0 mm) détaillant l'Aile Horizontale avec UNIQUEMENT 2 perçages traversants Ø 4,50 mm (déport 17,86 mm, entraxe 48,08 mm, trou #1 à 7,38 mm et trou #2 à 55,46 mm, congés d'angle R = 5 mm, serrage sandwich direct sur le Moyeu 7075 par vis CHC M4 × 20 mm, suppression des 4 anciens perçages superflus) et l'Aile Verticale avec 4 perçages Ø 4,3 mm (Z = 10,0 mm) pour pincement rigide de la colonne vertébrale 5 mm. Panel 3 : Plan de perçage de la plaque de cou (rectangle 30 × 45 mm dégageant un couloir libre de 45 mm pour le moteur RS-05), schéma de débit sur barre 500 mm et protocole de montage.*
 
 #### 1. Équerres Hautes du Cou Compactes (L = 50,0 mm — Liaison Rigide de Précision — Option C Zéro Taraudage)
 * **Profil Brut & Matière** : Cornière marchande en aluminium **6060-T6** (profilé extrudé commercial Blockenstock, réf `30x30x3-lg500mm-corniere-alu-6060t6`), section brute **`30 × 30 × 3,0 mm`**, longueur compacte **`L = 50,0 mm`**.
@@ -665,17 +665,23 @@ Dans Fusion 360, sur une esquisse tracée sur la **face inférieure (dessous)** 
   - **Facteur de sécurité RDM** : **`Sf = 34`** face au couple pic de **5,5 N.m** des moteurs RS-05 du cou (contrainte de flexion Sigma_max < 4,6 MPa vs Re = 160 MPa).
   - **Visserie associée** : **2 vis CHC M4 × 20 mm** traversantes (ISO 4762) + **4 rondelles plates standard DIN 125A M4** (Ø extérieur 9,0 mm, épaisseur 0,8 mm) + **2 écrous Nylstop M4** (serrage à 3,0 N.m).
 
-#### 2. Équerres Basses du Waist Compactes (L = 80,0 mm — Ancrage Rigide 36 N.m)
-* **Profil Brut & Matière** : Même cornière marchande en aluminium **6060-T6** débitée sur la même barre Blockenstock `30 × 30 × 3,0 mm`, longueur optimisée **`L = 80,0 mm`**.
+#### 2. Équerres Basses du Waist Compactes (L = 90,0 mm — Ancrage Rigide 36 N.m — Alignement Fusion 360)
+* **Profil Brut & Matière** : Même cornière marchande en aluminium **6060-T6** débitée sur la même barre Blockenstock `30 × 30 × 3,0 mm`, longueur optimisée **`L = 90,0 mm`** (ajustée pour garantir une assise de matière pleine face au moyeu et s'adapter au rétrécissement de la colonne basse dans le corps PA12-CF).
   - Largeur totale assemblée : `5,0 mm` + `2 × 30,0 mm` = **`65,0 mm`**.
   - S'inscrit rigoureusement à l'intérieur de l'enveloppe circulaire **Ø 88 mm** du moteur RobStride RS-06 (marge radiale de 11,5 mm de chaque côté) et laisse **`27,50 mm de dégagement`** sur les flancs de la Waist Plate de 120 mm.
-* **Masse Nette** : **`36,0 g`** par pièce (soit **`72,0 g` pour la paire** gauche + droite).
-* **Aile Horizontale — Cotation des 4 Trous de Passage (Fixation sur Waist Plate 6,0 mm)** :
-  - **Position dans la largeur de l'aile (30,0 mm)** : axe des trous à **`12,50 mm`** du pli extérieur et **`17,50 mm`** du chant libre (matière résiduelle intérieure = `12,50 - 3,00 =` **`9,50 mm`**).
-  - **Position le long de l'équerre (L = 80,0 mm)** : 4 trous lisses traversants **`Ø 4,30 mm`** répartis à entraxe régulier de **`18,00 mm`** (entraxe total = **`54,00 mm`**). Pinces aux chants d'extrémité = **`13,00 mm`** de chaque côté (`X = 13,0 / 31,0 / 49,0 / 67,0 mm`).
+* **Masse Nette** : **`40,5 g`** par pièce (soit **`81,0 g` pour la paire** gauche + droite, +9 g au total par rapport à 80 mm).
+* **Aile Horizontale — Cotation des 2 Trous Traversants Sandwich (Liaison Directe Équerre ➔ Waist Plate ➔ Moyeu 7075)** :
+  - **Position dans la largeur de l'aile (30,0 mm)** : axe des trous centré à **`17,86 mm`** du pli intérieur de la cornière (matière pleine résiduelle extérieure = `30,0 - 17,86 =` **`12,14 mm`**, soit `9,89 mm` après perçage Ø 4,50 mm). Dégagement intérieur pour tête de vis CHC M4 et clé Allen = plus de 10 mm.
+  - **Position le long de l'équerre (L = 90,0 mm)** : **2 trous lisses traversants `Ø 4,50 mm`** (les 4 anciens perçages intermédiaires sont définitivement supprimés) :
+    - **Trou #1 (Avant)** : centré à **`7,38 mm`** du chant d'extrémité gauche.
+    - **Trou #2 (Arrière)** : centré à **`55,46 mm`** du chant d'extrémité gauche.
+    - **Entraxe longitudinal** : `55,46 - 7,38 =` **`48,08 mm`** pile (correspondance parfaite avec le cercle primitif du moyeu).
+    - **Réserve de matière vers le chant droit** : `90,00 - 55,46 =` **`34,54 mm`** de matière pleine, permettant à l'équerre d'épouser le rétrécissement bas de la colonne en PA12-CF.
+    - **Congés d'angle (Fillets)** : recommandés à **`R = 5,0 mm`** (au lieu de 10 mm) pour assurer que la rondelle standard DIN 125A M4 (Ø 9,0 mm, rayon 4,5 mm, qui arrive à 2,88 mm du bord) repose sur une face **100% plane**, sans empiéter sur la courbure du congé.
+  - **Rôle mécanique** : Ils sont traversés par les 4 vis CHC M4 × 20 mm qui brident directement en prise sandwich continue `[Équerres 3 mm + Waist Plate 6 mm]` sur la bague intérieure du roulement et le Moyeu 7075-T6.
 * **Aile Verticale — Cotation des 4 Trous Ronds (Pincement Plaque Sagittale Basse 5,0 mm)** :
-  - **Position en hauteur Z** : axe centré à **`Z = 12,50 mm`** du pli extérieur.
-  - **Position en longueur** : coaxiale avec l'aile horizontale (4 trous Ø 4,30 mm ronds, entraxes 18,0 mm, référence rigide Z = 0 absolu du torse).
+  - **Position en hauteur Z** : axe centré à **`Z = 12,50 mm`** du pli extérieur (ou Z = 10,0 mm au-dessus de la face supérieure de l'équerre).
+  - **Position en longueur** : 4 trous Ø 4,30 mm ronds, entraxes réguliers de 18,0 mm (`54,0 mm` au total) centrés sur la zone de pincement de la colonne.
   - **Facteur de sécurité RDM** : **`Sf = 2,78`** (couple de frottement résistant au lacet = **100 N.m** face au couple pic de **36 N.m** du moteur RS-06 ; cisaillement admissible boulonnerie 4× M4 classe 10.9/12.9 = 24 kN).
   - **Visserie associée** : **4 vis CHC M4 × 20 mm** traversantes (traverse Équerre G 3 mm + Colonne 5 mm + Équerre D 3 mm = 11 mm) + 8 rondelles DIN 125A M4 + 4 écrous Nylstop M4 (serrage direct à 3,0 N.m).
 
@@ -695,10 +701,10 @@ Dans le repère global du robot D-Bot (Origine au centre du nœud d'épaules, `X
 | **FHC M3 RS-05 #4 (Ar-D)** | Plaque Cou ➔ RS-05 | **`-13,61 mm`** | **`+13,61 mm`** | `Z = +142,67 mm` | Fraisure conique 90° Ø 6,50 mm par le DESSOUS (prof. 1,65 mm) / Perçage traversant Ø 3,20 mm (PCD Ø 38,5 mm) |
 | **Trou Rond Cou Avant** | Équerres & Colonne | **`+15,00 mm`** | `Y = ±2,50 mm` | `Z = +135,00 mm` | Perçage lisse Ø 4,30 mm traversant équerres et colonne (Zéro oblong) |
 | **Trou Rond Cou Arrière** | Équerres & Colonne | **`-15,00 mm`** | `Y = ±2,50 mm` | `Z = +135,00 mm` | Perçage lisse Ø 4,30 mm traversant équerres et colonne (Zéro oblong) |
-| **Waist Vis #1 (Arrière)** | Waist Plate & Équerres | **`-27,00 mm`** | `Y = ±15,00 mm` | `Z = -290,00 mm` | Perçage lisse Ø 4,30 mm traversant |
-| **Waist Vis #2** | Waist Plate & Équerres | **`-9,00 mm`** | `Y = ±15,00 mm` | `Z = -290,00 mm` | Perçage lisse Ø 4,30 mm traversant |
-| **Waist Vis #3** | Waist Plate & Équerres | **`+9,00 mm`** | `Y = ±15,00 mm` | `Z = -290,00 mm` | Perçage lisse Ø 4,30 mm traversant |
-| **Waist Vis #4 (Avant)** | Waist Plate & Équerres | **`+27,00 mm`** | `Y = ±15,00 mm` | `Z = -290,00 mm` | Perçage lisse Ø 4,30 mm traversant |
+| **Sandwich Waist #1 (Av-G)** | Équerre G ➔ Waist ➔ Moyeu | **`+24,04 mm`** | **`-24,04 mm`** | `Z = -290,00 mm` | Perçage lisse Ø 4,50 mm traversant Équerre (3 mm) + Waist (6 mm) / Vis CHC M4 × 20 mm + rondelle DIN 125A dans taraudage Moyeu 7075 |
+| **Sandwich Waist #2 (Av-D)** | Équerre D ➔ Waist ➔ Moyeu | **`+24,04 mm`** | **`+24,04 mm`** | `Z = -290,00 mm` | Perçage lisse Ø 4,50 mm traversant Équerre (3 mm) + Waist (6 mm) / Vis CHC M4 × 20 mm + rondelle DIN 125A dans taraudage Moyeu 7075 |
+| **Sandwich Waist #3 (Ar-D)** | Équerre D ➔ Waist ➔ Moyeu | **`-24,04 mm`** | **`+24,04 mm`** | `Z = -290,00 mm` | Perçage lisse Ø 4,50 mm traversant Équerre (3 mm) + Waist (6 mm) / Vis CHC M4 × 20 mm + rondelle DIN 125A dans taraudage Moyeu 7075 |
+| **Sandwich Waist #4 (Ar-G)** | Équerre G ➔ Waist ➔ Moyeu | **`-24,04 mm`** | **`-24,04 mm`** | `Z = -290,00 mm` | Perçage lisse Ø 4,50 mm traversant Équerre (3 mm) + Waist (6 mm) / Vis CHC M4 × 20 mm + rondelle DIN 125A dans taraudage Moyeu 7075 |
 
 > [!TIP]
 > **Règle d'Or CAO — Le Rectangle de Vissage 30 × 45 mm du Cou (Zéro Fraisure)** :  
