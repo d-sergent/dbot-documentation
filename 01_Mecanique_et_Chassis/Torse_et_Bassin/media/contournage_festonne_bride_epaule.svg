@@ -64,7 +64,7 @@
       CONTOURNAGE FESTONNÉ 2.5D — BRIDE D'ÉPAULE MONOBLOC ALU 7075-T6
     </text>
     <text x="30" y="54" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">
-      Étude Géométrique &amp; Cotation Fusion 360 · Allègement de -52,4 g/bride (-104,8 g paire) · 10 Lobes R = 7,0 mm · Échancrures R = 25,64 mm · Garde saine 4,00 mm
+      Étude Géométrique &amp; Cotation Fusion 360 · Allègement de -64,6 g/bride (-129,2 g paire) · 10 Lobes R = 7,0 mm · Échancrures R = 25,64 mm · Garde saine 4,00 mm
     </text>
     <rect x="1200" y="18" width="180" height="32" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1"/>
     <text x="1290" y="39" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8">
@@ -165,7 +165,7 @@
     <!-- En-tête Panel 2 -->
     <rect x="0" y="0" width="920" height="42" rx="10" fill="#0284c7" opacity="0.2"/>
     <text x="460" y="26" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">
-      PANEL 2 : PLAN COTÉ DU FLASQUE FESTONNÉ (10 LOBES R = 7 mm &amp; ÉCHANCRURES R = 25,64 mm — 214,5 g)
+      PANEL 2 : PLAN COTÉ DU FLASQUE FESTONNÉ &amp; ÉVIDÉ (10 LOBES R = 7 mm &amp; ÉCHANCRURES R = 25,64 mm — 202,3 g)
     </text>
 
     <!-- Groupe Zoom Cotation (Échelle 1 mm = 3.0 px, Ø 120 mm = 360 px -> r = 180 px) -->
@@ -289,9 +289,9 @@
       <text x="25" y="224" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Garde saine résiduelle : <tspan font-weight="bold" fill="#ffffff">4,00 mm de métal</tspan></text>
 
       <text x="15" y="248" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#facc15">4. Bilan Masse Réel CAO</text>
-      <text x="25" y="264" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Volume : <tspan font-weight="bold" fill="#4ade80">76 327 mm³ Alu 7075</tspan></text>
-      <text x="25" y="278" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Masse unitaire : <tspan font-weight="bold" fill="#4ade80">214,48 g (-52,42 g)</tspan></text>
-      <text x="25" y="292" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Gain paire torse : <tspan font-weight="bold" fill="#4ade80">-104,84 g net ⭐</tspan></text>
+      <text x="25" y="264" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Volume : <tspan font-weight="bold" fill="#4ade80">71 993 mm³ Alu 7075</tspan></text>
+      <text x="25" y="278" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Masse unitaire : <tspan font-weight="bold" fill="#4ade80">202,30 g (-64,60 g)</tspan></text>
+      <text x="25" y="292" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Gain paire torse : <tspan font-weight="bold" fill="#4ade80">-129,20 g net ⭐</tspan></text>
 
       <!-- Cartouche RDM -->
       <rect x="15" y="315" width="235" height="95" rx="6" fill="#1e293b" stroke="#4ade80" stroke-width="1"/>

@@ -2,19 +2,19 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
-## 📅 2026-09-19 — Architecture Torse V2.6 : Jonction Colonne Coupe Droite Z=0, Goupillage Positif 4× ISO 8734 & Standard V1 Brides d'Épaules Festonnées (-104,8 g)
+## 📅 2026-09-19 — Architecture Torse V2.6 : Jonction Colonne Coupe Droite Z=0, Goupillage Positif 4× ISO 8734 & Standard V1 Brides Festonnées Évidées (-129,2 g)
 
 ### 🎯 Objectif de la session
 1. **Jonction Médiane de Colonne Sagittale (Z = 0,0 mm)** :
    - Élimination de l'ancien tenon/mortaise asymétrique au profit d'une **coupe droite 100% plane continue** (500 mm2 de surface d'appui sous précharge axiale sandwich de 13,8 kN, zéro jeu, zéro concentration de contraintes).
    - Intégration du **goupillage de positionnement positif absolu** par **4 goupilles rectifiées ISO 8734 Ø 3,0 mm × 14 mm** (ajustement H7/m6, McMaster-Carr `98381A467` / `97395A310`) à `Z = ±30,0 mm` et `Y = ±25,0 mm`, garantissant une répétabilité d'alignement de 0,005 mm et reprenant 100% des efforts de cisaillement et torsion sans glissement.
    - Mise à jour des blueprints vectoriels : `plan_decoupe_tenon_colonne_haute_basse.svg` et `plan_cotation_plaque_basse_colonne.svg`.
-2. **Contournage Festonné des Brides d'Épaules Monoblocs (Standard Officiel V1 — CAO Fusion 360 Torse v87)** :
-   - Remplacement de la collerette circulaire pleine (266,90 g) par un **profil festonné 2.5D à 10 lobes** convexes R = 7,0 mm (bossages Ø 14,0 mm sous vis M4 et rondelles Nord-Lock) et 10 arcs concaves très doux **R = 25,64 mm** tangents descendant à Ø 105,0 mm (conservant une **garde continue de 4,00 mm de matière saine** au-dessus de l'alésage pilote Ø 97 mm).
+2. **Contournage Festonné & Évidements Latéraux des Brides d'Épaules Monoblocs (Standard Officiel V1 — CAO Fusion 360 Torse v87)** :
+   - Remplacement de la collerette circulaire pleine (266,90 g) par un **profil festonné 2.5D à 10 lobes** convexes R = 7,0 mm (bossages Ø 14,0 mm sous vis M4 et rondelles Nord-Lock) et 10 arcs concaves très doux **R = 25,64 mm** tangents descendant à Ø 105,0 mm (conservant une **garde continue de 4,00 mm de matière saine** au-dessus de l'alésage pilote Ø 97 mm) couplé à des **évidements latéraux élargis sur le hub 13,2 mm** (canaux d'échappement aéraulique de l'air chaud du stator RS-04).
    - Validation de l'optimum de rigidité en flexion de collerette en e3 (+310% de rigidité par rapport à 2,5 mm, Kt = 1,15, tenue en fatigue infinie).
-   - **Masse réelle Fusion 360** : **`214,48 g`** par bride (volume = 76 327 mm3 en Alu 7075).
-   - **Allègement net direct de -104,84 g** sur la paire d'épaules du torse, ramenant le total structure + moteurs à **`1 659,0 g` (~1,66 kg)**.
-   - Validation RDM complète : Sf = 15,2 en flexion choc (50 N.m), Sf = 2,82 en torsion frottement (glissement à 338 N.m >> 120 N.m), portée Nord-Lock de 4,50 mm sous axe vis (+0,70 mm de marge saine).
+   - **Masse réelle Fusion 360** : **`202,30 g`** par bride (volume = 71 993 mm3 en Alu 7075).
+   - **Allègement net direct de -129,20 g** sur la paire d'épaules du torse, ramenant le total structure + moteurs à **`1 634,6 g` (~1,63 kg)**.
+   - Validation RDM complète : Sf > 14 en flexion choc (50 N.m, contrainte < 30 MPa le long de l'axe neutre), Sf > 140 en cisaillement de torsion (tau = 1,7 MPa face aux 120 N.m pic du RS-04), portée Nord-Lock de 4,50 mm sous axe vis (+0,70 mm de marge saine).
    - Blueprint vectoriel d'ingénierie créé : `contournage_festonne_bride_epaule.svg`.
    - Intégration des 4 captures d'inspection métrologique CAO Fusion 360 dans la documentation.
 3. **Consolidation Globale de la Documentation & Gammes CNC** :
@@ -25,7 +25,7 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 ### 📝 Réalisations & Évolutions
 1. **Dossier Technique Torse V2.6** ([DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md)) :
    - Jonction coupe droite Z=0 et goupillage ISO 8734 Ø3×14 mm documentés.
-   - Festonnage 10 lobes standardisé en V1 avec bilan de masse réel Fusion 360 révisé à 1 659,0 g (-104,8 g).
+   - Festonnage 10 lobes et évidements latéraux standardisés en V1 avec bilan de masse réel Fusion 360 révisé à 1 634,6 g (-129,2 g).
    - Gamme C500 mise à jour (contournage extérieur festonné fraise DLC Ø 6 mm en passe 2.5D continue).
 2. **Schémas Vectoriels d'Ingénierie SVG & Médias CAO** :
    - `contournage_festonne_bride_epaule.svg` généré et aligné sur les cotes réelles (1500 × 960, blueprint Dark Slate).

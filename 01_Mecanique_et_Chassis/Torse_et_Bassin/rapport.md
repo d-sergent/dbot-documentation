@@ -159,7 +159,7 @@ La bride d'épaule monobloc en Alu 7075-T6 présente une dissymétrie axiale fon
 
 ![Contournage Festonné — Bride d'Épaule Monobloc D-Bot](./media/contournage_festonne_bride_epaule.svg)
 
-*Blueprint d'ingénierie vectoriel comparatif. Panel 1 : Flasque initial 100% plein Ø 120 mm (266,9 g/bride). Panel 2 : Flasque festonné 10 lobes coté sous Fusion 360 (10 lobes R = 7,0 mm, arcs concaves tangents R = 25,64 mm, fond de creux Ø 105,0 mm, garde continue 4,00 mm, masse réelle = 214,48 g/bride, gain net de -104,84 g sur la paire d'épaules). Panel 3 : Guide pas-à-pas de modélisation CAO et stratégie d'usinage C500.*
+*Blueprint d'ingénierie vectoriel comparatif. Panel 1 : Flasque initial 100% plein Ø 120 mm (266,9 g/bride). Panel 2 : Flasque festonné 10 lobes coté sous Fusion 360 (10 lobes R = 7,0 mm, arcs concaves tangents R = 25,64 mm, fond de creux Ø 105,0 mm, garde continue 4,00 mm, masse réelle = 202,30 g/bride avec évidements latéraux élargis, gain net de -129,20 g sur la paire d'épaules). Panel 3 : Guide pas-à-pas de modélisation CAO et stratégie d'usinage C500.*
 
 ### 3.3 Paramètres Géométriques Précis sous Fusion 360 (Torse v87)
 
@@ -189,9 +189,9 @@ La bride d'épaule monobloc en Alu 7075-T6 présente une dissymétrie axiale fon
 ### 3.5 Bilan de Masse Consolidé Réel Fusion 360
 
 * **Masse d'une bride pleine initiale** : **266,90 g** (533,8 g la paire).
-* **Masse finale d'une bride festonnée V1** : **`214,48 g`** (**gain net = -52,42 g par bride**).
-* **Gain total sur le haut du robot** : **`-104,84 g net`** sur la paire d'épaules.
-* **Masse consolidée du haut torse complet** : **`1 659,0 g` (~1,66 kg)** au lieu de 1 763,8 g.
+* **Masse finale d'une bride festonnée & évidée V1** : **`202,30 g`** (**gain net = -64,60 g par bride**).
+* **Gain total sur le haut du robot** : **`-129,20 g net`** sur la paire d'épaules.
+* **Masse consolidée du haut torse complet** : **`1 634,6 g` (~1,63 kg)** au lieu de 1 763,8 g.
 
 > [!TIP]
 > **Validation V1 Définitive** :  
@@ -690,7 +690,7 @@ A la hanche (Pitch), le buste vertical + cuisse inclinée :
 | **P1** | Implémenter les 3 niveaux de butées logicielles dans le firmware | Faible (firmware CAN) | Protection mécanique | Avant mise en route |
 | **P2** | Évaluer et intégrer la ventilation du RS-06 (ouïes ou ventilateur) | Moyen | Fiabilité long terme | Avant assemblage pelvis |
 | **P2** | Goupillage positionnement (Z = ±30 mm, Y = ±25 mm) | Faible (4 alésages C500) | Sécurité supplémentaire | ✅ **Fait** (Coupe droite Z=0 + 4 goupilles ISO 8734, SVG & Torse V2) |
-| **P3** | Contournage festonné des brides d'épaule (-105 g) | Moyen (+20 min CNC/bride) | Dynamique de marche | ✅ **Validé V1** (214,48 g/bride, R = 25,64 mm, garde 4 mm, gain net -104,8 g torse) |
+| **P3** | Contournage festonné & évidements brides d'épaule (-129 g) | Moyen (+20 min CNC/bride) | Dynamique de marche | ✅ **Validé V1** (202,30 g/bride, R = 25,64 mm, garde 4 mm + évidements latéraux, gain net -129,2 g torse) |
 | **P3** | Protection IP54 du corridor de câbles (passe-fil à membrane) | Faible (achat composant) | Robustesse terrain | Avant utilisation extérieur |
 | **P3** | Amortissement silicone des vis de butée Waist | Faible (manchon ~2 EUR) | Protection roulement | Avant mise en route |
 | **P4** | Prévoir 80 mm de marge verticale au pelvis pour futur RS-04 Pitch | Faible (paramétrique CAO) | Évolutivité V1.5 | Pendant conception CAO |
