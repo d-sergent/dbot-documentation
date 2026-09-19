@@ -229,3 +229,47 @@ Après le perçage à Ø3,8 mm, la finition Ø4 mm H7 se fait par **interpolatio
 > [!NOTE]
 > Vérifier que les collets commandés sont **ER11 certifiés** (pas ER16 ou ER20 qui ne s'adaptent pas sur la C500). La cote externe du collet ER11 est D=11,5mm.
 
+---
+
+## 7. Procédure d'Alésage de Précision H7 / Logements Roulements (Match Machining & Touch Probe 3D)
+
+Sur le robot D-Bot, plusieurs pièces critiques intègrent des logements de roulements de grand diamètre en tolérance fine ISO H7 (ex. Platine Pelvis pour roulement croisé CRBH 8016 en `Ø 120 H7`, brides d'épaules, logements de moyeux).
+
+Pour garantir un **ajustement glissant juste H7/h6** sans exiger d'instruments de métrologie coûteux (micromètres 100-125 mm pour usage unique), la NestWorks C500 applique la méthode de l'**appariement direct sur machine (*Match Machining*)** combinée à son **Touch Probe 3D sans fil**.
+
+### 7.1 — Protocole Standard en 5 Étapes
+
+```
+[1. Palpage Relatif Roulement]  ──►  [2. Ébauche + Offset Sécurité (+0,10 mm)]
+               │
+               ▼
+[3. Palpage Alésage Usiné]      ──►  [4. Passes de Finition d'Approche (0,02 / 0,01 mm)]
+                                                  │
+                                                  ▼
+                                     [5. Test Fit Physique à la Main] ➔ Validation H7/h6
+```
+
+1. **Étape 1 — Palpage du Roulement Réel (Mesure Relative)** :
+   - Poser le roulement dégraissé bien à plat et propre sur la table de la C500 (ou bridé doucement en étau de précision).
+   - Lancer la macro de palpage bossage extérieur en 4 points (Boss Probing X+, X-, Y+, Y-) avec le Touch Probe 3D.
+   - Relever le diamètre extérieur effectif mesuré `D_roulement`.
+   - *Bénéfice métrologique* : Les éventuelles dérives thermiques ou d'échelle d'axes s'annulent car c'est la même machine et le même palpeur qui mesurent le composant et usinent la poche.
+
+2. **Étape 2 — Ébauche et Demi-Finition avec Surépaisseur de Sécurité** :
+   - Sous Fusion 360 (stratégie 2D Contour ou Bore), programmer l'alésage avec une surépaisseur radiale de finition (*Stock to Leave*) de **`+0,10 mm`** (l'alésage usiné sera sous-dimensionné de 0,20 mm au diamètre, ex. `Ø 119,80 mm` pour un 120 mm nominal).
+   - Outil recommandé : Fraise carbure 3 dents Ø 6 mm ou Ø 8 mm DLC (10 000 tr/min, avance 800 mm/min, descente hélicoïdale pas de 0,5 mm, lubrification brumisation d'air/alcool).
+
+3. **Étape 3 — Contrôle Intermédiaire au Touch Probe 3D** :
+   - Sans démonter la pièce de son bridage, appeler le Touch Probe 3D et exécuter un cycle de palpage intérieur (Bore Probing) de la poche usinée.
+   - Comparer le diamètre usiné effectif avec `D_roulement`.
+   - Présenter le roulement physique à la main : il ne doit évidemment pas pénétrer dans le logement.
+
+4. **Étape 4 — Passes d'Approche Successives (Compensation Rayon d'Outil)** :
+   - Ajuster la compensation d'usure d'outil (*Tool Wear Offset* / G41) sur le contrôleur de la C500 pour enlever `0,05 mm`, puis relancer la passe de finition.
+   - Continuer par micro-passes de **`0,01 à 0,02 mm`** en réessayant manuellement l'insertion du roulement entre chaque passe.
+
+5. **Étape 5 — Validation de l'Ajustement Glissant Juste (H7/h6)** :
+   - L'usinage est arrêté dès que la bague extérieure du roulement s'insère manuellement avec une résistance douce et constante (« ajustement gras » sous légère pression de la paume), sans aucun jeu radial perceptible.
+   - Chanfreiner à `0,5 mm × 45°` l'entrée du logement pour faciliter l'engagement axial sans abîmer les portées.
+
+

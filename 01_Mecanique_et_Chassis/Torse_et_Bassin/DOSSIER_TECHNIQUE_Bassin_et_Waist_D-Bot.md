@@ -297,11 +297,21 @@ Le châssis pelvien d'Asimov v1 comportait initialement un logement circulaire d
 - **Fonction Thermique** : Les 12 mm d'Alu 7075-T6 autour du Ø 88 du moteur (section radiale de 26 mm de large) assurent la conduction thermique du stator RS-06 vers la structure du pelvis (~15-20 W en régime nominal de 11 N.m continu).
 
 > [!IMPORTANT]
-> **Gamme d'usinage sur NestWorks C500** : Pièce 2.5D usinable en 2 retournements sur la NestWorks C500 (~45 min).
+> **Gamme d'usinage sur NestWorks C500** : Pièce 2.5D usinable en 2 phases sur la NestWorks C500 (~45 min).
 > - Phase 1 (face sup) : surfaçage + siège Ø 120 H7 × 3 mm + alésage Ø 88 H7 traversant + 6 perçages PCD Ø 132 + 4 taraudages M3 PCD Ø 128 + chanfreins.
 > - Phase 2 (retournement) : surfaçage face inf à 12 mm + chanfrein alésage Ø 88 côté inf + ébavurage.
 >
-> **RÈGLE ATELIER INVIOLABLE** : Ne pas usiner le siège Ø 120 H7 avant d'avoir réceptionné le roulement CRBH 8016 UU. Mesurer le diamètre extérieur effectif au palmer et ajuster le parcours d'outil pour un ajustement glissant juste (**H7/h6**, soit 0.000 à +0.020 mm de jeu effectif).
+> **PROTOCOLE ATELIER C500 — ALÉSAGE SIÈGE ROULEMENT Ø 120 H7 (MATCH MACHINING)** :
+> Pour éviter tout risque de sur-alésage et s'affranchir de l'achat d'un micromètre 100-125 mm, l'usinage du siège Ø 120 H7 s'effectue par appariement direct avec le roulement physique sur la C500 :
+> 1. **Réception & Dégraissage du Roulement** : Nettoyer la bague extérieure du CRBH 8016 UU et la poser propre sur la table de la machine.
+> 2. **Contrôle relatif au Touch Probe 3D** : Lancer le cycle automatique de palpage extérieur 4 points (Boss Probing X+, X-, Y+, Y-) pour relever le diamètre extérieur effectif `D_roulement`.
+> 3. **Ébauche avec Surépaisseur de Sécurité** : Programmer l'interpolation circulaire sous Fusion 360 avec une surépaisseur radiale de finition (*Stock to Leave*) de `+0,10 mm` (alésage usiné à ~`Ø 119,80 mm`). Utiliser une fraise carbure DLC 3 dents Ø 6 mm ou Ø 8 mm (10 000 tr/min, avance 800 mm/min, lubrification brumisation/air comprimé).
+> 4. **Passes de Finition d'Approche (Sans Démonter la Pièce)** :
+>    - Présenter le roulement à la main au-dessus du logement : il ne rentre pas.
+>    - Palper l'alésage usiné au Touch Probe 3D (cycle Bore Probing) pour mesurer le diamètre réel obtenu.
+>    - Ajuster la compensation de rayon d'outil (*Tool Wear Offset*) pour retirer `0,05 mm`, relancer la passe de finition.
+>    - Répéter par micro-passes de `0,01 à 0,02 mm` en présentant le roulement physique entre chaque passe.
+> 5. **Validation d'Ajustement Glissant Juste (H7/h6)** : Le cycle s'arrête dès que le roulement s'insère manuellement avec une résistance douce ("ajustement gras"), sans aucun jeu radial perceptible. La cote est alors rigoureusement parfaite à 0,0 mm sans instrument de métrologie externe.
 
 ### 4.3 Schéma de Transmission & Découplage des Charges
 
@@ -763,7 +773,8 @@ Pour modéliser avec une fidélité géométrique absolue l'ensemble du module P
   - 4 vis FHC M3 × 8 mm classe 10.9 (flasque axial roulement).
   - 6 vis CHC M5 × 20 mm classe 12.9 (fixation Platine ➔ Pelvis).
   - 1 tube frein-filet normal Loctite 243 (bleu).
-- [ ] **Métrologie Réception Roulement** : Mesurer le diamètre extérieur réel du CRBH 8016 au palmer/micromètre avant d'usiner le siège Ø 120 H7 de la Platine (ajustement H7/h6 glissant juste).
+- [ ] **Métrologie & Alésage C500 du Roulement** : Palpage au Touch Probe 3D C500 du CRBH 8016 réceptionné et usinage du siège Ø 120 H7 par passes d'approche successives (*Match Machining* direct sur table, ajustement H7/h6 glissant juste sans instrument externe).
+- [x] **Pied à coulisse numérique de précision acquis** : SHAHE 5110-150 (0-150 mm, IP54, acier inoxydable trempé, règle en verre, résolution 0,01 mm) pour le contrôle métrologique des bruts et assemblages d'atelier.
 - [ ] **CAO Fusion 360 à jour (Waist Plate & Équerres)** :
   - Redan +1,5 mm modélisé sous la Waist Plate (Ø 80 à Ø 92 mm).
   - 4 perçages lisses traversants **`Ø 4,50 mm`** sur PCD Ø 68,0 mm à 45° (`X = +/- 24,04 mm`, `Y = +/- 24,04 mm`), coaxiaux entre les ailes horizontales d'équerres et la Waist Plate.

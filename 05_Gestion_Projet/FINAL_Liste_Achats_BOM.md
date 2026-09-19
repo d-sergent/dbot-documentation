@@ -32,6 +32,10 @@
 ### Quantités Requises (D-Bot + 2x RS-05)
 | Type | Diamètre | Longueur | Quantité Est. | Usage |
 | :--- | :--- | :--- | :--- | :--- |
+| **Vis CHC** | M2.5 | 14mm (Inox A2) | 4 (+ stock 10) | Fixation traversante IMU Torse (SparkFun BMI270) sur colonne 5 mm |
+| **Écrous Nylstop** | M2.5 | DIN 985 (Inox) | 4 (+ stock 10) | Blocage anti-vibrations IMU Torse flanc gauche |
+| **Entretoises Nylon** | M2.5 | H = 3,0 mm (Øext 5 mm) | 4 (+ stock 10) | Isolation électrique diélectrique PCB IMU vs Alu 7075-T6 |
+| **Rondelles plates** | M2.5 | DIN 125A (Inox) | 4 (+ stock 10) | Rondelles d'assise sous écrous Nylstop M2,5 |
 | **Vis CHC** | M3 | 6mm - 12mm | ~240 | Fixations électroniques, caches, small motors |
 | **Vis CHC** | M4 | 10mm - 15mm | ~160 | Structure principale, moteurs RS-01-RS-04 |
 | **Vis CHC** | M5 | 12mm - 20mm | ~40 | Hanches, Grosses articulations |
@@ -285,3 +289,4 @@ Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une q
 *   **Frein Filet** : **Loctite 222** (Faible) pour visserie M3 (coques, électronique). **Loctite 243** (Moyen, Bleu) pour visserie M4/M5 haute charge (moteurs RS-04, brackets CNC). Indispensable ! Les vibrations desserrent les vis en quelques heures sans cela.
 *   **Protection Thermique (Aimants tactile)** : **1x Rouleau de Ruban Adhésif en Tissu de Verre (ex: 3M 69)** ou à défaut du **Ruban Kapton**. Indispensable pour réaliser les pastilles d'isolation double-face sur les aimants NdFeB et éviter leur démagnétisation sous l'effet du TPU extrudé chaud à 220 °C. (Acheter chez : Amazon.fr, RS-Components ou Farnell).
 *   **Clés Allen** : Jeu de clés de précision (Facom ou Wera) pour ne pas foire les têtes de vis.
+*   **Métrologie & Contrôle d'Atelier** : **1x Pied à coulisse numérique de précision SHAHE 5110-150** (0-150 mm, IP54, acier inoxydable trempé, règle en verre haute stabilité, résolution 0,01 mm, précision DIN 862). (**✅ Acheté**). Indispensable pour le contrôle dimensionnel des bruts, la visserie, les entraxes PCB et la validation d'usinage sur la NestWorks C500.

@@ -557,6 +557,7 @@ async def run_indexing(args):
 
             await rag.ainsert(content, file_paths=[str(path)])
             log_idx[str(path)] = {"mtime": os.path.getmtime(path), "doc_id": compute_doc_id(content)}
+            save_index_log(log_idx)
         except Exception as e:
             logger.warning(f"⚠️ Échec d'indexation pour {path.name}: {e}") 
 

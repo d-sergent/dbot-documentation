@@ -104,3 +104,21 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
   - Calculer et injecter le couple de compensation de gravité G(q) via le feedforward tau_ff dans la commande des moteurs.
 - [ ] **Intégration Hugging Face `LeRobot`** : Adapter l'interface `LeRobot` pour enregistrer des téléopérations de bras et fabriquer des datasets de démonstration pour l'apprentissage par imitation (*ACT / Diffusion Policy*).
 - [ ] **Extension Web UI Flotte Complète** : Étendre l'interface de diagnostic Motorbridge à l'ensemble des 27 moteurs CAN du robot lors de l'assemblage des membres et du torse.
+
+---
+
+## 🎯 BLOCK 5 : Base Documentaire RAG & Maintenance Outillage (Mac M1 Max)
+
+- [ ] **Achèvement de l'Indexation Complète RAG V1** :
+  - Finaliser l'indexation incrémentale des 79 documents restants via `Code/rag/index_docs.py` (avec sauvegarde continue du journal `indexed_files.json` document par document).
+  - Contrôler l'absence d'erreurs réseau ou de saturation de quota LLM/VLM Gemini.
+- [ ] **Contrôle d'Intégrité & Recette du Graphe de Connaissances** :
+  - Exécuter `Code/rag/check_integrity.py` pour valider la consistance de la base `/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db` (nœuds, arêtes NetworkX, vecteurs NanoVectorDB).
+  - Valider des requêtes croisées de test via `Code/rag/ask_rag.py` (modes `naive`, `local`, `global`, `hybrid`).
+- [ ] **Mise à Niveau des Outils d'Indexation RAG (Post-Campagne)** :
+  - Mettre à jour `lightrag-hku` (1.5.4 ➔ 1.5.7) pour bénéficier du durcissement du graphe, du parsing Markdown optimisé et du support de `USER_PROMPT_PREFIX`.
+  - Mettre à jour les dépendances utilitaires : `pypdf` (6.7.5 ➔ 6.18.1), `aiohttp` (3.13.5 ➔ 3.14.3) et `tiktoken` (0.12.0 ➔ 0.14.0).
+- [ ] **Qualification de Migration SDK `google-genai` (1.66.0 ➔ 2.23.0)** :
+  - Tester la compatibilité ascendante de l'API v2 avec les fonctions d'extraction de `Code/rag/index_docs.py` et la vision VLM (`analyze_image_with_vlm`).
+  - Valider la non-régression avant déploiement définitif.
+

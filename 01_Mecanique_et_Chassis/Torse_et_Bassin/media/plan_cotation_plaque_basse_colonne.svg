@@ -1,0 +1,327 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 960" width="100%" height="100%">
+  <defs>
+    <!-- Pattern de grille technique blueprint -->
+    <pattern id="gridBlueprint" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.7"/>
+    </pattern>
+    <pattern id="gridFine" width="10" height="10" patternUnits="userSpaceOnUse">
+      <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#1e293b" stroke-width="0.4"/>
+    </pattern>
+
+    <!-- Dégradés Alu 7075-T6 -->
+    <linearGradient id="gradPlaqueBasseAlu" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#facc15"/>
+      <stop offset="50%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#854d0e"/>
+    </linearGradient>
+
+    <linearGradient id="gradVoidLumiere" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Flèches de cotation -->
+    <marker id="arrowDimSky" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowRevSky" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowDimYellow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#facc15"/>
+    </marker>
+    <marker id="arrowRevYellow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#facc15"/>
+    </marker>
+    <marker id="arrowDimGreen" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#4ade80"/>
+    </marker>
+    <marker id="arrowRevGreen" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#4ade80"/>
+    </marker>
+
+    <!-- Filtre ombre portée -->
+    <filter id="shadowBox" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- FOND BLUEPRINT -->
+  <rect width="1500" height="960" fill="#0f172a"/>
+  <rect width="1500" height="960" fill="url(#gridBlueprint)"/>
+
+  <!-- BANDEAU TITRE -->
+  <g transform="translate(50, 25)">
+    <rect width="1400" height="68" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadowBox)"/>
+    <rect x="0" y="0" width="8" height="68" rx="4" fill="#facc15"/>
+    <text x="30" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="19" font-weight="bold" fill="#f8fafc" letter-spacing="0.5">
+      PLAN DE COTATION DÉTAILLÉE 2D — PLAQUE BASSE DE COLONNE ALLÉGÉE
+    </text>
+    <text x="30" y="54" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">
+      Design Validé Torse v86 · 2 Lumières Jumelles 54 × 55 mm (R = 15,0 mm) · Bordures 20,0 mm · Traverse Médiane 18,0 mm · Alu 7075-T6 (5,0 mm)
+    </text>
+    <rect x="1220" y="18" width="160" height="32" rx="6" fill="#ca8a04" fill-opacity="0.2" stroke="#facc15" stroke-width="1"/>
+    <text x="1300" y="39" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15">
+      TORSE V86 / C500
+    </text>
+  </g>
+
+  <!-- ======================================================================= -->
+  <!-- PANEL 1 : VUE FRONTALE COMPLÈTE 2D DE LA PLAQUE BASSE                   -->
+  <!-- ======================================================================= -->
+  <g transform="translate(50, 115)">
+    <rect width="520" height="800" rx="10" fill="#1e293b" stroke="#facc15" stroke-width="1.5" filter="url(#shadowBox)"/>
+    <rect width="520" height="800" rx="10" fill="url(#gridFine)" opacity="0.25"/>
+
+    <!-- En-tête Panel 1 -->
+    <rect x="0" y="0" width="520" height="42" rx="10" fill="#ca8a04" opacity="0.2"/>
+    <text x="260" y="26" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#facc15">
+      PANEL 1 : VUE FRONTALE 2D — ENSEMBLE PLAQUE BASSE (H = 306,9 mm)
+    </text>
+
+    <!-- Dessin Plaque Basse (Échelle : 1 mm = 2.2 px ; Hauteur 306.9 mm = 675 px) -->
+    <g transform="translate(130, 65)">
+
+      <!-- Ligne d'axe vertical médian Y = 0 -->
+      <line x1="103.4" y1="-15" x2="103.4" y2="705" stroke="#64748b" stroke-width="1" stroke-dasharray="6,4"/>
+
+      <!-- Plan de joint horizontal Z = 0 -->
+      <line x1="-30" y1="21.5" x2="250" y2="21.5" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="255" y="25" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#ec4899">PLAN Z = 0</text>
+
+      <!-- CORPS DE LA PLAQUE BASSE (ALU 7075-T6) -->
+      <!-- Profil extérieur avec tenon en haut et échancrure en bas -->
+      <!-- x=0 à 206.8 (94mm = 206.8px ; 100mm redan = 220px ; 86mm bas = 189.2px) -->
+      <!-- Z=0 est à y=21.5 px (sommet tenon à y=0) ; fond à y=675.2 px -->
+      <path d="
+        M 0,21.5
+        L 59.4,21.5
+        A 6.6 6.6 0 0 0 66,14.9
+        L 66,6.6
+        A 6.6 6.6 0 0 1 72.6,0
+        L 134.2,0
+        A 6.6 6.6 0 0 1 140.8,6.6
+        L 140.8,14.9
+        A 6.6 6.6 0 0 0 147.4,21.5
+        L 220,21.5
+        L 220,98.5
+        A 33 33 0 0 1 206.8,131.5
+        L 206.8,635
+        L 189.2,635
+        L 189.2,675.2
+        L 0,675.2
+        Z
+      " fill="url(#gradPlaqueBasseAlu)" stroke="#facc15" stroke-width="2" fill-opacity="0.9"/>
+
+      <!-- LUMIÈRE HAUTE ÉVIDÉE (54 × 55 mm = 118.8 × 121 px, R=15mm = 33px) -->
+      <!-- Début à Z = -80 mm (y = 21.5 + 176 = 197.5 px), x centré : x = 103.4 - 59.4 = 44 -->
+      <rect x="44" y="197.5" width="118.8" height="121" rx="33" fill="url(#gradVoidLumiere)" stroke="#38bdf8" stroke-width="1.8"/>
+
+      <!-- LUMIÈRE BASSE ÉVIDÉE (54 × 55 mm = 118.8 × 121 px, R=15mm = 33px) -->
+      <!-- Début à Z = -153 mm (y = 21.5 + 336.6 = 358.1 px), x = 44 -->
+      <rect x="44" y="358.1" width="118.8" height="121" rx="33" fill="url(#gradVoidLumiere)" stroke="#38bdf8" stroke-width="1.8"/>
+
+      <!-- 2 PERÇAGES M5 ÉPAULES (Z = -45,0 mm = y = 21.5 + 99 = 120.5 px ; Entraxe Y = 50 mm = 110 px) -->
+      <circle cx="48.4" cy="120.5" r="5.8" fill="#0f172a" stroke="#ffffff" stroke-width="1.5"/>
+      <circle cx="158.4" cy="120.5" r="5.8" fill="#0f172a" stroke="#ffffff" stroke-width="1.5"/>
+      <text x="103.4" y="112" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff">
+        2× Ø 5,3 mm (Z = -45 mm)
+      </text>
+
+      <!-- 4 PERÇAGES M4 WAIST (y = 675.2 - 27.5 = 647.7 px ; Entraxes 18 mm = 39.6 px) -->
+      <circle cx="44" cy="647.7" r="4.7" fill="#0f172a" stroke="#ffffff" stroke-width="1.2"/>
+      <circle cx="83.6" cy="647.7" r="4.7" fill="#0f172a" stroke="#ffffff" stroke-width="1.2"/>
+      <circle cx="123.2" cy="647.7" r="4.7" fill="#0f172a" stroke="#ffffff" stroke-width="1.2"/>
+      <circle cx="162.8" cy="647.7" r="4.7" fill="#0f172a" stroke="#ffffff" stroke-width="1.2"/>
+      <text x="103.4" y="667" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff">
+        4× Ø 4,3 mm (Équerres Waist)
+      </text>
+
+      <!-- LIGNES DE COTATION EN Z À GAUCHE -->
+      <!-- Hauteur totale 306.9 mm -->
+      <line x1="-35" y1="0" x2="-35" y2="675.2" stroke="#facc15" stroke-width="1.4" marker-start="url(#arrowRevYellow)" marker-end="url(#arrowDimYellow)"/>
+      <text x="-43" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15" transform="rotate(-90,-43,340)">
+        H_totale = 306,93 mm
+      </text>
+
+      <!-- Hauteur sous plan Z = 0 (297.1 mm) -->
+      <line x1="-15" y1="21.5" x2="-15" y2="675.2" stroke="#38bdf8" stroke-width="1.2" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
+      <text x="-22" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#38bdf8" transform="rotate(-90,-22,340)">
+        297,13 mm
+      </text>
+
+      <!-- Cotes des zones à droite -->
+      <!-- Zone pleine épaules (80 mm = 176 px) -->
+      <line x1="230" y1="21.5" x2="230" y2="197.5" stroke="#94a3b8" stroke-width="1" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
+      <text x="240" y="115" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">80,0 mm (Pleine)</text>
+
+      <!-- Lumière Haute (55 mm = 121 px) -->
+      <line x1="230" y1="197.5" x2="230" y2="318.5" stroke="#38bdf8" stroke-width="1.2" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
+      <text x="240" y="262" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#38bdf8">55,0 mm (Lumière)</text>
+
+      <!-- Traverse Médiane (18 mm = 39.6 px) -->
+      <line x1="230" y1="318.5" x2="230" y2="358.1" stroke="#4ade80" stroke-width="1.2" marker-start="url(#arrowRevGreen)" marker-end="url(#arrowDimGreen)"/>
+      <text x="240" y="342" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#4ade80">18,0 mm (Nervure)</text>
+
+      <!-- Lumière Basse (55 mm = 121 px) -->
+      <line x1="230" y1="358.1" x2="230" y2="479.1" stroke="#38bdf8" stroke-width="1.2" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
+      <text x="240" y="422" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#38bdf8">55,0 mm (Lumière)</text>
+
+      <!-- Zone Waist basse (89.1 mm = 196.1 px) -->
+      <line x1="230" y1="479.1" x2="230" y2="675.2" stroke="#94a3b8" stroke-width="1" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
+      <text x="240" y="580" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">89,1 mm (Pleine Waist)</text>
+
+      <!-- Cotes horizontales en bas -->
+      <line x1="0" y1="695" x2="189.2" y2="695" stroke="#94a3b8" stroke-width="1.2" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
+      <text x="94.6" y="712" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#94a3b8">86,0 mm</text>
+    </g>
+  </g>
+
+  <!-- ======================================================================= -->
+  <!-- PANEL 2 : ZOOM MACRO SUR LES 2 LUMIÈRES JUMELLES & BORDURES 20 mm      -->
+  <!-- ======================================================================= -->
+  <g transform="translate(600, 115)">
+    <rect width="850" height="520" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadowBox)"/>
+    <rect width="850" height="520" rx="10" fill="url(#gridFine)" opacity="0.25"/>
+
+    <!-- En-tête Panel 2 -->
+    <rect x="0" y="0" width="850" height="42" rx="10" fill="#0284c7" opacity="0.2"/>
+    <text x="425" y="26" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">
+      PANEL 2 : ZOOM MACRO COTÉ — 2 LUMIÈRES 54 × 55 mm &amp; TRAVERSE CENTRALE 18 mm
+    </text>
+
+    <!-- Zone Macro (Échelle 1 mm = 2.4 px, largeur 94mm = 225.6px) -->
+    <g transform="translate(310, 80)">
+
+      <!-- Fond Colonne 94 mm de large (x = 0 à 225.6, y = 0 à 380) -->
+      <rect x="0" y="0" width="225.6" height="380" rx="4" fill="url(#gradPlaqueBasseAlu)" stroke="#facc15" stroke-width="2" fill-opacity="0.85"/>
+
+      <!-- LUMIÈRE HAUTE : x = 48 (20mm = 48px), w = 129.6 (54mm), y = 30, h = 132 (55mm), R = 36 px (R = 15 mm) -->
+      <rect x="48" y="30" width="129.6" height="132" rx="36" fill="url(#gradVoidLumiere)" stroke="#38bdf8" stroke-width="2.5"/>
+      <text x="112.8" y="100" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#38bdf8">
+        LUMIÈRE HAUTE
+      </text>
+      <text x="112.8" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#93c5fd">
+        54,0 × 55,0 mm (R = 15 mm)
+      </text>
+
+      <!-- LUMIÈRE BASSE : y = 30 + 132 + 43.2 = 205.2 px (Traverse = 18 mm = 43.2 px) -->
+      <rect x="48" y="205.2" width="129.6" height="132" rx="36" fill="url(#gradVoidLumiere)" stroke="#38bdf8" stroke-width="2.5"/>
+      <text x="112.8" y="275" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#38bdf8">
+        LUMIÈRE BASSE
+      </text>
+      <text x="112.8" y="293" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#93c5fd">
+        54,0 × 55,0 mm (R = 15 mm)
+      </text>
+
+      <!-- COTE TRAVERSE CENTRALE (18,0 mm) -->
+      <line x1="240" y1="162" x2="295" y2="162" stroke="#4ade80" stroke-width="1"/>
+      <line x1="240" y1="205.2" x2="295" y2="205.2" stroke="#4ade80" stroke-width="1"/>
+      <line x1="285" y1="162" x2="285" y2="205.2" stroke="#4ade80" stroke-width="1.8" marker-start="url(#arrowRevGreen)" marker-end="url(#arrowDimGreen)"/>
+      <text x="300" y="188" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#4ade80">
+        18,0 mm (Traverse Anti-Flambement)
+      </text>
+
+      <!-- COTES BORDURES LATÉRALES (20,0 mm) -->
+      <!-- Bordure gauche -->
+      <line x1="0" y1="-15" x2="48" y2="-15" stroke="#facc15" stroke-width="1.4" marker-start="url(#arrowRevYellow)" marker-end="url(#arrowDimYellow)"/>
+      <text x="24" y="-22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15">
+        20,0 mm
+      </text>
+
+      <!-- Largeur lumière (54,0 mm) -->
+      <line x1="48" y1="-15" x2="177.6" y2="-15" stroke="#38bdf8" stroke-width="1.6" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
+      <text x="112.8" y="-22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">
+        54,00 mm
+      </text>
+
+      <!-- Bordure droite -->
+      <line x1="177.6" y1="-15" x2="225.6" y2="-15" stroke="#facc15" stroke-width="1.4" marker-start="url(#arrowRevYellow)" marker-end="url(#arrowDimYellow)"/>
+      <text x="201.6" y="-22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15">
+        20,0 mm
+      </text>
+
+      <!-- Largeur totale (94,0 mm) -->
+      <line x1="0" y1="400" x2="225.6" y2="400" stroke="#94a3b8" stroke-width="1.4" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
+      <text x="112.8" y="420" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#94a3b8">
+        Largeur Nette Colonne = 94,00 mm
+      </text>
+
+      <!-- CALLOUT RAYON DE CONGÉ R = 15,0 mm -->
+      <circle cx="84" cy="66" r="4" fill="#ec4899"/>
+      <line x1="84" y1="66" x2="-60" y2="40" stroke="#ec4899" stroke-width="1.5"/>
+      <text x="-70" y="36" text-anchor="end" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#ec4899">
+        4 Coins Arrondis R = 15,0 mm
+      </text>
+      <text x="-70" y="50" text-anchor="end" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
+        Fraise carbure Ø 6 ou 8 mm C500
+      </text>
+      <text x="-70" y="64" text-anchor="end" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">
+        Réduit Kt de fatigue à 1,81
+      </text>
+    </g>
+  </g>
+
+  <!-- ======================================================================= -->
+  <!-- PANEL 3 : BILAN RDM, GAIN MASSE & USINAGE SUR LA C500                  -->
+  <!-- ======================================================================= -->
+  <g transform="translate(600, 660)">
+    <rect width="850" height="255" rx="10" fill="#1e293b" stroke="#4ade80" stroke-width="1.5" filter="url(#shadowBox)"/>
+
+    <!-- En-tête Panel 3 -->
+    <rect x="0" y="0" width="850" height="38" rx="10" fill="#16a34a" opacity="0.2"/>
+    <text x="425" y="24" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12.5" font-weight="bold" fill="#4ade80">
+      PANEL 3 : SYNTHÈSE RDM, BILAN DE MASSE (-77 g) &amp; PROTOCOLE CNC C500
+    </text>
+
+    <!-- 3 Cartouches d'informations -->
+    <g transform="translate(25, 52)">
+
+      <!-- Cartouche 1 : Bilan Masse -->
+      <rect width="250" height="180" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="12" y="12" width="26" height="26" rx="13" fill="#ca8a04"/>
+      <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">⚖️</text>
+      <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#facc15">Bilan Masse 7075-T6</text>
+      <text x="15" y="60" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
+        • <tspan font-weight="bold">Masse Plaque Pleine</tspan> : 378,5 g<br/>
+        • <tspan font-weight="bold">Volume évidé</tspan> : 27,5 cm³<br/>
+        • <tspan font-weight="bold" fill="#4ade80">Gain Net</tspan> : <tspan fill="#4ade80" font-weight="bold">-77,3 g (-20,4%)</tspan><br/>
+        • <tspan font-weight="bold">Masse Plaque Basse finale</tspan> : <tspan fill="#facc15" font-weight="bold">301,2 g</tspan><br/>
+        • Masse colonne complète : ~441 g<br/>
+          (Plaque Basse 301 g + Haute 140 g).
+      </text>
+
+      <!-- Cartouche 2 : Tenue RDM & Fatigue -->
+      <g transform="translate(275, 0)">
+        <rect width="250" height="180" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+        <rect x="12" y="12" width="26" height="26" rx="13" fill="#0284c7"/>
+        <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">🛡️</text>
+        <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#38bdf8">Résistance RDM</text>
+        <text x="15" y="60" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
+          • <tspan font-weight="bold">Bordures 20,0 mm</tspan> : flux d'effort continu.<br/>
+          • <tspan font-weight="bold">Traverse 18 mm</tspan> : anti-déversement.<br/>
+          • <tspan font-weight="bold">Kt fatigue</tspan> : 1,81 (grâce à R = 15 mm).<br/>
+          • <tspan font-weight="bold" fill="#4ade80">Sf marche 2 Hz</tspan> : <tspan fill="#4ade80" font-weight="bold">×14,36 ✅ (Infini)</tspan><br/>
+          • <tspan font-weight="bold" fill="#4ade80">Sf choc 275 N.m</tspan> : <tspan fill="#4ade80" font-weight="bold">×1,48 ✅ (10^7 cycles)</tspan><br/>
+          • Déformation flèche résiduelle &lt; 0,15 mm.
+        </text>
+      </g>
+
+      <!-- Cartouche 3 : Usinage C500 -->
+      <g transform="translate(550, 0)">
+        <rect width="250" height="180" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+        <rect x="12" y="12" width="26" height="26" rx="13" fill="#16a34a"/>
+        <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">⚙️</text>
+        <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#4ade80">Stratégie C500</text>
+        <text x="15" y="60" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
+          • <tspan font-weight="bold">Outil</tspan> : Fraise carbure 2 lèvres Ø 6/8 mm.<br/>
+          • <tspan font-weight="bold">Ébauche</tspan> : Contournage intérieur hélicoïdal.<br/>
+          • <tspan font-weight="bold">Finition</tspan> : Passe de paroi à 0,05 mm.<br/>
+          • <tspan font-weight="bold">Ébavurage</tspan> : Fraise conique 90° à<br/>
+            <tspan fill="#facc15" font-weight="bold">0,3 mm × 45° sur les 2 faces</tspan>.<br/>
+          • Zéro morfil pour assise des faisceaux.
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>

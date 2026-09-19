@@ -22,6 +22,7 @@
   - [C. Sollicitations & Moments de Flexion Pitch (K_dyn = 3,5)](#c-sollicitations--moments-de-flexion-pitch-k_dyn--35)
   - [D. Caractéristiques de Section & Formulations RDM](#d-caractéristiques-de-section--formulations-rdm-largeur-94-mm)
   - [E. Analyse de Fatigue Multirégime (Alu 7075-T6, R = 18 mm, Kt = 1,8)](#e-analyse-de-fatigue-multirégime-alu-7075-t6-r--18-mm-kt--18)
+  - [F. Topologie d'Allègement & Plan de Cotation 2D de la Plaque Basse](#f-topologie-dallègement--plan-de-cotation-2d-de-la-plaque-basse-lumières-jumelles-r--150-mm)
 - [**3. Dimensionnement RDM des Traverses d'Épaules (Tube Carré 60×60×2 mm)**](#3-dimensionnement-rdm-des-traverses-dépaules-tube-carré-60602-mm)
   - [A. Caractéristiques de la Section Métallique (Alu 6060-T6)](#a-caractéristiques-de-la-section-métallique-alu-6060-t6)
   - [B. Torsion Pure sous Couple de Pointe du RS-04 (120 N.m)](#b-torsion-pure-sous-couple-de-pointe-du-rs-04-120-nm)
@@ -201,6 +202,71 @@ L'évaluation de la tenue en fatigue distingue rigoureusement le régime de marc
 * **Vérification d'endurance à 10^7 cycles** :
   * `Sf_pic (10^7 cycles) = 122,4 MPa / 82,9 MPa = ` **`×1,48 ✅`**
   > *Note méthodologique* : Ce test à 275 N.m relève d'un ultra-conservatisme académique (supposant 10 millions d'arrêts d'urgence consécutifs à pleine charge). Même sous cette hypothèse extrême avec tous les abattements de fatigue appliqués (surface, taille), la marge de sécurité corrigée reste de **×1,48** (confortable au-dessus de 1,0).
+
+---
+
+### F. Topologie d'Allègement & Plan de Cotation 2D de la Plaque Basse (Lumières Jumelles R = 15,0 mm)
+
+Suite à la validation géométrique réelle sur le modèle CAO Torse v86, la stratégie d'évidement des plaques de colonne est rigoureusement arrêtée et dimensionnée comme suit :
+
+1. **Plaque Haute (Épaules ➔ Cou) : 100% PLEINE (Zéro Évidement)** :
+   - Sur une hauteur totale mesurée de **`130,14 mm`**, la semelle éclisse d'épaules occupe le bas jusqu'à `Z = +65,0 mm` et l'équerre haute du cou descend depuis le sommet sur `30,0 mm` (jusqu'à `Z = +100,14 mm`).
+   - L'intervalle libre résiduel n'étant que de **`35,14 mm`**, percer une ouverture affaiblirait dramatiquement le collet cervical face aux accélérations dynamiques de la tête pour un gain de masse dérisoire (< 15 g). **La Plaque Haute est donc conservée 100% pleine** (masse nette ~140 g).
+
+2. **Plaque Basse (Waist ➔ Épaules) : 2 Lumières Jumelles 54 × 55 mm avec Traverse Médiane** :
+   - Entre la garde de sécurité de l'éclisse d'épaules (`Z = -80,0 mm`) et l'ancrage rigide des équerres de Waist (`Z = -208,0 mm`), la plage verticale de **128,0 mm** accueille **deux fenêtres d'allègement de `54,0 × 55,0 mm`**.
+   - **Bordures latérales saines** : **`20,0 mm de matière pleine continue`** à gauche et à droite (`94,0 - 54,0 = 40,0 mm`, soit 20 mm de chaque côté), garantissant le respect absolu du flux de contraintes sagittales.
+   - **Traverse centrale anti-flambement** : une nervure pleine de **`18,0 mm` de hauteur** sépare les deux lumières, bloquant tout déversement en torsion lors de la marche bipède.
+   - **Congés d'angles** : **`R = 15,0 mm`** sur tous les coins intérieurs (usinables avec fraise carbure de Ø 6 ou 8 mm sur la CNC NestWorks C500), maintenant le facteur de fatigue à `Kt_eff = 1,81`.
+   - **Bilan de masse** : Retrait net de **`27,5 cm³` d'Alu 7075-T6**, soit un gain de masse direct de **`-77,3 g`** (la Plaque Basse passe de 378,5 g à **`301,2 g`**).
+
+![Plan de Cotation Détaillée 2D de la Plaque Basse Allégée](./media/plan_cotation_plaque_basse_colonne.svg)
+
+*Blueprint d'ingénierie vectoriel de la Plaque Basse de colonne sagittale (Alu 7075-T6, épaisseur 5,0 mm). Panel 1 : Vue frontale complète montrant le tenon mâle 40 × 9,8 mm à Z = 0, les 2 perçages M5 d'épaules à Z = -45 mm, les 2 lumières d'allègement de 54 × 55 mm, et les 4 perçages M4 d'équerres Waist au bas de la plaque (H_totale = 306,93 mm). Panel 2 : Zoom macro coté sur les deux fenêtres d'allègement, la traverse médiane de 18,0 mm, les bordures saines de 20,0 mm et les congés R = 15,0 mm. Panel 3 : Synthèse RDM (Sf marche = ×14,36, Sf pic = ×1,48), bilan de masse (-77,3 g) et stratégie d'usinage sur la CNC NestWorks C500.*
+
+3. **Implantation de l'IMU Torse (Bosch BMI270 SparkFun) sur la Plaque Haute — Prise en Compte de la Traverse Horizontale d'Épaule** :
+   - **Contrainte Physique de la Traverse d'Épaule (Tube Carré Bleu 60×60×2 mm & Éclisse)** :
+     - La traverse d'épaule en tube carré `60 × 60 × 2 mm` (inclinée à 15° pitch) est supportée par la semelle éclisse centrale d'épaules (pièce cuivrée) qui prend la colonne en sandwich au niveau de l'axe des épaules (`Z = 0`).
+     - Ce tube horizontal se déploie transversalement le long de l'axe Y vers l'extérieur. Sa présence physique et celle de l'éclisse centrale condamnent formellement l'accès aux flancs latéraux de la colonne entre `Z = -65,0 mm` et le sommet de l'éclisse (**Face [2]** à `Z = +63,01 mm`).
+     - Sous `Z = -80,0 mm` (sur la Plaque Basse), les deux lumières d'allègement de `54 × 55 mm` ne laissent que 20 mm de bordure, ce qui est trop étroit pour le PCB de 25,4 mm.
+   - **Fenêtre Utile Relevée sous Fusion 360 : `37,125 mm` (Au-Dessus du Tube Horizontal) ⭐** :
+     - Le relevé CAO direct entre la face inférieure de l'équerre de cou (**Face [1]**, `Z = +100,14 mm`) et l'arête supérieure de l'éclisse d'épaule (**Face [2]**, `Z = +63,01 mm`) établit une hauteur libre rigoureuse de **`37,125 mm`** sur une largeur pleine continue de **`94,0 mm`**.
+     - Le PCB SparkFun BMI270 (`25,40 × 25,40 mm`) s'y implante **strictement au-dessus du tube carré horizontal bleu**, à plat contre le flanc latéral de la tôle (flanc droit `Y = +2,50 mm`).
+     - **Gardes de sécurité verticales** : `37,125 - 25,40 = 11,725 mm`, soit **`5,86 mm` de dégagement franc** au-dessus (face à l'équerre de cou) et **`5,86 mm`** en-dessous (face à l'éclisse et au tube bleu horizontal). Les vis basses sont situées à plus de **`8,4 mm`** au-dessus de l'arête du tube horizontal.
+   - **Coordonnées Géométriques Exactes (Repère Nœud Z = 0)** :
+     - **Centre du capteur** : `X = 0,0 mm` (centré au milieu des 94 mm), `Y = +2,50 mm` (flanc droit), **`Z = +81,58 mm`** (médian de la fenêtre 37,125 mm).
+     - **Co-localisation SLAM avec le LiDAR Unitree L2** : Située à moins de 50 mm sous la baie LiDAR de la poitrine haute, cette position minimise le bras de levier (*lever arm*) dans l'algorithme FAST-LIO.
+   - **Motif des 4 Perçages Usinage C500 & Montage Traversant Sécurisé** :
+     - **Perçages C500** : **4 trous lisses traversants débouchants `Ø 2,70 mm`** (foret carbure standard Ø 2,70 mm ou fraise 2 dents, **ZÉRO taraudage** dans le 7075-T6 pour éliminer tout risque de casse de taraud ou d'usure de filets).
+     - Carré d'entraxe standard Qwiic : **`20,32 × 20,32 mm`** (0,800 pouce) centré sur `(X = 0, Z = +81,58 mm)`.
+     - *Coordonnées cartésiennes des trous* :
+       - Trous hauts : `X = ±10,16 mm`, **`Z = +91,74 mm`**
+       - Trous bas : `X = ±10,16 mm`, **`Z = +71,42 mm`** (plus de 8,4 mm au-dessus de Face [2])
+     - **Empilement de Visserie Traversante Anti-Vibrations (Flanc Droit vers Flanc Gauche)** :
+       - 4 vis **CHC M2,5 × 14 mm** inox A2 traversantes.
+       - 4 entretoises lisses cylindriques en **Nylon PA66** de hauteur **`3,0 mm`** (Ø ext. 5 mm, passage Ø 2,7 mm) sous le PCB pour isolation électrique totale et élimination des contraintes mécaniques.
+       - Traversée de la plaque colonne de 5,0 mm (matière pleine Alu 7075-T6 percée à Ø 2,70 mm).
+       - 4 rondelles plates inox M2,5 DIN 125A sur le flanc gauche (`Y = -2,50 mm`).
+       - 4 écrous autofreinés **Nylstop M2,5 DIN 985** (serrage à 0,5-0,6 N.m, bague polyamide indesserrable sous les chocs de marche).
+
+> [!TIP]
+> **Procédure d'Importation & Assemblage de la Visserie IMU sous Autodesk Fusion 360** :
+> 1. Dans le ruban supérieur de Fusion 360, cliquer sur **Insert** ➔ **Insert McMaster-Carr Component**.
+> 2. Télécharger en format **3D STEP** (ou SolidWorks) les 4 composants normalisés :
+>    - **Vis CHC M2,5 × 14 mm** : Réf. McMaster **`92290A038`** (Inox 18-8) ou **`91290A038`** (Acier 12.9).
+>    - **Entretoise lisse Nylon M2,5 (H = 3,0 mm, Ø ext 5 mm)** : Réf. McMaster **`94639A208`**.
+>    - **Rondelle plate M2,5 DIN 125A** : Réf. McMaster **`93475A205`**.
+>    - **Écrou autofreiné Nylstop M2,5 DIN 985** : Réf. McMaster **`90631A105`**.
+> 3. **Positionnement & Liaisons d'Assemblage (Joint `J`)** :
+>    - Appliquer une contrainte **Joint (`J`)** de type **Rigid** entre la face d'appui de la tête de vis CHC et la face supérieure du PCB de l'IMU.
+>    - Placer l'entretoise nylon entre la face inférieure du PCB et le flanc droit de la colonne (`Y = +2,50 mm`).
+>    - Sur le flanc gauche de la colonne (`Y = -2,50 mm`), plaquer la rondelle plate DIN 125A coaxiale au perçage Ø 2,70 mm.
+>    - Visser l'écrou Nylstop contre la rondelle (face d'appui plane contre rondelle, dôme nylon vers l'extérieur).
+> 4. Répéter l'assemblage sur les 4 perçages coaxiaux (entraxe `20,32 × 20,32 mm`) à l'aide de la commande **Pattern on Path** ou par copier/coller avec liaison.
+
+![Plan d'Implantation et Cotation de l'IMU Torse sur Colonne](./media/plan_implantation_imu_torse_colonne.svg)
+
+*Blueprint d'ingénierie vectoriel de l'implantation de l'IMU Torse (Bosch BMI270 SparkFun SEN-22397). Panel 1 : Modèle CAO conforme au rendu Fusion 360 illustrant la colonne, l'équerre de cou Face [1], l'éclisse cuivrée Face [2], la traverse d'épaule en tube carré bleu 60×60 mm (15°) et la fenêtre libre de 37,125 mm. Panel 2 : Plan macro coté des 4 perçages lisses débouchants Ø 2,7 mm traversants (entraxe 20,32 mm, Z = +81,58 mm, X = 0, montage 4x CHC M2,5 × 14 mm + écrous Nylstop, gardes de 5,86 mm). Panel 3 : Vue isométrique, intégration URDF ROS 2 et tableau des matériels validés (Pied à coulisse SHAHE 5110-150 acquis).*
 
 ---
 
@@ -512,7 +578,50 @@ Pour une modélisation paramétrique propre, standardisée et directement reconn
 6. **Tenon de Centrage 2D à Z = 0 (OBLIGATOIRE)** :
    - La plaque basse possède un tenon rectangulaire de **40 mm (largeur) × 10 mm (hauteur)** avec congés **R = 3,0 mm** qui s'emboîte dans la plaque haute, garantissant un alignement coaxial automatique parfait à **0,0 mm**. Ce tenon transforme le joint en quasi-encastrement et est **indispensable** pour la continuité de la fibre neutre au noeud d'épaules (zone d'application des 120 N.m de torsion).
 
+![Plan de Découpe et Tenon-Mortaise 2D de la Colonne Sagittale](./media/plan_decoupe_tenon_colonne_haute_basse.svg)
+
+*Blueprint d'ingénierie vectoriel de la découpe axiale à Z = 0,0 mm de la colonne sagittale (Plaque Haute L = 142,7 mm ↔ Plaque Basse L = 290,0 mm). Panel 1 : Vue frontale montrant l'embrochage 2D, l'empreinte de l'insert d'épaule incliné à 15° (rappel : colonne 100% pleine sous l'insert, zéro perçage central), et les 4 perçages traversants Ø 5,30 mm pour vis CHC M5 à Z = ±45,0 mm (entraxe Y = 50,0 mm). Panel 2 : Zoom macro coté sur le tenon mâle (40,0 × 10,0 mm) et la mortaise femelle avec les 4 congés d'angles R = 3,0 mm usinables à la fraise Ø 6 mm sur la CNC NestWorks C500 (ajustement glissant doux 0,05 à 0,10 mm). Panel 3 : Guide pas-à-pas de modélisation CAO sous Fusion 360 (Modify > Split Body) et stratégie d'usinage atelier.*
+
+##### Protocole CAO Fusion 360 du Jeu d'Ajustement Post-Split Body
+
+Une fois la scission du corps (**`Modify > Split Body`**) réalisée sur l'esquisse du tenon-mortaise 2D, les deux corps résultants partagent rigoureusement la même surface de contact théorique à 0,0 mm. Pour garantir un emboîtement manuel fluide à l'atelier sans jeu excessif et éliminer tout risque d'hyperstatisme, **un jeu fonctionnel différencié doit être appliqué directement sous Fusion 360 via l'outil Décaler la face (`Modify > Offset Face`, raccourci touche `Q`) sur le tenon mâle de la Plaque Basse** :
+
+1. **Flancs Verticaux Latéraux du Tenon (Gauche & Droite) ➔ `Offset = -0,05 mm à -0,07 mm`** :
+   - Sélectionner les 2 faces planes verticales latérales du tenon (à `Y = -20,0 mm` et `Y = +20,0 mm`) ainsi que les 4 congés cylindriques de raccordement `R = 3,0 mm`.
+   - Appliquer une valeur de retrait négative de **`-0,07 mm`** (ou **`-0,05 mm`**).
+   - *Rôle mécanique* : Crée un jeu d'aisance bilatéral total de `0,10 à 0,14 mm` correspondant à un ajustement glissant doux normalisé (**H7/g6**). L'assemblage s'emboîte à la main sans aucun coincement tout en bloquant rigoureusement le décalage sagittal transversal (Y).
+2. **Sommet Horizontal du Tenon (Face Supérieure en Z) ➔ `Offset = -0,20 mm` (Jeu de Fond Anti-Talonnage ⭐)** :
+   - Sélectionner la face horizontale supérieure du tenon (à `Z = +10,0 mm`).
+   - Appliquer un décalage de **`-0,20 mm`** (la hauteur effective du tenon mâle passe de `10,00 mm` à **`9,80 mm`**, tandis que la mortaise conserve sa profondeur nominale de `10,00 mm`).
+   - *Rôle mécanique critique* : Évite formellement que le tenon ne vienne buter (talonner) au fond de la mortaise. L'effort axial en compression et en flexion doit s'appuyer **exclusivement sur les grandes portées extérieures à Z = 0,0 mm**.
+3. **Portées Extérieures Horizontales à Z = 0 ➔ ZÉRO JEU (`0,0 mm`)** :
+   - **Interdiction formelle d'appliquer un décalage sur les portées horizontales de part et d'autre du tenon**.
+   - Elles constituent le plan d'appui franc métal-métal à `0,0 mm` où la précharge des 4 vis M5 (19 200 N) s'exerce pour assurer la continuité de la fibre neutre.
+
+```
+                         PLAQUE HAUTE (Cou)
+                      │                      │
+                      │  Portée Z = 10,0 mm  │
+                      │ ┌──────────────────┐ │
+       Jeu de Fond ──►│ │  j = 0,20 mm     │ │
+        (9,80 mm)     │ └──────────────────┘ │
+                      │   │              │   │
+                      │   │◄─ j = 0,07 ─►│   │  ◄── Jeu Latéral Flancs (H7/g6)
+                      └───┘              └───┘
+  ────────────────────────┐              ┌────────────────────────  ◄── Appui Franc 0,0 mm
+                          │  Tenon Mâle  │
+                          │   40,0 mm    │
+                          └──────────────┘
+                         PLAQUE BASSE (Waist)
+```
+
+##### Validation CAO d'Interférence
+* Lancer **Inspecter > Interférence (`Inspect > Interference`)** entre la Plaque Haute et la Plaque Basse :
+* Le résultat doit afficher **`Aucune interférence (No interference)`**, confirmant un modèle prêt pour la FAO NestWorks C500 et un assemblage physique parfait.
+
 ---
+
+
 
 ### D. Imbrication des Bruts & Détail d'Assemblage FHC M4 Traversantes + Écrous Nylstop
 
@@ -705,6 +814,10 @@ Dans le repère global du robot D-Bot (Origine au centre du nœud d'épaules, `X
 | **Sandwich Waist #2 (Av-D)** | Équerre D ➔ Waist ➔ Moyeu | **`+24,04 mm`** | **`+24,04 mm`** | `Z = -290,00 mm` | Perçage lisse Ø 4,50 mm traversant Équerre (3 mm) + Waist (6 mm) / Vis CHC M4 × 20 mm + rondelle DIN 125A dans taraudage Moyeu 7075 |
 | **Sandwich Waist #3 (Ar-D)** | Équerre D ➔ Waist ➔ Moyeu | **`-24,04 mm`** | **`+24,04 mm`** | `Z = -290,00 mm` | Perçage lisse Ø 4,50 mm traversant Équerre (3 mm) + Waist (6 mm) / Vis CHC M4 × 20 mm + rondelle DIN 125A dans taraudage Moyeu 7075 |
 | **Sandwich Waist #4 (Ar-G)** | Équerre G ➔ Waist ➔ Moyeu | **`-24,04 mm`** | **`-24,04 mm`** | `Z = -290,00 mm` | Perçage lisse Ø 4,50 mm traversant Équerre (3 mm) + Waist (6 mm) / Vis CHC M4 × 20 mm + rondelle DIN 125A dans taraudage Moyeu 7075 |
+| **IMU BMI270 #1 (Haut-Av)** | Plaque Haute Colonne | **`+10,16 mm`** | `Y = +2,50 mm` | `Z = +91,74 mm` | Perçage lisse débouchant Ø 2,70 mm traversant (Zéro taraudage) / Vis CHC M2,5 × 14 mm + entretoise nylon 3 mm + écrou Nylstop M2,5 flanc gauche |
+| **IMU BMI270 #2 (Haut-Ar)** | Plaque Haute Colonne | **`-10,16 mm`** | `Y = +2,50 mm` | `Z = +91,74 mm` | Perçage lisse débouchant Ø 2,70 mm traversant (Zéro taraudage) / Vis CHC M2,5 × 14 mm + entretoise nylon 3 mm + écrou Nylstop M2,5 flanc gauche |
+| **IMU BMI270 #3 (Bas-Av)** | Plaque Haute Colonne | **`+10,16 mm`** | `Y = +2,50 mm` | `Z = +71,42 mm` | Perçage lisse débouchant Ø 2,70 mm traversant (Zéro taraudage) / Vis CHC M2,5 × 14 mm + entretoise nylon 3 mm + écrou Nylstop M2,5 flanc gauche |
+| **IMU BMI270 #4 (Bas-Ar)** | Plaque Haute Colonne | **`-10,16 mm`** | `Y = +2,50 mm` | `Z = +71,42 mm` | Perçage lisse débouchant Ø 2,70 mm traversant (Zéro taraudage) / Vis CHC M2,5 × 14 mm + entretoise nylon 3 mm + écrou Nylstop M2,5 flanc gauche |
 
 > [!TIP]
 > **Règle d'Or CAO — Le Rectangle de Vissage 30 × 45 mm du Cou (Zéro Fraisure)** :  
@@ -747,6 +860,7 @@ Dans un assemblage métallique haute performance soumis aux vibrations dynamique
 | **8. Semelles Éclisses & Inserts (Alu 7075-T6)** | Inserts 15 mm — Alésage Central Traversant Ø 35,0 mm | Fraise circulaire CNC | **`0,8 mm × 45°` (des 2 côtés)** | Raccordement sans arête coupante du couloir de câblage central d'épaules. |
 | **9. Colonne Sagittale Haute & Basse (5,0 mm)** | Chants supérieurs et inférieurs au niveau des pliures d'équerres | Fraise à chanfreiner 45° C500 | **`0,5 mm × 45°`** | Évite tout contact franc entre l'arête de colonne et le congé intérieur naturel de la cornière marchande. |
 | **9. Colonne Sagittale Haute & Basse (5,0 mm)** | 6 Perçages Traversants Ø 4,30 mm (2 au cou, 4 au waist) | Fraise à chanfreiner 45° | **`0,3 mm × 45°` (des 2 côtés)** | Guidage doux des vis CHC M4 × 20 mm et placage sans contrainte parasite des équerres. |
+| **9. Colonne Sagittale Haute (Plaque 5,0 mm)** | 4 Perçages Traversants Ø 2,70 mm IMU Torse (BMI270) | Fraise à chanfreiner 45° C500 | **`0,2 mm × 45°` (des 2 côtés)** | Micro-ébavurage éliminant tout morfil : assise rigoureusement plane des entretoises nylon 3 mm (flanc droit) et des rondelles DIN 125A / écrous Nylstop M2,5 (flanc gauche). |
 | **10. Waist Plate Inférieure (Alu 6,0 mm)** | 4 Perçages Traversants Sandwich Ø 4,50 mm (PCD Ø 68 mm à 45°) | Fraise à chanfreiner C500 | **`0,3 mm × 45°` (des 2 côtés)** | Placage plan franc entre les ailes d'équerres (dessus) et la bague intérieure du roulement RB8016 (dessous). |
 | **10. Waist Plate Inférieure (Alu 6,0 mm)** | Contour Extérieur (120 × 94 mm) | Fraise de contournage C500 | **`0,5 mm × 45°`** | Cassage d'arête sur tout le pourtour supérieur et inférieur de la plaque. |
 
@@ -791,7 +905,7 @@ En éliminant les oblongs au profit de perçages de précision `Ø 4,30 mm` usin
    * Visser les **4 écrous Nylstop M4** sous l'aile de cornière à la clé de 7 mm (le déport à 20,0 mm du pli offre un dégagement de 17 mm pour la clé) et serrer à **`3,0 N.m`** (clé Allen 3,0 mm).
    * Fixer le moteur RS-05 du cou et son étrier : le couloir central libre de **45 mm** entre les vis garantit zéro interférence avec l'embase moteur et le passage des faisceaux de câbles.
 3. **Étape 3 — Fixation Basse des Équerres de Waist (Taille)** :
-   * À la base de la colonne de 5 mm, boulonner les 2 équerres basses de Waist (`L = 80,0 mm`) à l'aide de **4 vis CHC M4 × 20 mm traversantes + 8 rondelles DIN 125A + 4 écrous Nylstop M4** serrés à **`3,0 N.m`**.
+   * À la base de la colonne de 5 mm, boulonner les 2 équerres basses de Waist (`L = 90,0 mm`) à l'aide de **4 vis CHC M4 × 20 mm traversantes + 8 rondelles DIN 125A + 4 écrous Nylstop M4** serrés à **`3,0 N.m`**.
    * Fixer la Waist Plate de 6,0 mm sous les équerres : la structure du torse dispose désormais de ses deux extrémités parfaitement rigides et figées.
 4. **Étape 4 — Insertion dans le Thorax & Verrouillage du Nœud Central d'Épaules (EN DERNIER)** :
    * Glisser l'ensemble colonne équipée (encombrement de tête seulement `86,5 × 65,0 mm`) à travers l'ouverture abdominale inférieure du thorax haut (`~200 × 160 mm`), avec un jeu d'aisance de plus de 50 mm.
@@ -886,15 +1000,15 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
    - Brut : 1 barre profilée cornière marchande **30 × 30 × 3 mm lg 500 mm Alu 6060-T6** Blockenstock (Réf `30x30x3-lg500mm-corniere-alu-6060t6`, **4,80 € TTC**).
    - Débit des 4 tronçons (à la scie à ruban d'atelier ou bridage étau sur table C500) :
      - 2 tronçons de **`L = 50,0 mm`** (Équerres Hautes de Cou).
-     - 2 tronçons de **`L = 80,0 mm`** (Équerres Basses de Waist Yaw).
-     - Matière débitée : `2 × 50 + 2 × 80 = 260 mm` (+ ~10 mm de traits de scie). Il reste **`~230 mm de cornière brute en réserve`** pour platines de capteurs ou équerres d'habillage.
+     - 2 tronçons de **`L = 90,0 mm`** (Équerres Basses de Waist Yaw).
+     - Matière débitée : `2 × 50 + 2 × 90 = 280 mm` (+ ~10 mm de traits de scie). Il reste **`~210 mm de cornière brute en réserve`** pour platines de capteurs ou équerres d'habillage.
    - Usinage 2D sur NestWorks C500 (bridage d'équerre en étau de précision ou mors doux) :
      - *Équerres Cou (L = 50 mm — Option C Zéro Taraudage & Zéro Oblong)* :
        1. Aile horizontale : 2 perçages lisses traversants **Ø 4,30 mm** (entraxe 30,0 mm, axe déporté à **20,00 mm** du pli extérieur) chanfreinés à **0,3 mm × 45°** des 2 côtés (**ZÉRO taraudage machine ou manuel, perçage direct en 1 passe foret/fraise carbure sur la C500**).
        2. Aile verticale : 2 perçages lisses traversants **Ø 4,30 mm** (foret Ø 4,3 mm en 1 passe, axe à Z = **12,50 mm** du pli, entraxe 30,0 mm coaxial aux perçages horizontaux, **ZÉRO oblong : butée mécanique rigide en Z**).
-     - *Équerres Waist (L = 80 mm)* :
-       1. Aile horizontale : 4 perçages lisses traversants **Ø 4,30 mm** (entraxe 18,0 mm, axe à **12,50 mm** du pli extérieur) chanfreinés à 0,3 mm × 45°.
-       2. Aile verticale : 4 perçages lisses traversants **Ø 4,30 mm** (entraxe 18,0 mm, axe à **12,50 mm** du pli extérieur, pas d'oblong : encastrement rigide Z = 0) chanfreinés à 0,3 mm × 45°.
+     - *Équerres Waist (L = 90 mm — Cotation Validée Fusion 360 & Alignement Section 7.C.2)* :
+       1. Aile horizontale : 2 perçages lisses traversants **Ø 4,50 mm** (Trou #1 à **7,38 mm**, Trou #2 à **55,46 mm**, entraxe longitudinal **48,08 mm**, axe centré à **17,86 mm** du pli intérieur / 12,14 mm du bord extérieur) chanfreinés à 0,3 mm × 45° pour vis sandwich CHC M4 × 20 mm dans taraudage Moyeu 7075 (les 4 anciens perçages intermédiaires sont définitivement supprimés, congés d'angle extérieurs R = 5,0 mm).
+       2. Aile verticale : 4 perçages lisses traversants **Ø 4,30 mm** (entraxes réguliers de 18,0 mm, axe à **Z = 12,50 mm** du pli extérieur, pas d'oblong : encastrement rigide Z = 0) chanfreinés à 0,3 mm × 45°.
     - Finition : Ébavurage soigné des chants sciés et cassage d'arêtes à **0,3 mm × 45°** pour un appui plan parfait à 0,0 mm.
 7. **Plaque Supérieure de Cou (Alu 4,68 mm)** :
    - Brut : Tôle / plaque aluminium 4,68 mm.
@@ -1005,6 +1119,11 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 | **5. SYSTÈME AÉRAULIQUE & HABILLAGE COQUE** | | | | | |
 | • **Ventilateurs Tuyères 4020 (Noctua NF-A4x20)** | Vis CHC M3 × 16 mm + Écrous M3 | ISO 4762 / DIN 912 | **`91290A115`** (Inox 18-8) | **8 vis + 8 écrous** | **Perçages lisses traversants Ø 3,20 mm** dans collerette tuyère 3D et oreilles Noctua. Montage sur silent-blocs antivibrations. |
 | • **Fixation Coque PA12-CF (Thorax & Abdomen)** | Inserts Filetés Laiton M4 | Standard Ruthex | **`94180A353`** (Laiton) | **16 inserts** | **Logements borgnes d'insertion Ø 5,60 mm × profondeur 8,2 mm** imprimés dans la coque PA12-CF. Inserts thermiques M4 posés au fer à souder (260 °C). |
+| **6. FIXATION TRAVERSANTE IMU TORSE (SPARKFUN BMI270 — PLAQUE HAUTE Z = +81,58 mm)** | | | | | |
+| • **Vis Traversantes IMU (Flanc Droit vers Gauche)** | Vis CHC M2,5 × 14 mm | ISO 4762 / DIN 912 | **`92290A038`** (Inox 18-8)<br>**`91290A038`** (Acier 12.9) | **4 vis** | Traversent PCB (1,6 mm) + Entretoise nylon (3,0 mm) + Plaque colonne 5 mm (perçages débouchants **Ø 2,70 mm**) + rondelle (0,5 mm) + écrou Nylstop (3,5 mm). Marge résiduelle = ~0,4 mm. |
+| • **Entretoises Isolantes Diélectriques PCB** | Entretoises Cylindriques Lisses Nylon M2,5 (H = 3,0 mm) | Spécification Métrique | **`94639A208`** (Nylon PA66) | **4 entretoises** | **Dimensions** : Ø intérieur 2,7 mm / Ø extérieur 5,0 mm / Hauteur 3,0 mm. Assure l'isolation électrique totale entre les pistes du PCB et l'Alu 7075-T6, supprime toute flexion parasite de la carte. |
+| • **Rondelles d'Appui Inox Flanc Gauche** | Rondelles Plates DIN 125A M2,5 | ISO 7089 / DIN 125A | **`93475A205`** (Inox 18-8) | **4 rondelles** | **Diamètre de passage Ø 2,70 mm**. Dimensions : Ø intérieur 2,7 mm / Ø extérieur 6,0 mm / épaisseur 0,5 mm. Répartition continue de la précharge sous l'écrou autofreiné. |
+| • **Écrous de Verrouillage Autofreinés (Flanc Gauche)** | Écrous Frein Nylstop M2,5 | ISO 7040 / DIN 985 | **`90631A105`** (Inox 18-8) | **4 écrous** | Bague polyamide indesserrable aux vibrations (serrage à **`0,5 à 0,6 N.m`** à la clé Allen 2,0 mm et clé plate de 5,0 mm). Montage 100% accessible sur le flanc gauche `Y = -2,50 mm`. |
 
 ---
 
@@ -1037,6 +1156,7 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **8. Équerres Torse (Flancs Colonne Cou & Waist)** | CHC M4 × 20 mm (Acier 12.9 / Inox) | 6 | **`3,0 N.m`** | Clé Allen 3,0 mm + Clé 7 mm | Rondelles DIN 125A M4 (Cou & Waist) + Nylstop M4 | `91290A160` |
 | **9. Ventilateurs Tuyères 3D (Noctua NF-A4x20)** | CHC M3 × 16 mm (Inox) | 8 | **`0,6 à 0,8 N.m`** | Clé Allen 2,5 mm + Clé 5,5 mm | Silent-blocs antivibrations (serrage modéré) | `91290A115` |
 | **10. Coque & Habillage Extérieur (PA12-CF)** | Vis M4 sur Inserts Laiton Ruthex | 16 | **`1,2 à 1,5 N.m`** | Clé Allen 3,0 mm | Ancrage thermique laiton (ne pas sur-serrer) | `94180A353` |
+| **11. Fixation Traversante IMU Torse (Plaque Haute)** | CHC M2,5 × 14 mm (Inox A2) | 4 | **`0,5 à 0,6 N.m`** | Clé Allen 2,0 mm + Clé 5,0 mm | Entretoises Nylon 3 mm + Rondelles DIN 125A + Nylstop M2,5 flanc gauche | `92290A038` / `90631A105` |
 
 ---
 

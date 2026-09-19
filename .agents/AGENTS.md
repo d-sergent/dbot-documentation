@@ -54,3 +54,19 @@
 - **Auto-Vérification Pré-Génération (Sanity Check)** :
   - Avant de valider le message final, vérifier la cohérence interne entre tous les composants cités dans le message et les inventaires validés de la session. En cas de doute ou d'information manquante, expliciter la nuance plutôt que d'extrapoler.
 
+## Modélisation CAO Fusion 360 & Quincaillerie Normalisée (McMaster-Carr)
+- **Références McMaster-Carr Systématiques (3D STEP)** :
+  - Dès qu'un nouveau composant de visserie, fixation ou quincaillerie (vis CHC/FHC/BHC, écrous Nylstop, rondelles plates DIN 125A, rondelles Nord-Lock, entretoises nylon, inserts filetés, goupilles) est introduit, dimensionné ou modifié dans la documentation technique active, vous DEVEZ SYSTÉMATIQUEMENT :
+    1. Renseigner sa **référence catalogue McMaster-Carr exacte** (à 9 caractères alphanumériques, ex. `92290A038`, `90631A105`) pour permettre le téléchargement direct du modèle 3D STEP dans Autodesk Fusion 360 via le menu `Insert > Insert McMaster-Carr Component`.
+    2. Documenter la **procédure pas-à-pas d'assemblage dans Fusion 360** : type de liaison `Joint` (raccourci `J`, généralement `Rigid`), sélection des arêtes et faces d'appui planes, orientation du composant (ex. dôme polyamide vers l'extérieur pour un écrou Nylstop) et méthode de répétition (Pattern ou copie liée).
+    3. Mettre à jour le **tableau synthétique des couples dynamométriques** de serrage recommandés (en N.m) et l'outillage d'atelier associé (taille de clé Allen, clé plate ou douille).
+
+## Cartographie des Usinages, Chanfreins, Fraisures & Ébavurages d'Atelier
+- **Obligation de Spécification des Chanfreins & Cassages d'Arêtes** :
+  - Aucun perçage, chambrage, fraisure conique ou chant débité ne doit être laissé sans spécification géométrique d'ébavurage dans les dossiers techniques d'usinage (C500 ou atelier).
+  - Pour chaque opération de perçage ou de découpe, vous DEVEZ SYSTÉMATIQUEMENT mettre à jour la section et le **tableau récapitulatif des chanfreins et fraisures** du dossier technique concerné :
+    - Chanfrein d'entrée et de sortie sur perçages lisses débouchants (typiquement `0,2 mm × 45°` à `0,3 mm × 45°`) pour éliminer le morfil de perçage et garantir une assise métal-métal parfaitement plane sous tête de vis, sous entretoise ou sous rondelle.
+    - Fraisures coniques à 90° (vis FHC) : spécifier le diamètre de fraisure supérieur et la profondeur exacte pour un **noyage à fleur rigoureux à 0,0 mm** (zéro saillie de tête).
+    - Chants débités et bords sciés : cassage d'arête systématique (typiquement `0,5 mm × 45°`).
+    - Pliures et congés d'appui : chanfreinage adapté (`0,5 mm × 45°`) pour éviter le contact franc sur le congé intérieur naturel des profilés marchands.
+

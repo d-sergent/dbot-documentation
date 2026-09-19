@@ -1,0 +1,354 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 960" width="100%" height="100%">
+  <defs>
+    <!-- Grille technique blueprint -->
+    <pattern id="gridBlueprint" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.7"/>
+    </pattern>
+    <pattern id="gridFine" width="10" height="10" patternUnits="userSpaceOnUse">
+      <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#1e293b" stroke-width="0.4"/>
+    </pattern>
+
+    <!-- Dégradés métalliques Alu 7075-T6 -->
+    <linearGradient id="gradPlaqueHaute" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+
+    <linearGradient id="gradPlaqueBasse" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#facc15"/>
+      <stop offset="50%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#854d0e"/>
+    </linearGradient>
+
+    <linearGradient id="gradInsertGhost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#16a34a" stop-opacity="0.15"/>
+    </linearGradient>
+
+    <!-- Flèches de cotation -->
+    <marker id="arrowDimSky" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowRevSky" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowDimYellow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#facc15"/>
+    </marker>
+    <marker id="arrowRevYellow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#facc15"/>
+    </marker>
+    <marker id="arrowDimGreen" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#4ade80"/>
+    </marker>
+    <marker id="arrowRevGreen" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M 1 2 L 7 4 L 1 6 Z" fill="#4ade80"/>
+    </marker>
+
+    <!-- Filtre ombre portée -->
+    <filter id="shadowBox" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- FOND BLUEPRINT -->
+  <rect width="1500" height="960" fill="#0f172a"/>
+  <rect width="1500" height="960" fill="url(#gridBlueprint)"/>
+
+  <!-- BANDEAU TITRE SUPÉRIEUR -->
+  <g transform="translate(50, 25)">
+    <rect width="1400" height="68" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadowBox)"/>
+    <rect x="0" y="0" width="8" height="68" rx="4" fill="#38bdf8"/>
+    <text x="30" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="19" font-weight="bold" fill="#f8fafc" letter-spacing="0.5">
+      PLAN DE DÉCOUPE &amp; TENON-MORTAISE 2D — COLONNE SAGITTALE D-BOT V2.6
+    </text>
+    <text x="30" y="54" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">
+      Jonction axiale Z = 0,0 mm · Plaque Haute (Cou) ↔ Plaque Basse (Waist) · Tenon 40 × 10 mm (R = 3,0 mm) · Tôle 5,0 mm Alu 7075-T6 · CNC C500
+    </text>
+    <rect x="1220" y="18" width="160" height="32" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1"/>
+    <text x="1300" y="39" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8">
+      FUSION 360 / C500
+    </text>
+  </g>
+
+  <!-- ======================================================================= -->
+  <!-- PANEL 1 : VUE D'ENSEMBLE DU NŒUD D'ÉPAULES (HAUTEUR Z = ±70 mm)        -->
+  <!-- ======================================================================= -->
+  <g transform="translate(50, 115)">
+    <rect width="520" height="800" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadowBox)"/>
+    <rect width="520" height="800" rx="10" fill="url(#gridFine)" opacity="0.25"/>
+    
+    <!-- En-tête Panel 1 -->
+    <rect x="0" y="0" width="520" height="42" rx="10" fill="#0284c7" opacity="0.2"/>
+    <text x="260" y="26" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">
+      PANEL 1 : VUE FRONTALE 2D — EMBROCHAGE &amp; EMPREINTE INSERT
+    </text>
+
+    <!-- Groupe Dessin Colonne (Échelle 1 mm = 3.5 px, largeur 100 mm = 350 px, Z = -65 à +65 mm) -->
+    <g transform="translate(85, 400)">
+
+      <!-- Axe sagittal neutre Y = 0 (vertical) -->
+      <line x1="175" y1="-320" x2="175" y2="340" stroke="#64748b" stroke-width="1" stroke-dasharray="6,4"/>
+      <text x="175" y="-330" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">AXE SAGITTAL Y = 0</text>
+
+      <!-- Ligne de plan médian d'épaules Z = 0 (horizontal) -->
+      <line x1="-50" y1="0" x2="400" y2="0" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="360" y="-8" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#ec4899">PLAN Z = 0 (COUPE)</text>
+
+      <!-- FANTÔME DE L'INSERT VERT INCLINÉ À 15° (pour mise en contexte CAO) -->
+      <g transform="translate(175, 0) rotate(-15)">
+        <!-- Carré 55.8 × 55.8 mm = 195 × 195 px, centré avec déport 11.055 mm = 38.7 px vers la gauche -->
+        <rect x="-136" y="-97.5" width="195" height="195" rx="10" fill="url(#gradInsertGhost)" stroke="#4ade80" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <!-- Alésage central Ø 35 mm = 122.5 px -->
+        <circle cx="-38.7" cy="0" r="61.2" fill="#0f172a" fill-opacity="0.4" stroke="#4ade80" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="-38.7" y="4" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#4ade80">
+          Insert Ø35 (15°)
+        </text>
+        <text x="-38.7" y="18" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#86efac">
+          (NE PAS PERCER LA COLONNE)
+        </text>
+      </g>
+
+      <!-- PLAQUE HAUTE (Couleurs dégradé bleu) -->
+      <!-- Contour Plaque Haute : Largeur 100mm = 350px (x=0 à 350), de Z=+65mm (-227.5px) à Z=0, avec mortaise femelle en bas -->
+      <path d="
+        M 0,-227.5 
+        L 350,-227.5 
+        L 350,0 
+        L 245,0 
+        A 10.5 10.5 0 0 0 234.5,-10.5
+        L 234.5,-24.5
+        A 10.5 10.5 0 0 1 224,-35
+        L 126,-35
+        A 10.5 10.5 0 0 1 115.5,-24.5
+        L 115.5,-10.5
+        A 10.5 10.5 0 0 0 105,0
+        L 0,0 
+        Z" 
+        fill="url(#gradPlaqueHaute)" stroke="#38bdf8" stroke-width="2" fill-opacity="0.85"/>
+
+      <!-- PLAQUE BASSE (Couleurs dégradé or/jaune) -->
+      <!-- Contour Plaque Basse : Largeur 100mm = 350px, de Z=0 à Z=-65mm (+227.5px), avec tenon mâle en haut -->
+      <path d="
+        M 0,227.5 
+        L 350,227.5 
+        L 350,0 
+        L 245,0 
+        A 10.5 10.5 0 0 1 234.5,-10.5
+        L 234.5,-24.5
+        A 10.5 10.5 0 0 0 224,-35
+        L 126,-35
+        A 10.5 10.5 0 0 0 115.5,-24.5
+        L 115.5,-10.5
+        A 10.5 10.5 0 0 1 105,0
+        L 0,0 
+        Z" 
+        fill="url(#gradPlaqueBasse)" stroke="#facc15" stroke-width="2" fill-opacity="0.85"/>
+
+      <!-- PERÇAGES M5 HAUTS (Z = +45,0 mm = -157.5 px ; Entraxe Y = 50 mm = 175 px, x = 87.5 et 262.5) -->
+      <circle cx="87.5" cy="-157.5" r="9.3" fill="#0f172a" stroke="#ffffff" stroke-width="2"/>
+      <circle cx="262.5" cy="-157.5" r="9.3" fill="#0f172a" stroke="#ffffff" stroke-width="2"/>
+      <text x="87.5" y="-172" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#ffffff">Ø 5,30 mm</text>
+      <text x="262.5" y="-172" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#ffffff">Ø 5,30 mm</text>
+
+      <!-- PERÇAGES M5 BAS (Z = -45,0 mm = +157.5 px ; Entraxe Y = 50 mm = 175 px) -->
+      <circle cx="87.5" cy="157.5" r="9.3" fill="#0f172a" stroke="#ffffff" stroke-width="2"/>
+      <circle cx="262.5" cy="157.5" r="9.3" fill="#0f172a" stroke="#ffffff" stroke-width="2"/>
+      <text x="87.5" y="182" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#ffffff">Ø 5,30 mm</text>
+      <text x="262.5" y="182" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#ffffff">Ø 5,30 mm</text>
+
+      <!-- Cotes verticales Z (Bras de levier 90 mm) -->
+      <line x1="-20" y1="-157.5" x2="-20" y2="157.5" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
+      <text x="-28" y="5" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8" transform="rotate(-90,-28,5)">
+        Delta Z = 90,0 mm
+      </text>
+
+      <!-- Cote Z = +45 mm vers Z = 0 -->
+      <line x1="375" y1="-157.5" x2="375" y2="0" stroke="#facc15" stroke-width="1.2" marker-start="url(#arrowRevYellow)" marker-end="url(#arrowDimYellow)"/>
+      <text x="385" y="-75" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#facc15">
+        45,0 mm
+      </text>
+
+      <!-- Cote Z = -45 mm vers Z = 0 -->
+      <line x1="375" y1="0" x2="375" y2="157.5" stroke="#facc15" stroke-width="1.2" marker-start="url(#arrowRevYellow)" marker-end="url(#arrowDimYellow)"/>
+      <text x="385" y="85" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#facc15">
+        45,0 mm
+      </text>
+
+      <!-- Entraxe M5 Y = 50,0 mm -->
+      <line x1="87.5" y1="-200" x2="262.5" y2="-200" stroke="#38bdf8" stroke-width="1.2" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
+      <text x="175" y="-208" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#38bdf8">
+        Entraxe Y = 50,0 mm
+      </text>
+
+      <!-- Largeur totale colonne 100,0 mm -->
+      <line x1="0" y1="250" x2="350" y2="250" stroke="#94a3b8" stroke-width="1.2" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
+      <text x="175" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#94a3b8">
+        Largeur Redan Épaules = 100,0 mm
+      </text>
+    </g>
+  </g>
+
+  <!-- ======================================================================= -->
+  <!-- PANEL 2 : ZOOM MACRO SUR LE TENON-MORTAISE 2D (COTATION DE PRÉCISION)  -->
+  <!-- ======================================================================= -->
+  <g transform="translate(600, 115)">
+    <rect width="850" height="520" rx="10" fill="#1e293b" stroke="#facc15" stroke-width="1.5" filter="url(#shadowBox)"/>
+    <rect width="850" height="520" rx="10" fill="url(#gridFine)" opacity="0.25"/>
+
+    <!-- En-tête Panel 2 -->
+    <rect x="0" y="0" width="850" height="42" rx="10" fill="#ca8a04" opacity="0.2"/>
+    <text x="425" y="26" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#facc15">
+      PANEL 2 : DETAIL MACRO DU TENON DE CENTRAGE 2D (40 × 10 mm — R = 3,0 mm)
+    </text>
+
+    <!-- Zone Zoom Macro (Échelle 1 mm = 10 px, 40 mm = 400 px, 10 mm = 100 px) -->
+    <g transform="translate(425, 270)">
+      
+      <!-- Axe Z = 0 horizontal -->
+      <line x1="-380" y1="0" x2="380" y2="0" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="-370" y="-8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#ec4899">PLAN DE JOINT NOMINAL Z = 0,0 mm</text>
+
+      <!-- Axe Y = 0 vertical -->
+      <line x1="0" y1="-180" x2="0" y2="180" stroke="#64748b" stroke-width="1" stroke-dasharray="6,4"/>
+      <text x="10" y="-160" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">AXE Y = 0</text>
+
+      <!-- TRACÉ MACRO ÉCARTÉ : PLAQUE HAUTE (BLEU, DÉCOLLÉE LÉGÈREMENT DE 20 PX POUR CLARTÉ) -->
+      <g transform="translate(0, -25)">
+        <path d="
+          M -320,-130 
+          L 320,-130 
+          L 320,0 
+          L 200,0 
+          A 30 30 0 0 0 170,-30 
+          L 170,-70 
+          A 30 30 0 0 1 140,-100 
+          L -140,-100 
+          A 30 30 0 0 1 -170,-70 
+          L -170,-30 
+          A 30 30 0 0 0 -200,0 
+          L -320,0 
+          Z" 
+          fill="url(#gradPlaqueHaute)" stroke="#38bdf8" stroke-width="2.5" fill-opacity="0.9"/>
+        <text x="0" y="-55" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#ffffff">
+          MORTAISE FEMELLE (PLAQUE HAUTE)
+        </text>
+      </g>
+
+      <!-- TRACÉ MACRO ÉCARTÉ : PLAQUE BASSE (JAUNE, DÉCOLLÉE DE +25 PX) -->
+      <g transform="translate(0, 25)">
+        <path d="
+          M -320,130 
+          L 320,130 
+          L 320,0 
+          L 200,0 
+          A 30 30 0 0 1 170,-30 
+          L 170,-70 
+          A 30 30 0 0 0 140,-100 
+          L -140,-100 
+          A 30 30 0 0 0 -170,-70 
+          L -170,-30 
+          A 30 30 0 0 1 -200,0 
+          L -320,0 
+          Z" 
+          fill="url(#gradPlaqueBasse)" stroke="#facc15" stroke-width="2.5" fill-opacity="0.9"/>
+        <text x="0" y="45" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#ffffff">
+          TENON MÂLE (PLAQUE BASSE)
+        </text>
+      </g>
+
+      <!-- COTE LARGEUR TENON (40,0 mm = 400 px) -->
+      <line x1="-200" y1="170" x2="-200" y2="195" stroke="#475569" stroke-width="1"/>
+      <line x1="200" y1="170" x2="200" y2="195" stroke="#475569" stroke-width="1"/>
+      <line x1="-200" y1="185" x2="200" y2="185" stroke="#facc15" stroke-width="1.8" marker-start="url(#arrowRevYellow)" marker-end="url(#arrowDimYellow)"/>
+      <text x="0" y="205" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#facc15">
+        LARGEUR TENON = 40,00 mm (Y = ±20,0 mm)
+      </text>
+
+      <!-- COTE HAUTEUR TENON (10,0 mm = 100 px) -->
+      <line x1="220" y1="25" x2="280" y2="25" stroke="#475569" stroke-width="1"/>
+      <line x1="220" y1="-75" x2="280" y2="-75" stroke="#475569" stroke-width="1"/>
+      <line x1="270" y1="25" x2="270" y2="-75" stroke="#facc15" stroke-width="1.8" marker-start="url(#arrowRevYellow)" marker-end="url(#arrowDimYellow)"/>
+      <text x="285" y="-20" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#facc15">
+        h = 10,0 mm
+      </text>
+
+      <!-- RAYONS DE CONGÉS R = 3,0 mm (Flèches et callouts) -->
+      <circle cx="-170" cy="-45" r="5" fill="#ec4899"/>
+      <line x1="-170" y1="-45" x2="-250" y2="-75" stroke="#ec4899" stroke-width="1.5"/>
+      <text x="-260" y="-80" text-anchor="end" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#ec4899">
+        Congés R = 3,0 mm (4 angles)
+      </text>
+      <text x="-260" y="-65" text-anchor="end" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">
+        Usinable fraise carbure Ø 6,0 mm C500
+      </text>
+
+      <!-- JEU D'AJUSTEMENT H7/h7 -->
+      <rect x="-350" y="85" width="220" height="45" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+      <text x="-240" y="103" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#38bdf8">
+        Jeu d'ajustement 2D C500
+      </text>
+      <text x="-240" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">
+        j = 0,05 à 0,10 mm (Glissant doux)
+      </text>
+    </g>
+  </g>
+
+  <!-- ======================================================================= -->
+  <!-- PANEL 3 : PROTOCOLE CAO FUSION 360 & USINAGE ATELIER C500             -->
+  <!-- ======================================================================= -->
+  <g transform="translate(600, 660)">
+    <rect width="850" height="255" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadowBox)"/>
+    
+    <!-- En-tête Panel 3 -->
+    <rect x="0" y="0" width="850" height="38" rx="10" fill="#0284c7" opacity="0.2"/>
+    <text x="425" y="24" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12.5" font-weight="bold" fill="#38bdf8">
+      PANEL 3 : GUIDE DE MODÉLISATION FUSION 360 &amp; RÈGLES DE FABRICATION ATELIER
+    </text>
+
+    <!-- 3 Cartouches d'instructions -->
+    <g transform="translate(25, 55)">
+      <!-- Étape 1 -->
+      <rect width="250" height="175" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="12" y="12" width="26" height="26" rx="13" fill="#0284c7"/>
+      <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">1</text>
+      <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8">Esquisse de Coupe 2D</text>
+      <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1" width="220">
+        • Tracer la ligne Z = 0 passant au centre de l'insert.<br/>
+        • Dessiner le rectangle de 40 × 10 mm centré sur Y = 0.<br/>
+        • Placer les 4 congés R = 3,0 mm.<br/>
+        • Marge de matière : 35,0 mm libres avant les perçages M5.
+      </text>
+
+      <!-- Étape 2 -->
+      <g transform="translate(275, 0)">
+        <rect width="250" height="175" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+        <rect x="12" y="12" width="26" height="26" rx="13" fill="#ca8a04"/>
+        <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">2</text>
+        <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15">Scission du Corps</text>
+        <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
+          • Outil <tspan fill="#facc15" font-weight="bold">Modify &gt; Split Body</tspan>.<br/>
+          • Sélectionner le profil d'esquisse tenon.<br/>
+          • Génère deux composants distincts :<br/>
+            - <tspan fill="#38bdf8">Plaque Haute</tspan> (L = 142,7 mm)<br/>
+            - <tspan fill="#facc15">Plaque Basse</tspan> (L = 290,0 mm).
+        </text>
+      </g>
+
+      <!-- Étape 3 -->
+      <g transform="translate(550, 0)">
+        <rect width="250" height="175" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+        <rect x="12" y="12" width="26" height="26" rx="13" fill="#16a34a"/>
+        <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">3</text>
+        <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#4ade80">Usinage CNC C500</text>
+        <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
+          • Débit dans le plat 5×100×495 mm 7075.<br/>
+          • Fraisage 2.5D fraise carbure Ø 6,0 mm.<br/>
+          • Chanfreinage 0,3 mm × 45° 2 faces.<br/>
+          • Éclissage par 2 semelles 5 mm + 4 vis M5 à 5,5 N.m (Sandwich 15 mm).
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>
