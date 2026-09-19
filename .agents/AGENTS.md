@@ -34,6 +34,10 @@
 
 ## Documentation Structure & Navigation
 - **Systematic Table of Contents (Sommaire Cliquable Obligatoire)** : In every active technical Markdown document of Level 1 (`FINAL_`, `GUIDE_COMPLET_`, `DOSSIER_TECHNIQUE_`) and Level 2 (`STUDY_`, `AUDIT_`), you MUST include a structured `## 📑 Sommaire` / `## 📑 Sommaire Général` at the beginning of the file (immediately after the header / intro callout) with functional markdown anchor links (`[Titre](#slug-ancre)`) pointing directly to all major sections (`##`) and sub-sections (`###`).
+- **Fonctionnalité & Validité Stricte des Liens de Sommaire (Zéro Lien Mort)** :
+  - TOUS les liens d'ancre d'un sommaire doivent être rigoureusement fonctionnels et vérifiés : le slug d'ancre (`#nom-de-section`) doit correspondre exactement aux règles de slugification Markdown (conversion en minuscules, suppression des caractères spéciaux/ponctuations, remplacement des espaces par des tirets `-`).
+  - Lors de tout ajout, renommage, déplacement ou suppression d'une section (`##` ou `###`), vous DEVEZ SYSTÉMATIQUEMENT inspecter et mettre à jour le sommaire du document pour réaligner immédiatement le texte et le slug de l'ancre. Aucun lien brisé ou ancre orpheline n'est toléré dans la documentation active.
+  - Vérifier également que les liens de référence inter-fichiers (`[Doc](file:///...)` ou relatifs) pointent toujours vers des chemins de fichiers réels et existants.
 
 ## Actionneurs RobStride — Règle Matérielle Inviolable (Arbres Pleins / Zéro Arbre Creux)
 - **Architecture Pleine & Fermée** : TOUS les moteurs de la gamme RobStride (RS-00, RS-02, RS-03, RS-04, RS-05, RS-06) possèdent un arbre de sortie plein, un centre borgne/obstrué et un carter arrière totalement fermé.
