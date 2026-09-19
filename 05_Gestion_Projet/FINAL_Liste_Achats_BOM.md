@@ -36,6 +36,7 @@
 | **Écrous Nylstop** | M2.5 | DIN 985 (Inox) | 4 (+ stock 10) | Blocage anti-vibrations IMU Torse flanc gauche |
 | **Entretoises Nylon** | M2.5 | H = 3,0 mm (Øext 5 mm) | 4 (+ stock 10) | Isolation électrique diélectrique PCB IMU vs Alu 7075-T6 |
 | **Rondelles plates** | M2.5 | DIN 125A (Inox) | 4 (+ stock 10) | Rondelles d'assise sous écrous Nylstop M2,5 |
+| **Goupilles cylindriques** | Ø 3,0 mm | 14 mm (ISO 8734 m6) | 4 (+ stock 2 = 6) | Positionnement positif absolu 0,005 mm sandwich colonne Z=±30 mm (Y=±25 mm) — Jonction coupe droite 100 mm |
 | **Vis CHC** | M3 | 6mm - 12mm | ~240 | Fixations électroniques, caches, small motors |
 | **Vis CHC** | M4 | 10mm - 15mm | ~160 | Structure principale, moteurs RS-01-RS-04 |
 | **Vis CHC** | M5 | 12mm - 20mm | ~40 | Hanches, Grosses articulations |

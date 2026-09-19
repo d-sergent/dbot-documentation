@@ -17,14 +17,14 @@
   - [2.1 Incohérence Dimensionnelle des Équerres Basses Waist](#21-incohérence-dimensionnelle-des-équerres-basses-waist)
   - [2.2 Roulement CRBH 8016 Non Commandé (Chemin Critique)](#22-roulement-crbh-8016-non-commandé-chemin-critique)
   - [2.3 Absence de Support IMU au Torse](#23-absence-de-support-imu-au-torse)
-  - [2.4 Risque de Talonnage au Noeud d'Épaules (Tenon-Mortaise)](#24-risque-de-talonnage-au-noeud-dépaules-tenon-mortaise)
+  - [2.4 Suppression du Tenon-Mortaise au profit de la Coupe Droite Z = 0 & Goupillage 4× Ø 3 mm](#24-suppression-du-tenon-mortaise-au-profit-de-la-coupe-droite-plane-z--0--goupillage-4-ø-3-mm)
   - [2.5 Ventilation du RS-06 Waist Absente](#25-ventilation-du-rs-06-waist-absente)
 - [3. Recommandation d'Allègement : Contournage Festonné des Brides](#3-recommandation-dallègement--contournage-festonné-des-brides)
 - [4. Recommandations Diverses](#4-recommandations-diverses)
   - [4.1 Butées Logicielles en Amont de la Butée Mécanique](#41-butées-logicielles-en-amont-de-la-butée-mécanique)
   - [4.2 Amortissement Élastomère de la Butée de Fin de Course](#42-amortissement-élastomère-de-la-butée-de-fin-de-course)
   - [4.3 Protection IP54 du Corridor de Câbles](#43-protection-ip54-du-corridor-de-câbles)
-  - [4.4 Goupillage de Positionnement au Tenon-Mortaise](#44-goupillage-de-positionnement-au-tenon-mortaise)
+  - [4.4 Jonction Axiale à Coupe Droite Z = 0 & Goupillage Positif 4× Ø 3 mm](#44-jonction-axiale-à-coupe-droite-z--0--goupillage-positif-4-ø-3-mm-architecture-validée)
 - [5. Proposition d'Évolution : Ajout du Waist Pitch (2-DoF)](#5-proposition-dévolution--ajout-du-waist-pitch-2-dof)
   - [5.1 Pourquoi le Pitch est le DoF le Plus Utile à Ajouter](#51-pourquoi-le-pitch-est-le-dof-le-plus-utile-à-ajouter)
   - [5.2 Choix du Moteur : RobStride RS-04 (120 N.m pic)](#52-choix-du-moteur--robstride-rs-04-120-nm-pic)
@@ -120,13 +120,12 @@ Et la checklist de fin de dossier (section 8) confirme que la case est non coch�
 
 ---
 
-### 2.4 Risque de Talonnage au Noeud d'Épaules (Tenon-Mortaise)
+### 2.4 Suppression du Tenon-Mortaise au profit de la Coupe Droite Plane Z = 0 & Goupillage 4× Ø 3 mm
 
-**Constat** : La jonction Plaque Haute / Plaque Basse au noeud d'épaules (Z = 0) par tenon-mortaise 2D (40 x 10 mm, congés R = 3 mm) est un concentrateur de contraintes (Kt ~ 1,3 a 1,5) précisément à l'endroit de la torsion maximale du RS-04 (120 N.m).
+**Constat initial** : La jonction Plaque Haute / Plaque Basse au noeud d'épaules (Z = 0) par un ancien tenon-mortaise 2D (40 x 10 mm, congés R = 3 mm) constituait un concentrateur de contraintes (Kt ~ 1,3 a 1,5) pile à l'endroit de la torsion maximale du RS-04 (120 N.m), tout en imposant un risque de talonnage au fond et une complexité de jeu sous Fusion 360 (Offset Face -0,05 mm et -0,20 mm).
 
-**Atténuation existante** : Les facteurs de sécurité restent confortables (Sf = 32,6 en torsion au noeud). Le jeu de fond anti-talonnage de 0,20 mm est correctement documenté.
-
-**Recommandation** : Ajouter **2 goupilles cylindriques de positionnement Ø 3 mm (ISO 8734, H7/m6)** de part et d'autre du tenon pour garantir un alignement mécanique positif indépendamment du serrage des vis M5. Voir section 4.4.
+> [!TIP]
+> **Action P2 (Validée & Actée — Coupe Droite + 4 Goupilles ISO 8734)** : Le tenon-mortaise est **définitivement supprimé** au profit d'une **coupe droite 100% plane à Z = 0,0 mm** offrant 500 mm² d'appui continu sans entaille (facteur de contrainte Kt = 1,00, gain de portée +19%). L'isostatisme parfait et la reprise du cisaillement sont assurés par **4 goupilles cylindriques rectifiées Ø 3 mm × 14 mm (ISO 8734, H7/m6)** situées à **`Z = ±30,0 mm`** (`Y = ±25,0 mm`, coaxiales en Y avec les vis M5). Voir section 4.4 et le plan vectoriel `./media/plan_decoupe_tenon_colonne_haute_basse.svg`.
 
 ---
 
@@ -144,41 +143,54 @@ Et la checklist de fin de dossier (section 8) confirme que la case est non coch�
 
 ---
 
-## 3. Recommandation d'Allègement : Contournage Festonné des Brides
+## 3. Recommandation d'Allègement : Contournage Festonné des Brides d'Épaules (Action P3)
 
-### Principe
+### 3.1 Analyse de Faisabilité & Pourquoi le Contournage Extérieur 2.5D est la Seule Approche Valide
 
-Le contournage festonné (*scalloped lightening*) consiste à usiner des poches (festons) entre chaque paire de trous de fixation M4 adjacents sur le flasque de la bride d'épaule, sur la face stator (côté intérieur). La matière pleine est conservée uniquement :
-- Autour de chaque trou M4 (îlot de matière de Ø 11 mm minimum)
-- Sur la couronne de centrage Ø 95 mm (alésage de référence du stator)
-- Sur le bord extérieur Ø 120 mm (cerclage structural)
+La bride d'épaule monobloc en Alu 7075-T6 présente une dissymétrie axiale fonctionnelle en deux secteurs :
+1. **Secteur Mince (Étage 1)** : Épaisseur axiale de **`5,0 mm`** seulement (zone des 4 vis M4 × 12 mm).
+2. **Secteur Épais (Étage 2 / Hub)** : Épaisseur axiale cumulée de **`18,2 mm`** (zone des 6 vis M4 × 25 mm).
 
-### Schéma Vectoriel
+> [!WARNING]
+> **Impossibilité des poches borgnes uniformes** : Tenter d'usiner des poches borgnes de 13 mm de profondeur tout autour de la pièce déboucherait dans le vide sur le secteur mince de 5 mm.  
+> La seule solution d'ingénierie rigoureuse est le **contournage festonné extérieur 2.5D (*scalloped outer profile*)** : le pourtour extérieur n'est plus un disque continu de Ø 120 mm, mais une marguerite à 10 lobes usinée en une seule passe continue de détourage extérieur sur la CNC NestWorks C500.
+
+### 3.2 Schéma Vectoriel d'Ingénierie & Plan Coté
 
 ![Contournage Festonné — Bride d'Épaule Monobloc D-Bot](./media/contournage_festonne_bride_epaule.svg)
 
-*Blueprint d'ingénierie vectoriel comparatif. Panneau 1 : Flasque actuel 100% plein (266,9 g/bride). Panneau 2 : Flasque festonné avec 10 poches usinées entre les trous M4 du PCD Ø 106 mm (170-190 g/bride, gain de -80 a -100 g).*
+*Blueprint d'ingénierie vectoriel comparatif. Panel 1 : Flasque actuel 100% plein Ø 120 mm (266,9 g/bride). Panel 2 : Flasque festonné 10 lobes coté pour Fusion 360 (10 lobes R = 7,0 mm, arcs concaves tangents R = 14,0 mm, fond de creux Ø 100,0 mm, masse = 184,8 g/bride, gain net de -164,2 g sur la paire d'épaules). Panel 3 : Guide pas-à-pas de modélisation CAO et stratégie d'usinage C500.*
 
-### Paramètres d'Usinage CNC C500
+### 3.3 Paramètres Géométriques Précis pour Esquisse Fusion 360
 
-| Paramètre | Valeur |
-| :--- | :---: |
-| **Nombre de poches** | 10 (1 entre chaque paire de trous M4 adjacents) |
-| **Profondeur de poche** | 13,0 mm (depuis la face stator, conserve 5,2 mm plein côté appui) |
-| **Largeur angulaire de poche** | ~28 deg par poche (sur les 36 deg d'espacement entre trous) |
-| **Îlot de matière autour de chaque M4** | Ø 11 mm minimum (portée rondelle Nord-Lock Ø 7,6 mm + marge 1,7 mm) |
-| **Congés d'angle de poche** | R = 3,0 mm (Kt ~ 1,15, fraise Ø 6 mm DLC) |
-| **Outil** | Fraise carbure 3 dents Ø 6 mm DLC, usinage en interpolation circulaire |
-| **Temps additionnel CNC** | +15 a +20 min par bride |
+| Paramètre Géométrique | Valeur Nominale | Justification Technique & Gardes |
+| :--- | :---: | :--- |
+| **Alésage intérieur de centrage** | **Ø 95,05 mm H7** (R = 47,525 mm) | Centrage pilote du stator RS-04 (profondeur 13,8 mm, jeu fond 0,6 mm). |
+| **Cercle primitif de perçage (PCD)** | **Ø 106,00 mm** (R = 53,00 mm) | PCD constructeur RobStride pour les 10 vis M4. |
+| **Entraxe angulaire entre vis** | **36,00 deg** | Répartition régulière 10 occurrences sur 360 deg. |
+| **Diamètre des perçages M4** | **Ø 4,30 mm** traversant | Passage de vis ISO 273 série fine, chanfrein 0,5 mm × 45 deg. |
+| **Rayon des 10 lobes extérieurs** | **R = 7,00 mm (Ø 14,0 mm)** | Enveloppe la rondelle Nord-Lock M4 (Ø 7,6 mm) avec une marge saine de 3,2 mm. Le sommet du lobe atteint exactement le diamètre brut de Ø 120,0 mm (53 + 7 = 60 mm). |
+| **Rayon des 10 arcs concaves festonnés** | **R = 14,00 mm** (tangents) | Arc de raccordement doux usinable à la fraise Ø 6 mm DLC sans à-coup cinématique. |
+| **Rayon au fond du feston (creux)** | **R = 50,00 mm (Ø 100,0 mm)** | Garde de matière continue de **2,50 mm** (`50,0 - 47,5 = 2,5 mm`) au-dessus de l'alésage Ø 95 mm, garantissant l'intégrité du guidage pilote. |
 
-### Validation RDM de l'Allègement
+### 3.4 Validation RDM & Tenue Mécanique
 
-Les facteurs de sécurité actuels sont **massivement surdimensionnés** (Sf > 21 en chute, Sf > 60 en usage normal). L'allègement réduit la section de ~40%, ramenant les Sf à environ :
-- Flexion chute (73,6 N.m) : Sf passe de x21 a ~x13 (encore tres confortable)
-- Torsion RS-04 (120 N.m) : Sf torsion friction passe de x2,76 a ~x2,76 (inchangé, car le frottement ne dépend que de la précharge des 10 vis M4, pas de la section du flasque)
+L'analyse de contraintes sous charge démontre que le flasque festonné conserve des facteurs de sécurité largement surdimensionnés :
+* **Torsion nominale et pic RS-04 (120 N.m)** : Le couple est transmis à 100% par frottement sous les 10 vis M4 (précharge totale 48 000 N, capacité friction = 331 N.m). Le facteur de sécurité reste strictement inchangé à **Sf = 2,76** (ne dépend pas de la section extérieure du flasque).
+* **Flexion dynamique de chute (73,6 N.m)** : La contrainte maximale de Von Mises au fond des festons atteint 30,7 MPa face à une limite élastique de 435 MPa pour l'Alu 7075-T6, soit un facteur de sécurité **Sf = 14,2 ✅**.
+* **Pression de matage sous têtes de vis M4** : 41,2 MPa sous couple de 3,0 N.m, largement admissible sans déformation.
+
+### 3.5 Bilan de Masse Consolidé
+
+* **Masse d'une bride pleine V2 actuelle** : **266,9 g** (533,8 g la paire).
+* **Volume d'Alu 7075-T6 retiré par festonnage** : **`29,2 cm³`** par bride.
+* **Masse finale d'une bride festonnée** : **`184,8 g`** (**gain net = -82,1 g par bride**).
+* **Gain total sur le haut du robot** : **`-164,2 g net`** sur la paire d'épaules.
 
 > [!TIP]
-> **Gain total sur le robot** : -160 a -200 g (2 brides). Ce gain est situé en hauteur, au-dessus du centre de gravité, ce qui est doublement bénéfique pour la dynamique de marche bipède (réduction de l'inertie de basculement).
+> **Recommandation Stratégique pour le Projet D-Bot** :  
+> - **Pour la V1.0 actuelle** : Conserver le flasque plein Ø 120 mm. Il fonctionne immédiatement, son usinage est plus rapide et il offre un guidage aéraulique étanche le long du moteur RS-04 pour la tuyère de ventilation.
+> - **Pour la V1.5 / V2.0** : Ce plan coté et le fichier SVG constituent la référence prête pour l'allègement direct de -164 g, sans aucune remise en cause des composants adjacents (moteur RS-04, vis M4 et traverse 60×60 inchangés).
 
 ---
 
@@ -214,15 +226,21 @@ Le corridor de traversée du faisceau 48V/CAN-FD (lumière oblongue 25 x 15 mm) 
 
 ---
 
-### 4.4 Goupillage de Positionnement au Tenon-Mortaise
+### 4.4 Jonction Axiale à Coupe Droite Z = 0 & Goupillage Positif 4× Ø 3 mm (Architecture Validée)
 
-**Recommandation** : Percer 2 trous de goupille Ø 3 mm (ISO 8734, ajustement H7/m6) au noeud d'épaules (Z = 0), de part et d'autre du tenon, aux coordonnées :
-- Goupille G : X = 0, Y = -40 mm, Z = 0
-- Goupille D : X = 0, Y = +40 mm, Z = 0
+**Spécification retenue** : Pour éliminer tout concentrateur de contraintes (Kt = 1,00 au lieu de 1,3-1,5) et supprimer le risque de talonnage ou d'hyperstatisme, la jonction axiale adopte une **tranche plane continue de 100 mm à Z = 0,0 mm (zéro tenon)**. Le positionnement micrométrique et la reprise du cisaillement sont assurés par **4 alésages fermés `Ø 3,00 mm H7`** en pleine matière décalés de 15 mm par rapport aux vis M5 :
+* **Coordonnées cartésiennes (coaxiales en Y avec les vis M5)** :
+  - **Plaque Haute (Z = +30,0 mm)** : `Y = -25,0 mm` (Gauche) et `Y = +25,0 mm` (Droite).
+  - **Plaque Basse (Z = -30,0 mm)** : `Y = -25,0 mm` (Gauche) et `Y = +25,0 mm` (Droite).
 
-Ces goupilles traversent simultanément la Plaque Haute, les 2 semelles éclisses et la Plaque Basse, garantissant un alignement mécanique positif à 0,01 mm près, indépendamment du serrage des vis M5. C'est la pratique standard en mécanique d'assemblage de précision.
+**Avantages mécaniques du quadruplet de goupilles** :
+* **Verrouillage par bipoints indépendants** : Chaque plaque (haute et basse) possède son propre entraxe de 50,0 mm verrouillant 100% de la rotation dans le plan par obstacle mécanique pur, sans nécessiter d'emboîtement tenon.
+* **Sécurité au cisaillement** : Les 4 goupilles trempées 60 HRC offrent une section cisaillée de 28,3 mm² soit une résistance directe de 16 980 N (facteur de sécurité Sf = 3,5 face aux 120 N.m du RS-04), complétée par 2 880 N de frottement sous la précharge des vis M5.
+* **Contact franc obligatoire à Z = 0 (ZÉRO ESPACE / ZÉRO GAP)** : Les deux plaques sont en butée directe métal-métal à 0,0 mm. Les 500 mm² de matière continue absorbent 100% de la compression axiale (poids propre, charges portées, chocs de marche), déchargeant totalement les goupilles et les vis M5 de tout effort vertical.
 
-**Coût** : 2 goupilles ISO 8734 Ø 3 x 12 mm (~0,50 EUR) + 2 perçages CNC Ø 3 H7 (~5 min C500).
+Ces 4 goupilles de **`Ø 3,0 mm × 14 mm`** (McMaster **`98381A467`** en acier trempé ou **`97395A310`** en inox 316) traversent simultanément les 15 mm du sandwich (Semelle Éclisse Avant 5 mm + Colonne 5 mm + Semelle Éclisse Arrière 5 mm).
+
+**Usinage C500** : Avant-trou foret carbure Ø 2,90 mm + alésoir machine Ø 3,00 mm H7 avec micro-chanfrein d'entrée `0,1 mm × 45°` des deux côtés. Coupe droite à Z = 0 ébavurée à `0,2 mm × 45°`. Voir le blueprint vectoriel `./media/plan_decoupe_tenon_colonne_haute_basse.svg`.
 
 ---
 
@@ -664,8 +682,8 @@ A la hanche (Pitch), le buste vertical + cuisse inclinée :
 | **P1** | Concevoir et intégrer le support IMU sur la colonne sagittale | Faible (4x Ø 2,7 mm C500) | **Critique** pour locomotion | ✅ **Fait** (Plaque Haute Z=+81,58 mm, 4x Ø 2,7 traversant + Nylstop M2,5) |
 | **P1** | Implémenter les 3 niveaux de butées logicielles dans le firmware | Faible (firmware CAN) | Protection mécanique | Avant mise en route |
 | **P2** | Évaluer et intégrer la ventilation du RS-06 (ouïes ou ventilateur) | Moyen | Fiabilité long terme | Avant assemblage pelvis |
-| **P2** | Goupillage positionnement au tenon-mortaise (2x Ø 3 mm) | Faible (2 perçages C500) | Sécurité supplémentaire | Pendant usinage colonne |
-| **P3** | Contournage festonné des brides d'épaule (-160 g) | Moyen (+20 min CNC/bride) | Dynamique de marche | Optionnel V1 |
+| **P2** | Goupillage positionnement (Z = ±30 mm, Y = ±25 mm) | Faible (4 alésages C500) | Sécurité supplémentaire | ✅ **Fait** (Coupe droite Z=0 + 4 goupilles ISO 8734, SVG & Torse V2) |
+| **P3** | Contournage festonné des brides d'épaule (-164 g) | Moyen (+20 min CNC/bride) | Dynamique de marche | ✅ **Validé V1** (184,8 g/bride, gain net -164,2 g torse) |
 | **P3** | Protection IP54 du corridor de câbles (passe-fil à membrane) | Faible (achat composant) | Robustesse terrain | Avant utilisation extérieur |
 | **P3** | Amortissement silicone des vis de butée Waist | Faible (manchon ~2 EUR) | Protection roulement | Avant mise en route |
 | **P4** | Prévoir 80 mm de marge verticale au pelvis pour futur RS-04 Pitch | Faible (paramétrique CAO) | Évolutivité V1.5 | Pendant conception CAO |

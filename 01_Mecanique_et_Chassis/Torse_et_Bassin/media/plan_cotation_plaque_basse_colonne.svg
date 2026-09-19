@@ -89,20 +89,11 @@
       <line x1="-30" y1="21.5" x2="250" y2="21.5" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="6,3"/>
       <text x="255" y="25" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#ec4899">PLAN Z = 0</text>
 
-      <!-- CORPS DE LA PLAQUE BASSE (ALU 7075-T6) -->
-      <!-- Profil extérieur avec tenon en haut et échancrure en bas -->
+      <!-- CORPS DE LA PLAQUE BASSE (ALU 7075-T6) — COUPE DROITE Z = 0 (ZÉRO TENON) -->
       <!-- x=0 à 206.8 (94mm = 206.8px ; 100mm redan = 220px ; 86mm bas = 189.2px) -->
-      <!-- Z=0 est à y=21.5 px (sommet tenon à y=0) ; fond à y=675.2 px -->
+      <!-- Z=0 est à y=21.5 px (tranche plane continue de 100 mm = 220 px) ; fond à y=675.2 px -->
       <path d="
         M 0,21.5
-        L 59.4,21.5
-        A 6.6 6.6 0 0 0 66,14.9
-        L 66,6.6
-        A 6.6 6.6 0 0 1 72.6,0
-        L 134.2,0
-        A 6.6 6.6 0 0 1 140.8,6.6
-        L 140.8,14.9
-        A 6.6 6.6 0 0 0 147.4,21.5
         L 220,21.5
         L 220,98.5
         A 33 33 0 0 1 206.8,131.5
@@ -121,6 +112,15 @@
       <!-- Début à Z = -153 mm (y = 21.5 + 336.6 = 358.1 px), x = 44 -->
       <rect x="44" y="358.1" width="118.8" height="121" rx="33" fill="url(#gradVoidLumiere)" stroke="#38bdf8" stroke-width="1.8"/>
 
+      <!-- 2 ALÉSAGES FERMÉS GOUPILLES ISO 8734 (Z = -30,0 mm = y = 21.5 + 66 = 87.5 px ; Entraxe Y = 50 mm) -->
+      <circle cx="48.4" cy="87.5" r="3.3" fill="#10b981" stroke="#ffffff" stroke-width="1.2"/>
+      <circle cx="48.4" cy="87.5" r="1.0" fill="#ffffff"/>
+      <circle cx="158.4" cy="87.5" r="3.3" fill="#10b981" stroke="#ffffff" stroke-width="1.2"/>
+      <circle cx="158.4" cy="87.5" r="1.0" fill="#ffffff"/>
+      <text x="103.4" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" font-weight="bold" fill="#34d399">
+        2× Ø 3,0 mm H7 (Goupilles Z = -30 mm)
+      </text>
+
       <!-- 2 PERÇAGES M5 ÉPAULES (Z = -45,0 mm = y = 21.5 + 99 = 120.5 px ; Entraxe Y = 50 mm = 110 px) -->
       <circle cx="48.4" cy="120.5" r="5.8" fill="#0f172a" stroke="#ffffff" stroke-width="1.5"/>
       <circle cx="158.4" cy="120.5" r="5.8" fill="#0f172a" stroke="#ffffff" stroke-width="1.5"/>
@@ -138,16 +138,10 @@
       </text>
 
       <!-- LIGNES DE COTATION EN Z À GAUCHE -->
-      <!-- Hauteur totale 306.9 mm -->
-      <line x1="-35" y1="0" x2="-35" y2="675.2" stroke="#facc15" stroke-width="1.4" marker-start="url(#arrowRevYellow)" marker-end="url(#arrowDimYellow)"/>
-      <text x="-43" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15" transform="rotate(-90,-43,340)">
-        H_totale = 306,93 mm
-      </text>
-
-      <!-- Hauteur sous plan Z = 0 (297.1 mm) -->
-      <line x1="-15" y1="21.5" x2="-15" y2="675.2" stroke="#38bdf8" stroke-width="1.2" marker-start="url(#arrowRevSky)" marker-end="url(#arrowDimSky)"/>
-      <text x="-22" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#38bdf8" transform="rotate(-90,-22,340)">
-        297,13 mm
+      <!-- Hauteur totale nominale 297.13 mm depuis Z = 0 -->
+      <line x1="-25" y1="21.5" x2="-25" y2="675.2" stroke="#facc15" stroke-width="1.4" marker-start="url(#arrowRevYellow)" marker-end="url(#arrowDimYellow)"/>
+      <text x="-33" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15" transform="rotate(-90,-33,340)">
+        H_totale = 297,13 mm (Z = 0 à Fond)
       </text>
 
       <!-- Cotes des zones à droite -->

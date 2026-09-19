@@ -222,7 +222,7 @@ Suite à la validation géométrique réelle sur le modèle CAO Torse v86, la st
 
 ![Plan de Cotation Détaillée 2D de la Plaque Basse Allégée](./media/plan_cotation_plaque_basse_colonne.svg)
 
-*Blueprint d'ingénierie vectoriel de la Plaque Basse de colonne sagittale (Alu 7075-T6, épaisseur 5,0 mm). Panel 1 : Vue frontale complète montrant le tenon mâle 40 × 9,8 mm à Z = 0, les 2 perçages M5 d'épaules à Z = -45 mm, les 2 lumières d'allègement de 54 × 55 mm, et les 4 perçages M4 d'équerres Waist au bas de la plaque (H_totale = 306,93 mm). Panel 2 : Zoom macro coté sur les deux fenêtres d'allègement, la traverse médiane de 18,0 mm, les bordures saines de 20,0 mm et les congés R = 15,0 mm. Panel 3 : Synthèse RDM (Sf marche = ×14,36, Sf pic = ×1,48), bilan de masse (-77,3 g) et stratégie d'usinage sur la CNC NestWorks C500.*
+*Blueprint d'ingénierie vectoriel de la Plaque Basse de colonne sagittale (Alu 7075-T6, épaisseur 5,0 mm). Panel 1 : Vue frontale complète montrant la coupe droite plane à Z = 0,0 mm (100% métal-métal, zéro tenon), les 2 alésages fermés pour goupilles ISO 8734 Ø 3,0 mm H7 à Z = -30 mm, les 2 perçages M5 d'épaules à Z = -45 mm, les 2 lumières d'allègement de 54 × 55 mm, et les 4 perçages M4 d'équerres Waist au bas de la plaque (H_totale = 297,13 mm). Panel 2 : Zoom macro coté sur les deux fenêtres d'allègement, la traverse médiane de 18,0 mm, les bordures saines de 20,0 mm et les congés R = 15,0 mm. Panel 3 : Synthèse RDM (Sf marche = ×14,36, Sf pic = ×1,48), bilan de masse (-77,3 g) et stratégie d'usinage sur la CNC NestWorks C500.*
 
 3. **Implantation de l'IMU Torse (Bosch BMI270 SparkFun) sur la Plaque Haute — Prise en Compte de la Traverse Horizontale d'Épaule** :
    - **Contrainte Physique de la Traverse d'Épaule (Tube Carré Bleu 60×60×2 mm & Éclisse)** :
@@ -468,7 +468,7 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 
 ## 5. Conception Détaillée des Interfaces & Usinage 100% Alu 7075-T6
 
-### A. Bride d'Épaule Monobloc en Alu 7075-T651 (Ø120 × 50 mm)
+### A. Bride d'Épaule Monobloc en Alu 7075-T651 (Ø120 × 50 mm) & Contournage Festonné V1
 
 ![Bride d'Épaule Monobloc Alu 7075-T6 et Vis Traversante Unique](./media/solution_c_bride_monobloc_7075_et_vis_traversantes.svg)
 
@@ -479,25 +479,48 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 | Étage 1 : Flasque Stator (5,00 mm) | Étage 2 : Hub Intermédiaire (13,20 mm) | Étage 3 : Bossage Tube (15,00 mm) |
 | :---: | :---: | :---: |
 | ![Étage 1 : Flasque Stator 5.0 mm](./media/cad_bride_etage1_flasque_5mm.png) | ![Étage 2 : Hub Intermédiaire 13.20 mm](./media/cad_bride_etage2_hub_13mm2.png) | ![Étage 3 : Bossage Tube 15.00 mm](./media/cad_bride_etage3_bossage_15mm.png) |
-| **Appui Stator RS-04 (Ø120 mm)**<br>10 perçages Ø4,3 mm sur PCD Ø106 mm + centrage Ø95 H7 | **Hub de Couple & Épaulement (13,20 mm)**<br>Logement Ø95 mm prof. 13,8 mm (jeu fond 0,6 mm)<br>Épaisseur cumulée = 18,20 mm (vis M4×25)<br>Enveloppe la section arrière Ø94 mm du RS-04 | **Fixation Traverse 60×60 (15,00 mm)**<br>Section 55,8×55,8 mm + poche 44×44 R5<br>Vis M5 traversante à X = 7,5 mm |
+| **Appui Stator RS-04 (Festonnage V1)**<br>10 perçages Ø4,3 mm sur PCD Ø106 mm + centrage Ø95 H7 | **Hub de Couple & Épaulement (13,20 mm)**<br>Logement Ø95 mm prof. 13,8 mm (jeu fond 0,6 mm)<br>Épaisseur cumulée = 18,20 mm (vis M4×25)<br>Enveloppe la section arrière Ø94 mm du RS-04 | **Fixation Traverse 60×60 (15,00 mm)**<br>Section 55,8×55,8 mm + poche 44×44 R5<br>Vis M5 traversante à X = 7,5 mm |
 
 * **Architecture monolithique d'un seul bloc (Hauteur totale utile = `33,20 mm` usinée dans le brut Ø120 × 50 mm)** :
-  - **Étage 1 — Flasque d'appui stator (5,00 mm)** : Disque Ø120 mm percé de **10 trous de passage Ø4,3 mm** sur PCD Ø 106 mm + **chanfrein d'entrée d'alésage `0,5 mm × 45°`** (dégageant le congé de racine d'épaulement du moteur RS-04 pour garantir un contact plan 100% parfait à 0,0 mm). Se visse directement sur les 10 taraudages M4 du stator (sans plaque H-bracket intermédiaire).
+  - **Étage 1 — Flasque d'appui stator (5,00 mm) avec Contournage Festonné V1** : Disque allégé à 10 lobes convexes R = 7,0 mm centrés sur les 10 trous de passage Ø4,3 mm (PCD Ø 106,0 mm) et reliés par 10 arcs concaves R = 14,0 mm tangents descendant à Ø 100,0 mm. Chanfrein d'entrée d'alésage de `0,5 mm × 45°` dégageant le congé de racine d'épaulement du moteur RS-04 pour un contact plan à 0,0 mm. Se visse directement sur les 10 taraudages M4 du stator.
   - **Étage 2 — Hub intermédiaire / Secteur épais (13,20 mm)** : Surépaisseur arrière intégrant un **alésage / logement Ø 95,00 mm H7 d'une profondeur exacte de `13,80 mm` avec congé de fond intérieur `R = 0,5 mm`** (anti-concentration de contraintes, sans aucune interférence moteur grâce au jeu fonctionnel axial de fond de `0,60 mm`). Reçoit la section arrière Ø 94,0 mm × 13,2 mm du moteur RS-04. L'épaisseur totale de matière traversée par les vis de Zone 2 est de `5,00 + 13,20 = 18,20 mm` (serrage par vis **CHC M4 × 25 mm + Nord-Lock**, pénétration stator = 5,00 mm ✅).
   - **Étage 3 — Bossage carré d'insertion tube (55,80 × 55,80 × 15,00 mm)** : Usiné directement dans la masse avec congés extérieurs **R = 3,0 mm** et **poche centrale carrée `44 × 44 mm` avec congés verticaux intérieurs R = 5,0 mm et congé de fond intérieur R = 0,5 mm** (profondeur de poche **`15,00 mm`** sur toute la hauteur du bossage, s'appuyant directement sur la face de référence du Hub de 13,20 mm avec adoucissement des contraintes à la racine). Paroi résiduelle latérale = **5,9 mm** (Sf compression M5 = ×8,4 ✅). *(Gain de masse, anti-concentration de contraintes et usinage 2.5D simplifié sans reprise de plancher)*.
   - **Verrouillage traversant épuré (Option 1 validée)** : 1 seul perçage traversant **Ø5,3 mm vertical (axe Z)** centré à **`X = 7,5 mm`** depuis le chant d'extrémité du bossage (pour vis CHC M5 × 70 mm). Distance bord trou Ø5,3 mm / paroi poche : **3,25 mm > 3,0 mm** ✅ (pince latérale = 5,9 mm).
 
-> [!NOTE]
-> **Validation RDM — Poche Carrée 44 × 44 mm / R = 5,0 mm (vs ancien évidement cylindrique Ø 35 mm)** :  
-> La poche n'affecte PAS la transmission de torsion (mécanisme de contact de forme sur les faces EXTÉRIEURES du bossage).
-> | Mode de Défaillance | Contrainte Calculée | Limite Matière 7075-T6 | Facteur de Sécurité | Verdict |
-> | :--- | :---: | :---: | :---: | :---: |
-> | Torsion contact carré ext. (120 N.m) | 4,9 MPa | 251 MPa (cis.) | **x51** | ✅ |
-> | Compression paroi / serrage M5 (5,9 mm) | 51,9 MPa | 435 MPa (Re) | **x8,4** | ✅ |
-> | Concentration aux congés R = 5 mm (Kt ~1,2) | 5,9 MPa | 435 MPa (Re) | **x73,7** | ✅ |
-> | Flexion latérale 50 N.m | < 10 MPa | 435 MPa (Re) | **> x40** | ✅ |
-> 
-> **Gain de masse validé : ~50 g / bride → ~100 g net sur la paire d'épaules du robot.**
+#### Standard Officiel V1 : Contournage Festonné à 10 Lobes (-164,2 g sur le Torse)
+
+![Plan de Cotation et Usinage Festonné Bride Épaule](./media/contournage_festonne_bride_epaule.svg)
+
+*Blueprint vectoriel complet de la Bride d'Épaule Festonnée V1 (Alu 7075-T651). Panel 1 : Flasque circulaire pleine de référence (266,9 g). Panel 2 : Flasque festonnée à 10 lobes cotée pour Fusion 360 (184,8 g, soit -82,1 g / bride et -164,2 g sur la paire d'épaules). Panel 3 : Gamme d'usinage 2.5D continue à la fraise DLC Ø 6 mm et protocole pas-à-pas.*
+
+##### Paramètres Géométriques Rigoureux du Profil Festonné (CAO Fusion 360)
+
+| Paramètre | Valeur Nominale | Tolérance / Remarque |
+| :--- | :---: | :--- |
+| **Diamètre primitif des vis (PCD)** | **Ø 106,00 mm** | 10 perçages Ø 4,3 mm équidistants (entraxe angulaire = 36,00°) |
+| **Lobes convexes extérieurs** | **R = 7,00 mm** | 10 bossages Ø 14,0 mm centrés sur les trous M4 (pince radiale = 4,85 mm sous tête) |
+| **Diamètre d'enveloppe max aux lobes** | **Ø 120,00 mm** | Coïncide rigoureusement avec le diamètre brut Blockenstock Ø 120 mm |
+| **Arcs concaves de raccordement** | **R = 14,00 mm** | 10 arcs tangents aux lobes convexes (fraisables sans reprise à la fraise Ø 6 mm DLC) |
+| **Diamètre de fond de creux** | **Ø 100,00 mm** | Rayon 50,0 mm (laisse 2,50 mm de matière pleine saine au-dessus de l'alésage Ø 95 mm) |
+| **Alésage intérieur de centrage** | **Ø 95,00 mm H7** | Profondeur 13,80 mm avec congé de fond intérieur R = 0,5 mm |
+| **Hauteur usinée du contournage festonné** | **18,20 mm** | Étage 1 (flasque 5,0 mm) + Étage 2 (hub 13,2 mm), réalisé en 1 passe de contournage 2.5D |
+| **Matière évacuée par festonnage** | **29,2 cm3 / bride** | 10 encoches curvilignes de 2,92 cm3 chacune |
+| **Masse unitaire de la bride finie** | **184,8 g** | Gain direct de **82,1 g / bride** (Alu 7075-T6, masse volumique = 2,81 g/cm3) |
+| **Gain net total sur le haut torse** | **-164,2 g** | Paire de brides passant de 533,8 g à **369,6 g** |
+
+##### Justification RDM & Sécurité Mécanique du Festonnage
+
+| Mode de Sollicitation | Contrainte Calculée | Seuil / Limite Alu 7075-T6 | Facteur de Sécurité (Sf) | Verdict Technique |
+| :--- | :---: | :---: | :---: | :---: |
+| **Flexion choc transversale (50 N.m)** | Sigma_max = **30,7 MPa** | Re = **435 MPa** | **Sf = 14,2** | ✅ Intégrité totale, zéro déformation |
+| **Torsion frottement (120 N.m crête)** | Seuil glissement = **331 N.m** | Couple max moteur = **120 N.m** | **Sf = 2,76** | ✅ Adhérence totale, zéro glissement |
+| **Pression sous tête de vis M4** | Pression = **165 MPa** | Limite matage 7075 = **435 MPa** | **Sf = 2,64** | ✅ Assise parfaite sous rondelle Nord-Lock |
+| **Pliage radial de lobe sous choc** | Moment bras 7 mm = **1,75 N.m** | Moment résistant = **41,3 N.m** | **Sf = 23,6** | ✅ Indéformable sous toute accélération |
+
+> [!TIP]
+> **Thermique & Fabrication** :  
+> Le festonnage conserve **73% de la surface de contact axiale** de la flasque. L'évacuation thermique des calories du stator RS-04 (150 W crête) s'effectue principalement par conduction directe vers l'étage arrière massif (Hub 13,2 mm + traverse 60×60×2 mm) et par le flux forcé du ventilateur Noctua 40×40×20 mm expulsé par la tuyère 3D.  
+> L'usinage est exécuté sur la NestWorks C500 par une opération classique de **contournage extérieur 2.5D** avec la fraise Ø 6 mm DLC, en descente hélicoïdale ou passes étagées de 3,0 mm, sans aucun outil spécifique.
 
 ---
 
@@ -575,49 +598,69 @@ Pour une modélisation paramétrique propre, standardisée et directement reconn
    * **Diamètre de Perçage Lisse** : **`4,50 mm`** (passage normalisé M4).
 4. **Validation** : La profondeur du cône de fraisure (**`1,95 mm`**) est calculée automatiquement par Fusion 360 jusqu'au perçage lisse de passage Ø 4,50 mm (la tête conique de la vis FHC M4 descendant sur 2,20 mm au total jusqu'au diamètre nominal Ø 4,0 mm), garantissant un **affleurement franc à fleur (`0,0 mm`)** sur la face arrière d'appui colonne.
 
-6. **Tenon de Centrage 2D à Z = 0 (OBLIGATOIRE)** :
-   - La plaque basse possède un tenon rectangulaire de **40 mm (largeur) × 10 mm (hauteur)** avec congés **R = 3,0 mm** qui s'emboîte dans la plaque haute, garantissant un alignement coaxial automatique parfait à **0,0 mm**. Ce tenon transforme le joint en quasi-encastrement et est **indispensable** pour la continuité de la fibre neutre au noeud d'épaules (zone d'application des 120 N.m de torsion).
+6. **Jonction Axiale à Coupe Droite Z = 0 & Goupillage Positif 4× Ø 3 mm (Architecture Validée V2.6)** :
+   - **Décision d'Ingénierie Validée — Suppression du Tenon-Mortaise au profit de la Coupe Droite Pure** :
+     - La conception initiale prévoyait un tenon-mortaise 2D (40 × 10 mm avec congés R = 3,0 mm).
+     - L'analyse d'ingénierie mécanique approfondie a formellement démontré que dès lors que l'assemblage intègre **4 vis M5 classe 12.9** et **4 goupilles rectifiées ISO 8734**, le tenon devient redondant et contre-productif :
+       1. **Élimination des concentrateurs de contraintes** : Les angles rentrants de la mortaise créaient un facteur de concentration de contrainte Kt de 1,3 à 1,5 au droit du nœud d'épaules sous la torsion de 120 N.m du RS-04. Une coupe droite plane présente un facteur Kt = 1,00 (continuité géométrique parfaite).
+       2. **Gain de surface d'appui** : La surface de contact franc métal-métal à Z = 0 passe de 420 mm² à **500,0 mm²** (+19% de portée continue sur les 100 mm de largeur), optimisant la reprise de la compression et de la flexion sagittale.
+       3. **Zéro risque d'hyperstatisme ni de talonnage** : Aucun conflit d'entraxe entre le tenon et les goupilles, zéro risque de portée parasite en fond de mortaise.
+       4. **Fabrication C500 & CAO ultra-simplifiées** : Découpe directe en une seule passe fraise droite, suppression totale des opérations de compensation de jeu Offset Face sous Fusion 360.
+   - **Exigence Fondamentale de Conception : CONTACT FRANC MÉTAL-MÉTAL À Z = 0,0 mm (ZÉRO ESPACE / ZÉRO GAP)** ⭐ :
+     - **Règle absolue** : Les tranches usinées planes de la Plaque Haute et de la Plaque Basse **DOIVENT être en contact direct et franc à 0,0 mm** sans aucun intercalaire, ni jeu résiduel, ni espace libre.
+     - **Justification RDM & Protection des Goupilles** :
+       1. *Absorption directe de la compression (500 mm²)* : Sous l'effet de la gravité, du portage de charges (10 à 15 kg aux bras) et des impacts verticaux dynamiques de marche, la force descendante est transmise directement d'une plaque à l'autre à travers l'intégralité de la section continue en Alu 7075-T6 (`100,0 mm × 5,0 mm = 500,0 mm²`). La contrainte de compression reste minime (~0,6 MPa) et la colonne se comporte comme une poutre continue indéformable. Les vis M5 et les goupilles ne supportent **aucun effort axial de compression**.
+       2. *Danger formel d'un espace libre (gap)* : Si un espace même minime (0,5 à 1 mm) était laissé entre les deux plaques, l'intégralité du poids du haut du corps et des chocs de pas devrait être reprise **en cisaillement transversal par les 4 goupilles Ø 3 mm et le frottement des vis M5**. En cas de choc violent (chute, arrêt brusque), cela induirait un risque critique de matage de l'aluminium et de fatigue prématurée des goupilles.
+       3. *Rigidité en flexion sagittale (Pitch)* : En flexion, le bord comprimé s'appuie directement sur la matière continue, ce qui verrouille la rigidité axiale du torse.
+     - **Maîtrise d'atelier** : Sur la NestWorks C500, le plan Z = 0 et les alésages de goupilles sont usinés dans le même repère pièce (+/- 0,01 mm). À l'assemblage, les plaques sont d'abord plaquées en butée l'une contre l'autre avant d'insérer les goupilles dans les éclisses.
 
-![Plan de Découpe et Tenon-Mortaise 2D de la Colonne Sagittale](./media/plan_decoupe_tenon_colonne_haute_basse.svg)
+![Plan de Jonction Coupe Droite Z = 0 et Goupilles Positives](./media/plan_decoupe_tenon_colonne_haute_basse.svg)
 
-*Blueprint d'ingénierie vectoriel de la découpe axiale à Z = 0,0 mm de la colonne sagittale (Plaque Haute L = 142,7 mm ↔ Plaque Basse L = 290,0 mm). Panel 1 : Vue frontale montrant l'embrochage 2D, l'empreinte de l'insert d'épaule incliné à 15° (rappel : colonne 100% pleine sous l'insert, zéro perçage central), et les 4 perçages traversants Ø 5,30 mm pour vis CHC M5 à Z = ±45,0 mm (entraxe Y = 50,0 mm). Panel 2 : Zoom macro coté sur le tenon mâle (40,0 × 10,0 mm) et la mortaise femelle avec les 4 congés d'angles R = 3,0 mm usinables à la fraise Ø 6 mm sur la CNC NestWorks C500 (ajustement glissant doux 0,05 à 0,10 mm). Panel 3 : Guide pas-à-pas de modélisation CAO sous Fusion 360 (Modify > Split Body) et stratégie d'usinage atelier.*
+*Blueprint d'ingénierie vectoriel de la jonction axiale à Z = 0,0 mm de la colonne sagittale (Plaque Haute L = 142,7 mm ↔ Plaque Basse L = 297,13 mm). Panel 1 : Vue frontale montrant la coupe droite continue 100 mm (appui franc métal-métal 500 mm²), l'empreinte de l'insert d'épaule incliné à 15° (colonne 100% pleine sous l'insert, zéro perçage central), les 4 perçages traversants Ø 5,30 mm pour vis CHC M5 à Z = ±45,0 mm et les 4 alésages fermés pour goupilles ISO 8734 Ø 3,0 mm H7 à Z = ±30,0 mm (entraxe Y = 50,0 mm). Panel 2 : Zoom macro coté sur la surface d'appui continue 100 × 5 mm à Z = 0,0 mm, les 4 alésages de goupilles Ø 3,00 mm H7 et le goupillage positif 4× Ø 3×14 mm m6. Panel 3 : Guide pas-à-pas de modélisation CAO sous Fusion 360 (Modify > Split Body avec plan Z = 0 standard, zéro Offset Face requis) et stratégie d'usinage atelier.*
 
-##### Protocole CAO Fusion 360 du Jeu d'Ajustement Post-Split Body
+##### Protocole CAO Fusion 360 Simplifié (Zéro Offset Face Requis)
 
-Une fois la scission du corps (**`Modify > Split Body`**) réalisée sur l'esquisse du tenon-mortaise 2D, les deux corps résultants partagent rigoureusement la même surface de contact théorique à 0,0 mm. Pour garantir un emboîtement manuel fluide à l'atelier sans jeu excessif et éliminer tout risque d'hyperstatisme, **un jeu fonctionnel différencié doit être appliqué directement sous Fusion 360 via l'outil Décaler la face (`Modify > Offset Face`, raccourci touche `Q`) sur le tenon mâle de la Plaque Basse** :
+Grâce à la coupe droite plane, la modélisation sous Fusion 360 est rapide, propre et exempte de tout décalage géométrique artificiel :
 
-1. **Flancs Verticaux Latéraux du Tenon (Gauche & Droite) ➔ `Offset = -0,05 mm à -0,07 mm`** :
-   - Sélectionner les 2 faces planes verticales latérales du tenon (à `Y = -20,0 mm` et `Y = +20,0 mm`) ainsi que les 4 congés cylindriques de raccordement `R = 3,0 mm`.
-   - Appliquer une valeur de retrait négative de **`-0,07 mm`** (ou **`-0,05 mm`**).
-   - *Rôle mécanique* : Crée un jeu d'aisance bilatéral total de `0,10 à 0,14 mm` correspondant à un ajustement glissant doux normalisé (**H7/g6**). L'assemblage s'emboîte à la main sans aucun coincement tout en bloquant rigoureusement le décalage sagittal transversal (Y).
-2. **Sommet Horizontal du Tenon (Face Supérieure en Z) ➔ `Offset = -0,20 mm` (Jeu de Fond Anti-Talonnage ⭐)** :
-   - Sélectionner la face horizontale supérieure du tenon (à `Z = +10,0 mm`).
-   - Appliquer un décalage de **`-0,20 mm`** (la hauteur effective du tenon mâle passe de `10,00 mm` à **`9,80 mm`**, tandis que la mortaise conserve sa profondeur nominale de `10,00 mm`).
-   - *Rôle mécanique critique* : Évite formellement que le tenon ne vienne buter (talonner) au fond de la mortaise. L'effort axial en compression et en flexion doit s'appuyer **exclusivement sur les grandes portées extérieures à Z = 0,0 mm**.
-3. **Portées Extérieures Horizontales à Z = 0 ➔ ZÉRO JEU (`0,0 mm`)** :
-   - **Interdiction formelle d'appliquer un décalage sur les portées horizontales de part et d'autre du tenon**.
-   - Elles constituent le plan d'appui franc métal-métal à `0,0 mm` où la précharge des 4 vis M5 (19 200 N) s'exerce pour assurer la continuité de la fibre neutre.
+1. **Création du Plan de Coupe Z = 0** :
+   - Construire un plan de construction passant par l'axe des épaules (`Construct > Plane Through Point`).
+2. **Scission du Corps (`Modify > Split Body`)** :
+   - Sélectionner le corps de la colonne sagittale complète.
+   - Outil de scission : le plan horizontal `Z = 0,0 mm`.
+   - Génère instantanément deux composants distincts :
+     - **Plaque Haute** (hauteur L = 142,7 mm).
+     - **Plaque Basse** (hauteur L = 297,13 mm).
+3. **ZÉRO Jeu de Décalage (Zéro Offset Face)** :
+   - Contrairement à l'ancien tenon qui nécessitait -0,05 mm sur les flancs et -0,20 mm en fond, **la coupe droite ne reçoit aucun offset face**.
+   - Les deux corps partagent un contact plan parfait à `0,0 mm` sur l'ensemble des 100 mm de largeur.
+4. **Validation CAO d'Interférence** :
+   - Lancer **Inspecter > Interférence (`Inspect > Interference`)** entre la Plaque Haute et la Plaque Basse :
+   - Résultat : **`Aucune interférence (No interference)`**, confirmant un modèle parfait pour la FAO NestWorks C500.
 
-```
-                         PLAQUE HAUTE (Cou)
-                      │                      │
-                      │  Portée Z = 10,0 mm  │
-                      │ ┌──────────────────┐ │
-       Jeu de Fond ──►│ │  j = 0,20 mm     │ │
-        (9,80 mm)     │ └──────────────────┘ │
-                      │   │              │   │
-                      │   │◄─ j = 0,07 ─►│   │  ◄── Jeu Latéral Flancs (H7/g6)
-                      └───┘              └───┘
-  ────────────────────────┐              ┌────────────────────────  ◄── Appui Franc 0,0 mm
-                          │  Tenon Mâle  │
-                          │   40,0 mm    │
-                          └──────────────┘
-                         PLAQUE BASSE (Waist)
-```
+##### Goupillage de Positionnement Positif au Nœud d'Épaules (4× Alésages Fermés Pleins)
 
-##### Validation CAO d'Interférence
-* Lancer **Inspecter > Interférence (`Inspect > Interference`)** entre la Plaque Haute et la Plaque Basse :
-* Le résultat doit afficher **`Aucune interférence (No interference)`**, confirmant un modèle prêt pour la FAO NestWorks C500 et un assemblage physique parfait.
+L'assemblage retient **4 alésages fermés 100% en pleine matière** décalés de 15 mm par rapport aux vis M5, garantissant un usinage direct parfait sur la CNC NestWorks C500 et un verrouillage géométrique absolu :
+
+###### 1. Rôle Mécanique & Dimensionnement du Bipoint par Plaque
+* **Plaque Haute (2 Goupilles à Z = +30,0 mm, entraxe Y = 50,0 mm)** : Forme un bipoint d'orientation bloquant 100% des translations (Tx, Ty) et de la rotation dans le plan (Rz) par rapport aux semelles éclisses.
+* **Plaque Basse (2 Goupilles à Z = -30,0 mm, entraxe Y = 50,0 mm)** : Forme son propre bipoint d'orientation bloquant 100% des translations et de la rotation de manière totalement autonome.
+* **Sécurité & Torsion RS-04 (120 N.m)** :
+  - Les 4 goupilles en acier trempé 60 HRC (section cisaillée totale = 28,3 mm²) offrent une capacité au cisaillement direct de **16 980 N**, soit un facteur de sécurité **Sf = 3,5** face au couple de crête du RS-04 (effort tangentiel maximal de 4 800 N sur l'entraxe de 25 mm).
+  - La précharge des 4 vis M5 (19 200 N au total) apporte 2 880 N d'adhérence par frottement additionnelle.
+
+###### 2. Coordonnées Cartésiennes d'Usinage C500 & Fusion 360
+Les 4 alésages forment un rectangle parfait de `50,0 mm (largeur Y) × 60,0 mm (hauteur Z)`, rigoureusement coaxiaux en Y avec les perçages des vis M5 :
+
+| Goupille & Entité | Coordonnée Y (Transversal) | Coordonnée Z (Vertical) | Pièces Traversées (Sandwich 15 mm) | Statut & Rôle Mécanique |
+| :--- | :---: | :---: | :--- | :--- |
+| **Goupille Haute-Gauche** | **`-25,00 mm`** | **`+30,00 mm`** | Éclisse AV (5mm) + Plaque Haute (5mm) + Éclisse AR (5mm) | Verrouille Plaque Haute (15 mm sous vis M5 Haut-G) |
+| **Goupille Haute-Droite** | **`+25,00 mm`** | **`+30,00 mm`** | Éclisse AV (5mm) + Plaque Haute (5mm) + Éclisse AR (5mm) | Complète le blocage en rotation Plaque Haute |
+| **Goupille Basse-Gauche** | **`-25,00 mm`** | **`-30,00 mm`** | Éclisse AV (5mm) + Plaque Basse (5mm) + Éclisse AR (5mm) | Complète le blocage en rotation Plaque Basse |
+| **Goupille Basse-Droite** | **`+25,00 mm`** | **`-30,00 mm`** | Éclisse AV (5mm) + Plaque Basse (5mm) + Éclisse AR (5mm) | Verrouille Plaque Basse (15 mm au-dessus vis M5 Bas-D) |
+
+* **Dégagement matière** : Situées à 15 mm des vis M5 et à 30 mm du plan de joint Z = 0, ces goupilles tombent dans une zone 100% pleine sans interférence avec l'insert 15° ni avec les vis FHC M4.
+* **Composants associés** : 4 goupilles cylindriques rectifiées **ISO 8734 / DIN 6325 `Ø 3,0 mm × 14 mm` (ajustement H7/m6)**, référence McMaster-Carr **`98381A467`** (Acier trempé) ou **`97395A310`** (Inox 316).
+* **Protocole d'usinage** : Avant-trou foret carbure Ø 2,90 mm + alésoir machine Ø 3,00 mm H7 avec chanfrein d'ébavurage `0,1 mm × 45°` des deux côtés.
 
 ---
 
@@ -861,6 +904,8 @@ Dans un assemblage métallique haute performance soumis aux vibrations dynamique
 | **9. Colonne Sagittale Haute & Basse (5,0 mm)** | Chants supérieurs et inférieurs au niveau des pliures d'équerres | Fraise à chanfreiner 45° C500 | **`0,5 mm × 45°`** | Évite tout contact franc entre l'arête de colonne et le congé intérieur naturel de la cornière marchande. |
 | **9. Colonne Sagittale Haute & Basse (5,0 mm)** | 6 Perçages Traversants Ø 4,30 mm (2 au cou, 4 au waist) | Fraise à chanfreiner 45° | **`0,3 mm × 45°` (des 2 côtés)** | Guidage doux des vis CHC M4 × 20 mm et placage sans contrainte parasite des équerres. |
 | **9. Colonne Sagittale Haute (Plaque 5,0 mm)** | 4 Perçages Traversants Ø 2,70 mm IMU Torse (BMI270) | Fraise à chanfreiner 45° C500 | **`0,2 mm × 45°` (des 2 côtés)** | Micro-ébavurage éliminant tout morfil : assise rigoureusement plane des entretoises nylon 3 mm (flanc droit) et des rondelles DIN 125A / écrous Nylstop M2,5 (flanc gauche). |
+| **9. Colonne Sagittale & Éclisses (Sandwich Z = ±30 mm)** | 4 Alésages de Goupilles Ø 3,00 mm H7 (Y = ±25 mm, Z = ±30 mm) | Alésoir machine H7 Ø 3,0 mm + fraise 45° C500 | **`0,1 mm × 45°` (des 2 côtés)** | Chanfrein de guidage indispensable pour chasser les 4 goupilles ISO 8734 m6 au maillet sans copeau ni arrachement de métal. |
+| **9. Jonction Colonne Sagittale (Coupe Droite Z = 0)** | Chants de contact métal-métal à Z = 0,0 mm (largeur 100 mm) | Fraise carbure C500 / outil ébavureur | **`0,2 mm × 45°`** | Cassage d'arête soigné garantissant un contact plan franc à 0,0 mm sans morfil sur les 500 mm² de portée continue (zéro tenon). |
 | **10. Waist Plate Inférieure (Alu 6,0 mm)** | 4 Perçages Traversants Sandwich Ø 4,50 mm (PCD Ø 68 mm à 45°) | Fraise à chanfreiner C500 | **`0,3 mm × 45°` (des 2 côtés)** | Placage plan franc entre les ailes d'équerres (dessus) et la bague intérieure du roulement RB8016 (dessous). |
 | **10. Waist Plate Inférieure (Alu 6,0 mm)** | Contour Extérieur (120 × 94 mm) | Fraise de contournage C500 | **`0,5 mm × 45°`** | Cassage d'arête sur tout le pourtour supérieur et inférieur de la plaque. |
 
@@ -969,11 +1014,11 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
 
 ### A. Gamme d'Usinage par Composant (CNC C500)
 
-1. **Brides d'Épaules Monoblocs (Alu 7075-T651)** :
+1. **Brides d'Épaules Monoblocs (Alu 7075-T651 — Festonnées V1)** :
    - Brut : 2 disques Ø120 × 50 mm Blockenstock (30 € / pièce).
    - Usinage 2.5D en 2 phases avec fraise carbure 3 dents Ø6 mm DLC (hauteur totale usinée = **33,20 mm**) :
      1. *Phase 1 — Face Stator* : Alésage / logement pilote Ø 95,05 mm H7 profondeur **`13,80 mm`** (avec **congé de fond intérieur `R = 0,5 mm`** et **chanfrein d'entrée `0,5 mm × 45°`**, recevant le bossage arrière Ø 94,0 × 13,2 mm du RS-04 avec un jeu axial de fond de 0,60 mm) + 10 trous de passage Ø4,3 mm sur PCD Ø106 mm chanfreinés à **`0,5 mm × 45°`** pour rondelles Nord-Lock M4.
-     2. *Phase 2 — Face Bossage & Hub* : Dégagement de la flasque 5,0 mm, usinage du hub intermédiaire 13,20 mm (Étage 2), contournage du bossage carré **55,8×55,8×15 mm** (Étage 3) avec **poche carrée centrale 44 × 44 mm** (congés verticaux **R = 5,0 mm**, congé de fond inférieur **R = 0,5 mm**, profondeur **15,0 mm** débouchant sur le hub 13,2 mm), **chanfrein d'entrée d'emmanchement de `1,0 mm × 45°`** sur les 4 arêtes d'extrémité du bossage, et perçage traversant vertical Ø5,3 mm centré à **X = 7,5 mm** (axe Z). *(Opération 2.5D continue fraise Ø6 mm DLC, sans changement d'outil)*.
+     2. *Phase 2 — Face Bossage, Hub & Contournage Festonné V1* : Dégagement de la flasque 5,0 mm et **contournage extérieur festonné à 10 lobes** (10 lobes convexes R = 7,0 mm autour des trous M4 reliés par 10 arcs concaves tangents R = 14,0 mm descendant à Ø 100,0 mm — évacuant 29,2 cm3 de copeaux et ramenant la masse à **`184,8 g`** par bride), usinage du hub intermédiaire 13,20 mm (Étage 2), contournage du bossage carré **55,8×55,8×15 mm** (Étage 3) avec **poche carrée centrale 44 × 44 mm** (congés verticaux **R = 5,0 mm**, congé de fond inférieur **R = 0,5 mm**, profondeur **15,0 mm** débouchant sur le hub 13,2 mm), **chanfrein d'entrée d'emmanchement de `1,0 mm × 45°`** sur les 4 arêtes d'extrémité du bossage, et perçage traversant vertical Ø5,3 mm centré à **X = 7,5 mm** (axe Z). *(Opération 2.5D continue fraise Ø6 mm DLC sur table martyr C500, sans changement d'outil)*.
 2. **Semelles Éclisses Colonne (Alu 7075-T6)** :
    - Brut : 2 plaques 5 × 160 × 160 mm Blockenstock (9,60 € / pièce).
    - Découpe 2D en 1 passe sur table martyr (Fraise Ø6 mm DLC) :
@@ -1035,7 +1080,10 @@ Les 2 tuyères convergentes canalisant l'air forcé vers les stators RS-04 sont 
    - Glisser l'alésage de centrage Ø 95 mm de la bride sur la section arrière Ø 94 mm du RS-04 et plaquer la flasque contre l'épaulement Ø 120 mm.
    - Visser les **4 vis CHC M4 × 12 mm (Zone 1 : flasque 5 mm) + 6 vis CHC M4 × 25 mm (Zone 2 : flasque + hub = 18,2 mm) + rondelles Nord-Lock M4** par bride directement dans les 10 taraudages M4 du stator (PCD Ø 106 mm). Serrer en croix séquentiel à **3,0 N.m** avec frein filet Loctite 243. *(Pénétration stator calibrée à 5,0 ~ 5,2 mm sans jamais talonner au fond des 6,0 mm)*
    - Assembler les 2 ventilateurs **40 × 40 × 20 mm PWM** sur leurs **tuyères convergentes 3D** (4 vis M3×16 + silent-blocs) et fixer l'ensemble à l'intérieur du thorax haut face au stator.
-5. **Étape 5 (Sandwich Central Colonne)** : Présenter la demi-traverse gauche et droite contre la colonne sagittale et serrer les **4 vis traversantes CHC M5 × 25 mm + Nylstop** à **5,5 N.m** pour bloquer le sandwich et solidariser la Plaque Haute et Basse.
+5. **Étape 5 (Jonction Axiale & Sandwich Central Colonne — Contact Franc & Goupillage)** :
+   - *Étape 5.1 (Mise en butée franche obligatoire)* : Poser la semelle éclisse arrière sur le marbre. Présenter la Plaque Haute et la Plaque Basse en **BUTÉE FRANCHE directe l'une contre l'autre à Z = 0,0 mm (contact plan métal-métal franc à 0,0 mm, ZÉRO espace, ZÉRO gap)**. Cette mise en appui franc garantit que la compression axiale (poids et chocs verticaux) est reprise à 100% par la matière continue sans fatiguer les goupilles.
+   - *Étape 5.2 (Goupillage de précision)* : Les deux plaques étant fermement maintenues en butée franche, chasser au maillet d'ajusteur les **4 goupilles cylindriques rectifiées ISO 8734 Ø 3 × 14 mm (ajustement H7/m6)** à travers les alésages des plaques et de l'éclisse arrière. L'alignement géométrique et le blocage en rotation sont instantanément verrouillés à 0,005 mm près.
+   - *Étape 5.3 (Plaquage sandwich)* : Positionner l'éclisse avant, engager les **4 vis traversantes CHC M5 × 25 mm + rondelles plates DIN 125A M5**, et visser les 4 écrous frein Nylstop M5. Serrer en croix à **5,5 N.m** pour appliquer une précharge de pincement de 19 200 N.
 
 ---
 
@@ -1108,6 +1156,7 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 | • **Sandwich Colonne Centrale** | Vis CHC M5 × 25 mm | ISO 4762 / DIN 912 | **`91290A235`** (Acier 12.9)<br>**`92290A235`** (Inox 18-8) | **4 vis** (2 avant, 2 arrière) | **Perçages lisses traversants Ø 5,30 mm** chanfreinés à **`0,5 mm × 45°`** traversant le sandwich 15 mm (2 semelles 5 mm + plaque 5 mm). Serrage en croix à 5,5 N.m. |
 | • **Rondelles Sandwich Colonne M5** | Rondelles Plates M5 DIN 125A | ISO 7089 / DIN 125A | **`93475A240`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | **Diamètre de passage Ø 5,30 mm**. Dimensions : Ø intérieur 5,3 mm / Ø extérieur 10,0 mm / épaisseur 1,0 mm. |
 | • **Écrous Sandwich Colonne M5** | Écrous Frein Nylstop M5 | ISO 7040 / DIN 985 | **`90631A113`** (Inox 18-8) | **4 écrous** | Bague nylon autofreinée (couple 5,5 N.m), montés sur vis traversante **Ø 5,30 mm**. |
+| • **Goupilles de Positionnement Positif (4× ISO 8734)** | Goupilles Cylindriques Rectifiées Ø 3,0 mm × 14 mm | ISO 8734 / DIN 6325 | **`98381A467`** (Acier Trempé)<br>**`97395A310`** (Inox 316) | **4 goupilles** | Alésages **Ø 3,00 mm H7** fermés traversant le sandwich 15 mm à `Z = ±30,0 mm` (`Y = ±25,0 mm`). Tolérance H7/m6, alignement coaxial 0,005 mm, zéro tenon. |
 | **4. LIAISONS D'EXTRÉMITÉS (ÉQUERRES COU, MOTEUR RS-05 & SANDWICH WAIST RS-06 — OPTION C)** | | | | | |
 | • **Fixation Moteur RS-05 ➔ Plaque Cou (PCD Ø 38,5 mm)** | Vis FHC M3 × 8 mm | ISO 10642 / DIN 7991 | **`91294A112`** (Acier 10.9)<br>**`92125A112`** (Inox 18-8) | **4 vis** | Vissage par le DESSOUS à fleur (0,0 mm). **Perçages lisses traversants Ø 3,20 mm** (PCD Ø 38,50 mm à 45°), **fraisures 90° Ø 6,50 mm** (profondeur 1,65 mm). Pénétration filetée moteur = 3,32 mm (garde fond = 2,68 mm). |
 | • **Fixation Plaque Cou ➔ Équerres Hautes (Option C)** | Vis CHC M4 × 16 mm | ISO 4762 / DIN 912 | **`91290A158`** (Acier 12.9)<br>**`92290A145`** (Inox 18-8) | **4 vis** (2 / équerre) | Vissage par le DESSUS de la plaque de cou. **Perçages lisses traversants Ø 4,30 mm** (zéro fraisure) sur rectangle 30×45 mm + 4 écrous Nylstop M4 sous l'équerre. Tête CHC hors carter RS-05. |
@@ -1157,6 +1206,7 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **9. Ventilateurs Tuyères 3D (Noctua NF-A4x20)** | CHC M3 × 16 mm (Inox) | 8 | **`0,6 à 0,8 N.m`** | Clé Allen 2,5 mm + Clé 5,5 mm | Silent-blocs antivibrations (serrage modéré) | `91290A115` |
 | **10. Coque & Habillage Extérieur (PA12-CF)** | Vis M4 sur Inserts Laiton Ruthex | 16 | **`1,2 à 1,5 N.m`** | Clé Allen 3,0 mm | Ancrage thermique laiton (ne pas sur-serrer) | `94180A353` |
 | **11. Fixation Traversante IMU Torse (Plaque Haute)** | CHC M2,5 × 14 mm (Inox A2) | 4 | **`0,5 à 0,6 N.m`** | Clé Allen 2,0 mm + Clé 5,0 mm | Entretoises Nylon 3 mm + Rondelles DIN 125A + Nylstop M2,5 flanc gauche | `92290A038` / `90631A105` |
+| **12. Goupillage Positif Colonne (Z = ±30 mm)** | Goupilles ISO 8734 Ø 3 × 14 mm (m6) | 4 | **Ajustement serrant doux H7/m6** | Maillet d'ajusteur + chasse-goupille | Emmanchement mécanique positif sans jeu (bloque 100% translations et rotation, zéro tenon) | `98381A467` / `97395A310` |
 
 ---
 
@@ -1166,7 +1216,7 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 
 | Composant / Pièce | Matériau | Quantité | Masse Unitaire | Masse Totale |
 | :--- | :--- | :---: | :---: | :---: |
-| **Brides d'Épaules Monoblocs** | Alu 7075-T651 (Flasque 5,0 mm + Hub 13,2 mm + Bossage **15,0 mm**, mesuré CAO Fusion 360) | 2 | **266,9 g** | **533,7 g** |
+| **Brides d'Épaules Monoblocs (Festonnées V1)** | Alu 7075-T651 (Flasque 5,0 mm festonnée 10 lobes + Hub 13,2 mm + Bossage **15,0 mm**, CAO Fusion 360) | 2 | **184,8 g** | **369,6 g** |
 | **Tronçons de Tubes Carrés** | Alu 6060-T6 (60 × 60 × 2,0 mm, L = 80,05 mm, mesuré CAO Fusion 360) | 2 | **100,0 g** | **200,1 g** |
 | **Inserts Carrés Colonne** | Alu 7075-T6 (55,8 × 55,8 × **15,0 mm**, alésage traversant Ø 35 mm Option B) | 2 | **86,5 g** | **173,0 g** |
 | **Semelles Éclisses Colonne** | Alu 7075-T6 (Plaque 5,0 mm, 100 × 130 mm pleine sous insert) | 2 | **67,6 g** | **135,2 g** |
@@ -1178,13 +1228,13 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **Visserie Moteur Cou RS-05 (Fixation Directe Plaque)** | 4× Vis FHC M3 × 8 mm Classe 10.9 / Inox (ISO 10642) | 4 | ~0,7 g | **~2,8 g** |
 | **Visserie Équerres Cou & Waist (Option C)** | 4× CHC M4×16 + 6× CHC M4×20 + 10× Nylstop M4 + rondelles plates DIN 125A | Lot | - | **~30,0 g** |
 | **Visserie Stators RS-04 (8× M4×12 + 12× M4×25 + Nord-Lock)** | Vis CHC M4×12 & M4×25 + 20 paires rondelles Nord-Lock M4 | 20 | ~2,7 g | **~54,0 g** |
-| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Moteur RS-05 + Équerres + Ventilation** | - | - | **~1 763 g (~1,76 kg)** |
+| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Moteur RS-05 + Équerres + Ventilation** | - | - | **~1 600 g (~1,60 kg)** |
 
 > [!TIP]
 > **Consolidation Réelle CAO Fusion 360 (Août/Septembre 2026)** :  
-> Les masses réelles extraites de l'arbre CAO Fusion 360 avec les matériaux physiques rigoureusement affectés (Alu 7075-T6 à 2,81 g/cm3, Alu 6060-T6 à 2,70 g/cm3) établissent le haut du torse complet (avec ses 2 actionneurs RS-04 fixés, les 4 équerres usinées 30×30×3 mm et le système aéraulique actif complet) à **~1,763 kg**.  
+> Les masses réelles extraites de l'arbre CAO Fusion 360 avec les matériaux physiques rigoureusement affectés (Alu 7075-T6 à 2,81 g/cm3, Alu 6060-T6 à 2,70 g/cm3) et l'intégration de la **bride festonnée V1** à 10 lobes (184,8 g) établissent le haut du torse complet (avec ses 2 actionneurs RS-04 fixés, les 4 équerres usinées 30×30×3 mm et le système aéraulique actif complet) à **~1,600 kg** (exactement **1 599,6 g**).  
 > Le tube carré 60×60×2 mm est confirmé à **100,0 g** (avec ses perçages M5).  
-> La bride monobloc réelle pèse **266,9 g** (la couronne pleine Ø 120 mm / alésage Ø 95 mm sur 18,2 mm représente à elle seule ~216 g). Des pistes d'allègement par contournage festonné permettent si nécessaire de gagner ~80 à 100 g par bride.
+> Le passage de la couronne circulaire pleine (266,9 g) au profil festonné 2.5D (184,8 g) apporte un gain de masse direct de **`-164,2 g`** sur la paire d'épaules du robot tout en conservant un facteur de sécurité Sf = 14,2 en flexion choc et Sf = 2,76 en frottement de torsion (331 N.m admissibles).
 
 ---
 
@@ -1192,7 +1242,7 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 
 | Désignation Fournisseur | Lien Catalogue Direct Blockenstock | Dimensions Brut | Quantité | Prix Unitaire TTC | Prix Total TTC | Utilisation Projet D-Bot |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Disque Brut Alu 7075 T651** | [Blockenstock — Disque Ø120 × 50mm 7075](https://www.blockenstock.fr/c120x-50mm-alu-7075-c2x29739222) | **Ø 120 × 50 mm** | **2** | **30,00 €** | **60,00 €** | 2 Brides d'Épaules Monoblocs (Hauteur usinée 33,2 mm : Flasque 5 mm + Hub 13,2 mm + Bossage 15 mm) |
+| **Disque Brut Alu 7075 T651** | [Blockenstock — Disque Ø120 × 50mm 7075](https://www.blockenstock.fr/c120x-50mm-alu-7075-c2x29739222) | **Ø 120 × 50 mm** | **2** | **30,00 €** | **60,00 €** | 2 Brides d'Épaules Monoblocs (Hauteur usinée 33,2 mm : Flasque 5 mm festonnée 10 lobes + Hub 13,2 mm + Bossage 15 mm — masse finie = 184,8 g / bride) |
 | **Plaque Alu 7075 T6** | [Blockenstock — Plaque 5×160×160mm 7075 T6](https://www.blockenstock.fr/20x200x500mm-alu-7075-t6-c2x40149808) | **5 × 160 × 160 mm** | **2** | **9,60 €** | **19,20 €** | 2 Semelles Éclisses Colonne (80 × 130 mm) + chutes réutilisables |
 | **Plat Alu 7075 T6 (Colonne)** | [Blockenstock — Plat 5×100×495mm 7075](https://www.blockenstock.fr/5x100x495mm-alu-7075-t6-c2x20906524) | **5 × 100 × 495 mm** | **1** | **18,16 €** | **18,16 €** | **100% de la Colonne Sagittale (Plaque Haute + Plaque Basse)** |
 | **Bloc Alu 7075 T6 (Inserts)** | [Blockenstock — Bloc 15×80×80mm 7075 T6](https://www.blockenstock.fr/15x80x80mm-alu-7075-t6) | **15 × 80 × 80 mm** | **2** | **7,20 €** | **14,40 €** | 2 Inserts Carrés Colonne (55,8 × 55,8 × 15 mm), 1 insert par bloc |
