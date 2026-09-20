@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity & David",
+	"description":	{
+		"":	"Audit dimensionnel, géométrique et métrologique pour le Torse et Bassin D-Bot V1"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

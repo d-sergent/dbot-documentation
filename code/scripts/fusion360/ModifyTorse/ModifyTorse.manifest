@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity & David",
+	"description":	{
+		"":	"Modifications unitaires et ciblées du Torse D-Bot V1 (Renommages, Matériaux, Paramètres)"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

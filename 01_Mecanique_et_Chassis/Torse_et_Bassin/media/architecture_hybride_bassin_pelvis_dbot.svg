@@ -1,0 +1,302 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <defs>
+    <!-- Grille Blueprint -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1"/>
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#334155" stroke-width="1.5" stroke-opacity="0.4"/>
+    </pattern>
+
+    <!-- Gradients Matériaux -->
+    <linearGradient id="gradAlu7075" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+
+    <linearGradient id="gradAlu6060" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+
+    <linearGradient id="gradPA12CF" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+
+    <linearGradient id="gradMotor" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+
+    <linearGradient id="gradSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+
+    <!-- Filtre Ombre portée -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Fond Général -->
+  <rect width="1600" height="1000" fill="#0f172a"/>
+  <rect width="1600" height="1000" fill="url(#grid)"/>
+
+  <!-- Cartouche En-tête -->
+  <rect x="40" y="30" width="1520" height="80" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="70" y="68" fill="#f8fafc" font-family="'Segoe UI', -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="1">D-BOT V1 — ARCHITECTURE HYBRIDE DU BASSIN &amp; STANDARDISATION DES BRIDES RS-04</text>
+  <text x="70" y="93" fill="#94a3b8" font-family="'Segoe UI', -apple-system, sans-serif" font-size="14">PROTOTYPAGE ALLÉGÉ : SQUELETTE EN T MÉTALLIQUE (ALU 7075/6060) + COQUE ENVELOPPANTE PA12-CF GYROÏDE | GAIN DE MASSE : -2,95 KG</text>
+
+  <rect x="1340" y="45" width="200" height="50" rx="6" fill="#0369a1" stroke="#38bdf8" stroke-width="1"/>
+  <text x="1440" y="68" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" text-anchor="middle">ÉTAT : PROPOSITION V1</text>
+  <text x="1440" y="85" fill="#bae6fd" font-family="'Segoe UI', sans-serif" font-size="11" text-anchor="middle">VALIDATION RDM : Sf &gt; 14</text>
+
+  <!-- =================================================================================== -->
+  <!-- PANEL 1 : VUE FRONTALE / ÉCLATÉE DU SQUELETTE HYBRIDE EN "T" (GAUCHE, 580px)        -->
+  <!-- =================================================================================== -->
+  <rect x="40" y="130" width="530" height="830" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="130" width="530" height="45" rx="10" fill="#243248"/>
+  <text x="65" y="158" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="700">PANEL 1 : SQUELETTE MÉTALLIQUE EN T INVERSÉ</text>
+
+  <!-- Roulement Waist CRBH 8016 & Moteur RS-06 (Z=1009 mm) -->
+  <g transform="translate(185, 200)">
+    <rect x="0" y="0" width="240" height="24" rx="4" fill="url(#gradSteel)" stroke="#059669" stroke-width="1.5"/>
+    <text x="120" y="16" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" text-anchor="middle">ROULEMENT CRBH 8016 UU (Ø 120 / Ø 80 mm)</text>
+
+    <!-- Platine Axiale Pelvis 7075 -->
+    <rect x="-10" y="24" width="260" height="18" rx="3" fill="url(#gradAlu7075)" stroke="#0284c7" stroke-width="1.5"/>
+    <text x="120" y="37" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">PLATINE AXIALE WAIST (ALU 7075-T6, ép. 12 mm)</text>
+
+    <!-- Colonne Sagittale Pelvienne (ép. 5 mm) -->
+    <rect x="95" y="42" width="50" height="110" rx="2" fill="url(#gradAlu7075)" stroke="#0284c7" stroke-width="1.5"/>
+    <text x="120" y="100" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle" transform="rotate(-90, 120, 100)">COLONNE SAGITTALE</text>
+
+    <!-- Équerres de renfort 30x30x3 -->
+    <polygon points="65,152 95,152 95,90" fill="#64748b" stroke="#94a3b8" stroke-width="1"/>
+    <polygon points="175,152 145,152 145,90" fill="#64748b" stroke="#94a3b8" stroke-width="1"/>
+    <text x="80" y="170" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="9" text-anchor="middle">Équerre 6060</text>
+    <text x="160" y="170" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="9" text-anchor="middle">Équerre 6060</text>
+
+    <!-- Tube Transversal Pelvien (60x60x2 mm, L=300 mm) -->
+    <rect x="-65" y="152" width="370" height="60" rx="4" fill="url(#gradAlu6060)" stroke="#475569" stroke-width="2"/>
+    <text x="120" y="187" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="800" text-anchor="middle">TUBE TRANSVERSAL PELVIEN 60 × 60 × 2 mm (L = 300 mm)</text>
+
+    <!-- Bride Hanche Gauche (RS-04) — Standardisée épaule -->
+    <g transform="translate(-145, 122)">
+      <rect x="0" y="0" width="80" height="120" rx="8" fill="url(#gradAlu7075)" stroke="#38bdf8" stroke-width="2"/>
+      <circle cx="40" cy="60" r="35" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="40" y="64" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">Ø 97 mm</text>
+      <!-- Lobes festonnés -->
+      <circle cx="40" cy="15" r="7" fill="#38bdf8"/>
+      <circle cx="40" cy="105" r="7" fill="#38bdf8"/>
+      <text x="40" y="-10" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">BRIDE HANCHE G</text>
+      <text x="40" y="-22" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="9" text-anchor="middle">(Bride Épaule v87)</text>
+
+      <!-- Vis traversantes M5x70 -->
+      <line x1="60" y1="20" x2="100" y2="20" stroke="#34d399" stroke-width="3" stroke-dasharray="4,2"/>
+      <line x1="60" y1="100" x2="100" y2="100" stroke="#34d399" stroke-width="3" stroke-dasharray="4,2"/>
+      <text x="80" y="12" fill="#34d399" font-family="'Segoe UI', sans-serif" font-size="8" text-anchor="middle">2× M5×70</text>
+    </g>
+
+    <!-- Bride Hanche Droite (RS-04) — Standardisée épaule -->
+    <g transform="translate(305, 122)">
+      <rect x="0" y="0" width="80" height="120" rx="8" fill="url(#gradAlu7075)" stroke="#38bdf8" stroke-width="2"/>
+      <circle cx="40" cy="60" r="35" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="40" y="64" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">Ø 97 mm</text>
+      <circle cx="40" cy="15" r="7" fill="#38bdf8"/>
+      <circle cx="40" cy="105" r="7" fill="#38bdf8"/>
+      <text x="40" y="-10" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">BRIDE HANCHE D</text>
+      <text x="40" y="-22" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="9" text-anchor="middle">(Bride Épaule v87)</text>
+
+      <!-- Vis traversantes M5x70 -->
+      <line x1="-20" y1="20" x2="20" y2="20" stroke="#34d399" stroke-width="3" stroke-dasharray="4,2"/>
+      <line x1="-20" y1="100" x2="20" y2="100" stroke="#34d399" stroke-width="3" stroke-dasharray="4,2"/>
+      <text x="0" y="12" fill="#34d399" font-family="'Segoe UI', sans-serif" font-size="8" text-anchor="middle">2× M5×70</text>
+    </g>
+
+    <!-- Moteurs RobStride RS-04 Hanche Pitch -->
+    <g transform="translate(-235, 137)">
+      <rect x="0" y="0" width="80" height="90" rx="6" fill="url(#gradMotor)" stroke="#d97706" stroke-width="2"/>
+      <text x="40" y="42" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="800" text-anchor="middle">RS-04</text>
+      <text x="40" y="58" fill="#fef3c7" font-family="'Segoe UI', sans-serif" font-size="9" text-anchor="middle">Hanche Pitch G</text>
+      <text x="40" y="72" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="8" text-anchor="middle">120 N.m pic</text>
+      <circle cx="0" cy="45" r="10" fill="#f59e0b" stroke="#78350f" stroke-width="1.5"/>
+      <text x="-25" y="48" fill="#fbbf24" font-family="'Segoe UI', sans-serif" font-size="8" text-anchor="middle">Arbre plein</text>
+    </g>
+
+    <g transform="translate(395, 137)">
+      <rect x="0" y="0" width="80" height="90" rx="6" fill="url(#gradMotor)" stroke="#d97706" stroke-width="2"/>
+      <text x="40" y="42" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="800" text-anchor="middle">RS-04</text>
+      <text x="40" y="58" fill="#fef3c7" font-family="'Segoe UI', sans-serif" font-size="9" text-anchor="middle">Hanche Pitch D</text>
+      <text x="40" y="72" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="8" text-anchor="middle">120 N.m pic</text>
+      <circle cx="80" cy="45" r="10" fill="#f59e0b" stroke="#78350f" stroke-width="1.5"/>
+      <text x="105" y="48" fill="#fbbf24" font-family="'Segoe UI', sans-serif" font-size="8" text-anchor="middle">Arbre plein</text>
+    </g>
+
+    <!-- Cotes et Entraxes -->
+    <line x1="-105" y1="280" x2="345" y2="280" stroke="#fcd34d" stroke-width="1.5"/>
+    <line x1="-105" y1="270" x2="-105" y2="290" stroke="#fcd34d" stroke-width="1.5"/>
+    <line x1="345" y1="270" x2="345" y2="290" stroke="#fcd34d" stroke-width="1.5"/>
+    <text x="120" y="300" fill="#fcd34d" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" text-anchor="middle">ENTRAXE HANCHE G - HANCHE D : ~300 mm</text>
+  </g>
+
+  <!-- Légende Panel 1 -->
+  <g transform="translate(65, 590)">
+    <rect x="0" y="0" width="480" height="340" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="30" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700">CARACTÉRISTIQUES DU SQUELETTE EN T :</text>
+    
+    <circle cx="30" cy="65" r="6" fill="#38bdf8"/>
+    <text x="50" y="70" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11"><b>Platine axiale 7075</b> : reprise rigide du roulement CRBH 8016 (zéro fluage)</text>
+
+    <circle cx="30" cy="110" r="6" fill="#94a3b8"/>
+    <text x="50" y="115" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11"><b>Tube transversal 60×60×2 mm</b> : profilé marchand (380 g), inertie max</text>
+
+    <circle cx="30" cy="155" r="6" fill="#38bdf8"/>
+    <text x="50" y="160" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11"><b>2× Brides Épaules v87 réutilisées</b> : 100% identiques aux épaules</text>
+
+    <circle cx="30" cy="200" r="6" fill="#fbbf24"/>
+    <text x="50" y="205" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11"><b>2× Moteurs RS-04</b> : 120 N.m pic, montage direct 10 vis M4 classe 12.9</text>
+
+    <circle cx="30" cy="245" r="6" fill="#34d399"/>
+    <text x="50" y="250" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11"><b>Vis traversantes M5×70 mm</b> : serrage direct bride/tube (McMaster 91290A272)</text>
+
+    <rect x="20" y="275" width="440" height="45" rx="4" fill="#0369a1" fill-opacity="0.3" stroke="#0284c7" stroke-width="1"/>
+    <text x="240" y="295" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" text-anchor="middle">MASSE SQUELETTE MÉTALLIQUE COMPLET : ~1 580 g</text>
+    <text x="240" y="310" fill="#bae6fd" font-family="'Segoe UI', sans-serif" font-size="10" text-anchor="middle">(Contre 5 259 g pour la version tout-alu massive actuelle !)</text>
+  </g>
+
+
+  <!-- =================================================================================== -->
+  <!-- PANEL 2 : INTÉGRATION DE LA COQUE PA12-CF ET CÂBLAGE DÉPORTÉ (CENTRE, 470px)        -->
+  <!-- =================================================================================== -->
+  <rect x="590" y="130" width="470" height="830" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="590" y="130" width="470" height="45" rx="10" fill="#243248"/>
+  <text x="615" y="158" fill="#c084fc" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="700">PANEL 2 : INTÉGRATION COQUE PA12-CF &amp; CÂBLAGE</text>
+
+  <!-- Schéma Coupe Coque PA12-CF habillant le tube -->
+  <g transform="translate(620, 200)">
+    <!-- Contour Coque PA12-CF (ASV1_200_01C optimisée) -->
+    <rect x="20" y="20" width="370" height="280" rx="16" fill="url(#gradPA12CF)" fill-opacity="0.25" stroke="#c084fc" stroke-width="2" stroke-dasharray="6,3"/>
+    <text x="205" y="50" fill="#c084fc" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="800" text-anchor="middle">COQUE ENVELOPPANTE PA12-CF (Infill 30% Gyroïde)</text>
+    <text x="205" y="68" fill="#e9d5ff" font-family="'Segoe UI', sans-serif" font-size="11" text-anchor="middle">ASV1_200_01C : Masse allégée à ~756 g (au lieu de 3 792 g)</text>
+
+    <!-- Fourreau intérieur pour le tube -->
+    <rect x="65" y="110" width="280" height="70" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+    <text x="205" y="145" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" text-anchor="middle">FOURREAU TRAVERSANT POUR TUBE 60×60</text>
+    <text x="205" y="162" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="9" text-anchor="middle">(Tolérance glissante +0,3 mm, aucun effort de choc direct)</text>
+
+    <!-- Corridor de câblage déporté (Règle RobStride Arbre Plein) -->
+    <path d="M 205 20 Q 205 90 80 90 Q 30 90 30 220" fill="none" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="6,4"/>
+    <path d="M 205 20 Q 205 90 330 90 Q 380 90 380 220" fill="none" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="6,4"/>
+
+    <!-- Callout Faisceau -->
+    <rect x="110" y="220" width="190" height="50" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="205" y="240" fill="#fca5a5" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">FAISCEAU ÉLECTRIQUE 48V / CAN</text>
+    <text x="205" y="255" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="9" text-anchor="middle">Corridor déporté avec boucle 135°</text>
+  </g>
+
+  <!-- Explications techniques Panel 2 -->
+  <g transform="translate(615, 540)">
+    <rect x="0" y="0" width="420" height="390" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="30" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700">PRINCIPE DE DÉCOUPLAGE MÉCANIQUE :</text>
+
+    <text x="20" y="65" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700">1. FLUX DES EFFORTS 100% MÉTALLIQUE</text>
+    <text x="20" y="85" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">Les chocs au sol (1 200 N) et les couples de hanches (120 N.m)</text>
+    <text x="20" y="102" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">passent directement : <b>RS-04 ➔ Bride 7075 ➔ Tube 6060</b></text>
+    <text x="20" y="119" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">➔ <b>Colonne sagittale ➔ Platine Waist</b>. Zéro flexion plastique !</text>
+
+    <text x="20" y="155" fill="#c084fc" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700">2. RÔLE DE LA COQUE PA12-CF</text>
+    <text x="20" y="175" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">• Logement géométrique et fourreau de maintien du tube.</text>
+    <text x="20" y="192" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">• Canaux internes de routage pour câbles 48V puissance et CAN.</text>
+    <text x="20" y="209" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">• Ancrage des 5 capots de hanches (02A, 03A, 04B, 05B, 15C).</text>
+    <text x="20" y="226" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">• Protection étanche contre poussières et débris.</text>
+
+    <text x="20" y="260" fill="#f87171" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700">3. RÈGLE ROBSTRIDE (ZÉRO ARBRE CREUX)</text>
+    <text x="20" y="280" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">Le moteur RS-04 ayant un arbre plein, le faisceau contourne</text>
+    <text x="20" y="297" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">le stator via la lumière supérieure oblongue avec une boucle de</text>
+    <text x="20" y="314" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">service autorisant le débattement Pitch de -90° à +45° (135°).</text>
+
+    <rect x="15" y="335" width="390" height="40" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+    <text x="210" y="360" fill="#e9d5ff" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" text-anchor="middle">RÉSULTAT : RIGIDITÉ DU MÉTAL + LÉGÈRETÉ DU PA12-CF</text>
+  </g>
+
+
+  <!-- =================================================================================== -->
+  <!-- PANEL 3 : COMPARAISON DE MASSE, RDM & FABRICATION (DROITE, 480px)                   -->
+  <!-- =================================================================================== -->
+  <rect x="1080" y="130" width="480" height="830" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="1080" y="130" width="480" height="45" rx="10" fill="#243248"/>
+  <text x="1105" y="158" fill="#34d399" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="700">PANEL 3 : BILAN DE MASSE &amp; STANDARDISATION</text>
+
+  <!-- Tableau Comparatif Masses -->
+  <g transform="translate(1105, 195)">
+    <rect x="0" y="0" width="430" height="230" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="15" y="25" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700">COMPARAISON DE MASSE DU BASSIN :</text>
+
+    <!-- Header Table -->
+    <rect x="10" y="40" width="410" height="25" fill="#1e293b"/>
+    <text x="20" y="57" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700">Élément</text>
+    <text x="210" y="57" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700">Actuel (Alu)</text>
+    <text x="320" y="57" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700">Hybride (Proposé)</text>
+
+    <!-- Rows -->
+    <text x="20" y="85" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="10">Berceau maître (01C)</text>
+    <text x="210" y="85" fill="#f87171" font-family="'Segoe UI', sans-serif" font-size="10">3 792 g (Alu)</text>
+    <text x="320" y="85" fill="#34d399" font-family="'Segoe UI', sans-serif" font-size="10">756 g (PA12-CF)</text>
+
+    <text x="20" y="110" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="10">Tube transverse pelvien</text>
+    <text x="210" y="110" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10">— (dans bloc)</text>
+    <text x="320" y="110" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10">380 g (Tube 6060)</text>
+
+    <text x="20" y="135" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="10">Brides hanches (06C/08C)</text>
+    <text x="210" y="135" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="10">1 003 g (massif)</text>
+    <text x="320" y="135" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10">405 g (2× Brides v87)</text>
+
+    <text x="20" y="160" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="10">Platine axiale + renforts</text>
+    <text x="210" y="160" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="10">464 g</text>
+    <text x="320" y="160" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="10">380 g</text>
+
+    <text x="20" y="185" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="10">Capots PA12-CF + Vis</text>
+    <text x="210" y="185" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="10">247 g</text>
+    <text x="320" y="185" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="10">302 g</text>
+
+    <!-- Total Row -->
+    <rect x="10" y="195" width="410" height="28" rx="4" fill="#064e3b" stroke="#059669" stroke-width="1"/>
+    <text x="20" y="214" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="800">TOTAL BASSIN</text>
+    <text x="210" y="214" fill="#fca5a5" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="800">5 506 g (5,51 kg)</text>
+    <text x="320" y="214" fill="#6ee7b7" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="800">2 223 g (2,22 kg)</text>
+  </g>
+
+  <!-- Highlight Gain -->
+  <g transform="translate(1105, 445)">
+    <rect x="0" y="0" width="430" height="70" rx="8" fill="#047857" stroke="#34d399" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="215" y="30" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="900" text-anchor="middle">GAIN DE MASSE NET : -3,28 KG !</text>
+    <text x="215" y="52" fill="#d1fae5" font-family="'Segoe UI', sans-serif" font-size="11" text-anchor="middle">Le bassin est allégé de 60%, abaissant le Torse + Bassin à ~11,1 kg !</text>
+  </g>
+
+  <!-- Standardisation d'Atelier CNC C500 -->
+  <g transform="translate(1105, 535)">
+    <rect x="0" y="0" width="430" height="395" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="30" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700">AVANTAGES MAJEURS D'ATELIER :</text>
+
+    <text x="20" y="65" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700">1. PROGRAMME D'USINAGE UNIQUE (C500)</text>
+    <text x="20" y="85" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">• Vous usinez <b>4 brides rigoureusement identiques</b> :</text>
+    <text x="30" y="105" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">- 2× Brides Épaules (v87 festonnée)</text>
+    <text x="30" y="122" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">- 2× Brides Hanches (v87 festonnée)</text>
+    <text x="20" y="142" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">• Même posage, mêmes fraises, zéro temps de réglage neuf.</text>
+
+    <text x="20" y="180" fill="#34d399" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700">2. QUINCAILLERIE STANDARDISÉE MCMASTER</text>
+    <text x="20" y="200" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">• Vis M5×70 mm (91290A272) et écrous Nylstop M5.</text>
+    <text x="20" y="217" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">• Vis CHC M4×16 mm (90128A214) et rondelles Nord-Lock M4.</text>
+    <text x="20" y="234" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">• Un stock unifié pour les 4 articulations maîtresses RS-04.</text>
+
+    <text x="20" y="270" fill="#fbbf24" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700">3. ADAPTATION ANGULAIRE 0° (ZÉRO CALE)</text>
+    <text x="20" y="290" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">• Aux épaules : angle de 15° imposé par l'Insert 15°.</text>
+    <text x="20" y="307" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">• Aux hanches : axe strictement horizontal (0°), la bride est</text>
+    <text x="20" y="324" fill="#cbd5e1" font-family="'Segoe UI', sans-serif" font-size="11">serrée à plat directement contre la face verticale du tube 60×60.</text>
+
+    <rect x="20" y="345" width="390" height="35" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="215" y="367" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" text-anchor="middle">SYNTHÈSE : GAIN DE TEMPS CAO + USINAGE RAPIDE + GAIN -3,28 KG</text>
+  </g>
+
+</svg>

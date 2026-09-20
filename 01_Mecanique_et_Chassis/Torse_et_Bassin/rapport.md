@@ -688,6 +688,11 @@ A la hanche (Pitch), le buste vertical + cuisse inclinée :
 | **P0** | Corriger incohérence L=80/L=90 mm équerres dans dossier Torse | Trivial (texte) | Documentation | ✅ **Fait** (Aligné L=90 mm) |
 | **P1** | Concevoir et intégrer le support IMU sur la colonne sagittale | Faible (4x Ø 2,7 mm C500) | **Critique** pour locomotion | ✅ **Fait** (Plaque Haute Z=+81,58 mm, 4x Ø 2,7 traversant + Nylstop M2,5) |
 | **P1** | Implémenter les 3 niveaux de butées logicielles dans le firmware | Faible (firmware CAN) | Protection mécanique | Avant mise en route |
+| **P1** | **Audit Métrologique Automatisé CAO (Torse v88)** | Faible (Scripts Python) | Recalibrage masse & cotes | ✅ **Validé** (Alu 7075, 1 735 g vs 1 754 g doc, conformité 99%) |
+| **P1** | **Taraudages Moyeu Waist 7075** : 4x M4 borgnes PCD Ø 68 mm à 45° | Faible (CAO Fusion 360) | Fixation Waist Plate / RS-06 | À faire sur côté droit |
+| **P1** | **Platine d'Interface Monolithique Ø 140 × 12 mm** (Alu 7075) | Moyen (CAO Fusion 360) | Siège CRBH 8016 & Stator RS-06 | À modéliser (remplace ASV1_200_16A) |
+| **P1** | **Butée Angulaire Waist Yaw** : Doigt externe 15×15×10 + vis CHC M5 | Faible (CAO Fusion 360) | Sécurité câbles (±95°) | À modéliser sous Waist Plate |
+| **P1** | **Symétrie Miroir Finale (Plan Sagittal Y = 0,0 mm)** | Faible (Mirror Fusion 360) | Obtention Torse Complet | Après validation côté droit |
 | **P2** | Évaluer et intégrer la ventilation du RS-06 (ouïes ou ventilateur) | Moyen | Fiabilité long terme | Avant assemblage pelvis |
 | **P2** | Goupillage positionnement (Carré 80×80 mm, Z = ±40 mm, Y = ±40 mm) | Faible (4 alésages C500) | Sécurité supplémentaire | ✅ **Fait** (Coupe droite Z=0 + 4 goupilles ISO 8734, SVG & Torse V2) |
 | **P3** | Contournage festonné & évidements brides d'épaule (-129 g) | Moyen (+20 min CNC/bride) | Dynamique de marche | ✅ **Validé V1** (202,30 g/bride, R = 25,64 mm, garde 4 mm + évidements latéraux, gain net -129,2 g torse) |

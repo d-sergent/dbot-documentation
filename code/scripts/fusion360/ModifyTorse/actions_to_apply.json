@@ -1,0 +1,250 @@
+{
+  "actions": [
+    {
+      "type": "rename_component",
+      "target_name": "Cou",
+      "new_name": "Cou - Tube collet"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "Capot_Dorsal_Batteries",
+      "new_name": "Panier_Batterie_Coulissant"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "Collerette_Nuque",
+      "new_name": "Capot_Verrouillage_Batterie"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200 v1",
+      "new_name": "Bassin_Pelvis [ASV1_200]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200",
+      "new_name": "Bassin_Pelvis [ASV1_200]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200_01C.step",
+      "new_name": "Chassis_Structurel_Bassin [ASV1_200_01C]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200_06C.step",
+      "new_name": "Support_Hanche_Gauche [ASV1_200_06C]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200_08C.step",
+      "new_name": "Support_Hanche_Droit [ASV1_200_08C]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200_16A.step",
+      "new_name": "Traverse_Renfort_Bassin [ASV1_200_16A]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200_07C.step",
+      "new_name": "Liaison_Hanche_Gauche [ASV1_200_07C]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200_09C.step",
+      "new_name": "Liaison_Hanche_Droit [ASV1_200_09C]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200_04B.step",
+      "new_name": "Capot_Lateral_Hanche_Gauche [ASV1_200_04B]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200_05B.step",
+      "new_name": "Capot_Lateral_Hanche_Droit [ASV1_200_05B]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200_02A.step",
+      "new_name": "Capot_Protection_Hanche_Frontal_G [ASV1_200_02A]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200_03A.step",
+      "new_name": "Capot_Protection_Hanche_Frontal_D [ASV1_200_03A]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "ASV1_200_15C.step",
+      "new_name": "Trappe_Inferieure_Bassin [ASV1_200_15C]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "91290A272_Black-Oxide Alloy Steel Socket Head Screw",
+      "new_name": "Vis CHC M5x70 [91290A272]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "92125A220_18-8 Stainless Steel Hex-Drive Flat Head Screw",
+      "new_name": "Vis FHC M4x30 [92125A220]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "90128A214_Zinc-Plated Alloy Steel Socket Head Screw",
+      "new_name": "Vis CHC M4x16 [90128A214]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "92855A422_18-8 Stainless Steel Low-Profile Socket Head Screws",
+      "new_name": "Vis BHC M5x16 [92855A422]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "M5x50 6 pans",
+      "new_name": "Vis CHC M5x50"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "91812A252_Extreme-Vibration-Resistant Wedge Lock Washer",
+      "new_name": "Rondelle Nord-Lock M4 [91812A252]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "93475A240_18-8 Stainless Steel General Purpose Washer",
+      "new_name": "Rondelle Plate DIN 125A M4 [93475A240]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "93625A150_18-8 Stainless Steel Nylon-Insert Locknut",
+      "new_name": "Ecrou Nylstop M4 [93625A150]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "90631A113_Low-Strength Steel Nylon-Insert Locknut",
+      "new_name": "Ecrou Nylstop M5 [90631A113]"
+    },
+    {
+      "type": "rename_component",
+      "target_name": "LUOSI_1",
+      "new_name": "Vis FHC M3x8 [91294A112]"
+    },
+    {
+      "type": "set_material",
+      "target_components": [
+        "Waist_Plate_7075",
+        "Plaque_de_Cou_7075",
+        "Equerre waist",
+        "Equerre cou",
+        "colonne vertébrale",
+        "semelle éclisse",
+        "Insert",
+        "Moyeu_Waist_Sandwich_7075",
+        "Bride Epaule",
+        "ASV1_200_01C.step",
+        "Chassis_Structurel_Bassin [ASV1_200_01C]",
+        "ASV1_200_06C.step",
+        "Support_Hanche_Gauche [ASV1_200_06C]",
+        "ASV1_200_08C.step",
+        "Support_Hanche_Droit [ASV1_200_08C]",
+        "ASV1_200_16A.step",
+        "Traverse_Renfort_Bassin [ASV1_200_16A]",
+        "ASV1_200_07C.step",
+        "Liaison_Hanche_Gauche [ASV1_200_07C]",
+        "ASV1_200_09C.step",
+        "Liaison_Hanche_Droit [ASV1_200_09C]"
+      ],
+      "material_name": "Aluminium 7075-T6",
+      "fallback_material": "Aluminium 6061-T6"
+    },
+    {
+      "type": "set_material",
+      "target_components": [
+        "Tube transverse Epaules"
+      ],
+      "material_name": "Aluminium 6060-T6",
+      "fallback_material": "Aluminium 6061-T6"
+    },
+    {
+      "type": "set_material",
+      "target_components": [
+        "Cou",
+        "Cou - Tube collet",
+        "Plastron_Ventral_Torse",
+        "Platine_Connectique_Facade",
+        "Panier_Batterie_Coulissant",
+        "Capot_Verrouillage_Batterie",
+        "Carenage_Pectoral_Haut",
+        "Carenage_Lombaire_Arriere",
+        "Tuyere_Aerodynamique_RS04",
+        "Capot_Protection_Epaule",
+        "Guide_Cables_Cou",
+        "Passe_Fil_Faisceau_Waist",
+        "Support_Ventilateur_RS06",
+        "ASV1_200_04B.step",
+        "Capot_Lateral_Hanche_Gauche [ASV1_200_04B]",
+        "ASV1_200_05B.step",
+        "Capot_Lateral_Hanche_Droit [ASV1_200_05B]",
+        "ASV1_200_02A.step",
+        "Capot_Protection_Hanche_Frontal_G [ASV1_200_02A]",
+        "ASV1_200_03A.step",
+        "Capot_Protection_Hanche_Frontal_D [ASV1_200_03A]",
+        "ASV1_200_15C.step",
+        "Trappe_Inferieure_Bassin [ASV1_200_15C]"
+      ],
+      "material_name": "PA12-CF (Infill 30% Gyroïde)",
+      "fallback_material": "Nylon"
+    },
+    {
+      "type": "set_material",
+      "target_components": [
+        "92125A220_18-8 Stainless Steel Hex-Drive Flat Head Screw",
+        "Vis FHC M4x30 [92125A220]",
+        "92855A422_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "Vis BHC M5x16 [92855A422]",
+        "93475A240_18-8 Stainless Steel General Purpose Washer",
+        "Rondelle Plate DIN 125A M4 [93475A240]",
+        "93625A150_18-8 Stainless Steel Nylon-Insert Locknut",
+        "Ecrou Nylstop M4 [93625A150]"
+      ],
+      "material_name": "Acier inoxydable",
+      "fallback_material": "Steel"
+    },
+    {
+      "type": "set_material",
+      "target_components": [
+        "91290A272_Black-Oxide Alloy Steel Socket Head Screw",
+        "Vis CHC M5x70 [91290A272]",
+        "90128A214_Zinc-Plated Alloy Steel Socket Head Screw",
+        "Vis CHC M4x16 [90128A214]",
+        "M5x50 6 pans",
+        "Vis CHC M5x50",
+        "91812A252_Extreme-Vibration-Resistant Wedge Lock Washer",
+        "Rondelle Nord-Lock M4 [91812A252]",
+        "90631A113_Low-Strength Steel Nylon-Insert Locknut",
+        "Ecrou Nylstop M5 [90631A113]",
+        "LUOSI_1",
+        "Vis FHC M3x8 [91294A112]"
+      ],
+      "material_name": "Acier",
+      "fallback_material": "Steel"
+    },
+    {
+      "type": "set_material",
+      "target_components": [
+        "Butee_Doigt_Externe"
+      ],
+      "material_name": "PA12-CF (Infill 50% Gyroïde)",
+      "fallback_material": "Nylon"
+    },
+    {
+      "type": "set_material",
+      "target_components": [
+        "Support_IMU_Torse"
+      ],
+      "material_name": "PA12-CF (Plein 100%)",
+      "fallback_material": "Nylon"
+    }
+  ]
+}
