@@ -112,13 +112,13 @@
       <!-- Début à Z = -153 mm (y = 21.5 + 336.6 = 358.1 px), x = 44 -->
       <rect x="44" y="358.1" width="118.8" height="121" rx="33" fill="url(#gradVoidLumiere)" stroke="#38bdf8" stroke-width="1.8"/>
 
-      <!-- 2 ALÉSAGES FERMÉS GOUPILLES ISO 8734 (Z = -30,0 mm = y = 21.5 + 66 = 87.5 px ; Entraxe Y = 50 mm) -->
-      <circle cx="48.4" cy="87.5" r="3.3" fill="#10b981" stroke="#ffffff" stroke-width="1.2"/>
-      <circle cx="48.4" cy="87.5" r="1.0" fill="#ffffff"/>
-      <circle cx="158.4" cy="87.5" r="3.3" fill="#10b981" stroke="#ffffff" stroke-width="1.2"/>
-      <circle cx="158.4" cy="87.5" r="1.0" fill="#ffffff"/>
-      <text x="103.4" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" font-weight="bold" fill="#34d399">
-        2× Ø 3,0 mm H7 (Goupilles Z = -30 mm)
+      <!-- 2 ALÉSAGES FERMÉS GOUPILLES ISO 8734 (Z = -40,0 mm = y = 21.5 + 88 = 109.5 px ; Entraxe Y = 80 mm : x = 15.4 et 191.4 px) -->
+      <circle cx="15.4" cy="109.5" r="3.3" fill="#10b981" stroke="#ffffff" stroke-width="1.2"/>
+      <circle cx="15.4" cy="109.5" r="1.0" fill="#ffffff"/>
+      <circle cx="191.4" cy="109.5" r="3.3" fill="#10b981" stroke="#ffffff" stroke-width="1.2"/>
+      <circle cx="191.4" cy="109.5" r="1.0" fill="#ffffff"/>
+      <text x="103.4" y="103" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" font-weight="bold" fill="#34d399">
+        2× Ø 3,0 mm H7 (Goupilles Z = -40 mm · Entraxe 80 mm)
       </text>
 
       <!-- 2 PERÇAGES M5 ÉPAULES (Z = -45,0 mm = y = 21.5 + 99 = 120.5 px ; Entraxe Y = 50 mm = 110 px) -->

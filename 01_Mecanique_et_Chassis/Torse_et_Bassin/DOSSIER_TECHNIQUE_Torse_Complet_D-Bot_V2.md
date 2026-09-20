@@ -222,7 +222,7 @@ Suite à la validation géométrique réelle sur le modèle CAO Torse v86, la st
 
 ![Plan de Cotation Détaillée 2D de la Plaque Basse Allégée](./media/plan_cotation_plaque_basse_colonne.svg)
 
-*Blueprint d'ingénierie vectoriel de la Plaque Basse de colonne sagittale (Alu 7075-T6, épaisseur 5,0 mm). Panel 1 : Vue frontale complète montrant la coupe droite plane à Z = 0,0 mm (100% métal-métal, zéro tenon), les 2 alésages fermés pour goupilles ISO 8734 Ø 3,0 mm H7 à Z = -30 mm, les 2 perçages M5 d'épaules à Z = -45 mm, les 2 lumières d'allègement de 54 × 55 mm, et les 4 perçages M4 d'équerres Waist au bas de la plaque (H_totale = 297,13 mm). Panel 2 : Zoom macro coté sur les deux fenêtres d'allègement, la traverse médiane de 18,0 mm, les bordures saines de 20,0 mm et les congés R = 15,0 mm. Panel 3 : Synthèse RDM (Sf marche = ×14,36, Sf pic = ×1,48), bilan de masse (-77,3 g) et stratégie d'usinage sur la CNC NestWorks C500.*
+*Blueprint d'ingénierie vectoriel de la Plaque Basse de colonne sagittale (Alu 7075-T6, épaisseur 5,0 mm). Panel 1 : Vue frontale complète montrant la coupe droite plane à Z = 0,0 mm (100% métal-métal, zéro tenon), les 2 alésages fermés pour goupilles ISO 8734 Ø 3,0 mm H7 à Z = -40,0 mm (entraxe Y = 80,0 mm, carré 80 × 80 mm), les 2 perçages M5 d'épaules à Z = -45 mm, les 2 lumières d'allègement de 54 × 55 mm, et les 4 perçages M4 d'équerres Waist au bas de la plaque (H_totale = 297,13 mm). Panel 2 : Zoom macro coté sur les deux fenêtres d'allègement, la traverse médiane de 18,0 mm, les bordures saines de 20,0 mm et les congés R = 15,0 mm. Panel 3 : Synthèse RDM (Sf marche = ×14,36, Sf pic = ×1,48), bilan de masse (-77,3 g) et stratégie d'usinage sur la CNC NestWorks C500.*
 
 3. **Implantation de l'IMU Torse (Bosch BMI270 SparkFun) sur la Plaque Haute — Prise en Compte de la Traverse Horizontale d'Épaule** :
    - **Contrainte Physique de la Traverse d'Épaule (Tube Carré Bleu 60×60×2 mm & Éclisse)** :
@@ -628,7 +628,7 @@ Pour une modélisation paramétrique propre, standardisée et directement reconn
 
 ![Plan de Jonction Coupe Droite Z = 0 et Goupilles Positives](./media/plan_decoupe_tenon_colonne_haute_basse.svg)
 
-*Blueprint d'ingénierie vectoriel de la jonction axiale à Z = 0,0 mm de la colonne sagittale (Plaque Haute L = 142,7 mm ↔ Plaque Basse L = 297,13 mm). Panel 1 : Vue frontale montrant la coupe droite continue 100 mm (appui franc métal-métal 500 mm²), l'empreinte de l'insert d'épaule incliné à 15° (colonne 100% pleine sous l'insert, zéro perçage central), les 4 perçages traversants Ø 5,30 mm pour vis CHC M5 à Z = ±45,0 mm et les 4 alésages fermés pour goupilles ISO 8734 Ø 3,0 mm H7 à Z = ±30,0 mm (entraxe Y = 50,0 mm). Panel 2 : Zoom macro coté sur la surface d'appui continue 100 × 5 mm à Z = 0,0 mm, les 4 alésages de goupilles Ø 3,00 mm H7 et le goupillage positif 4× Ø 3×14 mm m6. Panel 3 : Guide pas-à-pas de modélisation CAO sous Fusion 360 (Modify > Split Body avec plan Z = 0 standard, zéro Offset Face requis) et stratégie d'usinage atelier.*
+*Blueprint d'ingénierie vectoriel de la jonction axiale à Z = 0,0 mm de la colonne sagittale (Plaque Haute L = 142,7 mm ↔ Plaque Basse L = 297,13 mm). Panel 1 : Vue frontale montrant la coupe droite continue 100 mm (appui franc métal-métal 500 mm²), l'empreinte de l'insert d'épaule incliné à 15° (colonne 100% pleine sous l'insert, zéro perçage central), les 4 perçages traversants Ø 5,30 mm pour vis CHC M5 à Z = ±45,0 mm et les 4 alésages fermés pour goupilles ISO 8734 Ø 3,0 mm H7 formant un carré 80 × 80 mm (Z = ±40,0 mm, entraxe Y = 80,0 mm). Panel 2 : Zoom macro coté sur la surface d'appui continue 100 × 5 mm à Z = 0,0 mm, les 4 alésages de goupilles Ø 3,00 mm H7 et le goupillage positif 4× Ø 3×14 mm m6. Panel 3 : Guide pas-à-pas de modélisation CAO sous Fusion 360 (Modify > Split Body avec plan Z = 0 standard, zéro Offset Face requis) et stratégie d'usinage atelier.*
 
 ##### Protocole CAO Fusion 360 Simplifié (Zéro Offset Face Requis)
 
@@ -649,28 +649,35 @@ Grâce à la coupe droite plane, la modélisation sous Fusion 360 est rapide, pr
    - Lancer **Inspecter > Interférence (`Inspect > Interference`)** entre la Plaque Haute et la Plaque Basse :
    - Résultat : **`Aucune interférence (No interference)`**, confirmant un modèle parfait pour la FAO NestWorks C500.
 
-##### Goupillage de Positionnement Positif au Nœud d'Épaules (4× Alésages Fermés Pleins)
+##### Goupillage de Positionnement Positif au Nœud d'Épaules (Carré Parfait 80 × 80 mm)
 
-L'assemblage retient **4 alésages fermés 100% en pleine matière** décalés de 15 mm par rapport aux vis M5, garantissant un usinage direct parfait sur la CNC NestWorks C500 et un verrouillage géométrique absolu :
+L'assemblage retient **4 alésages fermés 100% en pleine matière** disposés en un **carré parfait de `80,0 mm × 80,0 mm`** centré sur l'origine `(0, 0)` (`Y = ±40,0 mm` et `Z = ±40,0 mm`), éliminant formellement tout risque d'interférence avec l'insert incliné à 15° et maximisant la rigidité angulaire en rotation (Rz) :
 
-###### 1. Rôle Mécanique & Dimensionnement du Bipoint par Plaque
-* **Plaque Haute (2 Goupilles à Z = +30,0 mm, entraxe Y = 50,0 mm)** : Forme un bipoint d'orientation bloquant 100% des translations (Tx, Ty) et de la rotation dans le plan (Rz) par rapport aux semelles éclisses.
-* **Plaque Basse (2 Goupilles à Z = -30,0 mm, entraxe Y = 50,0 mm)** : Forme son propre bipoint d'orientation bloquant 100% des translations et de la rotation de manière totalement autonome.
-* **Sécurité & Torsion RS-04 (120 N.m)** :
-  - Les 4 goupilles en acier trempé 60 HRC (section cisaillée totale = 28,3 mm²) offrent une capacité au cisaillement direct de **16 980 N**, soit un facteur de sécurité **Sf = 3,5** face au couple de crête du RS-04 (effort tangentiel maximal de 4 800 N sur l'entraxe de 25 mm).
+| Diagnostic Interférence Initiale (Z = ±30 mm) | Implantation Validée V2.6 en Carré 80 × 80 mm (Y = ±40, Z = ±40 mm) |
+| :---: | :---: |
+| ![Collision initiale avec le coin supérieur de l'insert à Z = 30 mm](./media/cad_fusion360_collision_goupille_insert.png) | ![Validation métrologique CAO sous Fusion 360 — Carré 80 × 80 mm](./media/cad_fusion360_goupilles_carre_80x80.png) |
+| *Interférence physique relevée sur CAO Torse v87 : l'insert incliné à 15° monte jusqu'à Z = +34,17 mm, entrant en collision avec le perçage à Z = 30 mm.* | *Validation métrologique finale : carré parfait 80 × 80 mm (distance mesurée 80,00 mm, dégagement franc ≥ 10,91 mm face à l'insert).* |
+
+###### 1. Rôle Mécanique & Dimensionnement du Bipoint par Plaque (Entraxe 80 mm)
+* **Plaque Haute (2 Goupilles à Z = +40,0 mm, entraxe Y = 80,0 mm)** : Forme un bipoint d'orientation bloquant 100% des translations (Tx, Ty) et de la rotation dans le plan (Rz) par rapport aux semelles éclisses avec un bras de levier élargi de 80 mm.
+* **Plaque Basse (2 Goupilles à Z = -40,0 mm, entraxe Y = 80,0 mm)** : Forme son propre bipoint d'orientation bloquant 100% des translations et de la rotation de manière totalement autonome.
+* **Sécurité & Torsion RS-04 (120 N.m) — Gain de Rigidité +60%** :
+  - En portant l'entraxe transversal de 50 mm à **80 mm**, l'effort tangentiel de cisaillement unitaire sur les goupilles sous le couple de crête de 120 N.m diminue de **37,5%** (l'effort tangentiel passe de 4 800 N à **3 000 N** sur chaque bipoint).
+  - Les 4 goupilles en acier trempé 60 HRC (section cisaillée totale = 28,3 mm²) offrent une capacité au cisaillement direct de **16 980 N**, soit un facteur de sécurité exceptionnel **Sf = 5,66** face au couple de crête du RS-04.
   - La précharge des 4 vis M5 (19 200 N au total) apporte 2 880 N d'adhérence par frottement additionnelle.
 
-###### 2. Coordonnées Cartésiennes d'Usinage C500 & Fusion 360
-Les 4 alésages forment un rectangle parfait de `50,0 mm (largeur Y) × 60,0 mm (hauteur Z)`, rigoureusement coaxiaux en Y avec les perçages des vis M5 :
+###### 2. Coordonnées Cartésiennes d'Usinage C500 & Fusion 360 (Carré 80 × 80 mm)
 
 | Goupille & Entité | Coordonnée Y (Transversal) | Coordonnée Z (Vertical) | Pièces Traversées (Sandwich 15 mm) | Statut & Rôle Mécanique |
 | :--- | :---: | :---: | :--- | :--- |
-| **Goupille Haute-Gauche** | **`-25,00 mm`** | **`+30,00 mm`** | Éclisse AV (5mm) + Plaque Haute (5mm) + Éclisse AR (5mm) | Verrouille Plaque Haute (15 mm sous vis M5 Haut-G) |
-| **Goupille Haute-Droite** | **`+25,00 mm`** | **`+30,00 mm`** | Éclisse AV (5mm) + Plaque Haute (5mm) + Éclisse AR (5mm) | Complète le blocage en rotation Plaque Haute |
-| **Goupille Basse-Gauche** | **`-25,00 mm`** | **`-30,00 mm`** | Éclisse AV (5mm) + Plaque Basse (5mm) + Éclisse AR (5mm) | Complète le blocage en rotation Plaque Basse |
-| **Goupille Basse-Droite** | **`+25,00 mm`** | **`-30,00 mm`** | Éclisse AV (5mm) + Plaque Basse (5mm) + Éclisse AR (5mm) | Verrouille Plaque Basse (15 mm au-dessus vis M5 Bas-D) |
+| **Goupille Haute-Gauche** | **`-40,00 mm`** | **`+40,00 mm`** | Éclisse AV (5mm) + Plaque Haute (5mm) + Éclisse AR (5mm) | Verrouille Plaque Haute (Dégagement 10,91 mm face à l'insert 15°) |
+| **Goupille Haute-Droite** | **`+40,00 mm`** | **`+40,00 mm`** | Éclisse AV (5mm) + Plaque Haute (5mm) + Éclisse AR (5mm) | Complète le blocage en rotation Plaque Haute (Entraxe Y = 80 mm) |
+| **Goupille Basse-Gauche** | **`-40,00 mm`** | **`-40,00 mm`** | Éclisse AV (5mm) + Plaque Basse (5mm) + Éclisse AR (5mm) | Complète le blocage en rotation Plaque Basse (Entraxe Y = 80 mm) |
+| **Goupille Basse-Droite** | **`+40,00 mm`** | **`-40,00 mm`** | Éclisse AV (5mm) + Plaque Basse (5mm) + Éclisse AR (5mm) | Verrouille Plaque Basse (Dégagement 26,38 mm face à l'insert 15°) |
 
-* **Dégagement matière** : Situées à 15 mm des vis M5 et à 30 mm du plan de joint Z = 0, ces goupilles tombent dans une zone 100% pleine sans interférence avec l'insert 15° ni avec les vis FHC M4.
+* **Dégagement matière face à l'insert incliné à 15°** : L'insert carré 55,8 × 55,8 mm incliné à 15° monte jusqu'à `Y = -30,8 mm, Z = +34,2 mm`. À `(Y = -40, Z = +40)`, la distance minimale au coin le plus proche est de **`10,91 mm`** de métal plein continu (zéro interférence).
+* **Dégagement face aux vis M5 (Y = ±25 mm, Z = ±45 mm)** : Entraxe direct de **`15,81 mm`** (`sqrt(15² + 5²)`), soit plus de 5 fois le diamètre de goupille.
+* **Garde saine sur les chants de colonne (largeur 94 mm, chant à Y = ±47 mm)** : Axe de perçage à **7,00 mm** du flanc, laissant **5,50 mm de matière pleine continue** sous l'alésage Ø 3,0 mm.
 * **Composants associés** : 4 goupilles cylindriques rectifiées **ISO 8734 / DIN 6325 `Ø 3,0 mm × 14 mm` (ajustement H7/m6)**, référence McMaster-Carr **`98381A467`** (Acier trempé) ou **`97395A310`** (Inox 316).
 * **Protocole d'usinage** : Avant-trou foret carbure Ø 2,90 mm + alésoir machine Ø 3,00 mm H7 avec chanfrein d'ébavurage `0,1 mm × 45°` des deux côtés.
 
@@ -916,7 +923,7 @@ Dans un assemblage métallique haute performance soumis aux vibrations dynamique
 | **9. Colonne Sagittale Haute & Basse (5,0 mm)** | Chants supérieurs et inférieurs au niveau des pliures d'équerres | Fraise à chanfreiner 45° C500 | **`0,5 mm × 45°`** | Évite tout contact franc entre l'arête de colonne et le congé intérieur naturel de la cornière marchande. |
 | **9. Colonne Sagittale Haute & Basse (5,0 mm)** | 6 Perçages Traversants Ø 4,30 mm (2 au cou, 4 au waist) | Fraise à chanfreiner 45° | **`0,3 mm × 45°` (des 2 côtés)** | Guidage doux des vis CHC M4 × 20 mm et placage sans contrainte parasite des équerres. |
 | **9. Colonne Sagittale Haute (Plaque 5,0 mm)** | 4 Perçages Traversants Ø 2,70 mm IMU Torse (BMI270) | Fraise à chanfreiner 45° C500 | **`0,2 mm × 45°` (des 2 côtés)** | Micro-ébavurage éliminant tout morfil : assise rigoureusement plane des entretoises nylon 3 mm (flanc droit) et des rondelles DIN 125A / écrous Nylstop M2,5 (flanc gauche). |
-| **9. Colonne Sagittale & Éclisses (Sandwich Z = ±30 mm)** | 4 Alésages de Goupilles Ø 3,00 mm H7 (Y = ±25 mm, Z = ±30 mm) | Alésoir machine H7 Ø 3,0 mm + fraise 45° C500 | **`0,1 mm × 45°` (des 2 côtés)** | Chanfrein de guidage indispensable pour chasser les 4 goupilles ISO 8734 m6 au maillet sans copeau ni arrachement de métal. |
+| **9. Colonne Sagittale & Éclisses (Sandwich Carré 80 × 80 mm)** | 4 Alésages de Goupilles Ø 3,00 mm H7 (Y = ±40 mm, Z = ±40 mm) | Alésoir machine H7 Ø 3,0 mm + fraise 45° C500 | **`0,1 mm × 45°` (des 2 côtés)** | Chanfrein de guidage indispensable pour chasser les 4 goupilles ISO 8734 m6 au maillet sans copeau ni arrachement de métal. |
 | **9. Jonction Colonne Sagittale (Coupe Droite Z = 0)** | Chants de contact métal-métal à Z = 0,0 mm (largeur 100 mm) | Fraise carbure C500 / outil ébavureur | **`0,2 mm × 45°`** | Cassage d'arête soigné garantissant un contact plan franc à 0,0 mm sans morfil sur les 500 mm² de portée continue (zéro tenon). |
 | **10. Waist Plate Inférieure (Alu 6,0 mm)** | 4 Perçages Traversants Sandwich Ø 4,50 mm (PCD Ø 68 mm à 45°) | Fraise à chanfreiner C500 | **`0,3 mm × 45°` (des 2 côtés)** | Placage plan franc entre les ailes d'équerres (dessus) et la bague intérieure du roulement RB8016 (dessous). |
 | **10. Waist Plate Inférieure (Alu 6,0 mm)** | Contour Extérieur (120 × 94 mm) | Fraise de contournage C500 | **`0,5 mm × 45°`** | Cassage d'arête sur tout le pourtour supérieur et inférieur de la plaque. |
@@ -1168,7 +1175,7 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 | • **Sandwich Colonne Centrale** | Vis CHC M5 × 25 mm | ISO 4762 / DIN 912 | **`91290A235`** (Acier 12.9)<br>**`92290A235`** (Inox 18-8) | **4 vis** (2 avant, 2 arrière) | **Perçages lisses traversants Ø 5,30 mm** chanfreinés à **`0,5 mm × 45°`** traversant le sandwich 15 mm (2 semelles 5 mm + plaque 5 mm). Serrage en croix à 5,5 N.m. |
 | • **Rondelles Sandwich Colonne M5** | Rondelles Plates M5 DIN 125A | ISO 7089 / DIN 125A | **`93475A240`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | **Diamètre de passage Ø 5,30 mm**. Dimensions : Ø intérieur 5,3 mm / Ø extérieur 10,0 mm / épaisseur 1,0 mm. |
 | • **Écrous Sandwich Colonne M5** | Écrous Frein Nylstop M5 | ISO 7040 / DIN 985 | **`90631A113`** (Inox 18-8) | **4 écrous** | Bague nylon autofreinée (couple 5,5 N.m), montés sur vis traversante **Ø 5,30 mm**. |
-| • **Goupilles de Positionnement Positif (4× ISO 8734)** | Goupilles Cylindriques Rectifiées Ø 3,0 mm × 14 mm | ISO 8734 / DIN 6325 | **`98381A467`** (Acier Trempé)<br>**`97395A310`** (Inox 316) | **4 goupilles** | Alésages **Ø 3,00 mm H7** fermés traversant le sandwich 15 mm à `Z = ±30,0 mm` (`Y = ±25,0 mm`). Tolérance H7/m6, alignement coaxial 0,005 mm, zéro tenon. |
+| • **Goupilles de Positionnement Positif (4× ISO 8734)** | Goupilles Cylindriques Rectifiées Ø 3,0 mm × 14 mm | ISO 8734 / DIN 6325 | **`98381A467`** (Acier Trempé)<br/>**`97395A310`** (Inox 316) | **4 goupilles** | Alésages **Ø 3,00 mm H7** fermés traversant le sandwich 15 mm formant un carré 80 × 80 mm à `Z = ±40,0 mm` (`Y = ±40,0 mm`). Tolérance H7/m6, alignement coaxial 0,005 mm, zéro tenon. |
 | **4. LIAISONS D'EXTRÉMITÉS (ÉQUERRES COU, MOTEUR RS-05 & SANDWICH WAIST RS-06 — OPTION C)** | | | | | |
 | • **Fixation Moteur RS-05 ➔ Plaque Cou (PCD Ø 38,5 mm)** | Vis FHC M3 × 8 mm | ISO 10642 / DIN 7991 | **`91294A112`** (Acier 10.9)<br>**`92125A112`** (Inox 18-8) | **4 vis** | Vissage par le DESSOUS à fleur (0,0 mm). **Perçages lisses traversants Ø 3,20 mm** (PCD Ø 38,50 mm à 45°), **fraisures 90° Ø 6,50 mm** (profondeur 1,65 mm). Pénétration filetée moteur = 3,32 mm (garde fond = 2,68 mm). |
 | • **Fixation Plaque Cou ➔ Équerres Hautes (Option C)** | Vis CHC M4 × 16 mm | ISO 4762 / DIN 912 | **`91290A158`** (Acier 12.9)<br>**`92290A145`** (Inox 18-8) | **4 vis** (2 / équerre) | Vissage par le DESSUS de la plaque de cou. **Perçages lisses traversants Ø 4,30 mm** (zéro fraisure) sur rectangle 30×45 mm + 4 écrous Nylstop M4 sous l'équerre. Tête CHC hors carter RS-05. |
@@ -1218,7 +1225,7 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **9. Ventilateurs Tuyères 3D (Noctua NF-A4x20)** | CHC M3 × 16 mm (Inox) | 8 | **`0,6 à 0,8 N.m`** | Clé Allen 2,5 mm + Clé 5,5 mm | Silent-blocs antivibrations (serrage modéré) | `91290A115` |
 | **10. Coque & Habillage Extérieur (PA12-CF)** | Vis M4 sur Inserts Laiton Ruthex | 16 | **`1,2 à 1,5 N.m`** | Clé Allen 3,0 mm | Ancrage thermique laiton (ne pas sur-serrer) | `94180A353` |
 | **11. Fixation Traversante IMU Torse (Plaque Haute)** | CHC M2,5 × 14 mm (Inox A2) | 4 | **`0,5 à 0,6 N.m`** | Clé Allen 2,0 mm + Clé 5,0 mm | Entretoises Nylon 3 mm + Rondelles DIN 125A + Nylstop M2,5 flanc gauche | `92290A038` / `90631A105` |
-| **12. Goupillage Positif Colonne (Z = ±30 mm)** | Goupilles ISO 8734 Ø 3 × 14 mm (m6) | 4 | **Ajustement serrant doux H7/m6** | Maillet d'ajusteur + chasse-goupille | Emmanchement mécanique positif sans jeu (bloque 100% translations et rotation, zéro tenon) | `98381A467` / `97395A310` |
+| **12. Goupillage Positif Colonne (Carré 80 × 80 mm, Z = ±40 mm)** | Goupilles ISO 8734 Ø 3 × 14 mm (m6) | 4 | **Ajustement serrant doux H7/m6** | Maillet d'ajusteur + chasse-goupille | Emmanchement mécanique positif sans jeu (bloque 100% translations et rotation, zéro tenon) | `98381A467` / `97395A310` |
 
 ---
 

@@ -125,7 +125,7 @@ Et la checklist de fin de dossier (section 8) confirme que la case est non coch�
 **Constat initial** : La jonction Plaque Haute / Plaque Basse au noeud d'épaules (Z = 0) par un ancien tenon-mortaise 2D (40 x 10 mm, congés R = 3 mm) constituait un concentrateur de contraintes (Kt ~ 1,3 a 1,5) pile à l'endroit de la torsion maximale du RS-04 (120 N.m), tout en imposant un risque de talonnage au fond et une complexité de jeu sous Fusion 360 (Offset Face -0,05 mm et -0,20 mm).
 
 > [!TIP]
-> **Action P2 (Validée & Actée — Coupe Droite + 4 Goupilles ISO 8734)** : Le tenon-mortaise est **définitivement supprimé** au profit d'une **coupe droite 100% plane à Z = 0,0 mm** offrant 500 mm² d'appui continu sans entaille (facteur de contrainte Kt = 1,00, gain de portée +19%). L'isostatisme parfait et la reprise du cisaillement sont assurés par **4 goupilles cylindriques rectifiées Ø 3 mm × 14 mm (ISO 8734, H7/m6)** situées à **`Z = ±30,0 mm`** (`Y = ±25,0 mm`, coaxiales en Y avec les vis M5). Voir section 4.4 et le plan vectoriel `./media/plan_decoupe_tenon_colonne_haute_basse.svg`.
+> **Action P2 (Validée & Actée — Coupe Droite + 4 Goupilles ISO 8734)** : Le tenon-mortaise est **définitivement supprimé** au profit d'une **coupe droite 100% plane à Z = 0,0 mm** offrant 500 mm² d'appui continu sans entaille (facteur de contrainte Kt = 1,00, gain de portée +19%). L'isostatisme parfait et la reprise du cisaillement sont assurés par **4 goupilles cylindriques rectifiées Ø 3 mm × 14 mm (ISO 8734, H7/m6)** formant un **carré parfait de 80 × 80 mm** (`Z = ±40,0 mm`, `Y = ±40,0 mm`), éliminant toute interférence avec l'insert incliné 15° et augmentant la rigidité en rotation Rz de +60%. Voir section 4.4 et le plan vectoriel `./media/plan_decoupe_tenon_colonne_haute_basse.svg`.
 
 ---
 
@@ -235,14 +235,14 @@ Le corridor de traversée du faisceau 48V/CAN-FD (lumière oblongue 25 x 15 mm) 
 
 ### 4.4 Jonction Axiale à Coupe Droite Z = 0 & Goupillage Positif 4× Ø 3 mm (Architecture Validée)
 
-**Spécification retenue** : Pour éliminer tout concentrateur de contraintes (Kt = 1,00 au lieu de 1,3-1,5) et supprimer le risque de talonnage ou d'hyperstatisme, la jonction axiale adopte une **tranche plane continue de 100 mm à Z = 0,0 mm (zéro tenon)**. Le positionnement micrométrique et la reprise du cisaillement sont assurés par **4 alésages fermés `Ø 3,00 mm H7`** en pleine matière décalés de 15 mm par rapport aux vis M5 :
-* **Coordonnées cartésiennes (coaxiales en Y avec les vis M5)** :
-  - **Plaque Haute (Z = +30,0 mm)** : `Y = -25,0 mm` (Gauche) et `Y = +25,0 mm` (Droite).
-  - **Plaque Basse (Z = -30,0 mm)** : `Y = -25,0 mm` (Gauche) et `Y = +25,0 mm` (Droite).
+**Spécification retenue** : Pour éliminer tout concentrateur de contraintes (Kt = 1,00 au lieu de 1,3-1,5) et supprimer le risque de talonnage ou d'hyperstatisme, la jonction axiale adopte une **tranche plane continue de 100 mm à Z = 0,0 mm (zéro tenon)**. Le positionnement micrométrique et la reprise du cisaillement sont assurés par **4 alésages fermés `Ø 3,00 mm H7`** en pleine matière disposés en un **carré parfait de `80,0 × 80,0 mm`** (`Y = ±40,0 mm` et `Z = ±40,0 mm`) :
+* **Coordonnées cartésiennes (Carré parfait 80 × 80 mm, dégagement ≥ 10,91 mm face à l'insert)** :
+  - **Plaque Haute (Z = +40,0 mm)** : `Y = -40,0 mm` (Gauche) et `Y = +40,0 mm` (Droite) — Entraxe Y = 80,0 mm.
+  - **Plaque Basse (Z = -40,0 mm)** : `Y = -40,0 mm` (Gauche) et `Y = +40,0 mm` (Droite) — Entraxe Y = 80,0 mm.
 
-**Avantages mécaniques du quadruplet de goupilles** :
-* **Verrouillage par bipoints indépendants** : Chaque plaque (haute et basse) possède son propre entraxe de 50,0 mm verrouillant 100% de la rotation dans le plan par obstacle mécanique pur, sans nécessiter d'emboîtement tenon.
-* **Sécurité au cisaillement** : Les 4 goupilles trempées 60 HRC offrent une section cisaillée de 28,3 mm² soit une résistance directe de 16 980 N (facteur de sécurité Sf = 3,5 face aux 120 N.m du RS-04), complétée par 2 880 N de frottement sous la précharge des vis M5.
+**Avantages mécaniques du quadruplet de goupilles en carré 80 × 80 mm** :
+* **Verrouillage par bipoints indépendants & Gain de Rigidité (+60%)** : Chaque plaque (haute et basse) possède son propre entraxe de 80,0 mm verrouillant 100% de la rotation dans le plan par obstacle mécanique pur avec un bras de levier augmenté de 60%, réduisant de 37,5% l'effort tangentiel unitaire face aux torsions de marche.
+* **Sécurité au cisaillement** : Les 4 goupilles trempées 60 HRC offrent une section cisaillée de 28,3 mm² soit une résistance directe de 16 980 N (facteur de sécurité exceptionnel Sf = 5,66 face aux 120 N.m du RS-04), complétée par 2 880 N de frottement sous la précharge des vis M5.
 * **Contact franc obligatoire à Z = 0 (ZÉRO ESPACE / ZÉRO GAP)** : Les deux plaques sont en butée directe métal-métal à 0,0 mm. Les 500 mm² de matière continue absorbent 100% de la compression axiale (poids propre, charges portées, chocs de marche), déchargeant totalement les goupilles et les vis M5 de tout effort vertical.
 
 Ces 4 goupilles de **`Ø 3,0 mm × 14 mm`** (McMaster **`98381A467`** en acier trempé ou **`97395A310`** en inox 316) traversent simultanément les 15 mm du sandwich (Semelle Éclisse Avant 5 mm + Colonne 5 mm + Semelle Éclisse Arrière 5 mm).
@@ -689,7 +689,7 @@ A la hanche (Pitch), le buste vertical + cuisse inclinée :
 | **P1** | Concevoir et intégrer le support IMU sur la colonne sagittale | Faible (4x Ø 2,7 mm C500) | **Critique** pour locomotion | ✅ **Fait** (Plaque Haute Z=+81,58 mm, 4x Ø 2,7 traversant + Nylstop M2,5) |
 | **P1** | Implémenter les 3 niveaux de butées logicielles dans le firmware | Faible (firmware CAN) | Protection mécanique | Avant mise en route |
 | **P2** | Évaluer et intégrer la ventilation du RS-06 (ouïes ou ventilateur) | Moyen | Fiabilité long terme | Avant assemblage pelvis |
-| **P2** | Goupillage positionnement (Z = ±30 mm, Y = ±25 mm) | Faible (4 alésages C500) | Sécurité supplémentaire | ✅ **Fait** (Coupe droite Z=0 + 4 goupilles ISO 8734, SVG & Torse V2) |
+| **P2** | Goupillage positionnement (Carré 80×80 mm, Z = ±40 mm, Y = ±40 mm) | Faible (4 alésages C500) | Sécurité supplémentaire | ✅ **Fait** (Coupe droite Z=0 + 4 goupilles ISO 8734, SVG & Torse V2) |
 | **P3** | Contournage festonné & évidements brides d'épaule (-129 g) | Moyen (+20 min CNC/bride) | Dynamique de marche | ✅ **Validé V1** (202,30 g/bride, R = 25,64 mm, garde 4 mm + évidements latéraux, gain net -129,2 g torse) |
 | **P3** | Protection IP54 du corridor de câbles (passe-fil à membrane) | Faible (achat composant) | Robustesse terrain | Avant utilisation extérieur |
 | **P3** | Amortissement silicone des vis de butée Waist | Faible (manchon ~2 EUR) | Protection roulement | Avant mise en route |
