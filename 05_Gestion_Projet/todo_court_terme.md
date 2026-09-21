@@ -22,14 +22,14 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 ## 📐 FINALISATION CAO TORSE & BASSIN (Demi-Modèle Droit ➔ Symétrie Complète)
 
 ### Phase 1 : Ajustements Côté Droit (Fusion 360)
-- [ ] **Moyeu Waist 7075** : Ajouter 4 trous borgnes taraudés M4 (prof. 12 mm, filet 10 mm) sur PCD Ø 68,00 mm à 45° (`X = ±24,04 mm`, `Y = ±24,04 mm`) pour recevoir les 4 vis FHC M4 de la Waist Plate.
-- [ ] **Platine d'Interface Waist Monolithique** : Modéliser le disque Alu 7075-T6 Ø 140 × 12 mm (alésage central stator RS-06 Ø 88 H7, siège supérieur roulement CRBH 8016 Ø 120 H7 × 3 mm, 4 taraudages M3 flasque PCD Ø 128 mm) en remplacement d'`ASV1_200_16A.step`.
+- [x] **Moyeu Waist 7075** : Ajouter 4 trous borgnes taraudés M4 (prof. 12 mm, filet 10 mm) sur PCD Ø 68,00 mm à 45° (`X = ±24,04 mm`, `Y = ±24,04 mm`) pour recevoir les 4 vis CHC M4 de la Waist Plate.
+- [ ] **Platine d'Interface Waist Monolithique** : Modéliser le format Alu 7075-T6 137 × 12 mm (alésage central stator RS-06 Ø 88 H7, siège supérieur roulement CRBH 8016 Ø 120 H7 × 3 mm, 4 taraudages M3 flasque PCD Ø 128 mm) en remplacement d'`ASV1_200_16A.step`.
 - [ ] **Butée Angulaire Waist Yaw** : Modéliser le doigt de butée externe (15 × 15 × 10 mm) sous la Waist Plate et implanter les 2 vis CHC M5 à ±95° sur la platine fixe.
 
-### Phase 2 : Symétrie Miroir Finale (Plan Sagittal Y = 0,0 mm)
-- [ ] **Symétrie Épaule Gauche** : Dupliquer par miroir la `Bride Epaule` (+202,3 g) et le moteur `RS04 droit` ➔ `RS04 gauche` (+551 g) avec les 10 vis M4 et rondelles Nord-Lock.
-- [ ] **Symétrie Cornières Gauches** : Dupliquer l'`Equerre cou` (+46,6 g) et l'`Equerre waist` (+42,1 g) sur le flanc gauche de la colonne avec leur visserie de pincement.
-- [ ] **Contrôle Final Global** : Relancer `AuditTorse.py` pour valider le bilan de masse du torse complet assemblé (~4,3 kg avec moteurs RS-04/RS-05/RS-06).
+### Phase 2 : Symétrie Miroir Finale (Plan Sagittal Y = +8,67 mm)
+- [x] **Symétrie Épaule Gauche** : Dupliquer par miroir la `Bride Epaule` (+202,3 g) et le moteur `RS04 droit` ➔ `RS04 gauche` (+1 559,5 g) avec les 10 vis M4 et rondelles Nord-Lock.
+- [x] **Symétrie Cornières Gauches** : Dupliquer l'`Equerre cou` (+46,6 g) et l'`Equerre waist` (+42,1 g) sur le flanc gauche de la colonne avec leur visserie de pincement.
+- [x] **Contrôle Final Global & Quincaillerie Waist** : Relancer `AuditTorse.py` pour valider le bilan de masse du torse complet assemblé (16,67 kg torse + bassin, 262 composants modélisés, coaxialité parfaite des 4 vis CHC M4×20 mm `92290A168` + rondelles M4 `93475A230`).
 - [x] **Stratégie d'Alimentation 48V à 3 Niveaux** : Schéma d'alimentation validé (Wanptek 60V/5A, MeanWell LRS-600-48 600W, Batterie 48V 13S NMC).
 - [x] **Triade Visuelle Temps Réel & Fusion Spatiale 3D** : Couplage OAK-D Pro + YOLO-World v2 Zero-Shot + SpatialFusion (`test_triad_vision.py`) avec détection multi-boîtes hiérarchique, classification multicolore et coordonnées 3D réelles [X, Y, Z] en mm.
 - [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS et du nœud `SpatialLocationCalculator` (Z < 500 mm) dans `oak_camera.py`.

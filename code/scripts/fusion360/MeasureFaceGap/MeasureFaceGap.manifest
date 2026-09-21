@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity (D-Bot V1)",
+	"description":	{
+		"":	"Palpeur métrologique interactif : mesure le jeu réel, le contact et l'alignement entre deux faces (100% lecture seule)."
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

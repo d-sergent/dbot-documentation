@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity (D-Bot V1)",
+	"description":	{
+		"":	"Inspection cinématique complète par voyage temporel sécurisé dans la chronologie Fusion 360 (100% lecture seule)."
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

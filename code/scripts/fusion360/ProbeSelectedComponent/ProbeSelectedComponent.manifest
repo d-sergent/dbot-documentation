@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity (D-Bot V1)",
+	"description":	{
+		"":	"Diagnostic cinématique instantané et ciblé sur le composant sélectionné (100% lecture seule)."
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

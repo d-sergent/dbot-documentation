@@ -2,6 +2,33 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-09-21 — Finalisation CAO Symétrie Torse (Phase 2), Coaxialité Waist Sandwich & Intégration Quincaillerie (McMaster 92290A168 / 93475A230)
+
+### 🎯 Objectif de la session
+1. **Validation Métrologique & Symétrie Bilatérale (Phase 2)** :
+   - Duplication miroir complète des composants supérieurs du torse par rapport au plan sagittal médian de la colonne (`Y = +8,670 mm`) sous Fusion 360 (`Torse v92`) : `Bride Epaule(Symétrie miroir):1` (202,3 g), `RS04 droit(Symétrie miroir):1` (1 559,5 g), `Tube transverse Epaules(Symétrie miroir):1` (99,6 g), `DIANJIBAN-2(Symétrie miroir):1` (89,9 g), `Equerre waist(Symétrie miroir):1` (42,1 g).
+   - Validation du bilan de masse : 262 composants modélisés, masse totale Torse + Bassin = **`16,67 kg`** (16 665,6 g), CoM à `[+61,79, +9,07, 1145,83] mm` (déport latéral Y de 0,40 mm par rapport au plan sagittal à +8,67 mm).
+2. **Résolution du Conflit Géométrique & Coaxialité Waist Sandwich** :
+   - Diagnostic de l'écart de 1,37 mm entre l'équerre gauche et la Waist Plate : le centre de rotation du Waist Yaw (moteur RS-06, roulement RB8016, Waist Plate et Moyeu) est déporté à `Y = +9,355 mm` (+0,685 mm par rapport au plan de symétrie sagittal de la colonne à `Y = +8,670 mm`).
+   - Ajustement des perçages de l'Équerre gauche sous Fusion 360 par projection directe sur la Waist Plate : alignement rigoureux des 4 perçages coaxiaux à `X = 25,18 / 73,26 mm` et `Y = -14,68 / +33,40 mm`.
+3. **Modélisation & Insertion Quincaillerie Normalisée McMaster-Carr** :
+   - Intégration dans Fusion 360 et positionnement par liaisons rigides Joint (`J`) sous tête :
+     - 4× Vis CHC M4 × 20 mm Inox 316 (McMaster **`92290A168`** / Inox 18-8 **`91292A121`**).
+     - 4× Rondelles plates DIN 125A M4 (McMaster **`93475A230`** / Inox 316 **`90965A150`**).
+   - Contrôle métrologique de l'empilement Z : assise de rondelle à Z = 1045,41 mm, appui sous tête à Z = 1046,23 mm, pénétration effective de 8,58 mm dans le `Moyeu_Waist_Sandwich_7075` (épaisseur serrée = 10,5 mm, garde de sécurité au fond de trou borgne = 3,42 mm, zéro talonnage).
+4. **Mise à Jour de l'Outillage de Diagnostic & Documentation Technique** :
+   - Mise à niveau du script `AuditTorse.py` pour générer automatiquement à chaque exécution le fichier markdown léger RAG `SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md` et extraire les boîtes englobantes physiques.
+   - Correction des références de visserie dans `DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md` et `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` (remplacement de la référence erronée `92290A146` par `92290A168` / `91292A121` et de `93475A220` par `93475A230`).
+
+### 📝 Réalisations & Évolutions
+1. **Dossiers Techniques Synchronisés** :
+   - `DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md` et `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` mis à jour avec la quincaillerie validée.
+2. **Suivi de Projet & Métrologie** :
+   - `todo_court_terme.md` actualisé (Phases 1 et 2 validées).
+   - `AUDIT_METROLOGIQUE_Torse_et_Bassin.json` et `SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md` régénérés à 22h57 avec les 262 composants.
+
+---
+
 ## 📅 2026-09-19 — Architecture Torse V2.6 : Jonction Colonne Coupe Droite Z=0, Goupillage Positif 4× ISO 8734 & Standard V1 Brides Festonnées Évidées (-129,2 g)
 
 ### 🎯 Objectif de la session

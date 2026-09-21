@@ -6,7 +6,7 @@ inspect_full_audit.py — Analyse complète des 171 composants du Torse & Bassin
 import json
 import os
 
-JSON_PATH = "/Users/Shared/Mon Google Drive Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/audit_torse_fusion360.json"
+JSON_PATH = "/Users/Shared/Mon Google Drive Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json"
 
 def main():
     with open(JSON_PATH, "r", encoding="utf-8") as f:

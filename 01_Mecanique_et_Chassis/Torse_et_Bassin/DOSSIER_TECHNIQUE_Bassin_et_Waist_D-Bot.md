@@ -23,18 +23,18 @@
 - [3. Analyse Critique des Roulements & Choix Technologique](#3-analyse-critique-des-roulements--choix-technologique)
   - [3.1 Diagnostic de la Butée Axiale à Aiguilles Seule (AXK 5578 / OD78 ID55 H5)](#31-diagnostic-de-la-butée-axiale-à-aiguilles-seule-axk-5578--od78-id55-h5)
   - [3.2 Benchmark Asimov v1 : Pourquoi l'Absence de Roulement Externe est Inadaptée au D-Bot](#32-benchmark-asimov-v1--pourquoi-labsence-de-roulement-externe-est-inadaptée-au-d-bot)
-  - [3.3 Roulement 4 Points Section Mince (Étude Initiale — Remplacé)](#33-roulement-4-points-section-mince-étude-initiale--remplacé)
-  - [3.4 Solution Retenue : Roulement à Rouleaux Croisés CRBH 8016 (80×120×16 mm)](#34-solution-retenue--roulement-à-rouleaux-croisés-crbh-8016-80×120×16-mm)
+  - [3.3 Roulement 4 Points Section Mince (Étude Initiale : Remplacé)](#33-roulement-4-points-section-mince-étude-initiale--remplacé)
+  - [3.4 Solution Retenue : Roulement à Rouleaux Croisés CRBH 8016 (80 x 120 x 16 mm)](#34-solution-retenue--roulement-à-rouleaux-croisés-crbh-8016-80-x-120-x-16-mm)
   - [3.5 Tableau Synthétique Comparatif des Solutions de Guidage](#35-tableau-synthétique-comparatif-des-solutions-de-guidage)
 - [4. Motorisation du Waist Yaw : Intégration du RobStride RS-06](#4-motorisation-du-waist-yaw--intégration-du-robstride-rs-06)
   - [4.1 Spécifications de l'Actionneur RS-06](#41-spécifications-de-lactionneur-rs-06)
-  - [4.2 Platine d'Interface Waist Monolithique CNC (Alu 7075-T6, Ø 140 × 12 mm)](#42-platine-dinterface-waist-monolithique-cnc-alu-7075-t6-ø-140--12-mm)
+  - [4.2 Platine d'Interface Waist Monolithique CNC (Alu 7075-T6, 137 x 12 mm)](#42-platine-dinterface-waist-monolithique-cnc-alu-7075-t6-137-x-12-mm)
   - [4.3 Schéma de Transmission & Découplage des Charges](#43-schéma-de-transmission--découplage-des-charges)
   - [4.4 Schéma Vectoriel d'Ingénierie & Détails d'Exécution CRBH 8016](#44-schéma-vectoriel-dingénierie--détails-dexécution-crbh-8016)
 - [5. Interfaces Mécaniques & Chaîne Cinématique Pelvienne](#5-interfaces-mécaniques--chaîne-cinématique-pelvienne)
   - [5.1 Interface Supérieure : Waist Plate 6,0 mm & Équerres Basses L = 90,0 mm](#51-interface-supérieure--waist-plate-60-mm--équerres-basses-l--900-mm)
     - [5.1.1 Cartographie Complète des Perçages, Vis CHC M4 & Pincement Sandwich](#511-cartographie-complète-des-perçages-vis-chc-m4--pincement-sandwich)
-  - [5.2 Le Bloc Pelvien Inférieur (Pelvis Asimov Scalé +18 %)](#52-le-bloc-pelvien-inférieur-pelvis-asimov-scalé-18-)
+  - [5.2 Le Bloc Pelvien Inférieur (Pelvis Asimov Scalé +18%)](#52-le-bloc-pelvien-inférieur-pelvis-asimov-scalé-18)
   - [5.3 Connexion avec les Hanches en Chaîne F-A-R (RS-04 Hip Pitch)](#53-connexion-avec-les-hanches-en-chaîne-f-a-r-rs-04-hip-pitch)
   - [5.4 Système de Butée Angulaire : Rainure Interne vs Doigt Externe (Solution A)](#54-système-de-butée-angulaire--rainure-interne-vs-doigt-externe-solution-a)
   - [5.5 Corridor de Traversée du Faisceau (48V & Bus CAN-FD)](#55-corridor-de-traversée-du-faisceau-48v--bus-can-fd)
@@ -188,7 +188,7 @@ L'inspection approfondie du modèle CAO d'origine de l'**Asimov v1** (Menlo Rese
 
 ---
 
-### 3.3 Roulement 4 Points Section Mince (Étude Initiale — Remplacé)
+### 3.3 Roulement 4 Points Section Mince (Étude Initiale : Remplacé)
 
 > [!NOTE]
 > **Section conservée pour traçabilité.** L'étude initiale préconisait un roulement à 4 points de contact section mince (Ø int 90 mm, Ø ext 110 mm, ép 10 mm, type CSXB / Kaydon Reali-Slim). Cependant, **aucune référence standard n'existe en ces dimensions exactes**. Les séries CSXB ont des cotes impériales (pouces), et la conversion la plus proche ne correspond pas aux cotes métriques spécifiées. Le sourcing s'est avéré impossible dans des délais et coûts raisonnables. Cette solution est donc **remplacée** par le roulement à rouleaux croisés CRBH 8016 (section 3.4).
@@ -200,7 +200,7 @@ Les principes d'ingénierie restent valides :
 
 ---
 
-### 3.4 Solution Retenue : Roulement à Rouleaux Croisés CRBH 8016 (80×120×16 mm)
+### 3.4 Solution Retenue : Roulement à Rouleaux Croisés CRBH 8016 (80 x 120 x 16 mm)
 
 Après étude de sourcing approfondie (Septembre 2026), la solution retenue pour le D-Bot est un **roulement à rouleaux croisés standard industriel** :
 
@@ -273,28 +273,33 @@ L'actionneur **RobStride RS-06** a été sélectionné, commandé et validé pou
 - **Masse** : **`621 g`**.
 - **Protocole de Communication** : CAN-FD haute vitesse, identifiant officiel : **`ID CAN = 21`** (terminaison 120 ohms intégrée ou chaînée).
 
-### 4.2 Platine d'Interface Waist Monolithique CNC (Alu 7075-T6, Ø 140 × 12 mm)
+### 4.2 Platine d'Interface Waist Monolithique CNC (Alu 7075-T6, 137 x 12 mm)
 
 > [!NOTE]
-> **Révision V1.2 (Septembre 2026)** : La bague d'adaptation séparée (Ø int 88 / Ø ext 115,6 mm, collerette Ø 124) de la V1.1 est **supprimée et remplacée** par une Platine d'Interface monolithique. Raison : la collerette (Ø 124 mm) entre en interférence radiale avec la bague externe du roulement CRBH 8016 (Ø ext 120 mm) sur la face du pelvis. La Platine monolithique élimine ce conflit en intégrant le siège du roulement ET le centrage du moteur en une seule pièce CNC.
+> **Révision V1.2 (Septembre 2026)** : La bague d'adaptation séparée (Ø int 88 / Ø ext 115,6 mm, collerette Ø 124) de la V1.1 est **supprimée et remplacée** par une Platine d'Interface monolithique. Raison : la collerette (Ø 124 mm) entre en interférence radiale avec la bague externe du roulement CRBH 8016 (Ø ext 120 mm) sur la face du pelvis. La Platine monolithique élimine ce conflit en intégrant le siège du roulement ET le centrage du moteur en une seule pièce CNC issue directement de la plaque supérieure du pelvis Asimov.
 
-#### Contexte Dimensionnel :
-Le châssis pelvien d'Asimov v1 comportait initialement un logement circulaire de **`Ø 98,0 mm`** (conçu pour un moteur Cubemars AK80). Avec le facteur d'échelle global de **`+18 % (×1,18)`**, cet alésage passe à `Ø 115,64 mm (~115,6 mm)`. Le moteur RS-06 (Ø 88 mm) s'insère dans l'alésage Ø 88 H7 de la Platine, qui elle-même se pose sur la face supérieure du pelvis au-dessus de l'alésage Ø 115,6 mm.
+![Plan d'Ingénierie & Détail d'Exécution CNC — Platine d'Interface Waist Monolithique](./media/plan_technique_platine_interface_waist_7075.svg)
+
+*Plan d'ingénierie vectoriel officiel de la Platine d'Interface Waist Monolithique CNC (Alu 7075-T651, issue de la plaque supérieure du pelvis Asimov v1 agrandie +18 %). Panneau 1 : Vue de dessus montrant le format extérieur réel de 136,82 mm entre méplats, la cartographie des 8 trous de fixation Pelvis (4 trous latéraux à R = 63,193 mm mesuré sur CAO et 4 trous dans les coins), le siège roulement Ø 120 H7 et les 4 taraudages M3 du flasque orientés à 45° dans les coins. Panneau 2 : Coupe axiale A-A révélant le profil en gradin (épaisseur 12,0 mm, lamage siège roulement Ø 120 H7 profondeur 3,0 mm, alésage central traversant Ø 88,03 H7 pour le stator RS-06 et le passage sans frottement du Moyeu Sandwich bleu, avec une garde mécanique garantie de +0,54 mm entre le siège et les vis latérales). Panneau 3 : Vue 3D isométrique en quart de coupe pour appréhender instantanément les volumes d'usinage.*
+
+#### Contexte Dimensionnel & Origine Asimov :
+Le châssis pelvien d'Asimov v1 comporte une plaque supérieure de renfort et de fermeture (`Traverse_Renfort_Bassin` / `ASV1_200_16A`). Avec le facteur d'échelle global de **`+18 % (×1,18)`**, cette plaque présente un format quasi-carré aux coins arrondis de **`136,82 mm`** de largeur entre méplats et se fixe sur le caisson du bassin par **`8 trous périphériques`** (4 latéraux et 4 aux coins). Plutôt que de superposer une pièce rapportée, cette plaque d'origine est **directement usinée pour devenir la Platine d'Interface Waist D-Bot**, garantissant une continuité structurelle maximale et zéro perçage additionnel sur le châssis pelvien.
 
 #### Définition de la Platine d'Interface Waist :
-- **Matière** : Aluminium **7075-T6** (résistance mécanique maximale, excellent dissipateur thermique).
-- **Brut** : Disque Ø 150 × 15 mm Alu 7075-T651 (Blockenstock, ~12-15 EUR TTC).
-- **Diamètre Extérieur Fini** : **`Ø 140,0 mm (+/- 0,2 mm)`**.
-- **Épaisseur Finie** : **`12,0 mm (+/- 0,05 mm)`** (surfaçage CNC des 2 faces).
-- **Alésage Central (Moteur RS-06)** : **`Ø 88,03 mm H7 (+0,000 / +0,035)`** — traversant sur toute l'épaisseur. Ajustement glissant juste sur le carter cylindrique Ø 88 h6 du RS-06.
-- **Siège Roulement (Recess Face Supérieure)** : **`Ø 120,000 mm H7 (+0,000 / +0,035)`**, profondeur **`3,0 mm (+/- 0,05 mm)`** — centre et retient axialement la bague externe du CRBH 8016. Épaisseur résiduelle sous le siège = 9,0 mm.
-- **6× Trous de Fixation Platine ➔ Pelvis** : **`Ø 5,3 mm traversants`**, répartis sur PCD **`Ø 132 mm`** à 60° — pour vis CHC M5 × 20 mm fixant la Platine sur la face supérieure du pelvis.
-- **4× Taraudages M3 pour Flasque de Retenue Axiale Z** : 4 perçages borgnes taraudés M3 à 90° sur PCD **`Ø 128,0 mm`**, profondeur taraudée utile 6,0 mm. Ils reçoivent un flasque circulaire mince en aluminium (épaisseur 2,5 à 3,0 mm, Ø int 118 mm / Ø ext 136 mm) bridé par 4 vis FHC M3 × 8 mm pour empêcher tout glissement de la bague extérieure du roulement vers le haut (+Z) en cas de saut ou choc dynamique.
-- **Concentricité Ø 88 / Ø 120** : **`< 0,02 mm`** (usiner les deux alésages dans le même montage mandrin sur la C500).
-- **Planéité Face Inférieure** : **`< 0,03 mm`** (appui franc sur le pelvis).
-- **Chanfreins** : 0,5 mm × 45° en entrée des alésages Ø 88 et Ø 120 (2 côtés), 0,3 mm × 45° périphérique.
-- **Masse de la Platine Finie** : **`~265 g`**.
-- **Fonction Thermique** : Les 12 mm d'Alu 7075-T6 autour du Ø 88 du moteur (section radiale de 26 mm de large) assurent la conduction thermique du stator RS-06 vers la structure du pelvis (~15-20 W en régime nominal de 11 N.m continu).
+- **Matière** : Aluminium **7075-T651** (ou plaque Asimov usinée).
+- **Format Extérieur Fini** : Quasi-carré aux coins arrondis de **`136,82 mm (+/- 0,2 mm)`** de largeur entre méplats.
+- **Épaisseur Finie** : **`12,0 mm (+/- 0,05 mm)`** (surfaçage CNC des 2 faces parallèles).
+- **Alésage Central (Stator RS-06 & Passage Moyeu Sandwich)** : **`Ø 88,03 mm H7 (+0,000 / +0,035)`** — traversant sur toute l'épaisseur. Ajustement glissant juste sur le carter cylindrique Ø 88 h6 du RS-06, et dégagement radial parfait pour la rotation libre du fût du `Moyeu_Waist_Sandwich_7075`.
+- **Siège Roulement (Lamage Face Supérieure)** : **`Ø 120,000 mm H7 (+0,000 / +0,035)`**, profondeur **`3,0 mm (+/- 0,05 mm)`** — centre et retient axialement la bague externe du CRBH 8016. Épaisseur résiduelle sous le siège = 9,0 mm.
+- **8× Trous de Fixation Platine ➔ Pelvis (Origine Asimov)** :
+  - **4 trous latéraux** (Haut, Bas, Gauche, Droite) sur PCD **`Ø 126,386 mm`** (rayon mesuré sur CAO **`R = 63,193 mm`**).
+  - **4 trous de coins** (sur les diagonales à ~45°, rayon `R ~ 80 mm`).
+  - **Garde mécanique garantie** : `63,193 mm - (60,000 mm + 2,65 mm) =` **`+0,54 mm`** de matière pleine entre l'arête du lamage roulement (R = 60 mm) et le bord intérieur du trou de fixation (vis M5). Zéro affaiblissement, fixation 100 % opérationnelle !
+- **4× Taraudages M3 pour Flasque de Retenue Axiale Z** : 4 perçages borgnes taraudés M3 à 90° sur PCD **`Ø 128,0 mm`** (R = 64,0 mm), orientés à **45°, 135°, 225° et 315°** vers les 4 coins massifs de la pièce. Profondeur taraudée utile 6,0 mm. Ils reçoivent un flasque circulaire mince en aluminium (épaisseur 2,5 mm, Ø int 118 mm / Ø ext 136 mm) bridé par 4 vis FHC M3 × 8 mm.
+- **Lumière de Câblage à 7h** : Lumière oblongue inclinée conservée pour le passage du faisceau de puissance 48V et du bus CAN-FD vers le bas du robot.
+- **Concentricité Ø 88 / Ø 120** : **`< 0,02 mm`** (usinage des deux alésages dans le même montage sur la C500).
+- **Planéité Face Inférieure** : **`< 0,03 mm`** (appui plan franc sur le caisson pelvien).
+- **Masse de la Platine Finie** : **`~280 g`** (en Alu 7075-T651 massif).
 
 > [!IMPORTANT]
 > **Gamme d'usinage sur NestWorks C500** : Pièce 2.5D usinable en 2 phases sur la NestWorks C500 (~45 min).
@@ -517,7 +522,7 @@ Pour l'usinage sur la fraiseuse CNC NestWorks C500 :
 
 ---
 
-### 5.2 Le Bloc Pelvien Inférieur (Pelvis Asimov Scalé +18 %)
+### 5.2 Le Bloc Pelvien Inférieur (Pelvis Asimov Scalé +18%)
 
 Le caisson pelvien sert de berceau structurel :
 - Il reçoit la **Platine d'Interface Waist** (Ø 140 × 12 mm) sur sa face supérieure plane, fixée par **6 vis CHC M5 × 20 mm** sur PCD Ø 132 mm.
@@ -610,10 +615,10 @@ L'ensemble des pièces mobiles et fixes du bloc pelvien et de la liaison de tail
 | **2. Waist Plate Inférieure (Alu 6,0 mm, 120 × 94 mm)** | Contour Périmétrique Extérieur (120 × 94 mm) | Fraise de contournage C500 | **`0,5 mm × 45°`** | Cassage d'arête sur tout le pourtour supérieur et inférieur de la plaque. |
 | **3. Platine d'Interface Monolithique (Alu 7075-T6, Ø 140 mm)** | Face Supérieure — Siège Logement Roulement (Ø 120,00 mm H7, prof. 3,0 mm) | Outil d'alésage circulaire CNC | **Congé fond `R = 0,5 mm` + Entrée `0,5 mm × 45°`** | L'entrée pilote à 45° facilite l'insertion sans forcer de la bague extérieure du CRBH 8016 ; le congé R = 0,5 mm garantit un appui au fond sans talonnage sur le rayon constructeur (r = 1,0 mm). |
 | **3. Platine d'Interface Monolithique (Alu 7075-T6, Ø 140 mm)** | Alésage Central Traversant Centrage RS-06 (Ø 88,03 mm H7) | Outil d'alésage CNC | **`0,5 mm × 45°` (Haut & Bas)** | Guidage et emboîtement précis du carter stator du moteur RobStride RS-06. |
-| **3. Platine d'Interface Monolithique (Alu 7075-T6, Ø 140 mm)** | 6 Perçages Traversants Périphériques Fixation Pelvis (Ø 5,30 mm sur PCD Ø 132 mm) | Fraise à chanfreiner C500 | **`0,5 mm × 45°` (des 2 côtés)** | Placage plan franc sur le bâti pelvien et assise des rondelles DIN 125A M5 (couple 5,5 N.m). |
-| **3. Platine d'Interface Monolithique (Alu 7075-T6, Ø 140 mm)** | 4 Taraudages Borgnes M3 Flasque Axial Roulement (PCD Ø 128 mm) | Foret carbure Ø 2,50 mm + fraise chanfrein | **Chanfrein entrée `0,4 mm × 45°`** | Évite le refoulement du premier filet taraudé lors du serrage des 4 vis FHC M3 × 8 mm (couple 1,2 N.m). |
-| **3. Platine d'Interface Monolithique (Alu 7075-T6, Ø 140 mm)** | Logement Borgne Goupille Butée (Ø 8,00 mm H7 prof. 10 mm au rayon R = 45 mm) | Alésoir machine H7 | **`0,5 mm × 45°`** | Facilite l'emmanchement serré à la presse de la goupille ISO 8734 tolérance m6. |
-| **3. Platine d'Interface Monolithique (Alu 7075-T6, Ø 140 mm)** | Contour Extérieur Disque (Ø 140,0 mm × 12,0 mm) | Outil de tournage / contournage | **`0,8 mm × 45°` (Haut & Bas)** | Élimination des arêtes vives extérieures et finition premium. |
+| **3. Platine d'Interface Monolithique (Alu 7075-T6, 137 × 12 mm)** | 8 Perçages Traversants Périphériques Fixation Pelvis (4 latéraux R = 63,19 mm + 4 coins R ~ 80 mm) | Fraise à chanfreiner C500 | **`0,5 mm × 45°` (des 2 côtés)** | Placage plan franc sur le bâti pelvien et assise des rondelles DIN 125A M5 (couple 5,5 N.m). |
+| **3. Platine d'Interface Monolithique (Alu 7075-T6, 137 × 12 mm)** | 4 Taraudages Borgnes M3 Flasque Axial Roulement (PCD Ø 128 mm) | Foret carbure Ø 2,50 mm + fraise chanfrein | **Chanfrein entrée `0,4 mm × 45°`** | Évite le refoulement du premier filet taraudé lors du serrage des 4 vis FHC M3 × 8 mm (couple 1,2 N.m). |
+| **3. Platine d'Interface Monolithique (Alu 7075-T6, 137 × 12 mm)** | Logement Borgne Goupille Butée (Ø 8,00 mm H7 prof. 10 mm au rayon R = 45 mm) | Alésoir machine H7 | **`0,5 mm × 45°`** | Facilite l'emmanchement serré à la presse de la goupille ISO 8734 tolérance m6. |
+| **3. Platine d'Interface Monolithique (Alu 7075-T6, 137 × 12 mm)** | Contour Extérieur Format Asimov +18 % (136,82 mm entre méplats × 12,0 mm) | Outil de fraisage / contournage | **`0,8 mm × 45°` (Haut & Bas)** | Élimination des arêtes vives extérieures et finition premium. |
 | **4. Moyeu d'Accouplement Sandwich (Alu 7075-T651)** | Fût Cylindrique de Centrage Bague Intérieure (Ø 80,00 mm h6 × hauteur 15,60 mm) | Outil de tournage CNC | **Chanfrein supérieur `0,5 mm × 45°` + Gorge fond `R = 0,3 mm`** | Insertion glissante juste dans l'alésage du roulement sans bavure et contact franc contre la collerette. |
 | **4. Moyeu d'Accouplement Sandwich (Alu 7075-T651)** | 4 Taraudages Borgnes M4 Sandwich (PCD Ø 68,00 mm à 45°) | Foret carbure Ø 3,30 mm + fraise chanfrein | **Chanfrein entrée `0,5 mm × 45°`** | Débouche à Ø 4,50 mm, guidant parfaitement les vis CHC M4 × 20 mm sans déformation du plan d'appui. |
 | **4. Moyeu d'Accouplement Sandwich (Alu 7075-T651)** | Collerette Annulaire Inférieure (Ø 91,5 mm × 3,0 mm) | Outil de tournage CNC | **`0,4 mm × 45°`** | Contact franc et plan sous la bague intérieure du roulement. |
@@ -739,8 +744,8 @@ Pour modéliser avec une fidélité géométrique absolue l'ensemble du module P
 | Sous-Ensemble & Rôle Mécanique | Composant Normalisé | Norme / Standard | Réf Catalogue McMaster | Quantité (Module Bassin) | Spécifications d'Usinage & Diamètres de Perçage Associés |
 | :--- | :--- | :--- | :---: | :---: | :--- |
 | **1. LIAISON SANDWICH WAIST YAW (ÉQUERRES ➔ WAIST PLATE ➔ MOYEU 7075)** | | | | | |
-| • **Serrage Sandwich Continu (Bague Intérieure RB8016)** | Vis CHC M4 × 20 mm | ISO 4762 / DIN 912 | **`91290A160`** (Acier 12.9)<br>**`92290A146`** (Inox 18-8) | **4 vis** (2 / équerre) | **Perçage lisse traversant Ø 4,50 mm** (tolérance ISO 273 série moyenne) chanfreiné à **`0,3 mm × 45°`** traversant Équerres (3 mm) et Waist Plate (6 mm). Vissage dans 4 taraudages borgnes Moyeu 7075 (avant-trou foret carbure **Ø 3,30 mm** prof. 12 mm, taraudage machine M4x0,7 prof. utile 10 mm sur PCD Ø 68,0 mm à 45°). Prise filetée = 9,80 mm (garde au fond = 2,20 mm), couple 2,8 à 3,0 N.m + Loctite 243. |
-| • **Rondelles d'Appui Ailes Équerres Waist** | Rondelles Plates M4 DIN 125A | ISO 7089 / DIN 125A | **`93475A220`** (Inox 18-8) | **4 rondelles** | **Diamètre de passage Ø 4,30 mm**. Dimensions : Ø intérieur 4,3 mm / Ø extérieur 9,0 mm / épaisseur 0,8 mm. Portée plane à 100% sur l'aile d'équerre (congé d'angle R = 5,0 mm, garde au bord = 2,88 mm). |
+| • **Serrage Sandwich Continu (Bague Intérieure RB8016)** | Vis CHC M4 × 20 mm | ISO 4762 / DIN 912 | **`91290A160`** (Acier 12.9)<br>**`92290A168`** (Inox 316)<br>**`91292A121`** (Inox 18-8) | **4 vis** (2 / équerre) | **Perçage lisse traversant Ø 4,50 mm** (tolérance ISO 273 série moyenne) chanfreiné à **`0,3 mm × 45°`** traversant Équerres (3 mm) et Waist Plate (6 mm). Vissage dans 4 taraudages borgnes Moyeu 7075 (avant-trou foret carbure **Ø 3,30 mm** prof. 12 mm, taraudage machine M4x0,7 prof. utile 10 mm sur PCD Ø 68,0 mm à 45°). Prise filetée = 8,58 mm (garde au fond = 3,42 mm), couple 2,8 à 3,0 N.m + Loctite 243. |
+| • **Rondelles d'Appui Ailes Équerres Waist** | Rondelles Plates M4 DIN 125A | ISO 7089 / DIN 125A | **`93475A230`** (Inox 18-8)<br>**`90965A150`** (Inox 316) | **4 rondelles** | **Diamètre de passage Ø 4,30 mm**. Dimensions : Ø intérieur 4,3 mm / Ø extérieur 9,0 mm / épaisseur 0,8 mm. Portée plane à 100% sur l'aile d'équerre (congé d'angle R = 5,0 mm, garde au bord = 2,88 mm). |
 | **2. PINCEMENT SAGITTAL COLONNE VERTÉBRALE BASSE** | | | | | |
 | • **Pincement Flanc Équerres ➔ Colonne 5 mm** | Vis CHC M4 × 20 mm | ISO 4762 / DIN 912 | **`91290A160`** (Acier 12.9)<br>**`92290A146`** (Inox 18-8) | **4 vis** traversantes | **Perçages lisses traversants Ø 4,30 mm** (ISO 273 fin) coaxiaux dans Équerre G (3 mm) + Colonne (5 mm) + Équerre D (3 mm) = 11 mm. Entraxes réguliers 18,0 mm (54 mm total, axe à Z = 10,0 mm au-dessus du pli). |
 | • **Rondelles Pincement Colonne Basse** | Rondelles Plates M4 DIN 125A | ISO 7089 / DIN 125A | **`93475A220`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | **Diamètre de passage Ø 4,30 mm**. Dimensions : Ø intérieur 4,3 mm / Ø extérieur 9,0 mm / épaisseur 0,8 mm. |
