@@ -1,8 +1,8 @@
 # Synthèse Métrologique et CAO — Torse et Bassin D-Bot V1
 
 > **Statut** : Document de référence métrologique validé par extraction CAO Fusion 360  
-> **Source de vérité CAO** : `Torse v92`  
-> **Date de l'audit** : 2026-09-21T22:57:38.626812  
+> **Source de vérité CAO** : `Torse v94`  
+> **Date de l'audit** : 2026-09-22T22:24:17.542105  
 > **Fichier source** : [`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json)
 
 ---
@@ -19,12 +19,12 @@
 
 ## 1. Vue d'Ensemble & Masses
 
-* **Masse totale de l'ensemble Torse + Bassin** : **16.67 kg** (16665.6 g).
-* **Nombre de composants modélisés** : **262 instances** (BOM de 91 références uniques).
+* **Masse totale de l'ensemble Torse + Bassin** : **16.71 kg** (16712.6 g).
+* **Nombre de composants modélisés** : **306 instances** (BOM de 94 références uniques).
 * **Centre de gravité global (CoM)** :
-  * **X** (profondeur) = **+61.79 mm** (léger déport avant cohérent avec l'implantation pectorale et batteries).
+  * **X** (profondeur) = **+61.80 mm** (léger déport avant cohérent avec l'implantation pectorale et batteries).
   * **Y** (latéral) = **+9.07 mm** (quasi-parfaite symétrie gauche/droite).
-  * **Z** (hauteur) = **1145.83 mm** (situé au niveau du plexus, entre le waist à 1035 mm et la plaque de cou à 1476 mm).
+  * **Z** (hauteur) = **1146.27 mm** (situé au niveau du plexus, entre le waist à 1035 mm et la plaque de cou à 1476 mm).
 
 ---
 
@@ -66,9 +66,9 @@ L'empilement vertical de l'articulation de lacet du buste (Waist Yaw) a été v�
 
 ## 4. Bilan d'Usinage & Quincaillerie Clé
 
-* **Fraisures coniques 90° (Vis FHC M4)** : **1865 fraisures** détectées et validées sur le châssis, la traverse, les capots et les équerres.
+* **Fraisures coniques 90° (Vis FHC M4)** : **1967 fraisures** détectées et validées sur le châssis, la traverse, les capots et les équerres.
 * **Alésages et lamages majeurs (>= 60 mm)** : **255 alésages** de précision répertoriés (notamment le lamage de traverse Ø 120 mm pour RB8016 et les alésages de roulements de hanche).
-* **Goupilles de centrage Ø 3,0 mm (ISO 8734)** : **137 positions** de centrage géométrique.
+* **Goupilles de centrage Ø 3,0 mm (ISO 8734)** : **165 positions** de centrage géométrique.
 
 ---
 

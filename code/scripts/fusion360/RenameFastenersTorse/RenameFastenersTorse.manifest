@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity (D-Bot V1)",
+	"description":	{
+		"":	"Standardise et renomme automatiquement la quincaillerie et visserie McMaster-Carr selon la nomenclature officielle D-Bot."
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

@@ -2,6 +2,36 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-09-22 — Intégration Quincaillerie Structurelle Torse V94 (306 Composants), Correction Entraxe Cou 30×50 mm & Automatisation Standard Renommage
+
+### 🎯 Objectif de la session
+1. **Modélisation & Positionnement de la Visserie Structurelle (Étape 1 validée 100%)** :
+   - **Liaison Plaque de Cou ➔ Équerres Cou** : 4× Vis CHC M4 × 16 mm Inox 316 (McMaster **`92290A154`**), 4× rondelles DIN 125A M4 (**`93475A230`**), 4× écrous Nylstop M4 (**`93625A150`**). Rectification métrologique de l'entraxe transverse sous Fusion 360 : rectangle **30,00 × 50,00 mm** (`Y = -16,33 mm` et `+33,67 mm`, soit `±25,00 mm` rigoureux par rapport au plan sagittal `Y = +8,67 mm`).
+   - **Fixation Moteur Cou RS-05 sous Plaque de Cou** : 4× Vis FHC M3 × 8 mm Inox 18-8 (McMaster **`92125A128`**, filetage métrique standard pas de 0,50 mm, éliminant la référence à pas fin `94326A122`) noyées à fleur (0,0 mm) sur PCD **Ø 38,50 mm** à 45° par le dessous de la plaque.
+   - **Pincement Sagittal Haut (Cou)** : 2× Vis CHC M4 × 20 mm Inox 316 (**`92290A168`**), 4× rondelles M4, 2× écrous Nylstop M4 à `Z = 1458,92 mm` (entraxe X = 30,00 mm).
+   - **Pincement Sagittal Bas (Waist)** : 4× Vis CHC M4 × 20 mm Inox 316 (**`92290A168`**), 8× rondelles M4, 4× écrous Nylstop M4 à `Z = 1059,42 mm` (4 trous réguliers espacés de 18,0 mm le long de X : 31,81 / 49,81 / 67,81 / 85,81 mm).
+   - **Goupillage Positif Médian (Z = 0,0 mm)** : 4× Goupilles cylindriques rectifiées ISO 8734 Ø 3,0 × 14 mm (McMaster **`91585A374`**) en un carré parfait **80,00 × 80,00 mm** (`X = 31,81 / 111,81 mm`, `Z = 1300,35 / 1380,35 mm`, centré sur `Y = +8,17 mm`).
+2. **Développement du Script d'Automatisation de Renommage Fusion 360** :
+   - Conception et déploiement du script Python [`Code/scripts/fusion360/RenameFastenersTorse/RenameFastenersTorse.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/fusion360/RenameFastenersTorse/RenameFastenersTorse.py) et de son manifeste.
+   - Standardisation automatique de tous les composants de visserie importés du catalogue McMaster-Carr selon le format officiel `Type Dimensions [McMasterRef]`. Résultat : 44 composants renommés en 1 clic, 0 chaîne brute McMaster restante dans l'arbre CAO.
+3. **Audit Métrologique Global (Torse v94)** :
+   - 306 instances dans l'assemblage (94 références uniques au BOM).
+   - Masse totale Torse + Bassin = **`16,71 kg`** (16 712,6 g).
+   - CoM : `X = +61,80 mm`, `Y = +9,07 mm` (symétrie bilatérale à 0,40 mm du plan sagittal médian `+8,67 mm`), `Z = 1146,27 mm`.
+   - Contrôle des densités physiques : Alu 7075-T6 (2,81 g/cm3), Acier/Inox (7,70-8,13 g/cm3), PA12-CF infill 30% (1,01 g/cm3).
+
+### 📝 Réalisations & Évolutions
+1. **Dossier Technique & Métrologie** :
+   - [`DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md) : entraxe rectifié à 30×50 mm, références McMaster M3 et M4 mises à jour.
+   - [`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json) et [`SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md) régénérés avec 306 composants conformes.
+2. **Outillage Développé** :
+   - Script Fusion 360 `RenameFastenersTorse` opérationnel.
+3. **Suivi de Projet** :
+   - [`todo_court_terme.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/todo_court_terme.md) : Étape 1 validée à 100%.
+
+---
+
+
 ## 📅 2026-09-21 — Finalisation CAO Symétrie Torse (Phase 2), Coaxialité Waist Sandwich & Intégration Quincaillerie (McMaster 92290A168 / 93475A230)
 
 ### 🎯 Objectif de la session
