@@ -72,18 +72,18 @@
   <rect x="20" y="15" width="1560" height="65" rx="8" fill="url(#headerGrad)" stroke="#334155" stroke-width="1.2" filter="url(#shadow)" />
   <circle cx="55" cy="47" r="18" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
   <path d="M48 47 L62 47 M55 40 L55 54" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" />
-  <text x="85" y="40" class="title-main">D-BOT V1.x — PLAN D'INGÉNIERIE &amp; DÉTAIL D'EXÉCUTION DE LA PLATINE WAIST (ASIMOV ADAPTÉE)</text>
-  <text x="85" y="60" class="title-sub">Plaque Pelvis Format Asimov v1 (+18 %, 136,82 × 12 mm) — 8 Trous Périphériques + Siège Roulement CRBH 8016 (Ø 120 mm) + Stator RS-06 (Ø 88 mm)</text>
+  <text x="85" y="40" class="title-main">D-BOT V1.x — PLAN D'INGÉNIERIE &amp; DÉTAIL D'EXÉCUTION DE LA TRAVERSE WAIST (ASIMOV ADAPTÉE)</text>
+  <text x="85" y="60" class="title-sub">Usinage in-situ Traverse_Renfort_Bassin (136,82 × 10,02 mm) — 4 Vis d'Angles Pelvis + Siège Roulement (Ø 120 mm) + Dégagement Moteur (Ø 102 mm)</text>
 
   <!-- Header Badges -->
-  <rect x="1190" y="32" width="105" height="28" rx="5" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
-  <text x="1242" y="50" text-anchor="middle" class="badge">ALU 7075-T651</text>
+  <rect x="1170" y="32" width="105" height="28" rx="5" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+  <text x="1222" y="50" text-anchor="middle" class="badge">ALU 7075-T6</text>
 
-  <rect x="1305" y="32" width="115" height="28" rx="5" fill="#0f172a" stroke="#34d399" stroke-width="1" />
-  <text x="1362" y="50" text-anchor="middle" class="badge" fill="#34d399">8 TROUS PELVIS</text>
+  <rect x="1285" y="32" width="125" height="28" rx="5" fill="#0f172a" stroke="#34d399" stroke-width="1" />
+  <text x="1347" y="50" text-anchor="middle" class="badge" fill="#34d399">4 VIS D'ANGLES M5</text>
 
-  <rect x="1430" y="32" width="135" height="28" rx="5" fill="#0f172a" stroke="#fbbf24" stroke-width="1" />
-  <text x="1497" y="50" text-anchor="middle" class="badge" fill="#fbbf24">GARDE +0,54 mm ✅</text>
+  <rect x="1420" y="32" width="145" height="28" rx="5" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+  <text x="1492" y="50" text-anchor="middle" class="badge">ALÉSAGE Ø 102 mm ✅</text>
 
 
   <!-- ==================== PANNEAU 1 : VUE DE DESSUS (FACE SUPÉRIEURE +Z) ==================== -->
@@ -92,7 +92,7 @@
     
     <!-- Title -->
     <rect x="15" y="15" width="310" height="26" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8" />
-    <text x="25" y="32" class="panel-title">1. VUE DE DESSUS (FORMAT REEL ASIMOV +18%)</text>
+    <text x="25" y="32" class="panel-title">1. VUE DE DESSUS (CONFORME CAO TORSE V94)</text>
 
     <!-- Centerlines -->
     <line x1="40" y1="290" x2="460" y2="290" class="center-line" />
@@ -101,39 +101,48 @@
     <!-- Outer Profile (Quasi-square 136.8 mm = 342 px, rounded corners R~25 mm = 62.5 px) -->
     <rect x="79" y="119" width="342" height="342" rx="62.5" fill="url(#aluPlateGrad)" stroke="#cbd5e1" stroke-width="2" />
 
-    <!-- Bearing Seat Recess Ø 120 mm (R = 150 px, Depth 3 mm) -->
+    <!-- Bearing Seat Recess Ø 120 mm (R = 150 px, Depth 3.0 mm) -->
     <circle cx="250" cy="290" r="150" fill="url(#seatGrad)" stroke="#38bdf8" stroke-width="2" />
 
-    <!-- Central Bore Ø 88 mm (R = 110 px, Through Hole) -->
-    <circle cx="250" cy="290" r="110" fill="url(#boreGrad)" stroke="#e2e8f0" stroke-width="1.8" />
+    <!-- Lower Bore Ø 102 mm (R = 127.5 px, Dégagement Moteur & Moyeu) -->
+    <circle cx="250" cy="290" r="127.5" fill="url(#boreGrad)" stroke="#e2e8f0" stroke-width="1.8" />
 
     <!-- PCD Ø 128 mm (Flasque M3, R = 160 px) -->
     <circle cx="250" cy="290" r="160" fill="none" stroke="#fbbf24" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.8" />
 
     <!-- Cable Corridor Slot at 7 o'clock (225 deg, oblong shape) -->
     <g transform="translate(250, 290) rotate(135)">
-      <rect x="100" y="-18" width="80" height="36" rx="18" fill="#0b0f19" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="3 2" />
+      <rect x="110" y="-15" width="60" height="30" rx="15" fill="#0b0f19" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="3 2" />
     </g>
 
-    <!-- Holes -->
-    <circle cx="408.0" cy="290.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="1.8" />
-    <circle cx="408.0" cy="290.0" r="2" fill="#34d399" />
-    <circle cx="250.0" cy="132.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="1.8" />
-    <circle cx="250.0" cy="132.0" r="2" fill="#34d399" />
-    <circle cx="92.0" cy="290.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="1.8" />
-    <circle cx="92.0" cy="290.0" r="2" fill="#34d399" />
-    <circle cx="250.0" cy="448.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="1.8" />
-    <circle cx="250.0" cy="448.0" r="2" fill="#34d399" />
+    <!-- Old Lateral Holes Position Indicator (SUPPRESSED ON CAD) -->
+    <circle cx="408.0" cy="290.0" r="6.6" fill="none" stroke="#ef4444" stroke-width="1" stroke-dasharray="2 2" opacity="0.6" />
+    <line x1="404" y1="286" x2="412" y2="294" stroke="#ef4444" stroke-width="1" opacity="0.6" />
+    <line x1="404" y1="294" x2="412" y2="286" stroke="#ef4444" stroke-width="1" opacity="0.6" />
 
-    <circle cx="388.0" cy="152.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="1.8" />
-    <circle cx="388.0" cy="152.0" r="2" fill="#34d399" />
-    <circle cx="112.0" cy="152.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="1.8" />
-    <circle cx="112.0" cy="152.0" r="2" fill="#34d399" />
-    <circle cx="112.0" cy="428.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="1.8" />
-    <circle cx="112.0" cy="428.0" r="2" fill="#34d399" />
-    <circle cx="388.0" cy="428.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="1.8" />
-    <circle cx="388.0" cy="428.0" r="2" fill="#34d399" />
+    <circle cx="250.0" cy="132.0" r="6.6" fill="none" stroke="#ef4444" stroke-width="1" stroke-dasharray="2 2" opacity="0.6" />
+    <line x1="246" y1="128" x2="254" y2="136" stroke="#ef4444" stroke-width="1" opacity="0.6" />
+    <line x1="246" y1="136" x2="254" y2="128" stroke="#ef4444" stroke-width="1" opacity="0.6" />
 
+    <circle cx="92.0" cy="290.0" r="6.6" fill="none" stroke="#ef4444" stroke-width="1" stroke-dasharray="2 2" opacity="0.6" />
+    <line x1="88" y1="286" x2="96" y2="294" stroke="#ef4444" stroke-width="1" opacity="0.6" />
+    <line x1="88" y1="294" x2="96" y2="286" stroke="#ef4444" stroke-width="1" opacity="0.6" />
+
+    <circle cx="250.0" cy="448.0" r="6.6" fill="none" stroke="#ef4444" stroke-width="1" stroke-dasharray="2 2" opacity="0.6" />
+    <line x1="246" y1="444" x2="254" y2="452" stroke="#ef4444" stroke-width="1" opacity="0.6" />
+    <line x1="246" y1="452" x2="254" y2="444" stroke="#ef4444" stroke-width="1" opacity="0.6" />
+
+    <!-- 4 Active Pelvis Corner Mounting Holes (M5, R ~ 80 mm) -->
+    <circle cx="388.0" cy="152.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="2" />
+    <circle cx="388.0" cy="152.0" r="2.2" fill="#34d399" />
+    <circle cx="112.0" cy="152.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="2" />
+    <circle cx="112.0" cy="152.0" r="2.2" fill="#34d399" />
+    <circle cx="112.0" cy="428.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="2" />
+    <circle cx="112.0" cy="428.0" r="2.2" fill="#34d399" />
+    <circle cx="388.0" cy="428.0" r="6.6" fill="#0f172a" stroke="#34d399" stroke-width="2" />
+    <circle cx="388.0" cy="428.0" r="2.2" fill="#34d399" />
+
+    <!-- 4x M3 Flasque Holes on PCD Ø 128 mm at 45 deg -->
     <circle cx="363.1" cy="176.9" r="4.5" fill="#0f172a" stroke="#fbbf24" stroke-width="1.6" />
     <circle cx="363.1" cy="176.9" r="1.5" fill="#fbbf24" />
     <circle cx="136.9" cy="176.9" r="4.5" fill="#0f172a" stroke="#fbbf24" stroke-width="1.6" />
@@ -143,7 +152,6 @@
     <circle cx="363.1" cy="403.1" r="4.5" fill="#0f172a" stroke="#fbbf24" stroke-width="1.6" />
     <circle cx="363.1" cy="403.1" r="1.5" fill="#fbbf24" />
 
-
     <!-- Dimension Callouts on Top View -->
     <!-- 136.82 mm Width between flats -->
     <line x1="79" y1="90" x2="421" y2="90" class="dim-solid" />
@@ -151,38 +159,40 @@
     <polyline points="413,87 421,90 413,93" fill="none" stroke="#38bdf8" stroke-width="1.5" />
     <line x1="79" y1="85" x2="79" y2="125" class="dim-line" />
     <line x1="421" y1="85" x2="421" y2="125" class="dim-line" />
-    <text x="250" y="82" class="dim-text" text-anchor="middle">LARGEUR MÉPLATS : 136,82 mm (ASIMOV +18 %)</text>
+    <text x="250" y="82" class="dim-text" text-anchor="middle">LARGEUR MÉPLATS : 136,82 mm</text>
 
-    <!-- Lateral Hole Radius R = 63.193 mm -->
-    <line x1="250" y1="290" x2="408" y2="290" class="dim-solid" stroke="#34d399" />
-    <circle cx="408" cy="290" r="2.5" fill="#34d399" />
-    <path d="M 408 290 L 440 260 L 485 260" fill="none" stroke="#34d399" stroke-width="1.2" />
-    <text x="445" y="248" class="dim-green">R = 63,193 mm (Mesuré CAO)</text>
-    <text x="445" y="268" class="dim-text-sm" fill="#34d399">PCD Ø 126,39 mm (4× Trous Latéraux)</text>
+    <!-- Corner Hole Callout -->
+    <path d="M 388 152 L 440 120 L 485 120" fill="none" stroke="#34d399" stroke-width="1.2" />
+    <circle cx="388" cy="152" r="2.5" fill="#34d399" />
+    <text x="445" y="110" class="dim-green">4× Vis Coins M5 (R ~ 80 mm)</text>
+    <text x="445" y="128" class="dim-text-sm" fill="#34d399">Précharge 19,2 kN (Sf &gt; 6 en lacet)</text>
 
     <!-- Ø 120 mm H7 Bearing Seat -->
-    <path d="M 356 184 L 395 155 L 485 155" fill="none" stroke="#38bdf8" stroke-width="1.2" />
+    <path d="M 356 184 L 395 185 L 485 185" fill="none" stroke="#38bdf8" stroke-width="1.2" />
     <circle cx="356" cy="184" r="2.5" fill="#38bdf8" />
-    <text x="400" y="145" class="dim-text">Ø 120,00 mm H7 (R = 60,0 mm)</text>
-    <text x="400" y="165" class="dim-text-sm">Siège Roulement CRBH 8016</text>
+    <text x="400" y="175" class="dim-text">Ø 120,00 mm H7 (R = 60,0 mm)</text>
+    <text x="400" y="195" class="dim-text-sm">Siège Roulement CRBH 8016</text>
+
+    <!-- Ø 102 mm Lower Bore -->
+    <path d="M 340 290 L 375 240 L 485 240" fill="none" stroke="#e2e8f0" stroke-width="1.2" />
+    <circle cx="340" cy="290" r="2.5" fill="#e2e8f0" />
+    <text x="380" y="232" class="dim-text" fill="#f8fafc">Ø 102,00 mm (Dégagement)</text>
+    <text x="380" y="250" class="dim-text-sm" fill="#94a3b8">Passage franc Stator RS-06 &amp; Moyeu</text>
 
     <!-- Flasque M3 Callout -->
-    <path d="M 363 403 L 410 425 L 485 425" fill="none" stroke="#fbbf24" stroke-width="1.2" />
+    <path d="M 363 403 L 410 405 L 485 405" fill="none" stroke="#fbbf24" stroke-width="1.2" />
     <circle cx="363" cy="403" r="2.5" fill="#fbbf24" />
-    <text x="415" y="418" class="dim-amber">4× M3 Flasque (PCD Ø 128)</text>
-    <text x="415" y="438" class="dim-text-sm" fill="#fbbf24">Orientés à 45° dans les 4 coins</text>
-
-    <!-- Cable Slot Callout -->
-    <text x="80" y="455" class="dim-text-sm" fill="#cbd5e1">Lumière Câbles 48V / CAN (à 7h)</text>
+    <text x="415" y="398" class="dim-amber">4× M3 Flasque (PCD Ø 128)</text>
+    <text x="415" y="418" class="dim-text-sm" fill="#fbbf24">Orientés à 45° dans les 4 coins</text>
 
     <!-- Legend in Top View -->
     <rect x="20" y="490" width="460" height="50" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.8" />
     <circle cx="35" cy="515" r="5" fill="#34d399" />
-    <text x="48" y="519" class="dim-text-sm">8× Trous Pelvis d'origine</text>
-    <circle cx="185" cy="515" r="5" fill="#fbbf24" />
-    <text x="198" y="519" class="dim-text-sm">4× M3 Flasque Roulement</text>
-    <rect x="340" y="510" width="12" height="10" fill="url(#seatGrad)" stroke="#38bdf8" stroke-width="1" />
-    <text x="360" y="519" class="dim-text-sm">Siège CRBH 8016</text>
+    <text x="48" y="519" class="dim-text-sm">4× Vis Coins M5 (Actifs)</text>
+    <circle cx="170" cy="515" r="5" fill="none" stroke="#ef4444" stroke-dasharray="2 2" />
+    <text x="183" y="519" class="dim-text-sm" fill="#ef4444">4× Trous Latéraux (Supprimés)</text>
+    <circle cx="325" cy="515" r="5" fill="#fbbf24" />
+    <text x="338" y="519" class="dim-text-sm">4× M3 Flasque</text>
   </g>
 
 
@@ -192,47 +202,45 @@
     
     <!-- Title -->
     <rect x="15" y="15" width="310" height="26" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8" />
-    <text x="25" y="32" class="panel-title">2. COUPE AXIALE A-A (GARDE &amp; SECTION)</text>
+    <text x="25" y="32" class="panel-title">2. COUPE AXIALE A-A (PROFIL RÉEL EN GRADIN)</text>
 
     <!-- Centerline Z -->
     <line x1="260" y1="120" x2="260" y2="440" class="center-line" />
 
-    <!-- Left Solid Body (Width 136.8/2 = 68.4 mm -> 171 px, Seat R=60 mm -> 150 px, Bore R=44 mm -> 110 px) -->
-    <polygon points="89,208 110,208 110,244 150,244 150,352 89,352" fill="url(#hatch)" />
-    <polyline points="89,352 89,208 110,208 110,244 150,244 150,352 89,352" fill="none" stroke="#38bdf8" stroke-width="2" />
+    <!-- Left Solid Body (Width 136.8/2 = 68.4 mm -> 171 px, Seat R=60 mm -> 150 px, Bore R=51 mm -> 127.5 px) -->
+    <!-- y=208 is top (Z=1021.91), y=244 is seat floor (Z=1018.91, prof 3mm), y=352 is bottom (Z=1011.89, prof 7mm) -->
+    <polygon points="89,208 110,208 110,244 132.5,244 132.5,352 89,352" fill="url(#hatch)" />
+    <polyline points="89,352 89,208 110,208 110,244 132.5,244 132.5,352 89,352" fill="none" stroke="#38bdf8" stroke-width="2" />
 
     <!-- Right Solid Body -->
-    <polygon points="370,244 410,244 410,208 431,208 431,352 370,352" fill="url(#hatch)" />
-    <polyline points="370,244 410,244 410,208 431,208 431,352 370,352 370,244" fill="none" stroke="#38bdf8" stroke-width="2" />
+    <polygon points="387.5,244 410,244 410,208 431,208 431,352 387.5,352" fill="url(#hatch)" />
+    <polyline points="387.5,244 410,244 410,208 431,208 431,352 387.5,352 387.5,244" fill="none" stroke="#38bdf8" stroke-width="2" />
 
-    <!-- Left Lateral Hole (X = 260 - 158.0 = 102.0, width 13.2 px -> 88.8 to 115.2 mm -> X=102 +/- 6.6) -->
-    <rect x="95.4" y="208" width="13.2" height="144" fill="#0b0f19" stroke="#34d399" stroke-width="1.2" />
-    <line x1="102" y1="195" x2="102" y2="365" stroke="#34d399" stroke-width="0.8" stroke-dasharray="4 2" />
+    <!-- Upper Seat Recess Void (Ø 120 mm, depth 3 mm) -->
+    <rect x="110" y="208" width="300" height="36" fill="url(#seatGrad)" stroke="#38bdf8" stroke-width="1.2" opacity="0.4" />
+    <text x="260" y="228" text-anchor="middle" class="dim-text">LOGEMENT ROULEMENT RB8016 : Ø 120,00 mm H7 (Prof. 3,0 mm)</text>
 
-    <!-- Right Lateral Hole (X = 260 + 158.0 = 418.0) -->
-    <rect x="411.4" y="208" width="13.2" height="144" fill="#0b0f19" stroke="#34d399" stroke-width="1.2" />
-    <line x1="418" y1="195" x2="418" y2="365" stroke="#34d399" stroke-width="0.8" stroke-dasharray="4 2" />
+    <!-- Lower Bore Void (Ø 102 mm, depth 7.02 mm) -->
+    <rect x="132.5" y="244" width="255" height="108" fill="#0b0f19" opacity="0.8" />
+    <text x="260" y="290" text-anchor="middle" class="dim-text" fill="#f8fafc">ALÉSAGE INFÉRIEUR : Ø 102,00 mm (Prof. 7,0 mm)</text>
+    <text x="260" y="310" text-anchor="middle" class="dim-text-sm" fill="#94a3b8">(Passage franc Stator RS-06 Ø 88 et Moyeu Sandwich tournant)</text>
 
-    <!-- Central Void (Ø 88 mm) -->
-    <rect x="150" y="208" width="220" height="144" fill="#0b0f19" opacity="0.7" />
-    <text x="260" y="280" text-anchor="middle" class="dim-text" fill="#94a3b8">ALÉSAGE STATOR RS-06 : Ø 88,03 H7</text>
-    <text x="260" y="300" text-anchor="middle" class="dim-text-sm" fill="#64748b">(Passage libre du Moyeu Sandwich tournant)</text>
-
-    <!-- Zoom Inset : Clearance Detail (+0.54 mm) -->
-    <g transform="translate(290, 390)">
-      <rect x="0" y="0" width="210" height="50" rx="4" fill="#0f172a" stroke="#34d399" stroke-width="1" />
-      <text x="15" y="20" class="callout-title" fill="#34d399">GARDE MÉCANIQUE GARANTIE</text>
-      <text x="15" y="38" class="dim-text-sm" fill="#f8fafc">63,19 - (60,0 + 2,65) = <tspan font-weight="bold" fill="#34d399">+0,54 mm</tspan></text>
+    <!-- Inset Note : Removal of lateral conflict -->
+    <g transform="translate(40, 390)">
+      <rect x="0" y="0" width="440" height="55" rx="4" fill="#0f172a" stroke="#34d399" stroke-width="1" />
+      <text x="15" y="20" class="callout-title" fill="#34d399">✅ SUPPRESSION DU CONFLIT LATÉRAL :</text>
+      <text x="15" y="38" class="dim-text-sm" fill="#f8fafc">Les 4 trous latéraux ont été supprimés sur la CAO. Zéro risque de fissuration sous le siège Ø 120 mm.</text>
+      <text x="15" y="50" class="dim-text-sm" fill="#94a3b8">La fixation est assurée à 100 % par les 4 vis M5 d'angles (précharge 19,2 kN, Sf &gt; 6 en lacet, Sf &gt; 9 en basculement).</text>
     </g>
 
     <!-- Dimensional Lines on Section -->
-    <!-- Total Height 12.0 mm -->
+    <!-- Total Height 10.02 mm -->
     <line x1="55" y1="208" x2="55" y2="352" class="dim-solid" />
     <polyline points="52,216 55,208 58,216" fill="none" stroke="#38bdf8" stroke-width="1.5" />
     <polyline points="52,344 55,352 58,344" fill="none" stroke="#38bdf8" stroke-width="1.5" />
     <line x1="50" y1="208" x2="89" y2="208" class="dim-line" />
     <line x1="50" y1="352" x2="89" y2="352" class="dim-line" />
-    <text x="45" y="284" class="dim-text" text-anchor="middle" transform="rotate(-90 45 284)">12,00 mm</text>
+    <text x="45" y="284" class="dim-text" text-anchor="middle" transform="rotate(-90 45 284)">10,02 mm</text>
 
     <!-- Recess Depth 3.0 mm -->
     <line x1="455" y1="208" x2="455" y2="244" class="dim-solid" />
@@ -249,7 +257,7 @@
     <polyline points="402,157 410,160 402,163" fill="none" stroke="#38bdf8" stroke-width="1.5" />
     <line x1="110" y1="155" x2="110" y2="208" class="dim-line" />
     <line x1="410" y1="155" x2="410" y2="208" class="dim-line" />
-    <text x="260" y="152" class="dim-text" text-anchor="middle">SIÈGE ROULEMENT : Ø 120,00 mm H7 (R = 60,0 mm)</text>
+    <text x="260" y="152" class="dim-text" text-anchor="middle">SIÈGE SUPÉRIEUR : Ø 120,00 mm H7 (R = 60,0 mm)</text>
 
     <!-- 136.82 mm Total Width -->
     <line x1="89" y1="460" x2="431" y2="460" class="dim-solid" />
@@ -265,7 +273,7 @@
 
     <!-- Callout Box Bottom -->
     <rect x="20" y="500" width="480" height="40" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.8" />
-    <text x="35" y="525" class="callout-desc">• Les 8 vis périphériques fixent la plaque au bassin sans interférer avec le roulement.</text>
+    <text x="35" y="525" class="callout-desc">• Les 4 vis d'angles M5 assurent un appui continu sans aucune interférence axiale.</text>
   </g>
 
 
@@ -280,23 +288,23 @@
     <!-- Bottom Face Ellipse (Z=0) -->
     <path d="M 80 340 A 170 60 0 1 0 420 340 L 250 340 Z" fill="#475569" stroke="#64748b" stroke-width="1.5" />
 
-    <!-- Outer Cylinder Wall (Z=0 to Z=12) -->
+    <!-- Outer Cylinder Wall (Z=0 to Z=10) -->
     <path d="M 80 340 L 80 280 A 170 60 0 0 0 420 280 L 420 340 A 170 60 0 0 1 80 340 Z" fill="url(#aluPlateGrad)" stroke="#94a3b8" stroke-width="1.2" />
 
-    <!-- Top Rim Surface (Full Height 12 mm, between Ø 120 and 136.8 mm) -->
+    <!-- Top Rim Surface (Full Height 10 mm, between Ø 120 and 136.8 mm) -->
     <path d="M 80 280 A 170 60 0 0 0 420 280 L 395 280 A 145 51 0 0 1 105 280 Z" fill="#94a3b8" stroke="#cbd5e1" stroke-width="1" />
 
-    <!-- Seat Vertical Cylinder Wall (from Z=12 down to Z=9, depth 3 mm) -->
+    <!-- Seat Vertical Cylinder Wall (from Z=10 down to Z=7, depth 3 mm) -->
     <path d="M 105 280 L 105 295 A 145 51 0 0 0 395 295 L 395 280 A 145 51 0 0 1 105 280 Z" fill="#0284c7" stroke="#38bdf8" stroke-width="1" opacity="0.6" />
 
-    <!-- Seat Floor Surface (Recess Floor Z=9 mm, between Ø 88 and Ø 120) -->
-    <path d="M 105 295 A 145 51 0 0 0 395 295 L 356 295 A 106 37 0 0 1 144 295 Z" fill="url(#seatGrad)" stroke="#38bdf8" stroke-width="1.2" />
+    <!-- Seat Floor Surface (Recess Floor Z=7 mm, between Ø 102 and Ø 120) -->
+    <path d="M 105 295 A 145 51 0 0 0 395 295 L 373 295 A 123 43 0 0 1 127 295 Z" fill="url(#seatGrad)" stroke="#38bdf8" stroke-width="1.2" />
 
-    <!-- Inner Bore Cylinder Wall (Ø 88 mm, from Z=9 down to Z=0) -->
-    <path d="M 144 295 L 144 340 A 106 37 0 0 0 356 340 L 356 295 A 106 37 0 0 1 144 295 Z" fill="url(#boreGrad)" stroke="#64748b" stroke-width="1" />
+    <!-- Inner Bore Cylinder Wall (Ø 102 mm, from Z=7 down to Z=0) -->
+    <path d="M 127 295 L 127 340 A 123 43 0 0 0 373 340 L 373 295 A 123 43 0 0 1 127 295 Z" fill="url(#boreGrad)" stroke="#64748b" stroke-width="1" />
 
     <!-- Cutaway Section Faces (at 90 deg cut) -->
-    <polygon points="250,295 356,295 356,340 420,340 420,280 395,280 395,295" fill="url(#hatch)" stroke="#38bdf8" stroke-width="1.5" />
+    <polygon points="250,295 373,295 373,340 420,340 420,280 395,280 395,295" fill="url(#hatch)" stroke="#38bdf8" stroke-width="1.5" />
     <polygon points="250,295 250,340 80,340 80,280 105,280 105,295" fill="url(#hatch)" stroke="#38bdf8" stroke-width="1.5" />
 
     <!-- 3D Callout annotations -->
@@ -309,20 +317,20 @@
     <!-- Outer Rim Callout -->
     <path d="M 405 280 L 450 300 L 480 300" fill="none" stroke="#cbd5e1" stroke-width="1.2" />
     <circle cx="405" cy="280" r="3" fill="#cbd5e1" />
-    <text x="480" y="295" class="dim-text-sm" text-anchor="end">PLAQUE FIXE PELVIS</text>
-    <text x="480" y="312" class="dim-text-sm" text-anchor="end">8 vis d'origine Asimov</text>
+    <text x="480" y="295" class="dim-text-sm" text-anchor="end">TRAVERSE PELVIS VERTE</text>
+    <text x="480" y="312" class="dim-text-sm" text-anchor="end">4 vis d'angles M5</text>
 
     <!-- Central Bore Callout -->
     <path d="M 210 330 L 150 400 L 60 400" fill="none" stroke="#94a3b8" stroke-width="1.2" />
     <circle cx="210" cy="330" r="3" fill="#94a3b8" />
-    <text x="60" y="392" class="dim-text" text-anchor="start">ALÉSAGE STATOR RS-06</text>
-    <text x="60" y="412" class="dim-text-sm" text-anchor="start">Ø 88,03 H7 (Traversant)</text>
+    <text x="60" y="392" class="dim-text" text-anchor="start">DÉGAGEMENT MOTEUR RS-06</text>
+    <text x="60" y="412" class="dim-text-sm" text-anchor="start">Ø 102,0 mm (Prof. 7,0 mm)</text>
 
     <!-- Explanatory Box -->
     <rect x="20" y="480" width="460" height="60" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8" />
-    <text x="35" y="502" class="callout-title" fill="#38bdf8">📌 INTÉGRATION AVEC LE MOYEU BLEU :</text>
-    <text x="35" y="522" class="callout-desc">Le Moyeu Sandwich (bleu) tourne librement à l'intérieur de l'alésage Ø 88 mm</text>
-    <text x="35" y="536" class="callout-desc">tandis que la bague extérieure du CRBH 8016 est verrouillée dans le siège Ø 120 mm.</text>
+    <text x="35" y="502" class="callout-title" fill="#38bdf8">📌 ARCHITECTURE VALIDÉE EN CAO :</text>
+    <text x="35" y="522" class="callout-desc">Le Moyeu Sandwich bleu et le stator RS-06 s'emboîtent dans l'alésage Ø 102 mm.</text>
+    <text x="35" y="536" class="callout-desc">La bague intérieure est pincée par le Moyeu (4 vis M4) et l'extérieure est calée à Ø 120 mm.</text>
   </g>
 
 
@@ -332,7 +340,7 @@
     
     <!-- Title -->
     <rect x="15" y="15" width="360" height="26" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8" />
-    <text x="25" y="32" class="panel-title">4. SPÉCIFICATIONS GÉOMÉTRIQUES &amp; MATÉRIAU</text>
+    <text x="25" y="32" class="panel-title">4. SPÉCIFICATIONS GÉOMÉTRIQUES CONFORMES CAO</text>
 
     <!-- Parameters Table -->
     <g transform="translate(20, 55)">
@@ -344,57 +352,57 @@
 
       <!-- Row 1 -->
       <line x1="0" y1="30" x2="720" y2="30" stroke="#334155" stroke-width="0.6" />
-      <text x="15" y="48" class="table-cell">Matériau Châssis</text>
-      <text x="260" y="48" class="table-cell-bold">Aluminium 7075-T651 (Fortal)</text>
-      <text x="490" y="48" class="table-cell">Reprise rigide des moments de basculement</text>
+      <text x="15" y="48" class="table-cell">Composant Source</text>
+      <text x="260" y="48" class="table-cell-bold">Traverse_Renfort_Bassin (7075-T6)</text>
+      <text x="490" y="48" class="table-cell">Usinage in-situ (Zéro pièce rapportée)</text>
 
       <!-- Row 2 -->
       <line x1="0" y1="58" x2="720" y2="58" stroke="#334155" stroke-width="0.6" />
-      <text x="15" y="76" class="table-cell">Format Extérieur</text>
-      <text x="260" y="76" class="table-cell-bold">136,82 mm (Largeur entre méplats)</text>
+      <text x="15" y="76" class="table-cell">Format &amp; Épaisseur</text>
+      <text x="260" y="76" class="table-cell-bold">136,82 mm × 10,02 mm</text>
       <text x="490" y="76" class="table-cell">Quasi-carré Asimov v1 agrandi +18 %</text>
 
       <!-- Row 3 -->
       <line x1="0" y1="86" x2="720" y2="86" stroke="#334155" stroke-width="0.6" />
-      <text x="15" y="104" class="table-cell">Fixation Pelvis (4 Trous Latéraux)</text>
-      <text x="260" y="104" class="table-cell-bold" fill="#34d399">R = 63,193 mm (PCD Ø 126,39 mm)</text>
-      <text x="490" y="104" class="table-cell">Garde franche +0,54 mm vs siège roulement</text>
+      <text x="15" y="104" class="table-cell">Fixation Pelvis (4 Trous Coins)</text>
+      <text x="260" y="104" class="table-cell-bold" fill="#34d399">4× Vis M5 (R ~ 80 mm, à 45°)</text>
+      <text x="490" y="104" class="table-cell">Précharge 19,2 kN (Sf &gt; 6 en lacet, &gt; 9 basc.)</text>
 
       <!-- Row 4 -->
       <line x1="0" y1="114" x2="720" y2="114" stroke="#334155" stroke-width="0.6" />
-      <text x="15" y="132" class="table-cell">Fixation Pelvis (4 Trous Coins)</text>
-      <text x="260" y="132" class="table-cell-bold" fill="#34d399">R ~ 80 mm (Diagonales à 45°)</text>
-      <text x="490" y="132" class="table-cell">Zone massive sans aucun risque d'interférence</text>
+      <text x="15" y="132" class="table-cell">Trous Latéraux Pelvis</text>
+      <text x="260" y="132" class="table-cell-bold" fill="#ef4444">SUPPRIMÉS SUR LA CAO</text>
+      <text x="490" y="132" class="table-cell">Élimine tout risque d'interférence à Ø 120 mm</text>
 
       <!-- Row 5 -->
       <line x1="0" y1="142" x2="720" y2="142" stroke="#334155" stroke-width="0.6" />
-      <text x="15" y="160" class="table-cell">Siège Roulement CRBH 8016</text>
-      <text x="260" y="160" class="table-cell-bold">Ø 120,000 mm H7 (Prof. 3,0 mm)</text>
-      <text x="490" y="160" class="table-cell">Centrage et retenue axiale bague externe</text>
+      <text x="15" y="160" class="table-cell">Siège Roulement Supérieur</text>
+      <text x="260" y="160" class="table-cell-bold">Ø 120,00 mm H7 (Prof. 3,0 mm)</text>
+      <text x="490" y="160" class="table-cell">Centrage bague extérieure CRBH 8016</text>
 
       <!-- Row 6 -->
       <line x1="0" y1="170" x2="720" y2="170" stroke="#334155" stroke-width="0.6" />
-      <text x="15" y="188" class="table-cell">Alésage Central Traversant</text>
-      <text x="260" y="188" class="table-cell-bold">Ø 88,03 mm H7 (+0,000 / +0,035)</text>
-      <text x="490" y="188" class="table-cell">Centrage stator RS-06 + rotation moyeu bleu</text>
+      <text x="15" y="188" class="table-cell">Alésage Dégagement Inférieur</text>
+      <text x="260" y="188" class="table-cell-bold">Ø 102,00 mm (Prof. 7,0 mm)</text>
+      <text x="490" y="188" class="table-cell">Passage franc stator RS-06 et moyeu bleu</text>
 
       <!-- Row 7 -->
       <line x1="0" y1="198" x2="720" y2="198" stroke="#334155" stroke-width="0.6" />
-      <text x="15" y="216" class="table-cell">Retenue Axiale Roulement</text>
+      <text x="15" y="216" class="table-cell">Retenue Axiale Bague Externe</text>
       <text x="260" y="216" class="table-cell-bold" fill="#fbbf24">4× M3 Borgnes sur PCD Ø 128 mm</text>
       <text x="490" y="216" class="table-cell">Orientés à 45° dans les 4 coins massifs</text>
 
       <!-- Row 8 -->
       <line x1="0" y1="226" x2="720" y2="226" stroke="#334155" stroke-width="0.6" />
-      <text x="15" y="244" class="table-cell">Tolérances Géométriques</text>
-      <text x="260" y="244" class="table-cell-bold">Concentricité &lt; 0,02 / Planéité &lt; 0,03</text>
-      <text x="490" y="244" class="table-cell">Usinage en 1 seul serrage face supérieure</text>
+      <text x="15" y="244" class="table-cell">Pincement Bague Intérieure</text>
+      <text x="260" y="244" class="table-cell-bold">Moyeu Sandwich 7075 (4 vis M4)</text>
+      <text x="490" y="244" class="table-cell">4 taraudages PCD Ø 68 mm à 45° (déjà validés)</text>
 
       <!-- Row 9 -->
       <line x1="0" y1="254" x2="720" y2="254" stroke="#334155" stroke-width="0.6" />
-      <text x="15" y="272" class="table-cell">Masse Estimée Finie</text>
-      <text x="260" y="272" class="table-cell-bold">~280 g (Alu 7075-T651)</text>
-      <text x="490" y="272" class="table-cell">Parfaite continuité de rigidité avec le bassin</text>
+      <text x="15" y="272" class="table-cell">Masse Réelle Fusion 360</text>
+      <text x="260" y="272" class="table-cell-bold">247,0 g (Aluminium 7075-T6)</text>
+      <text x="490" y="272" class="table-cell">CoM : X = +49,23 mm, Y = +9,356 mm</text>
     </g>
   </g>
 
@@ -405,30 +413,30 @@
     
     <!-- Title -->
     <rect x="15" y="15" width="410" height="26" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8" />
-    <text x="25" y="32" class="panel-title">5. GAMME DE MODIFICATION SUR PLAQUE EXISTANTE</text>
+    <text x="25" y="32" class="panel-title">5. GAMME DE MODIFICATION SUR TRAVERSE EXISTANTE</text>
 
     <g transform="translate(20, 55)">
       <!-- Phase 1 Box -->
       <rect x="0" y="0" width="740" height="135" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
       <rect x="10" y="10" width="160" height="22" rx="3" fill="#1e293b" stroke="#38bdf8" stroke-width="0.8" />
       <text x="90" y="25" text-anchor="middle" class="badge">USINAGES CENTRAUX</text>
-      <text x="180" y="25" class="dim-text-sm">Modification directe de la plaque supérieure Asimov</text>
+      <text x="180" y="25" class="dim-text-sm">Usinage in-situ dans Traverse_Renfort_Bassin</text>
 
-      <text x="20" y="55" class="table-cell"><tspan font-weight="bold" fill="#38bdf8">1. Alésage Central Traversant Ø 88 H7</tspan> : Découpe à travers tout pour loger le stator du RS-06.</text>
-      <text x="20" y="75" class="table-cell"><tspan font-weight="bold" fill="#38bdf8">2. Lamage Siège Roulement Ø 120 H7</tspan> : Fraisage à 3,0 mm de profondeur (protocole Match Machining Touch Probe 3D).</text>
+      <text x="20" y="55" class="table-cell"><tspan font-weight="bold" fill="#38bdf8">1. Lamage Supérieur Siège Roulement Ø 120 H7</tspan> : Fraisage face sup à prof. 3,0 mm (siège bague ext. RB8016).</text>
+      <text x="20" y="75" class="table-cell"><tspan font-weight="bold" fill="#38bdf8">2. Alésage Inférieur Dégagement Ø 102 mm</tspan> : Fraisage face inf à prof. 7,0 mm (passage stator RS-06 et moyeu).</text>
       <text x="20" y="95" class="table-cell"><tspan font-weight="bold" fill="#38bdf8">3. 4× Taraudages M3 Flasque (PCD 128)</tspan> : Perçage Ø 2,5 mm + taraudage M3 borgne prof. 6 mm à 45° dans les coins.</text>
-      <text x="20" y="115" class="table-cell"><tspan font-weight="bold" fill="#38bdf8">4. Finition Lumière 7h</tspan> : Ébavurage et chanfreinage doux (R = 1,0 mm) pour la protection du faisceau 48V/CAN.</text>
+      <text x="20" y="115" class="table-cell"><tspan font-weight="bold" fill="#38bdf8">4. Finition &amp; Chanfreins</tspan> : Cassage d'arêtes 0,5 mm × 45° pour un emboîtement fluide sans morfil.</text>
 
       <!-- Phase 2 Box -->
       <rect x="0" y="145" width="740" height="145" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1" />
       <rect x="10" y="155" width="160" height="22" rx="3" fill="#1e293b" stroke="#34d399" stroke-width="0.8" />
       <text x="90" y="170" text-anchor="middle" class="badge" fill="#34d399">CONSERVATION PELVIS</text>
-      <text x="180" y="170" class="dim-text-sm">Préservation intégrale des interfaces d'origine</text>
+      <text x="180" y="170" class="dim-text-sm">Interfaces saines et validées</text>
 
-      <text x="20" y="200" class="table-cell"><tspan font-weight="bold" fill="#34d399">1. Les 8 Trous de Fixation d'Origine</tspan> : 100 % conservés (4 latéraux à R = 63,19 mm + 4 coins à R ~ 80 mm).</text>
-      <text x="20" y="220" class="table-cell"><tspan font-weight="bold" fill="#34d399">2. Zéro Perçage sur le Châssis Pelvien</tspan> : La plaque s'assemble immédiatement sur les bossages existants du bassin.</text>
-      <text x="20" y="240" class="table-cell"><tspan font-weight="bold" fill="#34d399">3. Alignement avec Moyeu Sandwich</tspan> : Jeu radial parfait entre le fût du moyeu bleu et l'alésage Ø 88 mm.</text>
-      <text x="20" y="260" class="table-cell"><tspan font-weight="bold" fill="#34d399">4. Contrôle d'Assise</tspan> : Vérifier la planéité de contact sous la bague extérieure du CRBH 8016.</text>
+      <text x="20" y="200" class="table-cell"><tspan font-weight="bold" fill="#34d399">1. Les 4 Vis de Coins M5</tspan> : 100 % conservées (R ~ 80 mm). Assurent 19,2 kN de précharge (sécurité &gt; 6).</text>
+      <text x="20" y="220" class="table-cell"><tspan font-weight="bold" fill="#34d399">2. Trous Latéraux Supprimés</tspan> : Suppression définitive sur la CAO pour préserver la matière autour du roulement.</text>
+      <text x="20" y="240" class="table-cell"><tspan font-weight="bold" fill="#34d399">3. Pincement Bague Intérieure</tspan> : Prise en étau assurée par le Moyeu Sandwich bleu via ses 4 taraudages M4.</text>
+      <text x="20" y="260" class="table-cell"><tspan font-weight="bold" fill="#34d399">4. Retenue Bague Extérieure</tspan> : Flasque mince 2,5 mm bridé par 4 vis FHC M3 × 8 mm dans les 4 coins.</text>
     </g>
   </g>
 </svg>

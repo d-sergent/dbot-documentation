@@ -1,0 +1,317 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="20" y2="0" stroke="#1e293b" stroke-width="0.5" />
+      <line x1="0" y1="0" x2="0" y2="20" stroke="#1e293b" stroke-width="0.5" />
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+
+    <linearGradient id="redPlateGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#b91c1c" />
+    </linearGradient>
+
+    <linearGradient id="greenPlateGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+
+    <linearGradient id="bearingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+
+    <linearGradient id="clampGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+
+    <!-- Hatch pattern for steel section -->
+    <pattern id="steelHatch" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#38bdf8" stroke-width="0.8" opacity="0.6" />
+    </pattern>
+
+    <!-- Filters -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <style>
+    .title-main { font-family: "Segoe UI", Inter, Roboto, sans-serif; font-size: 20px; font-weight: 800; fill: #f8fafc; letter-spacing: 0.5px; }
+    .title-sub { font-family: "Segoe UI", Inter, Roboto, sans-serif; font-size: 13px; font-weight: 500; fill: #94a3b8; }
+    .badge { font-family: "Segoe UI", Inter, Roboto, sans-serif; font-size: 11px; font-weight: 700; fill: #38bdf8; }
+    .panel-title { font-family: "Segoe UI", Inter, Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #38bdf8; letter-spacing: 0.5px; }
+    .dim-line { stroke: #64748b; stroke-width: 1; stroke-dasharray: 4 2; }
+    .dim-solid { stroke: #38bdf8; stroke-width: 1.2; }
+    .dim-amber { stroke: #f59e0b; stroke-width: 1.2; }
+    .dim-text { font-family: "JetBrains Mono", Consolas, monospace; font-size: 11px; font-weight: 600; fill: #38bdf8; }
+    .dim-text-amber { font-family: "JetBrains Mono", Consolas, monospace; font-size: 11px; font-weight: 700; fill: #fbbf24; }
+    .dim-text-green { font-family: "JetBrains Mono", Consolas, monospace; font-size: 11px; font-weight: 700; fill: #34d399; }
+    .dim-text-sm { font-family: "JetBrains Mono", Consolas, monospace; font-size: 10px; font-weight: 500; fill: #94a3b8; }
+    .callout-title { font-family: "Segoe UI", Inter, Roboto, sans-serif; font-size: 12px; font-weight: 700; fill: #f8fafc; }
+    .callout-desc { font-family: "Segoe UI", Inter, Roboto, sans-serif; font-size: 11px; fill: #cbd5e1; }
+  </style>
+
+  <!-- Background Canvas -->
+  <rect width="1600" height="1000" fill="#0b0f19" />
+  <rect width="1600" height="1000" fill="url(#grid)" />
+
+  <!-- ==================== HEADER BAR ==================== -->
+  <rect x="20" y="15" width="1560" height="65" rx="8" fill="url(#headerGrad)" stroke="#334155" stroke-width="1.2" filter="url(#shadow)" />
+  <circle cx="55" cy="47" r="18" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" />
+  <path d="M48 47 L62 47 M55 40 L55 54" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" />
+  <text x="85" y="40" class="title-main">D-BOT V1.x — ARCHITECTURE DE BRIDAGE AXIAL Z DU ROULEMENT RB8016 (WAIST YAW)</text>
+  <text x="85" y="60" class="title-sub">Résolution de la Saillie de 13 mm — Redan Waist Plate augmenté à 3,0 mm + 4 Brides Étagées en L (Entrefer de sécurité garanti)</text>
+
+  <rect x="1190" y="32" width="110" height="28" rx="5" fill="#0f172a" stroke="#f59e0b" stroke-width="1" />
+  <text x="1245" y="50" text-anchor="middle" class="badge" fill="#fbbf24">SAILLIE 13 mm</text>
+
+  <rect x="1310" y="32" width="125" height="28" rx="5" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+  <text x="1372" y="50" text-anchor="middle" class="badge">REDAN 3,0 mm ✅</text>
+
+  <rect x="1445" y="32" width="125" height="28" rx="5" fill="#0f172a" stroke="#34d399" stroke-width="1" />
+  <text x="1507" y="50" text-anchor="middle" class="badge" fill="#34d399">ENTREFER 1,0 mm</text>
+
+
+  <!-- ==================== PANNEAU 1 : COUPE AXIALE COMPARATIVE ==================== -->
+  <g transform="translate(20, 95)">
+    <rect width="1020" height="520" rx="8" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.2" filter="url(#shadow)" />
+    
+    <rect x="15" y="15" width="480" height="26" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8" />
+    <text x="25" y="32" class="panel-title">1. COUPE AXIALE DE LA LIAISON : ÉTAT ACTUEL VS SOLUTION VALIDÉE</text>
+
+    <!-- Center Line Z -->
+    <line x1="510" y1="60" x2="510" y2="470" stroke="#94a3b8" stroke-width="0.8" stroke-dasharray="10 3 3 3" opacity="0.6" />
+    <text x="510" y="55" class="dim-text-sm" text-anchor="middle">AXE Z ROTATION YAW (X = +49,23 mm, Y = +9,356 mm)</text>
+
+    <!-- ================= SUB-PANEL A : GAUCHE (ÉTAT ACTUEL REDAN 1.5 mm - IMPOSSIBLE) ================= -->
+    <rect x="30" y="65" width="460" height="430" rx="6" fill="#090d16" stroke="#ef4444" stroke-width="0.8" />
+    <text x="45" y="90" font-family="Segoe UI, Inter" font-size="12" font-weight="700" fill="#ef4444">CAS A : REDAN ACTUEL (1,50 mm) ➔ BRIDAGE IMPOSSIBLE</text>
+
+    <!-- Traverse Verte (Z=1011.89 to 1021.91, 10.02 mm) -->
+    <!-- Scale: 1 mm = 12 px. y_base = 410 (Z=1011.89), y_top_green = 290 (Z=1021.91), y_seat = 326 (Z=1018.91, depth 3mm=36px) -->
+    <path d="M 50,410 L 470,410 L 470,290 L 320,290 L 320,326 L 190,326 L 190,410 Z" fill="url(#greenPlateGrad)" opacity="0.75" />
+    <text x="70" y="380" font-family="Segoe UI, Inter" font-size="11" font-weight="700" fill="#a7f3d0">Traverse Verte (10,02 mm)</text>
+
+    <!-- Bearing Outer Ring (R = 51 to 60 mm -> x=212 to 320) -->
+    <!-- Height 16 mm = 192 px. y_seat = 326 -> y_top_bearing = 326 - 192 = 134 -->
+    <rect x="230" y="134" width="90" height="192" fill="url(#bearingGrad)" stroke="#38bdf8" stroke-width="1.5" />
+    <rect x="230" y="134" width="90" height="192" fill="url(#steelHatch)" />
+    <text x="275" y="240" font-family="Segoe UI, Inter" font-size="11" font-weight="800" fill="#f8fafc" text-anchor="middle">RB8016</text>
+    <text x="275" y="255" font-family="JetBrains Mono" font-size="9" fill="#bae6fd" text-anchor="middle">H = 16 mm</text>
+
+    <!-- Saillie de 13 mm Callout -->
+    <line x1="335" y1="134" x2="335" y2="290" class="dim-solid" stroke="#ef4444" />
+    <polyline points="332,142 335,134 338,142" fill="none" stroke="#ef4444" stroke-width="1.5" />
+    <polyline points="332,282 335,290 338,282" fill="none" stroke="#ef4444" stroke-width="1.5" />
+    <text x="345" y="215" class="dim-text-amber" fill="#ef4444">13,00 mm</text>
+    <text x="345" y="230" class="dim-text-sm" fill="#fca5a5">Saillie dans le vide</text>
+
+    <!-- Waist Plate Rouge with 1.5 mm Redan (y_top_bearing = 134, redan = 18 px -> plate body at y = 134 - 18 = 116) -->
+    <!-- Plate thickness 6 mm = 72 px -> y_top_red = 116 - 72 = 44 -->
+    <path d="M 50,44 L 470,44 L 470,116 L 240,116 L 240,134 L 160,134 L 160,44 Z" fill="url(#redPlateGrad)" opacity="0.85" />
+    <text x="70" y="80" font-family="Segoe UI, Inter" font-size="11" font-weight="700" fill="#fecaca">Waist Plate Rouge</text>
+
+    <!-- Air gap of 1.50 mm (18 px) between x=240 to 320, y=116 to 134 -->
+    <rect x="240" y="116" width="80" height="18" fill="#ef4444" opacity="0.3" stroke="#ef4444" stroke-dasharray="2 2" />
+    <line x1="330" y1="116" x2="330" y2="134" class="dim-solid" stroke="#ef4444" />
+    <text x="340" y="128" class="dim-text-amber" fill="#ef4444">1,50 mm</text>
+
+    <!-- Critical alert text in Case A -->
+    <rect x="45" y="440" width="430" height="42" rx="4" fill="#450a0a" stroke="#ef4444" stroke-width="1" />
+    <text x="55" y="456" font-family="Segoe UI, Inter" font-size="10.5" font-weight="700" fill="#fecaca">⚠️ CONFLIT PHYSIQUE : Espace de 1,5 mm inexploitable !</text>
+    <text x="55" y="472" font-family="Segoe UI, Inter" font-size="9.5" fill="#fca5a5">Une bride rigide fait 2 mm d'épaisseur mini : collision frontale avec la plaque rouge en rotation.</text>
+
+
+    <!-- ================= SUB-PANEL B : DROITE (SOLUTION VALIDÉE REDAN 3.0 mm + BRIDE EN L) ================= -->
+    <rect x="530" y="65" width="460" height="430" rx="6" fill="#090d16" stroke="#34d399" stroke-width="1.2" />
+    <text x="545" y="90" font-family="Segoe UI, Inter" font-size="12" font-weight="700" fill="#34d399">CAS B (RECOMMANDÉ) : REDAN 3,0 mm + BRIDE ÉTAGÉE EN "L"</text>
+
+    <!-- Traverse Verte (même géométrie) -->
+    <path d="M 550,410 L 970,410 L 970,290 L 820,290 L 820,326 L 690,326 L 690,410 Z" fill="url(#greenPlateGrad)" opacity="0.75" />
+
+    <!-- Bearing RB8016 (même position Z) -->
+    <rect x="730" y="134" width="90" height="192" fill="url(#bearingGrad)" stroke="#38bdf8" stroke-width="1.5" />
+    <rect x="730" y="134" width="90" height="192" fill="url(#steelHatch)" />
+    <text x="775" y="240" font-family="Segoe UI, Inter" font-size="11" font-weight="800" fill="#f8fafc" text-anchor="middle">RB8016</text>
+
+    <!-- Waist Plate Rouge with 3.0 mm Redan (3.0 mm = 36 px -> plate body at y = 134 - 36 = 98) -->
+    <!-- Plate thickness 6 mm = 72 px -> y_top_red = 98 - 72 = 26 -->
+    <path d="M 550,26 L 970,26 L 970,98 L 740,98 L 740,134 L 660,134 L 660,26 Z" fill="url(#redPlateGrad)" opacity="0.85" />
+    <text x="570" y="60" font-family="Segoe UI, Inter" font-size="11" font-weight="700" fill="#fecaca">Waist Plate Rouge (+3 mm Redan)</text>
+
+    <!-- CLAMP IN "L" SHAPE (Bride étagée) -->
+    <!-- Foot on green plate (x=835 to 875, y=290 to 260) with M4 screw, vertical arm (13 mm high, y=290 up to 110), horizontal beak over bearing outer ring (x=800 to 835, y=110 to 134, thickness 2.0 mm = 24 px) -->
+    <path d="M 865,290 L 825,290 L 825,134 L 795,134 L 795,110 L 845,110 L 845,266 L 865,266 Z" fill="url(#clampGrad)" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)" />
+    
+    <!-- Clamp Screw M4 into green plate -->
+    <line x1="845" y1="240" x2="845" y2="340" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
+    <rect x="838" y="235" width="14" height="10" rx="2" fill="#cbd5e1" stroke="#475569" stroke-width="1" />
+    <text x="880" y="255" class="dim-text-sm" fill="#f8fafc">Vis M4 Fixation</text>
+
+    <!-- Clamp Beak Clamping Point on Bearing Outer Ring (y=134) -->
+    <circle cx="810" cy="134" r="3.5" fill="#f59e0b" stroke="#fef08a" stroke-width="1" />
+    
+    <!-- 2.0 mm Clamp Beak Thickness -->
+    <line x1="785" y1="110" x2="785" y2="134" class="dim-solid" stroke="#f59e0b" />
+    <polyline points="782,118 785,110 788,118" fill="none" stroke="#f59e0b" stroke-width="1.5" />
+    <polyline points="782,126 785,134 788,126" fill="none" stroke="#f59e0b" stroke-width="1.5" />
+    <text x="735" y="125" class="dim-text-amber">2,0 mm</text>
+    <text x="735" y="113" class="dim-text-sm" fill="#fbbf24">Bec Bride</text>
+
+    <!-- Safe Air Gap 1.0 mm (12 px) between clamp beak (y=110) and red plate (y=98) -->
+    <rect x="740" y="98" width="85" height="12" fill="#34d399" opacity="0.3" stroke="#34d399" stroke-dasharray="2 2" />
+    <line x1="855" y1="98" x2="855" y2="110" class="dim-solid" stroke="#34d399" />
+    <text x="865" y="107" class="dim-text-green">1,00 mm</text>
+    <text x="865" y="95" class="dim-text-sm" fill="#34d399">ENTREFER SÉCURITÉ</text>
+
+    <!-- Success box in Case B -->
+    <rect x="545" y="440" width="430" height="42" rx="4" fill="#064e3b" stroke="#34d399" stroke-width="1" />
+    <text x="555" y="456" font-family="Segoe UI, Inter" font-size="10.5" font-weight="700" fill="#a7f3d0">✅ GÉOMÉTRIE PARFAITE : Maintien +Z rigide &amp; Zéro frottement</text>
+    <text x="555" y="472" font-family="Segoe UI, Inter" font-size="9.5" fill="#6ee7b7">Bec de bride 2,0 mm en acier/alu rigide + entrefer d'air 1,0 mm continu en rotation.</text>
+  </g>
+
+
+  <!-- ==================== PANNEAU 2 : VUE DE DESSUS (IMPLANTATION DES 4 BRIDES AUX COINS) ==================== -->
+  <g transform="translate(1060, 95)">
+    <rect width="520" height="520" rx="8" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.2" filter="url(#shadow)" />
+    
+    <rect x="15" y="15" width="400" height="26" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8" />
+    <text x="25" y="32" class="panel-title">2. IMPLANTATION DES 4 BRIDES AUX COINS (À 45°)</text>
+
+    <!-- Centerlines -->
+    <line x1="50" y1="270" x2="470" y2="270" class="center-line" />
+    <line x1="260" y1="60" x2="260" y2="480" class="center-line" />
+
+    <!-- Traverse Profile (136.8 mm = 320 px) -->
+    <rect x="100" y="110" width="320" height="320" rx="55" fill="url(#greenPlateGrad)" opacity="0.3" stroke="#34d399" stroke-width="1.5" />
+
+    <!-- Bearing Outer Diameter Ø 120 mm (R = 140 px) -->
+    <circle cx="260" cy="270" r="140" fill="none" stroke="#38bdf8" stroke-width="2" />
+    <!-- Bearing Inner Diameter Ø 80 mm (R = 93 px) -->
+    <circle cx="260" cy="270" r="93" fill="none" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4 2" />
+
+    <!-- Red Plate Outline Contour (94 mm narrow waist, leaves corners free) -->
+    <!-- Red plate width between flats = 94 mm (220 px), length = 120 mm (280 px) -->
+    <path d="M 150,140 L 370,140 A 20 20 0 0 1 390,160 L 390,380 A 20 20 0 0 1 370,400 L 150,400 A 20 20 0 0 1 130,380 L 130,160 A 20 20 0 0 1 150,140 Z" fill="url(#redPlateGrad)" opacity="0.25" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6 3" />
+    <text x="260" y="380" font-family="Segoe UI, Inter" font-size="10" fill="#fca5a5" text-anchor="middle">Contour Waist Plate Rouge (Larg. 94 mm)</text>
+
+    <!-- 4 CLAMPS PLACED AT THE 4 CORNERS (45, 135, 225, 315 deg, R = 140 px) -->
+    <!-- Corner 1 (Top Right, 45 deg) -->
+    <g transform="translate(260, 270) rotate(45)">
+      <rect x="130" y="-12" width="40" height="24" rx="4" fill="url(#clampGrad)" stroke="#fef08a" stroke-width="1.2" />
+      <circle cx="155" cy="0" r="3.5" fill="#f8fafc" stroke="#334155" />
+      <path d="M 125 -8 L 135 -8 L 135 8 L 125 8 Z" fill="#fef08a" />
+    </g>
+
+    <!-- Corner 2 (Top Left, 135 deg) -->
+    <g transform="translate(260, 270) rotate(135)">
+      <rect x="130" y="-12" width="40" height="24" rx="4" fill="url(#clampGrad)" stroke="#fef08a" stroke-width="1.2" />
+      <circle cx="155" cy="0" r="3.5" fill="#f8fafc" stroke="#334155" />
+      <path d="M 125 -8 L 135 -8 L 135 8 L 125 8 Z" fill="#fef08a" />
+    </g>
+
+    <!-- Corner 3 (Bottom Left, 225 deg) -->
+    <g transform="translate(260, 270) rotate(225)">
+      <rect x="130" y="-12" width="40" height="24" rx="4" fill="url(#clampGrad)" stroke="#fef08a" stroke-width="1.2" />
+      <circle cx="155" cy="0" r="3.5" fill="#f8fafc" stroke="#334155" />
+      <path d="M 125 -8 L 135 -8 L 135 8 L 125 8 Z" fill="#fef08a" />
+    </g>
+
+    <!-- Corner 4 (Bottom Right, 315 deg) -->
+    <g transform="translate(260, 270) rotate(315)">
+      <rect x="130" y="-12" width="40" height="24" rx="4" fill="url(#clampGrad)" stroke="#fef08a" stroke-width="1.2" />
+      <circle cx="155" cy="0" r="3.5" fill="#f8fafc" stroke="#334155" />
+      <path d="M 125 -8 L 135 -8 L 135 8 L 125 8 Z" fill="#fef08a" />
+    </g>
+
+    <!-- Callout on Top Right Clamp -->
+    <path d="M 370 160 L 420 120 L 490 120" fill="none" stroke="#f59e0b" stroke-width="1.5" />
+    <circle cx="370" cy="160" r="3" fill="#f59e0b" />
+    <text x="430" y="110" class="dim-text-amber">4× Brides Étagées en L</text>
+    <text x="430" y="128" class="dim-text-sm" fill="#fbbf24">Vis M4 dans taraudages coins</text>
+
+    <!-- Legend box -->
+    <rect x="20" y="465" width="480" height="40" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.8" />
+    <text x="35" y="488" class="callout-desc">• Les 4 coins de la traverse verte sont 100% dégagés : aucun conflit avec la plaque rouge.</text>
+  </g>
+
+
+  <!-- ==================== PANNEAU 3 : FICHE FABRICATION D'UNE BRIDE EN "L" ==================== -->
+  <g transform="translate(20, 635)">
+    <rect width="1560" height="340" rx="8" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.2" filter="url(#shadow)" />
+    
+    <rect x="15" y="15" width="420" height="26" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8" />
+    <text x="25" y="32" class="panel-title">3. PLAN DE FABRICATION D'UNE BRIDE EN "L" (USINAGE CNC OU ÉBAUCHE)</text>
+
+    <!-- Left : 3D Perspective of 1 Clamp -->
+    <g transform="translate(40, 60)">
+      <rect x="0" y="0" width="340" height="255" rx="6" fill="#090d16" stroke="#f59e0b" stroke-width="1" />
+      <text x="20" y="28" font-family="Segoe UI, Inter" font-size="12" font-weight="700" fill="#fbbf24">VUE ISO D'UN CAVALIER EN "L"</text>
+
+      <!-- Draw 3D Isometric Clamp -->
+      <!-- Base (20 x 15 x 5 mm), Vertical Wall (H=13 mm), Beak (L=6 mm, th=2 mm) -->
+      <path d="M 60,190 L 160,190 L 200,160 L 100,160 Z" fill="#d97706" stroke="#fef08a" stroke-width="1.2" />
+      <path d="M 60,190 L 60,150 L 160,150 L 160,190 Z" fill="#f59e0b" stroke="#fef08a" stroke-width="1.2" />
+      <path d="M 160,190 L 160,150 L 200,120 L 200,160 Z" fill="#b45309" stroke="#fef08a" stroke-width="1.2" />
+
+      <!-- Vertical Step Up to 13 mm -->
+      <path d="M 60,150 L 60,80 L 100,80 L 100,150 Z" fill="#f59e0b" stroke="#fef08a" stroke-width="1.2" />
+      <path d="M 100,150 L 100,80 L 140,50 L 140,120 Z" fill="#b45309" stroke="#fef08a" stroke-width="1.2" />
+
+      <!-- Overhanging Beak (th = 2.0 mm) -->
+      <path d="M 100,80 L 140,80 L 170,55 L 130,55 Z" fill="#fef08a" stroke="#f59e0b" stroke-width="1.2" />
+      <path d="M 100,80 L 100,95 L 140,95 L 140,80 Z" fill="#f59e0b" stroke="#b45309" stroke-width="1.2" />
+
+      <!-- Hole in Base for M4 Screw -->
+      <ellipse cx="140" cy="175" rx="12" ry="7" fill="#090d16" stroke="#f8fafc" stroke-width="1.5" />
+      <text x="140" y="215" class="dim-text-sm" text-anchor="middle" fill="#f8fafc">Trou passage vis M4</text>
+    </g>
+
+    <!-- Center : Dimensions & Specifications Table -->
+    <g transform="translate(410, 60)">
+      <rect x="0" y="0" width="680" height="255" rx="6" fill="#090d16" stroke="#334155" stroke-width="1" />
+      <text x="20" y="28" font-family="Segoe UI, Inter" font-size="12" font-weight="700" fill="#38bdf8">COTATION FONCTIONNELLE DES BRIDES</text>
+
+      <line x1="20" y1="42" x2="660" y2="42" stroke="#334155" stroke-width="0.8" />
+      
+      <text x="20" y="68" class="table-cell"><tspan font-weight="bold" fill="#fbbf24">• Hauteur d'Épaulement :</tspan> Exactement <tspan font-weight="bold" fill="#f8fafc">13,00 mm</tspan> (épouse rigoureusement la saillie du RB8016).</text>
+      <text x="20" y="98" class="table-cell"><tspan font-weight="bold" fill="#fbbf24">• Épaisseur du Bec de Pincement :</tspan> <tspan font-weight="bold" fill="#f8fafc">2,00 mm</tspan> (en Alu 7075 ou Acier inoxydable résistant).</text>
+      <text x="20" y="128" class="table-cell"><tspan font-weight="bold" fill="#fbbf24">• Débordement Horizontal du Bec :</tspan> <tspan font-weight="bold" fill="#f8fafc">4,0 mm</tspan> sur la face supérieure de la bague extérieure.</text>
+      <text x="20" y="158" class="table-cell"><tspan font-weight="bold" fill="#fbbf24">• Fixation à la Traverse :</tspan> 1 vis CHC M4 × 12 mm ou M4 × 16 mm par bride (dans taraudages coins).</text>
+      <text x="20" y="188" class="table-cell"><tspan font-weight="bold" fill="#34d399">• Modification Waist Plate Rouge :</tspan> Augmenter le redan inférieur de <tspan font-weight="bold" fill="#34d399">1,50 mm à 3,00 mm</tspan>.</text>
+      <text x="20" y="218" class="table-cell"><tspan font-weight="bold" fill="#34d399">• Résultat d'Entrefer :</tspan> <tspan font-weight="bold" fill="#34d399">3,0 mm - 2,0 mm = 1,00 mm d'air libre</tspan> continu sous la plaque en rotation.</text>
+    </g>
+
+    <!-- Right : Synthesis Checklist -->
+    <g transform="translate(1110, 60)">
+      <rect x="0" y="0" width="420" height="255" rx="6" fill="#090d16" stroke="#34d399" stroke-width="1" />
+      <text x="20" y="28" font-family="Segoe UI, Inter" font-size="12" font-weight="700" fill="#34d399">VALIDATION DE CONCEPTION</text>
+
+      <line x1="20" y1="42" x2="400" y2="42" stroke="#334155" stroke-width="0.8" />
+
+      <text x="20" y="70" class="dim-text-sm" fill="#a7f3d0">✔ Maintien axial bidirectionnel (+Z &amp; -Z)</text>
+      <text x="20" y="95" class="dim-text-sm" fill="#a7f3d0">✔ Zéro frottement parasite avec le torse</text>
+      <text x="20" y="120" class="dim-text-sm" fill="#a7f3d0">✔ Démontage indépendant en 4 vis M4</text>
+      <text x="20" y="145" class="dim-text-sm" fill="#a7f3d0">✔ Poids unitaire : ~6 g par cavalier (24 g total)</text>
+      <text x="20" y="170" class="dim-text-sm" fill="#a7f3d0">✔ Usinable facilement sur la C500 en 1 passe</text>
+
+      <rect x="20" y="195" width="380" height="42" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="0.8" />
+      <text x="35" y="220" font-family="Segoe UI, Inter" font-size="11" font-weight="700" fill="#38bdf8">💡 SOLUTION IDÉALE VALIDÉE</text>
+    </g>
+  </g>
+</svg>

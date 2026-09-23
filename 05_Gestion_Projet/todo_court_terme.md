@@ -23,8 +23,9 @@ Ce document regroupe le suivi consolidé du projet **D-Bot V1 (Architecture Hybr
 
 ### Phase 1 : Ajustements Côté Droit (Fusion 360)
 - [x] **Moyeu Waist 7075** : Ajouter 4 trous borgnes taraudés M4 (prof. 12 mm, filet 10 mm) sur PCD Ø 68,00 mm à 45° (`X = ±24,04 mm`, `Y = ±24,04 mm`) pour recevoir les 4 vis CHC M4 de la Waist Plate.
-- [ ] **Platine d'Interface Waist Monolithique** : Modéliser le format Alu 7075-T6 137 × 12 mm (alésage central stator RS-06 Ø 88 H7, siège supérieur roulement CRBH 8016 Ø 120 H7 × 3 mm, 4 taraudages M3 flasque PCD Ø 128 mm) en remplacement d'`ASV1_200_16A.step`.
-- [ ] **Butée Angulaire Waist Yaw** : Modéliser le doigt de butée externe (15 × 15 × 10 mm) sous la Waist Plate et implanter les 2 vis CHC M5 à ±95° sur la platine fixe.
+- [x] **Traverse / Platine Waist (`Traverse_Renfort_Bassin`)** : Usinage in-situ validé sous Fusion 360 (`Torse v94`) : lamage supérieur siège roulement Ø 120,00 mm H7 (prof. 3,0 mm, RB8016 déjà calé), alésage inférieur de dégagement Ø 102,00 mm (prof. 7,0 mm) pour passage franc du RS-06 et du Moyeu Sandwich, et fixation au pelvis assainie sur les 4 vis d'angles M5 (suppression des 4 trous latéraux pour éliminer tout conflit à Ø 120 mm).
+- [ ] **Brides Étagées en L Retenue Axiale RB8016** : Implanter 4 taraudages borgnes M4 dans les 4 coins à 45° (PCD Ø 128 à 136 mm) sur `Traverse_Renfort_Bassin` + modéliser le cavalier en L (épaulement 13 mm, bec 2 mm, vis CHC M4 × 16 mm) + augmenter le redan inférieur de `Waist_Plate_7075` de 1,5 mm à 3,0 mm pour ménager un entrefer franc de 1,0 mm sans frottement.
+- [ ] **Butée Angulaire Waist Yaw (±95°)** : Modéliser le doigt de butée externe (15 × 15 × 10 mm) sous la Waist Plate et implanter les 2 vis CHC M5 à ±95° sur la traverse fixe.
 
 ### Phase 2 : Symétrie Miroir Finale (Plan Sagittal Y = +8,67 mm)
 - [x] **Symétrie Épaule Gauche** : Dupliquer par miroir la `Bride Epaule` (+202,3 g) et le moteur `RS04 droit` ➔ `RS04 gauche` (+1 559,5 g) avec les 10 vis M4 et rondelles Nord-Lock.

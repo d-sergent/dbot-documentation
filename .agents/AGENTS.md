@@ -57,6 +57,9 @@
   - **Niveau 3 (Interdit d'affirmation)** : Les documents historiques, brouillons ou archives (ex. dossiers `Archives`, `00_Archives_Recherche`) ne doivent JAMAIS être utilisés pour énoncer l'état actuel du robot, sauf si l'utilisateur demande explicitement l'historique d'une décision.
 - **Auto-Vérification Pré-Génération (Sanity Check)** :
   - Avant de valider le message final, vérifier la cohérence interne entre tous les composants cités dans le message et les inventaires validés de la session. En cas de doute ou d'information manquante, expliciter la nuance plutôt que d'extrapoler.
+- **Détection et Signalement Systématique des Désynchronisations CAO / Documentation** :
+  - Dès qu'une divergence, un déphasage ou une contradiction apparaît entre la documentation technique écrite (dossiers, feuilles de route) et l'état réel de la CAO (audit métrologique JSON, captures d'écran Fusion 360, cotes effectives), vous avez l'OBLIGATION STRICTE de le signaler immédiatement et explicitement à l'utilisateur au lieu de poursuivre aveuglément sur le texte théorique.
+  - Exposer clairement l'écart (État Documenté vs État CAO Réel) afin de trancher ensemble l'arbitrage et de réaligner immédiatement la documentation et les schémas vectoriels SVG sur la réalité validée en conception 3D.
 
 ## Modélisation CAO Fusion 360 & Quincaillerie Normalisée (McMaster-Carr)
 - **Références McMaster-Carr Systématiques (3D STEP)** :
