@@ -1,0 +1,93 @@
+# -*- coding: utf-8 -*-
+"""
+=============================================================================
+ToggleComponentColors.FCMacro — Équivalent Fusion 360 "Shift + N" dans FreeCAD
+=============================================================================
+Bascule d'un clic entre :
+1. Mode "Couleurs Distinctes des Composants" (teintes pastel uniques générées
+   par le nombre d'or pour distinguer instantanément chaque pièce).
+2. Mode "Matériaux Réels D-Bot" (Alu 7075, PA12-CF, Moteurs RobStride, Inox).
+=============================================================================
+"""
+
+import colorsys
+import FreeCAD
+import FreeCADGui
+
+def run():
+    doc = FreeCAD.ActiveDocument
+    if not doc:
+        FreeCAD.Console.PrintError("Aucun document actif dans FreeCAD.\n")
+        return
+
+    # Palette des matériaux réels D-Bot
+    PALETTE_REELLE = {
+        "alu_7075":    (0.78, 0.79, 0.82),
+        "pa12_cf":     (0.18, 0.18, 0.20),
+        "robstride":   (0.12, 0.13, 0.15),
+        "bearing":     (0.85, 0.88, 0.92),
+        "fasteners":   (0.40, 0.42, 0.45),
+        "default":     (0.70, 0.70, 0.72)
+    }
+
+    # Détection du mode actuel via une propriété personnalisée du document
+    current_mode = getattr(doc, "D_Bot_Color_Mode", "Realistic")
+
+    # Liste des objets solides
+    solid_objs = [
+        obj for obj in doc.Objects 
+        if hasattr(obj, "ViewObject") and obj.ViewObject and hasattr(obj, "Shape") and not obj.Shape.isNull() and len(obj.Shape.Solids) > 0
+    ]
+
+    phi = 0.618033988749895  # Conjugate du nombre d'or pour étaler les teintes
+
+    if current_mode == "Realistic":
+        # BASCULE VERS LE MODE COULEURS ALÉATOIRES / DISTINCTES (STYLE FUSION SHIFT+N)
+        for idx, obj in enumerate(solid_objs):
+            # Calcul d'une teinte HSV harmonieuse et distincte
+            hue = (idx * phi) % 1.0
+            saturation = 0.65  # Teinte pastel agréable, ni trop vive ni terne
+            value = 0.88       # Bonne luminosité
+            r, g, b = colorsys.hsv_to_rgb(hue, saturation, value)
+            
+            try:
+                obj.ViewObject.ShapeColor = (r, g, b, 0.0)
+            except Exception:
+                pass
+                
+        # Enregistrement de l'état
+        if not hasattr(doc, "D_Bot_Color_Mode"):
+            doc.addProperty("App::PropertyString", "D_Bot_Color_Mode", "D-Bot")
+        doc.D_Bot_Color_Mode = "Random"
+        FreeCAD.Console.PrintMessage(f"🎨 Mode 'Couleurs Composants Distinctes' activé sur {len(solid_objs)} pièces.\n")
+
+    else:
+        # BASCULE VERS LE MODE MATÉRIAUX RÉELS
+        for obj in solid_objs:
+            mat_name = getattr(obj, "MaterialName", "").lower()
+            label = obj.Label.lower()
+            
+            color = PALETTE_REELLE["default"]
+            if any(k in label for k in ["rs04", "rs06", "el05", "moteur", "motor", "actuator"]):
+                color = PALETTE_REELLE["robstride"]
+            elif "rb8016" in label or "roulement" in label:
+                color = PALETTE_REELLE["bearing"]
+            elif any(k in label for k in ["vis", "screw", "rondelle", "ecrou", "écrou", "nylstop", "nord-lock", "fhc", "chc", "bhc", "goupille", "insert"]):
+                color = PALETTE_REELLE["fasteners"]
+            elif any(k in mat_name for k in ["pa12", "carbone", "gyroïde", "gyroide"]) or any(k in label for k in ["plastron", "carenage", "capot", "trappe"]):
+                color = PALETTE_REELLE["pa12_cf"]
+            elif any(k in mat_name for k in ["alu", "7075", "6061"]) or any(k in label for k in ["waist_plate", "chassis", "traverse", "moyeu", "platine", "plaque"]):
+                color = PALETTE_REELLE["alu_7075"]
+                
+            try:
+                obj.ViewObject.ShapeColor = color
+            except Exception:
+                pass
+                
+        doc.D_Bot_Color_Mode = "Realistic"
+        FreeCAD.Console.PrintMessage("⚙️ Mode 'Matériaux Réels D-Bot' restauré.\n")
+
+    # Rafraîchissement graphique
+    FreeCADGui.updateGui()
+
+run()

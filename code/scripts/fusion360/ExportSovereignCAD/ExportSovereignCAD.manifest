@@ -1,0 +1,13 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity & David Sergent",
+	"description":	{
+		"":	"Export souverain universel : STEP unitaires dédupliqués + Manifeste JSON de placement spatial 3D pour FreeCAD"
+	},
+	"supportedOS":	"mac",
+	"editEnabled":	true,
+	"id":	"9e4d5a8b-1234-5678-abcd-ef0123456789",
+	"version":	"1.0.0",
+	"runOnStartup":	false
+}

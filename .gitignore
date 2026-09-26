@@ -27,3 +27,7 @@ models_cache/
 
 # IDE / Extensions
 .continue/
+
+# Heavy CAD binary assemblies (> 100 MB GitHub limit)
+*.FCStd
+

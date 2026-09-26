@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "document_name": "Torse v97",
-    "timestamp": "2026-09-25T21:36:00.977179",
+    "document_name": "Torse v99",
+    "timestamp": "2026-09-26T23:52:15.184965",
     "units": {
       "length": "mm",
       "mass": "g",
@@ -11,12 +11,12 @@
     "fusion_default_length_units": "mm"
   },
   "assembly_summary": {
-    "total_mass_g": 18363.13,
-    "total_volume_cm3": 7744.68,
+    "total_mass_g": 18419.75,
+    "total_volume_cm3": 7751.67,
     "center_of_mass_mm": [
-      60.688,
-      5.133,
-      1122.486
+      60.681,
+      5.152,
+      1122.156
     ],
     "bounding_box_mm": {
       "min": [
@@ -127602,12 +127602,12 @@
       "part_number": "ASV1_200_16A.step",
       "description": "",
       "material": "Aluminium 7075",
-      "mass_g": 321.24,
-      "volume_cm3": 114.32,
+      "mass_g": 320.24,
+      "volume_cm3": 113.96,
       "center_of_mass_mm": [
         49.268,
         9.356,
-        1013.934
+        1013.929
       ],
       "bounding_box_mm": {
         "min": [
@@ -127626,8 +127626,128 @@
           12.51
         ]
       },
-      "hole_features": [],
+      "hole_features": [
+        {
+          "name": "Perçage1",
+          "type": "0",
+          "diameter_mm": 3.332,
+          "depth_mm": null,
+          "is_threaded": false
+        }
+      ],
       "cylindrical_faces": [
+        {
+          "diameter_mm": 3.33,
+          "radius_mm": 1.67,
+          "origin_global_mm": [
+            48.48,
+            47.69,
+            -105.71
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.33,
+          "radius_mm": 1.67,
+          "origin_global_mm": [
+            48.48,
+            -47.69,
+            -105.71
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.33,
+          "radius_mm": 1.67,
+          "origin_global_mm": [
+            -48.48,
+            -47.69,
+            -105.71
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.33,
+          "radius_mm": 1.67,
+          "origin_global_mm": [
+            -48.48,
+            47.69,
+            -105.71
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.07,
+          "radius_mm": 2.54,
+          "origin_global_mm": [
+            -56.08,
+            55.17,
+            -16.52
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.07,
+          "radius_mm": 2.54,
+          "origin_global_mm": [
+            -56.08,
+            -55.17,
+            -16.52
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.07,
+          "radius_mm": 2.54,
+          "origin_global_mm": [
+            56.08,
+            -55.17,
+            -16.52
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.07,
+          "radius_mm": 2.54,
+          "origin_global_mm": [
+            56.08,
+            55.17,
+            -16.52
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
         {
           "diameter_mm": 3.5,
           "radius_mm": 1.75,
@@ -128315,62 +128435,6 @@
           ]
         },
         {
-          "diameter_mm": 5.07,
-          "radius_mm": 2.54,
-          "origin_global_mm": [
-            -56.08,
-            55.17,
-            -16.52
-          ],
-          "axis": [
-            0.0,
-            0.0,
-            1.0
-          ]
-        },
-        {
-          "diameter_mm": 5.07,
-          "radius_mm": 2.54,
-          "origin_global_mm": [
-            -56.08,
-            -55.17,
-            -16.52
-          ],
-          "axis": [
-            0.0,
-            0.0,
-            1.0
-          ]
-        },
-        {
-          "diameter_mm": 5.07,
-          "radius_mm": 2.54,
-          "origin_global_mm": [
-            56.08,
-            -55.17,
-            -16.52
-          ],
-          "axis": [
-            0.0,
-            0.0,
-            1.0
-          ]
-        },
-        {
-          "diameter_mm": 5.07,
-          "radius_mm": 2.54,
-          "origin_global_mm": [
-            56.08,
-            55.17,
-            -16.52
-          ],
-          "axis": [
-            0.0,
-            0.0,
-            1.0
-          ]
-        },
-        {
           "diameter_mm": 59.0,
           "radius_mm": 29.5,
           "origin_global_mm": [
@@ -128427,7 +128491,120 @@
           ]
         }
       ],
-      "conical_faces": []
+      "conical_faces": [
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            48.48,
+            47.69,
+            9.85
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            48.48,
+            -47.69,
+            9.85
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            -48.48,
+            -47.69,
+            9.85
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            -48.48,
+            47.69,
+            9.85
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            -56.08,
+            55.17,
+            9.85
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            -56.08,
+            -55.17,
+            9.85
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            56.08,
+            -55.17,
+            9.85
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            56.08,
+            55.17,
+            9.85
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
     },
     {
       "instance_name": "1_1_06_EB823-507_AF0^1_1_06_EB823-509_ASM_FL82BLW33-48V-35N.m(开模版)(1)_FL82BLW33-48V-35N.m(开模版)(1).STEP:1",
@@ -136615,12 +136792,12 @@
       "part_number": "ASV1_200",
       "description": "STEP AP214",
       "material": "Unknown",
-      "mass_g": 6954.6,
-      "volume_cm3": 2353.27,
+      "mass_g": 6953.6,
+      "volume_cm3": 2352.92,
       "center_of_mass_mm": [
-        55.747,
+        55.748,
         9.413,
-        927.274
+        927.261
       ],
       "bounding_box_mm": {
         "min": [
@@ -243524,24 +243701,24 @@
       "mass_g": 11.5,
       "volume_cm3": 1.47,
       "center_of_mass_mm": [
-        3.714,
-        0.0,
-        1063.871
+        94.673,
+        54.013,
+        1026.53
       ],
       "bounding_box_mm": {
         "min": [
-          -4.01,
-          -7.51,
-          1054.99
+          83.9,
+          43.24,
+          1020.39
         ],
         "max": [
-          12.01,
-          7.51,
-          1070.01
+          105.85,
+          65.19,
+          1035.41
         ],
         "size": [
-          16.02,
-          15.02,
+          21.95,
+          21.95,
           15.02
         ]
       },
@@ -243551,9 +243728,3536 @@
           "diameter_mm": 4.5,
           "radius_mm": 2.25,
           "origin_global_mm": [
-            8.0,
+            100.05,
+            51.39,
+            3160.4
+          ],
+          "axis": [
             0.0,
-            1070.0
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "conical_faces": []
+    },
+    {
+      "instance_name": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+      "component_name": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+      "part_number": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+      "description": "",
+      "material": "Acier",
+      "mass_g": 6.99,
+      "volume_cm3": 0.89,
+      "center_of_mass_mm": [
+        49.229,
+        9.356,
+        1007.643
+      ],
+      "bounding_box_mm": {
+        "min": [
+          8.58,
+          -31.29,
+          998.71
+        ],
+        "max": [
+          89.88,
+          50.0,
+          1012.94
+        ],
+        "size": [
+          81.3,
+          81.3,
+          14.23
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            998.7
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            998.7
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            998.7
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            998.7
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            998.7
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            998.7
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            998.7
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            998.7
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        }
+      ],
+      "conical_faces": [
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            2009.55
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            1012.71
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            1010.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            998.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            2009.55
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            1012.71
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            1010.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            998.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            11.35,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            2009.55
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            1012.71
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            1010.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            998.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            2009.55
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            1012.71
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            1010.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            998.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            -28.52,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            2009.55
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            1012.71
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            1010.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            998.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            -6.33,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            2009.55
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            1012.71
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            1010.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            998.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            87.11,
+            25.05,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            2009.55
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            1012.71
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            1010.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            998.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            64.92,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            2009.55
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            1011.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            1012.71
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            1010.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            998.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            33.54,
+            47.24,
+            1012.92
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "instance_name": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+      "component_name": "91292A113_18-8 Stainless Steel Socket Head Screw",
+      "part_number": "91292A113_18-8 Stainless Steel Socket Head Screw",
+      "description": "",
+      "material": "Acier",
+      "mass_g": 5.63,
+      "volume_cm3": 0.72,
+      "center_of_mass_mm": [
+        49.225,
+        9.353,
+        1015.826
+      ],
+      "bounding_box_mm": {
+        "min": [
+          36.06,
+          -5.42,
+          1007.39
+        ],
+        "max": [
+          62.4,
+          24.14,
+          1020.44
+        ],
+        "size": [
+          26.34,
+          29.56,
+          13.05
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            38.83,
+            15.36,
+            1007.42
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            38.83,
+            15.36,
+            1007.42
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            38.83,
+            15.36,
+            1007.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            49.23,
+            21.37,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            49.23,
+            21.37,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            49.23,
+            21.37,
+            1007.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            59.63,
+            15.36,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            59.63,
+            15.36,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            59.63,
+            15.36,
+            1007.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            59.63,
+            3.35,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            59.63,
+            3.35,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            59.63,
+            3.35,
+            1007.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            49.23,
+            -2.65,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            49.23,
+            -2.65,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            49.23,
+            -2.65,
+            1007.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.0,
+          "radius_mm": 1.5,
+          "origin_global_mm": [
+            38.83,
+            3.35,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 5.5,
+          "radius_mm": 2.75,
+          "origin_global_mm": [
+            38.83,
+            3.35,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 2.35,
+          "radius_mm": 1.18,
+          "origin_global_mm": [
+            38.83,
+            3.35,
+            1007.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        }
+      ],
+      "conical_faces": [
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            38.83,
+            15.36,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 20.0,
+          "full_angle_deg": 40.0,
+          "origin_global_mm": [
+            38.83,
+            15.36,
+            1017.42
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            38.83,
+            15.36,
+            1020.42
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            49.23,
+            21.37,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 20.0,
+          "full_angle_deg": 40.0,
+          "origin_global_mm": [
+            49.23,
+            21.37,
+            1017.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            49.23,
+            21.37,
+            1020.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            59.63,
+            15.36,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 20.0,
+          "full_angle_deg": 40.0,
+          "origin_global_mm": [
+            59.63,
+            15.36,
+            1017.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            59.63,
+            15.36,
+            1020.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            59.63,
+            3.35,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 20.0,
+          "full_angle_deg": 40.0,
+          "origin_global_mm": [
+            59.63,
+            3.35,
+            1017.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            59.63,
+            3.35,
+            1020.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            49.23,
+            -2.65,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 20.0,
+          "full_angle_deg": 40.0,
+          "origin_global_mm": [
+            49.23,
+            -2.65,
+            1017.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            49.23,
+            -2.65,
+            1020.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            38.83,
+            3.35,
+            1007.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 20.0,
+          "full_angle_deg": 40.0,
+          "origin_global_mm": [
+            38.83,
+            3.35,
+            1017.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            38.83,
+            3.35,
+            1020.42
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "instance_name": "Bride_Retenue_RB8016_L:2",
+      "component_name": "Bride_Retenue_RB8016_L",
+      "part_number": "Bride_Retenue_RB8016_L",
+      "description": "",
+      "material": "Aluminium 7075-T6",
+      "mass_g": 11.5,
+      "volume_cm3": 1.47,
+      "center_of_mass_mm": [
+        3.785,
+        -35.302,
+        1026.53
+      ],
+      "bounding_box_mm": {
+        "min": [
+          -7.39,
+          -46.48,
+          1020.39
+        ],
+        "max": [
+          14.56,
+          -24.53,
+          1035.41
+        ],
+        "size": [
+          21.95,
+          21.95,
+          15.02
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 4.5,
+          "radius_mm": 2.25,
+          "origin_global_mm": [
+            14.41,
+            -32.68,
+            3160.4
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "conical_faces": []
+    },
+    {
+      "instance_name": "Bride_Retenue_RB8016_L:3",
+      "component_name": "Bride_Retenue_RB8016_L",
+      "part_number": "Bride_Retenue_RB8016_L",
+      "description": "",
+      "material": "Aluminium 7075-T6",
+      "mass_g": 11.5,
+      "volume_cm3": 1.47,
+      "center_of_mass_mm": [
+        3.785,
+        54.013,
+        1026.53
+      ],
+      "bounding_box_mm": {
+        "min": [
+          -7.39,
+          43.24,
+          1020.39
+        ],
+        "max": [
+          14.56,
+          65.19,
+          1035.41
+        ],
+        "size": [
+          21.95,
+          21.95,
+          15.02
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 4.5,
+          "radius_mm": 2.25,
+          "origin_global_mm": [
+            14.41,
+            51.39,
+            3160.4
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "conical_faces": []
+    },
+    {
+      "instance_name": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:1",
+      "component_name": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+      "part_number": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+      "description": "",
+      "material": "Acier",
+      "mass_g": 2.31,
+      "volume_cm3": 0.29,
+      "center_of_mass_mm": [
+        97.891,
+        -37.931,
+        1022.763
+      ],
+      "bounding_box_mm": {
+        "min": [
+          92.74,
+          -43.3,
+          1009.93
+        ],
+        "max": [
+          102.67,
+          -33.37,
+          1030.21
+        ],
+        "size": [
+          9.93,
+          9.93,
+          20.28
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 4.0,
+          "radius_mm": 2.0,
+          "origin_global_mm": [
+            97.7,
+            -38.33,
+            1030.2
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 7.0,
+          "radius_mm": 3.5,
+          "origin_global_mm": [
+            97.7,
+            -38.33,
+            1030.2
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            96.35,
+            -37.55,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            97.7,
+            -36.77,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            99.05,
+            -37.55,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            99.05,
+            -39.11,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            97.7,
+            -39.89,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            96.35,
+            -39.11,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.09,
+          "radius_mm": 1.55,
+          "origin_global_mm": [
+            97.7,
+            -38.33,
+            1009.89
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        }
+      ],
+      "conical_faces": [
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            97.7,
+            -38.33,
+            1010.2
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            97.7,
+            -38.33,
+            2023.85
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            97.7,
+            -38.33,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            97.7,
+            -38.33,
+            1030.2
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            97.7,
+            -38.33,
+            1026.22
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            97.7,
+            -38.33,
+            1029.96
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            -1.0
+          ]
+        }
+      ]
+    },
+    {
+      "instance_name": "93475A230_18-8 Stainless Steel General Purpose Washer:1",
+      "component_name": "93475A230_18-8 Stainless Steel General Purpose Washer",
+      "part_number": "93475A230_18-8 Stainless Steel General Purpose Washer",
+      "description": "",
+      "material": "Acier",
+      "mass_g": 0.31,
+      "volume_cm3": 0.04,
+      "center_of_mass_mm": [
+        97.704,
+        -38.333,
+        1025.801
+      ],
+      "bounding_box_mm": {
+        "min": [
+          91.33,
+          -44.71,
+          1025.39
+        ],
+        "max": [
+          104.08,
+          -31.95,
+          1026.21
+        ],
+        "size": [
+          12.76,
+          12.76,
+          0.82
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 4.3,
+          "radius_mm": 2.15,
+          "origin_global_mm": [
+            97.7,
+            -38.33,
+            1025.4
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 9.0,
+          "radius_mm": 4.5,
+          "origin_global_mm": [
+            97.7,
+            -38.33,
+            1025.4
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "conical_faces": []
+    },
+    {
+      "instance_name": "Bride_Retenue_RB8016_L:4",
+      "component_name": "Bride_Retenue_RB8016_L",
+      "part_number": "Bride_Retenue_RB8016_L",
+      "description": "",
+      "material": "Aluminium 7075-T6",
+      "mass_g": 11.5,
+      "volume_cm3": 1.47,
+      "center_of_mass_mm": [
+        94.673,
+        -35.302,
+        1026.53
+      ],
+      "bounding_box_mm": {
+        "min": [
+          83.9,
+          -46.48,
+          1020.39
+        ],
+        "max": [
+          105.85,
+          -24.53,
+          1035.41
+        ],
+        "size": [
+          21.95,
+          21.95,
+          15.02
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 4.5,
+          "radius_mm": 2.25,
+          "origin_global_mm": [
+            100.05,
+            -32.68,
+            3160.4
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "conical_faces": []
+    },
+    {
+      "instance_name": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:2",
+      "component_name": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+      "part_number": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+      "description": "",
+      "material": "Acier",
+      "mass_g": 2.31,
+      "volume_cm3": 0.29,
+      "center_of_mass_mm": [
+        0.566,
+        56.643,
+        1022.763
+      ],
+      "bounding_box_mm": {
+        "min": [
+          -4.21,
+          52.08,
+          1009.93
+        ],
+        "max": [
+          5.72,
+          62.01,
+          1030.21
+        ],
+        "size": [
+          9.93,
+          9.93,
+          20.28
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 4.0,
+          "radius_mm": 2.0,
+          "origin_global_mm": [
+            0.75,
+            57.04,
+            1030.2
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 7.0,
+          "radius_mm": 3.5,
+          "origin_global_mm": [
+            0.75,
+            57.04,
+            1030.2
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            -0.6,
+            57.82,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            0.75,
+            58.6,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            2.1,
+            57.82,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            2.1,
+            56.26,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            0.75,
+            55.49,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            -0.6,
+            56.26,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.09,
+          "radius_mm": 1.55,
+          "origin_global_mm": [
+            0.75,
+            57.04,
+            1009.89
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        }
+      ],
+      "conical_faces": [
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            0.75,
+            57.04,
+            1010.2
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            0.75,
+            57.04,
+            2023.85
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            0.75,
+            57.04,
+            1028.2
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            0.75,
+            57.04,
+            1030.2
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            0.75,
+            57.04,
+            1026.22
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            0.75,
+            57.04,
+            1029.96
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            -1.0
+          ]
+        }
+      ]
+    },
+    {
+      "instance_name": "93475A230_18-8 Stainless Steel General Purpose Washer:2",
+      "component_name": "93475A230_18-8 Stainless Steel General Purpose Washer",
+      "part_number": "93475A230_18-8 Stainless Steel General Purpose Washer",
+      "description": "",
+      "material": "Acier",
+      "mass_g": 0.31,
+      "volume_cm3": 0.04,
+      "center_of_mass_mm": [
+        0.754,
+        57.044,
+        1025.801
+      ],
+      "bounding_box_mm": {
+        "min": [
+          -5.62,
+          50.67,
+          1025.39
+        ],
+        "max": [
+          7.13,
+          63.42,
+          1026.21
+        ],
+        "size": [
+          12.76,
+          12.76,
+          0.82
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 4.3,
+          "radius_mm": 2.15,
+          "origin_global_mm": [
+            0.75,
+            57.04,
+            1025.4
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 9.0,
+          "radius_mm": 4.5,
+          "origin_global_mm": [
+            0.75,
+            57.04,
+            1025.4
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "conical_faces": []
+    },
+    {
+      "instance_name": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:3",
+      "component_name": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+      "part_number": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+      "description": "",
+      "material": "Acier",
+      "mass_g": 2.31,
+      "volume_cm3": 0.29,
+      "center_of_mass_mm": [
+        97.517,
+        56.643,
+        1022.703
+      ],
+      "bounding_box_mm": {
+        "min": [
+          92.74,
+          52.08,
+          1009.87
+        ],
+        "max": [
+          102.67,
+          62.01,
+          1030.15
+        ],
+        "size": [
+          9.93,
+          9.93,
+          20.28
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 4.0,
+          "radius_mm": 2.0,
+          "origin_global_mm": [
+            97.7,
+            57.04,
+            1030.14
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 7.0,
+          "radius_mm": 3.5,
+          "origin_global_mm": [
+            97.7,
+            57.04,
+            1030.14
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            96.35,
+            57.82,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            97.7,
+            58.6,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            99.05,
+            57.82,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            99.05,
+            56.26,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            97.7,
+            55.49,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            96.35,
+            56.26,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.09,
+          "radius_mm": 1.55,
+          "origin_global_mm": [
+            97.7,
+            57.04,
+            1009.83
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        }
+      ],
+      "conical_faces": [
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            97.7,
+            57.04,
+            1010.14
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            97.7,
+            57.04,
+            2023.79
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            97.7,
+            57.04,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            97.7,
+            57.04,
+            1030.14
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            97.7,
+            57.04,
+            1026.16
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            97.7,
+            57.04,
+            1029.9
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            -1.0
+          ]
+        }
+      ]
+    },
+    {
+      "instance_name": "93475A230_18-8 Stainless Steel General Purpose Washer:3",
+      "component_name": "93475A230_18-8 Stainless Steel General Purpose Washer",
+      "part_number": "93475A230_18-8 Stainless Steel General Purpose Washer",
+      "description": "",
+      "material": "Acier",
+      "mass_g": 0.31,
+      "volume_cm3": 0.04,
+      "center_of_mass_mm": [
+        97.704,
+        57.044,
+        1025.801
+      ],
+      "bounding_box_mm": {
+        "min": [
+          91.33,
+          50.67,
+          1025.39
+        ],
+        "max": [
+          104.08,
+          63.42,
+          1026.21
+        ],
+        "size": [
+          12.76,
+          12.76,
+          0.82
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 4.3,
+          "radius_mm": 2.15,
+          "origin_global_mm": [
+            97.7,
+            57.04,
+            1025.4
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 9.0,
+          "radius_mm": 4.5,
+          "origin_global_mm": [
+            97.7,
+            57.04,
+            1025.4
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "conical_faces": []
+    },
+    {
+      "instance_name": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:4",
+      "component_name": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+      "part_number": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+      "description": "",
+      "material": "Acier",
+      "mass_g": 2.31,
+      "volume_cm3": 0.29,
+      "center_of_mass_mm": [
+        0.941,
+        -37.931,
+        1022.703
+      ],
+      "bounding_box_mm": {
+        "min": [
+          -4.21,
+          -43.3,
+          1009.87
+        ],
+        "max": [
+          5.72,
+          -33.37,
+          1030.15
+        ],
+        "size": [
+          9.93,
+          9.93,
+          20.28
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 4.0,
+          "radius_mm": 2.0,
+          "origin_global_mm": [
+            0.75,
+            -38.33,
+            1030.14
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 7.0,
+          "radius_mm": 3.5,
+          "origin_global_mm": [
+            0.75,
+            -38.33,
+            1030.14
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            -0.6,
+            -37.55,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            0.75,
+            -36.77,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            2.1,
+            -37.55,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            2.1,
+            -39.11,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            0.75,
+            -39.89,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 0.3,
+          "radius_mm": 0.15,
+          "origin_global_mm": [
+            -0.6,
+            -39.11,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "diameter_mm": 3.09,
+          "radius_mm": 1.55,
+          "origin_global_mm": [
+            0.75,
+            -38.33,
+            1009.83
+          ],
+          "axis": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        }
+      ],
+      "conical_faces": [
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            0.75,
+            -38.33,
+            1010.14
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            0.75,
+            -38.33,
+            2023.79
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 60.0,
+          "full_angle_deg": 120.0,
+          "origin_global_mm": [
+            0.75,
+            -38.33,
+            1028.14
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            0.75,
+            -38.33,
+            1030.14
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            0.75,
+            -38.33,
+            1026.16
+          ],
+          "axis": [
+            -0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "half_angle_deg": 45.0,
+          "full_angle_deg": 90.0,
+          "origin_global_mm": [
+            0.75,
+            -38.33,
+            1029.9
+          ],
+          "axis": [
+            0.0,
+            -0.0,
+            -1.0
+          ]
+        }
+      ]
+    },
+    {
+      "instance_name": "93475A230_18-8 Stainless Steel General Purpose Washer:4",
+      "component_name": "93475A230_18-8 Stainless Steel General Purpose Washer",
+      "part_number": "93475A230_18-8 Stainless Steel General Purpose Washer",
+      "description": "",
+      "material": "Acier",
+      "mass_g": 0.31,
+      "volume_cm3": 0.04,
+      "center_of_mass_mm": [
+        0.754,
+        -38.333,
+        1025.801
+      ],
+      "bounding_box_mm": {
+        "min": [
+          -5.62,
+          -44.71,
+          1025.39
+        ],
+        "max": [
+          7.13,
+          -31.95,
+          1026.21
+        ],
+        "size": [
+          12.76,
+          12.76,
+          0.82
+        ]
+      },
+      "hole_features": [],
+      "cylindrical_faces": [
+        {
+          "diameter_mm": 4.3,
+          "radius_mm": 2.15,
+          "origin_global_mm": [
+            0.75,
+            -38.33,
+            1025.4
+          ],
+          "axis": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "diameter_mm": 9.0,
+          "radius_mm": 4.5,
+          "origin_global_mm": [
+            0.75,
+            -38.33,
+            1025.4
           ],
           "axis": [
             0.0,
@@ -246520,6 +250224,276 @@
           0.0,
           -1.0,
           0.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          11.35,
+          25.05,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          11.35,
+          -6.33,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          33.54,
+          -28.52,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          64.92,
+          -28.52,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          87.11,
+          -6.33,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          87.11,
+          25.05,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          64.92,
+          47.24,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          33.54,
+          47.24,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          38.83,
+          15.36,
+          1007.42
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          49.23,
+          21.37,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          59.63,
+          15.36,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          59.63,
+          3.35,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          49.23,
+          -2.65,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 3.0,
+        "origin_mm": [
+          38.83,
+          3.35,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 3.09,
+        "origin_mm": [
+          97.7,
+          -38.33,
+          1009.89
+        ],
+        "axis": [
+          -0.0,
+          -0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:2",
+        "diameter_mm": 3.09,
+        "origin_mm": [
+          0.75,
+          57.04,
+          1009.89
+        ],
+        "axis": [
+          -0.0,
+          -0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:3",
+        "diameter_mm": 3.09,
+        "origin_mm": [
+          97.7,
+          57.04,
+          1009.83
+        ],
+        "axis": [
+          -0.0,
+          -0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:4",
+        "diameter_mm": 3.09,
+        "origin_mm": [
+          0.75,
+          -38.33,
+          1009.83
+        ],
+        "axis": [
+          -0.0,
+          -0.0,
+          -1.0
         ]
       }
     ],
@@ -261732,6 +265706,126 @@
           0.707,
           0.0,
           -0.707
+        ]
+      },
+      {
+        "component": "Traverse_Renfort_Bassin [ASV1_200_16A]",
+        "instance": "Traverse_Renfort_Bassin [ASV1_200_16A]:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          48.48,
+          47.69,
+          9.85
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "Traverse_Renfort_Bassin [ASV1_200_16A]",
+        "instance": "Traverse_Renfort_Bassin [ASV1_200_16A]:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          48.48,
+          -47.69,
+          9.85
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "Traverse_Renfort_Bassin [ASV1_200_16A]",
+        "instance": "Traverse_Renfort_Bassin [ASV1_200_16A]:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          -48.48,
+          -47.69,
+          9.85
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "Traverse_Renfort_Bassin [ASV1_200_16A]",
+        "instance": "Traverse_Renfort_Bassin [ASV1_200_16A]:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          -48.48,
+          47.69,
+          9.85
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "Traverse_Renfort_Bassin [ASV1_200_16A]",
+        "instance": "Traverse_Renfort_Bassin [ASV1_200_16A]:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          -56.08,
+          55.17,
+          9.85
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "Traverse_Renfort_Bassin [ASV1_200_16A]",
+        "instance": "Traverse_Renfort_Bassin [ASV1_200_16A]:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          -56.08,
+          -55.17,
+          9.85
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "Traverse_Renfort_Bassin [ASV1_200_16A]",
+        "instance": "Traverse_Renfort_Bassin [ASV1_200_16A]:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          56.08,
+          -55.17,
+          9.85
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "Traverse_Renfort_Bassin [ASV1_200_16A]",
+        "instance": "Traverse_Renfort_Bassin [ASV1_200_16A]:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          56.08,
+          55.17,
+          9.85
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
         ]
       },
       {
@@ -277243,6 +281337,1476 @@
           1.0,
           0.0
         ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          25.05,
+          1012.71
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          25.05,
+          1010.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          25.05,
+          998.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          -6.33,
+          1012.71
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          -6.33,
+          1010.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          -6.33,
+          998.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          11.35,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          -28.52,
+          1012.71
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          -28.52,
+          1010.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          -28.52,
+          998.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          -28.52,
+          1012.71
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          -28.52,
+          1010.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          -28.52,
+          998.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          -28.52,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          -6.33,
+          1012.71
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          -6.33,
+          1010.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          -6.33,
+          998.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          -6.33,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          25.05,
+          1012.71
+        ],
+        "axis": [
+          -0.0,
+          -0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          25.05,
+          1010.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          25.05,
+          998.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          87.11,
+          25.05,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          47.24,
+          1012.71
+        ],
+        "axis": [
+          -0.0,
+          -0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          47.24,
+          1010.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          47.24,
+          998.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          64.92,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          47.24,
+          1012.71
+        ],
+        "axis": [
+          -0.0,
+          -0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          47.24,
+          1010.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          47.24,
+          998.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          33.54,
+          47.24,
+          1012.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          38.83,
+          15.36,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          49.23,
+          21.37,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          59.63,
+          15.36,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          59.63,
+          3.35,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          49.23,
+          -2.65,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          38.83,
+          3.35,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          97.7,
+          -38.33,
+          1010.2
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          97.7,
+          -38.33,
+          2023.85
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          97.7,
+          -38.33,
+          1030.2
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          97.7,
+          -38.33,
+          1026.22
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:1",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          97.7,
+          -38.33,
+          1029.96
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:2",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          0.75,
+          57.04,
+          1010.2
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:2",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          0.75,
+          57.04,
+          2023.85
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:2",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          0.75,
+          57.04,
+          1030.2
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:2",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          0.75,
+          57.04,
+          1026.22
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:2",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          0.75,
+          57.04,
+          1029.96
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:3",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          97.7,
+          57.04,
+          1010.14
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:3",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          97.7,
+          57.04,
+          2023.79
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:3",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          97.7,
+          57.04,
+          1030.14
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:3",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          97.7,
+          57.04,
+          1026.16
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:3",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          97.7,
+          57.04,
+          1029.9
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:4",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          0.75,
+          -38.33,
+          1010.14
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:4",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          0.75,
+          -38.33,
+          2023.79
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:4",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          0.75,
+          -38.33,
+          1030.14
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:4",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          0.75,
+          -38.33,
+          1026.16
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+        "instance": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw:4",
+        "angle_deg": 90.0,
+        "origin_mm": [
+          0.75,
+          -38.33,
+          1029.9
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          -1.0
+        ]
       }
     ],
     "clearance_holes_m4_dia_4_5mm": [
@@ -281361,9 +286925,114 @@
         "instance": "Bride_Retenue_RB8016_L:1",
         "diameter_mm": 4.5,
         "origin_mm": [
-          8.0,
+          100.05,
+          51.39,
+          3160.4
+        ],
+        "axis": [
           0.0,
-          1070.0
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "Bride_Retenue_RB8016_L",
+        "instance": "Bride_Retenue_RB8016_L:2",
+        "diameter_mm": 4.5,
+        "origin_mm": [
+          14.41,
+          -32.68,
+          3160.4
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "Bride_Retenue_RB8016_L",
+        "instance": "Bride_Retenue_RB8016_L:3",
+        "diameter_mm": 4.5,
+        "origin_mm": [
+          14.41,
+          51.39,
+          3160.4
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "93475A230_18-8 Stainless Steel General Purpose Washer",
+        "instance": "93475A230_18-8 Stainless Steel General Purpose Washer:1",
+        "diameter_mm": 4.3,
+        "origin_mm": [
+          97.7,
+          -38.33,
+          1025.4
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "Bride_Retenue_RB8016_L",
+        "instance": "Bride_Retenue_RB8016_L:4",
+        "diameter_mm": 4.5,
+        "origin_mm": [
+          100.05,
+          -32.68,
+          3160.4
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "93475A230_18-8 Stainless Steel General Purpose Washer",
+        "instance": "93475A230_18-8 Stainless Steel General Purpose Washer:2",
+        "diameter_mm": 4.3,
+        "origin_mm": [
+          0.75,
+          57.04,
+          1025.4
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "93475A230_18-8 Stainless Steel General Purpose Washer",
+        "instance": "93475A230_18-8 Stainless Steel General Purpose Washer:3",
+        "diameter_mm": 4.3,
+        "origin_mm": [
+          97.7,
+          57.04,
+          1025.4
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "93475A230_18-8 Stainless Steel General Purpose Washer",
+        "instance": "93475A230_18-8 Stainless Steel General Purpose Washer:4",
+        "diameter_mm": 4.3,
+        "origin_mm": [
+          0.75,
+          -38.33,
+          1025.4
         ],
         "axis": [
           0.0,
@@ -282541,6 +288210,216 @@
           0.0,
           -1.0,
           0.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          11.35,
+          25.05,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          11.35,
+          -6.33,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          33.54,
+          -28.52,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          64.92,
+          -28.52,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          87.11,
+          -6.33,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          -0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          87.11,
+          25.05,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          64.92,
+          47.24,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+        "instance": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          33.54,
+          47.24,
+          1011.92
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          38.83,
+          15.36,
+          1007.42
+        ],
+        "axis": [
+          -0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          49.23,
+          21.37,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          59.63,
+          15.36,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          59.63,
+          3.35,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          49.23,
+          -2.65,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      },
+      {
+        "component": "91292A113_18-8 Stainless Steel Socket Head Screw",
+        "instance": "91292A113_18-8 Stainless Steel Socket Head Screw:1",
+        "diameter_mm": 5.5,
+        "origin_mm": [
+          38.83,
+          3.35,
+          1007.42
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          -1.0
         ]
       }
     ],
@@ -287586,7 +293465,31 @@
       "component_name": "Bride_Retenue_RB8016_L",
       "part_number": "Bride_Retenue_RB8016_L",
       "description": "",
+      "quantity": 4
+    },
+    "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws": {
+      "component_name": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+      "part_number": "92855A313_18-8 Stainless Steel Low-Profile Socket Head Screws",
+      "description": "",
       "quantity": 1
+    },
+    "91292A113_18-8 Stainless Steel Socket Head Screw": {
+      "component_name": "91292A113_18-8 Stainless Steel Socket Head Screw",
+      "part_number": "91292A113_18-8 Stainless Steel Socket Head Screw",
+      "description": "",
+      "quantity": 1
+    },
+    "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw": {
+      "component_name": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+      "part_number": "92290A154_Super-Corrosion-Resistant 316 Stainless Steel Socket Head Screw",
+      "description": "",
+      "quantity": 4
+    },
+    "93475A230_18-8 Stainless Steel General Purpose Washer": {
+      "component_name": "93475A230_18-8 Stainless Steel General Purpose Washer",
+      "part_number": "93475A230_18-8 Stainless Steel General Purpose Washer",
+      "description": "",
+      "quantity": 4
     }
   }
 }

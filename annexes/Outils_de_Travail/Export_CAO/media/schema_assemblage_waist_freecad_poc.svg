@@ -1,0 +1,328 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 950" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Grille technique millimétrique -->
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
+    </pattern>
+
+    <!-- Gradients matériaux -->
+    <linearGradient id="gradAlu7075" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8" />
+      <stop offset="50%" stop-color="#cbd5e1" />
+      <stop offset="100%" stop-color="#64748b" />
+    </linearGradient>
+
+    <linearGradient id="gradMotorDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="gradBearingSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.3" />
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.4" />
+    </linearGradient>
+
+    <linearGradient id="gradClampGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="50%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+
+    <linearGradient id="gradCyanAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+
+    <!-- Filtres d'ombre technique -->
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Fond canevas + Grille -->
+  <rect width="1600" height="950" fill="#0f172a" />
+  <rect width="1600" height="950" fill="url(#gridPattern)" />
+
+  <!-- ================= BANDEAU TITRE ET CARTOUCHE ================= -->
+  <g transform="translate(60, 40)">
+    <rect x="0" y="0" width="1480" height="90" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)" />
+    
+    <!-- Puce et titre -->
+    <rect x="25" y="24" width="8" height="42" rx="4" fill="url(#gradCyanAccent)" />
+    <text x="45" y="45" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="0.5">D-BOT V2 : VALIDATION DU POC ÉTALON BASSIN / WAIST (OPTION B AVEC CONGÉS &amp; CHANFREINS)</text>
+    <text x="45" y="68" fill="#94a3b8" font-size="14" font-weight="400">Architecture Hybride Souveraine : Assemblage FreeCAD 1.1 + Timeline Native PartDesign 8 Étapes (Fillet 3D + Chamfer 45°) + Import STEP</text>
+
+    <!-- Cartouche technique droite -->
+    <rect x="1140" y="15" width="315" height="60" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="1155" y="36" fill="#38bdf8" font-size="11" font-weight="700">DOCUMENT : DBot_Waist_Bassin_PoC.FCStd</text>
+    <text x="1155" y="52" fill="#94a3b8" font-size="11">TIMELINE : 8 ÉTAPES VALIDÉES (0 ERREUR)</text>
+    <text x="1155" y="67" fill="#22c55e" font-size="11" font-weight="600">STATUT : CONGÉS ET CHANFREINS COMPILÉS</text>
+  </g>
+
+  <!-- ================= PANNEAU 1 : EMPILEMENT Z MÉTROLOGIQUE (VUE COUPE / ÉLÉVATION) ================= -->
+  <g transform="translate(60, 160)">
+    <rect x="0" y="0" width="680" height="730" rx="14" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)" />
+    
+    <!-- En-tête panneau -->
+    <rect x="20" y="20" width="640" height="40" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="35" y="45" fill="#38bdf8" font-size="15" font-weight="700">PANNEAU 1 : EMPILEMENT GÉOMÉTRIQUE ET COUPE AXE YAW</text>
+    <text x="540" y="45" fill="#94a3b8" font-size="12">Centre X=49.23 / Y=9.36 mm</text>
+
+    <!-- Axe central Yaw -->
+    <line x1="340" y1="80" x2="340" y2="680" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="8 6" opacity="0.8" />
+    <text x="350" y="100" fill="#06b6d4" font-size="12" font-weight="600">AXE YAW (Lacet Torse)</text>
+
+    <!-- 1. Waist Plate 7075 avec congés R=10mm et chanfreins (Z = 1033.41 à 1042.44 mm) -->
+    <g transform="translate(140, 130)">
+      <rect x="0" y="0" width="400" height="35" rx="8" fill="url(#gradAlu7075)" stroke="#f8fafc" stroke-width="1.5" />
+      <!-- Alésage central Ø 80 mm avec chanfrein 0.4mm -->
+      <rect x="150" y="0" width="100" height="35" fill="#1e293b" stroke="#06b6d4" stroke-dasharray="3 3" />
+      <polygon points="148,0 152,4 152,0" fill="#06b6d4" />
+      <polygon points="252,0 248,4 248,0" fill="#06b6d4" />
+      <text x="15" y="22" fill="#0f172a" font-size="12" font-weight="700">WAIST PLATE 7075 (CONGÉS R=10 + CHANFREINS)</text>
+      <text x="270" y="22" fill="#0f172a" font-size="10">142 x 139 x 9.03 mm</text>
+      <!-- Cotes Z -->
+      <line x1="415" y1="0" x2="415" y2="35" stroke="#94a3b8" stroke-width="1.2" />
+      <text x="425" y="18" fill="#e2e8f0" font-size="11" font-weight="600">Z = 1042.4 mm (Haut)</text>
+      <text x="425" y="32" fill="#94a3b8" font-size="10">Z = 1033.4 mm (Assise)</text>
+    </g>
+
+    <!-- 2. Brides de Retenue RB8016 (STEP réel importé) -->
+    <g transform="translate(70, 168)">
+      <rect x="0" y="0" width="80" height="28" rx="3" fill="url(#gradClampGold)" stroke="#d97706" stroke-width="1" />
+      <text x="8" y="18" fill="#0f172a" font-size="10" font-weight="700">BRIDE OUEST</text>
+    </g>
+    <g transform="translate(530, 168)">
+      <rect x="0" y="0" width="80" height="28" rx="3" fill="url(#gradClampGold)" stroke="#d97706" stroke-width="1" />
+      <text x="14" y="18" fill="#0f172a" font-size="10" font-weight="700">BRIDE EST</text>
+    </g>
+
+    <!-- 3. Roulement à rouleaux croisés RB8016 (Z = 1017.40 à 1033.44 mm) -->
+    <g transform="translate(170, 180)">
+      <!-- Bague extérieure fixe (gauche et droite) -->
+      <rect x="0" y="0" width="55" height="50" rx="3" fill="url(#gradBearingSteel)" stroke="#38bdf8" stroke-width="1.5" />
+      <rect x="285" y="0" width="55" height="50" rx="3" fill="url(#gradBearingSteel)" stroke="#38bdf8" stroke-width="1.5" />
+      
+      <!-- Rouleaux croisés stylisés -->
+      <circle cx="27" cy="25" r="8" fill="#38bdf8" opacity="0.6" />
+      <circle cx="313" cy="25" r="8" fill="#38bdf8" opacity="0.6" />
+      
+      <!-- Bague intérieure tournante (gauche et droite) -->
+      <rect x="58" y="0" width="50" height="50" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1" />
+      <rect x="232" y="0" width="50" height="50" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1" />
+
+      <!-- Espace central dégagement moyeu -->
+      <text x="125" y="30" fill="#38bdf8" font-size="12" font-weight="700">RB8016 (Ø 120 x 80 mm)</text>
+      <!-- Cotes Z -->
+      <line x1="355" y1="0" x2="355" y2="50" stroke="#94a3b8" stroke-width="1.2" />
+      <text x="365" y="28" fill="#94a3b8" font-size="10">Ép. 16.0 mm (Z: 1017.4)</text>
+    </g>
+
+    <!-- 4. Moyeu Sandwich 7075 (Z = 1009.41 à 1033.03 mm) -->
+    <g transform="translate(225, 235)">
+      <rect x="0" y="0" width="230" height="42" rx="4" fill="url(#gradAlu7075)" stroke="#64748b" stroke-width="1" />
+      <text x="25" y="26" fill="#0f172a" font-size="12" font-weight="700">MOYEU SANDWICH 7075 (Ø 91.5 mm)</text>
+      <!-- Cotes Z -->
+      <line x1="245" y1="0" x2="245" y2="42" stroke="#94a3b8" stroke-width="1.2" />
+      <text x="255" y="24" fill="#94a3b8" font-size="10">Ép. 23.6 mm</text>
+    </g>
+
+    <!-- 5. Traverse Renfort Bassin avec 4 fraisures FHC (Z = 1007.90 à 1020.41 mm) -->
+    <g transform="translate(150, 285)">
+      <rect x="0" y="0" width="380" height="38" rx="4" fill="#475569" stroke="#94a3b8" stroke-width="1.5" />
+      <!-- Dégagement passage rotor -->
+      <rect x="130" y="0" width="120" height="38" fill="#1e293b" stroke="#94a3b8" stroke-dasharray="3 3" />
+      <!-- Fraisures coniques stylisées -->
+      <polygon points="25,0 35,0 31,8 29,8" fill="#38bdf8" />
+      <polygon points="345,0 355,0 351,8 349,8" fill="#38bdf8" />
+      <text x="45" y="24" fill="#f8fafc" font-size="12" font-weight="700">TRAVERSE BASSIN (4x FRAISURES FHC 90°)</text>
+      <!-- Cotes Z -->
+      <line x1="395" y1="0" x2="395" y2="38" stroke="#94a3b8" stroke-width="1.2" />
+      <text x="405" y="22" fill="#94a3b8" font-size="10">Z = 1007.9 mm</text>
+    </g>
+
+    <!-- 6. Moteur RobStride RS06 (Z = 958.90 à 1009.44 mm) -->
+    <g transform="translate(200, 335)">
+      <!-- Rotor tournant (Z = 999.44 à 1009.44) -->
+      <rect x="40" y="0" width="200" height="24" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="65" y="16" fill="#f8fafc" font-size="11" font-weight="700">ROTOR SORTIE RS06 (131 N.m)</text>
+
+      <!-- Stator et Carter (Z = 958.90 à 999.44) -->
+      <rect x="15" y="26" width="250" height="110" rx="6" fill="url(#gradMotorDark)" stroke="#475569" stroke-width="1.5" />
+      <!-- Ailettes thermiques -->
+      <line x1="25" y1="50" x2="255" y2="50" stroke="#334155" stroke-width="2" />
+      <line x1="25" y1="75" x2="255" y2="75" stroke="#334155" stroke-width="2" />
+      <line x1="25" y1="100" x2="255" y2="100" stroke="#334155" stroke-width="2" />
+
+      <!-- Fond fermé / Carter borgne (Règle matérielle RobStride) -->
+      <rect x="55" y="136" width="170" height="18" rx="3" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+      <text x="62" y="149" fill="#ef4444" font-size="10" font-weight="700">CARTER BORNE FERME (ARBRE PLEIN)</text>
+      
+      <text x="65" y="70" fill="#f8fafc" font-size="13" font-weight="700">ROBSTRIDE RS06 (QDD 48V)</text>
+      <text x="85" y="90" fill="#94a3b8" font-size="11">Ø 85.3 mm - Hauteur 50.5 mm</text>
+      <!-- Cotes Z -->
+      <line x1="280" y1="0" x2="280" y2="145" stroke="#94a3b8" stroke-width="1.2" />
+      <text x="290" y="75" fill="#94a3b8" font-size="10">Z = 958.9 mm (Base)</text>
+    </g>
+
+    <!-- Zone métrologique de bas de panneau -->
+    <rect x="20" y="525" width="640" height="185" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="35" y="550" fill="#f59e0b" font-size="13" font-weight="700">SYNTHÈSE GÉOMÉTRIQUE : CONGÉS ET CHANFREINS INTÉGRÉS</text>
+    
+    <text x="35" y="580" fill="#94a3b8" font-size="12">• Congés Coins Extérieurs :</text>
+    <text x="240" y="580" fill="#22c55e" font-size="12" font-weight="700">PartDesign::Fillet R = 10.0 mm (4 arêtes verticales)</text>
+    
+    <text x="35" y="605" fill="#94a3b8" font-size="12">• Chanfreins d'Ébavurage :</text>
+    <text x="240" y="605" fill="#22c55e" font-size="12" font-weight="700">PartDesign::Chamfer 0.40 mm x 45° (Alésage + Trous M4/M6)</text>
+    
+    <text x="35" y="630" fill="#94a3b8" font-size="12">• Fraisures Traverse Bassin :</text>
+    <text x="240" y="630" fill="#f8fafc" font-size="12" font-weight="600">4x Fraisures coniques 90° FHC M5 (Ø 10.4 mm x 3.1 mm)</text>
+    
+    <text x="35" y="655" fill="#94a3b8" font-size="12">• Alésage &amp; Lamage :</text>
+    <text x="240" y="655" fill="#f8fafc" font-size="12" font-weight="600">Ø 80.00 mm traversant + Lamage Ø 89.62 mm x 2.5 mm</text>
+
+    <text x="35" y="680" fill="#94a3b8" font-size="12">• Volume Usiné Final :</text>
+    <text x="240" y="680" fill="#38bdf8" font-size="12" font-weight="700">127 880.4 mm3 (Conforme aux cotes brutes ébavurées)</text>
+  </g>
+
+  <!-- ================= PANNEAU 2 : TIMELINE NATIVE FREECAD 8 ÉTAPES ================= -->
+  <g transform="translate(760, 160)">
+    <rect x="0" y="0" width="780" height="730" rx="14" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)" />
+    
+    <!-- En-tête panneau -->
+    <rect x="20" y="20" width="740" height="40" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="35" y="45" fill="#22c55e" font-size="15" font-weight="700">PANNEAU 2 : ARBRE D'ASSEMBLAGE ET TIMELINE FREECAD 8 ÉTAPES</text>
+    <text x="615" y="45" fill="#38bdf8" font-size="12">PartDesign::Body</text>
+
+    <!-- Arbre d'assemblage FreeCAD (Gauche) -->
+    <g transform="translate(25, 80)">
+      <rect x="0" y="0" width="350" height="625" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="15" y="28" fill="#38bdf8" font-size="13" font-weight="700">ARBORESCENCE ASSEMBLY (App::Part)</text>
+      
+      <!-- Racine -->
+      <g transform="translate(15, 45)">
+        <rect x="0" y="0" width="315" height="26" rx="4" fill="#334155" />
+        <text x="10" y="18" fill="#f8fafc" font-size="11" font-weight="700">D_Bot_Waist_Assembly [App::Part]</text>
+      </g>
+
+      <!-- Branche Statique -->
+      <line x1="30" y1="72" x2="30" y2="245" stroke="#64748b" stroke-width="1.5" />
+      
+      <g transform="translate(45, 80)">
+        <rect x="0" y="0" width="275" height="24" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1" />
+        <text x="8" y="16" fill="#cbd5e1" font-size="11" font-weight="600">01_Statique_Pelvis [App::Part]</text>
+      </g>
+
+      <g transform="translate(65, 110)">
+        <text x="0" y="14" fill="#94a3b8" font-size="10">• RS06_v1_Stator_Carter</text>
+        <text x="0" y="29" fill="#94a3b8" font-size="10">• Traverse_Renfort_Bassin (4x FHC)</text>
+        <text x="0" y="44" fill="#94a3b8" font-size="10">• RB8016_Bague_Exterieure</text>
+        <text x="0" y="59" fill="#fbbf24" font-size="10">• 4x Bride_Retenue_RB8016 (STEP)</text>
+      </g>
+
+      <!-- Branche Mobile -->
+      <line x1="30" y1="190" x2="30" y2="590" stroke="#64748b" stroke-width="1.5" />
+
+      <g transform="translate(45, 190)">
+        <rect x="0" y="0" width="275" height="24" rx="4" fill="#1e293b" stroke="#06b6d4" stroke-width="1" />
+        <text x="8" y="16" fill="#38bdf8" font-size="11" font-weight="600">02_Mobile_Torse_Yaw [App::Part]</text>
+      </g>
+
+      <g transform="translate(65, 220)">
+        <text x="0" y="14" fill="#94a3b8" font-size="10">• RS06_v1_Rotor_Sortie (Yaw)</text>
+        <text x="0" y="29" fill="#94a3b8" font-size="10">• Moyeu_Waist_Sandwich_7075</text>
+        <text x="0" y="44" fill="#94a3b8" font-size="10">• RB8016_Bague_Interieure</text>
+      </g>
+
+      <!-- Branche Focus : Waist Plate PartDesign 8 étapes -->
+      <g transform="translate(55, 280)">
+        <rect x="0" y="0" width="265" height="30" rx="4" fill="#065f46" stroke="#10b981" stroke-width="1.5" />
+        <text x="8" y="20" fill="#ecfdf5" font-size="11" font-weight="700">Waist_Plate_7075 [PartDesign::Body]</text>
+      </g>
+
+      <g transform="translate(75, 320)">
+        <rect x="0" y="0" width="235" height="285" rx="4" fill="#064e3b" stroke="#059669" stroke-width="1" />
+        <text x="10" y="22" fill="#a7f3d0" font-size="10" font-weight="700">TIMELINE ACTIVE (8 ÉTAPES) :</text>
+        <text x="10" y="48" fill="#e2e8f0" font-size="10">1. Sketch_Contour_Base</text>
+        <text x="10" y="74" fill="#e2e8f0" font-size="10">2. Pad_Epaisseur_9mm</text>
+        <text x="10" y="100" fill="#34d399" font-size="10" font-weight="700">3. Fillet_Coins_Exterieurs (R=10)</text>
+        <text x="10" y="126" fill="#e2e8f0" font-size="10">4. Sketch_Alesages_Traversants</text>
+        <text x="10" y="152" fill="#e2e8f0" font-size="10">5. Pocket_Percages_Traversants</text>
+        <text x="10" y="178" fill="#e2e8f0" font-size="10">6. Sketch_Lamage_Centrage</text>
+        <text x="10" y="204" fill="#e2e8f0" font-size="10">7. Pocket_Lamage_Centrage</text>
+        <text x="10" y="230" fill="#38bdf8" font-size="10" font-weight="700">8. Chamfer_Ebavurage (0.4mm)</text>
+        <text x="10" y="265" fill="#6ee7b7" font-size="10" font-style="italic">Re-calculable et éditable</text>
+      </g>
+    </g>
+
+    <!-- Détail des 8 opérations (Droite) -->
+    <g transform="translate(395, 80)">
+      <rect x="0" y="0" width="365" height="625" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="15" y="28" fill="#22c55e" font-size="13" font-weight="700">ENCHAÎNEMENT DYNAMIQUE DES 8 FONCTIONS</text>
+
+      <!-- Étape 1 à 3 : Base + Pad + Congés -->
+      <g transform="translate(15, 45)">
+        <rect x="0" y="0" width="335" height="85" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1" />
+        <circle cx="20" cy="22" r="10" fill="#0284c7" />
+        <text x="16" y="26" fill="#ffffff" font-size="11" font-weight="700">1</text>
+        <text x="38" y="25" fill="#f8fafc" font-size="12" font-weight="700">Contour + Pad + Fillet R=10 mm</text>
+        <text x="38" y="45" fill="#94a3b8" font-size="11">• Contour 142.12 x 139.06 x 9.03 mm</text>
+        <text x="38" y="65" fill="#34d399" font-size="11" font-weight="600">• 4x Congés PartDesign::Fillet R=10.0 mm</text>
+      </g>
+
+      <!-- Flèche -->
+      <path d="M 180 135 L 180 148" stroke="#10b981" stroke-width="2" />
+
+      <!-- Étape 4 à 5 : Alésages et perçages -->
+      <g transform="translate(15, 150)">
+        <rect x="0" y="0" width="335" height="95" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1" />
+        <circle cx="20" cy="22" r="10" fill="#0284c7" />
+        <text x="16" y="26" fill="#ffffff" font-size="11" font-weight="700">2</text>
+        <text x="38" y="25" fill="#f8fafc" font-size="12" font-weight="700">Alésage Ø 80 + 8 Trous Traversants</text>
+        <text x="38" y="45" fill="#94a3b8" font-size="11">• Alésage central Ø 80.0 mm H7</text>
+        <text x="38" y="65" fill="#94a3b8" font-size="11">• 4x M4 (Ø 4.5 mm) + 4x M6 (Ø 7.5 mm)</text>
+        <text x="38" y="85" fill="#38bdf8" font-size="11" font-weight="600">• Enlèvement traversant Pocket 10.0 mm</text>
+      </g>
+
+      <!-- Flèche -->
+      <path d="M 180 250 L 180 263" stroke="#10b981" stroke-width="2" />
+
+      <!-- Étape 6 à 7 : Lamage -->
+      <g transform="translate(15, 265)">
+        <rect x="0" y="0" width="335" height="80" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1" />
+        <circle cx="20" cy="22" r="10" fill="#0284c7" />
+        <text x="16" y="26" fill="#ffffff" font-size="11" font-weight="700">3</text>
+        <text x="38" y="25" fill="#f8fafc" font-size="12" font-weight="700">Lamage Centrage Roulement RB8016</text>
+        <text x="38" y="45" fill="#94a3b8" font-size="11">• Cercle Ø 89.62 mm pour épaulement bague</text>
+        <text x="38" y="65" fill="#f8fafc" font-size="11">• Pocket borgne de profondeur 2.50 mm</text>
+      </g>
+
+      <!-- Flèche -->
+      <path d="M 180 350 L 180 363" stroke="#10b981" stroke-width="2" />
+
+      <!-- Étape 8 : Chanfreins d'ébavurage -->
+      <g transform="translate(15, 365)">
+        <rect x="0" y="0" width="335" height="95" rx="6" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5" />
+        <circle cx="20" cy="22" r="10" fill="#06b6d4" />
+        <text x="16" y="26" fill="#ffffff" font-size="11" font-weight="700">4</text>
+        <text x="38" y="25" fill="#f8fafc" font-size="12" font-weight="700">PartDesign::Chamfer (0.40 mm x 45°)</text>
+        <text x="38" y="45" fill="#94a3b8" font-size="11">• Chanfrein d'entrée sur l'alésage Ø 80 mm</text>
+        <text x="38" y="65" fill="#94a3b8" font-size="11">• Ébavurage 45° sur les 4 perçages M4 et M6</text>
+        <text x="38" y="85" fill="#22c55e" font-size="11" font-weight="700">• Élimination totale du morfil d'usinage</text>
+      </g>
+
+      <!-- Instructions FreeCAD -->
+      <g transform="translate(15, 480)">
+        <rect x="0" y="0" width="335" height="125" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+        <text x="15" y="25" fill="#10b981" font-size="12" font-weight="700">TEST IMMÉDIAT DANS FREECAD 1.1 :</text>
+        <text x="15" y="50" fill="#e2e8f0" font-size="11">Double-cliquez sur "03_Fillet_Coins_Exterieurs"</text>
+        <text x="15" y="70" fill="#94a3b8" font-size="10">Passez le rayon de 10.0 mm à 15.0 mm,</text>
+        <text x="15" y="90" fill="#e2e8f0" font-size="11">Ou double-cliquez sur "08_Chamfer_Ebavurage"</text>
+        <text x="15" y="110" fill="#22c55e" font-size="10">Tout l'arbre géométrique se recalcule en direct !</text>
+      </g>
+    </g>
+  </g>
+</svg>

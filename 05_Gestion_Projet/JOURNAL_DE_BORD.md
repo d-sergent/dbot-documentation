@@ -2,7 +2,39 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-09-26 (Session Soirée) — Déploiement Pipeline CAO Souverain Fusion 360 ➔ FreeCAD 1.1, Macro Couleurs Composants & Validation Métrologique Torse v100 (Traverse Débouchante & Chanfreins 45°)
+
+### 🎯 Objectif de la session
+1. **Pipeline d'Export CAO Souverain & Indépendance Logicielle (Fusion 360 ➔ FreeCAD 1.1)** :
+   - Mise en place de l'arborescence modulaire pérenne `/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/` pour l'ensemble des sous-ensembles du robot (`00_Robot_Complet`, `01_Torse_et_Bassin`, `02_Tete_et_Cou`, `03_Bras_et_Epaules`, `04_Mains_DHand`, `05_Jambes_et_Hanches`, `Bibliotheque_Composants_STEP`).
+   - Création du script Fusion 360 [`Code/scripts/fusion360/ExportSovereignCAD/ExportSovereignCAD.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/fusion360/ExportSovereignCAD/ExportSovereignCAD.py) extrayant unitairement les fichiers STEP B-Rep dédupliqués et générant le manifeste spatial exact 4x4 (`dbot_cad_manifest.json`).
+   - Création du reconstructeur automatisé [`Code/scripts/freecad/import_sovereign_cad.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/freecad/import_sovereign_cad.py) reconstruisant l'assemblage complet dans FreeCAD (`DBot_Torse_et_Bassin_Souverain.FCStd`, 114 Mo, 183 pièces) avec une précision micrométrique.
+   - Création du script de texturation d'ingénierie [`Code/scripts/freecad/apply_materials_and_colors.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/freecad/apply_materials_and_colors.py) injectant les teintes réalistes (Alu 7075-T6 satiné, Carbone PA12-CF mat, Moteurs RobStride noir titane anodisé, Acier à roulement poli miroir, Inox A4-80) et forçant la visibilité native (`Visibility = True`) à l'ouverture.
+   - Création et déploiement de la macro FreeCAD [`ToggleComponentColors.FCMacro`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/freecad/ToggleComponentColors.FCMacro) dans `~/Library/Application Support/FreeCAD/v1-1/Macro/` émulant le raccourci Shift+N de Fusion 360 pour basculer instantanément entre couleurs aléatoires pastel et finitions réelles.
+   - Rédaction du guide de référence complet [`Annexes/Outils_de_Travail/Export_CAO/GUIDE_Sauvegarde_Souveraine_Fusion360_vers_FreeCAD.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/Outils_de_Travail/Export_CAO/GUIDE_Sauvegarde_Souveraine_Fusion360_vers_FreeCAD.md).
+
+2. **Validation Métrologique & Usinage Torse v99 / v100 (Traverse Renfort Bassin & Brides RB8016)** :
+   - Audit métrologique de la pièce `Traverse_Renfort_Bassin` : confirmation du diamètre de pré-perçage M4 à 3,332 mm et du cercle primitif PCD Ø 136,01 mm (R = 68,00 mm) avec répétition circulaire 4x.
+   - Ajustement d'atelier validé : passage du perçage en **débouchant intégral (Through All)** sur l'épaisseur de 10,0 mm pour éliminer tout risque de talonnage des 4 vis CHC M4 x 16 mm (McMaster `92290A154`) pénétrant de 10,20 mm sous les brides.
+   - Ébavurage d'atelier : ajout des 4 chanfreins d'entrée coniques à 45,0° (0,3 mm) sur la face supérieure d'assise (Z = 10,0 mm) garantissant un contact métal-métal parfaitement plan à 0,0 mm sous la semelle de chaque bride de retenue.
+   - Concentricité : écart résiduel entre les trous de passage Ø 4,5 mm des 4 brides étagées en L et les taraudages de la traverse mesuré à seulement 35 micromètres (0,035 mm).
+   - Bilan global d'assemblage consolidé : masse totale Torse + Bassin arrêtée à **18,42 kg**, 367 instances (99 références de nomenclature), centre de gravité au niveau du plexus (Z = 1122,16 mm).
+
+### 📝 Réalisations & Évolutions
+1. **Outils & Scripts Créés** :
+   - [`ExportSovereignCAD.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/fusion360/ExportSovereignCAD/ExportSovereignCAD.py) (Add-in Fusion 360)
+   - [`import_sovereign_cad.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/freecad/import_sovereign_cad.py) (Reconstructeur FreeCAD)
+   - [`apply_materials_and_colors.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/freecad/apply_materials_and_colors.py) (Stylisation & Matériaux)
+   - [`ToggleComponentColors.FCMacro`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/freecad/ToggleComponentColors.FCMacro) (Macro Couleurs Composants)
+   - [`GUIDE_Sauvegarde_Souveraine_Fusion360_vers_FreeCAD.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/Outils_de_Travail/Export_CAO/GUIDE_Sauvegarde_Souveraine_Fusion360_vers_FreeCAD.md)
+2. **Métrologie & Données Actualisées** :
+   - [`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json) (Torse v100)
+   - [`SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md) (Torse v100)
+
+---
+
 ## 📅 2026-09-26 — Contrôle Métrologique RB8016 Reçu (EFANT P4/P2), Validation Traverse Bassin v97 (Option 1 Tête Basse McMaster 92855A313), Quincaillerie Rotor (91292A113) & Harmonisation BOM 18,36 kg
+
 
 ### 🎯 Objectif de la session
 1. **Contrôle Métrologique & Intégration du Roulement à Rouleaux Croisés RB8016 Reçu** :
