@@ -16,6 +16,18 @@ Le montage reBOT B601 contourne ce problème en intercalant une **butée à aigu
 1. **L'effort axial de compression** venant du maillon (Link 1) traverse la butée à aiguilles et est transféré directement dans la platine en aluminium usiné CNC (`2-RSM1-STATOR-2`), puis redirigé vers l'embase via **4 tirants M4×70 mm**.
 2. **Le rotor du moteur** ne transmet ainsi que le **couple pur en rotation**, libéré de toute contrainte de poussée axiale.
 
+### 📐 Plan d'Encombrement Constructeur RobStride RS-06
+
+Le schéma constructeur officiel du RobStride RS-06 précise les dimensions clés d'intégration mécanique :
+- **Diamètre hors-tout carter** : Ø 88,0 mm
+- **Entraxe perçages Stator** : 8 taraudages M3 (profondeur 8,5 mm) répartis à 45° sur PCD Ø 82,0 mm
+- **Entraxe perçages Rotor** : 6 taraudages M4 (profondeur 6,0 mm) sur PCD Ø 24,0 mm
+- **Centrage pilote rotor** : Épaulement Ø 52,0 mm (-0,05 mm)
+- **Centrage stator arrière** : Ø 70,0 mm
+- **Longueur totale axiale** : 49,0 mm (dont 33,0 mm de corps stator)
+
+![Plan d'encombrement et cotations constructeur RobStride RS-06](./assets/rs06_dim.jpg)
+
 ---
 
 ## 2. Spécifications & Identification du Roulement

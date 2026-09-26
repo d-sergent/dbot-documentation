@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity & David Sergent",
+	"description":	{
+		"":	"Modélisation automatique et export STEP de la Bride en L (Bride_Retenue_RB8016_L) pour le Waist D-Bot V1"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

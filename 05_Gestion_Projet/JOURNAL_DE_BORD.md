@@ -2,6 +2,71 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-09-26 — Contrôle Métrologique RB8016 Reçu (EFANT P4/P2), Validation Traverse Bassin v97 (Option 1 Tête Basse McMaster 92855A313), Quincaillerie Rotor (91292A113) & Harmonisation BOM 18,36 kg
+
+### 🎯 Objectif de la session
+1. **Contrôle Métrologique & Intégration du Roulement à Rouleaux Croisés RB8016 Reçu** :
+   - Dépouillement du certificat d'inspection constructeur officiel (*Luoyang E-find Precision Bearing Manufacturing Co., Ltd / EFANT*, Rapport de contrôle N° 01 émis le 15/09/2026).
+   - Validation dimensionnelle unitaire : alésage intérieur `d = 79,996 mm` (tolérance constructeur 0 / -15 µm, écart effectif -4 µm), diamètre extérieur `D = 119,995 mm` (tolérance 0 / -18 µm, écart effectif -5 µm), largeur d'assemblage `B = 15,965 mm` (tolérance 0 / -120 µm, écart effectif -35 µm).
+   - Contrôle du battement et faux-rond : faux-rond radial intérieur `Kia = 0,003 mm` (3 µm) et faux-rond axial `Sia = 0,003 mm` (3 µm), surclassant la classe nominale P5 pour atteindre la classe de très haute précision **P4 / P2** (runout < 4 µm).
+   - Embarquement du rapport de contrôle dans [`DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md) (§3.4 et §8) et archivage du cliché sous `media/test_report_efant_rb8016.jpg`.
+2. **Arbitrage Mécanique & Validation de la Traverse Renfort Bassin (`Torse v97`)** :
+   - Validation du contact plan métal-métal à 0,00 mm (Angle 0,00 deg) entre le bossage inférieur de la traverse (descendant de 2,49 mm à `Z = 1007,90 mm`) et le carter stator du moteur RobStride RS-06 pour une rigidité et une dissipation thermique maximales.
+   - Validation de l'alésage central traversant Ø 74,56 mm assurant un jeu radial franc de 11,28 mm autour du rotor Ø 52 mm et du fût du moyeu d'accouplement.
+   - Siège roulement usiné à Ø 120,00 mm H7 (profondeur 3,00 mm) et fixation au pelvis assainie sur les 4 vis d'angles FHC M5 × 25 mm affleurantes à 0,0 mm.
+3. **Validation de l'Option 1 (Vis CHC M3 Tête Basse DIN 7984 McMaster `92855A313`) pour le Stator RS-06** :
+   - Choix de l'Option 1 à vis tête basse DIN 7984 M3 × 12 mm en Inox 18-8 (hauteur sous tête 2,0 mm, pas standard 0,5 mm) avec lamages Ø 6,0 mm usinés sur le plan d'assise `Z = 1010,93 mm` (épaisseur bride 3,03 mm).
+   - Résultat cinématique : sommet des têtes à `Z = 1012,93 mm`, ménageant un **entrefer axial franc de 1,48 mm** sous la collerette tournante du `Moyeu_Waist_Sandwich_7075` (`Z = 1014,41 mm`), proscrivant tout frottement dynamique sans nécessiter de fraisage conique ni affaiblir la matière. Pénétration filetée dans le stator de 8,97 mm.
+4. **Spécification de la Boulonnerie Rotor RS-06 ➔ Moyeu Sandwich (McMaster `91292A113`)** :
+   - Identification et validation de la référence McMaster-Carr **`91292A113`** (Vis CHC M3 × 10 mm DIN 912 en Inox 18-8) / alternative Inox 316 **`92290A113`** pour fixer le rotor RS-06 sous l'embase du Moyeu Sandwich (6 perçages sur PCD Ø 24,0 mm).
+   - Procédure d'insertion directe 3D STEP sous Fusion 360, contrainte `Rigid Joint` et répétition circulaire (`Circular Pattern`) documentées.
+5. **Modélisation & Scripting des Brides Étagées en L (`Bride_Retenue_RB8016_L`)** :
+   - Création du script Python Fusion 360 [`Code/scripts/fusion360/ModeliserBrideRB8016/ModeliserBrideRB8016.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/fusion360/ModeliserBrideRB8016/ModeliserBrideRB8016.py) et de son manifeste.
+   - Génération du composant STEP dédié `Bride_Retenue_RB8016_L` (16 × 15 × 15 mm, bec 2 mm sur bague extérieure Ø 120 mm, épaulement 13 mm) et documentation du protocole d'assemblage en liaison rigide sur plan d'appui avec répétition circulaire ×4.
+6. **Harmonisation Métrologique Torse v97 & Bilan Massique Réel (18,36 kg)** :
+   - Réalignement strict de [`FINAL_BOM_Torse_et_Waist_D-Bot.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_BOM_Torse_et_Waist_D-Bot.md) sur l'audit métrologique v97 : 354 composants physiques, 95 références uniques au BOM, masse totale Torse + Bassin arrêtée à **18,36 kg** (au lieu de l'ancienne estimation théorique v88 de 14,47 kg).
+   - Bilan global bipède projeté : intégration des 12 actionneurs des membres inférieurs (Phase 4 100% acquise : 4× RS-04 = 5,68 kg + 8× RS-03 = 7,04 kg, total 13,92 kg), portant l'estimation de la masse totale du robot complet debout à **~38,8 kg**.
+7. **Gestion Thermique Stator RS-06 & Prospective R&D Waist Pitch 2 DoF** :
+   - Ajout d'une section dédiée à la dissipation thermique (§5.6) dans le dossier technique Waist : conduction via la traverse 7075-T6 (247 g), convection passive par 4 lumières oblongues 20×8 mm, et pré-équipement actif pour ventilateur 30 mm PWM (Noctua NF-A3x10).
+   - Création de l'étude prospective R&D de Niveau 2 [`STUDY_Waist_Pitch_Evolution_2DoF.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Waist_Pitch_Evolution_2DoF.md) pour l'intégration modulaire future du pitch de bassin sans refonte du torse.
+   - Nettoyage et archivage des documents obsolètes dans `00_Archives_Recherche/`.
+   - Intégration du plan d'encombrement coté constructeur du RobStride RS-06 (`rs06_dim.jpg`) dans [`24_Bracket_RS06_Reprise_Effort_Axial.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/mecanique/24_Bracket_RS06_Reprise_Effort_Axial.md).
+
+### 📝 Réalisations & Évolutions
+1. **Dossiers Techniques & Nomenclatures Synchronisés** :
+   - [`DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md) : Rapport métrologique EFANT RB8016 N° 01 inséré (§3.4), Option 1 tête basse DIN 7984 McMaster `92855A313` validée (§7.2, §7.4, §7.5), thermique RS-06 documentée (§5.6), tableau des chanfreins et fraisures mis à jour (§5.7), 42 liens de sommaire vérifiés et 100% valides.
+   - [`FINAL_BOM_Torse_et_Waist_D-Bot.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_BOM_Torse_et_Waist_D-Bot.md) : Budget masse recalibré à 18,36 kg (v97), ligne WST-05 RB8016 passée à "✅ Reçu & Contrôlé (15/09/2026)", section 3.5 ajoutée pour les membres inférieurs Phase 4 (13,92 kg moteurs, total debout ~38,8 kg), 19 liens de sommaire vérifiés et 100% valides.
+   - [`FINAL_Liste_Achats_BOM.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/FINAL_Liste_Achats_BOM.md) : Lignes visserie McMaster Waist ajoutées (`91292A113` M3×10 rotor, `92855A313` M3×12 tête basse stator, `92290A154` M4×16 brides, `92125A230` M5×25 FHC) et roulement RB8016 EFANT passé en "✅ Reçu & Contrôlé Métrologie", 21 liens de sommaire vérifiés et 100% valides.
+   - [`todo_court_terme.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/todo_court_terme.md) : Tâches Traverse Renfort Bassin, Brides Étagées en L et Contrôle Métrologique RB8016 validées.
+   - [`STUDY_Waist_Pitch_Evolution_2DoF.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Waist_Pitch_Evolution_2DoF.md) : Étude prospective rédigée et intégrée avec 21 liens de sommaire 100% valides.
+2. **Schémas Vectoriels SVG Réalignés** :
+   - Mise à jour des blueprints [`schema_cao_assemblage_waist_rs06_fusion360.svg`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/media/schema_cao_assemblage_waist_rs06_fusion360.svg), [`plan_technique_platine_interface_waist_7075.svg`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/media/plan_technique_platine_interface_waist_7075.svg), [`schema_principe_brides_retenue_rb8016_waist.svg`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/media/schema_principe_brides_retenue_rb8016_waist.svg) et [`schema_moyeu_accouplement_waist_sandwich_rs06.svg`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/media/schema_moyeu_accouplement_waist_sandwich_rs06.svg) reflétant la réalité CAO v97.
+
+---
+
+## 📅 2026-09-24 — Acquisition Massive Motorisation RobStride (+9× RS-03, +4× RS-04), Phase 4 Jambes 100% Motorisée (23/27 Moteurs Acquis — 85,2%) & Ajustement CAO Torse v96 (Redan 3,0 mm)
+
+### 🎯 Objectif de la session
+1. **Acquisition Stratégique de la Motorisation RobStride** :
+   - Commande/acquisition additionnelle de **9 moteurs RobStride RS-03** (60 N.m pic) et **4 moteurs RobStride RS-04** (120 N.m pic).
+   - **Bilan Global Robot Bipède** : Le contingent RobStride passe de 10 à **23 moteurs acquis sur 27 (85,2 % de la motorisation complète)**.
+   - **Membres Inférieurs (Phase 4 — 12 DOF)** : **100% motorisés**. Les 12 actionneurs de forte puissance sont tous financés et acquis : 2× RS-04 (Hanches Pitch) + 2× RS-04 (Genoux) + 4× RS-03 (Hanches Roll & Yaw) + 4× RS-03 (Chevilles Pitch & Roll en cardan différentiel).
+   - **Membres Supérieurs (Phases 2 & 3 — 12 DOF)** : Les deux bras disposent de leurs moteurs de puissance d'épaule (2× RS-04 Pitch + 2× RS-03 Roll) et de leurs deux coudes (2× RS-03 Pitch). Seuls 4 moteurs subsistent à acquérir sur l'intégralité du robot (1× RS-02 épaule yaw bras 2, 1× RS-00 poignet pitch bras 2, et les 2 moteurs de supination avant-bras RS-10P ou RS-02).
+   - Rappel : La motorisation des deux mains D-Hand (Phase 5 — 16 DOF) est déjà 100% acquise (10× Feetech STS3250 + 6× Feetech HL-3915).
+2. **Alignement CAO Torse v96 & Interface Waist** :
+   - Validation de l'alésage Ø 102,0 mm et du lamage Ø 120,0 mm H7 sous la traverse de bassin, calant le roulement à rouleaux croisés RB8016.
+   - Augmentation du redan inférieur de la `Waist_Plate_7075` de 1,5 mm à 3,0 mm pour loger les 4 brides étagées en L de retenue axiale du roulement avec un entrefer franc de 1,0 mm.
+   - Contrôle métrologique de la visserie sandwich : les 4 vis CHC M4 × 20 mm garantissent un engagement de 7,08 mm dans les taraudages borgnes du `Moyeu_Waist_Sandwich_7075` (charge à la rupture filet > 17 kN face aux 2,4 kN de traction max, facteur de sécurité Sf > 7,08).
+
+### 📝 Réalisations & Évolutions
+1. **Nomenclature & Gestion de Projet Synchronisées** :
+   - [`05_Gestion_Projet/FINAL_Liste_Achats_BOM.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/FINAL_Liste_Achats_BOM.md) : Tableau synthétique actualisé (RS-04 = 6/6, RS-03 = 12/12, Total RobStride = 23/27, Reste = 4 moteurs). Phase 3 et Phase 4 actualisées à 100% pour les coudes et les 12 DOF des jambes. Sommaire 100% synchronisé.
+   - [`01_Mecanique_et_Chassis/Jambes_et_Pieds/FINAL_CONSOLIDE_Jambes_et_Pieds.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Jambes_et_Pieds/FINAL_CONSOLIDE_Jambes_et_Pieds.md) : Entrées MOT-01, MOT-02, MOT-03 et MOT-04 passées en statut "✅ Achetés".
+   - [`05_Gestion_Projet/ROADMAP_STRATEGIQUE_V1.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/ROADMAP_STRATEGIQUE_V1.md) : Niveau 4 actualisé avec la disponibilité de 85,2% des actionneurs.
+   - [`05_Gestion_Projet/todo_court_terme.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/todo_court_terme.md) : Entrée consolidée insérée dans les jalons validés.
+
+---
+
 ## 📅 2026-09-22 — Intégration Quincaillerie Structurelle Torse V94 (306 Composants), Correction Entraxe Cou 30×50 mm & Automatisation Standard Renommage
 
 ### 🎯 Objectif de la session

@@ -73,10 +73,10 @@ Cette configuration a été validée par les études biomécaniques (15c, 15d,
 
 | Réf. | Désignation | Spécifications | Quantité (2 jambes) | Fournisseur | Prix unitaire (€) | Masse (g) |
 |---|---|---|---|---|---|---|
-| **MOT‑01** | Moteur RS‑04 – Hip Pitch | 120 N·m, 167 rpm, 48 V, 1 420 g | 2 | RobStride (distributeur officiel) | 1 200 € | 1 420 |
-| **MOT‑02** | Moteur RS‑04 – Knee | 120 N·m, 167 rpm, 48 V, 1 420 g | 2 | RobStride | 1 200 € | 1 420 |
-| **MOT‑03** | Moteur RS‑03 – Hip Roll/Yaw | 60 N·m, 200 rpm, 48 V, 880 g | 4 | RobStride | 850 € | 880 |
-| **MOT‑04** | Moteur RS‑03 – Cheville (x2) | 60 N·m, 200 rpm, 48 V, 880 g | 4 | RobStride | 850 € | 880 |
+| **MOT‑01** | Moteur RS‑04 – Hip Pitch | 120 N·m, 167 rpm, 48 V, 1 420 g | 2 | RobStride (✅ Achetés) | 1 200 € | 1 420 |
+| **MOT‑02** | Moteur RS‑04 – Knee | 120 N·m, 167 rpm, 48 V, 1 420 g | 2 | RobStride (✅ Achetés) | 1 200 € | 1 420 |
+| **MOT‑03** | Moteur RS‑03 – Hip Roll/Yaw | 60 N·m, 200 rpm, 48 V, 880 g | 4 | RobStride (✅ Achetés) | 850 € | 880 |
+| **MOT‑04** | Moteur RS‑03 – Cheville (x2) | 60 N·m, 200 rpm, 48 V, 880 g | 4 | RobStride (✅ Achetés) | 850 € | 880 |
 | **CAR‑01** | Cardan DIN 808 – Série G, axe 12 mm, acier C45 (ou Duralumin) | 12 mm, rainure 4 mm, poids 80‑120 g | 2 | Michaud Chailly (ref A5‑473‑12) | 45 € | 100 |
 | **BRK‑01** | Bracket L‑Alu 6061‑T6 (hauteur genou) | CNC C500, 30 mm × 20 mm × 10 mm, alésage Ø8 mm | 2 | Usinage interne (C500) | 12 € | 30 |
 | **BRK‑02** | Bracket U‑Alu 6061‑T6 (hip‑roll) | CNC C500, 40 mm × 25 mm × 12 mm | 2 | Usinage interne | 14 € | 35 |

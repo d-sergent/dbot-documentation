@@ -298,18 +298,18 @@
           ROTOR RS-06 (Affleurant, Tournant)
         </text>
 
-        <!-- Screws connecting Moyeu to Rotor -->
+        <!-- Screws connecting Moyeu to Rotor (6x M4 on PCD Ø 37 mm) -->
         <g transform="translate(-75, -20)">
           <rect x="-3" y="0" width="6" height="35" fill="#e2e8f0" stroke="#000000" stroke-width="0.5"/>
-          <text x="-20" y="15" font-family="Arial, sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff">vis M3</text>
+          <text x="-20" y="15" font-family="Arial, sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff">vis M4 (rotor)</text>
         </g>
         <g transform="translate(75, -20)">
           <rect x="-3" y="0" width="6" height="35" fill="#e2e8f0" stroke="#000000" stroke-width="0.5"/>
-          <text x="20" y="15" font-family="Arial, sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff">vis M3</text>
+          <text x="20" y="15" font-family="Arial, sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff">vis M4 (rotor)</text>
         </g>
       </g>
 
-      <!-- AIR CLEARANCE (ENTREFER STATOR / MOYEU) -->
+      <!-- AIR CLEARANCE (ENTREFER STATOR / MOYEU : 2.0 mm) -->
       <rect x="-160" y="215" width="55" height="15" fill="url(#gapGrad)" rx="2"/>
       <text x="-132" y="226" font-family="Arial, sans-serif" font-size="8.5" font-weight="bold" fill="#064e3b" text-anchor="middle">Jeu 2 mm</text>
       <rect x="105" y="215" width="55" height="15" fill="url(#gapGrad)" rx="2"/>
@@ -322,7 +322,7 @@
           STATOR CORPS FIXE RS-06 (Ø 88 mm)
         </text>
         <text x="0" y="55" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1" text-anchor="middle">
-          Axe plein fermé • Bobinages et carter extérieur statorique
+          Axe plein fermé • 8× M3 sur PCD Ø 82 mm boulonnés directement à la Traverse
         </text>
       </g>
 
@@ -331,16 +331,37 @@
       <!-- Loge la bague extérieure et supporte le stator            -->
       <!-- ========================================================= -->
       <g transform="translate(0, 160)">
-        <!-- Seat Lamage under outer ring -->
-        <path d="M -260 0 L -200 0 L -200 -20 L -165 -20 L -165 90 L -140 90 L -140 160 L -260 160 Z" 
+        <!-- Seat Lamage under outer ring + Stepped Stator Mount with -4mm Bossage -->
+        <path d="M -260 0 L -200 0 L -200 -20 L -165 -20 L -165 55 L -140 55 L -140 90 L -115 90 L -115 55 L -95 55 L -95 90 L -260 90 Z" 
               fill="url(#platineGrad)" stroke="#93c5fd" stroke-width="1"/>
-        <path d="M 260 0 L 200 0 L 200 -20 L 165 -20 L 165 90 L 140 90 L 140 160 L 260 160 Z" 
+        <path d="M 260 0 L 200 0 L 200 -20 L 165 -20 L 165 55 L 140 55 L 140 90 L 115 90 L 115 55 L 95 55 L 95 90 L 260 90 Z" 
               fill="url(#platineGrad)" stroke="#93c5fd" stroke-width="1"/>
-        <text x="-210" y="110" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">
-          PLATINE FIXE
+        
+        <!-- Stator Fastener Screws CHC M3 x 12 mm Tête Basse DIN 7984 on PCD Ø 82 mm (McMaster 92855A313) -->
+        <g transform="translate(-130, 55)">
+          <rect x="-6" y="-12" width="12" height="12" rx="1" fill="#f8fafc" stroke="#000000" stroke-width="0.8"/>
+          <rect x="-2.5" y="-12" width="5" height="6" fill="#475569" stroke="#000000" stroke-width="0.5"/>
+          <rect x="-3" y="0" width="6" height="45" fill="#e2e8f0" stroke="#000000" stroke-width="0.8"/>
+          <text x="-12" y="20" font-family="Arial, sans-serif" font-size="7.5" font-weight="bold" fill="#38bdf8" text-anchor="end">DIN 7984</text>
+        </g>
+        <g transform="translate(130, 55)">
+          <rect x="-6" y="-12" width="12" height="12" rx="1" fill="#f8fafc" stroke="#000000" stroke-width="0.8"/>
+          <rect x="-2.5" y="-12" width="5" height="6" fill="#475569" stroke="#000000" stroke-width="0.5"/>
+          <rect x="-3" y="0" width="6" height="45" fill="#e2e8f0" stroke="#000000" stroke-width="0.8"/>
+          <text x="12" y="20" font-family="Arial, sans-serif" font-size="7.5" font-weight="bold" fill="#38bdf8" text-anchor="start">DIN 7984</text>
+        </g>
+
+        <text x="-210" y="50" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">
+          TRAVERSE FIXE
         </text>
-        <text x="210" y="110" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">
+        <text x="-210" y="68" font-family="Arial, sans-serif" font-size="9" fill="#93c5fd" text-anchor="middle">
+          (Bossage -2,49 mm)
+        </text>
+        <text x="210" y="50" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">
           DU BASSIN
+        </text>
+        <text x="210" y="68" font-family="Arial, sans-serif" font-size="9" fill="#93c5fd" text-anchor="middle">
+          (Contact Stator Z=1007,90 mm)
         </text>
       </g>
     </g>

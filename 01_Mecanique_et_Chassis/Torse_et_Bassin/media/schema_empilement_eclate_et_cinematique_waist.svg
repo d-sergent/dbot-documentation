@@ -190,9 +190,9 @@
         <text x="312" y="25" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">Bague Ext</text>
       </g>
 
-      <!-- Flasque Axial note -->
+      <!-- Brides étagées en L note -->
       <text x="200" y="94" font-family="Arial, sans-serif" font-size="10" fill="#38bdf8" text-anchor="middle">
-        + Flasque mince de serrage axial Z (4 vis M3 sur PCD Ø 128 mm)
+        + 4× Brides étagées en L (15 × 16 × 15 mm, 4 vis CHC M4 sur PCD Ø 136 mm)
       </text>
     </g>
 
@@ -249,7 +249,7 @@
         </text>
 
         <text x="200" y="84" font-family="Arial, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">
-          Fixation Pelvis : 6 vis M5 sur PCD Ø 132 mm • Flasque : 4 vis M3 sur PCD Ø 128 mm
+          Fixation Pelvis : 4 vis M5 coins • Brides : 4 vis CHC M4 sur PCD Ø 136 mm
         </text>
       </g>
     </g>
@@ -370,7 +370,7 @@
       <rect x="335" y="125" width="70" height="75" rx="3" fill="url(#fixedRingGrad)" stroke="#93c5fd" stroke-width="1.5"/>
       <text x="370" y="167" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">Bague Ext</text>
 
-      <!-- Flasques de retenue axiale Z (Blue) -->
+      <!-- Brides étagées en L de retenue axiale Z (Blue) -->
       <rect x="35" y="122" width="40" height="10" fill="#0284c7" stroke="#60a5fa" stroke-width="1"/>
       <rect x="375" y="122" width="40" height="10" fill="#0284c7" stroke="#60a5fa" stroke-width="1"/>
 

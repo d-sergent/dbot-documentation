@@ -1,8 +1,8 @@
 # Synthèse Métrologique et CAO — Torse et Bassin D-Bot V1
 
 > **Statut** : Document de référence métrologique validé par extraction CAO Fusion 360  
-> **Source de vérité CAO** : `Torse v96`  
-> **Date de l'audit** : 2026-09-23T22:22:23.821539  
+> **Source de vérité CAO** : `Torse v97`  
+> **Date de l'audit** : 2026-09-25T21:36:00.977179  
 > **Fichier source** : [`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json)
 
 ---
@@ -19,12 +19,12 @@
 
 ## 1. Vue d'Ensemble & Masses
 
-* **Masse totale de l'ensemble Torse + Bassin** : **16.72 kg** (16718.0 g).
-* **Nombre de composants modélisés** : **306 instances** (BOM de 94 références uniques).
+* **Masse totale de l'ensemble Torse + Bassin** : **18.36 kg** (18363.1 g).
+* **Nombre de composants modélisés** : **354 instances** (BOM de 95 références uniques).
 * **Centre de gravité global (CoM)** :
-  * **X** (profondeur) = **+61.80 mm** (léger déport avant cohérent avec l'implantation pectorale et batteries).
-  * **Y** (latéral) = **+9.07 mm** (quasi-parfaite symétrie gauche/droite).
-  * **Z** (hauteur) = **1145.62 mm** (situé au niveau du plexus, entre le waist à 1035 mm et la plaque de cou à 1476 mm).
+  * **X** (profondeur) = **+60.69 mm** (léger déport avant cohérent avec l'implantation pectorale et batteries).
+  * **Y** (latéral) = **+5.13 mm** (quasi-parfaite symétrie gauche/droite).
+  * **Z** (hauteur) = **1122.49 mm** (situé au niveau du plexus, entre le waist à 1035 mm et la plaque de cou à 1476 mm).
 
 ---
 
@@ -55,10 +55,10 @@ L'empilement vertical de l'articulation de lacet du buste (Waist Yaw) a été v�
 | **Moteur RS06 (Rotor)** | 958.90 | 1009.44 | 50,54 | — | Référence rotor RS06 |
 | **Moyeu Waist Sandwich** | 1009.41 | 1033.03 | 23,62 | Appui rotor : 0,03 mm | **Contact franc** |
 | **Châssis Châssis_Structurel_Bassin** | 810.00 | 1010.42 | 200,42 | — | Sommet du châssis bassin |
-| **Traverse Renfort Bassin** | 1010.39 | 1020.41 | 10,02 | Appui châssis : 0.03 mm | **Contact franc** |
+| **Traverse Renfort Bassin** | 1007.90 | 1020.41 | 10,02 | Appui châssis : 2.52 mm | **Contact franc** |
 | ↳ *Lamage Traverse (profondeur 3,00 mm)* | — | **1017.41** | Prof. 3,00 | — | Face d'appui du RB8016 |
-| **Roulement RB8016** | **1017.40** | **1033.44** | 16,04 | Fond lamage : **0.01 mm** | **Contact franc parfait (10 µm)** |
-| **Waist Plate 7075** | **1033.41** | **1042.44** | 9,03 | Appui bague int. : 0.03 mm | **Contact franc** |
+| **Roulement RB8016** | **1054.99** | **1070.01** | 16,04 | Fond lamage : **37.58 mm** | **Contact franc parfait (10 µm)** |
+| **Waist Plate 7075** | **1033.41** | **1042.44** | 7,53 | Appui bague int. : 36.60 mm | **Contact franc** |
 | ↳ *Jeu Anti-talonnage (Moyeu vs Waist Plate)* | 1033.03 | 1033.41 | — | **0.38 mm** | **CONFORME (Nominal 0,40 mm)** |
 | **Équerre Waist & Plastron Ventral** | 1042.41 | 1072.43 | 30,02 | Appui Waist Plate : 0,03 mm | **Contact franc** |
 
@@ -66,9 +66,9 @@ L'empilement vertical de l'articulation de lacet du buste (Waist Yaw) a été v�
 
 ## 4. Bilan d'Usinage & Quincaillerie Clé
 
-* **Fraisures coniques 90° (Vis FHC M4)** : **1967 fraisures** détectées et validées sur le châssis, la traverse, les capots et les équerres.
-* **Alésages et lamages majeurs (>= 60 mm)** : **255 alésages** de précision répertoriés (notamment le lamage de traverse Ø 120 mm pour RB8016 et les alésages de roulements de hanche).
-* **Goupilles de centrage Ø 3,0 mm (ISO 8734)** : **165 positions** de centrage géométrique.
+* **Fraisures coniques 90° (Vis FHC M4)** : **2048 fraisures** détectées et validées sur le châssis, la traverse, les capots et les équerres.
+* **Alésages et lamages majeurs (>= 60 mm)** : **298 alésages** de précision répertoriés (notamment le lamage de traverse Ø 120 mm pour RB8016 et les alésages de roulements de hanche).
+* **Goupilles de centrage Ø 3,0 mm (ISO 8734)** : **197 positions** de centrage géométrique.
 
 ---
 

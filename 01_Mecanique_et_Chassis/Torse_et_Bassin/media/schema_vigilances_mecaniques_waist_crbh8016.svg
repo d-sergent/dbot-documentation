@@ -87,7 +87,7 @@
   <rect x="435" y="225" width="50" height="15" fill="#f43f5e" opacity="0.85" stroke="#ffe4e6" stroke-width="1"/>
   <line x1="475" y1="225" x2="475" y2="330" stroke="#ffe4e6" stroke-width="1.2" stroke-dasharray="2,2"/>
   <text x="80" y="215" font-family="sans-serif" font-size="10" font-weight="bold" fill="#f43f5e">
-    Flasque de bridage axial M3/M4 (Sécurise en Z)
+    4× Brides étagées en L M4 (Retenue +Z)
   </text>
   <line x1="160" y1="218" x2="160" y2="230" stroke="#f43f5e" stroke-width="1"/>
 
@@ -97,11 +97,11 @@
         fill="url(#waistPlateGrad)" stroke="#34d399" stroke-width="1.5"/>
   <text x="320" y="205" font-family="sans-serif" font-size="11" font-weight="bold" fill="#34d399">Waist Plate Mobile (Torse)</text>
 
-  <!-- Entrefer d'Air 1.5 mm Callout -->
+  <!-- Entrefer d'Air 1.0 mm Callout -->
   <rect x="150" y="225" width="35" height="15" fill="#38bdf8" opacity="0.2"/>
   <line x1="175" y1="200" x2="170" y2="232" stroke="#38bdf8" stroke-width="1.2"/>
   <text x="75" y="170" font-family="sans-serif" font-size="10" font-weight="bold" fill="#38bdf8">
-    Redan +1.5 mm = Entrefer de sécurité
+    Redan +3.0 mm = Entrefer de sécurité 1.0 mm
   </text>
   <text x="75" y="182" font-family="sans-serif" font-size="9" fill="#94a3b8">
     (Zéro frottement avec bague externe fixe !)
@@ -202,10 +202,10 @@
       Checklist de Retouche CAO Fusion 360 avant Usinage C500 :
     </text>
     <text x="15" y="48" font-family="sans-serif" font-size="11" fill="#f8fafc">
-      [1] Platine Ø 140 mm : Ajouter 4x taraudages M3/M4 (PCD ~128 mm) pour flasque de retenue Z.
+      [1] Traverse Pelvis : 4× taraudages M4 (PCD Ø 136 mm) pour 4 Brides étagées en L (15 × 16 mm).
     </text>
     <text x="15" y="70" font-family="sans-serif" font-size="11" fill="#f8fafc">
-      [2] Waist Plate : Usiner un redan axial de +1.5 mm (Ø 80 à 92 mm) créant un entrefer avec la bague fixe.
+      [2] Waist Plate : Usiner un redan axial de +3.0 mm (Ø 80 à 92 mm) créant 1.0 mm d'air sous brides.
     </text>
     <text x="15" y="92" font-family="sans-serif" font-size="11" fill="#f8fafc">
       [3] Butée d'angle : Remplacer les 2 pins Ø 5 mm par 1x goupille trempée DIN 6325 Ø 8 mm (course +/- 95°).

@@ -1,8 +1,8 @@
 # 📋 NOMENCLATURE EXHAUSTIVE (BOM) — TORSE & BASSIN / WAIST D-BOT V1
 
 > **Statut** : Document de Référence Actif (Niveau 1 — Vérité Terrain)  
-> **Date de mise à jour** : 20 Septembre 2026  
-> **Modèle CAO de référence** : Autodesk Fusion 360 `Torse v88` (Audit Métrologique Automatisé Validé)  
+> **Date de mise à jour** : 25 Septembre 2026  
+> **Modèle CAO de référence** : Autodesk Fusion 360 `Torse v97` (Audit Métrologique Automatisé Validé)  
 > **Architecture** : Torse V2.6 Tout-Métal (Jonction Z=0, Goupillage 80 × 80 mm) & Liaison Active Waist Yaw V1.2 (CRBH 8016 UU)  
 
 ---
@@ -21,6 +21,7 @@
   - [3.2 Pièces Structurelles et Capotages Pelviens](#32-pièces-structurelles-et-capotages-pelviens)
   - [3.3 Architecture Hybride Allégée du Bassin et Standardisation Bride RS-04](#33-architecture-hybride-allégée-du-bassin-et-standardisation-bride-rs-04)
   - [3.4 Quincaillerie & Visserie McMaster-Carr du Bassin](#34-quincaillerie--visserie-mcmaster-carr-du-bassin)
+  - [3.5 Actionneurs des Membres Inférieurs (Phase 4 — Matériel 100% Acquis en Atelier)](#35-actionneurs-des-membres-inférieurs-phase-4--matériel-100-acquis-en-atelier)
 - [4. Cartographie des Matériaux et Infill 3D (PA12-CF)](#4-cartographie-des-matériaux-et-infill-3d-pa12-cf)
   - [4.1 Matrice des Matériaux Utilisés](#41-matrice-des-matériaux-utilisés)
   - [4.2 Justification Technique RDM : Pourquoi ce Matériau et cet Infill ?](#42-justification-technique-rdm--pourquoi-ce-matériau-et-cet-infill-)
@@ -33,21 +34,26 @@
 ## 1. Synthèse Générale et Budget de Masse
 
 Le robot humanoïde D-Bot V1 sépare structurellement le corps supérieur en trois sous-ensembles fonctionnels :
-1. **Le Torse Complet** : Colonne sagittale, cou pan/tilt, traverse, articulations d'épaules et carénages PA12-CF.
-2. **La Liaison Active Waist Yaw** : Pivot de lacet de taille, roulement à rouleaux croisés CRBH 8016 et actionneur RS-06.
-3. **Le Bassin & Châssis Pelvien (ex-ASV1_200 épuré)** : Berceau structurel en Aluminium 7075-T6 et coques de hanches en PA12-CF (actionneurs Asimov retirés, en attente d'intégration des futurs actionneurs RobStride de hanches).
+1. **Le Torse Complet** : Colonne sagittale, cou pan/tilt, traverse 60×60 mm, articulations d'épaules complètes symétrisées (G/D), plastrons, carénages et les 2 packs batteries latéraux 48V.
+2. **La Liaison Active Waist Yaw** : Pivot de lacet de taille, roulement à rouleaux croisés CRBH 8016, actionneur RS-06, Moyeu 7075 et Waist Plate.
+3. **Le Bassin & Châssis Pelvien (ASV1_200)** : Berceau structurel maître `ASV1_200_01C` en Aluminium 7075-T6 (3,79 kg), Traverse Renfort 16A (247 g), supports et biellettes de hanches.
 
-### Bilan de Masse Consolidé (Robot Complet après Symétrie Gauche/Droite)
+### Bilan de Masse Consolidé (Source CAO Active : Fusion 360 `Torse v97` — 354 Composants)
 
-| Sous-Ensemble | Masse Structure Métallique | Masse Pièces 3D (PA12-CF) | Masse Actionneurs & Roulements | Masse Visserie & Quincaillerie | Masse Totale Consolidée |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Partie 1 : Torse Complet** | 1 423,5 g | 3 833,7 g | 1 522,0 g | 165,0 g | **6 944,2 g (~6,94 kg)** |
-| **Partie 2 : Liaison Waist Yaw** | 791,9 g | 42,5 g | 1 184,4 g | 85,0 g | **2 103,8 g (~2,10 kg)** |
-| **Partie 3 : Bassin & Pelvis Mécanique** | 5 259,1 g | 130,6 g | — *(En attente RobStride)* | 40,0 g | **5 429,7 g (~5,43 kg)** |
-| **TOTAL HAUT DU CORPS (Torse + Waist + Bassin)** | **7 474,5 g** | **3 996,8 g** | **2 706,4 g** | **290,0 g** | **14 467,7 g (~14,47 kg)** |
+| Sous-Ensemble | Masse Structure Métallique | Masse Pièces 3D (PA12-CF) | Masse Actionneurs & Roulements | Masse Batteries & Électronique | Masse Visserie & Quincaillerie | Masse Totale Consolidée |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Partie 1 : Torse Complet** | 4 285,0 g | 1 120,5 g | 2 944,0 g | 1 510,0 g | 269,0 g | **10 128,5 g (~10,13 kg)** |
+| **Partie 2 : Liaison Waist Yaw** | 791,9 g | 42,5 g | 1 184,4 g | — | 85,0 g | **2 103,8 g (~2,10 kg)** |
+| **Partie 3 : Bassin & Pelvis Mécanique** | 5 628,4 g | 270,8 g | — *(Phase 4)* | — | 231,6 g | **6 130,8 g (~6,13 kg)** |
+| **TOTAL HAUT DU CORPS (Torse + Waist + Bassin)** | **10 705,3 g** | **1 433,8 g** | **4 128,4 g** | **1 510,0 g** | **585,6 g** | **18 363,1 g (~18,36 kg)** |
 
 > [!NOTE]
-> Suite au retrait des 5 actionneurs Asimov de hanche du modèle Fusion 360, la masse brute du modèle CAO est passée de 44,97 kg à 25,51 kg. Dès l'application du script `ModifyTorse.py` affectant l'Aluminium 7075-T6 et le PA12-CF aux 11 pièces restantes du bassin `ASV1_200_XXX`, la masse totale mesurée sous Fusion 360 chutera à **`~14,47 kg`** !
+> **Réconciliation Métrologique CAO (v88 vs v97)** :
+> L'estimation initiale de 14,47 kg (issue de `Torse v88`) correspondait à une maquette allégée sans symétrie gauche/droite complète et sans modélisation des batteries. Le relevé automatisé sur **`Torse v97`** (354 instances, 95 références uniques, fichier [`SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md)) établit la masse physique réelle à **18,36 kg** en intégrant :
+> 1. La symétrie complète de l'épaule gauche et de sa motorisation RS-04 (+1,76 kg).
+> 2. L'intégration effective des 2 packs batteries 48V réels dans les paniers latéraux (+1,11 kg).
+> 3. L'épaississement de la Traverse Renfort Bassin à 12,51 mm (+36 g) et l'ensemble de la visserie d'assemblage (2048 fraisures, rondelles Nord-Lock, vis DIN 7984 M3 et écrous frein).
+> 4. Une conformité métrologique de 100% avec les pièces réellement instanciées dans l'arbre d'assemblage Fusion 360.
 
 ---
 
@@ -135,7 +141,7 @@ Le robot humanoïde D-Bot V1 sépare structurellement le corps supérieur en tro
 | **WST-02** | `Waist_Plate_7075` | Aluminium 7075-T651 | Usinage CNC C500 (Massif) | 1 | 319,92 g | 319,92 g | Plaque mobile (142 × 139 × 6-7,5 mm), corridor Ø 80 mm |
 | **WST-03** | `Platine_Interface_Waist_7075` | Aluminium 7075-T651 | Tournage/Fraisage CNC | 1 | 265,00 g | 265,00 g | Disque fixe Ø 140 × 12 mm, lamage Ø 120 H7, alésage Ø 88 H7 |
 | **WST-04** | `Flasque_Maintien_Axial` | Aluminium 7075-T651 | Découpe CNC (ép. 2,5 mm) | 1 | 42,00 g | 42,00 g | Anneau de retenue axiale bague extérieure roulement |
-| **WST-05** | `RB8016` (CRBH 8016 UU) | Acier à roulement 100Cr6 | Composant industriel Luoyang | 1 | 633,41 g | 633,41 g | Roulement rouleaux croisés (80 × 120 × 16 mm), C0 = 17,2 kN |
+| **WST-05** | `RB8016` (CRBH 8016 UU) | Acier à roulement GCr15 (62 HRC) | Luoyang EFANT Precision Bearing | 1 | 633,41 g | 633,41 g | **✅ Reçu & Contrôlé (15/09/2026)** : d = 79,996 mm, D = 119,995 mm, B = 15,965 mm, faux-rond 0,003 mm (P4/P2) |
 | **WST-06** | `RS06 v1` | RobStride RS-06 | Moteur QDD Actuator | 1 | 551,00 g | 551,00 g | Actionneur de lacet Waist Yaw (36 N.m pic, 11 N.m nom., arbre plein) |
 | **WST-07** | `Butee_Doigt_Externe` | PA12-CF (Nylon 12 + Carbone) | Impression 3D (50% Gyroïde) | 1 | 12,50 g | 12,50 g | Doigt d'arrêt mécanique (15 × 15 × 10 mm) sous Waist Plate |
 
@@ -224,6 +230,31 @@ Suite à la suppression des 5 actionneurs Asimov de hanche et à l'exécution de
 | **VIS-W08** | Vis FHC M3 × 8 mm | **`91294A112`** | Acier classe 10.9 noir | 4 | 1,2 N.m | Serrage Flasque Retenue Axiale CRBH (PCD Ø 128 mm) |
 | **VIS-W09** | Vis CHC M5 × 16 mm | **`91290A238`** | Acier classe 12.9 noir | 2 | Clé Allen 4 | Vis de butée de lacet fixes à ±95° sur Platine d'Interface |
 | **VIS-W10** | Manchons silicone amortisseurs | **Fournisseur atelier** | Élastomère silicone 60 ShA | 2 | — | Amortissement sonore et antichoc sur têtes VIS-W09 |
+| **VIS-W11** | **Vis CHC M3 × 12 mm Tête Basse** | **`92855A313`** | Inox 18-8 / DIN 7984 | **8** | **1,3 à 1,4 N.m** | Fixation directe Stator RS-06 ➔ Traverse (Option 1 Validée, PCD Ø 82 mm, air gap 1,48 mm) |
+
+---
+
+### 3.5 Actionneurs des Membres Inférieurs (Phase 4 — Matériel 100% Acquis en Atelier)
+
+Dans le cadre du jalon Niveau 4 de la feuille de route stratégique, la motorisation des membres inférieurs est **intégralement acquise et stockée à l'atelier** (12 DoF au total). La nomenclature prévisionnelle de ces actionneurs est arrêtée comme suit :
+
+| Réf. Sous-Ensemble | Articulation / DoF | Réf. Actionneur RobStride | Qté | Masse Unitaire | Masse Totale | Couple Continu | Couple Crête (Peak) | Rôle Biomécanique |
+| :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **JAM-01** | Hanche Pitch (Gauche & Droit) | **RobStride RS-04** | 2 | 1 420 g | **2 840 g** | 40 N.m | 120 N.m | Flexion / Extension sagittale cuisse |
+| **JAM-02** | Hanche Roll (Gauche & Droit) | **RobStride RS-03** | 2 | 880 g | **1 760 g** | 20 N.m | 60 N.m | Abduction / Adduction frontale cuisse |
+| **JAM-03** | Hanche Yaw (Gauche & Droit) | **RobStride RS-03** | 2 | 880 g | **1 760 g** | 20 N.m | 60 N.m | Rotation interne / externe jambe |
+| **JAM-04** | Genou Pitch (Gauche & Droit) | **RobStride RS-04** | 2 | 1 420 g | **2 840 g** | 40 N.m | 120 N.m | Flexion / Extension genou (Squat) |
+| **JAM-05** | Cheville Pitch (Gauche & Droit) | **RobStride RS-03** | 2 | 880 g | **1 760 g** | 20 N.m | 60 N.m | Flexion dorsale / plantaire pied |
+| **JAM-06** | Cheville Roll (Gauche & Droit) | **RobStride RS-03** | 2 | 880 g | **1 760 g** | 20 N.m | 60 N.m | Éversion / Inversion pied (Équilibre) |
+| **JAM-07** | Quincaillerie, Tubes & Liaisons | Aluminium 7075-T6 / Visserie | — | — | **~1 200 g** | — | — | Brackets de hanches, tibias, chevilles |
+| **TOTAL MEMBRES INFÉRIEURS (12 DoF)** | — | **4× RS-04 + 8× RS-03** | **12** | — | **~13 920 g (~13,92 kg)** | — | — | **Membres inférieurs complets** |
+
+> [!TIP]
+> **Estimation de Masse Totale D-Bot Complet Debout (Phase 4)** :
+> * **Torse + Waist + Bassin (CAO `Torse v97`)** : **18,36 kg**
+> * **Membres Inférieurs (12 DoF, 4× RS-04 + 8× RS-03)** : **~13,92 kg**
+> * **Bras & Mains D-Hand (8 DoF bras + préhension)** : **~6,50 kg**
+> * **MASSE TOTALE ESTIMÉE DU ROBOT COMPLET DEBOUT** : **`~38,8 kg`** (Remarquable pour un humanoïde de 1,55 m, offrant un rapport puissance/poids très élevé).
 
 ---
 
@@ -286,6 +317,7 @@ Tous les serrages doivent être effectués à la clé dynamométrique étalonné
 | Filetage | Classe de Visserie | Couple de Serrage Recommandé | Outillage Recommandé | Frein-Filet Obligatoire ? | Composants Concernés |
 | :---: | :---: | :---: | :---: | :---: | :--- |
 | **M2,5** | Inox A2 / Classe 8.8 | **`0,8 N.m`** | Clé Allen 2,0 mm | Écrou Nylstop DIN 985 | Support IMU BMI270 sur colonne |
+| **M3** | Inox 18-8 (DIN 7984 Tête Basse) | **`1,3 à 1,4 N.m`** | Clé Allen 2,0 mm | **Loctite 243 (Bleu)** | 8 vis fixation Stator RS-06 ➔ Traverse (McMaster `92855A313`) |
 | **M3** | Classe 10.9 | **`1,2 à 1,4 N.m`** | Clé Allen 2,0 mm | **Loctite 243 (Bleu)** | Stator RS-05 cou, Flasque axial roulement CRBH |
 | **M4** | Classe 10.9 (FHC) | **`3,0 N.m`** | Clé Allen 2,5 mm | **Loctite 243 (Bleu)** | Pincement sandwich Waist Plate ➔ Moyeu 7075 |
 | **M4** | Classe 12.9 (CHC) | **`3,0 à 3,2 N.m`** | Clé Allen 3,0 mm | **Nord-Lock M4** | 10 vis Brides Épaules ➔ Stator RS-04 |

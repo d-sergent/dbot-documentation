@@ -166,12 +166,12 @@
     <!-- Clamp Beak Clamping Point on Bearing Outer Ring (y=134) -->
     <circle cx="810" cy="134" r="3.5" fill="#f59e0b" stroke="#fef08a" stroke-width="1" />
     
-    <!-- 2.0 mm Clamp Beak Thickness -->
+    <!-- 2.0 mm Clamp Beak Thickness & 4.0 mm Overhang -->
     <line x1="785" y1="110" x2="785" y2="134" class="dim-solid" stroke="#f59e0b" />
     <polyline points="782,118 785,110 788,118" fill="none" stroke="#f59e0b" stroke-width="1.5" />
     <polyline points="782,126 785,134 788,126" fill="none" stroke="#f59e0b" stroke-width="1.5" />
     <text x="735" y="125" class="dim-text-amber">2,0 mm</text>
-    <text x="735" y="113" class="dim-text-sm" fill="#fbbf24">Bec Bride</text>
+    <text x="735" y="113" class="dim-text-sm" fill="#fbbf24">Bec (L=4,0)</text>
 
     <!-- Safe Air Gap 1.0 mm (12 px) between clamp beak (y=110) and red plate (y=98) -->
     <rect x="740" y="98" width="85" height="12" fill="#34d399" opacity="0.3" stroke="#34d399" stroke-dasharray="2 2" />
@@ -182,7 +182,7 @@
     <!-- Success box in Case B -->
     <rect x="545" y="440" width="430" height="42" rx="4" fill="#064e3b" stroke="#34d399" stroke-width="1" />
     <text x="555" y="456" font-family="Segoe UI, Inter" font-size="10.5" font-weight="700" fill="#a7f3d0">✅ GÉOMÉTRIE PARFAITE : Maintien +Z rigide &amp; Zéro frottement</text>
-    <text x="555" y="472" font-family="Segoe UI, Inter" font-size="9.5" fill="#6ee7b7">Bec de bride 2,0 mm en acier/alu rigide + entrefer d'air 1,0 mm continu en rotation.</text>
+    <text x="555" y="472" font-family="Segoe UI, Inter" font-size="9.5" fill="#6ee7b7">Bec 2,0 mm (portée 4,0 mm) + Embase 12,0 mm + entrefer d'air 1,0 mm continu en rotation.</text>
   </g>
 
 
@@ -210,9 +210,14 @@
     <path d="M 150,140 L 370,140 A 20 20 0 0 1 390,160 L 390,380 A 20 20 0 0 1 370,400 L 150,400 A 20 20 0 0 1 130,380 L 130,160 A 20 20 0 0 1 150,140 Z" fill="url(#redPlateGrad)" opacity="0.25" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6 3" />
     <text x="260" y="380" font-family="Segoe UI, Inter" font-size="10" fill="#fca5a5" text-anchor="middle">Contour Waist Plate Rouge (Larg. 94 mm)</text>
 
-    <!-- 4 CLAMPS PLACED AT THE 4 CORNERS (45, 135, 225, 315 deg, R = 140 px) -->
+    <!-- 4 CLAMPS PLACED AT THE 4 CORNERS (45, 135, 225, 315 deg, R = 140 px) & CORNER FHC M5 SCREWS -->
     <!-- Corner 1 (Top Right, 45 deg) -->
     <g transform="translate(260, 270) rotate(45)">
+      <!-- Pelvis Corner FHC M5 with 90° countersink (R = 78.7 mm -> 186 px, bridge = 3.5 px ~ 1.47 mm) -->
+      <circle cx="186" cy="0" r="12.2" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
+      <circle cx="186" cy="0" r="6.0" fill="#0f172a" stroke="#34d399" stroke-width="1.0" stroke-dasharray="2 1" />
+      <circle cx="186" cy="0" r="2.0" fill="#34d399" />
+      <!-- Clamp L -->
       <rect x="130" y="-12" width="40" height="24" rx="4" fill="url(#clampGrad)" stroke="#fef08a" stroke-width="1.2" />
       <circle cx="155" cy="0" r="3.5" fill="#f8fafc" stroke="#334155" />
       <path d="M 125 -8 L 135 -8 L 135 8 L 125 8 Z" fill="#fef08a" />
@@ -220,6 +225,11 @@
 
     <!-- Corner 2 (Top Left, 135 deg) -->
     <g transform="translate(260, 270) rotate(135)">
+      <!-- Pelvis Corner FHC M5 with 90° countersink -->
+      <circle cx="186" cy="0" r="12.2" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
+      <circle cx="186" cy="0" r="6.0" fill="#0f172a" stroke="#34d399" stroke-width="1.0" stroke-dasharray="2 1" />
+      <circle cx="186" cy="0" r="2.0" fill="#34d399" />
+      <!-- Clamp L -->
       <rect x="130" y="-12" width="40" height="24" rx="4" fill="url(#clampGrad)" stroke="#fef08a" stroke-width="1.2" />
       <circle cx="155" cy="0" r="3.5" fill="#f8fafc" stroke="#334155" />
       <path d="M 125 -8 L 135 -8 L 135 8 L 125 8 Z" fill="#fef08a" />
@@ -227,6 +237,11 @@
 
     <!-- Corner 3 (Bottom Left, 225 deg) -->
     <g transform="translate(260, 270) rotate(225)">
+      <!-- Pelvis Corner FHC M5 with 90° countersink -->
+      <circle cx="186" cy="0" r="12.2" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
+      <circle cx="186" cy="0" r="6.0" fill="#0f172a" stroke="#34d399" stroke-width="1.0" stroke-dasharray="2 1" />
+      <circle cx="186" cy="0" r="2.0" fill="#34d399" />
+      <!-- Clamp L -->
       <rect x="130" y="-12" width="40" height="24" rx="4" fill="url(#clampGrad)" stroke="#fef08a" stroke-width="1.2" />
       <circle cx="155" cy="0" r="3.5" fill="#f8fafc" stroke="#334155" />
       <path d="M 125 -8 L 135 -8 L 135 8 L 125 8 Z" fill="#fef08a" />
@@ -234,20 +249,33 @@
 
     <!-- Corner 4 (Bottom Right, 315 deg) -->
     <g transform="translate(260, 270) rotate(315)">
+      <!-- Pelvis Corner FHC M5 with 90° countersink -->
+      <circle cx="186" cy="0" r="12.2" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
+      <circle cx="186" cy="0" r="6.0" fill="#0f172a" stroke="#34d399" stroke-width="1.0" stroke-dasharray="2 1" />
+      <circle cx="186" cy="0" r="2.0" fill="#34d399" />
+      <!-- Clamp L -->
       <rect x="130" y="-12" width="40" height="24" rx="4" fill="url(#clampGrad)" stroke="#fef08a" stroke-width="1.2" />
       <circle cx="155" cy="0" r="3.5" fill="#f8fafc" stroke="#334155" />
       <path d="M 125 -8 L 135 -8 L 135 8 L 125 8 Z" fill="#fef08a" />
     </g>
 
+    <!-- Callout on Corner FHC M5 Screw -->
+    <path d="M 392 138 L 430 65 L 490 65" fill="none" stroke="#34d399" stroke-width="1.2" />
+    <circle cx="392" cy="138" r="2.5" fill="#34d399" />
+    <text x="430" y="52" class="dim-green" font-family="Segoe UI, Inter" font-size="11" font-weight="700">4× Vis Coins FHC M5 × 25 mm</text>
+    <text x="430" y="66" class="dim-text-sm" fill="#34d399">Fraisures 90° Ø 10,4 mm (Affleurantes 0,0 mm)</text>
+    <text x="430" y="80" class="dim-text-sm" fill="#94a3b8">Pont matière plein = 1,47 mm face au talon</text>
+
     <!-- Callout on Top Right Clamp -->
     <path d="M 370 160 L 420 120 L 490 120" fill="none" stroke="#f59e0b" stroke-width="1.5" />
-    <circle cx="370" cy="160" r="3" fill="#f59e0b" />
-    <text x="430" y="110" class="dim-text-amber">4× Brides Étagées en L</text>
-    <text x="430" y="128" class="dim-text-sm" fill="#fbbf24">Vis M4 dans taraudages coins</text>
+    <text x="430" y="105" class="dim-text-amber">4× Brides Étagées en L (15 × 16 × 15 mm)</text>
+    <text x="430" y="122" class="dim-text-sm" fill="#fbbf24">Vis M4 × 16 mm sur PCD Ø 136,0 mm (R = 68 mm à 45°)</text>
+    <text x="430" y="137" class="dim-text-sm" fill="#34d399">Bec 2,0 mm (portée 4,0 mm) — Reste 1,0 mm d'air</text>
 
     <!-- Legend box -->
-    <rect x="20" y="465" width="480" height="40" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.8" />
-    <text x="35" y="488" class="callout-desc">• Les 4 coins de la traverse verte sont 100% dégagés : aucun conflit avec la plaque rouge.</text>
+    <rect x="20" y="465" width="480" height="42" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.8" />
+    <text x="35" y="482" class="callout-desc">• Vis coins FHC M5 à têtes 100% affleurantes (0,0 mm) : aucun frottement avec la Waist Plate en rotation.</text>
+    <text x="35" y="497" class="callout-desc">• Pont de matière continu de 1,47 mm entre fraisure conique (R = 73,5 mm) et talon de bride (R = 72,0 mm).</text>
   </g>
 
 
@@ -255,46 +283,73 @@
   <g transform="translate(20, 635)">
     <rect width="1560" height="340" rx="8" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.2" filter="url(#shadow)" />
     
-    <rect x="15" y="15" width="420" height="26" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8" />
-    <text x="25" y="32" class="panel-title">3. PLAN DE FABRICATION D'UNE BRIDE EN "L" (USINAGE CNC OU ÉBAUCHE)</text>
+    <rect x="15" y="15" width="480" height="26" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8" />
+    <text x="25" y="32" class="panel-title">3. PLAN DE FABRICATION D'UNE BRIDE EN "L" (USINAGE CNC C500 OU ÉBAUCHE)</text>
 
-    <!-- Left : 3D Perspective of 1 Clamp -->
-    <g transform="translate(40, 60)">
-      <rect x="0" y="0" width="340" height="255" rx="6" fill="#090d16" stroke="#f59e0b" stroke-width="1" />
-      <text x="20" y="28" font-family="Segoe UI, Inter" font-size="12" font-weight="700" fill="#fbbf24">VUE ISO D'UN CAVALIER EN "L"</text>
+    <!-- Left : 3D Perspective of 1 Clamp with 3-Axis Dimensioning -->
+    <g transform="translate(40, 55)">
+      <rect x="0" y="0" width="340" height="265" rx="6" fill="#090d16" stroke="#f59e0b" stroke-width="1" />
+      <text x="20" y="24" font-family="Segoe UI, Inter" font-size="11.5" font-weight="700" fill="#fbbf24">VUE ISO D'UN CAVALIER (L = 16 × W = 15 × H = 15 mm)</text>
+      <text x="20" y="40" font-family="Segoe UI, Inter" font-size="10" font-weight="700" fill="#34d399">Profondeur Totale : L = 16,0 mm (Bec 4,0 + Embase 12,0)</text>
 
       <!-- Draw 3D Isometric Clamp -->
-      <!-- Base (20 x 15 x 5 mm), Vertical Wall (H=13 mm), Beak (L=6 mm, th=2 mm) -->
-      <path d="M 60,190 L 160,190 L 200,160 L 100,160 Z" fill="#d97706" stroke="#fef08a" stroke-width="1.2" />
-      <path d="M 60,190 L 60,150 L 160,150 L 160,190 Z" fill="#f59e0b" stroke="#fef08a" stroke-width="1.2" />
-      <path d="M 160,190 L 160,150 L 200,120 L 200,160 Z" fill="#b45309" stroke="#fef08a" stroke-width="1.2" />
+      <!-- Base (12 x 15 x 5 mm), Vertical Wall (H=13 mm, th=3.5 mm), Beak (L=4 mm, th=2 mm) -->
+      <path d="M 70,195 L 170,195 L 210,165 L 110,165 Z" fill="#d97706" stroke="#fef08a" stroke-width="1.2" />
+      <path d="M 70,195 L 70,155 L 170,155 L 170,195 Z" fill="#f59e0b" stroke="#fef08a" stroke-width="1.2" />
+      <path d="M 170,195 L 170,155 L 210,125 L 210,165 Z" fill="#b45309" stroke="#fef08a" stroke-width="1.2" />
 
-      <!-- Vertical Step Up to 13 mm -->
-      <path d="M 60,150 L 60,80 L 100,80 L 100,150 Z" fill="#f59e0b" stroke="#fef08a" stroke-width="1.2" />
-      <path d="M 100,150 L 100,80 L 140,50 L 140,120 Z" fill="#b45309" stroke="#fef08a" stroke-width="1.2" />
+      <!-- Vertical Step Up to 13 mm (Wall th = 3.5 mm) -->
+      <path d="M 70,155 L 70,85 L 110,85 L 110,155 Z" fill="#f59e0b" stroke="#fef08a" stroke-width="1.2" />
+      <path d="M 110,155 L 110,85 L 150,55 L 150,125 Z" fill="#b45309" stroke="#fef08a" stroke-width="1.2" />
 
-      <!-- Overhanging Beak (th = 2.0 mm) -->
-      <path d="M 100,80 L 140,80 L 170,55 L 130,55 Z" fill="#fef08a" stroke="#f59e0b" stroke-width="1.2" />
-      <path d="M 100,80 L 100,95 L 140,95 L 140,80 Z" fill="#f59e0b" stroke="#b45309" stroke-width="1.2" />
+      <!-- Overhanging Beak (th = 2.0 mm, L = 4.0 mm) -->
+      <path d="M 110,85 L 150,85 L 180,60 L 140,60 Z" fill="#fef08a" stroke="#f59e0b" stroke-width="1.2" />
+      <path d="M 110,85 L 110,100 L 150,100 L 150,85 Z" fill="#f59e0b" stroke="#b45309" stroke-width="1.2" />
 
-      <!-- Hole in Base for M4 Screw -->
-      <ellipse cx="140" cy="175" rx="12" ry="7" fill="#090d16" stroke="#f8fafc" stroke-width="1.5" />
-      <text x="140" y="215" class="dim-text-sm" text-anchor="middle" fill="#f8fafc">Trou passage vis M4</text>
+      <!-- Hole in Base for M4 Screw (Ø 4.5 mm at X = +8.0 mm) -->
+      <ellipse cx="150" cy="180" rx="12" ry="7" fill="#090d16" stroke="#f8fafc" stroke-width="1.5" />
+      <text x="150" y="210" class="dim-text-sm" text-anchor="middle" fill="#f8fafc">Trou Ø 4,5 mm (Vis M4)</text>
+      <text x="150" y="223" font-family="Segoe UI, Inter" font-size="9" text-anchor="middle" fill="#38bdf8">Axe à X = +8,0 mm (4,5 mm du mur)</text>
+
+      <!-- Dimension annotations on ISO clamp -->
+      <!-- Width W = 15.0 mm -->
+      <line x1="70" y1="202" x2="170" y2="202" stroke="#38bdf8" stroke-width="1.2" />
+      <polyline points="76,199 70,202 76,205" fill="none" stroke="#38bdf8" stroke-width="1.2" />
+      <polyline points="164,199 170,202 164,205" fill="none" stroke="#38bdf8" stroke-width="1.2" />
+      <text x="120" y="214" class="dim-text" text-anchor="middle" fill="#38bdf8">W = 15,0 mm</text>
+
+      <!-- Height H = 15.0 mm -->
+      <line x1="52" y1="85" x2="52" y2="195" stroke="#fbbf24" stroke-width="1.2" />
+      <polyline points="49,93 52,85 55,93" fill="none" stroke="#fbbf24" stroke-width="1.2" />
+      <polyline points="49,187 52,195 55,187" fill="none" stroke="#fbbf24" stroke-width="1.2" />
+      <text x="18" y="145" class="dim-text-amber" text-anchor="start">H = 15 mm</text>
+
+      <!-- Depth Dimension Line (Embase = 12.0 mm) -->
+      <line x1="178" y1="198" x2="218" y2="168" stroke="#34d399" stroke-width="1.2" />
+      <polyline points="181,198 178,198 180,194" fill="none" stroke="#34d399" stroke-width="1.2" />
+      <polyline points="214,172 218,168 216,164" fill="none" stroke="#34d399" stroke-width="1.2" />
+      <text x="220" y="185" class="dim-text" fill="#34d399">Embase = 12 mm</text>
+
+      <!-- Beak 2.0 mm and 4.0 mm callout -->
+      <text x="155" y="75" class="dim-text-sm" fill="#fef08a">Bec 4,0 × 2,0 mm</text>
+      <text x="75" y="248" class="dim-text-sm" fill="#94a3b8">Alu 7075-T6 ou Inox 316 (~6 g/bride)</text>
     </g>
 
     <!-- Center : Dimensions & Specifications Table -->
-    <g transform="translate(410, 60)">
-      <rect x="0" y="0" width="680" height="255" rx="6" fill="#090d16" stroke="#334155" stroke-width="1" />
-      <text x="20" y="28" font-family="Segoe UI, Inter" font-size="12" font-weight="700" fill="#38bdf8">COTATION FONCTIONNELLE DES BRIDES</text>
+    <g transform="translate(410, 55)">
+      <rect x="0" y="0" width="680" height="265" rx="6" fill="#090d16" stroke="#334155" stroke-width="1" />
+      <text x="20" y="26" font-family="Segoe UI, Inter" font-size="12" font-weight="700" fill="#38bdf8">COTATION FONCTIONNELLE NOMINALE DES BRIDES</text>
 
-      <line x1="20" y1="42" x2="660" y2="42" stroke="#334155" stroke-width="0.8" />
+      <line x1="20" y1="36" x2="660" y2="36" stroke="#334155" stroke-width="0.8" />
       
-      <text x="20" y="68" class="table-cell"><tspan font-weight="bold" fill="#fbbf24">• Hauteur d'Épaulement :</tspan> Exactement <tspan font-weight="bold" fill="#f8fafc">13,00 mm</tspan> (épouse rigoureusement la saillie du RB8016).</text>
-      <text x="20" y="98" class="table-cell"><tspan font-weight="bold" fill="#fbbf24">• Épaisseur du Bec de Pincement :</tspan> <tspan font-weight="bold" fill="#f8fafc">2,00 mm</tspan> (en Alu 7075 ou Acier inoxydable résistant).</text>
-      <text x="20" y="128" class="table-cell"><tspan font-weight="bold" fill="#fbbf24">• Débordement Horizontal du Bec :</tspan> <tspan font-weight="bold" fill="#f8fafc">4,0 mm</tspan> sur la face supérieure de la bague extérieure.</text>
-      <text x="20" y="158" class="table-cell"><tspan font-weight="bold" fill="#fbbf24">• Fixation à la Traverse :</tspan> 1 vis CHC M4 × 12 mm ou M4 × 16 mm par bride (dans taraudages coins).</text>
-      <text x="20" y="188" class="table-cell"><tspan font-weight="bold" fill="#34d399">• Modification Waist Plate Rouge :</tspan> Augmenter le redan inférieur de <tspan font-weight="bold" fill="#34d399">1,50 mm à 3,00 mm</tspan>.</text>
-      <text x="20" y="218" class="table-cell"><tspan font-weight="bold" fill="#34d399">• Résultat d'Entrefer :</tspan> <tspan font-weight="bold" fill="#34d399">3,0 mm - 2,0 mm = 1,00 mm d'air libre</tspan> continu sous la plaque en rotation.</text>
+      <text x="20" y="58" class="table-cell"><tspan font-weight="bold" fill="#38bdf8">• Dimensions Hors-Tout (L × W × H) :</tspan> <tspan font-weight="bold" fill="#f8fafc">16,00 mm × 15,00 mm × 15,00 mm</tspan> (format cubique compact).</text>
+      <text x="20" y="84" class="table-cell"><tspan font-weight="bold" fill="#38bdf8">• Profondeurs Radiales (X) :</tspan> Bec = <tspan font-weight="bold" fill="#f8fafc">4,00 mm</tspan>, Mur vertical = <tspan font-weight="bold" fill="#f8fafc">3,50 mm</tspan>, Embase = <tspan font-weight="bold" fill="#f8fafc">12,00 mm</tspan>.</text>
+      <text x="20" y="110" class="table-cell"><tspan font-weight="bold" fill="#fbbf24">• Hauteurs Verticales (Z) :</tspan> Épaulement = <tspan font-weight="bold" fill="#f8fafc">13,00 mm</tspan>, Bec = <tspan font-weight="bold" fill="#f8fafc">2,00 mm</tspan>, Semelle = <tspan font-weight="bold" fill="#f8fafc">5,00 mm</tspan>.</text>
+      <text x="20" y="136" class="table-cell"><tspan font-weight="bold" fill="#fbbf24">• Trou Lisse de Fixation :</tspan> <tspan font-weight="bold" fill="#f8fafc">Ø 4,50 mm</tspan> centré à <tspan font-weight="bold" fill="#f8fafc">X = +8,00 mm</tspan> (4,5 mm du mur, 4,0 mm du bord arrière).</text>
+      <text x="20" y="162" class="table-cell"><tspan font-weight="bold" fill="#fbbf24">• Visserie &amp; Implantation :</tspan> 1 vis CHC M4 × 16 mm (McMaster <tspan font-weight="bold" fill="#f8fafc">92290A154</tspan>) sur PCD <tspan font-weight="bold" fill="#f8fafc">Ø 136,0 mm</tspan> (R = 68 mm, à 45°).</text>
+      <text x="20" y="188" class="table-cell"><tspan font-weight="bold" fill="#34d399">• Garde Rondelle DIN 125A M4 :</tspan> Rayon rondelle 4,5 mm = assise plane parfaite sans conflit avec le mur.</text>
+      <text x="20" y="214" class="table-cell"><tspan font-weight="bold" fill="#34d399">• Modification Waist Plate Rouge :</tspan> Redan inférieur porté à <tspan font-weight="bold" fill="#34d399">3,00 mm</tspan> (portée Ø 80 à Ø 92 mm).</text>
+      <text x="20" y="240" class="table-cell"><tspan font-weight="bold" fill="#34d399">• Résultat d'Entrefer :</tspan> <tspan font-weight="bold" fill="#34d399">3,0 mm - 2,0 mm = 1,00 mm d'air libre</tspan> continu en rotation (+/- 95°).</text>
     </g>
 
     <!-- Right : Synthesis Checklist -->

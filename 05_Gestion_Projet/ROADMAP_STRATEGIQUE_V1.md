@@ -60,7 +60,8 @@ Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il perm
 ---
 
 ## 🔴 NIVEAU 4 : Cinématique Corps Complet, Dynamics & Imitation (En attente d'assemblage)
-*Dépendances : Assemblage mécanique du Torse/Membres + 2x Teensy 4.1 CAN FD*
+*Dépendances : Assemblage mécanique du Torse/Membres + 2x Teensy 4.1 CAN FD*  
+*État Motorisation RobStride : **23 / 27 moteurs acquis (85,2 %)** — Membres inférieurs (Phase 4, 12 DOF : 4× RS-04 + 8× RS-03) et axes de force des bras (2× RS-04 + 4× RS-03) 100% acquis.*
 
 - [ ] **Compensation de Gravité `Pinocchio`** : Urdf D-Bot + injection de couple de gravité G(q) via tau_ff du mode MIT Control sur les 27 moteurs RobStride.
 - [ ] **Apprentissage par Imitation `LeRobot`** : Adaptation du framework Hugging Face pour l'enregistrement et l'exécution de politiques de manipulation autonome (*ACT / Diffusion Policy*).

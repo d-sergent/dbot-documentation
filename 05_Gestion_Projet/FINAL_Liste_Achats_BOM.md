@@ -3,26 +3,27 @@
 
 ## 📑 Sommaire
 
-- [**1. Visserie & Fixations (Hardware)**](#1-visserie-fixations-hardware)
-  - [Quantités Requises (D-Bot + 2x RS-05)](#quantités-requises-d-bot-2x-rs-05)
+- [**1. Visserie & Fixations (Hardware)**](#1-visserie--fixations-hardware)
+  - [Quantités Requises (D-Bot + 2x RS-05)](#quantités-requises-d-bot--2x-rs-05)
   - [Liens d'Achat Recommandés](#liens-dachat-recommandés)
   - [Inserts Filetés (Heat-set)](#inserts-filetés-heat-set)
-  - [Roulements à Section Fine (Articulations)](#roulements-à-section-fine-articulations)
-  - [Accouplements à Bride (Pour moteurs QDD plats RS-02 / RS-00)](#accouplements-à-bride-pour-moteurs-qdd-plats-rs-02-rs-00)
-- [**2. Moteurs & Actionneurs (Par Phase)**](#2-moteurs-actionneurs-par-phase)
-  - [Phase 1 : Tête / Torse (Aucun Moteur)](#phase-1-tête-torse-aucun-moteur)
-  - [Phase 2 : Premier Bras (6 DOF)](#phase-2-premier-bras-6-dof)
-  - [Phase 3 : Deuxième Bras (6 DOF identiques)](#phase-3-deuxième-bras-6-dof-identiques)
-  - [Phase 4 : Jambes + Cou + Taille (15 DOF)](#phase-4-jambes-cou-taille-15-dof)
-  - [Phase 5 : Mains (16 DOF — 8 par main)](#phase-5-mains-16-dof-8-par-main)
+  - [Roulements & Paliers Structuraux (Articulations)](#roulements--paliers-structuraux-articulations)
+  - [Accouplements à Bride (Pour moteurs QDD plats RS-02 / RS-00)](#accouplements-à-bride-pour-moteurs-qdd-plats-rs-02--rs-00)
+- [**2. Moteurs & Actionneurs (Par Phase & Bilan Global)**](#2-moteurs--actionneurs-par-phase--bilan-global)
+  - [Bilan Synthétique des Moteurs : Acquis vs Reste à Acheter](#bilan-synthétique-des-moteurs--acquis-vs-reste-à-acheter)
+  - [Phase 1 : Tête / Torse (Aucun Moteur Additionnel)](#phase-1--tête--torse-aucun-moteur-additionnel)
+  - [Phase 2 : Premier Bras (6 DOF)](#phase-2--premier-bras-6-dof)
+  - [Phase 3 : Deuxième Bras (6 DOF identiques)](#phase-3--deuxième-bras-6-dof-identiques)
+  - [Phase 4 : Jambes (12 DOF)](#phase-4--jambes-12-dof)
+  - [Phase 5 : Mains (16 DOF — 8 par main)](#phase-5--mains-16-dof--8-par-main)
   - [Autres Composants Électroniques](#autres-composants-électroniques)
-- [**3. Électronique & Cerveau (Détail Phase 1 & 2)**](#3-électronique-cerveau-détail-phase-1-2)
+- [**3. Électronique & Cerveau (Détail Phase 1 & 2)**](#3-électronique--cerveau-détail-phase-1--2)
   - [Électronique de Contrôle](#électronique-de-contrôle)
   - [Capteurs d'Équilibre (Phase 4)](#capteurs-déquilibre-phase-4)
-  - [Sécurité & Gestion d'Énergie (Power Management)](#sécurité-gestion-dénergie-power-management)
-  - [Interface CAN & Perception](#interface-can-perception)
-- [**4. Infrastructure & Connexion**](#4-infrastructure-connexion)
-- [**5. Consommables & Outils**](#5-consommables-outils)
+  - [Sécurité & Gestion d'Énergie (Power Management)](#sécurité--gestion-dénergie-power-management)
+  - [Interface CAN & Perception](#interface-can--perception)
+- [**4. Infrastructure & Connexion**](#4-infrastructure--connexion)
+- [**5. Consommables & Outils**](#5-consommables--outils)
 
 ---
 
@@ -38,7 +39,11 @@
 | **Rondelles plates** | M2.5 | DIN 125A (Inox) | 4 (+ stock 10) | Rondelles d'assise sous écrous Nylstop M2,5 |
 | **Goupilles cylindriques** | Ø 3,0 mm | 14 mm (ISO 8734 m6) | 4 (+ stock 2 = 6) | Positionnement positif absolu 0,005 mm sandwich colonne Carré 80×80 mm (Z=±40 mm, Y=±40 mm) — Jonction coupe droite 100 mm |
 | **Vis CHC** | M3 | 6mm - 12mm | ~240 | Fixations électroniques, caches, small motors |
+| **Vis CHC** | M3 | 10 mm (DIN 912, Inox 18-8, McMaster `91292A113` / 316 `92290A113`) | 6 (+ stock 10) | Fixation directe Rotor RS-06 ➔ Moyeu Sandwich Waist (6 perçages sur PCD Ø 24 mm) |
+| **Vis CHC Tête Basse** | M3 | 12 mm (DIN 7984, Inox 18-8, McMaster `92855A313`) | 8 (+ stock 10) | Fixation directe Stator RS-06 ➔ Traverse Renfort Bassin (Option 1 Validée, air gap 1,48 mm) |
 | **Vis CHC** | M4 | 10mm - 15mm | ~160 | Structure principale, moteurs RS-01-RS-04 |
+| **Vis CHC** | M4 | 16 mm (DIN 912, Inox 316, McMaster `92290A154` / 18-8 `91292A115`) | 4 (+ stock 10) | Fixation des 4 Brides étagées en L de retenue axiale RB8016 sur la Traverse Bassin |
+| **Vis FHC** | M5 | 25 mm (DIN 7991, 90°, Inox 316, McMaster `92125A230`) | 4 (+ stock 10) | Fixation Traverse Renfort Bassin ➔ Bâti Pelvis PA12-CF (affleurantes à 0,0 mm) |
 | **Vis CHC** | M5 | 12mm - 20mm | ~40 | Hanches, Grosses articulations |
 | **Écrous/Rondelles** | M3/M4/M5 | - | ~150 de chaque | - |
 
@@ -55,8 +60,12 @@
 *   **Pourquoi ?** Les moletages opposés offrent la meilleure résistance à l'arrachement dans le PETG-CF.
 *   **Acheter chez** : [3DJake France](https://www.3djake.fr) ou Amazon.
 
-### Roulements à Section Fine (Articulations)
-Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les roulements standards (60xx) beaucoup trop profonds et lourds. Utilisez les séries *67xx* ou *68xx* :
+### Roulements & Paliers Structuraux (Articulations)
+Pour un ratio Moment/Poids optimal en montage de type "Chape", fuyez les roulements standards (60xx) beaucoup trop profonds et lourds. Utilisez les séries *67xx*, *68xx* ou rouleaux croisés :
+*   **Pour la Liaison Waist Yaw (Taille) : Roulement à Rouleaux Croisés RB8016 UU (ou CRBH 8016 UU)**
+    *   *Fabricant & Statut* : **EFANT Precision Bearings (✅ Reçu & Contrôlé Métrologie le 15/09/2026, Rapport N° 01)**.
+    *   *Dimensions Réelles Contrôlées* : 80 mm (d = 79,996 mm) × 120 mm (D = 119,995 mm) × 16 mm (B = 15,965 mm).
+    *   *Précision & Capacité* : Faux-rond radial/axial Kia/Sia = 0,003 mm (3 µm, Classe P4/P2), Moment de renversement statique M0 ~ 520 N.m (Sf = 2,36 face aux 220 N.m dynamiques max), charge axiale Ca = 22 kN, radiale Cr = 15 kN.
 *   **Pour le Moteur RS-04 (Hanches/Genoux) : 6807-2RS**
     *   *Dimensions* : 35 mm (Int) × 47 mm (Ext) × 7 mm (Ép).
     *   *Masse & Capacité* : ~30g, Capacité radiale **4.8 kN** (~480 kg). Le large diamètre interne permet de passer vos câbles XT30 et CAN !
@@ -82,18 +91,18 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 
 ## 2. Moteurs & Actionneurs (Par Phase & Bilan Global)
 
-### 📊 Bilan Synthétique des Moteurs : Acquis vs Reste à Acheter
+### Bilan Synthétique des Moteurs : Acquis vs Reste à Acheter
 
 | Modèle Moteur | Emplacements / Fonctions prévues | Total Requis | Déjà Acquis | Reste à Acheter (Option A : Std) | Reste à Acheter (Option B : RS-10P) |
 | :--- | :--- | :---: | :---: | :---: | :---: |
 | **Robstride RS-06** | Taille (Waist Yaw) | 1 | 1 (**✅ Acheté & Monté**) | **0** | **0** |
 | **Robstride RS-05** | Cou (Pan + Tilt) | 2 | 2 (**✅ Achetés & Montés**) | **0** | **0** |
-| **Robstride RS-04** | Épaules Pitch (2) + Genoux (2) + Hanches Pitch (2) | 6 | 2 (**✅ Achetés**) | **4** (2 Genoux + 2 Hanches P) | **4** (2 Genoux + 2 Hanches P) |
-| **Robstride RS-03** | Épaules Roll (2) + Coudes Pitch (2) + Hanches R/Y (4) + Chevilles (4) | 12 | 3 (**✅ Achetés**) | **9** (1 Épaule R + 4 Hanches + 4 Chevilles) | **9** (1 Épaule R + 4 Hanches + 4 Chevilles) |
+| **Robstride RS-04** | Épaules Pitch (2) + Genoux (2) + Hanches Pitch (2) | 6 | 6 (**✅ 100% Achetés : 2 Épaules P + 2 Hanches P + 2 Genoux**) | **0** | **0** |
+| **Robstride RS-03** | Épaules Roll (2) + Coudes Pitch (2) + Hanches R/Y (4) + Chevilles (4) | 12 | 12 (**✅ 100% Achetés : 2 Épaules R + 2 Coudes P + 4 Hanches R/Y + 4 Chevilles**) | **0** | **0** |
 | **Robstride RS-02** | Épaules Yaw (2) + Supinations Avant-bras (2 en std / 0 en Option B) | 4 *(std)* / 2 *(opt B)* | 1 (**✅ Acheté**) | **3** (1 Épaule Yaw + 2 Supinations) | **1** (1 Épaule Yaw Bras 2) |
 | **Robstride RS-00** | Poignets Pitch (2) | 2 | 1 (**✅ Acheté**) | **1** (Poignet Pitch Bras 2) | **1** (Poignet Pitch Bras 2) |
 | **Robstride RS-10P** | Supinations Avant-bras (2) *(Ø 57 mm au lieu de 78.5 mm)* | 0 *(std)* / 2 *(opt B)* | 0 | **0** | **2** (Supination Bras 1 & 2) |
-| **TOTAL ROBSTRIDE** | **Corps complet bipède (27 DOF)** | **27** | **10** | **17 moteurs** | **17 moteurs** |
+| **TOTAL ROBSTRIDE** | **Corps complet bipède (27 DOF)** | **27** | **23 (85,2 %)** | **4 moteurs** | **4 moteurs** |
 | **Feetech STS3250** | Flexion puissance des 5 doigts (mains D-Hand) | 10 | 10 (**✅ Achetés**) | **0** (5 par main, 100% complet) | **0** (5 par main, 100% complet) |
 | **Feetech HL-3915** | Opposition pouce + Abduction + Curl palmaire | 6 | 6 (**✅ Achetés**) | **0** (3 par main, 100% complet) | **0** (3 par main, 100% complet) |
 | **TOTAL FEETECH** | **2 mains complètes D-Hand (16 DOF)** | **16** | **16** | **0 (Complet)** | **0 (Complet)** |
@@ -119,17 +128,21 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 | Modèle | Quantité | Couple (Peak) | Usage | Statut |
 | :--- | :--- | :--- | :--- | :--- |
 | **Robstride RS-04** | 1 | **120 Nm** | Épaule Pitch | **✅ Acheté** |
-| **Robstride RS-03** | 2 | **60 Nm** | Épaule Roll (1× ✅ Acheté) + Coude Pitch (1× à commander) | 1× ✅ Acheté / 1× À commander |
+| **Robstride RS-03** | 2 | **60 Nm** | Épaule Roll (1) + Coude Pitch (1) | **✅ 100% Achetés (2/2)** |
 | **Robstride RS-02** | 1 | **17 Nm** | Épaule Yaw | À commander |
 | **Robstride RS-00** | 1 | **14 Nm** | Poignet Pitch | À commander |
 | **Robstride RS-10P** *(Option B)* | 1 | **42 Nm** | Supination Avant-bras *(Ø 57 mm, compact)* | À commander (ou RS-02 en Option A) |
 
+> **Capacité Phase 3** : Le deuxième bras dispose désormais de ses 2 gros moteurs de puissance (Épaule Pitch RS-04 et Coude Pitch RS-03) ainsi que son Épaule Roll RS-03. Seuls l'Épaule Yaw (RS-02), le Poignet Pitch (RS-00) et la Supination restent à acquérir pour clore le deuxième bras.
+
 ### Phase 4 : Jambes (12 DOF)
 | Modèle | Quantité | Couple (Peak) | Usage | Statut |
 | :--- | :--- | :--- | :--- | :--- |
-| **Robstride RS-04** | 4 | **120 Nm** | Hanches Pitch (2) + Genoux (2) | À commander |
-| **Robstride RS-03** | 4 | **60 Nm** | Hanches Roll (2) + Hanches Yaw (2) | À commander |
-| **Robstride RS-03** | 4 | **60 Nm** | Chevilles Pitch+Roll (**2× par cheville**, cardan + bielles) | À commander |
+| **Robstride RS-04** | 4 | **120 Nm** | Hanches Pitch (2) + Genoux (2) | **✅ 100% Achetés (4/4)** |
+| **Robstride RS-03** | 4 | **60 Nm** | Hanches Roll (2) + Hanches Yaw (2) | **✅ 100% Achetés (4/4)** |
+| **Robstride RS-03** | 4 | **60 Nm** | Chevilles Pitch+Roll (**2× par cheville**, cardan + bielles) | **✅ 100% Achetés (4/4)** |
+
+> **Jalon Historique Phase 4** : **100% de la motorisation des membres inférieurs (12 DOF sur 12) est désormais acquise !** Les 12 actionneurs RobStride haute puissance requis pour les hanches, genoux et chevilles sont achetés.
 
 > **Note Architecture Cheville** : Cardan DIN 808 + 2× RS-03 par cheville (différentiel Pitch/Roll). Voir [Étude Cheville](../01_Mecanique_et_Chassis/Jambes_et_Pieds/STUDY_Cheville_Cardan.md).
 
