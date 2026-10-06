@@ -23,7 +23,7 @@ Toutes les valeurs proviennent des sources indiquées. En cas de contradiction, 
 
 ## 1. Vue d’Ensemble (Version Actuelle)
 
-Le D‑Bot V1.x est un humanoïde de **≈ 1,55 m** de haut (avec le module Waist), **≈ 40,4 kg** au repos, doté de **27 moteurs RobStride** (QDD) et **16 servomoteurs Feetech** (D‑Hand Hybrid Premium).  
+Le D-Bot V1.x est un humanoïde de **~1,58 m** de haut (~1,584 m avec le module Waist élargi et le pelvis scalé, hauteur torse + pelvis = 819,74 mm), **~38,6 kg** au repos (allègement majeur de -6,61 kg suite à l'attribution du matériau composite PA12-CF au caisson pelvien, ensemble Torse + Bassin = 18,16 kg), doté de **27 moteurs RobStride** (QDD) et **16 servomoteurs Feetech** (D-Hand Hybrid Premium).  
 
 Architecture mécanique principale :  
 
@@ -143,7 +143,7 @@ Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈�
 
 | Sujet | Description | Source / Priorité | Action requise |
 |-------|-------------|-------------------|----------------|
-| **Entraînement Y des hanches** | Valeur exacte de l’entraxe Y (largeur bassin) non finalisée dans les CAD. | `FINAL_Dimensions_et_Leviers.md` – **[À COMPLÉTER]** | Mesurer le prototype de la cage aluminium, mettre à jour le CAD. |
+| **Entraxe Y des hanches & Largeur Pelvis** | Envergure Y totale figée à 487,09 mm (entraxe hanches ~420 mm, scale 1,2776). | `AUDIT_METROLOGIQUE_Torse_et_Bassin.json` – ✅ **Validé CAO** | Intégré dans le modèle CAO validé (caisson PA12-CF + traverse 7075-T6). |
 | **Fournisseur bielles carbone** | Référence fournisseur et prix manquants. | `FINAL_Architecture_Globale.md` – **[À COMPLÉTER]** | Identifier un fournisseur (ex. Carbon‑Fiber‑Tech) et obtenir devis. |
 | **Visserie titane M4** | Possibilité d’allègement, mais pas encore validée. | `FINAL_Glossaire.md` – **[À COMPLÉTER]** | Étude de résistance (FEA) et décision d’achat. |
 | **Câblage CAN torsadé** | Longueur exacte et type de gaine (tortue vs PVC) non spécifiés. | `FINAL_Architecture_Globale.md` – **[À COMPLÉTER]** | Définir le schéma de câblage, commander le lot. |

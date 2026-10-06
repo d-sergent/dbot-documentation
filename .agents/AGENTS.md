@@ -61,6 +61,26 @@
   - Dès qu'une divergence, un déphasage ou une contradiction apparaît entre la documentation technique écrite (dossiers, feuilles de route) et l'état réel de la CAO (audit métrologique JSON, captures d'écran Fusion 360, cotes effectives), vous avez l'OBLIGATION STRICTE de le signaler immédiatement et explicitement à l'utilisateur au lieu de poursuivre aveuglément sur le texte théorique.
   - Exposer clairement l'écart (État Documenté vs État CAO Réel) afin de trancher ensemble l'arbitrage et de réaligner immédiatement la documentation et les schémas vectoriels SVG sur la réalité validée en conception 3D.
 
+## Posture d'Ingénierie Système & Décisions d'Expertise en Robotique Humanoïde
+- **Exigence d'Excellence & Alignement Strict sur l'État de l'Art Mondial** :
+  - Dans toutes ses analyses, diagnostics et propositions de conception (mécanique, cinématique, dynamique, câblage, thermique, asservissement), l'agent DOIT systématiquement adopter la posture d'un **architecte système senior en robotique humanoïde avancée**, calibré sur les standards des leaders mondiaux (Boston Dynamics Atlas, Tesla Optimus Gen 2, Unitree H1/G1, Figure 02).
+- **Formulation Systématique de la Meilleure Hypothèse dès le Premier Jet (Zéro Rétropédalage par Simplisme)** :
+  - L'agent ne doit JAMAIS proposer de compromis au rabais, de géométries hâtives ou d'impasses techniques sous-estimant la physique d'un humanoïde dynamique (ex: passages de câbles trop étroits provoquant un cisaillement, rayons de courbure trop faibles détruisant le cuivre par fatigue cyclique, connecteurs indémontables obligeant à dessouder en atelier, oubli des masses, inerties ou contraintes thermiques).
+  - L'agent DOIT formuler d'emblée la **meilleure proposition argumentée**, étayée par les calculs physiques réels (RDM, cinématique, dynamique, thermique, électrotechnique) et les retours d'expérience industriels.
+  - Une fois une solution techniquement démontrée et validée, l'agent **assume et maintient fermement sa décision** : il est formellement interdit de revenir sur une décision solide, de changer d'avis sans justification physique nouvelle ou de rétropédaler vers une solution bancale au moindre questionnement. L'agent doit au contraire expliciter la démonstration avec rigueur, chiffres et pédagogie pour dissiper les doutes.
+- **Anticipation Holistique Systématique des Contraintes Réelles** :
+  - **Cinématique & Torsion Dynamique du Harnais Électrique** :
+    - Toujours analyser le comportement dynamique du faisceau sur toute la plage angulaire réelle (ex: lacet de taille +/- 90° à +/- 95°).
+    - Respect absolu de la règle de torsion linéique admissible (`<= 0,6° / mm` à `1,0° / mm` max) et prédisposition d'une boucle de service libre (`L = 150 à 200 mm`).
+    - Respect des rayons de courbure minimaux : `R >= 6 * Ø_câble` en statique, `R >= 10 * Ø_câble` en flexion/torsion cyclique continue.
+    - Proscription absolue du cisaillement relatif ("effet guillotine") : deux cloisons en mouvement relatif ne doivent JAMAIS enserrer un faisceau dans deux orifices fermés superposés. Tout passage tournant doit s'ouvrir en encoche dégagée ou passer par un corridor axial ouvert avec boucle de service dédiée.
+  - **Démontabilité & Maintenance Atelier (Zéro Dessoudage)** :
+    - Tout passage de faisceau (lumière, passe-fil, tunnel de cloison) doit impérativement être dimensionné pour laisser passer les connecteurs complets pré-câblés (XT30, XT60, XT90, JST, Micro-Fit) sans jamais obliger à couper ou dessouder les lignes de puissance ou de communication lors de la maintenance en atelier.
+    - Les passe-fils souples en élastomère (TPU) doivent être systématiquement conçus avec une fente latérale pour être amovibles sans déconnecter le faisceau.
+  - **Cohérence Métrologique & Intégrité Matière (Usinage & Impression 3D)** :
+    - Avant de poser une cote ou une lumière, recouper systématiquement les encombrements réels (bounding boxes, axes de rotation, bagues de roulements) dans le modèle CAO validé (ex: `AUDIT_METROLOGIQUE_Torse_et_Bassin.json`).
+    - Toujours vérifier que les ponts de matière résiduels en alliage d'aluminium (7075-T6) ou polymère composite (PA12-CF) respectent les épaisseurs minimales d'usinabilité et de tenue mécanique (typiquement `> 2,5 à 3,0 mm` en 7075-T6 pour éviter toute déformation lors du fraisage CNC).
+
 ## Modélisation CAO Fusion 360 & Quincaillerie Normalisée (McMaster-Carr)
 - **Références McMaster-Carr Systématiques (3D STEP)** :
   - Dès qu'un nouveau composant de visserie, fixation ou quincaillerie (vis CHC/FHC/BHC, écrous Nylstop, rondelles plates DIN 125A, rondelles Nord-Lock, entretoises nylon, inserts filetés, goupilles) est introduit, dimensionné ou modifié dans la documentation technique active, vous DEVEZ SYSTÉMATIQUEMENT :

@@ -21,6 +21,8 @@ Ce dossier technique formalise la stratégie d'indépendance technologique et d'
   - [3.4 Intégration des Paramètres Globaux via l'Atelier Spreadsheet](#34-intégration-des-paramètres-globaux-via-latelier-spreadsheet)
   - [3.5 Reconstitution des Esquisses & Cotes dans FreeCAD (DXF + Positionnement 3D)](#35-reconstitution-des-esquisses-cotes-dans-freecad-dxf-positionnement-3d)
   - [3.6 Comparatif Ergonomique : Timeline, User-Friendliness & Pose des Joints](#36-comparatif-ergonomique-timeline-user-friendliness-pose-des-joints)
+  - [3.7 Génération Automatique des Mises en Plan 2D Cotées (TechDraw & Sketcher)](#37-génération-automatique-des-mises-en-plan-2d-cotées-techdraw--sketcher)
+  - [3.8 Generative Drafting 2D Standard RobStride & Pipeline Dual (.FCStd + PDF)](#38-generative-drafting-2d-standard-robstride--pipeline-dual-fcstd--pdf)
 - [**4. Analyse des Frontières Techniques & Faisabilité de Reconstruction de Timeline**](#4-analyse-des-frontières-techniques-faisabilité-de-reconstruction-de-timeline)
   - [4.1 Matrice d'Automatisation Globale](#41-matrice-dautomatisation-globale)
   - [4.2 Faisabilité de Reconstruction Intégrale de la Timeline (Reverse-Engineering d'Arbre)](#42-faisabilité-de-reconstruction-intégrale-de-la-timeline-reverse-engineering-darbre)
@@ -325,6 +327,140 @@ La **Timeline chronologique** et la **pose intuitive des liaisons (Joints)** con
 #### C. L'Ergonomie Générale & le "Facteur User-Friendly"
 - **Fusion 360** conserve une avance sur l'intuitivité immédiate, les menus contextuels circulaires (marquage gestuel) et la tolérance aux esquisses imparfaites.
 - **FreeCAD 1.0** s'adresse à une démarche d'ingénierie plus rigoureuse : il exige que les esquisses soient strictement contraintes à 100 % (zéro degré de liberté, passage au vert intégral) pour garantir l'absence d'ambiguïté dans le solveur.
+
+---
+
+### 3.7 Génération Automatique des Mises en Plan 2D Cotées (TechDraw & Sketcher)
+
+Une interrogation centrale posée lors de la mise en place du pipeline souverain est :  
+> **"Une fois les fichiers STEP 3D dédupliqués et le manifeste JSON générés depuis Fusion 360, que peut-on automatiser sous FreeCAD en termes d'esquisses 2D et de plans cotés pour l'usinage en atelier ?"**
+
+Grâce à la scriptabilité intégrale de l'environnement Python de FreeCAD (`freecadcmd` en mode headless sans interface graphique), **deux voies complémentaires d'automatisation 2D** sont opérationnelles :
+
+#### 1. Voie A : Génération Automatique de Plans de Contrôle 2D via l'Atelier TechDraw
+
+L'atelier officiel **TechDraw** de FreeCAD permet de créer des mises en plan normalisées conformes aux standards industriels (ISO / DIN / ANSI).
+
+##### A. Mécanisme de Génération Headless :
+1. **Création d'une page normalisée A4** : Le script instancie un objet `TechDraw::DrawPage` et lui associe un cartouche SVG normalisé (`Default_Template_A4_Landscape.svg`).
+2. **Projection de la vue 2D principale** : Un objet `TechDraw::DrawViewPart` projette le solide STEP selon la vue la plus pertinente (vecteur de projection `Direction = (0, 0, 1)` pour une vue de dessus de plaque 2.5D, avec masquage automatique des arêtes cachées `HiddenEdges = False`).
+3. **Cotation automatique des cotes d'encombrement (Extent Dimensions)** :
+   FreeCAD expose la fonction C++ sous-jacente `TechDraw.makeExtentDim(view, edge_list, direction)` :
+   - `direction = 0` : cote horizontale automatique (largeur X de la pièce).
+   - `direction = 1` : cote verticale automatique (hauteur Y de la pièce).
+   Le script identifie automatiquement les arêtes extrêmes du solide et pose les cotes sans aucune intervention manuelle.
+4. **Cotation des cercles et entraxes clés** : Le script parcourt les arêtes géométriques `view.getVisibleEdges()` : pour chaque arête de type circulaire (`geomType == "Circle"`), il ajoute une cote de diamètre ou de rayon via `TechDraw.DrawViewDimension`.
+5. **Remplissage automatique du cartouche** : Les métadonnées issues du JSON (désignation de pièce, référence McMaster-Carr, matériau appliqué Alu 7075-T6 ou PA12-CF, masse calculée en grammes, date) sont injectées directement dans les balises textuelles éditables du template SVG.
+6. **Export multi-format** :
+   - **DXF 2D** : Via `TechDraw.writeDXFPage(page, dxf_path)` pour transfert direct vers le logiciel d'imbrication NestWorks de la fraiseuse CNC C500.
+   - **SVG / PDF** : Via l'export vectoriel de la page pour consultation immédiate et impression de fiches d'atelier.
+
+```python
+# Exemple de script Python FreeCAD (TechDraw automatique)
+import FreeCAD as App
+import Part, TechDraw
+
+doc = App.newDocument("Plan_2D_Automatique")
+shape = Part.read("Traverse_Renfort_Bassin.step")
+part_feat = doc.addObject("Part::Feature", "Piece")
+part_feat.Shape = shape
+
+# 1. Création de la page A4 avec cartouche SVG
+page = doc.addObject("TechDraw::DrawPage", "PageA4")
+template = doc.addObject("TechDraw::DrawSVGTemplate", "Template")
+template.Template = "/Applications/FreeCAD.app/Contents/Resources/share/Mod/TechDraw/Templates/Default_Template_A4_Landscape.svg"
+page.Template = template
+
+# 2. Projection de la vue de dessus
+view = doc.addObject("TechDraw::DrawViewPart", "Vue_Dessus")
+view.Source = part_feat
+view.Direction = App.Vector(0, 0, 1)
+view.Scale = 1.0
+view.X = 148.5
+view.Y = 105.0
+page.addView(view)
+doc.recompute()
+
+# 3. Cotation automatique d'encombrement X et Y
+edges = [f"Edge{i+1}" for i in range(len(view.getVisibleEdges()))]
+dim_x = TechDraw.makeExtentDim(view, edges, 0) # 0 = Horizontal
+dim_y = TechDraw.makeExtentDim(view, edges, 1) # 1 = Vertical
+page.addView(dim_x)
+page.addView(dim_y)
+doc.recompute()
+
+# 4. Export DXF pour la fraiseuse CNC C500
+TechDraw.writeDXFPage(page, "Traverse_Renfort_Bassin_Plan2D.dxf")
+```
+
+---
+
+#### 2. Voie B : Extraction d'Esquisses 2D Paramétriques Éditables (Draft & Sketcher)
+
+Pour les pièces que l'on souhaite pouvoir modifier géométriquement dans FreeCAD (par exemple, ajuster le diamètre d'un logement de roulement ou décaler une rangée de perçages M3), le flux Draft vers Sketcher reconstruit une esquisse native :
+
+##### A. Mécanisme de Reconstruction :
+1. **Projection 2D de la forme 3D** : La fonction `Draft.make_shape2dview(part_feat, App.Vector(0, 0, 1))` aplatit la géométrie 3D complexe en un ensemble de courbes coplanaires 2D.
+2. **Conversion en Esquisse Sketcher avec autoconstraintes** :
+   ```python
+   sketch = Draft.make_sketch(shape2d, autoconstraints=True)
+   ```
+   Cette méthode génère automatiquement toutes les contraintes topologiques élémentaires :
+   - Coïncidence exacte des extrémités de lignes et d'arcs.
+   - Contraintes d'horizontalité (`Horizontal`) et de verticalité (`Vertical`).
+   - Maintien des tangences entre arcs et segments.
+3. **Ajout de Contraintes Dimensionnelles Pilotées** :
+   Le script ajoute ensuite les contraintes de dimensionnement clés dans l'objet esquisse :
+   ```python
+   # Ajout d'une cote de distance entre deux points ou sur une ligne
+   sketch.addConstraint(Sketcher.Constraint("DistanceX", geo_idx, 1, geo_idx, 2, 174.90))
+   # Ajout d'une cote de rayon sur un perçage
+   sketch.addConstraint(Sketcher.Constraint("Radius", circle_idx, 2.50))
+   ```
+4. **Liaison Dynamique avec l'Atelier Spreadsheet** :
+   Chaque contrainte d'esquisse peut être liée à une cellule du tableur des paramètres du D-Bot :
+   ```python
+   sketch.setExpression("Constraints[0]", "Spreadsheet.Largeur_Traverse")
+   ```
+   Dès lors, modifier la valeur dans le tableur met à jour automatiquement l'esquisse et la pièce 3D régénérée.
+
+---
+
+#### 3. Synthèse des Cas d'Usage pour le Projet D-Bot
+
+| Besoin Atelier | Méthode Recommandée | Format de Sortie | Destination |
+| :--- | :--- | :---: | :--- |
+| **Imbrication tôlerie & usinage CNC** | Export DXF de la face supérieure via `TechDraw.writeDXFPage` | `.dxf` 2D | NestWorks / Fraiseuse C500 |
+| **Fiche de contrôle qualité métrologique** | Plan A4 coté complet via `TechDraw` (cotes X, Y, cercles, cartouche) | `.pdf` / `.svg` | Contrôle d'atelier & Marbre de mesure |
+| **Modification paramétrique future** | Esquisse native contrainte via `Draft.make_sketch(autoconstraints=True)` | Fichier natif `.FCStd` | Bureau d'études FreeCAD |
+
+---
+
+#### 4. Exemple Concret Réalisé : Plan de Contrôle 2D & Métrologie (`Waist_Plate_7075`)
+
+Ci-dessous le plan technique vectoriel généré de manière 100 % automatisée en mode headless via le pipeline souverain FreeCAD / OpenCASCADE (`generate_sovereign_2d_drawings.py`), associant la projection filaire des usinages (face active `Vector(0, 0, -1)`), les cotes hors-tout, les repères de perçages protégés par badges de contraste (callouts PCD stator RS-06 et vis M5), le panneau des spécifications CNC C500 et le cartouche ISO normalisé :
+
+![Plan d'Atelier 2D Waist Plate 7075](./media/Waist_Plate_7075_Plan2D.svg)
+
+---
+
+### 3.8 Generative Drafting 2D Standard RobStride & Pipeline Dual (.FCStd + PDF)
+
+Pour franchir le cap de l'automatisation intégrale de la liasse de plans d'atelier (concept de **Generative Drafting** en CAO industrielle), le pipeline D-Bot adopte les standards graphiques et métrologiques des datasheets d'actionneurs robotiques de classe mondiale (RobStride RS-04 / RS-06) :
+
+1. **Rendu Visuel Industriel Normalisé (ISO 128 / ISO 129)** :
+   - Fond blanc pur d'atelier (`#ffffff`), monochrome noir haute lisibilité.
+   - Contours vus en trait fort (0,50 mm), lignes d'axe et cercles primitifs (PCD) en trait mixte fin (0,25 mm), cotes et lignes de rappel en trait continu fin (0,25 mm à 0,35 mm).
+   - Triptyque axisymétrique de vues orthogonales : Face Avant (Rotor / PCD de sortie), Tranche axiale (épaisseurs étagées et redans), Face Arrière (Stator / bride bâti et corridor de câble déporté).
+2. **Algorithme Anti-Collision Strict (Zéro Superposition)** :
+   - Échelonnement étagé des cotes longitudinales (offsets de 8 à 12 mm en dehors de la pièce).
+   - Couloirs radiaux réservés pour les lignes de renvoi de perçages avec coude d'épaulement horizontal.
+   - Masquage opaque d'arrière-plan sous tout texte de cotation pour éviter les interférences avec les lignes d'axe.
+3. **Architecture de Sortie Duale (.FCStd + PDF)** :
+   - **Format Ouvert PDF Vectoriel** : Génération directe via Chrome headless (`--print-to-pdf`), 100 % vectoriel, sans pixellisation, diffusable immédiatement aux usineurs CNC.
+   - **Format Natif FreeCAD (.FCStd)** : Génération automatisée via `freecadcmd` incluant le B-Rep 3D réel et la page `TechDraw::DrawPage` avec cartouche ISO 7200.
+
+![Architecture Generative Drafting 2D Style RobStride](./media/schema_robstride_drafting_principles.svg)
 
 ---
 

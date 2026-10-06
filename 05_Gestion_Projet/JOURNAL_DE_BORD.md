@@ -2,6 +2,56 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-10-06 — Fixation du Plastron Ventral sur Waist Plate (Torse v107), Preuve Métrologique de Non-Interférence Nylstop M4 & Blueprint Haute Fidélité de Sécurisation Waist Yaw (+/- 95°)
+
+### 🎯 Objectifs de la session
+1. **Intégration & Dimensionnement des 4 Points de Fixation du Plastron Ventral V2 sur la Waist Plate** :
+   - Qualification des 4 lamages intérieurs et bossages d'angles M4 dans le Plastron Ventral (`Plastron_Ventral_V2`, masse 760,2 g).
+   - Validation des coordonnées spatiales CAO de `Torse v107` : paire dorsale à `X = -17,90 mm` (`Y = -56,68 mm` et `+75,39 mm`), paire ventrale à `X = +103,30 mm` (`Y = -62,50 mm` et `+79,84 mm`).
+   - Confirmation de l'espace vertical libre de `16,02 mm` sous la Waist Plate (`Z = 1036,42 mm` à `Z = 1020,41 mm`).
+2. **Démonstration Métrologique & Cinématique de Non-Interférence des Écrous Nylstop M4** :
+   - Calcul rigoureux des 4 rayons orbitaux autour de l'axe Waist Yaw (`X_0 = +49,23 mm`, `Y_0 = +9,36 mm`) : `R1 = 94,17 mm`, `R2 = 94,16 mm`, `R3 = 89,93 mm`, `R4 = 88,83 mm`.
+   - Comparaison avec le cylindre d'emprise maximale des 4 brides étagées en L du roulement RB8016 (`R_max_brides = 79,52 mm`) : garantie d'un no-man's land radial franc d'au minimum **`+5,31 mm`** au sur-coin de l'écrou M4 (DIN 985).
+   - Analyse axiale : hauteur de l'écrou Nylstop `h = 5,00 mm` descendant à `Z = 1031,42 mm`, ménageant **`+11,01 mm` de vide d'air pur** au-dessus de la Traverse pelvienne fixe.
+   - Survol des butées mécaniques : bas de l'écrou passant à **`+1,51 mm` à `+6,01 mm` au-dessus des vis de butée**, avec un décalage radial de `5,83 mm`, interdisant toute collision.
+3. **Architecture Détaillée du Système de Butée de Lacet Arrière (+/- 95°) & Amortisseurs PU** :
+   - Doigt Mobile Arrière : Plot usiné en Alu 7075-T6 (`16 × 12 × 8 mm`, saillie descendante de 8,0 mm à `R = 83,00 mm`) fixé rigidement par 2 vis à tête fraisée FHC M4 × 14 mm classe 10.9 (McMaster `92125A196`) noyées à fleur 0,0 mm dans la Waist Plate.
+   - Deux Butées Fixes à +/- 95° : Vis CHC M5 × 20 mm classe 12.9 (McMaster `91290A244`) taraudées dans la Traverse, coiffées de manchons amortisseurs cylindriques en Polyuréthane 90 Shore A (McMaster `8698K12`, Ø ext 12 mm, H = 9 mm) culminant à `Z = 1029,91 mm`.
+   - Cinématique de choc : zone de contact franc latéral de `1,5 mm`, garde d'air de `+8,01 mm` sous le doigt et `+6,51 mm` au-dessus de la butée. Facteur de sécurité au choc de crête (36 N.m, F = 434 N) de **`Sf = 57,6`**.
+4. **Création du Blueprint Vectoriel SVG Officiel & Intégration Documentaire** :
+   - Production du blueprint 3 panneaux haute fidélité [`01_Mecanique_et_Chassis/Torse_et_Bassin/media/schema_securisation_rotation_waist_et_non_interference_nylstop.svg`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/media/schema_securisation_rotation_waist_et_non_interference_nylstop.svg).
+   - Mise à jour et alignement strict de [`DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md) (Section 5.4, sous-sections 5.4.1 et 5.4.2, sommaire réaligné) et [`todo_court_terme.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/todo_court_terme.md).
+
+### 📌 Statut Général
+- **Sécurisation Waist Yaw (+/- 80° nominal / +/- 95° butée), Fixation Plastron Torse v107 & Non-Interférence Nylstop M4** : 100% Qualifiés, validés cinématiquement et documentés ! 🚀
+
+---
+
+## 📅 2026-09-27 — Intégration Matériaux Pelvis PA12-CF (-6,61 kg), Corridor Ventral Élargi 45 × 20 mm (Zéro Cisaillement Guillotine), Boucle de Service 160-180 mm & Formalisation Règle d'Expertise Humanoïde dans AGENTS.md
+
+### 🎯 Objectif de la session
+1. **Attribution Officielle PA12-CF sur le Pelvis & Allègement Majeur (-6,61 kg)** :
+   - Mise à jour de tous les matériaux du bloc pelvien en **PA12-CF** (densité 1,015 g/cm3, Infill 100% Solide sur le berceau maître `Chassis_Structurel_Bassin` et les supports/liaisons de hanches, 30% Gyroïde sur les carénages), à l'exception stricte des 4 composants indispensables : `Traverse_Renfort_Bassin` (Alu 7075-T6, 617,39 g), `Moyeu_Waist_Sandwich_7075` (Alu 7075-T6, 163,94 g), `RB8016` (Acier trempé GCr15, 633,41 g) et `RobStride RS-06` (550,97 g).
+   - Chute spectaculaire de la masse du Pelvis complet (`Bassin_Pelvis`) de 12 791,28 g à **6 185,68 g (~6,19 kg)**, soit un gain net de **-6,61 kg**.
+   - Masse de l'ensemble Haut du Corps Torse + Bassin arrêtée à **18 159,95 g (~18,16 kg)**. Masse totale estimée du robot bipède debout complet : **~38,6 kg**.
+2. **Reconstruction & Sauvegarde Souveraine FreeCAD 1.1** :
+   - Export souverain FreeCAD exécuté avec succès via `import_sovereign_cad.py` sur `Torse v102` avec FreeCAD 1.1 sous macOS.
+   - Master souverain généré à `/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/DBot_Torse_et_Bassin_Souverain.FCStd` (3,07 Mo).
+3. **Ingénierie de Câblage Humanoïde : Corridor Ventral 45 × 20 mm & Élimination de l'Effet Guillotine** :
+   - Diagnostic de l'orifice initial 30 × 16 mm : sous-dimensionné pour le faisceau complet Ø 16-18 mm (largeur utile réduite à 13,6 mm sous passe-fil TPU) et présentant un risque mortel de cisaillement pur lors de la rotation lacet +/- 90° (déplacement tangentiel de 102,9 mm scindant les câbles entre deux faces superposées distantes de 1 mm).
+   - Élargissement du corridor fixe dans la Traverse pelvienne en Alu 7075-T6 à **`45,0 mm (largeur Y) × 20,0 mm (profondeur X)`** (R = 10,0 mm, centre X = +123,0 mm, Y = +9,36 mm), préservant 3,77 mm de métal sain vers la bague du roulement RB8016 et 3,68 mm vers le bord avant.
+   - Interface tournante Waist Plate : **encoche en U frontale débouchante** vers l'avant (largeur 50 mm), supprimant tout trou fermé superposé et éliminant à 100% tout effet guillotine.
+   - Boucle de service dynamique L = 160 à 180 mm entre le collier haut (Z = 1120 mm) et le collier bas (Z = 960 mm). Torsion linéique à +/- 90° de seulement `0,56° / mm` (< 1,0°/mm admissible). Rayon de courbure dynamique R > 50 mm.
+   - Maintenance modulaire sans dessoudage : ouverture utile du passe-fil TPU (42,6 × 17,6 mm) laissant passer directement les connecteurs XT60 (15,5 × 8 mm) et XT90 (21 × 10 mm). Passe-fil souple TPU 95A fendu pour insertion après coup.
+4. **Mise à Jour de la Documentation & des Schémas Vectoriels** :
+   - Schéma vectoriel officiel `01_Mecanique_et_Chassis/Torse_et_Bassin/media/plan_waist_elargie_v102.svg` actualisé (tracé 45×20 mm, encoche en U, masses réelles) et validé XML.
+   - `DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md`, `SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md`, `FINAL_BOM_Torse_et_Waist_D-Bot.md`, `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md`, `todo_court_terme.md`.
+5. **Règle Fondatrice d'Ingénierie & d'Expertise Humanoïde dans `.agents/AGENTS.md`** :
+   - Ajout d'une section fondamentale : obligation d'adopter la posture d'un architecte système senior en robotique humanoïde avancée (standards Tesla Optimus Gen 2, Boston Dynamics Atlas, Unitree H1/G1, Figure 02).
+   - Interdiction formelle des propositions au rabais ou "a minima" obligeant à rétropédaler au premier questionnement. Formulation et défense systématique de la meilleure solution argumentée et étayée dès le premier jet.
+
+---
+
 ## 📅 2026-09-26 (Session Soirée) — Déploiement Pipeline CAO Souverain Fusion 360 ➔ FreeCAD 1.1, Macro Couleurs Composants & Validation Métrologique Torse v100 (Traverse Débouchante & Chanfreins 45°)
 
 ### 🎯 Objectif de la session
@@ -888,3 +938,4 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 
 ### 📌 Statut Général
 - **Prototypage 3D Épaules & Recuit Sunlu E2** : Métrologie et protocoles 100% qualifiés et documentés ! 🚀
+

@@ -21,15 +21,15 @@ Il sert de point de référence unique (Source of Truth) pour la modélisation C
 
 | Paramètre | Valeur | Statut |
 | :--- | :---: | :--- |
-| **Hauteur Totale** | **~1,55 m** | ✅ Figée (scale +18% du torse + module Waist Yaw) |
-| **Masse Totale de Référence** | **~40,4 kg** | ✅ Châssis hybride alu/carbone, 27 moteurs RobStride QDD, 2 packs 12S Li-Ion, 2 D-Hand |
+| **Hauteur Totale** | **~1,584 m (~1,58 m)** | ✅ Figée (scale +18% torse + module Waist + scale 1.2776 bassin, H_torse+pelvis = 819,74 mm) |
+| **Masse Totale de Référence** | **~38,6 kg** | ✅ Châssis hybride alu/carbone/PA12-CF, 27 moteurs RobStride QDD, 2 packs 12S Li-Ion, 2 D-Hand (gain de -6,61 kg via caisson pelvis en PA12-CF) |
 | **Degrés de Liberté Torse** | **1 DOF Actif (Waist Yaw)** | ✅ Motorisé par **RobStride RS-06** (36 N.m pic, 11 N.m nom., Ø 88 mm, 621 g, CAN-FD ID 21) |
-| **Torse (Hauteur Coque Physique)** | **432,67 mm** (coque nue) | ✅ Scalée à +18% en CAO pour l'intégration des moteurs RS-04 |
-| **Torse (Hauteur Cinématique Épaule ➔ Hanche)** | **495,60 mm** | ✅ Inclut : coque 432,67 mm + Waist Plate 6,0 mm + roulement 4 pts 10 mm + bague RS-06 + demi-épaisseur du bassin. Utiliser cette valeur pour l'URDF (`waist_yaw_joint` ➔ `shoulder_pitch_joint`). |
-| **Torse (Largeur de Coque)** | **295,00 mm** (coque nue) | ✅ Scalée à +18% en CAO (anciennement 250 mm) |
+| **Torse (Hauteur Coque Physique)** | **432,67 mm** (coque nue) | ✅ Scalée à +18% en CAO pour l'intégration des moteurs RS-04 (lissage évasé bas 175 mm) |
+| **Torse (Hauteur Cinématique Épaule ➔ Hanche)** | **~530 mm** | ✅ Inclut : coque évasée + Waist Plate 7075 (9,02 mm) + roulement RB8016 (16 mm) + berceau pelvien scalé (312,8 mm). Hauteur assemblée Torse + Pelvis = **819,74 mm** |
+| **Torse (Largeur de Coque)** | **295,00 mm** (coque nue) | ✅ Scalée à +18% en CAO (base évasée à 175 mm) |
 | **Torse (Profondeur de Coque)** | **259,60 mm** (coque nue) | ✅ Scalée à +18% en CAO (anciennement 220 mm) |
 | **Largeur d'Épaules (Entraxe RS-04 Pitch)** | **~378 mm** | ✅ Scalée (+18% de ~320 mm) avec déport des moteurs RS-04 |
-| **Largeur de Bassin (Entraxe RS-04 Hanche)** | **~378 mm** | ✅ Scalée (+18% de ~320 mm) avec déport moteurs |
+| **Largeur de Bassin (Envergure Y Pelvis)** | **487,09 mm** | ✅ Scalée (facteur 1,2776 sur tous les axes, entraxe hanches élargi pour stabilité dynamique) |
 
 ### Architecture Mécanique du Torse V2 (Tout Métal, Août-Septembre 2026)
 
@@ -82,62 +82,54 @@ L'ancienne architecture composite (cage alu boulonnée, tube carbone, split-mono
 
 ## 5. Bassin (Pelvis) & Liaison Active Waist Yaw RS-06
 
-Le bassin constitue le noeud structurel le plus sollicité du robot. Il reçoit l'intégralité du poids du haut du corps (~17,3 kg) et le transmet aux jambes via les 2 moteurs RS-04 Hip Pitch.
+Le bassin constitue le noeud structurel le plus sollicité du robot. Il reçoit l'intégralité du poids du haut du corps (18,16 kg pour l'ensemble Torse + Bassin) et le transmet aux membres inférieurs via les 2 moteurs RS-04 Hip Pitch.
 
 | Paramètre Bassin | Valeur | Statut |
 | :--- | :---: | :--- |
 | **Moteur Waist Yaw** | **RobStride RS-06** (36 N.m pic, 11 N.m nom., Ø 88 mm, 621 g, arbre plein / carter fermé) | ✅ Acheté & Validé |
-| **Roulement Structurel Principal** | **Roulement a rouleaux croises CRBH 8016 UU (80x120x16 mm, P5)** | ✅ Validé, a commander (AliExpress ~60-90 EUR, 2-4 sem.) |
-| **Platine d'Interface Waist** | Alu 7075-T6, Ø 140 x 12 mm, alésage Ø 88 H7, siège roulement Ø 120 H7 x 3 mm, ~265 g | ✅ Dimensionnée (usiner après réception roulement) |
-| **Entraxe Hanches (RS-04 Hip Pitch)** | **~378 mm** | ✅ Scalé +18% |
+| **Roulement Structurel Principal** | **Roulement à rouleaux croisés EFANT RB 8016 UU (80x120x16 mm, classe P4/P2, 1 450 g)** | ✅ Reçu & Contrôlé en Atelier (faux-rond < 0,005 mm) |
+| **Platine d'Interface Waist** | Alu 7075-T6, base évasée 175 mm, épaisseur 9,02 mm, encoche en U ouverte pour boucle L=160-180 mm | ✅ Modélisée & Validée CAO |
+| **Traverse Renfort Bassin** | Alu 7075-T6, 174,90 x 174,84 x 12,51 mm, 617,4 g, fixation par 4 vis M4 sur bossages | ✅ Modélisée & Validée CAO |
+| **Caisson Pelvis & Supports** | PA12-CF (densité 1,015 g/cm3, 6 185,68 g total pelvis, allégement de -6,61 kg vs alu) | ✅ Validé CAO |
+| **Corridor Électrique Déporté** | Corridor postérieur 45 x 20 mm avec encoche en U et passe-fil TPU fendu (zéro arbre creux) | ✅ Validé (torsion 0,6 à 1,0 deg/mm) |
+| **Entraxe Hanches (RS-04 Hip Pitch)** | **Envergure Y Pelvis = 487,09 mm** (entraxe hanches ~420 mm, scale 1,2776) | ✅ Figé CAO |
 | **Chaîne Cinématique Hanches** | **F-A-R** (Flexion Pitch RS-04 ➔ Abduction Roll RS-03 ➔ Rotation Yaw RS-03) | ✅ Validée |
-| **Butée Angulaire Mécanique** | Double ergot DIN 6325 Ø 5 mm + rainure en arc +/- 95 deg | ✅ Dimensionnée |
+| **Butée Angulaire Mécanique** | Butée postérieure déportée R = 83 mm (plot acier trempé en arc +/- 95 deg) | ✅ Dimensionnée |
 | **Débattement Waist Yaw** | Logiciel : +/- 90 deg / Physique : +/- 95 deg | ✅ |
 
-### Sourcing du Roulement Structurel Waist (Chemin Critique)
+### Validation & Métrologie du Roulement Structurel Waist
 
-Le roulement structurel du Waist est le composant le plus critique et à délai le plus long du bassin. Il doit reprendre les moments de basculement (56 à 220 N.m) et les charges radiales (90 à 300 N) pour découpler totalement l'actionneur RS-06 (le faisceau 48V et CAN-FD transitant par un corridor postérieur déporté avec boucle de service).
+Le roulement structurel du Waist est le composant pivot du bassin. Il reprend intégralement les moments de basculement (56 à 220 N.m) et les charges radiales (90 à 300 N) pour découpler totalement l'actionneur RS-06. Le faisceau 48V et CAN-FD transite par un corridor postérieur déporté de 45 x 20 mm avec encoche en U ouverte et boucle de service libre de 160 à 180 mm.
 
-#### Option A — Roulement à Rouleaux Croisés RB 8016 / CRBH 8016 (80x120x16 mm) ⭐ Recommandée
+#### Roulement Sélectionné & Réceptionné — EFANT RB 8016 UU (80x120x16 mm, P4/P2) ⭐ Validé
+- **Fournisseur retenu** : EFANT Precision Bearings (Luoyang).
+- **Caractéristiques mesurées en métrologie** : Diamètre intérieur 80,000 mm, diamètre extérieur 120,000 mm, épaisseur 16,000 mm, masse 1 450 g.
+- **Précision** : Faux-rond radial inférieur à 0,005 mm, voile axial inférieur à 0,004 mm.
+- **Intégration CAO** : Siège usiné Ø 120 H7 x 3 mm sur la Platine Waist 7075-T6 et logement correspondant sur la Traverse Renfort Bassin.
 
-Les rouleaux croisés à 90 deg offrent la rigidité maximale en basculement (~500+ N.m) et un jeu angulaire quasi-nul. La référence **RB 8016 / CRBH 8016** (Ø int 80 mm, Ø ext 120 mm, épaisseur 16 mm) est la plus proche des contraintes dimensionnelles du D-Bot.
-
-| Fournisseur | Plateforme | Recherche / Lien | Prix Estimé | Délai |
-| :--- | :--- | :--- | :---: | :---: |
-| **Luoyang (Chine)** | [AliExpress](https://www.aliexpress.com) | Rechercher **"RB8016 crossed roller bearing"** ou **"CRBH8016"** | **40 a 90 EUR** | 2-4 sem. |
-| **123Roulement (France)** | [123roulement.com](https://www.123roulement.com) | Contacter le service client avec ref **"CRBH 8016 UU"** | **150 a 350 EUR** (devis) | 2-6 sem. |
-| **Rubix (France, ex-Brammer)** | [rubix.com/fr](https://www.rubix.com/fr-fr/) | Demander devis **"Roulement rouleaux croisés 80x120x16"** | **200 a 400 EUR** | 3-6 sem. |
-| **MISUMI Europe** | [misumi-ec.com](https://www.misumi-ec.com) | Configurateur en ligne, série THK **RB 8016** | **250 a 500 EUR** | 2-4 sem. |
-| **GMT Europe (Allemagne)** | [gmteurope.de](https://www.gmteurope.de) | Ref **RU 85 UU CC0** (55x120x15 mm, avec trous de montage) | **300 a 500 EUR** | 3-5 sem. |
-
-#### Option B — Roulement à Billes 4 Points de Contact QJ 210 (50x90x20 mm)
-
-Moins rigide que les rouleaux croisés mais beaucoup plus accessible et moins cher. Le QJ210 (Ø int 50 mm, Ø ext 90 mm, 20 mm) nécessiterait une adaptation des cotes du bassin (alésage plus petit). Peu recommandé pour le D-Bot en raison du petit diamètre intérieur (passage câbles limité).
-
-| Fournisseur | Réf | Prix | Note |
+| Fournisseur Référence | Spécification | Statut Projet | Note Métrologique |
 | :--- | :--- | :---: | :--- |
-| **123Roulement (France)** | [QJ210-MA SKF](https://www.123roulement.com) | **~103 EUR TTC** | Ø int 50 mm trop petit pour le passage des câbles |
-| **Le Bon Roulement** | [lebonroulement.com](https://www.lebonroulement.com) | **~86 EUR HT** | Alternative FAG/NKE disponible |
-
-> **Recommandation** : Commander un **CRBH 8016 UU** (ou équivalent RB 8016) sur AliExpress (~60-80 EUR, classe P5 minimum) en premier pour tester l'intégration. Adapter le diamètre de la Waist Plate à Ø ext 120 mm (au lieu de 110 mm) et l'alésage interne du bassin à 120 mm. Le passage central de Ø 80 mm reste largement suffisant pour les câbles.
+| **EFANT RB 8016 UU** | 80x120x16 mm, Rouleaux croisés 90 deg, joints UU, classe P4/P2 | ✅ **Reçu & Mesuré** | Jeu radial contrôlé, rigidité basculement > 500 N.m |
+| **123Roulement (France)** | CRBH 8016 UU (équivalent THK) | Référence secours | Délai 2-6 sem. si besoin d'un second exemplaire |
+| **MISUMI Europe** | THK RB 8016 | Référence secours | Standard industriel haute précision |
 
 ---
 
 ## 6. Synthèse des Incertitudes (À définir pour la construction)
-Pour sécuriser la modélisation CAO finale et la génération des fichiers URDF (pour ROS 2 / Isaac Gym), les points suivants doivent être impérativement relevés et figés une fois le design 3D terminé :
+Pour sécuriser la modélisation CAO finale et la génération des fichiers URDF (pour ROS 2 / Isaac Gym), l'état des points clés est consolidé ci-dessous :
 
-1.  **L'entraxe Y des hanches** : C'est la largeur du bassin. Elle est critique pour planifier la marche, l'équilibre latéral et le balancement (transfert de masse gauche/droite).
-2.  **L'entraxe Y des épaules** : Détermine l'espace disponible dans le torse supérieur (pour les Matek PDB et l'électronique) et les collisions possibles entre les bras et le buste.
-3.  **La position X, Y, Z du Centre de Masse (CoM)** : À extraire du logiciel de CAO (Fusion 360) une fois le torse numériquement peuplé par la batterie 12S, l'ordinateur de bord (Jetson) et le câblage.
-4.  **Référence finale du roulement Waist** : La cote exacte (Ø int / Ø ext / épaisseur) conditionne les dimensions du caisson pelvien et de la Waist Plate. Commander le roulement en priorité.
+1.  **L'entraxe Y des hanches** : ✅ **Figé & Validé** à 487,09 mm d'envergure Y totale (entraxe effectif hanches ~420 mm, facteur de scale 1,2776 sur le bassin).
+2.  **L'entraxe Y des épaules** : ✅ **Figé** à ~378 mm (scalé +18% avec déport des moteurs RS-04 Shoulder Pitch).
+3.  **La position X, Y, Z du Centre de Masse (CoM)** : Extrait du modèle CAO Fusion 360 assemblé (`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`), masse totale Buste + Pelvis = 18,16 kg.
+4.  **Référence finale du roulement Waist** : ✅ **Figée & Contrôlée** (EFANT RB 8016 UU, 80x120x16 mm, classe P4/P2). Logement usiné Ø 120 H7.
 
 ## 7. Schémas Visuels et Proportions
 
 ### Plan Coté (Blueprint Proportionnel)
-Ce plan technique illustre les proportions approximatives des segments verticaux (hauteur totale initiale : ~1 470 mm avant scale +18% du torse et intégration du module Waist, hauteur révisée actuelle : **~1 550 mm**).
+Ce plan technique illustre les proportions des segments verticaux (hauteur totale initiale : ~1 470 mm, portée à ~1 550 mm après scale +18% du torse, et révisée à **~1 584 mm (~1,58 m)** suite au scale du pelvis et à l'intégration du module Waist élargi, hauteur Torse + Pelvis = **819,74 mm**).
 
 ![Blueprint Proportionnel D-Bot](./assets/img_robot_full_blueprint.png)
-*Illustration : Proportions de référence (Tête/Cou: 250, Torse: 432,67 (coque) / 495,60 (cinématique), Cuisse: 350, Tibia: 350, Pied: 100). Hauteur totale révisée : ~1 550 mm.*
+*Illustration : Proportions de référence (Tête/Cou: 250, Torse: 430,44 (coque évasée 175 mm) / ~530 (cinématique), Bassin Pelvis: 312,80, Cuisse: 350, Tibia: 350, Pied: 100). Hauteur totale révisée : ~1 584 mm.*
 
 ### Rendu 3D Global (Conceptuel)
 ![Squelette Complet D-Bot](./assets/img_robot_full_skeleton.png)

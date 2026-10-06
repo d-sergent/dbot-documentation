@@ -1,0 +1,250 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%">
+  <defs>
+    <!-- Grille technique -->
+    <pattern id="grid_subtle" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#263357" stroke-width="0.5" opacity="0.6"/>
+    </pattern>
+    <pattern id="grid_major" width="100" height="100" patternUnits="userSpaceOnUse">
+      <rect width="100" height="100" fill="url(#grid_subtle)"/>
+      <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#334155" stroke-width="0.9" opacity="0.8"/>
+    </pattern>
+
+    <!-- Flèche de cotation normalisée ISO jaune -->
+    <marker id="arrow_yellow_start" viewBox="0 0 10 10" refX="0" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 10 2 L 0 5 L 10 8 z" fill="#facc15"/>
+    </marker>
+    <marker id="arrow_yellow_end" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 2 L 10 5 L 0 8 z" fill="#facc15"/>
+    </marker>
+
+    <!-- Flèche de cotation normalisée ISO noire pour zone blanche -->
+    <marker id="arrow_black_start" viewBox="0 0 10 10" refX="0" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 10 2 L 0 5 L 10 8 z" fill="#0f172a"/>
+    </marker>
+    <marker id="arrow_black_end" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 2 L 10 5 L 0 8 z" fill="#0f172a"/>
+    </marker>
+  </defs>
+
+  <!-- Fond canevas sombre blueprint -->
+  <rect width="1200" height="680" fill="#0f172a"/>
+  <rect x="15" y="15" width="1170" height="650" fill="url(#grid_major)" rx="8" stroke="#38bdf8" stroke-width="1.5" opacity="0.9"/>
+
+  <!-- En-tête Principal -->
+  <g transform="translate(40, 50)">
+    <rect x="-10" y="-22" width="1120" height="42" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+    <text x="15" y="6" fill="#38bdf8" font-family="'Segoe UI', system-ui, sans-serif" font-size="16" font-weight="bold" letter-spacing="1">D-BOT | ARCHITECTURE GENERATIVE DRAFTING 2D : TRIPTYQUE DE COTATION STYLE ROBSTRIDE</text>
+    <text x="960" y="6" fill="#94a3b8" font-family="'Segoe UI', monospace" font-size="11">RÈGLE BE : ZÉRO SUPERPOSITION</text>
+  </g>
+
+  <!-- Panneau Rendu Fiche Technique Blanche (Simulation Rendu Final RobStride) -->
+  <g transform="translate(40, 90)">
+    <!-- Feuille Blanche A4/A3 miniature -->
+    <rect width="1120" height="420" fill="#ffffff" rx="6" stroke="#94a3b8" stroke-width="1.5"/>
+
+    <!-- Titre interne de section dans la fiche -->
+    <text x="25" y="32" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="18" font-weight="bold">1.1. Outline and mounting dimensions (Standard RobStride Datasheet)</text>
+
+    <!-- ========================================== -->
+    <!-- VUE 1 : FACE AVANT / ROTOR (Gaucher)        -->
+    <!-- ========================================== -->
+    <g transform="translate(190, 230)">
+      <!-- Lignes d'axe (trait mixte) -->
+      <line x1="-120" y1="0" x2="120" y2="0" stroke="#64748b" stroke-width="0.8" stroke-dasharray="12,3,2,3"/>
+      <line x1="0" y1="-120" x2="0" y2="120" stroke="#64748b" stroke-width="0.8" stroke-dasharray="12,3,2,3"/>
+
+      <!-- Corps extérieur Ø120 -->
+      <circle cx="0" cy="0" r="95" fill="none" stroke="#0f172a" stroke-width="1.8"/>
+
+      <!-- Cercle primitif PCD Ø106 (trait mixte) -->
+      <circle cx="0" cy="0" r="84" fill="none" stroke="#64748b" stroke-width="0.8" stroke-dasharray="8,3,2,3"/>
+
+      <!-- Perçages périphériques sur PCD Ø106 (10 trous M4) -->
+      <!-- Trous représentés en noir -->
+      <circle cx="0" cy="-84" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="49" cy="-68" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="80" cy="-26" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="80" cy="26" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="49" cy="68" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="0" cy="84" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="-49" cy="68" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="-80" cy="26" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="-80" cy="-26" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="-49" cy="-68" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+
+      <!-- Couronne rotor intérieure Ø74 -->
+      <circle cx="0" cy="0" r="58" fill="none" stroke="#0f172a" stroke-width="1.2"/>
+
+      <!-- PCD perçages vis de sortie Ø36 (9 vis M5) -->
+      <circle cx="0" cy="0" r="28" fill="none" stroke="#64748b" stroke-width="0.8" stroke-dasharray="6,2,1,2"/>
+      <circle cx="0" cy="-28" r="2.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.0"/>
+      <circle cx="21" cy="-18" r="2.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.0"/>
+      <circle cx="27" cy="6" r="2.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.0"/>
+      <circle cx="14" cy="24" r="2.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.0"/>
+      <circle cx="-14" cy="24" r="2.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.0"/>
+      <circle cx="-27" cy="6" r="2.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.0"/>
+      <circle cx="-21" cy="-18" r="2.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.0"/>
+
+      <!-- Alésage central borgne / arbre plein RobStride -->
+      <circle cx="0" cy="0" r="14" fill="#f1f5f9" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="0" cy="0" r="7" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.0"/>
+
+      <!-- Renvois et Cotes de la Vue Gauche (Anti-Collision) -->
+      <!-- Callout 1 : 10-M4 EQS (Haut Gauche) -->
+      <path d="M 0 -84 L -70 -130 L -130 -130" fill="none" stroke="#0f172a" stroke-width="0.9"/>
+      <circle cx="0" cy="-84" r="1.5" fill="#0f172a"/>
+      <text x="-130" y="-142" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">10-M4 EQS</text>
+      <text x="-130" y="-133" fill="#475569" font-family="'Segoe UI', sans-serif" font-size="9">Blind Hole ↧ 5 Min</text>
+
+      <!-- Callout 2 : 2-Ø5 Pions (Gauche Haut) -->
+      <path d="M -49 -68 L -105 -95 L -145 -95" fill="none" stroke="#0f172a" stroke-width="0.9"/>
+      <circle cx="-49" cy="-68" r="1.5" fill="#0f172a"/>
+      <text x="-145" y="-99" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold">2-Ø 5 +0.01/0</text>
+
+      <!-- Callout 3 : Ø36 PCD vis (Bas Gauche) -->
+      <path d="M 0 28 L -55 75 L -120 75" fill="none" stroke="#0f172a" stroke-width="0.9"/>
+      <circle cx="0" cy="28" r="1.5" fill="#0f172a"/>
+      <text x="-120" y="70" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold">Ø 36 ± 0.1</text>
+      <text x="-120" y="83" fill="#475569" font-family="'Segoe UI', sans-serif" font-size="8">center distance of screw holes</text>
+
+      <!-- Cote Ø106 Bride (Bas Centre) -->
+      <path d="M 0 84 L 35 125 L 85 125" fill="none" stroke="#0f172a" stroke-width="0.9"/>
+      <circle cx="0" cy="84" r="1.5" fill="#0f172a"/>
+      <text x="40" y="120" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">Ø 106 ± 0.1</text>
+
+      <!-- Label Sous-Vue -->
+      <text x="0" y="150" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" text-anchor="middle">VUE DE FACE (ROTOR)</text>
+    </g>
+
+    <!-- ========================================== -->
+    <!-- VUE 2 : TRANCHE / COUPE AXIALE (Centre)     -->
+    <!-- ========================================== -->
+    <g transform="translate(560, 230)">
+      <!-- Ligne d'axe horizontal (trait mixte) -->
+      <line x1="-80" y1="0" x2="80" y2="0" stroke="#64748b" stroke-width="0.8" stroke-dasharray="12,3,2,3"/>
+
+      <!-- Tranche principale moteur : Largeur = 62 px (e=39mm), Rayon = 95 px (Ø120mm) -->
+      <rect x="-18" y="-95" width="62" height="190" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8"/>
+
+      <!-- Redan avant saillant rotor (13.2 mm saillie, Ø94) -->
+      <rect x="-38" y="-74" width="20" height="148" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.4"/>
+
+      <!-- Dégagement redan fin (0.5 mm) -->
+      <line x1="38" y1="-95" x2="44" y2="-95" stroke="#0f172a" stroke-width="1.2"/>
+      <line x1="44" y1="-95" x2="44" y2="-88" stroke="#0f172a" stroke-width="1.2"/>
+      <line x1="44" y1="95" x2="44" y2="88" stroke="#0f172a" stroke-width="1.2"/>
+
+      <!-- Corridor sortie câble (bas de carter) -->
+      <rect x="-8" y="75" width="30" height="20" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.0"/>
+      <circle cx="7" cy="85" r="4" fill="#ffffff" stroke="#0f172a" stroke-width="0.8"/>
+
+      <!-- COTES ÉTAGÉES SUPÉRIEURES (Pas de superposition) -->
+      <!-- Cote 1 : 13.2 ± 0.2 (Redan avant) -->
+      <line x1="-38" y1="-100" x2="-38" y2="-125" stroke="#94a3b8" stroke-width="0.6"/>
+      <line x1="-18" y1="-100" x2="-18" y2="-125" stroke="#94a3b8" stroke-width="0.6"/>
+      <line x1="-37" y1="-120" x2="-19" y2="-120" stroke="#0f172a" stroke-width="0.9" marker-start="url(#arrow_black_start)" marker-end="url(#arrow_black_end)"/>
+      <text x="-28" y="-124" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" text-anchor="middle">13.2±0.2</text>
+
+      <!-- Cote 2 : 39 ± 0.15 (Corps principal) -->
+      <line x1="-18" y1="-100" x2="-18" y2="-150" stroke="#94a3b8" stroke-width="0.6"/>
+      <line x1="44" y1="-100" x2="44" y2="-150" stroke="#94a3b8" stroke-width="0.6"/>
+      <line x1="-17" y1="-145" x2="43" y2="-145" stroke="#0f172a" stroke-width="0.9" marker-start="url(#arrow_black_start)" marker-end="url(#arrow_black_end)"/>
+      <text x="13" y="-149" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" text-anchor="middle">39±0.15</text>
+
+      <!-- COTES VERTICALES LATÉRALES (Diamètres) -->
+      <!-- Cote Ø94 (Gauche) -->
+      <line x1="-42" y1="-74" x2="-65" y2="-74" stroke="#94a3b8" stroke-width="0.6"/>
+      <line x1="-42" y1="74" x2="-65" y2="74" stroke="#94a3b8" stroke-width="0.6"/>
+      <line x1="-60" y1="-72" x2="-60" y2="72" stroke="#0f172a" stroke-width="0.9" marker-start="url(#arrow_black_start)" marker-end="url(#arrow_black_end)"/>
+      <text x="-64" y="4" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" text-anchor="middle" transform="rotate(-90 -64 4)">Ø 94</text>
+
+      <!-- Cote Ø120 (Droite) -->
+      <line x1="48" y1="-95" x2="75" y2="-95" stroke="#94a3b8" stroke-width="0.6"/>
+      <line x1="48" y1="95" x2="75" y2="95" stroke="#94a3b8" stroke-width="0.6"/>
+      <line x1="70" y1="-93" x2="70" y2="93" stroke="#0f172a" stroke-width="0.9" marker-start="url(#arrow_black_start)" marker-end="url(#arrow_black_end)"/>
+      <text x="82" y="4" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" text-anchor="middle" transform="rotate(-90 82 4)">Ø 120</text>
+
+      <!-- Callout d'étanchéité sortie de câble -->
+      <path d="M 7 90 L 15 125 L 55 125" fill="none" stroke="#0f172a" stroke-width="0.8"/>
+      <circle cx="7" cy="90" r="1.5" fill="#0f172a"/>
+      <text x="20" y="137" fill="#475569" font-family="'Segoe UI', sans-serif" font-size="8">出线口使用硅胶密封 (Scellement silicone)</text>
+
+      <!-- Label Sous-Vue -->
+      <text x="13" y="150" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" text-anchor="middle">VUE DE PROFIL (TRANCHE)</text>
+    </g>
+
+    <!-- ========================================== -->
+    <!-- VUE 3 : FACE ARRIÈRE / STATOR (Droite)      -->
+    <!-- ========================================== -->
+    <g transform="translate(930, 230)">
+      <!-- Lignes d'axe (trait mixte) -->
+      <line x1="-120" y1="0" x2="120" y2="0" stroke="#64748b" stroke-width="0.8" stroke-dasharray="12,3,2,3"/>
+      <line x1="0" y1="-120" x2="0" y2="120" stroke="#64748b" stroke-width="0.8" stroke-dasharray="12,3,2,3"/>
+
+      <!-- Corps extérieur Ø120 -->
+      <circle cx="0" cy="0" r="95" fill="none" stroke="#0f172a" stroke-width="1.8"/>
+
+      <!-- Cercle primitif PCD Ø106 (trait mixte) -->
+      <circle cx="0" cy="0" r="84" fill="none" stroke="#64748b" stroke-width="0.8" stroke-dasharray="8,3,2,3"/>
+
+      <!-- Perçages de fixation arrière (10 trous M4 taraudés) -->
+      <circle cx="0" cy="-84" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="49" cy="-68" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="80" cy="-26" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="80" cy="26" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="49" cy="68" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="0" cy="84" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="-49" cy="68" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="-80" cy="26" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="-80" cy="-26" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+      <circle cx="-49" cy="-68" r="3.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+
+      <!-- Cloche fermée stator arrière (Arbre plein / Zéro hollow shaft) -->
+      <circle cx="0" cy="0" r="68" fill="#f8fafc" stroke="#0f172a" stroke-width="1.2"/>
+
+      <!-- Encoche radiale de sortie de câble déporté -->
+      <path d="M 35 -6 L 85 -6 L 85 6 L 35 6 Z" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.2"/>
+      <rect x="70" y="-12" width="18" height="24" fill="none" stroke="#0f172a" stroke-width="1.0"/>
+
+      <!-- Callout Fixation Arrière (Bas Gauche) -->
+      <path d="M 0 84 L -30 115 L -80 115" fill="none" stroke="#0f172a" stroke-width="0.9"/>
+      <circle cx="0" cy="84" r="1.5" fill="#0f172a"/>
+      <text x="-80" y="110" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold">10-M4 EQS ↧ 6</text>
+
+      <!-- Cote Ø106 bride arrière -->
+      <path d="M 80 26 L 110 50 L 140 50" fill="none" stroke="#0f172a" stroke-width="0.9"/>
+      <circle cx="80" cy="26" r="1.5" fill="#0f172a"/>
+      <text x="110" y="45" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold">Ø 106 ± 0.1</text>
+
+      <!-- Label Sous-Vue -->
+      <text x="0" y="150" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" text-anchor="middle">VUE ARRIÈRE (STATOR / FIXATION)</text>
+    </g>
+  </g>
+
+  <!-- Panneaux Inférieurs : Spécifications et Architecture Duale -->
+  <g transform="translate(40, 525)">
+    <!-- Carte 1 : Les 3 Règles d'Anti-Collision BE -->
+    <rect x="0" y="0" width="350" height="135" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2"/>
+    <text x="15" y="24" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold">1. RÈGLES D'ANTI-COLLISION BE</text>
+    <text x="15" y="48" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Échelonnement étagé des cotes (offset +8 mm)</text>
+    <text x="15" y="68" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Lignes de rappel avec dégagement de 1.5 mm</text>
+    <text x="15" y="88" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Couloirs radiaux réservés pour renvois (leaders)</text>
+    <text x="15" y="108" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">• Masque opaque sous textes de cotation</text>
+
+    <!-- Carte 2 : Triptyque Axisymétrique RobStride -->
+    <rect x="375" y="0" width="350" height="135" rx="6" fill="#1e293b" stroke="#4ade80" stroke-width="1.2"/>
+    <text x="390" y="24" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold">2. ANATOMIE DU TRIPTYQUE TECHNIQUE</text>
+    <text x="390" y="48" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Face Avant : PCD de sortie, pions, centrage</text>
+    <text x="390" y="68" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Tranche Axiale : épaisseurs cumulées et redans</text>
+    <text x="390" y="88" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Face Arrière : bride de stator &amp; passage câble</text>
+    <text x="390" y="108" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">• Respect règle : arbres pleins RobStride</text>
+
+    <!-- Carte 3 : Pipeline Dual (.FCStd + PDF) -->
+    <rect x="750" y="0" width="370" height="135" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.2"/>
+    <text x="765" y="24" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold">3. SORTIES DUALES COMPLÈTES</text>
+    <text x="765" y="48" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Format 1 : PDF Vectoriel (Chrome headless)</text>
+    <text x="765" y="68" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Format 2 : FreeCAD Natif .FCStd (freecadcmd)</text>
+    <text x="765" y="88" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Trait fort 0.5 mm / Trait fin 0.25 mm / Axes mixtes</text>
+    <text x="765" y="108" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">• 100% automatisable et souverain</text>
+  </g>
+</svg>

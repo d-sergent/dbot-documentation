@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850" width="100%" height="100%">
+  <defs>
+    <pattern id="grid_subtle" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.6"/>
+    </pattern>
+    <pattern id="grid_major" width="100" height="100" patternUnits="userSpaceOnUse">
+      <rect width="100" height="100" fill="url(#grid_subtle)"/>
+      <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#334155" stroke-width="1.0" opacity="0.6"/>
+    </pattern>
+    <marker id="arrow-start" viewBox="0 0 10 10" refX="0" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 10 2 L 0 5 L 10 8 z" fill="#facc15"/>
+    </marker>
+    <marker id="arrow-end" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 2 L 10 5 L 0 8 z" fill="#facc15"/>
+    </marker>
+  </defs>
+
+  <!-- Fond sombre Blueprint -->
+  <rect width="1200" height="850" fill="#0f172a"/>
+
+  <!-- Cadre technique général -->
+  <rect x="20" y="20" width="1160" height="810" rx="8" fill="#0b1329" stroke="#38bdf8" stroke-width="1.5" opacity="0.9"/>
+  <rect x="30" y="30" width="1140" height="790" fill="url(#grid_major)" rx="4"/>
+
+  <!-- En-tête officiel -->
+  <g transform="translate(45, 55)">
+    <text x="0" y="0" fill="#38bdf8" font-family="'Segoe UI', system-ui, sans-serif" font-size="16" font-weight="bold" letter-spacing="1.2">PLAN TECHNIQUE MULTI-VUES &amp; VUE 3D ISOMÉTRIQUE</text>
+    <text x="0" y="18" fill="#94a3b8" font-family="'Segoe UI', system-ui, sans-serif" font-size="11">Composant Structurel D-Bot — Waist_Plate_7075 (ASV1_100_02A) — Projection Orthogonale Normalisée ISO</text>
+  </g>
+
+  <!-- LIGNES D'ALIGNEMENT DE PROJECTION (Traits pointillés de rappel) -->
+  <g stroke="#475569" stroke-width="0.8" stroke-dasharray="4,4" opacity="0.6">
+    <!-- Rappel vertical Dessus -> Face -->
+    <line x1="140" y1="380" x2="140" y2="520"/>
+    <line x1="360" y1="380" x2="360" y2="520"/>
+    <!-- Rappel horizontal Dessus -> Droite -->
+    <line x1="360" y1="160" x2="490" y2="160"/>
+    <line x1="360" y1="380" x2="490" y2="380"/>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- 1. VUE DE DESSUS (TOP VIEW) - Face Usinée - Centre (250, 270) -->
+  <!-- ===================================================================== -->
+  <!-- Axes de centrage -->
+  <g stroke="#64748b" stroke-width="1.0" stroke-dasharray="10,3,2,3" opacity="0.75">
+    <line x1="100" y1="270" x2="400" y2="270" />
+    <line x1="250" y1="120" x2="250" y2="420" />
+  </g>
+
+  <!-- Géométrie projetée Dessus -->
+  <g id="vue_dessus_geom" transform="translate(250, 270) scale(1.25, 1.25)">
+    <g fill="none" stroke="#38bdf8" stroke-opacity="1" stroke-width="1.1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4">
+<circle cx ="-24.0416" cy ="-24.0416" r ="2.25" /><circle cx ="-24.0416" cy ="-24.0416" r ="2.55" /><circle cx ="24.0416" cy ="-24.0416" r ="2.55" /><circle cx ="-24.0416" cy ="24.0416" r ="2.55" /><circle cx ="24.0416" cy ="24.0416" r ="2.55" /><circle cx ="24.0416" cy ="-24.0416" r ="2.25" /><circle cx ="24.0416" cy ="24.0416" r ="2.25" /><circle cx ="-24.0416" cy ="24.0416" r ="2.25" /><circle cx ="9.9476e-14" cy ="-1.77636e-15" r ="44.5099" /><circle cx ="9.9476e-14" cy ="-1.77636e-15" r ="44.8099" /><circle cx ="9.9476e-14" cy ="-1.77636e-15" r ="40.3" /><circle cx ="9.9476e-14" cy ="-1.77636e-15" r ="40" /><circle cx ="-49.0927" cy ="49.0927" r ="4.044" /><circle cx ="-49.0927" cy ="49.0927" r ="3.744" /><path id= "15" d=" M -39.4568 86.5144 L 39.8202 86.5144 " />
+<path d="M39.8202, 86.5144 C42.9664, 86.5144 46.1007, 86.2092 49.1881, 85.6019  C52.2754, 84.9946 55.2923, 84.0898 58.2047, 82.8968  C61.1171, 81.7038 63.9028, 80.2318 66.5296, 78.4961  C69.1563, 76.7604 71.604, 74.7744 73.8437, 72.5595  C76.0833, 70.3447 78.0976, 67.9182 79.8618, 65.3071  C81.626, 62.696 83.1265, 59.9206 84.3444, 57.0129  C85.5624, 54.1051 86.4882, 51.0877 87.11, 47.9963  C87.7318, 44.905 88.0447, 41.7636 88.0447, 38.61 " /><path id= "17" d=" M 88.0447 38.61 L 88.0447 -38.61 " />
+<path d="M88.0447, -38.61 C88.0447, -41.7573 87.7305, -44.9109 87.1101, -47.9959  C86.4895, -51.0813 85.56, -54.1106 84.3446, -57.0125  C83.1291, -59.9146 81.6227, -62.7008 79.862, -65.3067  C78.1012, -67.9129 76.0791, -70.3488 73.844, -72.5592  C71.6086, -74.7699 69.1515, -76.7635 66.5299, -78.4958  C63.9081, -80.2283 61.1118, -81.7059 58.2051, -82.8967  C55.2981, -84.0875 52.2699, -84.9956 49.1885, -85.6018  C46.1068, -86.2081 42.9606, -86.5144 39.8202, -86.5144 " /><path id= "19" d=" M 39.8202 -86.5144 L -39.4568 -86.5144 " />
+<path d="M-39.4568, -86.5144 C-42.6055, -86.5144 -45.7593, -86.2112 -48.8505, -85.6107  C-51.9421, -85.0102 -54.9813, -84.1102 -57.9018, -82.9288  C-60.8226, -81.7473 -63.6347, -80.28 -66.275, -78.5572  C-68.9155, -76.8342 -71.3933, -74.8491 -73.6507, -72.6446  C-75.9084, -70.4398 -77.9537, -68.0069 -79.7371, -65.4004  C-81.5206, -62.7937 -83.0488, -60.0028 -84.283, -57.093  C-85.5173, -54.1829 -86.4624, -51.1418 -87.0936, -48.0428  C-87.7255, -44.9408 -88.0448, -41.7767 -88.0447, -38.61 " /><path id= "21" d=" M -88.0447 -38.61 L -88.0447 38.61 " />
+<path d="M-88.0447, 38.61 C-88.0447, 41.7798 -87.7261, 44.9371 -87.0937, 48.0424  C-86.4612, 51.1478 -85.5199, 54.1768 -84.2832, 57.0926  C-83.0465, 60.0084 -81.5242, 62.7883 -79.7373, 65.4001  C-77.9505, 68.0118 -75.9129, 70.4353 -73.651, 72.6443  C-71.3892, 74.8532 -68.9206, 76.8307 -66.2753, 78.557  C-63.6301, 80.2832 -60.8283, 81.745 -57.9022, 82.9287  C-54.9762, 84.1124 -51.948, 85.009 -48.8509, 85.6107  C-45.7539, 86.2123 -42.6113, 86.5144 -39.4568, 86.5144 " /><circle cx ="-49.0927" cy ="-49.0927" r ="4.044" /><circle cx ="49.0927" cy ="49.0927" r ="4.044" /><circle cx ="49.0927" cy ="-49.0927" r ="4.044" /><circle cx ="-49.0927" cy ="-49.0927" r ="3.744" /><circle cx ="49.0927" cy ="-49.0927" r ="3.744" /><circle cx ="49.0927" cy ="49.0927" r ="3.744" /></g>
+
+  </g>
+
+  <!-- Cotes Largeur Hors-Tout : 176.09 mm -->
+  <g id="cote_largeur_top">
+    <line x1="140" y1="385" x2="140" y2="425" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
+    <line x1="360" y1="385" x2="360" y2="425" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
+    <line x1="144" y1="418" x2="356" y2="418" stroke="#facc15" stroke-width="1.3" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)"/>
+    <rect x="208" y="408" width="84" height="20" fill="#0f172a" rx="4" stroke="#facc15" stroke-width="1"/>
+    <text x="250" y="422" fill="#facc15" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold" text-anchor="middle">176.09 mm</text>
+  </g>
+
+  <!-- Cotes Hauteur Hors-Tout : 173.03 mm -->
+  <g id="cote_hauteur_top">
+    <line x1="135" y1="162" x2="95" y2="162" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
+    <line x1="135" y1="378" x2="95" y2="378" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
+    <line x1="102" y1="166" x2="102" y2="374" stroke="#facc15" stroke-width="1.3" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)"/>
+    <rect x="60" y="260" width="84" height="20" fill="#0f172a" rx="4" stroke="#facc15" stroke-width="1" transform="rotate(-90 102 270)"/>
+    <text x="102" y="274" fill="#facc15" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold" text-anchor="middle" transform="rotate(-90 102 270)">173.03 mm</text>
+  </g>
+
+  <!-- Callout Alésages Centraux -->
+  <g id="callout_alesages">
+    <circle cx="200" cy="220" r="3.5" fill="#38bdf8"/>
+    <polyline points="200, 220 150, 115 45, 115" fill="none" stroke="#38bdf8" stroke-width="1.2"/>
+    <rect x="40" y="70" width="220" height="48" rx="4" fill="#0b1329" fill-opacity="0.94" stroke="#38bdf8" stroke-width="1"/>
+    <text x="50" y="87" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">Alésages Centraux (Usinage CN)</text>
+    <text x="50" y="101" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10">• Alésage axial : Ø 80,00 mm (RB8016 int.)</text>
+    <text x="50" y="113" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10">• Épaulement centrage : Ø 89,62 mm</text>
+  </g>
+
+  <!-- Callout M4 RobStride RS-06 -->
+  <g id="callout_m4">
+    <circle cx="280" cy="230" r="3.5" fill="#facc15"/>
+    <polyline points="280, 230 330, 115 470, 115" fill="none" stroke="#facc15" stroke-width="1.2"/>
+    <rect x="320" y="70" width="190" height="48" rx="4" fill="#0b1329" fill-opacity="0.94" stroke="#facc15" stroke-width="1"/>
+    <text x="330" y="87" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">4x M4 (PCD Ø 68,0 mm)</text>
+    <text x="330" y="101" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10">• Fixation Stator RobStride RS-06</text>
+    <text x="330" y="113" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10">• Entraxe PCD : +/- 0,02 mm</text>
+  </g>
+
+  <!-- Légende Vue de Dessus -->
+  <text x="250" y="455" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" text-anchor="middle">VUE DE DESSUS (FACE ACTIVE USINÉE) — ÉCHELLE 1:1</text>
+
+  <!-- ===================================================================== -->
+  <!-- 2. VUE DE FACE (FRONT VIEW) - Tranche & Épaisseur 9.00 mm - Centre (250, 560) -->
+  <!-- ===================================================================== -->
+  <g id="vue_face_geom" transform="translate(250, 560) scale(1.25, 2.5)">
+    <g fill="none" stroke="#38bdf8" stroke-opacity="1" stroke-width="1.1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4">
+<path d="M-44.5099, 4.5 L-43.3939, 4.5  L-40.102, 4.5  L-34.7992, 4.5  L-27.7515, 4.5  L-19.3121, 4.5  L-9.90438, 4.5  L9.23706e-14, 4.5  L9.90438, 4.5  L19.3121, 4.5  L27.7515, 4.5  L34.7992, 4.5  L40.102, 4.5  L43.3939, 4.5  L44.5099, 4.5 " /><path id= "2" d=" M -44.5099 4.5 L -44.8099 4.2 " />
+<path d="M44.8099, 4.2 L43.6864, 4.2  L40.3723, 4.2  L35.0338, 4.2  L27.9385, 4.2  L19.4423, 4.2  L9.97114, 4.2  L1.13687e-13, 4.2  L-9.97114, 4.2  L-19.4423, 4.2  L-27.9385, 4.2  L-35.0338, 4.2  L-40.3723, 4.2  L-43.6864, 4.2  L-44.8099, 4.2 " /><path id= "4" d=" M -44.8099 4.2 L -44.8099 1.5 " />
+<path d="M88.0447, 1.5 C88.0434, 1.5 87.7319, 1.5 87.1101, 1.5  C86.4895, 1.5 85.56, 1.5 84.3446, 1.5  C83.1291, 1.5 81.6227, 1.5 79.862, 1.5  C78.1012, 1.5 76.0791, 1.5 73.844, 1.5  C71.6086, 1.5 69.1515, 1.5 66.5299, 1.5  C63.9081, 1.5 61.1118, 1.5 58.2051, 1.5  C55.2981, 1.5 52.2699, 1.5 49.1885, 1.5  C46.1068, 1.5 42.9606, 1.5 39.8202, 1.5 " /><path id= "6" d=" M 39.8202 1.5 L -39.4568 1.5 " />
+<path d="M-39.4568, 1.5 C-45.7575, 1.5 -52.0577, 1.5 -57.9018, 1.5  C-60.8226, 1.5 -63.6347, 1.5 -66.275, 1.5  C-68.9155, 1.5 -71.3933, 1.5 -73.6507, 1.5  C-75.9084, 1.5 -77.9537, 1.5 -79.7371, 1.5  C-81.5206, 1.5 -83.0488, 1.5 -84.283, 1.5  C-85.5173, 1.5 -86.4624, 1.5 -87.0936, 1.5  C-87.7266, 1.5 -88.0437, 1.5 -88.0447, 1.5 " /><path d="M88.0447, -4.5 C88.0434, -4.5 87.7319, -4.5 87.1101, -4.5  C86.4895, -4.5 85.56, -4.5 84.3446, -4.5  C83.1291, -4.5 81.6227, -4.5 79.862, -4.5  C78.1012, -4.5 76.0791, -4.5 73.844, -4.5  C71.6086, -4.5 69.1515, -4.5 66.5299, -4.5  C63.9081, -4.5 61.1118, -4.5 58.2051, -4.5  C55.2981, -4.5 52.2699, -4.5 49.1885, -4.5  C46.1068, -4.5 42.9606, -4.5 39.8202, -4.5 " /><path d="M-39.4568, -4.5 C-45.7575, -4.5 -52.0577, -4.5 -57.9018, -4.5  C-60.8226, -4.5 -63.6347, -4.5 -66.275, -4.5  C-68.9155, -4.5 -71.3933, -4.5 -73.6507, -4.5  C-75.9084, -4.5 -77.9537, -4.5 -79.7371, -4.5  C-81.5206, -4.5 -83.0488, -4.5 -84.283, -4.5  C-85.5173, -4.5 -86.4624, -4.5 -87.0936, -4.5  C-87.7266, -4.5 -88.0437, -4.5 -88.0447, -4.5 " /><path id= "10" d=" M 39.8202 -4.5 L -39.4568 -4.5 " />
+<path id= "11" d=" M -88.0447 1.5 L -88.0447 -4.5 " />
+<path id= "12" d=" M 88.0447 1.5 L 88.0447 -4.5 " />
+<path id= "1" d=" M 44.5099 4.5 L 44.8099 4.2 " />
+<path id= "2" d=" M 44.8099 1.5 L 44.8099 4.2 " />
+<path id= "1" d=" M -39.4568 1.5 L -39.4568 -4.5 " />
+<path id= "2" d=" M 39.8202 1.5 L 39.8202 -4.5 " />
+</g>
+
+  </g>
+
+  <!-- Cote Epaisseur : 9.00 mm -->
+  <g id="cote_epaisseur">
+    <line x1="130" y1="548" x2="95" y2="548" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
+    <line x1="130" y1="572" x2="95" y2="572" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
+    <line x1="102" y1="552" x2="102" y2="568" stroke="#facc15" stroke-width="1.3" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)"/>
+    <rect x="60" y="550" width="80" height="20" fill="#0f172a" rx="4" stroke="#facc15" stroke-width="1" transform="rotate(-90 102 560)"/>
+    <text x="102" y="564" fill="#facc15" font-family="'Segoe UI', monospace" font-size="10" font-weight="bold" text-anchor="middle" transform="rotate(-90 102 560)">9.00 mm</text>
+  </g>
+
+  <!-- Callout Lamage Redan : 3.00 mm (Placé à droite de la vue de face, aucun conflit de texte) -->
+  <g id="cote_redan">
+    <circle cx="310" cy="565" r="3" fill="#4ade80"/>
+    <polyline points="310, 565 380, 565 470, 565" fill="none" stroke="#4ade80" stroke-width="1.0"/>
+    <rect x="360" y="545" width="145" height="38" rx="4" fill="#0b1329" fill-opacity="0.94" stroke="#4ade80" stroke-width="1"/>
+    <text x="370" y="560" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">Lamage Redan : 3,00 mm</text>
+    <text x="370" y="574" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="9">Épaulement bague RB8016</text>
+  </g>
+
+  <!-- Légende Vue de Face -->
+  <text x="250" y="615" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" text-anchor="middle">VUE DE FACE (TRANCHE &amp; REDAN ÉTAGÉ) — ÉCHELLE 1:1</text>
+
+  <!-- ===================================================================== -->
+  <!-- 3. VUE DE DROITE (RIGHT VIEW) - Profil mince vertical - Centre (520, 270) -->
+  <!-- ===================================================================== -->
+  <g id="vue_droite_geom" transform="translate(520, 270) scale(2.5, 1.25)">
+    <g fill="none" stroke="#38bdf8" stroke-opacity="1" stroke-width="1.1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4">
+<path d="M-4.5, -44.5099 L-4.5, -43.3939  L-4.5, -40.102  L-4.5, -34.7992  L-4.5, -27.7515  L-4.5, -19.3121  L-4.5, -9.90438  L-4.5, -1.24345e-14  L-4.5, 9.90438  L-4.5, 19.3121  L-4.5, 27.7515  L-4.5, 34.7992  L-4.5, 40.102  L-4.5, 43.3939  L-4.5, 44.5099 " /><path d="M-4.2, 44.8099 L-4.2, 43.6864  L-4.2, 40.3723  L-4.2, 35.0338  L-4.2, 27.9385  L-4.2, 19.4423  L-4.2, 9.97114  L-4.2, 8.88178e-15  L-4.2, -9.97114  L-4.2, -19.4423  L-4.2, -27.9385  L-4.2, -35.0338  L-4.2, -40.3723  L-4.2, -43.6864  L-4.2, -44.8099 " /><path d="M-1.5, 86.5144 C-1.5, 86.5176 -1.5, 85.2831 -1.5, 82.8968  C-1.5, 81.7013 -1.5, 80.2343 -1.5, 78.4961  C-1.5, 76.7604 -1.5, 74.7744 -1.5, 72.5595  C-1.5, 70.3447 -1.5, 67.9182 -1.5, 65.3071  C-1.5, 62.696 -1.5, 59.9206 -1.5, 57.0129  C-1.5, 54.1051 -1.5, 51.0877 -1.5, 47.9963  C-1.5, 44.905 -1.5, 41.7636 -1.5, 38.61 " /><path id= "4" d=" M -1.5 38.61 L -1.5 -38.61 " />
+<path d="M-1.5, -38.61 C-1.5, -41.7573 -1.5, -44.9109 -1.5, -47.9959  C-1.5, -51.0813 -1.5, -54.1106 -1.5, -57.0125  C-1.5, -59.9146 -1.5, -62.7008 -1.5, -65.3067  C-1.5, -67.9129 -1.5, -70.3488 -1.5, -72.5592  C-1.5, -74.7699 -1.5, -76.7635 -1.5, -78.4958  C-1.5, -80.2283 -1.5, -81.7059 -1.5, -82.8967  C-1.5, -85.2824 -1.5, -86.5173 -1.5, -86.5144 " /><path d="M4.5, -38.61 C4.5, -41.7573 4.5, -44.9109 4.5, -47.9959  C4.5, -51.0813 4.5, -54.1106 4.5, -57.0125  C4.5, -59.9146 4.5, -62.7008 4.5, -65.3067  C4.5, -67.9129 4.5, -70.3488 4.5, -72.5592  C4.5, -74.7699 4.5, -76.7635 4.5, -78.4958  C4.5, -80.2283 4.5, -81.7059 4.5, -82.8967  C4.5, -85.2824 4.5, -86.5173 4.5, -86.5144 " /><path id= "7" d=" M 4.5 38.61 L 4.5 -38.61 " />
+<path d="M4.5, 86.5144 C4.5, 86.5176 4.5, 85.2831 4.5, 82.8968  C4.5, 81.7013 4.5, 80.2343 4.5, 78.4961  C4.5, 76.7604 4.5, 74.7744 4.5, 72.5595  C4.5, 70.3447 4.5, 67.9182 4.5, 65.3071  C4.5, 62.696 4.5, 59.9206 4.5, 57.0129  C4.5, 54.1051 4.5, 51.0877 4.5, 47.9963  C4.5, 44.905 4.5, 41.7636 4.5, 38.61 " /><path id= "9" d=" M -1.5 -86.5144 L 4.5 -86.5144 " />
+<path id= "10" d=" M -1.5 86.5144 L 4.5 86.5144 " />
+<path id= "1" d=" M -4.5 44.5099 L -4.2 44.8099 " />
+<path id= "2" d=" M -4.5 -44.5099 L -4.2 -44.8099 " />
+<path id= "3" d=" M -1.5 -44.8099 L -4.2 -44.8099 " />
+<path id= "4" d=" M -1.5 44.8099 L -4.2 44.8099 " />
+<path id= "1" d=" M -1.5 38.61 L 4.5 38.61 " />
+<path id= "2" d=" M -1.5 -38.61 L 4.5 -38.61 " />
+</g>
+
+  </g>
+  <text x="520" y="455" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" text-anchor="middle">VUE DE DROITE (PROFIL)</text>
+
+  <!-- ===================================================================== -->
+  <!-- 4. VUE ISOMETRIQUE 3D - Panneau Haut Droite -->
+  <!-- ===================================================================== -->
+  <g transform="translate(730, 45)">
+    <rect width="430" height="300" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect width="430" height="30" rx="6" fill="#0284c7" opacity="0.25"/>
+    <line x1="0" y1="30" x2="430" y2="30" stroke="#38bdf8" stroke-width="1"/>
+    <text x="15" y="20" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" letter-spacing="1">VUE ISOMÉTRIQUE 3D AXONOMÉTRIQUE (VOLUMIQUE)</text>
+
+    <!-- Géométrie 3D projetée -->
+    <g transform="translate(215, 175) scale(1.15, 1.15)">
+      <g fill="none" stroke="#60a5fa" stroke-opacity="1" stroke-width="0.9" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4">
+<path d="M-35.6278 -3.14437 A2.25 1.29904 180 0 1 -31.7868 -2.22581" />
+<path d="M-31.7868 -2.22581 A2.25 1.29904 180 0 1 -32.3464 -1.36849" />
+<path d="M-35.7273 -1.36849 A2.25 1.29904 180 0 1 -36.2868 -2.22581" />
+<path d="M-36.2868 -2.22581 A2.25 1.29904 180 0 1 -35.6278 -3.14437" />
+<path d="M-1.62784 16.4855 A2.25 1.29904 180 0 1 2.21315 17.4041" />
+<path d="M2.21315 17.4041 A2.25 1.29904 180 0 1 1.65357 18.2614" />
+<path d="M-1.72726 18.2614 A2.25 1.29904 180 0 1 -2.28685 17.4041" />
+<path d="M-2.28685 17.4041 A2.25 1.29904 180 0 1 -1.62784 16.4855" />
+<path d="M32.3722 -3.14437 A2.25 1.29904 180 0 1 36.2132 -2.22581" />
+<path d="M36.2132 -2.22581 A2.25 1.29904 180 0 1 35.6536 -1.36849" />
+<path d="M32.2727 -1.36849 A2.25 1.29904 180 0 1 31.7132 -2.22581" />
+<path d="M31.7132 -2.22581 A2.25 1.29904 180 0 1 32.3722 -3.14437" />
+<path d="M-1.62784 -22.7743 A2.25 1.29904 180 0 1 2.21315 -21.8557" />
+<path d="M2.21315 -21.8557 A2.25 1.29904 180 0 1 1.65357 -20.9984" />
+<path d="M-1.72726 -20.9984 A2.25 1.29904 180 0 1 -2.28685 -21.8557" />
+<path d="M-2.28685 -21.8557 A2.25 1.29904 180 0 1 -1.62784 -22.7743" />
+<path d="M103.487, 3.10737 C103.486, 4.87716 103.195, 6.63142 102.613, 8.37015  C102.014, 10.1564 101.113, 11.902 99.9179, 13.5863  C98.723, 15.2706 97.244, 16.8804 95.4978, 18.3963  C93.7515, 19.9122 91.7515, 21.3224 89.5216, 22.6099 " /><path id= "18" d=" M 89.5216 22.6099 L 34.9188 54.1348 " />
+<path d="M34.9188, 54.1348 C32.6933, 55.4197 30.2412, 56.5788 27.621, 57.585  C25.0005, 58.5913 22.2012, 59.4485 19.2899, 60.137  C16.3783, 60.8256 13.3429, 61.348 10.2553, 61.6931  C7.1674, 62.0382 4.01512, 62.2072 0.8716, 62.1971  C-2.27221, 62.187 -5.41934, 61.9978 -8.49803, 61.6347  C-11.577, 61.2717 -14.5991, 60.7333 -17.4964, 60.0328  C-20.394, 59.3322 -23.1775, 58.4666 -25.785, 57.4561  C-28.3928, 56.4455 -30.8341, 55.2862 -33.0547, 54.0041 " /><path id= "20" d=" M -33.0547 54.0041 L -89.112 21.6394 " />
+<path d="M-89.112, 21.6394 C-91.3384, 20.354 -93.3541, 18.9426 -95.1153, 17.4355  C-96.8767, 15.9282 -98.3894, 14.3201 -99.6192, 12.6455  C-100.849, 10.9707 -101.8, 9.22364 -102.449, 7.44241  C-103.136, 5.55403 -103.487, 3.62029 -103.487, 1.68929 " /><path d="M-2.78623 -40.8426 A3.744 2.1616 180 0 1 -3.78085 -42.3098" />
+<path d="M-3.78085 -42.3098 A3.744 2.1616 180 0 1 3.70715 -42.3098" />
+<path d="M3.70715 -42.3098 A3.744 2.1616 180 0 1 2.71254 -40.8426" />
+<path d="M-72.2138 -0.758562 A3.744 2.1616 180 0 1 -73.2084 -2.22581" />
+<path d="M-73.2084 -2.22581 A3.744 2.1616 180 0 1 -65.7204 -2.22581" />
+<path d="M-65.7204 -2.22581 A3.744 2.1616 180 0 1 -66.715 -0.758562" />
+<path d="M-2.78623 39.3254 A3.744 2.1616 180 0 1 -3.78085 37.8582" />
+<path d="M-3.78085 37.8582 A3.744 2.1616 180 0 1 3.70715 37.8582" />
+<path d="M3.70715 37.8582 A3.744 2.1616 180 0 1 2.71254 39.3254" />
+<path d="M66.6413 -0.758562 A3.744 2.1616 180 0 1 65.6467 -2.22581" />
+<path d="M65.6467 -2.22581 A3.744 2.1616 180 0 1 73.1347 -2.22581" />
+<path d="M73.1347 -2.22581 A3.744 2.1616 180 0 1 72.1401 -0.758562" />
+<path d="M-66.6048 -0.819799 A4.044 2.3348 -3.11665e-15 1 0 -72.3239 -0.819799" />
+<path d="M-72.3239 -0.819799 A4.044 2.3348 -3.11665e-15 0 0 -66.6048 -0.819799" />
+<path d="M34.9188, 49.2358 C32.6933, 50.5207 30.2412, 51.6799 27.621, 52.686  C25.0005, 53.6923 22.2012, 54.5495 19.2899, 55.238  C16.3783, 55.9266 13.3429, 56.4491 10.2553, 56.7941  C7.1674, 57.1393 4.01512, 57.3082 0.8716, 57.2981  C-2.27221, 57.288 -5.41934, 57.0988 -8.49803, 56.7358  C-11.577, 56.3727 -14.5991, 55.8344 -17.4964, 55.1338  C-20.394, 54.4332 -23.1775, 53.5677 -25.785, 52.5572  C-28.3928, 51.5466 -30.8341, 50.3872 -33.0547, 49.1051 " /><path id= "37" d=" M 89.5216 17.7109 L 34.9188 49.2358 " />
+<path d="M89.2952, -21.5336 C91.52, -20.2491 93.5204, -18.845 95.2741, -17.3367  C97.0277, -15.8283 98.5212, -14.2273 99.737, -12.5513  C100.953, -10.8752 101.882, -9.13704 102.512, -7.35607  C103.16, -5.52454 103.487, -3.66217 103.487, -1.79161 " /><path d="M103.487, -1.79161 C103.486, -0.021821 103.195, 1.73244 102.613, 3.47117  C102.014, 5.25739 101.113, 7.00304 99.9179, 8.68732  C98.723, 10.3716 97.244, 11.9814 95.4978, 13.4973  C93.7515, 15.0132 91.7515, 16.4234 89.5216, 17.7109 " /><path id= "40" d=" M 33.2379 -53.8983 L 89.2952 -21.5336 " />
+<path d="M-34.9925, -54.1773 C-32.7511, -55.4714 -30.2933, -56.6303 -27.6503, -57.6398  C-25.0072, -58.6494 -22.1997, -59.5017 -19.2635, -60.1872  C-16.3272, -60.8727 -13.2852, -61.3861 -10.1748, -61.7229  C-7.06451, -62.0596 -3.91006, -62.2171 -0.748746, -62.1956  C2.41257, -62.174 5.55645, -61.9735 8.64757, -61.5983  C11.7387, -61.2231 14.7535, -60.676 17.6595, -59.9647  C20.5656, -59.2534 23.3408, -58.3832 25.9562, -57.3645  C28.5716, -56.3457 31.0074, -55.1861 33.2379, -53.8983 " /><path id= "42" d=" M -89.5953 -22.6524 L -34.9925 -54.1773 " />
+<path d="M-89.112, 16.7404 C-91.3384, 15.455 -93.3541, 14.0437 -95.1153, 12.5365  C-96.8767, 11.0293 -98.3894, 9.4211 -99.6192, 7.74647  C-100.849, 6.07171 -101.8, 4.32466 -102.449, 2.54343  C-103.136, 0.655051 -103.487, -1.27869 -103.487, -3.20969 " /><path d="M-103.487, -3.20969 C-103.487, -4.92267 -103.212, -6.63912 -102.665, -8.32368  C-102.082, -10.116 -101.19, -11.8792 -100.005, -13.571  C-98.8198, -15.263 -97.3376, -16.8903 -95.5927, -18.4132  C-93.846, -19.9375 -91.8345, -21.3596 -89.5953, -22.6524 " /><path id= "45" d=" M -33.0547 49.1051 L -89.112 16.7404 " />
+<path d="M2.82269 39.2642 A4.044 2.3348 -3.11665e-15 1 0 -2.89639 39.2642" />
+<path d="M-2.89639 39.2642 A4.044 2.3348 -3.11665e-15 0 0 2.82269 39.2642" />
+<path d="M2.82269 -40.9038 A4.044 2.3348 -3.11665e-15 1 0 -2.89639 -40.9038" />
+<path d="M-2.89639 -40.9038 A4.044 2.3348 -3.11665e-15 0 0 2.82269 -40.9038" />
+<path d="M-1.83997 -23.1417 A2.55 1.47224 -3.11665e-15 0 0 -1.83997 -21.0596" />
+<path d="M-1.83997 -21.0596 A2.55 1.47224 -3.11665e-15 0 0 1.76628 -21.0596" />
+<path d="M1.76628 -21.0596 A2.55 1.47224 -3.11665e-15 0 0 -1.83997 -23.1417" />
+<path d="M-1.83997 16.1181 A2.55 1.47224 -3.11665e-15 0 0 -1.83997 18.2002" />
+<path d="M-1.83997 18.2002 A2.55 1.47224 -3.11665e-15 0 0 1.76628 18.2002" />
+<path d="M1.76628 18.2002 A2.55 1.47224 -3.11665e-15 0 0 -1.83997 16.1181" />
+<path d="M-35.84 -3.51179 A2.55 1.47224 -3.11665e-15 0 0 -35.84 -1.42972" />
+<path d="M-35.84 -1.42972 A2.55 1.47224 -3.11665e-15 0 0 -32.2337 -1.42972" />
+<path d="M-32.2337 -1.42972 A2.55 1.47224 -3.11665e-15 0 0 -35.84 -3.51179" />
+<path d="M32.16 -3.51179 A2.55 1.47224 -3.11665e-15 0 0 32.16 -1.42972" />
+<path d="M32.16 -1.42972 A2.55 1.47224 -3.11665e-15 0 0 35.7663 -1.42972" />
+<path d="M35.7663 -1.42972 A2.55 1.47224 -3.11665e-15 0 0 32.16 -3.51179" />
+<path d="M72.2502 -0.819799 A4.044 2.3348 -3.11665e-15 1 0 66.5311 -0.819799" />
+<path d="M66.5311 -0.819799 A4.044 2.3348 -3.11665e-15 0 0 72.2502 -0.819799" />
+<path d="M-103.487, 1.68929 L-103.487, -3.20969 " /><path d="M103.487, 3.10737 L103.487, -1.79161 " /><path id= "1" d=" M -89.112 21.6394 L -89.112 16.7404 " />
+<path id= "2" d=" M -33.0547 54.0041 L -33.0547 49.1051 " />
+<path id= "3" d=" M 89.5216 22.6099 L 89.5216 17.7109 " />
+<path id= "4" d=" M 34.9188 54.1348 L 34.9188 49.2358 " />
+</g>
+
+    </g>
+
+    <!-- Badge status 3D -->
+    <rect x="280" y="265" width="135" height="22" rx="4" fill="#0f172a" stroke="#4ade80" stroke-width="1"/>
+    <text x="347" y="280" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Modèle 3D STEP Intègre</text>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- 5. PANNEAU SPECIFICATIONS D'ATELIER (CNC C500) -->
+  <!-- ===================================================================== -->
+  <g transform="translate(730, 360)">
+    <rect width="430" height="210" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+    <rect width="430" height="26" rx="6" fill="#334155"/>
+    <text x="12" y="18" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" letter-spacing="0.5">SPÉCIFICATIONS D'ATELIER (CNC C500)</text>
+
+    <g transform="translate(12, 40)" font-family="'Segoe UI', sans-serif" font-size="10" fill="#e2e8f0">
+      <text x="0" y="0" font-weight="bold" fill="#38bdf8">1. MATÉRIAU BRUT &amp; USINAGE :</text>
+      <text x="8" y="15" fill="#94a3b8">• Alliage : Aluminium 7075-T6 laminé (Débit brut : 185 x 185 x 12,0 mm)</text>
+      <text x="8" y="28" fill="#94a3b8">• Épaisseur finale surfacée : 9,00 mm (-0,05 / 0) — Redan inférieur 3,00 mm</text>
+
+      <text x="0" y="50" font-weight="bold" fill="#38bdf8">2. ÉBAVURAGE &amp; CHANFREINS :</text>
+      <text x="8" y="65" fill="#94a3b8">• Chanfreins 0,3 mm x 45° sur tous perçages (zéro morfil)</text>
+      <text x="8" y="78" fill="#94a3b8">• Cassage d'arêtes 0,5 mm x 45° sur pourtour extérieur</text>
+
+      <text x="0" y="100" font-weight="bold" fill="#38bdf8">3. AJUSTEMENTS FONCTIONNELS :</text>
+      <text x="8" y="115" fill="#94a3b8">• Alésage bague intérieure RB8016 : Ø 80,00 mm | Centrage RS-06 : Ø 89,62 mm</text>
+      <text x="8" y="128" fill="#94a3b8">• Entraxes PCD M4 : +/- 0,02 mm | Tolérance générale : ISO 2768-mK</text>
+
+      <text x="0" y="148" font-weight="bold" fill="#4ade80">4. MÉTROLOGIE SUR MARBRE :</text>
+      <text x="8" y="162" fill="#94a3b8">• Planéité globale &lt; 0,02 mm après surfaçage 2 faces</text>
+    </g>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- 6. CARTOUCHE TECHNIQUE NORMALISÉ ISO 7200 (Bas Droite) -->
+  <!-- ===================================================================== -->
+  <g transform="translate(730, 585)">
+    <rect width="430" height="235" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    
+    <rect width="430" height="30" rx="6" fill="#0284c7" opacity="0.25"/>
+    <line x1="0" y1="30" x2="430" y2="30" stroke="#38bdf8" stroke-width="1.2"/>
+    <text x="215" y="20" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" text-anchor="middle" letter-spacing="1">D-BOT HUMANOID ROBOT V1 — ISO 7200</text>
+
+    <!-- Grille cartouche -->
+    <line x1="0" y1="65" x2="430" y2="65" stroke="#334155" stroke-width="1"/>
+    <line x1="0" y1="105" x2="430" y2="105" stroke="#334155" stroke-width="1"/>
+    <line x1="0" y1="145" x2="430" y2="145" stroke="#334155" stroke-width="1"/>
+    <line x1="0" y1="185" x2="430" y2="185" stroke="#334155" stroke-width="1"/>
+
+    <line x1="130" y1="30" x2="130" y2="185" stroke="#334155" stroke-width="1"/>
+
+    <!-- Ligne 1: Pièce -->
+    <text x="12" y="52" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">PIÈCE :</text>
+    <text x="140" y="53" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="bold">Waist_Plate_7075</text>
+
+    <!-- Ligne 2: Désignation -->
+    <text x="12" y="90" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">DÉSIGNATION :</text>
+    <text x="140" y="90" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="11">Platine Supérieure Déportée Waist Yaw</text>
+
+    <!-- Ligne 3: Matériau -->
+    <text x="12" y="130" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">MATÉRIAU :</text>
+    <text x="140" y="130" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">Alu 7075-T6 (2,81 g/cm³)  |  Masse : 486,8 g</text>
+
+    <!-- Ligne 4: Référence / Éch -->
+    <text x="12" y="170" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">RÉF. / ÉCH. :</text>
+    <text x="140" y="170" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">ASV1_100_02A  |  Échelle 1:1  |  Tolérance : ISO 2768-mK</text>
+
+    <!-- Ligne 5: Statut & Signature -->
+    <text x="15" y="208" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">STATUT : VALIDÉ POUR FRAISAGE CNC C500</text>
+    <text x="15" y="224" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="9">Date : 2026-09-28 | Auteur : D-Bot Core Team | Fichier : Waist_Plate_7075_Plan2D.FCStd</text>
+  </g>
+
+  <!-- Pied de page -->
+  <g transform="translate(45, 825)">
+    <text x="0" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="9">Pipeline Souverain FreeCAD 1.1.3 / OpenCASCADE — Fichiers associés : Waist_Plate_7075_Plan2D.FCStd &amp; Waist_Plate_7075_Plan2D.dxf</text>
+  </g>
+</svg>

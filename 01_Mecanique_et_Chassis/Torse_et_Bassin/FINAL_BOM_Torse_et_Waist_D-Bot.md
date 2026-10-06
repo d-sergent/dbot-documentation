@@ -1,9 +1,9 @@
 # 📋 NOMENCLATURE EXHAUSTIVE (BOM) — TORSE & BASSIN / WAIST D-BOT V1
 
 > **Statut** : Document de Référence Actif (Niveau 1 — Vérité Terrain)  
-> **Date de mise à jour** : 25 Septembre 2026  
-> **Modèle CAO de référence** : Autodesk Fusion 360 `Torse v97` (Audit Métrologique Automatisé Validé)  
-> **Architecture** : Torse V2.6 Tout-Métal (Jonction Z=0, Goupillage 80 × 80 mm) & Liaison Active Waist Yaw V1.2 (CRBH 8016 UU)  
+> **Date de mise à jour** : 27 Septembre 2026  
+> **Modèle CAO de référence** : Autodesk Fusion 360 `Torse v102` (Scale Pelvis 1.2776 & Waist 175 × 175 mm Validé)  
+> **Architecture** : Torse V2.6 Tout-Métal (Jonction Z=0, Goupillage 80 × 80 mm) & Liaison Active Waist Yaw V1.3 (CRBH 8016 UU, Corridor 45×20 mm, Butées R=83 mm)  
 
 ---
 
@@ -34,26 +34,26 @@
 ## 1. Synthèse Générale et Budget de Masse
 
 Le robot humanoïde D-Bot V1 sépare structurellement le corps supérieur en trois sous-ensembles fonctionnels :
-1. **Le Torse Complet** : Colonne sagittale, cou pan/tilt, traverse 60×60 mm, articulations d'épaules complètes symétrisées (G/D), plastrons, carénages et les 2 packs batteries latéraux 48V.
-2. **La Liaison Active Waist Yaw** : Pivot de lacet de taille, roulement à rouleaux croisés CRBH 8016, actionneur RS-06, Moyeu 7075 et Waist Plate.
-3. **Le Bassin & Châssis Pelvien (ASV1_200)** : Berceau structurel maître `ASV1_200_01C` en Aluminium 7075-T6 (3,79 kg), Traverse Renfort 16A (247 g), supports et biellettes de hanches.
+1. **Le Torse Complet** : Colonne sagittale, cou pan/tilt, traverse 60×60 mm, articulations d'épaules complètes symétrisées (G/D), plastrons (Plastron Ventral évasé à 175 mm), carénages et les 2 packs batteries latéraux 48V.
+2. **La Liaison Active Waist Yaw** : Pivot de lacet de taille, roulement à rouleaux croisés RB8016, actionneur RS-06, Moyeu 7075, Waist Plate élargie (176 × 173 mm), corridor ventral 45×20 mm (boucle anti-guillotine) et butées arrière à R=83 mm (+/- 95°).
+3. **Le Bassin & Châssis Pelvien (Bassin_Pelvis)** : Berceau structurel maître `Chassis_Structurel_Bassin` en **PA12-CF** (2,81 kg), Traverse Renfort élargie en **Aluminium 7075-T6** (175 × 175 mm, 617,4 g), supports et liaisons de hanches en **PA12-CF** (envergure Y = 487,09 mm).
 
-### Bilan de Masse Consolidé (Source CAO Active : Fusion 360 `Torse v97` — 354 Composants)
+### Bilan de Masse Consolidé (Source CAO Active : Fusion 360 `Torse v107` — Audit Automatisé & Pelvis PA12-CF)
 
 | Sous-Ensemble | Masse Structure Métallique | Masse Pièces 3D (PA12-CF) | Masse Actionneurs & Roulements | Masse Batteries & Électronique | Masse Visserie & Quincaillerie | Masse Totale Consolidée |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Partie 1 : Torse Complet** | 4 285,0 g | 1 120,5 g | 2 944,0 g | 1 510,0 g | 269,0 g | **10 128,5 g (~10,13 kg)** |
-| **Partie 2 : Liaison Waist Yaw** | 791,9 g | 42,5 g | 1 184,4 g | — | 85,0 g | **2 103,8 g (~2,10 kg)** |
-| **Partie 3 : Bassin & Pelvis Mécanique** | 5 628,4 g | 270,8 g | — *(Phase 4)* | — | 231,6 g | **6 130,8 g (~6,13 kg)** |
-| **TOTAL HAUT DU CORPS (Torse + Waist + Bassin)** | **10 705,3 g** | **1 433,8 g** | **4 128,4 g** | **1 510,0 g** | **585,6 g** | **18 363,1 g (~18,36 kg)** |
+| **Partie 1 : Torse Complet** | 4 285,0 g | 1 081,9 g | 2 944,0 g | 1 510,0 g | 275,0 g | **10 095,9 g (~10,10 kg)** |
+| **Partie 2 : Liaison Waist Yaw** | 906,8 g | 42,5 g | 1 184,4 g | — | 85,0 g | **2 218,7 g (~2,22 kg)** |
+| **Partie 3 : Bassin & Pelvis Mécanique** | 701,6 g | 4 244,5 g | — *(Phase 4)* | — | 231,6 g | **5 177,7 g (~5,18 kg)** |
+| **TOTAL HAUT DU CORPS (Torse + Waist + Bassin)** | **5 893,4 g** | **5 368,9 g** | **4 128,4 g** | **1 510,0 g** | **591,6 g** | **17 774,61 g (~17,77 kg)** |
 
 > [!NOTE]
-> **Réconciliation Métrologique CAO (v88 vs v97)** :
-> L'estimation initiale de 14,47 kg (issue de `Torse v88`) correspondait à une maquette allégée sans symétrie gauche/droite complète et sans modélisation des batteries. Le relevé automatisé sur **`Torse v97`** (354 instances, 95 références uniques, fichier [`SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md)) établit la masse physique réelle à **18,36 kg** en intégrant :
-> 1. La symétrie complète de l'épaule gauche et de sa motorisation RS-04 (+1,76 kg).
-> 2. L'intégration effective des 2 packs batteries 48V réels dans les paniers latéraux (+1,11 kg).
-> 3. L'épaississement de la Traverse Renfort Bassin à 12,51 mm (+36 g) et l'ensemble de la visserie d'assemblage (2048 fraisures, rondelles Nord-Lock, vis DIN 7984 M3 et écrous frein).
-> 4. Une conformité métrologique de 100% avec les pièces réellement instanciées dans l'arbre d'assemblage Fusion 360.
+> **Réconciliation Métrologique CAO (`Torse v107` & Rationalisation PA12-CF)** :
+> Le relevé automatisé sur **`Torse v107`** (fichier [`SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md)) établit la masse physique réelle de l'assemblage complet à **17,77 kg**, reflétant :
+> 1. L'attribution officielle du matériau composite **PA12-CF** à l'ensemble des pièces structurelles du caisson pelvien (`Chassis_Structurel_Bassin` à 2 805,69 g, supports et liaisons de hanches), générant un gain de masse immédiat de **`-6 605,60 g (-6,61 kg)`** par rapport à l'Aluminium massif initial.
+> 2. Le maintien en alliage métallique **Aluminium 7075-T651** et acier des composants hautement sollicités : `Traverse_Renfort_Bassin` (567,74 g), `Moyeu_Waist_Sandwich_7075` (163,94 g), roulement à rouleaux croisés `RB8016` (633,41 g) et moteur `RobStride RS-06` (550,97 g).
+> 3. Le **scale uniforme 3D de facteur 1,2776** du caisson pelvien (`Bassin_Pelvis`), portant l'envergure hanches Y à **`487,09 mm`** et la hauteur physique Torse + Bassin à **`819,74 mm`** (+34,0 mm), pour une stature totale debout de **`~1,584 m (~1,58 m)`**.
+> 4. L'évasement et la finalisation des 4 bossages d'angles de fixation sur la Waist Plate (`Plastron_Ventral_Torse` allégé à **`2 801,37 g`** et `Waist_Plate_7075` à **`434,71 g`** avec ses congés R=1,5 mm).
 
 ---
 
@@ -99,9 +99,9 @@ Le robot humanoïde D-Bot V1 sépare structurellement le corps supérieur en tro
 
 ### 2.4 Carénages, Plastrons & Coques (PA12-CF)
 
-| Réf. Pièce | Désignation CAO Fusion 360 | Ancien Matricule Asimov | Matériau Appliqué | Procédé / Infill | Qté | Masse Fusion 360 (V89) | Rôle Fonctionnel |
+| Réf. Pièce | Désignation CAO Fusion 360 | Ancien Matricule Asimov | Matériau Appliqué | Procédé / Infill | Qté | Masse Fusion 360 (v102) | Rôle Fonctionnel |
 | :--- | :--- | :--- | :--- | :--- | :---: | :---: | :--- |
-| **CAR-01** | `Plastron_Ventral_Torse` | `ASV1_100_01C v1` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **`2 840,04 g`** | Grande coque pectorale ventrale protégeant l'électronique |
+| **CAR-01** | `Plastron_Ventral_Torse` | `ASV1_100_01C v1` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **`2 801,37 g`** | Grande coque pectorale évasée à 175 mm avec 4 bossages d'angles M4 (Torse v107) |
 | **CAR-02** | `Platine_Connectique_Facade` | `ASV1_100_05C v1` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **`36,27 g`** | Panneau d'accès des ports 12V, DEBUG, 48V et interrupteurs |
 | **CAR-03** | `Panier_Batterie_Coulissant` | `ASV1_100_10C v1` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **`555,06 g`** | Bac / rack coulissant accueillant les packs batteries 12S |
 | **CAR-04** | `Capot_Verrouillage_Batterie` | `ASV1_100_12C v1` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **`116,29 g`** | Couvercle supérieur de fermeture et verrouillage du tiroir batterie |
@@ -126,6 +126,8 @@ Le robot humanoïde D-Bot V1 sépare structurellement le corps supérieur en tro
 | **VIS-T10** | Rondelles plates DIN 125A M5 | **`93475A250`** | Inox A2 | 8 | — | Sous tête et sous écrou des vis VIS-T08 |
 | **VIS-T11** | Vis CHC M2,5 × 14 mm | **`91290A038`** | Inox A2 | 4 | 0,8 N.m | Traversée support IMU BMI270 sur colonne Plaque Haute |
 | **VIS-T12** | Écrous frein Nylstop M2,5 | **`90631A019`** | Acier classe 8 / DIN 985 | 4 | 0,8 N.m | Serrage flanc gauche colonne IMU (avec entretoises nylon) |
+| **VIS-T13** | Vis CHC M4 × 18 mm | **`92290A154`** | Inox 316 / DIN 912 | 4 | 2,5 N.m | Vissage intérieur Plastron Ventral (10 mm) ➔ Waist Plate (6 mm) |
+| **VIS-T14** | Rondelles plates DIN 125A M4 | **`93475A240`** | Inox 316 | 4 | — | Sous têtes des vis VIS-T13 dans les 4 lamages du plastron |
 
 ---
 
@@ -138,34 +140,34 @@ Le robot humanoïde D-Bot V1 sépare structurellement le corps supérieur en tro
 | Réf. Pièce | Désignation CAO Fusion 360 | Matériau Appliqué | Procédé / Infill | Qté | Masse Unitaire | Masse Totale | Rôle Fonctionnel |
 | :--- | :--- | :--- | :--- | :---: | :---: | :---: | :--- |
 | **WST-01** | `Moyeu_Waist_Sandwich_7075` | Aluminium 7075-T651 | Tournage/Fraisage CNC | 1 | 164,95 g | 164,95 g | Fût Ø 80 h6 (H=15,6 mm, retrait 0,4 mm), collerette Ø 91,5 mm |
-| **WST-02** | `Waist_Plate_7075` | Aluminium 7075-T651 | Usinage CNC C500 (Massif) | 1 | 319,92 g | 319,92 g | Plaque mobile (142 × 139 × 6-7,5 mm), corridor Ø 80 mm |
-| **WST-03** | `Platine_Interface_Waist_7075` | Aluminium 7075-T651 | Tournage/Fraisage CNC | 1 | 265,00 g | 265,00 g | Disque fixe Ø 140 × 12 mm, lamage Ø 120 H7, alésage Ø 88 H7 |
-| **WST-04** | `Flasque_Maintien_Axial` | Aluminium 7075-T651 | Découpe CNC (ép. 2,5 mm) | 1 | 42,00 g | 42,00 g | Anneau de retenue axiale bague extérieure roulement |
+| **WST-02** | `Waist_Plate_7075` | Aluminium 7075-T651 | Usinage CNC C500 (Massif) | 1 | 486,76 g | 486,76 g | Plaque mobile (176,11 × 173,05 × 9,02 mm), encoche ventrale en U anti-guillotine, doigt R=83 mm |
+| **WST-03** | `Traverse_Renfort_Bassin` | Aluminium 7075-T651 | Tournage/Fraisage CNC | 1 | 617,39 g | 617,39 g | Platine d'interface (174,90 × 174,84 × 12,51 mm), siège Ø 120 H7, alésage Ø 74,6 mm |
+| **WST-04** | `Bride_Retenue_RB8016_L` | Aluminium 7075-T651 | Usinage CNC C500 | 4 | 6,00 g | 24,00 g | 4 brides étagées en L (16 × 15 × 15 mm) de retenue axiale bague extérieure |
 | **WST-05** | `RB8016` (CRBH 8016 UU) | Acier à roulement GCr15 (62 HRC) | Luoyang EFANT Precision Bearing | 1 | 633,41 g | 633,41 g | **✅ Reçu & Contrôlé (15/09/2026)** : d = 79,996 mm, D = 119,995 mm, B = 15,965 mm, faux-rond 0,003 mm (P4/P2) |
 | **WST-06** | `RS06 v1` | RobStride RS-06 | Moteur QDD Actuator | 1 | 551,00 g | 551,00 g | Actionneur de lacet Waist Yaw (36 N.m pic, 11 N.m nom., arbre plein) |
-| **WST-07** | `Butee_Doigt_Externe` | PA12-CF (Nylon 12 + Carbone) | Impression 3D (50% Gyroïde) | 1 | 12,50 g | 12,50 g | Doigt d'arrêt mécanique (15 × 15 × 10 mm) sous Waist Plate |
+| **WST-07** | `Doigt_Butee_Arriere` | Acier trempé rectifié | ISO 8734 / DIN 6325 | 1 | 3,50 g | 3,50 g | Goupille trempée Ø 6,0 × 16 mm (McMaster `98381A530`) sous Waist Plate à R = 83 mm |
 
 ---
 
 ### 3.2 Pièces Structurelles et Capotages Pelviens
 
-Suite à la suppression des 5 actionneurs Asimov de hanche et à l'exécution de `ModifyTorse.py`, le sous-ensemble pelvien `Bassin_Pelvis [ASV1_200]` (anciennement `ASV1_200 v1`) comprend 11 composants mécaniques et coques de protection désormais renommés et affectés à leurs matériaux réels :
+Suite au **scale 3D uniforme de facteur 1,2776** appliqué sur le caisson pelvien `Bassin_Pelvis [ASV1_200]` et à l'élargissement de la taille à 175 mm (`Torse v102`), les composants pelviens présentent les dimensions et masses réelles suivantes :
 
-| Réf. Pièce | Désignation CAO Fusion 360 | Ancien Matricule STEP | Matériau Appliqué | Procédé / Infill | Qté | Masse Fusion 360 | Rôle Fonctionnel |
+| Réf. Pièce | Désignation CAO Fusion 360 | Ancien Matricule STEP | Matériau Appliqué | Procédé / Infill | Qté | Masse Fusion 360 (v102) | Rôle Fonctionnel |
 | :--- | :--- | :--- | :--- | :--- | :---: | :---: | :--- |
-| **PEL-01** | `Chassis_Structurel_Bassin [ASV1_200_01C]` | `ASV1_200_01C.step` | Aluminium 7075-T6 | Usinage CNC (Massif) | 1 | **3 792,02 g** | Berceau maître pelvien, reprise des charges de marche et du waist |
-| **PEL-02** | `Support_Hanche_Gauche [ASV1_200_06C]` | `ASV1_200_06C.step` | Aluminium 7075-T6 | Usinage CNC (Massif) | 1 | **501,69 g** | Bride structurelle de reprise d'efforts hanche gauche |
-| **PEL-03** | `Support_Hanche_Droit [ASV1_200_08C]` | `ASV1_200_08C.step` | Aluminium 7075-T6 | Usinage CNC (Massif) | 1 | **501,69 g** | Bride structurelle de reprise d'efforts hanche droite |
-| **PEL-04** | `Traverse_Renfort_Bassin [ASV1_200_16A]` | `ASV1_200_16A.step` | Aluminium 7075-T6 | Usinage CNC (Massif) | 1 | **210,73 g** | Raidisseur inférieur transversal du berceau pelvien |
-| **PEL-05** | `Liaison_Hanche_Gauche [ASV1_200_07C]` | `ASV1_200_07C.step` | Aluminium 7075-T6 | Usinage CNC (Massif) | 1 | **127,01 g** | Biellette/équerre de liaison structurelle hanche gauche |
-| **PEL-06** | `Liaison_Hanche_Droit [ASV1_200_09C]` | `ASV1_200_09C.step` | Aluminium 7075-T6 | Usinage CNC (Massif) | 1 | **125,97 g** | Biellette/équerre de liaison structurelle hanche droite |
-| **PEL-07** | `Capot_Lateral_Hanche_Gauche [ASV1_200_04B]` | `ASV1_200_04B.step` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **66,16 g** | Coque latérale de protection hanche gauche |
-| **PEL-08** | `Capot_Lateral_Hanche_Droit [ASV1_200_05B]` | `ASV1_200_05B.step` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **66,17 g** | Coque latérale de protection hanche droite |
-| **PEL-09** | `Capot_Protection_Hanche_Frontal_G [ASV1_200_02A]`| `ASV1_200_02A.step` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **36,28 g** | Coque frontale de protection hanche gauche |
-| **PEL-10** | `Capot_Protection_Hanche_Frontal_D [ASV1_200_03A]`| `ASV1_200_03A.step` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **36,28 g** | Coque frontale de protection hanche droite |
-| **PEL-11** | `Trappe_Inferieure_Bassin [ASV1_200_15C]` | `ASV1_200_15C.step` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **31,77 g** | Trappe d'accès maintenance sous le bassin |
+| **PEL-01** | `Chassis_Structurel_Bassin [ASV1_200_01C]` | `ASV1_200_01C.step` | PA12-CF | Impression 3D (100% Solide) | 1 | **2 805,69 g** | Berceau maître pelvien scalé 1.2776 (197,7 × 340,3 × 254,5 mm) |
+| **PEL-02** | `Support_Hanche_Gauche [ASV1_200_06C]` | `ASV1_200_06C.step` | PA12-CF | Impression 3D (100% Solide) | 1 | **371,19 g** | Bride structurelle de reprise d'efforts hanche gauche scalée |
+| **PEL-03** | `Support_Hanche_Droit [ASV1_200_08C]` | `ASV1_200_08C.step` | PA12-CF | Impression 3D (100% Solide) | 1 | **371,17 g** | Bride structurelle de reprise d'efforts hanche droite scalée |
+| **PEL-04** | `Traverse_Renfort_Bassin [ASV1_200_16A]` | `ASV1_200_16A.step` | Aluminium 7075-T6 | Usinage CNC (Massif) | 1 | **617,39 g** | Raidisseur et platine d'interface waist (174,90 × 174,84 × 12,51 mm) |
+| **PEL-05** | `Liaison_Hanche_Gauche [ASV1_200_07C]` | `ASV1_200_07C.step` | PA12-CF | Impression 3D (100% Solide) | 1 | **93,98 g** | Biellette/équerre de liaison structurelle hanche gauche |
+| **PEL-06** | `Liaison_Hanche_Droit [ASV1_200_09C]` | `ASV1_200_09C.step` | PA12-CF | Impression 3D (100% Solide) | 1 | **93,18 g** | Biellette/équerre de liaison structurelle hanche droite |
+| **PEL-07** | `Capot_Lateral_Hanche_Gauche [ASV1_200_04B]` | `ASV1_200_04B.step` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **135,53 g** | Coque latérale de protection hanche gauche |
+| **PEL-08** | `Capot_Lateral_Hanche_Droit [ASV1_200_05B]` | `ASV1_200_05B.step` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **135,53 g** | Coque latérale de protection hanche droite |
+| **PEL-09** | `Capot_Protection_Hanche_Frontal_G [ASV1_200_02A]`| `ASV1_200_02A.step` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **74,31 g** | Coque frontale de protection hanche gauche |
+| **PEL-10** | `Capot_Protection_Hanche_Frontal_D [ASV1_200_03A]`| `ASV1_200_03A.step` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **74,31 g** | Coque frontale de protection hanche droite |
+| **PEL-11** | `Trappe_Inferieure_Bassin [ASV1_200_15C]` | `ASV1_200_15C.step` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **65,08 g** | Trappe d'accès maintenance sous le bassin |
 | **PEL-12** | `Equerre waist` (Droite & Gauche) | `Equerre waist` | Aluminium 7075-T6 | Cornière marchande 30×30×3 | 2 | **84,22 g** | Cornières L = 90,0 mm reliant colonne au moyeu waist |
-| **PEL-13** | `Passe_Fil_Faisceau_Waist` | `Passe_Fil_Faisceau_Waist` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **14,00 g** | Goulotte de guidage faisceau 48V/CAN dans l'oblong 25×15 |
+| **PEL-13** | `Passe_Fil_Faisceau_Waist` | `Passe_Fil_Faisceau_Waist` | TPU 95A | Impression 3D FDM | 1 | **8,50 g** | Manchon souple fendu anti-frottement pour corridor ventral 45×20 mm (passage direct connecteurs XT60/XT90) |
 | **PEL-14** | `Support_Ventilateur_RS06` | `Support_Ventilateur_RS06` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **16,00 g** | Berceau pour ventilateur optionnel 30×30×10 mm sous plancher |
 
 ---
@@ -225,11 +227,11 @@ Suite à la suppression des 5 actionneurs Asimov de hanche et à l'exécution de
 | **VIS-W03** | Rondelles plates DIN 125A M4 | **`93475A240`** | Inox A2 | 4 | — | Sous têtes VIS-W02 sur cornières waist (rayon R=5 mm) |
 | **VIS-W04** | Vis CHC M4 × 20 mm | **`91290A160`** | Acier classe 12.9 noir | 8 | 3,0 N.m | Aile verticale Équerres Waist ➔ Pincement Colonne 5 mm |
 | **VIS-W05** | Écrous frein Nylstop M4 | **`93625A150`** | Inox A2 / DIN 985 | 8 | 3,0 N.m | Serrage bilatéral de colonne sur équerres waist |
-| **VIS-W06** | Vis CHC M5 × 20 mm | **`91290A242`** | Acier classe 12.9 noir | 6 | 5,5 N.m | Fixation Platine Monolithique Ø 140 mm ➔ Bâti Pelvis |
-| **VIS-W07** | Rondelles plates DIN 125A M5 | **`93475A250`** | Inox A2 | 6 | — | Sous têtes VIS-W06 sur PCD Ø 132,0 mm |
-| **VIS-W08** | Vis FHC M3 × 8 mm | **`91294A112`** | Acier classe 10.9 noir | 4 | 1,2 N.m | Serrage Flasque Retenue Axiale CRBH (PCD Ø 128 mm) |
-| **VIS-W09** | Vis CHC M5 × 16 mm | **`91290A238`** | Acier classe 12.9 noir | 2 | Clé Allen 4 | Vis de butée de lacet fixes à ±95° sur Platine d'Interface |
-| **VIS-W10** | Manchons silicone amortisseurs | **Fournisseur atelier** | Élastomère silicone 60 ShA | 2 | — | Amortissement sonore et antichoc sur têtes VIS-W09 |
+| **VIS-W06** | Vis FHC M5 × 25 mm | **`92125A230`** | Inox 316 / DIN 7991 | 4 | 1,8 à 2,0 N.m | Fixation affleurante 0,0 mm 4 coins Traverse ➔ Bâti Pelvis |
+| **VIS-W07** | Rondelles plates DIN 125A M5 | **`93475A240`** | Inox 316 | 4 | — | Sous écrous captifs M5 dans poches sous plafond PA12-CF |
+| **VIS-W08** | Vis CHC M4 × 16 mm | **`92290A154`** | Inox 316 / ISO 4762 | 4 | 2,8 à 3,0 N.m | Serrage des 4 brides étagées en L sur PCD Ø 136 mm |
+| **VIS-W09** | Vis CHC M5 × 16 mm | **`91290A242`** | Acier classe 12.9 noir | 2 | 3,5 N.m | Butées fixes de lacet arrière à ±95° sur Traverse (R = 83 mm) |
+| **VIS-W10** | Manchons polyuréthane amortisseurs | Fournisseur atelier | Polyuréthane 90 ShA | 2 | — | Amortissement sonore et antichoc sur têtes VIS-W09 |
 | **VIS-W11** | **Vis CHC M3 × 12 mm Tête Basse** | **`92855A313`** | Inox 18-8 / DIN 7984 | **8** | **1,3 à 1,4 N.m** | Fixation directe Stator RS-06 ➔ Traverse (Option 1 Validée, PCD Ø 82 mm, air gap 1,48 mm) |
 
 ---
@@ -250,11 +252,11 @@ Dans le cadre du jalon Niveau 4 de la feuille de route stratégique, la motorisa
 | **TOTAL MEMBRES INFÉRIEURS (12 DoF)** | — | **4× RS-04 + 8× RS-03** | **12** | — | **~13 920 g (~13,92 kg)** | — | — | **Membres inférieurs complets** |
 
 > [!TIP]
-> **Estimation de Masse Totale D-Bot Complet Debout (Phase 4)** :
-> * **Torse + Waist + Bassin (CAO `Torse v97`)** : **18,36 kg**
+> **Estimation de Masse Totale D-Bot Complet Debout (Phase 4 & Pelvis PA12-CF)** :
+> * **Torse + Waist + Bassin (CAO `Torse v107` & Pelvis PA12-CF)** : **17,77 kg** (allègement net cumulé de -6,99 kg)
 > * **Membres Inférieurs (12 DoF, 4× RS-04 + 8× RS-03)** : **~13,92 kg**
 > * **Bras & Mains D-Hand (8 DoF bras + préhension)** : **~6,50 kg**
-> * **MASSE TOTALE ESTIMÉE DU ROBOT COMPLET DEBOUT** : **`~38,8 kg`** (Remarquable pour un humanoïde de 1,55 m, offrant un rapport puissance/poids très élevé).
+> * **MASSE TOTALE ESTIMÉE DU ROBOT COMPLET DEBOUT** : **`~38,19 kg (~38,2 kg)`** (Hauteur totale debout **`~1,584 m (~1,58 m)`**, marge saine accrue de **+3,81 kg** sous le plafond de 42,0 kg).
 
 ---
 

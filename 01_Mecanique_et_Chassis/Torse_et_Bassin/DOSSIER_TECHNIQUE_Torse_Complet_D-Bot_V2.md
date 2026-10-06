@@ -45,7 +45,7 @@
 - [**7. Liaisons d'Extrémités : Cou & Waist Yaw RS-06**](#7-liaisons-dextrémités--cou--waist-yaw-rs-06)
   - [A. Plaque Supérieure de Cou (Alu 4,68 mm) & Liaison Rigide de Précision C500](#a-plaque-supérieure-de-cou-alu-468-mm--liaison-rigide-de-précision-c500)
     - [Fixation Directe du Moteur RobStride RS-05 (Yaw Cou) sur la Plaque](#1-fixation-directe-du-moteur-robstride-rs-05-yaw-cou-sur-la-plaque)
-  - [B. Plaque Inférieure / Waist Plate (Alu 6,0 mm) & Actionneur RS-06](#b-plaque-inférieure--waist-plate-alu-60-mm--actionneur-rs-06)
+  - [B. Plaque Inférieure / Waist Plate (Alu 7075-T6, 176 × 173 mm) & Liaison Active Waist Yaw (CRBH 8016)](#b-plaque-inférieure--waist-plate-alu-7075-t6-176--173-mm--liaison-active-waist-yaw-crbh-8016)
   - [C. Conception Détaillée des Équerres Hautes & Basses (Cotations & Usinages)](#c-conception-détaillée-des-équerres-hautes--basses-profilé-commercial-30--30--3-mm--option-c-validée)
     - [Cartographie Complète des Chanfreins, Fraisures & Protocole d'Ébavurage d'Atelier](#4-cartographie-complète-des-chanfreins-fraisures--protocole-débavurage-datelier)
   - [D. Protocole d'Atelier Naturel & Ergonomique (Torse V2.6)](#d-protocole-datelier-naturel--ergonomique-torse-v26)
@@ -786,21 +786,29 @@ Dans Fusion 360, sur une esquisse tracée sur la **face inférieure (dessous)** 
 
 ---
 
-### B. Plaque Inférieure / Waist Plate (Alu 6,0 mm) & Liaison Active Waist Yaw (CRBH 8016)
+### B. Plaque Inférieure / Waist Plate (Alu 7075-T6, 176 × 173 mm) & Liaison Active Waist Yaw (CRBH 8016)
 * **Fonction** : Fermeture basse du torse, interface mobile rigide avec la liaison active Waist Yaw.
+* **Élargissement à 175 × 175 mm & Lumière d'Arc Arrière 125,0° (Torse v105)** : La `Waist_Plate_7075` a été élargie à **`176,11 × 173,05 mm`** (épaisseur finie `9,02 mm` avec redan d'appui inférieur de `3,00 mm`, masse réelle CAO = **`434,7 g`**, soit 434,71 g avec congés R = 1,5 mm) et intègre en zone arrière la lumière en arc de cercle élargie à **`125,0°`** (R_int = 64,75 mm, R_ext = 84,75 mm, largeur 20 mm, congés d'arêtes R = 1,5 mm sur faces sup/inf).
+* **Évasement Inférieur & Fixations aux 4 Coins du Plastron Ventral (`Torse v107`)** : Pour épouser l'interface élargie de 175 mm, la base du `Plastron_Ventral_Torse` intègre 4 lamages intérieurs horizontaux (épaisseur de plancher de 10,0 mm) avec perçages débouchants de Ø 4,50 mm pour vis M4, portant sa masse réelle auditée en CAO à **`2 801,37 g`** (allègement net de **`-342,58 g`** par rapport à v105). Les 4 vis CHC M4 × 18 mm (McMaster `92290A154`) traversent les bossages pour se fixer dans la Waist Plate en exploitant les **`16,02 mm`** de vide d'air sous plaque au-dessus de la Traverse pelvienne fixe.
+* **Lumières Concentriques d'Arc de Câblage & Zéro Cisaillement (Traverse 69,0° vs Waist Plate 125,0°)** : Implantation en zone postérieure (-X) centrée sur l'axe du rotor RS-06 (`X = +49,23 mm`, `Y = +9,36 mm`, zéro décentrage). La fente de 69,0° sur la Traverse fixe combinée à la fente élargie de 125,0° sur la Waist Plate tournante libère un recouvrement de **`22,24 mm`** d'arc utile à l'angle extrême de **`+/- 80°`**, offrant une marge saine de **`+7,24 mm`** pour le faisceau Ø 15 mm sans cisaillement. Les congés d'arêtes usinés à **`R = 1,5 mm`** éliminent tout effet tranchant et protègent la gaine textile du faisceau sous torsion hélicoïdale (0,50°/mm).
+* **Butée Mécanique de Lacet Sécurisée (+/- 80° à +/- 82°)** : Butée mécanique calibrée pour borner la rotation à +/- 82° maximum sans empiéter sur le corridor arrière de câblage.
 * **Moteur Waist** : **RobStride RS-06** (36 N.m pic / 11 N.m nominal, stator Ø 88 mm h6, carter arrière fermé sans arbre creux, bus CAN-FD ID 21).
-* **Traverse Pelvienne & Retenue Axiale** : Usinage in-situ dans la `Traverse_Renfort_Bassin` (136,90 × 136,84 × 12,51 mm, bossage descendant de 2,49 mm à `Z = 1007,90 mm` en contact franc métal-métal mesuré à 0,00 mm avec le sommet du stator RS-06) intégrant le centrage bague extérieure Ø 120 H7 × 3 mm, la chambre de dégagement moyeu Ø 96 mm, la fixation directe du stator RS-06 par **8 vis CHC M3 × 12 mm Tête Basse DIN 7984 Inox 18-8 (McMaster `92855A313`) sur PCD Ø 82,0 mm** avec lamages Ø 6,0 mm sur plan d'assise `Z = 1010,93 mm` (ménageant un entrefer axial franc de 1,48 mm sous le moyeu tournant), le passage rotor central Ø 74,56 mm (jeu radial 11,28 mm), l'ancrage pelvien par 4 vis FHC M5 × 25 mm à têtes fraisées 90° affleurantes à 0,0 mm, et la retenue axiale positive par **4 Brides étagées en L (15 × 16 × 15 mm, vis CHC M4 × 16 mm sur PCD Ø 136 mm à 45°)**.
-* **Roulement Principal** : Roulement à rouleaux croisés **CRBH 8016 UU / RB 8016 UU** (Ø int 80 mm, Ø ext 120 mm, ép. 16 mm, capacité moment 520 N.m) assurant le découplage mécanique intégral.
+* **Traverse Pelvienne & Retenue Axiale** : Usinage in-situ dans la `Traverse_Renfort_Bassin` (174,90 × 174,84 × 12,51 mm, masse réelle CAO = **`567,7 g`**, soit 567,74 g avec congés R = 1,5 mm, fente concentrique arrière de **`69,0°`**, bossage descendant de 2,49 mm à `Z = 1007,90 mm` en contact franc métal-métal mesuré à 0,00 mm avec le sommet du stator RS-06) intégrant le centrage bague extérieure Ø 120 H7 × 3 mm, la chambre de dégagement moyeu Ø 96 mm, la fixation directe du stator RS-06 par **8 vis CHC M3 × 12 mm Tête Basse DIN 7984 Inox 18-8 (McMaster `92855A313`) sur PCD Ø 82,0 mm** avec lamages Ø 6,0 mm sur plan d'assise `Z = 1010,93 mm` (ménageant un entrefer axial franc de 1,48 mm sous le moyeu tournant), le passage rotor central Ø 74,56 mm (jeu radial 11,28 mm), l'ancrage pelvien par 4 vis FHC M5 × 25 mm à têtes fraisées 90° affleurantes à 0,0 mm, et la retenue axiale positive par **4 Brides étagées en L (15 × 16 × 15 mm, vis CHC M4 × 16 mm sur PCD Ø 136 mm à 45°)**.
+* **Roulement Principal** : Roulement à rouleaux croisés **CRBH 8016 UU / RB 8016 UU** (Ø int 80 mm, Ø ext 120 mm, ép. 16 mm, capacité moment 520 N.m) assurant le découplage mécanique intégral et une course de lacet de **`+/- 80°`** sans cisaillement de faisceau.
 * **Import CAO 3D Fusion 360** : Insérer directement le modèle STEP officiel via le menu *Insérer > Contenu du fabricant (TraceParts / PartCommunity)* en recherchant `RB8016` (ou glisser-déposer STEP depuis THK CAD).
 * **Référence Dossier Spécifique** : Consulter le dossier dédié [DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md).
 
-![Guide d'Empilement Visuel & Cinématique Waist Yaw](./media/schema_empilement_eclate_et_cinematique_waist.svg)
+![Plan Vectoriel Waist Élargie v102](./media/plan_waist_elargie_v102.svg)
 
-*Guide d'ingénierie visuel officiel (D-Bot V1.2) : Panneau 1 — Vue éclatée axiale Z. Panneau 2 — Découplage cinématique bicolore (Bleu = Fixe bassin, Orange = Mobile torse, Vert = Entrefer d'air 1.0 mm sous Waist Plate). Panneau 3 — Recette de modélisation CAO pas-à-pas sous Fusion 360 (4 pièces simples et 3 liaisons Joints).*
+*Blueprint vectoriel d'ingénierie officiel de la liaison Waist élargie 175 × 175 mm (D-Bot V1.x / Torse v105) : Implantation 2D cotée, vue en coupe axiale X-Z et spécifications de visserie McMaster-Carr.*
 
-![Guide Officiel de Modélisation CAO Fusion 360 — Liaison Waist Torse](./media/schema_cao_assemblage_waist_rs06_fusion360.svg)
+![Schéma Explicatif : Cinématique des Lumières Concentriques d'Arc](./media/schema_explicatif_corridor_vs_encoche_u.svg)
 
-*Blueprint vectoriel d'ingénierie officiel de la liaison Waist Yaw (D-Bot V1.2) : Détails d'usinage, cotes 2D pour Fusion 360 et usinage CNC C500.*
+*Architecture cinématique comparée du faisceau : fente fixe 69° (Traverse Pelvis), fente mobile 125° (Waist Plate) et recouvrement dynamique garanti de 22,2 mm à +/- 80° (zéro cisaillement).*
+
+![Plan 2D d'Atelier & Contrôle Métrologique Waist Plate 7075](./media/Waist_Plate_7075_Plan2D.svg)
+
+*Plan 2D souverain d'usinage et de métrologie généré sous FreeCAD TechDraw (OpenCASCADE) : cotes d'encombrement 176,09 × 173,03 mm, alésage central Ø 80,00 mm pour bague intérieure RB8016, centrage RS-06 Ø 89,62 mm, entraxes PCD M4 stator et spécifications CNC C500.*
 
 ---
 
