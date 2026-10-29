@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity (D-Bot V1)",
+	"description":	{
+		"":	"Crée automatiquement des Jeux de Sélection (Selection Sets) natifs sans aucun risque pour le solveur ou les liaisons, regroupant les 419 pièces du Torse en 5 familles logiques (Quincaillerie, Coques PA12-CF, Squelette Alu 7075, Bassin Pelvis, Actionneurs)."
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

@@ -10,7 +10,6 @@ import FreeCAD
 import FreeCADGui
 
 DOC_PATH = "/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/DBot_Torse_et_Bassin_Souverain.FCStd"
-REPO_PATH = "/Users/Shared/Mon Google Drive Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DBot_Assembly_Sovereign.FCStd"
 SHARED_COPY = "/Users/Shared/DBot_Assembly_Sovereign.FCStd"
 
 print("=================================================================")
@@ -94,11 +93,9 @@ print("Sauvegarde du document avec les propriétés graphiques GUI...")
 doc.save()
 print(f"✅ Sauvegardé avec succès vers : {DOC_PATH}")
 
-# Synchronisation dans le repo de travail
+# Synchronisation de travail rapide à la racine
 import shutil
 try:
-    shutil.copy2(DOC_PATH, REPO_PATH)
-    print(f"✅ Copie miroir mise à jour dans : {REPO_PATH}")
     shutil.copy2(DOC_PATH, SHARED_COPY)
     print(f"✅ Copie conforme mise à jour dans : {SHARED_COPY}")
 except Exception as err:

@@ -256,7 +256,7 @@ L'empilement vertical de l'articulation de lacet du buste (Waist Yaw) a été v�
 | Moyeu Waist Sandwich | Moyeu_Waist_Sandwich_7075 | 1 | Aluminium 7075-T6 | 165 g |
 | Moteur Yaw Waist | RobStride RS06 | 1 | Actionneur QDD | 551 g |
 | Plastron Ventral Torse | Plastron_Ventral_Torse | 1 | Aluminium 7075-T6 | 2,84 kg |
-| Colonne vertébrale | Colonne_Vertebrale | 1 | Aluminium 7075-T6 / Carbone | 568 g |
+| Colonne vertébrale | Colonne_Vertebrale | 1 | Aluminium 7075-T6 (2 lumières 54×55 mm) | 490 g (489,8 g) |
 | Panier Batterie Coulissant | Panier_Batterie_Coulissant | 1 | PA12-CF / Al 7075 | 555 g |
 | Plaque de Cou | Plaque_de_Cou_7075 | 1 | Aluminium 7075-T6 | 90 g |
 

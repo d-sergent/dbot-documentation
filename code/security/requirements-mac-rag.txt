@@ -1,0 +1,25 @@
+# ==============================================================================
+# D-Bot V1 - Environnement Mac M1 Max (Serveur RAG Documentaire & API)
+# Versions corrigees contre les CVEs connues (urllib3, starlette, pypdf)
+# ==============================================================================
+
+# Core HTTP & Reseau (Securise contre CVEs urllib3)
+urllib3>=2.7.0
+requests>=2.32.3
+aiohttp>=3.10.0
+
+# API & Serveur Web (Securise contre DoS starlette)
+fastapi>=0.115.0
+starlette>=1.3.1
+uvicorn>=0.30.0
+pydantic>=2.9.0
+
+# Ingestion Documentaire RAG (Securise contre corruptions pypdf)
+pypdf>=6.21.2
+pypdfium2>=4.30.0
+
+# Moteurs d'IA & Embeddings
+fastembed>=0.3.0
+lightrag-hku>=1.0.0
+tiktoken>=0.7.0
+python-dotenv>=1.0.1

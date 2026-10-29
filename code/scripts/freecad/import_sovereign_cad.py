@@ -30,7 +30,6 @@ except ImportError as e:
 EXPORT_DIR = "/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/Bibliotheque_Composants_STEP"
 MANIFEST_FILE = os.path.join(EXPORT_DIR, "dbot_cad_manifest.json")
 OUTPUT_FCSTD = "/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/DBot_Torse_et_Bassin_Souverain.FCStd"
-REPO_FCSTD = "/Users/Shared/Mon Google Drive Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DBot_Assembly_Sovereign.FCStd"
 SHARED_COPY_FCSTD = "/Users/Shared/DBot_Assembly_Sovereign.FCStd"
 
 def make_placement_from_data(origin, x_ax, y_ax, z_ax):
@@ -247,10 +246,8 @@ def main():
     file_size_mb = os.path.getsize(OUTPUT_FCSTD) / (1024 * 1024)
     print(f"✅ Fichier maître généré : {OUTPUT_FCSTD} ({file_size_mb:.2f} Mo)")
 
-    # Copie dans le repo git et à la racine
+    # Copie de travail rapide à la racine
     try:
-        shutil.copy2(OUTPUT_FCSTD, REPO_FCSTD)
-        print(f"✅ Copie conforme archivée dans : {REPO_FCSTD}")
         shutil.copy2(OUTPUT_FCSTD, SHARED_COPY_FCSTD)
         print(f"✅ Copie conforme archivée dans : {SHARED_COPY_FCSTD}")
     except Exception as copy_err:

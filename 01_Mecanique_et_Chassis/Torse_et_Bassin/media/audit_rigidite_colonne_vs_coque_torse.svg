@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="100%" height="100%" font-family="Inter, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2a324b" stroke-width="1" stroke-opacity="0.55"/>
+    </pattern>
+    <linearGradient id="alu" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#cbd5e1"/><stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+    <linearGradient id="pa12" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#475569"/><stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="rail" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#0f172a"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+
+  <!-- Header -->
+  <rect x="30" y="20" width="1540" height="70" rx="10" fill="#1e293b" stroke="#334155"/>
+  <text x="50" y="50" font-size="20" font-weight="800" fill="#38bdf8">AUDIT TORSE D-BOT V1 (Torse v111) — RIGIDITÉ RÉELLE : COLONNE 5 mm vs COQUE PA12-CF</text>
+  <text x="50" y="74" font-size="13" fill="#94a3b8">Estimation poutre au premier ordre (à confirmer par simulation EF Fusion 360). E_Alu = 71 GPa, G_Alu = 26,9 GPa, E_PA12-CF = 3,5 GPa, G = 1,3 GPa (impression XY, conservatif)</text>
+
+  <!-- ================= PANEL 1 : SECTIONS ================= -->
+  <g transform="translate(30,110)">
+    <rect width="500" height="770" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="32" font-size="15" font-weight="700" fill="#38bdf8">1. SECTIONS RÉSISTANTES (Vue de dessus, coupe Z ~ 1150 mm)</text>
+
+    <!-- A : column alone -->
+    <text x="20" y="70" font-size="13" font-weight="700" fill="#e2e8f0">A. Colonne seule (plaque 94 × 5 mm, Alu 7075-T6)</text>
+    <rect x="160" y="95" width="169" height="9" fill="url(#alu)" stroke="#e2e8f0"/>
+    <text x="160" y="90" font-size="10" fill="#94a3b8">94 mm (axe X, avant-arrière)</text>
+    <text x="335" y="104" font-size="10" fill="#94a3b8">5 mm (axe Y)</text>
+    <text x="20" y="135" font-size="11" fill="#cbd5e1">I_tangage = 346 077 mm4 (vérifié dans le dossier)</text>
+    <text x="20" y="152" font-size="11" fill="#fca5a5">I_roulis = 979 mm4 (417 mm4 aux lumières) — NON vérifié</text>
+    <text x="20" y="169" font-size="11" fill="#fca5a5">J_torsion = 3 917 mm4 (1 667 mm4 aux lumières) — NON vérifié</text>
+    <text x="20" y="186" font-size="11" fill="#94a3b8">Section ouverte mince : rigidité en roulis et lacet très faible.</text>
+
+    <!-- B : closed shell -->
+    <text x="20" y="225" font-size="13" font-weight="700" fill="#e2e8f0">B. Coque PA12-CF fermée (anneau 240 × 293 mm)</text>
+    <ellipse cx="250" cy="335" rx="150" ry="92" fill="none" stroke="#38bdf8" stroke-width="5"/>
+    <rect x="245" y="290" width="9" height="88" fill="url(#alu)"/>
+    <text x="262" y="340" font-size="10" fill="#94a3b8">colonne</text>
+    <text x="95" y="447" font-size="10" fill="#94a3b8">Y = 293 mm</text>
+    <text x="408" y="340" font-size="10" fill="#94a3b8">X = 240</text>
+    <text x="20" y="470" font-size="11" fill="#86efac">J_coque ~ 2,1 × 10^7 mm4 (Bredt, peau 1,9 mm)</text>
+    <text x="20" y="487" font-size="11" fill="#86efac">I_roulis ~ 1,4 × 10^7 mm4</text>
+    <text x="20" y="504" font-size="11" fill="#cbd5e1">Malgré E 20× plus faible, la coque fermée est 230 à 600×</text>
+    <text x="20" y="521" font-size="11" fill="#cbd5e1">plus raide que la colonne (si elle est fixée en haut ET en bas).</text>
+
+    <!-- C : open shell -->
+    <text x="20" y="560" font-size="13" font-weight="700" fill="#e2e8f0">C. Coque ouverte (plastron avant déposé)</text>
+    <path d="M 340 600 A 150 80 0 1 0 340 700" fill="none" stroke="#f87171" stroke-width="5"/>
+    <line x1="340" y1="600" x2="340" y2="700" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <text x="352" y="655" font-size="10" fill="#fca5a5">face avant ouverte</text>
+    <text x="20" y="725" font-size="11" fill="#fca5a5">J_ouvert ~ 1 240 mm4 : la torsion chute d'un facteur ~17 000.</text>
+    <text x="20" y="742" font-size="11" fill="#fca5a5">Une coque en C n'apporte quasiment rien en lacet.</text>
+  </g>
+
+  <!-- ================= PANEL 2 : STIFFNESS BARS ================= -->
+  <g transform="translate(550,110)">
+    <rect width="520" height="770" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="32" font-size="15" font-weight="700" fill="#38bdf8">2. RAIDEURS ENTRE WAIST PLATE ET NOEUD D'ÉPAULES</text>
+    <text x="20" y="52" font-size="11" fill="#94a3b8">Portée libre CAO : Z 1072,4 → 1275,3 mm (L = 202,9 mm). Échelle logarithmique en N.m/rad.</text>
+
+    <!-- axis: x0=150, 60 px per decade, 1 to 1e6 -->
+    <g transform="translate(0,80)">
+      <line x1="150" y1="0" x2="150" y2="330" stroke="#64748b"/>
+      <g font-size="9" fill="#64748b">
+        <line x1="150" y1="330" x2="510" y2="330" stroke="#64748b"/>
+        <text x="146" y="345">1</text><text x="205" y="345">10</text><text x="262" y="345">100</text>
+        <text x="320" y="345">1e3</text><text x="380" y="345">1e4</text><text x="440" y="345">1e5</text><text x="497" y="345">1e6</text>
+        <line x1="210" y1="0" x2="210" y2="330" stroke="#2a324b"/><line x1="270" y1="0" x2="270" y2="330" stroke="#2a324b"/>
+        <line x1="330" y1="0" x2="330" y2="330" stroke="#2a324b"/><line x1="390" y1="0" x2="390" y2="330" stroke="#2a324b"/>
+        <line x1="450" y1="0" x2="450" y2="330" stroke="#2a324b"/><line x1="510" y1="0" x2="510" y2="330" stroke="#2a324b"/>
+      </g>
+
+      <!-- Column alone -->
+      <text x="20" y="22" font-size="11" font-weight="700" fill="#e2e8f0">Colonne seule</text>
+      <rect x="150" y="10" width="138" height="14" fill="#f87171"/><text x="294" y="22" font-size="10" fill="#fca5a5">roulis 198</text>
+      <rect x="150" y="28" width="149" height="14" fill="#fb923c"/><text x="305" y="40" font-size="10" fill="#fdba74">lacet 300</text>
+
+      <!-- Column + rails -->
+      <text x="20" y="92" font-size="11" font-weight="700" fill="#e2e8f0">Colonne + 2 rails</text>
+      <text x="20" y="106" font-size="9" fill="#94a3b8">20×20×1,5 (dy ±60)</text>
+      <rect x="150" y="80" width="319" height="14" fill="#fbbf24"/><text x="475" y="92" font-size="10" fill="#fde68a">211 300</text>
+      <rect x="150" y="98" width="203" height="14" fill="#f59e0b"/><text x="359" y="110" font-size="10" fill="#fde68a">lacet 2 430</text>
+
+      <!-- Closed shell -->
+      <text x="20" y="162" font-size="11" font-weight="700" fill="#e2e8f0">Coque fermée</text>
+      <text x="20" y="176" font-size="9" fill="#94a3b8">(estimation L = 400)</text>
+      <rect x="150" y="150" width="305" height="14" fill="#22c55e"/><text x="461" y="162" font-size="10" fill="#86efac">121 000</text>
+      <rect x="150" y="168" width="291" height="14" fill="#16a34a"/><text x="447" y="180" font-size="10" fill="#86efac">69 700</text>
+
+      <!-- Open shell -->
+      <text x="20" y="232" font-size="11" font-weight="700" fill="#e2e8f0">Coque ouverte</text>
+      <text x="20" y="246" font-size="9" fill="#94a3b8">(lacet seulement)</text>
+      <rect x="150" y="238" width="36" height="14" fill="#ef4444"/><text x="192" y="250" font-size="10" fill="#fca5a5">lacet ~4</text>
+
+      <!-- legend -->
+      <rect x="150" y="285" width="12" height="10" fill="#f87171"/><text x="168" y="294" font-size="10" fill="#cbd5e1">barre haute = roulis (axe X)</text>
+      <rect x="330" y="285" width="12" height="10" fill="#fb923c"/><text x="348" y="294" font-size="10" fill="#cbd5e1">barre basse = lacet (axe Z)</text>
+    </g>
+
+    <!-- Consequences table -->
+    <g transform="translate(20,450)">
+      <rect width="480" height="150" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="14" y="22" font-size="12" font-weight="700" fill="#fca5a5">Colonne seule — conséquences (calcul)</text>
+      <text x="14" y="44" font-size="10.5" fill="#cbd5e1">Roulis marche 6,5 N.m : rotation 1,9 deg, contrainte locale 71 MPa</text>
+      <text x="14" y="62" font-size="10.5" fill="#cbd5e1">Roulis choc 26 N.m : rotation 7,5 deg, contrainte locale 282 MPa</text>
+      <text x="14" y="80" font-size="10.5" fill="#fca5a5">Cas dossier n°5 (50 N.m) : contrainte locale 543 MPa, au-dessus de Rp0,2 = 470 MPa</text>
+      <text x="14" y="98" font-size="10.5" fill="#cbd5e1">Lacet RS-06 nominal 11 N.m : 2,1 deg — pic 36 N.m : 6,9 deg</text>
+      <text x="14" y="116" font-size="10.5" fill="#cbd5e1">Avec 2 rails : pic lacet 36 N.m : 0,85 deg ; roulis 26 N.m : 0,007 deg</text>
+      <text x="14" y="138" font-size="10" fill="#94a3b8">Kt = 1,81 aux congés R15 des lumières 54 × 55 mm (valeur du dossier).</text>
+    </g>
+
+    <!-- Frequency axis -->
+    <g transform="translate(20,620)">
+      <rect width="480" height="135" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="14" y="22" font-size="12" font-weight="700" fill="#38bdf8">Premier mode latéral du haut du corps (11,5 à 17,5 kg à h = 0,25 m)</text>
+      <line x1="30" y1="80" x2="450" y2="80" stroke="#64748b" marker-end="url(#arr)"/>
+      <g font-size="9" fill="#64748b">
+        <text x="27" y="96">0</text><text x="100" y="96">2</text><text x="170" y="96">4</text><text x="240" y="96">6</text>
+        <text x="310" y="96">8</text><text x="376" y="96">10 Hz</text>
+      </g>
+      <rect x="58" y="62" width="44" height="16" fill="#a855f7" fill-opacity="0.35" stroke="#a855f7"/>
+      <text x="40" y="56" font-size="9.5" fill="#d8b4fe">marche 0,8–2 Hz</text>
+      <rect x="104" y="64" width="18" height="12" fill="#ef4444"/>
+      <text x="126" y="74" font-size="9.5" fill="#fca5a5">colonne seule : 2,1–2,6 Hz (RÉSONANCE)</text>
+      <line x1="380" y1="54" x2="380" y2="80" stroke="#22c55e" stroke-dasharray="3,3"/>
+      <text x="300" y="50" font-size="9.5" fill="#86efac">cible mini 10 Hz</text>
+      <text x="14" y="118" font-size="10.5" fill="#86efac">Avec 2 rails : 31 à 86 Hz (même avec 20 % d'efficacité des liaisons)</text>
+    </g>
+  </g>
+
+  <!-- ================= PANEL 3 : VERDICT ================= -->
+  <g transform="translate(1090,110)">
+    <rect width="480" height="770" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="32" font-size="15" font-weight="700" fill="#38bdf8">3. LECTURE D'EXPERT</text>
+
+    <g transform="translate(20,55)">
+      <rect width="440" height="170" rx="8" fill="#450a0a" stroke="#ef4444"/>
+      <text x="14" y="24" font-size="12" font-weight="800" fill="#fca5a5">Erreur de raisonnement de la réponse précédente</text>
+      <text x="14" y="48" font-size="10.5" fill="#fecaca">Elle comparait des modules (E_Alu / E_PA12 = 10)</text>
+      <text x="14" y="66" font-size="10.5" fill="#fecaca">au lieu des rigidités de section (E × I et G × J).</text>
+      <text x="14" y="90" font-size="10.5" fill="#fecaca">La rigidité dépend surtout de la géométrie : une peau fermée</text>
+      <text x="14" y="108" font-size="10.5" fill="#fecaca">de 240 × 293 mm l'emporte sur une plaque de 5 mm.</text>
+      <text x="14" y="132" font-size="10.5" fill="#fecaca">Conclusion fausse : « coque = 0 % d'effort, découpage libre ».</text>
+      <text x="14" y="154" font-size="10.5" fill="#fecaca">Ouvrir la face avant supprime la rigidité en lacet.</text>
+    </g>
+
+    <g transform="translate(20,240)">
+      <rect width="440" height="200" rx="8" fill="#0f172a" stroke="#f59e0b"/>
+      <text x="14" y="24" font-size="12" font-weight="800" fill="#fde68a">Deux situations possibles (à confirmer en CAO)</text>
+      <text x="14" y="50" font-size="10.5" font-weight="700" fill="#e2e8f0">Cas 1 — plastron fixé en haut ET en bas</text>
+      <text x="14" y="68" font-size="10.5" fill="#cbd5e1">La coque porte déjà le roulis et le lacet. Le squelette</text>
+      <text x="14" y="86" font-size="10.5" fill="#cbd5e1">« 100 % porteur » du dossier §1.A est inexact.</text>
+      <text x="14" y="112" font-size="10.5" font-weight="700" fill="#e2e8f0">Cas 2 — plastron fixé seulement sur la Waist Plate</text>
+      <text x="14" y="130" font-size="10.5" fill="#cbd5e1">La colonne seule porte tout : mode latéral près de 2,5 Hz,</text>
+      <text x="14" y="148" font-size="10.5" fill="#cbd5e1">lacet de 6,9 deg au pic du RS-06. Inacceptable pour</text>
+      <text x="14" y="166" font-size="10.5" fill="#cbd5e1">un bipède dynamique.</text>
+      <text x="14" y="188" font-size="10.5" fill="#fde68a">Dans les deux cas, la décision de découpage doit en tenir compte.</text>
+    </g>
+
+    <g transform="translate(20,455)">
+      <rect width="440" height="295" rx="8" fill="#042f2e" stroke="#10b981"/>
+      <text x="14" y="24" font-size="12" font-weight="800" fill="#5eead4">Recommandation</text>
+      <text x="14" y="50" font-size="10.5" fill="#ccfbf1">1. Rendre le squelette autonome : 2 rails Alu 6060</text>
+      <text x="14" y="68" font-size="10.5" fill="#ccfbf1">   20 × 20 × 1,5 mm (Waist Plate → dessous des tubes</text>
+      <text x="14" y="86" font-size="10.5" fill="#ccfbf1">   60 × 60), qui servent aussi de glissières batterie.</text>
+      <text x="14" y="104" font-size="10.5" fill="#ccfbf1">   +175 g de profilés (+60 g de pièces d'extrémité estimées).</text>
+      <text x="14" y="130" font-size="10.5" fill="#ccfbf1">2. Coque collaborante : 2 anneaux fermés et des trappes</text>
+      <text x="14" y="148" font-size="10.5" fill="#ccfbf1">   encadrées vissées « travaillantes » (pas ≤ 80–100 mm).</text>
+      <text x="14" y="174" font-size="10.5" fill="#ccfbf1">3. Flux de cisaillement de la coque sous 36 N.m : 0,39 N/mm</text>
+      <text x="14" y="192" font-size="10.5" fill="#ccfbf1">   → 31 N par vis M4 au pas de 80 mm (efforts faibles).</text>
+      <text x="14" y="218" font-size="10.5" fill="#ccfbf1">4. Valider par simulation EF Fusion 360 : statique roulis</text>
+      <text x="14" y="236" font-size="10.5" fill="#ccfbf1">   et lacet + analyse modale, coque montée ET déposée.</text>
+      <text x="14" y="266" font-size="11" font-weight="800" fill="#fef08a">Robot exploitable trappes ouvertes en atelier,</text>
+      <text x="14" y="283" font-size="11" font-weight="800" fill="#fef08a">et très raide une fois refermé.</text>
+    </g>
+  </g>
+</svg>

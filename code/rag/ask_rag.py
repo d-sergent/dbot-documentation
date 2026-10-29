@@ -53,8 +53,25 @@ def get_rerank_model():
         _rerank_model = TextCrossEncoder("BAAI/bge-reranker-base", cache_dir=FASTEMBED_CACHE_DIR)
     return _rerank_model
 
+async def fastembed_rerank_func(query: str, documents: list[str], top_n: int = None, **kwargs) -> list[dict]:
+    """Fonction de Reranking native pour LightRAG basée sur FastEmbed Cross-Encoder."""
+    if not documents:
+        return []
+    try:
+        model = get_rerank_model()
+        scores = list(model.rerank(query, documents))
+        indexed = [
+            {"index": i, "relevance_score": float(1.0 / (1.0 + np.exp(-float(s))))}
+            for i, s in enumerate(scores)
+        ]
+        indexed.sort(key=lambda x: x["relevance_score"], reverse=True)
+        return indexed[:top_n] if top_n else indexed
+    except Exception as e:
+        print(f"⚠️ Avertissement Reranking natif : {e}", file=sys.stderr)
+        return [{"index": i, "relevance_score": 0.0} for i in range(len(documents))]
+
 def rerank_chunks(query: str, chunks: list[dict], top_k: int = 5, min_score: float = 0.25) -> list[dict]:
-    """Ré-ordonne et filtre les chunks par pertinence sémantique croisée (Cross-Encoder)."""
+    """Ré-ordonne et filtre les chunks par pertinence sémantique croisée (Cross-Encoder fallback)."""
     if not chunks:
         return []
     try:
@@ -133,23 +150,33 @@ async def main():
         print(f"❌ Base introuvable à {DB_PATH}", file=sys.stderr)
         sys.exit(1)
 
-    rag = LightRAG(working_dir=DB_PATH, llm_model_func=get_llm_func(args.provider, args.model), embedding_func=embedding_func)
+    rag = LightRAG(
+        working_dir=DB_PATH,
+        llm_model_func=get_llm_func(args.provider, args.model),
+        embedding_func=embedding_func,
+        rerank_model_func=fastembed_rerank_func if not args.no_rerank else None
+    )
     await rag.initialize_storages()
     
     # Restaure stdout pour le vrai résultat
     sys.stdout = old_stdout
     
+    param = QueryParam(mode=args.mode, enable_rerank=not args.no_rerank)
+
     try:
         if args.search_only:
             # Récupère les données candidates (retrieval)
-            result = await rag.aquery_data(args.query, param=QueryParam(mode=args.mode))
+            result = await rag.aquery_data(args.query, param=param)
             if result.get("status") == "success":
                 data = result.get("data", {})
                 chunks = data.get("chunks", [])
                 
-                # Application du Reranker Cross-Encoder
+                # Le reranker natif LightRAG classe déjà les chunks si actif
                 if not args.no_rerank and chunks:
-                    chunks = rerank_chunks(args.query, chunks, top_k=args.top_k, min_score=args.min_score)
+                    if "rerank_score" not in chunks[0]:
+                        chunks = rerank_chunks(args.query, chunks, top_k=args.top_k, min_score=args.min_score)
+                    else:
+                        chunks = [c for c in chunks if c.get("rerank_score", 1.0) >= args.min_score][:args.top_k]
                 else:
                     chunks = chunks[:args.top_k]
 
@@ -162,7 +189,7 @@ async def main():
                 print(f"❌ Échec de la recherche : {result.get('message')}")
         else:
             # Mode RAG complet (retrieval + synthesis via LLM)
-            result = await rag.aquery(args.query, param=QueryParam(mode=args.mode))
+            result = await rag.aquery(args.query, param=param)
             print(result)
     except Exception as e:
         print(f"❌ Erreur lors de la requête : {e}", file=sys.stderr)

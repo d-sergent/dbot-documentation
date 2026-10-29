@@ -1,0 +1,262 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="panel-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="alu-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.8" />
+    </linearGradient>
+    <linearGradient id="motor-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.85" />
+      <stop offset="50%" stop-color="#d97706" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0.85" />
+    </linearGradient>
+    <linearGradient id="rear-boss-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ea580c" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#c2410c" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="steel-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#94a3b8" />
+    </linearGradient>
+    <linearGradient id="heat-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.7" />
+      <stop offset="50%" stop-color="#f97316" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.2" />
+    </linearGradient>
+    <pattern id="grid-pattern" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.8" />
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="720" fill="url(#bg-grad)" />
+  <rect width="1200" height="720" fill="url(#grid-pattern)" />
+
+  <!-- HEADER -->
+  <rect x="20" y="15" width="1160" height="60" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+  <text x="40" y="42" font-family="'Segoe UI', system-ui, sans-serif" font-size="18" font-weight="700" fill="#38bdf8" letter-spacing="0.5">INTÉGRATION STATOR ROBSTRIDE RS-04 — FIXATION ARRIÈRE &amp; DISSIPATION THERMIQUE</text>
+  <text x="40" y="61" font-family="'Segoe UI', system-ui, sans-serif" font-size="12" fill="#94a3b8">D-Bot Humanoïde V1.x · Architecture Pelvis &amp; Fémur · Liaison Monoface 10× M4 sur Flasque Alu 7075-T6 (5,0 mm)</text>
+  <rect x="1040" y="25" width="120" height="38" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" />
+  <text x="1100" y="48" font-family="monospace" font-size="12" font-weight="700" fill="#38bdf8" text-anchor="middle">DOC-ENG-RS04-ST</text>
+
+  <!-- ==================== PANEL 1 : COUPE AXIALE (Gauche) ==================== -->
+  <g transform="translate(20, 85)">
+    <rect width="440" height="615" rx="8" fill="url(#panel-grad)" stroke="#334155" stroke-width="1.5" />
+    <path d="M 0 0 L 440 0 L 440 38 L 0 38 Z" fill="#1e293b" rx="8" />
+    <text x="20" y="24" font-family="'Segoe UI', system-ui, sans-serif" font-size="14" font-weight="700" fill="#f8fafc">PANEL 1 : COUPE AXIALE X-Z DE LA LIAISON STATOR</text>
+
+    <!-- Axial view drawing -->
+    <g transform="translate(20, 50)">
+      <!-- Stator Main Body Ø120 x 39mm -->
+      <rect x="190" y="70" width="130" height="300" rx="4" fill="url(#motor-grad)" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="255" y="160" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">STATOR RS-04</text>
+      <text x="255" y="180" font-family="monospace" font-size="11" fill="#fef08a" text-anchor="middle">Ø 120 mm · L = 39,0 mm</text>
+      <text x="255" y="198" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fed7aa" text-anchor="middle">Bobinages Cuivre + Stator</text>
+
+      <!-- Rear Boss Ø94 x 13.2mm -->
+      <rect x="120" y="110" width="70" height="220" rx="2" fill="url(#rear-boss-grad)" stroke="#ea580c" stroke-width="1.5" />
+      <text x="155" y="210" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" transform="rotate(-90 155 210)">BOSSAGE ARRIÈRE Ø 94 mm</text>
+      <text x="170" y="210" font-family="monospace" font-size="9" fill="#fed7aa" text-anchor="middle" transform="rotate(-90 170 210)">L = 13,2 mm (Connecteurs / PCB)</text>
+
+      <!-- Front Output Rotor (indicated briefly on right) -->
+      <rect x="320" y="145" width="30" height="150" rx="2" fill="#6366f1" stroke="#818cf8" stroke-width="1.5" stroke-dasharray="3,3" />
+      <text x="335" y="220" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#c7d2fe" text-anchor="middle" transform="rotate(90 335 220)">ROTOR DE SORTIE</text>
+
+      <!-- Pelvic Flange (Alu 7075-T6 5.0mm) -->
+      <!-- Upper part -->
+      <rect x="80" y="40" width="40" height="120" rx="2" fill="url(#alu-grad)" stroke="#38bdf8" stroke-width="1.5" />
+      <!-- Lower part (with notch for cables) -->
+      <rect x="80" y="280" width="40" height="120" rx="2" fill="url(#alu-grad)" stroke="#38bdf8" stroke-width="1.5" />
+      <!-- Middle clearance (Ø95mm pilot bore) -->
+      <path d="M 120 105 L 120 335" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,2" />
+
+      <text x="100" y="90" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff" text-anchor="middle">FLASQUE ALU</text>
+      <text x="100" y="105" font-family="monospace" font-size="9" fill="#e0f2fe" text-anchor="middle">7075-T6 (5 mm)</text>
+
+      <!-- Thermal paste zone -->
+      <rect x="186" y="72" width="4" height="36" fill="#22c55e" />
+      <rect x="186" y="332" width="4" height="36" fill="#22c55e" />
+      <path d="M 188 70 L 150 50" stroke="#22c55e" stroke-width="1" marker-end="url(#arrow)" />
+      <text x="145" y="45" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#4ade80" text-anchor="end">Film Pâte Thermique (-40% R_th)</text>
+
+      <!-- Screws top and bottom (CHC M4 x 12mm cl. 12.9) -->
+      <!-- Upper screw -->
+      <rect x="65" y="81" width="15" height="12" fill="url(#steel-grad)" stroke="#475569" stroke-width="1" />
+      <rect x="80" y="83" width="60" height="8" fill="url(#steel-grad)" stroke="#475569" stroke-width="1" />
+      <!-- Thread in blind hole (depth 6mm max, penetration 5.2mm) -->
+      <rect x="190" y="82" width="28" height="10" fill="none" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="2,2" />
+      <!-- Nord-Lock washer -->
+      <rect x="77" y="79" width="3" height="16" fill="#f59e0b" stroke="#b45309" stroke-width="0.8" />
+
+      <!-- Lower screw -->
+      <rect x="65" y="347" width="15" height="12" fill="url(#steel-grad)" stroke="#475569" stroke-width="1" />
+      <rect x="80" y="349" width="60" height="8" fill="url(#steel-grad)" stroke="#475569" stroke-width="1" />
+      <rect x="190" y="348" width="28" height="10" fill="none" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="2,2" />
+      <rect x="77" y="345" width="3" height="16" fill="#f59e0b" stroke="#b45309" stroke-width="0.8" />
+
+      <!-- Annotations for screw depth -->
+      <line x1="190" y1="76" x2="218" y2="76" stroke="#ef4444" stroke-width="1.2" />
+      <text x="204" y="70" font-family="monospace" font-size="9" font-weight="700" fill="#fca5a5" text-anchor="middle">Pénétration = 5,2 mm</text>
+
+      <line x1="218" y1="87" x2="222" y2="87" stroke="#22c55e" stroke-width="1.5" />
+      <text x="235" y="82" font-family="monospace" font-size="9" font-weight="700" fill="#86efac">Garde 0,8 mm</text>
+
+      <!-- Cable notch at bottom -->
+      <rect x="80" y="225" width="40" height="45" fill="#0f172a" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2,2" />
+      <text x="100" y="243" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#fbbf24" text-anchor="middle">LUMIÈRE</text>
+      <text x="100" y="255" font-family="'Segoe UI', sans-serif" font-size="8" fill="#fde68a" text-anchor="middle">CÂBLES</text>
+
+      <!-- Dimension lines -->
+      <!-- Stator length 39mm -->
+      <line x1="190" y1="385" x2="320" y2="385" stroke="#94a3b8" stroke-width="1" />
+      <line x1="190" y1="380" x2="190" y2="390" stroke="#94a3b8" stroke-width="1" />
+      <line x1="320" y1="380" x2="320" y2="390" stroke="#94a3b8" stroke-width="1" />
+      <text x="255" y="400" font-family="monospace" font-size="10" fill="#cbd5e1" text-anchor="middle">L = 39,0 ± 0,15 mm</text>
+
+      <!-- Rear boss length 13.2mm -->
+      <line x1="120" y1="385" x2="190" y2="385" stroke="#94a3b8" stroke-width="1" />
+      <line x1="120" y1="380" x2="120" y2="390" stroke="#94a3b8" stroke-width="1" />
+      <text x="155" y="400" font-family="monospace" font-size="10" fill="#cbd5e1" text-anchor="middle">13,2 mm</text>
+
+      <!-- Flange thickness 5mm -->
+      <line x1="80" y1="25" x2="120" y2="25" stroke="#38bdf8" stroke-width="1" />
+      <line x1="80" y1="20" x2="80" y2="30" stroke="#38bdf8" stroke-width="1" />
+      <line x1="120" y1="20" x2="120" y2="30" stroke="#38bdf8" stroke-width="1" />
+      <text x="100" y="18" font-family="monospace" font-size="10" font-weight="700" fill="#38bdf8" text-anchor="middle">e = 5,0 mm</text>
+    </g>
+
+    <!-- Callout Box bottom Panel 1 -->
+    <rect x="15" y="500" width="410" height="100" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+    <text x="25" y="520" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">RÈGLE D'OR CONSTRUCTEUR : ZERO TALONNAGE BORGNE</text>
+    <text x="25" y="538" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Taraudage stator arrière borgne : profondeur utile MAX = 6,0 mm.</text>
+    <text x="25" y="554" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Empilement : Plaque Alu (5,0 mm) + Rondelle Nord-Lock (1,8 mm) = 6,8 mm.</text>
+    <text x="25" y="570" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fef08a">➔ Vis CHC M4 × 12 mm : pénétration nette 5,2 mm (garde de sécurité = 0,8 mm).</text>
+    <text x="25" y="586" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fca5a5">⚠️ PROSCRIRE le M4 × 16 mm sans entretoise (talonnage à 9,2 mm ➔ casse stator).</text>
+  </g>
+
+  <!-- ==================== PANEL 2 : VUE DE FACE ARRIÈRE & PCD (Centre) ==================== -->
+  <g transform="translate(480, 85)">
+    <rect width="410" height="615" rx="8" fill="url(#panel-grad)" stroke="#334155" stroke-width="1.5" />
+    <path d="M 0 0 L 410 0 L 410 38 L 0 38 Z" fill="#1e293b" rx="8" />
+    <text x="20" y="24" font-family="'Segoe UI', system-ui, sans-serif" font-size="14" font-weight="700" fill="#f8fafc">PANEL 2 : VUE ARRIÈRE DU STATOR &amp; PCD Ø 106 mm</text>
+
+    <!-- Face drawing -->
+    <g transform="translate(205, 250)">
+      <!-- Outer stator boundary Ø120 -->
+      <circle cx="0" cy="0" r="160" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3" />
+      <circle cx="0" cy="0" r="150" fill="url(#motor-grad)" stroke="#d97706" stroke-width="1.5" />
+
+      <!-- PCD Circle Ø106 mm -->
+      <circle cx="0" cy="0" r="132.5" fill="none" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="4,3" />
+
+      <!-- Center Boss Ø94 mm -->
+      <circle cx="0" cy="0" r="117.5" fill="url(#rear-boss-grad)" stroke="#ea580c" stroke-width="1.5" />
+
+      <!-- Central PCB area & connectors -->
+      <circle cx="0" cy="0" r="80" fill="#1e293b" stroke="#475569" stroke-width="1" />
+      <rect x="-25" y="-35" width="50" height="22" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1" />
+      <text x="0" y="-21" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#ffffff" text-anchor="middle">CAN-FD</text>
+      <rect x="-25" y="10" width="50" height="24" rx="3" fill="#dc2626" stroke="#f87171" stroke-width="1" />
+      <text x="0" y="26" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#ffffff" text-anchor="middle">48V POWER</text>
+
+      <!-- Cable channel notch at bottom -->
+      <path d="M -15 117.5 L -15 155 L 15 155 L 15 117.5 Z" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5" />
+      <text x="0" y="145" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#fbbf24" text-anchor="middle">SORTIE SILICONE</text>
+
+      <!-- 10 Screw Holes on PCD 106mm (R = 132.5) -->
+      <circle cx="132.5" cy="0.0" r="7" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+<circle cx="132.5" cy="0.0" r="3" fill="#e2e8f0" />
+<circle cx="107.2" cy="77.9" r="7" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+<circle cx="107.2" cy="77.9" r="3" fill="#e2e8f0" />
+<circle cx="40.9" cy="126.0" r="7" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+<circle cx="40.9" cy="126.0" r="3" fill="#e2e8f0" />
+<circle cx="-40.9" cy="126.0" r="7" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+<circle cx="-40.9" cy="126.0" r="3" fill="#e2e8f0" />
+<circle cx="-107.2" cy="77.9" r="7" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+<circle cx="-107.2" cy="77.9" r="3" fill="#e2e8f0" />
+<circle cx="-132.5" cy="0.0" r="7" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+<circle cx="-132.5" cy="0.0" r="3" fill="#e2e8f0" />
+<circle cx="-107.2" cy="-77.9" r="7" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+<circle cx="-107.2" cy="-77.9" r="3" fill="#e2e8f0" />
+<circle cx="-40.9" cy="-126.0" r="7" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+<circle cx="-40.9" cy="-126.0" r="3" fill="#e2e8f0" />
+<circle cx="40.9" cy="-126.0" r="7" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+<circle cx="40.9" cy="-126.0" r="3" fill="#e2e8f0" />
+<circle cx="107.2" cy="-77.9" r="7" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
+<circle cx="107.2" cy="-77.9" r="3" fill="#e2e8f0" />
+
+      <!-- Dimension annotations -->
+      <line x1="0" y1="0" x2="106" y2="-78" stroke="#ef4444" stroke-width="1" />
+      <text x="60" y="-50" font-family="monospace" font-size="11" font-weight="700" fill="#fca5a5">PCD Ø 106,0 mm</text>
+
+      <line x1="0" y1="0" x2="0" y2="-150" stroke="#f59e0b" stroke-width="1" />
+      <text x="10" y="-130" font-family="monospace" font-size="10" font-weight="700" fill="#fde68a">Ø 120 mm</text>
+
+      <line x1="0" y1="0" x2="-95" y2="-70" stroke="#ea580c" stroke-width="1" />
+      <text x="-115" y="-45" font-family="monospace" font-size="10" font-weight="700" fill="#fed7aa">Ø 94 mm</text>
+    </g>
+
+    <!-- Bottom Description Box -->
+    <rect x="15" y="470" width="380" height="130" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="25" y="492" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">SPÉCIFICATIONS D'USINAGE DU FLASQUE RÉCEPTEUR</text>
+    <text x="25" y="510" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Alésage pilote de centrage : Ø 95,0 mm H7 (reprise tranchant).</text>
+    <text x="25" y="526" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• 10 perçages lisses : Ø 4,30 mm débouchants sur PCD Ø 106,0 mm.</text>
+    <text x="25" y="542" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Chanfreins systématiques : 0,5 mm × 45° sur les deux faces.</text>
+    <text x="25" y="558" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Lumière oblongue déportée : 22 × 16 mm en regard du passe-fil.</text>
+    <text x="25" y="574" font-family="'Segoe UI', sans-serif" font-size="10" fill="#22c55e">• Zéro arbre creux : câblage en corridor contournant sans pliure.</text>
+  </g>
+
+  <!-- ==================== PANEL 3 : RDM & THERMIQUE (Droite) ==================== -->
+  <g transform="translate(910, 85)">
+    <rect width="270" height="615" rx="8" fill="url(#panel-grad)" stroke="#334155" stroke-width="1.5" />
+    <path d="M 0 0 L 270 0 L 270 38 L 0 38 Z" fill="#1e293b" rx="8" />
+    <text x="15" y="24" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">PANEL 3 : DÉMONSTRATION RDM</text>
+
+    <!-- Metric Card 1 : Torsion -->
+    <rect x="12" y="50" width="246" height="125" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="1.2" />
+    <text x="22" y="70" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#4ade80">TENUE TORSION (10× M4)</text>
+    <text x="22" y="88" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">Précharge axiale totale :</text>
+    <text x="22" y="104" font-family="monospace" font-size="11" font-weight="700" fill="#f8fafc">F_pre = 10 × 4 100 N = 41 kN</text>
+    <text x="22" y="120" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">Couple résistant frottement :</text>
+    <text x="22" y="136" font-family="monospace" font-size="11" font-weight="700" fill="#4ade80">M_fric = 326 N.m &gt;&gt; 120 N.m</text>
+    <text x="22" y="156" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#22c55e">Facteur Sécurité Sf = ×2,72 ✅</text>
+
+    <!-- Metric Card 2 : Tranchant -->
+    <rect x="12" y="185" width="246" height="110" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" />
+    <text x="22" y="205" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">REPRISE EFFORT TRANCHANT</text>
+    <text x="22" y="223" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">Choc vertical (35 kg × 2,5g) :</text>
+    <text x="22" y="239" font-family="monospace" font-size="11" font-weight="700" fill="#f8fafc">F_tranchant_dyn = 860 N</text>
+    <text x="22" y="255" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">Repris par centrage Ø 95 mm H7 :</text>
+    <text x="22" y="275" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">Cisaillement vis M4 = 0 N ✅</text>
+
+    <!-- Metric Card 3 : Thermique -->
+    <rect x="12" y="305" width="246" height="155" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.2" />
+    <text x="22" y="325" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fbbf24">BILAN THERMIQUE CONSTRUCTEUR</text>
+    <text x="22" y="343" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">Exigence Manuel RobStride :</text>
+    <text x="22" y="358" font-family="monospace" font-size="9.5" fill="#fde68a">Heat Sink 345×345 mm (40 N.m)</text>
+    <text x="22" y="374" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">Squelette Pelvis D-Bot :</text>
+    <text x="22" y="390" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f8fafc">• Masse alu 7075-T6 &gt; 1,5 kg</text>
+    <text x="22" y="406" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f8fafc">• Surface continue &gt; 1 200 cm²</text>
+    <text x="22" y="422" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f8fafc">• Pâte Noctua NT-H1 au contact</text>
+    <text x="22" y="442" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#22c55e">Conduction Optimale ✅</text>
+
+    <!-- Metric Card 4 : Conclusion H-Bracket -->
+    <rect x="12" y="470" width="246" height="130" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1" />
+    <text x="22" y="490" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#e2e8f0">VERDICT MONOFACE</text>
+    <text x="22" y="508" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">Fixation arrière SEULE =</text>
+    <text x="22" y="523" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Standard Mondial Validé.</text>
+    <text x="22" y="539" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">• Zéro cage H-Bracket lourde</text>
+    <text x="22" y="553" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">• Gain de masse : -350 g / jambe</text>
+    <text x="22" y="568" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#cbd5e1">• Aération frontale 100% libre</text>
+    <text x="22" y="584" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#4ade80">• Conforme Torse V2 &amp; Atlas</text>
+  </g>
+</svg>

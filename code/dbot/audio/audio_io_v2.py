@@ -137,13 +137,17 @@ class AudioIOv2:
         Note : parecord n'a pas d'option -d, on utilise 'timeout' pour limiter la durée.
         """
         try:
-            device_arg = f"--device={self.pulse_source}" if getattr(self, 'pulse_source', None) else ""
-            # 'timeout N' arrête parecord après N secondes (parecord n'a pas d'option -d)
-            cmd = (f"timeout {int(duration)} parecord {device_arg} "
-                   f"--channels=2 --format=s16le --rate=16000 --raw | "
-                   f"sox -t raw -r 16000 -e signed -b 16 -c 2 - -c 1 {output_file}")
-            subprocess.run(cmd, shell=True, stderr=subprocess.DEVNULL)
-            # Note : pas de check=True car timeout retourne exit code 124 à expiration (normal)
+            parecord_cmd = ["timeout", str(int(duration)), "parecord"]
+            if getattr(self, 'pulse_source', None):
+                parecord_cmd.append(f"--device={self.pulse_source}")
+            parecord_cmd.extend(["--channels=2", "--format=s16le", "--rate=16000", "--raw"])
+
+            sox_cmd = ["sox", "-t", "raw", "-r", "16000", "-e", "signed", "-b", "16", "-c", "2", "-", "-c", "1", str(output_file)]
+            p_rec = subprocess.Popen(parecord_cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+            p_sox = subprocess.Popen(sox_cmd, stdin=p_rec.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            if p_rec.stdout:
+                p_rec.stdout.close()
+            p_sox.communicate()
             print(f"🎤 [AudioIO v2] Enregistrement : {output_file}")
             return os.path.exists(output_file) and os.path.getsize(output_file) > 1000
         except Exception as e:

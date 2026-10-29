@@ -9,6 +9,7 @@ Il accomplit automatiquement :
 2. L'identification et la déduplication des composants uniques.
 3. L'export des fichiers B-Rep STEP unitaires dans /Users/Shared/DBot_CAD_Library/.
 4. L'enregistrement du manifeste spatial complet (matrices 4x4, repères, hiérarchie).
+5. Le nettoyage et la purge automatique des fichiers STEP orphelins (pièces renommées ou supprimées).
 """
 
 import adsk.core
@@ -139,11 +140,37 @@ def run(context):
                 "z_axis": z_vec
             })
             
-        # 2. Écriture du manifeste JSON
+        # 2. Nettoyage souverain des fichiers STEP orphelins (renommés, obsolètes ou supprimés)
+        active_step_files = {
+            c_info["step_file"].lower()
+            for c_info in manifest["components"].values()
+            if "step_file" in c_info
+        }
+        
+        purged_step_files = []
+        purge_errors = []
+        try:
+            if os.path.exists(EXPORT_DIR):
+                for f_name in os.listdir(EXPORT_DIR):
+                    f_lower = f_name.lower()
+                    if f_lower.endswith(('.step', '.stp')):
+                        if f_lower not in active_step_files:
+                            orphan_path = os.path.join(EXPORT_DIR, f_name)
+                            try:
+                                os.remove(orphan_path)
+                                purged_step_files.append(f_name)
+                            except Exception as rm_err:
+                                purge_errors.append(f"{f_name}: {str(rm_err)}")
+        except Exception as scan_err:
+            export_errors.append(f"Erreur scan orphelins: {str(scan_err)}")
+            
+        manifest["metadata"]["purged_orphans"] = purged_step_files
+            
+        # 3. Écriture du manifeste JSON
         with open(MANIFEST_FILE, "w", encoding="utf-8") as f:
             json.dump(manifest, f, indent=2, ensure_ascii=False)
             
-        # 3. Message récapitulatif
+        # 4. Message récapitulatif
         nb_comps = len(manifest["components"])
         nb_occs = len(manifest["occurrences"])
         msg = (
@@ -152,8 +179,14 @@ def run(context):
             f"• Composants uniques exportés en STEP : {nb_comps}\n"
             f"• Instances positionnées (Occurrences) : {nb_occs}\n"
             f"• Dossier de destination : {EXPORT_DIR}\n"
-            f"• Manifeste JSON : {MANIFEST_FILE}\n\n"
-            f"Prochaine étape :\n"
+            f"• Manifeste JSON : {MANIFEST_FILE}\n"
+        )
+        if purged_step_files:
+            msg += f"• Nettoyage bibliothèque : {len(purged_step_files)} fichier(s) orphelin(s)/renommé(s) supprimé(s)\n"
+        if purge_errors:
+            msg += f"• Avertissements purge : {len(purge_errors)} fichier(s) non supprimés\n"
+        msg += (
+            f"\nProchaine étape :\n"
             f"L'agent Antigravity va importer immédiatement ces STEPs dans FreeCAD pour reconstituer l'assemblage complet."
         )
         if export_errors:

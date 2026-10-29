@@ -1,12 +1,12 @@
 # 🦾 Dossier Technique & Guide de Fabrication : Torse Complet D-Bot V1 (Architecture V2)
 ### Squelette Séminal Tout Métal (Alu 7075-T6 & 6060-T6) & Coque Secondaire PA12-CF
 
-*Ce document constitue le dossier d'ingénierie officiel, de calculs RDM complets, de dimensionnement en fatigue, d'intégration électrique et de fabrication (CNC NestWorks C500 & Impression 3D Qidi Plus 4) pour le torse du robot humanoïde D-Bot V1 (40,4 kg).*
+*Ce document constitue le dossier d'ingénierie officiel, de calculs RDM complets, de dimensionnement en fatigue, d'intégration électrique et de fabrication (CNC NestWorks C500 & Impression 3D Qidi Plus 4) pour le torse du robot humanoïde D-Bot V1 (masse Torse + Bassin = 18,80 kg, masse totale robot complet 38,2 kg).*
 
 > [!NOTE]
-> **Évolution Architecturale V2 (Août 2026)** :  
-> L'analyse approfondie de l'assemblage CAO a mis en évidence le **« paradoxe des 2 cm »** de l'ancien design composite : la distance libre entre le nœud central et chaque bride d'épaule n'était que de **19,55 mm**. Pour une portée aussi courte, la chaîne composite (tube carbone Ø30 mm + 3 inserts alu + 2 demi-coquilles + 2 brides à pincement + 3 goupilles traversantes) engendrait un poids mort d'assemblage (~815 g), un risque de glissement par friction sous les 120 N.m du moteur RS-04, et une lourdeur d'usinage disproportionnée.  
-> La **Solution V2 Métallique (Traverses en Tube Carré 60×60×2 mm + Brides Monoblocs et Éclisses en Alu 7075-T6)** remplace intégralement le composite : elle est plus légère de plus de 200 g, 20 fois plus rigide, 100% démontable et directement usinable sur la fraiseuse CNC NestWorks C500.
+> **Évolution Architecturale V2.6 & Solution C+ (Octobre 2026 — CAO `Torse-123 v11`)** :  
+> L'architecture active consolide définitivement l'élimination du composite historique au profit du **Squelette Tout-Métal (Traverses Tube Carré 60×60×2 mm en 6060-T6 + Brides Monoblocs 10 lobes, Éclisses Sandwich et Colonne Sagittale en Alu 7075-T651)**, couplé à la **Solution C+** (Ceinture Alu 3 mm à Z = 1235 mm, Demi-fûts C1/C2 en PA12-CF, trappes magnétiques N52 et Portique Anti-Lacet 7075-T6).  
+> Cette conception garantit un découplage structural absolu, une rigidité en torsion décuplée (flèche résiduelle cornière haute = 0,1249 mm sous 210 N, Sf_P95 = 19,09) et une démontabilité complète en atelier sans aucune opération destructive.
 
 ---
 
@@ -18,9 +18,9 @@
   - [C. Données Géométriques Relevées sur la CAO Fusion 360](#c-données-géométriques-relevées-sur-la-cao-fusion-360)
 - [**2. Dimensionnement & Calculs RDM de la Colonne Sagittale (Alu 7075-T6, 5,0 mm)**](#2-dimensionnement--calculs-rdm-de-la-colonne-sagittale-alu-7075-t6-50-mm)
   - [A. Sourcing Brut Blockenstock : 5 × 100 × 495 mm Alu 7075-T6](#a-sourcing-brut-blockenstock--5--100--495-mm-alu-7075-t6)
-  - [B. Choix de la Largeur Constante : 94,0 mm de Haut en Bas](#b-choix-de-la-largeur-constante--940-mm-de-haut-en-bas-du-cou-au-waist)
+  - [B. Profil de la Colonne Sagittale (Largeur 100 mm Épaules & 94 mm Waist)](#b-profil-de-la-colonne-sagittale--élargissement-local-à-1000-mm-aux-épaules--940-mm-au-waist)
   - [C. Sollicitations & Moments de Flexion Pitch (K_dyn = 3,5)](#c-sollicitations--moments-de-flexion-pitch-k_dyn--35)
-  - [D. Caractéristiques de Section & Formulations RDM](#d-caractéristiques-de-section--formulations-rdm-largeur-94-mm)
+  - [D. Caractéristiques de Section & Formulations RDM Actualisées](#d-caractéristiques-de-section--formulations-rdm-actualisées)
   - [E. Analyse de Fatigue Multirégime (Alu 7075-T6, R = 18 mm, Kt = 1,8)](#e-analyse-de-fatigue-multirégime-alu-7075-t6-r--18-mm-kt--18)
   - [F. Topologie d'Allègement & Plan de Cotation 2D de la Plaque Basse](#f-topologie-dallègement--plan-de-cotation-2d-de-la-plaque-basse-lumières-jumelles-r--150-mm)
 - [**3. Dimensionnement RDM des Traverses d'Épaules (Tube Carré 60×60×2 mm)**](#3-dimensionnement-rdm-des-traverses-dépaules-tube-carré-60602-mm)
@@ -35,9 +35,9 @@
   - [D. Rigidité en Roll — Tube Carré 60×60×2 mm (Sans Cage)](#d-rigidité-en-roll--tube-carré-60602-mm-sans-cage)
   - [E. Analyse Thermique & Circuit Aéraulique : Tuyère 3D & Expulsion Annulaire](#e-analyse-thermique--circuit-aéraulique--tuyère-3d--expulsion-annulaire-gap-20-mm)
 - [**5. Conception Détaillée des Interfaces & Usinage 100% Alu 7075-T6**](#5-conception-détaillée-des-interfaces--usinage-100-alu-7075-t6)
-  - [A. Bride d'Épaule Monobloc en Alu 7075-T651 (Ø120 × 50 mm)](#a-bride-dépaule-monobloc-en-alu-7075-t651-ø120--50-mm)
+  - [A. Bride d'Épaule Monobloc en Alu 7075-T651 (Ø120 × 50 mm) & Contournage Festonné V1](#a-bride-dépaule-monobloc-en-alu-7075-t651-ø120--50-mm--contournage-festonné-v1)
   - [B. Justification de la Hauteur d'Insert : Pourquoi L = 15,0 mm est l'Optimum](#b-justification-de-la-hauteur-dinsert--pourquoi-l--150-mm-est-loptimum-révision-audit-v21)
-  - [C. Interface Colonne : Double Éclisse Structurelle Sandwich (80 × 130 mm)](#c-interface-colonne--double-éclisse-structurelle-sandwich-80--130-mm)
+  - [C. Interface Colonne : Double Éclisse Structurelle Sandwich & Adaptation Géométrique](#c-interface-colonne--double-éclisse-structurelle-sandwich--adaptation-géométrique-150-offset-11-mm)
   - [D. Imbrication des Bruts & Détail d'Assemblage FHC M4 Traversantes](#d-imbrication-des-bruts--détail-dassemblage-fhc-m4-traversantes--écrous-nylstop)
 - [**6. Système d'Énergie : 2 Paniers Batteries Latéraux Hot-Swap**](#6-système-dénergie--2-paniers-batteries-latéraux-hot-swap)
   - [A. Architecture des Paniers Symétriques](#a-architecture-des-paniers-symétriques)
@@ -51,13 +51,13 @@
   - [D. Protocole d'Atelier Naturel & Ergonomique (Torse V2.6)](#d-protocole-datelier-naturel--ergonomique-torse-v26)
 - [**8. Coque Secondaire PA12-CF & Impression 3D (Qidi Plus 4)**](#8-coque-secondaire-pa12-cf--impression-3d-qidi-plus-4)
   - [A. Impression Verticale (Debout) & Réduction des Supports](#a-impression-verticale-debout--réduction-des-supports)
-  - [B. Stratégie de Découpe CAO : 2 Demi-Coques 360° Monoblocs](#b-stratégie-de-découpe-cao--2-demi-coques-360-monoblocs)
+  - [B. Architecture Modulaire Solution C+ & Validation FEA Portique 7075-T6](#b-architecture-modulaire-solution-c--validation-fea-portique-7075-t6)
   - [C. Paramètres de Tranchage Recommandés (OrcaSlicer / Qidi Plus 4)](#c-paramètres-de-tranchage-recommandés-orcaslicer--qidi-plus-4)
   - [D. Tuyères Aérauliques d'Épaules Imprimées 3D (PA12-CF / TPU 95A)](#d-tuyères-aérauliques-dépaules-imprimées-3d-pa12-cf--tpu-95a)
 - [**9. Gamme d'Usinage NestWorks C500 & Protocole Pas-à-Pas**](#9-gamme-dusinage-nestworks-c500--protocole-pas-à-pas)
   - [A. Gamme d'Usinage par Composant (CNC C500)](#a-gamme-dusinage-par-composant-cnc-c500)
   - [B. Protocole Chronologique de Montage sur Établi](#b-protocole-chronologique-de-montage-sur-établi)
-  - [C. Tutoriel McMaster-Carr, Quincaillerie, Freins-Filets, Pâte Thermique & Couples Dynamométriques](#c-tutoriel-dimportation-quincaillerie-mcmaster-carr--normes-diniso-dans-fusion-360)
+  - [C. Quincaillerie Torse : Approvisionnement Français & Import CAO](#c-quincaillerie-torse--approvisionnement-français-bricovis-vis-express-rs--import-cao-fusion-360)
 - [**10. Bilan de Masse Consolidé & Fiche d'Approvisionnement Direct**](#10-bilan-de-masse-consolidé--fiche-dapprovisionnement-direct)
   - [A. Nomenclature & Bilan de Masse Réel du Haut du Torse Complet](#a-nomenclature--bilan-de-masse-réel-du-haut-du-torse-complet)
   - [B. Fiche d'Approvisionnement Direct Blockenstock (Panier Alu 7075-T6 & Profilés 6060-T6)](#b-fiche-dapprovisionnement-direct-blockenstock-panier-alu-7075-t6--profilés-6060-t6)
@@ -176,7 +176,7 @@ La colonne vertébrale en **Alu 7075-T6** (`Rp0.2 = 470 MPa`) encaisse les solli
 * Contrainte à la base (Arrêt d'urgence extrême 275 N.m) : `Sigma_max = (275 000 × 47,0) / 346 077 = 37,34 MPa`
 * **Facteur de sécurité élastique à la base** : `Sf = 470,0 / 37,34 = ×12,58 ✅`
 * **Flèche au sommet (L = 432 mm)** : `Delta = (275 000 × 432^2) / (2 × 71 000 × 346 077) = 1,04 mm` (< 1,5 mm).
-* Masse de la colonne complète allégée 2D : **~325 g**.
+* **Masse réelle de la colonne complète allégée en CAO (`Torse v108`)** : **`489,77 g`** (contre `567,80 g` brute, gain net effectif de `-78,03 g` par les 2 lumières 54 × 55 mm).
 
 ---
 
@@ -220,6 +220,13 @@ Suite à la validation géométrique réelle sur le modèle CAO Torse v86, la st
    - **Congés d'angles** : **`R = 15,0 mm`** sur tous les coins intérieurs (usinables avec fraise carbure de Ø 6 ou 8 mm sur la CNC NestWorks C500), maintenant le facteur de fatigue à `Kt_eff = 1,81`.
    - **Bilan de masse** : Retrait net de **`27,5 cm³` d'Alu 7075-T6**, soit un gain de masse direct de **`-77,3 g`** (la Plaque Basse passe de 378,5 g à **`301,2 g`**).
 
+> [!NOTE]
+> **Validation Métrologique CAO Réelle (Audit Torse v108 du 09/10/2026)** :
+> Les deux lumières sont rigoureusement validées sur le composant réel `colonne vertébrale:1` :
+> * **Volume extrait mesuré** : **`27,77 cm³`** d'Alu 7075-T6 (corrélation à 99,1% avec le calcul théorique de 27,5 cm³).
+> * **Masse réelle mesurée** : **`489,77 g`** (contre `567,80 g` initialement pleine), soit un **gain net effectif de `-78,03 g`**.
+> * **Dimensions réelles relevées** : 2x ouvertures de **`54,00 × 55,00 mm`**, 8x congés d'angles réels **`R = 15,00 mm`** (Ø 30,0 mm), traverse médiane de **`18,00 mm`**, bordures latérales continues de **`20,00 mm`**.
+
 ![Plan de Cotation Détaillée 2D de la Plaque Basse Allégée](./media/plan_cotation_plaque_basse_colonne.svg)
 
 *Blueprint d'ingénierie vectoriel de la Plaque Basse de colonne sagittale (Alu 7075-T6, épaisseur 5,0 mm). Panel 1 : Vue frontale complète montrant la coupe droite plane à Z = 0,0 mm (100% métal-métal, zéro tenon), les 2 alésages fermés pour goupilles ISO 8734 Ø 3,0 mm H7 à Z = -40,0 mm (entraxe Y = 80,0 mm, carré 80 × 80 mm), les 2 perçages M5 d'épaules à Z = -45 mm, les 2 lumières d'allègement de 54 × 55 mm, et les 4 perçages M4 d'équerres Waist au bas de la plaque (H_totale = 297,13 mm). Panel 2 : Zoom macro coté sur les deux fenêtres d'allègement, la traverse médiane de 18,0 mm, les bordures saines de 20,0 mm et les congés R = 15,0 mm. Panel 3 : Synthèse RDM (Sf marche = ×14,36, Sf pic = ×1,48), bilan de masse (-77,3 g) et stratégie d'usinage sur la CNC NestWorks C500.*
@@ -253,7 +260,7 @@ Suite à la validation géométrique réelle sur le modèle CAO Torse v86, la st
 > **Procédure d'Importation & Assemblage de la Visserie IMU sous Autodesk Fusion 360** :
 > 1. Dans le ruban supérieur de Fusion 360, cliquer sur **Insert** ➔ **Insert McMaster-Carr Component**.
 > 2. Télécharger en format **3D STEP** (ou SolidWorks) les 4 composants normalisés :
->    - **Vis CHC M2,5 × 14 mm** : Réf. McMaster **`92290A038`** (Inox 18-8) ou **`91290A038`** (Acier 12.9).
+>    - **Vis CHC M2,5 × 14 mm** : Réf. McMaster **`91292A017`** (Inox 18-8) ou **`92290A858`** (Inox 316).
 >    - **Entretoise lisse Nylon M2,5 (H = 3,0 mm, Ø ext 5 mm)** : Réf. McMaster **`94639A208`**.
 >    - **Rondelle plate M2,5 DIN 125A** : Réf. McMaster **`93475A205`**.
 >    - **Écrou autofreiné Nylstop M2,5 DIN 985** : Réf. McMaster **`90631A105`**.
@@ -933,6 +940,7 @@ Dans un assemblage métallique haute performance soumis aux vibrations dynamique
 | **9. Colonne Sagittale Haute (Plaque 5,0 mm)** | 4 Perçages Traversants Ø 2,70 mm IMU Torse (BMI270) | Fraise à chanfreiner 45° C500 | **`0,2 mm × 45°` (des 2 côtés)** | Micro-ébavurage éliminant tout morfil : assise rigoureusement plane des entretoises nylon 3 mm (flanc droit) et des rondelles DIN 125A / écrous Nylstop M2,5 (flanc gauche). |
 | **9. Colonne Sagittale & Éclisses (Sandwich Carré 80 × 80 mm)** | 4 Alésages de Goupilles Ø 3,00 mm H7 (Y = ±40 mm, Z = ±40 mm) | Alésoir machine H7 Ø 3,0 mm + fraise 45° C500 | **`0,1 mm × 45°` (des 2 côtés)** | Chanfrein de guidage indispensable pour chasser les 4 goupilles ISO 8734 m6 au maillet sans copeau ni arrachement de métal. |
 | **9. Jonction Colonne Sagittale (Coupe Droite Z = 0)** | Chants de contact métal-métal à Z = 0,0 mm (largeur 100 mm) | Fraise carbure C500 / outil ébavureur | **`0,2 mm × 45°`** | Cassage d'arête soigné garantissant un contact plan franc à 0,0 mm sans morfil sur les 500 mm² de portée continue (zéro tenon). |
+| **9. Colonne Sagittale Basse (2 Lumières 54×55 mm)** | Arêtes intérieures des 2 fenêtres d'allègement et congés R=15 mm | Fraise à chanfreiner 45° C500 | **`0,3 mm à 0,5 mm × 45°` (des 2 côtés)** | Élimination rigoureuse du morfil de fraisage, protection absolue des faisceaux électriques contre l'effet tranchant et abaissement du facteur de concentration de contrainte Kt. |
 | **10. Waist Plate Inférieure (Alu 6,0 mm)** | 4 Perçages Traversants Sandwich Ø 4,50 mm (PCD Ø 68 mm à 45°) | Fraise à chanfreiner C500 | **`0,3 mm × 45°` (des 2 côtés)** | Placage plan franc entre les ailes d'équerres (dessus) et la bague intérieure du roulement RB8016 (dessous). |
 | **10. Waist Plate Inférieure (Alu 6,0 mm)** | Contour Extérieur (120 × 94 mm) | Fraise de contournage C500 | **`0,5 mm × 45°`** | Cassage d'arête sur tout le pourtour supérieur et inférieur de la plaque. |
 
@@ -998,12 +1006,99 @@ Avec le squelette métallique reprenant tous les efforts structurels, la coque P
 
 ---
 
-### B. Stratégie de Découpe CAO : 2 Demi-Coques 360° Monoblocs
+### B. Architecture Modulaire Solution C+ & Validation FEA Portique 7075-T6
 
-Pour s'inscrire dans le volume d'impression de la **Qidi Plus 4** (305 × 305 × 280 mm) :
-1. **Thorax Haut** (hauteur ~216 mm) : Imprimé collet du cou vers le haut, plan de coupe abdominal sur le plateau.
-2. **Abdomen Bas** (hauteur ~190 mm) : Imprimé taille vers le bas, plan de coupe abdominal vers le haut.
-3. **Plan de Joint Abdominal (Lap Joint 3,0 mm)** : Profilé rainure-languette (1,5 × 2,0 mm) verrouillé par 6 à 8 vis CHC M4 prenant prise dans des **inserts laiton Ruthex M4 chauffés à 260 °C**.
+> [!NOTE]
+> **Architecture Retenue & Validée : Solution C+ (Torse-123 v11)** :  
+> L'arbitrage d'ingénierie conduit en octobre 2026 (suite aux audits de rigidité en roulis et en lacet) a entériné la **Solution C+** combinant :
+> 1. **Deux demi-fûts principaux C1 (haut) et C2 (bas)** scindés à `Z = 1235 mm` (respectant la hauteur machine utile Qidi Plus 4 de 280 mm).
+> 2. **Une ceinture intermédiaire en Aluminium 7075-T6 (épaisseur 3,0 mm, 45,43 g)** usinée sur la CNC C500, bloquant le gauchissement et formant une armature périphérique rigide.
+> 3. **Des trappes d'accès avant et arrières maintenues par plots magnétiques (aimants néodyme N52)**, assurant une ouverture instantanée en atelier pour l'IMU BMI270, les faisceaux CAN-FD et les connecteurs sans aucun dévissage.
+> 4. **Un portique structural anti-lacet en Aluminium 7075-T6** reliant directement les brides d'épaules RS-04 à la Ceinture Alu (`Corniere haute` nervurée) et à la Waist Plate (`Corniere basse` / `Tirant Monobloc`).
+
+#### 1. Diagnostic d'Atelier & Limites de l'Ancien Découpage en 2 Demi-Fûts 360°
+L'approche initiale consistant à scinder le torse uniquement par un plan horizontal médian présentait des verrous opérationnels majeurs en robotique humanoïde :
+* **Effet « Tunnel Aveugle » (Blind Assembly)** : Chaque demi-coque restant un fût fermé à 360°, le passage des outils pour serrer le sandwich central de colonne (4 vis CHC M5 × 25 mm à 5,5 N.m et 4 goupilles ISO 8734 Ø3 mm) ou l'IMU SparkFun BMI270 (vis M2,5 traversantes sur le flanc de colonne) imposait des contorsions impraticables.
+* **Risque Critique de Pincement du Faisceau 48V / CAN-FD** : Lors du refermement axial des deux fûts, les boucles de câbles devaient être tassées à l'aveugle, avec un risque majeur de pincement ou de cisaillement au plan de joint abdominal.
+* **Pénalité de Maintenance Punitive** : L'intervention sur un connecteur XT30, un bus de capteur ou un ventilateur Noctua 4020 exigeait le démontage complet du robot.
+
+![Architecture Modulaire en 4 Blocs du Torse PA12-CF et Accessibilité Intérieure](./media/schema_architecture_decoupage_modulaire_torse_pa12cf.svg)
+
+*Blueprint d'ingénierie vectoriel officiel de l'architecture modulaire du torse PA12-CF (D-Bot V1.x / Torse-123 v11). Panel 1 : Découpage en modules coordonnés garantissant le respect strict de la hauteur machine Qidi Plus 4 (H_max = 236 mm < 280 mm). Panel 2 : Cinématique d'assemblage ouverte dégageant un accès direct face avant pour la clé dynamométrique sur le sandwich M5 (5,5 N.m), l'IMU BMI270 et le guidage des faisceaux sans tassement aveugle. Panel 3 : Détails de liaison robuste par plan de joint à chicane (Stepped Lap Joint 3,0 mm), inserts thermiques laiton Ruthex M4 (McMaster 94180A353) et ceinture alu 3 mm.*
+
+---
+
+#### 2. Matrice Modulaire de la Solution C+ (Torse-123 v11)
+Pour concilier le volume d'impression de la **Qidi Plus 4** (305 × 305 × 280 mm) avec une accessibilité totale et une rigidité en torsion maximale :
+1. **Demi-fût Supérieur C1 (Thorax Dorsal & Pectoral Haut)** :
+   * **Dimensions** : Hauteur Z = 235,97 mm (Z = 1235,45 à 1471,42 mm), masse propre **`1 574,53 g`**.
+   * **Rôle & Fixation** : Vissé rigidement sur la face arrière de la colonne sagittale en Alu 7075-T6 et sur les équerres hautes de cou. Il intègre les demi-coquilles d'épaules, la baie de capteurs (LiDAR Unitree L2 et caméra de navigation) et les conduits d'évacuation d'air chaud des stators RobStride RS-04.
+2. **Ceinture Intermédiaire en Aluminium 7075-T6** :
+   * **Dimensions** : Hauteur Z = 3,0 mm (Z = 1233,5 à 1236,5 mm), masse propre **`45,43 g`**.
+   * **Rôle & Fixation** : Cadre métallique intermédiaire reliant C1 et C2. Elle sert de plancher d'ancrage pour les pattes inférieures des cornières hautes et le sommet des cornières basses, fermant le flux d'effort anti-lacet.
+3. **Demi-fût Inférieur C2 (Abdomen Dorsal & Flancs Batteries)** :
+   * **Dimensions** : Hauteur Z = 124,13 mm (Z = 1110,42 à 1234,55 mm), masse propre **`622,88 g`**.
+   * **Rôle & Fixation** : Ancré sur la `Waist_Plate_7075` via les bossages d'angles M4 et les équerres basses de taille. Il loge les glissières latérales des deux packs batteries 12S.
+4. **Trappes Amovibles Magnétiques (Pectorale & Abdominale)** :
+   * **Système de fixation** : Aimants néodyme N52 insérés avec pions de centrage coniques in-situ.
+   * **Avantage Opérationnel** : Dépose instantanée en moins de 15 secondes sans outil, libérant l'accès face à soi au sandwich central de colonne (vis M5 et goupilles), aux tuyères aérauliques et à l'IMU SparkFun BMI270.
+5. **Deux Paniers Batteries Latéraux Indépendants (Droit & Gauche)** :
+   * Deux berceaux indépendants (`Panier_Batterie_Droit` et `Panier_Batterie_Gauche`, ~270 g unitaire) coulissant depuis l'arrière pour une distribution de masse symétrique le long de l'axe Y.
+
+---
+
+#### 3. Liaisons & Assemblage Mécanique Robuste
+Pour garantir un comportement monolithique rigide sans jeu ni vibration parasite :
+* **Plan de Joint à Chicane (Stepped Lap Joint 3,0 mm)** : Un épaulement décalé de 1,5 mm × 3,0 mm est modélisé sur tout le pourtour de jonction horizontal et sagittal. Ce profilé en chicane empêche toute pénétration de poussières, bloque le cisaillement relatif des parois et garantit un affleurement extérieur parfait à 0,0 mm.
+* **Pions Coniques Auto-Centreurs In-Situ** : Tétons coniques (Ø 6,0 mm à la base, Ø 4,0 mm au sommet, hauteur 5,0 mm) imprimés directement sur les tranches des coques, assurant un positionnement répétable sans contraindre les filetages.
+* **Inserts Filetés Laiton Ruthex M4 (McMaster `94180A353`)** : Inserts moletés hélicoïdaux (longueur 8,1 mm) insérés thermiquement à 260 °C dans des puits borgnes de Ø 5,60 mm × 8,5 mm. Serrage par vis BHC M4 classe 10.9 ou inox au couple nominal de **`1,2 à 1,5 N.m`**.
+
+---
+
+#### 4. Démonstration RDM : Intégrité Structurale Absolue (Zéro Fragilisation)
+Le découpage modulaire de la coque PA12-CF n'engendre rigoureusement **aucune perte de rigidité globale** pour le bipède :
+* **Découplage Structural Métal / Polymère** : Les flux d'efforts primaires (moment de flexion sagittale de 275 N.m, couple de torsion d'épaule de 120 N.m, couple de lacet de 36 N.m) sont repris à **100% par le squelette interne en alliage d'aluminium** (colonne 7075-T6 de 5,0 mm, tubes carrés 60×60×2 mm en 6060-T6, portique anti-lacet 7075-T6 et roulement à rouleaux croisés RB8016).
+* **Rapport des Modules d'Élasticité** : Le module d'Young de l'Alu 7075 (E = 71 GPa) est plus de 10 fois supérieur à celui du PA12-CF imprimé (E = 6,5 à 7,5 GPa).
+* **Suppression des Contraintes Parasites** : Scinder la coque supprime l'hyperstatisme de bridage sur la colonne et élimine les risques de criques causés par les dilatations thermiques différentielles (Alu 23 × 10^-6 /K vs PA12-CF 40 × 10^-6 /K).
+
+---
+
+#### 5. Protocole Chronologique d'Assemblage en Atelier (Workstation Flow)
+1. **Étape 1 (Squelette Métallique Nu)** : Assembler sur marbre la colonne 7075, les semelles éclisses, les inserts 15°, les 4 goupilles ISO 8734 Ø3 mm et serrer les 4 vis CHC M5 × 25 mm à **`5,5 N.m`**. Monter l'IMU SparkFun BMI270 sur ses entretoises nylon à `Z = +81,58 mm`. Monter les tubes 60×60 mm, les brides v87 et les stators RS-04.
+2. **Étape 2 (Portique Anti-Lacet 7075-T6)** : Installer la Ceinture intermédiaire Alu 3 mm à Z = 1235 mm. Poser les cornières hautes nervurées (`EPA-06`) reliant les hubs de brides RS-04 à la ceinture alu (vis CHC M4 × 30 mm traversantes + rondelles Nord-Lock M4 serrées à **`2,8 N.m`**, et vis CHC M4 × 16 mm + écrous Nylstop M4 serrés à **`1,8 N.m`**). Monter les cornières basses vers la Waist Plate.
+3. **Étape 3 (Berceau Dorsal Fixe C1/C2)** : Fixer les demi-fûts dorsaux sur le squelette et la Waist Plate.
+4. **Étape 4 (Câblage & Contrôle Électrique à Ciel Ouvert)** : Passer les faisceaux 48V et CAN-FD dans les goulottes ouvertes, raccorder les connecteurs XT30 d'épaules et bus IMU, installer les deux tiroirs batteries latéraux. Réaliser les tests de continuité et le ping CAN sous tension **AVANT** fermeture mécanique.
+5. **Étape 5 (Fermeture des Trappes Magnétiques)** : Cléper les trappes frontales pectorale et abdominale sur leurs aimants N52 et pions de centrage. Opération réalisée en moins de 30 secondes.
+
+---
+
+#### 6. Validation Numérique par Éléments Finis (FEA FreeCAD / CalculiX) de la Cornière Haute Nervurée 7075-T6
+
+Afin de certifier formellement la tenue de la liaison anti-torsion d'épaule du portique haut sous couple de lacet maximal (36 N.m au waist transmis à travers le torse), une simulation par éléments finis FEA a été exécutée sous FreeCAD / CalculiX sur le modèle CAO réel extrait (`Corniere_haute.step`) :
+
+| Paramètre de Simulation | Donnée d'Entrée / Condition |
+| :--- | :--- |
+| **Composant analysé** | `Corniere haute` (gauche / droite, symétrie parfaite) |
+| **Matériau affecté** | **Aluminium 7075-T651** (E = 71 GPa, nu = 0,33, Rp0,2 = 505 MPa, Rm = 572 MPa) |
+| **Masse propre modélisée** | **`22,45 g`** (Volume net : 7,99 cm³) |
+| **Conditions aux limites (BC)** | **Encastrement rigide (Constraint Fixed)** sur la face inférieure de la semelle d'appui (interface ceinture Alu 3 mm à Z = 1235 mm) |
+| **Effort appliqué** | **Force axiale F = 210 N** (traction / compression le long de l'axe de la patte supérieure, correspondant au couple pic de lacet de 36 N.m avec bras de levier de 170 mm) |
+| **Type de maillage** | Tétraèdres quadratiques de 2nd ordre (Netgen) avec raffinement fin (h = 1,0 mm) dans le congé de raccordement de la nervure |
+
+##### Résultats Numériques Consolidés (CalculiX Solver) :
+* **Déplacement maximal au sommet (Flèche axiale)** : **`0,1249 mm`** (quasi-indéformable sous 210 N, garantissant le blocage absolu du déversement en lacet sans perte d'asservissement).
+* **Contrainte de Von Mises maximale absolue (Crête singulière)** : **`83,62 MPa`** (localisée au point de singularité géométrique en fond de congé de redan).
+* **Contrainte de Von Mises au 95e percentile (P95 représentatif)** : **`26,45 MPa`** (champ de contrainte nominal sur 95% du volume de la pièce).
+* **Facteur de sécurité élastique nominal (Sf_P95)** : **`Sf_P95 = 505 MPa / 26,45 MPa = 19,09 ✅`**.
+* **Facteur de sécurité élastique minimal absolu (Sf_min sur crête)** : **`Sf_min = 505 MPa / 83,62 MPa = 6,04 ✅`**.
+
+![Simulation FEA FreeCAD CalculiX — Cartographie des Contraintes de Von Mises sur la Cornière Haute 7075-T6](./media/fea_freecad_corniere_haute_von_mises.png)
+
+*Cartographie des contraintes équivalentes de Von Mises (Solver CalculiX / FreeCAD FEM) sur la pièce `Corniere haute` (Alu 7075-T651, 22,45 g) sous effort axial de 210 N (lacet 36 N.m). L'échelle chromatique met en évidence une contrainte nominale uniforme très faible (vert/bleu, 10 à 26 MPa, Sf_P95 = 19,09) et une concentration singulière locale maîtrisée en fond de redan (rouge, 83,62 MPa, Sf_min = 6,04), confirmant la suppression définitive du comportement de lame-ressort grâce à la nervure continue de 3,0 mm.*
+
+> [!TIP]
+> **Verdict d'Ingénierie Structurelle** :
+> Avec une contrainte représentative de `26,45 MPa` située **19 fois sous la limite élastique Rp0,2 (505 MPa)** et une contrainte de crête singulière de `83,62 MPa` située **6 fois sous Rp0,2**, la `Corniere haute` nervurée (22,45 g) élimine rigoureusement tout effet de lame-ressort. La pièce est validée sans réserve pour fabrication CNC sur la NestWorks C500.
 
 ---
 
@@ -1180,7 +1275,7 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 | **3. JONCTION CENTRALE SAGITTALE & INSERTS COLONNE** | | | | | |
 | • **Fixation Inserts ➔ Semelles (Vis Traversantes)** | Vis FHC M4 × 30 mm | ISO 10642 / DIN 7991 | **`91294A200`** (Acier 10.9)<br>**`92125A200`** (Inox 18-8) | **8 vis** (4 / semelle) | **Perçages lisses traversants Ø 4,30 mm** avec **fraisures coniques 90° Ø 8,40 mm à fleur exacte (0,0 mm)** sur semelles 5 mm. Traversent Semelle (5 mm) + Insert (15 mm) = 20 mm total. Marge libre filet Nylstop = 10,0 mm. |
 | • **Écrous de Verrouillage Inserts ➔ Semelles** | Écrous Frein Nylstop M4 | ISO 7040 / DIN 985 | **`93625A150`** (Inox 18-8)<br>**`94645A101`** (Acier Cl.10) | **8 écrous** (4 / semelle) | Serrage sur établi à plat contre la face avant de l'insert (vis traversante **Ø 4,30 mm**). Saillie de 5,0 mm logée sans interférence dans le volume creux du tube 56×56 mm. |
-| • **Sandwich Colonne Centrale** | Vis CHC M5 × 25 mm | ISO 4762 / DIN 912 | **`91290A235`** (Acier 12.9)<br>**`92290A235`** (Inox 18-8) | **4 vis** (2 avant, 2 arrière) | **Perçages lisses traversants Ø 5,30 mm** chanfreinés à **`0,5 mm × 45°`** traversant le sandwich 15 mm (2 semelles 5 mm + plaque 5 mm). Serrage en croix à 5,5 N.m. |
+| • **Sandwich Colonne Centrale** | Vis CHC M5 × 25 mm | ISO 4762 / DIN 912 | **`91290A225`** (Acier 12.9)<br>**`91292A129`** (Inox 18-8)<br>**`90348A023`** (Inox Noir)<br>**`92290A252`** (Inox 316) | **4 vis** (2 avant, 2 arrière) | **Perçages lisses traversants Ø 5,30 mm** chanfreinés à **`0,5 mm × 45°`** traversant le sandwich 15 mm (2 semelles 5 mm + plaque 5 mm). Serrage en croix à 5,5 N.m. |
 | • **Rondelles Sandwich Colonne M5** | Rondelles Plates M5 DIN 125A | ISO 7089 / DIN 125A | **`93475A240`** (Inox 18-8) | **8 rondelles** (4 sous tête, 4 sous écrou) | **Diamètre de passage Ø 5,30 mm**. Dimensions : Ø intérieur 5,3 mm / Ø extérieur 10,0 mm / épaisseur 1,0 mm. |
 | • **Écrous Sandwich Colonne M5** | Écrous Frein Nylstop M5 | ISO 7040 / DIN 985 | **`90631A113`** (Inox 18-8) | **4 écrous** | Bague nylon autofreinée (couple 5,5 N.m), montés sur vis traversante **Ø 5,30 mm**. |
 | • **Goupilles de Positionnement Positif (4× ISO 8734)** | Goupilles Cylindriques Rectifiées Ø 3,0 mm × 14 mm | ISO 8734 / DIN 6325 | **`98381A467`** (Acier Trempé)<br/>**`97395A310`** (Inox 316) | **4 goupilles** | Alésages **Ø 3,00 mm H7** fermés traversant le sandwich 15 mm formant un carré 80 × 80 mm à `Z = ±40,0 mm` (`Y = ±40,0 mm`). Tolérance H7/m6, alignement coaxial 0,005 mm, zéro tenon. |
@@ -1196,7 +1291,7 @@ Pour intégrer directement la visserie exacte avec ses filetages et formes norma
 | • **Ventilateurs Tuyères 4020 (Noctua NF-A4x20)** | Vis CHC M3 × 16 mm + Écrous M3 | ISO 4762 / DIN 912 | **`91290A115`** (Inox 18-8) | **8 vis + 8 écrous** | **Perçages lisses traversants Ø 3,20 mm** dans collerette tuyère 3D et oreilles Noctua. Montage sur silent-blocs antivibrations. |
 | • **Fixation Coque PA12-CF (Thorax & Abdomen)** | Inserts Filetés Laiton M4 | Standard Ruthex | **`94180A353`** (Laiton) | **16 inserts** | **Logements borgnes d'insertion Ø 5,60 mm × profondeur 8,2 mm** imprimés dans la coque PA12-CF. Inserts thermiques M4 posés au fer à souder (260 °C). |
 | **6. FIXATION TRAVERSANTE IMU TORSE (SPARKFUN BMI270 — PLAQUE HAUTE Z = +81,58 mm)** | | | | | |
-| • **Vis Traversantes IMU (Flanc Droit vers Gauche)** | Vis CHC M2,5 × 14 mm | ISO 4762 / DIN 912 | **`92290A038`** (Inox 18-8)<br>**`91290A038`** (Acier 12.9) | **4 vis** | Traversent PCB (1,6 mm) + Entretoise nylon (3,0 mm) + Plaque colonne 5 mm (perçages débouchants **Ø 2,70 mm**) + rondelle (0,5 mm) + écrou Nylstop (3,5 mm). Marge résiduelle = ~0,4 mm. |
+| • **Vis Traversantes IMU (Flanc Droit vers Gauche)** | Vis CHC M2,5 × 14 mm | ISO 4762 / DIN 912 | **`91292A017`** (Inox 18-8)<br>**`92290A858`** (Inox 316) | **4 vis** | Traversent PCB (1,6 mm) + Entretoise nylon (3,0 mm) + Plaque colonne 5 mm (perçages débouchants **Ø 2,70 mm**) + rondelle (0,5 mm) + écrou Nylstop (3,5 mm). Marge résiduelle = ~0,4 mm. |
 | • **Entretoises Isolantes Diélectriques PCB** | Entretoises Cylindriques Lisses Nylon M2,5 (H = 3,0 mm) | Spécification Métrique | **`94639A208`** (Nylon PA66) | **4 entretoises** | **Dimensions** : Ø intérieur 2,7 mm / Ø extérieur 5,0 mm / Hauteur 3,0 mm. Assure l'isolation électrique totale entre les pistes du PCB et l'Alu 7075-T6, supprime toute flexion parasite de la carte. |
 | • **Rondelles d'Appui Inox Flanc Gauche** | Rondelles Plates DIN 125A M2,5 | ISO 7089 / DIN 125A | **`93475A205`** (Inox 18-8) | **4 rondelles** | **Diamètre de passage Ø 2,70 mm**. Dimensions : Ø intérieur 2,7 mm / Ø extérieur 6,0 mm / épaisseur 0,5 mm. Répartition continue de la précharge sous l'écrou autofreiné. |
 | • **Écrous de Verrouillage Autofreinés (Flanc Gauche)** | Écrous Frein Nylstop M2,5 | ISO 7040 / DIN 985 | **`90631A105`** (Inox 18-8) | **4 écrous** | Bague polyamide indesserrable aux vibrations (serrage à **`0,5 à 0,6 N.m`** à la clé Allen 2,0 mm et clé plate de 5,0 mm). Montage 100% accessible sur le flanc gauche `Y = -2,50 mm`. |
@@ -1222,18 +1317,20 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 
 | Sous-Ensemble & Liaison Mécanique | Vis / Fixation Normalisée | Qté Totale | Couple Dynamométrique Recommandé | Empreinte / Outil | Sécurisation & Freinage | Réf. McMaster |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- | :---: |
-| **1. Brides ➔ Stators RS-04 (Zone 1 : Mince 5,0 mm)** | CHC M4 × 12 mm (Acier 12.9 / Inox) | 8 | **`3,0 N.m`** ⭐ *(Croix)* | Clé Allen 3,0 mm | Rondelles Nord-Lock M4 + Loctite 243 | `91290A154` |
+| **1. Brides ➔ Stators RS-04 (Zone 1 : Mince 5,0 mm)** | CHC M4 × 12 mm (Acier 12.9 / Inox) | 8 | **`3,0 N.m`** ⭐ *(Croix)* | Clé Allen 3,0 mm | Rondelles Nord-Lock M4 + Loctite 243 | `91290A148` |
 | **2. Brides ➔ Stators RS-04 (Zone 2 : Épaisse 18,2 mm)** | CHC M4 × 25 mm (Acier 12.9 / Inox) | 12 | **`3,0 N.m`** ⭐ *(Croix)* | Clé Allen 3,0 mm | Rondelles Nord-Lock M4 + Loctite 243 | `91290A170` |
 | **3. Demi-Traverses (Tubes ➔ Bossages & Inserts)** | CHC M5 × 70 mm (Acier 12.9 / Inox) | 4 | **`5,5 N.m`** | Clé Allen 4,0 mm + Clé 8 mm | Rondelles DIN 125A + Écrous Nylstop M5 | `91290A272` |
-| **4. Sandwich Colonne Centrale (Éclisses ➔ Plaques)** | CHC M5 × 25 mm (Acier 12.9 / Inox) | 4 | **`5,5 N.m`** *(Croix)* | Clé Allen 4,0 mm + Clé 8 mm | Rondelles DIN 125A + Écrous Nylstop M5 | `91290A235` |
+| **4. Sandwich Colonne Centrale (Éclisses ➔ Plaques)** | CHC M5 × 25 mm (Acier 12.9 / Inox) | 4 | **`5,5 N.m`** *(Croix)* | Clé Allen 4,0 mm + Clé 8 mm | Rondelles DIN 125A + Écrous Nylstop M5 | `91290A225` / `90348A023` |
 | **5. Inserts Carrés ➔ Semelles Éclisses** | FHC M4 × 30 mm (Acier 10.9 / Inox) | 8 | **`2,8 à 3,0 N.m`** | Clé Allen 2,5 mm + Clé 7 mm | Tête conique à fleur 0,0 mm + Nylstop M4 (marge filet 10 mm) | `91294A200` |
 | **6. Moteur Cou RS-05 ➔ Plaque de Cou** | FHC M3 × 8 mm (Acier 10.9 / Inox) | 4 | **`1,2 à 1,4 N.m`** | Clé Allen 2,0 mm | Tête conique à fleur 0,0 mm dessous + Loctite 243 (PCD Ø 38,5 mm) | `91294A112` |
 | **7. Fourche Cou (Plaque ➔ Équerres Option C)** | CHC M4 × 16 mm (Acier 12.9 / Inox) | 4 | **`3,0 N.m`** | Clé Allen 3,0 mm + Clé 7 mm | Tête cylindrique + rondelle DIN 125A + Nylstop M4 sous équerre (rectangle 30×45 mm) | `91290A158` |
 | **8. Équerres Torse (Flancs Colonne Cou & Waist)** | CHC M4 × 20 mm (Acier 12.9 / Inox) | 6 | **`3,0 N.m`** | Clé Allen 3,0 mm + Clé 7 mm | Rondelles DIN 125A M4 (Cou & Waist) + Nylstop M4 | `91290A160` |
 | **9. Ventilateurs Tuyères 3D (Noctua NF-A4x20)** | CHC M3 × 16 mm (Inox) | 8 | **`0,6 à 0,8 N.m`** | Clé Allen 2,5 mm + Clé 5,5 mm | Silent-blocs antivibrations (serrage modéré) | `91290A115` |
 | **10. Coque & Habillage Extérieur (PA12-CF)** | Vis M4 sur Inserts Laiton Ruthex | 16 | **`1,2 à 1,5 N.m`** | Clé Allen 3,0 mm | Ancrage thermique laiton (ne pas sur-serrer) | `94180A353` |
-| **11. Fixation Traversante IMU Torse (Plaque Haute)** | CHC M2,5 × 14 mm (Inox A2) | 4 | **`0,5 à 0,6 N.m`** | Clé Allen 2,0 mm + Clé 5,0 mm | Entretoises Nylon 3 mm + Rondelles DIN 125A + Nylstop M2,5 flanc gauche | `92290A038` / `90631A105` |
+| **11. Fixation Traversante IMU Torse (Plaque Haute)** | CHC M2,5 × 14 mm (Inox A2) | 4 | **`0,5 à 0,6 N.m`** | Clé Allen 2,0 mm + Clé 5,0 mm | Entretoises Nylon 3 mm + Rondelles DIN 125A + Nylstop M2,5 flanc gauche | `91292A017` / `90631A105` |
 | **12. Goupillage Positif Colonne (Carré 80 × 80 mm, Z = ±40 mm)** | Goupilles ISO 8734 Ø 3 × 14 mm (m6) | 4 | **Ajustement serrant doux H7/m6** | Maillet d'ajusteur + chasse-goupille | Emmanchement mécanique positif sans jeu (bloque 100% translations et rotation, zéro tenon) | `98381A467` / `97395A310` |
+| **13. Cornières Hautes ➔ Brides Épaules RS-04 (Lumière Oblongue)** | CHC M4 × 30 mm (Acier 12.9 / Inox 18-8) | 2 | **`2,8 N.m`** ⭐ | Clé Allen 3,0 mm | Rondelles Nord-Lock M4 + Loctite 243 (adhérence frottement 675 N > 210 N anti-glissement oblong) | `91290A180` / `91292A130` |
+| **14. Cornières Hautes ➔ Ceinture Alu 3 mm (Z = 1235 mm)** | CHC M4 × 16 mm (Acier 12.9 / Inox 18-8) | 2 | **`1,8 N.m`** | Clé Allen 3,0 mm | Rondelle DIN 125A + Écrou Nylstop M4 logé dans Hex Pocket PA12-CF | `91290A154` / `91292A118` |
 
 ---
 
@@ -1249,13 +1346,15 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **Semelles Éclisses Colonne** | Alu 7075-T6 (Plaque 5,0 mm, 100 × 130 mm pleine sous insert) | 2 | **67,6 g** | **135,2 g** |
 | **Plaques Colonne Sagittale (Haute + Basse)** | Alu 7075-T6 (Plaque 5,0 mm, 94 mm de large évidée) | 2 | ~158 g | **~315,0 g** |
 | **Équerres de Liaison Cou & Waist** | Alu 6060-T6 (Profilé 30 × 30 × 3,0 mm, 2× 50 mm + 2× 90 mm) | 4 | 2× 22,8 g + 2× 40,5 g | **126,6 g** |
+| **Cornières Hautes Anti-Torsion (Gauche + Droite)** | Alu 7075-T651 (Profil nervuré en L, ép. 3,0 mm, validé CAO 27/10/2026) | 2 | **22,45 g** | **44,9 g** |
 | **Tuyères Convergentes 3D** | PA12-CF ou TPU 95A (ép. 1,6 mm, collerette Ø124 mm) | 2 | 24,0 g | **48,0 g** |
 | **Ventilateurs Épaules 40×40×20 mm** | Noctua NF-A4x20 5V PWM (datasheet officielle) | 2 | 20,0 g | **40,0 g** |
 | **Visserie Liaison Traverses & Sandwich Colonne** | Vis FHC M4, CHC M5 traversantes + rondelles & écrous Nylstop | Lot | - | **106,0 g** |
 | **Visserie Moteur Cou RS-05 (Fixation Directe Plaque)** | 4× Vis FHC M3 × 8 mm Classe 10.9 / Inox (ISO 10642) | 4 | ~0,7 g | **~2,8 g** |
 | **Visserie Équerres Cou & Waist (Option C)** | 4× CHC M4×16 + 6× CHC M4×20 + 10× Nylstop M4 + rondelles plates DIN 125A | Lot | - | **~30,0 g** |
 | **Visserie Stators RS-04 (8× M4×12 + 12× M4×25 + Nord-Lock)** | Vis CHC M4×12 & M4×25 + 20 paires rondelles Nord-Lock M4 | 20 | ~2,7 g | **~54,0 g** |
-| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Moteur RS-05 + Équerres + Ventilation** | - | - | **~1 635 g (~1,63 kg)** |
+| **Visserie Cornières Hautes (M4×30 + M4×16 + Nord-Lock + Nylstop)** | Vis CHC M4 cl. 12.9 / Inox + rondelles Nord-Lock M4 + Nylstop M4 | Lot | - | **~14,0 g** |
+| **TOTAL GÉNÉRAL DU BLOC HAUT DE TORSE** | **Structure Métallique Complète + Liaisons RS-04 + Moteur RS-05 + Équerres + Cornières Hautes + Ventilation** | - | - | **~1 694 g (~1,69 kg)** |
 
 > [!TIP]
 > **Consolidation Réelle CAO Fusion 360 (Août/Septembre 2026)** :  
@@ -1275,9 +1374,10 @@ Ce tableau constitue la fiche de référence rapide pour le montage et le serrag
 | **Bloc Alu 7075 T6 (Inserts)** | [Blockenstock — Bloc 15×80×80mm 7075 T6](https://www.blockenstock.fr/15x80x80mm-alu-7075-t6) | **15 × 80 × 80 mm** | **2** | **7,20 €** | **14,40 €** | 2 Inserts Carrés Colonne (55,8 × 55,8 × 15 mm), 1 insert par bloc |
 | **Tube Carré Alu 6060 T6** | [Blockenstock — Tube Carré 60×2×500mm](https://www.blockenstock.fr/60x2x500mm-tube-carre-6060-t6-c2x24054508) | **60 × 2 × 500 mm** | **1** | **12,80 €** | **12,80 €** | 2 Tronçons de Traverses de 80,05 mm (reste ~340 mm de réserve) |
 | **Cornière Alu 6060 T6 (Équerres)** | [Blockenstock — Cornière 30×30×3 lg 500mm](https://www.blockenstock.fr/30x30x3-lg500mm-corniere-alu-6060t6-c2x29839847) | **30 × 30 × 3 × 500 mm** | **1** | **4,80 €** | **4,80 €** | **100% des 4 Équerres Torse (2× Cou L=50 mm + 2× Waist L=90 mm + 210 mm réserve)** |
+| **Plat Alu 7075 T6 (Cornières & Tirants)** | [Blockenstock — Plat 20×100×500mm 7075](https://www.blockenstock.fr/20x100x500mm-alu-7075-t6-c2x40149808) | **20 × 100 × 500 mm** | **1** | **59,41 €** | **59,41 €** | **100% des 2 Cornières Hautes Nervurées (L = 60 mm) et des 2 Tirants Bas (L = 100 mm) usinés sur C500 (débit en 2 coupons de 240 mm)** |
 | **Ventilateurs 40×40×20 mm PWM** | [Noctua NF-A4x20 PWM (Amazon)](https://www.amazon.fr/dp/B071W9E6NW) | **NF-A4x20 PWM (5V ou 12V)** | **2** | **~15,00 €** | **~30,00 €** | 2 Ventilateurs haute pression statique pour tuyères d'épaules |
-| **Lot Visserie M3, M4 & M5** | [Bricovis](https://www.bricovis.fr) / [Vis-Express](https://www.vis-express.fr) / [Amazon](https://www.amazon.fr) / [RS](https://www.rs-particuliers.com) | **FHC M3×8, FHC M4×30, CHC M4×12/16/20/25, CHC M5×70, CHC M5×25, Nylstop M4/M5, Nord-Lock M4, Ruthex M4** | Lot complet | **~18,00 €** | **~18,00 €** | Visserie complète structure, moteurs, tuyères et coque |
-| **TOTAL PANIER MATIÈRE & THERMIQUE** | **Blockenstock + Quincaillerie** | - | - | - | **~177,36 €** | **Structure Torse Complète en Alu 7075/6060 + Circuit Aéraulique Intégré** |
+| **Lot Visserie M3, M4 & M5** | [Bricovis](https://www.bricovis.fr) / [Vis-Express](https://www.vis-express.fr) / [Amazon](https://www.amazon.fr) / [RS](https://www.rs-particuliers.com) | **FHC M3×8, FHC M4×30, CHC M4×12/16/20/25/30, CHC M5×70, CHC M5×25, Nylstop M4/M5, Nord-Lock M4, Ruthex M4** | Lot complet | **~24,00 €** | **~24,00 €** | Visserie complète structure, moteurs, cornières anti-torsion, tuyères et coque |
+| **TOTAL PANIER MATIÈRE & THERMIQUE** | **Blockenstock + Quincaillerie** | - | - | - | **~242,77 €** | **Structure Torse Complète en Alu 7075/6060 + Portique Anti-Torsion + Circuit Aéraulique Intégré** |
 
 ---
 
@@ -1302,14 +1402,25 @@ Pour obtenir des masses précises directement depuis la CAO Fusion 360, applique
 | **Colonne Sagittale (Plaque Haute + Basse)** | Aluminium 7075-T6 | 2,81 | `Aluminum, 7075-T6` |
 | **Équerres de Liaison (Cou & Waist)** | Aluminium 6060-T6 | 2,70 | `Aluminum, 6060` *(si absent : créer un Custom Material avec rho = 2,70)* |
 | **Tubes Carrés 60×60×2** | Aluminium 6060-T6 | 2,70 | `Aluminum, 6060` *(si absent : créer un Custom Material avec rho = 2,70)* |
-| **Coque PA12-CF** | PA12 + Fibres Carbone | 1,01 | `Nylon 12, Carbon Fiber Filled` *(ou Custom Material rho = 1,01)* |
-| **Tuyères Aérauliques** | PA12-CF ou TPU 95A | 1,01 / 1,22 | Idem coque ou Custom Material TPU (rho = 1,22) |
+| **Coque Torse Semi-porteuse (C1/C2)** | PA12-CF (Torse Infill 25% Gyroïde) | 0,62 | `PA12-CF (Torse Infill 25% Gyroïde)` *(Densité apparente calibrée FDM)* |
+| **Carénages Cosmétiques & Trappes** | PA12-CF (Cosmétique Infill 15% Gyroïde) | 0,55 | `PA12-CF (Cosmetique Infill 15% Gyroide)` *(Densité apparente calibrée FDM)* |
+| **Châssis Maître du Bassin (Pelvis)** | PA12-CF (Bassin Structurel Infill 75%) | 0,85 | `PA12-CF (Bassin Structurel Infill 75%)` *(Infill lourd haute tenue dynamique)* |
+| **Tuyères Aérauliques** | PA12-CF ou TPU 95A | 0,55 / 1,22 | Idem cosmétique ou Custom Material TPU (rho = 1,22) |
 
-#### 3. Création d'un Matériau Personnalisé (Si Absent de la Bibliothèque)
-1. Dans le panneau **Physical Material**, cliquer sur l'icône **+** (New Physical Material).
-2. Nommer le matériau (ex : `Alu 6060-T6 Custom`).
-3. Renseigner **uniquement la densité** (`2,70 g/cm3` pour le 6060-T6) dans le champ **Density**.
-4. Appliquer au body par glisser-déposer.
+#### 3. Méthodologie des Densités Apparentes FDM & Automatisation Python
+
+Dans Fusion 360, les modèles solides pleins B-Rep conduisent à surévaluer drastiquement la masse des composants composites de 30% à 50% par rapport aux pesées réelles en atelier (slicer FDM avec remplissage gyroïde de 15% à 25%).
+
+Une étude d'ingénierie dédiée détaille les calculs physiques et les gabarits de tranchage OrcaSlicer / Qidi Plus 4 :
+[STUDY_Densites_Apparentes_FDM_PA12-CF_Torse_et_Bassin.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Densites_Apparentes_FDM_PA12-CF_Torse_et_Bassin.md)
+
+Pour calibrer automatiquement l'ensemble de l'assemblage et obtenir le poids réaliste du robot sans manipulation manuelle, exécuter le script officiel :
+```text
+/Users/Shared/Mon Google Drive Physique/Documentation/Code/scripts/fusion360/ApplyPA12CFMaterials/ApplyPA12CFMaterials.py
+```
+
+Ce script applique les 3 densités apparentes (`0,55`, `0,62` et `0,85 g/cm3`), assigne la texture noire mat aux carénages, préserve les inserts métalliques, et affiche le bilan métrologique complet (Haut du Torse seul : ~6,8 kg hors batterie ; Bassin : ~7,0 kg ; Assemblage complet : ~17,37 kg contre 24,33 kg bruts).
 
 > [!TIP]
 > **Astuce Multi-Body** : Pour peser l'assemblage complet, sélectionner le composant racine (et non un body individuel) puis **Properties** ➔ **Mass**. Fusion 360 additionne automatiquement les masses de tous les bodies enfants avec leurs matériaux respectifs.
+

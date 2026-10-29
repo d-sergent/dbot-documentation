@@ -38,8 +38,11 @@
 - [5. Interfaces Mécaniques & Chaîne Cinématique Pelvienne](#5-interfaces-mécaniques--chaîne-cinématique-pelvienne)
   - [5.1 Interface Supérieure : Waist Plate 7075 (176,11 × 173,05 mm) & Équerres Basses L = 90,0 mm](#51-interface-supérieure--waist-plate-7075-17611--17305-mm--équerres-basses-l--900-mm)
     - [5.1.1 Cartographie Complète des Perçages, Vis CHC M4 & Pincement Sandwich](#511-cartographie-complète-des-perçages-vis-chc-m4--pincement-sandwich)
+    - [5.1.2 Prototypage des Livrables 2D & Fabrication Assistée par API (DXF, Blueprint SVG & Fiche Atelier)](#512-prototypage-des-livrables-2d--fabrication-assistée-par-api-dxf-blueprint-svg--fiche-atelier)
   - [5.2 Le Bloc Pelvien Inférieur (Pelvis Asimov Scalé 1.2776)](#52-le-bloc-pelvien-inférieur-pelvis-asimov-scalé-12776)
   - [5.3 Connexion avec les Hanches en Chaîne F-A-R (RS-04 Hip Pitch)](#53-connexion-avec-les-hanches-en-chaîne-f-a-r-rs-04-hip-pitch)
+    - [5.3.1 Intégration Stator RS-04 : Fixation Arrière Monoface & Dissipation Thermique Pelvienne](#531-intégration-stator-rs-04--fixation-arrière-monoface--dissipation-thermique-pelvienne)
+    - [5.3.2 Intégration Rotor RS-04 : Roulement Croisé Interne & Protection par Goupilles Calibrées](#532-intégration-rotor-rs-04--roulement-croisé-interne--protection-par-goupilles-calibrées)
   - [5.4 Système de Butée Mécanique de Lacet Arrière (+/- 95°) & Sécurisation Globale](#54-système-de-butée-mécanique-de-lacet-arrière---95--sécurisation-globale)
     - [5.4.1 Architecture de Sécurisation Globale à 3 Paliers (+/- 80°, +/- 82°, +/- 95°)](#541-architecture-de-sécurisation-globale-à-3-paliers---80---82---95)
     - [5.4.2 Preuve Cinématique de Non-Interférence des 4 Écrous Nylstop M4 sous Waist Plate](#542-preuve-cinématique-de-non-interférence-des-4-écrous-nylstop-m4-sous-waist-plate)
@@ -671,6 +674,46 @@ Pour l'usinage sur la fraiseuse CNC NestWorks C500 :
 
 ---
 
+#### 5.1.2 Prototypage des Livrables 2D & Fabrication Assistée par API (DXF, Blueprint SVG & Fiche Atelier)
+
+Afin de dépasser le cadre des simples captures d'écran raster et de valider la chaîne numérique complète jusqu'à l'usinage en atelier, la **Platine Waist 7075 (`Waist_Plate_7075`)** a servi de banc d'essai étalon pour prototyper les 3 nouveaux livrables 2D automatisables par script Python :
+
+##### 1. Livrable A : Export Vectoriel 1:1 DXF pour Fraiseuse CNC & Découpe Laser
+- **Principe d'automatisation API** :
+  - Le script Fusion 360 [`Export2DWaistPlate.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/fusion360/Export2DWaistPlate/Export2DWaistPlate.py) isole l'occurrence `Waist_Plate_7075:1`.
+  - Il identifie automatiquement sa face plane maîtresse (normale axiale Z, surface maximale `~154 cm2`).
+  - Il instancie une esquisse temporaire 2D (`comp.sketches.add(best_face)`), projette le contour extérieur avec congés R=10 mm et l'intégralité des perçages (`sketch.project(body)`), puis exporte le profil à l'échelle 1:1 stricte via `sketch.saveAsDXF()`.
+  - L'esquisse temporaire est immédiatement purgée de la timeline pour ne laisser aucune pollution paramétrique dans l'historique du modèle 3D.
+- **Fichier de fabrication généré** :
+  - Emplacement souverain : `Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/Waist_Plate_7075/Waist_Plate_7075_Usinage_1to1.dxf`
+  - Utilisation : Prêt pour FAO (Fusion CAM, CAMBam, FreeCAD Path) ou sous-traitance laser/eau (SendCutSend, John Steel).
+
+##### 2. Livrable B : Plan Technique Vectoriel Blueprint Côté Haute Résolution (SVG Normalisé)
+Le solveur géométrique B-Rep de Fusion 360 fournit instantanément les coordonnées réelles sans aucune approximation de mesure manuelle. Le schéma ci-dessous illustre le plan de fabrication complet généré au standard D-Bot (Dark Blueprint `#0f172a`, lignes de cotes dorées `#facc15`, alésage H7, coupe A-A cotée et cartouche d'ingénierie ISO 7200) :
+
+![Plan Technique Côté Waist Plate 7075](./media/blueprint_waist_plate_7075_cote.svg)
+
+- **Cotes dimensionnelles certifiées B-Rep** :
+  - Largeur hors-tout : `176,09 mm` (axe X).
+  - Profondeur hors-tout : `173,03 mm` (axe Y).
+  - Épaisseur nominale : `9,00 mm` (axe Z).
+  - Alésage central traversant roulement RB8016 : `Ø 80,00 mm H7 (+0,030 / 0,000 mm)`.
+  - Épaulement redan de centrage RB8016 : `Ø 89.62 mm`, profondeur `3,00 mm`.
+  - Perçages stator RobStride RS-06 : `4x Ø 4,50 mm` sur cercle primitif PCD `Ø 68,00 mm` à 45,0°.
+  - Perçages liaison Cornières Torse 7075 : `4x Ø 4,50 mm` lamés Ø 8,50 mm profondeur 3,20 mm.
+  - Masse brute extraite : `434,71 g` (Aluminium 7075-T6).
+
+##### 3. Livrable C : Fiche d'Atelier Visuelle avec Overlay de Cotes & Gamme de Contrôle
+Pour les opérations d'assemblage et de contrôle qualité en atelier, ce livrable fusionne le rendu visuel 3D avec les bulles de repérage fonctionnelles et la quincaillerie normalisée McMaster-Carr associée :
+
+![Fiche d'Atelier Visuelle Côtée Waist Plate 7075](./media/fiche_atelier_waist_plate_cotee.svg)
+
+##### 4. Livrable D : Plan Technique de Fabrication Imprimable (PDF Certifié)
+Pour le contrôle métrologique dimensionnel sur marbre d'atelier et la validation des tolérances géométriques (H7, parallélisme, faux-rond) :
+- [Plan de Fabrication Certifié Waist Plate 7075 (PDF)](./media/Waist_Plate_7075_Plan_Certifie.pdf)
+
+---
+
 ### 5.2 Le Bloc Pelvien Inférieur (Pelvis Asimov Scalé 1.2776)
 
 Le caisson pelvien sert de berceau structurel pour l'ensemble de la motricité inférieure et supporte l'interface du lacet de taille :
@@ -697,12 +740,91 @@ Le D-Bot V1.x utilise officiellement l'ordre cinématique **F-A-R (Flexion Pitch
 - **Maillon 1 (Hip Pitch — Moteur RS-04)** :
   - Deux moteurs **RobStride RS-04** (120 N.m pic, Ø 120 mm, 1 420 g) sont montés directement sur les flancs droit et gauche du bassin.
   - Leurs axes sont colinéaires à l'axe sagittal/médio-latéral transversal (`Y`).
-  - Le stator du RS-04 est rigidement boulonné au châssis pelvien.
+  - Le stator du RS-04 est rigidement boulonné au squelette structurel pelvien.
   - Le rotor du RS-04 porte le **L-Bracket Pitch-Roll** (usinage 7075-T6) qui descend vers le moteur RS-03 Roll.
-- **Avantage de cette implantation** :
-  - Les deux plus lourds moteurs de jambe (`2 × 1,42 kg = 2,84 kg`) sont immobiles par rapport au bassin. Ils n'ajoutent aucune inertie lors du swing latéral de jambe, permettant une dynamique de marche optimale.
+- **Avantage biomécanique décisif de cette implantation** :
+  - Les deux plus lourds moteurs de jambe (`2 × 1,42 kg = 2,84 kg`) sont immobiles par rapport au bassin. Ils n'ajoutent aucune inertie lors du swing latéral de jambe, permettant une dynamique de marche ultra-réactive.
 
-*(Consulter la représentation anatomique complète de la chaîne cinématique pelvienne F-A-R dans le **Panneau 2 du blueprint vectoriel** en tête de dossier).*
+---
+
+#### 5.3.1 Intégration Stator RS-04 : Fixation Arrière Monoface & Dissipation Thermique Pelvienne
+
+![Intégration Stator RobStride RS-04 — Fixation Arrière & Dissipation Thermique](./media/schema_integration_stator_rs04_pelvis_et_femur.svg)
+
+*Blueprint d'ingénierie vectoriel officiel — Intégration Stator RobStride RS-04 (DOC-ENG-RS04-ST). Panel 1 : Coupe axiale X-Z montrant l'emboîtement du bossage arrière Ø 94 mm dans l'alésage pilote Ø 95,0 mm H7 du flasque pelvien Alu 7075-T6 (5,0 mm), le contact franc à 0,0 mm sur l'épaulement Ø 120 mm, le film fin de pâte thermique Noctua NT-H1, et l'assemblage sécurisé par vis CHC M4 × 12 mm cl. 12.9 + rondelles Nord-Lock (pénétration 5,2 mm, garde de fond saine 0,8 mm dans le trou borgne de 6,0 mm). Panel 2 : Vue de face arrière du stator illustrant le PCD Ø 106,0 mm (10 trous M4 à 36°), les connecteurs CAN-FD / 48V Power et l'échappement silicone des câbles déporté. Panel 3 : Synthèse RDM (précharge 41 kN, M_frottement = 326 N.m >> 120 N.m, Sf = ×2,72, reprise tranchant 860 N par alésage) et bilan thermique constructeur (équivalence 345 × 345 mm).*
+
+##### 1. Géométrie du Stator & Justification de la Fixation Monoface Arrière Seule
+Le stator du moteur RobStride RS-04 présente une couronne de 10 taraudages borgnes M4 sur PCD Ø 106,0 mm sur sa face avant ET sur sa face arrière :
+- **Pourquoi la fixation arrière seule est-elle le standard retenu ?**
+  - **Reprise de l'Effort Tranchant Vertical (Choc de Marche 860 N)** : L'effort dynamique lors d'un impact au sol (`35 kg × 2,5g ≈ 860 N`) est repris à **100% par l'alésage de centrage pilote Ø 95,0 mm H7** usiné dans le flasque en Aluminium 7075-T6 (épaisseur 5,0 mm) qui coiffe le bossage arrière de Ø 94 mm du moteur. Le cisaillement direct sur les vis M4 est rigoureusement nul.
+  - **Tenue au Couple de Pointe en Torsion (120 N.m Pic)** : Les 10 vis CHC M4 classe 12.9 serrées au couple nominal de 3,0 N.m avec rondelles frein Nord-Lock M4 développent une précharge axiale unitaire de 4 100 N, soit un pincement total de :  
+    `F_precharge_totale = 10 × 4 100 N = 41 000 N (~4,1 tonnes de compression)`  
+    Sous un coefficient de frottement métal-métal `mu = 0,15`, le couple résistant transmissible par pure adhérence s'établit à :  
+    `M_frottement = 41 000 N × 0,15 × 0,053 m = 326 N.m`  
+    Face au couple de blocage maximal de l'actionneur (120 N.m), le facteur de sécurité au glissement est de :  
+    `Sf_torsion = 326 N.m / 120 N.m = ×2,72 ✅` (sans même compter la butée géométrique de centrage).
+  - **Abandon Définitif de la Cage H-Bracket Avant** : À l'instar de la démonstration menée sur les épaules (Torse V2), l'ajout d'une plaque avant enfermant le stator en sandwich apporterait 350 g de masse morte superflue par côté (soit **700 g sur le bassin**), compliquerait la maintenance atelier et confinerait la face avant du moteur. La fixation monoface arrière est **massivement surdimensionnée et optimale**.
+
+##### 2. Règle Inviolable de la Profondeur Borgne Stator (6,0 mm MAX)
+Le plan officiel constructeur (`RS04User Manual260112.pdf`, page 10) spécifie : `10-M4 EQS Blind Hole 6`.
+- **Empilement de Visserie Normalisée** :
+  - Flasque de support squelette pelvien en Aluminium 7075-T6 : épaisseur `e = 5,00 mm`.
+  - Rondelle frein à cames Nord-Lock M4 DIN 25201 (McMaster-Carr `92620A203`) : épaisseur `e_nl = 1,80 mm`.
+  - Épaisseur serrée sous tête : `5,00 + 1,80 = 6,80 mm`.
+  - **Sélection impérative de la vis : CHC M4 × 12 mm classe 12.9** (McMaster-Carr `91290A154` / Inox 316 `92290A142`).
+  - **Longueur d'engagement filetée effective dans le stator** :  
+    `L_eng = 12,00 - 6,80 =` **`5,20 mm`** (`1,30 × d`, prise de filet optimale).
+  - **Garde de sécurité au fond du trou borgne** :  
+    `Garde = 6,00 - 5,20 =` **`0,80 mm de vide franc`** (aucun risque de talonnage).
+  - ⚠️ **INTERDICTION FORMELLE** d'utiliser des vis CHC M4 × 16 mm sans entretoise sur une tôle de 5 mm : la pénétration de 9,2 mm provoquerait un talonnage destructeur au fond du taraudage, fissurant le carter ou écrasant les bobinages internes du stator.
+
+##### 3. Rôle de Plaque Dissipatrice Géante (Heat Sink) du Squelette Pelvien
+Le manuel RobStride spécifie qu'un couple continu de **40 N.m** requiert une plaque métallique dissipatrice de `345 × 345 mm` (ou `220 × 200 mm` pour 35 N.m) :
+- Les deux flasques latéraux verticaux en Aluminium 7075-T6, rigidement reliés à la Traverse pelvienne (`Traverse_Renfort_Bassin`, 617 g) et aux entretoises transversales, constituent une masse thermique d'aluminium de **plus de 1,5 kg**.
+- Cette masse offre plus de **1 200 cm² de surface d'échange continue**, assurant une dissipation passive largement supérieure aux exigences de banc d'essai de RobStride.
+- **Protocole d'Atelier** : L'application d'un film fin de pâte thermique non conductrice électrique (type *Noctua NT-H1* ou *Arctic MX-4*) sur la collerette d'appui Ø 120 mm et dans l'emboîtement Ø 95 mm élimine la résistance thermique de contact des micro-rugosités d'usinage (-40% de résistance thermique).
+- **Corridor de Câblage Déporté (Zéro Arbre Creux)** : Le faisceau 48V et CAN-FD sortant de l'encoche silicone arrière du RS-04 transite à travers une lumière oblongue usinée dans le flasque (`22 × 16 mm`, congés R = 2,0 mm et passe-fil souple TPU/EPDM) sans aucune pliure ni cisaillement.
+
+---
+
+#### 5.3.2 Intégration Rotor RS-04 : Roulement Croisé Interne & Protection par Goupilles Calibrées
+
+![Intégration Rotor RobStride RS-04 — Roulement Croisé Interne & Protection par Goupilles Calibrées](./media/schema_integration_rotor_rs04_decouplage_et_goupilles.svg)
+
+*Blueprint d'ingénierie vectoriel officiel — Intégration Rotor RobStride RS-04 (DOC-ENG-RS04-RT). Panel 1 : Coupe axiale détaillée illustrant le roulement à rouleaux croisés intégré d'origine dans le RS-04 (capacité au basculement 150-200 N.m), reprenant intégralement les moments dynamiques de hanche (50 à 90 N.m) sans nécessiter de roulement externe. Panel 2 : Motif d'accouplement du rotor montrant les 9 vis M5 sur PCD Ø 36,0 mm (traction pure) et les 5 alésages de goupilles sur PCD Ø 35,86 mm (2× Ø 5,0 mm + 3× Ø 6,0 mm ISO 8734 reprenant 100% du cisaillement sous 120 N.m). Panel 3 : Matrice de décision système comparant l'épaule (zéro roulement externe), la hanche (roulement interne + goupilles), le genou (courroie GT3 2,5:1) et la taille (roulement externe CRBH 8016 indispensable).*
+
+##### 1. Pourquoi le Rotor RS-04 Ne Nécessite Aucun Roulement Externe à la Hanche
+À la différence des petits servomoteurs ou des moteurs brushless simples montés sur de petits roulements à billes, le RobStride RS-04 est un **actionneur quasi-direct (QDD) à réducteur cycloïdal industriel** :
+- **Roulement à Rouleaux Croisés Interne Intégré** : L'étage de sortie du RS-04 intègre d'usine un roulement à rouleaux croisés de grand diamètre (piste moyenne ~ Ø 80 mm) avec galets cylindriques croisés à 90° dans une gorge en V trempée.
+- **Capacité de Charge Intégrée** : Ce roulement interne tolère une charge radiale de plus de 3 000 N et un **moment de basculement admissible (*tilting moment*) de 150 à 200 N.m**.
+- **Efforts Réels Mesurés à la Hanche Bipède (Robot 35 kg)** :
+  - En marche normale (foulée 1,2 m/s) : moment de basculement latéral de hanche `M_lat ≈ 35 à 55 N.m`.
+  - Lors d'un impact de talon ou d'une décélération vive (K_dyn = 2,0) : pic de basculement `M_pic ≈ 80 à 90 N.m`.
+  - Facteur de sécurité interne : `Sf = 160 N.m / 90 N.m =` **`×1,78 à ×2,20 ✅`**.
+- **Verdict d'Architecture Système** :
+  - Le roulement interne du RS-04 est **pleinement suffisant** pour encaisser les charges de hanche.
+  - Ajouter un gros roulement externe auxiliaire (type CRBH ou palier 4 points) à chaque hanche ajouterait ~300 g de masse morte par articulation (+600 g sur le bas du corps), allongerait l'envergure transversale des hanches et créerait un hyperstatisme axial extrêmement complexe à usiner et aligner.
+
+##### 2. La Règle d'Or RDM : Découplage Traction / Cisaillement par Goupilles Calibrées
+Si le roulement interne encaisse parfaitement les moments de basculement, la transmission du couple de torsion pur (120 N.m pic) et des à-coups angulaires ne doit **JAMAIS reposer sur le cisaillement des vis de fixation** :
+- **Motif Hybride Officiel du Rotor RS-04** :
+  - **9 Trous Borgnes Taraudés M5 (PCD Ø 36,0 ± 0,1 mm)** : profondeur utile minimale 6,5 mm (serrage par vis CHC M5 classe 12.9 à 5,5 N.m avec frein-filet Loctite 243).
+  - **5 Trous Alésés pour Goupilles de Centrage (PCD Ø 35,86 ± 0,025 mm)** :
+    - **2 alésages rectifiés `Ø 5,0 (+0 / -0,01) mm`**.
+    - **3 alésages rectifiés `Ø 6,0 (+0 / -0,01) mm`**.
+- **Principe de Découplage des Sollicitations** :
+  - Les **5 goupilles cylindriques rectifiées trempées ISO 8734 / DIN 6325** (tolérance m6 emmanchées serrées dans le L-bracket ou le fémur) reprennent **100% de l'effort de cisaillement** lors des accélérations de marche et des blocages de réducteur.
+  - Les **9 vis M5 travaillent exclusivement en traction pure**, maintenant un placage axial franc et rigide entre la face du rotor et le L-Bracket.
+  - Ce découplage garantit une durée de vie infinie sans matage de filet, sans desserrage sous vibrations et sans jeu angulaire (zéro backlash parasite).
+
+##### 3. Matrice de Décision Synthétique de l'Architecture D-Bot
+
+| Articulation | Moteur | Roulement Externe Dédié ? | Justification Mécanique & Cinématique |
+| :--- | :---: | :---: | :--- |
+| **Épaule Pitch** | RS-04 | **NON ❌ (0 g)** | Moments bras modérés (24 à 73 N.m). Roulement interne RS-04 largement suffisant. Zéro cage, gain de 368 g/bras. |
+| **Hanche Hip Pitch** | RS-04 | **NON ❌ (0 g)** | Moments de hanche (50 à 90 N.m) < 160 N.m admissibles. **5 goupilles ISO 8734 obligatoires** pour le couple de 120 N.m. |
+| **Genou Knee** | RS-04 | **NON ❌ (0 g)** | Transmission déportée courroie GT3 (ratio 2,5:1). Le rotor ne subit que la tension courroie (50 N). L'axe genou 50T a son propre palier. |
+| **Taille Waist Yaw** | RS-06 | **OUI ✅ (CRBH 8016)** | Torse complet suspendu (19,4 kg, bras de levier 300 mm) générant 56 à 220 N.m. Le petit RS-06 (36 N.m) exige un découplage axial absolu. |
 
 ### 5.4 Système de Butée Mécanique de Lacet Arrière (+/- 95°) & Sécurisation Globale
 
@@ -734,20 +856,38 @@ Afin de sécuriser physiquement et logiciellement la rotation de lacet de taille
      - *Architecture physique (Option A Recommandée Atelier)* : Petit plot usiné en **Aluminium 7075-T6** (`16,0 × 12,0 × 8,0 mm`, masse ~ 4,1 g) plaqué sous la face inférieure de la Waist Plate (`Z = 1036,42 mm`), descendant verticalement de **`8,00 mm`** (base du plot à `Z = 1028,42 mm`).
      - *Fixation par le dessus* : Fixé rigidement par **2 vis à tête fraisée FHC M4 × 14 mm classe 10.9** (McMaster-Carr `92125A196`, entraxe 10,0 mm, couple de serrage 2,5 N.m) vissées à travers la Waist Plate avec fraisures coniques à 90° usinées à fleur rigoureuse (saillie 0,0 mm).
      - *Variante compacte directe (Option B)* : Goupille cylindrique rectifiée trempée **ISO 8734 Ø 6,0 × 16 mm** (McMaster-Carr `97395A344`) emmanchée serrée H7/m6 sur 8,0 mm dans la Waist Plate, descendant de 8,0 mm en saillie.
-   - **Design Mécanique des Deux Butées Fixes (sur la Traverse Pelvienne)** :
+   - **Design Mécanique des Deux Plots de Butée Fixe (sur la Traverse Pelvienne — Option 2 Vis M4 Validée)** :
      - *Implantation angulaire* : Disposées au rayon **`R = 83,00 mm`** aux angles de choc `+95,0°` (gauche : `X = +56,46 mm`, `Y = +92,04 mm`) et `-95,0°` (droite : `X = +56,46 mm`, `Y = -73,32 mm`).
-     - *Noyau structural haute résistance* : Deux **vis CHC M5 × 20 mm classe 12.9** en acier allié bruni (McMaster-Carr `91290A244`, couple de serrage 6,5 N.m) taraudées sur 10 mm de profondeur dans les 12,5 mm d'Aluminium 7075-T6 de la Traverse.
-     - *Manchon amortisseur cinématique* : Chaque vis est coiffée d'un **manchon cylindrique en Polyuréthane élastomère 90 Shore A** (McMaster-Carr `8698K12`, Ø extérieur 12,0 mm, Ø intérieur 5,0 mm, hauteur 9,0 mm) reposant directement sur la Traverse. Le sommet de la butée culmine à **`Z = 1020,41 + 9,50 = 1029,91 mm`**.
+     - *Architecture physique (Plot Usiné en Alu 7075-T6)* : Deux plots usinés en **Aluminium 7075-T6** (`20,0 mm longueur circonférentielle × 12,0 mm largeur radiale × 9,50 mm hauteur`), reposant en contact plan direct sur la face supérieure rectifiée de la Traverse (`Z = 1020,41 mm`). Le sommet du plot culmine à **`Z = 1029,91 mm`**.
+     - *Double fixation haute résistance (Zéro moment de flexion)* : Chaque plot est traversé par **2 vis CHC M4 × 16 mm classe 12.9** (McMaster-Carr `91290A154`, entraxe `d = 12,0 mm`, couple de serrage 2,8 N.m) logées dans des lamages cylindriques (Ø 7,50 mm × prof. 4,50 mm, têtes de vis entièrement noyées) et taraudées sur 10 mm de profondeur dans les 12,5 mm d'Aluminium 7075-T6 de la Traverse.
+     - *Patin amortisseur frontal en Polyuréthane 90 Shore A* : La face avant du plot (faisant face à la trajectoire du doigt mobile) reçoit une plaquette / patin amortisseur en **Polyuréthane 90 Shore A** (McMaster-Carr `8698K12`, épaisseur 2,50 mm, largeur 20,0 mm, hauteur 9,0 mm) fixé par emboîtement en queue d'aronde ou collage structurel cyano-élastomère.
    - **Cinématique de Choc & Gardes Verticales Rigoureuses** :
-     - *Zone de contact franc (Recouvrement vertical)* : `h_contact = 1029,91 - 1028,42 =` **`1,49 mm (~ 1,5 à 2,0 mm)`**. Lors d'un choc à +/- 95°, la face verticale du doigt mobile frappe directement le flanc cylindrique du manchon PU à mi-hauteur.
+     - *Zone de contact franc (Recouvrement vertical)* : `h_contact = 1029,91 - 1028,42 =` **`1,49 mm (~ 1,5 à 2,0 mm)`**. Lors d'un choc à +/- 95°, la face verticale du doigt mobile frappe directement le patin amortisseur PU du plot fixe à mi-hauteur.
      - *Garde d'air sous le doigt mobile* : `Z_doigt_bas - Z_traverse = 1028,42 - 1020,41 =` **`+8,01 mm de vide vertical franc`** (aucun risque de frotter sur la Traverse).
-     - *Garde d'air au-dessus de la butée fixe* : `Z_waist_bas - Z_butee_haut = 1036,42 - 1029,91 =` **`+6,51 mm de vide vertical franc`** (aucun risque de frotter sous la Waist Plate).
-     - *Amortissement dynamique* : L'élasticité du PU 90 ShA amortit l'impact cinétique sur une déformation de 0,5 à 0,8 mm, évitant tout matage métal-métal et réduisant drastiquement le pic de décélération angulaire.
-   - **Résistance RDM & Facteur de Sécurité Extrême** :
-     - Sur le bras de levier de 83 mm, le couple de crête absolu du RS-06 (36 N.m) développe un effort tangentiel de :  
+     - *Garde d'air au-dessus du plot fixe* : `Z_waist_bas - Z_plot_haut = 1036,42 - 1029,91 =` **`+6,51 mm de vide vertical franc`** (aucun risque de frotter sous la Waist Plate).
+     - *Amortissement dynamique* : L'élasticité du PU 90 ShA dissipe l'impact cinétique sur une déformation élastique de 0,5 à 0,8 mm, évitant tout contact métal-métal violent et réduisant drastiquement le pic de décélération angulaire.
+   - **Résistance RDM & Avantage Décisif de la Double Fixation M4** :
+     - Sur le bras de levier de 83 mm, le couple de crête maximal du RS-06 (36 N.m) développe un effort tangentiel de :  
        `F_tang = 36 N.m / 0,083 m = 433,7 N`
-     - La résistance au cisaillement combinée des 2 vis FHC M4 classe 10.9 (ou de la goupille Ø 6 mm trempée) dépasse `F_adm > 25 000 N`.
-     - Le facteur de sécurité mécanique au choc brutal est de **`Sf = 25 000 / 433,7 = 57,6`**, garantissant une intégrité structurelle totale même en cas de blocage dynamique à pleine vitesse.
+     - Le moment de basculement au point d'impact (`h = 8,0 mm`) est de :  
+       `M_bascul = 433,7 N × 0,008 m = 3,47 N.m`
+     - Grâce à l'entraxe de `d = 12,0 mm` entre les deux vis M4, ce moment est intégralement repris en **couple de traction/compression pur** sur les vis et la semelle :  
+       `F_traction = M_bascul / d = 3,47 N.m / 0,012 m = 289,1 N`
+     - Face à la précharge nominale d'une vis M4 classe 12.9 (~ 5 500 N), cet effort ne représente que **`5,2 % de la précharge`** : aucun décollement de semelle, aucun jeu, et **zéro contrainte de flexion sur les corps de vis**.
+     - La résistance au cisaillement des 2 vis M4 classe 12.9 dépasse `F_cisaillement > 7 000 N`, conférant un facteur de sécurité au cisaillement de **`Sf = 16,2`**. Tenue mécanique indestructible sous chocs répétés.
+
+##### Cartographie Complète des Perçages, Fraisures & Taraudages d'Atelier (CNC C500 / Perçeuse à Colonne)
+
+Le tableau ci-dessous récapitule l'intégralité des coordonnées cartésiennes d'usinage, les outils de coupe et les profondeurs à appliquer sous Fusion 360 et sur la machine CNC NestWorks C500 :
+
+| Repère Opération | Pièce Usinée | Rôle & Composant | Coordonnées Cartésiennes (Repère Nœud Z = 0) | Diamètre & Outil CNC | Profondeur d'Usinage | Spécifications d'Atelier & Visserie |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **PERC-W01** | **Waist Plate 7075**<br>(ép. 6,00 mm) | **Trou 1 Fixation Doigt** (Droit) | `X = -33,77 mm`<br>`Y = +4,36 mm`<br>`Z_entrée = 1042,42 mm` | Foret carbure **`Ø 4,30 mm`** + Fraise conique 90° **`Ø 8,40 mm`** | Débouchant (6,0 mm) + Fraisure prof. 2,3 mm | Fraisure conique 90° usinée pour **noyage à fleur rigoureux à 0,0 mm** de la tête FHC M4 DIN 7991. |
+| **PERC-W02** | **Waist Plate 7075**<br>(ép. 6,00 mm) | **Trou 2 Fixation Doigt** (Gauche) | `X = -33,77 mm`<br>`Y = +14,36 mm`<br>`Z_entrée = 1042,42 mm` | Foret carbure **`Ø 4,30 mm`** + Fraise conique 90° **`Ø 8,40 mm`** | Débouchant (6,0 mm) + Fraisure prof. 2,3 mm | Entraxe linéaire avec Trou 1 = **`10,00 mm`**. Zéro saillie de tête sous le plastron. |
+| **TARA-W01** | **Doigt Mobile 7075**<br>(16 × 12 × 8 mm) | **2 Taraudages M4 Doigt** | `Centre : X = -33,77 mm, Y = +9,36 mm`<br>Entraxe `d = 10,00 mm` | Foret **`Ø 3,30 mm`** + Taraud machine **M4 × 0,7 mm (6H)** | Avant-trou prof. 7,0 mm / Filet utile prof. **`6,00 mm`** | Reçoit les 2 vis **FHC M4 × 14 mm classe 10.9** (McMaster `92125A196`, serrage 2,5 N.m). |
+| **TARA-W02** | **Traverse Pelvis 7075**<br>(ép. 12,50 mm) | **2 Taraudages Plot Fixe G** (+95°) | `Centre : X = +56,46 mm, Y = +92,04 mm`<br>Entraxe `d = 12,00 mm` | Foret carbure **`Ø 3,30 mm`** + Taraud machine **M4 × 0,7 mm (6H)** | Avant-trou prof. 10,0 mm / Filet utile prof. **`8,00 mm`** | Chanfrein d'entrée `0,5 mm × 45°`. Reçoit 2 vis **CHC M4 × 16 mm classe 12.9** (serrage 2,8 N.m). |
+| **TARA-W03** | **Traverse Pelvis 7075**<br>(ép. 12,50 mm) | **2 Taraudages Plot Fixe D** (-95°) | `Centre : X = +56,46 mm, Y = -73,32 mm`<br>Entraxe `d = 12,00 mm` | Foret carbure **`Ø 3,30 mm`** + Taraud machine **M4 × 0,7 mm (6H)** | Avant-trou prof. 10,0 mm / Filet utile prof. **`8,00 mm`** | Chanfrein d'entrée `0,5 mm × 45°`. Reçoit 2 vis **CHC M4 × 16 mm classe 12.9** (serrage 2,8 N.m). |
+| **LAMA-W01** | **2 Plots Fixes 7075**<br>(20 × 12 × 9,5 mm) | **4 Lamages Vis CHC M4** (2 par plot) | Entraxe circonférentiel `d = 12,00 mm`<br>Symétrie sur largeur 12 mm | Foret lisse **`Ø 4,50 mm`** + Fraise à lamer **`Ø 7,50 mm`** | Perçage débouchant 9,5 mm + Lamage prof. **`4,50 mm`** | Têtes cylindriques CHC M4 DIN 912 (H = 4,0 mm) **intégralement noyées** (saillie négative -0,5 mm). |
 
 4. **Palier 4 — Protection Anti-Guillotine du Faisceau Électrique (cf. Section 5.5)** :
    - Fente stator fixe de 69,05° dans la Traverse pelvienne combinée à la fente rotor mobile élargie à 125,05° dans la Waist Plate.
@@ -914,7 +1054,7 @@ L'ensemble des pièces mobiles et fixes du bloc pelvien et de la liaison de tail
 | **2. Waist Plate 7075 (176,11 × 173,05 × 9,02 mm)** | Face Supérieure — 4 Perçages Traversants Sandwich Ø 4,50 mm | Fraise à chanfreiner C500 | **`0,3 mm × 45°`** | Assise plane rigoureuse sous les ailes d'équerres basses sans discontinuité ni pont d'effort parasite. |
 | **2. Waist Plate 7075 (176,11 × 173,05 × 9,02 mm)** | Face Inférieure — Redan d'Appui Bague Intérieure (+3,00 mm, Ø 80 à Ø 92 mm) | Outil de surfaçage / tournage CNC | **`0,3 mm × 45°`** | Raccordement franc de l'épaulement assurant un contact plan exclusif avec l'acier de la bague intérieure du RB8016. |
 | **2. Waist Plate 7075 (176,11 × 173,05 × 9,02 mm)** | Face Inférieure — Débouché des 4 Perçages Traversants Ø 4,50 mm | Fraise à chanfreiner C500 | **`0,3 mm × 45°`** | Ébavurage propre éliminant tout copeau résiduel à proximité immédiate des chemins de roulement. |
-| **2. Waist Plate 7075 (176,11 × 173,05 × 9,02 mm)** | Face Inférieure — Alésage Doigt de Butée Arrière Mobile (R = 83,0 mm, X = -33,77 mm, Y = +9,36 mm) | Foret Ø 5,8 mm + Alésoir H7 Ø 6,00 mm prof. 8 mm | **`0,3 mm × 45°`** | Emmanchement serré précis de la goupille de butée ISO 8734 Ø 6,0 mm (saillie 8,0 mm vers le bas). |
+| **2. Waist Plate 7075 (176,11 × 173,05 × 9,02 mm)** | Face Supérieure — 2 Perçages & Fraisures 90° Fixation Doigt Mobile (R = 83,0 mm, X = -33,77 mm, Y = +4,36 et +14,36 mm) | Foret carbure Ø 4,30 mm + Fraise conique 90° Ø 8,40 mm | **Fraisure conique 90° `Ø 8,40 mm` (à fleur 0,0 mm)** | Noyage affleurant rigoureux à 0,0 mm pour les 2 vis FHC M4 × 14 mm DIN 7991 (zéro saillie de tête sous le plastron). |
 | **2. Waist Plate 7075 (176,11 × 173,05 × 9,02 mm)** | Encoche en U Frontale Débouchante Anti-Guillotine (largeur 50 mm débouchante vers l'avant) | Fraise de contournage CNC + toile émeri | **`0,5 mm × 45°` (des 2 côtés)** | **Zéro cisaillement** : Débouche vers l'avant, supprimant tout effet guillotine lors de la rotation lacet +/- 90°. |
 | **2. Waist Plate 7075 (176,11 × 173,05 × 9,02 mm)** | Contour Périmétrique Extérieur (176,11 × 173,05 mm) | Fraise de contournage C500 | **`0,5 mm × 45°`** | Cassage d'arête sur tout le pourtour supérieur et inférieur de la plaque. |
 | **3. Traverse / Platine d'Interface (Alu 7075-T6, 174,90 × 174,84 × 12,51 mm)** | Face Supérieure — Siège Logement Roulement (Ø 120,00 mm H7, prof. 3,0 mm) | Outil d'alésage circulaire CNC | **Congé fond `R = 0,5 mm` + Entrée `0,5 mm × 45°`** | L'entrée pilote à 45° facilite l'insertion sans forcer de la bague extérieure du CRBH 8016 ; le congé R = 0,5 mm garantit un appui au fond sans talonnage sur le rayon constructeur (r = 1,0 mm). |
@@ -923,7 +1063,7 @@ L'ensemble des pièces mobiles et fixes du bloc pelvien et de la liaison de tail
 | **3. Traverse / Platine d'Interface (Alu 7075-T6, 174,90 × 174,84 × 12,51 mm)** | Alésage Central Traversant (Passage Bossage Rotor RS-06 Ø 52 mm) | Outil d'alésage CNC Ø 74,56 mm | **`0,5 mm × 45°` (Haut & Bas)** | Dégagement très large sans contact (jeu radial 11,28 mm franc). |
 | **3. Traverse / Platine d'Interface (Alu 7075-T6, 174,90 × 174,84 × 12,51 mm)** | 4 Perçages Traversants d'Angles Fixation Pelvis (diagonales à 45°, R = 78,67 mm) | Fraise à chanfreiner 90° C500 | **Face sup : Fraisure conique 90° `Ø 10,40 mm × prof. 3,10 mm` (affleurante 0,0 mm)<br>Face inf : Chanfrein `0,3 mm × 45°`** | Noyage rigoureusement à fleur (0,0 mm) des têtes de vis FHC M5 × 25 mm : supprime toute surépaisseur sous la Waist Plate tournante et préserve 1,47 mm de pont matière face aux brides. Face inférieure ébavurée pour un appui plan franc sur le caisson pelvien PA12-CF. |
 | **3. Traverse / Platine d'Interface (Alu 7075-T6, 174,90 × 174,84 × 12,51 mm)** | 4 Taraudages Borgnes M4 Brides Étagées en L (coins à 45° sur PCD Ø 136,00 mm) | Foret carbure Ø 3,30 mm + fraise chanfrein | **Chanfrein entrée `0,4 mm × 45°`** | Évite le refoulement du premier filet taraudé lors du serrage des 4 vis CHC M4 × 16 mm des brides (couple 2,8-3,0 N.m). |
-| **3. Traverse / Platine d'Interface (Alu 7075-T6, 174,90 × 174,84 × 12,51 mm)** | 2 Taraudages Borgnes M5 Butées Fixes Arrière (+/- 95° à R = 83,0 mm) | Foret carbure Ø 4,20 mm prof. 12 mm + taraud machine M5 prof. 10 mm | **Chanfrein entrée `0,4 mm × 45°`** | Logement taraudé pour vis CHC M5 de butées d'arrêt avec manchons amortisseurs (X = +56,46 mm, Y = +92,04 mm et Y = -73,32 mm). |
+| **3. Traverse / Platine d'Interface (Alu 7075-T6, 174,90 × 174,84 × 12,51 mm)** | Face Supérieure — 4 Taraudages Borgnes M4 Butées Fixes Arrière (+/- 95° à R = 83,0 mm, 2 vis / plot) | Foret carbure Ø 3,30 mm prof. 10 mm + taraud machine M4 prof. 8 mm | **Chanfrein entrée `0,4 mm × 45°`** | Logements taraudés M4 (X = +56,46 mm, Y = +92,04 mm et Y = -73,32 mm, entraxe d = 12 mm) pour les 4 vis CHC M4 × 16 mm cl. 12.9 des 2 plots 7075 (couple 2,8 N.m, Sf cisaillement = 16,2). |
 | **3. Traverse / Platine d'Interface (Alu 7075-T6, 174,90 × 174,84 × 12,51 mm)** | Lumière Oblongue Traversée Faisceau (45,0 × 20,0 mm à X = +123,0 mm, Y = +9,36 mm) | Fraise hélicoïdale CNC + toile émeri | **`0,5 mm × 45°` (des 2 côtés)** | Corridor élargi laissant passer les connecteurs XT60/XT90 sans dessoudage et recevant le passe-fil souple TPU fendu. |
 | **3. Traverse / Platine d'Interface (Alu 7075-T6, 174,90 × 174,84 × 12,51 mm)** | Contour Extérieur Format Pelvis Scalé 1.2776 (174,90 × 174,84 mm × 12,51 mm) | Outil de fraisage / contournage | **`0,8 mm × 45°` (Haut & Bas)** | Élimination des arêtes vives extérieures et finition premium. |
 | **4. Moyeu d'Accouplement Sandwich (Alu 7075-T651)** | Fût Cylindrique de Centrage Bague Intérieure (Ø 80,00 mm h6 × hauteur 15,60 mm) | Outil de tournage CNC | **Chanfrein supérieur `0,5 mm × 45°` + Gorge fond `R = 0,3 mm`** | Insertion glissante juste dans l'alésage du roulement sans bavure et contact franc contre la collerette. |

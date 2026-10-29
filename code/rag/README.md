@@ -10,22 +10,48 @@ Ce sous-module gère le système RAG (Retrieval-Augmented Generation) du projet 
 | :--- | :--- |
 | **[`rag_cli.py`](file:///Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/rag_cli.py)** | Client MCP CLI pour le RAG D-Bot — lance le serveur MCP `dbot-rag` et interroge la base LightRAG via le protocole MCP.<br>`rag "moteur RS04 spécifications"` (ou `/opt/homebrew/bin/rag "votre recherche"`) |
 | **[`ask_rag.py`](file:///Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py)** | Script de recherche directe (sans MCP) dans la base RAG locale.<br>`/opt/homebrew/bin/python3.11 code/rag/ask_rag.py --search-only --mode naive "<votre recherche>"` |
-| **[`index_docs.py`](file:///Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py)** | Script de ré-indexation automatique de la documentation Markdown. À exécuter en fin de session de travail.<br>`/opt/homebrew/bin/python3.11 code/rag/index_docs.py` |
-| **[`mcp_lightrag_server.py`](file:///Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/mcp_lightrag_server.py)** | Serveur MCP exposant 4 outils : `rag_search`, `rag_get_context`, `rag_analyze_impact`, `rag_list_topics`. |
+| **[`index_docs.py`](file:///Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py)** | Script de ré-indexation par lots (Solution 1). Supporte `--provider antigravity` avec `gemini-3.8-flash` et raisonnement économe.<br>`/opt/homebrew/bin/python3.11 code/rag/index_docs.py --provider antigravity --thinking-level low` |
+| **[`mcp_lightrag_server.py`](file:///Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/mcp_lightrag_server.py)** | Serveur MCP exposant 7 outils : `rag_search`, `rag_get_context`, `rag_analyze_impact`, `rag_list_topics`, `rag_audit_integrity`, `rag_resolve_audit`, `rag_index_document`. |
 
 ---
 
-## ⚡ Recherche via le RAG D-Bot (MCP)
+## ⚡ Recherche, Indexation & Contrôle d'Intégrité via le RAG D-Bot (MCP)
 
 ```bash
 # Recherche un sujet précis (mode local/naive — retrieval pur, pas de LLM requis)
 rag "moteur d'épaule RS04 spécifications"
 
-# Recherche sémantique hybride (nécessite vLLM en local pour la synthèse LLM)
-rag --search "impact d'une hausse de masse du bras sur la course de l'épaule"
+# Recherche sémantique hybride (délégation Antigravity par défaut, ou --llm-mode internal pour vLLM)
+rag --search "stratégie de bus CAN-FD"
+
+# Indexation au fil de l'eau d'un document modifié (Solution 2 - Économe en quota Antigravity)
+rag --index "01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_Synthese_Mecanique_Torse.md"
+rag --index "01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_Synthese_Mecanique_Torse.md" --thinking-level minimal
+
+# Analyse d'impact systémique (cause à effet entre composants)
+rag --impact "hausse de masse du torse sur la course de l'épaule"
+rag --impact "hausse de masse du torse" --llm-mode internal
 
 # Liste des thématiques indexées
 rag --topics "moteurs"
+
+# Audit d'intégrité via votre abonnement Antigravity (mode par défaut, 0 token externe)
+rag --audit cinematique_moteurs
+
+# Audit d'intégrité via le modèle LLM interne vLLM / OpenRouter (comme avant)
+rag --audit cinematique_moteurs --llm-mode internal
+
+# Audit d'intégrité global (tous les domaines)
+rag --audit
+
+# Résolution des contradictions et génération du plan de correction (PLAN_CORRECTION.md)
+rag --resolve --from-json
+
+# Ré-indexation par lots de fin de session (Antigravity gemini-3.8-flash en mode low par défaut)
+/opt/homebrew/bin/python3.11 code/rag/index_docs.py
+
+# Optionnel : forcer l'ancien mode multi-modèles gratuits (Online / OpenRouter)
+/opt/homebrew/bin/python3.11 code/rag/index_docs.py --provider online
 ```
 
 Le wrapper `rag` est installé dans `/opt/homebrew/bin/rag` et disponible depuis le shell.
@@ -46,14 +72,34 @@ Lorsque Kilo tourne en tant qu'**agent autonome continu** (`kilo-auto/free`), le
 
 Le serveur MCP a un **fallback automatique** en mode `naive` (retrieval pur, vectoriel + reranking) si le serveur vLLM local n'est pas disponible → aucune dépendance LLM pour les recherches de spécifications.
 
-### Modes de recherche
+### Modes de recherche & Contrôle Qualité
 
 | Mode | Outil MCP | LLM requis | Usage |
 |---|---|---|---|
 | Contexte précis | `rag_get_context` (local) | Non (fallback naive) | Spécifications, valeurs numériques |
-| Recherche sémantique | `rag_search` (hybrid) | Oui (vLLM) | Questions générales |
+| Recherche sémantique | `rag_search` (hybrid) | Oui si synthèse demandée | Questions générales |
 | Analyse d'impact | `rag_analyze_impact` (global) | Oui (vLLM) | Cause → effet entre composants |
 | Liste thématiques | `rag_list_topics` (naive) | Non | Explorer les sujets indexés |
+| Audit d'intégrité | `rag_audit_integrity` (global) | Non avec `llm_mode='antigravity'` (utilise abonnement IDE) / Oui si `'internal'` | Détection des contradictions et désynchronisations |
+| Résolution d'audit | `rag_resolve_audit` (naive/local) | Non (retrieval pur) | Localisation des fichiers contradictoires & plan de correction |
+| Indexation au fil de l'eau | `rag_index_document` (insertion) | Oui (Antigravity SDK `gemini-3.8-flash`) | Mise à jour immédiate d'un document modifié (quelques secondes) |
+
+### 🛡️ Optimisation des Quotas d'Abonnement Antigravity (Raisonnement Économe)
+
+Pour préserver vos quotas d'abonnement Antigravity lors des extractions d'entités par LightRAG :
+1. **Modèle de référence** : `gemini-3.8-flash` (recommandé officiellement par Google pour le meilleur ratio vitesse / consommation de quota).
+2. **Niveaux d'effort de raisonnement (*Thinking Level*)** :
+   - `--thinking-level minimal` : Coupe les tokens de réflexion superflus ("thought tokens"). Le modèle extrait directement les entités et relations au format JSON. Réduction de plus de 80 % de la consommation de quota par rapport à un mode standard.
+   - `--thinking-level low` : Réflexion concise ultra-courte (mode par défaut recommandé).
+3. **Cadencement anti-saturation (Rate-Limit 429)** :
+   - Parallélisme séquentiel strict (`max_async = 1`) avec pause de courtoisie (2,5 s) pour ne jamais saturer le débit de requêtes.
+
+### 📄 Traitement Intelligent des Notices & Manuels PDF (Docling)
+
+Pour les notices techniques et manuels constructeur PDF (RobStride `RS00` à `RS06`, alimentations Wanptek, capteurs MLX90393) :
+- **Moteur principal** : **Docling** (IBM Research) avec modèle **TableFormer**.
+- **Reconstruction des tableaux** : extrait avec exactitude les tableaux de caractéristiques (couples, tensions, brochages JST, registres CANopen) au format tableau Markdown lisible par le graphe.
+- **Résilience** : bascule automatique sur `pypdf` en cas d'indisponibilité pour garantir la continuité de service.
 
 ### Démarrer le serveur vLLM (optionnel — pour le mode hybride)
 

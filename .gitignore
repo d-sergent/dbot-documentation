@@ -28,6 +28,20 @@ models_cache/
 # IDE / Extensions
 .continue/
 
-# Heavy CAD binary assemblies (> 100 MB GitHub limit)
+# Heavy CAD binary assemblies & FreeCAD backup files
 *.FCStd
+*.FCBak
+*.FCStd1
+
+# Ephemeral scratchpad directories
+scratch/
+**/scratch/
+
+# Temporary CAD snapshots (stored in Exports_CAO_DBot/Visual_Snapshots)
+**/cad_views/
+media/cad_views/
+
+# Heavy metrology raw JSON dumps (sovereign copy in Exports_CAO_DBot/Audits)
+*AUDIT_METROLOGIQUE_*.json
+
 

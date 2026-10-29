@@ -1,0 +1,269 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="1200" height="820" style="background:#0f172a; font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Grilles et motifs -->
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#1e293b" stroke-width="0.8"/>
+    </pattern>
+    <pattern id="dots" width="15" height="15" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.8" fill="#334155"/>
+    </pattern>
+
+    <!-- Dégradés de matériaux -->
+    <linearGradient id="gradAlu" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="gradPA12" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6b21a8"/>
+    </linearGradient>
+    <linearGradient id="gradPlastron" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="gradGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="gradSteel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#cbd5e1"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Arrière-plan global quadrillé -->
+  <rect width="1200" height="820" fill="#0f172a"/>
+  <rect width="1200" height="820" fill="url(#grid)"/>
+
+  <!-- En-tête principal -->
+  <g transform="translate(30, 24)">
+    <rect width="1140" height="60" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.2"/>
+    <text x="24" y="36" fill="#38bdf8" font-size="20" font-weight="700" letter-spacing="0.5">D-BOT — SOLUTION C : ARCHITECTURE CEINTURE ALUMINIUM 3 MM &amp; DEMI-FUTS C1/C2</text>
+    <text x="24" y="52" fill="#94a3b8" font-size="12">Système de jonction médiane invisible par ceinture 7075-T6, œillets internes &amp; écrous Nylstop intégrés | Z_joint = 1235 mm</text>
+    <rect x="990" y="16" width="130" height="28" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1"/>
+    <text x="1055" y="34" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle">REVUE CAO v112</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- PANEL 1 : VUE EN ÉLÉVATION / COUPE (GAUCHE) -->
+  <!-- ========================================== -->
+  <g transform="translate(30, 100)">
+    <!-- Carte Panel -->
+    <rect width="400" height="680" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.2"/>
+    <rect width="400" height="36" rx="10" fill="#334155" fill-opacity="0.6"/>
+    <text x="16" y="24" fill="#f8fafc" font-size="13" font-weight="700">PANEL 1 : ÉLÉVATION DU TORSE &amp; ÉTAGES C1 / C2</text>
+
+    <!-- Zone de dessin robot -->
+    <g transform="translate(30, 50)">
+      <!-- Lignes de repère Z globales -->
+      <line x1="-10" y1="30" x2="350" y2="30" stroke="#64748b" stroke-dasharray="3,3" stroke-width="1"/>
+      <text x="355" y="34" fill="#94a3b8" font-size="10">Z = 1472 (Cou)</text>
+
+      <line x1="-10" y1="120" x2="350" y2="120" stroke="#64748b" stroke-dasharray="3,3" stroke-width="1"/>
+      <text x="355" y="124" fill="#94a3b8" font-size="10">Z = 1303 (Traverse Epaules)</text>
+
+      <line x1="-10" y1="210" x2="350" y2="210" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="355" y="214" fill="#38bdf8" font-size="11" font-weight="700">Z = 1235 (Plan de joint)</text>
+
+      <line x1="-10" y1="460" x2="350" y2="460" stroke="#64748b" stroke-dasharray="3,3" stroke-width="1"/>
+      <text x="355" y="464" fill="#94a3b8" font-size="10">Z = 1042 (Waist Plate)</text>
+
+      <!-- Étage C1 : Coque haute PA12-CF (violette) -->
+      <path d="M 60,30 L 140,30 L 175,70 L 185,120 L 180,210 L 20,210 L 15,120 L 25,70 Z" 
+            fill="url(#gradPA12)" stroke="#d8b4fe" stroke-width="1.8" fill-opacity="0.85"/>
+      <text x="100" y="65" fill="#f8fafc" font-size="11" font-weight="700" text-anchor="middle">Dôme Cou &amp; Epaules Fermé</text>
+      <text x="100" y="80" fill="#e9d5ff" font-size="9" text-anchor="middle">(Arche supérieure rigide)</text>
+
+      <!-- Baie ventrale ouverte de C1 -->
+      <rect x="42" y="110" width="116" height="98" rx="8" fill="#0f172a" stroke="#a855f7" stroke-dasharray="4,3" stroke-width="1.2"/>
+      <text x="100" y="150" fill="#a855f7" font-size="11" font-weight="700" text-anchor="middle">Baie Ventrale C1</text>
+      <text x="100" y="165" fill="#c084fc" font-size="9" text-anchor="middle">(Accès aux 6 vis M5 &amp; IMU)</text>
+
+      <!-- Plastron pectoral bleu (fermeture de baie C1) représenté en surimpression décalée -->
+      <path d="M 40,110 L 160,110 L 158,208 L 42,208 Z" 
+            fill="url(#gradPlastron)" fill-opacity="0.4" stroke="#60a5fa" stroke-dasharray="2,2" stroke-width="1.2"/>
+      <text x="100" y="195" fill="#93c5fd" font-size="9" font-weight="600" text-anchor="middle">Plastron Pectoral Bleu (Fermeture)</text>
+
+      <!-- CEINTURE ALUMINIUM 3 mm (SUR LE PLAN Z = 1235) -->
+      <rect x="15" y="208" width="170" height="6" rx="2" fill="url(#gradAlu)" stroke="#f0f9ff" stroke-width="1"/>
+      <circle cx="30" cy="211" r="2.5" fill="#0f172a" stroke="#ffffff" stroke-width="0.8"/>
+      <circle cx="170" cy="211" r="2.5" fill="#0f172a" stroke="#ffffff" stroke-width="0.8"/>
+      <!-- Callout ceinture -->
+      <line x1="185" y1="211" x2="250" y2="185" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="250" cy="185" r="2.5" fill="#38bdf8"/>
+      <text x="256" y="188" fill="#38bdf8" font-size="10" font-weight="700">Ceinture Alu 3 mm (7075-T6)</text>
+      <text x="256" y="200" fill="#7dd3fc" font-size="9">Invisible de l'extérieur</text>
+
+      <!-- Étage C2 : Coque basse PA12-CF (violette) -->
+      <path d="M 20,214 L 180,214 L 165,360 L 145,460 L 55,460 L 35,360 Z" 
+            fill="url(#gradPA12)" stroke="#d8b4fe" stroke-width="1.8" fill-opacity="0.85"/>
+      <text x="100" y="320" fill="#f8fafc" font-size="11" font-weight="700" text-anchor="middle">Demi-Fût Inférieur C2</text>
+
+      <!-- Panier batterie dans C2 -->
+      <rect x="45" y="235" width="110" height="135" rx="6" fill="url(#gradGold)" fill-opacity="0.75" stroke="#fef08a" stroke-width="1.2"/>
+      <text x="100" y="295" fill="#451a03" font-size="11" font-weight="800" text-anchor="middle">PANIER BATTERIE</text>
+      <text x="100" y="310" fill="#78350f" font-size="9" font-weight="600" text-anchor="middle">Tiroir coulissant Z 1138-1279</text>
+
+      <!-- Colonne vertébrale centrale 7075 -->
+      <rect x="97" y="30" width="6" height="430" fill="url(#gradAlu)" stroke="#0284c7" stroke-width="0.8"/>
+
+      <!-- Cotes de hauteur -->
+      <line x1="-5" y1="30" x2="-5" y2="210" stroke="#e2e8f0" stroke-width="1.2"/>
+      <text x="-12" y="125" fill="#e2e8f0" font-size="10" font-weight="700" text-anchor="end">H_C1 = 237.8 mm</text>
+      <text x="-12" y="137" fill="#38bdf8" font-size="9" text-anchor="end">(&lt; 270 mm Qidi)</text>
+
+      <line x1="-5" y1="214" x2="-5" y2="460" stroke="#e2e8f0" stroke-width="1.2"/>
+      <text x="-12" y="340" fill="#e2e8f0" font-size="10" font-weight="700" text-anchor="end">H_C2 = 192.6 mm</text>
+      <text x="-12" y="352" fill="#38bdf8" font-size="9" text-anchor="end">(&lt; 270 mm Qidi)</text>
+    </g>
+
+    <!-- Résumé métrologique bas Panel 1 -->
+    <rect x="16" y="580" width="368" height="84" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="28" y="600" fill="#38bdf8" font-size="11" font-weight="700">MÉTRIQUES DE FABRICATION :</text>
+    <text x="28" y="618" fill="#cbd5e1" font-size="10">• Les deux pièces C1 et C2 s'impriment debout en 1 seule passe sur Qidi Plus 4.</text>
+    <text x="28" y="633" fill="#cbd5e1" font-size="10">• Pas de colle, pas de soudure : liaison 100% démontable et repositionnable.</text>
+    <text x="28" y="648" fill="#cbd5e1" font-size="10">• Hauteur totale torse : 430.4 mm | Masse ceinture alu 3 mm : ~115 g.</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- PANEL 2 : VUE DE DESSUS DE LA CEINTURE (CENTRE) -->
+  <!-- ========================================== -->
+  <g transform="translate(450, 100)">
+    <rect width="360" height="680" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.2"/>
+    <rect width="360" height="36" rx="10" fill="#334155" fill-opacity="0.6"/>
+    <text x="16" y="24" fill="#f8fafc" font-size="13" font-weight="700">PANEL 2 : CEINTURE ALUMINIUM 3 MM (VUE DESSUS)</text>
+
+    <!-- Vue en plan 2D de la ceinture découpée jet d'eau -->
+    <g transform="translate(35, 60)">
+      <!-- Fond du cadre profilé -->
+      <!-- Contour extérieur torse ~293 x 240 mm (échangés ici : Y=293 mm, X=240 mm) -->
+      <path d="M 50,40 C 100,15 190,15 240,40 C 285,75 295,190 270,260 C 235,320 55,320 20,260 C -5,190 5,75 50,40 Z" 
+            fill="url(#gradAlu)" stroke="#38bdf8" stroke-width="1.5" fill-opacity="0.85"/>
+      
+      <!-- Évidement intérieur (largeur de bande de 16 mm) -->
+      <path d="M 60,56 C 105,33 185,33 230,56 C 268,88 276,182 254,246 C 223,300 67,300 36,246 C 14,182 22,88 60,56 Z" 
+            fill="#1e293b" stroke="#0284c7" stroke-width="1.2"/>
+
+      <!-- Échancrure arrière pour dégagement du panier batterie (Profil en C) -->
+      <rect x="85" y="280" width="120" height="35" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-dasharray="3,3" stroke-width="1.2"/>
+      <text x="145" y="302" fill="#fbbf24" font-size="9" font-weight="700" text-anchor="middle">Passage Batterie (Arrière)</text>
+
+      <!-- Colonne centrale traversante -->
+      <rect x="141" y="150" width="8" height="40" fill="#38bdf8" stroke="#ffffff" stroke-width="0.8"/>
+      <text x="145" y="142" fill="#7dd3fc" font-size="9" text-anchor="middle">Colonne 94x5</text>
+
+      <!-- 6 Trous lisses Ø 4.5 mm pour passage des vis de jonction C1-Ceinture-C2 -->
+      <!-- Dos (2 vis) -->
+      <circle cx="100" cy="30" r="4.5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.5"/>
+      <circle cx="190" cy="30" r="4.5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.5"/>
+
+      <!-- Flanc Droit (2 vis) -->
+      <circle cx="270" cy="120" r="4.5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.5"/>
+      <circle cx="260" cy="210" r="4.5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.5"/>
+
+      <!-- Flanc Gauche (2 vis) -->
+      <circle cx="20" cy="120" r="4.5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.5"/>
+      <circle cx="30" cy="210" r="4.5" fill="#0f172a" stroke="#f8fafc" stroke-width="1.5"/>
+
+      <!-- Cotations Panel 2 -->
+      <line x1="5" y1="345" x2="285" y2="345" stroke="#94a3b8" stroke-width="1"/>
+      <text x="145" y="360" fill="#f8fafc" font-size="11" font-weight="600" text-anchor="middle">Largeur Y = 281.4 mm</text>
+
+      <line x1="-15" y1="20" x2="-15" y2="320" stroke="#94a3b8" stroke-width="1"/>
+      <text x="-25" y="175" fill="#f8fafc" font-size="11" font-weight="600" text-anchor="middle" transform="rotate(-90 -25 175)">Profondeur X = 240.5 mm</text>
+    </g>
+
+    <!-- Fiche technique Panel 2 -->
+    <g transform="translate(16, 460)">
+      <rect width="328" height="204" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="16" y="24" fill="#38bdf8" font-size="11" font-weight="700">SPÉCIFICATION CEINTURE :</text>
+      <text x="16" y="44" fill="#cbd5e1" font-size="10">• Alliage : Aluminium 7075-T6 (ou 6082-T6)</text>
+      <text x="16" y="62" fill="#cbd5e1" font-size="10">• Épaisseur : 3,0 mm brut standard tôle</text>
+      <text x="16" y="80" fill="#cbd5e1" font-size="10">• Largeur de bande : 16,0 mm continu</text>
+      <text x="16" y="98" fill="#cbd5e1" font-size="10">• Perçages : 6 x trous lisses Ø 4,5 mm</text>
+      <text x="16" y="116" fill="#cbd5e1" font-size="10">• Tolérance usinage : +/- 0,1 mm (Jet d'eau)</text>
+      <text x="16" y="134" fill="#cbd5e1" font-size="10">• Chanfreins : 0,3 mm x 45° ébavuré entrée/sortie</text>
+      <text x="16" y="152" fill="#10b981" font-size="10" font-weight="700">✓ ZÉRO TARAUDAGE (Vis traversantes libres)</text>
+      <text x="16" y="170" fill="#10b981" font-size="10" font-weight="700">✓ MASSE TOTALE ESTIMÉE : 115 g</text>
+      <text x="16" y="188" fill="#10b981" font-size="10" font-weight="700">✓ PLANÉITÉ PARFAITE (Anti-voilage PA12)</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- PANEL 3 : ZOOM COUPE DU SANDWICH D'ŒILLET (DROITE) -->
+  <!-- ========================================== -->
+  <g transform="translate(830, 100)">
+    <rect width="340" height="680" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.2"/>
+    <rect width="340" height="36" rx="10" fill="#334155" fill-opacity="0.6"/>
+    <text x="16" y="24" fill="#f8fafc" font-size="13" font-weight="700">PANEL 3 : SANDWICH D'ŒILLET &amp; HEX POCKET</text>
+
+    <!-- Schéma zoomé de l'empilement coupe verticale -->
+    <g transform="translate(25, 60)">
+      <!-- Ligne de surface extérieure coque (à gauche) -->
+      <line x1="20" y1="20" x2="20" y2="400" stroke="#94a3b8" stroke-width="2"/>
+      <text x="12" y="200" fill="#94a3b8" font-size="9" text-anchor="middle" transform="rotate(-90 12 200)">EXTÉRIEUR ROBOT (Lisse &amp; Invisible)</text>
+
+      <!-- 1. Demi-coque C1 haute + son œillet vers l'intérieur (violet) -->
+      <path d="M 20,40 L 40,40 L 40,110 L 220,110 L 220,160 L 40,160 L 40,178 L 20,178 Z" 
+            fill="url(#gradPA12)" stroke="#c084fc" stroke-width="1.2"/>
+      <text x="130" y="140" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">Œillet C1 (Haut, 5 mm)</text>
+
+      <!-- Trou lisse de C1 -->
+      <rect x="110" y="110" width="40" height="50" fill="#1e293b" stroke="#475569" stroke-width="0.8"/>
+
+      <!-- 2. Plaque ceinture Aluminium 3 mm (intercalaire cyan) -->
+      <rect x="25" y="180" width="220" height="24" rx="2" fill="url(#gradAlu)" stroke="#f0f9ff" stroke-width="1.2"/>
+      <text x="130" y="196" fill="#0f172a" font-size="10" font-weight="800" text-anchor="middle">Ceinture Alu 3.0 mm (7075-T6)</text>
+      <!-- Trou lisse dans alu -->
+      <rect x="110" y="180" width="40" height="24" fill="#1e293b" stroke="#475569" stroke-width="0.8"/>
+
+      <!-- 3. Demi-coque C2 basse + son œillet vers l'intérieur (violet) -->
+      <path d="M 20,206 L 40,206 L 40,224 L 220,224 L 220,284 L 40,284 L 40,360 L 20,360 Z" 
+            fill="url(#gradPA12)" stroke="#c084fc" stroke-width="1.2"/>
+      <text x="130" y="246" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">Œillet C2 (Bas, 6 mm)</text>
+      <!-- Trou lisse C2 -->
+      <rect x="110" y="224" width="40" height="60" fill="#1e293b" stroke="#475569" stroke-width="0.8"/>
+
+      <!-- POCHE HEXAGONALE (HEX POCKET) DANS C2 -->
+      <rect x="100" y="254" width="60" height="30" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="130" y="272" fill="#fbbf24" font-size="8" font-weight="700" text-anchor="middle">HEX POCKET 7mm</text>
+
+      <!-- 4. VIS CHC M4 TRAVERSANTE (Classe 12.9) -->
+      <!-- Tête CHC en haut -->
+      <rect x="115" y="70" width="30" height="38" rx="2" fill="url(#gradSteel)" stroke="#f8fafc" stroke-width="1"/>
+      <text x="130" y="94" fill="#0f172a" font-size="8" font-weight="800" text-anchor="middle">M4</text>
+      <!-- Rondelle DIN 125A -->
+      <rect x="110" y="106" width="40" height="4" fill="#e2e8f0" stroke="#64748b" stroke-width="0.8"/>
+      <!-- Tige filetée M4 descendant à travers tout le sandwich -->
+      <rect x="122" y="108" width="16" height="175" fill="url(#gradSteel)" stroke="#475569" stroke-width="0.8"/>
+
+      <!-- ÉCROU NYLSTOP M4 (DIN 985) NOYÉ DANS LA HEX POCKET -->
+      <path d="M 105,258 L 155,258 L 155,282 L 105,282 Z" fill="url(#gradSteel)" stroke="#ffffff" stroke-width="1"/>
+      <!-- Bague polyamide bleue de l'écrou nylstop -->
+      <rect x="112" y="276" width="36" height="5" fill="#3b82f6"/>
+      <text x="130" y="270" fill="#0f172a" font-size="7" font-weight="800" text-anchor="middle">NYLSTOP M4</text>
+
+      <!-- Ligne de joint extérieure invisible -->
+      <line x1="20" y1="192" x2="25" y2="192" stroke="#38bdf8" stroke-width="2"/>
+      <circle cx="20" cy="192" r="3" fill="#38bdf8"/>
+      <text x="12" y="196" fill="#38bdf8" font-size="8" font-weight="700" text-anchor="end">Joint Z=1235</text>
+    </g>
+
+    <!-- Fiche explicative Hex Pocket Panel 3 -->
+    <g transform="translate(16, 460)">
+      <rect width="308" height="204" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="14" y="22" fill="#fbbf24" font-size="11" font-weight="700">AVANTAGE HEX POCKET :</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="10">• Écrou Nylstop M4 inséré dans C2 par le bas.</text>
+      <text x="14" y="58" fill="#cbd5e1" font-size="10">• Bloqué en rotation par les 6 pans plastiques.</text>
+      <text x="14" y="76" fill="#10b981" font-size="10" font-weight="700">✓ MONTAGE D'UNE SEULE MAIN :</text>
+      <text x="14" y="94" fill="#cbd5e1" font-size="10">  L'opérateur n'a besoin que d'une clé Allen</text>
+      <text x="14" y="110" fill="#cbd5e1" font-size="10">  de 3 mm par le dessus (Tête CHC M4).</text>
+      <text x="14" y="126" fill="#cbd5e1" font-size="10">  Aucune clé plate à tenir à l'aveugle !</text>
+      <text x="14" y="146" fill="#38bdf8" font-size="10" font-weight="700">RÉFÉRENCES McMASTER-CARR :</text>
+      <text x="14" y="164" fill="#cbd5e1" font-size="9">• Vis CHC M4x25 inox : 91292A122</text>
+      <text x="14" y="179" fill="#cbd5e1" font-size="9">• Écrou Nylstop M4 inox : 93625A150</text>
+      <text x="14" y="194" fill="#cbd5e1" font-size="9">• Rondelle plate M4 DIN 125A : 93475A230</text>
+    </g>
+  </g>
+</svg>

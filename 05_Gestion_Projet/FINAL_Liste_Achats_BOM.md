@@ -42,7 +42,15 @@
 | **Vis CHC** | M3 | 10 mm (DIN 912, Inox 18-8, McMaster `91292A113` / 316 `92290A113`) | 6 (+ stock 10) | Fixation directe Rotor RS-06 ➔ Moyeu Sandwich Waist (6 perçages sur PCD Ø 24 mm) |
 | **Vis CHC Tête Basse** | M3 | 12 mm (DIN 7984, Inox 18-8, McMaster `92855A313`) | 8 (+ stock 10) | Fixation directe Stator RS-06 ➔ Traverse Renfort Bassin (Option 1 Validée, air gap 1,48 mm) |
 | **Vis CHC** | M4 | 10mm - 15mm | ~160 | Structure principale, moteurs RS-01-RS-04 |
-| **Vis CHC** | M4 | 16 mm (DIN 912, Inox 316, McMaster `92290A154` / 18-8 `91292A115`) | 4 (+ stock 10) | Fixation des 4 Brides étagées en L de retenue axiale RB8016 sur la Traverse Bassin |
+| **Vis CHC** | M4 | 16 mm (DIN 912, Inox 316, McMaster `92290A154` / 18-8 `91292A118`) | 4 (+ stock 10) | Fixation des 4 Brides étagées en L de retenue axiale RB8016 sur la Traverse Bassin |
+| **Vis CHC** | M4 | 25 mm (DIN 912, Inox 18-8, McMaster `91292A122`) | 6 (+ stock 10) | Fixation modulaire sandwich ceinture alu 3 mm (jonction C1/C2) |
+| **Vis CHC** | M4 | 16 mm (DIN 912, Inox 18-8, McMaster `91292A118` / Acier 12.9 `91290A154`) | 2 (+ stock 10) | Fixation inférieure (ceinture) des 2 cornières anti-torsion 7075-T6 |
+| **Vis CHC** | M4 | 30 mm (DIN 912, Inox 18-8, McMaster `91292A130` / Acier 12.9 `91290A180`) | 2 (+ stock 10) | Fixation supérieure des 2 cornières sur Hub Bride Épaule 18,2 mm (vers RS-04) |
+| **Rondelles Nord-Lock** | M4 | Paire NL4 anti-vibration (McMaster `91812A252`) | 2 paires (+ stock 5) | Sécurisation anti-glissement sous tête vis M4×30 cornières hautes (oblong) |
+| **Écrous Nylstop** | M4 | DIN 985 (Inox 18-8, McMaster `93625A150`) | 8 (+ stock 10) | Blocage ceinture modulaire (6x) et 2 cornières anti-torsion en bas (2x) |
+| **Rondelles plates** | M4 | DIN 125A (Inox 18-8, McMaster `93475A230`) | 20 (+ stock 20) | Assise sous tête et écrous ceinture modulaire (12x) et 2 cornières anti-torsion (6x) |
+| **Aimants Néodyme N52** | Ø 10 mm | Ép. 3,0 mm fraisé M3 (McMaster `5862K12`) | 6 (+ stock 6) | Maintien magnétique 129 N carénage lombaire Quick-Swap (sans outil) |
+| **Disques ferromagnétiques** | Ø 10 mm | Ép. 1,5 mm acier zingué (McMaster `91090A102`) | 6 (+ stock 6) | Pastilles de contact ferromagnétique collées sur berceau C2 |
 | **Vis FHC** | M5 | 25 mm (DIN 7991, 90°, Inox 316, McMaster `92125A230`) | 4 (+ stock 10) | Fixation Traverse Renfort Bassin ➔ Bâti Pelvis PA12-CF (affleurantes à 0,0 mm) |
 | **Vis CHC** | M5 | 12mm - 20mm | ~40 | Hanches, Grosses articulations |
 | **Écrous/Rondelles** | M3/M4/M5 | - | ~150 de chaque | - |

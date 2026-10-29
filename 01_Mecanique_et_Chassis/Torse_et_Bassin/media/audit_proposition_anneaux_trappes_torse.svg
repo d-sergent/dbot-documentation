@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 920" width="100%" height="100%" font-family="Inter, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2a324b" stroke-width="1" stroke-opacity="0.55"/>
+    </pattern>
+    <linearGradient id="alu" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#cbd5e1"/><stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+    <linearGradient id="tube" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="motor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#475569"/><stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="rail" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="batt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.25"/><stop offset="100%" stop-color="#15803d" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="920" fill="#0f172a"/>
+  <rect width="1600" height="920" fill="url(#grid)"/>
+
+  <rect x="30" y="20" width="1540" height="70" rx="10" fill="#1e293b" stroke="#334155"/>
+  <text x="50" y="50" font-size="20" font-weight="800" fill="#38bdf8">PROPOSITION D'AUDIT — 2 ANNEAUX STRUCTURAUX + TRAPPES ENCADRÉES + SQUELETTE AUTONOME</text>
+  <text x="50" y="74" font-size="13" fill="#94a3b8">Cotes issues de l'audit CAO Torse v111 (AUDIT_METROLOGIQUE_Torse_et_Bassin.json). Plan de joint et trappes à valider sur la géométrie réelle de la coque.</text>
+
+  <!-- ================= PANEL 1 : FRONT VIEW ================= -->
+  <g transform="translate(30,110)">
+    <rect width="590" height="790" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="32" font-size="15" font-weight="700" fill="#38bdf8">1. VUE DE FACE (depuis +X) — échelle 1,2 px/mm</text>
+
+    <!-- shell -->
+    <rect x="64.9" y="164.6" width="351.1" height="516.5" rx="40" fill="#0b1220" stroke="#94a3b8" stroke-width="2"/>
+    <!-- cut window -->
+    <rect x="64.9" y="432" width="351.1" height="56.4" fill="#22c55e" fill-opacity="0.12"/>
+    <!-- battery bay -->
+    <rect x="116.4" y="397.4" width="248.1" height="168.4" fill="url(#batt)" stroke="#22c55e" stroke-dasharray="6,4"/>
+    <text x="122" y="560" font-size="9.5" fill="#86efac">Panier batterie Z 1138,5–1278,8</text>
+    <!-- column -->
+    <rect x="237.4" y="167.5" width="6" height="512.4" fill="url(#alu)"/>
+    <!-- tubes -->
+    <rect x="134.1" y="279.4" width="96.1" height="88.2" fill="url(#tube)" fill-opacity="0.85"/>
+    <rect x="250.6" y="279.4" width="96.1" height="88.2" fill="url(#tube)" fill-opacity="0.85"/>
+    <!-- RS04 -->
+    <rect x="61.3" y="230.5" width="66.8" height="186.1" rx="8" fill="url(#motor)" stroke="#94a3b8"/>
+    <rect x="352.6" y="230.5" width="66.9" height="186.1" rx="8" fill="url(#motor)" stroke="#94a3b8"/>
+    <text x="72" y="330" font-size="10" fill="#e2e8f0">RS-04</text>
+    <text x="364" y="330" font-size="10" fill="#e2e8f0">RS-04</text>
+    <!-- neck -->
+    <rect x="180.4" y="160.7" width="120" height="5.6" fill="url(#alu)"/>
+    <rect x="206" y="104.4" width="68.4" height="56.3" rx="6" fill="url(#motor)" stroke="#94a3b8"/>
+    <text x="222" y="137" font-size="9.5" fill="#e2e8f0">RS-05</text>
+    <!-- waist plate -->
+    <rect x="137.4" y="681.1" width="207.7" height="10.8" fill="url(#alu)"/>
+    <!-- rails -->
+    <rect x="157.3" y="367.6" width="24" height="313.5" fill="url(#rail)" stroke="#fde68a"/>
+    <rect x="301.3" y="367.6" width="24" height="313.5" fill="url(#rail)" stroke="#fde68a"/>
+    <!-- hatches -->
+    <rect x="146" y="204" width="192" height="216" rx="14" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="10,5"/>
+    <rect x="158" y="480" width="168" height="168" rx="14" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="10,5"/>
+    <!-- lines -->
+    <line x1="50" y1="450" x2="430" y2="450" stroke="#f59e0b" stroke-width="3"/>
+    <line x1="50" y1="422.4" x2="430" y2="422.4" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <line x1="50" y1="416.6" x2="430" y2="416.6" stroke="#a855f7" stroke-width="1" stroke-dasharray="2,3"/>
+
+    <!-- labels right -->
+    <g font-size="10">
+      <text x="436" y="168" fill="#cbd5e1">Haut coque Z 1472,8</text>
+      <text x="436" y="226" fill="#7dd3fc">Trappe pectorale T1</text>
+      <text x="436" y="239" fill="#94a3b8">Z 1260–1440 (à valider)</text>
+      <text x="436" y="412" fill="#d8b4fe">Point bas RS-04 Z 1262,8</text>
+      <text x="436" y="430" fill="#fca5a5">Z 1258 réponse préc. : REJETÉ</text>
+      <text x="436" y="455" font-weight="700" fill="#fbbf24">Joint conseillé Z ~ 1235</text>
+      <text x="436" y="470" fill="#86efac">Fenêtre admissible 1203–1250</text>
+      <text x="436" y="510" fill="#7dd3fc">Trappe abdominale T2</text>
+      <text x="436" y="523" fill="#94a3b8">Z 1070–1210 (à valider)</text>
+      <text x="436" y="600" fill="#fde68a">Rails Alu 20×20×1,5</text>
+      <text x="436" y="613" fill="#94a3b8">Y = 9,4 ± 60 mm</text>
+      <text x="436" y="626" fill="#94a3b8">Z 1042,4 → 1303,7</text>
+      <text x="436" y="688" fill="#cbd5e1">Waist Plate Z 1042,4</text>
+    </g>
+
+    <!-- dimension heights -->
+    <g font-size="10" fill="#94a3b8">
+      <line x1="40" y1="164.6" x2="40" y2="450" stroke="#64748b"/>
+      <text x="20" y="310" transform="rotate(-90,20,310)">anneau haut 238 mm</text>
+      <line x1="40" y1="450" x2="40" y2="681.1" stroke="#64748b"/>
+      <text x="20" y="600" transform="rotate(-90,20,600)">anneau bas 193 mm</text>
+    </g>
+
+    <g transform="translate(20,710)">
+      <rect width="550" height="66" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="12" y="20" font-size="10.5" fill="#cbd5e1">Fenêtre de joint : hauteurs ≤ 270 mm (Qidi 280 mm − 10 mm de marge) → Z entre 1203 et 1312 ;</text>
+      <text x="12" y="37" font-size="10.5" fill="#cbd5e1">collerette RS-04 intacte (ligament ≥ 10 mm sous Z 1262,8) → Z ≤ 1250. Retenu : Z ~ 1235.</text>
+      <text x="12" y="54" font-size="10.5" fill="#fca5a5">Le panier batterie (Z 1138,5–1278,8) est coupé dans tous les cas : guidage porté par le squelette.</text>
+    </g>
+  </g>
+
+  <!-- ================= PANEL 2 : ARCHITECTURE ================= -->
+  <g transform="translate(640,110)">
+    <rect width="450" height="790" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="32" font-size="15" font-weight="700" fill="#38bdf8">2. NOMENCLATURE DE DÉCOUPAGE</text>
+
+    <g font-size="10.5">
+      <rect x="20" y="50" width="410" height="128" rx="8" fill="#0f172a" stroke="#94a3b8"/>
+      <text x="32" y="72" font-weight="700" fill="#e2e8f0">C1 — Anneau thoracique haut (fermé 360°)</text>
+      <text x="32" y="90" fill="#cbd5e1">Z 1235 → 1472,8 (238 mm), emprise 240 × 293 mm</text>
+      <text x="32" y="107" fill="#cbd5e1">Collerettes RS-04 et collet de cou intacts</text>
+      <text x="32" y="124" fill="#cbd5e1">Posé par le bas sur la colonne (protocole §7.D étape 4)</text>
+      <text x="32" y="141" fill="#cbd5e1">Fixé en haut sur équerres cou + en bas sur C2</text>
+      <text x="32" y="163" fill="#7dd3fc">Contient la trappe T1 (accès nœud M5, IMU, XT30)</text>
+
+      <rect x="20" y="190" width="410" height="112" rx="8" fill="#0f172a" stroke="#94a3b8"/>
+      <text x="32" y="212" font-weight="700" fill="#e2e8f0">C2 — Anneau abdominal bas (fermé 360°)</text>
+      <text x="32" y="230" fill="#cbd5e1">Z 1042,4 → 1235 (193 mm)</text>
+      <text x="32" y="247" fill="#cbd5e1">4 vis M4 existantes sur Waist Plate (Torse v107)</text>
+      <text x="32" y="264" fill="#cbd5e1">Porte la Platine_Connectique_Facade</text>
+      <text x="32" y="286" fill="#7dd3fc">Contient la trappe T2 (PDB, connecteurs batterie)</text>
+
+      <rect x="20" y="314" width="410" height="150" rx="8" fill="#0f172a" stroke="#38bdf8"/>
+      <text x="32" y="336" font-weight="700" fill="#7dd3fc">T1 / T2 — Trappes « travaillantes » encadrées</text>
+      <text x="32" y="354" fill="#cbd5e1">Cadre de renfort autour de la découpe (bande 4 mm)</text>
+      <text x="32" y="371" fill="#cbd5e1">Feuillure + languette continue (reprise du cisaillement)</text>
+      <text x="32" y="388" fill="#cbd5e1">Vis BHC M4 × 10 inox (McMaster 92095A190)</text>
+      <text x="32" y="405" fill="#cbd5e1">Pas ≤ 80–100 mm → 8 à 10 vis par trappe</text>
+      <text x="32" y="422" fill="#cbd5e1">Effort ~31 N par vis sous 36 N.m (calcul de Bredt)</text>
+      <text x="32" y="446" fill="#fde68a">Option : vis imperdables pour ne rien perdre en atelier</text>
+
+      <rect x="20" y="476" width="410" height="150" rx="8" fill="#0f172a" stroke="#f59e0b"/>
+      <text x="32" y="498" font-weight="700" fill="#fde68a">R1 / R2 — Rails structuraux (squelette autonome)</text>
+      <text x="32" y="516" fill="#cbd5e1">Tube carré Alu 6060-T6 20 × 20 × 1,5 mm, L ~ 261 mm</text>
+      <text x="32" y="533" fill="#cbd5e1">Waist Plate → dessous des tubes 60 × 60 (Z 1303,7)</text>
+      <text x="32" y="550" fill="#cbd5e1">Double fonction : glissières du panier batterie</text>
+      <text x="32" y="567" fill="#cbd5e1">Lacet 36 N.m : 6,9 → 0,85 deg ; mode latéral &gt; 30 Hz</text>
+      <text x="32" y="584" fill="#cbd5e1">Masse : 175 g de profilés + ~60 g de pièces d'extrémité</text>
+      <text x="32" y="608" fill="#fca5a5">Passage à vérifier vs poches du panier batterie</text>
+
+      <rect x="20" y="638" width="410" height="132" rx="8" fill="#0f172a" stroke="#a855f7"/>
+      <text x="32" y="660" font-weight="700" fill="#d8b4fe">Capteurs — règle de montage</text>
+      <text x="32" y="678" fill="#cbd5e1">LiDAR Unitree L2 sur support métallique lié</text>
+      <text x="32" y="695" fill="#cbd5e1">au squelette (plaque de cou / colonne), PAS sur</text>
+      <text x="32" y="712" fill="#cbd5e1">une trappe : l'extrinsèque LiDAR-IMU (FAST-LIO)</text>
+      <text x="32" y="729" fill="#cbd5e1">doit rester fixe quand on ouvre le robot.</text>
+      <text x="32" y="753" fill="#d8b4fe">La coque n'offre qu'une fenêtre optique.</text>
+    </g>
+  </g>
+
+  <!-- ================= PANEL 3 : JOINT DETAIL + SEQUENCE ================= -->
+  <g transform="translate(1110,110)">
+    <rect width="460" height="790" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="32" font-size="15" font-weight="700" fill="#38bdf8">3. DÉTAIL DU JOINT C1/C2 (coupe, échelle ×8)</text>
+
+    <g transform="translate(60,60)">
+      <!-- upper ring wall with groove -->
+      <path d="M 40 0 L 72 0 L 72 120 L 58 120 L 58 84 L 40 84 Z" fill="#334155" stroke="#94a3b8" stroke-width="1.5"/>
+      <!-- groove depicted between 44.8 and 56 at bottom: show as notch -->
+      <rect x="40" y="0" width="32" height="10" fill="#334155"/>
+      <text x="80" y="20" font-size="10" fill="#cbd5e1">C1 : bande locale 4,0 mm</text>
+      <text x="80" y="34" font-size="10" fill="#94a3b8">(peau courante 1,9 mm = 4 parois)</text>
+      <!-- lower ring with tongue -->
+      <path d="M 40 125 L 58 125 L 58 88 L 74 88 L 74 125 L 72 125 L 72 230 L 40 230 Z" fill="#475569" stroke="#cbd5e1" stroke-width="1.5"/>
+      <text x="80" y="200" font-size="10" fill="#cbd5e1">C2 : languette 2,0 × 4,0 mm</text>
+      <text x="80" y="214" font-size="10" fill="#94a3b8">rainure 2,3 mm (jeu 0,15 mm/côté)</text>
+      <!-- insert boss -->
+      <rect x="-30" y="140" width="60" height="70" rx="4" fill="#475569" stroke="#cbd5e1"/>
+      <rect x="-12" y="140" width="24" height="68" fill="#eab308" stroke="#a16207"/>
+      <text x="-50" y="232" font-size="10" fill="#fde68a">Insert laiton M4 L 8,1 (puits Ø 5,6 × 8,5)</text>
+      <text x="-50" y="246" font-size="10" fill="#94a3b8">Bossage Ø ≥ 11 mm, chanfrein 0,5 × 45°</text>
+      <!-- screw -->
+      <rect x="-8" y="70" width="16" height="70" fill="#94a3b8"/>
+      <path d="M -18 70 Q 0 50 18 70 Z" fill="#cbd5e1"/>
+      <text x="-50" y="45" font-size="10" fill="#cbd5e1">BHC M4 × 10 (92095A190) — 1,2 à 1,5 N.m</text>
+    </g>
+
+    <g transform="translate(20,330)">
+      <rect width="420" height="170" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="14" y="22" font-size="12" font-weight="700" fill="#fde68a">Règles d'impression du joint</text>
+      <text x="14" y="44" font-size="10.5" fill="#cbd5e1">• Languette ≥ 2,0 mm (une languette de 1,5 mm est plus fine</text>
+      <text x="14" y="60" font-size="10.5" fill="#cbd5e1">  que les 4 parois de 0,45 mm : imprimée creuse, fragile).</text>
+      <text x="14" y="80" font-size="10.5" fill="#cbd5e1">• Pas de pions coniques imprimés Ø 4–6 mm : ils cisaillent</text>
+      <text x="14" y="96" font-size="10.5" fill="#cbd5e1">  entre les couches. Le centrage est fait par la languette.</text>
+      <text x="14" y="116" font-size="10.5" fill="#cbd5e1">• Chanfrein 0,5 × 45° sur arêtes de joint (pied d'éléphant).</text>
+      <text x="14" y="136" font-size="10.5" fill="#cbd5e1">• Anneaux fermés : moins de voilage au démoulage que des</text>
+      <text x="14" y="152" font-size="10.5" fill="#cbd5e1">  demi-coques en C (meilleur ajustement des joints).</text>
+    </g>
+
+    <g transform="translate(20,515)">
+      <rect width="420" height="255" rx="8" fill="#042f2e" stroke="#10b981"/>
+      <text x="14" y="22" font-size="12" font-weight="700" fill="#5eead4">Séquence d'atelier proposée</text>
+      <text x="14" y="46" font-size="10.5" fill="#ccfbf1">1. Squelette : colonne + équerres + Waist Plate + rails R1/R2.</text>
+      <text x="14" y="66" font-size="10.5" fill="#ccfbf1">2. Anneau C2 vissé sur Waist Plate ; panier batterie sur rails.</text>
+      <text x="14" y="86" font-size="10.5" fill="#ccfbf1">3. Câblage bas à ciel ouvert (PDB, 48 V, CAN) + tests.</text>
+      <text x="14" y="106" font-size="10.5" fill="#ccfbf1">4. Anneau C1 descendu sur la colonne (sans plaque de cou).</text>
+      <text x="14" y="126" font-size="10.5" fill="#ccfbf1">5. Tubes + brides + RS-04 insérés par les collerettes.</text>
+      <text x="14" y="146" font-size="10.5" fill="#ccfbf1">6. Par T1 : sandwich 4 × M5 (5,5 N.m), IMU, XT30, CAN.</text>
+      <text x="14" y="166" font-size="10.5" fill="#ccfbf1">7. Plaque de cou + RS-05 par le dessus. Joint C1/C2 vissé.</text>
+      <text x="14" y="186" font-size="10.5" fill="#ccfbf1">8. Ping CAN de tous les moteurs, puis fermeture T1 et T2.</text>
+      <text x="14" y="214" font-size="10.5" fill="#fef08a">Maintenance courante : T1 ou T2 uniquement.</text>
+      <text x="14" y="232" font-size="10.5" fill="#fef08a">Essais dynamiques : trappes vissées obligatoirement.</text>
+    </g>
+  </g>
+</svg>

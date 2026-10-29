@@ -113,7 +113,7 @@ INDEX_LOG = DB_PATH / "indexed_files.json"
 
 EXCLUDE_DIRS = {".git", ".continue", "__pycache__", "Archives",
                 "Images_ORCA", ".DS_Store", "lightrag_dbot_db", "00_Archives_Recherche",
-                ".kilo", ".gemini", ".cursor"}
+                ".kilo", ".gemini", ".cursor", ".roo", "scratch", "cad_views"}
 INCLUDE_EXTS = {".md", ".py", ".txt", ".png", ".jpg", ".jpeg", ".webp", ".pdf"}
 IMAGE_EXTS   = {".png", ".jpg", ".jpeg", ".webp"}
 PDF_EXTS     = {".pdf"}
@@ -226,37 +226,100 @@ async def get_llm_func(args):
             
         return llm_openrouter
 
-    elif args.provider == "gemini" or (args.model and args.model.startswith("models/gemini")):
-        target_model = args.model or "models/gemini-3.1-flash-lite"
-        logger.info(f"💎 Mode GEMINI UNIQUE : Modèle {target_model}")
+    elif args.provider == "gemini":
         client = genai.Client(api_key=api_key)
-        
-        async def llm_gemini_single(prompt, system_prompt=None, history_messages=[], **kwargs):
-            full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
+        target_model = args.model or "gemini-3.1-flash-lite"
+        th_level_str = getattr(args, "thinking_level", "low").lower()
+        th_budget_map = {
+            "minimal": 0,
+            "low": 100,
+            "medium": 512,
+            "high": 1024
+        }
+        thinking_budget = th_budget_map.get(th_level_str, 100)
+        logger.info(f"💎 Mode GEMINI : Modèle {target_model} [Budget raisonnement: {thinking_budget} tokens ({th_level_str})]")
+
+        # Cascade intelligente de tous les modèles rapides disponibles
+        all_gemini_models = [
+            "gemini-3.1-flash-lite",
+            "gemini-3.5-flash-lite",
+            "gemini-3.6-flash",
+            "gemini-3.7-flash",
+            "gemini-flash-lite-latest",
+            "gemini-2.5-flash"
+        ]
+        models_cascade = [target_model] + [m for m in all_gemini_models if m != target_model]
+        exhausted_models = set()
+
+        async def call_openrouter_fallback(model_name, p, sp):
+            or_key = os.environ.get("OPENROUTER_API_KEY")
+            if not or_key:
+                return None
+            url = "https://openrouter.ai/api/v1/chat/completions"
+            headers = {"Authorization": f"Bearer {or_key}", "Content-Type": "application/json"}
+            messages = []
+            if sp: messages.append({"role": "system", "content": sp})
+            messages.append({"role": "user", "content": p})
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(url, headers=headers, json={"model": model_name, "messages": messages}, timeout=25) as resp:
+                        if resp.status == 200:
+                            data = await resp.json()
+                            choices = data.get("choices")
+                            if choices:
+                                return choices[0]["message"]["content"]
+            except Exception:
+                pass
+            return None
+
+        async def llm_gemini(prompt, system_prompt=None, history_messages=[], **kwargs):
             loop = asyncio.get_event_loop()
-            while True:
+            
+            for current_model in models_cascade:
+                if current_model in exhausted_models:
+                    continue
                 try:
+                    cfg = genai_types.GenerateContentConfig(
+                        system_instruction=system_prompt if system_prompt else None,
+                        thinking_config=genai_types.ThinkingConfig(thinking_budget=thinking_budget),
+                        max_output_tokens=kwargs.get("max_tokens", 4096),
+                        temperature=kwargs.get("temperature", 0.1)
+                    )
                     response = await loop.run_in_executor(
                         None,
-                        lambda: client.models.generate_content(
-                            model=target_model,
-                            contents=full_prompt,
-                            config=genai_types.GenerateContentConfig(
-                                max_output_tokens=kwargs.get("max_tokens", 4096),
-                                temperature=kwargs.get("temperature", 0.1)
-                            )
+                        lambda m=current_model: client.models.generate_content(
+                            model=m,
+                            contents=prompt,
+                            config=cfg
                         )
                     )
-                    # Respect du quota 15 RPM (1 appel toutes les ~4s)
-                    await asyncio.sleep(4)
-                    return response.text
+                    if response and response.text:
+                        await asyncio.sleep(2.5)  # Respect du quota 15 RPM
+                        return response.text
                 except Exception as e:
                     err_s = str(e)
-                    wait_time = 20 if "429" in err_s else 10
-                    logger.warning(f"⚠️ Quota Gemini atteint ({target_model}): {err_s[:90]}. Pause de {wait_time}s...")
-                    await asyncio.sleep(wait_time)
+                    if "429" in err_s or "RESOURCE_EXHAUSTED" in err_s or "quota" in err_s.lower():
+                        logger.warning(f"⚠️ Quota journalier atteint sur {current_model}. Modèle verrouillé pour cette session.")
+                        exhausted_models.add(current_model)
+                        continue
+                    else:
+                        logger.warning(f"⚠️ Erreur LLM ({current_model}): {err_s[:80]}. Nouvelle tentative...")
+                        await asyncio.sleep(2)
+                        continue
 
-        return llm_gemini_single
+            # Repli de secours sur OpenRouter gratuit si tous les modèles Gemini gratuits sont saturés
+            for or_model in ["nvidia/nemotron-3-super-120b-a12b:free", "meta-llama/llama-3.3-70b-instruct:free"]:
+                res = await call_openrouter_fallback(or_model, prompt, system_prompt)
+                if res:
+                    logger.info(f"🟢 Repli OpenRouter ({or_model}) réussi.")
+                    await asyncio.sleep(2.0)
+                    return res
+
+            logger.error("❌ Tous les modèles Gemini et OpenRouter sont temporairement saturés. Pause de 15s...")
+            await asyncio.sleep(15)
+            return await llm_gemini(prompt, system_prompt=system_prompt, history_messages=history_messages, **kwargs)
+
+        return llm_gemini
 
     elif args.provider == "online":
         logger.info(f"🚀 Round-Robin Online Parallélisé ({len(MODELS_ROTATION)} modèles)")
@@ -373,9 +436,10 @@ def save_index_log(log_idx: dict):
         json.dump(log_idx, f, indent=2, ensure_ascii=False)
 
 def compute_doc_id(content: str) -> str:
-    return "doc-" + hashlib.md5(content.encode("utf-8")).hexdigest()
+    return "doc-" + hashlib.md5(content.encode("utf-8"), usedforsecurity=False).hexdigest()
 
 VLM_MODELS = [
+    "models/gemini-3.8-flash",
     "models/gemini-3.1-flash-lite",
     "models/gemini-3.6-flash",
     "models/gemini-3.5-flash-lite",
@@ -399,9 +463,13 @@ def analyze_image_with_vlm(client: genai.Client, image_path: Path) -> str:
     last_error = None
     for model_name in VLM_MODELS:
         try:
+            cfg = genai_types.GenerateContentConfig(
+                thinking_config=genai_types.ThinkingConfig(thinking_budget=100)
+            )
             response = client.models.generate_content(
                 model=model_name,
-                contents=[img, prompt]
+                contents=[img, prompt],
+                config=cfg
             )
             if response and response.text:
                 return response.text
@@ -418,6 +486,21 @@ def analyze_image_with_vlm(client: genai.Client, image_path: Path) -> str:
     raise RuntimeError(f"Échec de l'analyse VLM sur {image_path.name} après tous les modèles (Dernière erreur: {last_error})")
 
 def extract_pdf_text(path: Path) -> str:
+    # 1. Extraction haute fidélité via Docling (reconstruction des tableaux Markdown et hiérarchies)
+    try:
+        from docling.document_converter import DocumentConverter
+        converter = DocumentConverter()
+        result = converter.convert(str(path))
+        md_text = result.document.export_to_markdown()
+        if md_text and md_text.strip():
+            logger.info(f"   ✨ Extraction Docling réussie pour {path.name} ({len(md_text)} caractères)")
+            return md_text
+    except ImportError:
+        pass
+    except Exception as docling_err:
+        logger.warning(f"⚠️ Docling indisponible pour {path.name}: {docling_err}. Basculement sur pypdf.")
+
+    # 2. Fallback standard léger via pypdf
     try:
         reader = pypdf.PdfReader(path)
         pages_text = []
@@ -520,9 +603,9 @@ async def run_indexing(args):
             doc_id = log_idx[path_str].get("doc_id")
             if doc_id:
                 try:
-                    await rag.adelete_by_doc_id(doc_id)
+                    await rag.doc_status.delete([doc_id])
                 except Exception as e:
-                    logger.warning(f"Impossible de supprimer {doc_id} de LightRAG: {e}")
+                    logger.warning(f"Impossible de supprimer {doc_id} de doc_status: {e}")
             del log_idx[path_str]
             logger.info(f"   [-] Oublié : {Path(path_str).name}")
 
@@ -533,7 +616,7 @@ async def run_indexing(args):
         if not content: continue
         logger.info(f"[{i:3d}/{len(to_update)}] 📄 {path.name}")
         try:
-            # Remplacement propre : purger TOUTES les entrées existantes (anciennes versions et entrées fantômes dup-*)
+            # Purge ciblée de doc_status pour autoriser la mise à jour sans reconstruire tout le graphe
             try:
                 async with rag.doc_status._storage_lock:
                     matching_ids = [
@@ -541,13 +624,7 @@ async def run_indexing(args):
                         if os.path.basename(d_data.get("file_path", "")) == path.name
                     ]
                 if matching_ids:
-                    logger.info(f"   🔄 Remplacement : purge de {len(matching_ids)} ancienne(s) entrée(s) dans LightRAG...")
                     for old_id in matching_ids:
-                        if not old_id.startswith("dup-"):
-                            try:
-                                await rag.adelete_by_doc_id(old_id)
-                            except Exception:
-                                pass
                         try:
                             await rag.doc_status.delete([old_id])
                         except Exception:
@@ -559,7 +636,7 @@ async def run_indexing(args):
             log_idx[str(path)] = {"mtime": os.path.getmtime(path), "doc_id": compute_doc_id(content)}
             save_index_log(log_idx)
         except Exception as e:
-            logger.warning(f"⚠️ Échec d'indexation pour {path.name}: {e}") 
+            logger.warning(f"⚠️ Échec d'indexation pour {path.name}: {e}")
 
     save_index_log(log_idx)
     logger.info("🎉 Synthèse Finale :")
@@ -572,8 +649,9 @@ async def main():
     parser.add_argument("--full", action="store_true", help="Réindexation complète depuis zéro")
     parser.add_argument("--update", action="store_true", help="Forcer la vérification et mise à jour incrémentale")
     parser.add_argument("--files", nargs="+", help="Chemins de fichiers spécifiques à réindexer")
-    parser.add_argument("--provider", choices=["local", "online", "openrouter", "gemini"], default="online")
-    parser.add_argument("--model", type=str, help="Forcer un modèle spécifique (uniquement avec --provider openrouter)")
+    parser.add_argument("--provider", choices=["local", "online", "openrouter", "gemini"], default="gemini", help="Fournisseur LLM (défaut: gemini)")
+    parser.add_argument("--thinking-level", choices=["minimal", "low", "medium", "high"], default="low", help="Niveau d'effort de réflexion Gemini (défaut: low)")
+    parser.add_argument("--model", type=str, default="gemini-3.1-flash-lite", help="Forcer un modèle spécifique (défaut: gemini-3.1-flash-lite)")
     parser.add_argument("--api-key", type=str)
     args = parser.parse_args()
     await run_indexing(args)

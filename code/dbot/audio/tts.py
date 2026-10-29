@@ -74,9 +74,14 @@ class LocalTTS:
             return
         
         try:
-            # Génération Piper
-            gen_cmd = f'echo "{text}" | piper -m {self.voice_model_path} --output_file {output_path}'
-            subprocess.run(gen_cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
+            # Génération Piper sécurisée sans shell (entrée directe via stdin)
+            piper_cmd = ["piper", "-m", str(self.voice_model_path), "--output_file", str(output_path)]
+            subprocess.run(
+                piper_cmd,
+                input=text.encode("utf-8"),
+                check=True,
+                stderr=subprocess.DEVNULL
+            )
             
             if not os.path.exists(output_path) or os.path.getsize(output_path) == 0:
                 raise TTSError("[TTS] Le fichier audio généré est vide ou inexistant.")

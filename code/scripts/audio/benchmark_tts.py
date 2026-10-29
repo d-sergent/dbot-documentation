@@ -39,9 +39,9 @@ def benchmark_tts(text: str = "Bonjour, je suis un robot D-Bot.", voice_model_pa
         with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tf:
             temp_wav = tf.name
 
-        gen_cmd = f'echo "{text}" | piper -m {tts.voice_model_path} --output_file {temp_wav}'
         import subprocess
-        result = subprocess.run(gen_cmd, shell=True, stderr=subprocess.DEVNULL)
+        piper_cmd = ["piper", "-m", str(tts.voice_model_path), "--output_file", str(temp_wav)]
+        result = subprocess.run(piper_cmd, input=text.encode("utf-8"), stderr=subprocess.DEVNULL)
         
         if result.returncode != 0:
             raise Exception("Piper a échoué à générer le fichier audio.")

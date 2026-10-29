@@ -3,7 +3,7 @@
 	"type":	"script",
 	"author":	"Antigravity (D-Bot V1)",
 	"description":	{
-		"":	"Standardise et renomme automatiquement la quincaillerie et visserie McMaster-Carr selon la nomenclature officielle D-Bot."
+		"":	"Standardise le naming de la visserie McMaster et met à jour automatiquement les matériaux physiques réels (Alu 7075-T6 pour la ceinture, Inox pour la visserie, PA12-CF pour les coques) dans Fusion 360."
 	},
 	"supportedOS":	"windows|mac",
 	"editEnabled":	true

@@ -56,9 +56,16 @@ class AudioIO:
         try:
             # On force la durée en entier car arecord peut rejeter les décimales
             d = int(duration)
-            # On enregistre en stéréo (-c 2) à 16kHz, puis sox convertit en mono pour le robot
-            cmd = f"arecord -D {self.alsa_device} -f S16_LE -r 16000 -c 2 -d {d} | sox -t wav - -c 1 {output_file}"
-            subprocess.run(cmd, shell=True, check=True)
+            # On enregistre en stéréo (-c 2) à 16kHz, puis sox convertit en mono (pipe sécurisé sans shell)
+            rec_cmd = ["arecord", "-D", str(self.alsa_device), "-f", "S16_LE", "-r", "16000", "-c", "2", "-d", str(d)]
+            sox_cmd = ["sox", "-t", "wav", "-", "-c", "1", str(output_file)]
+            p_rec = subprocess.Popen(rec_cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+            p_sox = subprocess.Popen(sox_cmd, stdin=p_rec.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            if p_rec.stdout:
+                p_rec.stdout.close()
+            p_sox.communicate()
+            if p_sox.returncode != 0:
+                raise AudioIOError(f"[AudioIO] Sox conversion échouée avec le code {p_sox.returncode}")
             print(f"🎤 [AudioIO] Enregistrement terminé : {output_file}")
             return True
         except Exception as e:

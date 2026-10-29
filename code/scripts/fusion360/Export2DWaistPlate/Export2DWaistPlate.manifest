@@ -1,0 +1,8 @@
+{
+    "autodeskProduct": "Fusion360",
+    "type": "script",
+    "author": "D-Bot Core Team",
+    "description": "Prototype d'exportation 2D et fabrication CNC pour la Waist Plate 7075 (DXF 1:1, B-Rep metrology & PDF)",
+    "supportedOS": "windows|mac",
+    "editEnabled": true
+}

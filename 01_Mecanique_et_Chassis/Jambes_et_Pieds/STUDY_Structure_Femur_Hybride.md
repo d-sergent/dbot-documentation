@@ -16,6 +16,7 @@ Ce document présente l'analyse d'ingénierie mécanique justifiant le rejet du 
 - [**3. Ingénierie de Fabrication & Assemblage "Sandwich"**](#3-ingénierie-de-fabrication-assemblage-sandwich)
 - [**4. Directives de Modélisation CAO & Fraisage FAO (C500)**](#4-directives-de-modélisation-cao-fraisage-fao-c500)
 - [**5. Synthèse Comparative des Solutions de Fémur**](#5-synthèse-comparative-des-solutions-de-fémur)
+- [**6. Standard d'Interface RobStride RS-04 (Stator & Rotor)**](#6-standard-dinterface-robstride-rs-04-stator--rotor)
 
 ---
 
@@ -119,3 +120,26 @@ Pour concevoir et usiner les deux joues latérales en Iso-grid, respectez scrupu
 | **Intégration Câble**| Parfaite (cavité) | Difficile (câbles visibles) | **Parfaite (cavité étanche)** |
 | **Esthétique** | Industriel classique | Agressif "racing" | **Premium (Agility Digit)** |
 | **Verdict D-Bot** | Solution de secours simple | Pour gain de poids extrême | 🏆 **Recommandé (Sweet Spot)** |
+
+---
+
+## 6. Standard d'Interface RobStride RS-04 (Stator & Rotor)
+
+Afin d'assurer une cohérence mécatronique parfaite entre le Fémur, la Hanche et le Genou, les interfaces des actionneurs RobStride RS-04 respectent rigoureusement les deux standards d'ingénierie validés dans le [Dossier Technique Bassin & Waist](../Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md#53-connexion-avec-les-hanches-en-chaîne-f-a-r-rs-04-hip-pitch) :
+
+### A. Interface Stator RS-04 (Fixation Monoface Arrière & Dissipation)
+![Intégration Stator RobStride RS-04](../Torse_et_Bassin/media/schema_integration_stator_rs04_pelvis_et_femur.svg)
+
+1. **Fixation Monoface Arrière Suffisante** : 10 vis CHC M4 × 12 mm classe 12.9 + rondelles Nord-Lock (PCD Ø 106,0 mm). Précharge totale de 41 kN créant un couple résistant par adhérence de 326 N.m (facteur de sécurité Sf = ×2,72 face aux 120 N.m du moteur).
+2. **Alésage Pilote de Centrage Ø 95,0 mm H7** : Reprend 100% de l'effort tranchant vertical de foulée (860 N) sans cisailler les vis.
+3. **Sécurité Profondeur Borgne (6,0 mm Max)** : Pénétration filetée calibrée à 5,2 mm (garde au fond = 0,8 mm franc). Interdiction formelle de vis M4 × 16 mm sans entretoise sur tôle de 5 mm.
+4. **Dissipation Thermique Conductrice** : Le fémur en aluminium et le squelette pelvien agissent comme dissipateurs thermiques continus (conformité avec l'exigence Heat Sink 345 × 345 mm du manuel pour 40 N.m continu), assistés d'un film de pâte thermique Noctua NT-H1.
+
+### B. Interface Rotor RS-04 (Roulement Croisé Interne & 5 Goupilles ISO 8734)
+![Intégration Rotor RobStride RS-04](../Torse_et_Bassin/media/schema_integration_rotor_rs04_decouplage_et_goupilles.svg)
+
+1. **Zéro Roulement Externe Nécessaire** : Le RS-04 intègre en sortie un roulement à rouleaux croisés d'origine (Crossed Roller Bearing Ø 80 mm) tolérant 150 à 200 N.m de basculement. Les moments réels de jambe (50 à 90 N.m) sont absorbés en interne sans surcharger la structure.
+2. **Découplage Traction / Cisaillement par 5 Goupilles** :
+   - PCD Ø 35,86 mm : **2 goupilles Ø 5,0 mm (+0 / -0,01 mm)** + **3 goupilles Ø 6,0 mm (+0 / -0,01 mm)** ISO 8734 trempées reprenant 100% du cisaillement à 120 N.m.
+   - PCD Ø 36,0 mm : **9 vis CHC M5** travaillant en traction pure (placage axial à 5,5 N.m avec Loctite 243).
+3. **Transmission Genou Déportée** : Le moteur de genou RS-04 Knee entraîne un pignon GT3 20T vers l'axe du genou 50T (ratio 2,5:1). Le rotor ne subit que la tension de courroie (~50 N), l'axe du genou disposant de son propre palier structural.

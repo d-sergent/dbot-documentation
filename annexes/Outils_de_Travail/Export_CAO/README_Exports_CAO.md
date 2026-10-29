@@ -52,6 +52,16 @@ Grâce à la déduplication :
 - Chaque vis normalisée McMaster-Carr (`91812A252`, `92855A422`, `92290A168`) n'est stockée qu'une seule fois, même si elle est instanciée des dizaines de fois dans le robot.
 - Les actionneurs RobStride (`RS06_v1.step`, `RS04_droit.step`, `EL05_v1.step`) et les roulements (`RB8016.step`) sont réutilisés d'un membre à l'autre sans duplication de géométrie.
 
+### Nettoyage Automatique & Zéro Fichier Orphelin
+Pour éviter l'accumulation de solides obsolètes lorsque des pièces changent de nom (ex. `Corniere` renommée en `Corniere_haute`), que la quincaillerie est standardisée ou que des composants sont supprimés de la CAO :
+1. **Purge Automatique à l'Export (`ExportSovereignCAD.py`)** :
+   - À chaque exécution dans Fusion 360, le script compare les fichiers `.step` présents sur disque avec la liste des composants actifs de l'assemblage.
+   - Tous les fichiers orphelins sont automatiquement supprimés et consignés dans `manifest["metadata"]["purged_orphans"]`.
+2. **Outil CLI de Maintenance Dédié (`clean_sovereign_library.py`)** :
+   - Le script [`clean_sovereign_library.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/cad_tools/clean_sovereign_library.py) permet de lancer un diagnostic ou une purge depuis le terminal :
+     - Diagnostic sans suppression : `/opt/homebrew/bin/python3.11 "Code/scripts/cad_tools/clean_sovereign_library.py" --dry-run`
+     - Purge effective : `/opt/homebrew/bin/python3.11 "Code/scripts/cad_tools/clean_sovereign_library.py" --purge`
+
 ---
 
 ## Procédure d'Export pour un Nouveau Membre
@@ -61,7 +71,7 @@ Lorsqu'un nouveau sous-ensemble (ex. Bras ou Tête) est prêt dans Fusion 360 :
 1. **Dans Fusion 360** :
    - Ouvrir la conception active.
    - Lancer le script souverain : **Utilitaires > Scripts et compléments > Mes scripts > ExportSovereignCAD**.
-   - Le script extrait les composants uniques dans `Bibliotheque_Composants_STEP/` et génère le manifeste d'assemblage JSON.
+   - Le script extrait les composants uniques dans `Bibliotheque_Composants_STEP/`, purge automatiquement les anciens fichiers orphelins/renommés et génère le manifeste d'assemblage JSON.
 
 2. **Reconstruction dans FreeCAD** :
    - L'agent Antigravity assemble les pièces avec leurs matrices de placement 3D exactes.

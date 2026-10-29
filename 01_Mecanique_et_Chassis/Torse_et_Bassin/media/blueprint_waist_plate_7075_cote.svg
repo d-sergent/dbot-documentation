@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 850" width="100%" height="100%">
+  <defs>
+    <!-- Grille technique millimétrique -->
+    <pattern id="grid_subtle" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.6"/>
+    </pattern>
+    <pattern id="grid_major" width="100" height="100" patternUnits="userSpaceOnUse">
+      <rect width="100" height="100" fill="url(#grid_subtle)"/>
+      <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#334155" stroke-width="1.0" opacity="0.6"/>
+    </pattern>
+
+    <!-- Marqueurs de flèches de cote normées ISO -->
+    <marker id="arrow-start" viewBox="0 0 10 10" refX="0" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 10 2 L 0 5 L 10 8 z" fill="#facc15"/>
+    </marker>
+    <marker id="arrow-end" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 2 L 10 5 L 0 8 z" fill="#facc15"/>
+    </marker>
+  </defs>
+
+  <!-- Fond sombre Blueprint Haute Définition -->
+  <rect width="1280" height="850" fill="#0f172a"/>
+
+  <!-- Cadre technique de plan normalisé avec marges d'ingénierie -->
+  <rect x="25" y="25" width="1230" height="800" rx="8" fill="#0b1329" stroke="#38bdf8" stroke-width="1.8" opacity="0.95"/>
+  <rect x="35" y="35" width="1210" height="780" fill="url(#grid_major)" rx="4"/>
+
+  <!-- En-tête officiel du document -->
+  <g transform="translate(55, 65)">
+    <text x="0" y="0" fill="#38bdf8" font-family="'Segoe UI', system-ui, sans-serif" font-size="16" font-weight="bold" letter-spacing="1.2">PLAN DE FABRICATION CERTIFIÉ B-REP (SOURCE DXF FUSION 360)</text>
+    <text x="0" y="19" fill="#94a3b8" font-family="'Segoe UI', system-ui, sans-serif" font-size="11">Composant Structurel : Waist_Plate_7075 (ASV1_100_02A) — Projection Exacte 100% Fidèle CAO</text>
+  </g>
+
+  <!-- Titre de la vue -->
+  <g transform="translate(65, 115)">
+    <rect x="0" y="0" width="260" height="24" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+    <text x="12" y="16" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">VUE DE DESSUS (USINAGE CNC 1:1)</text>
+  </g>
+
+  <!-- Traits d'axe de symétrie principaux (Traits mixtes fins) -->
+  <g stroke="#64748b" stroke-width="1.0" stroke-dasharray="12,3,2,3" opacity="0.75">
+    <line x1="163.99275" y1="460" x2="596.00725" y2="460"/>
+    <line x1="380" y1="240.70325000000003" x2="380" y2="679.29675"/>
+    <!-- Cercle primitif PCD Ø 68.0 mm centré -->
+    <circle cx="380" cy="460" r="73.1" fill="none" stroke="#facc15" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.65"/>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- VUE PRINCIPALE : GÉOMÉTRIE EXACTE 100% ISSUE DU DXF FUSION 360       -->
+  <!-- ===================================================================== -->
+  <g id="real_dxf_geometry" transform="translate(190.26, 266.97) scale(2.15)">
+    <g id="Shape" transform="translate(79.574725,40.383388) scale(1,-1)">
+<circle cx="32.711630560342485" cy="-73.43327193208908" r="2.5500000000000114" stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none"/>
+<title>b'Shape'</title>
+</g>
+<g id="Shape001" transform="translate(79.574725,40.383388) scale(1,-1)">
+<circle cx="-15.371630560342489" cy="-25.35001081140355" r="2.549999999999999" stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none"/>
+<title>b'Shape001'</title>
+</g>
+<g id="Shape002" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape002_nwe0000"  d="M -29.94 -137.43638204549615 C -33.087276461062764 -137.43638204549615 -36.24085084218617 -137.1221780195317 -39.32591647741974 -136.50171490350124 C -42.41134437933888 -135.88117892901548 -45.44059503794229 -134.95164128004205 -48.34245972370141 -133.73625476498552 C -51.24459795249944 -132.5207536820367 -54.03084099788412 -131.01430639222772 -56.63674175290312 -129.25366944307453 C -59.24288351720083 -127.49286965969205 -61.678774161451614 -125.47076264659066 -63.88924202861223 -123.23562048114582 C -66.09990972074543 -121.00027626018658 -68.09348008217323 -118.54313252219589 -69.82583336045337 -115.92155183489689 C -71.55833964748138 -113.29973959853491 -73.03594231595925 -110.50348704182716 -74.22667678396556 -107.59676466996183 C -75.41751433857652 -104.68979065161442 -76.32564327345511 -101.6615070314137 -76.93184561652393 -98.58012458703506 C -77.5381140496745 -95.49840620067269 -77.8444359860918 -92.35221659261997 -77.8444359860918 -89.21181112583989 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape002'</title>
+</g>
+<g id="Shape003" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape003_nwe0000"  d="M -29.94 -137.43638204549615 L 47.27999999999996 -137.43638204549615 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape003'</title>
+</g>
+<g id="Shape004" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape004_nwe0000"  d="M 95.1844359860918 -89.21181112578536 C 95.1844359861019 -92.35808608841216 94.87923099436543 -95.49236975399646 94.27192780627932 -98.57970678464083 C 93.66461916735597 -101.667071525615 92.7598292055245 -104.68395654214643 91.56683858037036 -107.59636969355257 C 90.37384795518989 -110.50878284502312 88.9017708643209 -113.29442061824992 87.16606951963647 -115.92119444517266 C 85.43036817491586 -118.54796827215014 83.44435483453992 -120.99568188147973 81.22954452543367 -123.23531460090608 C 79.014734216432 -125.47494732022668 76.58819352910709 -127.48919706877352 73.97709973784377 -129.25342757020627 C 71.36600594648498 -131.01765807170358 68.59057546442475 -132.51817348960248 65.68285967053457 -133.73608725018616 C 62.77514387671494 -134.95400101074034 59.75774860151209 -135.8798186289395 56.66634260355829 -136.50162919675995 C 53.57496486879693 -137.1234340796747 50.433627511607575 -137.4363820454743 47.2800000001341 -137.43638204549615 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape004'</title>
+</g>
+<g id="Shape005" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape005_nwe0000"  d="M 95.1844359860918 -89.21181112578536 L 95.18443598609181 -9.934829962652305 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape005'</title>
+</g>
+<g id="Shape006" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape006_nwe0000"  d="M 47.27999999994553 38.653099302003405 C 50.449780666477 38.65309930201355 53.60709663669638 38.33450557361117 56.71241821208963 37.70203862155101 C 59.81776836389695 37.069565849276415 62.846774862585065 36.128209996100665 65.76259729817562 34.891537054662436 C 68.67841973376372 33.65486411322523 71.45828734171168 32.132591824544114 74.07006294044106 30.34570141704777 C 76.68183853901239 28.55881100965957 79.10530657982054 26.52121418788265 81.31426410877043 24.259400456038342 C 83.52322163757053 21.997586724347407 85.50074304656798 19.528980701237057 87.226957914816 16.88370016387568 C 88.95317278305484 14.238419626528383 90.41498243527698 11.436637921588687 91.59867090787895 8.510582322254724 C 92.78235938055843 5.584526722729144 93.67901600628473 2.556327447239646 94.28066157619156 -0.5407239125013685 C 94.88230182251488 -3.6377478683813793 95.18443598608087 -6.7803738091844945 95.1844359860918 -9.93482996258528 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape006'</title>
+</g>
+<g id="Shape007" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape007_nwe0000"  d="M 47.27999999994553 38.653099302003405 L -29.94000000000005 38.6530993020034 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape007'</title>
+</g>
+<g id="Shape008" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape008_nwe0000"  d="M -77.8444359860918 -9.934829962652309 C -77.8444359860918 -6.786169939502824 -77.54118809572594 -3.6323697838637488 -76.94074084860239 -0.5411320013100052 C -76.34023268719064 2.55041938173066 -75.44022642813609 5.589617833313088 -74.25882759146022 8.510194991359128 C -73.07733516844844 11.431003507441568 -71.61003505674438 14.243102345787808 -69.8871879848801 16.883347592276582 C -68.16419818236172 19.523811572010572 -66.17913626819927 22.00167064718019 -63.97456091681341 24.259096539259225 C -61.76979338301621 26.516719220960866 -59.33691470847001 28.562094906065916 -56.73041674174472 30.345459352151035 C -54.12368013850502 32.128987073205394 -51.33283161568622 33.65715747299408 -48.422995031003396 34.89136836101929 C -45.51288111403686 36.12569687988534 -42.47175503480225 37.070718115755994 -39.37284376678765 37.70195194301252 C -37.82205620301313 38.017840164545994 -36.25480260761624 38.255731068335706 -34.680797034424145 38.414502602945035 C -33.10640359869506 38.57331326164088 -31.52287696679346 38.653099302003405 -29.940000000000012 38.653099302003405 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape008'</title>
+</g>
+<g id="Shape009" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape009_nwe0000"  d="M -77.8444359860918 -9.934829962652309 L -77.8444359860918 -89.21181112583989 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape009'</title>
+</g>
+<g id="Shape010" transform="translate(79.574725,40.383388) scale(1,-1)">
+<circle cx="-15.371630560342759" cy="-73.4332719320888" r="2.550000000000008" stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none"/>
+<title>b'Shape010'</title>
+</g>
+<g id="Shape011" transform="translate(79.574725,40.383388) scale(1,-1)">
+<circle cx="32.71163056034276" cy="-25.350010811403827" r="2.549999999999997" stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none"/>
+<title>b'Shape011'</title>
+</g>
+<g id="Polyline" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Polyline_w0000"  d="M 77.08830613880848 -15.513213631947597 A 9.5 9.5 0 0 1 80.6326 -1.84748A 86.25 86.25 0 0 1 -63.2926 -1.84748A 9.5 9.5 0 0 1 -59.7483 -15.5132L -56.17874199376524 -17.368943629261537 A 9.5 9.5 0 0 1 -43.9007 -14.2223A 63.25 63.25 0 0 0 61.2407 -14.2223A 9.5 9.5 0 0 1 73.5187 -17.3689L 77.08830613880848 -15.513213631947597 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Polyline'</title>
+</g>
+<g id="Shape012" transform="translate(79.574725,40.383388) scale(1,-1)">
+<circle cx="-15.371630560342489" cy="-25.35001081140355" r="2.25" stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none"/>
+<title>b'Shape012'</title>
+</g>
+<g id="Shape013" transform="translate(79.574725,40.383388) scale(1,-1)">
+<circle cx="-15.371630560342759" cy="-73.4332719320888" r="2.2500000000000053" stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none"/>
+<title>b'Shape013'</title>
+</g>
+<g id="Shape014" transform="translate(79.574725,40.383388) scale(1,-1)">
+<circle cx="32.711630560342485" cy="-73.43327193208908" r="2.250000000000007" stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none"/>
+<title>b'Shape014'</title>
+</g>
+<g id="Shape015" transform="translate(79.574725,40.383388) scale(1,-1)">
+<circle cx="32.71163056034276" cy="-25.350010811403827" r="2.25" stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none"/>
+<title>b'Shape015'</title>
+</g>
+<g id="Polyline001" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Polyline001_w0000"  d="M -62.04107061108456 -2.6743319346408754 A 8 8 0 0 1 -59.0564 -14.1823L -55.48684299573068 -16.038050779886063 A 8 8 0 0 1 -45.1475 -13.3883A 64.75 64.75 0 0 0 62.4875 -13.3883A 8 8 0 0 1 72.8268 -16.0381L 76.3964071432711 -14.18232078127389 A 8 8 0 0 1 79.3811 -2.67433A 84.75 84.75 0 0 1 -62.0411 -2.67433" stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Polyline001'</title>
+</g>
+<g id="Shape016" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape016_nwe0000"  d="M 95.18443598609181 -9.934829962652312 L 95.18443598609181 -89.21181112583992 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape016'</title>
+</g>
+<g id="Shape017" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape017_nwe0000"  d="M 95.1844359860918 -89.21181112578536 C 95.1844359861019 -92.35808608841216 94.87923099436543 -95.49236975399646 94.27192780627932 -98.57970678464083 C 93.66461916735597 -101.667071525615 92.7598292055245 -104.68395654214643 91.56683858037036 -107.59636969355257 C 90.37384795518989 -110.50878284502312 88.9017708643209 -113.29442061824992 87.16606951963647 -115.92119444517266 C 85.43036817491586 -118.54796827215014 83.44435483453992 -120.99568188147973 81.22954452543367 -123.23531460090608 C 79.014734216432 -125.47494732022668 76.58819352910709 -127.48919706877352 73.97709973784377 -129.25342757020627 C 71.36600594648498 -131.01765807170358 68.59057546442475 -132.51817348960248 65.68285967053457 -133.73608725018616 C 62.77514387671494 -134.95400101074034 59.75774860151209 -135.8798186289395 56.66634260355829 -136.50162919675995 C 53.57496486879693 -137.1234340796747 50.433627511607575 -137.4363820454743 47.2800000001341 -137.43638204549615 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape017'</title>
+</g>
+<g id="Shape018" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape018_nwe0000"  d="M 47.2800000001341 -137.43638204549615 L -29.939999999999998 -137.43638204549615 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape018'</title>
+</g>
+<g id="Shape019" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape019_nwe0000"  d="M -29.94 -137.43638204549615 C -33.087276461062764 -137.43638204549615 -36.24085084218617 -137.1221780195317 -39.32591647741974 -136.50171490350124 C -42.41134437933888 -135.88117892901548 -45.44059503794229 -134.95164128004205 -48.34245972370141 -133.73625476498552 C -51.24459795249944 -132.5207536820367 -54.03084099788412 -131.01430639222772 -56.63674175290312 -129.25366944307453 C -59.24288351720083 -127.49286965969205 -61.678774161451614 -125.47076264659066 -63.88924202861223 -123.23562048114582 C -66.09990972074543 -121.00027626018658 -68.09348008217323 -118.54313252219589 -69.82583336045337 -115.92155183489689 C -71.55833964748138 -113.29973959853491 -73.03594231595925 -110.50348704182716 -74.22667678396556 -107.59676466996183 C -75.41751433857652 -104.68979065161442 -76.32564327345511 -101.6615070314137 -76.93184561652393 -98.58012458703506 C -77.5381140496745 -95.49840620067269 -77.8444359860918 -92.35221659261997 -77.8444359860918 -89.21181112583989 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape019'</title>
+</g>
+<g id="Shape020" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape020_nwe0000"  d="M -77.8444359860918 -89.21181112583989 L -77.84443598609181 -9.934829962652305 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape020'</title>
+</g>
+<g id="Shape021" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape021_nwe0000"  d="M -77.8444359860918 -9.934829962652309 C -77.8444359860918 -6.786169939502824 -77.54118809572594 -3.6323697838637488 -76.94074084860239 -0.5411320013100052 C -76.34023268719064 2.55041938173066 -75.44022642813609 5.589617833313088 -74.25882759146022 8.510194991359128 C -73.07733516844844 11.431003507441568 -71.61003505674438 14.243102345787808 -69.8871879848801 16.883347592276582 C -68.16419818236172 19.523811572010572 -66.17913626819927 22.00167064718019 -63.97456091681341 24.259096539259225 C -61.76979338301621 26.516719220960866 -59.33691470847001 28.562094906065916 -56.73041674174472 30.345459352151035 C -54.12368013850502 32.128987073205394 -51.33283161568622 33.65715747299408 -48.422995031003396 34.89136836101929 C -45.51288111403686 36.12569687988534 -42.47175503480225 37.070718115755994 -39.37284376678765 37.70195194301252 C -37.82205620301313 38.017840164545994 -36.25480260761624 38.255731068335706 -34.680797034424145 38.414502602945035 C -33.10640359869506 38.57331326164088 -31.52287696679346 38.653099302003405 -29.940000000000012 38.653099302003405 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape021'</title>
+</g>
+<g id="Shape022" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape022_nwe0000"  d="M -29.940000000000012 38.6530993020034 L 47.27999999999996 38.653099302003575 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape022'</title>
+</g>
+<g id="Shape023" transform="translate(79.574725,40.383388) scale(1,-1)">
+<path id="Shape023_nwe0000"  d="M 47.27999999994553 38.653099302003405 C 50.449780666477 38.65309930201355 53.60709663669638 38.33450557361117 56.71241821208963 37.70203862155101 C 59.81776836389695 37.069565849276415 62.846774862585065 36.128209996100665 65.76259729817562 34.891537054662436 C 68.67841973376372 33.65486411322523 71.45828734171168 32.132591824544114 74.07006294044106 30.34570141704777 C 76.68183853901239 28.55881100965957 79.10530657982054 26.52121418788265 81.31426410877043 24.259400456038342 C 83.52322163757053 21.997586724347407 85.50074304656798 19.528980701237057 87.226957914816 16.88370016387568 C 88.95317278305484 14.238419626528383 90.41498243527698 11.436637921588687 91.59867090787895 8.510582322254724 C 92.78235938055843 5.584526722729144 93.67901600628473 2.556327447239646 94.28066157619156 -0.5407239125013685 C 94.88230182251488 -3.6377478683813793 95.18443598608087 -6.7803738091844945 95.1844359860918 -9.93482996258528 " stroke="#38bdf8" stroke-width="1.8 px" style="stroke-width:0.35;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:square;fill:none;fill-opacity:1;fill-rule: evenodd"/>
+<title>b'Shape023'</title>
+</g>
+
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- COTATIONS RATIONNELLES DIRECTEMENT CALIBRÉES SUR LA GÉOMÉTRIE        -->
+  <!-- ===================================================================== -->
+  <g id="cotations_reelles">
+    <!-- 1. Cote Largeur Hors-Tout : 173.03 mm (Bas) -->
+    <g>
+      <line x1="193.99275" y1="657.29675" x2="193.99275" y2="697.29675" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <line x1="566.00725" y1="657.29675" x2="566.00725" y2="697.29675" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <line x1="197.99275" y1="687.29675" x2="562.00725" y2="687.29675" stroke="#facc15" stroke-width="1.4" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)"/>
+      <rect x="325" y="677.29675" width="110" height="20" fill="#0f172a" rx="3" stroke="#facc15" stroke-width="0.8"/>
+      <text x="380" y="691.29675" fill="#facc15" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold" text-anchor="middle">173.03 mm</text>
+    </g>
+
+    <!-- 2. Cote Hauteur Hors-Tout : 176.09 mm (Gauche) -->
+    <g>
+      <line x1="185.99275" y1="270.70325" x2="145.99275" y2="270.70325" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <line x1="185.99275" y1="649.29675" x2="145.99275" y2="649.29675" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <line x1="155.99275" y1="274.70325" x2="155.99275" y2="645.29675" stroke="#facc15" stroke-width="1.4" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)"/>
+      <rect x="145.99275" y="405" width="20" height="110" fill="#0f172a" rx="3" stroke="#facc15" stroke-width="0.8"/>
+      <text x="159.99275" y="460" fill="#facc15" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold" text-anchor="middle" transform="rotate(-90 159.99275 460)">176.09 mm</text>
+    </g>
+
+    <!-- 3. Entraxe Horizontal des 4 Perçages RS-06 (48.08 mm) -->
+    <g>
+      <line x1="328.314" y1="516.6859999999999" x2="328.314" y2="536.6859999999999" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2"/>
+      <line x1="431.686" y1="516.6859999999999" x2="431.686" y2="536.6859999999999" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2"/>
+      <line x1="332.314" y1="529.6859999999999" x2="427.686" y2="529.6859999999999" stroke="#facc15" stroke-width="1.2" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)"/>
+      <rect x="340" y="521.6859999999999" width="80" height="16" fill="#0f172a" rx="2" stroke="#facc15" stroke-width="0.8"/>
+      <text x="380" y="533.6859999999999" fill="#facc15" font-family="'Segoe UI', monospace" font-size="10" font-weight="bold" text-anchor="middle">48.08 mm</text>
+    </g>
+
+    <!-- 4. Entraxe Vertical des 4 Perçages RS-06 (48.08 mm) -->
+    <g>
+      <line x1="436.686" y1="408.314" x2="456.686" y2="408.314" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2"/>
+      <line x1="436.686" y1="511.686" x2="456.686" y2="511.686" stroke="#64748b" stroke-width="0.8" stroke-dasharray="2,2"/>
+      <line x1="449.686" y1="412.314" x2="449.686" y2="507.686" stroke="#facc15" stroke-width="1.2" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)"/>
+      <rect x="441.686" y="425" width="16" height="70" fill="#0f172a" rx="2" stroke="#facc15" stroke-width="0.8"/>
+      <text x="453.686" y="460" fill="#facc15" font-family="'Segoe UI', monospace" font-size="10" font-weight="bold" text-anchor="middle" transform="rotate(-90 453.686 460)">48.08 mm</text>
+    </g>
+
+    <!-- 5. Callout Réel pour la Lumière Oblongue en Arc (Corridor de Câbles 125°) -->
+    <g transform="translate(380, 310.70325)">
+      <circle cx="0" cy="0" r="4.0" fill="#38bdf8"/>
+      <polyline points="0,0 80,-40 220,-40" fill="none" stroke="#38bdf8" stroke-width="1.4"/>
+      <rect x="220" y="-60" width="240" height="42" rx="4" fill="#0b1329" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="230" y="-42" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">Lumière d'Arc Arrière (Passage Câbles)</text>
+      <text x="230" y="-26" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10">• Rayon ext : 86.25 mm | Rayon int : 63.25 mm</text>
+    </g>
+
+    <!-- 6. Callout Réel pour les 4 Perçages Stator RS-06 (placé proprement sous les perçages) -->
+    <g transform="translate(355, 511.686)">
+      <circle cx="0" cy="0" r="3.5" fill="#facc15"/>
+      <polyline points="0,0 -40,40 -120,40" fill="none" stroke="#facc15" stroke-width="1.4"/>
+      <rect x="-350" y="20" width="230" height="42" rx="4" fill="#0b1329" stroke="#facc15" stroke-width="1.2"/>
+      <text x="-340" y="38" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">4x M4 Stator RS-06 (PCD Ø 68.0 mm)</text>
+      <text x="-340" y="54" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10">• Perçage lisse Ø 4.50 mm Lamé Ø 5.10 mm</text>
+    </g>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- ZONE DROITE : CARTOUCHE D'INGÉNIERIE NORMALISÉ ISO 7200                -->
+  <!-- ===================================================================== -->
+  <g id="cartouche_iso" transform="translate(730, 470)">
+    <rect x="0" y="0" width="510" height="345" rx="6" fill="#0b1329" stroke="#38bdf8" stroke-width="1.5"/>
+
+    <!-- Ligne En-tête : Logo & Titre Général -->
+    <rect x="0" y="0" width="510" height="50" fill="#1e293b" rx="6 6 0 0"/>
+    <text x="20" y="32" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="bold" letter-spacing="1.5">D-BOT HUMANOID ROBOTICS</text>
+    <text x="350" y="32" fill="#94a3b8" font-family="'Segoe UI', monospace" font-size="11">CAO SOUVERAINE B-REP</text>
+    <line x1="0" y1="50" x2="510" y2="50" stroke="#334155" stroke-width="1.2"/>
+
+    <!-- Ligne 1 : Désignation Pièce -->
+    <g transform="translate(20, 75)">
+      <text x="0" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">DÉSIGNATION OFFICIELLE :</text>
+      <text x="0" y="20" fill="#f8fafc" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="bold">Platine Supérieure Déportée Waist Yaw (Waist_Plate_7075)</text>
+    </g>
+    <line x1="0" y1="105" x2="510" y2="105" stroke="#334155" stroke-width="1.0"/>
+
+    <!-- Ligne 2 : Données Métrologiques Certifiées -->
+    <g transform="translate(20, 130)">
+      <text x="0" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">RÉFÉRENCE :</text>
+      <text x="0" y="16" fill="#facc15" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold">ASV1_100_02A</text>
+
+      <text x="130" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">MATÉRIAU :</text>
+      <text x="130" y="16" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">Aluminium 7075-T6</text>
+
+      <text x="270" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">MASSE CERTIFIÉE :</text>
+      <text x="270" y="16" fill="#f8fafc" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold">434.71 g</text>
+
+      <text x="390" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">ÉPAISSEUR :</text>
+      <text x="390" y="16" fill="#94a3b8" font-family="'Segoe UI', monospace" font-size="11">9.00 mm</text>
+    </g>
+    <line x1="0" y1="165" x2="510" y2="165" stroke="#334155" stroke-width="1.0"/>
+
+    <!-- Ligne 3 : Dimensions Hors-Tout Réelles -->
+    <g transform="translate(20, 190)">
+      <text x="0" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">ENCOMBREMENT RÉEL USINÉ :</text>
+      <text x="0" y="16" fill="#f8fafc" font-family="'Segoe UI', monospace" font-size="11">173.03 × 176.09 × 9.00 mm</text>
+
+      <text x="240" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">SOURCE GÉOMÉTRIQUE :</text>
+      <text x="240" y="16" fill="#10b981" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold">DXF 1:1 Fusion 360 Certifié</text>
+    </g>
+    <line x1="0" y1="225" x2="510" y2="225" stroke="#334155" stroke-width="1.0"/>
+
+    <!-- Ligne 4 : Consignes Atelier & Tolérances -->
+    <g transform="translate(20, 248)" font-family="'Segoe UI', sans-serif" font-size="10">
+      <text x="0" y="0" fill="#38bdf8" font-weight="bold">CONSIGNES ATELIER FRAISEUSE CNC C500 :</text>
+      <text x="0" y="18" fill="#e2e8f0">• Contournage extérieur et lumière d'arc : Fraise carbure DLC Ø 10 mm</text>
+      <text x="0" y="34" fill="#e2e8f0">• 4x perçages M4 : Foret carbure Ø 4.50 mm (PCD 68.0 mm, entraxe 48.08 mm)</text>
+      <text x="0" y="50" fill="#e2e8f0">• Tolérance générale d'usinage : ISO 2768-mK | Ébavurage 0.3 mm × 45°</text>
+    </g>
+
+    <!-- Pied de cartouche : Date & Auteur -->
+    <rect x="0" y="315" width="510" height="30" fill="#1e293b" rx="0 0 6 6"/>
+    <text x="20" y="334" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">Date : Octobre 2026 | Auteur : D-Bot Core Team | Échelle : 1:2.15 | Statut : 100% Fidèle CAO</text>
+  </g>
+</svg>

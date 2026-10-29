@@ -1,0 +1,346 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 950" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <linearGradient id="alu7075Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+
+    <linearGradient id="ribGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.35"/>
+    </linearGradient>
+
+    <linearGradient id="batteryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#d97706" stop-opacity="0.08"/>
+    </linearGradient>
+
+    <!-- Grid Pattern -->
+    <pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse">
+      <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#334155" stroke-width="0.5" stroke-opacity="0.4"/>
+    </pattern>
+
+    <!-- Markers -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowOrange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" fill="url(#bgGrad)"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- Top Banner / Header -->
+  <rect x="30" y="25" width="1540" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="58" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="bold" letter-spacing="1">
+    D-BOT V1 — BLUEPRINT NERVURE ÉVOLUTIVE (TAPERED RIB)
+  </text>
+  <text x="60" y="83" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="13">
+    USINAGE CNC C500 : DÉGAGEMENT DU COIN BAS BATTERIE (Z = 1138,5 mm) &amp; TRIANGULATION DU PIED MONOBLOC
+  </text>
+  <rect x="1270" y="42" width="270" height="40" rx="6" fill="#b45309" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="1405" y="67" text-anchor="middle" fill="#ffffff" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="bold">
+    CIBLE FUTURE (À MODÉLISER EN CAO)
+  </text>
+
+  <!-- ==================================================================== -->
+  <!-- PANEL 1 : VUE FRONTALE (Y-Z) — DÉGAGEMENT DU COIN BAS BATTERIE      -->
+  <!-- ==================================================================== -->
+  <g transform="translate(30, 120)">
+    <rect width="520" height="790" rx="10" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5"/>
+    <rect x="0" y="0" width="520" height="42" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="27" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="bold">
+      PANEL 1 : VUE FRONTALE (Y-Z) — DÉGAGEMENT LOCAL DU COIN
+    </text>
+
+    <!-- Context Phantom: Battery Rack (Z = 1138,5 à 1278,4 mm) -->
+    <rect x="175" y="70" width="310" height="280" rx="8" fill="url(#batteryGrad)" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="330" y="105" text-anchor="middle" fill="#f59e0b" font-family="'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="bold">
+      PANIER BATTERIE 12S
+    </text>
+    <text x="330" y="125" text-anchor="middle" fill="#fbbf24" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">
+      Arrêt strict à Z = 1138,5 mm (Fond du rack)
+    </text>
+
+    <!-- Critical Lower-Left Battery Corner Callout -->
+    <circle cx="175" cy="350" r="12" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="3,3"/>
+    <text x="200" y="365" fill="#ef4444" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">
+      Coin bas-gauche critique (Z = 1138,5 mm)
+    </text>
+
+    <!-- Free Space below Battery Highlight -->
+    <rect x="175" y="355" width="310" height="325" fill="#10b981" fill-opacity="0.05" stroke="#10b981" stroke-width="1" stroke-dasharray="4,4"/>
+    <text x="330" y="520" text-anchor="middle" fill="#10b981" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="bold">
+      ZONE 100% LIBRE (H = 96 mm)
+    </text>
+    <text x="330" y="538" text-anchor="middle" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">
+      Zéro batterie sous Z = 1138,5 mm : nervure déployable à 12-15 mm
+    </text>
+
+    <!-- Shell Outline (C2) -->
+    <path d="M 60 70 Q 75 320 120 540 L 120 680 L 490 680" fill="none" stroke="#c084fc" stroke-width="2" stroke-dasharray="4,4"/>
+
+    <!-- Waist Plate Foot Level -->
+    <line x1="80" y1="680" x2="490" y2="680" stroke="#ef4444" stroke-width="3"/>
+    <text x="400" y="670" fill="#ef4444" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">
+      Waist Plate (Z = 1042,4 mm)
+    </text>
+
+    <!-- Ceinture Level Top -->
+    <line x1="60" y1="70" x2="490" y2="70" stroke="#a855f7" stroke-width="3"/>
+    <text x="400" y="60" fill="#a855f7" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">
+      Ceinture Alu (Z = 1233,5 mm)
+    </text>
+
+    <!-- THE TAPERED STRUT WITH VARIABLE RIB -->
+    <!-- Variable Stiffener Web (Nervure Évolutive) -->
+    <!-- Narrow at the corner (only 3-4 mm), flared below into full gusset (15 mm) -->
+    <path d="M 120 70 L 150 70 L 150 300 Q 155 350 160 365 L 180 560 L 180 680 L 130 680 L 130 580 Q 135 480 125 330 Z" fill="url(#ribGrad)" stroke="#38bdf8" stroke-width="1"/>
+
+    <!-- Main Solid Blade -->
+    <path d="M 120 70 L 145 70 L 145 300 L 175 560 L 175 680 L 145 680 L 145 575 L 120 310 Z" fill="url(#alu7075Grad)" stroke="#f8fafc" stroke-width="1.5"/>
+
+    <!-- Integrated Monobloc Foot (Horizontal Base on Waist Plate) -->
+    <rect x="145" y="640" width="75" height="40" rx="3" fill="url(#alu7075Grad)" stroke="#f8fafc" stroke-width="1.5"/>
+    <circle cx="165" cy="660" r="4.5" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <circle cx="195" cy="660" r="4.5" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+
+    <!-- Top Attachment (Ceinture) -->
+    <circle cx="132" cy="90" r="4.5" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <circle cx="132" cy="115" r="4.5" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+
+    <!-- Variable Rib Modulation Annotations -->
+    <!-- Zone 1 : Upper Narrow Web (4 mm) -->
+    <line x1="145" y1="200" x2="90" y2="200" stroke="#38bdf8" stroke-width="1.2"/>
+    <rect x="25" y="185" width="115" height="30" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+    <text x="82" y="204" text-anchor="middle" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="bold">Zone Haute : 6 mm</text>
+
+    <!-- Zone 2 : Constrained Corner Relief (3 mm max) -->
+    <line x1="155" y1="350" x2="80" y2="350" stroke="#ef4444" stroke-width="1.5"/>
+    <rect x="15" y="335" width="130" height="34" rx="4" fill="#0f172a" stroke="#ef4444" stroke-width="1.2"/>
+    <text x="80" y="350" text-anchor="middle" fill="#ef4444" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="bold">Étranglement 3 mm</text>
+    <text x="80" y="363" text-anchor="middle" fill="#fca5a5" font-family="'Segoe UI', Roboto, sans-serif" font-size="9">Garde batterie >= 8 mm</text>
+
+    <!-- Zone 3 : Lower Flared Gusset (15 mm max) -->
+    <line x1="160" y1="600" x2="80" y2="600" stroke="#10b981" stroke-width="1.5"/>
+    <rect x="15" y="585" width="130" height="34" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+    <text x="80" y="600" text-anchor="middle" fill="#10b981" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="bold">Épanouissement 15 mm</text>
+    <text x="80" y="613" text-anchor="middle" fill="#86efac" font-family="'Segoe UI', Roboto, sans-serif" font-size="9">Gousset de pied géant</text>
+
+    <!-- Summary Box -->
+    <rect x="20" y="730" width="480" height="45" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+    <text x="35" y="750" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">
+      CONCEPTION DÉFENSIVE : HAUTEUR DE NERVURE SUR MESURE
+    </text>
+    <text x="35" y="766" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">
+      La nervure fait 3 mm au droit du coin pour le jeu, puis s'évase à 15 mm sous le panier là où l'espace est libre.
+    </text>
+  </g>
+
+  <!-- ==================================================================== -->
+  <!-- PANEL 2 : PROFIL LONGITUDINAL ÉVOLUTIF (ÉLÉVATION X-Z)               -->
+  <!-- ==================================================================== -->
+  <g transform="translate(570, 120)">
+    <rect width="490" height="790" rx="10" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5"/>
+    <rect x="0" y="0" width="490" height="42" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="27" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="bold">
+      PANEL 2 : PROFIL DE L'ÂME ÉVOLUTIVE &amp; 3 SECTIONS TYPES
+    </text>
+
+    <!-- Longitudinal Profile of the Rib (showing tapering) -->
+    <g transform="translate(30, 60)">
+      <text x="70" y="20" text-anchor="middle" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="bold">
+        PROFIL ÉVOLUTIF DE L'ÂME (HAUTEUR H)
+      </text>
+
+      <!-- Backplate (Face interne plane côté batterie) -->
+      <rect x="70" y="40" width="6" height="560" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+      <text x="85" y="150" fill="#f59e0b" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" transform="rotate(90 85 150)">
+        FACE INTERNE 100% PLANE (Zéro saillie vers batterie)
+      </text>
+
+      <!-- Rib Height Variation (Profile facing outwards) -->
+      <!-- Top: h=6mm (x=64 to 70), Corner: h=3mm (x=67 to 70), Bottom: h=15mm (x=55 to 70) -->
+      <path d="M 64 40 L 70 40 L 70 600 L 55 600 L 55 500 Q 60 400 67 280 L 67 180 Q 65 100 64 40 Z" fill="url(#ribGrad)" stroke="#38bdf8" stroke-width="1.5"/>
+
+      <!-- Integrated Foot at bottom -->
+      <rect x="20" y="570" width="56" height="30" fill="url(#alu7075Grad)" stroke="#f8fafc" stroke-width="1.5"/>
+      <circle cx="45" cy="585" r="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+
+      <!-- Dimension Marks on Profile -->
+      <!-- Top h=6 mm -->
+      <line x1="50" y1="40" x2="50" y2="70" stroke="#38bdf8" stroke-width="1"/>
+      <line x1="64" y1="50" x2="70" y2="50" stroke="#38bdf8" stroke-width="1" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <text x="45" y="54" text-anchor="end" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="bold">h = 6 mm</text>
+
+      <!-- Corner h=3 mm -->
+      <line x1="50" y1="280" x2="50" y2="300" stroke="#ef4444" stroke-width="1"/>
+      <line x1="67" y1="290" x2="70" y2="290" stroke="#ef4444" stroke-width="1" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <text x="45" y="294" text-anchor="end" fill="#ef4444" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="bold">h = 3 mm (Goulot)</text>
+
+      <!-- Bottom h=15 mm -->
+      <line x1="30" y1="500" x2="30" y2="540" stroke="#10b981" stroke-width="1"/>
+      <line x1="55" y1="520" x2="70" y2="520" stroke="#10b981" stroke-width="1" marker-start="url(#arrowGreen)" marker-end="url(#arrowGreen)"/>
+      <text x="25" y="524" text-anchor="end" fill="#10b981" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="bold">h = 15 mm (Pied)</text>
+    </g>
+
+    <!-- The 3 Section Cards -->
+    <g transform="translate(230, 70)">
+      <!-- Card 1 : Section Top -->
+      <rect x="0" y="0" width="230" height="180" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+      <text x="115" y="22" text-anchor="middle" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">COUPE HAUTE (Z = 1200 mm)</text>
+      <!-- T shape -->
+      <path d="M 40 50 L 190 50 L 190 65 L 122 65 L 122 130 L 108 130 L 108 65 L 40 65 Z" fill="url(#alu7075Grad)" stroke="#f8fafc" stroke-width="1"/>
+      <text x="115" y="155" text-anchor="middle" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">Hauteur nervure = 6 mm</text>
+      <text x="115" y="170" text-anchor="middle" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="bold">Garde latérale = 12 mm</text>
+
+      <!-- Card 2 : Section Corner (Critical bottleneck) -->
+      <rect x="0" y="200" width="230" height="180" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="1.2"/>
+      <text x="115" y="222" text-anchor="middle" fill="#ef4444" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">COUPE COIN BATTERIE (Z = 1138 mm)</text>
+      <!-- Flatter T shape -->
+      <path d="M 40 250 L 190 250 L 190 268 L 122 268 L 122 300 L 108 300 L 108 268 L 40 268 Z" fill="url(#alu7075Grad)" stroke="#f8fafc" stroke-width="1"/>
+      <text x="115" y="325" text-anchor="middle" fill="#fca5a5" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">Hauteur nervure = 3 mm</text>
+      <text x="115" y="340" text-anchor="middle" fill="#ef4444" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="bold">Garde coin rack = 8,5 mm (Sécurisé)</text>
+
+      <!-- Card 3 : Section Base -->
+      <rect x="0" y="400" width="230" height="180" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+      <text x="115" y="422" text-anchor="middle" fill="#10b981" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">COUPE BASSE PIED (Z = 1060 mm)</text>
+      <!-- Deep T shape -->
+      <path d="M 40 450 L 190 450 L 190 465 L 122 465 L 122 555 L 108 555 L 108 465 L 40 465 Z" fill="url(#alu7075Grad)" stroke="#f8fafc" stroke-width="1"/>
+      <text x="115" y="570" text-anchor="middle" fill="#86efac" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">Hauteur nervure = 15 mm</text>
+      <text x="115" y="585" text-anchor="middle" fill="#10b981" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="bold">Gousset triangulaire plein</text>
+    </g>
+
+    <!-- Bottom CAM reminder -->
+    <rect x="25" y="690" width="440" height="75" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="40" y="715" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">
+      PROGRAMMATION CAM C500 DU PROFIL ÉVOLUTIF :
+    </text>
+    <text x="40" y="735" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">
+      Fraisage 3D en rampe continue (Contour 3D ou Pente douce) sans reprise, réalisable directement avec la fraise plate DLC 1/4" ou ball-nose Ø 6 mm.
+    </text>
+  </g>
+
+  <!-- ==================================================================== -->
+  <!-- PANEL 3 : RÉPONSE TECHNIQUE & RÈGLES DE CONCEPTION                   -->
+  <!-- ==================================================================== -->
+  <g transform="translate(1080, 120)">
+    <rect width="490" height="790" rx="10" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5"/>
+    <rect x="0" y="0" width="490" height="42" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="27" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="bold">
+      PANEL 3 : RÈGLES D'INGÉNIERIE &amp; ARBITRAGES CLÉS
+    </text>
+
+    <!-- The 4 Engineering Rules -->
+    <g transform="translate(20, 60)">
+      <!-- Rule 1 -->
+      <rect x="0" y="0" width="450" height="110" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1.2"/>
+      <circle cx="30" cy="30" r="14" fill="#ef4444"/>
+      <text x="30" y="35" text-anchor="middle" fill="#ffffff" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="bold">1</text>
+      <text x="55" y="30" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="bold">
+        RÈGLE 1 : ZÉRO SAILLIE CÔTÉ BATTERIE
+      </text>
+      <text x="55" y="52" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">
+        La face interne tournée vers le panier batterie doit être
+      </text>
+      <text x="55" y="68" fill="#fca5a5" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">
+        100% plane et lisse (affleurante à 0,0 mm).
+      </text>
+      <text x="55" y="88" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">
+        La nervure fait saillie uniquement vers l'extérieur (côté coque).
+      </text>
+
+      <!-- Rule 2 -->
+      <rect x="0" y="125" width="450" height="110" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.2"/>
+      <circle cx="30" cy="155" r="14" fill="#f59e0b"/>
+      <text x="30" y="160" text-anchor="middle" fill="#ffffff" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="bold">2</text>
+      <text x="55" y="155" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="bold">
+        RÈGLE 2 : ÉTRANGLEMENT LOCAL AU COIN
+      </text>
+      <text x="55" y="177" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">
+        Au droit du coin bas de batterie (Z = 1130 à 1145 mm),
+      </text>
+      <text x="55" y="193" fill="#fbbf24" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">
+        la hauteur de nervure se réduit à 3,0 mm.
+      </text>
+      <text x="55" y="213" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">
+        Garde dynamique >= 8,5 mm préservée pour l'extraction du rack.
+      </text>
+
+      <!-- Rule 3 -->
+      <rect x="0" y="250" width="450" height="110" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+      <circle cx="30" cy="280" r="14" fill="#10b981"/>
+      <text x="30" y="285" text-anchor="middle" fill="#ffffff" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="bold">3</text>
+      <text x="55" y="280" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="bold">
+        RÈGLE 3 : PLEINE HAUTEUR SOUS LA BATTERIE
+      </text>
+      <text x="55" y="302" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">
+        Sous Z = 1138,5 mm, la batterie n'existe plus !
+      </text>
+      <text x="55" y="318" fill="#86efac" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">
+        La nervure peut s'épanouir à 12 - 15 mm en toute liberté
+      </text>
+      <text x="55" y="338" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">
+        pour former un gousset géant à l'assise de la Waist Plate.
+      </text>
+
+      <!-- Rule 4 -->
+      <rect x="0" y="375" width="450" height="110" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="30" cy="405" r="14" fill="#38bdf8"/>
+      <text x="30" y="410" text-anchor="middle" fill="#ffffff" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="bold">4</text>
+      <text x="55" y="405" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="bold">
+        RÈGLE 4 : TRANSITIONS EN PENTE DOUCE (R >= 15 mm)
+      </text>
+      <text x="55" y="427" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">
+        Les variations de hauteur de nervure (6 ➔ 3 ➔ 15 mm)
+      </text>
+      <text x="55" y="443" fill="#7dd3fc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">
+        s'effectuent par des congés tangents doux (Kt &lt; 1,12).
+      </text>
+      <text x="55" y="463" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">
+        Zéro angle vif, zéro concentration de contraintes en fatigue.
+      </text>
+    </g>
+
+    <!-- Final Synthesis Callout -->
+    <g transform="translate(20, 580)">
+      <rect x="0" y="0" width="450" height="175" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+      <text x="20" y="30" fill="#10b981" font-family="'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="bold">
+        SYNTHÈSE TECHNIQUE POUR VOTRE CAO
+      </text>
+      <text x="20" y="60" fill="#e2e8f0" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">
+        • Votre observation est <tspan font-weight="bold" fill="#38bdf8">100% exacte</tspan> : 12 mm au coin bloquerait le rack.
+      </text>
+      <text x="20" y="85" fill="#e2e8f0" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">
+        • La solution est la <tspan font-weight="bold" fill="#38bdf8">nervure évolutive</tspan> : 3 mm au goulot, 15 mm en bas.
+      </text>
+      <text x="20" y="110" fill="#e2e8f0" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">
+        • L'épaisseur totale de la pièce reste confinée dans les <tspan font-weight="bold" fill="#fbbf24">20 mm du brut</tspan>.
+      </text>
+      <text x="20" y="135" fill="#e2e8f0" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">
+        • Rigidité axiale préservée à <tspan font-weight="bold" fill="#86efac">> 96%</tspan> par rapport à une nervure constante.
+      </text>
+      <text x="20" y="158" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">
+        Ce profil concilie le passage dynamique du rack et la rigidité maximale en marche.
+      </text>
+    </g>
+  </g>
+</svg>

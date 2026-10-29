@@ -73,10 +73,14 @@ class AudioIOAutonomous:
         """Enregistre l'audio via ALSA direct (arecord) — Stéréo 2ch obligatoire."""
         try:
             d = int(duration)
-            # Capture en 2ch (pour éviter le bug driver) et conversion mono via sox
-            cmd = (f"arecord -D {self.alsa_device} -f S16_LE -r 16000 -c 2 -d {d} | "
-                   f"sox -t wav - -c 1 {output_file}")
-            subprocess.run(cmd, shell=True, check=True, stderr=subprocess.DEVNULL)
+            # Capture en 2ch (pour éviter le bug driver) et conversion mono via sox (sécurisé sans shell)
+            rec_cmd = ["arecord", "-D", str(self.alsa_device), "-f", "S16_LE", "-r", "16000", "-c", "2", "-d", str(d)]
+            sox_cmd = ["sox", "-t", "wav", "-", "-c", "1", str(output_file)]
+            p_rec = subprocess.Popen(rec_cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+            p_sox = subprocess.Popen(sox_cmd, stdin=p_rec.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            if p_rec.stdout:
+                p_rec.stdout.close()
+            p_sox.communicate()
             print(f"🎤 [AudioIO Autonome] Enregistrement : {output_file} (via ALSA Direct)")
             return os.path.exists(output_file) and os.path.getsize(output_file) > 1000
         except Exception as e:

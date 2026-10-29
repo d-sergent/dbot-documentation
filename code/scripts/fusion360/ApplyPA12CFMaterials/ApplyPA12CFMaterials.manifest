@@ -1,0 +1,8 @@
+{
+    "autodeskProduct": "Fusion360",
+    "type": "script",
+    "author": "D-Bot Systems Architect",
+    "description": "Affecte automatiquement le matériau physique PA12-CF et l'apparence noire aux pièces Plastron Ventral et Châssis Bassin dans Fusion 360",
+    "supportedOS": "windows|mac",
+    "editEnabled": true
+}

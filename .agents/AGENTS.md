@@ -10,9 +10,34 @@
 - ALWAYS provide a detailed text explanation of the problem, diagnosis, and proposed code changes FIRST in your response message BEFORE invoking any `git push` or tool execution.
 - NEVER run `git push` or execute modifying commands without explaining the rationale to the user beforehand in the text output.
 
+## Ergonomie des Réponses & Copier-Coller en 1 Clic (Interface Antigravity)
+- **Isolation Stricte dans des Blocs de Code Dédiés (` ```text ` ou ` ```bash `)** :
+  - Dans l'interface Antigravity IDE, la sélection manuelle de texte à la souris dans les paragraphes, listes ou tableaux est sujette à des dysfonctionnements du presse-papiers ou à la capture involontaire d'espaces, de guillemets, de backticks et de descriptions parasites.
+  - TOUT élément destiné à être copié et collé par l'utilisateur (référence de composant ou catalogue, commande shell, chemin de fichier absolu, paramètre de recherche, variable) DOIT ÊTRE SYSTÉMATIQUEMENT isolé dans son propre bloc de code dédié.
+  - Ce bloc de code doit être rigoureusement épuré : il contient STRICTEMENT et UNIQUEMENT la valeur utile à copier (sur une seule ligne pour une référence ou un code), sans aucun mot descriptif, sans tiret, sans commentaire et sans espace superflu.
+  - Cette disposition permet à l'utilisateur de cliquer directement sur l'icône native de copie (bouton "Copy" en haut à droite du bloc de code) pour charger instantanément le presse-papiers en 1 clic sans manipulation manuelle.
+- **Règle Inviolable pour les Références McMaster-Carr (Insertion Fusion 360)** :
+  - Dès qu'une référence McMaster-Carr (ex. `91292A118`, `93625A150`, `93475A230`) est transmise à l'utilisateur dans une réponse pour insertion dans Fusion 360 via `Insert > Insert McMaster-Carr Component`, elle DOIT OBLIGATOIREMENT être fournie dans un bloc ` ```text ` individuel contenant EXCLUSIVEMENT les 9 caractères alphanumériques.
+  - Il est STRICTEMENT INTERDIT de concaténer la référence avec du texte descriptif dans le même bloc (ex: interdiction formelle d'écrire `91292A118 - Vis M4x16 inox`), car le moteur de recherche interne de McMaster dans Fusion 360 tente d'interpréter la chaîne complète et échoue systématiquement à trouver la pièce.
+
 ## Jetson Package Management & PyTorch GPU Protection
 - **JetPack Python Package Protection**: When installing any Python package via `pip` or suggesting installation commands for the Jetson Orin Nano, ALWAYS append the `--no-deps` flag (e.g. `pip install <package> --no-deps`).
 - **NEVER** run `pip install torch` or `pip install torchvision` without `--no-deps` or without using the official NVIDIA JetPack 6.1 wheel, to prevent overwriting the native CUDA 12.2 GPU bindings.
+
+## Sécurité du Code Source & Audit Systématique (DevSecOps)
+- **Validation Systématique de Sécurité (SAST & Secrets)** :
+  - Tout code Python produit, modifié ou intégré dans le projet D-Bot (`Code/`) doit impérativement respecter les règles de sécurité défensive :
+    1. *Zéro Injection Shell* : Interdiction formelle de `subprocess.run(..., shell=True)` ou `subprocess.Popen(..., shell=True)` avec des chaînes interpolées (f-strings). Utiliser systématiquement des listes d'arguments découpées (`shell=False`) ou des flux directs d'entrée standard `input=...`.
+    2. *Zéro Secret Hardcodé* : Aucune clé d'API (Groq, Gemini, OpenAI), token ou mot de passe ne doit être écrit en dur dans le code. Utiliser systématiquement les variables d'environnement via `.env` (déjà exclu dans `.gitignore`).
+    3. *Hachages Non Cryptographiques* : Toujours spécifier `usedforsecurity=False` lors de l'appel à `hashlib.md5()` pour les identifiants documentaires RAG.
+- **Audit Automatique & Hook Git Pre-Commit** :
+  - Le hook Git `.git/hooks/pre-commit` exécute automatiquement `audit_dbot_security.py --skip-sca` avant chaque commit pour bloquer toute régression de sécurité.
+  - Avant de valider un lot de code Python ou lors de la clôture d'une session de développement, l'agent doit exécuter l'outil d'audit souverain :
+    `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/security/audit_dbot_security.py" --skip-sca`
+  - Le code ne peut être validé que si l'audit SAST et le scan des secrets retournent un statut `PASSED` (code de sortie 0).
+- **Gestion des Dépendances & Règle d'Isolation** :
+  - Sur le Mac : ne jamais installer d'outils CLI ou d'applications tierces volumineuses directement dans le Python système Homebrew. Utiliser systématiquement `/Users/davidsergent/.local/bin/uvx <outil>`.
+  - Sur la Jetson Orin Nano : appliquer impérativement le drapeau `--no-deps` pour toute commande `pip install` afin de préserver le PyTorch compilé GPU CUDA 12.2.
 
 ## Session Lifecycle & Context Persistence
 - **Session Startup**: At the beginning of any work session, ALWAYS consult the latest entry in `05_Gestion_Projet/JOURNAL_DE_BORD.md` and review the current active level in `05_Gestion_Projet/ROADMAP_STRATEGIQUE_V1.md` to immediately get up to speed with current project status.
@@ -87,6 +112,25 @@
     1. Renseigner sa **référence catalogue McMaster-Carr exacte** (à 9 caractères alphanumériques, ex. `92290A038`, `90631A105`) pour permettre le téléchargement direct du modèle 3D STEP dans Autodesk Fusion 360 via le menu `Insert > Insert McMaster-Carr Component`.
     2. Documenter la **procédure pas-à-pas d'assemblage dans Fusion 360** : type de liaison `Joint` (raccourci `J`, généralement `Rigid`), sélection des arêtes et faces d'appui planes, orientation du composant (ex. dôme polyamide vers l'extérieur pour un écrou Nylstop) et méthode de répétition (Pattern ou copie liée).
     3. Mettre à jour le **tableau synthétique des couples dynamométriques** de serrage recommandés (en N.m) et l'outillage d'atelier associé (taille de clé Allen, clé plate ou douille).
+    4. Fournir SYSTÉMATIQUEMENT chaque référence catalogue dans le dialogue sous forme de **bloc de code isolé monoligne** (` ```text\n91292A118\n``` `) pour permettre à l'utilisateur de la copier en un seul clic sans aucun texte parasite.
+- **Protocole de Vérification Stricte des Références Fournisseur & McMaster-Carr (Zéro Hallucination de Référence)** :
+  - **Interdiction Formelle d'Extrapolation ou d'Invention Numérique** :
+    - Il est formellement interdit de deviner, d'interpoler ou de restituer "de mémoire" un code catalogue alphanumérique (les séries McMaster-Carr ne sont pas linéaires et varient selon la matière, le pas métrique, le filetage total ou partiel et la longueur).
+  - **Étape 1 — Recoupement Prioritaire avec l'Historique CAO et la BOM Active** :
+    - Avant de chercher une référence, TOUJOURS inspecter si le composant exact existe déjà dans l'assemblage CAO du robot (ex. fichiers `AUDIT_METROLOGIQUE_Torse_et_Bassin.json`, noms d'occurrences CAO contenant un tag de pièce comme `[93625A150]`) ou dans [FINAL_Liste_Achats_BOM.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/FINAL_Liste_Achats_BOM.md).
+    - Si une référence est déjà certifiée et implantée dans la CAO pour une taille donnée (ex: écrou Nylstop M4 = `93625A150`), elle DOIT être reprise à l'identique pour assurer la cohérence des approvisionnements.
+  - **Étape 2 — Validation Multi-Critères Obligatoire sur le Catalogue Réel** :
+    - Pour tout nouveau composant de fixation, vous DEVEZ formellement vérifier les 6 critères physiques sur le catalogue McMaster-Carr (via recherche web ou documentation technique officielle) avant de délivrer le code :
+      1. *Système d'unités* : Métrique obligatoire (System of Measurement = Metric). Zéro visserie impériale en pouces.
+      2. *Diamètre nominal & Pas* : Pas métrique standard (Coarse) ou fin (Fine) clairement identifié (ex. M4 × 0,7 mm).
+      3. *Longueur exacte* : Longueur sous tête pour les vis à tête cylindrique CHC / bombée BHC, ou longueur totale pour les vis à tête fraisée FHC.
+      4. *Nuance de matériau & Traitement* : Inox 18-8 standard (A2 / 304), Inox 316 marine (A4), Acier allié haute résistance classe 12.9 (Black-Oxide ou zingué).
+      5. *Type de filetage* : Filetage total (Fully Threaded) ou partiel avec longueur non filetée.
+      6. *Norme géométrique* : DIN 912 / ISO 4762 (CHC), DIN 7991 / ISO 10642 (FHC), ISO 7380 (BHC), DIN 985 (Nylstop), DIN 125A (Rondelle).
+  - **Étape 3 — Contrôle de Compatibilité CAO 3D STEP** :
+    - Vérifier que la référence sélectionnée dispose bien d'un modèle CAO 3D téléchargeable (icône CAD / 3D STEP disponible dans le catalogue McMaster).
+  - **Étape 4 — Isolement Monoligne pour Copier-Coller en 1 Clic** :
+    - Comme stipulé dans la règle d'ergonomie, chaque code final validé doit être délivré dans son bloc ` ```text ` isolé, sans nom de pièce ni texte dans le bloc, pour garantir un copier-coller immédiat dans le moteur de recherche de Fusion 360.
 
 ## Cartographie des Usinages, Chanfreins, Fraisures & Ébavurages d'Atelier
 - **Obligation de Spécification des Chanfreins & Cassages d'Arêtes** :
@@ -96,4 +140,41 @@
     - Fraisures coniques à 90° (vis FHC) : spécifier le diamètre de fraisure supérieur et la profondeur exacte pour un **noyage à fleur rigoureux à 0,0 mm** (zéro saillie de tête).
     - Chants débités et bords sciés : cassage d'arête systématique (typiquement `0,5 mm × 45°`).
     - Pliures et congés d'appui : chanfreinage adapté (`0,5 mm × 45°`) pour éviter le contact franc sur le congé intérieur naturel des profilés marchands.
+
+## Inspection Visuelle Multimodale de la CAO & Bibliothèque Hors-Git
+- **Localisation des Snapshots CAO Haute Définition** :
+  - Les rendus et captures d'écran de l'assemblage complet et de chaque pièce isolée sont générés par `AuditTorse.py` dans le dossier souverain externe (hors-Git) :
+    `/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/`
+    - `Vues_Ensemble/` : 7 vues globales (Face, Arrière, Dessus, Dessous, Profil Droit, Profil Gauche, Isométrique).
+    - `Pieces_Isolees/<nom_piece>/` : Tétraptyque d'ingénierie systématique à 4 vues (`_iso.png`, `_face.png`, `_dessus.png`, `_dessous.png`).
+- **Interdiction Stricte de Pollution du Répertoire Git (`media/`)** :
+  - Il est FORMELLEMENT INTERDIT de copier, dupliquer ou commiter ces captures de pièces brutes dans le sous-dossier `media/` de la documentation Git (`Documentation/.../media`).
+- **Protocole d'Inspection Visuelle Réelle à la Volée (Dépassement des Bounding Boxes)** :
+  - Pour toute analyse géométrique, étude d'encombrement, vérification d'interférence ou dimensionnement de renfort/nervure, l'agent ne doit JAMAIS se contenter de la boîte englobante rectangulaire aveugle (`bounding_box_mm` du JSON).
+  - L'agent DOIT inspecter la morphologie réelle de la pièce en copiant instantanément l'image requise vers son répertoire de travail éphémère (`<conversation_artifact_dir>/scratch/`) via le shell, puis en l'ouvrant avec `view_file` pour analyser ses congés, lamages, nervures et étagements 3D réels.
+
+## Standardisation du Pack Technique Autonome par Composant (Exports_CAO_DBot)
+- **Règle Inviolable d'Organisation par Pièce (`Pieces_Isolees/<nom_piece>/`)** :
+  - Tout composant isolé du robot D-Bot doit disposer d'un **pack technique complet et autonome** regroupé au sein de son dossier dédié :
+    `/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/<sous_ensemble>/Visual_Snapshots/Pieces_Isolees/<nom_piece>/`
+  - Ce répertoire unifié doit systématiquement contenir :
+    1. *Modèle CAO 3D autonome* : `<nom_piece>.step` (copie locale B-Rep prête pour FAO/CNC ou impression 3D).
+    2. *Modèle de Simulation FEM FreeCAD* : `<nom_piece>_FEA_Results.FCStd` pour toute pièce structurelle calculée (contenant l'arbre complet CalculiX, le maillage Netgen/Gmsh, les conditions aux limites et le champ de contraintes).
+    3. *Cartographie Chromatique FEA* : `<nom_piece>_VonMises.png` (rendu visuel HD du gradient de contrainte Von Mises).
+    4. *Tétraptyque Visuel Orthogonal & 3D* : `<nom_piece>_iso.png`, `<nom_piece>_face.png`, `<nom_piece>_dessus.png`, `<nom_piece>_dessous.png`.
+- **Zéro Fichier Volant à la Racine (`Exports_CAO_DBot/`)** :
+  - Aucun fichier temporaire de simulation (`.FCStd`, `.FCBak`, scripts ou logs) ne doit être abandonné à la racine de `Exports_CAO_DBot/`. Tout livrable doit être automatiquement classé dans le dossier dédié de la pièce concernée.
+- **Règle de Développement des Scripts de Calcul FEM** :
+  - Tout nouveau script de simulation par éléments finis (FreeCAD / CalculiX) développé dans `Code/scripts/freecad/` doit obligatoirement enregistrer ses sorties `.FCStd` et ses captures de résultats directement dans le répertoire `Pieces_Isolees/<nom_piece>/` correspondant.
+
+## Export CAO Souverain & Hygiène de la Bibliothèque STEP (Zéro Fichier Orphelin)
+- **Principe d'Intégrité Stricte de la Bibliothèque B-Rep (`Bibliotheque_Composants_STEP`)** :
+  - Le dossier souverain `/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/Bibliotheque_Composants_STEP/` centralise les solides B-Rep uniques du robot pour reconstruction dans FreeCAD.
+  - La bibliothèque doit être en TOUT TEMPS rigoureusement synchronisée avec le manifeste actif `dbot_cad_manifest.json` : chaque fichier `.step` présent sur disque doit obligatoirement correspondre à un composant actif de la maquette numérique.
+- **Purge Automatique des Pièces Renommées ou Supprimées** :
+  - Lors de chaque export via le script Fusion 360 `ExportSovereignCAD.py`, le script compare systématiquement les fichiers sur disque avec les composants actifs de l'assemblage.
+  - Tout fichier STEP orphelin (pièce renommée, ancienne dénomination de visserie avant standardisation, ou pièce supprimée du modèle) est **automatiquement purgé du disque** et consigné dans `manifest["metadata"]["purged_orphans"]`.
+- **Maintenance et Audit CLI Hors-Fusion (`clean_sovereign_library.py`)** :
+  - Pour auditer ou purger manuellement les fichiers orphelins sans ouvrir Fusion 360, utiliser le script :
+    `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/scripts/cad_tools/clean_sovereign_library.py" --purge`
 

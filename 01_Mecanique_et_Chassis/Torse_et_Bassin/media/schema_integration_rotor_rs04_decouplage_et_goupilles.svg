@@ -1,0 +1,233 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bg-grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="panel-grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="rotor-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#4f46e5" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#3730a3" stop-opacity="0.9" />
+    </linearGradient>
+    <linearGradient id="bearing-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="pin-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#facc15" />
+      <stop offset="100%" stop-color="#ca8a04" />
+    </linearGradient>
+    <linearGradient id="steel-grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#94a3b8" />
+    </linearGradient>
+    <pattern id="grid-pattern2" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.8" />
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="720" fill="url(#bg-grad2)" />
+  <rect width="1200" height="720" fill="url(#grid-pattern2)" />
+
+  <!-- HEADER -->
+  <rect x="20" y="15" width="1160" height="60" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+  <text x="40" y="42" font-family="'Segoe UI', system-ui, sans-serif" font-size="18" font-weight="700" fill="#818cf8" letter-spacing="0.5">INTÉGRATION ROTOR ROBSTRIDE RS-04 — ROULEMENT CROISÉ &amp; PROTECTION PAR GOUPILLES</text>
+  <text x="40" y="61" font-family="'Segoe UI', system-ui, sans-serif" font-size="12" fill="#94a3b8">D-Bot Humanoïde V1.x · Chaîne Cinématique Hanche &amp; Genou · Roulement Interne Intégré (150-200 N.m) vs Découplage Externe</text>
+  <rect x="1040" y="25" width="120" height="38" rx="6" fill="#0f172a" stroke="#818cf8" stroke-width="1.2" />
+  <text x="1100" y="48" font-family="monospace" font-size="12" font-weight="700" fill="#818cf8" text-anchor="middle">DOC-ENG-RS04-RT</text>
+
+  <!-- ==================== PANEL 1 : COUPE AXIALE ROTOR & ROULEMENT (Gauche) ==================== -->
+  <g transform="translate(20, 85)">
+    <rect width="440" height="615" rx="8" fill="url(#panel-grad2)" stroke="#334155" stroke-width="1.5" />
+    <path d="M 0 0 L 440 0 L 440 38 L 0 38 Z" fill="#1e293b" rx="8" />
+    <text x="20" y="24" font-family="'Segoe UI', system-ui, sans-serif" font-size="14" font-weight="700" fill="#f8fafc">PANEL 1 : COUPE AXIALE DU ROULEMENT INTERNE RS-04</text>
+
+    <!-- Axial view drawing -->
+    <g transform="translate(20, 50)">
+      <!-- Stator casing (outer fixed part) -->
+      <!-- Upper stator -->
+      <rect x="60" y="50" width="150" height="70" rx="2" fill="#d97706" stroke="#f59e0b" stroke-width="1.5" />
+      <!-- Lower stator -->
+      <rect x="60" y="270" width="150" height="70" rx="2" fill="#d97706" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="135" y="85" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">STATOR FIXE</text>
+      <text x="135" y="102" font-family="monospace" font-size="9" fill="#fef08a" text-anchor="middle">Carter Alu Ø 120 mm</text>
+
+      <!-- Internal Crossed Roller Bearing (Upper) -->
+      <rect x="110" y="120" width="60" height="35" fill="#0284c7" stroke="#38bdf8" stroke-width="1.2" />
+      <line x1="120" y1="126" x2="134" y2="148" stroke="#ffffff" stroke-width="2.5" />
+      <line x1="145" y1="148" x2="159" y2="126" stroke="#ffffff" stroke-width="2.5" />
+
+      <!-- Internal Crossed Roller Bearing (Lower) -->
+      <rect x="110" y="235" width="60" height="35" fill="#0284c7" stroke="#38bdf8" stroke-width="1.2" />
+      <line x1="120" y1="241" x2="134" y2="263" stroke="#ffffff" stroke-width="2.5" />
+      <line x1="145" y1="263" x2="159" y2="241" stroke="#ffffff" stroke-width="2.5" />
+
+      <text x="140" y="172" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8" text-anchor="middle">ROULEMENT CROISÉ</text>
+      <text x="140" y="186" font-family="monospace" font-size="8.5" fill="#bae6fd" text-anchor="middle">Capacité M = 150-200 N.m</text>
+
+      <!-- Center Output Rotor (Moving Hub) -->
+      <path d="M 170 155 L 170 235 L 250 235 L 250 155 Z" fill="url(#rotor-grad)" stroke="#818cf8" stroke-width="1.5" />
+      <text x="210" y="190" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">ROTOR</text>
+      <text x="210" y="205" font-family="monospace" font-size="9" fill="#c7d2fe" text-anchor="middle">PCD Ø 36 mm</text>
+
+      <!-- Attached Joint Member (L-Bracket or Femur block) -->
+      <rect x="250" y="130" width="60" height="130" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="280" y="185" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#ffffff" text-anchor="middle" transform="rotate(90 280 185)">L-BRACKET 7075-T6</text>
+
+      <!-- Dowel Pins (transmitting shear) -->
+      <!-- Upper pin Ø6mm -->
+      <rect x="235" y="163" width="30" height="10" rx="1" fill="url(#pin-grad)" stroke="#ca8a04" stroke-width="1" />
+      <text x="295" y="160" font-family="monospace" font-size="9" font-weight="700" fill="#fde047">Goupille Ø 6 mm</text>
+      <line x1="265" y1="168" x2="290" y2="163" stroke="#fde047" stroke-width="1" />
+
+      <!-- Lower pin Ø5mm -->
+      <rect x="235" y="217" width="30" height="8" rx="1" fill="url(#pin-grad)" stroke="#ca8a04" stroke-width="1" />
+      <text x="295" y="230" font-family="monospace" font-size="9" font-weight="700" fill="#fde047">Goupille Ø 5 mm</text>
+      <line x1="265" y1="221" x2="290" y2="226" stroke="#fde047" stroke-width="1" />
+
+      <!-- Fastening Screw M5 (Upper & Lower) -->
+      <rect x="245" y="145" width="60" height="7" fill="url(#steel-grad2)" stroke="#475569" stroke-width="0.8" />
+      <rect x="305" y="142" width="12" height="13" fill="url(#steel-grad2)" stroke="#475569" stroke-width="1" />
+      <text x="325" y="152" font-family="monospace" font-size="8.5" fill="#cbd5e1">Vis M5 cl. 12.9</text>
+
+      <!-- Moment arrows on the assembly -->
+      <path d="M 330 200 C 350 200, 360 215, 360 230 C 360 245, 345 255, 335 255" fill="none" stroke="#ef4444" stroke-width="2" />
+      <text x="370" y="235" font-family="monospace" font-size="10" font-weight="700" fill="#fca5a5">M_dyn = 50-90 N.m</text>
+      <text x="370" y="250" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f87171">Encaissé à 100% par le</text>
+      <text x="370" y="262" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f87171">roulement interne RS-04</text>
+    </g>
+
+    <!-- Callout Box bottom Panel 1 -->
+    <rect x="15" y="470" width="410" height="130" rx="6" fill="#0f172a" stroke="#818cf8" stroke-width="1" />
+    <text x="25" y="492" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#818cf8">ANATOMIE DU RS-04 : ROULEAU CROISÉ INTÉGRÉ D'USINE</text>
+    <text x="25" y="510" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Le RS-04 intègre un roulement à rouleaux croisés Ø 80 mm en sortie.</text>
+    <text x="25" y="526" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Capacité admissible au basculement : M_0 ≈ 150 à 200 N.m.</text>
+    <text x="25" y="542" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Moment réel max à la hanche bipède (35 kg) : M_choc = 80 à 90 N.m.</text>
+    <text x="25" y="558" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80">➔ Facteur de sécurité Sf ≈ ×1,8 à ×2,2 SANS roulement externe !</text>
+    <text x="25" y="574" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Bilan : Ajouter un roulement externe ajoute ~300 g inutiles et complique l'alignement.</text>
+  </g>
+
+  <!-- ==================== PANEL 2 : INTERFACE ROTOR & GOUPILLES (Centre) ==================== -->
+  <g transform="translate(480, 85)">
+    <rect width="410" height="615" rx="8" fill="url(#panel-grad2)" stroke="#334155" stroke-width="1.5" />
+    <path d="M 0 0 L 410 0 L 410 38 L 0 38 Z" fill="#1e293b" rx="8" />
+    <text x="20" y="24" font-family="'Segoe UI', system-ui, sans-serif" font-size="14" font-weight="700" fill="#f8fafc">PANEL 2 : MOTIF DU ROTOR &amp; GOUPILLES DE SÉCURITÉ</text>
+
+    <!-- Face drawing of Rotor Hub -->
+    <g transform="translate(205, 230)">
+      <!-- Stator outer ring -->
+      <circle cx="0" cy="0" r="140" fill="none" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4,3" />
+      <circle cx="0" cy="0" r="125" fill="#1e293b" stroke="#475569" stroke-width="1" />
+
+      <!-- Rotor Disc (Dark Indigo) -->
+      <circle cx="0" cy="0" r="90" fill="url(#rotor-grad)" stroke="#818cf8" stroke-width="2" />
+
+      <!-- PCD Circle for screws (Ø 36.0 mm -> r = 55 in scaled display) -->
+      <circle cx="0" cy="0" r="55" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />
+
+      <!-- Center boss & bearing seal -->
+      <circle cx="0" cy="0" r="28" fill="#0f172a" stroke="#6366f1" stroke-width="1.5" />
+      <circle cx="0" cy="0" r="12" fill="#334155" />
+<circle cx="55.0" cy="0.0" r="5.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.2" />
+<circle cx="55.0" cy="0.0" r="2.5" fill="#94a3b8" />
+<circle cx="42.1" cy="35.4" r="5.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.2" />
+<circle cx="42.1" cy="35.4" r="2.5" fill="#94a3b8" />
+<circle cx="9.6" cy="54.2" r="5.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.2" />
+<circle cx="9.6" cy="54.2" r="2.5" fill="#94a3b8" />
+<circle cx="-27.5" cy="47.6" r="5.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.2" />
+<circle cx="-27.5" cy="47.6" r="2.5" fill="#94a3b8" />
+<circle cx="-51.7" cy="18.8" r="5.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.2" />
+<circle cx="-51.7" cy="18.8" r="2.5" fill="#94a3b8" />
+<circle cx="-51.7" cy="-18.8" r="5.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.2" />
+<circle cx="-51.7" cy="-18.8" r="2.5" fill="#94a3b8" />
+<circle cx="-27.5" cy="-47.6" r="5.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.2" />
+<circle cx="-27.5" cy="-47.6" r="2.5" fill="#94a3b8" />
+<circle cx="9.6" cy="-54.2" r="5.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.2" />
+<circle cx="9.6" cy="-54.2" r="2.5" fill="#94a3b8" />
+<circle cx="42.1" cy="-35.4" r="5.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.2" />
+<circle cx="42.1" cy="-35.4" r="2.5" fill="#94a3b8" />
+
+      <!-- 2 Dowel pins Ø 5.0 mm (+0 / -0.01) -->
+      <circle cx="38.8" cy="38.8" r="7" fill="url(#pin-grad)" stroke="#ca8a04" stroke-width="1.5" />
+      <circle cx="-38.8" cy="-38.8" r="7" fill="url(#pin-grad)" stroke="#ca8a04" stroke-width="1.5" />
+
+      <!-- 3 Dowel pins Ø 6.0 mm (+0 / -0.01) -->
+      <circle cx="-54.8" cy="0" r="8" fill="url(#pin-grad)" stroke="#eab308" stroke-width="1.8" />
+      <circle cx="27.4" cy="-47.4" r="8" fill="url(#pin-grad)" stroke="#eab308" stroke-width="1.8" />
+      <circle cx="27.4" cy="47.4" r="8" fill="url(#pin-grad)" stroke="#eab308" stroke-width="1.8" />
+
+      <!-- Dimension annotations -->
+      <line x1="0" y1="0" x2="-38.8" y2="-38.8" stroke="#facc15" stroke-width="1.2" />
+      <text x="-80" y="-55" font-family="monospace" font-size="10" font-weight="700" fill="#fde047">2× Goupilles Ø 5 mm</text>
+
+      <line x1="0" y1="0" x2="-54.8" y2="0" stroke="#eab308" stroke-width="1.2" />
+      <text x="-120" y="15" font-family="monospace" font-size="10" font-weight="700" fill="#facc15">3× Goupilles Ø 6 mm</text>
+
+      <line x1="0" y1="0" x2="55" y2="-35" stroke="#cbd5e1" stroke-width="1" />
+      <text x="65" y="-35" font-family="monospace" font-size="10" fill="#e2e8f0">9× M5 (PCD Ø 36 mm)</text>
+    </g>
+
+    <!-- Bottom Description Box Panel 2 -->
+    <rect x="15" y="450" width="380" height="150" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="25" y="472" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#facc15">RÈGLE RDM : DÉCOUPLAGE TRACTION / CISAILLEMENT</text>
+    <text x="25" y="490" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• COUPLE DE CRÊTE (120 N.m) : Les vis M5 ne doivent JAMAIS</text>
+    <text x="25" y="504" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">  encaisser le cisaillement pur du couple de pointe.</text>
+    <text x="25" y="520" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fef08a">• GOUPILLES RECTIFIÉES TREMPÉES (ISO 8734) :</text>
+    <text x="25" y="534" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fef08a">  Les 5 goupilles (2× Ø5 + 3× Ø6) reprennent 100% du cisaillement.</text>
+    <text x="25" y="550" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• RÔLE DES 9 VIS M5 : Assurer le placage axial franc en traction pure</text>
+    <text x="25" y="564" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">  (couple de serrage normalisé = 5,5 N.m avec Loctite 243).</text>
+    <text x="25" y="582" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#4ade80">➔ Liaison indesserrable et indestructible sous chocs cycliques.</text>
+  </g>
+
+  <!-- ==================== PANEL 3 : MATRICE DE DÉCISION (Droite) ==================== -->
+  <g transform="translate(910, 85)">
+    <rect width="270" height="615" rx="8" fill="url(#panel-grad2)" stroke="#334155" stroke-width="1.5" />
+    <path d="M 0 0 L 270 0 L 270 38 L 0 38 Z" fill="#1e293b" rx="8" />
+    <text x="15" y="24" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">PANEL 3 : MATRICE DE DÉCISION</text>
+
+    <!-- Articulation 1 : Épaule -->
+    <rect x="12" y="50" width="246" height="125" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" />
+    <text x="22" y="70" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">1. ÉPAULE PITCH (RS-04)</text>
+    <text x="22" y="88" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Moment max bras : 24 à 73 N.m</text>
+    <text x="22" y="104" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Roulement externe :</text>
+    <text x="22" y="122" font-family="monospace" font-size="12" font-weight="700" fill="#f87171">AUCUN ❌ (Zéro)</text>
+    <text x="22" y="140" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80">Roulement interne RS-04 suffisant</text>
+    <text x="22" y="156" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Gain de masse : -368 g / bras</text>
+
+    <!-- Articulation 2 : Hanche -->
+    <rect x="12" y="185" width="246" height="135" rx="6" fill="#0f172a" stroke="#818cf8" stroke-width="1.2" />
+    <text x="22" y="205" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#818cf8">2. HANCHE PITCH (RS-04)</text>
+    <text x="22" y="223" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Moment max hanche : 50 à 90 N.m</text>
+    <text x="22" y="239" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Roulement externe :</text>
+    <text x="22" y="257" font-family="monospace" font-size="12" font-weight="700" fill="#f87171">AUCUN ❌ (Zéro)</text>
+    <text x="22" y="275" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fef08a">• Goupilles ISO 8734 :</text>
+    <text x="22" y="293" font-family="monospace" font-size="11" font-weight="700" fill="#fde047">OBLIGATOIRES ✅ (5 goupilles)</text>
+    <text x="22" y="308" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Protège les vis M5 au cisaillement</text>
+
+    <!-- Articulation 3 : Genou -->
+    <rect x="12" y="330" width="246" height="125" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="1.2" />
+    <text x="22" y="350" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#4ade80">3. GENOU KNEE (RS-04)</text>
+    <text x="22" y="368" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Architecture : Courroie GT3 2,5:1</text>
+    <text x="22" y="384" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Effort sur rotor RS-04 :</text>
+    <text x="22" y="400" font-family="monospace" font-size="10.5" font-weight="700" fill="#22c55e">Tension courroie seule (50 N)</text>
+    <text x="22" y="418" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80">Zéro choc jambe sur le moteur</text>
+    <text x="22" y="434" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Palier dédié sur axe genou 50T</text>
+
+    <!-- Articulation 4 : Taille (Waist) -->
+    <rect x="12" y="465" width="246" height="135" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.2" />
+    <text x="22" y="485" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fbbf24">4. TAILLE YAW (RS-06)</text>
+    <text x="22" y="503" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Moment de basculement :</text>
+    <text x="22" y="519" font-family="monospace" font-size="10.5" fill="#fca5a5">56 à 220 N.m (Torse 19,4 kg)</text>
+    <text x="22" y="535" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">• Roulement externe CRBH 8016 :</text>
+    <text x="22" y="553" font-family="monospace" font-size="11" font-weight="700" fill="#4ade80">INDISPENSABLE ✅ (520 N.m)</text>
+    <text x="22" y="571" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#fed7aa">Le RS-06 ne prend que la rotation</text>
+    <text x="22" y="587" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Découplage axial intégral</text>
+  </g>
+</svg>
