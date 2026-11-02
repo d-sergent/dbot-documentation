@@ -1,0 +1,11 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity & David",
+	"description":	{
+		"":	"Application du matériau composite PA12-CF certifié sur le Support Batterie Central (D-Bot V1)"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
+

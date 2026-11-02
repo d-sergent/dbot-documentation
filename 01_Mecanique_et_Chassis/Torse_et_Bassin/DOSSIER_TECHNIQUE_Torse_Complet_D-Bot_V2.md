@@ -23,6 +23,7 @@
   - [D. Caractéristiques de Section & Formulations RDM Actualisées](#d-caractéristiques-de-section--formulations-rdm-actualisées)
   - [E. Analyse de Fatigue Multirégime (Alu 7075-T6, R = 18 mm, Kt = 1,8)](#e-analyse-de-fatigue-multirégime-alu-7075-t6-r--18-mm-kt--18)
   - [F. Topologie d'Allègement & Plan de Cotation 2D de la Plaque Basse](#f-topologie-dallègement--plan-de-cotation-2d-de-la-plaque-basse-lumières-jumelles-r--150-mm)
+  - [G. Synthèse des Simulations FEA Numériques & Renvoi au Dossier Dédié](#g-synthèse-des-simulations-fea-numériques-renvoi-au-dossier-dédié)
 - [**3. Dimensionnement RDM des Traverses d'Épaules (Tube Carré 60×60×2 mm)**](#3-dimensionnement-rdm-des-traverses-dépaules-tube-carré-60602-mm)
   - [A. Caractéristiques de la Section Métallique (Alu 6060-T6)](#a-caractéristiques-de-la-section-métallique-alu-6060-t6)
   - [B. Torsion Pure sous Couple de Pointe du RS-04 (120 N.m)](#b-torsion-pure-sous-couple-de-pointe-du-rs-04-120-nm)
@@ -274,6 +275,25 @@ Suite à la validation géométrique réelle sur le modèle CAO Torse v86, la st
 ![Plan d'Implantation et Cotation de l'IMU Torse sur Colonne](./media/plan_implantation_imu_torse_colonne.svg)
 
 *Blueprint d'ingénierie vectoriel de l'implantation de l'IMU Torse (Bosch BMI270 SparkFun SEN-22397). Panel 1 : Modèle CAO conforme au rendu Fusion 360 illustrant la colonne, l'équerre de cou Face [1], l'éclisse cuivrée Face [2], la traverse d'épaule en tube carré bleu 60×60 mm (15°) et la fenêtre libre de 37,125 mm. Panel 2 : Plan macro coté des 4 perçages lisses débouchants Ø 2,7 mm traversants (entraxe 20,32 mm, Z = +81,58 mm, X = 0, montage 4x CHC M2,5 × 14 mm + écrous Nylstop, gardes de 5,86 mm). Panel 3 : Vue isométrique, intégration URDF ROS 2 et tableau des matériels validés (Pied à coulisse SHAHE 5110-150 acquis).*
+
+---
+
+### G. Synthèse des Simulations FEA Numériques & Renvoi au Dossier Dédié
+
+Afin de valider formellement le comportement élasto-plastique de la colonne vertébrale sous les cas de charge dynamiques réels (freinage d'urgence, marche dynamique, poussée cervicale), des analyses complètes par éléments finis (FEA) ont été résolues sous **FreeCAD 1.1 + CalculiX ccx + Gmsh (C3D10 quadratique)** :
+
+| Cas Modélisé | Configuration RDM | Flèche Max | Rotation IMU | Von Mises Crête | Sf Crête | Sf P95 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Plaque Basse Seule** | Tangage 140 N.m (F = 471 N) | `0,612 mm` | - | `84,20 MPa` | `6,00` | `34,12` |
+| **Plaque Basse Seule** | Roulis 50 N.m (F = 168 N) | `0,085 mm` | - | `41,50 MPa` | `12,17` | `97,11` |
+| **Plaque Haute Seule** | Roulis 328 N au cou | `0,118 mm` | `0,42 mrad` | `48,30 MPa` | `10,45` | `75,20` |
+| **Assemblage Complet (Sandwich 15 mm)** | **Tangage 140,1 N.m (F = 328 N)** | **`0,385 mm`** | **`1,07 mrad` (`0,061°`)** | **`88,59 MPa`** | **`5,70`** | **`53,71`** |
+| **Spaceframe Torse 3D Global (Cas FEA 5)** | **Torseur Combiné Épaule (120 N.m) + Lacet Waist (36 N.m)** | **`0,463 mm`** | **`1,24 mrad` (`0,071°`)** | **`98,70 MPa`** | **`5,12`** | **`42,80`** |
+
+> [!NOTE]
+> **Dossier de Calculs FEA Dédié & Cartographie Complète** :  
+> L'ensemble des développements mathématiques, hypothèses de modélisation, cartographies 3D, fichiers STEP d'assemblage, projets natifs `.FCStd` (Solution B avec pipeline VTK pré-chargé) et scripts reproductibles sont consignés dans le document de référence dédié :  
+> 🔗 [DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md)
 
 ---
 
@@ -722,8 +742,16 @@ Grâce à l'absence de cage encombrante et au profil épuré des traverses carr�
 | **Énergie totale embarquée** | **480 Wh à 576 Wh** (+20% d'autonomie vs pack unique) |
 | **Tension nominale** | 44,4 V (parallélisées via diodes ORing) |
 | **Dimensions unitaires d'un pack** | ~220 × 50 × 65 mm |
-| **Guidage & Coulissement** | Rails PA12-CF + cornières alu 10×10 mm sur la plaque sagittale + bandes PTFE 0,2 mm |
-| **Verrouillage mécanique** | Loquet quart-de-tour (Dzus) accessible sur le capot arrière |
+| **Guidage & Coulissement** | Support Batterie Central monobloc PA12-CF (38,9 g) + rails intégrés aux paniers |
+| **Verrouillage mécanique** | Loquet quart-de-tour (Dzus) accessible sur le capot arrière + vis de calage M4 |
+
+#### Support Batterie Central Monobloc (PA12-CF, CAO Validée Torse v11)
+Pour éliminer les anciennes cornières métalliques rapportées et simplifier l'assemblage en atelier, le guidage et le calage axial des deux packs batteries latéraux sont assurés par le composant monobloc **`Support_Batterie_Central`** :
+* **Matériau & Procédé** : Composite PA12-CF (densité calibrée 0,55 g/cm³, remplissage gyroïde 30%), masse réelle auditée en CAO = **`38,9 g`** (gain net de -196,2 g par rapport au profilé acier initial).
+* **Fixation Isostatique à 3 Vis M4** :
+  1. **2 vis horizontales traversantes** : Vis CHC M4 × 18 mm en inox 316 (McMaster `92290A161`) traversant la colonne sagittale centrale de 5,0 mm, associées à 4 rondelles plates DIN 125A M4 (McMaster `93475A230`) et 2 écrous frein Nylstop M4 (McMaster `93625A150`), serrage à 2,2 N.m.
+  2. **1 vis verticale de calage/blocage** : Vis CHC M4 × 12 mm en inox 316 (McMaster `92290A130`) assurant le verrouillage anti-soulèvement du socle.
+* **Fonction de Guidage** : Glissières bilatérales épousant avec un jeu fonctionnel de 0,4 mm les nervures basses des racks coulissants `Panier_Batterie_Droit` (277,5 g) et `Panier_Batterie_Gauche` (277,5 g).
 
 ---
 
@@ -796,7 +824,7 @@ Dans Fusion 360, sur une esquisse tracée sur la **face inférieure (dessous)** 
 ### B. Plaque Inférieure / Waist Plate (Alu 7075-T6, 176 × 173 mm) & Liaison Active Waist Yaw (CRBH 8016)
 * **Fonction** : Fermeture basse du torse, interface mobile rigide avec la liaison active Waist Yaw.
 * **Élargissement à 175 × 175 mm & Lumière d'Arc Arrière 125,0° (Torse v105)** : La `Waist_Plate_7075` a été élargie à **`176,11 × 173,05 mm`** (épaisseur finie `9,02 mm` avec redan d'appui inférieur de `3,00 mm`, masse réelle CAO = **`434,7 g`**, soit 434,71 g avec congés R = 1,5 mm) et intègre en zone arrière la lumière en arc de cercle élargie à **`125,0°`** (R_int = 64,75 mm, R_ext = 84,75 mm, largeur 20 mm, congés d'arêtes R = 1,5 mm sur faces sup/inf).
-* **Évasement Inférieur & Fixations aux 4 Coins du Plastron Ventral (`Torse v107`)** : Pour épouser l'interface élargie de 175 mm, la base du `Plastron_Ventral_Torse` intègre 4 lamages intérieurs horizontaux (épaisseur de plancher de 10,0 mm) avec perçages débouchants de Ø 4,50 mm pour vis M4, portant sa masse réelle auditée en CAO à **`2 801,37 g`** (allègement net de **`-342,58 g`** par rapport à v105). Les 4 vis CHC M4 × 18 mm (McMaster `92290A154`) traversent les bossages pour se fixer dans la Waist Plate en exploitant les **`16,02 mm`** de vide d'air sous plaque au-dessus de la Traverse pelvienne fixe.
+* **Évasement Inférieur & Fixations aux 4 Coins du Plastron Ventral (`Torse v107`)** : Pour épouser l'interface élargie de 175 mm, la base du `Plastron_Ventral_Torse` intègre 4 lamages intérieurs horizontaux (épaisseur de plancher de 10,0 mm) avec perçages débouchants de Ø 4,50 mm pour vis M4, portant sa masse réelle auditée en CAO à **`2 801,37 g`** (allègement net de **`-342,58 g`** par rapport à v105). Les 4 vis CHC M4 × 18 mm (McMaster `92290A161`) traversent les bossages pour se fixer dans la Waist Plate en exploitant les **`16,02 mm`** de vide d'air sous plaque au-dessus de la Traverse pelvienne fixe.
 * **Lumières Concentriques d'Arc de Câblage & Zéro Cisaillement (Traverse 69,0° vs Waist Plate 125,0°)** : Implantation en zone postérieure (-X) centrée sur l'axe du rotor RS-06 (`X = +49,23 mm`, `Y = +9,36 mm`, zéro décentrage). La fente de 69,0° sur la Traverse fixe combinée à la fente élargie de 125,0° sur la Waist Plate tournante libère un recouvrement de **`22,24 mm`** d'arc utile à l'angle extrême de **`+/- 80°`**, offrant une marge saine de **`+7,24 mm`** pour le faisceau Ø 15 mm sans cisaillement. Les congés d'arêtes usinés à **`R = 1,5 mm`** éliminent tout effet tranchant et protègent la gaine textile du faisceau sous torsion hélicoïdale (0,50°/mm).
 * **Butée Mécanique de Lacet Sécurisée (+/- 80° à +/- 82°)** : Butée mécanique calibrée pour borner la rotation à +/- 82° maximum sans empiéter sur le corridor arrière de câblage.
 * **Moteur Waist** : **RobStride RS-06** (36 N.m pic / 11 N.m nominal, stator Ø 88 mm h6, carter arrière fermé sans arbre creux, bus CAN-FD ID 21).
@@ -1012,7 +1040,7 @@ Avec le squelette métallique reprenant tous les efforts structurels, la coque P
 > **Architecture Retenue & Validée : Solution C+ (Torse-123 v11)** :  
 > L'arbitrage d'ingénierie conduit en octobre 2026 (suite aux audits de rigidité en roulis et en lacet) a entériné la **Solution C+** combinant :
 > 1. **Deux demi-fûts principaux C1 (haut) et C2 (bas)** scindés à `Z = 1235 mm` (respectant la hauteur machine utile Qidi Plus 4 de 280 mm).
-> 2. **Une ceinture intermédiaire en Aluminium 7075-T6 (épaisseur 3,0 mm, 45,43 g)** usinée sur la CNC C500, bloquant le gauchissement et formant une armature périphérique rigide.
+> 2. **Une ceinture intermédiaire en Aluminium 7075-T6 (épaisseur 3,0 mm, 45,43 g)** usinée sur la CNC C500 (protocole souverain 2 phases sans ATC avec recalage Touch Probe 3D, voir `Annexes/Outils_de_Travail/cnc/22_Usinage_CNC_C500.md` § 8), bloquant le gauchissement et formant une armature périphérique rigide.
 > 3. **Des trappes d'accès avant et arrières maintenues par plots magnétiques (aimants néodyme N52)**, assurant une ouverture instantanée en atelier pour l'IMU BMI270, les faisceaux CAN-FD et les connecteurs sans aucun dévissage.
 > 4. **Un portique structural anti-lacet en Aluminium 7075-T6** reliant directement les brides d'épaules RS-04 à la Ceinture Alu (`Corniere haute` nervurée) et à la Waist Plate (`Corniere basse` / `Tirant Monobloc`).
 

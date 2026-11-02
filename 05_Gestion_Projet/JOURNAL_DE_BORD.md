@@ -2,6 +2,35 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-11-02 — Validation FEA Globale Torse 3D, Intégration Support Batterie Central, Harmonisation PA12-CF Pelvis & Nettoyage Documentaire
+
+### 🎯 Objectifs & Réalisations de la session
+1. **Simulation FEA Globale du Torse Spaceframe 3D (Cas FEA 5)** :
+   - Modélisation et calcul par éléments finis sous CalculiX ccx du spaceframe complet assemblé sous torseur combiné d'épaule (120 N.m) et lacet waist (36 N.m).
+   - Validation de la rigidité globale : flèche maximale = 0,463 mm, rotation IMU = 1,24 mrad (0,071°), contrainte de Von Mises maximale = 98,70 MPa (Sf = 5,12, Sf_P95 = 42,80).
+   - Rédaction du dossier technique de référence : `01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md` (45 ancres fonctionnelles, zéro LaTeX).
+2. **Conception & Intégration du Support Batterie Central** :
+   - Validation de la pièce monobloc PA12-CF `Support_Batterie_Central` (masse réelle 38,9 g, gain -196,2 g vs profilé acier), assurant le guidage et le calage axial des packs 12S NMC.
+   - Montage isostatique à 3 vis M4 : 2 vis traversantes horizontales CHC M4 × 18 mm (McMaster `92290A161`), écrous Nylstop `93625A150`, rondelles DIN 125A `93475A230` + 1 vis verticale M4 × 12 mm (`92290A130`).
+   - Mise à jour de la documentation maîtresse `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` et `FINAL_BOM_Torse_et_Waist_D-Bot.md`.
+3. **Harmonisation des Matériaux & Apparences du Pelvis (`HarmonizePelvisMaterials.py`)** :
+   - Développement et déploiement du script Fusion 360 unifiant les matériaux physiques et textures du bassin.
+   - Sanctuarisation de la `Traverse_Renfort_Bassin` en Aluminium 7075 (densité 2,81 g/cm³, texture Satin Métal).
+   - Bascule intégrale du berceau maître, des supports et capots de hanches (gauche et droit) en PA12-CF noir mat.
+   - Résolution du bug de dissymétrie de couleur droite/gauche via purge des overrides d'occurrences et de faces.
+4. **Assainissement Documentaire Torse & Bassin** :
+   - Suppression définitive de la maquette FreeCAD obsolète `DBot_Waist_Bassin_PoC.FCStd`.
+   - Archivage de 3 fichiers transitoires (`reponse_audit_11102026.md`, `AUDIT_Decoupage_Modulaire_Coque_Torse_PA12-CF.md`, `AUDIT_METROLOGIQUE_Torse_et_Bassin_Calibre.json`) dans `00_Archives_Recherche/`.
+5. **Audits DevSecOps Souverains** :
+   - Audit SAST (Bandit) et scan de secrets validés à 100% (code de sortie 0).
+
+### 📌 Statut Général
+- **Torse & Bassin** : Architecture séminale tout-métal et coque PA12-CF validées, harmonisées et documentées.
+- **Dépôt Git** : Propre, sans résidu obsolète.
+- **Prochaine étape** : Analyse du fémur et cinématique des membres inférieurs.
+
+---
+
 ## 📅 2026-10-29 — Clôture Formelle de la Synchronisation Métrologique Torse & Bassin, Intégration FEA Cornière Haute, Standardisation des Packs Techniques Autonomes & Assainissement du Dépôt
 
 ### 🎯 Objectifs & Réalisations de la session

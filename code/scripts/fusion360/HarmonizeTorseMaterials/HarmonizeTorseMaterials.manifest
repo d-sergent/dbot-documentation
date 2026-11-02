@@ -1,0 +1,11 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity & David",
+	"description":	{
+		"":	"Harmonisation et correction souveraine des matériaux Torse & Bassin D-Bot V1 (Alu 7075 et PA12-CF)"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
+

@@ -6,6 +6,32 @@ Cette fraiseuse professionnelle "Desktop" est la machine de référence unique p
 
 ---
 
+## 📑 Sommaire
+
+- [0. Tableau Récapitulatif des Spécifications (Sources Officielles)](#0-tableau-récapitulatif-des-spécifications-sources-officielles)
+- [1. Spécifications Techniques (NestWorks C500)](#1-spécifications-techniques-nestworks-c500)
+- [2. Le 4ème Axe Rotatif (Axe A) — Spécifications Complètes](#2-le-4ème-axe-rotatif-axe-a-spécifications-complètes)
+  - [Spécifications techniques du 4ème axe](#spécifications-techniques-du-4ème-axe)
+  - [2.1 — Perçage Goupille Nœud (3 Axes Direct Broche Z)](#21-perçage-goupille-nœud-3-axes-direct-broche-z)
+  - [Applications critiques pour le D-Bot :](#applications-critiques-pour-le-d-bot)
+- [3. Outils Métal (Professional Metal Tool Kit)](#3-outils-métal-professional-metal-tool-kit)
+- [4. Tolérances et Pinces ER11 (Alerte de Sécurité)](#4-tolérances-et-pinces-er11-alerte-de-sécurité)
+- [5. Gestion ATC Spécifique (RFID)](#5-gestion-atc-spécifique-rfid)
+- [6. Outillage Spécifique — Opérations Torse D-Bot (Brides + Goupilles)](#6-outillage-spécifique-opérations-torse-d-bot-brides-goupilles)
+  - [6.1 — Outil Perçage Goupille Nœud Ø3,8 mm (Axe Z Vertical, 60 mm)](#61-outil-perçage-goupille-nœud-ø38-mm-axe-z-vertical-60-mm)
+  - [6.2 — Finition H7 Goupille Nœud Ø4 mm](#62-finition-h7-goupille-nœud-ø4-mm)
+  - [6.3 — Goupilles d'Ancrage Épaule Ø3 mm (Axe Z, 3 axes standard)](#63-goupilles-dancrage-épaule-ø3-mm-axe-z-3-axes-standard)
+  - [6.4 — Usinage Brides Alu 6061-T6 (Programme CAM standard)](#64-usinage-brides-alu-6061-t6-programme-cam-standard)
+  - [6.5 — Checklist Collets ER11 à Commander](#65-checklist-collets-er11-à-commander)
+- [7. Procédure d'Alésage de Précision H7 / Logements Roulements (Match Machining & Touch Probe 3D)](#7-procédure-dalésage-de-précision-h7-logements-roulements-match-machining-touch-probe-3d)
+  - [7.1 — Protocole Standard en 5 Étapes](#71-protocole-standard-en-5-étapes)
+- [8. Protocole d'Usinage des Grandes Pièces Hors-Gabarit — Cas de la Ceinture Alu 3 mm (Retrait ATC & Repositionnement 2 Phases)](#8-protocole-dusinage-des-grandes-pièces-hors-gabarit-cas-de-la-ceinture-alu-3-mm-retrait-atc-repositionnement-2-phases)
+  - [8.1 — Préparation de la Machine : Démontage du Râtelier ATC & Mode Manuel](#81-préparation-de-la-machine-démontage-du-râtelier-atc-mode-manuel)
+  - [8.2 — Gamme d'Usinage en 2 Phases](#82-gamme-dusinage-en-2-phases)
+  - [8.3 — Alternative Commerciale de Repli (Sous-traitance Jet d'Eau 2D)](#83-alternative-commerciale-de-repli-sous-traitance-jet-deau-2d)
+
+---
+
 ## 0. Tableau Récapitulatif des Spécifications (Sources Officielles)
 
 | Paramètre | Valeur | Note |
@@ -271,5 +297,69 @@ Pour garantir un **ajustement glissant juste H7/h6** sans exiger d'instruments d
 5. **Étape 5 — Validation de l'Ajustement Glissant Juste (H7/h6)** :
    - L'usinage est arrêté dès que la bague extérieure du roulement s'insère manuellement avec une résistance douce et constante (« ajustement gras » sous légère pression de la paume), sans aucun jeu radial perceptible.
    - Chanfreiner à `0,5 mm × 45°` l'entrée du logement pour faciliter l'engagement axial sans abîmer les portées.
+
+---
+
+## 8. Protocole d'Usinage des Grandes Pièces Hors-Gabarit — Cas de la Ceinture Alu 3 mm (Retrait ATC & Repositionnement 2 Phases)
+
+Sur le robot D-Bot, la ceinture intermédiaire en tôle d'Aluminium 7075-T651 (`size: 202,81 mm × 262,52 mm × 3,0 mm`) dépasse les courses standard de la NestWorks C500 en usinage direct d'une seule passe (course Y max = 213 mm vs largeur pièce = 262,5 mm).
+
+Afin de garantir une **totale souveraineté de fabrication en atelier** sans dépendre obligatoirement de sous-traitance externe, la **méthode officielle de référence** consiste à exploiter la C500 en **Mode Manuel sans ATC** avec un protocole de **repositionnement en 2 phases avec recalage Touch Probe 3D**.
+
+### 8.1 — Préparation de la Machine : Démontage du Râtelier ATC & Mode Manuel
+1. **Dégagement de la Table** : Retirer le râtelier de porte-outils ATC de la machine pour libérer l'intégralité du plateau rainuré en acier.
+2. **Gain de Course Utile** : En mode manuel sans ATC, les fins de course logicielles sont reculées aux limites physiques des vis à billes :
+   - Course Axe X : **`240,0 mm`**
+   - Course Axe Y : **`210,0 mm`**
+   - Course Axe Z : **`128,0 mm`**
+3. **Brut Marchand** : Plaque Aluminium 7075-T651 de Blockenstock format `230 mm × 495 mm × 3,0 mm`. La largeur du brut (230 mm) glisse parfaitement entre les montants de la machine selon l'axe X.
+
+### 8.2 — Gamme d'Usinage en 2 Phases
+
+```
+[Brut 230 × 495 mm sur Table C500 Dégagée]
+       │
+       ▼
+[PHASE 1 : Usinage Aile Gauche + Demi-Façade + 2 Trous Étalons Ø 4,5 mm]
+       │
+       ▼
+[Translation Manuelle du Brut (+90 mm vers la gauche) & Re-bridage]
+       │
+       ▼
+[Palpage 3D Automatique des 2 Trous Étalons au Touch Probe sans fil]
+       │
+       ▼
+[PHASE 2 : Usinage Aile Droite + Demi-Façade Complémentaire]
+       │
+       ▼
+[Contrôle Métrologique & Ébavurage] ➔ Ceinture Monolithique Terminée (+/- 0,02 mm)
+```
+
+1. **Phase 1 — Usinage Côté Gauche & Perçage des Trous Étalons** :
+   - Brider la tôle à plat sur la table à l'aide de brides basses (Step Clamps).
+   - Définir l'origine WCS G54 sur le coin avant-gauche du brut au Touch Probe 3D.
+   - Usiner le flanc gauche (`Y = [-122,58 mm à 0 mm]`), la moitié gauche de la traverse avant et percer les 3 trous M4 (`Ø 4,5 mm`) du côté gauche.
+   - Percer impérativement 2 trous lisses étalons de référence (`Ø 4,5 mm`) espacés de 80,0 mm le long de l'axe longitudinal pour le recalage de Phase 2.
+   - Détourer le contour intérieur et extérieur de cette moitié avec une fraise carbure 2 dents DLC Ø 3,175 mm (1/8") ou Ø 4,0 mm (12 000 tr/min, avance 600 mm/min, lubrification brumisation).
+
+2. **Repositionnement du Brut** :
+   - Desserrer les brides de serrage.
+   - Faire glisser la tôle d'aluminium d'environ 90 mm vers la gauche sur la table (axe Y de la machine).
+   - Rebrider fermement la tôle sur le plateau en s'assurant de la planéité.
+
+3. **Recalage Automatique au Touch Probe 3D (WCS G55)** :
+   - Monter le Touch Probe 3D sans fil dans la broche.
+   - Lancer la routine de palpage intérieur en 4 points (Bore Probing) sur le Trou Étalon #1 pour définir l'origine `X = 0, Y = 0`.
+   - Palper le Trou Étalon #2 pour corriger automatiquement l'alignement angulaire de rotation de table (*Coordinate System Rotation* G68 ou macro NestWorks Align).
+   - Précision de recalage obtenue : **`+/- 0,02 mm`** (invariable et répétable).
+
+4. **Phase 2 — Usinage Côté Droit & Jonction Centrale** :
+   - Recharger la fraise carbure DLC.
+   - Usiner le flanc droit (`Y = [0 mm à +139,93 mm]`), la moitié droite de la traverse avant et les 3 perçages M4 du flanc droit.
+   - La trajectoire de coupe vient tangenter et fermer parfaitement le profil au centre de la façade avant (+X).
+   - L'éventuelle micro-reprise d'usinage (`< 0,02 mm`) se situe en plein centre de la façade avant, zone qui est **100% masquée et protégée par le recouvrement du plastron abdominal inférieur P2**.
+
+### 8.3 — Alternative Commerciale de Repli (Sous-traitance Jet d'Eau 2D)
+Si l'opérateur souhaite économiser le temps de recalage machine, l'export du fichier DXF 2D monolithique complet (`ceinture_intermediaire_alu_3mm.dxf`) reste disponible pour découpe immédiate en sous-traitance industrielle au **jet d'eau abrasif** ou **laser fibre** (prestataire type John Steel, Sculpteo ou 247TailorSteel, délai 3-5 jours, coût indicatif 25 à 30 € sur tôle Blockenstock).
 
 

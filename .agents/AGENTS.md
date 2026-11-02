@@ -178,3 +178,28 @@
   - Pour auditer ou purger manuellement les fichiers orphelins sans ouvrir Fusion 360, utiliser le script :
     `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/scripts/cad_tools/clean_sovereign_library.py" --purge`
 
+## Calculs RDM & Analyses par Éléments Finis (FEA) — Auditabilité & Traçabilité des Hypothèses
+- **Interdiction Formelle d'Efforts Arbitraires (Zéro Force « Magique »)** :
+  - Aucun effort ponctuel, pression, couple ou condition de Neumann ne doit être injecté arbitrairement ou « de mémoire » dans un script ou deck de simulation FEA (FreeCAD / CalculiX / ccx).
+  - Tout chargement mécanique DOIT être formellement et explicitement dérivé de la physique réelle du robot D-Bot :
+    1. *Masse et Répartition Inertielles* : Masse effective du sous-ensemble et position métrologique exacte de son centre de gravité (CoG) extraite de la maquette numérique CAO.
+    2. *Accélérations et Décélérations Réelles* : Prise en compte des cas de freinage d'urgence (E-Stop avec décélération typique `gamma = 1,5 g = 14,7 m/s^2` à pleine vitesse de marche `1,2 m/s`) ou butée dynamique brutale.
+    3. *Couples Moteurs Certifiés* : Utilisation stricte des couples de calage crête et nominaux des actionneurs RobStride issus des fiches constructeur certifiées (sous 48 V).
+    4. *Coefficients Dynamiques Normatifs* : Application des facteurs de choc et de transfert d'inertie de marche bipède (`k_dyn = 1,8 à 2,1` selon Eurocode 9 et l'état de l'art en robotique humanoïde).
+- **Dérivation Analytique Explicite & Formulation Mathématique en Texte Clair** :
+  - Pour chaque cas de charge modélisé, le dossier technique (`DOSSIER_TECHNIQUE_Calculs_FEA_...md`) doit obligatoirement expliciter la chaîne de calcul analytique complète :
+    - Équations mécaniques explicites en texte clair ASCII (rappel : zéro dollar, zéro LaTeX) : `F = M / d`, `F = m * a * k_dyn`, `Sigma = M * y / I_z`, etc.
+    - Bras de levier métrologiques extraits des cotes B-Rep CAO certifiées (`d`, `L`, coordonnées X, Y, Z).
+    - Démonstration de l'équivalence statique en cas de déport du point d'application (garantie que le moment de renversement résultant à l'encastrement `M_base = F * L` demeure rigoureusement identique entre le calcul de pièce isolée et l'assemblage complet).
+- **Tableau Systématique de Traçabilité des Hypothèses FEA** :
+  - Tout dossier technique comportant des simulations numériques doit inclure dès sa section méthodologique un **tableau de traçabilité d'auditabilité** détaillant :
+    - *Colonnes obligatoires* : Cas de charge | Axe/Plan cinématique | Sollicitation principale | Source motrice ou inertielle | Grandeur physique source | Bras de levier CAO (mm) | Formule analytique | Effort appliqué FEA (N) | Moment équivalent à l'encastrement (N.m) | Critère normatif d'acceptation.
+- **Distinction Stricte entre Contrainte Crête et Percentile 95 (P95)** :
+  - Tout compte-rendu ou script d'exploitation FEA doit obligatoirement distinguer :
+    1. `Sigma_peak` (capturant les singularités numériques de maillage sur les arêtes d'encastrement) avec son facteur de sécurité associé `Sf_peak = Re / Sigma_peak`.
+    2. `Sigma_P95` (reflétant la contrainte volumique nominale réelle subie par 95% de la matière de la pièce) avec son facteur de sécurité `Sf_P95 = Re / Sigma_P95`.
+  - Seul `Sigma_P95` fait foi pour la résistance en fatigue cyclique (marche à 1,5 Hz, limite d'endurance Wöhler à 10^7 cycles).
+- **Standards de Maillage et Intégrité Numérique (Gmsh / Netgen)** :
+  - Utilisation systématique d'éléments volumiques tétraédriques quadratiques de second ordre (**C3D10** à 10 nœuds).
+  - Contrôle du Jacobien strictement positif (`Jacobien min > 0,35`) sur 100% des éléments du maillage, avec zéro élément retourné ou dégénéré.
+

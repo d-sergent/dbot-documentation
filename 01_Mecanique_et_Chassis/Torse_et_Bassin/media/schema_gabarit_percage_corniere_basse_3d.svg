@@ -1,0 +1,296 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1020" width="100%" height="100%" style="background:#090d16; font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;">
+  <defs>
+    <!-- Grilles techniques -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.8" opacity="0.5"/>
+    </pattern>
+    <pattern id="subgrid" width="100" height="100" patternUnits="userSpaceOnUse">
+      <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#334155" stroke-width="1.2" opacity="0.6"/>
+    </pattern>
+
+    <!-- Filtres d'ombrage et lueurs -->
+    <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-purple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-amber" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+
+    <!-- Gradients fonctionnels -->
+    <linearGradient id="grad-header" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="50%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="grad-panel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.98"/>
+    </linearGradient>
+    <linearGradient id="grad-corniere" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="0%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="grad-jig" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6b21a8"/>
+    </linearGradient>
+    <linearGradient id="grad-drill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="grad-chuck" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+
+    <!-- Marqueurs de cote -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+  </defs>
+
+  <!-- Fond Grille -->
+  <rect width="100%" height="100%" fill="#090d16"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+  <rect width="100%" height="100%" fill="url(#subgrid)"/>
+
+  <!-- ==================== BANDEAU TITRE ==================== -->
+  <g transform="translate(40, 30)">
+    <rect x="0" y="0" width="1520" height="90" rx="12" fill="url(#grad-panel)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <rect x="0" y="0" width="1520" height="5" rx="2" fill="url(#grad-header)"/>
+
+    <text x="30" y="38" font-size="20" font-weight="800" fill="#f8fafc" letter-spacing="1.5">
+      D-BOT HUMANOID ROBOTICS — ATELIER D'USINAGE SOUVERAIN (MÉTHODE 1)
+    </text>
+    <text x="30" y="68" font-size="14" font-weight="500" fill="#94a3b8">
+      GABARIT DE PERÇAGE 3D (QIDI PLUS 4) POUR SEMELLE DE CORNIÈRE BASSE 7075-T6 | PERÇAGE SANS PERCEUSE À COLONNE
+    </text>
+
+    <!-- Badges statut -->
+    <rect x="1170" y="24" width="160" height="42" rx="8" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1.5"/>
+    <circle cx="1190" cy="45" r="5" fill="#10b981" filter="url(#glow-cyan)"/>
+    <text x="1205" y="50" font-size="12" font-weight="700" fill="#34d399">ZÉRO COLLISION MANDRIN</text>
+
+    <rect x="1345" y="24" width="145" height="42" rx="8" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="1360" y="44" font-size="11" font-weight="700" fill="#c084fc">RÉSOLUTION 3D</text>
+    <text x="1360" y="58" font-size="11" font-weight="800" fill="#e9d5ff">0,05 mm GEP-PETG</text>
+  </g>
+
+  <!-- ==================== PANNEAU GAUCHE : VUE ÉCLATÉE 3D & PRINCIPE D'ASSEMBLAGE ==================== -->
+  <g transform="translate(40, 140)">
+    <rect x="0" y="0" width="760" height="840" rx="12" fill="url(#grad-panel)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <path d="M 0 12 Q 0 0 12 0 L 748 0 Q 760 0 760 12 L 760 48 L 0 48 Z" fill="#1e293b"/>
+    <text x="24" y="32" font-size="15" font-weight="700" fill="#38bdf8" letter-spacing="1">
+      PANNEAU 1 : ARCHITECTURE DU GABARIT 3D &amp; CENTRAGE SUR LA CORNIÈRE
+    </text>
+
+    <!-- Zone dessin 3D / Isométrique simplifiée -->
+    <g transform="translate(40, 70)">
+      <!-- Fond zone dessin -->
+      <rect x="0" y="0" width="680" height="480" rx="8" fill="#0b1329" stroke="#1e293b" stroke-width="1"/>
+
+      <!-- Montant Cornière Basse (Vert) -->
+      <path d="M 220 50 L 300 50 L 300 340 L 480 340 L 480 380 L 220 380 Z" fill="#059669" fill-opacity="0.4" stroke="#10b981" stroke-width="2.5"/>
+      <!-- Nervure de la cornière -->
+      <path d="M 220 80 L 250 80 L 250 340 L 220 340 Z" fill="#047857" fill-opacity="0.6" stroke="#059669" stroke-width="1.5"/>
+      <text x="235" y="180" font-size="13" font-weight="700" fill="#6ee7b7" transform="rotate(-90 235 180)">Montant Cornière H = 191 mm (Alu 7075-T6)</text>
+      <text x="320" y="365" font-size="12" font-weight="700" fill="#a7f3d0">Semelle ép. 4,0 mm</text>
+
+      <!-- Gabarit Imprimé 3D en L (Violet) -->
+      <!-- Coiffe supérieure et dos -->
+      <path d="M 180 200 L 220 200 L 220 340 L 180 340 Z" fill="#9333ea" fill-opacity="0.6" stroke="#a855f7" stroke-width="2"/>
+      <text x="165" y="275" font-size="11" font-weight="700" fill="#d8b4fe" transform="rotate(-90 165 275)">Joues de calage Y</text>
+
+      <!-- Semelle du gabarit entourant le pied de la cornière -->
+      <path d="M 180 340 L 510 340 L 510 440 L 180 440 Z" fill="#7e22ce" fill-opacity="0.35" stroke="#a855f7" stroke-width="2.5" stroke-dasharray="8 4"/>
+      <!-- Canons de perçage verticaux (H = 25 mm) -->
+      <!-- Canon 1 (Arrière) -->
+      <rect x="330" y="240" width="40" height="100" rx="4" fill="#a855f7" fill-opacity="0.8" stroke="#e9d5ff" stroke-width="2"/>
+      <rect x="342" y="235" width="16" height="110" rx="2" fill="#090d16" stroke="#38bdf8" stroke-width="1.5"/>
+      <!-- Canon 2 (Avant) -->
+      <rect x="420" y="240" width="40" height="100" rx="4" fill="#a855f7" fill-opacity="0.8" stroke="#e9d5ff" stroke-width="2"/>
+      <rect x="432" y="235" width="16" height="110" rx="2" fill="#090d16" stroke="#38bdf8" stroke-width="1.5"/>
+
+      <!-- Cote Entraxe 12.0 mm -->
+      <line x1="350" y1="210" x2="440" y2="210" stroke="#38bdf8" stroke-width="1.8" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="350" y1="210" x2="350" y2="235" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3"/>
+      <line x1="440" y1="210" x2="440" y2="235" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="365" y="200" font-size="13" font-weight="800" fill="#38bdf8">Entraxe = 12,00 mm</text>
+
+      <!-- Foret HSS entrant dans Canon 1 -->
+      <path d="M 345 90 L 355 90 L 355 240 L 350 248 L 345 240 Z" fill="url(#grad-drill)" stroke="#b45309" stroke-width="1.5"/>
+      <line x1="345" y1="120" x2="355" y2="135" stroke="#fff" stroke-width="1" opacity="0.6"/>
+      <line x1="345" y1="150" x2="355" y2="165" stroke="#fff" stroke-width="1" opacity="0.6"/>
+      <line x1="345" y1="180" x2="355" y2="195" stroke="#fff" stroke-width="1" opacity="0.6"/>
+      <line x1="345" y1="210" x2="355" y2="225" stroke="#fff" stroke-width="1" opacity="0.6"/>
+
+      <!-- Mandrin de la visseuse -->
+      <rect x="325" y="10" width="50" height="80" rx="6" fill="url(#grad-chuck)" stroke="#334155" stroke-width="2"/>
+      <line x1="330" y1="30" x2="370" y2="30" stroke="#1e293b" stroke-width="2"/>
+      <line x1="330" y1="60" x2="370" y2="60" stroke="#1e293b" stroke-width="2"/>
+      <text x="220" y="45" font-size="12" font-weight="700" fill="#f8fafc">Mandrin Ø 45 mm</text>
+      <path d="M 315 45 L 325 45" stroke="#f8fafc" stroke-width="1.5"/>
+
+      <!-- Distance Mandrin / Montant -->
+      <line x1="300" y1="40" x2="325" y2="40" stroke="#10b981" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <text x="275" y="30" font-size="11" font-weight="800" fill="#34d399">Garde &gt; 15 mm</text>
+
+      <!-- Étiquettes d'appel -->
+      <g transform="translate(480, 100)">
+        <rect x="0" y="0" width="180" height="70" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+        <text x="12" y="22" font-size="11" font-weight="800" fill="#c084fc">CANONS DE GUIDAGE 3D</text>
+        <text x="12" y="40" font-size="11" fill="#cbd5e1">Hauteur H = 25 mm</text>
+        <text x="12" y="58" font-size="11" fill="#cbd5e1">Alésage Ø = 4,55 mm</text>
+        <line x1="0" y1="35" x2="-40" y2="150" stroke="#c084fc" stroke-width="1.2" stroke-dasharray="3 3"/>
+      </g>
+    </g>
+
+    <!-- Fiche explicative sous le panneau 1 -->
+    <g transform="translate(25, 570)">
+      <rect x="0" y="0" width="710" height="240" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="20" y="30" font-size="14" font-weight="800" fill="#38bdf8">POURQUOI LE GABARIT 3D SUPPORTE LE PERÇAGE PORTATIF ?</text>
+      
+      <circle cx="30" cy="65" r="10" fill="#8b5cf6" fill-opacity="0.2"/>
+      <text x="26" y="70" font-size="12" font-weight="800" fill="#c084fc">1</text>
+      <text x="50" y="70" font-size="13" font-weight="600" fill="#f1f5f9">
+        Ratio de guidage rigide H/D = 25 / 4,55 = 5,5 :
+      </text>
+      <text x="50" y="88" font-size="12" fill="#94a3b8">
+        La hauteur de la cheminée bloque rigoureusement le foret à 90° (+/- 0,1°). L'erreur angulaire résiduelle est quasi nulle.
+      </text>
+
+      <circle cx="30" cy="120" r="10" fill="#8b5cf6" fill-opacity="0.2"/>
+      <text x="26" y="125" font-size="12" font-weight="800" fill="#c084fc">2</text>
+      <text x="50" y="125" font-size="13" font-weight="600" fill="#f1f5f9">
+        Rehausse mécanique du mandrin (Zéro rayure de la cornière) :
+      </text>
+      <text x="50" y="143" font-size="12" fill="#94a3b8">
+        En surélevant le point d'attaque de 25 mm, le corps du mandrin tourne librement sans jamais frôler le montant de 191 mm.
+      </text>
+
+      <circle cx="30" cy="175" r="10" fill="#8b5cf6" fill-opacity="0.2"/>
+      <text x="26" y="180" font-size="12" font-weight="800" fill="#c084fc">3</text>
+      <text x="50" y="180" font-size="13" font-weight="600" fill="#f1f5f9">
+        Centrage instantané par emboîtement sans mesure :
+      </text>
+      <text x="50" y="198" font-size="12" fill="#94a3b8">
+        Le gabarit épouse la tranche arrière et les deux bords latéraux de la semelle. Zéro traçage au trusquin ni pointage requis.
+      </text>
+    </g>
+  </g>
+
+  <!-- ==================== PANNEAU DROIT HAUT : VUE DE PROFIL EN COUPE & COTATION ==================== -->
+  <g transform="translate(830, 140)">
+    <rect x="0" y="0" width="730" height="400" rx="12" fill="url(#grad-panel)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <path d="M 0 12 Q 0 0 12 0 L 718 0 Q 730 0 730 12 L 730 48 L 0 48 Z" fill="#1e293b"/>
+    <text x="24" y="32" font-size="15" font-weight="700" fill="#38bdf8" letter-spacing="1">
+      PANNEAU 2 : VUE EN COUPE TRANSVERSALE &amp; COTES D'ATELIER
+    </text>
+
+    <!-- Zone dessin coupe -->
+    <g transform="translate(30, 70)">
+      <!-- Semelle Aluminium 7075-T6 (Vert) -->
+      <rect x="40" y="220" width="420" height="40" rx="2" fill="#059669" fill-opacity="0.5" stroke="#10b981" stroke-width="2"/>
+      <text x="480" y="245" font-size="13" font-weight="700" fill="#34d399">Semelle Alu ép. 4,0 mm</text>
+
+      <!-- Montant vertical de la cornière -->
+      <rect x="40" y="20" width="30" height="200" fill="#059669" fill-opacity="0.5" stroke="#10b981" stroke-width="2"/>
+      <text x="15" y="110" font-size="12" font-weight="700" fill="#6ee7b7" transform="rotate(-90 15 110)">Montant 191 mm</text>
+
+      <!-- Gabarit 3D (Violet) plaqué sur la semelle -->
+      <path d="M 70 20 L 100 20 L 100 120 L 440 120 L 440 220 L 70 220 Z" fill="#9333ea" fill-opacity="0.4" stroke="#a855f7" stroke-width="2"/>
+      
+      <!-- Cheminées de perçage -->
+      <!-- Trou 1 (Arrière) -->
+      <rect x="180" y="50" width="50" height="170" rx="4" fill="#7e22ce" fill-opacity="0.8" stroke="#e9d5ff" stroke-width="2"/>
+      <rect x="195" y="45" width="20" height="225" rx="2" fill="#090d16" stroke="#38bdf8" stroke-width="1.5"/>
+      <!-- Trou 2 (Avant) -->
+      <rect x="300" y="50" width="50" height="170" rx="4" fill="#7e22ce" fill-opacity="0.8" stroke="#e9d5ff" stroke-width="2"/>
+      <rect x="315" y="45" width="20" height="225" rx="2" fill="#090d16" stroke="#38bdf8" stroke-width="1.5"/>
+
+      <!-- Cotes hauteur canon et diamètre -->
+      <line x1="360" y1="50" x2="360" y2="220" stroke="#c084fc" stroke-width="1.5" marker-start="url(#arrow-purple)" marker-end="url(#arrow-purple)"/>
+      <text x="375" y="140" font-size="12" font-weight="800" fill="#c084fc">H_canon = 25,0 mm</text>
+
+      <line x1="195" y1="35" x2="215" y2="35" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <text x="175" y="25" font-size="11" font-weight="800" fill="#38bdf8">Ø 4,55 mm</text>
+
+      <!-- Ligne d'entraxe -->
+      <line x1="205" y1="290" x2="325" y2="290" stroke="#f59e0b" stroke-width="1.8" marker-start="url(#arrow-amber)" marker-end="url(#arrow-amber)"/>
+      <line x1="205" y1="260" x2="205" y2="295" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 3"/>
+      <line x1="325" y1="260" x2="325" y2="295" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="220" y="310" font-size="13" font-weight="800" fill="#fbbf24">Entraxe d = 12,0 mm (+/- 0,05)</text>
+    </g>
+  </g>
+
+  <!-- ==================== PANNEAU DROIT BAS : PARAMÈTRES QIDI PLUS 4 & SÉQUENCE ATELIER ==================== -->
+  <g transform="translate(830, 570)">
+    <rect x="0" y="0" width="730" height="410" rx="12" fill="url(#grad-panel)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <path d="M 0 12 Q 0 0 12 0 L 718 0 Q 730 0 730 12 L 730 48 L 0 48 Z" fill="#1e293b"/>
+    <text x="24" y="32" font-size="15" font-weight="700" fill="#38bdf8" letter-spacing="1">
+      PANNEAU 3 : FICHE FABRICATION SLICER &amp; PROTOCOLE DE PERÇAGE
+    </text>
+
+    <!-- Tableaux comparatifs / Paramètres -->
+    <g transform="translate(25, 65)">
+      <!-- Tableau 1 : Slicer 3D -->
+      <rect x="0" y="0" width="325" height="175" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="0" y="0" width="325" height="30" rx="4" fill="#334155"/>
+      <text x="12" y="20" font-size="12" font-weight="800" fill="#f8fafc">PARAMÈTRES SLICER (QIDI PLUS 4)</text>
+
+      <text x="12" y="55" font-size="12" fill="#94a3b8">Filament recommandé :</text>
+      <text x="175" y="55" font-size="12" font-weight="700" fill="#38bdf8">PETG-CF ou PLA-CF</text>
+
+      <text x="12" y="85" font-size="12" fill="#94a3b8">Nombre de périmètres :</text>
+      <text x="175" y="85" font-size="12" font-weight="700" fill="#f8fafc">5 parois (Solidité canon)</text>
+
+      <text x="12" y="115" font-size="12" fill="#94a3b8">Densité de remplissage :</text>
+      <text x="175" y="115" font-size="12" font-weight="700" fill="#10b981">100% Plein (Rigidité)</text>
+
+      <text x="12" y="145" font-size="12" fill="#94a3b8">Hauteur de couche :</text>
+      <text x="175" y="145" font-size="12" font-weight="700" fill="#f8fafc">0,16 mm (Précision)</text>
+
+      <!-- Tableau 2 : Conditions d'Usinage -->
+      <rect x="350" y="0" width="330" height="175" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="350" y="0" width="330" height="30" rx="4" fill="#334155"/>
+      <text x="362" y="20" font-size="12" font-weight="800" fill="#f8fafc">CONDITIONS D'USINAGE FORAGE</text>
+
+      <text x="362" y="55" font-size="12" fill="#94a3b8">Outil de coupe :</text>
+      <text x="495" y="55" font-size="12" font-weight="700" fill="#f59e0b">Foret HSS-G Ø 4,50 mm</text>
+
+      <text x="362" y="85" font-size="12" fill="#94a3b8">Vitesse visseuse :</text>
+      <text x="495" y="85" font-size="12" font-weight="700" fill="#f8fafc">800 - 1200 tr/min</text>
+
+      <text x="362" y="115" font-size="12" fill="#94a3b8">Lubrification :</text>
+      <text x="495" y="115" font-size="12" font-weight="700" fill="#38bdf8">1 goutte WD-40 / Cire</text>
+
+      <text x="362" y="145" font-size="12" fill="#94a3b8">Temps d'exécution :</text>
+      <text x="495" y="145" font-size="12" font-weight="700" fill="#10b981">&lt; 30 sec par trou</text>
+    </g>
+
+    <!-- Séquence pas à pas 4 étapes -->
+    <g transform="translate(25, 260)">
+      <rect x="0" y="0" width="680" height="65" rx="6" fill="#0b1329" stroke="#1e293b" stroke-width="1"/>
+      <text x="15" y="25" font-size="12" font-weight="800" fill="#c084fc">SÉQUENCE OPÉRATOIRE D'ATELIER (4 ÉTAPES) :</text>
+      <text x="15" y="48" font-size="11" fill="#cbd5e1">
+        1. Emboîter le gabarit ➔ 2. Pincer avec serre-joint rapide ➔ 3. Percer à Ø 4,5 mm en 1 passe ➔ 4. Chanfreiner 0,3 mm x 45°
+      </text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity & David",
+	"description":	{
+		"":	"Rétablissement immédiat du matériau Aluminium 7075 sur le corps 'ceinture' du Torse D-Bot"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
+

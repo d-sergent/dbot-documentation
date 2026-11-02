@@ -112,6 +112,7 @@ Le robot humanoïde D-Bot V1 sépare structurellement le corps supérieur en tro
 | **CAR-05** | `Carenage_Pectoral_Haut` | `ASV1_100_04C v1` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **`194,35 g`** | Protection avant supérieure sous les épaules et le cou (Demi-fût C1) |
 | **CAR-06** | `Carenage_Lombaire_Arriere` | `ASV1_100_06C v1` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **`206,71 g`** | Protection dorsale basse protégeant la liaison avec le waist (Demi-fût C2) |
 | **CAR-07** | `Ceinture_Intermediaire_7075` | `ceinture:1` | Aluminium 7075-T6 | Usinage CNC C500 (Tôle 3,0 mm) | 1 | **`45,43 g`** | Ceinture horizontale à Z = 1235 mm reliant C1/C2 et ancrant les cornières hautes et basses |
+| **CAR-08** | `Support_Batterie_Central` | `ASV1_100_11A` | PA12-CF | Impression 3D (30% Gyroïde) | 1 | **`38,90 g`** | Support monobloc guidant et calant les 2 packs batteries 12S sur la colonne sagittale |
 
 ---
 
@@ -131,7 +132,7 @@ Le robot humanoïde D-Bot V1 sépare structurellement le corps supérieur en tro
 | **VIS-T10** | Rondelles plates DIN 125A M5 | **`93475A250`** | Inox A2 | 8 | — | Sous tête et sous écrou des vis VIS-T08 |
 | **VIS-T11** | Vis CHC M2,5 × 14 mm | **`91292A017`** | Inox A2 (18-8) | 4 | 0,5 à 0,6 N.m | Traversée support IMU BMI270 sur colonne Plaque Haute |
 | **VIS-T12** | Écrous frein Nylstop M2,5 | **`90631A019`** | Acier classe 8 / DIN 985 | 4 | 0,8 N.m | Serrage flanc gauche colonne IMU (avec entretoises nylon) |
-| **VIS-T13** | Vis CHC M4 × 18 mm | **`92290A154`** | Inox 316 / DIN 912 | 4 | 2,5 N.m | Vissage intérieur Plastron Ventral (10 mm) ➔ Waist Plate (6 mm) |
+| **VIS-T13** | Vis CHC M4 × 18 mm | **`92290A161`** | Inox 316 / DIN 912 | 4 | 2,5 N.m | Vissage intérieur Plastron Ventral (10 mm) ➔ Waist Plate (6 mm) |
 | **VIS-T14** | Rondelles plates DIN 125A M4 | **`93475A240`** | Inox 316 | 4 | — | Sous têtes des vis VIS-T13 dans les 4 lamages du plastron |
 | **VIS-T15** | Vis CHC M5 × 25 mm | **`91290A225`** / **`90348A023`** | Acier 12.9 ou Inox Noir (ou `91292A129` Inox 18-8) | 4 | 5,5 N.m | Traversée sandwich colonne (2 semelles 5 mm + colonne 5 mm) |
 | **VIS-T16** | Rondelles plates DIN 125A M5 | **`93475A240`** | Inox 18-8 | 8 | — | 4 sous tête (face avant) et 4 sous écrou (face arrière) |
@@ -141,6 +142,10 @@ Le robot humanoïde D-Bot V1 sépare structurellement le corps supérieur en tro
 | **VIS-T20** | Vis CHC M4 × 16 mm | **`91290A154`** / **`91292A118`** | Acier 12.9 ou Inox 18-8 | 2 | 1,8 N.m | Fixation inférieure Cornières Hautes ➔ Ceinture Alu 3 mm |
 | **VIS-T21** | Écrous frein Nylstop M4 | **`93625A150`** | Inox A2 / DIN 985 | 2 | 1,8 N.m | Serrage logé en Hex Pocket sous la demi-coque C2 |
 | **VIS-T22** | Rondelles plates DIN 125A M4 | **`93475A230`** | Inox 18-8 | 6 | — | Portée d'appui sous tête et écrous liaison cornière haute et ceinture |
+| **VIS-T23** | Vis CHC M4 × 18 mm | **`92290A161`** | Inox 316 / DIN 912 | 2 | 2,2 N.m | Fixation horizontale traversante Support Batterie Central ➔ Colonne centrale 5 mm |
+| **VIS-T24** | Rondelles plates DIN 125A M4 | **`93475A230`** | Inox 18-8 | 4 | — | Sous tête et écrou des 2 vis horizontales support batterie |
+| **VIS-T25** | Écrous frein Nylstop M4 | **`93625A150`** | Inox A2 / DIN 985 | 2 | 2,2 N.m | Serrage flanc opposé colonne centrale support batterie |
+| **VIS-T26** | Vis CHC M4 × 12 mm | **`92290A130`** | Inox 316 / DIN 912 | 1 | 2,0 N.m | Verrouillage vertical / calage socle batterie central |
 
 ---
 

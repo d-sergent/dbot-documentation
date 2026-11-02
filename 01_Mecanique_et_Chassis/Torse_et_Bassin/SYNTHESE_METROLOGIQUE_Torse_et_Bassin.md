@@ -1,8 +1,8 @@
 # Synthèse Métrologique et CAO — Torse et Bassin D-Bot V1
 
 > **Statut** : Document de référence métrologique validé par extraction CAO Fusion 360  
-> **Source de vérité CAO** : `Torse-123 (v11~recovered)`  
-> **Date de l'audit** : 2026-10-27T21:47:44.157586  
+> **Source de vérité CAO** : `Torse-123 v22`  
+> **Date de l'audit** : 2026-11-01T21:04:19.607404  
 > **Fichier source** : [`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json)
 
 ---
@@ -12,20 +12,19 @@
 1. [Vue d'Ensemble & Masses](#1-vue-densemble--masses)
 2. [Dimensions Physiques Réelles & Altitude au Sol](#2-dimensions-physiques-réelles--altitude-au-sol)
 3. [Chaîne Cinématique et Empilement Waist (Z)](#3-chaîne-cinématique-et-empilement-waist-z)
-4. [Architecture Modulaire Torse C1 / C2 & Ceinture](#4-architecture-modulaire-torse-c1--c2--ceinture)
-5. [Bilan d'Usinage & Quincaillerie Clé](#5-bilan-dusinage--quincaillerie-clé)
-6. [Nomenclature Consolidée Majeure](#6-nomenclature-consolidée-majeure)
+4. [Bilan d'Usinage & Quincaillerie Clé](#4-bilan-dusinage--quincaillerie-clé)
+5. [Nomenclature Consolidée Majeure](#5-nomenclature-consolidée-majeure)
 
 ---
 
 ## 1. Vue d'Ensemble & Masses
 
-* **Masse totale de l'ensemble Torse + Bassin** : **18.80 kg** (18796.0 g).
-* **Nombre de composants modélisés** : **425 instances** (BOM de 110 références uniques).
+* **Masse totale de l'ensemble Torse + Bassin** : **24.69 kg** (24689.9 g).
+* **Nombre de composants modélisés** : **443 instances** (BOM de 107 références uniques).
 * **Centre de gravité global (CoM)** :
-  * **X** (profondeur) = **+61.44 mm** (léger déport avant cohérent avec l'implantation pectorale et batteries).
-  * **Y** (latéral) = **-7.22 mm** (quasi-parfaite symétrie gauche/droite).
-  * **Z** (hauteur) = **1111.27 mm** (situé au niveau du plexus, entre le waist à 1035 mm et la plaque de cou à 1476 mm).
+  * **X** (profondeur) = **+61.71 mm** (léger déport avant cohérent avec l'implantation pectorale et batteries).
+  * **Y** (latéral) = **+3.64 mm** (quasi-parfaite symétrie gauche/droite).
+  * **Z** (hauteur) = **1056.09 mm** (situé au niveau du plexus, entre le waist à 1035 mm et la plaque de cou à 1476 mm).
 
 ---
 
@@ -34,16 +33,16 @@
 > [!IMPORTANT]
 > **Distinction essentielle pour le dimensionnement robotique** :
 > 1. **L'altitude Z** est repérée par rapport au sol (la plante des pieds du robot debout est à Z = 0 mm).
-> 2. **La hauteur physique réelle** du sous-ensemble Torse + Bassin est de **890.2 mm** (89.0 cm).
+> 2. **La hauteur physique réelle** du sous-ensemble Torse + Bassin est de **1547.1 mm** (154.7 cm).
 
 | Grandeur | Coordonnées / Plage (mm) | Dimension Physique Réelle | Commentaire |
 | :--- | :--- | :--- | :--- |
-| **Profondeur totale (X)** | [Chassis_Structurel_Bassin [ASV1_200_01C]:1] 243.0 mm | **243.0 mm** | Encombrement avant/arrière plastron + carénages |
+| **Profondeur totale (X)** | [Chassis_Structurel_Bassin [ASV1_200_01C]:1] 233.2 mm | **233.2 mm** | Encombrement avant/arrière plastron + carénages |
 | **Largeur totale (Y)** | Epaules / Hanche : 487.1 mm | **487.1 mm** | Largeur d'épaules et pivots de hanches |
-| **Altitude Z au sol** | **714.17 mm -> 1604.41 mm** | — | Repère mondial D-Bot (pieds à Z = 0 mm) |
+| **Altitude Z au sol** | **0.00 mm -> 1547.12 mm** | — | Repère mondial D-Bot (pieds à Z = 0 mm) |
 | **Bassin seul (Pelvis)** | 762,87 mm -> 1043,18 mm | **280.3 mm** (~28,0 cm) | Du bas du carénage hanche au sommet du berceau |
-| **Torse seul (Waist au cou)** | 1034,91 mm -> 1604.41 mm | **569.5 mm** (~51,2 cm) | De la Waist Plate au sommet du tube de cou |
-| **Hauteur Totale Torse + Bassin** | 762,87 mm -> 1604.41 mm | **890.2 mm** (~78,4 cm) | **Hauteur physique propre de l'assemblage** |
+| **Torse seul (Waist au cou)** | 1034,91 mm -> 1547.12 mm | **512.2 mm** (~51,2 cm) | De la Waist Plate au sommet du tube de cou |
+| **Hauteur Totale Torse + Bassin** | 762,87 mm -> 1547.12 mm | **1547.1 mm** (~78,4 cm) | **Hauteur physique propre de l'assemblage** |
 
 ---
 
@@ -65,25 +64,15 @@ L'empilement vertical de l'articulation de lacet du buste (Waist Yaw) a été v�
 
 ---
 
-## 4. Architecture Modulaire Torse C1 / C2 & Ceinture
+## 4. Bilan d'Usinage & Quincaillerie Clé
 
-| Élément | Nom du Corps | Z Bas (mm) | Z Haut (mm) | Épaisseur / Hauteur Z (mm) | Volume (cm3) | Masse propre |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Demi-fût Supérieur (C1)** | Torse_Haut_C1 | 1235.45 | 1471.42 | 235.97 mm | 1551.27 | 1574.53 g |
-| **Ceinture Intermédiaire Alu** | ceinture | 1233.5 | 1236.5 | 3.0 mm | 16.17 | 45.43 g |
-| **Demi-fût Inférieur (C2)** | Torse_Haut_C2 | 1110.42 | 1234.55 | 124.13 mm | 613.64 | 622.88 g |
+* **Fraisures coniques 90° (Vis FHC M4)** : **2202 fraisures** détectées et validées sur le châssis, la traverse, les capots et les équerres.
+* **Alésages et lamages majeurs (>= 60 mm)** : **270 alésages** de précision répertoriés (notamment le lamage de traverse Ø 120 mm pour RB8016 et les alésages de roulements de hanche).
+* **Goupilles de centrage Ø 3,0 mm (ISO 8734)** : **305 positions** de centrage géométrique.
 
 ---
 
-## 5. Bilan d'Usinage & Quincaillerie Clé
-
-* **Fraisures coniques 90° (Vis FHC M4)** : **2191 fraisures** détectées et validées sur le châssis, la traverse, les capots et les équerres.
-* **Alésages et lamages majeurs (>= 60 mm)** : **308 alésages** de précision répertoriés (notamment le lamage de traverse Ø 120 mm pour RB8016 et les alésages de roulements de hanche).
-* **Goupilles de centrage Ø 3,0 mm (ISO 8734)** : **279 positions** de centrage géométrique.
-
----
-
-## 6. Nomenclature Consolidée Majeure
+## 5. Nomenclature Consolidée Majeure
 
 | Composant clé | Référence CAO | Quantité | Matériau principal | Masse unitaire |
 | :--- | :--- | :--- | :--- | :--- |

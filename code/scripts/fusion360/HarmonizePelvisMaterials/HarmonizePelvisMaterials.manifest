@@ -1,0 +1,11 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity & David",
+	"description":	{
+		"":	"Harmonisation souveraine des matériaux du Bassin Pelvis D-Bot V1 (Alu 7075 Traverse et PA12-CF Châssis/Hanches)"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
+

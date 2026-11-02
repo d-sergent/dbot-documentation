@@ -38,8 +38,8 @@ Documents associés: AUDIT_Decoupage_Modulaire_Coque_Torse_PA12-CF.md, reponse_a
   - [6.1 Nomenclature complète de la liaison Solution C](#61-nomenclature-complète-de-la-liaison-solution-c)
   - [6.2 Procédure pas-à-pas de modélisation dans Fusion 360](#62-procédure-pas-à-pas-de-modélisation-dans-fusion-360)
   - [6.3 Couples de serrage et outillage d'atelier](#63-couples-de-serrage-et-outillage-datelier)
-- [7. Architecture Avancée : Portique Spatial 7075-T6 et Carénages Aimantés](#7-architecture-avancée--portique-spatial-7075-t6-et-carénages-aimantés)
-  - [7.1 Principe du découplage : Squelette travaillant vs Peau cosmétique](#71-principe-du-découplage--squelette-travaillant-vs-peau-cosmétique)
+- [7. Architecture Avancée : Portique Spatial 7075-T6 et Carénages Aimantés](#7-architecture-avancée-portique-spatial-7075-t6-et-carénages-aimantés)
+  - [7.1 Principe du découplage : Squelette travaillant vs Peau cosmétique](#71-principe-du-découplage-squelette-travaillant-vs-peau-cosmétique)
   - [7.2 Implantation spatiale des tirants arrière et dégagement batterie](#72-implantation-spatiale-des-tirants-arrière-et-dégagement-batterie)
   - [7.3 Dimensionnement RDM complet du portique anti-torsion](#73-dimensionnement-rdm-complet-du-portique-anti-torsion)
   - [7.4 Dimensionnement des plots magnétiques néodyme N52 Quick-Swap](#74-dimensionnement-des-plots-magnétiques-néodyme-n52-quick-swap)
@@ -107,7 +107,8 @@ Plutôt que d'abouter directement deux lèvres fines en plastique (sensibles au 
 * **Matériau** : Alliage d'Aluminium **7075-T6** (ou 6082-T6).
 * **Épaisseur** : **`3,0 mm`** (épaisseur brute marchande standard).
 * **Largeur radiale de la bande** : **`16,0 mm`** sur les flancs et la traverse avant.
-* **Procédé d'usinage** : Découpe 2D directe au **jet d'eau abrasif** (tolérance de contour +/- 0,1 mm, zéro reprise d'usinage complexe).
+* **Procédé d'usinage officiel de référence** : **Usinage interne sur la CNC NestWorks C500 en mode Manuel sans ATC (Courses 240 × 210 mm) avec repositionnement en 2 phases et recalage au Touch Probe 3D** (voir protocole complet dans [22_Usinage_CNC_C500.md](../../Annexes/Outils_de_Travail/cnc/22_Usinage_CNC_C500.md#8-protocole-dusinage-des-grandes-pièces-hors-gabarit--cas-de-la-ceinture-alu-3-mm-retrait-atc--repositionnement-2-phases)).
+  - *Alternative commerciale de repli* : Découpe 2D directe au jet d'eau abrasif ou laser fibre en sous-traitance à partir du fichier DXF (tolérance `+/- 0,1 mm`, coût indicatif ~25 €).
 * **Perçages** : **6 trous lisses traversants de `Ø 4,5 mm`** répartis sur les flancs et la traverse avant pour le serrage des œillets sandwich C1/C2.
 * **Sourcing matière commerciale (Blockenstock.fr)** :
   - **Référence** : [Tôle Aluminium 7075 épaisseur 3 mm x longueur 495 mm](https://www.blockenstock.fr/-3x-495mm-alu-7075-tarif-pour-1cm-c2x20907757) (Tarif au centimètre de largeur : 1,38 € TTC/cm).
@@ -256,7 +257,7 @@ Toutes les pièces de fixation sont strictement normalisées selon le catalogue 
 
 | Composant | Rôle | Spécification normalisée | Réf. McMaster-Carr | Qté |
 | :--- | :--- | :--- | :---: | :---: |
-| **Ceinture alu** | Cadre de couple médian | Tôle Alu 7075-T6 brute 3,0 mm découpée jet d'eau | Fabrication atelier / DXF 2D | 1 |
+| **Ceinture alu** | Cadre de couple médian | Tôle Alu 7075-T6 brute 3,0 mm usinée C500 (2 phases sans ATC) ou repli jet d'eau | Fabrication atelier interne C500 (G-code CAM) / Repli DXF | 1 |
 | **Vis de ceinture** | Serrage sandwich œillets C1/C2 | Vis CHC M4 x 25 mm, inox 18-8, filetage total (ISO 4762) | **`91292A122`** | 6 |
 | **Écrous de ceinture** | Blocage anti-dévissage traversant libre | Écrou auto-freiné Nylstop M4, inox 18-8, bague polyamide (DIN 985) | **`93625A150`** | 6 |
 | **Rondelles de ceinture** | Répartition sous tête (C1) et sous écrou (C2) | Rondelle plate étroite DIN 125A, inox 18-8, pour vis M4 | **`93475A230`** | 12 |
@@ -531,7 +532,7 @@ Pour les **deux cornières symétriques** (gauche et droite), l'assemblage requi
 Pour acter cette conception dans la prochaine révision de la maquette numérique Autodesk Fusion 360 (`Torse v113`) :
 1. **Scinder le berceau violet `Plastron_Ventral_Torse`** à `Z = 1235,0 mm` en deux composants `Fût_Superieur_C1` et `Fût_Inferieur_C2`.
 2. **Ajouter les 6 œillets internes** avec leurs Hex Pockets de 7,0 mm sous C2.
-3. **Créer la pièce `Ceinture_Intermediaire_Alu_3mm`** découpée en 2D et exporter son fichier DXF de découpe jet d'eau.
+3. **Créer la pièce `Ceinture_Intermediaire_Alu_3mm`** et générer le G-code d'usinage en 2 phases sur la CNC C500 sans ATC (avec export DXF 2D de repli).
 4. **Modéliser les deux cornières anti-torsion** : **VALIDÉ EN CAO (`Corniere:1`)** avec perçage bas Ø 4,3 mm, lumière oblongue haute 4,2 x 6,5 mm et congé d'appui R = 3,0 mm. **Réserve du 19/10/2026** : contrôle d'interférence avec le panier batterie à faire, et ajout d'un pont métallique pleine hauteur (option A du §12.8 de la réponse d'audit) à modéliser.
 5. **Intégrer les 6 logements pour aimants néodyme N52** (Ø 10 mm x 3 mm) sur le pourtour du carénage lombaire arrière et les rondelles d'appui correspondantes sur C2.
 6. **Scinder le carénage pectoral bleu** en `Plastron_Pectoral_P1` et `Plastron_Abdominal_P2`, avec feuillure d'emboîtement de 2,0 mm.

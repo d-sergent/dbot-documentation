@@ -24,6 +24,9 @@
   - [Interface CAN & Perception](#interface-can--perception)
 - [**4. Infrastructure & Connexion**](#4-infrastructure--connexion)
 - [**5. Consommables & Outils**](#5-consommables--outils)
+  - [Consommables d'Impression 3D & Assemblage](#consommables-dimpression-3d--assemblage)
+  - [Outillage à Main & Métrologie](#outillage-à-main--métrologie)
+  - [Machines & Outillage de Débit d'Atelier (Préparation Bruts CNC)](#machines--outillage-de-débit-datelier-préparation-bruts-cnc)
 
 ---
 
@@ -306,9 +309,20 @@ Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une q
 ---
 
 ## 5. Consommables & Outils
+
+### Consommables d'Impression 3D & Assemblage
 *   **Filament Flexible** : **1x Bobine Qidi TPU 95A-HF**. C'est le matériau universel officiel pour toutes les pièces souples du robot (supports amortisseurs pour les micros, semelles antidérapantes des pieds en utilisant le "Fuzzy Skin").
-*   **Outils Filetage CNC (C500)** : **1x Micro-fraise à fileter M3 (1 dent, DLC)** + **1x Foret carbure 2.5mm**. (Queue de 4mm). Obligatoire pour fileter mécaniquement vos pièces Aluminium sans risquer de casser des tarauds manuels. (Acheter spécialisé : e.g., CncFraises).
 *   **Frein Filet** : **Loctite 222** (Faible) pour visserie M3 (coques, électronique). **Loctite 243** (Moyen, Bleu) pour visserie M4/M5 haute charge (moteurs RS-04, brackets CNC). Indispensable ! Les vibrations desserrent les vis en quelques heures sans cela.
 *   **Protection Thermique (Aimants tactile)** : **1x Rouleau de Ruban Adhésif en Tissu de Verre (ex: 3M 69)** ou à défaut du **Ruban Kapton**. Indispensable pour réaliser les pastilles d'isolation double-face sur les aimants NdFeB et éviter leur démagnétisation sous l'effet du TPU extrudé chaud à 220 °C. (Acheter chez : Amazon.fr, RS-Components ou Farnell).
-*   **Clés Allen** : Jeu de clés de précision (Facom ou Wera) pour ne pas foire les têtes de vis.
+*   **Lubrification de Tronçonnage & Usinage Alu** : **1x Bâton de cire de coupe** ou **Spray WD-40 Spécialiste Coupe** pour métaux non-ferreux. Indispensable pour éviter le collage à chaud des copeaux d'Alu 7075-T651 sur la lame carbure et sur les fraises CNC.
+
+### Outillage à Main & Métrologie
+*   **Outils Filetage CNC (C500)** : **1x Micro-fraise à fileter M3 (1 dent, DLC)** + **1x Foret carbure 2.5mm**. (Queue de 4mm). Obligatoire pour fileter mécaniquement vos pièces Aluminium sans risquer de casser des tarauds manuels. (Acheter spécialisé : e.g., CncFraises).
+*   **Clés Allen** : Jeu de clés de précision (Facom ou Wera) pour ne pas foirer les têtes de vis.
 *   **Métrologie & Contrôle d'Atelier** : **1x Pied à coulisse numérique de précision SHAHE 5110-150** (0-150 mm, IP54, acier inoxydable trempé, règle en verre haute stabilité, résolution 0,01 mm, précision DIN 862). (**✅ Acheté**). Indispensable pour le contrôle dimensionnel des bruts, la visserie, les entraxes PCB et la validation d'usinage sur la NestWorks C500.
+
+### Machines & Outillage de Débit d'Atelier (Préparation Bruts CNC)
+| Équipement | Référence / Modèle | Spécifications Clés | Rôle Atelier & Usage D-Bot |
+| :--- | :--- | :--- | :--- |
+| **Scie Radiale Multi-Matériaux** | **Evolution R255SMS+** (230V EU, Réf: `052-0001A`) | Moteur 2 000 W, réducteur acier trempé à 2 500 tr/min, capacité de coupe à 90° : 300 × 80 mm, alésage 25,4 mm, serre-joint rapide, guide haut | Débit d'ébauche des tôles larges (Ceinture 230 mm), profilés carrés (Épaules 60×60 mm) et méplats massifs (Portique 25×100 mm en 7075-T651) avant usinage de finition sur CNC C500. |
+| **Lame Dédiée Métaux Non-Ferreux** | **Evolution A255TCT-80MS** (Aluminium 80 Dents, EAN: `0849713053497`) | Ø 255 mm, 80 dents carbure TCG (trapézoïdale/plate), angle d'attaque négatif -5°, alésage 25,4 mm direct | Coupe nette sans bavure, sans ramollissement thermique et sans amorce de recul (kickback) sur l'Alu 7075-T651. Remplace la lame multi-matériaux d'origine pour l'usinage intensif de l'alu. |

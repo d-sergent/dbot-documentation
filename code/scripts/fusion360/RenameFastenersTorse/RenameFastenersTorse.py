@@ -29,6 +29,20 @@ import re
 # ---------------------------------------------------------------------------
 FASTENER_RULES = [
     {
+        "pattern": r"91290A150",
+        "new_name": "Vis CHC M4x14 [91290A150]",
+        "part_number": "91290A150",
+        "description": "Vis CHC M4 x 14 mm Acier allié cl. 12.9 Noir (ISO 4762 / DIN 912)",
+        "material": "Acier"
+    },
+    {
+        "pattern": r"92290A161",
+        "new_name": "Vis CHC M4x18 [92290A161]",
+        "part_number": "92290A161",
+        "description": "Vis CHC M4 x 18 mm Inox 316 (ISO 4762 / DIN 912)",
+        "material": "Acier inoxydable"
+    },
+    {
         "pattern": r"91292A122",
         "new_name": "Vis CHC M4x25 [91292A122]",
         "part_number": "91292A122",
@@ -120,7 +134,7 @@ FASTENER_RULES = [
         "material": "Acier inoxydable"
     },
     {
-        "pattern": r"91812A252",
+        "pattern": r"(?:91812A252|Wedge Lock|Nord-Lock M4)",
         "new_name": "Rondelle Nord-Lock M4 [91812A252]",
         "part_number": "91812A252",
         "description": "Rondelle Nord-Lock M4 Inox / Acier (NL4)",
@@ -458,25 +472,39 @@ def run(context):
                     break
 
         # ===================================================================
-        # ÉTAPE B : NETTOYAGE DES OCCURRENCES DANS L'ARBORESCENCE (Suppression des (1), (2), (4))
+        # ÉTAPE B : NETTOYAGE DES OCCURRENCES DANS L'ARBORESCENCE (Index séquentiels :1, :2...)
         # ===================================================================
         root_comp = design.rootComponent
+        fastener_counters = {}
+        
+        # Pour éviter les collisions de nom lors des renommages directs,
+        # on assigne des index séquentiels uniques pour chaque type de composant.
         for occ in root_comp.allOccurrences:
             old_occ_name = occ.name
+            matched_rule = None
             for rule in FASTENER_RULES:
-                if re.search(rule["pattern"], old_occ_name, re.IGNORECASE):
-                    # Extraire l'indice d'instance :N à la fin
-                    idx_match = re.search(r':(\d+)\Z', old_occ_name)
-                    idx = idx_match.group(1) if idx_match else "1"
-                    desired_name = f"{rule['new_name']}:{idx}"
-                    
-                    if occ.name != desired_name:
+                if re.search(rule["pattern"], old_occ_name, re.IGNORECASE) or (occ.component and re.search(rule["pattern"], occ.component.name, re.IGNORECASE)):
+                    matched_rule = rule
+                    break
+            
+            if matched_rule:
+                base_name = matched_rule["new_name"]
+                fastener_counters[base_name] = fastener_counters.get(base_name, 0) + 1
+                desired_name = f"{base_name}:{fastener_counters[base_name]}"
+                
+                if occ.name != desired_name:
+                    try:
+                        occ.name = desired_name
+                        renamed_occurrences += 1
+                        log_lines.append(f"• Occurrence : '{old_occ_name}' ➔ '{desired_name}'")
+                    except:
                         try:
+                            # Déconfliction temporaire en cas d'échange de slots
+                            occ.name = f"TMP_{fastener_counters[base_name]}_{desired_name}"
                             occ.name = desired_name
                             renamed_occurrences += 1
                         except:
                             pass
-                    break
 
         # ===================================================================
         # ÉTAPE C : TRAITEMENT SPÉCIFIQUE DU CORPS 'CEINTURE' (Alu 7075-T6)
@@ -498,14 +526,15 @@ def run(context):
                             pass
 
         # ===================================================================
-        # ÉTAPE C bis : TRAITEMENT SPÉCIFIQUE DES CORNIÈRES (Alu 7075-T6)
+        # ÉTAPE C bis : TRAITEMENT SPÉCIFIQUE DES CORNIÈRES (Alu 7075-T6 & Nomenclature)
         # ===================================================================
         corniere_updated = False
         corniere_new_mass_g = 0.0
         corniere_count = 0
         if alu7075_mat:
             for comp in design.allComponents:
-                if "corniere" in comp.name.lower():
+                c_low = comp.name.lower()
+                if "corniere" in c_low:
                     try:
                         comp.material = alu7075_mat
                         for body in comp.bRepBodies:
@@ -514,7 +543,16 @@ def run(context):
                         corniere_new_mass_g = round(c_props.mass * 1000.0, 2)
                         corniere_updated = True
                         corniere_count += 1
-                        log_lines.append(f"• Composant '{comp.name}' ➔ Matériau '{alu7075_mat.name}' (Masse = {corniere_new_mass_g} g au lieu de 52.4 g)")
+                        
+                        # Standardisation Part Number et Description pour regroupement BOM
+                        if "haute" in c_low:
+                            comp.partNumber = "Corniere_Haute_7075"
+                            comp.description = "Cornière Haute Nervurée Portique Épaules (Alu 7075-T6)"
+                        elif "basse" in c_low:
+                            comp.partNumber = "Corniere_Basse_7075"
+                            comp.description = "Cornière Basse Nervurée Portique Waist (Alu 7075-T6)"
+                            
+                        log_lines.append(f"• Composant '{comp.name}' ➔ Matériau '{alu7075_mat.name}' (Masse = {corniere_new_mass_g} g) | PartNo='{comp.partNumber}'")
                     except:
                         pass
 

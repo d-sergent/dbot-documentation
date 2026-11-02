@@ -1,0 +1,59 @@
+# -*- coding: utf-8 -*-
+"""
+Animer_Deformation_FEA.FCMacro — Boîte à Outils FreeCAD Souveraine D-Bot
+Active instantanément le panneau officiel FreeCAD de visualisation des contraintes
+de Von Mises et le module de contrôle de l'animation dynamique des déformations.
+
+Auteur  : Équipe D-Bot
+Version : 1.0 (FreeCAD 1.1+)
+Emplacement d'exécution : ~/Library/Application Support/FreeCAD/v1-1/Macro/
+"""
+import FreeCAD
+import FreeCADGui
+from femviewprovider import view_result_mechanical
+
+doc = FreeCAD.ActiveDocument
+if not doc:
+    FreeCAD.Console.PrintError("Aucun document actif dans FreeCAD.\n")
+else:
+    # 1. Fermer un éventuel panneau de tâche en cours (ex: pipeline VTK en mode édition)
+    if FreeCADGui.ActiveDocument and FreeCADGui.ActiveDocument.getInEdit():
+        FreeCADGui.Control.closeDialog()
+        FreeCADGui.ActiveDocument.resetEdit()
+
+    # 2. Identifier l'objet résultat CalculiX
+    res = getattr(doc, "CCX_Results", None)
+    if not res:
+        for obj in doc.Objects:
+            if obj.isDerivedFrom("Fem::FemResultObjectPython"):
+                res = obj
+                break
+
+    if not res:
+        FreeCAD.Console.PrintError("Aucun objet résultat CCX_Results trouvé dans le document.\n")
+    else:
+        # 3. Masquer le solide CAO brut et les pipelines VTK pour ne pas parasiter la vue 3D
+        for obj in doc.Objects:
+            if obj.isDerivedFrom("Part::Feature") and obj.Name != res.Name and not "Mesh" in obj.Name:
+                if hasattr(obj, "ViewObject") and obj.ViewObject:
+                    obj.ViewObject.hide()
+            if obj.isDerivedFrom("Fem::FemPostPipeline"):
+                if hasattr(obj, "ViewObject") and obj.ViewObject:
+                    obj.ViewObject.hide()
+
+        # 4. Attacher le contrôleur ViewProvider officiel au ViewObject
+        view_result_mechanical.VPResultMechanical(res.ViewObject)
+
+        # 5. Préconfigurer l'affichage : Von Mises actif avec facteur d'échelle
+        FreeCAD.FEM_dialog = {
+            "results_type": "Sabs",
+            "show_disp": True,
+            "disp_factor": 1.0,
+            "disp_factor_max": 50.0,
+            "animate": [-1, -1, -1, -1]
+        }
+
+        # 6. Ouvrir le panneau de tâche officiel (avec Contrôle de l'animation et Start Animation)
+        FreeCADGui.ActiveDocument.setEdit(res.Name)
+        FreeCAD.Console.PrintMessage("✅ Panneau d'animation FEA activé avec succès !\n")
+
