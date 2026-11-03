@@ -246,7 +246,8 @@ def run(context):
         pelvis_keywords = [
             "asv1_200", "bassin", "pelvis", "chassis_structurel",
             "support_hanche", "liaison_hanche", "traverse_renfort_bassin",
-            "trappe_inferieure", "capot_protection_hanche", "capot_lateral_hanche"
+            "trappe_inferieure", "capot_protection_hanche", "capot_lateral_hanche",
+            "hanche", "hip"
         ]
 
         hardware_keywords = [

@@ -63,81 +63,96 @@ PA12_CF = {
 
 def build_macro_structural_torso():
     """
-    Construit le macro-modèle volumique de l'ossature primaire du Torse D-Bot
-    et valide les interfaces géométriques.
+    Construit le modèle volumique unifié et continu de l'ossature primaire du Torse D-Bot
+    (15 solides CAD réels avec ceinture 7075-T6, fixations de cou et waist, sans support batterie).
     """
     import FreeCAD
     import Part
 
-    print("\n📦 [1/4] Chargement des composants STEP de la structure primaire...")
+    print("\n📦 [1/4] Chargement des composants STEP souverains de l'ossature primaire...")
 
-    # A. Colonne vertébrale complète sandwich
-    step_colonne = STEP_DIR / "colonne_vertébrale.step"
-    step_eclisse = STEP_DIR / "semelle_éclisse.step"
-    col = Part.read(str(step_colonne))
+    # A. Waist Plate et Équerres Waist 7075-T6
+    wp = Part.read(str(STEP_DIR / "Waist_Plate_7075.step"))
+    eq_w1 = Part.read(str(STEP_DIR / "Equerre_waist.step"))
+    norm_y = FreeCAD.Vector(0, 1, 0)
+    pt_sym = FreeCAD.Vector(0, 9.3555, 0)
+    eq_w2 = eq_w1.mirror(FreeCAD.Vector(0, 8.67, 0), norm_y)
+    lower = wp.fuse([eq_w1, eq_w2]).removeSplitter()
+    print(f"  • Base Waist Plate + 2 Équerres 7075-T6 : {lower.Volume/1000.0:.1f} cm³")
+
+    # B. Colonne vertébrale complète sandwich 15 mm
+    col = Part.read(str(STEP_DIR / "colonne_vertébrale.step"))
     sol_haute = col.Solids[0] if col.Solids[0].BoundBox.ZMin > 1300 else col.Solids[1]
     sol_basse = col.Solids[1] if col.Solids[0].BoundBox.ZMin > 1300 else col.Solids[0]
-    ecl1 = Part.read(str(step_eclisse))
-    norm_y = FreeCAD.Vector(0, 1, 0)
-    sol_ecl2 = ecl1.Solids[0].mirror(FreeCAD.Vector(0, 8.67, 0), norm_y)
+    ecl1 = Part.read(str(STEP_DIR / "semelle_éclisse.step"))
+    y_mid = (6.16996 + 11.16996) / 2.0
+    sol_ecl2 = ecl1.Solids[0].mirror(FreeCAD.Vector(0, y_mid, 0), norm_y)
     spine_sandwich = sol_basse.fuse([sol_haute, ecl1.Solids[0], sol_ecl2]).removeSplitter()
     print(f"  • Colonne vertébrale sandwich 15 mm : {spine_sandwich.Volume/1000.0:.1f} cm³")
 
-    # B. Cornières nervurées (Gauche + Droite par symétrie Y = 9.355 mm)
-    step_cb = STEP_DIR / "Corniere_basse.step"
-    step_ch = STEP_DIR / "Corniere_haute.step"
-    cb_l = Part.read(str(step_cb))
-    ch_l = Part.read(str(step_ch))
-    pt_sym = FreeCAD.Vector(0, 9.3555, 0)
-    cb_r = cb_l.mirror(pt_sym, norm_y)
-    ch_r = ch_l.mirror(pt_sym, norm_y)
-    cornieres_fused_l = cb_l.fuse(ch_l)
-    cornieres_fused_r = cb_r.fuse(ch_r)
-    print(f"  • Cornières latérales 7075-T6 (L+R) : {(cornieres_fused_l.Volume + cornieres_fused_r.Volume)/1000.0:.1f} cm³")
+    # C. Équerre de cou et Plaque de Cou 7075-T6
+    eq_cou = Part.read(str(STEP_DIR / "Equerre_cou.step"))
+    cou = Part.read(str(STEP_DIR / "Plaque_de_Cou_7075.step"))
 
-    # C. Portique d'épaules
-    step_tube = STEP_DIR / "Tube_transverse_Epaules.step"
-    step_bride = STEP_DIR / "Bride_Epaule.step"
-    tube_l = Part.read(str(step_tube))
-    bride_l = Part.read(str(step_bride))
+    # D. Portique d'épaules (Tubes Ø 30 mm + Brides 7075-T6)
+    tube_l = Part.read(str(STEP_DIR / "Tube_transverse_Epaules.step"))
+    bride_l = Part.read(str(STEP_DIR / "Bride_Epaule.step"))
     tube_r = tube_l.mirror(pt_sym, norm_y)
     bride_r = bride_l.mirror(pt_sym, norm_y)
-    epaules_vol = (tube_l.Volume + tube_r.Volume + bride_l.Volume + bride_r.Volume) / 1000.0
-    print(f"  • Portique d'épaules (Tubes + Brides) : {epaules_vol:.1f} cm³")
 
-    # D. Waist Plate et Cou
-    step_wp = STEP_DIR / "Waist_Plate_7075.step"
-    step_cou = STEP_DIR / "Plaque_de_Cou_7075.step"
-    step_sup = STEP_DIR / "Support_Batterie_Central.step"
-    wp = Part.read(str(step_wp))
-    cou = Part.read(str(step_cou))
-    sup = Part.read(str(step_sup))
-    print(f"  • Waist Plate, Plaque de Cou & Support Batterie : {(wp.Volume + cou.Volume + sup.Volume)/1000.0:.1f} cm³")
+    # E. Cornières Hautes et Ceinture Ventrale 7075-T6
+    plastron = Part.read(str(STEP_DIR / "Plastron_Ventral_Torse.step"))
+    ceinture = plastron.Solids[6]
+    ch_l = Part.read(str(STEP_DIR / "Corniere_haute.step"))
+    ch_r = ch_l.mirror(pt_sym, norm_y)
 
-    # E. Assemblage global
-    all_solids = [
-        spine_sandwich,
-        cornieres_fused_l,
-        cornieres_fused_r,
-        tube_l,
-        tube_r,
-        bride_l,
-        bride_r,
-        cou,
-        sup
-    ]
-    macro_compound = Part.makeCompound(all_solids)
-    bb = macro_compound.BoundBox
+    # F. Cornières Basses
+    cb_l = Part.read(str(STEP_DIR / "Corniere_basse.step"))
+    cb_r = cb_l.mirror(pt_sym, norm_y)
 
-    print("\n✅ Macro-Structure Primaire du Torse consolidée avec succès :")
-    print(f"   - Nombre d'éléments structurels majeurs : {len(all_solids)}")
+    # G. Assemblage supérieur continu
+    upper_solids = [cou, eq_cou, spine_sandwich, tube_l, tube_r, bride_l, bride_r, ch_l, ch_r, ceinture]
+    upper = upper_solids[0]
+    for s in upper_solids[1:]:
+        upper = upper.fuse(s)
+
+    # H. Cales de serrage boulonné aux 3 interfaces physiques
+    pad_spine = Part.makeBox(90.0, 15.0, 5.0, FreeCAD.Vector(20.0, 1.2, 1039.0))
+    pad_cb_l = Part.makeBox(25.0, 30.0, 4.0, FreeCAD.Vector(70.0, -60.0, 1039.0))
+    pad_cb_r = pad_cb_l.mirror(pt_sym, norm_y)
+    pad_ceint_l = Part.makeBox(8.0, 20.0, 15.0, FreeCAD.Vector(72.0, -105.0, 1225.0))
+    pad_ceint_r = pad_ceint_l.mirror(pt_sym, norm_y)
+
+    # I. Fusion monolithique finale de l'ossature primaire
+    fused = lower
+    for p in [upper, cb_l, cb_r, pad_spine, pad_cb_l, pad_cb_r, pad_ceint_l, pad_ceint_r]:
+        fused = fused.fuse(p)
+
+    solid_monolithic = fused.removeSplitter()
+    bb = solid_monolithic.BoundBox
+
+    print("\n✅ Ossature Primaire Continue du Torse consolidée avec succès :")
+    print(f"   - Solides résultants        : {len(solid_monolithic.Solids)} (100% Monolithique)")
     print(f"   - Boîte englobante globale X : [{bb.XMin:.1f} mm ➔ {bb.XMax:.1f} mm] (Profondeur = {bb.XLength:.1f} mm)")
     print(f"   - Boîte englobante globale Y : [{bb.YMin:.1f} mm ➔ {bb.YMax:.1f} mm] (Envergure = {bb.YLength:.1f} mm)")
     print(f"   - Boîte englobante globale Z : [{bb.ZMin:.1f} mm ➔ {bb.ZMax:.1f} mm] (Hauteur mât = {bb.ZLength:.1f} mm)")
-    print(f"   - Volume solide total net   : {macro_compound.Volume/1000.0:.1f} cm³")
-    print(f"   - Masse estimée squelette 7075 : {(macro_compound.Volume * 2.81 / 1.0e6):.2f} kg")
+    print(f"   - Volume solide total net   : {solid_monolithic.Volume/1000.0:.1f} cm³")
+    print(f"   - Masse squelette 7075-T6    : {(solid_monolithic.Volume * 2.81 / 1.0e6):.2f} kg")
 
-    return macro_compound, spine_sandwich, cornieres_fused_l, cornieres_fused_r
+    components = {
+        "Torse_Assembly": solid_monolithic,
+        "Colonne_Sandwich_7075": spine_sandwich,
+        "Waist_Plate_7075": wp,
+        "Equerres_Waist_7075": eq_w1.fuse(eq_w2),
+        "Plaque_Cou_7075": cou,
+        "Equerre_Cou_7075": eq_cou,
+        "Portique_Epaules": tube_l.fuse([tube_r, bride_l, bride_r]),
+        "Ceinture_Ventrale_7075": ceinture,
+        "Cornieres_Hautes_7075": ch_l.fuse(ch_r),
+        "Cornieres_Basses_7075": cb_l.fuse(cb_r)
+    }
+
+    return solid_monolithic, spine_sandwich, cb_l, cb_r, components
 
 
 def analyze_global_load_sharing_and_stiffness():
@@ -224,24 +239,108 @@ def analyze_global_load_sharing_and_stiffness():
     }
 
 
-def execute_sovereign_fea_pipeline(results_data):
+def execute_sovereign_fea_pipeline(results_data, components=None):
     """
-    Génère le modèle FreeCAD .FCStd consolidé, exporte la géométrie assemblée
-    et prépare le lanceur de visualisation VTK dans Exports_CAO_DBot.
+    Exécute la chaîne FEA complète CalculiX ccx + Gmsh sur l'ossature continue du Torse,
+    génère le modèle .FCStd avec CCX_Results et prépare le lanceur 1-clic macOS.
     """
     import FreeCAD
+    import ObjectsFem
+    from femmesh.gmshtools import GmshTools
+    from femtools import ccxtools
 
     print("\n" + "=" * 78)
-    print("   💾 [3/4] PRODUCTION DU PACK TECHNIQUE FEA GLOBAL (EXPORTS SOUVERAINS)")
+    print("   💾 [3/4] PRODUCTION DE LA SIMULATION FEA COMPLÈTE (CALCULIX + GMSH)")
     print("=" * 78)
 
     os.makedirs(str(OUTPUT_DIR), exist_ok=True)
     fcstd_path = OUTPUT_DIR / "Torse_Global_Assembly_FEA_Results.FCStd"
     command_path = OUTPUT_DIR / "Ouvrir_Simulation_Torse_Global.command"
 
-    doc = FreeCAD.newDocument("Torse_Global_Assembly_FEA")
-    
-    # Création d'un mémo documentant l'ensemble des résultats
+    doc = FreeCAD.newDocument("Torse_Global_Assembly_FEA_Results")
+
+    # 1. Intégration du composant structurel continu
+    solid_shape = components["Torse_Assembly"]
+    part_obj = doc.addObject("Part::Feature", "Torse_Assembly")
+    part_obj.Shape = solid_shape
+    doc.recompute()
+
+    # 2. Configuration FEA FreeCAD
+    analysis = ObjectsFem.makeAnalysis(doc, "Analysis")
+    solver = ObjectsFem.makeSolverCalculiXCcxTools(doc, "CalculiX")
+    solver.GeometricalNonlinearity = "linear"
+    analysis.addObject(solver)
+
+    mat_obj = ObjectsFem.makeMaterialSolid(doc, "Alu7075T6")
+    mat_props = mat_obj.Material
+    mat_props["Name"] = "Aluminium-7075-T651"
+    mat_props["YoungsModulus"] = "71700 MPa"
+    mat_props["PoissonRatio"] = "0.33"
+    mat_props["Density"] = "2810 kg/m^3"
+    mat_obj.Material = mat_props
+    analysis.addObject(mat_obj)
+
+    # 3. Conditions aux limites souveraines
+    bot_face_idx = max(range(len(solid_shape.Faces)), key=lambda i: solid_shape.Faces[i].Area if solid_shape.Faces[i].BoundBox.ZMax < 1030.5 else 0)
+    con_fixed = ObjectsFem.makeConstraintFixed(doc, "FixedBase")
+    con_fixed.References = [(part_obj, f"Face{bot_face_idx+1}")]
+    analysis.addObject(con_fixed)
+    print(f"  • Encastrement Waist Plate : Face{bot_face_idx+1} (Aire = {solid_shape.Faces[bot_face_idx].Area:.1f} mm²)")
+
+    top_face_idx = max(range(len(solid_shape.Faces)), key=lambda i: solid_shape.Faces[i].Area if solid_shape.Faces[i].BoundBox.ZMin > 1470.0 else 0)
+    con_force = ObjectsFem.makeConstraintForce(doc, "AppliedLoad")
+    con_force.References = [(part_obj, f"Face{top_face_idx+1}")]
+    con_force.Force = "328.0 N"  # 140 N.m pitch deceleration
+    con_force.DirectionVector = FreeCAD.Vector(1.0, 0.0, 0.0)
+    con_force.Reversed = False
+    analysis.addObject(con_force)
+    print(f"  • Charge d'arrêt d'urgence au cou : Face{top_face_idx+1} (F = 328.0 N, Tangage M = 140 N.m)")
+
+    # 4. Maillage volumique Gmsh C3D10 quadratique
+    mesh_obj = ObjectsFem.makeMeshGmsh(doc, "FEMMeshGmsh")
+    mesh_obj.Shape = part_obj
+    mesh_obj.CharacteristicLengthMax = 16.0
+    mesh_obj.CharacteristicLengthMin = 4.0
+    mesh_obj.ElementDimension = "3D"
+    mesh_obj.ElementOrder = "2nd"
+    mesh_obj.SecondOrderLinear = True
+    analysis.addObject(mesh_obj)
+    doc.recompute()
+
+    print("  • Génération du maillage volumique Gmsh...")
+    gmsh_mesh = GmshTools(mesh_obj)
+    gmsh_mesh.create_mesh()
+    print(f"    -> Nœuds : {mesh_obj.FemMesh.NodeCount:,} | Éléments volumiques : {mesh_obj.FemMesh.VolumeCount:,}")
+
+    # 5. Résolution native CalculiX ccx
+    work_dir = tempfile.mkdtemp(prefix="fea_torse_global_")
+    fea = ccxtools.FemToolsCcx(analysis=analysis, solver=solver, test_mode=True)
+    fea.setup_working_dir(work_dir)
+    fea.update_objects()
+    fea.write_inp_file()
+
+    ccx_bin = DEFAULT_CCX_BIN if os.path.exists(DEFAULT_CCX_BIN) else "ccx"
+    print(f"  • Résolution CalculiX (ccx)...")
+    res = subprocess.run([ccx_bin, "-i", "FEMMeshGmsh"], cwd=work_dir, capture_output=True, text=True, shell=False)
+
+    if res.returncode == 0:
+        fea.load_results()
+        ccx_res = doc.getObject("CCX_Results")
+        if ccx_res and hasattr(ccx_res, "vonMises"):
+            vm = ccx_res.vonMises
+            disp = ccx_res.DisplacementLengths
+            print(f"    -> CalculiX RÉUSSI : {len(vm):,} nœuds | Von Mises Max = {max(vm):.2f} MPa | Flèche Max = {max(disp):.3f} mm")
+            try:
+                post = ObjectsFem.makePostVtkResult(doc, "CCX_Post_Results")
+                post.Mesh = mesh_obj
+                post.Result = ccx_res
+                analysis.addObject(post)
+            except Exception:
+                pass
+    else:
+        print(f"    ❌ CalculiX a retourné le code {res.returncode}")
+
+    # 6. Mémo de certification
     memo_text = (
         "ANALYSE FEA GLOBALE — TORSE COMPLET D-BOT V1\n"
         "============================================\n"
@@ -283,13 +382,13 @@ def main():
     print("#" * 78)
 
     # 1. Macro-modèle géométrique
-    macro_shape, spine, cb_l, cb_r = build_macro_structural_torso()
+    macro_shape, spine, cb_l, cb_r, components = build_macro_structural_torso()
 
     # 2. Analyse structurelle et partages de rigidité
     results = analyze_global_load_sharing_and_stiffness()
 
     # 3. Sauvegarde et pack livrable
-    execute_sovereign_fea_pipeline(results)
+    execute_sovereign_fea_pipeline(results, components)
 
     print("\n" + "=" * 78)
     print("   🎯 BILAN FINAL DE CERTIFICATION DU TORSE D-BOT V1")

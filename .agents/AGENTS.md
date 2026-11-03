@@ -1,9 +1,18 @@
 # D-Bot Project Rules
 
 ## Documentation and Knowledge Base Search (RAG)
-- Whenever you need to search or verify details about the D-Bot project (such as mechanical specs, electronics, motor choices, wiring, CAN bus, or software components), you MUST query the local RAG database first.
+- Whenever you need to search or verify details about the D-Bot project (such as mechanical specs, FEA results, electronics, motor choices, wiring, CAN bus, or software components), you MUST query the local LightRAG database first.
 - To perform this query, run the following command using the shell:
   `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py" --search-only --mode naive "<your search terms>"`
+- **Search Modes**:
+  - `--mode naive` (Vector similarity search): Optimal for retrieving exact dimensional tables, bolt torques, McMaster-Carr part numbers, and FEA Von Mises values.
+  - `--mode hybrid` (Knowledge Graph + Vector search): Optimal for cross-subsystem architectural relationships and kinematic dependencies.
+- **Primary Torso & Pelvis Reference Documents Indexed**:
+  - `01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` (Architecture & CNC machining of Torso).
+  - `01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Waist_et_Bassin_D-Bot_V2.md` (Pelvis PA12-CF, RB8016 bearing & RS-06 Waist).
+  - `01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md` (Complete FEA synthesis, analytical derivations, boundary conditions & 1-click links).
+  - `01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_BOM_Torse_et_Waist_D-Bot.md` (Consolidated BOM & McMaster-Carr hardware).
+  - `01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json` (Exact 3D CAD coordinates, bounding boxes & mass properties).
 - Always prioritize the retrieved context over general model knowledge for D-Bot specifications, measurements, and layouts.
 
 ## Interaction & Workflow Rules
@@ -143,29 +152,49 @@
 
 ## Inspection Visuelle Multimodale de la CAO & Bibliothèque Hors-Git
 - **Localisation des Snapshots CAO Haute Définition** :
-  - Les rendus et captures d'écran de l'assemblage complet et de chaque pièce isolée sont générés par `AuditTorse.py` dans le dossier souverain externe (hors-Git) :
+  - Les rendus et captures d'écran de l'assemblage complet et de chaque pièce isolée sont générés dans le dossier souverain externe (hors-Git) :
     `/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/`
-    - `Vues_Ensemble/` : 7 vues globales (Face, Arrière, Dessus, Dessous, Profil Droit, Profil Gauche, Isométrique).
-    - `Pieces_Isolees/<nom_piece>/` : Tétraptyque d'ingénierie systématique à 4 vues (`_iso.png`, `_face.png`, `_dessus.png`, `_dessous.png`).
+    - `Vues_Ensemble/` : 7 vues globales de l'assemblage CAO (Face, Arrière, Dessus, Dessous, Profil Droit, Profil Gauche, Isométrique).
+    - `Pieces_Isolees/<nom_piece>/` : Tétraptyque d'ingénierie systématique à 4 vues (`_iso.png`, `_face.png`, `_dessus.png`, `_dessous.png`) + pack FEA complet pour les pièces structurelles.
+    - `Assemblages/<nom_assemblage>/` : Modèles `.FCStd` multi-composants résolus par CalculiX, cartographies spectrales `_VonMises.png` et lanceurs 1-clic `.command`.
 - **Interdiction Stricte de Pollution du Répertoire Git (`media/`)** :
-  - Il est FORMELLEMENT INTERDIT de copier, dupliquer ou commiter ces captures de pièces brutes dans le sous-dossier `media/` de la documentation Git (`Documentation/.../media`).
+  - Il est FORMELLEMENT INTERDIT de copier, dupliquer ou commiter ces captures de pièces brutes ou modèles `.FCStd` volumineux dans le sous-dossier `media/` de la documentation Git (`Documentation/.../media`).
 - **Protocole d'Inspection Visuelle Réelle à la Volée (Dépassement des Bounding Boxes)** :
   - Pour toute analyse géométrique, étude d'encombrement, vérification d'interférence ou dimensionnement de renfort/nervure, l'agent ne doit JAMAIS se contenter de la boîte englobante rectangulaire aveugle (`bounding_box_mm` du JSON).
-  - L'agent DOIT inspecter la morphologie réelle de la pièce en copiant instantanément l'image requise vers son répertoire de travail éphémère (`<conversation_artifact_dir>/scratch/`) via le shell, puis en l'ouvrant avec `view_file` pour analyser ses congés, lamages, nervures et étagements 3D réels.
+  - L'agent DOIT inspecter la morphologie réelle de la pièce en ouvrant directement l'image avec `read_file` (ou en la copiant dans `<conversation_artifact_dir>/scratch/`) pour analyser ses congés, lamages, nervures et étagements 3D réels.
+- **Protocole d'Auto-Vérification Visuelle Obligatoire après Génération d'Images** :
+  - Dès qu'une image (snapshot CAO, cartographie FEA `_VonMises.png`, ou schéma vectoriel SVG) est générée par script, l'agent a l'**OBLIGATION STRICTE** de l'ouvrir et de l'inspecter visuellement une par une avec l'outil `read_file` avant de formuler sa réponse.
+  - L'agent doit contrôler de manière autonome :
+    1. *Intégrité et Cadrage* : L'image n'est ni vide, ni blanche, ni minuscule ; la pièce ou le maillage occupe 80 à 90% de la hauteur utile (via `view.fitAll()` + ajustement `OrthographicCamera height`).
+    2. *Spectre Chromatique FEA Réel* : Le maillage 3D affiche bien les couleurs spectrales de contraintes Von Mises (bleu -> cyan -> vert -> jaune -> rouge) issues de `CCX_Results`, et non un simple ombrage CAO gris.
+    3. *Échelle et Bandeau d'Ingénierie* : La barre d'échelle verticale (`Von Mises (MPa)`) est graduée avec les bornes exactes `[min, max]` du calcul, et toutes les lignes de métriques s'inscrivent dans la carte supérieure gauche avec une marge suffisante sans débordement.
+  - Si un défaut visuel est détecté à l'ouverture, l'agent DOIT corriger le script et régénérer l'image de manière autonome avant de présenter le livrable à l'utilisateur.
 
-## Standardisation du Pack Technique Autonome par Composant (Exports_CAO_DBot)
-- **Règle Inviolable d'Organisation par Pièce (`Pieces_Isolees/<nom_piece>/`)** :
-  - Tout composant isolé du robot D-Bot doit disposer d'un **pack technique complet et autonome** regroupé au sein de son dossier dédié :
-    `/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/<sous_ensemble>/Visual_Snapshots/Pieces_Isolees/<nom_piece>/`
-  - Ce répertoire unifié doit systématiquement contenir :
-    1. *Modèle CAO 3D autonome* : `<nom_piece>.step` (copie locale B-Rep prête pour FAO/CNC ou impression 3D).
-    2. *Modèle de Simulation FEM FreeCAD* : `<nom_piece>_FEA_Results.FCStd` pour toute pièce structurelle calculée (contenant l'arbre complet CalculiX, le maillage Netgen/Gmsh, les conditions aux limites et le champ de contraintes).
-    3. *Cartographie Chromatique FEA* : `<nom_piece>_VonMises.png` (rendu visuel HD du gradient de contrainte Von Mises).
-    4. *Tétraptyque Visuel Orthogonal & 3D* : `<nom_piece>_iso.png`, `<nom_piece>_face.png`, `<nom_piece>_dessus.png`, `<nom_piece>_dessous.png`.
+## Standardisation du Pack Technique Autonome : Pièces Isolées & Assemblages (Exports_CAO_DBot)
+- **1. Règle d'Organisation par Pièce Isolée (`Pieces_Isolees/<nom_piece>/`)** :
+  - Tout composant isolé du robot D-Bot dispose d'un **pack technique complet et autonome** regroupé dans :
+    `/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/<nom_piece>/`
+  - Contenu standardisé :
+    1. *Tétraptyque Visuel Orthogonal & 3D* : `<nom_piece>_iso.png`, `<nom_piece>_face.png`, `<nom_piece>_dessus.png`, `<nom_piece>_dessous.png`.
+    2. *Modèle de Simulation FEM FreeCAD* (pour les pièces structurelles calculées) : `<nom_piece>_FEA_Results.FCStd` ou `<nom_piece>_FEA_Tangage.FCStd` contenant l'arbre complet CalculiX (`CCX_Results`), le maillage Gmsh C3D10 et les conditions aux limites.
+    3. *Cartographie Chromatique FEA* : `<nom_piece>_VonMises.png` (rendu HD du maillage 3D coloré par les scalaires Von Mises CalculiX avec colorbar MPa et carte de synthèse).
+    4. *Lanceur 1-Clic macOS* : `Ouvrir_Simulation_FreeCAD.command` ou `Ouvrir_Simulation_Tangage.command`.
+  - **Répertoires de pièces structurelles avec FEA certifiée** :
+    - `Pieces_Isolees/Corniere_haute/` : `Corniere_haute_FEA_Results.FCStd` (27 478 nœuds, crête 84,7 MPa, Sf P95 = 11,2) + `Corniere_haute_VonMises.png`.
+    - `Pieces_Isolees/Corniere_basse/` : `Corniere_basse_FEA_Results.FCStd` (47 126 nœuds, crête 67,9 MPa, Sf P95 = 13,1) + `Corniere_basse_VonMises.png`.
+    - `Pieces_Isolees/colonne_vertébrale/` : `colonne_basse_FEA_Tangage.FCStd` (53 958 nœuds, crête 106,8 MPa, Sf P95 = 4,7) + `colonne_basse_Tangage_VonMises.png`.
+- **2. Règle d'Organisation par Assemblage Structurel (`Assemblages/<nom_assemblage>/`)** :
+  - Les simulations multi-composants sont centralisées dans :
+    `/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/Assemblages/`
+  - **Répertoires d'assemblages actifs avec FEA CalculiX certifiée** :
+    1. *Colonne Vertébrale Complète Sandwich 15 mm* (`Assemblages/colonne_vertébrale_complete/`) :
+       - `colonne_complete_FEA_Tangage.FCStd` (Plaque basse + Plaque haute + 2 Éclisses 5 mm, 125 490 nœuds C3D10, crête 81,1 MPa, flèche 0,384 mm).
+       - `colonne_complete_Tangage_VonMises.png` & `Ouvrir_Simulation_Tangage.command`.
+    2. *Ossature Primaire Globale du Torse — Spaceframe 3D* (`Assemblages/torse_complet_global/`) :
+       - `Torse_Global_Assembly_FEA_Results.FCStd` : Assemblage structurel complet intégrant les **15 solides CAO réels** (Waist Plate, 2 Équerres Waist, Colonne Sandwich 15 mm, Équerre de Cou, Plaque de Cou, 2 Tubes d'épaules, 2 Brides d'épaules, 2 Cornières Hautes, Ceinture Ventrale 7075-T6 et 2 Cornières Basses — *sans le support batterie PA12-CF non-porteur*), maillé à **156 663 nœuds** (81 830 éléments C3D10) et résolu par CalculiX (`CCX_Results`, crête 11,56 MPa, flèche au cou 0,048 mm, Sf > 40).
+       - `Torse_Global_Assembly_VonMises.png` & `Ouvrir_Simulation_Torse_Global.command`.
 - **Zéro Fichier Volant à la Racine (`Exports_CAO_DBot/`)** :
-  - Aucun fichier temporaire de simulation (`.FCStd`, `.FCBak`, scripts ou logs) ne doit être abandonné à la racine de `Exports_CAO_DBot/`. Tout livrable doit être automatiquement classé dans le dossier dédié de la pièce concernée.
-- **Règle de Développement des Scripts de Calcul FEM** :
-  - Tout nouveau script de simulation par éléments finis (FreeCAD / CalculiX) développé dans `Code/scripts/freecad/` doit obligatoirement enregistrer ses sorties `.FCStd` et ses captures de résultats directement dans le répertoire `Pieces_Isolees/<nom_piece>/` correspondant.
+  - Aucun fichier temporaire de simulation (`.FCStd`, `.FCBak`, scripts ou logs) ne doit être abandonné à la racine de `Exports_CAO_DBot/`. Tout livrable doit être classé dans `Pieces_Isolees/<nom_piece>/` ou `Assemblages/<nom_assemblage>/`.
 
 ## Export CAO Souverain & Hygiène de la Bibliothèque STEP (Zéro Fichier Orphelin)
 - **Principe d'Intégrité Stricte de la Bibliothèque B-Rep (`Bibliotheque_Composants_STEP`)** :
@@ -178,7 +207,21 @@
   - Pour auditer ou purger manuellement les fichiers orphelins sans ouvrir Fusion 360, utiliser le script :
     `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/scripts/cad_tools/clean_sovereign_library.py" --purge`
 
-## Calculs RDM & Analyses par Éléments Finis (FEA) — Auditabilité & Traçabilité des Hypothèses
+## Calculs RDM & Analyses par Éléments Finis (FEA) — Auditabilité, Cartographies & Répertoire des Résultats
+- **Consultation Immédiate des Spécifications et Résultats FEA** :
+  - Toute question ou vérification portant sur les calculs RDM, les hypothèses de charge ou les résultats d'éléments finis du Torse et du Bassin doit systématiquement s'appuyer sur le dossier de référence central :
+    `01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md`
+  - Les scripts Python souverains de simulation et de post-traitement associés sont stockés dans :
+    - `Code/scripts/freecad/simulate_torse_global_assembly.py` (Simulation FEA globale des 15 corps de l'ossature primaire du torse).
+    - `Code/scripts/freecad/simulate_colonne_complete_assembly.py` (Simulation FEA de l'assemblage sandwich 15 mm de la colonne).
+    - `Code/scripts/freecad/simulate_colonne_vertebrale.py` (Simulation FEA des segments bas et haut isolés).
+    - `Code/scripts/freecad/simulate_corniere_haute.py` & `Code/scripts/freecad/simulate_corniere_basse.py` (Simulations FEA des cornières en lacet).
+    - `Code/scripts/cad_tools/export_all_fea_snapshots.py` (Générateur automatique des cartographies HD `_VonMises.png` via FreeCAD GUI OpenGL).
+- **Règle Inviolable d'Exécution FEA Souveraine (Option B Exclusivement — Source Unique de Vérité)** :
+  - Il est **FORMELLEMENT INTERDIT** de produire de fausses images FEA (ex: simple rendu CAO gris ombré avec texte superposé) ou de restituer des valeurs estimées sans résolution effective du solveur.
+  - Toute cartographie `_VonMises.png` DOIT provenir d'une véritable résolution CalculiX (`ccx`) + Gmsh dont l'objet `CCX_Results` (`Fem::FemResultObjectPython`) est sauvegardé dans le fichier `.FCStd` correspondant, et dont le maillage 3D est coloré nœud par nœud via `mesh_vo.setNodeColorByScalars(res_obj.NodeNumbers, res_obj.vonMises)`.
+  - **Modélisation des Assemblages Fermés (Prévention des Boucles MPC `*TIE`)** : Sur les structures fermées hyperstatiques (comme le caisson spatial du torse), ne jamais chaîner des contraintes `ConstraintTie` (`*TIE`) en boucle fermée, ce qui fait boucler indéfiniment la routine `cascade.c` de CalculiX. Toujours unifier les sous-ensembles en contact franc et modéliser les cales de serrage boulonné aux interfaces pour obtenir un solide B-Rep continu (`Solids = 1`) avant maillage Gmsh.
+  - **Exécution Non-Bloquante de FreeCAD GUI sur macOS** : Pour exécuter un script de rendu OpenGL avec `/Applications/FreeCAD.app/Contents/Resources/bin/FreeCAD <script.py>`, toujours préfixer par `PYTHONIOENCODING=utf-8`, appeler la fonction d'export au niveau top-level du fichier (ne jamais la bloquer derrière `if __name__ == "__main__":` qui n'est pas déclenché par l'interpréteur macro de FreeCAD) et fermer explicitement la fenêtre en fin de script via `FreeCADGui.getMainWindow().close()`.
 - **Interdiction Formelle d'Efforts Arbitraires (Zéro Force « Magique »)** :
   - Aucun effort ponctuel, pression, couple ou condition de Neumann ne doit être injecté arbitrairement ou « de mémoire » dans un script ou deck de simulation FEA (FreeCAD / CalculiX / ccx).
   - Tout chargement mécanique DOIT être formellement et explicitement dérivé de la physique réelle du robot D-Bot :
