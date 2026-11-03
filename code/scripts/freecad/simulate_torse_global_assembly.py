@@ -288,13 +288,21 @@ def execute_sovereign_fea_pipeline(results_data, components=None):
     print(f"  • Encastrement Waist Plate : Face{bot_face_idx+1} (Aire = {solid_shape.Faces[bot_face_idx].Area:.1f} mm²)")
 
     top_face_idx = max(range(len(solid_shape.Faces)), key=lambda i: solid_shape.Faces[i].Area if solid_shape.Faces[i].BoundBox.ZMin > 1470.0 else 0)
+    x_edge_idx = next(
+        i for i, e in enumerate(solid_shape.Edges, 1)
+        if e.Length > 10.0 and e.BoundBox.YLength < 0.01 and e.BoundBox.ZLength < 0.01 and e.BoundBox.XLength > 10.0
+    )
     con_force = ObjectsFem.makeConstraintForce(doc, "AppliedLoad")
     con_force.References = [(part_obj, f"Face{top_face_idx+1}")]
     con_force.Force = "328.0 N"  # 140 N.m pitch deceleration
-    con_force.DirectionVector = FreeCAD.Vector(1.0, 0.0, 0.0)
+    con_force.Direction = (part_obj, [f"Edge{x_edge_idx}"])
     con_force.Reversed = False
+    doc.recompute()
+    if con_force.DirectionVector.x < 0:
+        con_force.Reversed = True
+        doc.recompute()
     analysis.addObject(con_force)
-    print(f"  • Charge d'arrêt d'urgence au cou : Face{top_face_idx+1} (F = 328.0 N, Tangage M = 140 N.m)")
+    print(f"  • Charge d'arrêt d'urgence au cou : Face{top_face_idx+1} | Dir = {con_force.DirectionVector} (F = 328.0 N, Tangage M = 140 N.m)")
 
     # 4. Maillage volumique Gmsh C3D10 quadratique
     mesh_obj = ObjectsFem.makeMeshGmsh(doc, "FEMMeshGmsh")

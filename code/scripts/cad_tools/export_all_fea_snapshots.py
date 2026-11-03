@@ -91,13 +91,13 @@ FEA_TARGETS = [
         "fcstd": f"{BASE_DIR}/Assemblages/torse_complet_global/Torse_Global_Assembly_FEA_Results.FCStd",
         "out_png": f"{BASE_DIR}/Assemblages/torse_complet_global/Torse_Global_Assembly_VonMises.png",
         "title": "OSSATURE PRIMAIRE DU TORSE (ASSEMBLAGE GLOBAL)",
-        "subtitle": "Maillage tétraédrique volumique C3D10 (CalculiX ccx + Gmsh, 156 663 nœuds)",
-        "load_case": "Tangage Sagittal d'Arrêt d'Urgence (Pitch M = 140 N.m / 2g)",
+        "subtitle": "Maillage tétraédrique volumique C3D10 (CalculiX ccx + Gmsh, 156 846 nœuds)",
+        "load_case": "Tangage Sagittal d'Arrêt d'Urgence (Pitch M = 140 N.m / 2g, F_x = 328 N)",
         "metrics": [
-            ("Contrainte Von Mises Crête :", "11.6 MPa", (251, 146, 60, 255)),
+            ("Contrainte Von Mises Crête :", "62.1 MPa (P95 zone basse : 15.3 MPa)", (251, 146, 60, 255)),
             ("Limite Élastique Rp0.2 (7075-T6) :", "505.0 MPa", (148, 163, 184, 255)),
-            ("Facteur de Sécurité P95 Sf :", "> 40.0  [HYPER-RIGIDE / CONFORME]", (52, 211, 153, 255)),
-            ("Flèche Maximale au Cou :", "0.048 mm  (Critère < 1.50 mm : OK)", (52, 211, 153, 255))
+            ("Facteur de Sécurité Sf :", "8.1 Crête / 33.0 P95  [CONFORME]", (52, 211, 153, 255)),
+            ("Flèche Maximale au Cou (Ux) :", "0.622 mm  (Critère < 1.50 mm : OK)", (52, 211, 153, 255))
         ],
         "is_assembly": False
     }
@@ -225,14 +225,35 @@ def run_export():
 
             res_obj = doc.getObject("CCX_Results")
             if res_obj and hasattr(res_obj, "vonMises") and len(res_obj.vonMises) > 0:
-                vm = res_obj.vonMises
-                vm_min = min(vm)
-                vm_max = max(vm)
-                print(f"  • Données Von Mises CalculiX : {len(vm):,} nœuds | Min = {vm_min:.2f} MPa, Max = {vm_max:.2f} MPa")
+                import numpy as np
+                vm = list(res_obj.vonMises)
+                vm_arr = np.array(vm, dtype=float)
+                vm_min = float(np.min(vm_arr))
+                vm_max_raw = float(np.max(vm_arr))
+                p99 = float(np.percentile(vm_arr, 99.0))
+                p995 = float(np.percentile(vm_arr, 99.5))
 
-                # Coloration du maillage volumique par les contraintes exactes
+                # Filtrage des singularités géométriques d'angle sur les grands maillages (> 50k nœuds)
+                # et renormalisation sur [-1.0, +1.0] pour activer le spectre complet Bleu->Cyan->Vert->Jaune->Rouge de FreeCAD
+                if len(vm) > 50000 and vm_max_raw > 2.2 * p99:
+                    vm_scale_max = p995
+                else:
+                    vm_scale_max = vm_max_raw
+                vm_max = vm_max_raw
+
+                span = max(vm_scale_max - vm_min, 1e-6)
+                mapped_scalars = [
+                    2.0 * min(1.0, max(0.0, ((float(v) - vm_min) / span) ** 0.75)) - 1.0
+                    for v in vm
+                ]
+                print(
+                    f"  • Données Von Mises CalculiX : {len(vm):,} nœuds | "
+                    f"Min = {vm_min:.2f} MPa, P99.5 = {p995:.2f} MPa, Max = {vm_max_raw:.2f} MPa"
+                )
+
+                # Coloration du maillage volumique sur toute la dynamique chromatique [-1, +1]
                 mesh_vo = res_obj.Mesh.ViewObject
-                mesh_vo.setNodeColorByScalars(res_obj.NodeNumbers, res_obj.vonMises)
+                mesh_vo.setNodeColorByScalars(res_obj.NodeNumbers, mapped_scalars)
                 mesh_vo.DisplayMode = "Faces & Wireframe"
 
                 # Masquer toutes les pièces brutes et origines pour centrer la caméra sur le maillage
@@ -240,6 +261,10 @@ def run_export():
                     go = gui_doc.getObject(obj.Name)
                     if go:
                         go.Visibility = (obj.Name == res_obj.Mesh.Name)
+                try:
+                    doc.save()
+                except Exception:
+                    pass
             else:
                 # Modèle d'assemblage CAO global
                 for obj in doc.Objects:
@@ -300,4 +325,3 @@ try:
     FreeCADGui.getMainWindow().close()
 except Exception:
     pass
-sys.exit(0)

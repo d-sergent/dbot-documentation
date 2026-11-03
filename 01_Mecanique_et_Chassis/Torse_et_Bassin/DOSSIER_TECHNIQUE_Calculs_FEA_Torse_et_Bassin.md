@@ -457,8 +457,8 @@ Pour certifier l'intégrité de la structure complète en intégrant la totalit�
    - Encombrement Y (Envergure) : `-110,40 mm` à `+129,11 mm` (Largeur portique `239,51 mm`).
    - Encombrement Z (Hauteur mât) : `1038,50 mm` à `1476,10 mm` (Hauteur totale `437,60 mm`).
    - Volume solide total net : `813,3 cm3`.
-   - Masse du squelette structural 7075-T6 : `2,28 kg`.
-   - Maillage volumique FEA (CalculiX + Gmsh) : `156 663 nœuds`, `81 830 éléments tétraédriques C3D10 quadratiques`.
+   - Masse du squelette structural 7075-T6 : `2,29 kg`.
+   - Maillage volumique FEA (CalculiX + Gmsh) : `156 846 nœuds`, `82 003 éléments tétraédriques C3D10 quadratiques`.
    - Masse totale équipée sous test dynamique : `10,50 kg` (avec actionneurs RS-04, RS-05, batteries 1,8 kg et électronique).
 
 ### B. Effet Caisson Spatial & Partage de Rigidité en Torsion de Lacet (Yaw)
@@ -475,14 +475,16 @@ L'apport fondamental du squelette complet réside dans la formation d'un **caiss
 
 ### C. Réponse Globale en Tangage Sagittal (Accélération 2g, M = 140 N.m)
 
-Sous l'effort de flexion sagittale maximale de 328 N appliqué au cou (moment d'encastrement à la base de `140,1 N.m`) :
-- **Flèche Maximale au Cou (`Z = 1476,1 mm`) mesurée en FEA CalculiX** : **`0,048 mm`** (critère SLAM < 1,50 mm validé avec une marge de rigidité exceptionnelle de 96,8% grâce au bouclage spatial de la ceinture 7075-T6 et des 4 cornières) !
-- **Flèche de la colonne sagittale seule sans cornières** : `0,384 mm` (gain de rigidité caisson fermé vs colonne seule : **Facteur × 8,0**).
-- **Rotation angulaire au niveau de l'IMU Torse (`Z = 1421 mm`)** : **`0,012 deg` (`0,21 mrad`)**.
+Sous l'effort horizontal de flexion sagittale maximale de `328,0 N` (`+X`) appliqué au sommet du cou (moment d'encastrement à la base de `140,1 N.m`) :
+- **Contrainte de Von Mises Crête CalculiX (`Sigma_peak`)** : **`62,11 MPa`** à l'encastrement inférieur colonne/équerres waist (contre `81,12 MPa` sur la colonne seule sans les 4 cornières ni la ceinture, soit une **réduction de contrainte de `-23,4%`** grâce au partage d'effort du caisson spatial 3D).
+- **Contrainte Nominale au 95e Centile de la Zone Basse Active (`Sigma_P95`)** : **`15,25 MPa`** (`P99 global = 14,16 MPa`).
+- **Facteurs de Sécurité en Aluminium 7075-T6 (`Re = 505 MPa`)** :
+  - **`Sf_peak = 505 / 62,11 = 8,13`** en crête absolue.
+  - **`Sf_P95 = 505 / 15,25 = 33,11`** en plein champ structural [CONFORME].
+- **Flèche Horizontale Maximale au Sommet du Cou (`Z = 1476,1 mm`)** : **`0,622 mm`** (`Ux = 0,614 mm`, incluant la souplesse élastique réelle de la `Waist_Plate_7075`, des `Equerres_Waist`, de l'`Equerre_Cou` et de la `Plaque_Cou_7075` ; flèche propre de la colonne au nœud d'épaule `Z = 1340 mm` = `0,468 mm`), largement inférieure au critère système de `1,50 mm`.
+- **Rotation angulaire au niveau de l'IMU Torse (`Z = 1421 mm`)** : **`0,061 deg` (`1,07 mrad`)**.
   - Seuil maximal admissible FAST-LIO : `< 0,100 deg` (`1,75 mrad`).
-  - **Certification SLAM** : Validée avec une marge de sécurité de **`+88%`** sous choc 2g extrême.
-- **Contrainte de Von Mises Crête CalculiX** : **`11,56 MPa`** (localisée aux zones d'ancrage des cornières à la base).
-  - Facteur de sécurité nominal en Aluminium 7075-T6 (Re = 505 MPa) : **`Sf > 40,0`** [HYPER-RIGIDE / CONFORME].
+  - **Certification SLAM** : Validée sous choc 2g extrême.
 
 ### D. Analyse Modale & Fréquences Propres de Résonance
 
@@ -507,8 +509,8 @@ La détermination des modes propres de vibration du mât complet équipé (masse
 | **FEA Colonne Haute Seule (Cou 328 N)** | — | `0,118 mm` | `54,30 MPa` | `9,30` | `48,56` |
 | **FEA Cornière Haute (Lacet 36 N.m, 210 N)** | `0,120 mm` | — | `84,74 MPa` | `5,96` | `20,08` |
 | **FEA Cornière Basse Tandem 2x M4 (210 N, Isolée)** | — | `1,37 mm` (Z=1233) | `66,65 MPa` | `7,58` | `17,55` |
-| **FEA Assemblage Complet Colonne (L=427 mm)** | `0,245 mm` (sous 328 N) | `0,385 mm` (sous 328 N) | `88,59 MPa` | `5,70` | `53,7` |
-| **FEA Assemblage Global Torse (Spaceframe 3D)** | **`0,245 mm`** | **`0,384 mm`** | **`88,59 MPa`** | **`5,70`** | **`53,8`** |
+| **FEA Assemblage Complet Colonne (L=427 mm)** | `0,245 mm` (sous 328 N) | `0,385 mm` (sous 328 N) | `81,12 MPa` | `6,22` | `53,8` |
+| **FEA Assemblage Global Torse (Spaceframe 3D, 15 corps)** | **`0,468 mm`** (incluant Waist) | **`0,622 mm`** (Cou Z=1476) | **`62,11 MPa`** (`-23,4%`) | **`8,13`** | **`33,1`** (`P95 = 15,3 MPa`) |
 
 > [!IMPORTANT]
 > **Cohérence mécanique remarquable** : Ramené à un moment identique de `140 N.m`, le déplacement aux épaules dans l'assemblage complet (`0,245 mm`) est inférieur à celui de la pièce seule (`0,612 mm / 1,43 ~ 0,42 mm`), car le sandwich de 15 mm s'étend sur 65 mm vers le bas (`Z = 1275,4` à `1340,4 mm`), renforçant rigidement le sommet de la colonne basse.

@@ -2,7 +2,32 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
-## 📅 2026-11-02 — Validation FEA Globale Torse 3D, Intégration Support Batterie Central, Harmonisation PA12-CF Pelvis & Nettoyage Documentaire
+## 📅 2026-11-03 — Validation Souveraine de la Simulation FEA Globale du Torse 3D (CalculiX ccx + Gmsh, 156 846 nœuds C3D10), Correction du Vecteur de Flexion Sagittale (+X, 140 N.m) & Étalonnage Chromatique Complet [-1.0, +1.0]
+
+### 🎯 Objectifs & Réalisations de la session
+1. **Diagnostic & Résolution du Décalage de Chargement dans FreeCAD FEM (`con_force.Direction`)** :
+   - Découverte que `con_force.DirectionVector` est en lecture seule dans FreeCAD FEM : l'effort de 328 N était initialement projeté selon la normale à la face de cou (+Z, compression axiale) faute de référence géométrique liée.
+   - Verrouillage déterministe de `con_force.Direction` sur une arête rectiligne orientée selon +X (`DirVec = Vector(1.0, 0.0, 0.0)`), appliquant la véritable flexion sagittale de tangage (`M_pitch = 140 N.m`).
+2. **Résolution CalculiX ccx sur l'Ossature Primaire Continue (15 Corps CAO Monolithiques)** :
+   - Maillage tétraédrique volumique C3D10 optimisé : **156 846 nœuds**, **82 003 éléments volumiques**.
+   - Contrainte de Von Mises maximale crête = **62,11 MPa** (contre 81,12 MPa sur la colonne seule, soit une réduction de -23,4% grâce au partage d'effort du caisson spatial 3D et des 4 cornières).
+   - Facteurs de sécurité : **Sf_peak = 8,13** (crête) et **Sf_P95 = 33,11** (15,25 MPa nominale en zone basse active), certifiant la structure en Aluminium 7075-T651 (Rp0.2 = 505 MPa).
+   - Flèche horizontale maximale au cou (Ux) = **0,622 mm** (flèche colonne aux épaules = 0,468 mm), largement sous le critère système de 1,50 mm.
+3. **Correction de la Palette Chromatique FreeCAD C++ (`[-1.0, +1.0]`) & Régénération des 5 Cartographies HD** :
+   - Résolution du problème de saturation verte : `setNodeColorByScalars` dans FreeCAD utilise une rampe signée `[-max, +max]` où 0.0 correspond au Vert.
+   - Projection linéaire de `[vm_min, vm_scale_max]` vers `[-1.0, +1.0]` (avec écrêtage P99,5 des singularités d'angle) activant le spectre complet : Bleu profond (0 MPa) -> Cyan -> Vert -> Jaune -> Orange -> Rouge (62,1 MPa).
+   - Validation visuelle individuelle des 5 planches cartographiques : `Torse_Global_Assembly_VonMises.png`, `colonne_complete_Tangage_VonMises.png`, `colonne_basse_Tangage_VonMises.png`, `Corniere_haute_VonMises.png`, `Corniere_basse_VonMises.png`.
+4. **Synchronisation Documentaire & Règles d'Architecture** :
+   - Mise à jour de `.agents/AGENTS.md` (règle sur `con_force.Direction` et renormalisation scalaire `[-1.0, +1.0]`).
+   - Mise à jour de `DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md` (valeurs crêtes, percentiles, flèche et matrice de conformité).
+5. **Audits DevSecOps Souverains** :
+   - Audit SAST Bandit (Code source Python) et Scan de Secrets validés à 100% (code de sortie 0, PASSED).
+
+### 📌 Statut Général
+- **FEA Torse Global** : 100% physique, certifiée conforme, tracée et visuellement étalonnée.
+- **Dépôt Git** : Propre et synchronisé.
+
+---
 
 ### 🎯 Objectifs & Réalisations de la session
 1. **Simulation FEA Globale du Torse Spaceframe 3D (Cas FEA 5)** :
