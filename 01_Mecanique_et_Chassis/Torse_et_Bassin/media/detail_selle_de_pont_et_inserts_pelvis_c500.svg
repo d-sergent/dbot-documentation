@@ -1,0 +1,276 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="paViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
+    </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+  <rect width="1800" height="1080" fill="url(#bgGrad)"/>
+  <rect width="1800" height="1080" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1740" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#38bdf8" fill-opacity="0.18" stroke="#38bdf8" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#38bdf8" text-anchor="middle">S</text>
+    <text x="78" y="32" font-family="Arial, sans-serif" font-size="18.5" font-weight="bold" fill="#f8fafc">DÉTAIL MÉCANIQUE CAO : SELLE DE PONT EN H (140×145×22 MM) &amp; INSERTS (15,82×15,82×15,02 MM)</text>
+    <text x="78" y="55" font-family="Arial, sans-serif" font-size="12.5" fill="#94a3b8">Selle Alu 7075 (338,98 g : Corps1 Semelle 12 mm + Joues AV/AR 10 mm) • 4× Montants 20×20 L=65,77 mm • 8× Inserts • Tube 60×60 L=46,33</text>
+    <rect x="1420" y="19" width="290" height="36" rx="8" fill="#0f172a" stroke="#34d399" stroke-width="1.2"/>
+    <text x="1565" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399" text-anchor="middle">GÉOMÉTRIE CAO V42</text>
+  </g>
+
+  <!-- PANEL 1 (LEFT) : NŒUD LATÉRAL -->
+  <g transform="translate(30, 114)">
+    <rect width="530" height="936" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#38bdf8">1. VUE ÉCLATÉE D'UN NŒUD LATÉRAL (V42)</text>
+    <text x="22" y="52" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">Empilement FHC Haut [92125A213] ➔ Montant 20×20 ➔ CHC Bas [92290A242]</text>
+
+    <g transform="translate(265, 80)">
+      <!-- Traverse_Renfort_Bassin -->
+      <rect x="-215" y="18" width="430" height="32" rx="3" fill="url(#aluBlue)" stroke="#60a5fa" stroke-width="1.4"/>
+      <text x="0" y="39" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Traverse_Renfort_Bassin (ep. 12,51 mm | 566,74 g)</text>
+      <text x="0" y="8" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fbbf24" text-anchor="middle">4× FHC M5×18 [92125A213] fraisées affleurantes</text>
+
+      <!-- Montant G & D + Inserts -->
+      <rect x="-155" y="70" width="60" height="44" rx="3" fill="url(#aluAmber)" stroke="#fde047"/>
+      <rect x="95" y="70" width="60" height="44" rx="3" fill="url(#aluAmber)" stroke="#fde047"/>
+      <text x="0" y="96" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fbbf24" text-anchor="middle">Inserts Hauts (15,82×15,82×15,02)</text>
+
+      <!-- Montants 20x20 -->
+      <rect x="-176" y="122" width="56" height="122" rx="3" fill="#475569" stroke="#cbd5e1" stroke-width="1.4"/>
+      <rect x="120" y="122" width="56" height="122" rx="3" fill="#475569" stroke="#cbd5e1" stroke-width="1.4"/>
+      <text x="0" y="168" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e2e8f0" text-anchor="middle">4× Montants 20×20</text>
+      <text x="0" y="186" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">L = 65,77 mm (102,84 g total)</text>
+      <text x="0" y="204" font-family="Arial, sans-serif" font-size="10" fill="#34d399" text-anchor="middle">Verrouillage : 8× [91292A122]</text>
+      <text x="0" y="220" font-family="Arial, sans-serif" font-size="10" fill="#34d399" text-anchor="middle">+ [93475A230] + [93625A150]</text>
+
+      <!-- Inserts Bas -->
+      <rect x="-155" y="252" width="60" height="44" rx="3" fill="url(#aluAmber)" stroke="#fde047"/>
+      <rect x="95" y="252" width="60" height="44" rx="3" fill="url(#aluAmber)" stroke="#fde047"/>
+      <text x="0" y="278" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fbbf24" text-anchor="middle">Inserts Bas (9,25 g/u)</text>
+
+      <!-- Selle en H -->
+      <rect x="-185" y="314" width="370" height="32" rx="3" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.5"/>
+      <rect x="-135" y="346" width="270" height="28" rx="3" fill="#9a3412" stroke="#fb923c"/>
+      <text x="0" y="335" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Joues (10 mm) + Semelle (12 mm) — 338,98 g</text>
+      <text x="0" y="365" font-family="Arial, sans-serif" font-size="10.5" fill="#ffedd5" text-anchor="middle">Encoche 3 mm bridant Tube 60×60</text>
+      <text x="0" y="394" font-family="Arial, sans-serif" font-size="10.5" fill="#fde047" text-anchor="middle">4× CHC M5×20 [92290A242] + 4× CHC M5×35 [91290A661]</text>
+
+      <!-- Tube 60x60 -->
+      <rect x="-110" y="408" width="220" height="84" rx="4" fill="#1e3a8a" stroke="#60a5fa" stroke-width="1.5"/>
+      <text x="0" y="446" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fff" text-anchor="middle">Tube 60×60 (L = 46,33 mm)</text>
+      <text x="0" y="466" font-family="Arial, sans-serif" font-size="10.5" fill="#dbeafe" text-anchor="middle">57,67 g | 2× CHC M5×80 [91290A276]</text>
+    </g>
+
+    <rect x="22" y="608" width="486" height="304" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+    <text x="38" y="636" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#38bdf8">LES 3 DIRECTIVES MAJEURES TORSE-123 V42</text>
+    <text x="38" y="666" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">1. Selle de Pont Pelvis (140,04 × 145,04 × 22,03 mm | 338,98 g) :</text>
+    <text x="52" y="686" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Semelle (165,2 g) + Joue AV (82,7 g) + Joue AR (91,1 g)</text>
+    <text x="52" y="706" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">bridées par 4× CHC M5×35 [91290A661] + Nylstop M5 [93625A200].</text>
+    <text x="38" y="736" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">2. Bridage direct sur Tube 60×60 (L = 46,33 mm | 57,67 g) :</text>
+    <text x="52" y="756" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Encoche 3,0 mm + 2× Brides Epaule hanches par 2× [91290A276].</text>
+    <text x="38" y="786" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">3. Fixation Haut / Bas des 4 Montants 20×20 (L = 65,77 mm) :</text>
+    <text x="52" y="806" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Haut : 4× FHC M5×18 [92125A213] affleurantes sous Waist Plate.</text>
+    <text x="52" y="826" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Bas : 4× CHC M5×20 [92290A242] + rondelles M5 [93475A240].</text>
+    <text x="38" y="858" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399">4. Blocage transversal : 8× [91292A122] + [93625A150] dans inserts.</text>
+    <text x="38" y="886" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8">• Total Squelette Pont de Hanches : 1 114,87 g (visserie incluse).</text>
+  </g>
+
+  <!-- PANEL 2 (MIDDLE) : SELLE EN H (ZERO OVERLAP!) -->
+  <g transform="translate(585, 114)">
+    <rect width="640" height="936" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#fb923c">2. PLAN MÉCANIQUE : SELLE EN H (JOUES 10 + SEMELLE 12 MM)</text>
+    <text x="22" y="52" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">Sous-ensemble 3 corps Alu 7075-T6 — Mise en plan dégroupée &amp; cotée</text>
+
+    <!-- A. Coupe longitudinale Y-Z cleanly spaced -->
+    <text x="320" y="88" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fbbf24" text-anchor="middle">A. COUPE LONGITUDINALE (Y = 145,0 MM | HAUTEUR TOTALE = 22,0 MM)</text>
+    <g transform="translate(320, 175)">
+      <!-- Left/Right Inserts -->
+      <rect x="-180" y="-65" width="44" height="32" rx="3" fill="url(#aluAmber)" stroke="#fde047"/>
+      <rect x="136" y="-65" width="44" height="32" rx="3" fill="url(#aluAmber)" stroke="#fde047"/>
+      <text x="-158" y="-44" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Insert</text>
+      <text x="158" y="-44" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Insert</text>
+
+      <!-- Joue 10 mm upper span -->
+      <rect x="-215" y="-26" width="430" height="28" rx="3" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.5"/>
+      <text x="0" y="-8" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">JOUE LATÉRALE (ép. 10,0 mm | AV 132 / AR 145 mm)</text>
+
+      <!-- Semelle Centrale 12 mm -->
+      <rect x="-135" y="2" width="270" height="32" rx="3" fill="#c2410c" stroke="#fdba74" stroke-width="1.5"/>
+      <text x="0" y="22" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">SEMELLE CENTRALE (ep. 12,0 mm | 165,2 g)</text>
+
+      <!-- Bottom callouts cleanly below -->
+      <text x="-175" y="54" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1" text-anchor="middle">CHC M5×20 [92290A242]</text>
+      <text x="175" y="54" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1" text-anchor="middle">CHC M5×20 [92290A242]</text>
+      <text x="0" y="74" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399" text-anchor="middle">Bridage Semelle/Joues : 4× CHC M5×35 [91290A661] + [93625A200]</text>
+    </g>
+
+    <!-- B. Vue de dessus (X-Y) cleanly below A -->
+    <text x="320" y="286" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8" text-anchor="middle">B. VUE EN PLAN (X-Y) — ASSEMBLAGE EN H (140,0 × 145,0 MM)</text>
+    <g transform="translate(320, 420)">
+      <!-- Rear Cheek (left or top) -> let's orient X=horizontal 140mm -> ±140, Y=vertical 145mm -> ±110 -->
+      <!-- Semelle bridge across middle -->
+      <rect x="-140" y="-42" width="280" height="84" rx="4" fill="#c2410c" stroke="#fdba74" stroke-width="1.5"/>
+      <!-- Joue AR left (145 -> ±108) -->
+      <rect x="-172" y="-108" width="44" height="216" rx="4" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.6"/>
+      <!-- Joue AV right (132 -> ±98) -->
+      <rect x="128" y="-98" width="44" height="196" rx="4" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.6"/>
+      <!-- Pocket dashed line for Tube 60x60 -->
+      <rect x="-56" y="-42" width="112" height="84" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+      <!-- 4 corner insert bolts -->
+      <circle cx="-150" cy="-86" r="6" fill="#fde047"/>
+      <circle cx="-150" cy="86" r="6" fill="#fde047"/>
+      <circle cx="150" cy="-76" r="6" fill="#fde047"/>
+      <circle cx="150" cy="76" r="6" fill="#fde047"/>
+
+      <!-- Tube 60x60 clamp bolts -->
+      <circle cx="0" cy="-22" r="5" fill="#38bdf8"/>
+      <circle cx="0" cy="22" r="5" fill="#38bdf8"/>
+
+      <text x="0" y="-54" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#38bdf8" text-anchor="middle">Empreinte Tube 60×60 (prof. 3 mm)</text>
+      <text x="0" y="6" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Semelle Corps1 (140,0 × 46,31 mm)</text>
+      <text x="-195" y="0" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fbbf24" text-anchor="middle" transform="rotate(-90, -195, 0)">Joue AR (145 mm | 91,1 g)</text>
+      <text x="195" y="0" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fbbf24" text-anchor="middle" transform="rotate(90, 195, 0)">Joue AV (132 mm | 82,7 g)</text>
+      <text x="0" y="132" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">Entraxe Transversal des Montants = 117,0 mm | M5×80 [91290A276]</text>
+    </g>
+
+    <!-- Bottom Spec Cards -->
+    <rect x="22" y="580" width="596" height="162" rx="8" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
+    <text x="38" y="606" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fbbf24">DISTINCTION FONDAMENTALE DES COTES Z (FUSION 360 V42)</text>
+    <text x="38" y="632" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">1. Zone des Inserts Hanches (Joues) : Épaisseur = 10,00 mm (serrage M5×20 [92290A242])</text>
+    <text x="52" y="652" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Prise filet 8,0 mm dans Insert Bas Alu 7075 + rondelle DIN 125A M5 [93475A240].</text>
+    <text x="38" y="680" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">2. Zone Centrale de Recouvrement : Hauteur totale = 22,03 mm (Semelle 12 + Joue 10)</text>
+    <text x="52" y="700" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Encoche 3,0 mm + 4× CHC M5×35 [91290A661] + 2× CHC M5×80 [91290A276] vers Brides.</text>
+    <text x="38" y="726" font-family="Arial, sans-serif" font-size="10.5" fill="#34d399">3. Zéro porte-à-faux : la charge des 2× RS-04 passe directement en compression/cisaillement.</text>
+
+    <rect x="22" y="758" width="596" height="154" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+    <text x="38" y="784" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">SYNTHÈSE MÉCANIQUE DES CORPS V42 (ALU 7075-T6)</text>
+    <text x="38" y="812" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Corps1 (Semelle) : 140,0 × 46,31 × 12,0 mm | Vol = 58,78 cm3 | Masse = 165,2 g</text>
+    <text x="38" y="836" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Corps2 (Joue AV) : 23,0 × 132,0 × 10,0 mm | Vol = 29,43 cm3 | Masse = 82,7 g</text>
+    <text x="38" y="860" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Corps3 (Joue AR) : 23,0 × 145,0 × 10,0 mm | Vol = 32,42 cm3 | Masse = 91,1 g</text>
+    <text x="38" y="890" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fbbf24">• TOTAL SELLE EN H : 140,04 × 145,04 × 22,03 mm | 120,63 cm3 | Masse = 338,98 g</text>
+  </g>
+
+  <!-- PANEL 3 (RIGHT) : PLAN INSERTS & GAMME C500 -->
+  <g transform="translate(1250, 114)">
+    <rect width="520" height="936" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#34d399">3. PLAN C500 : 8× INSERTS (15,82×15,82×15,02)</text>
+    <text x="22" y="52" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">Emmanchement dans alésage interne 16,0 × 16,0 mm des tubes 20×20</text>
+
+    <!-- Insert top + side section -->
+    <g transform="translate(45, 76)">
+      <!-- Top view X-Y -->
+      <rect x="20" y="25" width="130" height="130" rx="8" fill="#1e293b" stroke="#94a3b8" stroke-dasharray="4,3"/>
+      <rect x="30" y="35" width="110" height="110" rx="6" fill="url(#aluAmber)" fill-opacity="0.7" stroke="#fde047" stroke-width="1.6"/>
+      <circle cx="85" cy="90" r="22" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+      <circle cx="85" cy="90" r="14" fill="none" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="3,2"/>
+      <text x="85" y="18" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#38bdf8" text-anchor="middle">Vue Dessus (X-Y)</text>
+      <text x="85" y="175" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fde047" text-anchor="middle">15,82 × 15,82 mm</text>
+      <text x="85" y="191" font-family="Arial, sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">(Jeu 0,09 mm/face dans tube 16,0)</text>
+
+      <!-- Side section Y-Z -->
+      <rect x="240" y="35" width="120" height="115" rx="4" fill="url(#aluAmber)" fill-opacity="0.7" stroke="#fde047" stroke-width="1.6"/>
+      <!-- Vertical M5 bore -->
+      <rect x="288" y="35" width="24" height="58" fill="#0f172a" stroke="#ef4444"/>
+      <!-- Transverse M4 bore -->
+      <rect x="240" y="108" width="120" height="22" fill="#0f172a" stroke="#38bdf8"/>
+      <text x="300" y="18" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fbbf24" text-anchor="middle">Coupe Y-Z (H = 15,02 mm)</text>
+      <text x="300" y="68" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fca5a5" text-anchor="middle">M5×0,8</text>
+      <text x="300" y="123" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#38bdf8" text-anchor="middle">Ø 4,3 (M4)</text>
+      <text x="300" y="175" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399" text-anchor="middle">Zéro croisement vis M5 / M4</text>
+      <text x="300" y="191" font-family="Arial, sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">Étagement vertical Z = 0..8 vs 11,5</text>
+    </g>
+
+    <!-- B. Gamme C500 cleanly spaced -->
+    <rect x="22" y="302" width="476" height="238" rx="8" fill="#0f172a" stroke="#fb923c" stroke-width="1.2"/>
+    <text x="38" y="328" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fb923c">B. GAMME D'USINAGE ALU 7075-T6 SUR CARVERA C500</text>
+    <text x="38" y="350" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8">Bruts : Plaque 15 mm (8× Inserts + Corps1) &amp; Plaque 10 mm (Joues AV/AR)</text>
+
+    <rect x="38" y="366" width="290" height="36" rx="5" fill="url(#aluOrange)" stroke="#fb923c"/>
+    <text x="183" y="388" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Semelle Corps1 (140,0 × 46,31 × 12 mm)</text>
+
+    <rect x="38" y="410" width="290" height="36" rx="5" fill="url(#aluOrange)" stroke="#fb923c"/>
+    <text x="183" y="432" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Joue AV Corps2 (23,0 × 132,0 × 10 mm)</text>
+
+    <rect x="38" y="454" width="290" height="36" rx="5" fill="url(#aluOrange)" stroke="#fb923c"/>
+    <text x="183" y="476" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Joue AR Corps3 (23,0 × 145,0 × 10 mm)</text>
+
+    <!-- 8x inserts grid on right without rotating clipping text -->
+    <rect x="348" y="366" width="132" height="124" rx="6" fill="#1e293b" stroke="#c084fc"/>
+    <text x="414" y="390" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#c084fc" text-anchor="middle">8× INSERTS</text>
+    <text x="414" y="410" font-family="Arial, sans-serif" font-size="10" fill="#e2e8f0" text-anchor="middle">15,82 × 15,82</text>
+    <text x="414" y="428" font-family="Arial, sans-serif" font-size="10" fill="#e2e8f0" text-anchor="middle">× 15,02 mm</text>
+    <text x="414" y="452" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fbbf24" text-anchor="middle">9,25 g / u</text>
+    <text x="414" y="472" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">(74,00 g les 8)</text>
+
+    <text x="38" y="518" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Tolérance contour inserts : H7/js7 + congés R = 2,0 mm aux angles</text>
+
+    <!-- Bottom Specs Box -->
+    <rect x="22" y="558" width="476" height="354" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+    <text x="38" y="586" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">SPÉCIFICATIONS DE L'INSERT CARRÉ (74,00 G LES 8)</text>
+    <text x="38" y="614" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Glissement dans tube 20×20×2 : jeu 0,09 mm/face</text>
+    <text x="50" y="634" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Rayons d'angle R = 2,0 mm + chanfrein 1×45 deg à l'entrée.</text>
+    <text x="38" y="664" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Zone d'appui axial (Z = 0..8,0 mm) : taraudage M5×0,8</text>
+    <text x="50" y="684" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Serrage haut [92125A213] / bas [92290A242] (&gt; 15 kN tenue).</text>
+    <text x="38" y="714" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Zone verrouillage transversal (Z = 11,5 mm) : Ø 4,3 mm</text>
+    <text x="50" y="734" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Vis traversante CHC M4×25 [91292A122] + [93475A230]</text>
+    <text x="50" y="754" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">+ Nylstop M4 [93625A150] (zéro interférence bout vis M5).</text>
+    <text x="38" y="786" font-family="Arial, sans-serif" font-size="11" fill="#34d399">• Murs latéraux résiduels autour du trou Ø 4,3 mm : 5,75 mm</text>
+    <text x="50" y="806" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">d'Alu 7075-T6 de part et d'autre — résistance arrachement max.</text>
+
+    <rect x="38" y="838" width="444" height="52" rx="6" fill="#064e3b" stroke="#10b981"/>
+    <text x="260" y="868" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#d1fae5" text-anchor="middle">MASSE TOTALE PONTS &amp; INSERTS V42 : 1 114,87 G (SANS RS-04)</text>
+  </g>
+</svg>

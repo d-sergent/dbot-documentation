@@ -1,252 +1,234 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 740" width="100%" height="100%">
   <defs>
-    <pattern id="gridL" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.7"/>
+    <pattern id="gridSol" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.7"/>
     </pattern>
-    <linearGradient id="aluLG" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f8fafc"/>
-      <stop offset="50%" stop-color="#cbd5e1"/>
-      <stop offset="100%" stop-color="#94a3b8"/>
-    </linearGradient>
-    <linearGradient id="platLG" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="100%" stop-color="#0284c7"/>
-    </linearGradient>
-    <linearGradient id="neckGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#64748b"/>
-      <stop offset="50%" stop-color="#94a3b8"/>
-      <stop offset="100%" stop-color="#64748b"/>
-    </linearGradient>
-    <radialGradient id="visLG" cx="35%" cy="35%" r="65%">
-      <stop offset="0%" stop-color="#fde68a"/>
-      <stop offset="100%" stop-color="#d97706"/>
-    </radialGradient>
+    <filter id="shdSol" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
   </defs>
 
-  <!-- BACKGROUND -->
-  <rect width="1200" height="680" fill="#0f172a"/>
-  <rect width="1200" height="680" fill="url(#gridL)"/>
+  <rect width="1240" height="740" fill="#0f172a"/>
+  <rect width="1240" height="740" fill="url(#gridSol)"/>
 
-  <!-- MAIN TITLE -->
-  <text x="600" y="24" fill="#f8fafc" font-family="system-ui,sans-serif" font-size="14" font-weight="bold" text-anchor="middle">LIAISONS D'EXTRÉMITÉS (COU &amp; TAILLE) — PROTOCOLE D'ATELIER NATUREL (TORSE V2.6)</text>
-  <text x="600" y="42" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10" text-anchor="middle">Suppression des Oblongs (Reliquat V1) · Trous Ronds Ø 4,3 mm · Rectangle 30×45 mm · Montage Cou sur Établi &amp; Verrouillage Central</text>
-
-  <!-- ════════════════════════════════════════════ -->
-  <!-- PANNEAU GAUCHE : VUE EN COUPE DU COU        -->
-  <!-- ════════════════════════════════════════════ -->
-  <g transform="translate(22, 54)">
-    <rect width="365" height="606" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="182" y="22" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">A. COUPE DE LA LIAISON HAUTE (COU)</text>
-    <text x="182" y="36" fill="#64748b" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">Double Cornière 30×30×3 mm + Trous Ronds Ø 4,3 mm</text>
-
-    <!-- Plaque de Cou Horizontale (Alu 5.0mm) -->
-    <rect x="25" y="55" width="315" height="16" rx="2" fill="url(#neckGrad)" stroke="#cbd5e1" stroke-width="1.2"/>
-    <text x="182" y="67" fill="#0f172a" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">PLAQUE SUPÉRIEURE DE COU (Alu 5.0 mm)</text>
-
-    <!-- Plaque Sagittale Verticale (5.0 mm) -->
-    <rect x="175" y="68" width="14" height="230" rx="1" fill="url(#platLG)" stroke="#7dd3fc" stroke-width="1.2"/>
-    <text x="182" y="195" fill="#0c1a2e" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle" transform="rotate(-90,182,195)">Plaque Sagittale 5.0 mm</text>
-
-    <!-- Cornière L Gauche (30x30x3 mm) -->
-    <path d="M 125 71 L 175 71 L 175 160 L 157 160 L 157 89 L 125 89 Z" fill="url(#aluLG)" stroke="#ffffff" stroke-width="1.2"/>
-    
-    <!-- Cornière L Droite (30x30x3 mm) -->
-    <path d="M 239 71 L 189 71 L 189 160 L 207 160 L 207 89 L 239 89 Z" fill="url(#aluLG)" stroke="#ffffff" stroke-width="1.2"/>
-
-    <!-- Trous Ronds Traversants Ø 4.3 mm (Zéro Oblong) -->
-    <circle cx="166" cy="122" r="5.5" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
-    <circle cx="182" cy="122" r="5.5" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
-    <circle cx="198" cy="122" r="5.5" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="182" y="105" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">Trous Ronds Ø 4,3 mm (Butée Z)</text>
-
-    <!-- Vis Traversante M4 (Sandwich rigide) -->
-    <line x1="105" y1="122" x2="259" y2="122" stroke="#d97706" stroke-width="3"/>
-    <circle cx="108" cy="122" r="6" fill="url(#visLG)" stroke="#d97706" stroke-width="1.2"/>
-    <circle cx="256" cy="122" r="5" fill="#1e293b" stroke="#d97706" stroke-width="1.2"/>
-    <text x="182" y="137" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">Vis CHC M4 × 20 mm + Rondelle DIN 125A + Nylstop</text>
-
-    <!-- Vis Verticales M4 vers Plaque de Cou (à Y = ±22.5 mm -> décalées vers l'extérieur à 20 mm du pli) -->
-    <line x1="135" y1="48" x2="135" y2="98" stroke="#38bdf8" stroke-width="2.5"/>
-    <circle cx="135" cy="48" r="5" fill="#38bdf8"/>
-    <rect x="127" y="89" width="16" height="12" rx="2" fill="#1e293b" stroke="#facc15" stroke-width="1"/>
-    
-    <line x1="229" y1="48" x2="229" y2="98" stroke="#38bdf8" stroke-width="2.5"/>
-    <circle cx="229" cy="48" r="5" fill="#38bdf8"/>
-    <rect x="221" y="89" width="16" height="12" rx="2" fill="#1e293b" stroke="#facc15" stroke-width="1"/>
-
-    <text x="182" y="32" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.2" font-weight="bold" text-anchor="middle">Perçages lisses Ø 4,3 mm (ZÉRO Fraisure sur plaque)</text>
-    <text x="182" y="47" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">4× CHC M4 × 16 mm + Nylstop M4 (Rectangle 30×45 mm)</text>
-
-    <!-- Vers Nœud Central en Bas -->
-    <rect x="110" y="278" width="144" height="26" rx="3" fill="#334155" stroke="#64748b" stroke-width="1"/>
-    <text x="182" y="294" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8" text-anchor="middle">Vers Nœud Central (h = 290 mm)</text>
-
-    <!-- Boîte Explicative Fin du Découplage Artificiel V1 -->
-    <rect x="15" y="325" width="335" height="260" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1.2"/>
-    <text x="182" y="345" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9.5" font-weight="bold" text-anchor="middle">🛡️ Fin du Découplage V1 : Colonne 7075-T6 C500</text>
-    
-    <text x="25" y="366" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">1. Contexte Historique V1 Révolu :</text>
-    <text x="35" y="381" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">• Le tube carbone et le split-clamp ont disparu.</text>
-    <text x="35" y="395" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">• L'oblong n'était nécessaire que pour absorber</text>
-    <text x="35" y="409" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">  la tolérance de coupe manuelle du tube carbone.</text>
-    
-    <text x="25" y="430" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">2. Conception Torse V2.6 Rigide &amp; Chanfreins :</text>
-    <text x="35" y="445" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8">• Colonne 7075-T6 5 mm usinée à ±0,02 mm sur C500.</text>
-    <text x="35" y="458" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8">• Trous ronds Ø 4,3 mm : butée mécanique d'obstacle.</text>
-    <text x="35" y="471" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="7.8">• <tspan fill="#38bdf8" font-weight="bold">Chanfreins 0,3 mm × 45° (2 faces)</tspan> : appui plan 0,0 mm.</text>
-    <text x="35" y="484" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">  ➔ ZÉRO glissement sous choc ou secousse du cou !</text>
-    
-    <text x="25" y="504" fill="#facc15" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">3. Ergonomie d'Atelier Inversée :</text>
-    <text x="35" y="519" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">• Équerres montées sur la colonne à l'établi (accès 360°).</text>
-    <text x="35" y="533" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">• Insertion par le bas du thorax (encombrement 65 mm).</text>
-    <text x="35" y="547" fill="#facc15" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">• Finition au centre du torse en zone 100% dégagée ✅</text>
-    <text x="35" y="563" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="start">Vis CHC M4 bloquées au couple avant mise en place des coques</text>
+  <!-- Header -->
+  <g transform="translate(20, 16)">
+    <rect width="1200" height="64" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" filter="url(#shdSol)"/>
+    <text x="600" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="17" font-weight="bold" fill="#f8fafc">
+      LIAISONS D'EXTRÉMITÉS (COU &amp; TAILLE) — PROTOCOLE D'ATELIER INVERSÉ (TORSE-123 v42)
+    </text>
+    <text x="600" y="50" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11.5" fill="#94a3b8">
+      Trous Ronds Ø 4,3 mm (Zéro Oblong) · Plaque de Cou Ø 100×4,70 mm (30×50 mm) + RS-05 (EL05) Rotatif · Équerres Waist 90 mm (Waist Plate 9,02 mm)
+    </text>
   </g>
 
-  <!-- ════════════════════════════════════════════ -->
-  <!-- PANNEAU CENTRAL : NOUVELLE SÉQUENCE D'ATELIER -->
-  <!-- ════════════════════════════════════════════ -->
-  <g transform="translate(402, 54)">
-    <rect width="380" height="606" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="190" y="22" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">B. PROTOCOLE D'ATELIER INVERSÉ (TORSE V2.6)</text>
-    <text x="190" y="36" fill="#64748b" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">Montage Haut sur Établi &amp; Verrouillage Central Dégagé</text>
+  <!-- PANEL A : COUPE DE LA LIAISON HAUTE (COU) -->
+  <g transform="translate(20, 96)">
+    <rect width="380" height="624" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" filter="url(#shdSol)"/>
+    <text x="190" y="28" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">
+      A. COUPE LIAISON HAUTE (COU)
+    </text>
+    <text x="190" y="46" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">
+      Double Cornière 30×30×3 mm + Trous Ronds Ø 4,3 mm
+    </text>
 
-    <!-- Étape 1 -->
-    <rect x="15" y="52" width="350" height="92" rx="6" fill="#0f172a" stroke="#4ade80" stroke-width="1.2"/>
-    <circle cx="36" cy="74" r="14" fill="#1e3a5f" stroke="#4ade80" stroke-width="1.5"/>
-    <text x="36" y="79" fill="#4ade80" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">1</text>
-    <text x="60" y="70" fill="#4ade80" font-family="system-ui,sans-serif" font-size="9.5" font-weight="bold">Fixation Équerres Cou sur Colonne (Établi Nu)</text>
-    <text x="60" y="85" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">Pincer le sommet de colonne 5 mm entre les 2 cornières L=50 mm.</text>
-    <text x="60" y="99" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">Serrer 2× Vis CHC M4 × 20 mm + écrous Nylstop M4 à 3,0 N.m.</text>
-    <text x="60" y="113" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">➔ Accès total 360°, alignement Z exact par trous ronds Ø4,3.</text>
+    <!-- Schéma en T inversé superposé proprement -->
+    <g transform="translate(190, 128)">
+      <text x="0" y="-58" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#4ade80">
+        4× CHC M4×16 [92290A154] + Nylstop (30×50 mm)
+      </text>
+      <text x="0" y="-44" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#facc15">
+        Perçages lisses Ø 4,3 mm (Zéro Fraisure)
+      </text>
 
-    <!-- Étape 2 -->
-    <rect x="15" y="152" width="350" height="85" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
-    <circle cx="36" cy="172" r="14" fill="#1e3a5f" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="36" y="177" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">2</text>
-    <text x="60" y="168" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9.5" font-weight="bold">Pose de la Plaque de Cou &amp; Moteur RS-05</text>
-    <text x="60" y="183" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">Boulonner la Plaque de Cou 5 mm sur les cornières (Option C).</text>
-    <text x="60" y="197" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">4× Vis CHC M4 × 16 mm + écrous Nylstop serrés à 3,0 N.m.</text>
-    <text x="60" y="211" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8">Couloir libre 45 mm (Y=±22,5 mm) dégageant le moteur RS-05.</text>
+      <!-- Plaque de cou 4.70 mm (Ø 100 mm) -->
+      <rect x="-140" y="-12" width="280" height="18" rx="4" fill="#cbd5e1" stroke="#38bdf8" stroke-width="1.8"/>
+      <text x="0" y="-27" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#38bdf8">
+        PLAQUE DE COU Ø 100 × 4,70 mm (89,63 g)
+      </text>
 
-    <!-- Étape 3 -->
-    <rect x="15" y="245" width="350" height="78" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
-    <circle cx="36" cy="265" r="14" fill="#1e3a5f" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="36" y="270" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">3</text>
-    <text x="60" y="260" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="9.5" font-weight="bold">Fixation Basse Waist Plate (Taille)</text>
-    <text x="60" y="275" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">Boulonner les 2 équerres basses L=80 mm sur la colonne.</text>
-    <text x="60" y="289" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">4× Vis CHC M4 × 20 mm traversantes + écrous Nylstop à 3,0 N.m.</text>
-    <text x="60" y="303" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">Verrouille le bloc taille rigide en Z = 0 absolu.</text>
+      <!-- Equerre G & D -->
+      <path d="M -88,6 L -12,6 L -12,96 L -22,96 L -22,16 L -88,16 Z" fill="#f59e0b" stroke="#fde047" stroke-width="1.4"/>
+      <path d="M 88,6 L 12,6 L 12,96 L 22,96 L 22,16 L 88,16 Z" fill="#f59e0b" stroke="#fde047" stroke-width="1.4"/>
 
-    <!-- Étape 4 (Finition Centrale Dégagée) -->
-    <rect x="15" y="331" width="350" height="115" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
-    <circle cx="36" cy="358" r="14" fill="#78350f" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="36" y="363" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">4</text>
-    <text x="60" y="349" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="9.5" font-weight="bold">Verrouillage Nœud Central d'Épaules (EN DERNIER)</text>
-    <text x="60" y="364" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">Insérer la colonne dans le thorax par l'ouverture abdominale.</text>
-    <text x="60" y="378" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">Emmancher les tubes carrés 60×60 mm sur les inserts de colonne.</text>
-    <text x="60" y="392" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="8">Serrer les 4× Vis CHC M5 traversantes du sandwich central à 6,0 N.m.</text>
-    <text x="60" y="406" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8" font-weight="bold">✅ Zone médiane 100% spacieuse et dégagée : zéro contorsion !</text>
-    <text x="60" y="420" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="7.5">Le serrage final s'effectue au centre de la poitrine avec accès franc.</text>
+      <!-- Colonne sagittale 5,0 mm -->
+      <rect x="-11" y="8" width="22" height="190" fill="#0284c7" stroke="#7dd3fc" stroke-width="1.6"/>
+      <text x="0" y="135" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#ffffff" transform="rotate(-90,0,135)">
+        Colonne 5,0 mm
+      </text>
 
-    <!-- Étape 5 -->
-    <rect x="15" y="454" width="350" height="74" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-    <circle cx="36" cy="474" r="14" fill="#1e3a5f" stroke="#64748b" stroke-width="1.2"/>
-    <text x="36" y="479" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">5</text>
-    <text x="60" y="470" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="9.5" font-weight="bold">Fermeture des Coques PA12-CF</text>
-    <text x="60" y="485" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">Verrouiller le plan de joint abdominal par 6 à 8 vis CHC M4.</text>
-    <text x="60" y="499" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">Le squelette interne rigide supporte 100% des efforts dynamiques.</text>
+      <!-- Vis verticales Plaque -> Equerres -->
+      <rect x="-66" y="-24" width="8" height="44" fill="#38bdf8"/>
+      <rect x="58" y="-24" width="8" height="44" fill="#38bdf8"/>
+      <rect x="-69" y="16" width="14" height="8" rx="2" fill="#22c55e"/>
+      <rect x="55" y="16" width="14" height="8" rx="2" fill="#22c55e"/>
 
-    <!-- Résumé -->
-    <rect x="15" y="536" width="350" height="54" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-    <text x="190" y="555" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">Logique d'Atelier Inversée : Haut ➔ Bas ➔ Centre</text>
-    <text x="190" y="569" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.8" font-weight="bold" text-anchor="middle">Élimination des oblongs = Montage ultra-rapide, indéréglable et robuste</text>
+      <!-- Vis horizontale pince colonne -->
+      <rect x="-36" y="48" width="72" height="8" fill="#4ade80"/>
+      <rect x="-42" y="45" width="7" height="14" rx="1" fill="#fde047"/>
+      <rect x="35" y="45" width="8" height="14" rx="2" fill="#22c55e"/>
+      <text x="-125" y="56" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" font-weight="bold" fill="#4ade80">
+        2× CHC M4×20
+      </text>
+      <text x="-125" y="68" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+        + DIN 125A + Nylstop
+      </text>
+      <text x="110" y="74" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" font-weight="bold" fill="#facc15">
+        Trous Ronds Ø 4,3
+      </text>
+      <text x="110" y="86" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+        (Butée Z rigide)
+      </text>
+      <text x="0" y="208" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">
+        ▼ Vers Nœud d'Épaules &amp; Waist (H_tot = 427,03 mm)
+      </text>
+    </g>
+
+    <!-- Points RDM -->
+    <rect x="16" y="346" width="348" height="260" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="30" y="370" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15">
+      POURQUOI LA FOURCHE RIGIDE v42 ?
+    </text>
+    <text x="30" y="392" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
+      <tspan x="30" dy="0" font-weight="bold" fill="#38bdf8">1. Fin du découplage V1 par oblongs :</tspan>
+      <tspan x="38" dy="16">• Colonne 7075-T6 usinée C500 à ±0,02 mm.</tspan>
+      <tspan x="38" dy="16">• Trous ronds Ø 4,3 mm : zéro glissement sous choc.</tspan>
+      <tspan x="30" dy="22" font-weight="bold" fill="#4ade80">2. Intégration Actionneurs Cou RS-05 (EL05) :</tspan>
+      <tspan x="38" dy="16">• Pan rotatif (EL05_ASM, 210,44 g) sur Plaque Cou</tspan>
+      <tspan x="38" dy="16">  par 4× FHC M3×8 [91294A112] sur PCD Ø 38,5 mm.</tspan>
+      <tspan x="38" dy="16">• Tilt associé dans 02_Tete_et_Cou (2e RS-05).</tspan>
+      <tspan x="30" dy="22" font-weight="bold" fill="#f472b6">3. Routage Faisceau Déporté (Arbre Plein) :</tspan>
+      <tspan x="38" dy="16">• Lumière latérale oblongue intégrée à la Plaque.</tspan>
+      <tspan x="38" dy="16">• Dégagement garanti du carter EL05 (46×46 mm).</tspan>
+    </text>
   </g>
 
-  <!-- ════════════════════════════════════════════ -->
-  <!-- PANNEAU DROIT : COMPARATIF & SPECS          -->
-  <!-- ════════════════════════════════════════════ -->
-  <g transform="translate(796, 54)">
-    <rect width="382" height="606" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="191" y="22" fill="#38bdf8" font-family="system-ui,sans-serif" font-size="12" font-weight="bold" text-anchor="middle">C. COMPARATIF &amp; SPÉCIFICATIONS ÉQUERRES</text>
-    <text x="191" y="36" fill="#64748b" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">Trous Ronds Précision vs Anciens Oblongs V1</text>
+  <!-- PANEL B : PROTOCOLE D'ATELIER INVERSÉ (5 ÉTAPES) -->
+  <g transform="translate(420, 96)">
+    <rect width="400" height="624" rx="10" fill="#1e293b" stroke="#4ade80" stroke-width="1.5" filter="url(#shdSol)"/>
+    <text x="200" y="28" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#4ade80">
+      B. PROTOCOLE D'ATELIER INVERSÉ
+    </text>
+    <text x="200" y="46" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">
+      Montage Haut sur Établi &amp; Verrouillage Central Dégagé
+    </text>
 
-    <!-- Tableau Comparatif -->
-    <rect x="12" y="52" width="358" height="235" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-    <rect x="12" y="52" width="358" height="20" rx="5" fill="#1e3a5f"/>
-    <text x="90" y="65" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Critère Mécanique</text>
-    <text x="210" y="65" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Trous Ronds V2.6 ⭐</text>
-    <text x="310" y="65" fill="#ef4444" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Oblongs V1 (Obsolète)</text>
-    
-    <line x1="150" y1="52" x2="150" y2="287" stroke="#334155" stroke-width="0.8"/>
-    <line x1="270" y1="52" x2="270" y2="287" stroke="#334155" stroke-width="0.8"/>
+    <!-- Étape 1..5 -->
+    <g transform="translate(18, 66)">
+      <rect width="364" height="94" rx="6" fill="#0f172a" stroke="#38bdf8"/>
+      <circle cx="24" cy="24" r="13" fill="#0284c7"/>
+      <text x="24" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#fff">1</text>
+      <text x="46" y="28" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#f8fafc">Fixation Equerres Cou sur Colonne</text>
+      <text x="46" y="46" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">
+        <tspan x="46" dy="0">Pincer sommet colonne 5 mm (2× L=50 mm = 46,57 g).</tspan>
+        <tspan x="46" dy="15">Serrer 2× CHC M4×20 [92290A168] + Nylstop à 3,0 N.m.</tspan>
+        <tspan x="46" dy="15" fill="#4ade80" font-weight="bold">➔ Accès 360° sur établi, alignement Z exact.</tspan>
+      </text>
 
-    <!-- Ligne 1 -->
-    <line x1="12" y1="72" x2="370" y2="72" stroke="#1e293b" stroke-width="0.8"/>
-    <text x="18" y="85" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold">Tenue en Z sous Choc</text>
-    <text x="210" y="85" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Butée mécanique 0mm ✅</text>
-    <text x="310" y="85" fill="#ef4444" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Friction (glisse 1mm) ❌</text>
+      <rect y="106" width="364" height="94" rx="6" fill="#0f172a" stroke="#38bdf8"/>
+      <circle cx="24" cy="130" r="13" fill="#0284c7"/>
+      <text x="24" y="135" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#fff">2</text>
+      <text x="46" y="134" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#f8fafc">Pose Plaque de Cou &amp; Moteur RS-05 (EL05)</text>
+      <text x="46" y="152" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">
+        <tspan x="46" dy="0">Boulonner Plaque Ø 100×4,70 mm (89,63 g) par 4× CHC</tspan>
+        <tspan x="46" dy="15">M4×16 [92290A154] (30×50 mm) + 4× Nylstop à 3,0 N.m.</tspan>
+        <tspan x="46" dy="15">Fixer stator EL05 / RS-05 par 4× FHC M3×8 [91294A112].</tspan>
+      </text>
 
-    <!-- Ligne 2 -->
-    <line x1="12" y1="94" x2="370" y2="94" stroke="#1e293b" stroke-width="0.8"/>
-    <text x="18" y="107" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold">Serrage &amp; Filets</text>
-    <text x="210" y="107" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Vis + Nylstop traversant ✅</text>
-    <text x="310" y="107" fill="#ef4444" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Vis + Nylstop traversant</text>
+      <rect y="212" width="364" height="94" rx="6" fill="#0f172a" stroke="#38bdf8"/>
+      <circle cx="24" cy="236" r="13" fill="#0284c7"/>
+      <text x="24" y="241" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#fff">3</text>
+      <text x="46" y="240" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#f8fafc">Fixation Basse Waist_Plate_7075 (9,02 mm)</text>
+      <text x="46" y="258" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">
+        <tspan x="46" dy="0">Boulonner 2× Equerre waist (L=90 mm, 42,11 g/u) via</tspan>
+        <tspan x="46" dy="15">4× CHC M4×20 traversants colonne + 4× CHC M4×25</tspan>
+        <tspan x="46" dy="15">[91292A122] dans Moyeu_Waist_Sandwich_7075.</tspan>
+      </text>
 
-    <!-- Ligne 3 -->
-    <line x1="12" y1="116" x2="370" y2="116" stroke="#1e293b" stroke-width="0.8"/>
-    <text x="18" y="129" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold">Usinage CNC C500</text>
-    <text x="210" y="129" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Perçage 1 passe (1s) ✅</text>
-    <text x="310" y="129" fill="#ef4444" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Fraisage 2D interpolé ❌</text>
+      <rect y="318" width="364" height="98" rx="6" fill="#0f172a" stroke="#f59e0b"/>
+      <circle cx="24" cy="342" r="13" fill="#d97706"/>
+      <text x="24" y="347" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#fff">4</text>
+      <text x="46" y="346" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#fde047">Verrouillage Nœud Central d'Épaules (FINAL)</text>
+      <text x="46" y="364" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">
+        <tspan x="46" dy="0">Emmancher les tubes carrés 60×60 sur les 2 Inserts 15°.</tspan>
+        <tspan x="46" dy="15">Serrer les 4× CHC M5×70 [91290A272] traversantes à 6 N.m.</tspan>
+        <tspan x="46" dy="15" fill="#4ade80" font-weight="bold">✔ Zone médiane 100% accessible : zéro contorsion !</tspan>
+      </text>
 
-    <!-- Ligne 4 -->
-    <line x1="12" y1="138" x2="370" y2="138" stroke="#1e293b" stroke-width="0.8"/>
-    <text x="18" y="151" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold">Couloir Moteur RS-05</text>
-    <text x="210" y="151" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">45 mm libre (Y=±22.5) ✅</text>
-    <text x="310" y="151" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">30 mm étriqué (Y=±15)</text>
+      <rect y="428" width="364" height="72" rx="6" fill="#0f172a" stroke="#334155"/>
+      <circle cx="24" cy="452" r="13" fill="#475569"/>
+      <text x="24" y="457" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#fff">5</text>
+      <text x="46" y="456" font-family="system-ui, sans-serif" font-size="10.5" font-weight="bold" fill="#f8fafc">Collet PA12-CF &amp; Fermeture Plastron</text>
+      <text x="46" y="474" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">
+        <tspan x="46" dy="0">6× CHC M5×50 [91290A242] fixent Cou - Tube collet</tspan>
+        <tspan x="46" dy="15">(51,90 g brut) + sommet Plastron sur PCD Ø 85 mm.</tspan>
+      </text>
 
-    <!-- Ligne 5 -->
-    <line x1="12" y1="160" x2="370" y2="160" stroke="#1e293b" stroke-width="0.8"/>
-    <text x="18" y="173" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold">Rigidité Roulis (Roll)</text>
-    <text x="210" y="173" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">+50% (base 45mm) ✅</text>
-    <text x="310" y="173" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Base 30 mm</text>
-
-    <!-- Ligne 6 -->
-    <line x1="12" y1="182" x2="370" y2="182" stroke="#1e293b" stroke-width="0.8"/>
-    <text x="18" y="195" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold">Ordre d'Atelier</text>
-    <text x="210" y="195" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Cou sur établi à 360° ✅</text>
-    <text x="310" y="195" fill="#ef4444" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Serrage exigu en dernier ❌</text>
-
-    <!-- Synthèse sous tableau -->
-    <text x="191" y="222" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold" text-anchor="middle">Verdict : Trous Ronds Ø 4,3 mm validés</text>
-    <text x="191" y="238" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Rigidité accrue, montage naturel, indéréglable sous chocs</text>
-    <text x="191" y="252" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">Fin définitive des contorsions d'assemblage au collet du cou</text>
-    <text x="191" y="268" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Recommandation : Cornière 30×30×3 mm Blockenstock Alu 6060-T6 (Option C)</text>
-
-    <!-- Spécifications Détaillées Équerres -->
-    <rect x="12" y="300" width="358" height="285" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-    <text x="191" y="320" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="10.5" font-weight="bold" text-anchor="middle">📋 Spécifications CAO &amp; Visserie L-Brackets (Torse V2.6)</text>
-
-    <rect x="22" y="332" width="338" height="52" rx="4" fill="#1e3a5f"/>
-    <text x="30" y="347" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">1. Équerres Hautes (Liaison Plaque de Cou — Option C) :</text>
-    <text x="30" y="361" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5">• 2× Cornières Alu 6060-T6 : 30×30×3 mm (L = 50,0 mm)</text>
-    <text x="30" y="373" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold">• 2× Trous ronds Ø4,3 mm verticaux (Z=12,5) + 2× Ø4,3 mm (Y=20,0 du pli)</text>
-
-    <rect x="22" y="392" width="338" height="52" rx="4" fill="#1e3a5f"/>
-    <text x="30" y="407" fill="#7dd3fc" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">2. Équerres Basses (Liaison Waist Plate 6mm) :</text>
-    <text x="30" y="421" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5">• 2× Cornières Alu 6060-T6 : 30×30×3 mm (L = 80,0 mm)</text>
-    <text x="30" y="433" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5">• 4× Perçages Ø4,3 mm rigides alignés carter RS-06 (Couple 3,0 N.m)</text>
-
-    <rect x="22" y="452" width="338" height="64" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-    <text x="30" y="468" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="8.5" font-weight="bold">3. Visserie Standardisée Recommandée (Option C) :</text>
-    <text x="30" y="482" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5">• Cou Plaque : 4× Vis CHC M4 × 16 mm + Écrous Nylstop M4 dessous (sans fraisure)</text>
-    <text x="30" y="494" fill="#e2e8f0" font-family="system-ui,sans-serif" font-size="7.5">• Colonne Flancs : 6× Vis CHC M4 × 20 mm + Rondelles standard DIN 125A</text>
-    <text x="30" y="506" fill="#4ade80" font-family="system-ui,sans-serif" font-size="7.5" font-weight="bold">• Écrous Frein : 10× ISO 7040 M4 autofreinés (Nylstop classe 8/10)</text>
-
-    <text x="191" y="540" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="7.5" text-anchor="middle">Serrage franc des M4 à 2,8 - 3,0 N.m (liaison 100% acier-sur-acier)</text>
-    <text x="191" y="555" fill="#4ade80" font-family="system-ui,sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Colonne rigide de précision C500, indéformable et indéréglable</text>
+      <text x="182" y="524" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#4ade80">
+        Séquence Naturelle : Cou &amp; Waist sur Établi ➔ Sandwich Épaules
+      </text>
+    </g>
   </g>
 
-  <!-- FOOTER -->
-  <text x="600" y="672" fill="#475569" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">Liaisons d'Extrémités Torse Hybride — Équerres Sandwich 30×30×3 mm &amp; Protocole Inversé — D-Bot Torse V2.6 — Septembre 2026</text>
+  <!-- PANEL C : COMPARATIF & RÉFÉRENCES BOM v42 -->
+  <g transform="translate(840, 96)">
+    <rect width="380" height="624" rx="10" fill="#1e293b" stroke="#facc15" stroke-width="1.5" filter="url(#shdSol)"/>
+    <text x="190" y="28" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#facc15">
+      C. COMPARATIF &amp; NOMENCLATURE v42
+    </text>
+    <text x="190" y="46" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">
+      Trous Ronds Ø 4,3 mm vs Anciens Oblongs V1
+    </text>
+
+    <!-- Mini Tableau Comparatif -->
+    <g transform="translate(16, 66)">
+      <rect width="348" height="24" rx="4" fill="#0f172a"/>
+      <text x="10" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#94a3b8">Critère</text>
+      <text x="145" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#4ade80">Trous Ronds v42</text>
+      <text x="255" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#f87171">Oblongs V1</text>
+
+      <rect y="28" width="348" height="26" fill="#0f172a" fill-opacity="0.5"/>
+      <text x="10" y="45" font-family="system-ui, sans-serif" font-size="9" fill="#e2e8f0">Tenue Z sous choc</text>
+      <text x="145" y="45" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#4ade80">Butée 0 mm ✔</text>
+      <text x="255" y="45" font-family="system-ui, sans-serif" font-size="9" fill="#fca5a5">Friction 1 mm ✘</text>
+
+      <rect y="58" width="348" height="26" fill="#0f172a" fill-opacity="0.25"/>
+      <text x="10" y="75" font-family="system-ui, sans-serif" font-size="9" fill="#e2e8f0">Couloir RS-05</text>
+      <text x="145" y="75" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#4ade80">Rect. 30×50 ✔</text>
+      <text x="255" y="75" font-family="system-ui, sans-serif" font-size="9" fill="#fca5a5">30 mm étriqué ✘</text>
+
+      <rect y="88" width="348" height="26" fill="#0f172a" fill-opacity="0.5"/>
+      <text x="10" y="105" font-family="system-ui, sans-serif" font-size="9" fill="#e2e8f0">Rigidité roulis</text>
+      <text x="145" y="105" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#4ade80">+50% (Base 50) ✔</text>
+      <text x="255" y="105" font-family="system-ui, sans-serif" font-size="9" fill="#fca5a5">Base 30 mm</text>
+
+      <rect y="118" width="348" height="26" fill="#0f172a" fill-opacity="0.25"/>
+      <text x="10" y="135" font-family="system-ui, sans-serif" font-size="9" fill="#e2e8f0">Usinage CNC C500</text>
+      <text x="145" y="135" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#4ade80">Perçage 1 passe ✔</text>
+      <text x="255" y="135" font-family="system-ui, sans-serif" font-size="9" fill="#fca5a5">Fraisage 2D ✘</text>
+    </g>
+
+    <!-- Nomenclature McMaster v42 -->
+    <rect x="16" y="232" width="348" height="374" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="30" y="256" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15">
+      INVENTAIRE CERTIFIÉ TORSE-123 v42
+    </text>
+    <text x="30" y="280" font-family="system-ui, sans-serif" font-size="9.3" fill="#cbd5e1">
+      <tspan x="30" dy="0" font-weight="bold" fill="#38bdf8">1. Liaisons Hautes (Cou — Alu 7075) :</tspan>
+      <tspan x="30" dy="16">• <tspan font-weight="bold" fill="#fff">Plaque_de_Cou_7075</tspan> : Ø 100×4,70 (89,63 g)</tspan>
+      <tspan x="30" dy="16">• <tspan font-weight="bold" fill="#fff">Equerre cou</tspan> (paire L=50 mm) : 46,57 g</tspan>
+      <tspan x="30" dy="16">• 4× CHC M4×16 <tspan fill="#facc15">[92290A154]</tspan> + 4× Nylstop <tspan fill="#facc15">[93625A150]</tspan></tspan>
+      <tspan x="30" dy="16">• 2× CHC M4×20 <tspan fill="#facc15">[92290A168]</tspan> (colonne)</tspan>
+      <tspan x="30" dy="16">• 6× CHC M5×50 <tspan fill="#facc15">[91290A242]</tspan> (collet + plastron)</tspan>
+      <tspan x="30" dy="16">• 4× FHC M3×8 <tspan fill="#facc15">[91294A112]</tspan> ➔ EL05 / RS-05</tspan>
+      <tspan x="30" dy="22" font-weight="bold" fill="#4ade80">2. Liaisons Basses (Waist — Alu 7075) :</tspan>
+      <tspan x="30" dy="16">• <tspan font-weight="bold" fill="#fff">Equerre waist</tspan> (2× L=90 mm) : 84,22 g paire</tspan>
+      <tspan x="30" dy="16">• <tspan font-weight="bold" fill="#fff">Waist_Plate_7075</tspan> : 176,1×173,1×9,02 (433,53 g)</tspan>
+      <tspan x="30" dy="16">• 4× CHC M4×20 <tspan fill="#facc15">[92290A168]</tspan> + 8× DIN 125A</tspan>
+      <tspan x="30" dy="16">• 4× CHC M4×25 <tspan fill="#facc15">[91292A122]</tspan> ➔ Moyeu Sandwich</tspan>
+      <tspan x="30" dy="22" font-weight="bold" fill="#f472b6">3. Note R&amp;D Butée Lacet ±95° :</tspan>
+      <tspan x="30" dy="16">Modification CAO prévue avant usinage CNC.</tspan>
+      <tspan x="30" dy="18" font-weight="bold" fill="#ffffff">Serrage M4 : 2,8–3,0 N.m · M3 : 1,2–1,4 N.m</tspan>
+    </text>
+  </g>
 </svg>

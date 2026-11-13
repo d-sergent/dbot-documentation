@@ -1,0 +1,11 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity (D-Bot V1)",
+	"description":	{
+		"":	"Vérification métrologique 3D d'alignement, de coaxialité et d'horizontalité du Tube Transverse Épaules par rapport à la Bride d'Épaule."
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
+

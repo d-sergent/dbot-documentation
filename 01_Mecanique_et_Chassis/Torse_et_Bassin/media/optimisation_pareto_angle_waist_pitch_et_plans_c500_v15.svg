@@ -1,0 +1,316 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1120" width="1800" height="1120">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="paViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
+    </pattern>
+    <pattern id="hatchWaste" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#ef4444" stroke-width="1.6" stroke-opacity="0.55"/>
+    </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+  <rect width="1800" height="1120" fill="url(#bgGrad)"/>
+  <rect width="1800" height="1120" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1740" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#facc15" fill-opacity="0.18" stroke="#facc15" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#facc15" text-anchor="middle">★</text>
+    <text x="76" y="31" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#f8fafc">OPTIMISATION MULTI-CRITÈRES WAIST PITCH [-12° / +20°] &amp; PORTE DE DÉCISION V1.0 vs V2.0</text>
+    <text x="76" y="54" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8">Analyse thermique continue RS-04 (2× 40 N.m Hip Hinge V1.0), enveloppe sagittale asymétrique et trajectoire R&amp;D V2.0</text>
+    <rect x="1406" y="19" width="310" height="36" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.3"/>
+    <text x="1561" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981" text-anchor="middle">PLAGE [-12° / +20°] CERTIFIÉE</text>
+  </g>
+
+  <!-- PANEL 1 : THERMAL CEILING + TABLE -->
+  <g transform="translate(30, 112)">
+    <rect width="566" height="888" rx="12" fill="url(#panelGrad)" stroke="#38bdf8" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#38bdf8">1. PLAFOND THERMIQUE CONTINU RS-04 (40 N.m / MOTEUR)</text>
+
+    <!-- XY Chart box y=48..398 -->
+    <rect x="18" y="48" width="530" height="350" rx="8" fill="#090e1a" stroke="#334155"/>
+    <text x="34" y="72" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#cbd5e1">Couple Statique Buste (C_stat, N.m) &amp; Marge Sf_cont (1 moteur vs Hip Hinge 2× RS-04)</text>
+
+    <!-- Axes -->
+    <line x1="76" y1="340" x2="520" y2="340" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="76" y1="96" x2="76" y2="340" stroke="#64748b" stroke-width="1.5"/>
+    <!-- 40 Nm continuous thermal limit (1 RS-04) at y=200 -->
+    <line x1="76" y1="200" x2="520" y2="200" stroke="#10b981" stroke-width="1.8" stroke-dasharray="6,4"/>
+    <rect x="86" y="176" width="228" height="20" rx="4" fill="#064e3b" stroke="#10b981"/>
+    <text x="200" y="190" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#a7f3d0" text-anchor="middle">SEUIL THERMIQUE 1× RS-04 : 40 N.m (Sf=1,0)</text>
+
+    <!-- Highlight +20 deg optimal zone -->
+    <rect x="258" y="102" width="110" height="238" fill="#10b981" fill-opacity="0.1"/>
+    <text x="313" y="118" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399" text-anchor="middle">OPT. +20°</text>
+
+    <!-- Y labels -->
+    <text x="68" y="344" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="end">0</text>
+    <text x="68" y="272" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="end">20</text>
+    <text x="68" y="204" font-family="Arial, sans-serif" font-size="10" fill="#10b981" text-anchor="end">40 N.m</text>
+    <text x="68" y="136" font-family="Arial, sans-serif" font-size="10" fill="#fca5a5" text-anchor="end">60</text>
+
+    <!-- X labels (+5, +10, +15, +20, +25, +30, +35) -->
+    <text x="95" y="360" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">+5°</text>
+    <text x="165" y="360" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">+10°</text>
+    <text x="235" y="360" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">+15°</text>
+    <text x="305" y="360" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399" text-anchor="middle">+20° OPT</text>
+    <text x="375" y="360" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">+25°</text>
+    <text x="445" y="360" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">+30°</text>
+    <text x="505" y="360" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">+35°</text>
+
+    <!-- Curve C_stat (M_upper~20.3 kg, L_CoM~0.42m + charge): 11, 21, 29, 36.8, 44.5, 52, 58 -->
+    <polyline points="95,302 165,267 235,239 305,211 375,184 445,158 505,137" fill="none" stroke="#38bdf8" stroke-width="2.6"/>
+    <!-- Sf curve / second curve: Hip Hinge 2x RS-04 continuous capability 80 Nm noted -->
+    <circle cx="95" cy="302" r="4" fill="#38bdf8"/>
+    <circle cx="165" cy="267" r="4" fill="#38bdf8"/>
+    <circle cx="235" cy="239" r="4" fill="#38bdf8"/>
+    <circle cx="305" cy="211" r="6" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="375" cy="184" r="4.5" fill="#f59e0b"/>
+    <circle cx="445" cy="158" r="4.5" fill="#ef4444"/>
+    <circle cx="505" cy="137" r="4.5" fill="#ef4444"/>
+
+    <!-- Well-separated callouts -->
+    <text x="305" y="238" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399" text-anchor="middle">36,8 N.m</text>
+    <text x="305" y="252" font-family="Arial, sans-serif" font-size="10" fill="#a7f3d0" text-anchor="middle">(Sf_1mot = 1,09)</text>
+    <text x="385" y="118" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fca5a5">Surcharge 1× mot. &gt; +22°</text>
+    <text x="295" y="384" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#facc15" text-anchor="middle">Hip Hinge V1.0 (2× RS-04 hanches) = 80 N.m continus / 240 N.m crête</text>
+
+    <!-- Table y=412..680 -->
+    <rect x="18" y="412" width="530" height="252" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="30" y="438" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">Bilan Thermique Continu (M_buste + Bras + Tête ~20,3 kg calibrés)</text>
+    <line x1="28" y1="450" x2="536" y2="450" stroke="#334155"/>
+    <text x="30" y="472" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#94a3b8">Angle Pitch</text>
+    <text x="140" y="472" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#94a3b8">Stat. Vide</text>
+    <text x="240" y="472" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#94a3b8">+2,5 kg Charge</text>
+    <text x="360" y="472" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#94a3b8">1× RS-04</text>
+    <text x="445" y="472" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399">2× RS-04 V1.0</text>
+    <line x1="28" y1="482" x2="536" y2="482" stroke="#1e293b"/>
+
+    <text x="30" y="506" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">+10°</text>
+    <text x="140" y="506" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">19,5 N.m</text>
+    <text x="240" y="506" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">26,8 N.m</text>
+    <text x="360" y="506" font-family="Arial, sans-serif" font-size="11" fill="#34d399">Sf 1,49</text>
+    <text x="445" y="506" font-family="Arial, sans-serif" font-size="11" fill="#34d399">CONTINU LARGE</text>
+
+    <text x="30" y="534" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">+15°</text>
+    <text x="140" y="534" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">26,8 N.m</text>
+    <text x="240" y="534" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">35,3 N.m</text>
+    <text x="360" y="534" font-family="Arial, sans-serif" font-size="11" fill="#34d399">Sf 1,13</text>
+    <text x="445" y="534" font-family="Arial, sans-serif" font-size="11" fill="#34d399">OPTIMAL MARCHE</text>
+
+    <rect x="24" y="544" width="518" height="26" rx="4" fill="#064e3b"/>
+    <text x="30" y="562" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#a7f3d0">+20° OPT</text>
+    <text x="140" y="562" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#a7f3d0">32,5 N.m</text>
+    <text x="240" y="562" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#a7f3d0">41,8 N.m</text>
+    <text x="360" y="562" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a">Lim. 1× mot.</text>
+    <text x="445" y="562" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">Sf = 1,91 (OK !)</text>
+
+    <text x="30" y="592" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">+22° (Butée)</text>
+    <text x="140" y="592" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">36,2 N.m</text>
+    <text x="240" y="592" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">45,2 N.m</text>
+    <text x="360" y="592" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">Surcharge 1×</text>
+    <text x="445" y="592" font-family="Arial, sans-serif" font-size="11" fill="#fde68a">BUTÉE PU (+22°)</text>
+
+    <text x="30" y="620" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">+30° (Exclu)</text>
+    <text x="140" y="620" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">49,8 N.m</text>
+    <text x="240" y="620" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">58,4 N.m</text>
+    <text x="360" y="620" font-family="Arial, sans-serif" font-size="11" fill="#ef4444">Dépasse</text>
+    <text x="445" y="620" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">INTERDIT THERM.</text>
+
+    <text x="30" y="650" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399">En V1.0 : le couple actif de hanche (2× RS-04) offre une marge permanente &gt;= 1,9.</text>
+
+    <!-- Bottom Justification Box y=678..872 -->
+    <rect x="18" y="678" width="530" height="194" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.1"/>
+    <text x="32" y="704" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fde68a">Pourquoi borner l'Extension Arrière à -12° (Butée PU -14°) ?</text>
+    <text x="32" y="730" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">1. Compensation Portage Lourd (16 à 20 kg contre le torse) : -9° à -12° suffit</text>
+    <text x="44" y="748" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">pour reculer le CoM global de ~35–42 mm vers les chevilles.</text>
+    <text x="32" y="776" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">2. Sécurité Anti-Chute Arrière : au-delà de -14°, le CoM recule derrière les talons</text>
+    <text x="44" y="794" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">(risque de basculement dorsal irrécupérable sans pas arrière).</text>
+    <text x="32" y="822" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">3. Protection Harnais Dorsal 48V + CAN-FD : la limite -14° garantit &gt;= 42 mm</text>
+    <text x="44" y="840" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">de garde libre pour la boucle câblée arrière.</text>
+  </g>
+
+  <!-- PANEL 2 : SAGITTAL ENVELOPE STICK FIGURE -->
+  <g transform="translate(616, 112)">
+    <rect width="568" height="888" rx="12" fill="url(#panelGrad)" stroke="#10b981" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#10b981">2. ENVELOPPE SAGITTALE [-12° / +20°] (COURSE UTILE 32°)</text>
+
+    <rect x="18" y="48" width="532" height="398" rx="8" fill="#090e1a" stroke="#334155"/>
+    <text x="284" y="72" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#94a3b8" text-anchor="middle">Vue Sagittale (Plan X-Z) : Pivot Bassin / Hanche Pitch  ---&gt; AVANT (+X)</text>
+
+    <!-- Pivot Pelvis at (284, 345) -->
+    <rect x="242" y="352" width="84" height="28" rx="5" fill="#475569" stroke="#cbd5e1" stroke-width="1.5"/>
+    <circle cx="284" cy="342" r="14" fill="#f59e0b" stroke="#fde68a" stroke-width="2"/>
+    <text x="284" y="400" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a" text-anchor="middle">Pont de Hanches + 2× RS-04 (Pivot Pitch)</text>
+    <text x="284" y="418" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">Course mécanique totale 32° sans collision dorsale ni ventrale</text>
+
+    <!-- Neutral 0 deg -->
+    <line x1="284" y1="328" x2="284" y2="128" stroke="#64748b" stroke-width="2" stroke-dasharray="6,4"/>
+    <text x="284" y="114" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#cbd5e1" text-anchor="middle">0° (Neutre)</text>
+
+    <!-- Back -12 deg -->
+    <line x1="284" y1="342" x2="236" y2="152" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="236" cy="142" r="14" fill="#f59e0b" fill-opacity="0.3" stroke="#f59e0b" stroke-width="1.8"/>
+    <rect x="28" y="138" width="164" height="74" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.1"/>
+    <text x="40" y="158" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a">-12° Logiciel</text>
+    <text x="40" y="176" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Butée PU : -14°</text>
+    <text x="40" y="194" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Portage 16–20 kg</text>
+
+    <!-- Forward +20 deg -->
+    <line x1="284" y1="342" x2="368" y2="162" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="368" cy="150" r="15" fill="#10b981" fill-opacity="0.3" stroke="#10b981" stroke-width="2"/>
+    <rect x="386" y="132" width="152" height="86" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.2"/>
+    <text x="396" y="152" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#a7f3d0">+20° OPTIMUM</text>
+    <text x="396" y="170" font-family="Arial, sans-serif" font-size="10.5" fill="#d1fae5">• Butée PU : +22°</text>
+    <text x="396" y="188" font-family="Arial, sans-serif" font-size="10.5" fill="#d1fae5">• Ramassage sol 0°</text>
+    <text x="396" y="206" font-family="Arial, sans-serif" font-size="10.5" fill="#d1fae5">• Vision sol optimale</text>
+
+    <!-- Angle arc -->
+    <path d="M 248 212 A 135 135 0 0 1 340 218" fill="none" stroke="#38bdf8" stroke-width="2"/>
+    <text x="294" y="236" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#38bdf8" text-anchor="middle">32°</text>
+
+    <!-- 4 Functional Zone Cards y=462..872 -->
+    <text x="22" y="476" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">Synthèse des 4 Plages Fonctionnelles [-12° / +20°] :</text>
+
+    <rect x="18" y="490" width="532" height="86" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.1"/>
+    <text x="32" y="514" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fde68a">ZONE 1 : [-12,0° à -4,0°] — Contre-Balancier Portage Lourd (10–20 kg)</text>
+    <text x="32" y="536" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Déporte le buste (~16,1–16,2 kg Torse-123) vers l'arrière pour aligner le CoM.</text>
+    <text x="32" y="556" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Maintient le buste vertical en descente de pentes jusqu'à -12° (21 %).</text>
+
+    <rect x="18" y="588" width="532" height="86" rx="8" fill="#0f172a" stroke="#64748b" stroke-width="1.1"/>
+    <text x="32" y="612" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f8fafc">ZONE 2 : [-2,0° à +4,0°] — Station Debout, Marche Normale &amp; Portage Bras</text>
+    <text x="32" y="634" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Buste équilibré à +0,5° ; amortissement cyclique par impédance Waist.</text>
+    <text x="32" y="654" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Inclinaison +3° annule le couple statique (charge 4 kg à 0,25 m) sans surchauffe.</text>
+
+    <rect x="18" y="686" width="532" height="86" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.1"/>
+    <text x="32" y="710" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#38bdf8">ZONE 3 : [+5,0° à +13,0°] — Marche Rapide (6 km/h), Course &amp; Montée de Pente</text>
+    <text x="32" y="732" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Projette le CoM à +35..+82 mm en avant tout en gardant le bassin aligné.</text>
+    <text x="32" y="752" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Amortisseur actif de tangage lors de la pose talon.</text>
+
+    <rect x="18" y="784" width="532" height="88" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.2"/>
+    <text x="32" y="808" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#a7f3d0">ZONE 4 : [+14,0° à +20,0°] — Ramassage au Sol &amp; Manipulation Basse (Plafond 60 cm)</text>
+    <text x="32" y="830" font-family="Arial, sans-serif" font-size="11" fill="#d1fae5">• Avance les épaules de +125 mm et abaisse le genou requis (-35 % couple genou).</text>
+    <text x="32" y="850" font-family="Arial, sans-serif" font-size="11" fill="#d1fae5">• Couvert à 100 % en continu par les 2× RS-04 de hanche (80 N.m cont. / Sf &gt;= 1,9).</text>
+  </g>
+
+  <!-- PANEL 3 : V1.0 vs V2.0 ARCHITECTURE + ROADMAP -->
+  <g transform="translate(1204, 112)">
+    <rect width="566" height="888" rx="12" fill="url(#panelGrad)" stroke="#38bdf8" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#38bdf8">3. TRAJECTOIRE ARCHITECTURALE : V1.0 ACTIF vs V2.0 PITCH AU-DESSUS DU YAW</text>
+
+    <!-- Kinematic Rule Box -->
+    <rect x="18" y="48" width="530" height="232" rx="8" fill="#090e1a" stroke="#334155"/>
+    <text x="32" y="72" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">RÈGLE V2.0 : PLACER UN PITCH TORSE AU-DESSUS DU RB8016</text>
+
+    <rect x="32" y="90" width="236" height="36" rx="5" fill="url(#aluBlue)" stroke="#38bdf8"/>
+    <text x="150" y="113" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">V2.0 : Pitch AU-DESSUS du RB8016</text>
+    <rect x="32" y="136" width="236" height="36" rx="5" fill="#1e293b" stroke="#94a3b8"/>
+    <text x="150" y="159" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e2e8f0" text-anchor="middle">1. Waist_Plate + RB8016 (Yaw)</text>
+    <rect x="32" y="182" width="236" height="36" rx="5" fill="#1e293b" stroke="#f59e0b"/>
+    <text x="150" y="205" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a" text-anchor="middle">2. Traverse 12,51 mm + Pont Hanches</text>
+    <text x="150" y="242" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399" text-anchor="middle">✓ En V1.0 : le Pitch reste aux 2× RS-04 de Hanches</text>
+
+    <text x="288" y="102" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#38bdf8">Pourquoi Yaw -&gt; Pitch (V2.0) :</text>
+    <text x="288" y="126" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Bassin V1.0 + Traverse [16A] restent</text>
+    <text x="298" y="144" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">100 % figés et conservés.</text>
+    <text x="288" y="168" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Zéro collision avec RS-06 ni brides L.</text>
+    <text x="288" y="192" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• En rotation Yaw +90°, le Pitch Torse</text>
+    <text x="298" y="210" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">continue de plonger face à l'objet.</text>
+
+    <!-- Hardware Cad Box y=296..576 -->
+    <rect x="18" y="296" width="530" height="278" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="32" y="320" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">SQUELETTE PELVIS V1.0 &amp; QUINCAILLERIE CERTIFIÉE v42</text>
+
+    <!-- Clean left schematic: Traverse + Selle + Tube 60x60 -->
+    <rect x="36" y="346" width="184" height="20" rx="3" fill="url(#aluBlue)" stroke="#38bdf8"/>
+    <text x="128" y="360" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">Traverse [16A] 566,74 g</text>
+    <rect x="52" y="366" width="22" height="58" rx="2" fill="#475569" stroke="#94a3b8"/>
+    <rect x="182" y="366" width="22" height="58" rx="2" fill="#475569" stroke="#94a3b8"/>
+    <rect x="86" y="374" width="84" height="44" rx="3" fill="url(#aluOrange)" stroke="#fb923c"/>
+    <text x="128" y="400" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">Tube L=46,33</text>
+    <rect x="42" y="424" width="172" height="22" rx="3" fill="url(#aluAmber)" stroke="#fde68a"/>
+    <text x="128" y="439" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">Selle en H (338,98 g)</text>
+    <text x="128" y="468" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">Total Pont (hors RS-04) : 1 114,87 g</text>
+
+    <!-- Verified Fasteners on Right -->
+    <text x="242" y="352" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fde68a">Quincaillerie Certifiée Torse-123 v42 :</text>
+    <text x="242" y="378" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Traverse → Inserts Haut : 4× FHC M5×18 [92125A213]</text>
+    <text x="242" y="402" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Selle → Inserts Bas : 4× CHC M5×20 [92290A242]</text>
+    <text x="242" y="426" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Montants 20×20 (L=65,77) : 4× M5×35 [91290A661]</text>
+    <text x="242" y="450" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Selle + Brides → Tube 60×60 : 2× M5×80 [91290A276]</text>
+    <text x="242" y="474" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• RB8016 Brides L : 4× CHC M4×16 [92290A154]</text>
+    <text x="242" y="498" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Brides Hanches → RS-04 : [90128A214] / [92855A422]</text>
+    <text x="242" y="522" font-family="Arial, sans-serif" font-size="11" fill="#fde68a">• Butée mécanique arrière ±95° (R=83 mm) :</text>
+    <text x="252" y="540" font-family="Arial, sans-serif" font-size="10.5" fill="#facc15">Modification CAO prévue avant usinage CNC.</text>
+
+    <!-- Roadmap Card y=590..872 -->
+    <rect x="18" y="590" width="530" height="282" rx="8" fill="#064e3b" fill-opacity="0.35" stroke="#10b981" stroke-width="1.2"/>
+    <text x="32" y="616" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">FEUILLE DE ROUTE VALIDÉE : V1.0 HIP HINGE → BENCHMARK MUJOCO</text>
+    <text x="32" y="646" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Étape 1 (V1.0 Active) : Usiner le Squelette Pelvien C500 &amp; Torse-123 v42</text>
+    <text x="44" y="666" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">(Torse calibré ~16,1–16,2 kg | Phase 4 complet ~35,2–36,0 kg &lt; 42 kg).</text>
+    <text x="32" y="698" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Étape 2 (MuJoCo V1.0) : Exploiter le Hip Hinge 2× RS-04 de hanches</text>
+    <text x="44" y="718" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">(80 N.m continus / 240 N.m crête) pour l'inclinaison du buste [-12° / +20°].</text>
+    <text x="32" y="750" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Étape 3 (Porte Décision V2.0) : N'ajouter un Pitch torse dédié qu'au-dessus</text>
+    <text x="44" y="770" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">du RB8016 (Yaw -&gt; Pitch), jamais sous la Traverse [16A].</text>
+    <text x="32" y="810" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#a7f3d0">→ Zéro pièce jetée, zéro refonte Bassin/Waist, 100 % des marges respectées.</text>
+  </g>
+
+  <!-- BOTTOM CONCLUSION -->
+  <g transform="translate(30, 1014)">
+    <rect width="1740" height="84" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="24" y="28" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#34d399">CONCLUSION DE L'OPTIMISATION ANGULAIRE &amp; ARCHITECTURALE POST-AUDIT (Torse-123 v42) :</text>
+    <text x="24" y="50" font-family="Arial, sans-serif" font-size="12" fill="#f8fafc">1. En V1.0 (~35,2–36,0 kg complet robot évalué), le Hip Hinge (2× RS-04 de hanches) offre 80 N.m continus / 240 N.m crête : 100 % des besoins d'inclinaison [-12° / +20°] sont couverts sans surpoids.</text>
+    <text x="24" y="70" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">2. Toute intégration future V2.0 d'un Waist Pitch actif se fera impérativement AU-DESSUS du roulement RB8016 (architecture Yaw -&gt; Pitch, alignée Tesla Optimus Gen 2 / Unitree G1).</text>
+  </g>
+</svg>

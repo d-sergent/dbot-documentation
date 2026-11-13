@@ -9,10 +9,14 @@
   - `--mode hybrid` (Knowledge Graph + Vector search): Optimal for cross-subsystem architectural relationships and kinematic dependencies.
 - **Primary Torso & Pelvis Reference Documents Indexed**:
   - `01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` (Architecture & CNC machining of Torso).
-  - `01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Waist_et_Bassin_D-Bot_V2.md` (Pelvis PA12-CF, RB8016 bearing & RS-06 Waist).
+  - `01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md` (Pelvis PA12-CF, RB8016 bearing & RS-06 Waist).
   - `01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md` (Complete FEA synthesis, analytical derivations, boundary conditions & 1-click links).
+  - `01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Squelette_Pelvien_Pont_de_Hanches.md` (Squelette pelvien, Pont de Hanches, Selle en H 140x145x22, tube 20x20 L=65.77, inserts 15.82x15.82x15.02).
+  - `01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Bilan_Masse_Global_et_Opportunite_Waist_Pitch_2DoF.md` (Bilan de masse consolidé Torse-123 v42, arbitrage Waist Pitch 20 deg).
+  - `01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Calculs_FEA_Bride_Epaule_RS04.md` (Simulation FEA certifiée Bride Epaule v87, 85 MPa, Sf = 5.92).
+  - `01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Densites_Apparentes_FDM_PA12-CF_Torse_et_Bassin.md` (Calibration FDM PA12-CF & comparaison Torse-123 v42).
   - `01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_BOM_Torse_et_Waist_D-Bot.md` (Consolidated BOM & McMaster-Carr hardware).
-  - `01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json` (Exact 3D CAD coordinates, bounding boxes & mass properties).
+  - `01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json` (Exact 3D CAD coordinates, bounding boxes & mass properties; `Audits/` is excluded from Git & LightRAG, with `SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md` indexed in LightRAG).
 - Always prioritize the retrieved context over general model knowledge for D-Bot specifications, measurements, and layouts.
 
 ## Interaction & Workflow Rules
@@ -64,6 +68,15 @@
   - **Theme**: Dark technical blueprint aesthetic (`#0f172a` background canvas, `#1e293b` panel cards, subtle `#2a324b` grid background).
   - **Layout**: Multi-panel view layout (e.g., Vue de Face / Vue de Dessus / Vue de Profil) with clear titles.
   - **Visual Elements**: Color-coded material gradients (Aluminium, Tube Carbone, Moteurs QDD, Batteries), callout text, dimension lines, and a technical legend box.
+- **Calibration Géométrique Rigoureuse via Snapshots CAO PNG Disponibles (Zéro Erreur de Localisation 3D)** :
+  - Lors de la conception, de la mise à jour ou de la régénération d'un schéma vectoriel SVG technique (pièce unitaire, sous-ensemble, squelette, interface d'assemblage), l'agent a l'**OBLIGATION STRICTE d'inspecter au préalable les snapshots PNG haute définition disponibles** dans le dossier souverain :
+    `/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/`
+    - Projections orthogonales de la pièce : `Pieces_Isolees/<nom_piece>/<nom_piece>_face.png`, `_dessus.png`, `_dessous.png`, `_iso.png`.
+    - Projections de l'assemblage complet : `Vues_Ensemble/01_vue_face.png`, `03_vue_dessus.png`, `07_vue_isometrique.png`, etc.
+  - **Recoupement Triangulaire Obligatoire (PNG Visuel + Métrologie JSON -> Tracé SVG)** :
+    - L'agent doit impérativement charger et analyser ces images PNG pour appréhender la **silhouette réelle**, les **rapports de proportions 1:1**, l'**emplacement spatial exact des perçages**, des fentes, des chanfreins et des découpes (ex: forme exacte en H de la selle de pont, redan inférieur, disposition des têtes de vis CHC/FHC et des écrous).
+    - L'agent croise ensuite cette morphologie visuelle avec les cotes millimétriques réelles extraites d'`01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json` (ou de sa copie souveraine dans `Exports_CAO_DBot/01_Torse_et_Bassin/Audits/`).
+    - Il est STRICTEMENT INTERDIT de dessiner un SVG à l'aveugle ou de manière purement théorique dès lors que les captures PNG de la pièce ou de l'assemblage existent dans `Visual_Snapshots/`. Cette rigueur garantit des schémas d'une fidélité industrielle absolue, éliminant tout risque d'inversion gauche/droite, de trous mal situés ou de formes schématisées à tort.
 - **Mandatory Markdown Image Embedding**: NEVER create, generate, or save any image file (PNG, JPG, SVG, WebP) in the workspace without IMMEDIATELY embedding and referencing it in a corresponding active Markdown document (e.g. `![Description](./media/<image_name>.png)`). No orphan media files are allowed in the repository.
 
 ## Documentation Structure & Navigation
@@ -112,7 +125,7 @@
     - Tout passage de faisceau (lumière, passe-fil, tunnel de cloison) doit impérativement être dimensionné pour laisser passer les connecteurs complets pré-câblés (XT30, XT60, XT90, JST, Micro-Fit) sans jamais obliger à couper ou dessouder les lignes de puissance ou de communication lors de la maintenance en atelier.
     - Les passe-fils souples en élastomère (TPU) doivent être systématiquement conçus avec une fente latérale pour être amovibles sans déconnecter le faisceau.
   - **Cohérence Métrologique & Intégrité Matière (Usinage & Impression 3D)** :
-    - Avant de poser une cote ou une lumière, recouper systématiquement les encombrements réels (bounding boxes, axes de rotation, bagues de roulements) dans le modèle CAO validé (ex: `AUDIT_METROLOGIQUE_Torse_et_Bassin.json`).
+    - Avant de poser une cote ou une lumière, recouper systématiquement les encombrements réels (bounding boxes, axes de rotation, bagues de roulements) dans le modèle CAO validé (ex: `01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json`).
     - Toujours vérifier que les ponts de matière résiduels en alliage d'aluminium (7075-T6) ou polymère composite (PA12-CF) respectent les épaisseurs minimales d'usinabilité et de tenue mécanique (typiquement `> 2,5 à 3,0 mm` en 7075-T6 pour éviter toute déformation lors du fraisage CNC).
 
 ## Modélisation CAO Fusion 360 & Quincaillerie Normalisée (McMaster-Carr)
@@ -126,7 +139,7 @@
   - **Interdiction Formelle d'Extrapolation ou d'Invention Numérique** :
     - Il est formellement interdit de deviner, d'interpoler ou de restituer "de mémoire" un code catalogue alphanumérique (les séries McMaster-Carr ne sont pas linéaires et varient selon la matière, le pas métrique, le filetage total ou partiel et la longueur).
   - **Étape 1 — Recoupement Prioritaire avec l'Historique CAO et la BOM Active** :
-    - Avant de chercher une référence, TOUJOURS inspecter si le composant exact existe déjà dans l'assemblage CAO du robot (ex. fichiers `AUDIT_METROLOGIQUE_Torse_et_Bassin.json`, noms d'occurrences CAO contenant un tag de pièce comme `[93625A150]`) ou dans [FINAL_Liste_Achats_BOM.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/FINAL_Liste_Achats_BOM.md).
+    - Avant de chercher une référence, TOUJOURS inspecter si le composant exact existe déjà dans l'assemblage CAO du robot (ex. fichiers `01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json`, noms d'occurrences CAO contenant un tag de pièce comme `[93625A150]`) ou dans [FINAL_Liste_Achats_BOM.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/FINAL_Liste_Achats_BOM.md).
     - Si une référence est déjà certifiée et implantée dans la CAO pour une taille donnée (ex: écrou Nylstop M4 = `93625A150`), elle DOIT être reprise à l'identique pour assurer la cohérence des approvisionnements.
   - **Étape 2 — Validation Multi-Critères Obligatoire sur le Catalogue Réel** :
     - Pour tout nouveau composant de fixation, vous DEVEZ formellement vérifier les 6 critères physiques sur le catalogue McMaster-Carr (via recherche web ou documentation technique officielle) avant de délivrer le code :
@@ -140,6 +153,19 @@
     - Vérifier que la référence sélectionnée dispose bien d'un modèle CAO 3D téléchargeable (icône CAD / 3D STEP disponible dans le catalogue McMaster).
   - **Étape 4 — Isolement Monoligne pour Copier-Coller en 1 Clic** :
     - Comme stipulé dans la règle d'ergonomie, chaque code final validé doit être délivré dans son bloc ` ```text ` isolé, sans nom de pièce ni texte dans le bloc, pour garantir un copier-coller immédiat dans le moteur de recherche de Fusion 360.
+  - **Règle Stricte d'Interdiction d'Extrapolation Numérique de Longueur** :
+    - Sur le catalogue McMaster-Carr, les codes de vis ne suivent AUCUNE progression arithmétique ou incrémentale sur la longueur. Par exemple, pour les vis CHC M5 DIN 912 : `91292A128` correspond à une vis M5 x 20 mm en Inox 18-8, tandis que `91290A130` est une vis M5 x 30 mm en acier allié noir (et non une 20 mm !).
+    - L'agent a l'OBLIGATION STRICTE de croiser la ligne (Diamètre nominal x Pas) ET la colonne exacte (Longueur sous tête x Matériau) directement sur le tableau officiel de McMaster-Carr avant d'énoncer une référence.
+  - **Répertoire de Référence des Visseries et Fixations Certifiées D-Bot** :
+    - Vis CHC M5 x 20 mm Inox 18-8 (DIN 912, filetage total) : `91292A128`
+    - Vis CHC M5 x 20 mm Acier allié 12.9 Black-Oxide (DIN 912) : `91290A128`
+    - Vis CHC M5 x 35 mm Acier allié 12.9 Black-Oxide (DIN 912) : `91290A661`
+    - Vis BHC M5 x 20 mm Inox 18-8 (ISO 7380) : `92095A214`
+    - Vis CHC M4 x 16 mm Inox 18-8 (DIN 912) : `91292A118`
+    - Rondelle plate DIN 125A M5 Inox 18-8 : `93475A240`
+    - Rondelle plate DIN 125A M4 Inox 18-8 : `93475A230`
+    - Écrou autobloquant Nylstop DIN 985 M4 Inox 18-8 : `93625A150`
+    - Écrou autobloquant Nylstop DIN 985 M5 Inox 18-8 : `93625A160`
 
 ## Cartographie des Usinages, Chanfreins, Fraisures & Ébavurages d'Atelier
 - **Obligation de Spécification des Chanfreins & Cassages d'Arêtes** :
@@ -149,6 +175,10 @@
     - Fraisures coniques à 90° (vis FHC) : spécifier le diamètre de fraisure supérieur et la profondeur exacte pour un **noyage à fleur rigoureux à 0,0 mm** (zéro saillie de tête).
     - Chants débités et bords sciés : cassage d'arête systématique (typiquement `0,5 mm × 45°`).
     - Pliures et congés d'appui : chanfreinage adapté (`0,5 mm × 45°`) pour éviter le contact franc sur le congé intérieur naturel des profilés marchands.
+- **Doctrine Système "Zéro Lamage & Zéro Fraisure" sur Flasques et Semelles Minces (<= 10 mm)** :
+  - Sur toute pièce d'assemblage ou traverse usinée en aluminium 7075-T6 d'épaisseur inférieure ou égale à 10 mm (notamment la semelle de la selle de pont, brides de fixation ou cornières), les **lamages cylindriques pour têtes CHC et les fraisures coniques pour têtes FHC sont formellement proscrits**, sauf impératif absolu de carénage affleurant.
+  - *Justification mécanique* : Un lamage de profondeur 5 à 6 mm dans une section de 10 mm ampute 50 à 60% de l'épaisseur utile, créant une concentration de contraintes critique et réduisant drastiquement la résistance à la flexion et à l'arrachement sous précharge.
+  - *Standard requis* : Perçage lisse débouchant au diamètre standard (ex. Ø 5,30 mm pour vis M5) avec appui plan direct sur face brute usinée, équipé systématiquement d'une rondelle plate DIN 125A pour répartir la pression de matage, et vis CHC ou BHC à tête apparente. Chanfrein d'entrée/sortie `0,2 mm × 45°` pour supprimer le morfil.
 
 ## Inspection Visuelle Multimodale de la CAO & Bibliothèque Hors-Git
 - **Localisation des Snapshots CAO Haute Définition** :
@@ -159,9 +189,13 @@
     - `Assemblages/<nom_assemblage>/` : Modèles `.FCStd` multi-composants résolus par CalculiX, cartographies spectrales `_VonMises.png` et lanceurs 1-clic `.command`.
 - **Interdiction Stricte de Pollution du Répertoire Git (`media/`)** :
   - Il est FORMELLEMENT INTERDIT de copier, dupliquer ou commiter ces captures de pièces brutes ou modèles `.FCStd` volumineux dans le sous-dossier `media/` de la documentation Git (`Documentation/.../media`).
-- **Protocole d'Inspection Visuelle Réelle à la Volée (Dépassement des Bounding Boxes)** :
-  - Pour toute analyse géométrique, étude d'encombrement, vérification d'interférence ou dimensionnement de renfort/nervure, l'agent ne doit JAMAIS se contenter de la boîte englobante rectangulaire aveugle (`bounding_box_mm` du JSON).
-  - L'agent DOIT inspecter la morphologie réelle de la pièce en ouvrant directement l'image avec `read_file` (ou en la copiant dans `<conversation_artifact_dir>/scratch/`) pour analyser ses congés, lamages, nervures et étagements 3D réels.
+- **Protocole d'Inspection Visuelle Réelle à la Volée (Dépassement des Bounding Boxes & Anti-Extrapolation)** :
+  - Pour toute analyse géométrique, étude d'encombrement, vérification d'interférence, cotation ou dimensionnement d'un composant, l'agent ne doit **JAMAIS** se contenter de la boîte englobante rectangulaire aveugle (`bounding_box_mm` du JSON).
+  - Interdiction formelle d'extrapoler l'épaisseur d'une semelle, d'un flasque ou d'une bride à partir de la bounding box Z (cas d'école : pour la selle de pont, la bounding box Z globale est de 22,0 mm car elle intègre la saillie des joues de centrage de 10,0 mm et la semelle de 12,0 mm, alors que la traverse de fixation ne mesure que 10,0 mm d'épaisseur !).
+  - L'agent a l'**OBLIGATION STRICTE** d'inspecter visuellement la morphologie réelle de la pièce en ouvrant directement les rendus haute définition avec `read_file` :
+    `/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/<nom_piece>/<nom_piece>_face.png`
+    (ou `_iso.png`, `_dessus.png`, `_dessous.png`).
+  - Recouper systématiquement toute vue avec les captures d'écran et cotes cotées de Fusion 360 transmises par l'utilisateur ainsi que les snapshots PNG disponibles (`Pieces_Isolees/` et `Vues_Ensemble/`) avant d'émettre des cotes ou de concevoir des schémas vectoriels SVG.
 - **Protocole d'Auto-Vérification Visuelle Obligatoire après Génération d'Images** :
   - Dès qu'une image (snapshot CAO, cartographie FEA `_VonMises.png`, ou schéma vectoriel SVG) est générée par script, l'agent a l'**OBLIGATION STRICTE** de l'ouvrir et de l'inspecter visuellement une par une avec l'outil `read_file` avant de formuler sa réponse.
   - L'agent doit contrôler de manière autonome :
@@ -180,6 +214,7 @@
     3. *Cartographie Chromatique FEA* : `<nom_piece>_VonMises.png` (rendu HD du maillage 3D coloré par les scalaires Von Mises CalculiX avec colorbar MPa et carte de synthèse).
     4. *Lanceur 1-Clic macOS* : `Ouvrir_Simulation_FreeCAD.command` ou `Ouvrir_Simulation_Tangage.command`.
   - **Répertoires de pièces structurelles avec FEA certifiée** :
+    - `Pieces_Isolees/Bride_d'epaule_RS-04/` : `Bride_epaule_RS04_FEA_Results.FCStd` (42 815 nœuds, crête 85,0 MPa, Sf = 5,92 sous 500 N combiné) + `Bride_epaule_RS04_VonMises.png`.
     - `Pieces_Isolees/Corniere_haute/` : `Corniere_haute_FEA_Results.FCStd` (27 478 nœuds, crête 84,7 MPa, Sf P95 = 11,2) + `Corniere_haute_VonMises.png`.
     - `Pieces_Isolees/Corniere_basse/` : `Corniere_basse_FEA_Results.FCStd` (47 126 nœuds, crête 67,9 MPa, Sf P95 = 13,1) + `Corniere_basse_VonMises.png`.
     - `Pieces_Isolees/colonne_vertébrale/` : `colonne_basse_FEA_Tangage.FCStd` (53 958 nœuds, crête 106,8 MPa, Sf P95 = 4,7) + `colonne_basse_Tangage_VonMises.png`.
@@ -206,6 +241,14 @@
 - **Maintenance et Audit CLI Hors-Fusion (`clean_sovereign_library.py`)** :
   - Pour auditer ou purger manuellement les fichiers orphelins sans ouvrir Fusion 360, utiliser le script :
     `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/scripts/cad_tools/clean_sovereign_library.py" --purge`
+- **Configuration Permanente du Script Fusion 360 `AuditTorse.py`** :
+  - Dans `Code/scripts/fusion360/AuditTorse/AuditTorse.py`, les drapeaux de configuration suivants sont définis de manière permanente :
+    - `OVERWRITE_EXISTING_SNAPSHOTS = True` : Force le ré-export visuel systématique de toutes les vues PNG (face, dessus, dessous, iso) lors de l'exécution d'AuditTorse dans Fusion 360, garantissant que toute modification de pièce (épaisseur, perçage, chanfrein) est immédiatement reflétée sur disque.
+    - `SKIP_EXISTING_SNAPSHOTS = False` : Ne jamais réactiver le saut de rendu des fichiers > 12 kB.
+    - `AUTO_CLEAN_ORPHAN_SNAPSHOTS = True` : Nettoie automatiquement les dossiers de pièces orphelines dans `Visual_Snapshots/` lors de l'exécution du script Fusion.
+- **Maintenance et Nettoyage CLI des Snapshots Orphelins (`clean_visual_snapshots.py`)** :
+  - Pour auditer et purger les dossiers de snapshots orphelins hors de Fusion 360 (pièces renommées ou supprimées), exécuter :
+    `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/scripts/cad_tools/clean_visual_snapshots.py" --purge`
 
 ## Calculs RDM & Analyses par Éléments Finis (FEA) — Auditabilité, Cartographies & Répertoire des Résultats
 - **Consultation Immédiate des Spécifications et Résultats FEA** :
@@ -216,6 +259,7 @@
     - `Code/scripts/freecad/simulate_colonne_complete_assembly.py` (Simulation FEA de l'assemblage sandwich 15 mm de la colonne).
     - `Code/scripts/freecad/simulate_colonne_vertebrale.py` (Simulation FEA des segments bas et haut isolés).
     - `Code/scripts/freecad/simulate_corniere_haute.py` & `Code/scripts/freecad/simulate_corniere_basse.py` (Simulations FEA des cornières en lacet).
+    - `Code/scripts/freecad/simulate_bride_epaule.py` (Simulation FEA de la bride d'épaule RS-04).
     - `Code/scripts/cad_tools/export_all_fea_snapshots.py` (Générateur automatique des cartographies HD `_VonMises.png` via FreeCAD GUI OpenGL).
 - **Règle Inviolable d'Exécution FEA Souveraine (Option B Exclusivement — Source Unique de Vérité)** :
   - Il est **FORMELLEMENT INTERDIT** de produire de fausses images FEA (ex: simple rendu CAO gris ombré avec texte superposé) ou de restituer des valeurs estimées sans résolution effective du solveur.

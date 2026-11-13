@@ -1,198 +1,156 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 560" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 620" width="100%" height="100%">
   <defs>
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="50%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#080d1a"/>
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
     </linearGradient>
-
     <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b"/>
-      <stop offset="100%" stop-color="#0f172a"/>
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
     </linearGradient>
-
-    <linearGradient id="traverseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10b981" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#047857" stop-opacity="0.10"/>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
     </linearGradient>
-
-    <linearGradient id="waistGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.10"/>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
     </linearGradient>
-
-    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.8" stroke-opacity="0.6"/>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
     </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
   </defs>
-
-  <style>
-    .title-main { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; font-weight: 800; fill: #f8fafc; }
-    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11px; fill: #94a3b8; }
-    .panel-title { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 12px; font-weight: 700; fill: #38bdf8; text-transform: uppercase; letter-spacing: 0.6px; }
-    .label-green { font-family: 'SF Mono', monospace; font-size: 9.5px; font-weight: 700; fill: #34d399; }
-    .label-blue { font-family: 'SF Mono', monospace; font-size: 9.5px; font-weight: 700; fill: #38bdf8; }
-    .card-border { stroke: #334155; stroke-width: 1.5; }
-    .axis-line { stroke: #475569; stroke-width: 0.8; stroke-dasharray: 4 3; }
-  </style>
-
-  <!-- Fond -->
-  <rect width="1280" height="560" fill="url(#bgGrad)"/>
-  <rect width="1280" height="560" fill="url(#grid)"/>
-
-  <!-- BANDEAU SUPÉRIEUR -->
-  <g transform="translate(30, 20)">
-    <rect x="0" y="0" width="1220" height="46" fill="#1e293b" rx="6" class="card-border"/>
-    <rect x="0" y="0" width="6" height="46" fill="#38bdf8" rx="3"/>
-    <text x="20" y="22" class="title-main">ARCHITECTURE CINÉMATIQUE DU HARNAIS : FENTES EN ARC CONCENTRIQUES (TRAVERSE 69° vs WAIST PLATE 125°)</text>
-    <text x="20" y="38" class="subtitle">Conception certifiée CAO Torse v105 • Fente en zone dorsale (-X) • Congés convexes R = 1,5 mm • Recouvrement 22,2 mm à +/- 80° • Zéro cisaillement</text>
+  <rect width="1280" height="620" fill="url(#bgGrad)"/>
+  <rect width="1280" height="620" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1220" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#10b981" fill-opacity="0.18" stroke="#10b981" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#10b981" text-anchor="middle">C</text>
+    <text x="78" y="32" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#f8fafc">CORRIDOR VENTRAL EN U &amp; ARCS DORSAUX CONCENTRIQUES — TORSE-123 V42</text>
+    <text x="78" y="55" font-family="Arial, sans-serif" font-size="13" fill="#94a3b8">Élimination du cisaillement guillotine sous lacet ±80° nominal (±95° butée mécanique) — Zéro arbre creux RS-06</text>
+    <rect x="900" y="19" width="290" height="36" rx="8" fill="#0f172a" stroke="#34d399" stroke-width="1.2"/>
+    <text x="1045" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399" text-anchor="middle">TORSE-123 V42 CERTIFIÉ</text>
   </g>
 
-  <!-- ========================================================================================= -->
-  <!-- PANNEAU 1 : LA PIÈCE DU BAS (FIXE) — TRAVERSE BASSIN -->
-  <!-- ========================================================================================= -->
-  <g transform="translate(30, 80)">
-    <rect x="0" y="0" width="390" height="455" fill="url(#panelGrad)" rx="8" class="card-border"/>
-    <rect x="14" y="14" width="350" height="24" fill="#0f172a" rx="4" stroke="#334155"/>
-    <text x="22" y="30" class="panel-title">1. PIÈCE DU BAS : TRAVERSE BASSIN (STATOR FIXE)</text>
+  <!-- PANEL 1 : COUPE AXIALE ANTI-GUILLOTINE -->
+  <g transform="translate(30, 114)">
+    <rect width="595" height="478" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="30" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#38bdf8">1. PRINCIPE ANTI-GUILLOTINE (COUPE AXIALE +X VENTRAL)</text>
+    <text x="22" y="49" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">Encoche ouverte en U (45 × 20 mm) vs ancienne lumière fermée : zéro cisaillage</text>
 
-    <!-- Dessin Pièce Bas (cx=195, cy=220) -->
-    <g transform="translate(195, 220)">
-      <!-- Contour Traverse 175 × 175 mm (228 × 228 px) -->
-      <rect x="-114" y="-114" width="228" height="228" rx="16" fill="url(#traverseGrad)" stroke="#10b981" stroke-width="2"/>
-      
-      <!-- Siège roulement Ø 120 mm (r=78 px) -->
-      <circle cx="0" cy="0" r="78" fill="#0f172a" stroke="#64748b" stroke-width="1.5"/>
-      <circle cx="0" cy="0" r="52" fill="#0b1120" stroke="#475569" stroke-dasharray="3 3"/>
-      
-      <!-- Axes -->
-      <line x1="-125" y1="0" x2="125" y2="0" class="axis-line"/>
-      <line x1="0" y1="-125" x2="0" y2="125" class="axis-line"/>
-      <text x="0" y="-118" font-family="'SF Mono', monospace" font-size="8.5" fill="#38bdf8" text-anchor="middle">+X (Ventral)</text>
-      <text x="0" y="132" font-family="'SF Mono', monospace" font-size="8.5" fill="#ef4444" text-anchor="middle">-X (Dorsal)</text>
-
-      <!-- Fente Stator 69,0° en zone dorsale (-X / bas) -->
-      <path d="M 47.71 69.35 A 84.17 84.17 0 0 1 -47.71 69.35 A 13.00 13.00 0 0 0 -62.44 90.77 A 110.17 110.17 0 0 0 62.44 90.77 A 13.00 13.00 0 0 0 47.71 69.35 Z" fill="#10b981" fill-opacity="0.4" stroke="#34d399" stroke-width="2"/>
-      
-      <!-- Faisceau traversant neutre -->
-      <circle cx="0" cy="97.17" r="9.5" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/>
-      <text x="0" y="100.17" font-family="'SF Mono', monospace" font-size="6.5" font-weight="700" fill="#fbbf24" text-anchor="middle">Ø15</text>
-
-      <!-- Carte de titre au centre dégagée -->
-      <rect x="-75" y="-35" width="150" height="32" rx="4" fill="#0f172a" fill-opacity="0.9" stroke="#334155" stroke-width="0.8"/>
-      <text x="0" y="-21" class="label-green" text-anchor="middle">FENTE STATOR 69,0°</text>
-      <text x="0" y="-8" font-family="'SF Mono', monospace" font-size="8" fill="#cbd5e1" text-anchor="middle">Masse réelle : 567,7 g</text>
-      
-      <!-- Cotes ponts latérales -->
-      <rect x="-108" y="88" width="68" height="28" rx="3" fill="#0f172a" fill-opacity="0.9" stroke="#334155" stroke-width="0.6"/>
-      <text x="-74" y="99" font-family="'SF Mono', monospace" font-size="7.5" fill="#f43f5e" text-anchor="middle">Pont: 4,75 mm</text>
-      <text x="-74" y="111" font-family="'SF Mono', monospace" font-size="7.5" fill="#c084fc" text-anchor="middle">Arrière: 3,3 mm</text>
+    <!-- Bad design inset top right -->
+    <g transform="translate(360, 68)">
+      <rect width="215" height="92" rx="8" fill="#450a0a" fill-opacity="0.45" stroke="#ef4444" stroke-width="1.2"/>
+      <text x="107" y="20" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fca5a5" text-anchor="middle">INTERDIT : 2 TROUS FERMÉS</text>
+      <rect x="28" y="32" width="160" height="12" rx="2" fill="#ea580c"/>
+      <rect x="88" y="30" width="40" height="16" fill="#0f172a" stroke="#ef4444"/>
+      <rect x="28" y="54" width="160" height="14" rx="2" fill="#2563eb"/>
+      <rect x="88" y="52" width="40" height="18" fill="#0f172a" stroke="#ef4444"/>
+      <path d="M 108 26 L 108 74" stroke="#facc15" stroke-width="4" stroke-dasharray="3,2"/>
+      <text x="107" y="83" font-family="Arial, sans-serif" font-size="10" fill="#fca5a5" text-anchor="middle">Effet cisaille à ±40 deg sur câble !</text>
     </g>
 
-    <g transform="translate(14, 395)">
-      <rect x="0" y="0" width="362" height="46" fill="#0f172a" rx="4" stroke="#334155"/>
-      <text x="10" y="18" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#34d399" font-weight="700">✔ Plaque d'Aluminium 7075 FIXE (Pelvis)</text>
-      <text x="10" y="34" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Fente de 69° en bas • Congés convexes R = 1,5 mm sur arêtes.</text>
+    <!-- Good design sectional stack -->
+    <g transform="translate(26, 125)">
+      <!-- Waist Plate (Tournant) -->
+      <rect x="0" y="65" width="320" height="28" rx="3" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.4"/>
+      <!-- Open U notch on left (+X ventral) -->
+      <rect x="0" y="63" width="84" height="32" fill="#0f172a"/>
+      <path d="M 84 65 L 84 93" stroke="#fbbf24" stroke-width="2"/>
+      <text x="206" y="83" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Waist_Plate_7075 (9,02 mm | 433,53 g)</text>
+
+      <!-- RB8016 + Brides -->
+      <rect x="75" y="93" width="245" height="34" rx="3" fill="url(#steelGreen)" stroke="#4ade80" stroke-width="1.3"/>
+      <text x="206" y="114" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">RB8016 (Ø 120 × Ø 80 × 16,04 mm)</text>
+
+      <!-- Traverse Renfort Bassin (Fixe) -->
+      <rect x="72" y="127" width="248" height="36" rx="3" fill="url(#aluBlue)" stroke="#60a5fa" stroke-width="1.4"/>
+      <rect x="242" y="127" width="52" height="36" fill="#0f172a" stroke="#10b981" stroke-width="1.2" stroke-dasharray="4,2"/>
+      <text x="158" y="149" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Traverse (12,51 mm)</text>
+
+      <!-- RS-06 closed housing -->
+      <rect x="118" y="163" width="132" height="72" rx="6" fill="url(#motorSlate)" stroke="#94a3b8" stroke-width="1.4"/>
+      <text x="184" y="196" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc" text-anchor="middle">RS-06 (550,97 g)</text>
+      <text x="184" y="214" font-family="Arial, sans-serif" font-size="10" fill="#f87171" text-anchor="middle">Arbre plein fermé (ZÉRO passage)</text>
+
+      <!-- TPU Passe-Fil + Harness Loop on +X ventral -->
+      <rect x="12" y="54" width="60" height="46" rx="8" fill="#10b981" fill-opacity="0.18" stroke="#34d399" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <path d="M 38 5 C 38 50, 26 95, 34 148 C 40 185, 82 212, 114 226" fill="none" stroke="#facc15" stroke-width="6" stroke-linecap="round"/>
+      <path d="M 38 5 C 38 50, 26 95, 34 148 C 40 185, 82 212, 114 226" fill="none" stroke="#fde047" stroke-width="2" stroke-linecap="round" stroke-dasharray="8,5"/>
+      <text x="42" y="-8" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#facc15" text-anchor="middle">Harnais 48V + CAN-FD</text>
+      <text x="12" y="266" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">• Encoche U ouverte +X (45 × 20 mm) : passe connecteurs XT60</text>
+      <text x="12" y="285" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Boucle de service libre L = 160..200 mm (torsion &lt;= 0,6 deg/mm)</text>
+      <text x="12" y="304" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Passe-fil fendu TPU 95A (jalon futur) : démontable sans dessouder</text>
     </g>
   </g>
 
-  <!-- ========================================================================================= -->
-  <!-- PANNEAU 2 : LA PIÈCE DU HAUT (MOBILE) — WAIST PLATE 7075 -->
-  <!-- ========================================================================================= -->
-  <g transform="translate(445, 80)">
-    <rect x="0" y="0" width="390" height="455" fill="url(#panelGrad)" rx="8" class="card-border"/>
-    <rect x="14" y="14" width="350" height="24" fill="#0f172a" rx="4" stroke="#334155"/>
-    <text x="22" y="30" class="panel-title">2. PIÈCE DU HAUT : WAIST PLATE (ROTOR MOBILE)</text>
+  <!-- PANEL 2 : SUPERPOSITION POLAIRE ARCS CONCENTRIQUES (-X) -->
+  <g transform="translate(650, 114)">
+    <rect width="600" height="478" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="30" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#fb923c">2. SUPERPOSITION POLAIRE ARCS DORSAUX (-X) — V42</text>
+    <text x="22" y="49" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">Pivot Yaw [49,23 ; 9,36] mm — Superposition Traverse (69,05 deg) &amp; Waist (125,05 deg)</text>
 
-    <!-- Dessin Pièce Haut (cx=195, cy=220) -->
-    <g transform="translate(195, 220)">
-      <!-- Contour Waist Plate avec grands congés avant -->
-      <path d="M -114 -65 C -114 -100, -95 -114, -60 -114 L 60 -114 C 95 -114, 114 -100, 114 -65 L 114 92 C 114 108, 106 114, 90 114 L -90 114 C -106 114, -114 108, -114 92 Z" fill="url(#waistGrad)" stroke="#0ea5e9" stroke-width="2"/>
-      
-      <!-- Alésage Ø 80 mm (r=52 px) -->
-      <circle cx="0" cy="0" r="52" fill="#0f172a" stroke="#38bdf8" stroke-width="1.8"/>
-      <circle cx="0" cy="0" r="40" fill="#0b1120" stroke="#60a5fa" stroke-dasharray="3 3"/>
-      
-      <!-- Axes -->
-      <line x1="-125" y1="0" x2="125" y2="0" class="axis-line"/>
-      <line x1="0" y1="-125" x2="0" y2="125" class="axis-line"/>
-      <text x="0" y="-118" font-family="'SF Mono', monospace" font-size="8.5" fill="#38bdf8" text-anchor="middle">+X (Ventral)</text>
-      <text x="0" y="132" font-family="'SF Mono', monospace" font-size="8.5" fill="#ef4444" text-anchor="middle">-X (Dorsal)</text>
+    <g transform="translate(270, 232)">
+      <!-- Traverse square (174.9 x 174.8) -->
+      <rect x="-126" y="-126" width="252" height="252" rx="14" fill="#1e3a8a" fill-opacity="0.45" stroke="#60a5fa" stroke-width="2"/>
+      <!-- Waist plate polygon / square (176.11 x 173.05) slightly shifted -->
+      <rect x="-122" y="-124" width="250" height="248" rx="18" fill="#c2410c" fill-opacity="0.22" stroke="#fb923c" stroke-width="2" stroke-dasharray="6,3"/>
 
-      <!-- Fente Rotor Élargie 125,0° en zone dorsale (-X / bas) -->
-      <path d="M 74.68 38.84 A 84.17 84.17 0 0 1 -74.68 38.84 A 13.00 13.00 0 0 0 -97.75 50.83 A 110.17 110.17 0 0 0 97.75 50.83 A 13.00 13.00 0 0 0 74.68 38.84 Z" fill="#0284c7" fill-opacity="0.4" stroke="#38bdf8" stroke-width="2"/>
+      <!-- RB8016 circle -->
+      <circle cx="0" cy="0" r="84" fill="none" stroke="#4ade80" stroke-width="10" stroke-opacity="0.45"/>
+      <circle cx="0" cy="0" r="56" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3"/>
 
-      <!-- Faisceau coulissant -->
-      <circle cx="0" cy="97.17" r="9.5" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/>
-      <text x="0" y="100.17" font-family="'SF Mono', monospace" font-size="6.5" font-weight="700" fill="#fbbf24" text-anchor="middle">Ø15</text>
+      <!-- Arc Dorsal Waist 125.05 deg (left side = -X dorsal) -->
+      <path d="M -52 -96 A 110 110 0 0 0 -52 96" fill="none" stroke="#f97316" stroke-width="26" stroke-linecap="round" stroke-opacity="0.55"/>
+      <!-- Arc Traverse 69.05 deg -->
+      <path d="M -91 -62 A 110 110 0 0 0 -91 62" fill="none" stroke="#10b981" stroke-width="18" stroke-linecap="round" stroke-opacity="0.88"/>
 
-      <!-- Carte titre au centre -->
-      <rect x="-75" y="-35" width="150" height="32" rx="4" fill="#0f172a" fill-opacity="0.9" stroke="#334155" stroke-width="0.8"/>
-      <text x="0" y="-21" class="label-blue" text-anchor="middle">FENTE ROTOR 125,0°</text>
-      <text x="0" y="-8" font-family="'SF Mono', monospace" font-size="8" fill="#cbd5e1" text-anchor="middle">Masse réelle : 434,7 g</text>
-      
-      <text x="-110" y="35" font-family="'SF Mono', monospace" font-size="7.5" fill="#34d399">Flanc: 14,9 mm</text>
-      <text x="50" y="35" font-family="'SF Mono', monospace" font-size="7.5" fill="#34d399">Flanc: 14,9 mm</text>
-    </g>
+      <!-- Ventral +X U-notch -->
+      <rect x="78" y="-32" width="64" height="64" rx="6" fill="#0f172a" stroke="#facc15" stroke-width="1.8"/>
+      <text x="110" y="4" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#facc15" text-anchor="middle">Encoche U</text>
 
-    <g transform="translate(14, 395)">
-      <rect x="0" y="0" width="362" height="46" fill="#0f172a" rx="4" stroke="#334155"/>
-      <text x="10" y="18" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#38bdf8" font-weight="700">✔ Plaque d'Alu 7075 TOURNANTE (Torse)</text>
-      <text x="10" y="34" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Fente élargie à 125° pour balayer sans cisaillement à +/- 80°.</text>
-    </g>
-  </g>
+      <!-- Callouts cleanly separated -->
+      <text x="0" y="-140" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fb923c" text-anchor="middle">Waist_Plate_7075 : 176,11 × 173,05 × 9,02 mm (433,53 g)</text>
+      <text x="0" y="144" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#60a5fa" text-anchor="middle">Traverse_Renfort_Bassin : 174,90 × 174,84 × 12,51 mm (566,74 g)</text>
 
-  <!-- ========================================================================================= -->
-  <!-- PANNEAU 3 : COMPORTEMENT CINÉMATIQUE DYNAMIQUE (+/- 80°) -->
-  <!-- ========================================================================================= -->
-  <g transform="translate(860, 80)">
-    <rect x="0" y="0" width="390" height="455" fill="url(#panelGrad)" rx="8" class="card-border"/>
-    <rect x="14" y="14" width="350" height="24" fill="#0f172a" rx="4" stroke="#334155"/>
-    <text x="22" y="30" class="panel-title">3. COMPORTEMENT CINÉMATIQUE (+/- 80°)</text>
-
-    <!-- Dessin Cinématique Dynamique -->
-    <g transform="translate(195, 215)">
-      <!-- Schéma Comparatif 1 : Neutre 0° -->
-      <g transform="translate(0, -75)">
-        <rect x="-160" y="-32" width="320" height="65" rx="6" fill="#0f172a" stroke="#334155"/>
-        <text x="-148" y="-14" font-family="'SF Mono', monospace" font-size="9" font-weight="700" fill="#f8fafc">A. POSITION NEUTRE (0° LACET)</text>
-        
-        <!-- Traverse 69° -> 90 px -->
-        <rect x="-45" y="5" width="90" height="12" rx="4" fill="#10b981" fill-opacity="0.5" stroke="#34d399"/>
-        <!-- Waist 125° -> 160 px -->
-        <rect x="-80" y="5" width="160" height="12" rx="4" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="4 2"/>
-        
-        <!-- Faisceau au centre -->
-        <circle cx="0" cy="11" r="5" fill="#fbbf24"/>
-        <text x="-148" y="28" font-family="'SF Mono', monospace" font-size="8" font-weight="700" fill="#34d399">Recouvrement max = 90,0 mm (faisceau 100% libre)</text>
-      </g>
-
-      <!-- Schéma Comparatif 2 : Rotation Maximale (+80°) -->
-      <g transform="translate(0, 60)">
-        <rect x="-160" y="-32" width="320" height="95" rx="6" fill="#0f172a" stroke="#334155"/>
-        <text x="-148" y="-14" font-family="'SF Mono', monospace" font-size="9" font-weight="700" fill="#fbbf24">B. ROTATION MAXIMALE (+80° LACET)</text>
-        
-        <!-- Traverse fixe au centre -->
-        <rect x="-45" y="5" width="90" height="12" rx="4" fill="#10b981" fill-opacity="0.5" stroke="#34d399"/>
-        
-        <!-- Waist Plate tournée de 80° (décalée vers la droite de 55 px) -->
-        <rect x="10" y="5" width="160" height="12" rx="4" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="4 2"/>
-        
-        <!-- Fenêtre commune de recouvrement : de x = +10 à x = +45 -> 35 px (~22,2 mm) -->
-        <rect x="10" y="5" width="35" height="12" rx="2" fill="#c084fc" fill-opacity="0.7" stroke="#e879f9" stroke-width="1.5"/>
-        
-        <!-- Faisceau dans la fenêtre -->
-        <circle cx="27" cy="11" r="5" fill="#fbbf24" stroke="#ffffff" stroke-width="0.8"/>
-
-        <text x="-148" y="35" font-family="'SF Mono', monospace" font-size="8" font-weight="700" fill="#c084fc">Fenêtre commune : 17,05° d'arc = 22,24 mm</text>
-        <text x="-148" y="48" font-family="'SF Mono', monospace" font-size="8" fill="#34d399">Faisceau Ø 15,0 mm ➔ Marge saine = +7,24 mm</text>
-      </g>
-    </g>
-
-    <g transform="translate(14, 395)">
-      <rect x="0" y="0" width="362" height="46" fill="#0f172a" rx="4" stroke="#334155"/>
-      <text x="10" y="18" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#c084fc" font-weight="700">✔ Torsion Hélicoïdale Douce (0,50° / mm)</text>
-      <text x="10" y="34" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Glissement fluide • Zéro cisaillement métal/métal.</text>
+      <!-- Margin callouts bottom-left stacked cleanly -->
+      <rect x="-245" y="156" width="520" height="68" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1"/>
+      <text x="-232" y="176" font-family="Arial, sans-serif" font-size="10.5" fill="#34d399" font-weight="bold">• Arcs dorsaux -X : R_int 64,75 / R_ext 84,75 mm (Ø 129,5 / Ø 169,5, larg. 20,0 mm)</text>
+      <text x="-232" y="194" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Pont résiduel Alu 7075 : 4,75 mm (int.) | 3,3 mm (ext. arrière) — Tenue CNC OK</text>
+      <text x="-232" y="213" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#f87171">• Butée mécanique ±95° à R = 83,0 mm : MODIFICATION CAO PRÉVUE AVANT CNC</text>
     </g>
   </g>
 </svg>

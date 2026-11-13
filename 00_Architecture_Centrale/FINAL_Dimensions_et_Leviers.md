@@ -52,7 +52,7 @@ L'ancienne architecture composite (cage alu boulonnée, tube carbone, split-mono
 
 > 📄 **Document actif Torse** : [DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md](../01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md)  
 > 📄 **Document actif Bassin** : [DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md](../01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md)  
-> 📄 **Analyse stratégique (historique)** : [ANALYSE_STRATEGIE_Torse.md](../01_Mecanique_et_Chassis/Torse_et_Bassin/ANALYSE_STRATEGIE_Torse.md)
+> 📄 **Analyse stratégique (archivée)** : [00_Archives_Recherche/ANALYSE_STRATEGIE_Torse.md](../01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/ANALYSE_STRATEGIE_Torse.md)
 
 ## 2. Membres Inférieurs (Jambes)
 *Données déduites de `15a_Analyse_Locomotion_Baseline.md`.*
@@ -78,24 +78,24 @@ L'ancienne architecture composite (cage alu boulonnée, tube carbone, split-mono
 ## 4. Tête et Capteurs
 - **Hauteur totale Tête + Cou** : **250 mm** (25 cm) - *Hypothèse figer*.
 - **OAK-D Pro (Fixed Focus - Vision)** : Entraxe de fixation de 75 mm (vis M3). Encastrement ~98x30 mm.
-- **Cou (Double RS-05)** : La superposition des moteurs s'inscrit dans l'enveloppe globale de 250 mm allouée à la tête et au cou.
+- **Cou (Double RS-05 rotatifs / réf. CAO `EL05`)** : Les deux actionneurs rotatifs `RobStride RS-05` (`Pan` dans `Torse-123 v42` + `Tilt` dans `02_Tete_et_Cou`) s'inscrivent dans l'enveloppe globale de 250 mm allouée à la tête et au cou.
 
 ## 5. Bassin (Pelvis) & Liaison Active Waist Yaw RS-06
 
-Le bassin constitue le noeud structurel le plus sollicité du robot. Il reçoit l'intégralité du poids du haut du corps (18,16 kg pour l'ensemble Torse + Bassin) et le transmet aux membres inférieurs via les 2 moteurs RS-04 Hip Pitch.
+Le bassin constitue le noeud structurel le plus sollicité du robot. Il reçoit l'intégralité du poids du haut du corps (`18,32 kg` bruts CAO `Torse-123 v42` pour l'ensemble Torse + Bassin, soit `~16,1 - 16,2 kg` après calibration FDM complète ; `~20,27 kg` avec les deux bras et la tête) et le transmet aux membres inférieurs via le squelette métallique « Pont de Hanches » et les 2 moteurs RS-04 Hip Pitch.
 
 | Paramètre Bassin | Valeur | Statut |
 | :--- | :---: | :--- |
 | **Moteur Waist Yaw** | **RobStride RS-06** (36 N.m pic, 11 N.m nom., Ø 88 mm, 621 g, arbre plein / carter fermé) | ✅ Acheté & Validé |
-| **Roulement Structurel Principal** | **Roulement à rouleaux croisés EFANT RB 8016 UU (80x120x16 mm, classe P4/P2, 1 450 g)** | ✅ Reçu & Contrôlé en Atelier (faux-rond < 0,005 mm) |
-| **Platine d'Interface Waist** | Alu 7075-T6, base évasée 175 mm, épaisseur 9,02 mm, encoche en U ouverte pour boucle L=160-180 mm | ✅ Modélisée & Validée CAO |
-| **Traverse Renfort Bassin** | Alu 7075-T6, 174,90 x 174,84 x 12,51 mm, 617,4 g, fixation par 4 vis M4 sur bossages | ✅ Modélisée & Validée CAO |
-| **Caisson Pelvis & Supports** | PA12-CF (densité 1,015 g/cm3, 6 185,68 g total pelvis, allégement de -6,61 kg vs alu) | ✅ Validé CAO |
-| **Corridor Électrique Déporté** | Corridor postérieur 45 x 20 mm avec encoche en U et passe-fil TPU fendu (zéro arbre creux) | ✅ Validé (torsion 0,6 à 1,0 deg/mm) |
-| **Entraxe Hanches (RS-04 Hip Pitch)** | **Envergure Y Pelvis = 487,09 mm** (entraxe hanches ~420 mm, scale 1,2776) | ✅ Figé CAO |
+| **Roulement Structurel Principal** | **Roulement à rouleaux croisés EFANT RB 8016 UU (80x120x16 mm, classe P4/P2, 633 g réel / 1 450 g brut caisse)** | ✅ Reçu & Contrôlé en Atelier (faux-rond < 0,005 mm) |
+| **Platine d'Interface Waist** | Alu 7075-T6, base 176,11 × 173,05 mm, épaisseur 9,02 mm, `433,53 g` (`v42`), fente arrière 125,05 deg | ✅ Modélisée & Validée CAO |
+| **Traverse Renfort Bassin** | Alu 7075-T6, `174,90 x 174,84 x 12,51 mm`, **`566,74 g` (`v42` ; `617,4 g` historique)**, fente 69,05 deg | ✅ Modélisée & Validée CAO |
+| **Squelette Pelvis « Pont de Hanches »** | Alu 7075-T6 / 6060-T6 (`978,09 g` métal + `136,78 g` visserie = **`1 114,87 g`**) + habillage PA12-CF (`Chassis_Structurel_Bassin_Last` `441,36 g` calibré à `0,70 g/cm3`) ; 8 occurrences `ASV1_200` (`02A..09C`) en cours de définition côté CAO | 🔄 Squelette métal validé / Hanches PA12-CF en cours CAO |
+| **Corridor Électrique Déporté** | Lumières concentriques arrière (`R_int = 64,75 mm` / `R_ext = 84,75 mm`, larg. `20 mm`, zéro arbre creux) | ✅ Validé CAO (torsion 0,6 à 1,0 deg/mm) |
+| **Entraxe Hanches (RS-04 Hip Pitch)** | **Envergure Y Pelvis = `487,06 mm` (`v42`)** (entraxe hanches ~420 mm) | ✅ Figé CAO |
 | **Chaîne Cinématique Hanches** | **F-A-R** (Flexion Pitch RS-04 ➔ Abduction Roll RS-03 ➔ Rotation Yaw RS-03) | ✅ Validée |
-| **Butée Angulaire Mécanique** | Butée postérieure déportée R = 83 mm (plot acier trempé en arc +/- 95 deg) | ✅ Dimensionnée |
-| **Débattement Waist Yaw** | Logiciel : +/- 90 deg / Physique : +/- 95 deg | ✅ |
+| **Butée Angulaire Mécanique** | Butée postérieure déportée R = 83,0 mm (plot acier trempé en arc +/- 95 deg) | ⏳ **Dimensionnée — Modification CAO prévue avant usinage CNC** |
+| **Débattement Waist Yaw** | Logiciel : +/- 90 deg / Physique : +/- 95 deg (après ajout butée CAO) | ✅ Validé |
 
 ### Validation & Métrologie du Roulement Structurel Waist
 
@@ -118,9 +118,9 @@ Le roulement structurel du Waist est le composant pivot du bassin. Il reprend in
 ## 6. Synthèse des Incertitudes (À définir pour la construction)
 Pour sécuriser la modélisation CAO finale et la génération des fichiers URDF (pour ROS 2 / Isaac Gym), l'état des points clés est consolidé ci-dessous :
 
-1.  **L'entraxe Y des hanches** : ✅ **Figé & Validé** à 487,09 mm d'envergure Y totale (entraxe effectif hanches ~420 mm, facteur de scale 1,2776 sur le bassin).
+1.  **L'entraxe Y des hanches** : ✅ **Figé & Validé** à 487,08 mm d'envergure Y totale (entraxe effectif hanches ~420 mm, facteur de scale 1,2776 sur le bassin).
 2.  **L'entraxe Y des épaules** : ✅ **Figé** à ~378 mm (scalé +18% avec déport des moteurs RS-04 Shoulder Pitch).
-3.  **La position X, Y, Z du Centre de Masse (CoM)** : Extrait du modèle CAO Fusion 360 assemblé (`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`), masse totale Buste + Pelvis = 18,16 kg.
+3.  **La position X, Y, Z du Centre de Masse (CoM)** : Extrait du modèle CAO Fusion 360 assemblé ([`Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json), masse brute CAO Buste + Pelvis `Torse-123 v42` = 18,32 kg hors calibrage coque Plastron).
 4.  **Référence finale du roulement Waist** : ✅ **Figée & Contrôlée** (EFANT RB 8016 UU, 80x120x16 mm, classe P4/P2). Logement usiné Ø 120 H7.
 
 ## 7. Schémas Visuels et Proportions

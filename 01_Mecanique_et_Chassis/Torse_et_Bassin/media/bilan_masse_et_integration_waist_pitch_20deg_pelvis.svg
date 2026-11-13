@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="paViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
+    </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+  <rect width="1800" height="1120" fill="url(#bgGrad)"/>
+  <rect width="1800" height="1120" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1740" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#34d399" fill-opacity="0.18" stroke="#34d399" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#34d399" text-anchor="middle">W</text>
+    <text x="78" y="32" font-family="Arial, sans-serif" font-size="18.5" font-weight="bold" fill="#f8fafc">ÉTUDE SYSTÈME : BILAN DE MASSE &amp; ARBITRAGE WAIST PITCH 20° (V1.0 VS V1.5) — TORSE-123 V42</text>
+    <text x="78" y="55" font-family="Arial, sans-serif" font-size="12.5" fill="#94a3b8">Actualisation Torse-123 v42 (18,32 kg brut / ~16,1–16,2 kg calibré ➔ ~35,2–36,0 kg complet) &amp; Veto Waist Pitch</text>
+    <rect x="1420" y="19" width="290" height="36" rx="8" fill="#0f172a" stroke="#34d399" stroke-width="1.2"/>
+    <text x="1565" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399" text-anchor="middle">V1.0 YAW RETENU (&lt; 36 KG)</text>
+  </g>
+
+  <!-- PANEL 1 : BILAN MASS -->
+  <g transform="translate(30, 114)">
+    <rect width="580" height="978" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#34d399">1. TRAJECTOIRE DE MASSE : DE L'ÉTUDE HISTORIQUE À V42</text>
+
+    <!-- Clean horizontal bar comparison (no diagonal overlapping labels!) -->
+    <g transform="translate(26, 62)">
+      <text x="0" y="18" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#94a3b8">A. Étude Historique Bassin Plein Alu (Plafond &gt; 42 kg)</text>
+      <rect x="0" y="26" width="440" height="22" rx="4" fill="#7f1d1d" stroke="#ef4444"/>
+      <text x="450" y="42" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fca5a5">44,02 kg</text>
+
+      <text x="0" y="72" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#94a3b8">B. Étude V1.0 Hip Hinge Initiale (Pont de Hanches + V1.5 Veto)</text>
+      <rect x="0" y="80" width="400" height="22" rx="4" fill="#065f46" stroke="#10b981"/>
+      <text x="410" y="96" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#6ee7b7">40,03 kg (ref.)</text>
+
+      <text x="0" y="126" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fbbf24">C. État Réel CAO Torse-123 v42 + Projection Phase 4 (~35,2–36 kg)</text>
+      <rect x="0" y="134" width="356" height="26" rx="4" fill="url(#steelGreen)" stroke="#4ade80" stroke-width="1.4"/>
+      <text x="178" y="152" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Torse-123 v42 (~16,1–16,2 kg cal.) + Reste Robot</text>
+      <text x="366" y="152" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#4ade80">~35,6 kg</text>
+
+      <line x1="420" y1="15" x2="420" y2="175" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="424" y="172" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f87171">Plafond Cible 42,0 kg</text>
+    </g>
+
+    <!-- Consolidated Table V42 -->
+    <rect x="22" y="256" width="536" height="412" rx="10" fill="#0f172a" stroke="#334155"/>
+    <text x="38" y="284" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">BILAN CONSOLIDÉ TORSE-123 V42 (ZÉRO DOUBLE COMPTAGE)</text>
+    <text x="38" y="314" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">1. Torse-123 v42 Brut CAO (614 inst. / 125 réf. BOM)</text>
+    <text x="462" y="314" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fbbf24" text-anchor="end">18,32 kg</text>
+    <text x="50" y="334" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8">Inclut Torse + EL05 Pan + Waist + Bassin + 4× RS-04 (acier CAO)</text>
+
+    <text x="38" y="364" font-family="Arial, sans-serif" font-size="11" fill="#34d399">2. Torse-123 v42 Calibré (PA12-CF 0,700 + RS-04 réels 1,42 kg)</text>
+    <text x="462" y="364" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399" text-anchor="end">~16,1–16,2 kg</text>
+    <text x="50" y="384" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1">Gain latente calibration + acier RS-04 : -2,1 à -2,3 kg</text>
+
+    <text x="38" y="414" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">3. 2× Packs Batteries 48V + Jetson/PCBA (hors Torse-123)</text>
+    <text x="462" y="414" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0" text-anchor="end">~1,51 kg</text>
+
+    <text x="38" y="444" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">4. Jambes Restantes (10 DoF hors Hanches Pitch : 2×RS04 + 8×RS03)</text>
+    <text x="462" y="444" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0" text-anchor="end">~11,08 kg</text>
+
+    <text x="38" y="474" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">5. Bras complets + Mains D-Hand + Tête (incl. RS-05 Tilt)</text>
+    <text x="462" y="474" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0" text-anchor="end">~6,50 kg</text>
+
+    <line x1="36" y1="494" x2="540" y2="494" stroke="#34d399"/>
+    <text x="38" y="520" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399">PROJECTION ROBOT COMPLET V42 (V1.0 YAW)</text>
+    <text x="536" y="520" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399" text-anchor="end">~35,2 – 36,0 kg</text>
+    <text x="38" y="544" font-family="Arial, sans-serif" font-size="11" fill="#fb923c">Si ajout Waist Pitch V1.5 (2× RS-04 + 2× Brides + 2× Équerres) : +1,95 kg</text>
+    <text x="38" y="566" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8">Dont masse Bassin seul en v42 : Pont 1 114,87 g + Coque 441,36 g cal.</text>
+    <text x="38" y="586" font-family="Arial, sans-serif" font-size="10.5" fill="#f59e0b">+ 8× habillages ASV1_200 WIP (1 349,19 g bruts — non définitifs).</text>
+    <text x="38" y="616" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399">➔ Marge restante sous objectif 42 kg : +6,0 à +6,8 kg disponibles !</text>
+
+    <!-- Bottom Verdict Metrologie -->
+    <rect x="22" y="684" width="536" height="270" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+    <text x="38" y="712" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">VERDICT LOCOMOTION &amp; CAPACITÉS DYNAMIQUES (V1.0)</text>
+    <text x="38" y="742" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Charge utile bras tendus à 0,25 m (avec Hip Hinge 80 N.m) : ~4,3 kg/bras</text>
+    <text x="38" y="766" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Marche rapide (4–5 km/h) &amp; Course (5–7 km/h) : Sf Genoux &gt; 1,55–1,8</text>
+    <text x="38" y="790" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Ramassage objet au sol (5–10 kg) : flexion hanches 80 N.m sans surcharge</text>
+    <text x="38" y="814" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Rigidité structurelle sans articulation série additionnelle : 28 Hz (&gt; 23 Hz)</text>
+    <text x="38" y="846" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f87171">• Statut Butée mécanique ±95° (R=83,0 mm) : Modif. CAO prévue avant CNC</text>
+    <text x="38" y="870" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8">• Réf. Waist_Plate exacte : ASV1_100_02A (433,53 g) — Traverse : ASV1_200_16A.</text>
+  </g>
+
+  <!-- PANEL 2 : AUDIT CAO COLLISION V1.5 -->
+  <g transform="translate(635, 114)">
+    <rect width="580" height="978" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#f87171">2. AUDIT CAO 3D : POURQUOI LE PITCH V1.5 EST REJETÉ</text>
+    <text x="22" y="52" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">Coupe frontale Y-Z : collision +24 à +38 mm sous Traverse_Renfort_Bassin [16A]</text>
+
+    <g transform="translate(290, 96)">
+      <!-- Waist Plate ASV1_100_02A -->
+      <rect x="-150" y="10" width="300" height="22" rx="3" fill="url(#aluOrange)" stroke="#fb923c"/>
+      <text x="0" y="25" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">Waist_Plate_7075 [ASV1_100_02A] (433,53 g)</text>
+
+      <rect x="-110" y="34" width="220" height="24" rx="3" fill="url(#steelGreen)" stroke="#4ade80"/>
+      <text x="0" y="50" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">RB8016 (Ø 120 × 16,04 mm)</text>
+
+      <rect x="-155" y="60" width="310" height="28" rx="3" fill="url(#aluBlue)" stroke="#60a5fa"/>
+      <text x="0" y="78" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Traverse_Renfort_Bassin [16A] (566,74 g)</text>
+
+      <!-- RS-06 central -->
+      <rect x="-66" y="88" width="132" height="86" rx="4" fill="url(#motorSlate)" stroke="#94a3b8"/>
+      <text x="0" y="128" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">RS-06 (Ø 85,3 mm)</text>
+      <text x="0" y="146" font-family="Arial, sans-serif" font-size="9.5" fill="#cbd5e1" text-anchor="middle">Centre Y = 0</text>
+
+      <!-- Failed Pitch RS-04 interfering under Traverse! -->
+      <circle cx="132" cy="115" r="56" fill="#7f1d1d" fill-opacity="0.7" stroke="#ef4444" stroke-width="2.2" stroke-dasharray="5,3"/>
+      <text x="132" y="108" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fecaca" text-anchor="middle">COLLISION V1.5</text>
+      <text x="132" y="124" font-family="Arial, sans-serif" font-size="9.5" fill="#fca5a5" text-anchor="middle">RS-04 Ø 120 mm</text>
+      <text x="132" y="138" font-family="Arial, sans-serif" font-size="9.5" fill="#fca5a5" text-anchor="middle">+24..+38 mm dans</text>
+      <text x="132" y="152" font-family="Arial, sans-serif" font-size="9.5" fill="#fca5a5" text-anchor="middle">Traverse [16A] !</text>
+
+      <!-- Validated V1.0 Pont de Hanches below -->
+      <rect x="-126" y="196" width="24" height="125" rx="2" fill="#10b981" fill-opacity="0.7" stroke="#34d399"/>
+      <rect x="102" y="196" width="24" height="125" rx="2" fill="#10b981" fill-opacity="0.7" stroke="#34d399"/>
+      <rect x="-140" y="321" width="280" height="28" rx="3" fill="url(#aluOrange)" stroke="#fb923c"/>
+      <text x="0" y="339" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Squelette V1.0 (4× Montants 20×20 + Selle en H)</text>
+      <text x="0" y="368" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399" text-anchor="middle">SOLUTION RETENUE : Zéro interférence sous Traverse !</text>
+    </g>
+
+    <rect x="22" y="510" width="536" height="444" rx="10" fill="#0f172a" stroke="#ef4444" stroke-width="1.2"/>
+    <text x="38" y="540" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f87171">POURQUOI L'AUDIT CINÉMATIQUE VERROUILLE V1.0 (1 DOF WAIST YAW)</text>
+    <text x="38" y="572" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fbbf24">1. Collision CAO directe sous Traverse_Renfort_Bassin [16A] :</text>
+    <text x="52" y="594" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• En implantant un Waist Pitch Ø 120 mm latéralement sous la Traverse</text>
+    <text x="52" y="614" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">  (Y = ±57..114 mm), le stator pénètre de +24 à +38 mm dans [16A] !</text>
+    <text x="38" y="646" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fbbf24">2. Ordre cinématique défavorable (Pitch sous Yaw) :</text>
+    <text x="52" y="668" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Un axe Pitch situé SOUS le Yaw incline l'axe du RB8016 lorsque le</text>
+    <text x="52" y="688" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">  robot pivote le torse (theta_pitch * sin(theta_yaw) = roulis parasite !).</text>
+    <text x="52" y="708" font-family="Arial, sans-serif" font-size="10.5" fill="#34d399">• Une architecture Pitch-sur-Yaw future doit impérativement être placée</text>
+    <text x="52" y="728" font-family="Arial, sans-serif" font-size="10.5" fill="#34d399">  AU-DESSUS du RB8016 (côté Waist_Plate_7075, jamais sous Traverse).</text>
+    <text x="38" y="762" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fbbf24">3. Mode propre &amp; Coque Bassin :</text>
+    <text x="52" y="784" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• L'implantation externe dépasserait Y = ±144 mm hors coque PA12-CF.</text>
+    <text x="38" y="822" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">➔ DÉCISION VALIDÉE EN TORSE-123 V42 :</text>
+    <text x="52" y="844" font-family="Arial, sans-serif" font-size="10.5" fill="#d1fae5">Architecture V1.0 (Waist Yaw seul RS-06 + Hip Hinge 2× RS-04 hanches)</text>
+    <text x="52" y="864" font-family="Arial, sans-serif" font-size="10.5" fill="#d1fae5">intégralement conservée sur le Pont de Hanches (20×20 / Selle en H).</text>
+  </g>
+
+  <!-- PANEL 3 : COMPARATIF PHYSIQUE HIP HINGE vs WAIST PITCH -->
+  <g transform="translate(1240, 114)">
+    <rect width="530" height="978" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#38bdf8">3. COMPARATIF : HIP HINGE V1.0 VS WAIST PITCH</text>
+
+    <rect x="22" y="56" width="486" height="195" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+    <text x="38" y="82" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">A. POURQUOI V1.0 INCLINE LE BUSTE SANS WAIST PITCH ?</text>
+    <text x="38" y="108" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Les 2 moteurs RS-04 de Hanches (80 N.m cont. / 240 N.m crête)</text>
+    <text x="50" y="128" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">inclinent l'ensemble [Bassin + Torse] ensemble en biomécanique</text>
+    <text x="50" y="148" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">« Hip Hinge » (comme sur Unitree H1 et Agility Cassie).</text>
+    <text x="38" y="176" font-family="Arial, sans-serif" font-size="10.5" fill="#34d399">• Couple disponible DOUBLE (2× RS-04 vs 1× RS-04 central) !</text>
+    <text x="38" y="200" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Même projection CoM pour un même déport sagittal du haut.</text>
+
+    <rect x="22" y="268" width="486" height="232" rx="8" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
+    <text x="38" y="294" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fbbf24">B. COUPLES RÉELS SUR RS-04 (BRAS DE LEVIER M_TORSO = 20,27 KG)</text>
+    <text x="38" y="322" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Bras tendu à 90° avec 4,3 kg (butée droit 0°) : 49 N.m</text>
+    <text x="50" y="342" font-family="Arial, sans-serif" font-size="10.5" fill="#34d399">➔ En V1.0 : 24,5 N.m / RS-04 (marge Sf = 1,63 continue / 4,9 pic)</text>
+    <text x="38" y="370" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Ramassage au sol (+20 deg, charge 8 kg, d = 0,25 m) : 73,8 N.m</text>
+    <text x="50" y="390" font-family="Arial, sans-serif" font-size="10.5" fill="#34d399">➔ En V1.0 : 36,9 N.m / RS-04 (&lt; 40 N.m continu, zéro surcharge!)</text>
+    <text x="38" y="418" font-family="Arial, sans-serif" font-size="10.5" fill="#f87171">• En V1.5 (1× RS-04 seul au Waist) : 73,8 N.m &gt; 40 N.m continu (saturation!)</text>
+    <text x="38" y="446" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Course 6 km/h (impact 2,5g dynamique) : 124 N.m total</text>
+    <text x="50" y="466" font-family="Arial, sans-serif" font-size="10.5" fill="#34d399">➔ V1.0 : 62 N.m / moteur (Sf = 1,94 pic) vs V1.5 saturé à 124 N.m!</text>
+
+    <rect x="22" y="518" width="486" height="436" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+    <text x="38" y="544" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">C. TABLEAU COMPARATIF DES MARGES (V1.0 VS V1.5)</text>
+    <text x="38" y="576" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#94a3b8">SCÉNARIO                    | COUPLE REQ. | V1.0 (2×RS04) | V1.5 (1×RS04)</text>
+    <line x1="36" y1="586" x2="492" y2="586" stroke="#334155"/>
+    <text x="38" y="610" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">1. Marche rapide (dyn. 2g)  |   24,0 N.m  | Sf = 3,33 OK  | Sf = 1,67 OK</text>
+    <text x="38" y="636" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">2. Flexion +20 deg statique |   19,7 N.m  | Sf = 4,06 OK  | Sf = 2,03 OK</text>
+    <text x="38" y="662" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">3. Ramassage +20 deg (5 kg) |   36,9 N.m  | Sf = 2,17 OK  | Sf = 1,08 LIM.</text>
+    <text x="38" y="688" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">4. Bras tendu 90° (4,3 kg)  |   42,5 N.m  | Sf = 1,88 OK  | SATURÉ (0,94)</text>
+    <text x="38" y="714" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">5. Levage 10 kg à 0,25 m    |   44,2 N.m  | Sf = 1,81 OK  | SATURÉ (0,90)</text>
+    <text x="38" y="740" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">6. Course 6 km/h (impact)   |  124,0 N.m  | Sf = 1,94 pic | SATURÉ (0,97)</text>
+    <line x1="36" y1="762" x2="492" y2="762" stroke="#38bdf8"/>
+    <text x="38" y="794" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">DÉCISION SYSTÈME IMMÉDIATE :</text>
+    <text x="38" y="818" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Usiner &amp; assembler le Pont de Hanches V1.0 (Torse-123 v42) :</text>
+    <text x="50" y="838" font-family="Arial, sans-serif" font-size="10.5" fill="#d1fae5">1× RB8016 + 1× RS-06 Yaw + 2× RS-04 Hanches (1 114,87 g Pont).</text>
+    <text x="38" y="868" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8">• Masse Torse-123 v42 réelle (~16,1–16,2 kg calibré) réduit</text>
+    <text x="50" y="888" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8">encore de ~15% les couples calculés ci-dessus (marges + élevées!).</text>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity (D-Bot V1)",
+	"description":	{
+		"":	"Extraction exhaustive et diagnostic de toutes les liaisons, contraintes d'assemblage, ancrages et groupes rigides bloquant les mouvements dans Fusion 360."
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
+

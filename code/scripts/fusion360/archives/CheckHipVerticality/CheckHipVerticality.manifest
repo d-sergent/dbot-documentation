@@ -1,0 +1,11 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity (D-Bot V1)",
+	"description":	{
+		"":	"Audit spatial 3D de verticalité, d'orientation et de déversement angulaire de l'ensemble Hanche, Bassin et Colonne vertébrale."
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
+

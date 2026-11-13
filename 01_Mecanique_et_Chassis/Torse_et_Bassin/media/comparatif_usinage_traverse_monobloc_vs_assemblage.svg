@@ -1,206 +1,206 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 980" width="1440" height="980">
   <defs>
-    <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
-      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="paViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
     </pattern>
-
-    <linearGradient id="grad-sky" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#0284c7" />
-    </linearGradient>
-    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f59e0b" />
-      <stop offset="100%" stop-color="#b45309" />
-    </linearGradient>
-    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10b981" />
-      <stop offset="100%" stop-color="#047857" />
-    </linearGradient>
-    <linearGradient id="grad-rose" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f43f5e" />
-      <stop offset="100%" stop-color="#be123c" />
-    </linearGradient>
-    <linearGradient id="grad-card" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
-    </linearGradient>
-
-    <filter id="drop-shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6" />
+    <pattern id="hatchWaste" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#ef4444" stroke-width="1.6" stroke-opacity="0.55"/>
+    </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
     </filter>
   </defs>
-
-  <!-- Background Base -->
-  <rect width="1400" height="960" fill="#0b1120" />
-  <rect width="1400" height="960" fill="url(#grid-pattern)" />
-
-  <!-- HEADER -->
-  <g transform="translate(40, 30)">
-    <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <circle cx="35" cy="35" r="18" fill="url(#grad-sky)" />
-    <path d="M 26 35 L 44 35 M 35 26 L 35 44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
-    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#f8fafc">
-      STRATÉGIES DE FABRICATION CNC C500 : MONOBLOC vs ASSEMBLAGE 2D vs TUBE CARRÉ 60×60
-    </text>
-    <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
-      Comparatif des procédés d'atelier, taux de copeaux, coûts et rigidité torsionnelle (120 N.m RS-04)
-    </text>
+  <rect width="1440" height="980" fill="url(#bgGrad)"/>
+  <rect width="1440" height="980" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1380" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#38bdf8" fill-opacity="0.18" stroke="#38bdf8" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#38bdf8" text-anchor="middle">+</text>
+    <text x="76" y="31" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#f8fafc">STRATÉGIES FABRICATION CNC C500 : MONOBLOC vs ASSEMBLAGE 2D vs TUBE 60×60</text>
+    <text x="76" y="54" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8">Comparatif procédés d&#x27;atelier, taux de copeaux, coûts matière et rigidité torsionnelle (120 N.m crête RS-04)</text>
+    <rect x="1046" y="19" width="310" height="36" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.3"/>
+    <text x="1201" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981" text-anchor="middle">OPTION C VALIDÉE (Torse-123 v42)</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- OPTION 1: MONOBLOC DANS LA MASSE (BRUT ÉPAIS) -->
-  <!-- ========================================================================= -->
-  <g transform="translate(40, 120)">
-    <rect width="420" height="490" rx="10" fill="url(#grad-card)" stroke="#f43f5e" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <rect x="15" y="15" width="260" height="26" rx="4" fill="#881337" fill-opacity="0.4" stroke="#f43f5e" stroke-width="1" />
-    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fca5a5">
-      OPTION A : USINAGE DANS LA MASSE
-    </text>
+  <!-- OPTION A -->
+  <g transform="translate(30, 114)">
+    <rect width="440" height="536" rx="12" fill="url(#panelGrad)" stroke="#ef4444" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <rect x="16" y="16" width="408" height="32" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="220" y="37" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#fca5a5" text-anchor="middle">OPTION A : USINAGE DANS LA MASSE</text>
 
-    <!-- Dessin Brut vs Pièce Finie -->
-    <g transform="translate(30, 60)">
-      <rect x="20" y="20" width="320" height="190" rx="4" fill="#334155" fill-opacity="0.3" stroke="#f43f5e" stroke-width="2" stroke-dasharray="6,4" />
-      <text x="180" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fda4af">BRUT 50 × 130 × 140 mm (Alu 7075-T6)</text>
-      <text x="180" y="56" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#cbd5e1">Masse brute : ~2.45 kg par côté</text>
+    <!-- Drawing Zone y=62..265 -->
+    <rect x="24" y="62" width="392" height="206" rx="8" fill="#090e1a" stroke="#334155"/>
+    <text x="220" y="84" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#e2e8f0" text-anchor="middle">BRUT 50 × 130 × 140 mm (Alu 7075-T6) | ~2,45 kg / côté</text>
+    <rect x="64" y="98" width="312" height="122" rx="4" fill="url(#hatchWaste)" stroke="#ef4444" stroke-width="1.6" stroke-dasharray="5,3"/>
+    <path d="M 64 114 L 114 114 L 114 146 L 326 146 L 326 114 L 376 114 L 376 204 L 326 204 L 326 172 L 114 172 L 114 204 L 64 204 Z" fill="url(#aluBlue)" stroke="#38bdf8" stroke-width="1.8"/>
+    <rect x="136" y="148" width="168" height="22" rx="3" fill="#090e1a" stroke="#ef4444" stroke-width="1"/>
+    <text x="220" y="163" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fca5a5" text-anchor="middle">88 % DE COPEAUX PERDUS</text>
+    <text x="220" y="248" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">Surfaçage bilatéral + poches profondes Z hors limite C500</text>
 
-      <rect x="30" y="65" width="30" height="135" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
-      <path d="M 60 90 L 250 90 L 250 115 L 90 115 L 90 150 L 250 150 L 250 175 L 60 175 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="1.5" />
-      <rect x="250" y="45" width="30" height="155" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
-
-      <rect x="90" y="115" width="160" height="35" fill="#f43f5e" fill-opacity="0.2" />
-      <text x="170" y="138" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f87171">88% COPEAUX PERDUS</text>
-    </g>
-
-    <g transform="translate(25, 290)">
-      <rect width="370" height="180" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
-      <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fca5a5">Bilan Économique &amp; Atelier :</text>
-      <text x="15" y="52" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Coût matière : ~45 à 60 € / brut 7075-T6</text>
-      <text x="15" y="74" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Taux de copeaux : <tspan font-weight="700" fill="#f87171">88% (2.2 kg de copeaux)</tspan></text>
-      <text x="15" y="96" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Temps usinage C500 : ~1h45 par côté</text>
-      <text x="15" y="118" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Reprises / Étau : 2 opérations (Flip Z)</text>
-      <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fca5a5">Verdict : Rigide mais lourd et coûteux</text>
-    </g>
+    <!-- Bullets y=282..520 -->
+    <rect x="24" y="282" width="392" height="238" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="42" y="308" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#f8fafc">Bilan Économique &amp; Atelier :</text>
+    <text x="42" y="336" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Coût matière : ~45 à 60 EUR / brut épais 7075-T6</text>
+    <text x="42" y="362" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Taux de copeaux : 88 % (2,2 kg d'alu détruits)</text>
+    <text x="42" y="388" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Temps usinage C500 : ~1h45 par demi-traverse</text>
+    <text x="42" y="414" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Reprises / Étau : 2 retournements critiques (Flip Z)</text>
+    <line x1="42" y1="436" x2="398" y2="436" stroke="#334155"/>
+    <text x="42" y="466" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#ef4444">Verdict : Rigide mais lent, coûteux et fragile</text>
+    <text x="42" y="488" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">au dégauchissage lors des retournements en étau.</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- OPTION 2: ASSEMBLAGE 2D EMBOÎTÉ -->
-  <!-- ========================================================================= -->
-  <g transform="translate(490, 120)">
-    <rect width="420" height="490" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <rect x="15" y="15" width="280" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
-    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#cbd5e1">
-      OPTION B : ASSEMBLAGE 2D EMBOÎTÉ
-    </text>
+  <!-- OPTION B -->
+  <g transform="translate(500, 114)">
+    <rect width="440" height="536" rx="12" fill="url(#panelGrad)" stroke="#f59e0b" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <rect x="16" y="16" width="408" height="32" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+    <text x="220" y="37" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#fde68a" text-anchor="middle">OPTION B : ASSEMBLAGE 2D EMBOÎTÉ</text>
 
-    <g transform="translate(25, 55)">
-      <rect x="270" y="35" width="14" height="175" rx="3" fill="#38bdf8" stroke="#0284c7" stroke-width="1.5" />
-      <rect x="270" y="65" width="14" height="15" fill="#f59e0b" />
-      <rect x="270" y="160" width="14" height="15" fill="#f59e0b" />
-      <text x="325" y="125" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8">Plaque 5mm</text>
+    <rect x="24" y="62" width="392" height="206" rx="8" fill="#090e1a" stroke="#334155"/>
+    <text x="220" y="84" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#e2e8f0" text-anchor="middle">TÔLE 5 mm DÉCOUPÉE 2D + TENONS / MORTAISES</text>
+    <!-- Upper & Lower 5mm ribs -->
+    <rect x="90" y="112" width="210" height="16" rx="2" fill="url(#aluBlue)" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="90" y="182" width="210" height="16" rx="2" fill="url(#aluBlue)" stroke="#38bdf8" stroke-width="1.5"/>
+    <!-- Vertical ribs -->
+    <rect x="125" y="128" width="14" height="54" fill="url(#aluAmber)" stroke="#fde68a" stroke-width="1.2"/>
+    <rect x="245" y="128" width="14" height="54" fill="url(#aluAmber)" stroke="#fde68a" stroke-width="1.2"/>
+    <!-- Right end plate 5mm -->
+    <rect x="300" y="98" width="16" height="114" rx="2" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.5"/>
+    <text x="195" y="106" font-family="Arial, sans-serif" font-size="10.5" fill="#93c5fd" text-anchor="middle">Nervure Haute (tôle 5 mm)</text>
+    <text x="195" y="216" font-family="Arial, sans-serif" font-size="10.5" fill="#93c5fd" text-anchor="middle">Nervure Basse (tôle 5 mm)</text>
+    <text x="330" y="158" font-family="Arial, sans-serif" font-size="10.5" fill="#fdba74">Flasque 5 mm</text>
+    <text x="220" y="248" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">Tenons H7 + jeu d'assemblage sensible au matage sous choc</text>
 
-      <path d="M 60 65 L 80 65 L 80 55 L 260 55 L 260 65 L 284 65 L 284 80 L 260 80 L 260 90 L 80 90 L 80 80 L 60 80 Z" fill="#0284c7" fill-opacity="0.7" stroke="#38bdf8" stroke-width="1.5" />
-      <text x="170" y="75" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f8fafc">Nervure Haute</text>
-
-      <path d="M 60 160 L 80 160 L 80 150 L 260 150 L 260 160 L 284 160 L 284 175 L 260 175 L 260 185 L 80 185 L 80 175 L 60 175 Z" fill="#0284c7" fill-opacity="0.7" stroke="#38bdf8" stroke-width="1.5" />
-      <text x="170" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f8fafc">Nervure Basse</text>
-
-      <rect x="66" y="45" width="14" height="155" rx="3" fill="#38bdf8" stroke="#0284c7" stroke-width="1.5" />
-      <text x="30" y="125" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#38bdf8" transform="rotate(-90,30,125)">Semelle 5mm</text>
-
-      <line x1="60" y1="120" x2="284" y2="120" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2" />
-      <circle cx="66" cy="120" r="3" fill="#f59e0b" />
-      <circle cx="277" cy="120" r="3" fill="#f59e0b" />
-    </g>
-
-    <g transform="translate(25, 290)">
-      <rect width="370" height="180" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
-      <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#cbd5e1">Bilan Économique &amp; Atelier :</text>
-      <text x="15" y="52" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Coût matière : Chute de tôle 5 mm</text>
-      <text x="15" y="74" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Taux de copeaux : &lt; 18% (Découpe 2D)</text>
-      <text x="15" y="96" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Temps usinage C500 : ~18 min total</text>
-      <text x="15" y="118" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Reprise : 0 flip Z</text>
-      <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#38bdf8">Verdict : Économique mais montage délicat</text>
-    </g>
+    <rect x="24" y="282" width="392" height="238" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="42" y="308" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#f8fafc">Bilan Économique &amp; Atelier :</text>
+    <text x="42" y="336" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Coût matière : Chute de tôle 7075 ép. 5 mm</text>
+    <text x="42" y="362" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Taux de copeaux : &lt; 18 % (Découpe 2D simple)</text>
+    <text x="42" y="388" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Temps usinage C500 : ~18 min total (tôles)</text>
+    <text x="42" y="414" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Reprises : 0 Flip Z, mais 6 tenons à ajuster</text>
+    <line x1="42" y1="436" x2="398" y2="436" stroke="#334155"/>
+    <text x="42" y="466" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#f59e0b">Verdict : Économique mais caisson ouvert</text>
+    <text x="42" y="488" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">Assemblage multi-pièces et micro-jeux sous 120 N.m.</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- OPTION 3: TUBE CARRÉ COMMERCIAL 60x60x2 mm (⭐ SOLUTION RETENUE V2) -->
-  <!-- ========================================================================= -->
-  <g transform="translate(940, 120)">
-    <rect width="420" height="490" rx="10" fill="url(#grad-card)" stroke="#10b981" stroke-width="2" filter="url(#drop-shadow)" />
-    <rect x="15" y="15" width="350" height="26" rx="4" fill="#064e3b" fill-opacity="0.5" stroke="#10b981" stroke-width="1" />
-    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#6ee7b7">
-      OPTION C (⭐ RETENUE V2) : TUBE CARRÉ 60×60×2
-    </text>
+  <!-- OPTION C RETENUE -->
+  <g transform="translate(970, 114)">
+    <rect width="440" height="536" rx="12" fill="url(#panelGrad)" stroke="#10b981" stroke-width="2" filter="url(#cardShadow)"/>
+    <rect x="16" y="16" width="408" height="32" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.2"/>
+    <text x="220" y="37" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#a7f3d0" text-anchor="middle">OPTION C (RETENUE v42) : TUBE 60×60×2 + BRIDE v87</text>
 
-    <!-- Dessin Tube Carré 60x60x2 mm -->
-    <g transform="translate(25, 55)">
-      <rect x="80" y="50" width="180" height="140" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
-      <rect x="90" y="60" width="160" height="120" rx="4" fill="#0f172a" stroke="#0284c7" stroke-width="1.5" />
-      <text x="170" y="115" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">TUBE 60 × 60 × 2 mm</text>
-      <text x="170" y="132" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Alu 6060-T6 (L = 85 mm · 106 g)</text>
+    <rect x="24" y="62" width="392" height="206" rx="8" fill="#090e1a" stroke="#334155"/>
+    <!-- Semelle + Insert + Tube 60x60 + Bride -->
+    <rect x="52" y="106" width="12" height="106" rx="2" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.4"/>
+    <rect x="64" y="106" width="12" height="106" rx="2" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.4"/>
+    <rect x="76" y="128" width="26" height="62" rx="2" fill="url(#steelGreen)" stroke="#86efac" stroke-width="1.4"/>
+    <rect x="102" y="124" width="144" height="70" rx="3" fill="url(#aluBlue)" stroke="#38bdf8" stroke-width="1.8"/>
+    <rect x="226" y="128" width="20" height="62" rx="2" fill="url(#aluAmber)" stroke="#fde68a" stroke-width="1.4"/>
+    <rect x="246" y="102" width="16" height="114" rx="3" fill="url(#aluAmber)" stroke="#fde68a" stroke-width="1.8"/>
+    <!-- External Callouts with clear space -->
+    <text x="58" y="92" font-family="Arial, sans-serif" font-size="9.5" fill="#fdba74" text-anchor="middle">Colonne + Semelle</text>
+    <text x="174" y="155" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc" text-anchor="middle">TUBE 60×60×2 (6060-T6)</text>
+    <text x="174" y="172" font-family="Arial, sans-serif" font-size="10.5" fill="#bfdbfe" text-anchor="middle">L = 80,07 / 81,08 mm | 100,04 g</text>
+    <line x1="254" y1="102" x2="290" y2="86" stroke="#facc15" stroke-width="1.2"/>
+    <text x="295" y="90" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fde68a">Bride v87 (202,30 g)</text>
+    <line x1="254" y1="196" x2="290" y2="210" stroke="#93c5fd" stroke-width="1.2"/>
+    <text x="295" y="214" font-family="Arial, sans-serif" font-size="10" fill="#93c5fd">Ø 97 H7 | PCD 106 mm</text>
+    <text x="89" y="214" font-family="Arial, sans-serif" font-size="10" fill="#86efac" text-anchor="middle">Insert 85,71 g</text>
+    <text x="220" y="250" font-family="Arial, sans-serif" font-size="10.5" fill="#34d399" text-anchor="middle">2× CHC M5×70 [91290A272] + 8× FHC M4×30 [92125A220]</text>
 
-      <!-- Inserts / Brides -->
-      <rect x="55" y="40" width="25" height="160" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1" />
-      <rect x="260" y="40" width="25" height="160" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1" />
-
-      <!-- Vis traversantes M5x70 -->
-      <line x1="100" y1="30" x2="100" y2="210" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
-      <line x1="240" y1="30" x2="240" y2="210" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
-      <circle cx="100" cy="35" r="4.5" fill="#f8fafc" stroke="#0284c7" />
-      <circle cx="240" cy="35" r="4.5" fill="#f8fafc" stroke="#0284c7" />
-    </g>
-
-    <g transform="translate(25, 290)">
-      <rect width="370" height="180" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1" />
-      <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#34d399">Bilan Économique &amp; Atelier :</text>
-      <text x="15" y="52" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Coût matière : Barre 500mm 6060-T6 = <tspan font-weight="700" fill="#f8fafc">12.80 €</tspan></text>
-      <text x="15" y="74" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Taux de copeaux : <tspan font-weight="700" fill="#34d399">&lt; 5% (Coupe scie + 2 perçages)</tspan></text>
-      <text x="15" y="96" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Temps CNC : ~5 min (perçages Ø5.3 mm)</text>
-      <text x="15" y="118" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">• Rigidité torsion : <tspan font-weight="700" fill="#34d399">Sf = ×9.75 (Theta = 0.058°)</tspan></text>
-      <text x="15" y="145" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">Verdict : L'optimum absolu coût / rigidité / simplicité</text>
-    </g>
+    <rect x="24" y="282" width="392" height="238" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.1"/>
+    <text x="42" y="308" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#f8fafc">Bilan Économique &amp; Atelier (v42) :</text>
+    <text x="42" y="336" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Coût tube : Barre 500 mm 6060-T6 = ~12,80 EUR</text>
+    <text x="42" y="362" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Taux de copeaux tube : &lt; 5 % (coupe + 2 perçages)</text>
+    <text x="42" y="388" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Bride Epaule v87 : 202,30 g | FEA 85 MPa (Sf = 5,92)</text>
+    <text x="42" y="414" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">• Section fermée : Sf_tube = 9,75 sous 120 N.m</text>
+    <line x1="42" y1="436" x2="398" y2="436" stroke="#334155"/>
+    <text x="42" y="466" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399">Verdict : Optimum absolu coût / rigidité / masse</text>
+    <text x="42" y="488" font-family="Arial, sans-serif" font-size="11.5" fill="#a7f3d0">1 seule gamme C500 identique pour 4 Brides (Épaules + Hanches).</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- FOOTER : TABLEAU COMPARATIF FINAL -->
-  <!-- ========================================================================= -->
-  <g transform="translate(40, 630)">
-    <rect width="1320" height="290" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <rect x="20" y="20" width="380" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
-    <text x="30" y="37" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      TABLEAU DE DÉCISION FABRICATION D-BOT V2
-    </text>
+  <!-- BOTTOM TABLE -->
+  <g transform="translate(30, 668)">
+    <rect width="1380" height="286" rx="12" fill="url(#panelGrad)" stroke="#3b82f6" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="24" y="34" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#38bdf8">TABLEAU DE DÉCISION FABRICATION D-BOT V2 (TORSE-123 v42)</text>
+    <line x1="24" y1="48" x2="1356" y2="48" stroke="#334155" stroke-width="1.2"/>
 
-    <g transform="translate(20, 65)">
-      <rect width="1280" height="195" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
-      <text x="30" y="30" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#64748b">CRITÈRE D'INGÉNIERIE</text>
-      <text x="350" y="30" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fca5a5">A. MONOBLOC MASSE</text>
-      <text x="670" y="30" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#cbd5e1">B. ASSEMBLAGE 2D</text>
-      <text x="990" y="30" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">C. TUBE CARRÉ 60×60×2 ⭐</text>
+    <text x="28" y="76" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#94a3b8">CRITÈRE D'INGÉNIERIE</text>
+    <text x="410" y="76" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fca5a5">A. MONOBLOC MASSE</text>
+    <text x="740" y="76" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fde68a">B. ASSEMBLAGE 2D</text>
+    <text x="1050" y="76" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">C. TUBE 60×60 + BRIDE v87 (RETENUE)</text>
+    <line x1="24" y1="90" x2="1356" y2="90" stroke="#334155"/>
 
-      <line x1="20" y1="45" x2="1260" y2="45" stroke="#334155" stroke-width="1" />
+    <text x="28" y="122" font-family="Arial, sans-serif" font-size="12.5" fill="#f8fafc">Coût Appro Matière (Traverses)</text>
+    <text x="410" y="122" font-family="Arial, sans-serif" font-size="12.5" fill="#cbd5e1">~100 EUR (2 gros bruts 50 mm)</text>
+    <text x="740" y="122" font-family="Arial, sans-serif" font-size="12.5" fill="#cbd5e1">Chute tôle 5 mm (~15 EUR)</text>
+    <text x="1050" y="122" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399">12,80 EUR (barre 500 mm 6060-T6)</text>
+    <line x1="24" y1="138" x2="1356" y2="138" stroke="#1e293b"/>
 
-      <text x="30" y="75" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">Coût Appro matière</text>
-      <text x="350" y="75" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fca5a5">~100 € (2 gros bruts)</text>
-      <text x="670" y="75" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">0 € (sur tôle 5mm)</text>
-      <text x="990" y="75" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">12.80 € (barre 500mm)</text>
+    <text x="28" y="168" font-family="Arial, sans-serif" font-size="12.5" fill="#f8fafc">Temps CNC C500 (Tubes seuls)</text>
+    <text x="410" y="168" font-family="Arial, sans-serif" font-size="12.5" fill="#cbd5e1">~3h30 (2 faces + retournement)</text>
+    <text x="740" y="168" font-family="Arial, sans-serif" font-size="12.5" fill="#cbd5e1">~18 min (découpe 2D)</text>
+    <text x="1050" y="168" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399">~5 min / tube (80,07 / 81,08 mm)</text>
+    <line x1="24" y1="184" x2="1356" y2="184" stroke="#1e293b"/>
 
-      <text x="30" y="105" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">Temps CNC C500</text>
-      <text x="350" y="105" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fca5a5">~3h30 (2 faces)</text>
-      <text x="670" y="105" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">~18 min</text>
-      <text x="990" y="105" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">~5 min (scie + perçages)</text>
+    <text x="28" y="214" font-family="Arial, sans-serif" font-size="12.5" fill="#f8fafc">Rigidité Torsion &amp; Tenue FEA (120 N.m)</text>
+    <text x="410" y="214" font-family="Arial, sans-serif" font-size="12.5" fill="#cbd5e1">100 % Monolithique</text>
+    <text x="740" y="214" font-family="Arial, sans-serif" font-size="12.5" fill="#cbd5e1">98 % (jeu tenons possible)</text>
+    <text x="1050" y="214" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399">Tube Sf = 9,75 | Bride v87 Sf = 5,92 (85 MPa)</text>
+    <line x1="24" y1="230" x2="1356" y2="230" stroke="#1e293b"/>
 
-      <text x="30" y="135" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">Rigidité Torsion 120 N.m</text>
-      <text x="350" y="135" font-family="'Segoe UI', sans-serif" font-size="11" fill="#f8fafc">100% Monolithique</text>
-      <text x="670" y="135" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">98% (Tenons H7)</text>
-      <text x="990" y="135" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">99.5% (Section fermée Bredt)</text>
-
-      <text x="30" y="165" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">Gaspillage copeaux</text>
-      <text x="350" y="165" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fca5a5">88% de perte</text>
-      <text x="670" y="165" font-family="'Segoe UI', sans-serif" font-size="11" fill="#cbd5e1">&lt; 18%</text>
-      <text x="990" y="165" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">&lt; 5%</text>
-    </g>
+    <text x="28" y="260" font-family="Arial, sans-serif" font-size="12.5" fill="#f8fafc">Masse Structurelle Auditée v42</text>
+    <text x="410" y="260" font-family="Arial, sans-serif" font-size="12.5" fill="#fca5a5">&gt; 650 g / bras</text>
+    <text x="740" y="260" font-family="Arial, sans-serif" font-size="12.5" fill="#fde68a">~490 g / bras</text>
+    <text x="1050" y="260" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399">Tube 100,04 g + Insert 85,71 g + Bride 202,30 g</text>
   </g>
 </svg>

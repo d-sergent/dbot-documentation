@@ -179,6 +179,20 @@
 
       <!-- Alésage central Ø 97,00 mm H7 (r = 145.5 px) -->
       <circle cx="0" cy="0" r="145.5" fill="url(#gradAlesage)" stroke="#38bdf8" stroke-width="1.5"/>
+      <!-- Voile central sablier v87 + 2 lumières latérales (fidèle à Bride_Epaule_face.png CAO v42) -->
+      <path d="
+        M -62,-131
+        A 145.5 145.5 0 0 1 62,-131
+        Q 48,0 62,131
+        A 145.5 145.5 0 0 1 -62,131
+        Q -48,0 -62,-131
+        Z
+      " fill="#64748b" fill-opacity="0.45" stroke="#38bdf8" stroke-width="1.6"/>
+      <text x="0" y="-10" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9.5" font-weight="bold" fill="#e2e8f0">VOILE CENTRAL SABLIER v87</text>
+      <text x="0" y="6" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" fill="#93c5fd">Appui tube 60×60 + épaulement 13,2 mm</text>
+      <text x="-105" y="0" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" font-weight="bold" fill="#94a3b8" transform="rotate(-90,-105,0)">ÉVIDEMENT LATÉRAL</text>
+      <text x="105" y="0" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" font-weight="bold" fill="#94a3b8" transform="rotate(90,105,0)">ÉVIDEMENT LATÉRAL</text>
+
 
       <!-- PCD Ø 106,0 mm (r = 159.0 px) -->
       <circle cx="0" cy="0" r="159.0" fill="none" stroke="#facc15" stroke-width="1.2" stroke-dasharray="5,4"/>
@@ -275,7 +289,7 @@
 
       <!-- Bloc de paramètres -->
       <text x="15" y="58" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#38bdf8">1. Cercle Primitif (PCD)</text>
-      <text x="25" y="74" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Diamètre : <tspan font-weight="bold" fill="#ffffff">Ø 106,00 mm</tspan></text>
+      <text x="25" y="74" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Diamètre : <tspan font-weight="bold" fill="#ffffff">Ø 106,00 mm (v87 / v42)</tspan></text>
       <text x="25" y="88" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Entraxe angulaire : <tspan font-weight="bold" fill="#ffffff">36,00° (10 trous)</tspan></text>
 
       <text x="15" y="112" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#4ade80">2. Lobes / Oreilles Vis M4</text>
@@ -298,9 +312,9 @@
       <text x="132" y="335" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#4ade80">
         VALIDATION RDM (SF &gt; 15)
       </text>
-      <text x="25" y="355" font-family="system-ui, sans-serif" font-size="8.5" fill="#e2e8f0">• Torsion RS-04 (120 N.m) : Sf = ×2,82 (Friction)</text>
-      <text x="25" y="370" font-family="system-ui, sans-serif" font-size="8.5" fill="#e2e8f0">• Flexion choc (50 N.m) : Sf = ×15,2 ✅</text>
-      <text x="25" y="385" font-family="system-ui, sans-serif" font-size="8.5" fill="#e2e8f0">• Rigidité collerette : +310% vs profil 2.5 mm</text>
+      <text x="25" y="355" font-family="system-ui, sans-serif" font-size="8.5" fill="#e2e8f0">• Visserie / bride : 4× 90128A214 + 6× 92855A422</text>
+      <text x="25" y="370" font-family="system-ui, sans-serif" font-size="8.5" fill="#e2e8f0">• Freinage : 10× Nord-Lock M4 (91812A252)</text>
+      <text x="25" y="385" font-family="system-ui, sans-serif" font-size="8.5" fill="#e2e8f0">• Torsion RS-04 (120 N.m) : Sf = ×2,82 ✅</text>
     </g>
   </g>
 
@@ -323,12 +337,12 @@
       <rect x="12" y="12" width="26" height="26" rx="13" fill="#0284c7"/>
       <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">1</text>
       <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8">Esquisse 2D d'un Motif</text>
-      <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
-        • Sur la face stator, tracer l'axe vertical θ = 0°.<br/>
-        • Placer le trou M4 à <tspan font-weight="bold" fill="#facc15">Y = 53,0 mm</tspan>.<br/>
-        • Tracer le cercle de bossage de <tspan font-weight="bold" fill="#4ade80">Ø 14,0 mm</tspan>.<br/>
-        • Tracer le 2e trou M4 à θ = 36,0°.<br/>
-        • Raccorder par l'arc tangent <tspan font-weight="bold" fill="#ec4899">R = 25,64 mm</tspan> tangent aux deux bossages (garde 4,00 mm).
+      <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9.3" fill="#cbd5e1">
+        <tspan x="15" dy="0">• Tracer l'axe vertical θ = 0° sur la face stator.</tspan>
+        <tspan x="15" dy="18">• Placer le trou M4 à <tspan font-weight="bold" fill="#facc15">Y = 53,0 mm</tspan> (Ø 14,0).</tspan>
+        <tspan x="15" dy="18">• Tracer le 2e trou M4 à θ = 36,0°.</tspan>
+        <tspan x="15" dy="18">• Raccorder par l'arc tangent <tspan font-weight="bold" fill="#ec4899">R = 25,64 mm</tspan></tspan>
+        <tspan x="23" dy="16">en gardant 4,00 mm de collerette saine.</tspan>
       </text>
 
       <!-- Étape 2 -->
@@ -337,12 +351,12 @@
         <rect x="12" y="12" width="26" height="26" rx="13" fill="#ca8a04"/>
         <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">2</text>
         <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15">Répétition Circulaire ×10</text>
-        <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
-          • Outil <tspan fill="#facc15" font-weight="bold">Create &gt; Circular Pattern</tspan>.<br/>
-          • Sélectionner le profil d'échancrure.<br/>
-          • Axe : centre de l'alésage Ø 97 mm.<br/>
-          • Quantité : <tspan font-weight="bold" fill="#38bdf8">10 occurrences sur 360°</tspan>.<br/>
-          • L'esquisse génère la marguerite fermée à 10 festons.
+        <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9.3" fill="#cbd5e1">
+          <tspan x="15" dy="0">• Outil <tspan fill="#facc15" font-weight="bold">Create &gt; Circular Pattern</tspan>.</tspan>
+          <tspan x="15" dy="18">• Sélectionner le profil d'échancrure.</tspan>
+          <tspan x="15" dy="18">• Axe : centre de l'alésage Ø 97 mm H7.</tspan>
+          <tspan x="15" dy="18">• Quantité : <tspan font-weight="bold" fill="#38bdf8">10 occurrences sur 360°</tspan>.</tspan>
+          <tspan x="15" dy="18">• Voile central sablier v87 à 2 poches lat.</tspan>
         </text>
       </g>
 
@@ -352,11 +366,12 @@
         <rect x="12" y="12" width="26" height="26" rx="13" fill="#16a34a"/>
         <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">3</text>
         <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#4ade80">Extrusion &amp; Usinage C500</text>
-        <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
-          • Extrusion négative découpant le pourtour.<br/>
-          • Fraise carbure 3 lèvres <tspan font-weight="bold" fill="#ffffff">Ø 6 mm DLC</tspan>.<br/>
-          • <tspan font-weight="bold" fill="#34d399">Contournage 2.5D continu sans reprise</tspan>.<br/>
-          • Ébavurage conique <tspan font-weight="bold" fill="#facc15">0,3 mm × 45°</tspan> sur tout le profil festonné des deux côtés.
+        <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9.3" fill="#cbd5e1">
+          <tspan x="15" dy="0">• Extrusion négative du pourtour + 2 poches.</tspan>
+          <tspan x="15" dy="18">• Fraise carbure 3 lèvres <tspan font-weight="bold" fill="#ffffff">Ø 6 mm DLC</tspan>.</tspan>
+          <tspan x="15" dy="18">• <tspan font-weight="bold" fill="#34d399">Contournage 2.5D continu</tspan> (202,30 g).</tspan>
+          <tspan x="15" dy="18">• Ébavurage <tspan font-weight="bold" fill="#facc15">0,3 × 45°</tspan> sur les 2 faces.</tspan>
+          <tspan x="15" dy="18">• Paire : 8× 90128A214 + 12× 92855A422.</tspan>
         </text>
       </g>
     </g>

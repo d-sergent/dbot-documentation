@@ -19,7 +19,7 @@ Usage :
   python3 generate_expert_technical_drawing.py --component all
 
 Ce script fonctionne SANS FreeCAD - il utilise les données métriques
-validées de l'AUDIT_METROLOGIQUE_Torse_et_Bassin.json.
+validées de 01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json.
 =============================================================================
 """
 

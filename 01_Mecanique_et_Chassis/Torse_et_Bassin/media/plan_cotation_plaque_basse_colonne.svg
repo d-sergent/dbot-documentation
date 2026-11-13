@@ -62,7 +62,7 @@
     </text>
     <rect x="1220" y="18" width="160" height="32" rx="6" fill="#ca8a04" fill-opacity="0.2" stroke="#facc15" stroke-width="1"/>
     <text x="1300" y="39" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15">
-      TORSE V86 / C500
+      TORSE-123 v42
     </text>
   </g>
 
@@ -80,7 +80,7 @@
     </text>
 
     <!-- Dessin Plaque Basse (Échelle : 1 mm = 2.2 px ; Hauteur 306.9 mm = 675 px) -->
-    <g transform="translate(130, 65)">
+    <g transform="translate(128, 65)">
 
       <!-- Ligne d'axe vertical médian Y = 0 -->
       <line x1="103.4" y1="-15" x2="103.4" y2="705" stroke="#64748b" stroke-width="1" stroke-dasharray="6,4"/>
@@ -124,7 +124,7 @@
       <!-- 2 PERÇAGES M5 ÉPAULES (Z = -45,0 mm = y = 21.5 + 99 = 120.5 px ; Entraxe Y = 50 mm = 110 px) -->
       <circle cx="48.4" cy="120.5" r="5.8" fill="#0f172a" stroke="#ffffff" stroke-width="1.5"/>
       <circle cx="158.4" cy="120.5" r="5.8" fill="#0f172a" stroke="#ffffff" stroke-width="1.5"/>
-      <text x="103.4" y="112" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff">
+      <text x="103.4" y="142" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff">
         2× Ø 5,3 mm (Z = -45 mm)
       </text>
 
@@ -139,8 +139,8 @@
 
       <!-- LIGNES DE COTATION EN Z À GAUCHE -->
       <!-- Hauteur totale nominale 297.13 mm depuis Z = 0 -->
-      <line x1="-25" y1="21.5" x2="-25" y2="675.2" stroke="#facc15" stroke-width="1.4" marker-start="url(#arrowRevYellow)" marker-end="url(#arrowDimYellow)"/>
-      <text x="-33" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15" transform="rotate(-90,-33,340)">
+      <line x1="-30" y1="21.5" x2="-30" y2="675.2" stroke="#facc15" stroke-width="1.4" marker-start="url(#arrowRevYellow)" marker-end="url(#arrowDimYellow)"/>
+      <text x="-44" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#facc15" transform="rotate(-90,-44,340)">
         H_totale = 297,13 mm (Z = 0 à Fond)
       </text>
 
@@ -185,7 +185,7 @@
     </text>
 
     <!-- Zone Macro (Échelle 1 mm = 2.4 px, largeur 94mm = 225.6px) -->
-    <g transform="translate(310, 80)">
+    <g transform="translate(328, 80)">
 
       <!-- Fond Colonne 94 mm de large (x = 0 à 225.6, y = 0 à 380) -->
       <rect x="0" y="0" width="225.6" height="380" rx="4" fill="url(#gradPlaqueBasseAlu)" stroke="#facc15" stroke-width="2" fill-opacity="0.85"/>
@@ -196,7 +196,7 @@
         LUMIÈRE HAUTE
       </text>
       <text x="112.8" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#93c5fd">
-        54,0 × 55,0 mm (R = 15 mm)
+        54 × 55 mm (R=15)
       </text>
 
       <!-- LUMIÈRE BASSE : y = 30 + 132 + 43.2 = 205.2 px (Traverse = 18 mm = 43.2 px) -->
@@ -205,15 +205,16 @@
         LUMIÈRE BASSE
       </text>
       <text x="112.8" y="293" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#93c5fd">
-        54,0 × 55,0 mm (R = 15 mm)
+        54 × 55 mm (R=15)
       </text>
 
       <!-- COTE TRAVERSE CENTRALE (18,0 mm) -->
       <line x1="240" y1="162" x2="295" y2="162" stroke="#4ade80" stroke-width="1"/>
       <line x1="240" y1="205.2" x2="295" y2="205.2" stroke="#4ade80" stroke-width="1"/>
       <line x1="285" y1="162" x2="285" y2="205.2" stroke="#4ade80" stroke-width="1.8" marker-start="url(#arrowRevGreen)" marker-end="url(#arrowDimGreen)"/>
-      <text x="300" y="188" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#4ade80">
-        18,0 mm (Traverse Anti-Flambement)
+      <text x="298" y="180" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#4ade80">
+        <tspan x="298" dy="0">18,0 mm (Traverse</tspan>
+        <tspan x="298" dy="16">Anti-Flambement)</tspan>
       </text>
 
       <!-- COTES BORDURES LATÉRALES (20,0 mm) -->
@@ -277,12 +278,12 @@
       <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">⚖️</text>
       <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#facc15">Bilan Masse 7075-T6</text>
       <text x="15" y="60" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
-        • <tspan font-weight="bold">Masse Plaque Pleine</tspan> : 378,5 g<br/>
-        • <tspan font-weight="bold">Volume évidé</tspan> : 27,5 cm³<br/>
-        • <tspan font-weight="bold" fill="#4ade80">Gain Net</tspan> : <tspan fill="#4ade80" font-weight="bold">-77,3 g (-20,4%)</tspan><br/>
-        • <tspan font-weight="bold">Masse Plaque Basse finale</tspan> : <tspan fill="#facc15" font-weight="bold">301,2 g</tspan><br/>
-        • Masse colonne complète : ~441 g<br/>
-          (Plaque Basse 301 g + Haute 140 g).
+        <tspan x="15" dy="0">• <tspan font-weight="bold">Plaque basse évidée</tspan> : ~349 g (-77,3 g)</tspan>
+        <tspan x="15" dy="18">• <tspan font-weight="bold">Volume poches</tspan> : 27,5 cm³ (2 lumières)</tspan>
+        <tspan x="15" dy="18">• <tspan font-weight="bold">Masse totale colonne v42</tspan> : <tspan fill="#facc15" font-weight="bold">489,50 g</tspan></tspan>
+        <tspan x="15" dy="18">• <tspan font-weight="bold">Encombrement CAO</tspan> : 100,04 × 427,03 mm</tspan>
+        <tspan x="15" dy="18">• Coins hauts à <tspan fill="#38bdf8" font-weight="bold">90° nets</tspan> (zéro chanfrein).</tspan>
+        <tspan x="15" dy="18">• Épaisseur nominale : 5,04 mm Alu 7075.</tspan>
       </text>
 
       <!-- Cartouche 2 : Tenue RDM & Fatigue -->
@@ -292,12 +293,12 @@
         <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">🛡️</text>
         <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#38bdf8">Résistance RDM</text>
         <text x="15" y="60" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
-          • <tspan font-weight="bold">Bordures 20,0 mm</tspan> : flux d'effort continu.<br/>
-          • <tspan font-weight="bold">Traverse 18 mm</tspan> : anti-déversement.<br/>
-          • <tspan font-weight="bold">Kt fatigue</tspan> : 1,81 (grâce à R = 15 mm).<br/>
-          • <tspan font-weight="bold" fill="#4ade80">Sf marche 2 Hz</tspan> : <tspan fill="#4ade80" font-weight="bold">×14,36 ✅ (Infini)</tspan><br/>
-          • <tspan font-weight="bold" fill="#4ade80">Sf choc 275 N.m</tspan> : <tspan fill="#4ade80" font-weight="bold">×1,48 ✅ (10^7 cycles)</tspan><br/>
-          • Déformation flèche résiduelle &lt; 0,15 mm.
+          <tspan x="15" dy="0">• <tspan font-weight="bold">Bordures 20,0 mm</tspan> : flux d'effort continu.</tspan>
+          <tspan x="15" dy="18">• <tspan font-weight="bold">Traverse 18 mm</tspan> : anti-déversement.</tspan>
+          <tspan x="15" dy="18">• <tspan font-weight="bold">Kt fatigue</tspan> : 1,81 (congés R = 15 mm).</tspan>
+          <tspan x="15" dy="18">• <tspan font-weight="bold" fill="#4ade80">Sf marche 2 Hz</tspan> : <tspan fill="#4ade80" font-weight="bold">×14,36 (Infini) ✅</tspan></tspan>
+          <tspan x="15" dy="18">• <tspan font-weight="bold" fill="#4ade80">Sf choc 275 N.m</tspan> : <tspan fill="#4ade80" font-weight="bold">×1,48 (10^7 cyc) ✅</tspan></tspan>
+          <tspan x="15" dy="18">• Flèche résiduelle &lt; 0,15 mm.</tspan>
         </text>
       </g>
 
@@ -308,12 +309,12 @@
         <text x="25" y="29" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">⚙️</text>
         <text x="48" y="29" font-family="system-ui, sans-serif" font-size="11.5" font-weight="bold" fill="#4ade80">Stratégie C500</text>
         <text x="15" y="60" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
-          • <tspan font-weight="bold">Outil</tspan> : Fraise carbure 2 lèvres Ø 6/8 mm.<br/>
-          • <tspan font-weight="bold">Ébauche</tspan> : Contournage intérieur hélicoïdal.<br/>
-          • <tspan font-weight="bold">Finition</tspan> : Passe de paroi à 0,05 mm.<br/>
-          • <tspan font-weight="bold">Ébavurage</tspan> : Fraise conique 90° à<br/>
-            <tspan fill="#facc15" font-weight="bold">0,3 mm × 45° sur les 2 faces</tspan>.<br/>
-          • Zéro morfil pour assise des faisceaux.
+          <tspan x="15" dy="0">• <tspan font-weight="bold">Outil</tspan> : Fraise carbure Ø 6 / 8 mm DLC.</tspan>
+          <tspan x="15" dy="18">• <tspan font-weight="bold">Ébauche</tspan> : Contournage hélicoïdal.</tspan>
+          <tspan x="15" dy="18">• <tspan font-weight="bold">Finition</tspan> : Passe de paroi 0,05 mm.</tspan>
+          <tspan x="15" dy="18">• <tspan font-weight="bold">Ébavurage</tspan> : Fraise 90° à <tspan fill="#facc15" font-weight="bold">0,3 × 45°</tspan></tspan>
+          <tspan x="23" dy="16">sur les 2 faces des lumières.</tspan>
+          <tspan x="15" dy="18">• Zéro arête vive pour le faisceau.</tspan>
         </text>
       </g>
     </g>

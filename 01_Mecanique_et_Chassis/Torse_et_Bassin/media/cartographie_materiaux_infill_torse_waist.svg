@@ -1,336 +1,205 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="100%" height="100%" style="background:#0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1620 1020" width="100%" height="100%">
   <defs>
-    <!-- Pattern de grille technique -->
-    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.8" />
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="paViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
     </pattern>
-    <pattern id="major-grid" width="100" height="100" patternUnits="userSpaceOnUse">
-      <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#334155" stroke-width="1.2" />
-    </pattern>
-
-    <!-- Gradients matériaux -->
-    <linearGradient id="alu7075Grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#94a3b8" />
-      <stop offset="50%" stop-color="#cbd5e1" />
-      <stop offset="100%" stop-color="#64748b" />
-    </linearGradient>
-
-    <linearGradient id="alu6060Grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#64748b" />
-      <stop offset="50%" stop-color="#94a3b8" />
-      <stop offset="100%" stop-color="#475569" />
-    </linearGradient>
-
-    <linearGradient id="pa12_30Grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#06b6d4" />
-      <stop offset="50%" stop-color="#22d3ee" />
-      <stop offset="100%" stop-color="#0891b2" />
-    </linearGradient>
-
-    <linearGradient id="pa12_50Grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f59e0b" />
-      <stop offset="50%" stop-color="#fbbf24" />
-      <stop offset="100%" stop-color="#d97706" />
-    </linearGradient>
-
-    <linearGradient id="pa12_100Grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#a855f7" />
-      <stop offset="50%" stop-color="#c084fc" />
-      <stop offset="100%" stop-color="#9333ea" />
-    </linearGradient>
-
-    <linearGradient id="motorGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0284c7" />
-      <stop offset="50%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#0369a1" />
-    </linearGradient>
-
-    <linearGradient id="bearingGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#fbbf24" />
-      <stop offset="100%" stop-color="#b45309" />
-    </linearGradient>
-
-    <!-- Marqueurs de cotes -->
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#06b6d4" />
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
     </marker>
-    <marker id="arrow-sky" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38bdf8" />
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
     </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
   </defs>
-
-  <!-- Fond quadrillé -->
-  <rect width="100%" height="100%" fill="#0f172a" />
-  <rect width="100%" height="100%" fill="url(#grid)" />
-  <rect width="100%" height="100%" fill="url(#major-grid)" opacity="0.4" />
-
-  <!-- ========================================================================= -->
-  <!-- EN-TETE PRINCIPAL                                                         -->
-  <!-- ========================================================================= -->
-  <g transform="translate(40, 30)">
-    <rect width="1520" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="25" y="32" fill="#38bdf8" font-size="20" font-weight="bold" letter-spacing="1">D-BOT V1.x — CARTOGRAPHIE DES MATÉRIAUX &amp; INFILL 3D (TORSE &amp; WAIST)</text>
-    <text x="25" y="56" fill="#94a3b8" font-size="13">ARCHITECTURE BI-MATÉRIAUX : ALU 7075-T651 (PORTANCE &amp; RIGIDITÉ) + PA12-CF GYROÏDE (ALLÈGEMENT &amp; THERMIQUE) • SÉPARATION TORSE / BASSIN</text>
-    <rect x="1330" y="18" width="165" height="38" rx="6" fill="#0369a1" opacity="0.4" stroke="#38bdf8" stroke-width="1" />
-    <text x="1412" y="42" fill="#38bdf8" font-size="12" font-weight="bold" text-anchor="middle">INDICE BOM V1.0</text>
+  <rect width="1620" height="1020" fill="url(#bgGrad)"/>
+  <rect width="1620" height="1020" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1560" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#38bdf8" fill-opacity="0.18" stroke="#38bdf8" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#38bdf8" text-anchor="middle">M</text>
+    <text x="78" y="32" font-family="Arial, sans-serif" font-size="18.5" font-weight="bold" fill="#f8fafc">CARTOGRAPHIE MATÉRIAUX, INFILL PA12-CF &amp; BILAN MASSE — TORSE-123 V42</text>
+    <text x="78" y="55" font-family="Arial, sans-serif" font-size="12.5" fill="#94a3b8">Alu 7075-T6 / 6060-T6 (3,60 kg) + PA12-CF (0,700 g/cm3 calibré Bassin vs 1,015 g/cm3 brut Torse) + Actionneurs</text>
+    <rect x="1240" y="19" width="290" height="36" rx="8" fill="#0f172a" stroke="#34d399" stroke-width="1.2"/>
+    <text x="1385" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399" text-anchor="middle">18,32 KG BRUT | ~16,1 KG CAL.</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANNEAU 1 : VUE STRUCTURELLE ENSEMBLE TORSE & WAIST (GAUCHE)              -->
-  <!-- ========================================================================= -->
-  <g transform="translate(40, 125)">
-    <rect width="740" height="835" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
-    <text x="25" y="35" fill="#38bdf8" font-size="16" font-weight="bold">PANNEAU 1 : RÉPARTITION SPATIALE DES MATÉRIAUX DANS L'ASSEMBLAGE</text>
-    <text x="25" y="55" fill="#64748b" font-size="12">Vue sagittale &amp; coronale combinée — Distinction pièces primaires (Alu) et accessoires (PA12-CF)</text>
+  <!-- PANEL 1 : CARTE SPATIALE Z -->
+  <g transform="translate(30, 114)">
+    <rect width="740" height="878" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="24" y="32" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#38bdf8">1. RÉPARTITION SPATIALE DES MATÉRIAUX (AXE Z : 714..1547 MM)</text>
+    <text x="24" y="52" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">Séparation stricte : Alu 7075/6060 (portance primaire) vs PA12-CF (coques &amp; carénages)</text>
 
-    <!-- Axe central Z -->
-    <line x1="370" y1="70" x2="370" y2="790" stroke="#38bdf8" stroke-width="1" stroke-dasharray="6,3" />
-    <text x="380" y="85" fill="#38bdf8" font-size="11" font-weight="bold">AXE Z SAGITTAL</text>
+    <!-- Schematic Stack on Left (x=70..320) and crisp leader labels on Right (x=355..715) -->
+    <!-- Center axis -->
+    <line x1="195" y1="80" x2="195" y2="835" stroke="#475569" stroke-dasharray="6,4"/>
 
-    <!-- ZONE 1 : COU & TÊTE (Z = +250 à +320 mm) -->
-    <g id="zone_cou">
-      <!-- RS-05 Moteur Cou -->
-      <rect x="335" y="100" width="70" height="45" rx="4" fill="url(#motorGrad)" stroke="#38bdf8" stroke-width="1.5" />
-      <text x="370" y="128" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">RS-05 Cou</text>
+    <!-- Neck EL05 + Plaque Cou -->
+    <rect x="165" y="95" width="60" height="34" rx="4" fill="url(#paViolet)" stroke="#c084fc"/>
+    <text x="195" y="116" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">Collet</text>
+    <rect x="155" y="133" width="80" height="36" rx="4" fill="url(#motorSlate)" stroke="#94a3b8"/>
+    <text x="195" y="155" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#f8fafc" text-anchor="middle">EL05 (RS-05)</text>
+    <rect x="135" y="173" width="120" height="16" rx="2" fill="url(#aluOrange)" stroke="#fb923c"/>
+    <text x="350" y="114" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#c084fc">Cou - Tube collet (51,90 g brut | PA12-CF 1,015)</text>
+    <text x="350" y="148" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f8fafc">EL05_ASM_1_ASM : 1× RS-05 Pan (210,44 g nu)</text>
+    <text x="350" y="178" font-family="Arial, sans-serif" font-size="11.5" fill="#fb923c">Plaque_de_Cou_7075 (89,63 g) + 2× Equerre cou (46,57 g)</text>
+    <line x1="256" y1="181" x2="342" y2="176" stroke="#fb923c" stroke-width="1"/>
 
-      <!-- Plaque de Cou 7075 -->
-      <rect x="310" y="150" width="120" height="14" rx="2" fill="url(#alu7075Grad)" stroke="#cbd5e1" stroke-width="1.2" />
-      <text x="370" y="161" fill="#0f172a" font-size="10" font-weight="bold" text-anchor="middle">Plaque Cou 7075 (4,7 mm)</text>
+    <!-- Shoulders & Colonne -->
+    <rect x="75" y="218" width="46" height="62" rx="5" fill="url(#motorSlate)" stroke="#94a3b8"/>
+    <rect x="269" y="218" width="46" height="62" rx="5" fill="url(#motorSlate)" stroke="#94a3b8"/>
+    <rect x="121" y="226" width="148" height="44" rx="4" fill="#1d4ed8" stroke="#60a5fa"/>
+    <rect x="172" y="205" width="46" height="225" rx="3" fill="url(#aluOrange)" fill-opacity="0.85" stroke="#fb923c" stroke-width="1.4"/>
+    <text x="195" y="340" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle" transform="rotate(-90, 195, 340)">Colonne 7075 (489,50 g)</text>
+    <text x="350" y="226" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#60a5fa">Épaules : 2× Brides (202,30 g/u) + 2× Traverses 60×60</text>
+    <text x="350" y="246" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">+ 2× Semelles (158,32 g/u) + 2× Inserts 15° (85,71 g/u)</text>
+    <text x="350" y="266" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">+ 2× RS-04 Épaules (1 420 g/u réels | 1 559,43 g CAO)</text>
 
-      <!-- Équerres Hautes Cou (Alu 6060) -->
-      <rect x="295" y="164" width="15" height="35" fill="url(#alu6060Grad)" stroke="#94a3b8" stroke-width="1" />
-      <rect x="430" y="164" width="15" height="35" fill="url(#alu6060Grad)" stroke="#94a3b8" stroke-width="1" />
+    <!-- Torse PA12-CF Carénages & Batteries -->
+    <rect x="108" y="294" width="52" height="108" rx="6" fill="url(#paViolet)" fill-opacity="0.7" stroke="#a855f7" stroke-dasharray="4,2"/>
+    <rect x="230" y="294" width="52" height="108" rx="6" fill="url(#paViolet)" fill-opacity="0.7" stroke="#a855f7" stroke-dasharray="4,2"/>
+    <rect x="92" y="340" width="206" height="14" rx="2" fill="url(#aluOrange)" stroke="#fb923c"/>
+    <text x="195" y="351" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">Ceinture Alu 3 mm (45,43 g)</text>
+    <text x="350" y="308" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#c084fc">Coques PA12-CF non calibrées (rho = 1,015 g/cm3 brut) :</text>
+    <text x="350" y="328" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Plastron_Ventral_Torse (6 corps : 2 804,56 g bruts)</text>
+    <text x="350" y="348" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Paniers Batteries G/D (307,4 g/u) + Capots (115,1 g)</text>
+    <text x="350" y="368" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Carenage_Pectoral (203,8 g) &amp; Lombaire (206,7 g)</text>
+    <text x="350" y="388" font-family="Arial, sans-serif" font-size="11" fill="#fb923c">• 2× Corniere haute (22,54 g/u) + 2× Corniere basse (70,34 g/u)</text>
 
-      <!-- Passe-fil PA12-CF Gyroïde 30% -->
-      <rect x="345" y="164" width="50" height="28" rx="4" fill="url(#pa12_30Grad)" stroke="#22d3ee" stroke-width="1.2" />
-      <text x="370" y="182" fill="#0f172a" font-size="9" font-weight="bold" text-anchor="middle">Passe-fil 30%</text>
-    </g>
+    <!-- Waist Zone (Z=958..1042) -->
+    <line x1="42" y1="436" x2="710" y2="436" stroke="#facc15" stroke-width="1.2" stroke-dasharray="6,3"/>
+    <text x="36" y="428" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#facc15">WAIST YAW (Z ~ 1033 mm)</text>
 
-    <!-- ZONE 2 : ÉPAULES & TRAVERSE (Z = +100 à +240 mm) -->
-    <g id="zone_epaules">
-      <!-- Demi-traverses Alu 6060 (60x60x2) -->
-      <rect x="170" y="205" width="125" height="40" rx="2" fill="url(#alu6060Grad)" stroke="#94a3b8" stroke-width="1.2" />
-      <rect x="445" y="205" width="125" height="40" rx="2" fill="url(#alu6060Grad)" stroke="#94a3b8" stroke-width="1.2" />
-      <text x="232" y="230" fill="#f8fafc" font-size="10" font-weight="bold" text-anchor="middle">Traverse 60×60 (G)</text>
-      <text x="508" y="230" fill="#f8fafc" font-size="10" font-weight="bold" text-anchor="middle">Traverse 60×60 (D)</text>
+    <rect x="95" y="446" width="200" height="22" rx="3" fill="url(#aluOrange)" stroke="#fb923c"/>
+    <text x="195" y="461" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">Waist_Plate (9,02 mm | 433,53 g)</text>
+    <rect x="115" y="472" width="160" height="26" rx="3" fill="url(#steelGreen)" stroke="#4ade80"/>
+    <text x="195" y="489" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">RB8016 (633,41 g) + Moyeu (163,94 g)</text>
+    <rect x="95" y="502" width="200" height="24" rx="3" fill="url(#aluOrange)" stroke="#fb923c"/>
+    <text x="195" y="518" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">Traverse_Renfort (12,51 mm | 566,74 g)</text>
+    <rect x="145" y="530" width="100" height="44" rx="4" fill="url(#motorSlate)" stroke="#94a3b8"/>
+    <text x="195" y="556" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">RS-06 (550,97 g)</text>
 
-      <!-- Inserts 15 deg (Alu 7075) -->
-      <polygon points="295,205 350,205 350,245 295,230" fill="url(#alu7075Grad)" stroke="#cbd5e1" stroke-width="1" />
-      <polygon points="445,205 390,205 390,245 445,230" fill="url(#alu7075Grad)" stroke="#cbd5e1" stroke-width="1" />
-      <text x="370" y="225" fill="#0f172a" font-size="9" font-weight="bold" text-anchor="middle">Insert 15°</text>
+    <text x="350" y="460" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fb923c">100% Aluminium 7075-T6 sur l'étage Waist Yaw :</text>
+    <text x="350" y="480" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Waist_Plate (433,53 g) + Moyeu (163,94 g) + 4× Brides L (16,48 g)</text>
+    <text x="350" y="500" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Traverse_Renfort_Bassin (566,74 g) + 2× Equerre waist (84,22 g)</text>
+    <text x="350" y="524" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f87171">• Butée mécanique ±95° (R=83,0 mm) : Modif. CAO prévue avant CNC</text>
 
-      <!-- Brides Épaules Festonnées 7075 (v87) -->
-      <rect x="100" y="190" width="70" height="70" rx="6" fill="url(#alu7075Grad)" stroke="#38bdf8" stroke-width="1.5" />
-      <rect x="570" y="190" width="70" height="70" rx="6" fill="url(#alu7075Grad)" stroke="#38bdf8" stroke-width="1.5" />
-      <text x="135" y="230" fill="#0f172a" font-size="10" font-weight="bold" text-anchor="middle">Bride 7075</text>
-      <text x="605" y="230" fill="#0f172a" font-size="10" font-weight="bold" text-anchor="middle">Bride 7075</text>
+    <!-- Pont de Hanches + Coque Calibrée + 8 WIP -->
+    <rect x="68" y="590" width="254" height="125" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.4"/>
+    <text x="195" y="616" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8" text-anchor="middle">PONT DE HANCHES (1 114,87 g)</text>
+    <text x="195" y="636" font-family="Arial, sans-serif" font-size="10" fill="#e2e8f0" text-anchor="middle">Selle (338,98) + 4× Montants 20×20</text>
+    <text x="195" y="654" font-family="Arial, sans-serif" font-size="10" fill="#e2e8f0" text-anchor="middle">8× Inserts + Tube 60×60 + 2× Brides</text>
+    <text x="195" y="678" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399" text-anchor="middle">Coque Bassin calibrée : 441,36 g</text>
+    <text x="195" y="698" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f59e0b" text-anchor="middle">+ 8× ASV1_200 (WIP CAO)</text>
 
-      <!-- RS-04 Moteurs Epaules -->
-      <rect x="45" y="200" width="55" height="50" rx="4" fill="url(#motorGrad)" stroke="#38bdf8" stroke-width="1.2" />
-      <rect x="640" y="200" width="55" height="50" rx="4" fill="url(#motorGrad)" stroke="#38bdf8" stroke-width="1.2" />
-      <text x="72" y="230" fill="#ffffff" font-size="9" font-weight="bold" text-anchor="middle">RS-04 (G)</text>
-      <text x="667" y="230" fill="#ffffff" font-size="9" font-weight="bold" text-anchor="middle">RS-04 (D)</text>
+    <text x="350" y="614" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">Chassis_Structurel_Bassin_Last (SEULE pièce calibrée) :</text>
+    <text x="350" y="634" font-family="Arial, sans-serif" font-size="11" fill="#d1fae5">• PA12-CF Infill Gyroïde 15% : rho = 0,700 g/cm3 (441,36 g / 630,5 cm3)</text>
+    <text x="350" y="660" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f59e0b">8 occurrences ASV1_200 Hanches (1 349,19 g bruts) :</text>
+    <text x="350" y="680" font-family="Arial, sans-serif" font-size="11" fill="#fde68a">• 02A/03A, 04B/05B, 06C/08C, 07C/09C : en cours de définition CAO</text>
+    <text x="350" y="704" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">• 2× RS-04 Hanches Pitch inclus dans Bassin (1 420 g/u réels)</text>
 
-      <!-- Tuyères de ventilation PA12-CF 30% Gyroïde -->
-      <path d="M 40 185 L 100 185 L 100 198 L 40 198 Z" fill="url(#pa12_30Grad)" stroke="#22d3ee" stroke-width="1" />
-      <path d="M 640 185 L 700 185 L 700 198 L 640 198 Z" fill="url(#pa12_30Grad)" stroke="#22d3ee" stroke-width="1" />
-      <text x="70" y="178" fill="#22d3ee" font-size="9" font-weight="bold" text-anchor="middle">Tuyère 30% Gyroïde</text>
-      <text x="670" y="178" fill="#22d3ee" font-size="9" font-weight="bold" text-anchor="middle">Tuyère 30% Gyroïde</text>
-    </g>
-
-    <!-- ZONE 3 : COLONNE SAGITTALE & JONCTION Z=0 (Z = 0 à +200 mm) -->
-    <g id="zone_colonne">
-      <!-- Colonne sagittale 7075 (5x100 mm) -->
-      <rect x="355" y="245" width="30" height="280" fill="url(#alu7075Grad)" stroke="#cbd5e1" stroke-width="1.5" />
-      <text x="370" y="370" fill="#0f172a" font-size="11" font-weight="bold" text-anchor="middle" transform="rotate(-90 370 370)">COLONNE SAGITTALE 7075-T651 (5 mm)</text>
-
-      <!-- Support IMU PA12-CF 100% -->
-      <rect x="390" y="320" width="28" height="24" rx="3" fill="url(#pa12_100Grad)" stroke="#c084fc" stroke-width="1.2" />
-      <text x="404" y="336" fill="#ffffff" font-size="8" font-weight="bold" text-anchor="middle">IMU</text>
-      <text x="450" y="336" fill="#c084fc" font-size="9">PA12-CF 100%</text>
-
-      <!-- Jonction Z=0 & Semelle Éclisse 7075 -->
-      <line x1="280" y1="450" x2="460" y2="450" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,2" />
-      <text x="470" y="454" fill="#ef4444" font-size="10" font-weight="bold">PLAN Z = 0,0 mm</text>
-      <rect x="345" y="410" width="10" height="80" fill="url(#alu7075Grad)" stroke="#38bdf8" stroke-width="1.2" />
-      <text x="320" y="454" fill="#38bdf8" font-size="9" font-weight="bold" text-anchor="end">Semelle Éclisse 5 mm</text>
-    </g>
-
-    <!-- ZONE 4 : BASSIN & WAIST YAW (Z = -150 à 0 mm) -->
-    <g id="zone_waist">
-      <!-- Équerres Waist Alu 6060 (L = 90 mm) -->
-      <rect x="325" y="490" width="15" height="60" fill="url(#alu6060Grad)" stroke="#94a3b8" stroke-width="1" />
-      <rect x="400" y="490" width="15" height="60" fill="url(#alu6060Grad)" stroke="#94a3b8" stroke-width="1" />
-      <text x="285" y="525" fill="#94a3b8" font-size="9" text-anchor="end">Équerres Waist (L=90)</text>
-
-      <!-- Waist Plate 7075 (Plaque mobile) -->
-      <rect x="220" y="550" width="300" height="20" rx="3" fill="url(#alu7075Grad)" stroke="#cbd5e1" stroke-width="1.5" />
-      <text x="370" y="564" fill="#0f172a" font-size="11" font-weight="bold" text-anchor="middle">WAIST PLATE 7075-T651 (7,5 mm) — 319,9 g</text>
-
-      <!-- Doigt de butée externe PA12-CF 50% Gyroïde -->
-      <rect x="240" y="570" width="30" height="22" rx="3" fill="url(#pa12_50Grad)" stroke="#fbbf24" stroke-width="1.2" />
-      <text x="255" y="585" fill="#0f172a" font-size="8" font-weight="bold" text-anchor="middle">Butée</text>
-      <text x="215" y="605" fill="#fbbf24" font-size="9">PA12-CF 50% Gyroïde</text>
-
-      <!-- Moyeu Waist Sandwich 7075 (Fût Ø 80 h6) -->
-      <rect x="290" y="570" width="160" height="35" fill="url(#alu7075Grad)" stroke="#38bdf8" stroke-width="1.5" />
-      <text x="370" y="592" fill="#0f172a" font-size="10" font-weight="bold" text-anchor="middle">Moyeu Sandwich 7075 (Ø 80 h6)</text>
-
-      <!-- Roulement CRBH 8016 UU (100Cr6) -->
-      <rect x="250" y="605" width="40" height="35" rx="3" fill="#0f172a" stroke="#fbbf24" stroke-width="2" />
-      <circle cx="270" cy="622" r="10" fill="url(#bearingGrad)" stroke="#f59e0b" stroke-width="1.2" />
-      <rect x="450" y="605" width="40" height="35" rx="3" fill="#0f172a" stroke="#fbbf24" stroke-width="2" />
-      <circle cx="470" cy="622" r="10" fill="url(#bearingGrad)" stroke="#f59e0b" stroke-width="1.2" />
-      <text x="370" y="626" fill="#fbbf24" font-size="11" font-weight="bold" text-anchor="middle">ROULEMENT CRBH 8016 (633,4 g)</text>
-
-      <!-- Platine Interface Monolithique 7075 (Ø 140 x 12 mm) -->
-      <rect x="200" y="640" width="340" height="25" rx="4" fill="url(#alu7075Grad)" stroke="#cbd5e1" stroke-width="1.5" />
-      <text x="370" y="657" fill="#0f172a" font-size="11" font-weight="bold" text-anchor="middle">PLATINE INTERFACE PELVIS 7075 (Ø 140 mm) — 265,0 g</text>
-
-      <!-- RS-06 Moteur Waist Yaw -->
-      <rect x="305" y="665" width="130" height="55" rx="4" fill="url(#motorGrad)" stroke="#38bdf8" stroke-width="1.5" />
-      <text x="370" y="697" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">RS-06 WAIST YAW (551,0 g)</text>
-
-      <!-- Support ventilateur RS-06 PA12-CF 30% Gyroïde -->
-      <rect x="320" y="720" width="100" height="20" rx="3" fill="url(#pa12_30Grad)" stroke="#22d3ee" stroke-width="1.2" />
-      <text x="370" y="734" fill="#0f172a" font-size="9" font-weight="bold" text-anchor="middle">Support Ventilateur 30% Gyroïde</text>
-
-      <!-- Bâti Pelvis Asimov -->
-      <rect x="170" y="745" width="400" height="35" rx="6" fill="url(#alu6060Grad)" stroke="#64748b" stroke-width="1.5" />
-      <text x="370" y="767" fill="#cbd5e1" font-size="12" font-weight="bold" text-anchor="middle">BÂTI PELVIS ASIMOV (HANCHES)</text>
-    </g>
-
-    <!-- Appel de séparation claire Torse vs Bassin -->
-    <line x1="50" y1="480" x2="690" y2="480" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8,4" />
-    <rect x="55" y="465" width="170" height="26" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="1" />
-    <text x="140" y="482" fill="#f59e0b" font-size="10" font-weight="bold" text-anchor="middle">▲ PARTIE 1 : TORSE COMPLET</text>
-    <rect x="515" y="485" width="170" height="26" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="1" />
-    <text x="600" y="502" fill="#f59e0b" font-size="10" font-weight="bold" text-anchor="middle">▼ PARTIE 2 : BASSIN / WAIST</text>
+    <!-- Legend Bottom -->
+    <rect x="24" y="742" width="692" height="114" rx="8" fill="#0f172a" stroke="#475569"/>
+    <text x="40" y="768" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">LÉGENDE DES MATÉRIAUX TORSE-123 V42</text>
+    <rect x="40" y="784" width="18" height="14" rx="2" fill="url(#aluOrange)"/>
+    <text x="66" y="796" font-family="Arial, sans-serif" font-size="11" fill="#fb923c">Alu 7075-T6 (2,81 g/cm3 — CNC C500)</text>
+    <rect x="330" y="784" width="18" height="14" rx="2" fill="#1d4ed8"/>
+    <text x="356" y="796" font-family="Arial, sans-serif" font-size="11" fill="#60a5fa">Alu 6060-T6 (2,70 g/cm3 — Tubes 60×60 &amp; 20×20)</text>
+    <rect x="40" y="814" width="18" height="14" rx="2" fill="#10b981"/>
+    <text x="66" y="826" font-family="Arial, sans-serif" font-size="11" fill="#34d399">PA12-CF Calibré (0,700 g/cm3 — Bassin)</text>
+    <rect x="330" y="814" width="18" height="14" rx="2" fill="url(#paViolet)"/>
+    <text x="356" y="826" font-family="Arial, sans-serif" font-size="11" fill="#c084fc">PA12-CF Brut (1,015 g/cm3 — 20 occ. à calibrer)</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANNEAU 2 : ANALYSE DES INFILLS & JUSTIFICATIONS RDM (HAUT DROITE)       -->
-  <!-- ========================================================================= -->
-  <g transform="translate(820, 125)">
-    <rect width="740" height="405" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
-    <text x="25" y="35" fill="#38bdf8" font-size="16" font-weight="bold">PANNEAU 2 : CARACTÉRISATION DES INFILLS PA12-CF &amp; RDM</text>
-    <text x="25" y="55" fill="#64748b" font-size="12">Pourquoi appliquer ces taux de remplissage et motifs sous Fusion 360 ?</text>
+  <!-- PANEL 2 : MATRICE DES DENSITÉS & RDM -->
+  <g transform="translate(795, 114)">
+    <rect width="795" height="440" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="24" y="32" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#fbbf24">2. JUSTIFICATION RDM &amp; CALIBRATION DENSITÉS PA12-CF</text>
 
-    <!-- CARTE 1 : PA12-CF 30% GYROIDE -->
-    <g transform="translate(25, 75)">
-      <rect width="690" height="95" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-width="1.2" />
-      <!-- Pastille visuelle Gyroïde 30% -->
-      <rect x="15" y="15" width="65" height="65" rx="4" fill="url(#pa12_30Grad)" />
-      <path d="M 20 35 Q 35 20 50 35 T 75 35 M 20 55 Q 35 40 50 55 T 75 55 M 20 70 Q 35 55 50 70 T 75 70" fill="none" stroke="#0f172a" stroke-width="2.5" opacity="0.6" />
+    <rect x="24" y="54" width="747" height="118" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+    <text x="40" y="78" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399">PA12-CF CALIBRÉ EN V42 : rho_eff = 0,700 g/cm3 (Chassis_Structurel_Bassin_Last)</text>
+    <text x="40" y="102" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Coque 5 mm + remplissage 15% Gyroïde : volume CAO 630,52 cm3 ➔ masse calibrée exacte 441,36 g.</text>
+    <text x="40" y="124" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Remplace l'ancien bloc Alu 7075 massif (3 792 g) : économie directe de -3 350,6 g grâce au découplage</text>
+    <text x="52" y="144" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">sur le squelette métallique « Pont de Hanches » (1 114,87 g) qui reprend 100% des chocs 2g de marche.</text>
 
-      <text x="95" y="30" fill="#22d3ee" font-size="13" font-weight="bold">PA12-CF — 30% Infill Gyroïde (Densité apparente CAO : 0,56 g/cm3)</text>
-      <text x="95" y="50" fill="#cbd5e1" font-size="11">• <tspan font-weight="bold">Pièces assignées</tspan> : Tuyères de refroidissement RS-04, Capots de protection, Passe-fils et goulottes.</text>
-      <text x="95" y="68" fill="#94a3b8" font-size="10.5">• <tspan font-weight="bold" fill="#38bdf8">Justification RDM</tspan> : Gain de masse extrême (5x plus léger que l'alu). Le motif gyroïde (TPMS) garantit</text>
-      <text x="95" y="84" fill="#94a3b8" font-size="10.5">une rigidité isotrope sous pression d'air, supprime les résonances vibratoires et résiste à 150-175 °C (HDT).</text>
-    </g>
+    <rect x="24" y="186" width="747" height="122" rx="8" fill="#0f172a" stroke="#a855f7" stroke-width="1.2"/>
+    <text x="40" y="210" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#c084fc">20 OCCURRENCES PA12-CF ENCORE EN BRUT COSMÉTIQUE (rho = 1,015 g/cm3)</text>
+    <text x="40" y="234" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Plastron (2 804,6 g) + Carénages + Paniers + Collet + 8× ASV1_200 (1 349,2 g) totalisent ~5 232 g bruts.</text>
+    <text x="40" y="256" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Avec calibration gyroïde réelle (0,55 à 0,70 g/cm3 selon parois/infill 15–30%), masse réelle estimée</text>
+    <text x="52" y="276" font-family="Arial, sans-serif" font-size="11" fill="#34d399">à ~3 585 – 3 685 g (économie latente de -1 550 à -1 700 g sur le bilan Torse-123 v42).</text>
 
-    <!-- CARTE 2 : PA12-CF 50% GYROIDE -->
-    <g transform="translate(25, 180)">
-      <rect width="690" height="95" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.2" />
-      <!-- Pastille visuelle Gyroïde 50% -->
-      <rect x="15" y="15" width="65" height="65" rx="4" fill="url(#pa12_50Grad)" />
-      <path d="M 20 30 Q 35 15 50 30 T 75 30 M 20 45 Q 35 30 50 45 T 75 45 M 20 60 Q 35 45 50 60 T 75 60 M 20 75 Q 35 60 50 75 T 75 75" fill="none" stroke="#0f172a" stroke-width="2.5" opacity="0.6" />
-
-      <text x="95" y="30" fill="#fbbf24" font-size="13" font-weight="bold">PA12-CF — 50% Infill Gyroïde (Densité apparente CAO : 0,72 g/cm3)</text>
-      <text x="95" y="50" fill="#cbd5e1" font-size="11">• <tspan font-weight="bold">Pièces assignées</tspan> : Doigt de butée angulaire externe Waist Yaw (15 × 15 × 10 mm).</text>
-      <text x="95" y="68" fill="#94a3b8" font-size="10.5">• <tspan font-weight="bold" fill="#f59e0b">Justification RDM</tspan> : Résilience aux chocs de fin de course (+/-95°). 6 parois extérieures pleines + âme</text>
-      <text x="95" y="84" fill="#94a3b8" font-size="10.5">dense absorbent l'énergie cinétique sans déformation permanente ni fragilisation par délaminage.</text>
-    </g>
-
-    <!-- CARTE 3 : ALU 7075-T651 MASSIF (ZERO PLASTIQUE) -->
-    <g transform="translate(25, 285)">
-      <rect width="690" height="105" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="1.2" />
-      <!-- Pastille visuelle Alu 7075 Massif -->
-      <rect x="15" y="15" width="65" height="75" rx="4" fill="url(#alu7075Grad)" />
-      <text x="47" y="58" fill="#0f172a" font-size="13" font-weight="bold" text-anchor="middle">100%</text>
-
-      <text x="95" y="30" fill="#f87171" font-size="13" font-weight="bold">ALUMINIUM 7075-T651 MASSIF — Zéro Plastique Obligatoire sur Pièces Primaires</text>
-      <text x="95" y="50" fill="#cbd5e1" font-size="11">• <tspan font-weight="bold">Pièces</tspan> : Colonne (5 mm), Semelle Éclisse, Brides Épaules v87, Moyeu Waist 7075, Platine Pelvis.</text>
-      <text x="95" y="68" fill="#94a3b8" font-size="10.5">• <tspan font-weight="bold" fill="#ef4444">Anti-Fluage (*Creep*)</tspan> : Précharge axiale roulement de 19,2 kN. Tout plastique fluerait en 3 semaines.</text>
-      <text x="95" y="84" fill="#94a3b8" font-size="10.5">• <tspan font-weight="bold" fill="#ef4444">Rigidité E=71 GPa vs 10 GPa</tspan> : Flèche colonne &lt; 0,09 mm sous 220 N.m de moment dynamique de marche.</text>
-      <text x="95" y="100" fill="#94a3b8" font-size="10.5">• <tspan font-weight="bold" fill="#ef4444">Thermique</tspan> : lambda = 130 W/m.K (vs 0,3 pour plastique) pour évacuer les chocs thermiques du RS-04.</text>
-    </g>
+    <rect x="24" y="322" width="747" height="98" rx="8" fill="#0f172a" stroke="#fb923c" stroke-width="1.2"/>
+    <text x="40" y="346" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#fb923c">ALU 7075-T6 MASSIF OBLIGATOIRE SUR LES PIÈCES SOLLICITÉES</text>
+    <text x="40" y="370" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Interdiction formelle de PA12-CF sur : Waist_Plate (9,02 mm), Moyeu Sandwich (22 kN précharge),</text>
+    <text x="52" y="390" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">Brides Epaule/Hanches v87 (conduction thermique 130 W/m.K + Sf = 5,92), Traverse, Colonne &amp; Selle.</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANNEAU 3 : MATRICE DE MASSE ET GAINS D'ALLÈGEMENT (BAS DROITE)           -->
-  <!-- ========================================================================= -->
-  <g transform="translate(820, 550)">
-    <rect width="740" height="410" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
-    <text x="25" y="35" fill="#38bdf8" font-size="16" font-weight="bold">PANNEAU 3 : BILAN MÉTRIQUE &amp; AUTOMATISATION FUSION 360</text>
-    <text x="25" y="55" fill="#64748b" font-size="12">Intégration numérique par script Python ModifyTorse.py ➔ AuditTorse.py</text>
+  <!-- PANEL 3 : BILAN GLOBAL V42 & AUDIT -->
+  <g transform="translate(795, 574)">
+    <rect width="795" height="418" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="24" y="32" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#34d399">3. BILAN DE MASSE CONSOLIDÉ TORSE-123 V42 (614 INSTANCES / 125 RÉF.)</text>
 
-    <!-- Tableau synthétique des masses -->
-    <g transform="translate(25, 75)">
-      <!-- En-tête tableau -->
-      <rect width="690" height="28" rx="4" fill="#334155" />
-      <text x="15" y="19" fill="#38bdf8" font-size="11" font-weight="bold">SOUS-ENSEMBLE</text>
-      <text x="210" y="19" fill="#38bdf8" font-size="11" font-weight="bold">STRUCTURE 7075</text>
-      <text x="340" y="19" fill="#38bdf8" font-size="11" font-weight="bold">PIÈCES PA12-CF</text>
-      <text x="480" y="19" fill="#38bdf8" font-size="11" font-weight="bold">MOTEURS / RLT</text>
-      <text x="610" y="19" fill="#38bdf8" font-size="11" font-weight="bold">TOTAL</text>
+    <rect x="24" y="54" width="747" height="236" rx="8" fill="#0f172a" stroke="#475569"/>
+    <text x="40" y="80" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">CATÉGORIE                           |  MASSE BRUTE V42  |  ESTIM. CALIBRÉE  | OBSERVATION</text>
+    <line x1="38" y1="90" x2="754" y2="90" stroke="#334155"/>
+    <text x="40" y="112" font-family="Arial, sans-serif" font-size="11.5" fill="#fb923c">Structures Alu 7075 &amp; 6060-T6       |     3 599,5 g     |     3 599,5 g     | Définitif CNC</text>
+    <text x="40" y="136" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">Actionneurs + RB8016 (4×RS04,RS06,EL05) |  ~7 650,2 g  |    ~7 092,5 g     | RS-04 : 1 420 g réels</text>
+    <text x="40" y="160" font-family="Arial, sans-serif" font-size="11.5" fill="#34d399">PA12-CF Calibré (Coque Bassin)      |       441,4 g     |       441,4 g     | 0,700 g/cm3 validé</text>
+    <text x="40" y="184" font-family="Arial, sans-serif" font-size="11.5" fill="#c084fc">PA12-CF Brut (20 occ. + Plastron)   |    ~5 232,0 g     |  ~3 585 - 3 685 g | Incl. 8 ASV1_200 WIP</text>
+    <text x="40" y="208" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">Visserie McMaster (316 pcs / 28 réf.) |  ~1 393,3 g     |     ~1 393,3 g    | Sous-ens. + quincaill.</text>
+    <line x1="38" y1="222" x2="754" y2="222" stroke="#38bdf8"/>
+    <text x="40" y="246" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff">TOTAL TORSE-123 V42 (HORS BATTERIES) |  18 316,38 g   |   ~16,1 - 16,2 kg | Écart : -2,1 à -2,3 kg</text>
+    <text x="40" y="270" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">Note : Robot complet Phase 4 (+ 2× batteries + 10 DoF jambes + bras + tête Tilt) ~ 35,2 - 36,0 kg (&lt; 42 kg).</text>
 
-      <!-- Ligne 1 : Torse -->
-      <rect y="32" width="690" height="30" fill="#0f172a" opacity="0.5" />
-      <text x="15" y="52" fill="#f8fafc" font-size="11" font-weight="bold">Partie 1 : Torse Complet</text>
-      <text x="210" y="52" fill="#cbd5e1" font-size="11">1 423,5 g</text>
-      <text x="340" y="52" fill="#22d3ee" font-size="11">185,0 g (30%)</text>
-      <text x="480" y="52" fill="#94a3b8" font-size="11">1 522,0 g</text>
-      <text x="610" y="52" fill="#38bdf8" font-size="11" font-weight="bold">3 295,5 g (~3,30 kg)</text>
-
-      <!-- Ligne 2 : Bassin / Waist -->
-      <rect y="64" width="690" height="30" fill="#1e293b" opacity="0.5" />
-      <text x="15" y="84" fill="#f8fafc" font-size="11" font-weight="bold">Partie 2 : Bassin / Waist</text>
-      <text x="210" y="84" fill="#cbd5e1" font-size="11">895,0 g</text>
-      <text x="340" y="84" fill="#fbbf24" font-size="11">65,0 g (50%/30%)</text>
-      <text x="480" y="84" fill="#94a3b8" font-size="11">1 184,4 g</text>
-      <text x="610" y="84" fill="#38bdf8" font-size="11" font-weight="bold">2 259,4 g (~2,26 kg)</text>
-
-      <!-- Ligne Total -->
-      <rect y="96" width="690" height="32" rx="4" fill="#0284c7" opacity="0.2" stroke="#38bdf8" stroke-width="1" />
-      <text x="15" y="117" fill="#38bdf8" font-size="11" font-weight="bold">TOTAL HAUT DU CORPS</text>
-      <text x="210" y="117" fill="#ffffff" font-size="11" font-weight="bold">2 318,5 g</text>
-      <text x="340" y="117" fill="#22d3ee" font-size="11" font-weight="bold">250,0 g</text>
-      <text x="480" y="117" fill="#ffffff" font-size="11" font-weight="bold">2 706,4 g</text>
-      <text x="610" y="117" fill="#38bdf8" font-size="12" font-weight="bold">5 554,9 g (~5,55 kg)</text>
-    </g>
-
-    <!-- Workflow Bidirectionnel Fusion 360 -->
-    <g transform="translate(25, 230)">
-      <rect width="690" height="160" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
-      <text x="20" y="26" fill="#38bdf8" font-size="12" font-weight="bold">FLUX DE TRAVAIL BIDIRECTIONNEL CAO ➔ DOCUMENTATION (ZERO HYPOTHÈSE DE MÉMOIRE)</text>
-
-      <!-- Boîte 1 : actions_to_apply.json -->
-      <rect x="20" y="45" width="190" height="95" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1" />
-      <text x="115" y="68" fill="#22d3ee" font-size="11" font-weight="bold" text-anchor="middle">1. actions_to_apply.json</text>
-      <text x="30" y="90" fill="#94a3b8" font-size="9.5">• Cibles : Noms composants</text>
-      <text x="30" y="106" fill="#94a3b8" font-size="9.5">• Matériaux : 7075 / PA12-CF</text>
-      <text x="30" y="122" fill="#94a3b8" font-size="9.5">• Densités : 0,56 à 2,81 g/cm3</text>
-
-      <!-- Flèche 1 -> 2 -->
-      <path d="M 215 92 L 245 92" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-sky)" />
-
-      <!-- Boîte 2 : ModifyTorse.py -->
-      <rect x="250" y="45" width="190" height="95" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2" />
-      <text x="345" y="68" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">2. ModifyTorse.py (F360)</text>
-      <text x="260" y="90" fill="#94a3b8" font-size="9.5">• Raccourci Shift + S</text>
-      <text x="260" y="106" fill="#94a3b8" font-size="9.5">• Crée matériaux sur-mesure</text>
-      <text x="260" y="122" fill="#94a3b8" font-size="9.5">• Applique sur corps B-Rep</text>
-
-      <!-- Flèche 2 -> 3 -->
-      <path d="M 445 92 L 475 92" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-sky)" />
-
-      <!-- Boîte 3 : AuditTorse.py -->
-      <rect x="480" y="45" width="190" height="95" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1" />
-      <text x="575" y="68" fill="#10b981" font-size="11" font-weight="bold" text-anchor="middle">3. AuditTorse.py ➔ BOM</text>
-      <text x="490" y="90" fill="#94a3b8" font-size="9.5">• Export audit_torse.json</text>
-      <text x="490" y="106" fill="#94a3b8" font-size="9.5">• Metrologie Z=0 &amp; chanfreins</text>
-      <text x="490" y="122" fill="#94a3b8" font-size="9.5">• Mise à jour FINAL_BOM.md</text>
-    </g>
+    <rect x="24" y="304" width="747" height="94" rx="8" fill="#1e293b" stroke="#fbbf24" stroke-width="1.2"/>
+    <text x="40" y="328" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fbbf24">POINTS OUVERTS TRAÇABILITÉ CAO (SYNCHRONISÉS)</text>
+    <text x="40" y="352" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">1. Butée mécanique ±95° (R = 83,0 mm) : Modification CAO prévue avant lancement usinage CNC.</text>
+    <text x="40" y="374" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">2. 8 occurrences ASV1_200 hanches (02A..09C) : En cours de définition côté CAO (non définitives).</text>
   </g>
 </svg>

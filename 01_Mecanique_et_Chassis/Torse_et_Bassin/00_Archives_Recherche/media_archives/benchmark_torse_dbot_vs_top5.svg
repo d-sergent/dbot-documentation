@@ -1,0 +1,402 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#090d16"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#151e2e"/>
+    </linearGradient>
+    <linearGradient id="alu7075" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fb7185"/>
+      <stop offset="100%" stop-color="#e11d48"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2a324b" stroke-width="0.6" opacity="0.45"/>
+    </pattern>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1600" height="1080" fill="url(#bgGrad)"/>
+  <rect width="1600" height="1080" fill="url(#grid)"/>
+
+  <!-- Header Banner -->
+  <rect x="30" y="22" width="1540" height="76" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="55" y="54" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold">
+    AUDIT ARCHITECTURAL EXPERT — TORSE &amp; BASSIN D-BOT V1 vs TOP 5 HUMANOÏDES MONDIAUX
+  </text>
+  <text x="55" y="80" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="13">
+    Comparatif Technique Souverain : Tesla Optimus Gen 2/3 | Boston Dynamics Atlas Electric | Figure 02 | Unitree G1 / H1-2 | Agility Digit — Maturité TRL/MRL &amp; Feuille de Route V1.5 / V2.0
+  </text>
+  <rect x="1340" y="38" width="205" height="42" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1.2"/>
+  <text x="1442" y="57" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">INDICE DE MATURITÉ GLOBAL</text>
+  <text x="1442" y="73" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">8,3 / 10 (TRL 6 - MRL 7)</text>
+
+  <!-- ======================================================================= -->
+  <!-- PANEL 1: MATURITY SCORECARD BY SUBSYSTEM (TOP LEFT)                     -->
+  <!-- ======================================================================= -->
+  <rect x="30" y="116" width="755" height="465" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5"/>
+  <text x="52" y="146" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold">
+    1. ÉVALUATION DE MATURITÉ PAR SOUS-SYSTÈME (D-BOT V1 vs ÉTAT DE L'ART)
+  </text>
+  <line x1="52" y1="156" x2="760" y2="156" stroke="#334155" stroke-width="1"/>
+
+  <!-- Subsystem Bars -->
+  <!-- Bar 1: Pivot Waist RB8016 + Découplage RS-06 -->
+  <text x="55" y="186" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Pivot Waist RB8016 &amp; Découplage RS-06</text>
+  <text x="55" y="203" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="11">M0 = 520 N.m, gap anti-talonnage 0,40 mm, faux-rond 3 µm (Égale Optimus / H1-2)</text>
+  <rect x="420" y="175" width="280" height="18" rx="4" fill="#0f172a" stroke="#334155"/>
+  <rect x="420" y="175" width="266" height="18" rx="4" fill="url(#emeraldGrad)"/>
+  <text x="712" y="189" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">9,5 / 10</text>
+
+  <!-- Bar 2: Routage Harnais Anti-Guillotine & Boucle 160 mm -->
+  <text x="55" y="238" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Harnais Électrique 48V Anti-Guillotine</text>
+  <text x="55" y="255" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="11">Lumières concentriques 69°/125°, passage XT60/XT90 sans dessoudage, 0,50 deg/mm</text>
+  <rect x="420" y="227" width="280" height="18" rx="4" fill="#0f172a" stroke="#334155"/>
+  <rect x="420" y="227" width="258" height="18" rx="4" fill="url(#emeraldGrad)"/>
+  <text x="712" y="241" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">9,2 / 10</text>
+
+  <!-- Bar 3: Thermique Active Tuyère Annulaire RS-04 -->
+  <text x="55" y="290" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Thermique Active Épaules (RS-04) &amp; Waist</text>
+  <text x="55" y="307" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="11">Tuyère annulaire 2 mm (5,07 m/s, -47 °C stator) + Puits conductif 7075 sur RS-06</text>
+  <rect x="420" y="279" width="280" height="18" rx="4" fill="#0f172a" stroke="#334155"/>
+  <rect x="420" y="279" width="252" height="18" rx="4" fill="url(#emeraldGrad)"/>
+  <text x="712" y="293" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">9,0 / 10</text>
+
+  <!-- Bar 4: Intégration Capteurs SLAM / IMU & Maintenabilité -->
+  <text x="55" y="342" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Ancrage IMU/LiDAR &amp; Accès Atelier (&lt; 15 s)</text>
+  <text x="55" y="359" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="11">Dérive IMU 0,061 deg sous 2g (&lt; 0,10 deg SLAM), trappes magnétiques N52 sans outil</text>
+  <rect x="420" y="331" width="280" height="18" rx="4" fill="#0f172a" stroke="#334155"/>
+  <rect x="420" y="331" width="249" height="18" rx="4" fill="url(#alu7075)"/>
+  <text x="712" y="345" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">8,9 / 10</text>
+
+  <!-- Bar 5: Squelette Caisson 3D Alu 7075-T6 (Usinage 2.5D C500) -->
+  <text x="55" y="394" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Ossature Caisson 3D 7075-T6 (FEA CalculiX)</text>
+  <text x="55" y="411" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="11">K_lacet = 639 922 N.m/rad, Sigma_P95 = 15,25 MPa, mais assemblage multi-pièces boulonné</text>
+  <rect x="420" y="383" width="280" height="18" rx="4" fill="#0f172a" stroke="#334155"/>
+  <rect x="420" y="383" width="238" height="18" rx="4" fill="url(#alu7075)"/>
+  <text x="712" y="397" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">8,5 / 10</text>
+
+  <!-- Bar 6: Architecture Batterie Hot-Swap & Capacité Wh -->
+  <text x="55" y="446" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Système Énergétique 48V Dual Hot-Swap</text>
+  <text x="55" y="463" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="11">ORing actif sans coupure remarquable, mais capacité 480-576 Wh vs 860-2300 Wh Top 5</text>
+  <rect x="420" y="435" width="280" height="18" rx="4" fill="#0f172a" stroke="#334155"/>
+  <rect x="420" y="435" width="218" height="18" rx="4" fill="url(#amberGrad)"/>
+  <text x="712" y="449" fill="#fbbf24" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">7,8 / 10</text>
+
+  <!-- Bar 7: Cinématique Waist 1-DoF (Lacet Pur) vs 2/3-DoF -->
+  <text x="55" y="498" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Mobilité Cinématique Taille (1-DoF Yaw)</text>
+  <text x="55" y="515" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="11">Ultra-rigide et simple, mais reporte 100% du Pitch tronc sur les RS-04 des hanches</text>
+  <rect x="420" y="487" width="280" height="18" rx="4" fill="#0f172a" stroke="#334155"/>
+  <rect x="420" y="487" width="207" height="18" rx="4" fill="url(#amberGrad)"/>
+  <text x="712" y="501" fill="#fbbf24" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">7,4 / 10</text>
+
+  <!-- Bar 8: Masse du Bassin PA12-CF Massif & Plastron V1 -->
+  <text x="55" y="548" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Optimisation Massique Bassin &amp; Plastron V1</text>
+  <text x="55" y="565" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="11">Berceau PA12-CF 100% plein (2,81 kg) + Plastron (2,80 kg) trop lourds -> Gain V1.5 : -5,6 kg</text>
+  <rect x="420" y="537" width="280" height="18" rx="4" fill="#0f172a" stroke="#334155"/>
+  <rect x="420" y="537" width="182" height="18" rx="4" fill="url(#roseGrad)"/>
+  <text x="712" y="551" fill="#fb7185" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">6,5 / 10</text>
+
+  <!-- ======================================================================= -->
+  <!-- PANEL 2: BENCHMARK MATRIX VS TOP 5 WORLD HUMANOIDS (TOP RIGHT)          -->
+  <!-- ======================================================================= -->
+  <rect x="805" y="116" width="765" height="465" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5"/>
+  <text x="827" y="146" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold">
+    2. POSITIONNEMENT FACE AU TOP 5 MONDIAL DES HUMANOÏDES COMMERCIAUX
+  </text>
+  <line x1="827" y1="156" x2="1548" y2="156" stroke="#334155" stroke-width="1"/>
+
+  <!-- Table Header -->
+  <rect x="825" y="168" width="725" height="32" rx="4" fill="#0f172a"/>
+  <text x="838" y="189" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold">Critère Système</text>
+  <text x="995" y="189" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold">D-Bot V1</text>
+  <text x="1115" y="189" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold">Optimus Gen2</text>
+  <text x="1230" y="189" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold">Atlas Elec.</text>
+  <text x="1340" y="189" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold">Figure 02</text>
+  <text x="1445" y="189" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold">Unitree H1-2</text>
+
+  <!-- Row 1: Structure Torse -->
+  <rect x="825" y="206" width="725" height="42" rx="3" fill="#162032"/>
+  <text x="838" y="225" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Topologie Torse</text>
+  <text x="838" y="240" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Procédé primaire</text>
+  <text x="995" y="225" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Caisson 2.5D</text>
+  <text x="995" y="240" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Alu 7075 CNC 3-axes</text>
+  <text x="1115" y="225" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">Fonderie / 5-axes</text>
+  <text x="1115" y="240" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Cadre Alu + Carbone</text>
+  <text x="1230" y="225" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">Monobloc 5-axes</text>
+  <text x="1230" y="240" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Alu topo-optimisé</text>
+  <text x="1340" y="225" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">Exosquelette</text>
+  <text x="1340" y="240" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Monocoque CFRP/Alu</text>
+  <text x="1445" y="225" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">Poutre + Tubes</text>
+  <text x="1445" y="240" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Alu 7075 + CFRP</text>
+
+  <!-- Row 2: Cinématique Waist -->
+  <rect x="825" y="254" width="725" height="42" rx="3" fill="#0f172a"/>
+  <text x="838" y="273" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">DDL Taille (Waist)</text>
+  <text x="838" y="288" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Amplitude Lacet</text>
+  <text x="995" y="273" fill="#fbbf24" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">1-DoF (Yaw)</text>
+  <text x="995" y="288" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">+/- 80 deg (RS-06)</text>
+  <text x="1115" y="273" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="11">2-DoF (Pitch/Yaw)</text>
+  <text x="1115" y="288" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Vérins + Rotatif</text>
+  <text x="1230" y="273" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11">3-DoF Complet</text>
+  <text x="1230" y="288" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Rotation 360 deg</text>
+  <text x="1340" y="273" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="11">2-DoF (Pitch/Yaw)</text>
+  <text x="1340" y="288" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Intégré tronc</text>
+  <text x="1445" y="273" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11">1-DoF / 3-DoF (G1)</text>
+  <text x="1445" y="288" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">1-DoF sur H1-2</text>
+
+  <!-- Row 3: Guidage Waist -->
+  <rect x="825" y="302" width="725" height="42" rx="3" fill="#162032"/>
+  <text x="838" y="321" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Palier de Taille</text>
+  <text x="838" y="336" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Reprise de moment</text>
+  <text x="995" y="321" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">RB8016 Croisé</text>
+  <text x="995" y="336" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">M0 = 520 N.m découplé</text>
+  <text x="1115" y="321" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">Rouleaux croisés</text>
+  <text x="1115" y="336" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">+ Bielles linéaires</text>
+  <text x="1230" y="321" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">Rouleaux croisés</text>
+  <text x="1230" y="336" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Grand diamètre</text>
+  <text x="1340" y="321" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">Rouleaux croisés</text>
+  <text x="1340" y="336" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Découplé QDD</text>
+  <text x="1445" y="321" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">Rouleaux croisés</text>
+  <text x="1445" y="336" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Montage direct M107</text>
+
+  <!-- Row 4: Thermique Moteurs Torse -->
+  <rect x="825" y="350" width="725" height="42" rx="3" fill="#0f172a"/>
+  <text x="838" y="369" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Refroidissement</text>
+  <text x="838" y="384" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Épaules &amp; Tronc</text>
+  <text x="995" y="369" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Actif Annulaire</text>
+  <text x="995" y="384" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">5,07 m/s (-47 °C RS-04)</text>
+  <text x="1115" y="369" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">Conduction châssis</text>
+  <text x="1115" y="384" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Passif + Air interne</text>
+  <text x="1230" y="369" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">Conduction + Air</text>
+  <text x="1230" y="384" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Ponts thermiques Alu</text>
+  <text x="1340" y="369" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">Conduction coque</text>
+  <text x="1340" y="384" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Dissipation carter</text>
+  <text x="1445" y="369" fill="#fbbf24" font-family="Helvetica, Arial, sans-serif" font-size="11">Passif / Air libre</text>
+  <text x="1445" y="384" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Brides exposées</text>
+
+  <!-- Row 5: Batterie & Hot-Swap -->
+  <rect x="825" y="398" width="725" height="42" rx="3" fill="#162032"/>
+  <text x="838" y="417" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Énergie &amp; Swap</text>
+  <text x="838" y="432" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Capacité &amp; Continuité</text>
+  <text x="995" y="417" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">480-576 Wh</text>
+  <text x="995" y="432" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="10">Dual Hot-Swap ORing</text>
+  <text x="1115" y="417" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11">2 300 Wh (52V)</text>
+  <text x="1115" y="432" fill="#fb7185" font-family="Helvetica, Arial, sans-serif" font-size="10">Pack fixe intégré</text>
+  <text x="1230" y="417" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11">~1 800 Wh</text>
+  <text x="1230" y="432" fill="#fbbf24" font-family="Helvetica, Arial, sans-serif" font-size="10">Swap dorsal robotisé</text>
+  <text x="1340" y="417" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11">2 250 Wh</text>
+  <text x="1340" y="432" fill="#fb7185" font-family="Helvetica, Arial, sans-serif" font-size="10">Pack torse fixe</text>
+  <text x="1445" y="417" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="11">864 Wh (H1-2)</text>
+  <text x="1445" y="432" fill="#fbbf24" font-family="Helvetica, Arial, sans-serif" font-size="10">Quick-Swap (Coupure)</text>
+
+  <!-- Row 6: Maintenabilité & Harnais -->
+  <rect x="825" y="446" width="725" height="42" rx="3" fill="#0f172a"/>
+  <text x="838" y="465" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Maintenabilité</text>
+  <text x="838" y="480" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Intervention atelier</text>
+  <text x="995" y="465" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Zéro Dessoudage</text>
+  <text x="995" y="480" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Trappes N52 &lt; 15 s</text>
+  <text x="1115" y="465" fill="#fb7185" font-family="Helvetica, Arial, sans-serif" font-size="11">Complexe (Usine)</text>
+  <text x="1115" y="480" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Faisceaux propriétaires</text>
+  <text x="1230" y="465" fill="#fb7185" font-family="Helvetica, Arial, sans-serif" font-size="11">Complexe (Usine)</text>
+  <text x="1230" y="480" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Joints tournants</text>
+  <text x="1340" y="465" fill="#fbbf24" font-family="Helvetica, Arial, sans-serif" font-size="11">Moyenne</text>
+  <text x="1340" y="480" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Harnais interne</text>
+  <text x="1445" y="465" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="11">Bonne (Modulaire)</text>
+  <text x="1445" y="480" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Connecteurs M8/XT</text>
+
+  <!-- Row 7: Coût & Souveraineté Fabrication -->
+  <rect x="825" y="494" width="725" height="42" rx="3" fill="#162032"/>
+  <text x="838" y="513" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Fabricabilité</text>
+  <text x="838" y="528" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Outillage requis</text>
+  <text x="995" y="513" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">100% In-House</text>
+  <text x="995" y="528" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">CNC 3-axes C500 + FDM</text>
+  <text x="1115" y="513" fill="#fb7185" font-family="Helvetica, Arial, sans-serif" font-size="11">Moules HPDC</text>
+  <text x="1115" y="528" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">CAPEX &gt; 2 M EUR</text>
+  <text x="1230" y="513" fill="#fb7185" font-family="Helvetica, Arial, sans-serif" font-size="11">CNC 5-axes Lourd</text>
+  <text x="1230" y="528" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">SLM Titane / Alu</text>
+  <text x="1340" y="513" fill="#fb7185" font-family="Helvetica, Arial, sans-serif" font-size="11">Autoclave CFRP</text>
+  <text x="1340" y="528" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">+ CNC 5-axes</text>
+  <text x="1445" y="513" fill="#fbbf24" font-family="Helvetica, Arial, sans-serif" font-size="11">Fonderie + CNC</text>
+  <text x="1445" y="528" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="10">Sous-traitance Asie</text>
+
+  <!-- Summary note inside Panel 2 -->
+  <text x="830" y="562" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">
+    Verdict Benchmark : D-Bot V1 surpasse les standards commerciaux en maintenabilité, hot-swap continu et refroidissement actif, avec un CAPEX divisé par 50.
+  </text>
+
+  <!-- ======================================================================= -->
+  <!-- PANEL 3: STRUCTURAL & MASS EVOLUTION ROADMAP (BOTTOM LEFT)              -->
+  <!-- ======================================================================= -->
+  <rect x="30" y="600" width="755" height="450" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5"/>
+  <text x="52" y="630" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold">
+    3. DIAGNOSTIC MASSIQUE &amp; TRAJECTOIRE D'ALLÈGEMENT (V1.0 -&gt; V1.5 -&gt; V2.0)
+  </text>
+  <line x1="52" y1="640" x2="760" y2="640" stroke="#334155" stroke-width="1"/>
+
+  <!-- Stacked Mass Comparison Columns -->
+  <!-- Column 1: V1.0 Current Metrology -->
+  <rect x="85" y="670" width="160" height="270" rx="6" fill="#0f172a" stroke="#475569"/>
+  <text x="165" y="662" fill="#fb7185" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">D-BOT V1.0 (CAO Brute)</text>
+  <!-- Sub-blocks inside Column 1 -->
+  <rect x="95" y="680" width="140" height="58" rx="4" fill="url(#roseGrad)"/>
+  <text x="165" y="705" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Berceau Bassin Plein</text>
+  <text x="165" y="722" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">2,81 kg (PA12-CF 100%)</text>
+
+  <rect x="95" y="744" width="140" height="54" rx="4" fill="url(#amberGrad)"/>
+  <text x="165" y="768" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Plastron &amp; Coques</text>
+  <text x="165" y="784" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">3,08 kg (Import Solide)</text>
+
+  <rect x="95" y="804" width="140" height="52" rx="4" fill="url(#alu7075)"/>
+  <text x="165" y="827" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Squelette 7075 + RB8016</text>
+  <text x="165" y="843" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">3,92 kg (Torse + Waist)</text>
+
+  <rect x="95" y="862" width="140" height="68" rx="4" fill="url(#purpleGrad)"/>
+  <text x="165" y="892" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">9 Moteurs + Batteries</text>
+  <text x="165" y="909" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">9,68 kg (Actionneurs/NRJ)</text>
+  <text x="165" y="962" fill="#fb7185" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Total : ~19,5 à 24,7 kg</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 260 800 L 305 800" stroke="#38bdf8" stroke-width="3"/>
+  <polygon points="305,794 318,800 305,806" fill="#38bdf8"/>
+  <text x="288" y="785" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">-5,63 kg</text>
+
+  <!-- Column 2: V1.5 Recommended Quick-Win -->
+  <rect x="330" y="715" width="160" height="225" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="410" y="705" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">D-BOT V1.5 (Hybride)</text>
+
+  <rect x="340" y="725" width="140" height="36" rx="4" fill="url(#emeraldGrad)"/>
+  <text x="410" y="741" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Bassin Tubulaire 7075</text>
+  <text x="410" y="754" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">0,92 kg (-1,89 kg berceau)</text>
+
+  <rect x="340" y="767" width="140" height="32" rx="4" fill="url(#emeraldGrad)"/>
+  <text x="410" y="782" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Coques Gyroïde 30%</text>
+  <text x="410" y="794" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">0,73 kg (-2,35 kg plastron)</text>
+
+  <rect x="340" y="805" width="140" height="52" rx="4" fill="url(#alu7075)"/>
+  <text x="410" y="828" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Squelette 7075 + Pions</text>
+  <text x="410" y="844" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">3,75 kg (Équerres 7075)</text>
+
+  <rect x="340" y="862" width="140" height="68" rx="4" fill="url(#purpleGrad)"/>
+  <text x="410" y="892" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">9 Moteurs + Batteries</text>
+  <text x="410" y="909" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">9,68 kg (Inchangé)</text>
+  <text x="410" y="962" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Total : 15,08 kg (-29%)</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 505 820 L 550 820" stroke="#34d399" stroke-width="3"/>
+  <polygon points="550,814 563,820 550,826" fill="#34d399"/>
+  <text x="533" y="805" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">+Pitch</text>
+
+  <!-- Column 3: V2.0 Top-5 Target -->
+  <rect x="575" y="705" width="180" height="235" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1.5"/>
+  <text x="665" y="695" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">D-BOT V2.0 (Cible Top 5)</text>
+
+  <rect x="585" y="718" width="160" height="46" rx="4" fill="url(#emeraldGrad)"/>
+  <text x="665" y="738" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Colonne Monobloc Nervurée</text>
+  <text x="665" y="753" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Usinage Poche 15 mm (-40% vis)</text>
+
+  <rect x="585" y="770" width="160" height="42" rx="4" fill="url(#alu7075)"/>
+  <text x="665" y="788" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Waist 2-DoF (Pitch + Yaw)</text>
+  <text x="665" y="803" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Soulage les RS-04 Hanche</text>
+
+  <rect x="585" y="818" width="160" height="44" rx="4" fill="url(#amberGrad)"/>
+  <text x="665" y="837" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Packs 21700/Pouch 960 Wh</text>
+  <text x="665" y="852" fill="#0f172a" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Autonomie 2h30 Hot-Swap</text>
+
+  <rect x="585" y="868" width="160" height="62" rx="4" fill="url(#purpleGrad)"/>
+  <text x="665" y="895" fill="#f8fafc" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Ratio Couple / Masse</text>
+  <text x="665" y="912" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Classe Figure 02 / G1</text>
+  <text x="665" y="962" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Cible : ~15,8 kg (2-DoF, 960 Wh)</text>
+
+  <!-- Footnote in Panel 3 -->
+  <rect x="55" y="982" width="705" height="52" rx="6" fill="#0f172a" stroke="#334155"/>
+  <text x="70" y="1002" fill="#fbbf24" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold">
+    Point Critique Identifié dans l'Audit : Le Bassin PA12-CF 100% plein (2,81 kg) + traverses concentre 6,19 kg sous le RB8016.
+  </text>
+  <text x="70" y="1021" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="11">
+    Le passage à l'architecture hybride (Flasques 7075-T6 + Colonnettes Ø 20 mm documentée en Section 3.3 BOM) fait chuter le bassin à 2,22 kg (-60%).
+  </text>
+
+  <!-- ======================================================================= -->
+  <!-- PANEL 4: KEY ENGINEERING CRITIQUES & ACTION PLAN (BOTTOM RIGHT)         -->
+  <!-- ======================================================================= -->
+  <rect x="805" y="600" width="765" height="450" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5"/>
+  <text x="827" y="630" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold">
+    4. SYNTHÈSE DES CRITIQUES D'EXPERTISE &amp; RECOMMANDATIONS PRIORITAIRES
+  </text>
+  <line x1="827" y1="640" x2="1548" y2="640" stroke="#334155" stroke-width="1"/>
+
+  <!-- Critique Card 1 -->
+  <rect x="827" y="655" width="720" height="82" rx="6" fill="#0f172a" stroke="#fb7185" stroke-width="1.2"/>
+  <rect x="827" y="655" width="8" height="82" rx="2" fill="#fb7185"/>
+  <text x="848" y="676" fill="#fb7185" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">
+    CRITIQUE 1 (PRIORITÉ HAUTE) — Surpoids du Berceau Pelvien PA12-CF Massif &amp; Harmonisation Métrologique
+  </text>
+  <text x="848" y="696" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">
+    • Constat : Le berceau ASV1_200_01C en PA12-CF 100% plein pèse 2,81 kg et le plastron 2,80 kg en import solide (écart entre 18,80 kg et 24,69 kg).
+  </text>
+  <text x="848" y="715" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">
+    -&gt; Action V1.5 : Déployer immédiatement le châssis pelvien hybride 7075-T6 + 4 tubes Ø 20 mm (-3,28 kg) et figer les densités CAO Gyroïde 30%.
+  </text>
+
+  <!-- Critique Card 2 -->
+  <rect x="827" y="749" width="720" height="82" rx="6" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
+  <rect x="827" y="749" width="8" height="82" rx="2" fill="#fbbf24"/>
+  <text x="848" y="770" fill="#fbbf24" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">
+    CRITIQUE 2 (PRIORITÉ MOYENNE-HAUTE) — Assemblage Multi-Pièces Boulonné &amp; Maillon Faible Équerres 6060-T6
+  </text>
+  <text x="848" y="790" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">
+    • Constat : L'ossature caissonnée compte &gt;15 pièces boulonnées et utilise des équerres 6060-T6 (Rp0.2 = 160 MPa) au cou et à la Waist Plate.
+  </text>
+  <text x="848" y="809" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">
+    -&gt; Action V1.1 : Remplacer les équerres 6060-T6 par du 7075-T6 usiné + ajouter 2 goupilles ISO 8734 Ø 3 mm sur les embases des 4 cornières.
+  </text>
+
+  <!-- Critique Card 3 -->
+  <rect x="827" y="843" width="720" height="82" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+  <rect x="827" y="843" width="8" height="82" rx="2" fill="#38bdf8"/>
+  <text x="848" y="864" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">
+    CRITIQUE 3 (PRIORITÉ MOYENNE) — Limitation Cinématique du Waist 1-DoF (Lacet Pur) en Manipulation Basse
+  </text>
+  <text x="848" y="884" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">
+    • Constat : L'absence de Pitch lombaire oblige les hanches (RS-04) à incliner tout le tronc, réduisant la marge de couple en ramassage au sol.
+  </text>
+  <text x="848" y="903" fill="#34d399" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">
+    -&gt; Action V2.0 : Conserver le 1-DoF ultra-robuste pour valider la marche RL en V1, puis intégrer un module Pitch (RS-04 ou double vérin) en V2.
+  </text>
+
+  <!-- Critique Card 4 -->
+  <rect x="827" y="937" width="720" height="96" rx="6" fill="#0f172a" stroke="#a78bfa" stroke-width="1.2"/>
+  <rect x="827" y="937" width="8" height="96" rx="2" fill="#a78bfa"/>
+  <text x="848" y="958" fill="#a78bfa" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">
+    POINTS D'EXCELLENCE À CONSERVER ABSOLUMENT (AVANTAGE COMPÉTITIF MAJEUR DU D-BOT V1)
+  </text>
+  <text x="848" y="978" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">
+    1. Découplage intégral RB8016 + Moyeu Sandwich avec gap 0,40 mm | 2. Lumières concentriques 69°/125° Zéro-Guillotine &amp; Zéro-Dessoudage
+  </text>
+  <text x="848" y="996" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="11">
+    3. Tuyère annulaire active RS-04 (-47 °C) | 4. FEA CalculiX multi-corps réelle (639 922 N.m/rad) | 5. Indépendance industrielle C500 2.5D
+  </text>
+  <text x="848" y="1016" fill="#38bdf8" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">
+    Conclusion : Architecture de niveau industriel supérieur sur le guidage, la thermique et la maintenabilité, prête pour la fabrication V1.
+  </text>
+</svg>
+

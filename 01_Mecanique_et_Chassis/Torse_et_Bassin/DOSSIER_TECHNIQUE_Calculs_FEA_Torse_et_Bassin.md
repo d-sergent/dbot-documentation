@@ -2,59 +2,59 @@
 
 > [!NOTE]
 > **Statut du document** : Dossier d'Ingénierie & Certification RDM de Niveau 1 (Vérité Terrain Active).  
-> **Robot cible** : Humanoïde D-Bot V1 (Masse Torse + Bassin = 18,80 kg, Masse totale = 38,2 kg, Hauteur = 1,47 m).  
+> **Robot cible** : Humanoïde D-Bot V1 (`Torse-123 v42` : `18,32 kg` bruts / `~16,1–16,2 kg` calibrés PA12-CF ; enveloppe de calcul RDM conservative maintenue à `18,80 kg`, Masse totale `~38–40 kg`, Hauteur `~1,58 m`).  
 > **Chaîne numérique certifiée** : FreeCAD 1.1.3 (OpenCASCADE B-Rep) + Gmsh 4.x (Éléments tétraédriques quadratiques C3D10) + CalculiX `ccx 2.21` (Solveur multi-frontal SPOOLES).  
 > **Référentiel de conformité** : Eurocode 9 (EN 1999-1-1 : Calcul des structures en alliage d'aluminium), Critère de plasticité de Huber-Mises-Hencky (Von Mises), Norme de boulonnerie haute résistance VDI 2230.  
-> **Règle typographique stricte** : Zéro dollar ($) et zéro LaTeX ; toutes les grandeurs, tolérances, formules et unités sont écrites en texte clair ASCII normalisé.
+> **Règle typographique stricte** : Zéro signe dollar et zéro LaTeX ; toutes les grandeurs, tolérances, formules et unités sont écrites en texte clair ASCII normalisé.
 
 ---
 
 ## 📑 Sommaire Général
 
-- [1. Référentiel Méthodologique & Hypothèses de Modélisation Numérique](#1-référentiel-méthodologique-hypothèses-de-modélisation-numérique)
-  - [A. Cadre Normatif & Philosophie de Dimensionnement Robotique](#a-cadre-normatif-philosophie-de-dimensionnement-robotique)
-  - [B. Traitement des Singularités Numériques : Méthode du Percentile 95 (P95)](#b-traitement-des-singularités-numériques-méthode-du-percentile-95-p95)
-  - [C. Typologie des Éléments Finis & Critères de Convergence](#c-typologie-des-éléments-finis-critères-de-convergence)
-  - [D. Justification Physique & Dérivation Analytique des Cas de Charge (Traçabilité des Hypothèses)](#d-justification-physique-dérivation-analytique-des-cas-de-charge-traçabilité-des-hypothèses)
-- [2. Bibliothèque des Matériaux & Propriétés Élasto-Plastiques Certifiées](#2-bibliothèque-des-matériaux-propriétés-élasto-plastiques-certifiées)
+- [1. Référentiel Méthodologique & Hypothèses de Modélisation Numérique](#1-référentiel-méthodologique--hypothèses-de-modélisation-numérique)
+  - [A. Cadre Normatif & Philosophie de Dimensionnement Robotique](#a-cadre-normatif--philosophie-de-dimensionnement-robotique)
+  - [B. Traitement des Singularités Numériques : Méthode du Percentile 95 (P95)](#b-traitement-des-singularités-numériques--méthode-du-percentile-95-p95)
+  - [C. Typologie des Éléments Finis & Critères de Convergence](#c-typologie-des-éléments-finis--critères-de-convergence)
+  - [D. Justification Physique & Dérivation Analytique des Cas de Charge (Traçabilité des Hypothèses)](#d-justification-physique--dérivation-analytique-des-cas-de-charge-traçabilité-des-hypothèses)
+- [2. Bibliothèque des Matériaux & Propriétés Élasto-Plastiques Certifiées](#2-bibliothèque-des-matériaux--propriétés-élasto-plastiques-certifiées)
   - [A. Alliage Aéronautique Aluminium 7075-T651](#a-alliage-aéronautique-aluminium-7075-t651)
-  - [B. Visserie Haute Résistance Classe 12.9 & Goupilles DIN 6325](#b-visserie-haute-résistance-classe-129-goupilles-din-6325)
+  - [B. Visserie Haute Résistance Classe 12.9 & Goupilles DIN 6325](#b-visserie-haute-résistance-classe-129--goupilles-din-6325)
   - [C. Matrice Polymère Composite PA12-CF (Coques et Berceaux)](#c-matrice-polymère-composite-pa12-cf-coques-et-berceaux)
-- [3. Chaîne Numérique Souveraine & Reproductibilité des Simulations](#3-chaîne-numérique-souveraine-reproductibilité-des-simulations)
-  - [A. Architecture Logicielle & Pipeline CLI Non-Interactif](#a-architecture-logicielle-pipeline-cli-non-interactif)
-  - [B. Solution B : Pipeline VTK Natif & Visualisation Graphique Immédiate](#b-solution-b-pipeline-vtk-natif-visualisation-graphique-immédiate)
+- [3. Chaîne Numérique Souveraine & Reproductibilité des Simulations](#3-chaîne-numérique-souveraine--reproductibilité-des-simulations)
+  - [A. Architecture Logicielle & Pipeline CLI Non-Interactif](#a-architecture-logicielle--pipeline-cli-non-interactif)
+  - [B. Solution B : Pipeline VTK Natif & Visualisation Graphique Immédiate](#b-solution-b--pipeline-vtk-natif--visualisation-graphique-immédiate)
   - [C. Macro d'Animation Dynamique des Déformations](#c-macro-danimation-dynamique-des-déformations)
-- [4. Cas FEA 1 — Cornières Latérales Nervurées 7075-T6 (Lacet du Torse)](#4-cas-fea-1-cornières-latérales-nervurées-7075-t6-lacet-du-torse)
+- [4. Cas FEA 1 — Cornières Latérales Nervurées 7075-T6 (Lacet du Torse)](#4-cas-fea-1--cornières-latérales-nervurées-7075-t6-lacet-du-torse)
   - [A. Cornière Haute Nervurée (Jonction Portique d'Épaules)](#a-cornière-haute-nervurée-jonction-portique-dépaules)
   - [B. Cornière Basse Nervurée (Jonction Waist Plate 7075)](#b-cornière-basse-nervurée-jonction-waist-plate-7075)
-  - [C. Ancrage au Pied sur la Waist Plate — Tandem 2x M4 (Entraxe 12 mm) vs Goupille](#c-ancrage-au-pied-sur-la-waist-plate-tandem-2x-m4-entraxe-12-mm-vs-goupille)
-- [5. Cas FEA 2 — Colonne Sagittale Basse Isolée (Tangage & Roulis)](#5-cas-fea-2-colonne-sagittale-basse-isolée-tangage-roulis)
-  - [A. Géométrie des Lumières d'Allègement & Congés R=15 mm](#a-géométrie-des-lumières-dallègement-congés-r15-mm)
+  - [C. Ancrage au Pied sur la Waist Plate — Tandem 2x M4 (Entraxe 12 mm) vs Goupille](#c-ancrage-au-pied-sur-la-waist-plate--tandem-2x-m4-entraxe-12-mm-vs-goupille)
+- [5. Cas FEA 2 — Colonne Sagittale Basse Isolée (Tangage & Roulis)](#5-cas-fea-2--colonne-sagittale-basse-isolée-tangage--roulis)
+  - [A. Géométrie des Lumières d'Allègement & Congés R=15 mm](#a-géométrie-des-lumières-dallègement--congés-r15-mm)
   - [B. Cas de Charge Tangage (Pitch 140 N.m)](#b-cas-de-charge-tangage-pitch-140-nm)
   - [C. Cas de Charge Roulis (Roll 50 N.m)](#c-cas-de-charge-roulis-roll-50-nm)
-- [6. Cas FEA 3 — Colonne Sagittale Haute Isolée (Cou & Support IMU)](#6-cas-fea-3-colonne-sagittale-haute-isolée-cou-support-imu)
+- [6. Cas FEA 3 — Colonne Sagittale Haute Isolée (Cou & Support IMU)](#6-cas-fea-3--colonne-sagittale-haute-isolée-cou--support-imu)
   - [A. Spécifications du Segment Cervical](#a-spécifications-du-segment-cervical)
   - [B. Résultats sous Effort Cervical Transversal (328 N)](#b-résultats-sous-effort-cervical-transversal-328-n)
-- [7. Cas FEA 4 — Assemblage Complet Colonne Sagittale (Sandwich 15 mm)](#7-cas-fea-4-assemblage-complet-colonne-sagittale-sandwich-15-mm)
+- [7. Cas FEA 4 — Assemblage Complet Colonne Sagittale (Sandwich 15 mm)](#7-cas-fea-4--assemblage-complet-colonne-sagittale-sandwich-15-mm)
   - [A. Topologie B-Rep de l'Assemblage Tri-Couches](#a-topologie-b-rep-de-lassemblage-tri-couches)
-  - [B. Détection Automatique des Interfaces & Maillage C3D10](#b-détection-automatique-des-interfaces-maillage-c3d10)
+  - [B. Détection Automatique des Interfaces & Maillage C3D10](#b-détection-automatique-des-interfaces--maillage-c3d10)
   - [C. Résultats FEA Détaillés au Cou, aux Épaules et à l'IMU Torse](#c-résultats-fea-détaillés-au-cou-aux-épaules-et-à-limu-torse)
   - [D. Validation de la Stabilité de l'IMU Torse pour FAST-LIO](#d-validation-de-la-stabilité-de-limu-torse-pour-fast-lio)
-- [8. Cas FEA 5 — Modèle FEA Global de l'Assemblage Torse (Spaceframe 3D)](#8-cas-fea-5-modèle-fea-global-de-lassemblage-torse-spaceframe-3d)
+- [8. Cas FEA 5 — Modèle FEA Global de l'Assemblage Torse (Spaceframe 3D)](#8-cas-fea-5--modèle-fea-global-de-lassemblage-torse-spaceframe-3d)
   - [A. Topologie B-Rep du Squelette Primaire Complet](#a-topologie-b-rep-du-squelette-primaire-complet)
-  - [B. Effet Caisson Spatial & Partage de Rigidité en Torsion de Lacet (Yaw)](#b-effet-caisson-spatial-partage-de-rigidité-en-torsion-de-lacet-yaw)
-  - [C. Réponse Globale en Tangage Sagittal (Accélération 2g, M = 140 N.m)](#c-réponse-globale-en-tangage-sagittal-accélération-2g-m-140-nm)
-  - [D. Analyse Modale & Fréquences Propres de Résonance](#d-analyse-modale-fréquences-propres-de-résonance)
-- [9. Synthèse Comparative Globale & Matrice de Conformité](#9-synthèse-comparative-globale-matrice-de-conformité)
+  - [B. Effet Caisson Spatial & Partage de Rigidité en Torsion de Lacet (Yaw)](#b-effet-caisson-spatial--partage-de-rigidité-en-torsion-de-lacet-yaw)
+  - [C. Réponse Globale en Tangage Sagittal (Accélération 2g, M = 140 N.m)](#c-réponse-globale-en-tangage-sagittal-accélération-2g-m--140-nm)
+  - [D. Analyse Modale & Fréquences Propres de Résonance](#d-analyse-modale--fréquences-propres-de-résonance)
+- [9. Synthèse Comparative Globale & Matrice de Conformité](#9-synthèse-comparative-globale--matrice-de-conformité)
   - [A. Tableau Comparatif Analytique vs FEA Pièce Seule vs Assemblage](#a-tableau-comparatif-analytique-vs-fea-pièce-seule-vs-assemblage)
-  - [B. Validation de la Jonction aux Épaules & Absence d'Effet Rotule](#b-validation-de-la-jonction-aux-épaules-absence-deffet-rotule)
-- [10. Cartographie Complète des Fichiers Résultats & Accès 1-Clic](#10-cartographie-complète-des-fichiers-résultats-accès-1-clic)
-  - [A. Répertoire Dédié aux Assemblages (Colonne Complète & Torse Global)](#a-répertoire-dédié-aux-assemblages-colonne-complète-torse-global)
+  - [B. Validation de la Jonction aux Épaules & Absence d'Effet Rotule](#b-validation-de-la-jonction-aux-épaules--absence-deffet-rotule)
+- [10. Cartographie Complète des Fichiers Résultats & Accès 1-Clic](#10-cartographie-complète-des-fichiers-résultats--accès-1-clic)
+  - [A. Répertoire Dédié aux Assemblages (Colonne Complète & Torse Global)](#a-répertoire-dédié-aux-assemblages-colonne-complète--torse-global)
   - [B. Répertoire des Pièces Isolées](#b-répertoire-des-pièces-isolées)
-  - [C. Scripts Python Souverains & Macros](#c-scripts-python-souverains-macros)
-- [11. Recommandations d'Ingénierie pour Audits Ultérieurs & Essais Physiques](#11-recommandations-dingénierie-pour-audits-ultérieurs-essais-physiques)
-  - [A. Analyse Modale & Fréquences Propres de Résonance](#a-analyse-modale-fréquences-propres-de-résonance)
-  - [B. Fatigue Oligocyclique & Tenue des Assemblages Boulonnés (VDI 2230)](#b-fatigue-oligocyclique-tenue-des-assemblages-boulonnés-vdi-2230)
+  - [C. Scripts Python Souverains & Macros](#c-scripts-python-souverains--macros)
+- [11. Recommandations d'Ingénierie pour Audits Ultérieurs & Essais Physiques](#11-recommandations-dingénierie-pour-audits-ultérieurs--essais-physiques)
+  - [A. Analyse Modale & Fréquences Propres de Résonance](#a-analyse-modale--fréquences-propres-de-résonance)
+  - [B. Fatigue Oligocyclique & Tenue des Assemblages Boulonnés (VDI 2230)](#b-fatigue-oligocyclique--tenue-des-assemblages-boulonnés-vdi-2230)
   - [C. Protocole de Recoupement Expérimental par Extensométrie](#c-protocole-de-recoupement-expérimental-par-extensométrie)
 
 ---
@@ -135,14 +135,14 @@ Le robot humanoïde D-Bot V1 présente les caractéristiques inertielles globale
   `F_roll = M_roll / L_bas = 50,0 / 0,297 = 168,35 N ~ 168,3 N`
 - **Objectif d'Audit** : Démontrer l'hyper-rigidité de la colonne dans son plan de plus forte inertie (largeur 100 mm) et la parfaite stabilité de la centrale inertielle (déformation latérale résiduelle `< 0,09 mm`).
 
-#### 4. Cas de Charge 4 — Poussée Cervicale & Calage Moteur Cou (Neck Pitch : M_cou = 42,6 N.m ➔ F = 328,0 N)
-- **Origine Physique** : Couple de calage maximal de l'actionneur RobStride RS-05 dédié au tangage cervical (axe du cou) ou choc frontal direct sur la nacelle LiDAR / caméra haute.
-- **Données Constructeur** : Couple de pointe certifié RobStride RS-05 = `42,6 N.m`.
+#### 4. Cas de Charge 4 — Poussée Cervicale Enveloppante (Choc Tête / Embase Cou : M_cou = 42,6 N.m ➔ F = 328,0 N)
+- **Origine Physique** : Sollicitation mécanique enveloppante retenue pour l'audit RDM (choc frontal sur la nacelle caméra/tête ou arrêt d'urgence extrême). Note CAO `Torse-123 v42` : l'actionneur réel du cou est le **`RobStride RS-05` (`EL05_ASM_1_ASM`, couple crête `5,5 N.m`, rotatif Pan)** ; le cas de charge FEA à `42,6 N.m` (`328,0 N`) constitue donc une **enveloppe très conservative (~`7,7×` le couple crête du `RS-05`)**.
+- **Moment Enveloppant de Calcul** : `M_cou = 42,6 N.m` *(enveloppe choc structurel conservée pour le calcul FEA)* vs `5,5 N.m` couple crête nominal `RS-05`.
 - **Bras de Levier Cervical CAO** : La plaque haute s'étend entre le nœud d'épaules (`Z = 1340,42 mm`) et le sommet de la platine cou (`Z = 1470,42 mm`), soit une longueur de porte-à-faux `L_cou = 130,0 mm = 0,130 m`.
 - **Formule Analytique** :
   `F_cervical = M_cou / L_cou = 42,6 / 0,130 = 327,69 N ~ 328,0 N`
 - **Effort Appliqué FEA** : Force horizontale de **`328,0 N`** appliquée sur les arêtes sommitales de la plaque haute.
-- **Objectif d'Audit** : Vérifier que sous calage moteur maximal du cou, l'embase cervicale ne fléchit pas au point de fausser le calibrage extrinsèque LiDAR-IMU (critère de rotation locale `< 0,5 mrad`).
+- **Objectif d'Audit** : Vérifier que même sous une surcharge accidentelle de `42,6 N.m`, l'embase cervicale ne fléchit pas au point de fausser le calibrage extrinsèque caméra-IMU (critère de rotation locale `< 0,5 mrad`).
 
 #### 5. Tableau Synthétique d'Auditabilité des Cas de Charge
 
@@ -152,7 +152,7 @@ Le robot humanoïde D-Bot V1 présente les caractéristiques inertielles globale
 | **Cas 2A : Colonne Basse** | Tangage (Y) | Flexion Sagittale | E-Stop Torse (1,5 g, 18,8 kg) | `M_base = 140,0 N.m` | `L = 297,0 mm` (épaules) | `F = M_base / L` | **`471,2 N`** | **`140,0 N.m`** |
 | **Cas 2B : Assemblage** | Tangage (Y) | Flexion Sandwich 15 mm | E-Stop Torse (1,5 g, 18,8 kg) | `M_base = 140,0 N.m` | `L = 427,0 mm` (cou) | `F = M_base / L` | **`328,0 N`** | **`140,1 N.m`** |
 | **Cas 3 : Colonne Basse** | Roulis (X) | Flexion Frontale | Déport CoG monopode (145 mm) | `M_roll = 50,0 N.m` | `L = 297,0 mm` (épaules) | `F = M_roll / L` | **`168,3 N`** | **`50,0 N.m`** |
-| **Cas 4 : Colonne Haute** | Cervical (Y) | Flexion Cou | RobStride RS-05 Cou | `M_cou = 42,6 N.m` | `L = 130,0 mm` (cou) | `F = M_cou / L` | **`328,0 N`** | **`42,6 N.m`** |
+| **Cas 4 : Colonne Haute** | Cervical (Y) | Flexion Cou (Choc env.) | Enveloppe choc (`~7,7× RS-05`) | `M_cou = 42,6 N.m` | `L = 130,0 mm` (cou) | `F = M_cou / L` | **`328,0 N`** | **`42,6 N.m`** |
 
 ---
 
@@ -445,7 +445,7 @@ Pour certifier l'intégrité de la structure complète en intégrant la totalit�
    - Colonne vertébrale sandwich 15,0 mm (Plaque Basse + Plaque Haute + 2 Éclisses 5 mm en 7075-T6).
    - Plaque de Cou 7075-T6 (support cervical et interface tête/caméra).
    - Équerre de Cou 7075-T6 (ancrage supérieur rigide de la colonne sous la plaque de cou).
-   - Portique d'épaules complet (Tubes transverses Ø 30 mm + Brides 7075-T6 gauche/droite).
+   - Portique d'épaules complet (Tubes transverses carrés `60 × 60 mm`, `L = 80,07 mm` + Brides 7075-T6 gauche/droite).
    - 2 Cornières Hautes nervurées 7075-T6 (liaison brides d'épaules vers ceinture ventrale).
    - Ceinture ventrale intermédiaire en Aluminium 7075-T6 (cerclage structurel ventral).
    - 2 Cornières Basses nervurées 7075-T6 (liaison ceinture ventrale vers semelle waist).

@@ -1,173 +1,188 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" font-family="'Consolas', 'Courier New', monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1380 680" width="1380" height="680">
   <defs>
-    <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-      <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#2a324b" stroke-width="0.3"/>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="paViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
     </pattern>
-    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <path d="M0,0 L8,3 L0,6" fill="#60a5fa"/>
+    <pattern id="hatchWaste" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#ef4444" stroke-width="1.6" stroke-opacity="0.55"/>
+    </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
     </marker>
-    <marker id="arrow-rev" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto">
-      <path d="M8,0 L0,3 L8,6" fill="#60a5fa"/>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
     </marker>
-    <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <path d="M0,0 L8,3 L0,6" fill="#4ade80"/>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
     </marker>
-    <marker id="arrow-green-rev" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto">
-      <path d="M8,0 L0,3 L8,6" fill="#4ade80"/>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
     </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
   </defs>
+  <rect width="1380" height="680" fill="url(#bgGrad)"/>
+  <rect width="1380" height="680" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1320" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#f59e0b" fill-opacity="0.18" stroke="#f59e0b" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#f59e0b" text-anchor="middle">+</text>
+    <text x="76" y="31" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#f8fafc">IMBRICATION INSERTS 15° DANS BRUT 15×80×80 mm ALU 7075-T6 (OPTION B)</text>
+    <text x="76" y="54" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8">Alésage traversant Ø 35,0 mm (Insert 85,71 g/u | Section 55,8×55,8 mm | BBox 67,01×67,01 mm à 15°)</text>
+    <rect x="1026" y="19" width="270" height="36" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.3"/>
+    <text x="1161" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f59e0b" text-anchor="middle">2× BRUTS 15×80×80 | 7,20 EUR/u</text>
+  </g>
 
-  <!-- Background -->
-  <rect width="1200" height="500" fill="#0f172a"/>
-  <rect width="1200" height="500" fill="url(#grid)"/>
+  <!-- PANEL 1 : 2D NESTING -->
+  <g transform="translate(30, 114)">
+    <rect width="420" height="536" rx="12" fill="url(#panelGrad)" stroke="#f59e0b" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="18" y="30" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">1. IMBRICATION DANS BRUT 80×80 mm</text>
 
-  <!-- Title -->
-  <text x="600" y="30" text-anchor="middle" fill="#f8fafc" font-size="16" font-weight="bold">IMBRICATION INSERTS COLONNE — BRUT 15×80×80 mm ALU 7075-T6 (OPTION B : Ø 35 mm TRAVERSANT)</text>
+    <text x="210" y="64" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Brut Blockenstock 15 × 80 × 80 mm</text>
+    <!-- 240x240 outer square centered at (210, 210) -->
+    <rect x="90" y="84" width="240" height="240" rx="4" fill="#090e1a" stroke="#64748b" stroke-dasharray="5,3" stroke-width="1.5"/>
+    <!-- 168x168 inner insert centered at (210, 204) -->
+    <rect x="126" y="120" width="168" height="168" rx="8" fill="url(#aluAmber)" fill-opacity="0.28" stroke="#fde68a" stroke-width="2.2"/>
+    <circle cx="210" cy="204" r="54" fill="#090e1a" stroke="#facc15" stroke-width="2"/>
+    <text x="210" y="198" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#facc15" text-anchor="middle">Alésage Ø 35,0 mm</text>
+    <text x="210" y="216" font-family="Arial, sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">Traversant</text>
 
-  <!-- ============ PANEL 1: Imbrication 2D ============ -->
-  <rect x="20" y="45" width="370" height="440" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-  <text x="205" y="68" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="bold">PANEL 1 — Imbrication 2D dans Brut 80×80 mm</text>
+    <!-- 4 corner FHC holes -->
+    <circle cx="146" cy="140" r="6" fill="#34d399" stroke="#fff"/>
+    <circle cx="274" cy="140" r="6" fill="#34d399" stroke="#fff"/>
+    <circle cx="146" cy="268" r="6" fill="#34d399" stroke="#fff"/>
+    <circle cx="274" cy="268" r="6" fill="#34d399" stroke="#fff"/>
 
-  <!-- Brut block outline -->
-  <rect x="80" y="100" width="240" height="240" fill="none" stroke="#60a5fa" stroke-width="2" stroke-dasharray="6,3"/>
-  <text x="200" y="95" text-anchor="middle" fill="#60a5fa" font-size="10">Brut Blockenstock 80 × 80 mm</text>
+    <!-- Margin callouts OUTSIDE insert -->
+    <text x="108" y="208" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">12,1</text>
+    <text x="312" y="208" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">12,1</text>
 
-  <!-- Insert outline (centered in brut) -->
-  <rect x="116" y="136" width="168" height="168" rx="4" fill="#1e3a5f" stroke="#fbbf24" stroke-width="2"/>
-  <text x="200" y="248" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="bold">Insert 55,8 × 55,8 mm</text>
-  <text x="200" y="260" text-anchor="middle" fill="#94a3b8" font-size="9">(h = 15,0 mm, R = 3 mm)</text>
+    <!-- Clean bottom dimension bars -->
+    <line x1="126" y1="346" x2="294" y2="346" stroke="#fde68a" stroke-width="1.5"/>
+    <text x="210" y="364" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a" text-anchor="middle">Insert 55,8 × 55,8 mm (BBox 15° = 67,01 mm)</text>
+    <line x1="90" y1="382" x2="330" y2="382" stroke="#94a3b8" stroke-width="1.5"/>
+    <text x="210" y="400" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1" text-anchor="middle">Brut 80,0 × 80,0 mm (marge bridage OK)</text>
 
-  <!-- Alésage central Ø 35 mm traversant -->
-  <circle cx="200" cy="220" r="52.5" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
-  <text x="200" y="217" text-anchor="middle" fill="#f97316" font-size="9.5" font-weight="bold">Alésage Traversant</text>
-  <text x="200" y="230" text-anchor="middle" fill="#f97316" font-size="10" font-weight="bold">Ø 35,0 mm</text>
+    <rect x="24" y="424" width="372" height="90" rx="8" fill="#0f172a" stroke="#34d399"/>
+    <text x="210" y="454" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399" text-anchor="middle">1 bloc / insert — 2 blocs requis (Épaules)</text>
+    <text x="210" y="478" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0" text-anchor="middle">Blockenstock 15×80×80 mm Alu 7075-T6</text>
+    <text x="210" y="498" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a" text-anchor="middle">~7,20 EUR / bloc -&gt; ~14,40 EUR total</text>
+  </g>
 
-  <!-- Vis M5 hole -->
-  <circle cx="200" cy="158" r="4" fill="none" stroke="#ef4444" stroke-width="1.5"/>
-  <circle cx="200" cy="158" r="1.5" fill="#ef4444"/>
-  <text x="215" y="156" fill="#ef4444" font-size="8">Ø5,3 mm</text>
-  <text x="215" y="166" fill="#ef4444" font-size="8">X = 7,5 mm</text>
+  <!-- PANEL 2 : CUT 15.0 + COMPARISON TABLE -->
+  <g transform="translate(470, 114)">
+    <rect width="440" height="536" rx="12" fill="url(#panelGrad)" stroke="#38bdf8" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="18" y="30" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">2. COTATION 15,0 mm &amp; COMPARATIF A vs B</text>
 
-  <!-- 4 FHC M4 holes (entraxe 42x42 mm -> demi-entraxe 21 mm = 63 px) -->
-  <circle cx="137" cy="157" r="3.5" fill="none" stroke="#a78bfa" stroke-width="1.2"/>
-  <circle cx="263" cy="157" r="3.5" fill="none" stroke="#a78bfa" stroke-width="1.2"/>
-  <circle cx="137" cy="283" r="3.5" fill="none" stroke="#a78bfa" stroke-width="1.2"/>
-  <circle cx="263" cy="283" r="3.5" fill="none" stroke="#a78bfa" stroke-width="1.2"/>
-  <text x="200" y="295" text-anchor="middle" fill="#a78bfa" font-size="8">4× FHC M4 (42×42 mm, portée +8,2 mm)</text>
+    <!-- Section rectangle 240x84 centered -->
+    <rect x="100" y="84" width="240" height="84" rx="4" fill="url(#aluAmber)" fill-opacity="0.35" stroke="#fde68a" stroke-width="2"/>
+    <line x1="158" y1="84" x2="158" y2="168" stroke="#facc15" stroke-dasharray="4,3"/>
+    <line x1="282" y1="84" x2="282" y2="168" stroke="#facc15" stroke-dasharray="4,3"/>
+    <text x="220" y="120" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#facc15" text-anchor="middle">ALÉSAGE Ø 35,0 mm</text>
+    <text x="220" y="140" font-family="Arial, sans-serif" font-size="10.5" fill="#fde68a" text-anchor="middle">(Traversant h = 15,0 mm)</text>
 
-  <!-- Dimension lines — Left margin -->
-  <line x1="75" y1="136" x2="75" y2="100" stroke="#4ade80" stroke-width="0.8" marker-start="url(#arrow-green-rev)" marker-end="url(#arrow-green)"/>
-  <text x="70" y="122" text-anchor="end" fill="#4ade80" font-size="9">12,1</text>
+    <!-- Vertical thickness dimension left -->
+    <line x1="74" y1="84" x2="74" y2="168" stroke="#f8fafc" stroke-width="1.5"/>
+    <text x="58" y="130" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc" text-anchor="end">15,0</text>
 
-  <!-- Dimension lines — Right margin -->
-  <line x1="325" y1="136" x2="325" y2="100" stroke="#4ade80" stroke-width="0.8" marker-start="url(#arrow-green-rev)" marker-end="url(#arrow-green)"/>
-  <text x="337" y="122" fill="#4ade80" font-size="9">12,1</text>
+    <!-- M5x70 hole on left/right axis placed cleanly BELOW box -->
+    <line x1="220" y1="68" x2="220" y2="188" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2"/>
+    <text x="220" y="206" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fca5a5" text-anchor="middle">Vis M5×70 [91290A272] à X = 7,5 mm (paroi Ø 5,3)</text>
+    <text x="220" y="230" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">Cotation brute = 55,8 × 15,0 mm (aucun surfaçage Z)</text>
 
-  <!-- Bottom margin -->
-  <line x1="116" y1="345" x2="80" y2="345" stroke="#4ade80" stroke-width="0.8" marker-start="url(#arrow-green-rev)" marker-end="url(#arrow-green)"/>
-  <text x="98" y="358" text-anchor="middle" fill="#4ade80" font-size="9">12,1</text>
+    <!-- Proper SVG Table (y=260..512) -->
+    <rect x="20" y="256" width="400" height="258" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="34" y="282" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f8fafc">Comparatif Insert Option A vs Option B</text>
+    <line x1="30" y1="294" x2="408" y2="294" stroke="#334155"/>
+    <text x="34" y="316" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#94a3b8">Paramètre</text>
+    <text x="166" y="316" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fca5a5">Opt A (Borgne)</text>
+    <text x="292" y="316" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399">Opt B (Ø 35)</text>
+    <line x1="30" y1="326" x2="408" y2="326" stroke="#1e293b"/>
 
-  <!-- Brut width dimension -->
-  <line x1="80" y1="365" x2="320" y2="365" stroke="#60a5fa" stroke-width="0.8" marker-start="url(#arrow-rev)" marker-end="url(#arrow)"/>
-  <text x="200" y="380" text-anchor="middle" fill="#60a5fa" font-size="10" font-weight="bold">80,0 mm</text>
+    <text x="34" y="354" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">Masse unitaire</text>
+    <text x="166" y="354" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">~99 g</text>
+    <text x="292" y="354" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">85,71 g (v42)</text>
 
-  <!-- Insert width dimension -->
-  <line x1="116" y1="395" x2="284" y2="395" stroke="#fbbf24" stroke-width="0.8" marker-start="url(#arrow-rev)" marker-end="url(#arrow)"/>
-  <text x="200" y="410" text-anchor="middle" fill="#fbbf24" font-size="10">55,8 mm</text>
+    <text x="34" y="388" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">Usinage fond</text>
+    <text x="166" y="388" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Poche 10 mm</text>
+    <text x="292" y="388" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">Débouchant 1 pas</text>
 
-  <!-- Sourcing info -->
-  <rect x="55" y="420" width="300" height="55" rx="4" fill="#1a2744" stroke="#4ade80" stroke-width="1"/>
-  <text x="205" y="438" text-anchor="middle" fill="#4ade80" font-size="10" font-weight="bold">1 bloc / insert → 2 blocs requis</text>
-  <text x="205" y="453" text-anchor="middle" fill="#f8fafc" font-size="10">Blockenstock 15×80×80 mm 7075-T6</text>
-  <text x="205" y="468" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="bold">7,20 € TTC / bloc → 14,40 € total</text>
+    <text x="34" y="422" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">Sf torsion (120 N.m)</text>
+    <text x="166" y="422" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">&gt; 10</text>
+    <text x="292" y="422" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">&gt; 10 (Paroi 10,4)</text>
 
-  <!-- ============ PANEL 2: Coupe en épaisseur ============ -->
-  <rect x="410" y="45" width="370" height="440" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-  <text x="595" y="68" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="bold">PANEL 2 — Cotation Insert 15,0 mm (Coupe axiale Option B)</text>
+    <text x="34" y="456" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">Portée Nylstop</text>
+    <text x="166" y="456" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">+8,20 mm</text>
+    <text x="292" y="456" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">+8,20 mm plein</text>
 
-  <!-- Insert cross-section (side view) -->
-  <rect x="460" y="120" width="260" height="100" rx="3" fill="#1e3a5f" stroke="#fbbf24" stroke-width="2"/>
+    <text x="34" y="490" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">Fond fermé par</text>
+    <text x="166" y="490" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Plancher 5 mm</text>
+    <text x="292" y="490" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">Semelle 5 mm</text>
+  </g>
 
-  <!-- Alésage traversant Ø 35 mm cutout (sur les 100 px = 15 mm) -->
-  <rect x="515" y="120" width="150" height="100" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
-  <text x="590" y="165" text-anchor="middle" fill="#f97316" font-size="11" font-weight="bold">ALÉSAGE DÉBOUCHANT</text>
-  <text x="590" y="180" text-anchor="middle" fill="#f97316" font-size="12" font-weight="bold">Ø 35,0 mm</text>
-  <text x="590" y="195" text-anchor="middle" fill="#94a3b8" font-size="9">(Traversant h = 15,0 mm)</text>
+  <!-- PANEL 3 : SYNTHESE -->
+  <g transform="translate(930, 114)">
+    <rect width="420" height="536" rx="12" fill="url(#panelGrad)" stroke="#10b981" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="18" y="30" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981">3. SYNTHÈSE MATIÈRE &amp; USINAGE C500</text>
 
-  <!-- Insert height dimension (left) -->
-  <line x1="445" y1="120" x2="445" y2="220" stroke="#fbbf24" stroke-width="0.8" marker-start="url(#arrow-rev)" marker-end="url(#arrow)"/>
-  <text x="438" y="175" text-anchor="end" fill="#fbbf24" font-size="11" font-weight="bold">15,0</text>
+    <rect x="20" y="52" width="380" height="148" rx="8" fill="#0f172a" stroke="#10b981"/>
+    <text x="34" y="78" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">AVANTAGES OPTION B (Ø 35 TRAVERSANT)</text>
+    <text x="34" y="104" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Zéro fond de poche à surfacer sur C500.</text>
+    <text x="34" y="128" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Découpe 2D directe par interpolation hélicoïdale.</text>
+    <text x="34" y="152" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Allègement : 85,71 g/u (171,42 g la paire v42).</text>
+    <text x="34" y="176" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Obturation totale par semelle éclisse 5 mm.</text>
 
-  <!-- Vis M5 hole -->
-  <line x1="489" y1="115" x2="489" y2="225" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,2"/>
-  <circle cx="489" cy="115" r="3" fill="#ef4444"/>
-  <text x="489" y="240" text-anchor="middle" fill="#ef4444" font-size="9">Vis M5×70</text>
-  <text x="489" y="252" text-anchor="middle" fill="#ef4444" font-size="9">X = 7,5 mm</text>
+    <rect x="20" y="216" width="380" height="148" rx="8" fill="#0f172a" stroke="#38bdf8"/>
+    <text x="34" y="242" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#38bdf8">INTÉGRITÉ STRUCTURALE GARANTIE</text>
+    <text x="34" y="268" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Colonne vertébrale : 100 % pleine (489,50 g).</text>
+    <text x="34" y="292" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Écrous Nylstop [93625A150] : portée +8,2 mm.</text>
+    <text x="34" y="316" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Paroi résiduelle : 10,40 mm sur les 4 faces.</text>
+    <text x="34" y="340" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Transmission torsion 120 N.m sans fluage.</text>
 
-  <!-- Pince dimension -->
-  <line x1="460" y1="260" x2="489" y2="260" stroke="#4ade80" stroke-width="0.8" marker-start="url(#arrow-green-rev)" marker-end="url(#arrow-green)"/>
-  <text x="474" y="275" text-anchor="middle" fill="#4ade80" font-size="8">7,5</text>
-
-  <!-- Pince annotations -->
-  <line x1="460" y1="282" x2="487" y2="282" stroke="#4ade80" stroke-width="0.5"/>
-  <text x="474" y="295" text-anchor="middle" fill="#4ade80" font-size="7">Pince = 4,85 mm</text>
-
-  <!-- Width dimension -->
-  <line x1="460" y1="310" x2="720" y2="310" stroke="#fbbf24" stroke-width="0.8" marker-start="url(#arrow-rev)" marker-end="url(#arrow)"/>
-  <text x="590" y="325" text-anchor="middle" fill="#fbbf24" font-size="10">55,8 mm</text>
-
-  <!-- Comparison table -->
-  <rect x="435" y="345" width="320" height="130" rx="4" fill="#1a2744" stroke="#334155" stroke-width="1"/>
-  <text x="595" y="365" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="bold">Comparatif Insert Option A vs Option B</text>
-
-  <text x="445" y="385" fill="#94a3b8" font-size="9">Paramètre</text>
-  <text x="590" y="385" text-anchor="middle" fill="#94a3b8" font-size="9">Option A (Fond 5 mm)</text>
-  <text x="720" y="385" text-anchor="end" fill="#4ade80" font-size="9">Option B (Traversant)</text>
-  <line x1="440" y1="390" x2="750" y2="390" stroke="#334155" stroke-width="0.5"/>
-
-  <text x="445" y="405" fill="#f8fafc" font-size="9">Masse unitaire</text>
-  <text x="590" y="405" text-anchor="middle" fill="#f8fafc" font-size="9">99,0 g</text>
-  <text x="720" y="405" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">85,5 g (-13,5 g)</text>
-
-  <text x="445" y="422" fill="#f8fafc" font-size="9">Usinage fond</text>
-  <text x="590" y="422" text-anchor="middle" fill="#f8fafc" font-size="9">Poche 10 mm borgne</text>
-  <text x="720" y="422" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">Débouchant 1 passe</text>
-
-  <text x="445" y="439" fill="#f8fafc" font-size="9">Sf torsion (120 Nm)</text>
-  <text x="590" y="439" text-anchor="middle" fill="#f8fafc" font-size="9">> 100</text>
-  <text x="720" y="439" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">> 100 ✅</text>
-
-  <text x="445" y="456" fill="#f8fafc" font-size="9">Portée sous Nylstop</text>
-  <text x="590" y="456" text-anchor="middle" fill="#f8fafc" font-size="9">+8,20 mm</text>
-  <text x="720" y="456" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">+8,20 mm ✅</text>
-
-  <text x="445" y="473" fill="#f8fafc" font-size="9">Fond fermé par</text>
-  <text x="590" y="473" text-anchor="middle" fill="#f8fafc" font-size="9">Plancher insert</text>
-  <text x="720" y="473" text-anchor="end" fill="#4ade80" font-size="9" font-weight="bold">Semelle pleine 5 mm</text>
-
-  <!-- ============ PANEL 3: Récapitulatif global ============ -->
-  <rect x="800" y="45" width="380" height="440" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-  <text x="990" y="68" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="bold">PANEL 3 — Synthèse Matière &amp; Usinage Option B</text>
-
-  <rect x="820" y="90" width="340" height="100" rx="4" fill="#0f172a" stroke="#4ade80" stroke-width="1"/>
-  <text x="835" y="112" fill="#4ade80" font-size="11" font-weight="bold">AVANTAGES OPTION B (TRAVERSANT Ø 35) :</text>
-  <text x="835" y="132" fill="#e2e8f0" font-size="9.5">• Zéro fond de poche à surfacer sur C500</text>
-  <text x="835" y="150" fill="#e2e8f0" font-size="9.5">• Découpe 2D directe en interpolation hélicoïdale</text>
-  <text x="835" y="168" fill="#e2e8f0" font-size="9.5">• Allègement maximal : -81,0 g sur le torse</text>
-  <text x="835" y="184" fill="#38bdf8" font-size="9.5">• Obturation naturelle par la semelle pleine</text>
-
-  <rect x="820" y="205" width="340" height="135" rx="4" fill="#0f172a" stroke="#fbbf24" stroke-width="1"/>
-  <text x="835" y="227" fill="#fbbf24" font-size="11" font-weight="bold">CONSERVATION INTÉGRITÉ STRUCTURALE :</text>
-  <text x="835" y="247" fill="#cbd5e1" font-size="9.5">• Colonne vertébrale : 100% pleine et continue</text>
-  <text x="835" y="265" fill="#cbd5e1" font-size="9.5">• Semelle éclisse : 100% pleine sous l'insert</text>
-  <text x="835" y="283" fill="#cbd5e1" font-size="9.5">• Écrous Nylstop M4 : Portée de +8,2 mm de métal</text>
-  <text x="835" y="301" fill="#cbd5e1" font-size="9.5">• Paroi résiduelle insert : 10,40 mm sur 4 faces</text>
-  <text x="835" y="319" fill="#10b981" font-size="9.5" font-weight="bold">• Transmission torsion 120 Nm garantie à 100%</text>
-
-  <rect x="820" y="355" width="340" height="115" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
-  <text x="835" y="377" fill="#38bdf8" font-size="11" font-weight="bold">RÉCAPITULATIF SOURCING BLOCKENSTOCK :</text>
-  <text x="835" y="397" fill="#e2e8f0" font-size="9.5">• 2× Blocs 15 × 80 × 80 mm Alu 7075-T6 (7,20 €)</text>
-  <text x="835" y="415" fill="#e2e8f0" font-size="9.5">• 2× Plaques 5 × 160 × 160 mm Alu 7075-T6 (9,60 €)</text>
-  <text x="835" y="433" fill="#e2e8f0" font-size="9.5">• 1× Plat 5 × 100 × 495 mm Alu 7075-T6 (18,16 €)</text>
-  <text x="835" y="451" fill="#4ade80" font-size="10" font-weight="bold">TOTAL MATIÈRE 100% 7075-T6 = 51,76 € TTC</text>
+    <rect x="20" y="380" width="380" height="134" rx="8" fill="#0f172a" stroke="#f59e0b"/>
+    <text x="34" y="406" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fde68a">SOURCING BLOCKENSTOCK 7075-T6</text>
+    <text x="34" y="432" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• 2× Blocs 15×80×80 mm Alu 7075 (~14,40 EUR)</text>
+    <text x="34" y="456" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• 2× Plaques 5×160×160 mm (~19,20 EUR)</text>
+    <text x="34" y="480" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• 1× Plat 5×100×495 mm Colonne (~18,16 EUR)</text>
+  </g>
 </svg>

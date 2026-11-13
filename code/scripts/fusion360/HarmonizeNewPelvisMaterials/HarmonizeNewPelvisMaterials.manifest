@@ -1,0 +1,11 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Antigravity & David",
+	"description":	{
+		"":	"Mise à jour et harmonisation des matériaux physiques et apparences des nouvelles pièces du Bassin Pelvis D-Bot V1 (Coque 5mm PA12-CF 0,70g/cm3, Selle 7075, Montants 6060-T6)"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
+

@@ -3,7 +3,7 @@
 	"type":	"script",
 	"author":	"Antigravity & David",
 	"description":	{
-		"":	"Audit dimensionnel, géométrique et métrologique pour le Torse et Bassin D-Bot V1"
+		"":	"Audit unifié D-Bot V1 : Métrologie, Cinématique (DDL), Alignement/Verticalité et Snapshots CAO"
 	},
 	"supportedOS":	"windows|mac",
 	"editEnabled":	true

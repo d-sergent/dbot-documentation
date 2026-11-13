@@ -16,9 +16,11 @@ Rôle et Avantages Majeurs :
    - Permet en 1 clic de sélectionner tout un sous-ensemble, de le masquer/afficher (touche V) ou de l'isoler.
 """
 
+import re
+import traceback
+
 import adsk.core
 import adsk.fusion
-import traceback
 
 def run(context):
     ui = None
@@ -39,9 +41,10 @@ def run(context):
         # 1. DÉFINITION DES RÈGLES DE CLASSIFICATION PAR GROUPE
         # ---------------------------------------------------------------------------
         FASTENER_KEYS = [
-            'vis', '91292', '92290', '92855', '90348', '90128', '91290', '92125', 
+            '91292', '92290', '92855', '90348', '90128', '91290', '92125', 
             '91585', 'luosi', 'rondelle', '93475', '91812', 'ecrou', '93625', '90631'
         ]
+        VIS_WORD_RE = re.compile(r'(?:^|[^a-z0-9])vis(?:$|[^a-z0-9])')
         
         COVER_KEYS = [
             'carenage', 'plastron', 'panier', 'capot', 'platine_connectique', 'trappe_inferieure'
@@ -54,12 +57,12 @@ def run(context):
         ]
         
         PELVIS_KEYS = [
-            'bassin_pelvis', 'chassis_structurel_bassin', 'traverse_renfort_bassin', 
-            'support_hanche', 'liaison_hanche'
+            'bassin_pelvis', 'chassis_structurel_bassin', 'traverse_renfort_bassin',
+            'selle de pont', 'montant de hanche', 'support_hanche', 'liaison_hanche'
         ]
 
         def match_fastener(name_lower):
-            return any(k in name_lower for k in FASTENER_KEYS)
+            return bool(VIS_WORD_RE.search(name_lower)) or any(k in name_lower for k in FASTENER_KEYS)
             
         def match_cover(name_lower):
             return any(k in name_lower for k in COVER_KEYS)

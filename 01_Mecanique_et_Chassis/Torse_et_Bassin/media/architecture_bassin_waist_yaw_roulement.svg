@@ -1,257 +1,198 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="100%" height="100%" style="background:#0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="100%" height="100%">
   <defs>
-    <!-- Pattern de grille technique -->
-    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.8" />
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
     </pattern>
-    <pattern id="major-grid" width="100" height="100" patternUnits="userSpaceOnUse">
-      <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#334155" stroke-width="1.2" />
-    </pattern>
-
-    <!-- Gradients matériaux -->
-    <linearGradient id="aluGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#94a3b8" />
-      <stop offset="50%" stop-color="#cbd5e1" />
-      <stop offset="100%" stop-color="#64748b" />
-    </linearGradient>
-
-    <linearGradient id="motorGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0284c7" />
-      <stop offset="50%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#0369a1" />
-    </linearGradient>
-
-    <linearGradient id="bearingGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#f59e0b" />
-      <stop offset="100%" stop-color="#b45309" />
-    </linearGradient>
-
-    <linearGradient id="carbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b" />
-      <stop offset="100%" stop-color="#0f172a" />
-    </linearGradient>
-
-    <!-- Marqueurs de cotes -->
-    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38bdf8" />
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
     </marker>
-    <marker id="arrow-amber" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#f59e0b" />
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
     </marker>
-    <marker id="arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#ef4444" />
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
     </marker>
-    <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#10b981" />
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
     </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
   </defs>
-
-  <!-- Fond quadrillé -->
-  <rect width="100%" height="100%" fill="#0f172a" />
-  <rect width="100%" height="100%" fill="url(#grid)" />
-  <rect width="100%" height="100%" fill="url(#major-grid)" opacity="0.4" />
-
-  <!-- En-tête principal -->
-  <g transform="translate(40, 30)">
-    <rect width="1520" height="70" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="25" y="32" fill="#38bdf8" font-size="20" font-weight="bold" letter-spacing="1">D-BOT V1.x — DOSSIER TECHNIQUE BASSIN &amp; LIAISON ACTIVE WAIST YAW</text>
-    <text x="25" y="54" fill="#94a3b8" font-size="13">ARCHITECTURE CINÉMATIQUE PELVIENNE F-A-R • MOTORISATION RS-06 (36 N.m) • GUIDAGE PAR ROULEMENT 4 POINTS Ø 110 mm • SCALE +18%</text>
-    <rect x="1360" y="15" width="135" height="40" rx="6" fill="#0369a1" opacity="0.4" stroke="#38bdf8" stroke-width="1" />
-    <text x="1427" y="40" fill="#38bdf8" font-size="12" font-weight="bold" text-anchor="middle">INDICE 1.0 (OFFICIEL)</text>
+  <rect width="1600" height="1000" fill="url(#bgGrad)"/>
+  <rect width="1600" height="1000" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1540" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#38bdf8" fill-opacity="0.18" stroke="#38bdf8" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#38bdf8" text-anchor="middle">A</text>
+    <text x="78" y="32" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#f8fafc">ARCHITECTURE MÉCANIQUE BASSIN &amp; WAIST YAW — TORSE-123 V42</text>
+    <text x="78" y="55" font-family="Arial, sans-serif" font-size="13" fill="#94a3b8">Découplage total : Roulement RB8016 (moments) + Actionneur RS-06 (couple pur) + Pont de Hanches tout-métal</text>
+    <rect x="1220" y="19" width="290" height="36" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+    <text x="1365" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8" text-anchor="middle">MASSE V42 : 18,32 KG (~16,1 KG CAL.)</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANNEAU 1 : COUPE AXIALE LIAISON WAIST YAW (GAUCHE)                       -->
-  <!-- ========================================================================= -->
-  <g transform="translate(40, 120)">
-    <rect width="740" height="520" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
-    <text x="25" y="35" fill="#38bdf8" font-size="16" font-weight="bold">PANNEAU 1 : COUPE AXIALE DE LA LIAISON WAIST YAW (DÉCOUPLAGE DES EFFORTS)</text>
-    <text x="25" y="55" fill="#64748b" font-size="12">Reprise des moments de basculement (56-220 N.m) par roulement Ø110 mm &amp; transmission de couple pur (36 N.m)</text>
+  <!-- PANEL 1 (LEFT) : COUPE AXIALE COMPLETE Z -->
+  <g transform="translate(30, 114)">
+    <rect width="740" height="860" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="24" y="30" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#38bdf8">1. EMPILEMENT AXIAL Z RÉEL (FUSION 360 TORSE-123 V42)</text>
+    <text x="24" y="50" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">Cotes altimétriques Z certifiées — Zéro superposition de libellés</text>
 
-    <!-- Ligne d'axe Z central -->
-    <line x1="370" y1="75" x2="370" y2="485" stroke="#38bdf8" stroke-width="1" stroke-dasharray="6,3" />
-    <text x="380" y="90" fill="#38bdf8" font-size="11" font-weight="bold">AXE Z (YAW)</text>
+    <!-- Equerre waist + Colonne -->
+    <rect x="195" y="95" width="22" height="105" rx="3" fill="#64748b" stroke="#94a3b8"/>
+    <rect x="263" y="95" width="22" height="105" rx="3" fill="#64748b" stroke="#94a3b8"/>
+    <rect x="217" y="85" width="46" height="115" rx="3" fill="#475569" stroke="#cbd5e1"/>
+    <text x="240" y="145" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Colonne</text>
+    <text x="410" y="138" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#cbd5e1">2× Equerre waist (90,02×30,02×30,02 | 84,22 g)</text>
+    <line x1="286" y1="145" x2="402" y2="135" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
 
-    <!-- Torse Mobile : Waist Plate (Alu 6 mm, largeur 94 mm / portée 120 mm) -->
-    <rect x="170" y="110" width="400" height="24" rx="3" fill="url(#aluGrad)" stroke="#cbd5e1" stroke-width="1.5" />
-    <text x="370" y="126" fill="#0f172a" font-size="12" font-weight="bold" text-anchor="middle">WAIST PLATE (ALU 6,0 mm) — TORSE MOBILE (18,3 kg SUSPENDUS)</text>
+    <!-- Waist_Plate_7075 -->
+    <rect x="90" y="200" width="300" height="30" rx="3" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.5"/>
+    <text x="240" y="220" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Waist_Plate_7075 (9,02 mm | 433,53 g)</text>
+    <text x="410" y="218" font-family="Arial, sans-serif" font-size="11" fill="#fb923c">Z = 1033,41..1042,43 | Encoche U + Arc 125,05°</text>
 
-    <!-- Équerres de fixation Waist (L = 80 mm, 30x30x3 mm) -->
-    <path d="M 260 110 L 260 70 L 272 70 L 272 98 L 310 98 L 310 110 Z" fill="#cbd5e1" stroke="#475569" stroke-width="1" />
-    <path d="M 480 110 L 480 70 L 468 70 L 468 98 L 430 98 L 430 110 Z" fill="#cbd5e1" stroke="#475569" stroke-width="1" />
-    <text x="220" y="85" fill="#94a3b8" font-size="10">Équerre G (30x30x3)</text>
-    <text x="520" y="85" fill="#94a3b8" font-size="10">Équerre D (30x30x3)</text>
+    <!-- Clearance 0.38 mm + Brides RB8016 -->
+    <rect x="92" y="232" width="28" height="32" rx="3" fill="url(#aluAmber)" stroke="#fbbf24"/>
+    <rect x="360" y="232" width="28" height="32" rx="3" fill="url(#aluAmber)" stroke="#fbbf24"/>
+    <text x="410" y="248" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fbbf24">4× Bride_Retenue_RB8016_L (4,12 g/u | [92290A154])</text>
+    <line x1="388" y1="244" x2="404" y2="244" stroke="#fbbf24" stroke-width="1"/>
 
-    <!-- Colonne Sagittale 5 mm montant au centre -->
-    <rect x="360" y="60" width="20" height="50" fill="#64748b" stroke="#94a3b8" stroke-width="1" />
-    <text x="370" y="50" fill="#cbd5e1" font-size="11" font-weight="bold" text-anchor="middle">COLONNE SAGITTALE 7075-T6 (5 mm)</text>
+    <!-- RB8016 -->
+    <rect x="120" y="236" width="240" height="44" rx="4" fill="url(#steelGreen)" stroke="#4ade80" stroke-width="1.5"/>
+    <text x="142" y="260" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">RB8016</text>
+    <text x="338" y="260" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">633,41 g</text>
+    <text x="410" y="276" font-family="Arial, sans-serif" font-size="11" fill="#4ade80">Z = 1017,40..1033,44 | Contrôlé 0,003 mm faux-rond</text>
 
-    <!-- Roulement 4 points de contact à section mince Ø 110 mm -->
-    <!-- Bague Gauche -->
-    <rect x="190" y="150" width="36" height="36" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="2" />
-    <circle cx="208" cy="168" r="12" fill="url(#bearingGrad)" stroke="#fbbf24" stroke-width="1.5" />
-    <!-- Bague Droite -->
-    <rect x="514" y="150" width="36" height="36" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="2" />
-    <circle cx="532" cy="168" r="12" fill="url(#bearingGrad)" stroke="#fbbf24" stroke-width="1.5" />
+    <!-- Moyeu_Waist_Sandwich_7075 -->
+    <rect x="165" y="234" width="150" height="66" rx="4" fill="url(#aluAmber)" fill-opacity="0.88" stroke="#fde047" stroke-width="1.5"/>
+    <text x="240" y="272" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Moyeu Sandwich 7075</text>
+    <text x="240" y="288" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Ø 91,52 × 23,62 (163,94 g)</text>
+    <text x="410" y="305" font-family="Arial, sans-serif" font-size="11" fill="#fde047">Z = 1009,41..1033,03 | Jeu 0,38 mm | 6× rotor + 4× M4</text>
+    <line x1="316" y1="286" x2="404" y2="301" stroke="#fde047" stroke-width="1"/>
 
-    <text x="208" y="138" fill="#f59e0b" font-size="11" font-weight="bold" text-anchor="middle">ROULEMENT 4 POINTS Ø 110 mm</text>
-    <text x="208" y="205" fill="#fbbf24" font-size="10" text-anchor="middle">Section Mince 10×10 mm</text>
+    <!-- Traverse_Renfort_Bassin -->
+    <rect x="92" y="294" width="296" height="36" rx="3" fill="url(#aluBlue)" stroke="#60a5fa" stroke-width="1.5"/>
+    <text x="240" y="317" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Traverse_Renfort_Bassin (12,51 mm | 566,74 g)</text>
+    <text x="410" y="330" font-family="Arial, sans-serif" font-size="11" fill="#60a5fa">Z = 1007,90..1020,41 | Arc dorsal 69,05° | 4× FHC [92125A213]</text>
 
-    <!-- Flèches d'efforts repris par le roulement -->
-    <line x1="150" y1="168" x2="180" y2="168" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-red)" />
-    <text x="140" y="155" fill="#ef4444" font-size="10" font-weight="bold" text-anchor="end">F_xy (Cisaillement 180 N)</text>
-    <line x1="208" y1="230" x2="208" y2="195" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-green)" />
-    <text x="208" y="245" fill="#10b981" font-size="10" font-weight="bold" text-anchor="middle">F_z (Compression 540 N dyn)</text>
+    <!-- RS-06 Actuator -->
+    <rect x="172" y="330" width="136" height="82" rx="6" fill="url(#motorSlate)" stroke="#94a3b8" stroke-width="1.6"/>
+    <text x="240" y="366" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#f8fafc" text-anchor="middle">RobStride RS-06</text>
+    <text x="240" y="384" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1" text-anchor="middle">85,3 × 83,6 × 50,5 mm</text>
+    <text x="240" y="400" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#f87171" text-anchor="middle">550,97 g | Arbre plein</text>
+    <text x="410" y="370" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Z = 958,90..1009,44 | 11 N.m nom. / 36 N.m pic</text>
+    <text x="410" y="388" font-family="Arial, sans-serif" font-size="10.5" fill="#fbbf24">8× M3 stator ([92855A313] : 1/8 modélisée en v42)</text>
 
-    <path d="M 140 120 C 130 160, 130 180, 150 200" fill="none" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#arrow-amber)" />
-    <text x="120" y="190" fill="#f59e0b" font-size="11" font-weight="bold" text-anchor="end">M_pitch / M_roll (56 à 220 N.m)</text>
+    <!-- Pont de Hanches + Coque Pelvis -->
+    <rect x="65" y="445" width="350" height="165" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="240" y="472" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8" text-anchor="middle">SQUELETTE PONT DE HANCHES (1 114,87 g MÉTAL)</text>
+    <text x="240" y="496" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0" text-anchor="middle">• 4× Montants 20×20 (L=65,77 mm) + 8× Inserts Alu 7075</text>
+    <text x="240" y="516" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0" text-anchor="middle">• Selle de Pont Pelvis (338,98 g) + Tube 60×60 (L=46,33 mm)</text>
+    <text x="240" y="536" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0" text-anchor="middle">• 2× Bride Epaule v87 (202,30 g/u) + 2× RS-04 Hanches Pitch</text>
+    <text x="240" y="558" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">• Coque Chassis_Structurel_Bassin_Last : 441,36 g (PA12-CF 0,700)</text>
+    <text x="240" y="582" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f59e0b" text-anchor="middle">• + 8 occurrences ASV1_200 en cours de définition CAO (WIP)</text>
 
-    <!-- Bague d'adaptation CNC Alu 6061-T6 (Ø 88 / Ø 115,6 mm) -->
-    <rect x="235" y="170" width="30" height="120" rx="3" fill="url(#aluGrad)" stroke="#94a3b8" stroke-width="1" />
-    <rect x="475" y="170" width="30" height="120" rx="3" fill="url(#aluGrad)" stroke="#94a3b8" stroke-width="1" />
-    <text x="250" y="310" fill="#94a3b8" font-size="10" text-anchor="middle">Bague CNC</text>
-    <text x="250" y="322" fill="#cbd5e1" font-size="10" font-weight="bold" text-anchor="middle">Ø 88 / 115,6</text>
-
-    <!-- Moteur RobStride RS-06 (Ø 88 mm, H = 41,5 mm) -->
-    <rect x="275" y="190" width="190" height="95" rx="6" fill="url(#motorGrad)" stroke="#38bdf8" stroke-width="2" />
-    <text x="370" y="225" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">ROBSTRIDE RS-06 (QDD)</text>
-    <text x="370" y="245" fill="#e0f2fe" font-size="11" text-anchor="middle">Couple Pic : 36 N.m • Continu : 11 N.m • CAN-FD ID 21</text>
-    <text x="370" y="263" fill="#bae6fd" font-size="10" text-anchor="middle">Ø 88 mm • Masse 621 g • ZÉRO EFFORT AXIAL/RADIAL SUBI</text>
-
-    <!-- Accouplement Rotor / Waist Plate -->
-    <rect x="330" y="134" width="80" height="56" rx="4" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="370" y="166" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">BRIDE ROTOR</text>
-    <path d="M 345 150 L 395 150" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow-amber)" />
-    <text x="370" y="182" fill="#f59e0b" font-size="9" font-weight="bold" text-anchor="middle">COUPLE PUR : 36 N.m</text>
-
-    <!-- Caisson Pelvien Inférieur Fixe (Bassin) -->
-    <path d="M 170 290 L 235 290 L 235 340 L 475 340 L 475 290 L 570 290 L 570 380 L 170 380 Z" fill="#0f172a" stroke="#475569" stroke-width="2" />
-    <text x="370" y="365" fill="#94a3b8" font-size="12" font-weight="bold" text-anchor="middle">CHÂSSIS PELVIEN FIXE (ASIMOV V1 SCALÉ +18%)</text>
-
-    <!-- Corridor de passage des câbles 48V et CAN -->
-    <rect x="340" y="390" width="60" height="80" rx="6" fill="#0284c7" opacity="0.2" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,3" />
-    <text x="370" y="425" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">CORRIDOR CÂBLES</text>
-    <text x="370" y="442" fill="#94a3b8" font-size="9" text-anchor="middle">48V (10 AWG) + CAN-FD</text>
-    <text x="370" y="456" fill="#10b981" font-size="9" text-anchor="middle">Débattement +/- 90°</text>
-
-    <!-- Cote Diamètre Roulement -->
-    <line x1="190" y1="490" x2="550" y2="490" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)" />
-    <text x="370" y="508" fill="#38bdf8" font-size="12" font-weight="bold" text-anchor="middle">DIAMÈTRE EXTÉRIEUR ROULEMENT = Ø 110,0 mm</text>
+    <!-- Hard Stop Action Bar -->
+    <rect x="24" y="640" width="692" height="196" rx="10" fill="#0f172a" stroke="#ef4444" stroke-width="1.3"/>
+    <text x="40" y="666" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#f87171">CINÉMATIQUE &amp; MODIFICATIONS PRÉVUES AVANT USINAGE CNC</text>
+    <text x="40" y="690" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Plage nominale logicielle : ±80 deg | Butée mécanique dure prévue : ±95 deg (R = 83,0 mm)</text>
+    <text x="40" y="712" font-family="Arial, sans-serif" font-size="11.5" fill="#fecaca">• STATUT BUTÉE ±95° : MODIFICATION CAO PRÉVUE AVANT USINAGE CNC (absente de Torse-123 v42)</text>
+    <text x="40" y="736" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Brides RB8016 (4× Bride_Retenue_RB8016_L) : déjà modélisées &amp; validées en CAO v42</text>
+    <text x="40" y="758" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Enveloppe Torse-123 v42 : 242,97 × 487,06 × 832,95 mm (feuilles) | Z = 714,17..1547,12</text>
+    <text x="40" y="782" font-family="Arial, sans-serif" font-size="11.5" fill="#34d399">• Contre-réaction thermique RS-06 : conduction directe stator ➔ Traverse 7075 (566,74 g)</text>
+    <text x="40" y="806" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">• Attention : Ensemble hanche:1 (conteneur vide) élargit la bbox brute à 564,84 × 223,14 × 290,38 mm</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANNEAU 2 : ARCHITECTURE CINÉMATIQUE DU BASSIN (DROITE)                   -->
-  <!-- ========================================================================= -->
-  <g transform="translate(820, 120)">
-    <rect width="740" height="520" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
-    <text x="25" y="35" fill="#38bdf8" font-size="16" font-weight="bold">PANNEAU 2 : ARCHITECTURE CINÉMATIQUE PELVIENNE F-A-R (VUE FRONTALE)</text>
-    <text x="25" y="55" fill="#64748b" font-size="12">Implantation des 2 hanches 3-DOFs : RS-04 (Pitch) ➔ RS-03 (Roll) ➔ RS-03 (Yaw) ➔ Fémur Hybride</text>
+  <!-- PANEL 2 (TOP RIGHT) : DECOUPLAGE MECANIQUE -->
+  <g transform="translate(795, 114)">
+    <rect width="775" height="410" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="24" y="30" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#10b981">2. DÉCOUPLAGE RDM : ROULEMENT RB8016 VS ACTIONNEUR RS-06</text>
 
-    <!-- Ligne médiane Y = 0 -->
-    <line x1="370" y1="75" x2="370" y2="485" stroke="#38bdf8" stroke-width="1" stroke-dasharray="6,3" />
-    <text x="380" y="90" fill="#38bdf8" font-size="11" font-weight="bold">PLAN MÉDIAN Y = 0</text>
+    <!-- Box A: RB8016 -->
+    <rect x="24" y="54" width="350" height="330" rx="10" fill="#0f172a" stroke="#22c55e" stroke-width="1.3"/>
+    <text x="42" y="80" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#4ade80">ROULEMENT CROISÉ RB8016 (ACIER GCr15)</text>
+    <text x="42" y="106" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Dimensions réelles mesurées (15/09/2026) :</text>
+    <text x="54" y="126" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">d = 79,996 mm | D = 119,995 mm | B = 15,965 mm</text>
+    <text x="54" y="146" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Faux-rond axial &lt; 0,003 mm (Luoyang EFANT)</text>
+    <text x="42" y="176" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">• EFFORTS ENCAISSÉS À 100% :</text>
+    <text x="54" y="198" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">- Poids torse + batteries (~18 kg) + chocs 2g</text>
+    <text x="54" y="218" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">- Moments de renversement Pitch &amp; Roll (&gt; 150 N.m)</text>
+    <text x="54" y="238" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">- Rigidité angulaire élevée, zéro jeu radial/axial</text>
+    <text x="42" y="272" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fbbf24">• Serrage bague extérieure :</text>
+    <text x="54" y="292" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">4× Bride_Retenue_RB8016_L + CHC M4×16 [92290A154]</text>
+    <text x="42" y="324" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fb923c">• Serrage bague intérieure :</text>
+    <text x="54" y="344" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Moyeu_Waist_Sandwich_7075 + 4× [92290A168]</text>
+    <text x="42" y="370" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8">Zéro contrainte de flexion sur les roulements internes RS-06</text>
 
-    <!-- Bloc Central Pelvien -->
-    <rect x="270" y="95" width="200" height="90" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="2" />
-    <text x="370" y="130" fill="#38bdf8" font-size="13" font-weight="bold" text-anchor="middle">CAISSON PELVIEN</text>
-    <text x="370" y="150" fill="#94a3b8" font-size="11" text-anchor="middle">Alésage Central Ø 115,6 mm</text>
-    <text x="370" y="168" fill="#64748b" font-size="10" text-anchor="middle">Intégration Bague + RS-06 Waist</text>
-
-    <!-- Hanche Gauche : RS-04 Hip Pitch (Axe Y) -->
-    <rect x="110" y="110" width="120" height="60" rx="6" fill="url(#motorGrad)" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="170" y="136" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">RS-04 HIP PITCH G</text>
-    <text x="170" y="154" fill="#e0f2fe" font-size="10" text-anchor="middle">120 N.m (Axe Y)</text>
-
-    <!-- Hanche Droite : RS-04 Hip Pitch (Axe Y) -->
-    <rect x="510" y="110" width="120" height="60" rx="6" fill="url(#motorGrad)" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="570" y="136" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">RS-04 HIP PITCH D</text>
-    <text x="570" y="154" fill="#e0f2fe" font-size="10" text-anchor="middle">120 N.m (Axe Y)</text>
-
-    <!-- Cote Entraxe Hanche 378 mm -->
-    <line x1="170" y1="85" x2="570" y2="85" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)" />
-    <text x="370" y="78" fill="#38bdf8" font-size="12" font-weight="bold" text-anchor="middle">ENTRAXE Y DES HANCHES = ~378 mm (+18% de 320 mm)</text>
-
-    <!-- Brackets Pitch-Roll (Alu 7075-T6) -->
-    <path d="M 150 170 L 150 240 L 170 240 L 170 170 Z" fill="url(#aluGrad)" stroke="#94a3b8" stroke-width="1" />
-    <text x="100" y="210" fill="#cbd5e1" font-size="10" font-weight="bold">Bracket P-R (Alu 7075)</text>
-
-    <path d="M 570 170 L 570 240 L 590 240 L 590 170 Z" fill="url(#aluGrad)" stroke="#94a3b8" stroke-width="1" />
-    <text x="605" y="210" fill="#cbd5e1" font-size="10" font-weight="bold">Bracket P-R (Alu 7075)</text>
-
-    <!-- Moteurs Roll : RS-03 Hip Roll (Axe X) -->
-    <rect x="110" y="240" width="100" height="55" rx="6" fill="url(#motorGrad)" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="160" y="265" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">RS-03 ROLL G</text>
-    <text x="160" y="282" fill="#e0f2fe" font-size="10" text-anchor="middle">60 N.m (Axe X)</text>
-
-    <rect x="530" y="240" width="100" height="55" rx="6" fill="url(#motorGrad)" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="580" y="265" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">RS-03 ROLL D</text>
-    <text x="580" y="282" fill="#e0f2fe" font-size="10" text-anchor="middle">60 N.m (Axe X)</text>
-
-    <!-- Brackets Roll-Yaw -->
-    <path d="M 150 295 L 150 355 L 170 355 L 170 295 Z" fill="url(#aluGrad)" stroke="#94a3b8" stroke-width="1" />
-    <path d="M 570 295 L 570 355 L 590 355 L 590 295 Z" fill="url(#aluGrad)" stroke="#94a3b8" stroke-width="1" />
-
-    <!-- Moteurs Yaw : RS-03 Hip Yaw (Axe Z) -->
-    <rect x="110" y="355" width="100" height="55" rx="6" fill="url(#motorGrad)" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="160" y="380" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">RS-03 YAW G</text>
-    <text x="160" y="397" fill="#e0f2fe" font-size="10" text-anchor="middle">60 N.m (Axe Z)</text>
-
-    <rect x="530" y="355" width="100" height="55" rx="6" fill="url(#motorGrad)" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="580" y="380" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">RS-03 YAW D</text>
-    <text x="580" y="397" fill="#e0f2fe" font-size="10" text-anchor="middle">60 N.m (Axe Z)</text>
-
-    <!-- Départ Fémurs Hybrides (Sandwich Carbone / Alu) -->
-    <rect x="135" y="420" width="50" height="75" rx="4" fill="url(#carbonGrad)" stroke="#94a3b8" stroke-width="1.5" />
-    <text x="160" y="460" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">FÉMUR G</text>
-
-    <rect x="555" y="420" width="50" height="75" rx="4" fill="url(#carbonGrad)" stroke="#94a3b8" stroke-width="1.5" />
-    <text x="580" y="460" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">FÉMUR D</text>
-
-    <!-- Badge Avantage F-A-R -->
-    <rect x="235" y="435" width="270" height="45" rx="6" fill="#10b981" opacity="0.15" stroke="#10b981" stroke-width="1" />
-    <text x="370" y="454" fill="#10b981" font-size="11" font-weight="bold" text-anchor="middle">AVANTAGE MAJEUR CHAÎNE F-A-R :</text>
-    <text x="370" y="470" fill="#e2e8f0" font-size="10" text-anchor="middle">Les 2 gros RS-04 (2,84 kg) sont fixes au bassin</text>
+    <!-- Box B: RS-06 -->
+    <rect x="398" y="54" width="353" height="330" rx="10" fill="#0f172a" stroke="#38bdf8" stroke-width="1.3"/>
+    <text x="416" y="80" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">MOTORÉDUCTEUR QDD ROBSTRIDE RS-06</text>
+    <text x="416" y="106" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Actionneur compact 550,97 g (arbre plein fermé)</text>
+    <text x="416" y="128" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Couple nominal : 11 N.m | Couple crête : 36 N.m</text>
+    <text x="416" y="150" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Fixation Stator ➔ Traverse_Renfort_Bassin :</text>
+    <text x="428" y="170" font-family="Arial, sans-serif" font-size="11" fill="#fbbf24">8× CHC M3×12 Tête Basse [92855A313] (1/8 en v42)</text>
+    <text x="416" y="198" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Fixation Rotor ➔ Moyeu_Waist_Sandwich_7075 :</text>
+    <text x="428" y="218" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">6× vis M4 hexagonales fond de bol (Ø 4,3 mm)</text>
+    <text x="416" y="250" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f87171">• RÈGLE ROBSTRIDE ARBRE PLEIN :</text>
+    <text x="428" y="270" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Aucun passage de câble au centre du RS-06 !</text>
+    <text x="428" y="290" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Routage déporté par encoche U (+X, 45×20 mm)</text>
+    <text x="428" y="310" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">et arcs dorsaux -X (69,05° &amp; 125,05°).</text>
+    <text x="416" y="346" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">• Jeu axial de montage garanti :</text>
+    <text x="428" y="366" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">0,38 mm entre Moyeu (1033,03) &amp; Waist Plate (1033,41)</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANNEAU 3 : COMPARATIF TECHNIQUE DES ROULEMENTS (BAS)                     -->
-  <!-- ========================================================================= -->
-  <g transform="translate(40, 660)">
-    <rect width="1520" height="300" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
-    <text x="25" y="35" fill="#38bdf8" font-size="16" font-weight="bold">PANNEAU 3 : EXPERTISE CRITIQUE DU ROULEMENT — BUTÉE AXIALE SEULE vs 4 POINTS DE CONTACT</text>
-    <text x="25" y="55" fill="#64748b" font-size="12">Pourquoi la butée à aiguilles AXK 5578 (OD78 ID55 H5) est rigoureusement inadaptée seule pour la taille</text>
+  <!-- PANEL 3 (BOTTOM RIGHT) : BILAN MASSE & CALIBRATION -->
+  <g transform="translate(795, 548)">
+    <rect width="775" height="426" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="24" y="30" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#fbbf24">3. BILAN DE MASSE &amp; CALIBRATION PA12-CF (TORSE-123 V42)</text>
 
-    <!-- COLONNE GAUCHE : BUTÉE AXK 5578 (INADAPTÉE) -->
-    <rect x="30" y="75" width="460" height="205" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="1.5" />
-    <text x="50" y="105" fill="#ef4444" font-size="14" font-weight="bold">❌ BUTÉE AIGUILLES AXK 5578 (SEULE)</text>
-    <text x="50" y="128" fill="#fca5a5" font-size="11">• Reprise Radiale F_xy : 0 N (Aucun centrage mécanique)</text>
-    <text x="50" y="148" fill="#fca5a5" font-size="11">• Reprise Moment Basculement : 0 N.m (Décollement immédiat)</text>
-    <text x="50" y="168" fill="#fca5a5" font-size="11">• Comportement : Le buste bascule comme une charnière libre</text>
-    <text x="50" y="188" fill="#fca5a5" font-size="11">• Conséquence : Destruction rapide des roulements internes RS-06</text>
-    <rect x="50" y="210" width="420" height="55" rx="4" fill="#7f1d1d" opacity="0.5" />
-    <text x="260" y="235" fill="#fecaca" font-size="11" font-weight="bold" text-anchor="middle">VERDICT : REJETÉ FORMELLEMENT POUR LE WAIST</text>
-    <text x="260" y="252" fill="#fca5a5" font-size="10" text-anchor="middle">(Utilisable uniquement sur axes purement axiaux sans flexion)</text>
+    <rect x="24" y="50" width="727" height="225" rx="8" fill="#0f172a" stroke="#475569"/>
+    <text x="40" y="76" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">SOUS-ENSEMBLE WAIST &amp; PONT DE HANCHES (614 INSTANCES / 125 RÉF. BOM)</text>
+    <text x="40" y="102" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Interface Waist complète : Waist_Plate (433,53 g) + Traverse (566,74 g) + Moyeu (163,94 g)</text>
+    <text x="52" y="122" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">+ 4× Brides L (16,48 g) + 2× Equerre waist (84,22 g) + RB8016 (633,41 g) + RS-06 (550,97 g) = 2 449,29 g</text>
+    <text x="40" y="148" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Squelette Pont de Hanches : 1 114,87 g (visserie M4/M5 incluse, hors 2× RS-04 hanches)</text>
+    <text x="40" y="174" font-family="Arial, sans-serif" font-size="11.5" fill="#34d399">• Chassis_Structurel_Bassin_Last (SEULE pièce PA12-CF calibrée à 0,700 g/cm3) : 441,36 g</text>
+    <text x="40" y="200" font-family="Arial, sans-serif" font-size="11.5" fill="#f59e0b">• 8 occurrences ASV1_200 hanches (1 349,19 g bruts à 1,015) : En cours de définition côté CAO</text>
+    <text x="40" y="230" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff">• TOTAL TORSE-123 V42 : 18 316,38 g (18,32 kg bruts) ➔ ~16,1–16,2 kg calibrés (-2,1 à -2,3 kg)</text>
+    <text x="40" y="256" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">  (avec calibration PA12-CF 0,55–0,70 g/cm3 + masse constructeur 1 420 g/u sur 4× RS-04)</text>
 
-    <!-- COLONNE MILIEU : ROULEMENT 4 POINTS Ø 110 mm (RETENU V1) -->
-    <rect x="515" y="75" width="480" height="205" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2" />
-    <text x="535" y="105" fill="#10b981" font-size="14" font-weight="bold">✅ ROULEMENT 4 POINTS Ø 110 mm (ASIMOV SCALÉ)</text>
-    <text x="535" y="128" fill="#86efac" font-size="11">• Reprise Charge Axiale F_z : &gt; 20 kN (Traction ET Compression)</text>
-    <text x="535" y="148" fill="#86efac" font-size="11">• Reprise Charge Radiale F_xy : &gt; 10 kN (Centrage absolu)</text>
-    <text x="535" y="168" fill="#86efac" font-size="11">• Reprise Moment Basculement : &gt; 300 N.m (ZÉRO décollement)</text>
-    <text x="535" y="188" fill="#86efac" font-size="11">• Alésage Central : Immense (Ø int ~90 mm, passage faisceau 48V)</text>
-    <rect x="535" y="210" width="440" height="55" rx="4" fill="#064e3b" opacity="0.6" />
-    <text x="755" y="235" fill="#6ee7b7" font-size="11" font-weight="bold" text-anchor="middle">VERDICT : SOLUTION OFFICIELLE RETENUE D-BOT V1</text>
-    <text x="755" y="252" fill="#a7f3d0" font-size="10" text-anchor="middle">Standard CSXB / Kaydon Reali-Slim Type X (Épaisseur 10 mm)</text>
-
-    <!-- COLONNE DROITE : ROULEAUX CROISÉS CRB (OPTION UPGRADE) -->
-    <rect x="1020" y="75" width="470" height="205" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
-    <text x="1040" y="105" fill="#38bdf8" font-size="14" font-weight="bold">🚀 ROULEAUX CROISÉS CRB / RU (UPGRADE V2)</text>
-    <text x="1040" y="128" fill="#bae6fd" font-size="11">• Rigidité Torsionnelle : ×3 à ×4 supérieure aux billes</text>
-    <text x="1040" y="148" fill="#bae6fd" font-size="11">• Moment de Basculement : &gt; 500 N.m (Aucune déformation élastique)</text>
-    <text x="1040" y="168" fill="#bae6fd" font-size="11">• Précision Angulaire : Qualité robotique industrielle haut de gamme</text>
-    <text x="1040" y="188" fill="#bae6fd" font-size="11">• Références : THK RU85 / IKO CRBH 9016 (Masse ~450 g)</text>
-    <rect x="1040" y="210" width="430" height="55" rx="4" fill="#0369a1" opacity="0.4" />
-    <text x="1255" y="235" fill="#7dd3fc" font-size="11" font-weight="bold" text-anchor="middle">VERDICT : OPTION HAUTE RIGIDITÉ (HUMANOÏDE PRO)</text>
-    <text x="1255" y="252" fill="#bae6fd" font-size="10" text-anchor="middle">Recommandé si contrôle RL très dynamique ou charges lourdes</text>
+    <rect x="24" y="290" width="727" height="114" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.2"/>
+    <text x="40" y="316" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">TRAÇABILITÉ CAO SOUVERAINE</text>
+    <text x="40" y="340" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• CoM global Torse-123 v42 : X = 61,065 mm | Y = 8,032 mm | Z = 1128,748 mm</text>
+    <text x="40" y="362" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Cou haut : 1× RobStride RS-05 (EL05_ASM_1_ASM, 210,44 g nu) en v42 (+ Tilt dans 02_Tete_et_Cou)</text>
+    <text x="40" y="384" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Aucune ambiguïté visserie : toutes les liaisons critiques sont référencées McMaster-Carr.</text>
   </g>
 </svg>

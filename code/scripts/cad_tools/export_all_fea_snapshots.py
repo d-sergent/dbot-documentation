@@ -100,6 +100,21 @@ FEA_TARGETS = [
             ("Flèche Maximale au Cou (Ux) :", "0.622 mm  (Critère < 1.50 mm : OK)", (52, 211, 153, 255))
         ],
         "is_assembly": False
+    },
+    {
+        "name": "Bride_Epaule",
+        "fcstd": f"{BASE_DIR}/Pieces_Isolees/Bride_Epaule/Bride_Epaule_FEA_Results.FCStd",
+        "out_png": f"{BASE_DIR}/Pieces_Isolees/Bride_Epaule/Bride_Epaule_VonMises.png",
+        "title": "BRIDE D'ÉPAULE MONOBLOC 7075-T651 (V87)",
+        "subtitle": "Maillage tétraédrique volumique C3D10 (CalculiX ccx + Gmsh, 74 945 nœuds)",
+        "load_case": "Flexion Sagittale Dynamique (Port 4.3 kg à 1.5g, Mx = 63.7 N.m, Fz = -128 N)",
+        "metrics": [
+            ("Contrainte Von Mises Crête :", "110.2 MPa", (251, 146, 60, 255)),
+            ("Contrainte Von Mises P95 :", "22.3 MPa", (52, 211, 153, 255)),
+            ("Limite Élastique Rp0.2 (7075-T6) :", "505.0 MPa", (148, 163, 184, 255)),
+            ("Facteur de Sécurité P95 Sf :", "22.7  [CONFORME]", (52, 211, 153, 255))
+        ],
+        "is_assembly": False
     }
 ]
 
@@ -196,12 +211,14 @@ def annotate_image(raw_png_path, out_png_path, target_cfg, vm_min=0.0, vm_max=10
     print(f"  ✅ Image finale calibrée et annotée sauvegardée : {out_png_path}")
 
 
-def run_export():
+def run_export(target_filter=None):
     print("=" * 78)
     print("  D-BOT V1 : PRODUCTION DES CARTOGRAPHIES FEA VON MISES (HAUTE PRÉCISION)")
     print("=" * 78)
 
     for cfg in FEA_TARGETS:
+        if target_filter and target_filter.lower() not in cfg["name"].lower():
+            continue
         fcstd_path = cfg["fcstd"]
         out_png = cfg["out_png"]
 
@@ -320,8 +337,15 @@ def run_export():
         pass
 
 
-run_export()
+filter_name = None
+for arg in sys.argv[1:]:
+    if not arg.startswith("-") and not arg.endswith(".py"):
+        filter_name = arg
+        break
+
+run_export(filter_name)
 try:
     FreeCADGui.getMainWindow().close()
 except Exception:
     pass
+sys.exit(0)

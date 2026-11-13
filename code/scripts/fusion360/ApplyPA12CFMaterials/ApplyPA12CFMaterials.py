@@ -51,7 +51,7 @@ DENSITY_SPECS = {
 }
 
 SOLID_PA12CF_DENSITY_REF = 1.015  # Densité nominale solide 100% (g/cm³)
-JSON_EXPORT_PATH = "/Users/Shared/Mon Google Drive Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin_Calibre.json"
+JSON_EXPORT_PATH = "/Users/Shared/Mon Google Drive Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin_Calibre.json"
 
 def get_or_create_material(design, base_material, spec_name, target_density):
     """Récupère ou crée un matériau physique custom avec la densité calibrée."""

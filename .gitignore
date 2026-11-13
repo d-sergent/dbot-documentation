@@ -41,7 +41,11 @@ scratch/
 **/cad_views/
 media/cad_views/
 
-# Heavy metrology raw JSON dumps (sovereign copy in Exports_CAO_DBot/Audits)
+# Heavy CAD audit raw JSON dumps (sovereign copy in Exports_CAO_DBot/.../Audits, local copy in .../Audits)
 *AUDIT_METROLOGIQUE_*.json
+*AUDIT_CINEMATIQUE_*.json
+*AUDIT_ALIGNEMENT_*.json
+*AUDIT_VERTICALITE_*.json
+01_Mecanique_et_Chassis/**/Audits/*.json
 
 

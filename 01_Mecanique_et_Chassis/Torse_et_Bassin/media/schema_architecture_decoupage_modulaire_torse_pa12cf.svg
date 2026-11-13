@@ -1,399 +1,265 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 950" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1640 980" width="1640" height="980">
   <defs>
-    <!-- Background Grid Pattern -->
-    <pattern id="blueprint-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" stroke-opacity="0.6"/>
-      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#334155" stroke-width="1.5" stroke-opacity="0.4"/>
-    </pattern>
-
-    <!-- Gradients -->
-    <linearGradient id="panel-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95"/>
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.98"/>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
     </linearGradient>
-
-    <linearGradient id="header-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/>
-      <stop offset="50%" stop-color="#06b6d4" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.05"/>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
     </linearGradient>
-
-    <!-- Material Gradients -->
-    <linearGradient id="alu7075-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#94a3b8"/>
-      <stop offset="50%" stop-color="#cbd5e1"/>
-      <stop offset="100%" stop-color="#64748b"/>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
     </linearGradient>
-
-    <linearGradient id="alu6060-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="100%" stop-color="#0284c7"/>
-    </linearGradient>
-
-    <linearGradient id="pa12-dorsal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#334155"/>
-      <stop offset="50%" stop-color="#1e293b"/>
-      <stop offset="100%" stop-color="#0f172a"/>
-    </linearGradient>
-
-    <linearGradient id="pa12-ventral-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0ea5e9"/>
-      <stop offset="50%" stop-color="#0284c7"/>
-      <stop offset="100%" stop-color="#0369a1"/>
-    </linearGradient>
-
-    <linearGradient id="pa12-abdomen-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="50%" stop-color="#059669"/>
-      <stop offset="100%" stop-color="#047857"/>
-    </linearGradient>
-
-    <linearGradient id="motor-rs-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#475569"/>
-      <stop offset="50%" stop-color="#334155"/>
-      <stop offset="100%" stop-color="#1e293b"/>
-    </linearGradient>
-
-    <linearGradient id="joint-step-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f59e0b"/>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
       <stop offset="100%" stop-color="#d97706"/>
     </linearGradient>
-
-    <!-- Filters -->
-    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6"/>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="paViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
+    </pattern>
+    <pattern id="hatchWaste" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#ef4444" stroke-width="1.6" stroke-opacity="0.55"/>
+    </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
     </filter>
   </defs>
-
-  <!-- Background Base -->
-  <rect width="1600" height="950" fill="#0b1120"/>
-  <rect width="1600" height="950" fill="url(#blueprint-grid)"/>
-
-  <!-- Master Header Banner -->
-  <rect x="30" y="20" width="1540" height="75" rx="10" fill="url(#panel-grad)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-  <rect x="30" y="20" width="1540" height="75" rx="10" fill="url(#header-grad)"/>
-
-  <text x="55" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800" fill="#38bdf8" letter-spacing="1.5">D-BOT V1 | ARCHITECTURE AVANCÉE DU TORSE PA12-CF &amp; SQUELETTE ALUMINIÉ</text>
-  <text x="55" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#94a3b8">ÉTUDE D'EXPERT : DÉCOUPAGE MODULAIRE EN 4 BLOCS OUVERTS (BERCEAU DORSAL + PLASTONS AMOVIBLES) VS 2 DEMI-FÛTS TUBULAIRES</text>
-
-  <!-- Status Badge -->
-  <g transform="translate(1360, 36)">
-    <rect width="190" height="42" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
-    <circle cx="20" cy="21" r="5" fill="#10b981"/>
-    <text x="34" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" fill="#10b981" letter-spacing="0.5">STANDARD OPTIMUS / ATLAS</text>
+  <rect width="1640" height="980" fill="url(#bgGrad)"/>
+  <rect width="1640" height="980" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1580" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#38bdf8" fill-opacity="0.18" stroke="#38bdf8" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#38bdf8" text-anchor="middle">+</text>
+    <text x="76" y="31" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#f8fafc">ARCHITECTURE MODULAIRE TORSE PA12-CF &amp; ACCESSIBILITÉ SQUELETTE</text>
+    <text x="76" y="54" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8">Coques modulaires Torse-123 v42 (Plastron 6 corps, Pectoral Haut, Lombaire Arrière, Panier Batterie G/D) &amp; Squelette 7075</text>
+    <rect x="1276" y="19" width="280" height="36" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.3"/>
+    <text x="1416" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981" text-anchor="middle">TORSE-123 v42 | QIDI PLUS 4</text>
   </g>
 
-  <!-- ========================================================================================= -->
-  <!-- PANEL 1: ARCHITECTURE EN 4 BLOCS ET PLANS DE JOINT (GAUCHE) -->
-  <!-- ========================================================================================= -->
-  <g transform="translate(30, 115)">
-    <rect width="490" height="805" rx="10" fill="url(#panel-grad)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    <rect x="0" y="0" width="490" height="44" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-    <text x="20" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#38bdf8">1. DÉCOUPAGE EN 4 BLOCS COORDONNÉS</text>
-    <text x="360" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600" fill="#94a3b8">Qidi Plus 4 (H &lt; 280 mm)</text>
+  <!-- PANEL 1 : 4-ZONE MODULAR SHELL -->
+  <g transform="translate(30, 114)">
+    <rect width="500" height="836" rx="12" fill="url(#panelGrad)" stroke="#38bdf8" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#38bdf8">1. DÉCOUPAGE MODULAIRE TORSE (TORSE-123 v42)</text>
 
-    <!-- Side View Diagram showing Coronal and Transverse Split -->
-    <g transform="translate(45, 60)">
-      <!-- Torso Silhouette Outline -->
-      <path d="M 80 40 Q 140 20 200 40 L 220 120 Q 250 180 230 280 L 210 380 Q 200 440 180 460 L 100 460 Q 80 440 70 380 L 50 280 Q 30 180 60 120 Z" 
-            fill="#090d16" stroke="#475569" stroke-width="2" stroke-dasharray="4,4"/>
+    <!-- Stylized Front/Profile Torso Silhouette (x=55..235) matching 01_vue_face.png -->
+    <!-- Cou collet -->
+    <rect x="116" y="72" width="56" height="44" rx="4" fill="url(#aluAmber)" stroke="#fde68a" stroke-width="1.6"/>
+    <!-- Pectoral Haut -->
+    <path d="M 78 118 L 210 118 L 222 192 L 66 192 Z" fill="url(#steelGreen)" stroke="#86efac" stroke-width="1.8"/>
+    <!-- Plastron Ventral / Cotes (6 corps) -->
+    <path d="M 64 196 L 224 196 L 216 320 L 72 320 Z" fill="url(#paViolet)" stroke="#c4b5fd" stroke-width="1.8"/>
+    <!-- Ceinture Alu 3mm Z=1235 -->
+    <rect x="68" y="324" width="152" height="12" rx="2" fill="url(#aluOrange)" stroke="#fdba74" stroke-width="1.4"/>
+    <!-- Abdomen / Jupe basse + Lombaire Arriere -->
+    <path d="M 72 340 L 216 340 L 204 452 L 84 452 Z" fill="url(#aluBlue)" stroke="#93c5fd" stroke-width="1.8"/>
+    <!-- Cut line Z=1285 -->
+    <line x1="36" y1="244" x2="246" y2="244" stroke="#facc15" stroke-width="1.6" stroke-dasharray="6,4"/>
+    <text x="24" y="236" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#facc15">P1/P2</text>
+    <text x="24" y="260" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#facc15">Z=1285</text>
 
-      <!-- Height Indicator Line (Total H = 430.4 mm) -->
-      <line x1="280" y1="40" x2="280" y2="460" stroke="#64748b" stroke-width="1.5"/>
-      <path d="M 276 40 L 284 40 M 276 460 L 284 460" stroke="#64748b" stroke-width="1.5"/>
-      <text x="290" y="255" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" fill="#cbd5e1" transform="rotate(90, 290, 255)">H_totale = 430,4 mm</text>
+    <!-- External Callout Cards strictly on right x=258..480 (ZERO overflow) -->
+    <rect x="256" y="64" width="226" height="60" rx="6" fill="#0f172a" stroke="#fde68a"/>
+    <text x="268" y="84" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a">COLLET COU &amp; EL05 (RS-05)</text>
+    <text x="268" y="102" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Collet 51,90 g | EL05 Pan 210,44 g</text>
+    <text x="268" y="116" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8">6× M5×50 [91290A242] PCD Ø 85</text>
+    <line x1="172" y1="92" x2="256" y2="92" stroke="#fde68a" stroke-width="1.2"/>
 
-      <!-- Transverse Cut Line (Z ~ 1260 mm) -->
-      <line x1="20" y1="250" x2="270" y2="250" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,4"/>
-      <rect x="25" y="238" width="130" height="24" rx="4" fill="#78350f" stroke="#f59e0b" stroke-width="1"/>
-      <text x="32" y="254" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#fef3c7">COUPE TRANSVERSALE (Z)</text>
+    <rect x="256" y="136" width="226" height="68" rx="6" fill="#0f172a" stroke="#10b981"/>
+    <text x="268" y="156" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">CARENAGE_PECTORAL_HAUT</text>
+    <text x="268" y="174" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Masse brute : 203,84 g (PA12-CF)</text>
+    <text x="268" y="190" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8">H = 385,20 mm (découpe Qidi 2 blocs)</text>
+    <line x1="216" y1="164" x2="256" y2="164" stroke="#10b981" stroke-width="1.2"/>
 
-      <!-- Coronal Cut Line (Front/Back) -->
-      <line x1="140" y1="30" x2="140" y2="470" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6,4"/>
-      <rect x="80" y="475" width="120" height="22" rx="4" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1"/>
-      <text x="86" y="490" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#e0f2fe">COUPE CORONALE (X-Y)</text>
+    <rect x="256" y="216" width="226" height="86" rx="6" fill="#0f172a" stroke="#a855f7"/>
+    <text x="268" y="236" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#d8b4fe">PLASTRON_VENTRAL_TORSE</text>
+    <text x="268" y="254" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">6 corps plastiques : 2 804,56 g bruts</text>
+    <text x="268" y="270" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1">+ Paniers Batterie G/D : 307,4 g/u</text>
+    <text x="268" y="286" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8">+ Capot_Verrouillage : 115,08 g</text>
+    <line x1="224" y1="258" x2="256" y2="258" stroke="#a855f7" stroke-width="1.2"/>
 
-      <!-- Zone 1: Thorax Dorsal Haut -->
-      <path d="M 80 40 Q 110 30 140 40 L 140 250 L 50 250 Q 40 180 60 120 Z" fill="url(#pa12-dorsal-grad)" stroke="#64748b" stroke-width="1.5" opacity="0.85"/>
-      <text x="55" y="140" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#94a3b8">MOD 1 : DORSAL HAUT</text>
-      <text x="55" y="156" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#64748b">Berceau d'appui &amp; Épaulières</text>
-      <text x="55" y="170" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="600" fill="#38bdf8">H = 214 mm (Fixe sur colonne)</text>
+    <rect x="256" y="314" width="226" height="58" rx="6" fill="#0f172a" stroke="#f97316"/>
+    <text x="268" y="334" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fdba74">CEINTURE ALU 7075 (3 mm)</text>
+    <text x="268" y="352" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Masse 45,43 g | Z = 1235 mm (portique)</text>
+    <line x1="220" y1="330" x2="256" y2="338" stroke="#f97316" stroke-width="1.2"/>
 
-      <!-- Zone 2: Plastron Pectoral Supérieur Amovible (Bonnet) -->
-      <path d="M 140 40 Q 170 30 200 40 L 220 120 Q 238 180 230 250 L 140 250 Z" fill="url(#pa12-ventral-grad)" stroke="#38bdf8" stroke-width="1.5" opacity="0.85"/>
-      <text x="148" y="135" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="800" fill="#ffffff">MOD 2 : PECTORAL</text>
-      <text x="148" y="150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="600" fill="#bae6fd">Capot d'accès amovible</text>
-      <text x="148" y="164" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="600" fill="#fef08a">Vis M4 sur inserts Ruthex</text>
-      <text x="148" y="178" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#e0f2fe">H = 214 mm (&lt; 280 mm Qidi)</text>
+    <rect x="256" y="384" width="226" height="68" rx="6" fill="#0f172a" stroke="#38bdf8"/>
+    <text x="268" y="404" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8">CARENAGE_LOMBAIRE_ARR.</text>
+    <text x="268" y="422" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">206,71 g bruts + Platine Connectique</text>
+    <text x="268" y="438" font-family="Arial, sans-serif" font-size="10" fill="#94a3b8">(Platine_Connectique_Facade : 36,27 g)</text>
+    <line x1="210" y1="416" x2="256" y2="416" stroke="#38bdf8" stroke-width="1.2"/>
 
-      <!-- Zone 3: Berceau Lombaire Bas (Abdomen Dorsal) -->
-      <path d="M 50 250 L 140 250 L 140 460 L 100 460 Q 80 440 70 380 L 50 280 Z" fill="url(#pa12-dorsal-grad)" stroke="#64748b" stroke-width="1.5" opacity="0.85"/>
-      <text x="55" y="340" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#94a3b8">MOD 3 : LOMBAIRE BAS</text>
-      <text x="55" y="356" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#64748b">Glissière Tiroir Batterie 12S</text>
-      <text x="55" y="370" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="600" fill="#38bdf8">H = 216 mm (Fixe Waist Plate)</text>
-
-      <!-- Zone 4: Plastron Abdominal Bas Amovible -->
-      <path d="M 140 250 L 230 250 L 210 380 Q 200 440 180 460 L 140 460 Z" fill="url(#pa12-abdomen-grad)" stroke="#10b981" stroke-width="1.5" opacity="0.85"/>
-      <text x="148" y="335" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="800" fill="#ffffff">MOD 4 : ABDOMINAL</text>
-      <text x="148" y="350" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="600" fill="#a7f3d0">Façade Connectique &amp; Switch</text>
-      <text x="148" y="364" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="600" fill="#fef08a">Retrait rapide batterie</text>
-      <text x="148" y="378" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#d1fae5">H = 216 mm (&lt; 280 mm Qidi)</text>
-    </g>
-
-    <!-- Summary Box at bottom of Panel 1 -->
-    <g transform="translate(20, 580)">
-      <rect width="450" height="205" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
-      <text x="15" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" fill="#38bdf8">VALIDATION IMPRESSION 3D (QIDI PLUS 4)</text>
-      
-      <circle cx="22" cy="48" r="4" fill="#10b981"/>
-      <text x="34" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">Volume machine : 305 × 305 × 280 mm (Z)</text>
-      
-      <circle cx="22" cy="74" r="4" fill="#10b981"/>
-      <text x="34" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">Hauteurs réelles : H_max = 216 mm &lt; 280 mm (Marge 64 mm)</text>
-
-      <circle cx="22" cy="100" r="4" fill="#10b981"/>
-      <text x="34" y="104" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">Orientation plateau : parois ouvertes posées à plat (0 support cloche)</text>
-
-      <circle cx="22" cy="126" r="4" fill="#10b981"/>
-      <text x="34" y="130" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">Gain matière supports : -75% de PA12-CF gaspillé</text>
-
-      <circle cx="22" cy="152" r="4" fill="#10b981"/>
-      <text x="34" y="156" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#cbd5e1">Zéro déformation thermique (Warping) sur pièces ouvertes</text>
-
-      <rect x="15" y="170" width="420" height="25" rx="4" fill="#042f2e" stroke="#10b981" stroke-width="1"/>
-      <text x="25" y="187" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#5eead4">TOTAL MASSE PA12-CF OPTIMISÉE : ~2 350 g (-450 g)</text>
-    </g>
+    <!-- Bottom Qidi Card -->
+    <rect x="20" y="486" width="460" height="330" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="36" y="514" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">VALIDATION IMPRESSION 3D (QIDI PLUS 4) &amp; CALIBRATION :</text>
+    <text x="36" y="544" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• Volume utile imprimante : 305 × 305 × 280 mm (Z).</text>
+    <text x="36" y="572" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• Hauteurs optimisées &lt;= 218 mm (marge Z &gt;= 62 mm).</text>
+    <text x="36" y="600" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• Parois posées à plat sur plateau -&gt; ~75 % de supports économisés.</text>
+    <text x="36" y="628" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• Zéro contrainte de torsion : coque 100 % cosmétique / protection.</text>
+    <line x1="36" y1="650" x2="464" y2="650" stroke="#334155"/>
+    <text x="36" y="680" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fde68a">CALIBRATION MASSE PA12-CF (Infill Gyroïde 15 %) :</text>
+    <text x="36" y="708" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• CAO v42 brute : rho = 1,015 g/cm3 (~5,23 kg plastiques v42).</text>
+    <text x="36" y="736" font-family="Arial, sans-serif" font-size="11.5" fill="#34d399">• Réel imprimé (0,55–0,70 g/cm3) : ~3,58–3,68 kg (-1,6 kg !)</text>
+    <text x="36" y="764" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">Torse-123 v42 global calibré ~16,1–16,2 kg (vs 18,32 kg bruts).</text>
   </g>
 
-  <!-- ========================================================================================= -->
-  <!-- PANEL 2: ACCESSIBILITÉ INTÉRIEURE TOTALE & CHAÎNE DE VISSERIE (CENTRE) -->
-  <!-- ========================================================================================= -->
-  <g transform="translate(540, 115)">
-    <rect width="520" height="805" rx="10" fill="url(#panel-grad)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    <rect x="0" y="0" width="520" height="44" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-    <text x="20" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#38bdf8">2. ACCESSIBILITÉ DU SQUELETTE &amp; CÂBLAGE</text>
-    <text x="370" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600" fill="#10b981">Ouverture Frontale 180°</text>
+  <!-- PANEL 2 : ACCESSIBILITY & SKELETON -->
+  <g transform="translate(550, 114)">
+    <rect width="540" height="836" rx="12" fill="url(#panelGrad)" stroke="#10b981" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#10b981">2. ACCESSIBILITÉ SQUELETTE &amp; HARNAIS DÉPORTÉ</text>
 
-    <!-- Exploded / Open Spine Architecture Assembly -->
-    <g transform="translate(40, 60)">
-      <!-- Central Backbone (Alu 7075-T6, 5 mm) -->
-      <rect x="175" y="30" width="30" height="420" rx="3" fill="url(#alu7075-grad)" stroke="#cbd5e1" stroke-width="1.5"/>
-      <text x="190" y="230" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle" transform="rotate(-90, 190, 230)">COLONNE 7075-T6 (5 mm)</text>
+    <rect x="18" y="48" width="504" height="414" rx="8" fill="#090e1a" stroke="#334155"/>
+    <!-- Central Colonne & Waist Plate -->
+    <rect x="262" y="102" width="16" height="292" rx="2" fill="url(#aluAmber)" stroke="#fde68a" stroke-width="1.5"/>
+    <!-- Left/Right RS04 + Tubes + Brides -->
+    <rect x="44" y="132" width="52" height="96" rx="5" fill="url(#motorSlate)" stroke="#f59e0b" stroke-width="1.8"/>
+    <text x="70" y="184" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a" text-anchor="middle">RS-04 G</text>
+    <rect x="96" y="148" width="16" height="64" rx="2" fill="url(#aluAmber)" stroke="#fde68a"/>
+    <rect x="112" y="154" width="128" height="52" rx="2" fill="url(#aluBlue)" stroke="#38bdf8" stroke-width="1.6"/>
+    <text x="176" y="184" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Tube 81,08 mm</text>
+    <rect x="240" y="156" width="22" height="48" rx="2" fill="url(#steelGreen)" stroke="#86efac"/>
 
-      <!-- Twin Lightening Windows (54 x 55 mm) -->
-      <rect x="180" y="270" width="20" height="40" rx="6" fill="#0f172a" stroke="#475569" stroke-width="1"/>
-      <rect x="180" y="330" width="20" height="40" rx="6" fill="#0f172a" stroke="#475569" stroke-width="1"/>
+    <rect x="278" y="156" width="22" height="48" rx="2" fill="url(#steelGreen)" stroke="#86efac"/>
+    <rect x="300" y="154" width="128" height="52" rx="2" fill="url(#aluBlue)" stroke="#38bdf8" stroke-width="1.6"/>
+    <text x="364" y="184" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Tube 80,07 mm</text>
+    <rect x="428" y="148" width="16" height="64" rx="2" fill="url(#aluAmber)" stroke="#fde68a"/>
+    <rect x="444" y="132" width="52" height="96" rx="5" fill="url(#motorSlate)" stroke="#f59e0b" stroke-width="1.8"/>
+    <text x="470" y="184" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a" text-anchor="middle">RS-04 D</text>
 
-      <!-- Shoulder Transverse Tubes (60 x 60 x 2 mm) -->
-      <rect x="35" y="110" width="140" height="35" rx="3" fill="url(#alu6060-grad)" stroke="#38bdf8" stroke-width="1.5"/>
-      <rect x="205" y="110" width="140" height="35" rx="3" fill="url(#alu6060-grad)" stroke="#38bdf8" stroke-width="1.5"/>
-      <text x="105" y="132" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#ffffff" text-anchor="middle">TUBE 60×60 (G)</text>
-      <text x="275" y="132" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#ffffff" text-anchor="middle">TUBE 60×60 (D)</text>
+    <!-- Sandwich Callout top right -->
+    <rect x="288" y="64" width="220" height="54" rx="5" fill="#0f172a" stroke="#f59e0b"/>
+    <text x="398" y="84" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fde68a" text-anchor="middle">SANDWICH CENTRAL ÉPAULES</text>
+    <text x="398" y="102" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1" text-anchor="middle">4× M5×25 [90348A023] + Goupilles Ø 3</text>
+    <line x1="278" y1="138" x2="310" y2="118" stroke="#f59e0b"/>
 
-      <!-- Shoulder Actuators RS-04 -->
-      <circle cx="35" cy="127" r="28" fill="url(#motor-rs-grad)" stroke="#94a3b8" stroke-width="1.5"/>
-      <text x="35" y="131" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#e2e8f0" text-anchor="middle">RS-04</text>
-      <circle cx="345" cy="127" r="28" fill="url(#motor-rs-grad)" stroke="#94a3b8" stroke-width="1.5"/>
-      <text x="345" y="131" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#e2e8f0" text-anchor="middle">RS-04</text>
+    <!-- Cable corridor callout left -->
+    <path d="M 70 228 Q 70 300 204 342" fill="none" stroke="#34d399" stroke-width="2.5" stroke-dasharray="5,3"/>
+    <rect x="36" y="264" width="212" height="60" rx="5" fill="#064e3b" stroke="#10b981"/>
+    <text x="142" y="284" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#a7f3d0" text-anchor="middle">CORRIDOR CÂBLAGE DÉPORTÉ</text>
+    <text x="142" y="302" font-family="Arial, sans-serif" font-size="10" fill="#d1fae5" text-anchor="middle">Faisceau 48V + CAN hors arbre plein RS</text>
+    <text x="142" y="316" font-family="Arial, sans-serif" font-size="9.5" fill="#a7f3d0" text-anchor="middle">-&gt; Lumière Waist 45×20 mm</text>
 
-      <!-- Spine Central Sandwich (4x M5 x 25 mm & 4x Dowel Pins) -->
-      <rect x="155" y="95" width="70" height="65" rx="4" fill="#d97706" fill-opacity="0.3" stroke="#f59e0b" stroke-width="2"/>
-      <!-- Screws M5 -->
-      <circle cx="165" cy="105" r="4" fill="#f59e0b"/>
-      <circle cx="215" cy="105" r="4" fill="#f59e0b"/>
-      <circle cx="165" cy="150" r="4" fill="#f59e0b"/>
-      <circle cx="215" cy="150" r="4" fill="#f59e0b"/>
-      <!-- Dowel Pins Ø3 mm -->
-      <circle cx="190" cy="105" r="2" fill="#38bdf8"/>
-      <circle cx="190" cy="150" r="2" fill="#38bdf8"/>
+    <!-- Waist Plate bottom -->
+    <rect x="136" y="394" width="268" height="24" rx="4" fill="url(#aluOrange)" stroke="#fdba74" stroke-width="1.6"/>
+    <text x="270" y="410" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Waist_Plate_7075 (176,11×173,05×9,02 | 433,53 g)</text>
+    <text x="270" y="446" font-family="Arial, sans-serif" font-size="10.5" fill="#fde68a" text-anchor="middle">Colonne 7075-T6 (5 mm | 489,50 g) — Accès libre 100 % face ouverte</text>
 
-      <line x1="225" y1="127" x2="390" y2="70" stroke="#f59e0b" stroke-width="1.5"/>
-      <rect x="300" y="45" width="180" height="40" rx="4" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
-      <text x="310" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#f59e0b">SANDWICH CENTRAL D'ÉPAULES</text>
-      <text x="310" y="74" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#cbd5e1">4× M5×25 mm (5,5 N.m) + 4× Goupilles Ø3</text>
-      <text x="310" y="86" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#10b981">ACCÈS DIRECT CLÉ DYNAMO FACE AVANT</text>
+    <!-- Comparison boxes y=480..650 -->
+    <rect x="18" y="480" width="244" height="160" rx="8" fill="#0f172a" stroke="#ef4444"/>
+    <text x="32" y="506" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fca5a5">2 DEMI-FÛTS 360° (REJETÉ)</text>
+    <text x="32" y="534" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Tunnel aveugle : clé Allen</text>
+    <text x="40" y="552" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">inaccessible sur M5 centrale.</text>
+    <text x="32" y="578" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Pincement faisceau 48V.</text>
+    <text x="32" y="604" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Démontage intégral requis.</text>
 
-      <!-- IMU BMI270 (Z = +81.58 mm) -->
-      <rect x="195" y="60" width="16" height="16" rx="2" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
-      <line x1="203" y1="68" x2="330" y2="20" stroke="#ef4444" stroke-width="1.5"/>
-      <rect x="330" y="5" width="140" height="28" rx="4" fill="#1e293b" stroke="#ef4444" stroke-width="1"/>
-      <text x="338" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#f87171">IMU BMI270 (Z = +81,6 mm)</text>
-      <text x="338" y="29" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#cbd5e1">4× M2,5 traversantes serrées à plat</text>
+    <rect x="278" y="480" width="244" height="160" rx="8" fill="#064e3b" stroke="#10b981"/>
+    <text x="292" y="506" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">MODULAIRE OUVERT (VALIDÉ)</text>
+    <text x="292" y="534" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Squelette monté à nu sur établi.</text>
+    <text x="292" y="560" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Serrage dynamométrique garanti.</text>
+    <text x="292" y="586" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Câblage posé &amp; testé à ciel ouvert.</text>
+    <text x="292" y="612" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Capots posés en dernier (&lt; 5 min).</text>
 
-      <!-- Open Wire Routing Channel (Free 180° open air) -->
-      <path d="M 170 30 Q 150 100 150 200 Q 150 300 170 430" fill="none" stroke="#38bdf8" stroke-width="4" stroke-dasharray="8,4"/>
-      <line x1="150" y1="230" x2="40" y2="230" stroke="#38bdf8" stroke-width="1.5"/>
-      <rect x="10" y="210" width="140" height="42" rx="4" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1"/>
-      <text x="18" y="225" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#e0f2fe">CORRIDOR CÂBLAGE OUVERT</text>
-      <text x="18" y="238" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#bae6fd">Faisceau 48V + Bus CAN-FD</text>
-      <text x="18" y="250" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#10b981">Zéro tassement à l'aveugle !</text>
-
-      <!-- Waist Plate 7075 (Z = 1036.42 mm) -->
-      <rect x="100" y="440" width="180" height="20" rx="3" fill="url(#alu7075-grad)" stroke="#cbd5e1" stroke-width="1.5"/>
-      <text x="190" y="454" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#0f172a" text-anchor="middle">WAIST PLATE 7075 (176 × 173 mm)</text>
-      
-      <!-- 4 Lamages M4 Waist Interface -->
-      <circle cx="115" cy="450" r="3" fill="#10b981"/>
-      <circle cx="265" cy="450" r="3" fill="#10b981"/>
-    </g>
-
-    <!-- Key Takeaway List at Bottom of Panel 2 -->
-    <g transform="translate(20, 560)">
-      <rect width="480" height="225" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
-      <text x="15" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" fill="#38bdf8">POURQUOI LE 4-BLOCS SURPASSE LE 2-FÛTS</text>
-
-      <g transform="translate(15, 36)">
-        <rect width="215" height="80" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="1"/>
-        <text x="10" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="800" fill="#fca5a5">2 DEMI-FÛTS 360° (PIÈGE CAO)</text>
-        <text x="10" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#fecaca">• Tunnel aveugle : impossible de passer</text>
-        <text x="10" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#fecaca">  les clés Allen/dynamo sur M5.</text>
-        <text x="10" y="58" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#fecaca">• Risque mortel de pincement faisceau 48V.</text>
-        <text x="10" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#fecaca">• Démontage total exigé pour 1 fil coupé.</text>
-      </g>
-
-      <g transform="translate(245, 36)">
-        <rect width="220" height="80" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
-        <text x="10" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="800" fill="#a7f3d0">4 BLOCS OUVERTS (OPTIMAL)</text>
-        <text x="10" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#d1fae5">• Montage à plat sur établi à ciel ouvert.</text>
-        <text x="10" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#d1fae5">• Serrage direct au couple nominal garanti.</text>
-        <text x="10" y="58" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#d1fae5">• Câblage propre guidé par clips intégrés.</text>
-        <text x="10" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#d1fae5">• Dépose rapide du plastron en 60 secondes.</text>
-      </g>
-
-      <!-- Protocol Chrono -->
-      <g transform="translate(15, 128)">
-        <rect width="450" height="85" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
-        <text x="12" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#fef08a">SÉQUENCE D'ATELIER (WORKSTATION FLOW) :</text>
-        <text x="12" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#e2e8f0">1. Assemblage Squelette Alu 7075 nu sur marbre (Vis M5 + Goupilles Ø3 serrées à 5,5 N.m)</text>
-        <text x="12" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#e2e8f0">2. Fixation des Berceaux Dorsaux Haut &amp; Bas (Colonne reposant stablement sur son dos)</text>
-        <text x="12" y="62" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#e2e8f0">3. Câblage 48V/CAN, connexion IMU &amp; moteurs, pose tiroir batterie (Contrôle électrique avant fermeture)</text>
-        <text x="12" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#10b981">4. Verrouillage final des Plastrons Ventraux (6 à 8 vis BHC M4 sur inserts Ruthex) en &lt; 5 min !</text>
-      </g>
-    </g>
+    <rect x="18" y="656" width="504" height="160" rx="8" fill="#0f172a" stroke="#38bdf8"/>
+    <text x="34" y="684" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#38bdf8">SÉQUENCE D'ATELIER (WORKSTATION FLOW) :</text>
+    <text x="34" y="712" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">1. Squelette Alu 7075 sur marbre ([90348A023] M5×25 + goupilles [91585A374]).</text>
+    <text x="34" y="738" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">2. Pose ceinture Alu 3 mm + portique anti-lacet (Cornieres haute &amp; basse).</text>
+    <text x="34" y="764" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">3. Passage libre harnais 48V/CAN-FD (corridor 45×20 mm) &amp; tests tension.</text>
+    <text x="34" y="790" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">4. Fermeture Plastron, Pectoral Haut, Lombaire &amp; Paniers Batterie.</text>
   </g>
 
-  <!-- ========================================================================================= -->
-  <!-- PANEL 3: DÉTAILS D'ASSEMBLAGE ROBUSTE & TENUE STRUCTURALE RDM (DROITE) -->
-  <!-- ========================================================================================= -->
-  <g transform="translate(1080, 115)">
-    <rect width="490" height="805" rx="10" fill="url(#panel-grad)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    <rect x="0" y="0" width="490" height="44" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-    <text x="20" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#38bdf8">3. DÉTAILS DE LIAISON &amp; ANALYSE RDM</text>
-    <text x="365" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600" fill="#f59e0b">Zéro Fragilisation</text>
+  <!-- PANEL 3 : JOINTS, HARDWARE & RDM -->
+  <g transform="translate(1110, 114)">
+    <rect width="500" height="836" rx="12" fill="url(#panelGrad)" stroke="#f59e0b" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#f59e0b">3. LIAISONS P1/P2, QUINCAILLERIE &amp; RDM</text>
 
-    <!-- Detail 1: Stepped Shiplap Joint (Rainure-Languette à chicane) -->
-    <g transform="translate(25, 60)">
-      <rect width="440" height="155" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
-      <text x="15" y="22" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#f59e0b">A. PLAN DE JOINT À CHICANE (STEPPED LAP JOINT 3,0 mm)</text>
-      
-      <!-- Stepped Joint Section View -->
-      <g transform="translate(30, 40)">
-        <!-- Coque Haute (Feuillure externe) -->
-        <path d="M 10 10 L 150 10 L 150 35 L 100 35 L 100 65 L 10 65 Z" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
-        <text x="45" y="42" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#ffffff">COQUE SUPÉRIEURE</text>
+    <!-- A. Stepped Lap Joint -->
+    <rect x="18" y="48" width="464" height="186" rx="8" fill="#090e1a" stroke="#334155"/>
+    <text x="32" y="72" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#38bdf8">A. JOINT À BATTUE CHICANE (Z = 1285 mm)</text>
+    <!-- Clean two interlocking stepped shapes -->
+    <path d="M 48 112 L 220 112 L 220 142 L 154 142 L 154 162 L 48 162 Z" fill="url(#paViolet)" stroke="#c4b5fd" stroke-width="1.5"/>
+    <path d="M 158 146 L 224 146 L 224 116 L 390 116 L 390 166 L 158 166 Z" fill="url(#steelGreen)" stroke="#86efac" stroke-width="1.5"/>
+    <text x="116" y="138" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">COQUE SUP. P1</text>
+    <text x="304" y="146" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">COQUE INF. P2</text>
+    <text x="32" y="194" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Épaulement chicane 2,0 × 10 mm | Jeu d'assemblage 0,25 mm.</text>
+    <text x="32" y="214" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Bloque tout cisaillement et garantit l'étanchéité IP visuelle.</text>
 
-        <!-- Coque Basse (Feuillure interne emboîtée) -->
-        <path d="M 102 36 L 152 36 L 152 66 L 240 66 L 240 92 L 102 92 Z" fill="#059669" stroke="#10b981" stroke-width="1.5"/>
-        <text x="155" y="82" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#ffffff">COQUE INFÉRIEURE</text>
+    <!-- B. Hardware & Inserts -->
+    <rect x="18" y="250" width="464" height="226" rx="8" fill="#0f172a" stroke="#10b981"/>
+    <text x="32" y="276" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">B. FIXATIONS COQUE &amp; INSERTS LAITON RUTHEX</text>
+    <text x="32" y="306" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a">• Inserts Thermiques Laiton Ruthex M4 (L = 8,1 mm) :</text>
+    <text x="44" y="326" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Puits Ø 5,60 × 8,5 mm, pose fer 260 °C, serrage 1,2–1,5 N.m.</text>
+    <text x="32" y="356" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a">• Visserie Structurelle Coques Vérifiée (v42) :</text>
+    <text x="44" y="376" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Plaque Cou/Collet : 6× CHC M5×50 [91290A242] (4,5 N.m).</text>
+    <text x="44" y="396" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Pied Plastron / Support Batt. : 6× M4×18 [92290A161] (2,2 N.m).</text>
+    <text x="44" y="416" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Ceinture / Plastron : CHC M4×25 [91292A122] + Nylstop.</text>
+    <text x="44" y="446" font-family="Arial, sans-serif" font-size="10.5" fill="#34d399">Pions de centrage imprimés Ø 4 mm -&gt; zéro jeu au vissage.</text>
 
-        <!-- Chicane dimension calls -->
-        <line x1="97" y1="35" x2="97" y2="65" stroke="#f59e0b" stroke-width="1.5"/>
-        <text x="80" y="53" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#fef08a">3,0 mm</text>
-        
-        <text x="260" y="45" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#94a3b8">• Épaulement chicane 1,5 × 3,0 mm</text>
-        <text x="260" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#94a3b8">• Bloque poussières &amp; cisaillement</text>
-        <text x="260" y="75" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#10b981">• Continuité affleurante 0,0 mm</text>
-      </g>
-    </g>
+    <!-- C. RDM Table + Verdict -->
+    <rect x="18" y="492" width="464" height="324" rx="8" fill="#0f172a" stroke="#38bdf8"/>
+    <text x="32" y="518" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#38bdf8">C. DÉMONSTRATION RDM : ZÉRO FRAGILISATION</text>
+    <line x1="28" y1="532" x2="468" y2="532" stroke="#334155"/>
+    <text x="32" y="554" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#94a3b8">COMPOSANT</text>
+    <text x="166" y="554" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#94a3b8">MATÉRIAU / E</text>
+    <text x="292" y="554" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#94a3b8">RÔLE</text>
+    <text x="394" y="554" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399">MARGE</text>
+    <line x1="28" y1="564" x2="468" y2="564" stroke="#1e293b"/>
 
-    <!-- Detail 2: Fasteners & Ruthex Threaded Inserts -->
-    <g transform="translate(25, 230)">
-      <rect width="440" height="155" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
-      <text x="15" y="22" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">B. ANCRAGES RUTHEX M4 &amp; PIONS CONIQUES</text>
+    <text x="32" y="588" font-family="Arial, sans-serif" font-size="10.5" fill="#f8fafc">Colonne + Sem.</text>
+    <text x="166" y="588" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">7075 / 71 GPa</text>
+    <text x="292" y="588" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Flexion 275 N.m</text>
+    <text x="394" y="588" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399">Sf &gt; 10</text>
 
-      <g transform="translate(20, 35)">
-        <!-- Brass Threaded Insert Drawing -->
-        <rect x="20" y="10" width="30" height="50" rx="3" fill="#eab308" stroke="#ca8a04" stroke-width="1.5"/>
-        <line x1="20" y1="20" x2="50" y2="20" stroke="#a16207" stroke-width="1.5"/>
-        <line x1="20" y1="30" x2="50" y2="30" stroke="#a16207" stroke-width="1.5"/>
-        <line x1="20" y1="40" x2="50" y2="40" stroke="#a16207" stroke-width="1.5"/>
-        <line x1="20" y1="50" x2="50" y2="50" stroke="#a16207" stroke-width="1.5"/>
+    <text x="32" y="616" font-family="Arial, sans-serif" font-size="10.5" fill="#f8fafc">Tubes + Brides</text>
+    <text x="166" y="616" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">6060 / 7075</text>
+    <text x="292" y="616" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Torsion 120 N.m</text>
+    <text x="394" y="616" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399">Sf = 5,9–9,7</text>
 
-        <!-- Screw BHC M4 Entering -->
-        <path d="M 15 5 L 55 5 L 50 10 L 20 10 Z" fill="#94a3b8" stroke="#cbd5e1" stroke-width="1.5"/>
-        <rect x="30" y="-15" width="10" height="20" fill="#64748b"/>
-        <path d="M 23 -15 Q 35 -22 47 -15 Z" fill="#94a3b8"/>
+    <text x="32" y="644" font-family="Arial, sans-serif" font-size="10.5" fill="#f8fafc">Coques PA12-CF</text>
+    <text x="166" y="644" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">PA12-CF (~6 GPa)</text>
+    <text x="292" y="644" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Habillage pur</text>
+    <text x="394" y="644" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399">Non porteur</text>
 
-        <text x="65" y="22" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#fef08a">INSERTS THERMIQUES RUTHEX M4</text>
-        <text x="65" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#cbd5e1">Réf. McMaster 94180A353 (L = 8,1 mm)</text>
-        <text x="65" y="49" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#cbd5e1">Logement borgne Ø 5,60 mm × prof. 8,5 mm</text>
-        <text x="65" y="62" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="600" fill="#38bdf8">Vis BHC M4 (ISO 7380) couple 1,2 - 1,5 N.m</text>
-
-        <!-- Conical Dowel Pin Callout -->
-        <g transform="translate(0, 75)">
-          <path d="M 25 15 L 45 15 L 40 0 L 30 0 Z" fill="#10b981" stroke="#34d399" stroke-width="1"/>
-          <text x="65" y="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#5eead4">PIONS CONIQUES AUTO-CENTREURS</text>
-          <text x="65" y="23" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#cbd5e1">Tétons Ø6 ➔ Ø4 mm (H = 5 mm) imprimés in-situ</text>
-          <text x="65" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#10b981">Alignement sans jeu sans forcer sur les filets</text>
-        </g>
-      </g>
-    </g>
-
-    <!-- Detail 3: Structural RDM Integrity Demonstration -->
-    <g transform="translate(25, 400)">
-      <rect width="440" height="385" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
-      <text x="15" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" fill="#10b981">C. DÉMONSTRATION RDM : ZÉRO FRAGILISATION</text>
-
-      <g transform="translate(15, 38)">
-        <!-- Table Header -->
-        <rect width="410" height="25" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-        <text x="10" y="17" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#94a3b8">COMPOSANT</text>
-        <text x="120" y="17" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#94a3b8">MATÉRIAU / E</text>
-        <text x="230" y="17" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#94a3b8">EFFORT REPRIS</text>
-        <text x="345" y="17" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#94a3b8">SÉCURITÉ Sf</text>
-
-        <!-- Row 1: Colonne -->
-        <rect y="27" width="410" height="32" fill="#0b1120" stroke="#1e293b" stroke-width="1"/>
-        <text x="10" y="47" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#cbd5e1">Colonne Poutre</text>
-        <text x="120" y="47" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#cbd5e1">Alu 7075 / 71 GPa</text>
-        <text x="230" y="47" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#cbd5e1">Flexion 275 N.m</text>
-        <text x="345" y="47" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#10b981">Sf = ×14,36</text>
-
-        <!-- Row 2: Tubes Épaules -->
-        <rect y="61" width="410" height="32" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
-        <text x="10" y="81" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#cbd5e1">Tubes 60×60×2</text>
-        <text x="120" y="81" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#cbd5e1">Alu 6060 / 69 GPa</text>
-        <text x="230" y="81" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#cbd5e1">Torsion 120 N.m</text>
-        <text x="345" y="81" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#10b981">Sf = ×9,75</text>
-
-        <!-- Row 3: Coque PA12-CF -->
-        <rect y="95" width="410" height="42" fill="#0b1120" stroke="#1e293b" stroke-width="1"/>
-        <text x="10" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#38bdf8">Coque PA12-CF</text>
-        <text x="10" y="127" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="8" font-weight="500" fill="#64748b">(Habillage 4 pièces)</text>
-        <text x="120" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#cbd5e1">PA12-CF / 7 GPa</text>
-        <text x="120" y="127" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="8" font-weight="500" fill="#f59e0b">(E 10× plus souple)</text>
-        <text x="230" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#cbd5e1">Protection &amp; flux</text>
-        <text x="230" y="127" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="8" font-weight="700" fill="#10b981">0% effort primaire</text>
-        <text x="345" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#10b981">Non sollicité</text>
-        <text x="345" y="127" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="8" font-weight="500" fill="#94a3b8">en flexion</text>
-      </g>
-
-      <!-- Key Expert Proof Box -->
-      <g transform="translate(15, 195)">
-        <rect width="410" height="135" rx="6" fill="#042f2e" stroke="#10b981" stroke-width="1.5"/>
-        <text x="15" y="22" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="800" fill="#5eead4">PREUVE SCIENTIFIQUE DU DÉCOUPLAGE :</text>
-        <text x="15" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#ccfbf1">• E_Alu (71 GPa) / E_PA12 (7 GPa) = 10,14 : la colonne métallique est</text>
-        <text x="15" y="54" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#ffffff">  10 fois plus rigide que la coque en plastique carbone.</text>
-        <text x="15" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#ccfbf1">• La coque ne participe mécaniquement pas à la rigidité de marche.</text>
-        <text x="15" y="82" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#ccfbf1">• Scinder la coque en 4 sous-ensembles élimine les contraintes internes</text>
-        <text x="15" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="500" fill="#ccfbf1">  d'hyperstatisme et les risques de fissure lors des vibrations.</text>
-        <text x="15" y="115" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="800" fill="#fef08a">VERDICT : GAIN ERGONOMIQUE COLOSSAL AVEC 100% SÉCURITÉ</text>
-      </g>
-    </g>
-  </g>
-
-  <!-- Technical Legend / Footer Bar -->
-  <g transform="translate(30, 930)">
-    <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="600" fill="#64748b">D-Bot V1 Humanoid Engineering | Blueprint Réf : TOR-MOD-2026-V111 | Validé pour usinage C500 &amp; Impression 3D Qidi Plus 4 | 100% Plain Text Standard</text>
+    <rect x="28" y="670" width="444" height="128" rx="6" fill="#064e3b" fill-opacity="0.45" stroke="#10b981"/>
+    <text x="42" y="694" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">PREUVE DU DÉCOUPLAGE RIGIDE :</text>
+    <text x="42" y="718" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• E_Alu (71 GPa) / E_PA12 (~7 GPa) ~ 10× plus raide sur</text>
+    <text x="42" y="736" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">la colonne métallique que sur les demi-coques externes.</text>
+    <text x="42" y="760" font-family="Arial, sans-serif" font-size="10.5" fill="#a7f3d0">• Découper la coque pour Qidi Plus 4 n'affecte en rien la</text>
+    <text x="42" y="778" font-family="Arial, sans-serif" font-size="10.5" fill="#a7f3d0">tenue structurale du torse sous choc ou marche rapide.</text>
   </g>
 </svg>

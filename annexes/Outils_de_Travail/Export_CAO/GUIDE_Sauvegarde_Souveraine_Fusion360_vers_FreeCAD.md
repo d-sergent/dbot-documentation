@@ -6,47 +6,47 @@ Ce dossier technique formalise la stratégie d'indépendance technologique et d'
 
 ## 📑 Sommaire
 
-- [**1. Problématique & Vision : Pourquoi la Sauvegarde Souveraine ?**](#1-problématique-vision-pourquoi-la-sauvegarde-souveraine)
+- [**1. Problématique & Vision : Pourquoi la Sauvegarde Souveraine ?**](#1-problématique--vision--pourquoi-la-sauvegarde-souveraine-)
   - [1.1 Les Risques du Verrou Propriétaire Cloud (Vendor Lock-in)](#11-les-risques-du-verrou-propriétaire-cloud-vendor-lock-in)
   - [1.2 Les Limites de l'Export STEP Basique "Dumb Solid"](#12-les-limites-de-lexport-step-basique-dumb-solid)
-  - [1.3 Le Concept du Jumeau Numérique Hybride (B-Rep + Métadonnées JSON)](#13-le-concept-du-jumeau-numérique-hybride-b-rep-métadonnées-json)
+  - [1.3 Le Concept du Jumeau Numérique Hybride (B-Rep + Métadonnées JSON)](#13-le-concept-du-jumeau-numérique-hybride-b-rep--métadonnées-json)
 - [**2. Matrice d'Extraction de l'Intelligence CAO sous Fusion 360**](#2-matrice-dextraction-de-lintelligence-cao-sous-fusion-360)
   - [2.1 Données Extractibles via l'API Python Fusion 360](#21-données-extractibles-via-lapi-python-fusion-360)
   - [2.2 Structure du Manifeste JSON (`dbot_cad_manifest.json`)](#22-structure-du-manifeste-json-dbot_cad_manifestjson)
-  - [2.3 Stratégie de Déduplication des Composants (354 Instances ➔ 95 Références)](#23-stratégie-de-déduplication-des-composants-354-instances-95-références)
-- [**3. Architecture & Faisabilité de la Réinjection dans FreeCAD (API Python)**](#3-architecture-faisabilité-de-la-réinjection-dans-freecad-api-python)
-  - [3.1 Reconstitution de l'Arborescence & Placement Spatial 3D (Matrices 4×4)](#31-reconstitution-de-larborescence-placement-spatial-3d-matrices-44)
-  - [3.2 Reconstruction Cinématique & Liaisons (Atelier Assembly FreeCAD 1.0)](#32-reconstruction-cinématique-liaisons-atelier-assembly-freecad-10)
+  - [2.3 Stratégie de Déduplication des Composants (614 Instances ➔ 125 Références)](#23-stratégie-de-déduplication-des-composants-614-instances--125-références)
+- [**3. Architecture & Faisabilité de la Réinjection dans FreeCAD (API Python)**](#3-architecture--faisabilité-de-la-réinjection-dans-freecad-api-python)
+  - [3.1 Reconstitution de l'Arborescence & Placement Spatial 3D (Matrices 4×4)](#31-reconstitution-de-larborescence--placement-spatial-3d-matrices-44)
+  - [3.2 Reconstruction Cinématique & Liaisons (Atelier Assembly FreeCAD 1.0)](#32-reconstruction-cinématique--liaisons-atelier-assembly-freecad-10)
   - [3.3 Réinjection des Matériaux, Masses et Centres de Gravité (CoM)](#33-réinjection-des-matériaux-masses-et-centres-de-gravité-com)
   - [3.4 Intégration des Paramètres Globaux via l'Atelier Spreadsheet](#34-intégration-des-paramètres-globaux-via-latelier-spreadsheet)
-  - [3.5 Reconstitution des Esquisses & Cotes dans FreeCAD (DXF + Positionnement 3D)](#35-reconstitution-des-esquisses-cotes-dans-freecad-dxf-positionnement-3d)
-  - [3.6 Comparatif Ergonomique : Timeline, User-Friendliness & Pose des Joints](#36-comparatif-ergonomique-timeline-user-friendliness-pose-des-joints)
+  - [3.5 Reconstitution des Esquisses & Cotes dans FreeCAD (DXF + Positionnement 3D)](#35-reconstitution-des-esquisses--cotes-dans-freecad-dxf--positionnement-3d)
+  - [3.6 Comparatif Ergonomique : Timeline, User-Friendliness & Pose des Joints](#36-comparatif-ergonomique--timeline-user-friendliness--pose-des-joints)
   - [3.7 Génération Automatique des Mises en Plan 2D Cotées (TechDraw & Sketcher)](#37-génération-automatique-des-mises-en-plan-2d-cotées-techdraw--sketcher)
   - [3.8 Generative Drafting 2D Standard RobStride & Pipeline Dual (.FCStd + PDF)](#38-generative-drafting-2d-standard-robstride--pipeline-dual-fcstd--pdf)
-- [**4. Analyse des Frontières Techniques & Faisabilité de Reconstruction de Timeline**](#4-analyse-des-frontières-techniques-faisabilité-de-reconstruction-de-timeline)
+- [**4. Analyse des Frontières Techniques & Faisabilité de Reconstruction de Timeline**](#4-analyse-des-frontières-techniques--faisabilité-de-reconstruction-de-timeline)
   - [4.1 Matrice d'Automatisation Globale](#41-matrice-dautomatisation-globale)
   - [4.2 Faisabilité de Reconstruction Intégrale de la Timeline (Reverse-Engineering d'Arbre)](#42-faisabilité-de-reconstruction-intégrale-de-la-timeline-reverse-engineering-darbre)
-  - [4.3 Le Domaine du Réalisable : Pièces Prismatiques 2.5D du D-Bot](#43-le-domaine-du-réalisable-pièces-prismatiques-25d-du-d-bot)
+  - [4.3 Le Domaine du Réalisable : Pièces Prismatiques 2.5D du D-Bot](#43-le-domaine-du-réalisable--pièces-prismatiques-25d-du-d-bot)
   - [4.4 Les Frontières Bloquantes sur Solides 3D Complexes](#44-les-frontières-bloquantes-sur-solides-3d-complexes)
-  - [4.5 Écosystème & Outils Existants](#45-écosystème-outils-existants)
+  - [4.5 Écosystème & Outils Existants](#45-écosystème--outils-existants)
   - [4.6 Architecture d'un Prototype d'Extraction de Recette de Timeline](#46-architecture-dun-prototype-dextraction-de-recette-de-timeline)
-- [**5. Banc d'Essai des Approches (PoC) & Feuille de Route d'Implémentation**](#5-banc-dessai-des-approches-poc-feuille-de-route-dimplémentation)
+- [**5. Banc d'Essai des Approches (PoC) & Feuille de Route d'Implémentation**](#5-banc-dessai-des-approches-poc--feuille-de-route-dimplémentation)
   - [5.1 Comparatif des 4 Approches Techniques Candidates (PoC 1 à PoC 4)](#51-comparatif-des-4-approches-techniques-candidates-poc-1-à-poc-4)
   - [5.2 Matrice d'Évaluation Multicritères des 4 PoC](#52-matrice-dévaluation-multicritères-des-4-poc)
   - [5.3 Protocole de Test Expérimental sur la Platine Waist D-Bot](#53-protocole-de-test-expérimental-sur-la-platine-waist-d-bot)
-  - [5.4 Validation du PoC Étalon Waist : Option B Assemblage et Timeline FreeCAD](#54-validation-du-poc-étalon-waist-option-b-assemblage-et-timeline-freecad)
-  - [5.5 Décision Stratégique : L'Approche Hybride Gagnante](#55-décision-stratégique-lapproche-hybride-gagnante)
+  - [5.4 Validation du PoC Étalon Waist : Option B Assemblage et Timeline FreeCAD](#54-validation-du-poc-étalon-waist--option-b-assemblage-et-timeline-freecad)
+  - [5.5 Décision Stratégique : L'Approche Hybride Gagnante](#55-décision-stratégique--lapproche-hybride-gagnante)
   - [5.6 Feuille de Route d'Implémentation du Pipeline](#56-feuille-de-route-dimplémentation-du-pipeline)
-- [**6. Architecture de Stockage & Versioning Hybride (Mac ➔ Synology 6 To ➔ pCloud 500 Go)**](#6-architecture-de-stockage-versioning-hybride-mac-synology-6-to-pcloud-500-go)
+- [**6. Architecture de Stockage & Versioning Hybride (Mac ➔ Synology 6 To ➔ pCloud 500 Go)**](#6-architecture-de-stockage--versioning-hybride-mac--synology-6-to--pcloud-500-go)
   - [6.1 La Règle Industrielle 3-2-1 Appliquée au D-Bot](#61-la-règle-industrielle-3-2-1-appliquée-au-d-bot)
-  - [6.2 Brique 1 : Mac vers Synology (Synology Drive & Versioning)](#62-brique-1-mac-vers-synology-synology-drive-versioning)
-  - [6.3 Brique 2 : Sécurisation Locale sur le NAS (Instantanés Snapshot Replication Btrfs)](#63-brique-2-sécurisation-locale-sur-le-nas-instantanés-snapshot-replication-btrfs)
-  - [6.4 Brique 3 : Synology vers pCloud Hors-Site (Cloud Sync WebDAV / Hyper Backup)](#64-brique-3-synology-vers-pcloud-hors-site-cloud-sync-webdav-hyper-backup)
-  - [6.5 Aiguillage Parfait : Que Versionner dans Git vs Synology / pCloud ?](#65-aiguillage-parfait-que-versionner-dans-git-vs-synology-pcloud)
-- [**7. Tri-Comparatif Approfondi (Fusion Gratuit vs FreeCAD 1.0 vs Fusion Payant) & Pilotage 100% API**](#7-tri-comparatif-approfondi-fusion-gratuit-vs-freecad-10-vs-fusion-payant-pilotage-100-api)
-  - [7.1 Matrice Tripartite des Fonctionnalités & Évaluation de Puissance (Scores sur 5)](#71-matrice-tripartite-des-fonctionnalités-évaluation-de-puissance-scores-sur-5)
+  - [6.2 Brique 1 : Mac vers Synology (Synology Drive & Versioning)](#62-brique-1--mac-vers-synology-synology-drive--versioning)
+  - [6.3 Brique 2 : Sécurisation Locale sur le NAS (Instantanés Snapshot Replication Btrfs)](#63-brique-2--sécurisation-locale-sur-le-nas-instantanés-snapshot-replication-btrfs)
+  - [6.4 Brique 3 : Synology vers pCloud Hors-Site (Cloud Sync WebDAV / Hyper Backup)](#64-brique-3--synology-vers-pcloud-hors-site-cloud-sync-webdav--hyper-backup)
+  - [6.5 Aiguillage Parfait : Que Versionner dans Git, LightRAG et Synology / pCloud ?](#65-aiguillage-parfait--que-versionner-dans-git-lightrag-et-synology--pcloud-)
+- [**7. Tri-Comparatif Approfondi (Fusion Gratuit vs FreeCAD 1.0 vs Fusion Payant) & Pilotage 100% API**](#7-tri-comparatif-approfondi-fusion-gratuit-vs-freecad-10-vs-fusion-payant--pilotage-100-api)
+  - [7.1 Matrice Tripartite des Fonctionnalités & Évaluation de Puissance (Scores sur 5)](#71-matrice-tripartite-des-fonctionnalités--évaluation-de-puissance-scores-sur-5)
   - [7.2 Les Pièges de la Tarification des Extensions Commerciales Autodesk](#72-les-pièges-de-la-tarification-des-extensions-commerciales-autodesk)
-  - [7.3 Pilotabilité Totale par API Python sous FreeCAD (Ateliers & Extensions)](#73-pilotabilité-totale-par-api-python-sous-freecad-ateliers-extensions)
+  - [7.3 Pilotabilité Totale par API Python sous FreeCAD (Ateliers & Extensions)](#73-pilotabilité-totale-par-api-python-sous-freecad-ateliers--extensions)
   - [7.4 Exemples d'Automatisation Python des Extensions (Fasteners, SheetMetal, CAM, FEM)](#74-exemples-dautomatisation-python-des-extensions-fasteners-sheetmetal-cam-fem)
   - [7.5 Synthèse Décisionnelle d'Ingénierie pour le D-Bot](#75-synthèse-décisionnelle-dingénierie-pour-le-d-bot)
 
@@ -67,7 +67,7 @@ L'export STEP universel (ISO 10303 AP214 / AP242) couramment utilisé fige les v
 - **Perte des liaisons cinématiques** : Les joints de rotation (Waist Yaw RS-06, cou Pan/Tilt RS-05, épaules Pitch/Roll) deviennent immobiles ou totalement déconnectés.
 - **Perte des paramètres globaux** : Les cotes paramétriques (entraxes, épaisseurs de plaques 5,0 mm / 6,0 mm, redans de roulement) sont dissoutes en valeurs numériques figées.
 - **Perte des propriétés physiques** : Les densités d'alliages (Alu 7075-T6 à 2,81 g/cm3 vs PA12-CF à 1,01 g/cm3) disparaissent au profit d'un volume volumique générique.
-- **Volume massif des fichiers** : Un assemblage complet de 354 composants exporté en un seul fichier STEP pèse entre 150 Mo et 350 Mo, rendant la manipulation fastidieuse.
+- **Volume massif des fichiers** : Un assemblage complet de 614 occurrences exporté en un seul fichier STEP pèse entre 150 Mo et 350 Mo, rendant la manipulation fastidieuse.
 
 ---
 
@@ -80,11 +80,11 @@ Pour créer une **sauvegarde souveraine 100% exploitable**, la stratégie retenu
 │    GÉOMÉTRIE SOLIDE EXACTE         │       MÉTADONNÉES & INTELLIGENCE  │
 │    (Fichiers STEP Dédupliqués)     │       (Manifeste JSON Structuré)  │
 ├────────────────────────────────────┼───────────────────────────────────┤
-│ • 95 Pièces Uniques (.step)        │ • Arbre complet (354 instances)   │
-│ • Cotes exactes B-Rep (NURBS)      │ • Matrices 4×4 de positionnement  │
-│ • Profils 2D d'usinage C500 (.dxf) │ • Définition cinématique Joints   │
-│ • Zéro déformation polygonale      │ • Paramètres & Formules globales  │
-│                                    │ • Masses, Densités, Centres CoM   │
+│ • 125 Pièces Uniques Torse (.step) │ • Arbre complet (614 instances)   │
+│   (212 réf. en biblio partagée)    │ • Matrices 4×4 de positionnement  │
+│ • Cotes exactes B-Rep (NURBS)      │ • Définition cinématique Joints   │
+│ • Profils 2D d'usinage C500 (.dxf) │ • Paramètres & Formules globales  │
+│ • Zéro déformation polygonale      │ • Masses, Densités, Centres CoM   │
 └────────────────────────────────────┴───────────────────────────────────┘
 ```
 Ce paquet hybride permet à un script Python dans FreeCAD de **reconstruire intégralement l'assemblage actif**, ses contraintes et ses matériaux sans aucune intervention manuelle.
@@ -117,11 +117,11 @@ Le manifeste de sauvegarde est un fichier texte JSON standardisé, documentant c
 ```json
 {
   "project": "D-Bot V1",
-  "assembly_version": "Torse v97",
-  "timestamp": "2026-09-26T10:30:00Z",
+  "assembly_version": "Torse-123 v42",
+  "timestamp": "2026-11-12T22:25:53Z",
   "units": "mm",
-  "total_mass_kg": 18.362,
-  "center_of_mass_mm": { "x": 61.80, "y": 9.07, "z": 1146.27 },
+  "total_mass_kg": 18.316,
+  "center_of_mass_mm": { "x": 61.065, "y": 8.032, "z": 1128.748 },
   "global_parameters": [
     { "name": "Largeur_Torse", "expression": "220 mm", "value_mm": 220.0, "comment": "Entraxe transversal" },
     { "name": "Redan_Waist", "expression": "3.0 mm", "value_mm": 3.0, "comment": "Redan d'appui RB8016" }
@@ -132,7 +132,7 @@ Le manifeste de sauvegarde est un fichier texte JSON standardisé, documentant c
       "dxf_profile": "profiles/Traverse_Renfort_Bassin_XY.dxf",
       "material": "Aluminium 7075-T6",
       "density_g_cm3": 2.81,
-      "mass_g": 247.3
+      "mass_g": 566.74
     },
     "Vis_CHC_M3x12_Tete_Basse": {
       "step_file": "parts/Vis_CHC_M3x12_Tete_Basse_92855A313.step",
@@ -173,16 +173,16 @@ Le manifeste de sauvegarde est un fichier texte JSON standardisé, documentant c
 
 ---
 
-### 2.3 Stratégie de Déduplication des Composants (354 Instances ➔ 95 Références)
+### 2.3 Stratégie de Déduplication des Composants (614 Instances ➔ 125 Références)
 
-Dans un assemblage complexe comme le Torse du D-Bot :
-- Plus de 200 éléments sont de la visserie normalisée (vis M3, M4, M5, rondelles, écrous) ou des moteurs symétriques.
-- **Erreur classique** : Exporter 354 fichiers STEP distincts (plusieurs gigaoctets de données redondantes).
+Dans un assemblage complexe comme le Torse du D-Bot (`Torse-123 v42`) :
+- Plus de 450 éléments sont de la visserie normalisée (vis M3, M4, M5, rondelles DIN 125A / Nord-Lock, écrous Nylstop / hexagonaux) ou des actionneurs symétriques.
+- **Erreur classique** : Exporter 614 fichiers STEP distincts (plusieurs gigaoctets de données redondantes).
 - **Stratégie Souveraine Optimale** :
-  1. Le script analyse l'arbre et identifie les **95 composants uniques**.
-  2. Il exporte **uniquement 95 fichiers STEP géométriques** dans le sous-dossier `./parts/`.
-  3. Le fichier JSON contient 354 entrées d'instances légères, chacune pointant vers son composant de référence et embarquant sa matrice de positionnement propre.
-  4. Résultat : Le paquet d'archive complet pèse **moins de 25 Mo** au lieu de 350 Mo !
+  1. Le script analyse l'arbre et identifie les **125 composants uniques** du Torse (centralisés dans une bibliothèque partagée de **212 fichiers STEP** au total).
+  2. Il exporte **uniquement les solides B-Rep uniques** dans `Bibliotheque_Composants_STEP/` (et purge les anciens STEP orphelins).
+  3. Le fichier `dbot_cad_manifest.json` contient les 614 entrées d'instances légères, chacune pointant vers son composant de référence et embarquant sa matrice de positionnement 4×4 propre.
+  4. Résultat : Le paquet d'archive complet reste compact (~25 Mo pour les STEP du Torse) au lieu de 350+ Mo !
 
 ---
 
@@ -229,7 +229,7 @@ for inst in manifest["instances_tree"]:
 
 doc.recompute()
 ```
-**Résultat** : En moins de 10 secondes, les 354 pièces apparaissent dans FreeCAD exactement assemblées au dixième de micron près.
+**Résultat** : En moins de 10 secondes, les 614 occurrences géométriques apparaissent dans FreeCAD exactement assemblées au dixième de micron près.
 
 ---
 
@@ -249,7 +249,7 @@ Dans FreeCAD 1.0, le nouvel atelier officiel **Assembly** (intégrant le solveur
 #### Faisabilité : ⭐⭐⭐⭐⭐ (Totale)
 - L'API FreeCAD permet d'ajouter des propriétés personnalisées ou d'utiliser le module standard `Material`.
 - Le script injecte la densité (ex: `2,81 g/cm3` pour l'Alu 7075-T6) sur chaque corps.
-- FreeCAD recalcule automatiquement la masse exacte de chaque solide et permet de générer un rapport de contrôle vérifiant la conformité avec les **18,36 kg** mesurés sous Fusion 360.
+- FreeCAD recalcule automatiquement la masse exacte de chaque solide et permet de générer un rapport de contrôle vérifiant la conformité avec les **18,32 kg** mesurés sous Fusion 360 (`Torse-123 v42` dans [`Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json)).
 
 ---
 
@@ -597,11 +597,11 @@ Pour déterminer objectivement la meilleure méthode de sauvegarde et de reconst
 
 #### 🔹 PoC 1 : L'Approche Hybride Industrielle (B-Rep STEP AP242 + Manifeste JSON + Esquisses DXF 3D)
 - **Principe** :
-  1. Export des solides 3D exacts dédupliqués en STEP AP242 (95 fichiers unitaires légers).
-  2. Export d'un manifeste JSON structuré contenant l'arbre complet (354 instances, matrices de positionnement 4×4, liaisons d'assemblage Assembly 1.0, masses et CoM).
+  1. Export des solides 3D exacts dédupliqués en STEP AP242 (`125` pièces uniques Torse / `212` références en bibliothèque partagée).
+  2. Export d'un manifeste JSON structuré contenant l'arbre complet (`614` instances, matrices de positionnement 4×4, liaisons d'assemblage Assembly 1.0, masses et CoM).
   3. Export des profils 2D d'usinage en DXF plaqués dans FreeCAD avec leur orientation 3D exacte pour afficher et modifier les cotes directes.
 - **Extensions FreeCAD exploitées** : `Assembly` (officiel 1.0), `Draft` (make_sketch), `Spreadsheet` (paramètres globaux), `Fasteners` (quincaillerie procédurale), `CAM/Path` (usinage C500).
-- **Avantages** : 100 % de fidélité géométrique sans risque de rupture, temps de développement très court, manipulation fluide des 354 pièces, compatible avec les standards aéronautiques.
+- **Avantages** : 100 % de fidélité géométrique sans risque de rupture, temps de développement très court, manipulation fluide des 614 occurrences, compatible avec les standards aéronautiques.
 - **Limite** : Les modifications de formes 3D complexes dans FreeCAD s'effectuent par modélisation directe (*Direct Modeling*) ou par ré-extrusion depuis les esquisses DXF réinjectées, et non via un arbre historique complet.
 
 #### 🔹 PoC 2 : L'Approche Rétro-Ingénierie de Timeline (Recette JSON 2.5D ➔ PartDesign Natif)
@@ -818,7 +818,7 @@ La pièce maîtresse `Waist_Plate_7075` est construite selon une chaîne séquen
 À l'issue de ce banc d'essai, la solution retenue pour le projet D-Bot ne consiste pas à choisir une approche unique de façon dogmatique, mais à déployer une **architecture étagée en 2 couches complémentaires** :
 
 1. **Couche 1 (Socle Universel — PoC 1)** :
-   - Déployée sur les **354 composants et sous-ensembles du robot**.
+   - Déployée sur les **614 occurrences et sous-ensembles du robot**.
    - Garantit 100 % de souveraineté, zéro risque d'échec de recalcul, un assemblage parfait sous l'atelier `Assembly` 1.0, des calculs de résistance locaux sous `FEM CalculiX` et la génération des parcours d'usinage G-code sous `CAM/Path`.
 2. **Couche 2 (Accélérateur Paramétrique 2.5D — PoC 2 & Fasteners)** :
    - Déployée sur les **pièces d'interface clés du châssis** (Platines Waist, supports moteurs RS-06, flasques de réduction).
@@ -850,8 +850,8 @@ Script Python local sous Fusion 360            Script Python local sous FreeCAD 
 
 ### Prochaines Étapes Concrètes :
 1. **Validation du Schéma JSON** : Finaliser le format des champs pour intégrer les spécifications des moteurs RobStride et de la quincaillerie McMaster-Carr.
-2. **Prototypage de l'Extracteur Fusion 360** : Adapter la base de code existante d'[`AuditTorse.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/fusion360/) pour exporter simultanément les STEP individuels, le manifeste JSON et les profils d'usinage DXF.
-3. **Validation de l'Importateur sous FreeCAD** : Tester le script d'importation sur le sous-ensemble du **Bassin / Waist** (Traverse + Roulement RB8016 + RS-06 + Brides L) avant d'étendre la procédure aux 354 pièces du robot complet.
+2. **Extracteur & Suite d'Audit Fusion 360** : Le script unifié [`AuditTorse.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/fusion360/AuditTorse/AuditTorse.py) génère simultanément l'audit métrologique, cinématique et d'alignement (`Audits/*.json`) ainsi que les vues PNG, tandis qu'[`ExportSovereignCAD.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/fusion360/ExportSovereignCAD/ExportSovereignCAD.py) exporte les STEP dédupliqués, la bibliothèque partagée (`212` composants STEP) et le manifeste spatial 4x4.
+3. **Validation de l'Importateur sous FreeCAD** : Jumeau souverain [`DBot_Torse_et_Bassin_Souverain.FCStd`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Exports_CAO_DBot/01_Torse_et_Bassin/DBot_Torse_et_Bassin_Souverain.FCStd) reconstruit avec succès pour le sous-ensemble **Torse & Bassin** (`Torse-123 v42` : `614` instances, `125` références uniques), prêt pour extension aux autres membres (`00_Robot_Complet` .. `05_Jambes_et_Hanches`). Voir également [`GUIDE_OUTILS_DIAGNOSTIC_FUSION360.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/annexes/Outils_de_Travail/Export_CAO/GUIDE_OUTILS_DIAGNOSTIC_FUSION360.md) et [`README_Exports_CAO.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/annexes/Outils_de_Travail/Export_CAO/README_Exports_CAO.md).
 
 ---
 
@@ -899,7 +899,7 @@ Dossier chiffré `/Sauvegardes_DBot/CAD_Archives/`
 ### 6.2 Brique 1 : Mac vers Synology (Synology Drive & Versioning)
 
 Pour concilier la vitesse du SSD local du Mac et la capacité du NAS :
-1. **Dossier de Travail Local** : Les exports STEP (95 pièces, ~25 Mo) et les fichiers `.FCStd` FreeCAD sont générés dans un répertoire local du Mac (ex: `~/CAD_DBot_Vault/`).
+1. **Dossier de Travail Local** : Les exports STEP dédupliqués (bibliothèque `212` composants, ~25 Mo pour le Torse) et les fichiers `.FCStd` FreeCAD sont stockés dans le coffre local [`Exports_CAO_DBot/`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Exports_CAO_DBot/).
 2. **Synology Drive Client (Mac)** :
    - Configurez une tâche de synchronisation continue vers le dossier partagé du NAS `/volume1/CAD_Vault/`.
    - Dès qu'un fichier STEP ou une esquisse DXF est exporté ou modifié par un script, le client Synology le téléverse instantanément en arrière-plan sans bloquer la machine.
@@ -934,20 +934,21 @@ Deux méthodes natives Synology sont recommandées :
 
 ---
 
-### 6.5 Aiguillage Parfait : Que Versionner dans Git vs Synology / pCloud ?
+### 6.5 Aiguillage Parfait : Que Versionner dans Git, LightRAG et Synology / pCloud ?
 
-Pour maintenir un dépôt GitHub ultra-rapide (< 100 Mo) et un système CAO 100% sécurisé :
+Pour maintenir un dépôt GitHub ultra-rapide (< 100 Mo), un index LightRAG sans bruit numérique et un système CAO 100% sécurisé :
 
-| Type de Données | Emplacement de Versioning | Outil Dédié | Pourquoi ce Choix ? |
+| Type de Données | Emplacement de Versioning | Indexé LightRAG ? | Pourquoi ce Choix ? |
 | :--- | :---: | :---: | :--- |
-| **Scripts d'Extraction & Import (`.py`)** | **Git / GitHub** | Git standard | Code source léger, diff textuel ligne à ligne. |
-| **Manifeste JSON d'Intelligence (`.json`)** | **Git / GitHub** | Git standard | Métadonnées de 150 Ko traçant toutes les cotes, matrices et masses. |
-| **Profils 2D clés d'usinage (`.dxf`)** | **Git / GitHub** | Git standard | Fichiers légers indispensables à la documentation d'atelier C500. |
-| **Documentation & Blueprints (`.md`, `.svg`)** | **Git / GitHub** | Git standard | Cœur de la documentation d'ingénierie active. |
-| **95 Fichiers STEP unitaires (`.step`)** | **NAS Synology + pCloud** | Synology Drive (32 ver.) + Cloud Sync | Évite le bloat Git, accès local Gigabit pour FreeCAD. |
-| **Assemblages lourds complets (`.step` 350 Mo)**| **NAS Synology + pCloud** | Hyper Backup / Snapshots | Stockage volumique sur les 6 To du NAS sans quota. |
-| **Fichiers natifs FreeCAD (`.FCStd`)** | **NAS Synology + pCloud** | Synology Drive | Fichiers binaires zippés gérés parfaitement par DSM. |
-| **Jalons Majeurs Figés (v94, v97...)** | **GitHub Releases (.zip)** | Assets de Release GitHub | Permet d'adosser le pack 25 Mo au tag Git sans alourdir le clone. |
+| **Scripts d'Extraction, Audit & Import (`.py`)** | **Git / GitHub** | Non | Code source léger, diff textuel ligne à ligne. |
+| **Synthèse Métrologique (`SYNTHESE_METROLOGIQUE_*.md`)** | **Git / GitHub** | **OUI** | Condense masses, CoG, BBox et contacts RB8016 sans bruit brut pour le RAG. |
+| **Dumps d'Audit JSON bruts (`Audits/AUDIT_*.json`)** | **Exclu Git (`.gitignore`) -> `Exports_CAO_DBot/.../Audits/` + Synology/pCloud** | **NON** (`index_docs.py` ignore `.json`) | Fichiers générés volumineux (> 500 Ko) régénérés à chaque run `AuditTorse.py` ; conservés côté souverain, hors Git et hors vecteurs RAG. |
+| **Profils 2D clés d'usinage (`.dxf`)** | **Git / GitHub** | Non | Fichiers légers indispensables à la documentation d'atelier C500. |
+| **Documentation & Blueprints (`.md`, `.svg`)** | **Git / GitHub** | **OUI** (`.md`) | Cœur de la documentation d'ingénierie active. |
+| **Bibliothèque STEP (`212` `.step`) + `dbot_cad_manifest.json`** | **NAS Synology + pCloud (`Exports_CAO_DBot/`)** | Non | Évite le bloat Git, accès local rapide pour FreeCAD et reconstruction 4x4. |
+| **Assemblages lourds & Fichiers natifs FreeCAD (`.FCStd`)**| **NAS Synology + pCloud (`Exports_CAO_DBot/`)** | Non | Fichiers binaires volumineux gérés par Synology Drive / Hyper Backup sans quota Git. |
+| **Snapshots PNG (`Visual_Snapshots/`) & Plans (`Plans_2D/`)** | **NAS Synology + pCloud (`Exports_CAO_DBot/`)** | Non | Archives visuelles de calibration géométrique hors Git. |
+| **Jalons Majeurs Figés (`Torse-123 v42`...)** | **GitHub Releases (.zip)** | Non | Permet d'adosser un pack figé au tag Git sans alourdir le clone. |
 
 ---
 
@@ -983,7 +984,7 @@ Pour évaluer rigoureusement la puissance réelle, la profondeur algorithmique e
 
 1. **Modélisation Solide & Grand Assemblage** :
    - *Fusion 360 (Commercial)* domine sur l'ergonomie et la rapidité de calcul des congés complexes et formes organiques grâce au noyau propriétaire ASM.
-   - *FreeCAD 1.0* est désormais au niveau industriel avec le noyau OpenCASCADE (OCCT 7.7+) et la résolution du Topological Naming Problem. L'atelier Assembly 1.0 (SolveSpace) manipule les 354 pièces du Torse sans faiblir.
+   - *FreeCAD 1.0* est désormais au niveau industriel avec le noyau OpenCASCADE (OCCT 7.7+) et la résolution du Topological Naming Problem. L'atelier Assembly 1.0 (SolveSpace) manipule les 614 occurrences du Torse sans faiblir.
 2. **Usinage CNC (NestWorks C500)** :
    - *Fusion Gratuit (2.0/5)* est une catastrophe d'atelier : brider les avances rapides G0 à la vitesse de coupe G1 triple le temps d'usinage, et l'absence de multi-outils oblige à fractionner les programmes.
    - *FreeCAD CAM/Path (4.0/5)* restitue 100 % de la vitesse de la machine (G0 à 3 000 mm/min), gère les cycles de perçage profonds et le 4ème axe rotatif.

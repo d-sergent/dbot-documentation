@@ -90,7 +90,7 @@ Une interrogation légitime s'était posée quant à la nécessité d'ouvrir ég
 
 ## 3. Architecture Complète de la Solution C
 
-![Architecture Solution C Ceinture Alu](./media/solution_c_architecture_ceinture_alu_torse.svg)
+![Architecture Solution C Ceinture Alu](./media_archives/solution_c_architecture_ceinture_alu_torse.svg)
 
 ### 3.1 Principe et positionnement du plan de joint Z 1235 mm
 Le plan de joint horizontal scindant le torse est positionné à :
@@ -140,7 +140,7 @@ Pour garantir une peau extérieure parfaitement lisse sans aucune tête de vis a
 
 ## 4. Analyse Mécanique et Rôle Anti-Torsion du Plastron Bleu
 
-![Mécanique de torsion et modularité](./media/solution_c_mecanique_torsion_et_assemblage.svg)
+![Mécanique de torsion et modularité](./media_archives/solution_c_mecanique_torsion_et_assemblage.svg)
 
 ### 4.1 Complémentarité entre la ceinture et le plastron pectoral
 Une question centrale a été tranchée : *avec la ceinture en aluminium, le plastron bleu (`Carenage_Pectoral_Haut`) conserve-t-il son rôle anti-torsion ou devient-il obsolète ?*
@@ -201,7 +201,7 @@ L'étude fixe donc la ligne de séparation du carénage à **`Z = 1285,0 mm`**, 
 
 Pour joindre P1 et P2 sans fragiliser la structure ni bloquer la cinématique d'extraction, la solution industrielle retenue est une **battue d'appui en sous-face (lèvre arrière sur P1)** combinée à une **découpe droite massive sur P2**.
 
-![Schéma de principe en coupe de la battue d'appui en sous-face du carénage](./media/schema_battue_appui_sous_face_carenage_torse.svg)
+![Schéma de principe en coupe de la battue d'appui en sous-face du carénage](./media_archives/schema_battue_appui_sous_face_carenage_torse.svg)
 
 #### Analyse fonctionnelle détaillée :
 
@@ -299,7 +299,7 @@ Toutes les pièces de fixation sont strictement normalisées selon le catalogue 
 
 ## 7. Architecture Avancée : Portique Spatial 7075-T6 et Carénages Aimantés
 
-![Portique Anti-Torsion 7075-T6 et Carénages Aimantés](./media/solution_c_portique_anti_torsion_carenages_aimantes.svg)
+![Portique Anti-Torsion 7075-T6 et Carénages Aimantés](./media_archives/solution_c_portique_anti_torsion_carenages_aimantes.svg)
 
 > [!CAUTION]
 > **Correction du 19/10/2026 — §7.2 et §7.3 désynchronisés de la CAO v120.** Les cornières réelles ne sont pas aux oreilles de ceinture (Y -122,6 / +139,9) mais à Y -105,9 → -75,9 et +93,2 → +123,2 (entraxe 181,7 mm), avec recouvrement de boîtes englobantes avec le panier batterie. Le calcul axial du §7.3 traite du roulis et non du lacet, et le tronçon bas de colonne (Z 1072 → 1236, 164 mm) n'est pas ponté : le lacet atteint environ 5,2 deg sous 36 N.m si C2 est ouverte. Le squelette n'est **pas autonome** en l'état et la coque C2 reste structurale. Voir la contre-expertise complète : [reponse_audit_11102026.md §12](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/reponse_audit_11102026.md#12-contre-expertise-du-11--réouverture-des-rails-et-statut-structural-de-c2). Le texte ci-dessous est conservé pour traçabilité.
@@ -423,7 +423,7 @@ Le carénage lombaire arrière (`Carenage_Lombaire_Arriere:1`) n'a plus qu'une f
 
 ### 7.5 Quincaillerie spécifique, matériau et intégration CAO
 
-![Aperçu CAO Cornière Anti-Torsion](./media/comp_Corniere_iso.png)
+![Aperçu CAO Cornière Anti-Torsion](./media_archives/comp_Corniere_iso.png)
 
 *Modélisation validée en CAO (Torse-123 v11, 27/10/2026) : Cornière 20 x 30 x 60 mm en aluminium 7075-T6 intégrant une nervure latérale continue ép. 3,0 mm (masse mesurée 22,45 g en 7075-T6, volume net 7,99 cm³), perçage d'assise ceinture Ø 4,3 mm (M4) à Z = 1233,5 mm et lumière oblongue verticale supérieure (largeur 4,2 mm, hauteur 6,5 mm, Z = 1288,0 à 1290,3 mm) sécurisée par rondelles Nord-Lock M4.*
 

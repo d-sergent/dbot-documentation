@@ -2,6 +2,26 @@
 
 Ce document enregistre l'historique chronologique des jalons validés, des choix d'architecture et des résultats de tests terrain sur le robot D-Bot V1.
 
+## 📅 2026-11-12 — Réalignement Souverain Bassin « Pont de Hanches » (`Torse-123 v42`), Unification Pipeline `AuditTorse.py`, Isolation des Audits JSON & Export `Exports_CAO_DBot`
+
+### 🎯 Objectifs & Réalisations de la session
+1. **Qualification CAO Finale du Bassin « Pont de Hanches » (`Torse-123 v42`, `18 316,38 g` / `18,32 kg`)** :
+   - Recalibrage métrologique complet à partir de l'audit `Torse-123 v42` (614 instances, 125 références uniques, `CoM = [61,065 ; 8,032 ; 1128,748] mm`) : `Traverse_Renfort_Bassin [16A]` = **`566,74 g`**, `Selle de Pont [10]` = **`338,98 g`**, `Tube transverse Hanches [60x60]` = **`L = 46,33 mm`** (`57,67 g`), `4x Montants 20x20x2` (`L = 65,77 mm`, `25,71 g` u.) + `8x Inserts` (`9,25 g` u.) + `2x Brides Epaule v87` (`202,30 g` u.) = **`978,09 g` métal + `136,78 g` visserie = `1 114,87 g` porteurs** (`2 542,65 g / 2,54 kg` complets avec coques/capots PA12-CF `861,04 g` cible ; étant précisé que les 8 occurrences de hanches `ASV1_200` restent **en cours de définition côté CAO**, que la masse brute non calibrée FDM vaut `18,32 kg` vs `~16,1 - 16,2 kg` estimé, et que la butée mécanique `±95°` Waist constitue une **modification CAO prévue avant usinage CNC**).
+   - Résolution de la longueur de bridage vertical sur les hanches : l'empilement serré mesuré (`Selle Z = 934,64` ➔ `bas tube Z = 865,64` = `69,0 mm` + 2 rondelles + Nylstop = `76,0 mm`) impose **`2x CHC M5 × 80 mm [91290A276]`** sur les hanches (les `M5 × 70 mm [91290A272]` restent réservées aux épaules).
+   - Réconciliation stricte de la quincaillerie : **`6x Nylstop M5 [93625A200]`** (DIN 985) distincts de `90631A113` (hex DIN 934 en poches pelvis), **`4x FHC M5 × 18 mm [92125A213]`**, **`4x CHC M5 × 20 mm [92290A242]`**, **`4x CHC M5 × 35 mm [91290A661]`**, **`8x CHC M4 × 25 mm [91292A122]`** orientées selon Y (`29,04 mm`), **`8x CHC M4 × 16 [90128A214]`** + **`12x CHC M4 × 25 TB [92855A422]`** + **`20x Nord-Lock M4 [91812A252]`** sur stators RS-04 hanches, et correction des références rondelles `M5 [93475A240]` vs `M4 [93475A230]`.
+2. **Unification du Pipeline d'Audit CAO & Export Souverain (`Exports_CAO_DBot`)** :
+   - Fusion de tous les audits Fusion 360 en un script maître unique [`AuditTorse.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/fusion360/AuditTorse/AuditTorse.py) générant simultanément les 3 JSON dans `Audits/` (`Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json`, `Audits/AUDIT_CINEMATIQUE_Torse_et_Bassin.json`, `Audits/AUDIT_ALIGNEMENT_Torse_et_Bassin.json`), [`SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md) et les vues `Visual_Snapshots/*.png`.
+   - Archivage des 3 scripts autonomes obsolètes (`CheckHipVerticality`, `CheckTubeEpauleAlignment`, `KinematicBlockageExtractor`) dans `Code/scripts/fusion360/archives/` et correction de `Code/scripts/analyze_cad_audit.py`.
+3. **Isolation Git / LightRAG & Réorganisation `Export_CAO`** :
+   - Centralisation des `AUDIT_*.json` bruts dans `01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/` (et miroir `Exports_CAO_DBot/01_Torse_et_Bassin/Audits/`), exclus de Git via `.gitignore` et non indexés par LightRAG (seule la synthèse Markdown `.md` est versionnée et indexée).
+   - Déplacement et refonte de [`GUIDE_OUTILS_DIAGNOSTIC_FUSION360.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/Outils_de_Travail/Export_CAO/GUIDE_OUTILS_DIAGNOSTIC_FUSION360.md) dans `Annexes/Outils_de_Travail/Export_CAO/` et mise à jour globale des 3 guides (`README_Exports_CAO.md`, `GUIDE_Sauvegarde_Souveraine_Fusion360_vers_FreeCAD.md`), des dossiers techniques, études, BOMs et 3 schémas SVG pelviens.
+
+### 📌 Statut Général
+- **Modèle CAO `Torse-123 v42` & Export STEP** : Synchronisés (`212` STEP uniques / `614` instances dans `Exports_CAO_DBot`).
+- **Pipeline d'Audit & Documentation** : Unifié, réaligné sur la géométrie réelle et validé DevSecOps.
+
+---
+
 ## 📅 2026-11-03 — Validation Souveraine de la Simulation FEA Globale du Torse 3D (CalculiX ccx + Gmsh, 156 846 nœuds C3D10), Correction du Vecteur de Flexion Sagittale (+X, 140 N.m) & Étalonnage Chromatique Complet [-1.0, +1.0]
 
 ### 🎯 Objectifs & Réalisations de la session
@@ -217,7 +237,7 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - [`ToggleComponentColors.FCMacro`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/freecad/ToggleComponentColors.FCMacro) (Macro Couleurs Composants)
    - [`GUIDE_Sauvegarde_Souveraine_Fusion360_vers_FreeCAD.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/Outils_de_Travail/Export_CAO/GUIDE_Sauvegarde_Souveraine_Fusion360_vers_FreeCAD.md)
 2. **Métrologie & Données Actualisées** :
-   - [`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json) (Torse v100)
+   - [`Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json) (Torse v100)
    - [`SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md) (Torse v100)
 
 ---
@@ -249,7 +269,7 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - Bilan global bipède projeté : intégration des 12 actionneurs des membres inférieurs (Phase 4 100% acquise : 4× RS-04 = 5,68 kg + 8× RS-03 = 7,04 kg, total 13,92 kg), portant l'estimation de la masse totale du robot complet debout à **~38,8 kg**.
 7. **Gestion Thermique Stator RS-06 & Prospective R&D Waist Pitch 2 DoF** :
    - Ajout d'une section dédiée à la dissipation thermique (§5.6) dans le dossier technique Waist : conduction via la traverse 7075-T6 (247 g), convection passive par 4 lumières oblongues 20×8 mm, et pré-équipement actif pour ventilateur 30 mm PWM (Noctua NF-A3x10).
-   - Création de l'étude prospective R&D de Niveau 2 [`STUDY_Waist_Pitch_Evolution_2DoF.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Waist_Pitch_Evolution_2DoF.md) pour l'intégration modulaire future du pitch de bassin sans refonte du torse.
+   - Création de l'étude prospective R&D de Niveau 2 [`00_Archives_Recherche/STUDY_Waist_Pitch_Evolution_2DoF.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/STUDY_Waist_Pitch_Evolution_2DoF.md) *(archivée depuis)* pour l'intégration modulaire future du pitch de bassin sans refonte du torse.
    - Nettoyage et archivage des documents obsolètes dans `00_Archives_Recherche/`.
    - Intégration du plan d'encombrement coté constructeur du RobStride RS-06 (`rs06_dim.jpg`) dans [`24_Bracket_RS06_Reprise_Effort_Axial.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/mecanique/24_Bracket_RS06_Reprise_Effort_Axial.md).
 
@@ -259,7 +279,7 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - [`FINAL_BOM_Torse_et_Waist_D-Bot.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_BOM_Torse_et_Waist_D-Bot.md) : Budget masse recalibré à 18,36 kg (v97), ligne WST-05 RB8016 passée à "✅ Reçu & Contrôlé (15/09/2026)", section 3.5 ajoutée pour les membres inférieurs Phase 4 (13,92 kg moteurs, total debout ~38,8 kg), 19 liens de sommaire vérifiés et 100% valides.
    - [`FINAL_Liste_Achats_BOM.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/FINAL_Liste_Achats_BOM.md) : Lignes visserie McMaster Waist ajoutées (`91292A113` M3×10 rotor, `92855A313` M3×12 tête basse stator, `92290A154` M4×16 brides, `92125A230` M5×25 FHC) et roulement RB8016 EFANT passé en "✅ Reçu & Contrôlé Métrologie", 21 liens de sommaire vérifiés et 100% valides.
    - [`todo_court_terme.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/todo_court_terme.md) : Tâches Traverse Renfort Bassin, Brides Étagées en L et Contrôle Métrologique RB8016 validées.
-   - [`STUDY_Waist_Pitch_Evolution_2DoF.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Waist_Pitch_Evolution_2DoF.md) : Étude prospective rédigée et intégrée avec 21 liens de sommaire 100% valides.
+   - [`00_Archives_Recherche/STUDY_Waist_Pitch_Evolution_2DoF.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/STUDY_Waist_Pitch_Evolution_2DoF.md) *(archivée depuis)* : Étude prospective rédigée et intégrée avec 21 liens de sommaire 100% valides.
 2. **Schémas Vectoriels SVG Réalignés** :
    - Mise à jour des blueprints [`schema_cao_assemblage_waist_rs06_fusion360.svg`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/media/schema_cao_assemblage_waist_rs06_fusion360.svg), [`plan_technique_platine_interface_waist_7075.svg`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/media/plan_technique_platine_interface_waist_7075.svg), [`schema_principe_brides_retenue_rb8016_waist.svg`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/media/schema_principe_brides_retenue_rb8016_waist.svg) et [`schema_moyeu_accouplement_waist_sandwich_rs06.svg`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/media/schema_moyeu_accouplement_waist_sandwich_rs06.svg) reflétant la réalité CAO v97.
 
@@ -309,7 +329,7 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
 ### 📝 Réalisations & Évolutions
 1. **Dossier Technique & Métrologie** :
    - [`DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md) : entraxe rectifié à 30×50 mm, références McMaster M3 et M4 mises à jour.
-   - [`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json) et [`SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md) régénérés avec 306 composants conformes.
+   - [`Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json) et [`SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md) régénérés avec 306 composants conformes.
 2. **Outillage Développé** :
    - Script Fusion 360 `RenameFastenersTorse` opérationnel.
 3. **Suivi de Projet** :
@@ -706,8 +726,8 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - **Terminologie** : Purge définitive du terme "isogrid" au profit de "plaque sagittale à lumières 2D (Option B)".
    - **Statut Carter Acier E470** : Classé explicitement comme solution de secours/archive, la cage H-Bracket Alu 7075-T6 étant la solution active standard V1.
 3. **Restructuration Globale & Archivage Propre** :
-   - Création du document d'archive officiel [`01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/ETUDE_ARCHIVEE_Carter_Epaule_Acier_E470.md`](../01_Mecanique_et_Chassis/Torse/00_Archives_Recherche/ETUDE_ARCHIVEE_Carter_Epaule_Acier_E470.md).
-   - Réécriture intégrale et linéaire du [`GUIDE_Fabrication_Torse_D-Bot_Hybride.md`](../01_Mecanique_et_Chassis/Torse/GUIDE_Fabrication_Torse_D-Bot_Hybride.md) : la solution d'épaule finale H-Bracket 7075-T6 est promue en Section 4, supprimant toute ambiguïté sur les approvisionnements et les gammes d'usinage C500.
+   - Création du document d'archive officiel [`01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/ETUDE_ARCHIVEE_Carter_Epaule_Acier_E470.md`](../01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/ETUDE_ARCHIVEE_Carter_Epaule_Acier_E470.md).
+   - Réécriture intégrale et linéaire du [`GUIDE_Fabrication_Torse_D-Bot_Hybride.md`](../01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/GUIDE_Fabrication_Torse_D-Bot_Hybride.md) *(archivé depuis)* : la solution d'épaule finale H-Bracket 7075-T6 est promue en Section 4, supprimant toute ambiguïté sur les approvisionnements et les gammes d'usinage C500.
 4. **Optimisation Géométrique du Nœud Central Demi-Coquilles** :
    - Réduction de l'épaisseur de paroi de demi-bride à 6.0 mm au dos du demi-alésage R15 -> hauteur totale du nœud ramenée de 60.0 mm à **42.0 mm** (+18 mm d'espace vertical libre dans le torse, gain de -115 g).
    - Décalage latéral de la goupille de sécurité à X = +12.0 mm pour contourner sans conflit la plaque sagittale centrale (5.0 mm) et standardisation sur la référence d'épaule **Goupille élastique Mécanindus Ø 4.0 mm × 40 mm (ISO 8752 Inox)**.
@@ -723,11 +743,11 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - Calcul matage goupille Ø 4.0 mm : Sigma_bearing = 43.06 MPa (Sf = × 16.03).
 9. **Intégration du Manchon Central Anti-Écrasement & Mise à Jour Blueprint SVG** :
    - Ajout d'un 3ème insert tourné en **Alu 7075-T651 (Ø 26.0 ext / Ø 18.0 int × 45.0 mm, 35 g)** positionné au centre du tube carbone sous le nœud, usiné dans la barre de 500 mm existante (coût 0 €).
-   - Mise à jour intégrale du schéma vectoriel [`noeud_demi_coquilles_bride.svg`](../01_Mecanique_et_Chassis/Torse/media/noeud_demi_coquilles_bride.svg) : affichage de la hauteur 42.0 mm (dos 6.0 mm), du Split Gap 1.0 mm, de l'insert central, de la goupille Ø 4×40 mm décalée à X = +12.0 mm et de la nomenclature officielle.
+   - Mise à jour intégrale du schéma vectoriel [`noeud_demi_coquilles_bride.svg`](../01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/media_archives/noeud_demi_coquilles_bride.svg) : affichage de la hauteur 42.0 mm (dos 6.0 mm), du Split Gap 1.0 mm, de l'insert central, de la goupille Ø 4×40 mm décalée à X = +12.0 mm et de la nomenclature officielle.
 10. **Découplage Isostatique en Z au Cou & Refonte Blueprint SVG Liaisons d'Extrémités** :
    - Spécification des **lumières oblongues verticales (4.3 × 6.5 mm, ±1.0 mm en Z)** sur les cornières L sandwich reliant la plaque sagittale à la Plaque de Cou, pour interdire toute traction parasite vers le haut sur la Bride Supérieure et protéger le Split Gap (1.0 mm).
    - Formalisation du **protocole de serrage séquentiel en 5 étapes** (Phase 4 du Guide).
-   - Refonte complète du blueprint vectoriel [`solution_liaison_embase_cou.svg`](../01_Mecanique_et_Chassis/Torse/media/solution_liaison_embase_cou.svg) (vue en coupe, séquence de montage et comparatif L-Brackets vs Tenon/Mortaise).
+   - Refonte complète du blueprint vectoriel [`solution_liaison_embase_cou.svg`](../01_Mecanique_et_Chassis/Torse_et_Bassin/media/solution_liaison_embase_cou.svg) (vue en coupe, séquence de montage et comparatif L-Brackets vs Tenon/Mortaise).
 
 ---
 
@@ -753,7 +773,7 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    - Procédure de serrage à la clé dynamométrique alterné en 3 passes (1.5 N.m $\rightarrow$ 2.5 N.m $\rightarrow$ 3.0 N.m).
    - **Spécification de la Boulonnerie (Fixation Stator RS-04, Bride d'Épaule, Tirants M5 & Pincement M4) & Perçage CNC** : Fixation stator directe (10× vis CHC M4 × 10 mm ISO 4762 sur face avant + 4× vis CHC M4 × 10 mm sur face arrière hors bride, engagement 4.2 mm, profondeur borgne max 6.0 mm validée constructeur), fixation bride d'épaule + stator (6× vis CHC M4 × 25 mm traversant flasque 13.20 mm + plaque arrière 5.0 mm, engagement 5.2–6.0 mm), vis CHC M5 × 60 mm (ISO 4762 classe 8.8 / 10.9) pour empilement 49.0–51.0 mm (saillie bague nylon +2.4 mm), vis CHC M4 × 18 mm (ou M4 × 20 mm) pour pincement radial sur bloc 11.0 mm (trous traversants **Ø 4.3 mm ISO 273 Moyen**, chanfreins 0.5 mm × 45°), goupille élastique Mécanindus Ø 4.0 mm × 40 mm (ISO 8752 / DIN 1481 Inox à fleur), rondelles DIN 125A (M4/M5), écrous Nylstop DIN 985 (M4/M5), trou tirant **Ø 5.5 mm (ISO 273 Moyen)**. Règle CAO critique : fente de pincement fixée à **1.0 mm net (±0.1 mm)** pour interdire la butée prématurée alu-alu d'une fente à 0.1 mm. Intégration du tutoriel d'importation directe 3D STEP M4/M5/Goupille via l'outil McMaster-Carr de Fusion 360.
 3. **Mise à Jour des 9 Illustrations CAO & Génération du Blueprint SVG** :
-   - Mise à jour du blueprint vectoriel [`hbracket_rs04_quasi_final_blueprint.svg`](./media/hbracket_rs04_quasi_final_blueprint.svg) intégrant l'évidement Ø95 mm et le tableau récapitulatif.
+   - Mise à jour du blueprint vectoriel [`hbracket_rs04_quasi_final_blueprint.svg`](../01_Mecanique_et_Chassis/Torse_et_Bassin/media/hbracket_rs04_quasi_final_blueprint.svg) intégrant l'évidement Ø95 mm et le tableau récapitulatif.
    - Remplacement complet des 8 anciens visuels par les 9 captures d'écran CAO réelles (`epaule_cao_1_vue_ensemble.png` à `epaule_cao_9_evidement_central_95mm.png`) illustrant toutes les cotations au §3.E du Guide.
    - Suppression de 8 fichiers orphelins inutiles dans `./media/`.
 4. **Rétablissement Officiel des 2 Paniers Batteries Latéraux Hot-Swap (§8)** :
@@ -808,14 +828,14 @@ Ce document enregistre l'historique chronologique des jalons validés, des choix
    * `bride_tube_carbone_coupe.svg` (Coupe longitudinale A-A du détail d'ancrage carbone/carter alu).
    * `solution_liaison_embase_cou.svg` (L-Brackets en sandwich pour embase cou et waist plate).
    * `noeud_intersection_cruciforme.svg` (Assemblage 2 pièces Mâle/Femelle avec centrage Ø38 mm et pincement 360°).
-3. **Création du document d'étude dédié ([ETUDE_Dimensionnement_Colonne_Vertebrale.md](./01_Mecanique_et_Chassis/Torse/ETUDE_Dimensionnement_Colonne_Vertebrale.md))** :
+3. **Création du document d'étude dédié ([ETUDE_Dimensionnement_Colonne_Vertebrale.md](../01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/ETUDE_Dimensionnement_Colonne_Vertebrale.md))** :
    * Validation de l'épaisseur de tôle brute de **5,0 mm** Alu 6061-T6 (poches 1,75 mm de chaque côté + voile résiduel 1,5 mm).
    * Contrainte dynamique maximale à la base : **36,8 MPa** (marge de sécurité $S_f = 6.5$).
    * Flèche globale au cou sous choc de 220 Nm : **~0.11 mm** (rigidité absolue).
 4. **Mise à jour des règles `AGENTS.md`** :
    * Règle stricte imposant les schémas vectoriels SVG thématiques sombres dans `./media/`.
    * Interdiction stricte de la syntaxe mathématique LaTeX dans tous les textes et documents markdown.
-5. **Mise à jour complète du Guide de Fabrication ([GUIDE_Fabrication_Torse_D-Bot_Hybride.md](./01_Mecanique_et_Chassis/Torse/GUIDE_Fabrication_Torse_D-Bot_Hybride.md))**.
+5. **Mise à jour complète du Guide de Fabrication ([GUIDE_Fabrication_Torse_D-Bot_Hybride.md](../01_Mecanique_et_Chassis/Torse_et_Bassin/00_Archives_Recherche/GUIDE_Fabrication_Torse_D-Bot_Hybride.md))**.
 
 ---
 

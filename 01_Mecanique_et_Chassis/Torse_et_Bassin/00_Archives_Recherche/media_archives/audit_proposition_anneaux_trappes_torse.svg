@@ -25,7 +25,7 @@
 
   <rect x="30" y="20" width="1540" height="70" rx="10" fill="#1e293b" stroke="#334155"/>
   <text x="50" y="50" font-size="20" font-weight="800" fill="#38bdf8">PROPOSITION D'AUDIT — 2 ANNEAUX STRUCTURAUX + TRAPPES ENCADRÉES + SQUELETTE AUTONOME</text>
-  <text x="50" y="74" font-size="13" fill="#94a3b8">Cotes issues de l'audit CAO Torse v111 (AUDIT_METROLOGIQUE_Torse_et_Bassin.json). Plan de joint et trappes à valider sur la géométrie réelle de la coque.</text>
+  <text x="50" y="74" font-size="13" fill="#94a3b8">Cotes issues de l'audit CAO Torse v111 (Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json). Plan de joint et trappes à valider sur la géométrie réelle de la coque.</text>
 
   <!-- ================= PANEL 1 : FRONT VIEW ================= -->
   <g transform="translate(30,110)">

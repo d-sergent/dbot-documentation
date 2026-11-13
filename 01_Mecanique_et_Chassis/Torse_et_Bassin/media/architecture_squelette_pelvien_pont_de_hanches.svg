@@ -1,0 +1,240 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="paViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
+    </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+  <rect width="1800" height="1080" fill="url(#bgGrad)"/>
+  <rect width="1800" height="1080" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1740" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#fb923c" fill-opacity="0.18" stroke="#fb923c" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#fb923c" text-anchor="middle">P</text>
+    <text x="78" y="32" font-family="Arial, sans-serif" font-size="18.5" font-weight="bold" fill="#f8fafc">ARCHITECTURE DU SQUELETTE PELVIEN « PONT DE HANCHES » SOUS RS-06 — TORSE-123 V42</text>
+    <text x="78" y="55" font-family="Arial, sans-serif" font-size="12.5" fill="#94a3b8">4× Montants 20×20 (L=65,77 mm) + Selle en H (140×145×22 mm | 338,98 g) + Tube 60×60 (L=46,33 mm) + 8× Inserts (15,82×15,82×15,02 mm)</text>
+    <rect x="1420" y="19" width="290" height="36" rx="8" fill="#0f172a" stroke="#fb923c" stroke-width="1.2"/>
+    <text x="1565" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fb923c" text-anchor="middle">SQUELETTE : 1 114,87 G</text>
+  </g>
+
+  <!-- PANEL 1 : FRONT VIEW Y-Z -->
+  <g transform="translate(30, 114)">
+    <rect width="580" height="936" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#38bdf8">1. VUE DE FACE (PLAN Y-Z) — LE PONT DE HANCHES</text>
+
+    <g transform="translate(290, 88)">
+      <!-- RB8016 + Traverse -->
+      <rect x="-105" y="10" width="210" height="22" rx="3" fill="url(#steelGreen)" stroke="#4ade80"/>
+      <text x="0" y="25" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">RB8016 (Ø 120 × 16,04 mm)</text>
+
+      <rect x="-175" y="36" width="350" height="28" rx="3" fill="url(#aluBlue)" stroke="#60a5fa"/>
+      <text x="0" y="54" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Traverse_Renfort_Bassin (174,90×174,84×12,51)</text>
+
+      <!-- Montants at Y = ±117 mm -->
+      <rect x="-126" y="64" width="30" height="175" rx="3" fill="#64748b" stroke="#cbd5e1"/>
+      <rect x="96" y="64" width="30" height="175" rx="3" fill="#64748b" stroke="#cbd5e1"/>
+      <text x="-111" y="152" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle" transform="rotate(-90, -111, 152)">Montants G (L=65,77)</text>
+      <text x="111" y="152" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle" transform="rotate(90, 111, 152)">Montants D (L=65,77)</text>
+
+      <!-- RS-06 well clear inside montants -->
+      <rect x="-66" y="64" width="132" height="100" rx="5" fill="url(#motorSlate)" stroke="#94a3b8"/>
+      <text x="0" y="108" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f8fafc" text-anchor="middle">Moteur RS-06</text>
+      <text x="0" y="128" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1" text-anchor="middle">85,3 × 83,6 × 50,5 mm</text>
+      <text x="0" y="148" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#34d399" text-anchor="middle">Jeu libre latéral &gt; 20 mm</text>
+
+      <!-- Annotation below RS-06 -->
+      <text x="0" y="218" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#facc15" text-anchor="middle">Entraxe Y = 117,0 mm</text>
+
+      <!-- Selle en H -->
+      <rect x="-152" y="239" width="304" height="32" rx="3" fill="url(#aluOrange)" stroke="#fb923c"/>
+      <text x="0" y="259" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Selle de Pont Pelvis en H (338,98 g)</text>
+
+      <!-- Brides + Tube 60x60 + RS-04 -->
+      <rect x="-140" y="271" width="44" height="110" rx="4" fill="url(#aluAmber)" stroke="#fde047"/>
+      <rect x="96" y="271" width="44" height="110" rx="4" fill="url(#aluAmber)" stroke="#fde047"/>
+      <rect x="-96" y="286" width="192" height="78" rx="3" fill="#1d4ed8" stroke="#60a5fa"/>
+      <text x="0" y="320" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Tube 60×60 (L = 46,33 mm)</text>
+      <text x="0" y="340" font-family="Arial, sans-serif" font-size="10" fill="#dbeafe" text-anchor="middle">57,67 g | Bridé par 2× M5×80</text>
+
+      <rect x="-252" y="264" width="106" height="126" rx="8" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1.6"/>
+      <text x="-199" y="320" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#e0f2fe" text-anchor="middle">RS-04</text>
+      <text x="-199" y="338" font-family="Arial, sans-serif" font-size="10" fill="#7dd3fc" text-anchor="middle">Hanche G</text>
+
+      <rect x="146" y="264" width="106" height="126" rx="8" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1.6"/>
+      <text x="199" y="320" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#e0f2fe" text-anchor="middle">RS-04</text>
+      <text x="199" y="338" font-family="Arial, sans-serif" font-size="10" fill="#7dd3fc" text-anchor="middle">Hanche D</text>
+
+      <text x="0" y="422" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">Hauteur totale sous Traverse : RS-06 libre ➔ Brides G/D solidaires</text>
+    </g>
+
+    <rect x="22" y="544" width="536" height="368" rx="10" fill="#0f172a" stroke="#334155"/>
+    <text x="38" y="574" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#38bdf8">FONCTIONNEMENT EN VUE DE FACE (TORSE-123 V42)</text>
+    <text x="38" y="606" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">1. Tube 60×60 (L = 46,33 mm | 57,67 g) : serré par 2× CHC M5×80</text>
+    <text x="52" y="626" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">[91290A276] traversant les 2 Brides Epaule v87 (zero jeu en torsion).</text>
+    <text x="38" y="658" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">2. Selle en H (338,98 g) : encoche 3,0 mm coiffant le tube 60×60</text>
+    <text x="52" y="678" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">+ serrage 4× CHC M5×35 [91290A661] + Nylstop [93625A200].</text>
+    <text x="38" y="710" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">3. 4× Montants 20×20 (L = 65,77 mm) &amp; 8× Inserts (74,00 g total) :</text>
+    <text x="52" y="730" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Haut : 4× FHC M5×18 [92125A213] sous Waist | Bas : 4× CHC M5×20</text>
+    <text x="52" y="750" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">[92290A242] + verrouillage latéral 8× [91292A122] + [93625A150].</text>
+    <text x="38" y="786" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">4. Démontabilité Moteur 100% Indépendante :</text>
+    <text x="52" y="806" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">Chaque RS-04 se dépose sans démonter le Pont : [90128A214] +</text>
+    <text x="52" y="826" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">[92855A422] + rondelles Nord-Lock [91812A252] (engagement &lt;= 6 mm).</text>
+    <text x="38" y="866" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#f87171">• Butée mécanique ±95° (R=83,0 mm) : Modif. CAO prévue avant CNC.</text>
+  </g>
+
+  <!-- PANEL 2 : PROFILE X-Z VIEW -->
+  <g transform="translate(635, 114)">
+    <rect width="580" height="936" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#fbbf24">2. VUE DE PROFIL (X-Z) — RÔLE DE LA SELLE EN H</text>
+
+    <g transform="translate(290, 96)">
+      <text x="-210" y="10" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#94a3b8">-X (Arrière)</text>
+      <text x="150" y="10" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#facc15">+X (Avant)</text>
+
+      <!-- Traverse -->
+      <rect x="-175" y="24" width="350" height="28" rx="3" fill="url(#aluBlue)" stroke="#60a5fa"/>
+      <text x="0" y="42" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Traverse_Renfort_Bassin (566,74 g)</text>
+
+      <!-- Rear and Front Montants (AR slightly wider / offset vs AV) -->
+      <rect x="-165" y="52" width="36" height="170" rx="3" fill="#64748b" stroke="#cbd5e1"/>
+      <rect x="129" y="52" width="36" height="170" rx="3" fill="#64748b" stroke="#cbd5e1"/>
+      <text x="-147" y="138" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle" transform="rotate(-90, -147, 138)">Montants AR</text>
+      <text x="147" y="138" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle" transform="rotate(90, 147, 138)">Montants AV</text>
+
+      <!-- RS-06 side -->
+      <rect x="-60" y="52" width="120" height="96" rx="5" fill="url(#motorSlate)" stroke="#94a3b8"/>
+      <text x="0" y="96" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">RS-06 (Ø 85,3)</text>
+      <text x="0" y="114" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1" text-anchor="middle">Totalement dégagé</text>
+
+      <!-- Joue AR (145) & AV (132) bridge spanning X gap -->
+      <rect x="-185" y="222" width="370" height="26" rx="3" fill="url(#aluOrange)" stroke="#fb923c"/>
+      <text x="0" y="239" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Joue latérale Alu 7075 (ep. 10,0 mm) — Rattrapage X</text>
+
+      <rect x="-100" y="248" width="200" height="28" rx="3" fill="#c2410c" stroke="#fdba74"/>
+      <text x="0" y="266" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Semelle (12,0 mm | encoche 3 mm)</text>
+
+      <!-- Tube 60x60 cross section -->
+      <rect x="-46" y="276" width="92" height="92" rx="4" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.6"/>
+      <text x="0" y="318" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fff" text-anchor="middle">Tube 60×60</text>
+      <text x="0" y="336" font-family="Arial, sans-serif" font-size="9.5" fill="#dbeafe" text-anchor="middle">Section 60×60</text>
+      <circle cx="0" cy="322" r="52" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <text x="-145" y="298" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fbbf24" text-anchor="middle">Déport AR</text>
+      <text x="145" y="298" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fbbf24" text-anchor="middle">Déport AV</text>
+      <text x="0" y="405" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#34d399" text-anchor="middle">Encombrement Selle X×Y×Z : 140,04 × 145,04 × 22,03 mm</text>
+    </g>
+
+    <rect x="22" y="544" width="536" height="368" rx="10" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
+    <text x="38" y="574" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#fbbf24">EXPLICATION : POURQUOI UNE SELLE EN H MONOBLOC/3 CORPS ?</text>
+    <text x="38" y="606" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f87171">1. Le Problème Géométrique (« Le Rendez-Vous Manqué en X ») :</text>
+    <text x="52" y="628" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• En haut, les trous Traverse [16A] sont plus écartés en X que le tube 60×60.</text>
+    <text x="52" y="648" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Impossible de descendre directement les 4 montants 20×20 sur le tube 60×60.</text>
+
+    <text x="38" y="684" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">2. La Solution Validée Torse-123 v42 (338,98 g) :</text>
+    <text x="52" y="706" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• 2× Joues latérales (AV 132 mm / AR 145 mm × ep. 10 mm) : pontent les</text>
+    <text x="64" y="726" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">4 montants verticaux jusqu'au tube central 60×60.</text>
+    <text x="52" y="748" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• 1× Semelle Centrale (140,0 × 46,31 × 12 mm) : coiffe le tube (encoche 3 mm)</text>
+    <text x="64" y="768" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1">et solidarise l'ensemble via 4× CHC M5×35 [91290A661] + [93625A200].</text>
+
+    <text x="38" y="806" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8">3. Tenue Mécanique (Alu 7075-T6 Massif) :</text>
+    <text x="52" y="828" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Contrainte flexion sous choc 2g (1 200 N) &lt; 35 MPa (Sf &gt; 14 vs 505 MPa).</text>
+    <text x="52" y="848" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Zéro torsion parasite : le couple des 2 RS-04 passe par le tube 60×60.</text>
+  </g>
+
+  <!-- PANEL 3 : TOP VIEW + BOM TABLE -->
+  <g transform="translate(1240, 114)">
+    <rect width="530" height="936" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#34d399">3. VUE DE DESSUS &amp; NOMENCLATURE V42</text>
+
+    <g transform="translate(265, 220)">
+      <rect x="-130" y="-130" width="260" height="260" rx="14" fill="#1e3a8a" fill-opacity="0.35" stroke="#60a5fa" stroke-width="1.8"/>
+      <!-- Montants positions -->
+      <rect x="-105" y="-100" width="32" height="32" rx="3" fill="#64748b" stroke="#fde047"/>
+      <rect x="73" y="-100" width="32" height="32" rx="3" fill="#64748b" stroke="#fde047"/>
+      <rect x="-105" y="68" width="32" height="32" rx="3" fill="#64748b" stroke="#fde047"/>
+      <rect x="73" y="68" width="32" height="32" rx="3" fill="#64748b" stroke="#fde047"/>
+      <!-- RB8016 + RS-06 outline -->
+      <circle cx="0" cy="0" r="90" fill="none" stroke="#4ade80" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="64" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <path d="M -85 -46 A 98 98 0 0 0 -85 46" fill="none" stroke="#10b981" stroke-width="16" stroke-linecap="round" stroke-opacity="0.7"/>
+      <text x="0" y="-142" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#60a5fa" text-anchor="middle">Traverse_Renfort (174,90 × 174,84 mm)</text>
+      <text x="0" y="-4" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#4ade80" text-anchor="middle">RB8016 / RS-06</text>
+      <text x="0" y="14" font-family="Arial, sans-serif" font-size="9.5" fill="#cbd5e1" text-anchor="middle">Zéro collision montants</text>
+      <text x="0" y="150" font-family="Arial, sans-serif" font-size="10" fill="#34d399" text-anchor="middle">Arc -X (69,05° libre hors montants AR)</text>
+    </g>
+
+    <rect x="22" y="405" width="486" height="507" rx="10" fill="#0f172a" stroke="#334155"/>
+    <text x="36" y="432" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fb923c">NOMENCLATURE SQUELETTE PORTEUR (V42)</text>
+    <text x="36" y="458" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#94a3b8">PIÈCE                    | MATIÈRE  | QTÉ | MASSE TOT.</text>
+    <line x1="36" y1="468" x2="492" y2="468" stroke="#334155"/>
+    <text x="36" y="490" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">1. Brides Epaule v87     | Alu 7075 |  2  | 404,60 g</text>
+    <text x="36" y="514" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">2. Tube 60×60 L=46,33    | Alu 6060 |  1  |  57,67 g</text>
+    <text x="36" y="538" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">3. Selle de Pont Pelvis  | Alu 7075 |  1  | 338,98 g</text>
+    <text x="36" y="562" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">4. Montants 20×20 L=65,77| Alu 6060 |  4  | 102,84 g</text>
+    <text x="36" y="586" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">5. Inserts 15,82×15,82×15| Alu 7075 |  8  |  74,00 g</text>
+    <text x="36" y="610" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">6. Visserie M4 / M5 McM  | Inox/12.9| lot | 136,78 g</text>
+    <line x1="36" y1="624" x2="492" y2="624" stroke="#fb923c"/>
+    <text x="36" y="648" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fb923c">TOTAL SQUELETTE PORTEUR (HORS 16A)      | 1 114,87 g</text>
+
+    <text x="36" y="688" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">COMPLÉMENT ÉTAGE BASSIN V42 :</text>
+    <text x="36" y="712" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Traverse_Renfort_Bassin [16A] : 566,74 g (Alu 7075)</text>
+    <text x="36" y="734" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Chassis_Structurel_Bassin_Last : 441,36 g (PA12-CF 0,700)</text>
+    <text x="36" y="756" font-family="Arial, sans-serif" font-size="10.5" fill="#e2e8f0">• Interface Waist + RB8016 + RS-06 : 2 449,29 g</text>
+    <text x="36" y="778" font-family="Arial, sans-serif" font-size="10.5" fill="#f59e0b">• 8× ASV1_200 hanches : en cours de définition CAO (WIP)</text>
+    <text x="36" y="808" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#f87171">• Butée mécanique ±95° (R=83,0 mm) : Modif. CAO prévue</text>
+    <text x="36" y="846" font-family="Arial, sans-serif" font-size="10.5" fill="#34d399">Rigidité vérifiée : flèche &lt; 0,03 mm | Sf &gt; 11 (Montants)</text>
+  </g>
+</svg>

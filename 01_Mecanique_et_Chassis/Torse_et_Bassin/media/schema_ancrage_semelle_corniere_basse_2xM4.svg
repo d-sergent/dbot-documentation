@@ -1,365 +1,228 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1060" width="100%" height="100%" style="background:#090d16; font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1040" width="1600" height="1040">
   <defs>
-    <!-- Grilles techniques -->
-    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.8" opacity="0.5"/>
-    </pattern>
-    <pattern id="subgrid" width="100" height="100" patternUnits="userSpaceOnUse">
-      <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#334155" stroke-width="1.2" opacity="0.6"/>
-    </pattern>
-
-    <!-- Filtres d'ombrage et lueurs -->
-    <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
-    <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
-    <filter id="glow-amber" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
-    <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="4" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
-    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6"/>
-    </filter>
-
-    <!-- Gradients fonctionnels -->
-    <linearGradient id="grad-header" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="50%" stop-color="#06b6d4"/>
-      <stop offset="100%" stop-color="#3b82f6"/>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
     </linearGradient>
-    <linearGradient id="grad-panel" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95"/>
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.98"/>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
     </linearGradient>
-    <linearGradient id="grad-corniere" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="100%" stop-color="#059669"/>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
     </linearGradient>
-    <linearGradient id="grad-waist" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ef4444"/>
-      <stop offset="100%" stop-color="#b91c1c"/>
-    </linearGradient>
-    <linearGradient id="grad-screw" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#94a3b8"/>
-      <stop offset="50%" stop-color="#cbd5e1"/>
-      <stop offset="100%" stop-color="#475569"/>
-    </linearGradient>
-    <linearGradient id="grad-nordlock" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f59e0b"/>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
       <stop offset="100%" stop-color="#d97706"/>
     </linearGradient>
-    <linearGradient id="grad-alert" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#b91c1c" stop-opacity="0.4"/>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
     </linearGradient>
-    <linearGradient id="grad-success" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#10b981" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#047857" stop-opacity="0.45"/>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
     </linearGradient>
+    <linearGradient id="paViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
+    </pattern>
+    <pattern id="hatchWaste" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#ef4444" stroke-width="1.6" stroke-opacity="0.55"/>
+    </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
   </defs>
-
-  <!-- Arrière-plan quadrillé -->
-  <rect width="1600" height="1060" fill="#090d16"/>
-  <rect width="1600" height="1060" fill="url(#grid)"/>
-  <rect width="1600" height="1060" fill="url(#subgrid)"/>
-
-  <!-- ==================================================================== -->
-  <!-- EN-TÊTE PRINCIPAL                                                    -->
-  <!-- ==================================================================== -->
-  <g transform="translate(40, 30)">
-    <rect x="0" y="0" width="1520" height="70" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    <rect x="0" y="0" width="8" height="70" rx="4" fill="url(#grad-header)"/>
-    
-    <text x="30" y="32" font-size="20" font-weight="800" fill="#f8fafc" letter-spacing="0.5">D-BOT V1 · PORTIQUE STRUCTURAL DU TORSE · ANCRAGE AU PIED DE LA CORNIÈRE BASSE</text>
-    <text x="30" y="55" font-size="13.5" font-weight="500" fill="#94a3b8">Étude d'Ingénierie Système &amp; Usinabilité Atelier : Tandem 2x M4 (Entraxe 12,0 mm) Recommandé vs Option Goupille Ø 3 mm</text>
-    
-    <rect x="1310" y="18" width="185" height="34" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1.5"/>
-    <circle cx="1328" cy="35" r="5" fill="#10b981" filter="url(#glow-green)"/>
-    <text x="1342" y="40" font-size="12" font-weight="700" fill="#34d399">SOLUTION CERTIFIÉE</text>
+  <rect width="1600" height="1040" fill="url(#bgGrad)"/>
+  <rect width="1600" height="1040" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1540" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#38bdf8" fill-opacity="0.18" stroke="#38bdf8" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#38bdf8" text-anchor="middle">+</text>
+    <text x="76" y="31" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#f8fafc">PORTIQUE TORSE — ANCRAGE PIED CORNIÈRE BASSE : TANDEM 2× M4 [91290A150]</text>
+    <text x="76" y="54" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8">Corniere basse v42 (70,34 g | 20,02×73,84×191,10 mm) : Tandem 2× CHC M4×14 (d = 12,0 mm) vs Goupille</text>
+    <rect x="1226" y="19" width="290" height="36" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.3"/>
+    <text x="1371" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981" text-anchor="middle">SOLUTION CERTIFIÉE (v42)</text>
   </g>
 
-  <!-- ==================================================================== -->
-  <!-- PANNEAU A : VUE DE PROFIL & DÉFI ATELIER (GAUCHE)                   -->
-  <!-- ==================================================================== -->
-  <g transform="translate(40, 120)">
-    <rect width="745" height="520" rx="12" fill="url(#grad-panel)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    
-    <!-- Header Panneau A -->
-    <path d="M 0 12 C 0 5.4 5.4 0 12 0 L 733 0 C 739.6 0 745 5.4 745 12 L 745 45 L 0 45 Z" fill="#1e293b"/>
-    <rect x="16" y="14" width="4" height="18" rx="2" fill="#ef4444"/>
-    <text x="28" y="28" font-size="14.5" font-weight="700" fill="#f8fafc">PANNEAU A · Vue de Profil : Conflit d'Encombrement Atelier (Cornière H = 191,1 mm)</text>
-    <text x="590" y="28" font-size="11" font-weight="600" fill="#ef4444">COURSE C500 DÉPASSÉE</text>
+  <!-- PANNEAU A -->
+  <g transform="translate(30, 114)">
+    <rect width="755" height="456" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#38bdf8">PANNEAU A : PROFIL CORNIÈRE BASSE &amp; CONFLIT MANDRIN C500</text>
 
-    <!-- Zone Graphique Profil -->
-    <!-- Waist Plate 7075 (Rouge) -->
-    <rect x="60" y="420" width="360" height="35" rx="4" fill="url(#grad-waist)" stroke="#f87171" stroke-width="1.5"/>
-    <text x="70" y="442" font-size="12" font-weight="700" fill="#ffffff">Waist_Plate_7075 (Épaisseur 9,02 mm)</text>
+    <!-- Waist Plate bottom -->
+    <rect x="44" y="388" width="290" height="36" rx="3" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.6"/>
+    <text x="189" y="411" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fff" text-anchor="middle">Waist_Plate_7075 (9,02 mm | 433,53 g)</text>
 
-    <!-- Semelle Cornière Basse (Verte) -->
-    <path d="M 120 420 L 260 420 L 260 380 L 160 380 L 160 120 L 120 120 Z" fill="url(#grad-corniere)" stroke="#34d399" stroke-width="1.5"/>
-    <text x="140" y="220" font-size="12" font-weight="700" fill="#ffffff" transform="rotate(-90 140 220)">Cornière Basse (H = 191,1 mm)</text>
+    <!-- True Jogged Corniere Basse profile (Corniere_basse_iso.png!) -->
+    <path d="M 102 82 L 154 82 L 154 96 L 122 96 L 122 204 L 176 286 L 176 372 L 246 372 L 246 388 L 160 388 L 160 294 L 104 212 L 102 82 Z" fill="url(#steelGreen)" stroke="#86efac" stroke-width="1.8"/>
+    <text x="136" y="72" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#86efac" text-anchor="middle">Tête → ceinture [91292A122]</text>
 
-    <!-- Cotation Hauteur H=191,1 mm -->
-    <line x1="80" y1="120" x2="80" y2="420" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,4"/>
-    <line x1="72" y1="120" x2="88" y2="120" stroke="#38bdf8" stroke-width="1.5"/>
-    <line x1="72" y1="420" x2="88" y2="420" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="45" y="275" font-size="12" font-weight="700" fill="#38bdf8" transform="rotate(-90 45 275)">H = 191,1 mm</text>
+    <!-- Dimension H = 191,10 mm far left -->
+    <line x1="68" y1="82" x2="68" y2="388" stroke="#f8fafc" stroke-width="1.4" marker-end="url(#arrCyan)"/>
+    <text x="54" y="240" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc" text-anchor="middle" transform="rotate(-90 54 240)">Corniere basse H = 191,10 mm</text>
 
-    <!-- Limite course Z NestWorks C500 (128 mm) -->
-    <line x1="40" y1="292" x2="440" y2="292" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,4"/>
-    <rect x="290" y="275" width="150" height="22" rx="4" fill="#ef4444" fill-opacity="0.2" stroke="#ef4444" stroke-width="1"/>
-    <text x="298" y="290" font-size="10.5" font-weight="700" fill="#fca5a5">Course Max Z C500 = 128 mm</text>
+    <!-- C500 limit & chuck collision circle cleanly placed to right of L-foot -->
+    <line x1="168" y1="224" x2="328" y2="224" stroke="#ef4444" stroke-width="1.6" stroke-dasharray="6,4"/>
+    <text x="248" y="214" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#ef4444" text-anchor="middle">Course Z C500 = 128 mm DÉPASSÉE</text>
+    <circle cx="242" cy="316" r="34" fill="#ef4444" fill-opacity="0.22" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="4,3"/>
+    <text x="242" y="314" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#fca5a5" text-anchor="middle">COLLISION</text>
+    <text x="242" y="328" font-family="Arial, sans-serif" font-size="9.5" fill="#fca5a5" text-anchor="middle">Mandrin Ø 45</text>
 
-    <!-- Mandrin de perceuse à colonne en collision -->
-    <g transform="translate(195, 230)">
-      <!-- Broche & Mandrin -->
-      <rect x="-15" y="-140" width="30" height="50" fill="#475569" stroke="#64748b" stroke-width="1"/>
-      <rect x="-25" y="-90" width="50" height="65" rx="4" fill="#334155" stroke="#ef4444" stroke-width="2" filter="url(#glow-red)"/>
-      <text x="0" y="-55" font-size="9.5" font-weight="700" fill="#fca5a5" text-anchor="middle">Mandrin</text>
-      <text x="0" y="-42" font-size="9" font-weight="600" fill="#f87171" text-anchor="middle">Ø 45 à 50 mm</text>
-      
-      <!-- Foret court -->
-      <rect x="-2" y="-25" width="4" height="40" fill="#cbd5e1" stroke="#94a3b8" stroke-width="0.8"/>
-      
-      <!-- Zone d'interférence / collision critique -->
-      <ellipse cx="-25" cy="-20" rx="14" ry="24" fill="#ef4444" fill-opacity="0.35" stroke="#ef4444" stroke-width="2" stroke-dasharray="3,3" filter="url(#glow-red)"/>
-      <line x1="-25" y1="-20" x2="-80" y2="-50" stroke="#ef4444" stroke-width="1.5"/>
-      <rect x="-170" y="-65" width="160" height="32" rx="5" fill="#1e293b" stroke="#ef4444" stroke-width="1.2"/>
-      <text x="-90" y="-48" font-size="10" font-weight="700" fill="#fca5a5" text-anchor="middle">COLLISION MANDRIN</text>
-      <text x="-90" y="-37" font-size="8.5" font-weight="500" fill="#cbd5e1" text-anchor="middle">Rayon mandrin > Déport semelle</text>
-    </g>
-
-    <!-- Zone Diagnostic Encadré -->
-    <rect x="440" y="60" width="285" height="435" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-    <text x="455" y="85" font-size="12.5" font-weight="700" fill="#38bdf8">DIAGNOSTIC ATELIER : L'IMPASSE GOUPILLE</text>
-    
-    <text x="455" y="115" font-size="11" font-weight="600" fill="#ef4444">1. Dépassement Course Z C500 :</text>
-    <text x="455" y="132" font-size="10" font-weight="400" fill="#cbd5e1">• Cornière H = 191,1 mm > Z max C500 (128 mm).</text>
-    <text x="455" y="147" font-size="10" font-weight="400" fill="#cbd5e1">• Impossibilité de brider debout pour aléser H7.</text>
-
-    <text x="455" y="180" font-size="11" font-weight="600" fill="#ef4444">2. Interférence Mandrin / Montant :</text>
-    <text x="455" y="197" font-size="10" font-weight="400" fill="#cbd5e1">• Mandrin perceuse Ø 45 mm (rayon 22,5 mm).</text>
-    <text x="455" y="212" font-size="10" font-weight="400" fill="#cbd5e1">• Heurte le montant à Z=1046 mm.</text>
-    <text x="455" y="227" font-size="10" font-weight="400" fill="#cbd5e1">• Foret long (>150 mm) = flexion et broutage H7.</text>
-
-    <text x="455" y="260" font-size="11" font-weight="600" fill="#ef4444">3. Tolérance Micrométrique Requise :</text>
-    <text x="455" y="277" font-size="10" font-weight="400" fill="#cbd5e1">• Goupille DIN 6325 m6 : tolérance +2 à +6 µm.</text>
-    <text x="455" y="292" font-size="10" font-weight="400" fill="#cbd5e1">• Alésage H7 : tolérance 0 à +10 µm.</text>
-    <text x="455" y="307" font-size="10" font-weight="400" fill="#cbd5e1">• Entraxe à +/- 0,02 mm intenable au pointeau.</text>
-
-    <rect x="450" y="335" width="265" height="145" rx="6" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="1.2"/>
-    <text x="460" y="358" font-size="11" font-weight="700" fill="#34d399">SOLUTION INDUSTRIELLE OPTIMALE :</text>
-    <text x="460" y="378" font-size="10" font-weight="400" fill="#f8fafc">Remplacer la goupille par une 2ème vis M4 :</text>
-    <text x="460" y="395" font-size="10" font-weight="600" fill="#38bdf8">• 2 trous de passage Ø 4,5 mm dans la semelle.</text>
-    <text x="460" y="412" font-size="10" font-weight="400" fill="#cbd5e1">• Jeu de 0,5 mm absorbant toute tolérance.</text>
-    <text x="460" y="429" font-size="10" font-weight="400" fill="#cbd5e1">• 2 taraudages M4 usinés à plat sur C500.</text>
-    <text x="460" y="446" font-size="10" font-weight="700" fill="#34d399">• Couple d'obstacle = Zéro pivotement lacet.</text>
+    <!-- Diagnostic box x=356..735 -->
+    <rect x="356" y="54" width="380" height="378" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1.2"/>
+    <text x="374" y="80" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fca5a5">DIAGNOSTIC ATELIER : L'IMPASSE GOUPILLE</text>
+    <text x="374" y="108" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc">1. Dépassement Course Z C500 :</text>
+    <text x="374" y="128" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Hauteur Corniere = 191,10 mm &gt; Z_max C500 (128 mm).</text>
+    <text x="374" y="146" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Impossible de brider la cornière debout pour aléser H7.</text>
+    <text x="374" y="176" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc">2. Interférence Mandrin / Montant :</text>
+    <text x="374" y="196" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Pied serré contre le voile vertical : un mandrin Ø 45 mm</text>
+    <text x="374" y="214" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">percute la paroi avant d'atteindre la semelle.</text>
+    <text x="374" y="244" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc">3. Tolérance Micrométrique Goupille :</text>
+    <text x="374" y="264" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Une goupille exige alésage H7 (+/- 0,01 mm), impossible</text>
+    <text x="374" y="282" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">à garantir au perçage portatif en atelier.</text>
+    <rect x="372" y="302" width="348" height="114" rx="6" fill="#064e3b" stroke="#10b981"/>
+    <text x="386" y="326" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">SOLUTION VALIDÉE (TORSE-123 v42) :</text>
+    <text x="386" y="348" font-family="Arial, sans-serif" font-size="11" fill="#d1fae5">Tandem 2× CHC M4×14 [91290A150] (entraxe 12,0 mm)</text>
+    <text x="386" y="368" font-family="Arial, sans-serif" font-size="11" fill="#d1fae5">guidés par gabarit 3D (Ø 4,5 mm lisses sur cornière).</text>
+    <text x="386" y="388" font-family="Arial, sans-serif" font-size="11" fill="#d1fae5">Zéro alésage H7, couple anti-lacet bloqué par friction.</text>
   </g>
 
-  <!-- ==================================================================== -->
-  <!-- PANNEAU B : VUE DE DESSUS & COTATION TANDEM 2x M4 (DROITE)          -->
-  <!-- ==================================================================== -->
-  <g transform="translate(815, 120)">
-    <rect width="745" height="520" rx="12" fill="url(#grad-panel)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    
-    <!-- Header Panneau B -->
-    <path d="M 0 12 C 0 5.4 5.4 0 12 0 L 733 0 C 739.6 0 745 5.4 745 12 L 745 45 L 0 45 Z" fill="#1e293b"/>
-    <rect x="16" y="14" width="4" height="18" rx="2" fill="#10b981"/>
-    <text x="28" y="28" font-size="14.5" font-weight="700" fill="#f8fafc">PANNEAU B · Vue de Dessus : Cotation de la Semelle &amp; Tandem 2x M4 (Entraxe 12,0 mm)</text>
-    <text x="600" y="28" font-size="11" font-weight="600" fill="#34d399">100% USINABLE C500</text>
+  <!-- PANNEAU B : TOP VIEW -->
+  <g transform="translate(815, 114)">
+    <rect width="755" height="456" rx="12" fill="url(#panelGrad)" stroke="#10b981" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#10b981">PANNEAU B : VUE DE DESSUS SEMELLE &amp; TANDEM 2× M4 (d = 12,0 mm)</text>
 
-    <!-- Zone Graphique Dessus Semelle -->
-    <g transform="translate(50, 70)">
-      <!-- Fond Waist Plate 7075 -->
-      <rect x="0" y="0" width="380" height="320" rx="8" fill="#ef4444" fill-opacity="0.12" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="6,4"/>
-      <text x="15" y="25" font-size="11" font-weight="700" fill="#f87171">Surface Supérieure Waist Plate 7075 (Plan Z = 1042,4 mm)</text>
+    <!-- Waist Plate top outline -->
+    <rect x="38" y="64" width="300" height="360" rx="8" fill="#1e3a8a" stroke="#38bdf8" stroke-width="1.6"/>
+    <text x="188" y="88" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#bfdbfe" text-anchor="middle">Waist_Plate_7075 (Z = 1042,43 mm)</text>
 
-      <!-- Contour Semelle Élargie Cornière Basse (Verte) -->
-      <!-- Largeur X = 20 mm, Longueur Y = 28 mm (scalée graphiquement pour clarté) -->
-      <rect x="110" y="60" width="160" height="220" rx="10" fill="url(#grad-corniere)" stroke="#34d399" stroke-width="2" filter="url(#glow-green)"/>
-      <text x="190" y="85" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">Semelle Cornière Basse</text>
-      <text x="190" y="100" font-size="10" font-weight="500" fill="#d1fae5" text-anchor="middle">Aluminium 7075-T651 (Ép. 4,0 mm)</text>
+    <!-- Rounded-end Corniere Basse foot matching Corniere_basse_dessus.png -->
+    <rect x="134" y="138" width="110" height="220" rx="22" fill="url(#steelGreen)" stroke="#86efac" stroke-width="2"/>
+    <text x="189" y="164" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Semelle 7075</text>
 
-      <!-- Vis 1 (Existante arrière Y = -48,06 mm) -->
-      <g transform="translate(190, 215)">
-        <circle cx="0" cy="0" r="28" fill="#0f172a" stroke="#64748b" stroke-width="1.5"/>
-        <!-- Rondelle Nord-Lock M4 (Jaune) -->
-        <circle cx="0" cy="0" r="24" fill="none" stroke="url(#grad-nordlock)" stroke-width="3"/>
-        <!-- Tête de vis CHC M4 (Gris) -->
-        <circle cx="0" cy="0" r="18" fill="url(#grad-screw)" stroke="#cbd5e1" stroke-width="1.2"/>
-        <!-- Empreinte 6 pans 3,0 mm -->
-        <polygon points="0,-8 7,-4 7,4 0,8 -7,4 -7,-4" fill="#0f172a" stroke="#94a3b8" stroke-width="1"/>
-        <text x="35" y="5" font-size="10.5" font-weight="700" fill="#f8fafc">Vis 1 (Existante)</text>
-        <text x="35" y="18" font-size="9" font-weight="500" fill="#94a3b8">Y = -48,06 mm (91290A150)</text>
-      </g>
+    <!-- 2 M4 holes d=12mm -->
+    <circle cx="189" cy="216" r="14" fill="#0f172a" stroke="#fde68a" stroke-width="2.2"/>
+    <circle cx="189" cy="216" r="6" fill="#fde68a"/>
+    <circle cx="189" cy="300" r="14" fill="#0f172a" stroke="#fde68a" stroke-width="2.2"/>
+    <circle cx="189" cy="300" r="6" fill="#fde68a"/>
 
-      <!-- Vis 2 (Nouvelle avant Y = -36,06 mm) -->
-      <g transform="translate(190, 140)">
-        <circle cx="0" cy="0" r="28" fill="#0f172a" stroke="#64748b" stroke-width="1.5"/>
-        <!-- Rondelle Nord-Lock M4 (Jaune) -->
-        <circle cx="0" cy="0" r="24" fill="none" stroke="url(#grad-nordlock)" stroke-width="3"/>
-        <!-- Tête de vis CHC M4 (Gris) -->
-        <circle cx="0" cy="0" r="18" fill="url(#grad-screw)" stroke="#cbd5e1" stroke-width="1.2"/>
-        <!-- Empreinte 6 pans 3,0 mm -->
-        <polygon points="0,-8 7,-4 7,4 0,8 -7,4 -7,-4" fill="#0f172a" stroke="#94a3b8" stroke-width="1"/>
-        <text x="35" y="5" font-size="10.5" font-weight="700" fill="#34d399">Vis 2 (Nouvelle en Tandem)</text>
-        <text x="35" y="18" font-size="9" font-weight="500" fill="#a7f3d0">Y = -36,06 mm (Entraxe 12,0 mm)</text>
-      </g>
+    <line x1="154" y1="216" x2="154" y2="300" stroke="#facc15" stroke-width="2"/>
+    <text x="142" y="262" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#facc15" text-anchor="end">d = 12,0 mm</text>
+    <text x="212" y="220" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fde68a">Vis 1 (M4×14)</text>
+    <text x="212" y="304" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fde68a">Vis 2 (Tandem)</text>
+    <text x="188" y="408" font-family="Arial, sans-serif" font-size="10.5" fill="#93c5fd" text-anchor="middle">2× Taraudages M4 usinés C500 sur Waist_Plate</text>
 
-      <!-- Cotation Entraxe d = 12,0 mm -->
-      <line x1="135" y1="140" x2="135" y2="215" stroke="#38bdf8" stroke-width="1.8"/>
-      <line x1="127" y1="140" x2="143" y2="140" stroke="#38bdf8" stroke-width="1.5"/>
-      <line x1="127" y1="215" x2="143" y2="215" stroke="#38bdf8" stroke-width="1.5"/>
-      <text x="75" y="182" font-size="11.5" font-weight="700" fill="#38bdf8">d = 12,0 mm</text>
-
-      <!-- Flèche orientation Y vers l'avant torse -->
-      <line x1="20" y1="280" x2="20" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
-      <text x="25" y="95" font-size="10" font-weight="700" fill="#94a3b8">+Y (Avant Torse)</text>
-    </g>
-
-    <!-- Zone Spécifications Numériques -->
-    <rect x="460" y="60" width="265" height="435" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-    <text x="475" y="85" font-size="12.5" font-weight="700" fill="#34d399">SPÉCIFICATIONS TECHNIQUES V2</text>
-    
-    <text x="475" y="115" font-size="11" font-weight="600" fill="#f8fafc">1. Coordonnées Cartésiennes CAO :</text>
-    <text x="475" y="132" font-size="10" font-weight="400" fill="#cbd5e1">• Vis 1 : X = 63,46 mm | Y = -48,06 mm</text>
-    <text x="475" y="147" font-size="10" font-weight="700" fill="#34d399">• Vis 2 : X = 63,46 mm | Y = -36,06 mm</text>
-    <text x="475" y="162" font-size="10" font-weight="400" fill="#cbd5e1">• Entraxe rigoureux selon Y : 12,00 mm</text>
-
-    <text x="475" y="195" font-size="11" font-weight="600" fill="#f8fafc">2. Visserie Normalisée McMaster (12.9) :</text>
-    <text x="475" y="212" font-size="10" font-weight="400" fill="#cbd5e1">• Vis CHC M4 × 14 mm (Réf. 91290A150)</text>
-    <text x="475" y="227" font-size="10" font-weight="400" fill="#cbd5e1">• Rondelles Nord-Lock M4 (Réf. 91812A214)</text>
-    <text x="475" y="242" font-size="10" font-weight="400" fill="#cbd5e1">• Prise de filet : 8,2 mm (dans 9,02 mm alu)</text>
-
-    <text x="475" y="275" font-size="11" font-weight="600" fill="#f8fafc">3. Couples &amp; Précharge Dynamique :</text>
-    <text x="475" y="292" font-size="10" font-weight="400" fill="#cbd5e1">• Couple dynamométrique : 3,0 N.m / vis</text>
-    <text x="475" y="307" font-size="10" font-weight="400" fill="#cbd5e1">• Précharge par vis : F_pre = 6 700 N</text>
-    <text x="475" y="322" font-size="10" font-weight="700" fill="#34d399">• Précharge cumulée : 13 400 N (1,34 t)</text>
-
-    <rect x="470" y="350" width="245" height="130" rx="6" fill="#38bdf8" fill-opacity="0.1" stroke="#38bdf8" stroke-width="1.2"/>
-    <text x="480" y="372" font-size="11" font-weight="700" fill="#38bdf8">ZÉRO COLLISION INFÉRIEURE :</text>
-    <text x="480" y="392" font-size="10" font-weight="400" fill="#cbd5e1">• La vis 2 pénètre à Z=1034,2 mm.</text>
-    <text x="480" y="409" font-size="10" font-weight="400" fill="#cbd5e1">• Reste en retrait de 0,8 mm sous plaque.</text>
-    <text x="480" y="426" font-size="10" font-weight="400" fill="#cbd5e1">• Dégagement > 25 mm du roulement RB8016.</text>
-    <text x="480" y="443" font-size="10" font-weight="700" fill="#34d399">• Aucun risque de contact mobile.</text>
+    <!-- Specs box right -->
+    <rect x="356" y="54" width="380" height="378" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+    <text x="374" y="80" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">SPÉCIFICATIONS TECHNIQUES (v42)</text>
+    <text x="374" y="108" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc">1. Encombrement &amp; Entraxe :</text>
+    <text x="374" y="128" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Pièce Corniere basse : 20,02 × 73,84 × 191,10 mm</text>
+    <text x="374" y="146" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Masse auditée v42 : 70,34 g/u (140,68 g / paire)</text>
+    <text x="374" y="164" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Entraxe rigoureux pied tandem : d = 12,00 mm</text>
+    <text x="374" y="194" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc">2. Quincaillerie Certifiée McMaster :</text>
+    <text x="374" y="214" font-family="Arial, sans-serif" font-size="11" fill="#fde68a">• Pied → Waist_Plate : 4× CHC M4×14 cl. 12.9 [91290A150]</text>
+    <text x="374" y="232" font-family="Arial, sans-serif" font-size="11" fill="#fde68a">• Freinage : Nord-Lock M4 [91812A252] + Nylstop [93625A150]</text>
+    <text x="374" y="250" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Tête → ceinture 3 mm : CHC M4×25 [91292A122]</text>
+    <text x="374" y="280" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc">3. Couples &amp; Précharge :</text>
+    <text x="374" y="300" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Serrage nominal : 3,0 N.m (clé Allen 3,0 mm)</text>
+    <text x="374" y="318" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Précharge cumulée : ~13 400 N / pied (2 vis 12.9)</text>
+    <text x="374" y="348" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">4. Zéro Collision Inférieure RB8016 :</text>
+    <text x="374" y="368" font-family="Arial, sans-serif" font-size="11" fill="#a7f3d0">• Pied à Z = 1042,4 mm | Entrefer libre &gt; 25 mm</text>
+    <text x="374" y="386" font-family="Arial, sans-serif" font-size="11" fill="#a7f3d0">au-dessus du roulement RB8016 (Z = 1018 mm).</text>
   </g>
 
-  <!-- ==================================================================== -->
-  <!-- PANNEAU C : CINÉMATIQUE & BLOCAGE LACET (BAS GAUCHE)                -->
-  <!-- ==================================================================== -->
-  <g transform="translate(40, 660)">
-    <rect width="745" height="360" rx="12" fill="url(#grad-panel)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    
-    <!-- Header Panneau C -->
-    <path d="M 0 12 C 0 5.4 5.4 0 12 0 L 733 0 C 739.6 0 745 5.4 745 12 L 745 45 L 0 45 Z" fill="#1e293b"/>
-    <rect x="16" y="14" width="4" height="18" rx="2" fill="#38bdf8"/>
-    <text x="28" y="28" font-size="14.5" font-weight="700" fill="#f8fafc">PANNEAU C · Schéma Cinématique &amp; RDM : Blocage de Lacet par Couple d'Obstacle</text>
-    
-    <!-- Comparaison 1 Vis vs 2 Vis -->
-    <g transform="translate(30, 70)">
-      <!-- Cas 1 Vis (Gaucher / Défaillant) -->
-      <rect x="0" y="0" width="320" height="260" rx="8" fill="#ef4444" fill-opacity="0.08" stroke="#ef4444" stroke-width="1.2"/>
-      <rect x="15" y="15" width="130" height="24" rx="4" fill="#ef4444" fill-opacity="0.2"/>
-      <text x="25" y="31" font-size="11" font-weight="700" fill="#ef4444">1 VIS SEULE : ROTULE</text>
-      
-      <!-- Schéma cinématique rotule -->
-      <circle cx="160" cy="110" r="20" fill="#ef4444" fill-opacity="0.3" stroke="#ef4444" stroke-width="2"/>
-      <circle cx="160" cy="110" r="5" fill="#ef4444"/>
-      <!-- Arc de rotation -->
-      <path d="M 120 110 A 40 40 0 0 1 200 110" fill="none" stroke="#f87171" stroke-width="2.5" stroke-dasharray="4,4"/>
-      <text x="160" y="80" font-size="11" font-weight="700" fill="#f87171" text-anchor="middle">Pivotement Libre Rz</text>
+  <!-- PANNEAU C : RDM COMPARISON -->
+  <g transform="translate(30, 590)">
+    <rect width="755" height="420" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#38bdf8">PANNEAU C : RDM — 1 VIS (ROTULE) vs TANDEM 2× M4 (ENCASTREMENT)</text>
 
-      <text x="20" y="160" font-size="10.5" font-weight="600" fill="#fca5a5">• Résistance lacet = simple frottement sec.</text>
-      <text x="20" y="178" font-size="10.5" font-weight="400" fill="#cbd5e1">• Sous choc dynamique > 210 N : micro-glissement.</text>
-      <text x="20" y="196" font-size="10.5" font-weight="400" fill="#cbd5e1">• Dérive angulaire et désalignement portique.</text>
-      <text x="20" y="225" font-size="11" font-weight="700" fill="#ef4444">❌ REJETÉ : TROP VULNÉRABLE AUX CHOCS</text>
-    </g>
+    <rect x="24" y="54" width="340" height="338" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1.2"/>
+    <text x="40" y="80" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ef4444">1 VIS SEULE : MODÈLE ROTULE</text>
+    <rect x="138" y="138" width="112" height="48" rx="6" fill="#475569" stroke="#ef4444"/>
+    <circle cx="194" cy="162" r="10" fill="#ef4444"/>
+    <text x="194" y="122" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5" text-anchor="middle">Pivot libre Rz (moment nul)</text>
+    <text x="40" y="232" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• Résistance lacet = simple frottement sec.</text>
+    <text x="40" y="258" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• Sous choc RS-06 (210 N.m) : micro-glissement.</text>
+    <text x="40" y="284" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• Dérive angulaire et désalignement portique.</text>
+    <text x="40" y="346" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ef4444">✗ REJETÉ : TROP VULNÉRABLE AUX CHOCS</text>
 
-    <g transform="translate(390, 70)">
-      <!-- Cas 2 Vis Tandem (Droit / Certifié) -->
-      <rect x="0" y="0" width="325" height="260" rx="8" fill="#10b981" fill-opacity="0.08" stroke="#10b981" stroke-width="1.5"/>
-      <rect x="15" y="15" width="170" height="24" rx="4" fill="#10b981" fill-opacity="0.2"/>
-      <text x="25" y="31" font-size="11" font-weight="700" fill="#34d399">TANDEM 2x M4 : ENCASTREMENT</text>
-      
-      <!-- Schéma couple d'obstacle -->
-      <circle cx="120" cy="110" r="14" fill="#10b981" stroke="#34d399" stroke-width="2"/>
-      <circle cx="210" cy="110" r="14" fill="#10b981" stroke="#34d399" stroke-width="2"/>
-      <line x1="120" y1="110" x2="210" y2="110" stroke="#38bdf8" stroke-width="3"/>
-      <text x="165" y="95" font-size="10.5" font-weight="700" fill="#38bdf8" text-anchor="middle">d = 12,0 mm</text>
-      
-      <!-- Flèches de couple bloquant -->
-      <line x1="120" y1="110" x2="120" y2="70" stroke="#34d399" stroke-width="2" marker-end="url(#arrow)"/>
-      <line x1="210" y1="110" x2="210" y2="150" stroke="#34d399" stroke-width="2" marker-end="url(#arrow)"/>
-      
-      <text x="20" y="160" font-size="10.5" font-weight="600" fill="#6ee7b7">• Couple d'obstacle = 2 vis × bras 12 mm.</text>
-      <text x="20" y="178" font-size="10.5" font-weight="400" fill="#cbd5e1">• Couple résistant > 160 N.m (4x le pic de lacet).</text>
-      <text x="20" y="196" font-size="10.5" font-weight="400" fill="#cbd5e1">• Découplage Z parfait via l'oblong supérieur.</text>
-      <text x="20" y="225" font-size="11" font-weight="700" fill="#34d399">✅ CERTIFIÉ : RIGIDITÉ ABSOLUE DU PORTIQUE</text>
-    </g>
+    <rect x="390" y="54" width="340" height="338" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+    <text x="406" y="80" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">TANDEM 2× M4 : ENCASTREMENT RIGIDE</text>
+    <rect x="504" y="138" width="112" height="48" rx="6" fill="#064e3b" stroke="#10b981"/>
+    <circle cx="534" cy="162" r="8" fill="#10b981"/>
+    <circle cx="586" cy="162" r="8" fill="#10b981"/>
+    <text x="560" y="122" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#a7f3d0" text-anchor="middle">Couple d'obstacle d = 12,0 mm</text>
+    <text x="406" y="232" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• 2 vis espacées d = 12 mm + friction 13,4 kN.</text>
+    <text x="406" y="258" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• Couple résistant &gt; 160 N.m (4× le pic lacet).</text>
+    <text x="406" y="284" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• Découplage Z parfait via trou oblong haut.</text>
+    <text x="406" y="346" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">✓ CERTIFIÉ : RIGIDITÉ ABSOLUE PORTIQUE</text>
   </g>
 
-  <!-- ==================================================================== -->
-  <!-- PANNEAU D : MATRICE COMPARATIVE & SYNTHÈSE (BAS DROITE)            -->
-  <!-- ==================================================================== -->
-  <g transform="translate(815, 660)">
-    <rect width="745" height="360" rx="12" fill="url(#grad-panel)" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    
-    <!-- Header Panneau D -->
-    <path d="M 0 12 C 0 5.4 5.4 0 12 0 L 733 0 C 739.6 0 745 5.4 745 12 L 745 45 L 0 45 Z" fill="#1e293b"/>
-    <rect x="16" y="14" width="4" height="18" rx="2" fill="#f59e0b"/>
-    <text x="28" y="28" font-size="14.5" font-weight="700" fill="#f8fafc">PANNEAU D · Matrice Décisionnelle d'Atelier &amp; Arbitrage Industriel</text>
-    
-    <!-- Tableau Comparatif -->
-    <g transform="translate(25, 65)">
-      <!-- Entête tableau -->
-      <rect x="0" y="0" width="695" height="28" rx="4" fill="#334155"/>
-      <text x="15" y="19" font-size="11" font-weight="700" fill="#f8fafc">Critère de Décision Atelier</text>
-      <text x="240" y="19" font-size="11" font-weight="700" fill="#ef4444">Option B (1 Vis M4 + Goupille Ø3)</text>
-      <text x="480" y="19" font-size="11" font-weight="700" fill="#34d399">Option A (Tandem 2x M4 Entraxe 12)</text>
+  <!-- PANNEAU D : DECISION MATRIX -->
+  <g transform="translate(815, 590)">
+    <rect width="755" height="420" rx="12" fill="url(#panelGrad)" stroke="#38bdf8" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#38bdf8">PANNEAU D : MATRICE DÉCISIONNELLE ATELIER &amp; SOURCING</text>
 
-      <!-- Ligne 1 : Tolérance entraxe -->
-      <rect x="0" y="32" width="695" height="34" fill="#1e293b" fill-opacity="0.6"/>
-      <text x="15" y="53" font-size="10.5" font-weight="600" fill="#cbd5e1">Tolérance d'entraxe tolérée</text>
-      <text x="240" y="53" font-size="10" font-weight="700" fill="#fca5a5">&lt; +/- 0,02 mm (Ultra-critique H7)</text>
-      <text x="480" y="53" font-size="10" font-weight="700" fill="#a7f3d0">+/- 0,25 mm (Absorbé par Ø 4,5)</text>
+    <text x="24" y="68" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#94a3b8">CRITÈRE D'ATELIER</text>
+    <text x="255" y="68" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fca5a5">OPTION B (1 VIS + GOUPILLE)</text>
+    <text x="500" y="68" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">OPTION A (TANDEM 2× M4)</text>
+    <line x1="22" y1="80" x2="733" y2="80" stroke="#334155"/>
 
-      <!-- Ligne 2 : Outillage machine -->
-      <rect x="0" y="70" width="695" height="34" fill="#0f172a" fill-opacity="0.6"/>
-      <text x="15" y="91" font-size="10.5" font-weight="600" fill="#cbd5e1">Outillage machine requis</text>
-      <text x="240" y="91" font-size="10" font-weight="400" fill="#cbd5e1">Foret court + Alésoir machine H7</text>
-      <text x="480" y="91" font-size="10" font-weight="400" fill="#cbd5e1">Foret standard Ø 3,3 + Taraud M4</text>
+    <text x="24" y="112" font-family="Arial, sans-serif" font-size="11.5" fill="#f8fafc">Tolérance d'entraxe</text>
+    <text x="255" y="112" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">+/- 0,02 mm (alésage H7)</text>
+    <text x="500" y="112" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">+/- 0,25 mm (absorbé Ø 4,5 mm)</text>
+    <line x1="22" y1="128" x2="733" y2="128" stroke="#1e293b"/>
 
-      <!-- Ligne 3 : Faisabilité C500 -->
-      <rect x="0" y="108" width="695" height="34" fill="#1e293b" fill-opacity="0.6"/>
-      <text x="15" y="129" font-size="10.5" font-weight="600" fill="#cbd5e1">Usinage direct Waist Plate C500</text>
-      <text x="240" y="129" font-size="10" font-weight="700" fill="#fca5a5">Non (Alésage à faire après bridage)</text>
-      <text x="480" y="129" font-size="10" font-weight="700" fill="#a7f3d0">100% Direct sur C500 (G-code 3 axes)</text>
+    <text x="24" y="158" font-family="Arial, sans-serif" font-size="11.5" fill="#f8fafc">Outillage requis</text>
+    <text x="255" y="158" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">Foret court + alésoir H7</text>
+    <text x="500" y="158" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">Foret standard Ø 3,3 + Taraud M4</text>
+    <line x1="22" y1="174" x2="733" y2="174" stroke="#1e293b"/>
 
-      <!-- Ligne 4 : Risque montage -->
-      <rect x="0" y="146" width="695" height="34" fill="#0f172a" fill-opacity="0.6"/>
-      <text x="15" y="167" font-size="10.5" font-weight="600" fill="#cbd5e1">Risque de blocage / collision</text>
-      <text x="240" y="167" font-size="10" font-weight="700" fill="#ef4444">Élevé (Mandrin frotte sur montant)</text>
-      <text x="480" y="167" font-size="10" font-weight="700" fill="#34d399">Nul (Vissage standard clé Allen)</text>
+    <text x="24" y="204" font-family="Arial, sans-serif" font-size="11.5" fill="#f8fafc">Usinage Waist Plate C500</text>
+    <text x="255" y="204" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">Reprise après bridage</text>
+    <text x="500" y="204" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">100 % direct sur C500</text>
+    <line x1="22" y1="220" x2="733" y2="220" stroke="#1e293b"/>
 
-      <!-- Ligne 5 : Précharge plaquage -->
-      <rect x="0" y="184" width="695" height="34" fill="#1e293b" fill-opacity="0.6"/>
-      <text x="15" y="205" font-size="10.5" font-weight="600" fill="#cbd5e1">Précharge d'assise dynamique</text>
-      <text x="240" y="205" font-size="10" font-weight="400" fill="#cbd5e1">6 700 N (1 seule vis de serrage)</text>
-      <text x="480" y="205" font-size="10" font-weight="700" fill="#34d399">13 400 N (2 vis M4 classe 12.9)</text>
+    <text x="24" y="250" font-family="Arial, sans-serif" font-size="11.5" fill="#f8fafc">Risque collision mandrin</text>
+    <text x="255" y="250" font-family="Arial, sans-serif" font-size="11.5" fill="#fca5a5">Élevé sur montant 191 mm</text>
+    <text x="500" y="250" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">Nul (vissage Allen par-dessus)</text>
+    <line x1="22" y1="266" x2="733" y2="266" stroke="#1e293b"/>
 
-      <!-- Conclusion Bandeau -->
-      <rect x="0" y="226" width="695" height="48" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1.5"/>
-      <text x="20" y="247" font-size="11.5" font-weight="700" fill="#34d399">ARBITRAGE D'INGÉNIERIE SYSTÈME D-BOT V1 :</text>
-      <text x="20" y="263" font-size="10" font-weight="500" fill="#f8fafc">Adoption définitive du Tandem 2x M4 entraxe 12,0 mm — Performance RDM maximale et zéro galère d'usinage.</text>
-    </g>
+    <text x="24" y="296" font-family="Arial, sans-serif" font-size="11.5" fill="#f8fafc">Précharge axiale d'assise</text>
+    <text x="255" y="296" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">6 700 N (1 seule vis)</text>
+    <text x="500" y="296" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">13 400 N (2× M4×14 [91290A150])</text>
+
+    <rect x="22" y="324" width="711" height="74" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="1.2"/>
+    <text x="38" y="350" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#a7f3d0">ARBITRAGE SYSTÈME D-BOT V2 :</text>
+    <text x="38" y="374" font-family="Arial, sans-serif" font-size="11.5" fill="#d1fae5">Adoption définitive du Tandem 2× M4×14 [91290A150] (d = 12,0 mm) : rigidité RDM maximale et zéro galère d'usinage.</text>
   </g>
 </svg>
-

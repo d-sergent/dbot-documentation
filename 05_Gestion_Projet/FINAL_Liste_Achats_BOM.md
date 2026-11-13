@@ -42,20 +42,35 @@
 | **Rondelles plates** | M2.5 | DIN 125A (Inox) | 4 (+ stock 10) | Rondelles d'assise sous écrous Nylstop M2,5 |
 | **Goupilles cylindriques** | Ø 3,0 mm | 14 mm (ISO 8734 m6) | 4 (+ stock 2 = 6) | Positionnement positif absolu 0,005 mm sandwich colonne Carré 80×80 mm (Z=±40 mm, Y=±40 mm) — Jonction coupe droite 100 mm |
 | **Vis CHC** | M3 | 6mm - 12mm | ~240 | Fixations électroniques, caches, small motors |
-| **Vis CHC** | M3 | 10 mm (DIN 912, Inox 18-8, McMaster `91292A113` / 316 `92290A113`) | 6 (+ stock 10) | Fixation directe Rotor RS-06 ➔ Moyeu Sandwich Waist (6 perçages sur PCD Ø 24 mm) |
-| **Vis CHC Tête Basse** | M3 | 12 mm (DIN 7984, Inox 18-8, McMaster `92855A313`) | 8 (+ stock 10) | Fixation directe Stator RS-06 ➔ Traverse Renfort Bassin (Option 1 Validée, air gap 1,48 mm) |
+| **Vis CHC** | M3 | 10 mm (DIN 912, Inox 18-8, McMaster `91292A113` / 316 `92290A113`) | 6 *(1x en `v42`)* (+ stock 10) | Fixation directe Rotor RS-06 ➔ Moyeu Sandwich Waist (6 perçages sur PCD Ø 24 mm) |
+| **Vis CHC Tête Basse** | M3 | 12 mm (DIN 7984, Inox 18-8, McMaster `92855A313`) | 8 *(1x en `v42`)* (+ stock 10) | Fixation directe Stator RS-06 ➔ Traverse Renfort Bassin (Option 1 Validée, air gap 1,48 mm) |
 | **Vis CHC** | M4 | 10mm - 15mm | ~160 | Structure principale, moteurs RS-01-RS-04 |
-| **Vis CHC** | M4 | 16 mm (DIN 912, Inox 316, McMaster `92290A154` / 18-8 `91292A118`) | 4 (+ stock 10) | Fixation des 4 Brides étagées en L de retenue axiale RB8016 sur la Traverse Bassin |
-| **Vis CHC** | M4 | 25 mm (DIN 912, Inox 18-8, McMaster `91292A122`) | 6 (+ stock 10) | Fixation modulaire sandwich ceinture alu 3 mm (jonction C1/C2) |
-| **Vis CHC** | M4 | 16 mm (DIN 912, Inox 18-8, McMaster `91292A118` / Acier 12.9 `91290A154`) | 2 (+ stock 10) | Fixation inférieure (ceinture) des 2 cornières anti-torsion 7075-T6 |
-| **Vis CHC** | M4 | 30 mm (DIN 912, Inox 18-8, McMaster `91292A130` / Acier 12.9 `91290A180`) | 2 (+ stock 10) | Fixation supérieure des 2 cornières sur Hub Bride Épaule 18,2 mm (vers RS-04) |
-| **Rondelles Nord-Lock** | M4 | Paire NL4 anti-vibration (McMaster `91812A252`) | 2 paires (+ stock 5) | Sécurisation anti-glissement sous tête vis M4×30 cornières hautes (oblong) |
-| **Écrous Nylstop** | M4 | DIN 985 (Inox 18-8, McMaster `93625A150`) | 8 (+ stock 10) | Blocage ceinture modulaire (6x) et 2 cornières anti-torsion en bas (2x) |
-| **Rondelles plates** | M4 | DIN 125A (Inox 18-8, McMaster `93475A230`) | 20 (+ stock 20) | Assise sous tête et écrous ceinture modulaire (12x) et 2 cornières anti-torsion (6x) |
+| **Vis CHC** | M4 | 14 mm (DIN 912, Acier cl. 12.9 Noir, McMaster `91290A150`) | 4 (+ stock 10) | Fixation pied `Corniere_Basse_7075` ➔ `Waist_Plate_7075` (`Z = 1043,5 mm`) |
+| **Vis CHC** | M4 | 16 mm (DIN 912, Inox 316, McMaster `92290A154`) | 8 (+ stock 10) | Brides étagées en L `RB8016` sur Traverse (`4x`) + Plaque de Cou ➔ Équerres cou (`4x`) |
+| **Vis CHC** | M4 | 16 mm (DIN 912, Inox 18-8, McMaster `91292A118` / Acier zingué cl. 8.8 `90128A214`) | 2 (`91292A118`) + 16 (`90128A214`) | Cornières hautes ➔ Ceinture (`2x` `91292A118`) + Zone mince Brides `v87` Épaules & Hanches ➔ stators `RS-04` (`8+8 = 16x` `90128A214` en `Torse-123 v42`) |
+| **Vis CHC** | M4 | 18 mm (DIN 912, Inox 316, McMaster `92290A161`) | 6 (+ stock 10) | `Support Batterie Central` (`2x`) & pied `Plastron_Ventral_Torse` / Waist (`4x`) |
+| **Vis CHC** | M4 | 20 mm (DIN 912, Inox 316, McMaster `92290A168`) | 10 (+ stock 15) | `Waist_Plate_7075`, `Equerre waist`, `Plastron` & `Cou` (`Z = 1038..1459 mm`) |
+| **Vis CHC** | M4 | 25 mm (DIN 912, Inox 18-8, McMaster `91292A122`) | 14 (+ stock 10) | Fixation ceinture alu 3 mm / cornières (6x) + Traversée transversale Y des 4 Montants `20x20` Pont de Hanches `v42` (8x) |
+| **Vis CHC Tête Basse** | M4 | 25 mm (DIN 7984, Inox 18-8, McMaster `92855A422`) | 22 (+ stock 10) | Zone épaisse `18,2 mm` Brides `v87` sur stators `RS-04` : Épaules (`10x`) + Hanches (`12x` en `Torse-123 v42`) |
+| **Vis CHC** | M4 | 30 mm (DIN 912, Inox 18-8, McMaster `91292A130` / Acier 12.9 `91290A180`) | 2 (+ stock 10) | Fixation supérieure des 2 cornières hautes sur Hub Bride Épaule `18,2 mm` |
+| **Vis FHC** | M4 | 30 mm (ISO 10642, Inox 18-8, McMaster `92125A220`) | 8 (+ stock 10) | Vissage des `2x semelle éclisse` ➔ `2x Insert` 15° (`Z = 1314,5..1366,2 mm`) |
+| **Rondelles Nord-Lock** | M4 | Paire NL4 anti-vibration (McMaster `91812A252`) | 44 (+ stock 10) | Torse (`24x` : brides épaules `18`, cornières hautes `2`, cornières basses `4`) + Hanches Pont de Hanches (`20x` en `Torse-123 v42`) |
+| **Écrous Nylstop** | M4 | DIN 985 (Inox 18-8, McMaster `93625A150`) | 36 (+ stock 15) | Torse (`28x`) + Pont de Hanches montants `20x20` (`8x`) en `Torse-123 v42` |
+| **Rondelles plates** | M4 | DIN 125A (Inox 18-8, McMaster `93475A230`) | 56 (+ stock 20) | Torse (`44x`) + Pont de Hanches (`12x`) en `Torse-123 v42` |
 | **Aimants Néodyme N52** | Ø 10 mm | Ép. 3,0 mm fraisé M3 (McMaster `5862K12`) | 6 (+ stock 6) | Maintien magnétique 129 N carénage lombaire Quick-Swap (sans outil) |
 | **Disques ferromagnétiques** | Ø 10 mm | Ép. 1,5 mm acier zingué (McMaster `91090A102`) | 6 (+ stock 6) | Pastilles de contact ferromagnétique collées sur berceau C2 |
+| **Vis FHC** | M5 | 18 mm (DIN 7991, 90°, Inox 18-8, McMaster `92125A213`) | 4 (+ stock 6) | Liaison `Traverse_Renfort_Bassin` ➔ `4x Inserts Hanche Haut` (Pont de Hanches `Torse-123 v42`) |
+| **Vis CHC** | M5 | 20 mm (DIN 912, Inox 316, McMaster `92290A242`) | 4 (+ stock 6) | Liaison `Selle de Pont Pelvis` ➔ `4x Inserts Hanche Bas` (Pont de Hanches `Torse-123 v42`) |
 | **Vis FHC** | M5 | 25 mm (DIN 7991, 90°, Inox 316, McMaster `92125A230`) | 4 (+ stock 10) | Fixation Traverse Renfort Bassin ➔ Bâti Pelvis PA12-CF (affleurantes à 0,0 mm) |
-| **Vis CHC** | M5 | 12mm - 20mm | ~40 | Hanches, Grosses articulations |
+| **Vis CHC Noir** | M5 | 25 mm (ISO 4762, Inox 18-8 Noir, McMaster `90348A023`) | 4 (+ stock 6) | Traversées sandwich `colonne` + `semelles éclisses` (`Z = 1295,3` & `1385,3 mm`) |
+| **Vis CHC** | M5 | 35 mm (DIN 912, Acier 12.9, McMaster `91290A661`) | 4 (+ stock 6) | Assemblage interne caisson `Selle de Pont Pelvis` (semelle 12 mm + joues 10 mm) |
+| **Vis CHC** | M5 | 50 mm (ISO 4762, Inox 18-8, McMaster `91290A242`) | 6 (+ stock 6) | Traversées haut de colonne / Équerres cou (`Z = 1453,6..1460,0 mm` en `Torse-123 v42`) |
+| **Vis CHC** | M5 | 70 mm (DIN 912, Acier 12.9, McMaster `91290A272`) | 4 (+ stock 4) | Traversée verticale `Brides Épaules` ➔ `Tube transverse 60x60` (Épaules uniquement) |
+| **Vis CHC** | M5 | 80 mm (DIN 912, Acier 12.9, McMaster `91290A276`) | 2 (+ stock 4) | Bridage vertical `Selle de Pont` ➔ `Tube 60x60 L=46,33 mm` ➔ `Bossages Brides Hanches` (`v42`) |
+| **Écrous Nylstop** | M5 | DIN 985 (Inox 18-8, McMaster `93625A200`) | 6 *(+8 `90631A113`)* | Pont de Hanches (`4x M5x35` + `2x M5x80` = 6x `93625A200`) |
+| **Écrous frein / hex** | M5 | DIN 985 / DIN 934 (Inox 18-8, McMaster `90631A113`) | 8 *(+4 pelvis)* | Sandwich colonne (`4x`) + traverses épaules (`4x`) en `Torse-123 v42` |
+| **Rondelles plates** | M5 | DIN 125A (Inox 18-8, McMaster `93475A240`) | 32 (+ stock 20) | Torse (`16x`) + Pont de Hanches (`16x`) en `Torse-123 v42` |
+| **Vis CHC** | M5 | 12mm - 20mm | ~32 | Autres grosses articulations & jambes |
 | **Écrous/Rondelles** | M3/M4/M5 | - | ~150 de chaque | - |
 
 ### Liens d'Achat Recommandés
@@ -107,7 +122,7 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 | Modèle Moteur | Emplacements / Fonctions prévues | Total Requis | Déjà Acquis | Reste à Acheter (Option A : Std) | Reste à Acheter (Option B : RS-10P) |
 | :--- | :--- | :---: | :---: | :---: | :---: |
 | **Robstride RS-06** | Taille (Waist Yaw) | 1 | 1 (**✅ Acheté & Monté**) | **0** | **0** |
-| **Robstride RS-05** | Cou (Pan + Tilt) | 2 | 2 (**✅ Achetés & Montés**) | **0** | **0** |
+| **Robstride RS-05 (`EL05`)** | Cou rotatif (Pan `Torse-123` + Tilt `02_Tete_et_Cou`) | 2 | 2 (**✅ Achetés & Montés**) | **0** | **0** |
 | **Robstride RS-04** | Épaules Pitch (2) + Genoux (2) + Hanches Pitch (2) | 6 | 6 (**✅ 100% Achetés : 2 Épaules P + 2 Hanches P + 2 Genoux**) | **0** | **0** |
 | **Robstride RS-03** | Épaules Roll (2) + Coudes Pitch (2) + Hanches R/Y (4) + Chevilles (4) | 12 | 12 (**✅ 100% Achetés : 2 Épaules R + 2 Coudes P + 4 Hanches R/Y + 4 Chevilles**) | **0** | **0** |
 | **Robstride RS-02** | Épaules Yaw (2) + Supinations Avant-bras (2 en std / 0 en Option B) | 4 *(std)* / 2 *(opt B)* | 1 (**✅ Acheté**) | **3** (1 Épaule Yaw + 2 Supinations) | **1** (1 Épaule Yaw Bras 2) |

@@ -161,22 +161,22 @@
   <!-- COTATIONS RATIONNELLES DIRECTEMENT CALIBRÉES SUR LA GÉOMÉTRIE        -->
   <!-- ===================================================================== -->
   <g id="cotations_reelles">
-    <!-- 1. Cote Largeur Hors-Tout : 173.03 mm (Bas) -->
+    <!-- 1. Cote Largeur Hors-Tout : 173,05 mm (Bas) -->
     <g>
       <line x1="193.99275" y1="657.29675" x2="193.99275" y2="697.29675" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
       <line x1="566.00725" y1="657.29675" x2="566.00725" y2="697.29675" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
       <line x1="197.99275" y1="687.29675" x2="562.00725" y2="687.29675" stroke="#facc15" stroke-width="1.4" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)"/>
       <rect x="325" y="677.29675" width="110" height="20" fill="#0f172a" rx="3" stroke="#facc15" stroke-width="0.8"/>
-      <text x="380" y="691.29675" fill="#facc15" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold" text-anchor="middle">173.03 mm</text>
+      <text x="380" y="691.29675" fill="#facc15" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold" text-anchor="middle">173,05 mm</text>
     </g>
 
-    <!-- 2. Cote Hauteur Hors-Tout : 176.09 mm (Gauche) -->
+    <!-- 2. Cote Hauteur Hors-Tout : 176,11 mm (Gauche) -->
     <g>
       <line x1="185.99275" y1="270.70325" x2="145.99275" y2="270.70325" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
       <line x1="185.99275" y1="649.29675" x2="145.99275" y2="649.29675" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
       <line x1="155.99275" y1="274.70325" x2="155.99275" y2="645.29675" stroke="#facc15" stroke-width="1.4" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)"/>
       <rect x="145.99275" y="405" width="20" height="110" fill="#0f172a" rx="3" stroke="#facc15" stroke-width="0.8"/>
-      <text x="159.99275" y="460" fill="#facc15" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold" text-anchor="middle" transform="rotate(-90 159.99275 460)">176.09 mm</text>
+      <text x="159.99275" y="460" fill="#facc15" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold" text-anchor="middle" transform="rotate(-90 159.99275 460)">176,11 mm</text>
     </g>
 
     <!-- 3. Entraxe Horizontal des 4 Perçages RS-06 (48.08 mm) -->
@@ -197,13 +197,13 @@
       <text x="453.686" y="460" fill="#facc15" font-family="'Segoe UI', monospace" font-size="10" font-weight="bold" text-anchor="middle" transform="rotate(-90 453.686 460)">48.08 mm</text>
     </g>
 
-    <!-- 5. Callout Réel pour la Lumière Oblongue en Arc (Corridor de Câbles 125°) -->
+    <!-- 5. Callout Réel pour la Lumière Oblongue en Arc (Corridor de Câbles 125,05°) -->
     <g transform="translate(380, 310.70325)">
       <circle cx="0" cy="0" r="4.0" fill="#38bdf8"/>
       <polyline points="0,0 80,-40 220,-40" fill="none" stroke="#38bdf8" stroke-width="1.4"/>
       <rect x="220" y="-60" width="240" height="42" rx="4" fill="#0b1329" stroke="#38bdf8" stroke-width="1.2"/>
       <text x="230" y="-42" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">Lumière d'Arc Arrière (Passage Câbles)</text>
-      <text x="230" y="-26" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10">• Rayon ext : 86.25 mm | Rayon int : 63.25 mm</text>
+      <text x="230" y="-26" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10">• R_ext : 84,75 mm | R_int : 64,75 mm (125,05°)</text>
     </g>
 
     <!-- 6. Callout Réel pour les 4 Perçages Stator RS-06 (placé proprement sous les perçages) -->
@@ -211,7 +211,7 @@
       <circle cx="0" cy="0" r="3.5" fill="#facc15"/>
       <polyline points="0,0 -40,40 -120,40" fill="none" stroke="#facc15" stroke-width="1.4"/>
       <rect x="-350" y="20" width="230" height="42" rx="4" fill="#0b1329" stroke="#facc15" stroke-width="1.2"/>
-      <text x="-340" y="38" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">4x M4 Stator RS-06 (PCD Ø 68.0 mm)</text>
+      <text x="-340" y="38" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">4× M4 Moyeu Sandwich (PCD Ø 68,0 mm)</text>
       <text x="-340" y="54" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10">• Perçage lisse Ø 4.50 mm Lamé Ø 5.10 mm</text>
     </g>
   </g>
@@ -244,17 +244,17 @@
       <text x="130" y="16" fill="#38bdf8" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold">Aluminium 7075-T6</text>
 
       <text x="270" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">MASSE CERTIFIÉE :</text>
-      <text x="270" y="16" fill="#f8fafc" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold">434.71 g</text>
+      <text x="270" y="16" fill="#f8fafc" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold">433,53 g</text>
 
       <text x="390" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">ÉPAISSEUR :</text>
-      <text x="390" y="16" fill="#94a3b8" font-family="'Segoe UI', monospace" font-size="11">9.00 mm</text>
+      <text x="390" y="16" fill="#94a3b8" font-family="'Segoe UI', monospace" font-size="11">9,02 mm</text>
     </g>
     <line x1="0" y1="165" x2="510" y2="165" stroke="#334155" stroke-width="1.0"/>
 
     <!-- Ligne 3 : Dimensions Hors-Tout Réelles -->
     <g transform="translate(20, 190)">
       <text x="0" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">ENCOMBREMENT RÉEL USINÉ :</text>
-      <text x="0" y="16" fill="#f8fafc" font-family="'Segoe UI', monospace" font-size="11">173.03 × 176.09 × 9.00 mm</text>
+      <text x="0" y="16" fill="#f8fafc" font-family="'Segoe UI', monospace" font-size="11">176,11 × 173,05 × 9,02 mm</text>
 
       <text x="240" y="0" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">SOURCE GÉOMÉTRIQUE :</text>
       <text x="240" y="16" fill="#10b981" font-family="'Segoe UI', monospace" font-size="11" font-weight="bold">DXF 1:1 Fusion 360 Certifié</text>
@@ -271,6 +271,16 @@
 
     <!-- Pied de cartouche : Date & Auteur -->
     <rect x="0" y="315" width="510" height="30" fill="#1e293b" rx="0 0 6 6"/>
-    <text x="20" y="334" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">Date : Octobre 2026 | Auteur : D-Bot Core Team | Échelle : 1:2.15 | Statut : 100% Fidèle CAO</text>
+    <text x="20" y="334" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="10">Date : Nov. 2026 | Modèle : Torse-123 v42 | Échelle : 1:2.15 | Statut : Fidèle CAO</text>
+  </g>
+
+  <g transform="translate(730, 315)">
+    <rect width="510" height="136" rx="6" fill="#0b1329" stroke="#f59e0b" stroke-width="1.4"/>
+    <text x="16" y="24" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fbbf24">COMPLÉMENTS MÉTROLOGIE TORSE-123 V42 (CAO RÉELLE)</text>
+    <text x="16" y="45" font-family="'Segoe UI', Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Encombrement exact : 176,11 × 173,05 × 9,02 mm | Masse : 433,53 g (154,28 cm3)</text>
+    <text x="16" y="64" font-family="'Segoe UI', Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Arc dorsal -X : 125,05 deg | R_int 64,75 / R_ext 84,75 (larg. 20,0 mm, R=8,0)</text>
+    <text x="16" y="83" font-family="'Segoe UI', Arial, sans-serif" font-size="10.5" fill="#cbd5e1">• Perçages additionnels v42 : 4× coins Ø 3,33 (M4) + 2×2 Equerre waist (X=63,46)</text>
+    <text x="16" y="102" font-family="'Segoe UI', Arial, sans-serif" font-size="10.5" fill="#34d399">• Pivot Yaw réel : [49,23 ; 9,36] mm | Cote Z : 1033,41 .. 1042,43 mm</text>
+    <text x="16" y="122" font-family="'Segoe UI', Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#f87171">• Butée mécanique ±95° (R=83,0 mm) : MODIFICATION CAO PRÉVUE AVANT CNC</text>
   </g>
 </svg>

@@ -1,514 +1,188 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1060" width="100%" height="100%" style="background:#090d16; font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1620 1040" width="100%" height="100%">
   <defs>
-    <!-- Grilles techniques -->
-    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.8" opacity="0.5"/>
-    </pattern>
-    <pattern id="subgrid" width="100" height="100" patternUnits="userSpaceOnUse">
-      <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#334155" stroke-width="1.2" opacity="0.6"/>
-    </pattern>
-
-    <!-- Filtres d'ombrage et lueurs -->
-    <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
-    <filter id="glow-amber" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
-    <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="4" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
-    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6"/>
-    </filter>
-
-    <!-- Gradients fonctionnels -->
-    <linearGradient id="grad-header" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0284c7"/>
-      <stop offset="50%" stop-color="#38bdf8"/>
-      <stop offset="100%" stop-color="#0ea5e9"/>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
     </linearGradient>
-    <linearGradient id="grad-waist" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#b91c1c" stop-opacity="0.45"/>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
     </linearGradient>
-    <linearGradient id="grad-traverse" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10b981" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#047857" stop-opacity="0.4"/>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
     </linearGradient>
-    <linearGradient id="grad-finger" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#fbbf24"/>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
       <stop offset="100%" stop-color="#d97706"/>
     </linearGradient>
-    <linearGradient id="grad-block" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="100%" stop-color="#0284c7"/>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
     </linearGradient>
-    <linearGradient id="grad-pu" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#a855f7"/>
-      <stop offset="50%" stop-color="#c084fc"/>
-      <stop offset="100%" stop-color="#9333ea"/>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
     </linearGradient>
-    <linearGradient id="grad-steel" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#64748b"/>
-      <stop offset="50%" stop-color="#94a3b8"/>
-      <stop offset="100%" stop-color="#475569"/>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
     </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
+    </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
   </defs>
-
-  <!-- Fond quadrillé -->
-  <rect width="1600" height="1060" fill="#090d16"/>
-  <rect width="1600" height="1060" fill="url(#grid)"/>
-  <rect width="1600" height="1060" fill="url(#subgrid)"/>
-
-  <!-- ========================================================================= -->
-  <!-- BANDEAU TITRE PRINCIPAL                                                   -->
-  <!-- ========================================================================= -->
-  <g transform="translate(30, 20)">
-    <rect width="1540" height="72" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    <rect x="0" y="0" width="8" height="72" rx="4" fill="url(#grad-header)"/>
-    <text x="30" y="33" fill="#f8fafc" font-size="19" font-weight="bold" letter-spacing="0.5">SÉCURISATION DE LA ROTATION WAIST YAW (+/- 80° NOMINAL / +/- 95° MÉCANIQUE)</text>
-    <text x="30" y="56" fill="#94a3b8" font-size="13">Architecture CAO Torse v107 : Doigt Mobile 2x FHC M4, Butées Fixes Alu 7075 à 2x CHC M4 + Patins PU 90 ShA et Non-Interférence Nylstop</text>
-    
-    <rect x="1270" y="16" width="250" height="40" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
-    <circle cx="1290" cy="36" r="6" fill="#10b981" filter="url(#glow-cyan)"/>
-    <text x="1308" y="41" fill="#34d399" font-size="12" font-weight="bold">DOUBLE VIS M4 VALIDÉ</text>
+  <rect width="1620" height="1040" fill="url(#bgGrad)"/>
+  <rect width="1620" height="1040" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1560" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#34d399" fill-opacity="0.18" stroke="#34d399" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#34d399" text-anchor="middle">S</text>
+    <text x="78" y="32" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#f8fafc">SÉCURISATION ROTATION WAIST YAW &amp; NON-INTERFÉRENCE NYLSTOP — V42</text>
+    <text x="78" y="55" font-family="Arial, sans-serif" font-size="13" fill="#94a3b8">Couronnes d'exclusion géométrique, dégagements visserie [92290A154 / 92290A168 / 93625A150] &amp; butée ±95° prévue</text>
+    <rect x="1240" y="19" width="290" height="36" rx="8" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
+    <text x="1385" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fbbf24" text-anchor="middle">TORSE-123 V42 | BUTÉE PRÉVUE</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANNEAU 1 (GAUCHE) : VUE CINÉMATIQUE DE DESSUS XY (TRAJECTOIRE & IMPACTS) -->
-  <!-- ========================================================================= -->
-  <g transform="translate(30, 105)">
-    <rect width="780" height="925" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    
-    <!-- En-tête panneau -->
-    <rect x="15" y="15" width="750" height="42" rx="6" fill="#1e293b"/>
-    <text x="30" y="41" fill="#38bdf8" font-size="14" font-weight="bold">1. VUE DE DESSUS (PLAN HORIZONTAL XY) : CINÉMATIQUE DOIGT ➔ PLOTS BUTÉES 2x M4</text>
+  <!-- PANEL 1 : POLAR EXCLUSION -->
+  <g transform="translate(30, 114)">
+    <rect width="580" height="896" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#38bdf8">1. CERCLES D'EXCLUSION (VUE POLAIRE)</text>
+    <text x="22" y="52" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">Zéro collision entre vis, brides L, harnais et plots de butée ±95°</text>
 
-    <!-- Zone graphique centrale : Centre en (390, 475), Échelle 1 mm = 2.7 px -->
-    <g transform="translate(390, 475)">
-      <!-- Repère X, Y (délimité strictement à la zone utile pour ne pas croiser les fiches) -->
-      <line x1="-330" y1="0" x2="330" y2="0" stroke="#334155" stroke-dasharray="4 4" stroke-width="1"/>
-      <line x1="0" y1="-275" x2="0" y2="235" stroke="#334155" stroke-dasharray="4 4" stroke-width="1"/>
-      <text x="315" y="-12" fill="#64748b" font-size="11" font-weight="bold">+Y (Gauche)</text>
-      <text x="-345" y="-12" fill="#64748b" font-size="11" font-weight="bold">-Y (Droit)</text>
-      
-      <!-- Badges axes avec fond protecteur opaque -->
-      <rect x="-60" y="222" width="120" height="18" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
-      <text x="0" y="235" fill="#94a3b8" font-size="10" font-weight="bold" text-anchor="middle">+X (Ventral / Avant)</text>
-      
-      <rect x="-60" y="-272" width="120" height="18" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
-      <text x="0" y="-259" fill="#94a3b8" font-size="10" font-weight="bold" text-anchor="middle">-X (Dorsal / Arrière)</text>
+    <g transform="translate(290, 422)">
+      <rect x="-175" y="-175" width="350" height="350" rx="16" fill="#1e3a8a" fill-opacity="0.32" stroke="#60a5fa" stroke-width="2"/>
+      <!-- RB8016 Ø 120 (r=120) -->
+      <circle cx="0" cy="0" r="120" fill="none" stroke="#4ade80" stroke-width="2"/>
+      <circle cx="0" cy="0" r="80" fill="none" stroke="#4ade80" stroke-width="1.5"/>
 
-      <!-- Contour Traverse Pelvienne Fixe 175 x 175 mm (demi-largeur 87.5 mm * 2.7 = 236.2 px) -->
-      <rect x="-236.2" y="-236.2" width="472.5" height="472.5" rx="25" fill="url(#grad-traverse)" stroke="#059669" stroke-width="1.5" stroke-dasharray="6 4"/>
-      <text x="-225" y="-218" fill="#10b981" font-size="10.5" font-weight="bold">Traverse Fixe 175×175 mm</text>
+      <!-- 4x Brides L circle (r ~ 138) -->
+      <circle cx="0" cy="0" r="138" fill="none" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,4"/>
+      <circle cx="98" cy="-98" r="16" fill="#f59e0b" fill-opacity="0.55" stroke="#fbbf24"/>
+      <circle cx="98" cy="98" r="16" fill="#f59e0b" fill-opacity="0.55" stroke="#fbbf24"/>
+      <circle cx="-98" cy="-98" r="16" fill="#f59e0b" fill-opacity="0.55" stroke="#fbbf24"/>
+      <circle cx="-98" cy="98" r="16" fill="#f59e0b" fill-opacity="0.55" stroke="#fbbf24"/>
 
-      <!-- Roulement RB8016 (Ø 120 mm ext -> R = 60 mm * 2.7 = 162 px, Ø 80 int -> R = 40 mm * 2.7 = 108 px) -->
-      <circle cx="0" cy="0" r="162" fill="none" stroke="#64748b" stroke-width="2.5" stroke-dasharray="8 4"/>
-      <circle cx="0" cy="0" r="108" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
-      <text x="0" y="4" fill="#94a3b8" font-size="10" text-anchor="middle" font-weight="bold">RB8016 (Ø 120 ext)</text>
+      <!-- Harnais arc -X (r = 150) -->
+      <path d="M -100 -112 A 150 150 0 0 0 -100 112" fill="none" stroke="#10b981" stroke-width="26" stroke-linecap="round" stroke-opacity="0.55"/>
 
-      <!-- Cercle enveloppe MAX des 4 Brides fixes : R_max = 79.52 mm * 2.7 = 214.7 px -->
-      <circle cx="0" cy="0" r="214.7" fill="#f59e0b" fill-opacity="0.05" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 3" filter="url(#glow-amber)"/>
-      
-      <!-- Les 4 Brides étagées en L (en ambre) -->
-      <!-- B1 (+45°) -->
-      <g transform="rotate(45)">
-        <rect x="-22" y="-204" width="44" height="50" rx="4" fill="#d97706" fill-opacity="0.85" stroke="#fbbf24" stroke-width="1.2"/>
-        <circle cx="0" cy="-176" r="7" fill="#78350f" stroke="#fef08a" stroke-width="1"/>
-      </g>
-      <!-- B2 (+135°) -->
-      <g transform="rotate(135)">
-        <rect x="-22" y="-204" width="44" height="50" rx="4" fill="#d97706" fill-opacity="0.85" stroke="#fbbf24" stroke-width="1.2"/>
-        <circle cx="0" cy="-176" r="7" fill="#78350f" stroke="#fef08a" stroke-width="1"/>
-      </g>
-      <!-- B3 (+225°) -->
-      <g transform="rotate(225)">
-        <rect x="-22" y="-204" width="44" height="50" rx="4" fill="#d97706" fill-opacity="0.85" stroke="#fbbf24" stroke-width="1.2"/>
-        <circle cx="0" cy="-176" r="7" fill="#78350f" stroke="#fef08a" stroke-width="1"/>
-      </g>
-      <!-- B4 (+315°) -->
-      <g transform="rotate(315)">
-        <rect x="-22" y="-204" width="44" height="50" rx="4" fill="#d97706" fill-opacity="0.85" stroke="#fbbf24" stroke-width="1.2"/>
-        <circle cx="0" cy="-176" r="7" fill="#78350f" stroke="#fef08a" stroke-width="1"/>
-      </g>
-      <text x="115" y="-155" fill="#f59e0b" font-size="10.5" font-weight="bold">Cercle Brides (R = 79,5 mm)</text>
+      <!-- Hard stop radius R=83 mm -> r=166 -->
+      <circle cx="0" cy="0" r="166" fill="none" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="6,3"/>
+      <circle cx="-14" cy="-165" r="10" fill="#ef4444" stroke="#fecaca"/>
+      <circle cx="-14" cy="165" r="10" fill="#ef4444" stroke="#fecaca"/>
 
-      <!-- ARC DE ROTATION DU DOIGT MOBILE : R = 83.0 mm * 2.7 = 224.1 px -->
-      <!-- Secteur angulaire de balayage : -95° à +95° (total 190°) -->
-      <path d="M 223.2 19.5 A 224.1 224.1 0 1 0 -223.2 19.5" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-dasharray="6 3"/>
-      
-      <!-- ZONE NOMINALE ASSERVIE : -80° à +80° (vert) -->
-      <path d="M 220.7 -38.9 A 224.1 224.1 0 1 0 -220.7 -38.9" fill="none" stroke="#10b981" stroke-width="4"/>
-
-      <!-- ======================================================================= -->
-      <!-- LES 2 PLOTS DE BUTÉES FIXES EN ALU 7075 À 2 VIS CHC M4 (+/- 95°)       -->
-      <!-- ======================================================================= -->
-      <!-- Butée Fixe Gauche (+95°) -->
-      <g transform="translate(223.2, 19.5) rotate(-5)">
-        <!-- Corps de plot en Alu 7075-T6 (20 x 12 mm -> 54 x 32.4 px) -->
-        <rect x="-27" y="-5" width="54" height="32.4" rx="4" fill="url(#grad-block)" stroke="#38bdf8" stroke-width="1.5" filter="url(#card-shadow)"/>
-        <!-- Patin amortisseur frontal en PU 90 ShA (épaisseur 2.5 mm -> 7 px, largeur 54 px) -->
-        <rect x="-27" y="-12" width="54" height="7" rx="2" fill="url(#grad-pu)" stroke="#e9d5ff" stroke-width="1"/>
-        <!-- 2 Vis de fixation CHC M4 (entraxe 12 mm -> 32.4 px) -->
-        <circle cx="-16.2" cy="11" r="5" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.2"/>
-        <polygon points="-16.2,9 -14.2,10 -14.2,12 -16.2,13 -18.2,12 -18.2,10" fill="#94a3b8"/>
-        <circle cx="16.2" cy="11" r="5" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.2"/>
-        <polygon points="16.2,9 18.2,10 18.2,12 16.2,13 14.2,12 14.2,10" fill="#94a3b8"/>
-        
-        <!-- Cartouche protecteur d'identification à l'extérieur droit -->
-        <g transform="translate(34, -8)">
-          <rect x="0" y="0" width="130" height="44" rx="5" fill="#0f172a" fill-opacity="0.95" stroke="#0284c7" stroke-width="1"/>
-          <text x="10" y="15" fill="#7dd3fc" font-size="10.5" font-weight="bold">PLOT FIXE G (+95°)</text>
-          <text x="10" y="27" fill="#cbd5e1" font-size="9">Alu 7075 • 2x CHC M4</text>
-          <text x="10" y="38" fill="#d8b4fe" font-size="8.5">Patin PU 90 ShA</text>
-        </g>
-      </g>
-
-      <!-- Butée Fixe Droite (-95°) -->
-      <g transform="translate(-223.2, 19.5) rotate(5)">
-        <rect x="-27" y="-5" width="54" height="32.4" rx="4" fill="url(#grad-block)" stroke="#38bdf8" stroke-width="1.5" filter="url(#card-shadow)"/>
-        <rect x="-27" y="-12" width="54" height="7" rx="2" fill="url(#grad-pu)" stroke="#e9d5ff" stroke-width="1"/>
-        <circle cx="-16.2" cy="11" r="5" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.2"/>
-        <polygon points="-16.2,9 -14.2,10 -14.2,12 -16.2,13 -18.2,12 -18.2,10" fill="#94a3b8"/>
-        <circle cx="16.2" cy="11" r="5" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.2"/>
-        <polygon points="16.2,9 18.2,10 18.2,12 16.2,13 14.2,12 14.2,10" fill="#94a3b8"/>
-        
-        <!-- Cartouche protecteur d'identification à l'extérieur gauche -->
-        <g transform="translate(-164, -8)">
-          <rect x="0" y="0" width="130" height="44" rx="5" fill="#0f172a" fill-opacity="0.95" stroke="#0284c7" stroke-width="1"/>
-          <text x="10" y="15" fill="#7dd3fc" font-size="10.5" font-weight="bold">PLOT FIXE D (-95°)</text>
-          <text x="10" y="27" fill="#cbd5e1" font-size="9">Alu 7075 • 2x CHC M4</text>
-          <text x="10" y="38" fill="#d8b4fe" font-size="8.5">Patin PU 90 ShA</text>
-        </g>
-      </g>
-
-      <!-- DOIGT MOBILE EN POSITION NEUTRE 0° (Arrière sagittal -X, R = 83 mm -> px: 0, -224.1) -->
-      <g transform="translate(0, -224.1)">
-        <!-- Empreinte du plot mobile sous la Waist Plate (16 x 12 mm -> 43.2 x 32.4 px) -->
-        <rect x="-21.6" y="-16.2" width="43.2" height="32.4" rx="5" fill="url(#grad-finger)" stroke="#fef08a" stroke-width="2" filter="url(#glow-amber)"/>
-        <!-- 2 Vis de fixation fraisées FHC M4 (entraxe 10 mm -> 27 px) -->
-        <circle cx="-13.5" cy="0" r="5" fill="#78350f" stroke="#fef08a" stroke-width="1"/>
-        <circle cx="13.5" cy="0" r="5" fill="#78350f" stroke="#fef08a" stroke-width="1"/>
-        <!-- Badge protecteur au-dessus du plot (en zone dégagée sans croisement de cercles) -->
-        <rect x="-95" y="-36" width="190" height="19" rx="4" fill="#0f172a" stroke="#d97706" stroke-width="1"/>
-        <text x="0" y="-23" fill="#fef08a" font-size="10.5" font-weight="bold" text-anchor="middle">DOIGT MOBILE 0° (2x FHC M4)</text>
-      </g>
-
-      <!-- GHOST DU DOIGT EN CHOC À +95° (Frappe le patin PU du plot gauche) -->
-      <g transform="translate(210, 5) rotate(90)" opacity="0.85">
-        <rect x="-21.6" y="-16.2" width="43.2" height="32.4" rx="5" fill="#f97316" stroke="#ef4444" stroke-width="2" stroke-dasharray="3 2"/>
-        <circle cx="-13.5" cy="0" r="4" fill="#7c2d12"/>
-        <circle cx="13.5" cy="0" r="4" fill="#7c2d12"/>
-      </g>
-      <!-- Éclair d'impact à +95° avec badge protecteur -->
-      <path d="M 215 -10 L 222 5 L 210 8 L 220 22" stroke="#ef4444" stroke-width="2" fill="none" filter="url(#glow-red)"/>
-      <rect x="145" y="-36" width="130" height="18" rx="4" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
-      <text x="210" y="-23" fill="#f87171" font-size="9.5" font-weight="bold" text-anchor="middle">CHOC +95° (Hard Stop)</text>
-
-      <!-- GHOST DU DOIGT EN CHOC À -95° (Frappe le patin PU du plot droit) -->
-      <g transform="translate(-210, 5) rotate(-90)" opacity="0.85">
-        <rect x="-21.6" y="-16.2" width="43.2" height="32.4" rx="5" fill="#f97316" stroke="#ef4444" stroke-width="2" stroke-dasharray="3 2"/>
-        <circle cx="-13.5" cy="0" r="4" fill="#7c2d12"/>
-        <circle cx="13.5" cy="0" r="4" fill="#7c2d12"/>
-      </g>
-      <!-- Éclair d'impact à -95° avec badge protecteur -->
-      <path d="M -215 -10 L -222 5 L -210 8 L -220 22" stroke="#ef4444" stroke-width="2" fill="none" filter="url(#glow-red)"/>
-      <rect x="-275" y="-36" width="130" height="18" rx="4" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
-      <text x="-210" y="-23" fill="#f87171" font-size="9.5" font-weight="bold" text-anchor="middle">CHOC -95° (Hard Stop)</text>
-
-      <!-- TRAJECTOIRES ORBITALES DES 4 ÉCROUS NYLSTOP M4 -->
-      <!-- Orbite Ventrale : R = 88.83 mm * 2.7 = 239.8 px -->
-      <circle cx="0" cy="0" r="239.8" fill="none" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="3 3"/>
-      <!-- Orbite Dorsale : R = 94.17 mm * 2.7 = 254.3 px -->
-      <circle cx="0" cy="0" r="254.3" fill="none" stroke="#818cf8" stroke-width="1.2" stroke-dasharray="3 3"/>
-
-      <!-- H1 Dorsal Droit (R = 94.2 mm) -->
-      <g transform="translate(-178, -181)">
-        <polygon points="0,-9 7.8,-4.5 7.8,4.5 0,9 -7.8,4.5 -7.8,-4.5" fill="#6366f1" stroke="#c7d2fe" stroke-width="1.5"/>
-        <circle cx="0" cy="0" r="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
-        <text x="-80" y="-12" fill="#c7d2fe" font-size="9.5" font-weight="bold">H1 Dorsal-D (R=94,2)</text>
-      </g>
-      <!-- H2 Dorsal Gauche (R = 94.2 mm) -->
-      <g transform="translate(178, -181)">
-        <polygon points="0,-9 7.8,-4.5 7.8,4.5 0,9 -7.8,4.5 -7.8,-4.5" fill="#6366f1" stroke="#c7d2fe" stroke-width="1.5"/>
-        <circle cx="0" cy="0" r="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
-        <text x="12" y="-12" fill="#c7d2fe" font-size="9.5" font-weight="bold">H2 Dorsal-G (R=94,2)</text>
-      </g>
-      <!-- H3 Ventral Droit (R = 89.9 mm) -->
-      <g transform="translate(-194, 146)">
-        <polygon points="0,-9 7.8,-4.5 7.8,4.5 0,9 -7.8,4.5 -7.8,-4.5" fill="#0284c7" stroke="#7dd3fc" stroke-width="1.5"/>
-        <circle cx="0" cy="0" r="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
-        <text x="-115" y="16" fill="#7dd3fc" font-size="9.5" font-weight="bold">H3 Ventral-D (R=89,9)</text>
-      </g>
-      <!-- H4 Ventral Gauche (R = 88.8 mm) -->
-      <g transform="translate(190, 146)">
-        <polygon points="0,-9 7.8,-4.5 7.8,4.5 0,9 -7.8,4.5 -7.8,-4.5" fill="#0284c7" stroke="#7dd3fc" stroke-width="1.5"/>
-        <circle cx="0" cy="0" r="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
-        <text x="14" y="16" fill="#7dd3fc" font-size="9.5" font-weight="bold">H4 Ventral-G (R=88,8)</text>
-      </g>
-
-      <!-- Cotation de garde saine radiale -->
-      <line x1="152" y1="-152" x2="180" y2="-180" stroke="#10b981" stroke-width="2"/>
-      <circle cx="152" cy="-152" r="3" fill="#10b981"/>
-      <circle cx="180" cy="-180" r="3" fill="#10b981"/>
-      <rect x="180" y="-145" width="130" height="20" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
-      <text x="186" y="-131" fill="#6ee7b7" font-size="9.5" font-weight="bold">Garde Radiale : +10,6 mm</text>
+      <!-- Labels strictly outside -->
+      <text x="0" y="-196" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f87171" text-anchor="middle">Couronne prévue butée ±95° : R = 83,0 mm (Plot +95°)</text>
+      <text x="0" y="206" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f87171" text-anchor="middle">Plot -95° à R = 83,0 mm (Modif. CAO prévue)</text>
+      <text x="0" y="226" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fbbf24" text-anchor="middle">Cercle Brides L RB8016 (4× à 45° — Modélisées v42)</text>
+      <text x="0" y="-4" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">RB8016</text>
+      <text x="0" y="14" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1" text-anchor="middle">Ø 120 / Ø 80</text>
     </g>
 
-    <!-- ======================================================================= -->
-    <!-- FICHES TECHNIQUES SUPÉRIEURE ET INFÉRIEURES (RENDUES EN PREMIER PLAN)    -->
-    <!-- ======================================================================= -->
-    <!-- FICHE TECHNIQUE 1 : PERÇAGE WAIST PLATE (DOIGT MOBILE 0°) -->
-    <g transform="translate(145, 68)">
-      <rect width="490" height="126" rx="8" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5" filter="url(#card-shadow)"/>
-      <rect x="0" y="0" width="6" height="126" rx="3" fill="#fbbf24"/>
-      <text x="20" y="24" fill="#fef08a" font-size="11.5" font-weight="bold">PERÇAGE WAIST PLATE — DOIGT MOBILE (POSITION 0° NEUTRE)</text>
-      <text x="20" y="44" fill="#cbd5e1" font-size="9.5">• Position centre : <tspan fill="#ffffff" font-weight="bold">X = -33,77 mm</tspan>, <tspan fill="#ffffff" font-weight="bold">Y = +9,36 mm</tspan> (Rayon orbital R = 83,0 mm)</text>
-      <text x="20" y="62" fill="#cbd5e1" font-size="9.5">• 2x Fraisures coniques 90° Ø 8,4 mm (noyage vis FHC M4 à fleur 0,0 mm — zéro saillie)</text>
-      <text x="20" y="80" fill="#cbd5e1" font-size="9.5">• 2x Trous lisses traversants Ø 4,3 mm (Entraxe Y = 10,0 mm : Y = +4,36 / +14,36 mm)</text>
-      <text x="20" y="98" fill="#4ade80" font-size="9.5">• Dans le doigt Alu 7075 : 2x Taraudages M4 prof. 6,0 mm (avant-trous Ø 3,3 prof. 8 mm)</text>
-      <text x="20" y="115" fill="#fde047" font-size="9">• Doigt mobile 7075-T6 (16×12×8 mm) • Vissage FHC M4 depuis la face supérieure</text>
-    </g>
-    <!-- Ligne de rappel vers doigt mobile -->
-    <line x1="390" y1="194" x2="390" y2="220" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="3 2"/>
-    <polygon points="386,216 394,216 390,224" fill="#fbbf24"/>
-
-    <!-- FICHE TECHNIQUE 2 : TARAUDAGE TRAVERSE (PLOT FIXE DROIT -95°) -->
-    <g transform="translate(25, 712)">
-      <rect width="350" height="136" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" filter="url(#card-shadow)"/>
-      <rect x="0" y="0" width="6" height="136" rx="3" fill="#38bdf8"/>
-      <text x="18" y="22" fill="#7dd3fc" font-size="11" font-weight="bold">TARAUDAGE TRAVERSE (PLOT FIXE D -95°)</text>
-      <text x="18" y="41" fill="#cbd5e1" font-size="9.5">• Position centre : <tspan fill="#ffffff" font-weight="bold">X = +56,46 mm</tspan>, <tspan fill="#ffffff" font-weight="bold">Y = -73,32 mm</tspan> (-95,0°)</text>
-      <text x="18" y="59" fill="#cbd5e1" font-size="9.5">• 2x Taraudages borgnes M4 × 0,7 mm (Entraxe d = 12,0 mm)</text>
-      <text x="18" y="77" fill="#cbd5e1" font-size="9.5">• Avant-trous Ø 3,3 prof. 10 mm | Filet utile prof. 8,0 mm</text>
-      <text x="18" y="95" fill="#38bdf8" font-size="9.5">• Dans plot 7075 : 2x Lamages Ø 7,5 × prof. 4,5 mm (CHC M4)</text>
-      <text x="18" y="112" fill="#d8b4fe" font-size="9">• Plot 7075-T6 (20×12×9,5 mm) + Patin amortisseur PU 90 ShA</text>
-      <text x="18" y="127" fill="#94a3b8" font-size="8.5">• Serrage 2x CHC M4×16 mm classe 12.9 au couple de 2,8 N.m</text>
-    </g>
-    <!-- Ligne de rappel vers Plot Fixe Droit -->
-    <path d="M 167 712 L 167 530" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 2" fill="none"/>
-    <polygon points="163,535 171,535 167,527" fill="#38bdf8"/>
-
-    <!-- FICHE TECHNIQUE 3 : TARAUDAGE TRAVERSE (PLOT FIXE GAUCHE +95°) -->
-    <g transform="translate(405, 712)">
-      <rect width="350" height="136" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" filter="url(#card-shadow)"/>
-      <rect x="0" y="0" width="6" height="136" rx="3" fill="#38bdf8"/>
-      <text x="18" y="22" fill="#7dd3fc" font-size="11" font-weight="bold">TARAUDAGE TRAVERSE (PLOT FIXE G +95°)</text>
-      <text x="18" y="41" fill="#cbd5e1" font-size="9.5">• Position centre : <tspan fill="#ffffff" font-weight="bold">X = +56,46 mm</tspan>, <tspan fill="#ffffff" font-weight="bold">Y = +92,04 mm</tspan> (+95,0°)</text>
-      <text x="18" y="59" fill="#cbd5e1" font-size="9.5">• 2x Taraudages borgnes M4 × 0,7 mm (Entraxe d = 12,0 mm)</text>
-      <text x="18" y="77" fill="#cbd5e1" font-size="9.5">• Avant-trous Ø 3,3 prof. 10 mm | Filet utile prof. 8,0 mm</text>
-      <text x="18" y="95" fill="#38bdf8" font-size="9.5">• Dans plot 7075 : 2x Lamages Ø 7,5 × prof. 4,5 mm (CHC M4)</text>
-      <text x="18" y="112" fill="#d8b4fe" font-size="9">• Plot 7075-T6 (20×12×9,5 mm) + Patin amortisseur PU 90 ShA</text>
-      <text x="18" y="127" fill="#94a3b8" font-size="8.5">• Serrage 2x CHC M4×16 mm classe 12.9 au couple de 2,8 N.m</text>
-    </g>
-    <!-- Ligne de rappel vers Plot Fixe Gauche -->
-    <path d="M 613 712 L 613 530" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 2" fill="none"/>
-    <polygon points="609,535 617,535 613,527" fill="#38bdf8"/>
-
-    <!-- Bandeau bas d'explication cinématique -->
-    <rect x="20" y="865" width="740" height="45" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-    <text x="35" y="892" fill="#e2e8f0" font-size="11.5">
-      <tspan fill="#38bdf8" font-weight="bold">DOUBLE FIXATION M4 :</tspan> Les plots fixes et le doigt mobile sont bridés par 2 vis M4 chacun. Rigidité absolue.
-    </text>
+    <rect x="22" y="675" width="536" height="196" rx="8" fill="#0f172a" stroke="#475569"/>
+    <text x="38" y="702" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">ZONES D'EXCLUSION VALIDÉES</text>
+    <text x="38" y="728" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Anneau R = 40..60 mm : Roulement RB8016 + 4× Brides L (Z = 1017..1033)</text>
+    <text x="38" y="750" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Anneau R = 64,75..84,75 mm (-X) : Arc dorsal 69,05° / 125,05° libre</text>
+    <text x="38" y="772" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Secteur +X (0 deg) : Encoche ouverte U 45 × 20 mm (harnais XT60)</text>
+    <text x="38" y="794" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">• Rayon R = 83,0 mm (±95°) : Réservé à la butée mécanique avant CNC</text>
+    <text x="38" y="822" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">• Vis coins Traverse : 4× FHC M5×18 [92125A213] affleurantes (zéro saillie)</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANNEAU 2 (HAUT DROITE) : COUPE AXIALE DÉTAILLÉE DU DOIGT ET DU PLOT FIXE -->
-  <!-- ========================================================================= -->
-  <g transform="translate(830, 105)">
-    <rect width="740" height="495" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    
-    <!-- En-tête -->
-    <rect x="15" y="15" width="710" height="42" rx="6" fill="#1e293b"/>
-    <text x="30" y="41" fill="#38bdf8" font-size="14" font-weight="bold">2. COUPE AXIALE (Z) : DOIGT MOBILE ➔ PLOT FIXE 7075 À 2 VIS CHC M4</text>
+  <!-- PANEL 2 : Z INTERFERENCE CHECK -->
+  <g transform="translate(635, 114)">
+    <rect width="500" height="896" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#fbbf24">2. CHAÎNE DE COTES AXIALE (Z)</text>
+    <text x="22" y="52" font-family="Arial, sans-serif" font-size="11.5" fill="#94a3b8">Vérification anti-collision têtes CHC &amp; Nylstop sous Waist Plate</text>
 
-    <!-- Zone de dessin technique de coupe -->
-    <g transform="translate(40, 75)">
-      
-      <!-- 1. WAIST PLATE 7075 (MOBILE - ROUGE/ORANGE) : Z = 1036.42 à 1042.42 mm (ép. 6.0 mm -> 36 px) -->
-      <g transform="translate(30, 20)">
-        <rect x="0" y="0" width="580" height="36" rx="4" fill="#991b1b" fill-opacity="0.75" stroke="#f87171" stroke-width="1.5"/>
-        <text x="20" y="23" fill="#fecaca" font-size="12" font-weight="bold">WAIST PLATE 7075 (ÉQUIPAGE MOBILE EN ROTATION YAW)</text>
-        <text x="440" y="23" fill="#fca5a5" font-size="10.5">Épaisseur : 6,00 mm</text>
-        <text x="590" y="36" fill="#94a3b8" font-size="10">Z = 1036,42 mm</text>
+    <rect x="22" y="76" width="456" height="430" rx="10" fill="#0f172a" stroke="#334155"/>
+    <text x="38" y="106" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#fb923c">ALTITUDES RÉELLES TORSE-123 V42 (MM)</text>
+    <text x="38" y="136" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Face sup. Waist_Plate_7075 : Z = 1042,43 mm</text>
+    <text x="38" y="160" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Face inf. Waist_Plate_7075 : Z = 1033,41 mm (ep. 9,02 mm)</text>
+    <text x="38" y="184" font-family="Arial, sans-serif" font-size="11.5" fill="#34d399">• Face sup. RB8016 / Moyeu : Z = 1033,44 / 1033,03 mm</text>
+    <text x="38" y="208" font-family="Arial, sans-serif" font-size="11.5" fill="#34d399">  ➔ Jeu fonctionnel garanti : 0,38 mm</text>
+    <text x="38" y="232" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Face sup. Traverse_Renfort : Z = 1020,41 mm</text>
+    <text x="38" y="256" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Face inf. Traverse_Renfort : Z = 1007,90 mm (ep. 12,51 mm)</text>
+    <text x="38" y="280" font-family="Arial, sans-serif" font-size="11.5" fill="#fbbf24">• Garde dispo entre Traverse &amp; Waist_Plate : 13,00 mm</text>
+    <text x="38" y="314" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Têtes vis FHC M5×18 [92125A213] (Traverse) :</text>
+    <text x="50" y="334" font-family="Arial, sans-serif" font-size="11" fill="#34d399">Fraisées à Z = 1020,4 mm (0,0 mm de saillie)</text>
+    <text x="38" y="362" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Nylstop M4 [93625A150] (Equerres / Brides / Plastron) :</text>
+    <text x="50" y="382" font-family="Arial, sans-serif" font-size="11" fill="#34d399">Logés côté externe / coins — zéro passage sous Waist mobile</text>
+    <text x="38" y="410" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Têtes vis Brides L [92290A154] (M4×16) :</text>
+    <text x="50" y="430" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Z_tête max = 1032,0 mm &lt; 1033,41 mm (marge &gt; 1,4 mm)</text>
+    <text x="38" y="464" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f87171">• Règle butée ±95° : loger les plots dans la hauteur 13,0 mm</text>
+    <text x="50" y="484" font-family="Arial, sans-serif" font-size="11" fill="#fecaca">(ou en périphérie ext. Y = ±83 mm sous Waist_Plate).</text>
 
-        <!-- Fraisures coniques 90° pour 2x vis FHC M4 à fleur 0.0 mm -->
-        <polygon points="120,0 128,0 124,8 124,36 116,36 116,8 112,0" fill="#475569" stroke="#94a3b8" stroke-width="0.8"/>
-        <polygon points="180,0 188,0 184,8 184,36 176,36 176,8 172,0" fill="#475569" stroke="#94a3b8" stroke-width="0.8"/>
-        <text x="150" y="-8" fill="#fbbf24" font-size="9.5" text-anchor="middle" font-weight="bold">2x Fraisures 90° Ø 8,4 mm (Foret Ø 4,3 mm) — FHC M4 à fleur 0,0 mm</text>
-
-        <!-- LE DOIGT MOBILE USINÉ (Fixé sous la Waist Plate à R = 83 mm) -->
-        <g transform="translate(100, 36)" filter="url(#glow-amber)">
-          <rect x="0" y="0" width="100" height="48" rx="4" fill="url(#grad-finger)" stroke="#fef08a" stroke-width="1.8"/>
-          <line x1="20" y1="0" x2="20" y2="35" stroke="#78350f" stroke-width="2" stroke-dasharray="2 1"/>
-          <line x1="80" y1="0" x2="80" y2="35" stroke="#78350f" stroke-width="2" stroke-dasharray="2 1"/>
-          <text x="50" y="23" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">DOIGT MOBILE</text>
-          <text x="50" y="38" fill="#451a03" font-size="9" font-weight="bold" text-anchor="middle">Alu 7075 (H = 8,0 mm)</text>
-        </g>
-        <text x="590" y="84" fill="#94a3b8" font-size="10">Z = 1028,42 mm</text>
-      </g>
-
-      <!-- 2. TRAVERSE RENFORT BASSIN FIXE : Z = 1007.90 à 1020.41 mm (ép. 12.5 mm -> 75 px) -->
-      <g transform="translate(30, 195)">
-        <rect x="0" y="0" width="580" height="60" rx="4" fill="#065f46" fill-opacity="0.8" stroke="#34d399" stroke-width="1.5"/>
-        <text x="20" y="35" fill="#d1fae5" font-size="12" font-weight="bold">TRAVERSE RENFORT BASSIN (BÂTI STATIQUE FIXE)</text>
-        <text x="381" y="55" fill="#a7f3d0" font-size="8.5" text-anchor="middle" font-weight="bold">2x Taraudages M4 prof. 8 mm (Foret Ø 3,3 prof. 10 mm)</text>
-        <text x="440" y="35" fill="#a7f3d0" font-size="10.5">Épaisseur : 10,0 à 12,5 mm</text>
-        <text x="590" y="4" fill="#94a3b8" font-size="10">Z = 1020,41 mm</text>
-
-        <!-- 2 Taraudages M4 dans la Traverse (entraxe 12 mm -> 72 px) -->
-        <rect x="345" y="0" width="14" height="40" fill="#0f172a" stroke="#6ee7b7" stroke-width="1"/>
-        <rect x="417" y="0" width="14" height="40" fill="#0f172a" stroke="#6ee7b7" stroke-width="1"/>
-
-        <!-- =================================================================== -->
-        <!-- LE PLOT DE BUTÉE FIXE EN ALU 7075-T6 À 2 VIS CHC M4                 -->
-        <!-- =================================================================== -->
-        <!-- Dimensions réelles : 20 mm (longueur) x 12 mm (largeur) x 9.5 mm (hauteur -> 57 px) -->
-        <g transform="translate(315, -57)">
-          <!-- Corps de plot en Alu 7075-T6 usiné avec semelle large -->
-          <rect x="15" y="0" width="125" height="57" rx="4" fill="url(#grad-block)" stroke="#38bdf8" stroke-width="1.6" filter="url(#card-shadow)"/>
-          
-          <!-- Patin amortisseur frontal en Polyuréthane 90 Shore A (face au doigt mobile) -->
-          <rect x="0" y="0" width="15" height="57" rx="3" fill="url(#grad-pu)" stroke="#e9d5ff" stroke-width="1.2"/>
-          <text x="7.5" y="32" fill="#ffffff" font-size="8" font-weight="bold" text-anchor="middle" transform="rotate(-90 7.5 32)">PATIN PU</text>
-
-          <!-- Lamage Vis 1 (gauche) : Lamage Ø 7.5 x 4.5 mm + trou Ø 4.5 mm -->
-          <rect x="33" y="0" width="24" height="25" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8"/>
-          <!-- Tête vis CHC M4 -->
-          <rect x="35" y="5" width="20" height="20" rx="2" fill="url(#grad-steel)" stroke="#cbd5e1" stroke-width="1"/>
-          <!-- Tige filetée M4 descendant dans la traverse -->
-          <rect x="41" y="25" width="8" height="65" fill="#64748b"/>
-
-          <!-- Lamage Vis 2 (droite) : Entraxe 12 mm réels (72 px) -->
-          <rect x="105" y="0" width="24" height="25" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8"/>
-          <rect x="107" y="5" width="20" height="20" rx="2" fill="url(#grad-steel)" stroke="#cbd5e1" stroke-width="1"/>
-          <rect x="113" y="25" width="8" height="65" fill="#64748b"/>
-
-          <text x="77" y="44" fill="#ffffff" font-size="9" font-weight="bold" text-anchor="middle">PLOT ALU 7075</text>
-          <text x="77" y="54" fill="#bae6fd" font-size="8" text-anchor="middle">2x CHC M4 (H=9,5)</text>
-        </g>
-        <text x="590" y="-53" fill="#94a3b8" font-size="10">Z = 1029,91 mm</text>
-      </g>
-
-      <!-- COTATION DE L'ENTREFER VERTICAL GLOBAL : 16.02 mm (96 px) -->
-      <line x1="20" y1="56" x2="20" y2="195" stroke="#38bdf8" stroke-width="2"/>
-      <path d="M 16 60 L 20 56 L 24 60 M 16 191 L 20 195 L 24 191" stroke="#38bdf8" stroke-width="2" fill="none"/>
-      <rect x="-10" y="112" width="130" height="22" rx="4" fill="#0369a1" stroke="#38bdf8" stroke-width="1"/>
-      <text x="-4" y="127" fill="#e0f2fe" font-size="10" font-weight="bold">Vide Libre : 16,02 mm</text>
-
-      <!-- ZONE DE CONTACT FRANC / RECOUVREMENT DE CHOC : ~1.5 à 2.0 mm -->
-      <!-- Le doigt mobile frappe directement le patin PU du plot fixe -->
-      <rect x="200" y="138" width="115" height="15" fill="#ef4444" fill-opacity="0.3" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="3 2"/>
-      <line x1="200" y1="145" x2="310" y2="145" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="4 2"/>
-      <path d="M 304 140 L 312 145 L 304 150" fill="#ef4444"/>
-      <rect x="180" y="158" width="165" height="22" rx="4" fill="#7f1d1d" stroke="#ef4444" stroke-width="1"/>
-      <text x="187" y="173" fill="#fca5a5" font-size="10" font-weight="bold">CHOC FRANC ➔ PATIN PU</text>
-
-      <!-- GARDE SOUS LE DOIGT MOBILE : 8.01 mm -->
-      <line x1="150" y1="104" x2="150" y2="195" stroke="#10b981" stroke-width="1.8"/>
-      <text x="95" y="178" fill="#6ee7b7" font-size="9.5" font-weight="bold">Garde : +8,0 mm</text>
-
-      <!-- GARDE AU-DESSUS DU PLOT FIXE : 6.51 mm -->
-      <line x1="480" y1="56" x2="480" y2="138" stroke="#10b981" stroke-width="1.8"/>
-      <text x="488" y="100" fill="#6ee7b7" font-size="9.5" font-weight="bold">Garde : +6,5 mm</text>
-    </g>
-
-    <!-- Résumé technique bas panneau 2 -->
-    <rect x="20" y="440" width="700" height="40" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-    <text x="35" y="465" fill="#e2e8f0" font-size="11.5">
-      <tspan fill="#34d399" font-weight="bold">ZÉRO MOMENT DE FLEXION :</tspan> L'impact est repris en traction pure sur la vis arrière (<tspan fill="#38bdf8" font-weight="bold">F_trac = 289 N</tspan> soit 5,8% précharge).
-    </text>
+    <rect x="22" y="528" width="456" height="344" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+    <text x="38" y="556" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399">VÉRIFICATIONS MCMASTER-CARR V42</text>
+    <text x="38" y="586" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• [92290A168] CHC M4×20 : serrage Moyeu + Equerre waist</text>
+    <text x="38" y="610" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• [92290A154] CHC M4×16 : 4× Brides retenue RB8016</text>
+    <text x="38" y="634" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• [92125A213] FHC M5×18 : 4× coins Traverse ➔ Inserts</text>
+    <text x="38" y="658" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• [91290A150] CHC M4×14 : 4× Corniere basse ➔ Waist</text>
+    <text x="38" y="682" font-family="Arial, sans-serif" font-size="11.5" fill="#fbbf24">• [92855A313] CHC M3×12 : Stator RS-06 (1/8 en v42)</text>
+    <text x="38" y="706" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• [93625A150] / [93625A200] : Écrous frein Nylstop M4 / M5</text>
+    <text x="38" y="730" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• [93475A230] / [93475A240] : Rondelles DIN 125A M4 / M5</text>
+    <text x="38" y="766" font-family="Arial, sans-serif" font-size="11" fill="#34d399" font-weight="bold">• Toutes ces références sont exactes et issues de Torse-123 v42.</text>
+    <text x="38" y="792" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">• Orientation obligatoire Nylstop : dôme polyamide vers l'extérieur.</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANNEAU 3 (BAS DROITE) : NON-INTERFÉRENCE NYLSTOP M4 & MATRICE BOM        -->
-  <!-- ========================================================================= -->
-  <g transform="translate(830, 615)">
-    <rect width="740" height="415" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1.5" filter="url(#card-shadow)"/>
-    
-    <!-- En-tête -->
-    <rect x="15" y="15" width="710" height="38" rx="6" fill="#1e293b"/>
-    <text x="30" y="39" fill="#38bdf8" font-size="13" font-weight="bold">3. PREUVE AXIALE NYLSTOP M4 &amp; NOMENCLATURE QUINCAILLERIE (McMaster-Carr)</text>
+  <!-- PANEL 3 : 3 FICHES -->
+  <g transform="translate(1160, 114)">
+    <rect width="430" height="896" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <text x="22" y="32" font-family="Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#34d399">3. FICHES DE SÉCURISATION</text>
 
-    <!-- Sous-panneau Gauche : Coupe Écrou Nylstop M4 -->
-    <g transform="translate(25, 65)">
-      <rect width="330" height="330" rx="8" fill="#111c33" stroke="#1e293b" stroke-width="1"/>
-      <text x="15" y="25" fill="#38bdf8" font-size="11" font-weight="bold">COUPE Z : ÉCROU NYLSTOP M4</text>
-      
-      <!-- Empilement vertical coté -->
-      <g transform="translate(20, 45)">
-        <!-- Plastron Ventral PA12-CF (10 mm) -->
-        <rect x="10" y="0" width="130" height="35" fill="#581c87" fill-opacity="0.7" stroke="#c084fc" stroke-width="1"/>
-        <text x="18" y="22" fill="#e9d5ff" font-size="9.5" font-weight="bold">Plastron Ventral PA12</text>
+    <!-- Fiche 1 -->
+    <rect x="20" y="60" width="390" height="250" rx="10" fill="#450a0a" fill-opacity="0.45" stroke="#ef4444" stroke-width="1.3"/>
+    <text x="36" y="88" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#f87171">FICHE 1 : BUTÉE MÉCANIQUE ±95°</text>
+    <text x="36" y="116" font-family="Arial, sans-serif" font-size="11" fill="#fecaca">STATUT : MODIFICATION CAO PRÉVUE AVANT CNC</text>
+    <text x="36" y="142" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Double rôle : limite logicielle ±80° (Odrive)</text>
+    <text x="48" y="162" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">puis blocage dur physique à ±95° (R = 83,0 mm).</text>
+    <text x="36" y="188" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Prévient l'arrachement du faisceau 48V/CAN-FD</text>
+    <text x="48" y="208" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">en cas de dérive codeur ou impact au sol.</text>
+    <text x="36" y="236" font-family="Arial, sans-serif" font-size="11" fill="#34d399">• Amortissement TPU 95A sur plots fixes pour</text>
+    <text x="48" y="256" font-family="Arial, sans-serif" font-size="11" fill="#34d399">absorber le pic d'énergie cinétique torse.</text>
 
-        <!-- Tête CHC M4 -->
-        <rect x="52" y="-15" width="26" height="15" rx="2" fill="#94a3b8" stroke="#f8fafc" stroke-width="1"/>
-        <!-- Tige M4 -->
-        <rect x="60" y="0" width="10" height="85" fill="#64748b"/>
+    <!-- Fiche 2 -->
+    <rect x="20" y="330" width="390" height="260" rx="10" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
+    <text x="36" y="358" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#fbbf24">FICHE 2 : FREINAGE &amp; ANTI-DESSERRAGE</text>
+    <text x="36" y="386" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• 100% des liaisons traversantes du bassin et de la</text>
+    <text x="48" y="406" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">colonne utilisent des Nylstop [93625A150 / A200]</text>
+    <text x="48" y="426" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">ou des rondelles Nord-Lock [91812A252] (RS-04).</text>
+    <text x="36" y="454" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Les vis dans taraudage borgne Alu 7075</text>
+    <text x="48" y="474" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">([92290A168], [92290A154], [92855A313])</text>
+    <text x="48" y="494" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">sont systématiquement montées au Loctite 243.</text>
+    <text x="36" y="526" font-family="Arial, sans-serif" font-size="11" fill="#34d399">• Dégagement minimum vérifié : &gt;= 1,4 mm sous</text>
+    <text x="48" y="546" font-family="Arial, sans-serif" font-size="11" fill="#34d399">Waist_Plate en rotation continue 360 deg.</text>
 
-        <!-- Waist Plate 7075 (6 mm) -->
-        <rect x="0" y="35" width="270" height="25" fill="#991b1b" fill-opacity="0.7" stroke="#f87171" stroke-width="1"/>
-        <text x="150" y="52" fill="#fecaca" font-size="9.5" font-weight="bold">Waist Plate 6 mm</text>
-
-        <!-- Écrou Nylstop M4 sous plaque (H = 5 mm -> 20 px) -->
-        <rect x="45" y="60" width="40" height="20" rx="2.5" fill="#2563eb" stroke="#60a5fa" stroke-width="1.5"/>
-        <rect x="50" y="77" width="30" height="3" fill="#93c5fd"/>
-        <text x="95" y="74" fill="#93c5fd" font-size="9" font-weight="bold">Nylstop M4 (H=5mm)</text>
-
-        <!-- Vide d'air franc sous l'écrou : 11.01 mm (44 px) -->
-        <line x1="65" y1="80" x2="65" y2="124" stroke="#10b981" stroke-width="2"/>
-        <rect x="85" y="95" width="135" height="18" rx="3" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
-        <text x="92" y="108" fill="#a7f3d0" font-size="9" font-weight="bold">GARDE AIR : +11,0 mm</text>
-
-        <!-- Traverse Renfort Bassin Fixe -->
-        <rect x="0" y="124" width="270" height="30" fill="#065f46" fill-opacity="0.8" stroke="#34d399" stroke-width="1"/>
-        <text x="150" y="143" fill="#d1fae5" font-size="9.5" font-weight="bold">Traverse Fixe</text>
-      </g>
-
-      <rect x="15" y="245" width="300" height="70" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="25" y="265" fill="#f8fafc" font-size="10" font-weight="bold">BILAN NON-INTERFÉRENCE :</text>
-      <text x="25" y="282" fill="#94a3b8" font-size="9">• Garde radiale aux brides : <tspan fill="#34d399" font-weight="bold">+5,3 mm mini</tspan></text>
-      <text x="25" y="297" fill="#94a3b8" font-size="9">• Garde axiale sous écrou : <tspan fill="#34d399" font-weight="bold">+11,0 mm franc</tspan></text>
-      <text x="25" y="311" fill="#94a3b8" font-size="9">• Survol plots fixes : <tspan fill="#38bdf8" font-weight="bold">+1,5 mm d'air</tspan></text>
-    </g>
-
-    <!-- Sous-panneau Droit : Nomenclature Quincaillerie & Couples -->
-    <g transform="translate(370, 65)">
-      <rect width="345" height="330" rx="8" fill="#111c33" stroke="#1e293b" stroke-width="1"/>
-      <text x="15" y="25" fill="#38bdf8" font-size="11" font-weight="bold">NOMENCLATURE D'ATELIER (McMaster-Carr)</text>
-
-      <!-- Tableau compact -->
-      <g transform="translate(15, 40)">
-        <!-- Doigt mobile -->
-        <rect x="0" y="0" width="315" height="52" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-        <text x="10" y="18" fill="#fbbf24" font-size="10" font-weight="bold">1. Doigt Mobile (Arrière Sagittal 180°)</text>
-        <text x="10" y="32" fill="#cbd5e1" font-size="9">Plot 7075-T6 (16×12×8 mm) usiné</text>
-        <text x="10" y="45" fill="#94a3b8" font-size="8.5">2x Vis FHC M4×14 mm 10.9 (McM #92125A196) | 2,5 N.m</text>
-
-        <!-- Butées fixes -->
-        <rect x="0" y="60" width="315" height="52" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-        <text x="10" y="78" fill="#38bdf8" font-size="10" font-weight="bold">2. Deux Plots Fixes (+/- 95°)</text>
-        <text x="10" y="92" fill="#cbd5e1" font-size="9">2x Plots 7075 (20×12×9,5 mm) + 2x Patins PU 90 ShA</text>
-        <text x="10" y="105" fill="#94a3b8" font-size="8.5">4x Vis CHC M4×16 mm 12.9 (McM #91290A154) | 2,8 N.m</text>
-
-        <!-- Fixation Plastron -->
-        <rect x="0" y="120" width="315" height="52" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-        <text x="10" y="138" fill="#c084fc" font-size="10" font-weight="bold">3. Fixation Plastron sur Waist Plate</text>
-        <text x="10" y="152" fill="#cbd5e1" font-size="9">4x Vis CHC M4×18 mm inox A2 (McM #91292A118)</text>
-        <text x="10" y="165" fill="#94a3b8" font-size="8.5">4x Écrous Nylstop M4 DIN 985 (McM #90566A130) | 3,0 N.m</text>
-
-        <!-- RDM & Sécurité choc -->
-        <rect x="0" y="180" width="315" height="65" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="1.2"/>
-        <text x="10" y="198" fill="#34d399" font-size="10" font-weight="bold">RDM DOUBLE VIS M4 (CHOC CRÊTE 36 N.m) :</text>
-        <text x="10" y="215" fill="#e2e8f0" font-size="9">• Traction vis arrière : <tspan font-weight="bold">289 N</tspan> (5,8% précharge)</text>
-        <text x="10" y="230" fill="#e2e8f0" font-size="9">• Tenue cisaillement (2x M4) : <tspan font-weight="bold">> 7 000 N</tspan></text>
-        <text x="10" y="243" fill="#34d399" font-size="9.5" font-weight="bold">• Facteur de sécurité cisaillement : Sf = 16,2</text>
-      </g>
-    </g>
+    <!-- Fiche 3 -->
+    <rect x="20" y="610" width="390" height="262" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+    <text x="36" y="638" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399">FICHE 3 : TEST ENVELOPPE FUSION 360</text>
+    <text x="36" y="666" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Avant usinage : activer Motion Study / Drive Joint</text>
+    <text x="48" y="686" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">sur J4 (RS-06) de -95 deg à +95 deg.</text>
+    <text x="36" y="714" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Exécuter Inspect &gt; Interference sur l'ensemble</text>
+    <text x="48" y="734" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">Torse + Bassin_Pelvis + visserie McMaster.</text>
+    <text x="36" y="762" font-family="Arial, sans-serif" font-size="11" fill="#fbbf24">• Vérifier que les 8 pièces ASV1_200 hanches</text>
+    <text x="48" y="782" font-family="Arial, sans-serif" font-size="11" fill="#fbbf24">(WIP) ne réduisent pas la boucle de service</text>
+    <text x="48" y="802" font-family="Arial, sans-serif" font-size="11" fill="#fbbf24">faisceau ni le débattement angulaire ±95°.</text>
   </g>
 </svg>

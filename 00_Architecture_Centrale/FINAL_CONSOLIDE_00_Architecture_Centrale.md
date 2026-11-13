@@ -13,10 +13,10 @@ Toutes les valeurs proviennent des sources indiquées. En cas de contradiction, 
   - [2.1 Tableau récapitulatif des DOF, couples et réductions](#21-tableau-récapitulatif-des-dof-couples-et-réductions)
   - [2.2 Masse des moteurs (BOM moteur)](#22-masse-des-moteurs-bom-moteur)
 - [**3. Nomenclature (BOM Locale)**](#3-nomenclature-bom-locale)
-- [**4. État de la Conception (CAD & Simulation)**](#4-état-de-la-conception-cad-simulation)
+- [**4. État de la Conception (CAD & Simulation)**](#4-état-de-la-conception-cad--simulation)
 - [**5. Instructions de Montage Critiques**](#5-instructions-de-montage-critiques)
-- [**6. Backlog Technique & Questions en Suspens**](#6-backlog-technique-questions-en-suspens)
-- [**7. Roadmap & Itérations Futures (Optionnel)**](#7-roadmap-itérations-futures-optionnel)
+- [**6. Backlog Technique & Questions en Suspens**](#6-backlog-technique--questions-en-suspens)
+- [**7. Roadmap & Itérations Futures (Optionnel)**](#7-roadmap--itérations-futures-optionnel)
   - [Annexes (facultatives)](#annexes-facultatives)
 
 ---
@@ -143,7 +143,7 @@ Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈�
 
 | Sujet | Description | Source / Priorité | Action requise |
 |-------|-------------|-------------------|----------------|
-| **Entraxe Y des hanches & Largeur Pelvis** | Envergure Y totale figée à 487,09 mm (entraxe hanches ~420 mm, scale 1,2776). | `AUDIT_METROLOGIQUE_Torse_et_Bassin.json` – ✅ **Validé CAO** | Intégré dans le modèle CAO validé (caisson PA12-CF + traverse 7075-T6). |
+| **Entraxe Y des hanches & Largeur Pelvis** | Envergure Y totale figée à 487,08 mm (entraxe hanches ~420 mm, scale 1,2776). | [`Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json) – ✅ **Validé CAO** | Intégré dans le modèle CAO validé (habillage PA12-CF + Squelette Pont de Hanches & Traverse 7075-T6). |
 | **Fournisseur bielles carbone** | Référence fournisseur et prix manquants. | `FINAL_Architecture_Globale.md` – **[À COMPLÉTER]** | Identifier un fournisseur (ex. Carbon‑Fiber‑Tech) et obtenir devis. |
 | **Visserie titane M4** | Possibilité d’allègement, mais pas encore validée. | `FINAL_Glossaire.md` – **[À COMPLÉTER]** | Étude de résistance (FEA) et décision d’achat. |
 | **Câblage CAN torsadé** | Longueur exacte et type de gaine (tortue vs PVC) non spécifiés. | `FINAL_Architecture_Globale.md` – **[À COMPLÉTER]** | Définir le schéma de câblage, commander le lot. |

@@ -1,0 +1,316 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Générateur du Schéma Vectoriel SVG Haute Définition :
+Cartographie FEA Von Mises & Étude d'Allègement de la Bride d'Épaule Alu 7075-T651 (v87)
+"""
+
+from pathlib import Path
+
+SVG_PATH = Path("/Users/Shared/Mon Google Drive Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/media/fea_bride_epaule_von_mises_et_potentiel_allegement.svg")
+
+svg_content = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1020" width="1600" height="1020">
+  <defs>
+    <!-- Filtres et Grille Blueprint -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.98"/>
+    </linearGradient>
+    <linearGradient id="vonMisesGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>    <!-- < 10 MPa (Bleu foncé) -->
+      <stop offset="20%" stop-color="#0284c7"/>   <!-- 10-25 MPa (Cyan) -->
+      <stop offset="45%" stop-color="#10b981"/>   <!-- 25-50 MPa (Vert) -->
+      <stop offset="70%" stop-color="#f59e0b"/>   <!-- 50-80 MPa (Jaune-Orange) -->
+      <stop offset="88%" stop-color="#ea580c"/>   <!-- 80-110 MPa (Orange vif) -->
+      <stop offset="100%" stop-color="#ef4444"/>  <!-- > 110 MPa (Rouge crête) -->
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#334155" stroke-width="0.75" stroke-opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- Canvas Fond Blueprint -->
+  <rect width="1600" height="1020" fill="#0b1120"/>
+  <rect width="1600" height="1020" fill="url(#grid)"/>
+
+  <!-- Cartouche En-tête Principal -->
+  <rect x="40" y="30" width="1520" height="80" rx="10" fill="url(#panelGrad)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="65" y="65" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#38bdf8" letter-spacing="1.5">D-BOT HUMANOID V1 | DOSSIER TECHNIQUE FEA &amp; RDM</text>
+  <text x="65" y="92" font-family="Arial, sans-serif" font-size="14" fill="#94a3b8">Étude FEA Numérique Solide Déformable (FreeCAD / Gmsh C3D10 / CalculiX) — Bride d'Épaule v87 Alu 7075-T651 (202.3 g)</text>
+  <rect x="1320" y="45" width="220" height="50" rx="6" fill="#1e293b" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="1430" y="67" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8" text-anchor="middle">MODÈLE CAO V87</text>
+  <text x="1430" y="86" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">STATUT : OPTIMAL FIGÉ</text>
+
+  <!-- ==================================================================== -->
+  <!-- PANNEAU 1 : VUE AXIALE STATOR & CARTOGRAPHIE VON MISES (A GAUCHE)     -->
+  <!-- ==================================================================== -->
+  <rect x="40" y="130" width="480" height="520" rx="10" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="65" y="165" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#f8fafc">PANEL 1 : VUE AXIALE (INTERFACE STATOR RS-04)</text>
+  <text x="65" y="185" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8">Répartition des contraintes Von Mises en flexion/torsion combinée</text>
+
+  <!-- Géométrie de la Bride en Vue Axiale (Centre à 280, 390) -->
+  <g transform="translate(280, 390)">
+    <!-- Contour festonné extérieur (Lobes R=7.0 mm, Arcs concaves R=25.64 mm) -->
+    <!-- Rayon moyen ext ~ 60 mm, alésage ~ 48.5 mm -->
+    <!-- Collerette extérieure festive (contour schématique représentatif) -->
+    <path d="M 0 -72 A 25.6 25.6 0 0 1 38 -56 A 7 7 0 0 0 54 -40 A 25.6 25.6 0 0 1 68 -12 A 7 7 0 0 0 71 8 A 25.6 25.6 0 0 1 60 45 A 7 7 0 0 0 48 60 A 25.6 25.6 0 0 1 12 70 A 7 7 0 0 0 -8 71 A 25.6 25.6 0 0 1 -45 60 A 7 7 0 0 0 -60 48 A 25.6 25.6 0 0 1 -70 12 A 7 7 0 0 0 -71 -8 A 25.6 25.6 0 0 1 -60 -45 A 7 7 0 0 0 -48 -60 A 25.6 25.6 0 0 1 -12 -70 Z" 
+          fill="#1e3a8a" stroke="#0284c7" stroke-width="2.5"/>
+
+    <!-- Anneau de collerette d'appui 5 mm (PCD 106 mm -> R=53 mm) -->
+    <circle cx="0" cy="0" r="53" fill="none" stroke="#38bdf8" stroke-dasharray="4,3" stroke-width="1.2"/>
+    <text x="56" y="-36" font-family="Arial, sans-serif" font-size="10" fill="#38bdf8">PCD Ø 106.0 mm</text>
+
+    <!-- Zone alésage pilote stator Ø 97.0 mm H7 (R=48.5 mm) -->
+    <circle cx="0" cy="0" r="48.5" fill="#0f172a" stroke="#64748b" stroke-width="1.5"/>
+
+    <!-- Poche carrée centrale 44x44 mm du bossage arrière -->
+    <rect x="-24" y="-24" width="48" height="48" rx="4" fill="#090d16" stroke="#475569" stroke-width="1.5"/>
+    
+    <!-- Trou de vis M5 traversante Ø 5.3 mm (excentré à X=7.5 mm) -->
+    <circle cx="9" cy="0" r="6" fill="#ef4444" stroke="#f87171" stroke-width="1.5"/>
+    <!-- Concentration de contrainte autour du trou M5 -->
+    <circle cx="9" cy="0" r="12" fill="none" stroke="#ea580c" stroke-width="2" stroke-opacity="0.8"/>
+    <circle cx="9" cy="0" r="18" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-opacity="0.5"/>
+    <text x="18" y="-14" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f87171">Trou M5 (Pic 109.6 MPa)</text>
+
+    <!-- 10 Perçages M4 sur PCD 106 mm (angles 0, 36, 72, 108, 144, 180, 216, 252, 288, 324) -->
+    <!-- R = 53 mm -->
+    <g id="m4_holes">
+      <circle cx="53" cy="0" r="4" fill="#0284c7" stroke="#93c5fd" stroke-width="1"/>
+      <circle cx="42.88" cy="31.15" r="4" fill="#0284c7" stroke="#93c5fd" stroke-width="1"/>
+      <circle cx="16.38" cy="50.40" r="4" fill="#0284c7" stroke="#93c5fd" stroke-width="1"/>
+      <circle cx="-16.38" cy="50.40" r="4" fill="#0284c7" stroke="#93c5fd" stroke-width="1"/>
+      <circle cx="-42.88" cy="31.15" r="4" fill="#0284c7" stroke="#93c5fd" stroke-width="1"/>
+      <circle cx="-53" cy="0" r="4" fill="#0284c7" stroke="#93c5fd" stroke-width="1"/>
+      <circle cx="-42.88" cy="-31.15" r="4" fill="#0284c7" stroke="#93c5fd" stroke-width="1"/>
+      <circle cx="-16.38" cy="-50.40" r="4" fill="#0284c7" stroke="#93c5fd" stroke-width="1"/>
+      <circle cx="16.38" cy="-50.40" r="4" fill="#0284c7" stroke="#93c5fd" stroke-width="1"/>
+      <circle cx="42.88" cy="-31.15" r="4" fill="#0284c7" stroke="#93c5fd" stroke-width="1"/>
+    </g>
+
+    <!-- Flèche du couple de torsion My = 120 N.m -->
+    <path d="M 0 -85 A 85 85 0 0 1 80 -25" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="85,-20 83,-32 73,-25" fill="#38bdf8"/>
+    <text x="35" y="-95" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">My = 120 N.m</text>
+
+    <!-- Repère axes -->
+    <line x1="0" y1="0" x2="35" y2="0" stroke="#f43f5e" stroke-width="2"/>
+    <polygon points="35,0 28,-3 28,3" fill="#f43f5e"/>
+    <text x="38" y="4" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f43f5e">+X (Av)</text>
+
+    <line x1="0" y1="0" x2="0" y2="-35" stroke="#10b981" stroke-width="2"/>
+    <polygon points="0,-35 -3,-28 3,-28" fill="#10b981"/>
+    <text x="-5" y="-40" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#10b981">+Z (Haut)</text>
+  </g>
+
+  <!-- Échelle de couleur Von Mises (Barre verticale) -->
+  <rect x="65" y="490" width="16" height="130" fill="url(#vonMisesGrad)" rx="3" stroke="#475569" stroke-width="1"/>
+  <text x="90" y="498" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ef4444">&gt; 110 MPa (Pic)</text>
+  <text x="90" y="525" font-family="Arial, sans-serif" font-size="11" fill="#ea580c">80 MPa</text>
+  <text x="90" y="555" font-family="Arial, sans-serif" font-size="11" fill="#f59e0b">50 MPa</text>
+  <text x="90" y="585" font-family="Arial, sans-serif" font-size="11" fill="#10b981">25 MPa</text>
+  <text x="90" y="618" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#0284c7">&lt; 10 MPa (95% vol)</text>
+
+  <rect x="250" y="580" width="250" height="50" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="260" y="600" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">Volume froid (&lt; 25 MPa) :</text>
+  <text x="440" y="600" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981">95.8 %</text>
+  <text x="260" y="620" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">Facteur Sécurité P95 :</text>
+  <text x="440" y="620" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">Sf = 22.7</text>
+
+  <!-- ==================================================================== -->
+  <!-- PANNEAU 2 : COUPE LONGITUDINALE & EMPLANTURE TUBE 60x60 (AU CENTRE)  -->
+  <!-- ==================================================================== -->
+  <rect x="540" y="130" width="520" height="520" rx="10" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="565" y="165" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#f8fafc">PANEL 2 : COUPE AXIALE &amp; ANCRAGE DU TUBE 60x60x2</text>
+  <text x="565" y="185" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8">Étagement 3 niveaux : Flasque 5 mm, Moyeu 13.2 mm, Bossage 15 mm</text>
+
+  <!-- Schéma en coupe longitudinale (Y horizontal, Z vertical) -->
+  <g transform="translate(620, 240)">
+    <!-- Tube 60x60x2 en carbone/aluminium (gris hachuré) -->
+    <rect x="200" y="30" width="160" height="14" fill="#334155" stroke="#64748b" stroke-width="1"/>
+    <rect x="200" y="196" width="160" height="14" fill="#334155" stroke="#64748b" stroke-width="1"/>
+    <text x="280" y="25" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Tube Épaule 60x60x2 mm</text>
+
+    <!-- Étage 1 : Flasque stator 5.0 mm (épaisseur X=-82.6 à -77.6 mm) -->
+    <path d="M 0 0 L 30 0 L 30 40 L 30 200 L 30 240 L 0 240 Z" fill="#1e3a8a" stroke="#0284c7" stroke-width="1.5"/>
+    <text x="15" y="-10" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8" text-anchor="middle">Flasque 5 mm</text>
+
+    <!-- Étage 2 : Moyeu cylindrique intermédiaire 13.2 mm -->
+    <path d="M 30 20 L 110 20 L 110 44 L 110 196 L 110 220 L 30 220 Z" fill="#1e40af" stroke="#0284c7" stroke-width="1.5"/>
+    <text x="70" y="12" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8" text-anchor="middle">Moyeu 13.2 mm</text>
+
+    <!-- Étage 3 : Bossage carré 55.8x55.8 mm emmanché L=15 mm -->
+    <path d="M 110 44 L 200 44 L 200 196 L 110 196 Z" fill="#0369a1" stroke="#0284c7" stroke-width="1.5"/>
+    <text x="155" y="38" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8" text-anchor="middle">Bossage 55.8 (L=15)</text>
+
+    <!-- Poche interne d'évidement 44x44 mm -->
+    <rect x="110" y="70" width="70" height="100" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1.2"/>
+    <text x="145" y="125" font-family="Arial, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Poche 44x44</text>
+
+    <!-- Congé d'emplanture R=3.0 mm (Racine critique) -->
+    <circle cx="110" cy="44" r="8" fill="#ea580c" fill-opacity="0.6" stroke="#ef4444" stroke-width="1.5"/>
+    <circle cx="110" cy="196" r="8" fill="#ea580c" fill-opacity="0.6" stroke="#ef4444" stroke-width="1.5"/>
+
+    <!-- Alésage traversant vis M5 (à X = 155 mm) -->
+    <rect x="150" y="30" width="14" height="180" fill="#ef4444" fill-opacity="0.3" stroke="#f87171" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="157" y="235" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f87171" text-anchor="middle">Vis Traversante M5</text>
+
+    <!-- Épaulement d'appui axial sur face du tube -->
+    <line x1="200" y1="20" x2="200" y2="44" stroke="#10b981" stroke-width="2.5"/>
+    <line x1="200" y1="196" x2="200" y2="220" stroke="#10b981" stroke-width="2.5"/>
+    <text x="210" y="215" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#10b981">Butée axiale tube</text>
+
+    <!-- Lignes de cotation -->
+    <line x1="0" y1="260" x2="200" y2="260" stroke="#94a3b8" stroke-width="1"/>
+    <line x1="0" y1="255" x2="0" y2="265" stroke="#94a3b8" stroke-width="1"/>
+    <line x1="200" y1="255" x2="200" y2="265" stroke="#94a3b8" stroke-width="1"/>
+    <text x="100" y="275" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1" text-anchor="middle">Longueur Totale Bounding Box = 33.20 mm</text>
+
+    <!-- Flèche de flexion sagittale Mx = 63.7 N.m -->
+    <path d="M -15 60 L -15 180" fill="none" stroke="#f59e0b" stroke-width="3"/>
+    <polygon points="-15,185 -20,172 -10,172" fill="#f59e0b"/>
+    <text x="-40" y="125" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f59e0b" transform="rotate(-90 -40 125)">Fz = -128 N</text>
+  </g>
+
+  <!-- Encadré diagnostic de contrainte en coupe -->
+  <rect x="565" y="555" width="470" height="75" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="580" y="575" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f87171">Point Singulier Critique (109.6 MPa) :</text>
+  <text x="580" y="593" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• Localisé au congé de racine (R=3.0 mm) sous flexion Mx et au perçage traversant M5.</text>
+  <text x="580" y="611" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">• La matière autour du trou M5 est INDISPENSABLE pour empêcher l'arrachement.</text>
+
+  <!-- ==================================================================== -->
+  <!-- PANNEAU 3 : ANALYSE D'ALLÈGEMENT & MATRICE DE COMPROMIS (A DROITE)   -->
+  <!-- ==================================================================== -->
+  <rect x="1080" y="130" width="480" height="520" rx="10" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="1105" y="165" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#f8fafc">PANEL 3 : ÉVALUATION D'ALLÈGEMENT &amp; COMPROMIS</text>
+  <text x="1105" y="185" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8">Analyse coût-bénéfice d'un évidement matière résiduel</text>
+
+  <!-- Matrice des 4 critères clés -->
+  <g transform="translate(1105, 210)">
+    <!-- Critère 1 : Gain de Masse -->
+    <rect x="0" y="0" width="430" height="70" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <circle cx="25" cy="35" r="14" fill="#0284c7"/>
+    <text x="25" y="40" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">1</text>
+    <text x="50" y="25" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">Gain de Masse Marginal Faible : -12 à -15 g</text>
+    <text x="50" y="43" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">Masse actuelle 202.3 g (déjà -129 g sur v86). Allègement max</text>
+    <text x="50" y="58" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">théorique &lt; 7% de la masse de la pièce.</text>
+
+    <!-- Critère 2 : Dissipation Thermique RS-04 (Pénalité Rouge) -->
+    <rect x="0" y="80" width="430" height="85" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="1.2"/>
+    <circle cx="25" cy="122" r="14" fill="#ef4444"/>
+    <text x="25" y="127" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">2</text>
+    <text x="50" y="103" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f87171">Pénalité Thermique Majeure (+18°C sur stator)</text>
+    <text x="50" y="121" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Le RS-04 dissipe 120 W sans ventilation. La bride sert de pont</text>
+    <text x="50" y="136" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">thermique vers le tube 60x60. Réduire la section augmente la</text>
+    <text x="50" y="151" font-family="Arial, sans-serif" font-size="11" fill="#f87171">résistance thermique R_th et risque la surchauffe des aimants.</text>
+
+    <!-- Critère 3 : Rigidité & Planéité Stator (Pénalité Orange) -->
+    <rect x="0" y="175" width="430" height="75" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.2"/>
+    <circle cx="25" cy="212" r="14" fill="#f59e0b"/>
+    <text x="25" y="217" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">3</text>
+    <text x="50" y="198" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fbbf24">Rigidité d'Appui &amp; Jeux Cycloïdes (Tolérance &lt; 0.02 mm)</text>
+    <text x="50" y="216" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Le réducteur planétaire interne craint le vrillage. La collerette 5 mm</text>
+    <text x="50" y="231" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">continue garantit la planéité parfaite sous couple de calage.</text>
+
+    <!-- Critère 4 : Coût & Complexité Usinage CNC (Pénalité Orange) -->
+    <rect x="0" y="260" width="430" height="75" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.2"/>
+    <circle cx="25" cy="297" r="14" fill="#f59e0b"/>
+    <text x="25" y="302" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">4</text>
+    <text x="50" y="283" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fbbf24">Usinabilité CNC 2.5D (2 reprises en brut standard)</text>
+    <text x="50" y="301" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">L'ajout de poches internes exigerait des micro-fraises Ø 2 mm,</text>
+    <text x="50" y="316" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">augmentant le temps machine de +40% et le risque de voilage.</text>
+
+    <!-- Verdict Final -->
+    <rect x="0" y="350" width="430" height="70" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="215" y="375" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#6ee7b7" text-anchor="middle">VERDICT INGÉNIERIE SYSTÈME D-BOT</text>
+    <text x="215" y="395" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">AUCUN ALLÈGEMENT COMPLÉMENTAIRE RECOMMANDÉ</text>
+    <text x="215" y="410" font-family="Arial, sans-serif" font-size="11" fill="#a7f3d0" text-anchor="middle">La bride v87 atteint l'optimum global de robustesse et thermique.</text>
+  </g>
+
+  <!-- ==================================================================== -->
+  <!-- PANNEAU 4 : TABLEAU DE SYNTHÈSE NUMÉRIQUE DES CAS DE CHARGE FEA      -->
+  <!-- ==================================================================== -->
+  <rect x="40" y="670" width="1520" height="310" rx="10" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="65" y="705" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#f8fafc">PANEL 4 : SYNTHÈSE NUMÉRIQUE DES 5 CAS DE CHARGES FEA (SOLVEUR CALCULIX CCX C3D10)</text>
+  <text x="65" y="725" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8">Modèle maillé : 74 981 nœuds, 42 461 tétraèdres quadratiques C3D10 — Matériau : Alu 7075-T651 (Re = 505 MPa, Rm = 570 MPa)</text>
+
+  <!-- En-tête Tableau -->
+  <rect x="65" y="745" width="1470" height="30" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="80" y="765" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">Cas de Charge</text>
+  <text x="260" y="765" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">Sollicitations &amp; Torseur</text>
+  <text x="560" y="765" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">Flèche Max</text>
+  <text x="680" y="765" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">Sigma Peak</text>
+  <text x="800" y="765" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">Sigma P95</text>
+  <text x="920" y="765" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">Sigma Médian</text>
+  <text x="1050" y="765" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">Facteur Sécurité (Sf P95)</text>
+  <text x="1270" y="765" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">% Volume &lt; 25 MPa</text>
+  <text x="1440" y="765" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">Statut</text>
+
+  <!-- Ligne 1 : Torsion Pure -->
+  <rect x="65" y="780" width="1470" height="35" fill="#0f172a" fill-opacity="0.8" stroke="#334155" stroke-width="0.5"/>
+  <text x="80" y="802" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">1. Torsion Pure</text>
+  <text x="260" y="802" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">My = 120.0 N.m (Couple calage crête RS-04)</text>
+  <text x="560" y="802" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">0.0054 mm</text>
+  <text x="680" y="802" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">18.4 MPa</text>
+  <text x="800" y="802" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">4.6 MPa</text>
+  <text x="920" y="802" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">0.49 MPa</text>
+  <text x="1050" y="802" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981">Sf = 110.4</text>
+  <text x="1270" y="802" font-family="Arial, sans-serif" font-size="12" fill="#10b981">100.0 %</text>
+  <text x="1440" y="802" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981">CONFORME</text>
+
+  <!-- Ligne 2 : Flexion Sagittale -->
+  <rect x="65" y="818" width="1470" height="35" fill="#1e293b" fill-opacity="0.5" stroke="#334155" stroke-width="0.5"/>
+  <text x="80" y="840" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">2. Flexion Sagittale</text>
+  <text x="260" y="840" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Mx = 63.7 N.m + Fz = -128 N (Port 4.3 kg à 1.5g)</text>
+  <text x="560" y="840" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">0.2114 mm</text>
+  <text x="680" y="840" font-family="Arial, sans-serif" font-size="12" fill="#ea580c">109.6 MPa</text>
+  <text x="800" y="840" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">22.2 MPa</text>
+  <text x="920" y="840" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">0.19 MPa</text>
+  <text x="1050" y="840" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981">Sf = 22.7 (Pic 4.6)</text>
+  <text x="1270" y="840" font-family="Arial, sans-serif" font-size="12" fill="#10b981">95.8 %</text>
+  <text x="1440" y="840" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981">CONFORME</text>
+
+  <!-- Ligne 3 : Roulis / Choc -->
+  <rect x="65" y="856" width="1470" height="35" fill="#0f172a" fill-opacity="0.8" stroke="#334155" stroke-width="0.5"/>
+  <text x="80" y="878" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">3. Roulis / Choc</text>
+  <text x="260" y="878" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Mz = 62.5 N.m + Fx = +250 N (Choc latéral)</text>
+  <text x="560" y="878" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">0.0387 mm</text>
+  <text x="680" y="878" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">21.9 MPa</text>
+  <text x="800" y="878" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">4.0 MPa</text>
+  <text x="920" y="878" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">0.09 MPa</text>
+  <text x="1050" y="878" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981">Sf = 126.0</text>
+  <text x="1270" y="878" font-family="Arial, sans-serif" font-size="12" fill="#10b981">100.0 %</text>
+  <text x="1440" y="878" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981">CONFORME</text>
+
+  <!-- Ligne 4 : Traction Axiale -->
+  <rect x="65" y="894" width="1470" height="35" fill="#1e293b" fill-opacity="0.5" stroke="#334155" stroke-width="0.5"/>
+  <text x="80" y="916" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc">4. Traction Axiale</text>
+  <text x="260" y="916" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Fy = +600.0 N (Arrachement / Suspension robot)</text>
+  <text x="560" y="916" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">0.0408 mm</text>
+  <text x="680" y="916" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">21.0 MPa</text>
+  <text x="800" y="916" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">4.4 MPa</text>
+  <text x="920" y="916" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">0.05 MPa</text>
+  <text x="1050" y="916" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981">Sf = 115.6</text>
+  <text x="1270" y="916" font-family="Arial, sans-serif" font-size="12" fill="#10b981">100.0 %</text>
+  <text x="1440" y="916" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981">CONFORME</text>
+
+  <!-- Ligne 5 : Superposition Pire-Cas -->
+  <rect x="65" y="932" width="1470" height="35" fill="#0f172a" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="80" y="954" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">5. Superposition Pire-Cas</text>
+  <text x="260" y="954" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ffffff">Enveloppe : My 120 + Mx 63.7 + Mz 62.5 + Fy 300 N</text>
+  <text x="560" y="954" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">0.2622 mm</text>
+  <text x="680" y="954" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ea580c">133.1 MPa</text>
+  <text x="800" y="954" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">25.9 MPa</text>
+  <text x="920" y="954" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">0.54 MPa</text>
+  <text x="1050" y="954" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981">Sf = 19.5 (Pic 3.8)</text>
+  <text x="1270" y="954" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#10b981">94.7 %</text>
+  <text x="1440" y="954" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">VALIDÉ PARFAIT</text>
+</svg>
+"""
+
+SVG_PATH.write_text(svg_content, encoding="utf-8")
+print(f"Schéma SVG généré avec succès dans : {SVG_PATH}")
+

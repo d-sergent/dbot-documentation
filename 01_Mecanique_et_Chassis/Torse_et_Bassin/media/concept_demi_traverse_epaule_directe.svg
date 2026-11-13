@@ -1,263 +1,222 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 960" width="1440" height="960">
   <defs>
-    <!-- Background Grid Patterns -->
-    <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" />
-      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#2a324b" stroke-width="1.5" />
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="aluOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="aluAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="aluBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="steelGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="paViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="motorSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.55" stroke-opacity="0.28"/>
     </pattern>
-
-    <!-- Gradients -->
-    <linearGradient id="grad-sky" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#0284c7" />
-    </linearGradient>
-    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f59e0b" />
-      <stop offset="100%" stop-color="#b45309" />
-    </linearGradient>
-    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10b981" />
-      <stop offset="100%" stop-color="#047857" />
-    </linearGradient>
-    <linearGradient id="grad-card" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
-    </linearGradient>
-
-    <!-- Filters for Glow & Shadows -->
-    <filter id="drop-shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6" />
+    <pattern id="hatchWaste" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#ef4444" stroke-width="1.6" stroke-opacity="0.55"/>
+    </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#10b981"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.55"/>
     </filter>
   </defs>
-
-  <!-- Background Base -->
-  <rect width="1400" height="960" fill="#0b1120" />
-  <rect width="1400" height="960" fill="url(#grid-pattern)" />
-
-  <!-- HEADER -->
-  <g transform="translate(40, 30)">
-    <rect width="1320" height="70" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <circle cx="35" cy="35" r="18" fill="url(#grad-sky)" />
-    <path d="M 28 35 L 42 35 M 35 28 L 35 42" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
-    <text x="68" y="32" font-family="'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#f8fafc">
-      D-BOT V1 — ARCHITECTURE ÉPAULE V2 : ÉVOLUTION DEMI-TRAVERSE &amp; FIXATION DIRECTE STATOR
-    </text>
-    <text x="68" y="54" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#94a3b8">
-      Suppression de la cage H-bracket · Connexion directe Bride Monobloc 7075 (10× M4) sur Stator RS-04 (Centrage Ø95 mm H7)
-    </text>
-    <rect x="1130" y="20" width="165" height="30" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1" />
-    <text x="1212" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      ARCHITECTURE V2
-    </text>
+  <rect width="1440" height="960" fill="url(#bgGrad)"/>
+  <rect width="1440" height="960" fill="url(#gridPat)"/>
+  <g transform="translate(30, 22)">
+    <rect width="1380" height="74" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <circle cx="42" cy="37" r="20" fill="#38bdf8" fill-opacity="0.18" stroke="#38bdf8" stroke-width="2"/>
+    <text x="42" y="44" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#38bdf8" text-anchor="middle">+</text>
+    <text x="76" y="31" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#f8fafc">ÉVOLUTION DEMI-TRAVERSE ÉPAULE : FIXATION DIRECTE BRIDE → STATOR RS-04</text>
+    <text x="76" y="54" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8">Suppression de la cage H-bracket : Bride monobloc 7075-T651 festonnée 10 lobes centrée Ø 97 H7 sur stator RS-04</text>
+    <rect x="1056" y="19" width="300" height="36" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.3"/>
+    <text x="1206" y="42" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8" text-anchor="middle">ARCHITECTURE V2 (Torse-123 v42)</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANEL 1: VUE FRONTALE D'ENSEMBLE (Plan X-Z) -->
-  <!-- ========================================================================= -->
-  <g transform="translate(40, 120)">
-    <rect width="640" height="400" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <rect x="15" y="15" width="220" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
-    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      1. VUE FRONTALE D'ENSEMBLE (Plan X-Z)
-    </text>
+  <!-- PANEL 1 : FRONT VIEW X-Z -->
+  <g transform="translate(30, 114)">
+    <rect width="675" height="404" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="22" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#38bdf8">1. VUE FRONTALE D'ENSEMBLE (PLAN X-Z, INCLINAISON 15°)</text>
 
-    <!-- Center Line (Spine) -->
-    <line x1="80" y1="55" x2="80" y2="375" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="6,4" />
-    <text x="80" y="390" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#ec4899">AXE SAGITTAL (X=0)</text>
+    <!-- Colonne vertical -->
+    <rect x="92" y="64" width="16" height="260" rx="2" fill="url(#aluAmber)" stroke="#fde68a" stroke-width="1.5"/>
+    <text x="58" y="196" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fde68a" text-anchor="middle" transform="rotate(-90 58 196)">COLONNE 5 mm (489,50 g)</text>
 
-    <!-- Plaque Sagittale 5mm -->
-    <rect x="74" y="65" width="12" height="300" rx="2" fill="url(#grad-amber)" stroke="#f59e0b" stroke-width="1" />
-    <text x="45" y="200" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#fcd34d" transform="rotate(-90,45,200)">Plaque Colonne 5 mm</text>
+    <!-- Semelle + Insert -->
+    <rect x="108" y="88" width="16" height="212" rx="2" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.4"/>
+    <rect x="124" y="138" width="44" height="104" rx="3" fill="url(#steelGreen)" stroke="#86efac" stroke-width="1.4"/>
+    <text x="150" y="114" font-family="Arial, sans-serif" font-size="10.5" fill="#86efac" text-anchor="middle">Insert 85,71 g</text>
+    <line x1="150" y1="118" x2="150" y2="138" stroke="#86efac" stroke-width="1.1"/>
 
-    <!-- Demi-Traverse Droite (Alu Usiné) -->
-    <!-- Semelle centrale -->
-    <path d="M 86 110 L 115 110 L 115 290 L 86 290 Z" fill="#38bdf8" fill-opacity="0.25" stroke="#38bdf8" stroke-width="2" />
-    <!-- Vis liaison colonne -->
-    <circle cx="100" cy="135" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
-    <circle cx="100" cy="180" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
-    <circle cx="100" cy="220" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
-    <circle cx="100" cy="265" r="4.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1.5" />
+    <!-- Tube 60x60x2 -->
+    <rect x="168" y="132" width="194" height="116" rx="3" fill="url(#aluBlue)" stroke="#38bdf8" stroke-width="2"/>
+    <line x1="168" y1="142" x2="362" y2="142" stroke="#60a5fa" stroke-width="1" stroke-dasharray="5,3"/>
+    <line x1="168" y1="238" x2="362" y2="238" stroke="#60a5fa" stroke-width="1" stroke-dasharray="5,3"/>
+    <text x="250" y="185" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f8fafc" text-anchor="middle">TUBE 60×60×2</text>
+    <text x="250" y="205" font-family="Arial, sans-serif" font-size="10" fill="#bfdbfe" text-anchor="middle">6060-T6 (80,07 / 81,08 mm)</text>
 
-    <!-- Corps de Poutre Tube Carré 60x60x2 mm -->
-    <rect x="115" y="130" width="175" height="140" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
-    <rect x="115" y="136" width="175" height="128" fill="#0f172a" fill-opacity="0.9" />
-    <text x="202" y="195" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">TUBE 60×60×2 mm</text>
-    <text x="202" y="210" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Alu 6060-T6 (L=85 mm)</text>
+    <!-- Bride Monobloc 3 etages -->
+    <rect x="332" y="138" width="38" height="104" rx="2" fill="url(#aluAmber)" stroke="#fde68a" stroke-width="1.4"/>
+    <rect x="370" y="114" width="22" height="152" rx="2" fill="url(#aluAmber)" stroke="#fde68a" stroke-width="1.4"/>
+    <rect x="392" y="84" width="16" height="212" rx="2" fill="url(#aluOrange)" stroke="#fdba74" stroke-width="1.8"/>
 
-    <!-- Flasque Côté Moteur (Direct Stator) -->
-    <path d="M 290 80 L 305 80 L 305 320 L 290 320 Z" fill="#0284c7" stroke="#38bdf8" stroke-width="2" />
-    <text x="297" y="65" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#38bdf8">Flasque 6mm</text>
+    <!-- Stator RS-04 -->
+    <rect x="408" y="84" width="96" height="212" rx="6" fill="url(#motorSlate)" stroke="#f59e0b" stroke-width="2"/>
+    <rect x="408" y="118" width="14" height="144" rx="2" fill="#f59e0b" fill-opacity="0.35" stroke="#fbbf24"/>
+    <text x="456" y="194" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#fde68a" text-anchor="middle" transform="rotate(-90 456 194)">STATOR RS-04 (120 N.m)</text>
+    <text x="530" y="194" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle" transform="rotate(-90 530 194)">FACE AVANT LIBRE</text>
 
-    <!-- Stator RS-04 (Doré/Marron) -->
-    <rect x="305" y="90" width="60" height="220" rx="4" fill="#d97706" fill-opacity="0.35" stroke="#f59e0b" stroke-width="2" />
-    <text x="335" y="200" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fde68a" transform="rotate(-90,335,200)">STATOR RS-04 (120 Nm)</text>
+    <!-- Top callouts strictly in open zone y=60..84 -->
+    <line x1="400" y1="84" x2="365" y2="62" stroke="#fdba74" stroke-width="1.2"/>
+    <text x="360" y="65" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fdba74" text-anchor="end">Bride v87 (202,30 g | Ø 97 H7)</text>
+    <line x1="414" y1="100" x2="462" y2="64" stroke="#34d399" stroke-width="1.2"/>
+    <text x="468" y="68" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">10× M4 (PCD Ø 106 mm) + Nord-Lock</text>
 
-    <!-- Vis 10x M4 directes PCD Ø106 mm -->
-    <line x1="290" y1="105" x2="320" y2="105" stroke="#f8fafc" stroke-width="2.5" stroke-linecap="round" />
-    <line x1="290" y1="295" x2="320" y2="295" stroke="#f8fafc" stroke-width="2.5" stroke-linecap="round" />
-    <text x="345" y="70" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#34d399">10× M4×12 direct</text>
-
-    <!-- Face Avant Dégagée -->
-    <rect x="365" y="90" width="30" height="220" rx="2" fill="#10b981" fill-opacity="0.1" stroke="#34d399" stroke-width="1" stroke-dasharray="4,2" />
-    <text x="380" y="200" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#34d399" transform="rotate(-90,380,200)">FACE AVANT LIBRE</text>
-
-    <!-- Cotes et annotations -->
-    <line x1="86" y1="365" x2="305" y2="365" stroke="#94a3b8" stroke-width="1.5" />
-    <line x1="86" y1="358" x2="86" y2="372" stroke="#94a3b8" stroke-width="1.5" />
-    <line x1="305" y1="358" x2="305" y2="372" stroke="#94a3b8" stroke-width="1.5" />
-    <text x="195" y="360" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f8fafc">Longueur Demi-Traverse ~125 mm (C500)</text>
+    <!-- Bottom dimension lines -->
+    <line x1="100" y1="354" x2="408" y2="354" stroke="#ef4444" stroke-width="1.6" marker-end="url(#arrRed)"/>
+    <text x="254" y="374" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fca5a5" text-anchor="middle">Demi-traverse compacte — Usinage 100 % C500</text>
+    <text x="22" y="392" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8">Semelle 158,32 g | Tubes 100,04 g/u | Zéro H-bracket avant</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANEL 2: VUE PERSPECTIVE 3D DU COMPOSANT MONOBLOC -->
-  <!-- ========================================================================= -->
-  <g transform="translate(720, 120)">
-    <rect width="640" height="400" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <rect x="15" y="15" width="310" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
-    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      2. PERSPECTIVE DU MODULE ÉPAULE DIRECT
-    </text>
+  <!-- PANEL 2 : DETAIL INTERNE & VIS M5x70 -->
+  <g transform="translate(735, 114)">
+    <rect width="675" height="404" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="22" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#38bdf8">2. DÉTAIL D'EMBOÎTEMENT INTERNE &amp; VERROUILLAGE M5×70</text>
 
-    <!-- Dessin 3D Isométrique Stylisé -->
-    <g transform="translate(40, 60)">
-      <!-- Semelle d'ancrage colonne (Gauche) -->
-      <polygon points="60,110 90,95 90,260 60,275" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
-      <polygon points="90,95 120,80 120,245 90,260" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+    <!-- Schematic 3D/Profile zoom -->
+    <rect x="86" y="138" width="38" height="118" rx="3" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.5"/>
+    <rect x="148" y="130" width="186" height="134" rx="4" fill="url(#aluBlue)" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="334" y="138" width="42" height="118" rx="3" fill="url(#aluAmber)" stroke="#fde68a" stroke-width="1.5"/>
+    <circle cx="468" cy="197" r="76" fill="url(#motorSlate)" stroke="#38bdf8" stroke-width="2.2"/>
+    <circle cx="468" cy="197" r="46" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="468" y="193" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f8fafc" text-anchor="middle">Centrage Ø 97 H7</text>
+    <text x="468" y="210" font-family="Arial, sans-serif" font-size="10" fill="#93c5fd" text-anchor="middle">(10 lobes festonnés)</text>
 
-      <!-- Tube Carré 60x60x2 mm -->
-      <polygon points="120,95 280,95 310,75 150,75" fill="#64748b" stroke="#38bdf8" stroke-width="1.5" />
-      <polygon points="120,95 280,95 280,215 120,215" fill="#334155" stroke="#38bdf8" stroke-width="1.5" />
-      <polygon points="280,95 310,75 310,195 280,215" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
-      <text x="200" y="160" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#93c5fd">TUBE 60×60</text>
+    <!-- M5x70 bolt through Tube & Bossage -->
+    <line x1="354" y1="106" x2="354" y2="288" stroke="#ef4444" stroke-width="2.2"/>
+    <rect x="348" y="102" width="12" height="10" rx="1" fill="#ef4444"/>
+    <rect x="348" y="282" width="12" height="9" rx="1" fill="#facc15"/>
 
-      <!-- Flasque circulaire Bride Monobloc (Droite) -->
-      <ellipse cx="340" cy="155" rx="30" ry="85" fill="#0284c7" fill-opacity="0.8" stroke="#38bdf8" stroke-width="2" />
-      <ellipse cx="340" cy="155" rx="18" ry="50" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
-      <text x="340" y="160" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#38bdf8">Centrage Ø95</text>
-
-      <!-- Trous de fixation Stator PCD Ø106 mm -->
-      <circle cx="325" cy="95" r="3.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1" />
-      <circle cx="355" cy="95" r="3.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1" />
-      <circle cx="365" cy="155" r="3.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1" />
-      <circle cx="355" cy="215" r="3.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1" />
-      <circle cx="325" cy="215" r="3.5" fill="#f8fafc" stroke="#0284c7" stroke-width="1" />
-
-      <!-- Légendes Callout 3D -->
-      <path d="M 340 70 L 390 40 L 480 40" fill="none" stroke="#34d399" stroke-width="1.5" />
-      <text x="400" y="32" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">10× M4 Direct Stator</text>
-
-      <path d="M 75 140 L 40 100 L 10 100" fill="none" stroke="#f59e0b" stroke-width="1.5" />
-      <text x="10" y="92" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fcd34d">Appui Plaque 5 mm</text>
-    </g>
+    <!-- Clean external labels -->
+    <text x="105" y="114" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fdba74" text-anchor="middle">Appui Semelle 5 mm</text>
+    <text x="241" y="196" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#f8fafc" text-anchor="middle">Tube 60×60</text>
+    <text x="241" y="214" font-family="Arial, sans-serif" font-size="10.5" fill="#bfdbfe" text-anchor="middle">Emboîtement 15,0 mm</text>
+    <line x1="354" y1="102" x2="310" y2="74" stroke="#fca5a5" stroke-width="1.2"/>
+    <text x="305" y="77" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#fca5a5" text-anchor="end">CHC M5×70 [91290A272] à X = 7,5 mm</text>
+    <line x1="468" y1="121" x2="505" y2="78" stroke="#34d399" stroke-width="1.2"/>
+    <text x="510" y="81" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399">10× M4 PCD Ø 106 mm</text>
+    <text x="22" y="346" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• Zone 1 (4 oreilles 5 mm) : [90128A214] M4×16 CAO / [91290A154] M4×12 atelier.</text>
+    <text x="22" y="370" font-family="Arial, sans-serif" font-size="11.5" fill="#cbd5e1">• Zone 2 (6 bossages 18,2 mm) : [92855A422] M4×25 Tête Basse + Nord-Lock [91812A252].</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANEL 3: VUE DE DESSUS (Plan Transversal X-Y) — MONTAGE EN SANDWICH -->
-  <!-- ========================================================================= -->
-  <g transform="translate(40, 540)">
-    <rect width="640" height="380" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <rect x="15" y="15" width="310" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
-    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      3. VUE DE DESSUS (Plan X-Y) : PRINCIPE DE FIXATION
-    </text>
+  <!-- PANEL 3 : TOP VIEW X-Y + ADVANTAGES -->
+  <g transform="translate(30, 536)">
+    <rect width="675" height="394" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="22" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#38bdf8">3. VUE DE DESSUS (PLAN X-Y) : PRINCIPE DE FIXATION</text>
 
-    <!-- Schéma Coupe de Dessus -->
-    <g transform="translate(30, 70)">
-      <!-- Plaque Colonne Centrale 5 mm -->
-      <rect x="180" y="20" width="8" height="230" rx="1" fill="url(#grad-amber)" stroke="#f59e0b" stroke-width="1.5" />
-      <text x="184" y="265" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fcd34d">COLONNE 5 mm</text>
+    <!-- Symmetric Left/Right tubes + center spine -->
+    <rect x="195" y="64" width="12" height="270" rx="2" fill="url(#aluAmber)" stroke="#fde68a" stroke-width="1.4"/>
+    <rect x="64" y="138" width="131" height="114" rx="3" fill="url(#aluBlue)" stroke="#38bdf8" stroke-width="1.8"/>
+    <rect x="207" y="138" width="131" height="114" rx="3" fill="url(#aluBlue)" stroke="#38bdf8" stroke-width="1.8"/>
+    <rect x="46" y="106" width="18" height="178" rx="2" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.4"/>
+    <rect x="338" y="106" width="18" height="178" rx="2" fill="url(#aluOrange)" stroke="#fb923c" stroke-width="1.4"/>
+    <!-- 4 sandwich M5x25 bolts -->
+    <line x1="176" y1="154" x2="226" y2="154" stroke="#e2e8f0" stroke-width="2"/>
+    <line x1="176" y1="236" x2="226" y2="236" stroke="#e2e8f0" stroke-width="2"/>
+    <text x="201" y="54" font-family="Arial, sans-serif" font-size="10.5" fill="#fde68a" text-anchor="middle">COLONNE 5 mm + 4× CHC M5×25 [90348A023]</text>
+    <text x="130" y="198" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc" text-anchor="middle">TUBE G (81,08 mm)</text>
+    <text x="272" y="198" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f8fafc" text-anchor="middle">TUBE D (80,07 mm)</text>
+    <text x="201" y="362" font-family="Arial, sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">4× Nylstop M5 [90631A113] + 4× Goupilles Ø 3×14 [91585A374]</text>
 
-      <!-- Demi-Traverse GAUCHE -->
-      <rect x="50" y="50" width="130" height="150" fill="#38bdf8" fill-opacity="0.2" stroke="#38bdf8" stroke-width="2" />
-      <!-- Flasque épaule G -->
-      <rect x="30" y="30" width="20" height="190" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
-
-      <!-- Demi-Traverse DROITE -->
-      <rect x="188" y="50" width="130" height="150" fill="#38bdf8" fill-opacity="0.3" stroke="#38bdf8" stroke-width="2" />
-      <!-- Flasque épaule D -->
-      <rect x="318" y="30" width="20" height="190" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
-
-      <!-- Vis Traversantes d'Assemblage Sandwich au Centre (4x M5x25) -->
-      <line x1="160" y1="80" x2="208" y2="80" stroke="#f8fafc" stroke-width="4" stroke-linecap="round" />
-      <line x1="160" y1="120" x2="208" y2="120" stroke="#f8fafc" stroke-width="4" stroke-linecap="round" />
-      <line x1="160" y1="160" x2="208" y2="160" stroke="#f8fafc" stroke-width="4" stroke-linecap="round" />
-      <text x="215" y="125" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#f8fafc">4x M5×25</text>
-
-      <!-- Moteur Droit RS-04 -->
-      <rect x="338" y="45" width="40" height="160" rx="3" fill="#d97706" fill-opacity="0.4" stroke="#f59e0b" stroke-width="1.5" />
-
-      <!-- Moteur Gauche RS-04 -->
-      <rect x="-10" y="45" width="40" height="160" rx="3" fill="#d97706" fill-opacity="0.4" stroke="#f59e0b" stroke-width="1.5" />
-
-      <!-- Annotations Avantages -->
-      <rect x="420" y="30" width="165" height="95" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1" />
-      <text x="430" y="52" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">AVANTAGES V2 :</text>
-      <text x="430" y="70" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f8fafc">✓ 0 cage, 0 tirant parasite</text>
-      <text x="430" y="86" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f8fafc">✓ Centrage direct Ø95 H7</text>
-      <text x="430" y="102" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f8fafc">✓ Rigidité torsion 120 Nm</text>
-      <text x="430" y="118" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f8fafc">✓ 100% démontable C500</text>
-    </g>
+    <!-- Advantages card -->
+    <rect x="382" y="66" width="272" height="292" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.3"/>
+    <text x="400" y="96" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399">AVANTAGES VALIDÉS v42 :</text>
+    <text x="400" y="130" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">✓ 0 cage, 0 tirant avant parasite</text>
+    <text x="400" y="160" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">✓ Centrage pilote Ø 97,00 H7</text>
+    <text x="400" y="190" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">✓ FEA Bride v87 : 85 MPa (Sf = 5,92)</text>
+    <text x="400" y="220" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">✓ Rigidité torsion 120 N.m (Sf = 9,75)</text>
+    <text x="400" y="250" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">✓ 100 % usinable C500 (1 seule gamme</text>
+    <text x="414" y="270" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">pour 4 brides : Épaules + Hanches)</text>
+    <text x="400" y="308" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#38bdf8">✓ Ventilation face avant 100 % libre</text>
   </g>
 
-  <!-- ========================================================================= -->
-  <!-- PANEL 4: SYNTHÈSE TECHNIQUE & GAIN MASSE/COMPLEXITÉ -->
-  <!-- ========================================================================= -->
-  <g transform="translate(720, 540)">
-    <rect width="640" height="380" rx="10" fill="url(#grad-card)" stroke="#334155" stroke-width="1.5" filter="url(#drop-shadow)" />
-    <rect x="15" y="15" width="310" height="26" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
-    <text x="25" y="32" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
-      4. BILAN COMPARATIF &amp; MATURITÉ DE CONCEPTION
-    </text>
+  <!-- PANEL 4 : BILAN COMPARATIF -->
+  <g transform="translate(735, 536)">
+    <rect width="675" height="394" rx="12" fill="url(#panelGrad)" stroke="#3b82f6" stroke-width="1.3" filter="url(#cardShadow)"/>
+    <text x="22" y="30" font-family="Arial, sans-serif" font-size="13.5" font-weight="bold" fill="#38bdf8">4. BILAN COMPARATIF &amp; MATURITÉ DE CONCEPTION</text>
 
-    <!-- Tableau Comparatif Visuel -->
-    <g transform="translate(20, 55)">
-      <!-- En-tête -->
-      <rect x="0" y="0" width="600" height="30" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1" />
-      <text x="15" y="20" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#94a3b8">PARAMÈTRE</text>
-      <text x="210" y="20" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#f43f5e">DESIGN V1 (COMPOSITE)</text>
-      <text x="410" y="20" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#34d399">NOUVEAU DESIGN V2 DIRECT</text>
+    <text x="24" y="68" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#94a3b8">PARAMÈTRE</text>
+    <text x="240" y="68" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fca5a5">DESIGN V1 (H-BRACKET)</text>
+    <text x="455" y="68" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#34d399">DESIGN V2 DIRECT (v42)</text>
+    <line x1="22" y1="80" x2="653" y2="80" stroke="#334155"/>
 
-      <!-- Ligne 1: Nombre de pièces -->
-      <rect x="0" y="35" width="600" height="32" rx="4" fill="#1e293b" fill-opacity="0.5" />
-      <text x="15" y="56" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Nb de pièces usinées</text>
-      <text x="210" y="56" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fca5a5">7 pièces + tube composite</text>
-      <text x="410" y="56" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#6ee7b7">4 pièces (2 inserts + 2 brides)</text>
+    <text x="24" y="110" font-family="Arial, sans-serif" font-size="12" fill="#f8fafc">Pièces usinées / paire</text>
+    <text x="240" y="110" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">7 pièces + cage avant</text>
+    <text x="455" y="110" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">8 pièces (4 paires sym.)</text>
+    <line x1="22" y1="124" x2="653" y2="124" stroke="#1e293b"/>
 
-      <!-- Ligne 2: Masse totale liaison -->
-      <rect x="0" y="72" width="600" height="32" rx="4" fill="#0f172a" fill-opacity="0.5" />
-      <text x="15" y="93" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Masse totale structure</text>
-      <text x="210" y="93" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fca5a5">~815 g (avec inserts/vis)</text>
-      <text x="410" y="93" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#6ee7b7">~394 g (Gain -51%)</text>
+    <text x="24" y="152" font-family="Arial, sans-serif" font-size="12" fill="#f8fafc">Masse sous-ensemble (2 côtés)</text>
+    <text x="240" y="152" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">~1 460 g (avec tirants)</text>
+    <text x="455" y="152" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">1 092,7 g (hors vis/col.)</text>
+    <line x1="22" y1="166" x2="653" y2="166" stroke="#1e293b"/>
 
-      <!-- Ligne 3: Procédé de fabrication -->
-      <rect x="0" y="109" width="600" height="32" rx="4" fill="#1e293b" fill-opacity="0.5" />
-      <text x="15" y="130" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Procédés atelier</text>
-      <text x="210" y="130" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fca5a5">Tournage + Fente + Colle + Pins</text>
-      <text x="410" y="130" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#6ee7b7">Fraisage CNC 2.5D C500 direct</text>
+    <text x="24" y="194" font-family="Arial, sans-serif" font-size="12" fill="#f8fafc">Procédés atelier C500</text>
+    <text x="240" y="194" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">Tournage + colle + pins</text>
+    <text x="455" y="194" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">Fraisage 2.5D direct</text>
+    <line x1="22" y1="208" x2="653" y2="208" stroke="#1e293b"/>
 
-      <!-- Ligne 4: Reprise Couple RS-04 -->
-      <rect x="0" y="146" width="600" height="32" rx="4" fill="#0f172a" fill-opacity="0.5" />
-      <text x="15" y="167" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Transmission couple 120 Nm</text>
-      <text x="210" y="167" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fca5a5">Friction sur tube (glissement)</text>
-      <text x="410" y="167" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#6ee7b7">Tube carré + 10x M4 (Sf = ×9.75)</text>
+    <text x="24" y="236" font-family="Arial, sans-serif" font-size="12" fill="#f8fafc">Transmission 120 N.m</text>
+    <text x="240" y="236" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">Friction tube (risque gliss.)</text>
+    <text x="455" y="236" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">Emboîtement + M5×70 (Sf 9,75)</text>
+    <line x1="22" y1="250" x2="653" y2="250" stroke="#1e293b"/>
 
-      <!-- Ligne 5: Maintenance / Démontage -->
-      <rect x="0" y="183" width="600" height="32" rx="4" fill="#1e293b" fill-opacity="0.5" />
-      <text x="15" y="204" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f8fafc">Maintenance moteur</text>
-      <text x="210" y="204" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fca5a5">Démontage global complexe</text>
-      <text x="410" y="204" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#6ee7b7">4 vis au centre = épaule libre</text>
-    </g>
+    <text x="24" y="278" font-family="Arial, sans-serif" font-size="12" fill="#f8fafc">Maintenance RS-04</text>
+    <text x="240" y="278" font-family="Arial, sans-serif" font-size="12" fill="#cbd5e1">Démontage global cage</text>
+    <text x="455" y="278" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">Accès direct 10 vis M4</text>
 
-    <!-- Résumé Recommandation -->
-    <g transform="translate(20, 285)">
-      <rect width="600" height="70" rx="6" fill="#0284c7" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1.5" />
-      <text x="20" y="25" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#38bdf8">RECOMMANDATION INGÉNIERIE D-BOT V2 :</text>
-      <text x="20" y="45" font-family="'Segoe UI', sans-serif" font-size="11" fill="#e2e8f0">
-        Adopter l'Architecture V2 Directe : Tube carré 60×60×2 mm + Bride monobloc 7075-T651.
-      </text>
-      <text x="20" y="60" font-family="'Segoe UI', sans-serif" font-size="11" fill="#e2e8f0">
-        Suppression de 100% des cages H-bracket, gain de 368 g et ventilation face avant libre.
-      </text>
-    </g>
+    <rect x="22" y="302" width="631" height="72" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.3"/>
+    <text x="38" y="326" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">RECOMMANDATION INGÉNIERIE VALIDÉE (Torse-123 v42) :</text>
+    <text x="38" y="346" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">Semelle 158,32 g/u + Insert 85,71 g/u + Tube 60×60 100,04 g/u + Bride v87 202,30 g/u.</text>
+    <text x="38" y="364" font-family="Arial, sans-serif" font-size="11.5" fill="#a7f3d0">Zéro cage avant, dissipation thermique directe dans l'Alu 7075, maintenance rapide.</text>
   </g>
 </svg>

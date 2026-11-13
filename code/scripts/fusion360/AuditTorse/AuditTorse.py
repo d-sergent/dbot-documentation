@@ -1,27 +1,30 @@
 # -*- coding: utf-8 -*-
 """
-AuditTorse.py — Script d'Inspection Métrologique et Dimensionnelle pour Fusion 360
-Projet : Robot Humanoïde D-Bot V1 (Torse & Bassin)
-==================================================================================
-Ce script s'exécute directement dans Fusion 360 (Raccourci Shift + S > Exécuter).
-Il inspecte récursivement le modèle 3D actif et extrait :
-  1. Masses réelles, volumes, boîtes englobantes (Bounding Boxes en mm), centres de gravité.
-  2. Perçages (diamètres, profondeurs, taraudages, fraisures coniques 90° FHC, chambrages CHC).
-  3. Alésages et cylindres B-Rep (goupilles ISO 8734 Ø 3 mm, vis M4 Ø 4.5 mm, vis M5 Ø 5.5 mm).
-  4. Cotes paramétriques (User Parameters).
-  5. Références de quincaillerie normalisée (McMaster-Carr, moteurs RobStride, roulements CRBH).
+AuditTorse.py — Script Maître Unifié d'Audit CAO Fusion 360 (Métrologie, Cinématique, Alignement & Vision)
+Projet : Robot Humanoïde D-Bot V1
+===========================================================================================================
+Point d'entrée unique dans Fusion 360 (Raccourci Shift + S > AuditTorse > Exécuter).
+Exécute en une seule passe :
+  1. Audit métrologique & B-Rep complet -> `Audits/AUDIT_METROLOGIQUE_<SousEnsemble>.json`
+     + Synthèse Markdown RAG           -> `SYNTHESE_METROLOGIQUE_<SousEnsemble>.md`
+  2. Audit cinématique & DDL unifié     -> `Audits/AUDIT_CINEMATIQUE_<SousEnsemble>.json`
+  3. Audit d'alignement & coaxialité    -> `Audits/AUDIT_ALIGNEMENT_<SousEnsemble>.json`
+  4. Captures visuelles multi-vues PNG  -> `Exports_CAO_DBot/<SousEnsemble>/Visual_Snapshots/`
+     (et DXF 1:1 CNC / plans cotés FreeCAD si activés).
 
-Le résultat est exporté sous forme d'un fichier JSON structuré :
-  - /Users/Shared/Mon Google Drive Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json
-  - et une copie de sécurité dans /Users/Shared/AUDIT_METROLOGIQUE_Torse_et_Bassin.json
+Tous les JSON bruts sont écrits exclusivement dans `Audits/` (hors Git dans `Documentation/`
+via `.gitignore`, et sauvegardés côté souverain dans `Exports_CAO_DBot/`).
 """
 
 import adsk.core
 import adsk.fusion
+import importlib
 import json
 import math
 import os
 import re
+import shutil
+import sys
 import traceback
 from datetime import datetime
 
@@ -34,7 +37,14 @@ from datetime import datetime
 TEST_MODE_SINGLE_PIECE = False
 TARGET_TEST_PIECE_NAME = "waist_plate"
 SKIP_ASSEMBLY_VIEWS_IN_TEST = False
-SKIP_EXISTING_SNAPSHOTS = True  # Reprise sur incident : conserve les images saines (> 12 Ko) déjà générées
+
+# GESTION DES CAPTURES VISUELLES PNG :
+# OVERWRITE_EXISTING_SNAPSHOTS :
+#   - True  : Écrase et régénère systématiquement toutes les captures visuelles PNG pour refléter la CAO active (Par défaut).
+#   - False : Conserve les images saines (> 12 Ko) déjà générées (Mode Reprise Rapide / Débogage).
+OVERWRITE_EXISTING_SNAPSHOTS = True
+SKIP_EXISTING_SNAPSHOTS = not OVERWRITE_EXISTING_SNAPSHOTS
+AUTO_CLEAN_ORPHAN_SNAPSHOTS = True  # Purge automatiquement les dossiers de pièces orphelines (renommées ou supprimées de la CAO)
 
 # LIVRABLES 2D BOUT EN BOUT AUTOMATISÉS (FREECAD / DXF) :
 ENABLE_AUTO_CNC_DXF = False     # Désactivé par défaut pour accélérer les rendus visuels PNG
@@ -43,6 +53,53 @@ FREECAD_BIN = "/Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd"
 FREECAD_DRAFTING_SCRIPT = "/Users/Shared/Mon Google Drive Physique/Documentation/Code/scripts/cad_tools/generate_freecad_draft_drawings.py"
 
 
+
+
+def resolve_export_targets(doc_name):
+    """Résout le sous-ensemble actif et ses dossiers cibles (Exports_CAO_DBot & Documentation)."""
+    doc_lower = (doc_name or "").lower()
+    base_exports = "/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot"
+    base_docs = "/Users/Shared/Mon Google Drive Physique/Documentation/01_Mecanique_et_Chassis"
+
+    if any(k in doc_lower for k in ("torse", "bassin", "waist")):
+        sub_label = "Torse_et_Bassin"
+        sovereign_dir = os.path.join(base_exports, "01_Torse_et_Bassin")
+        doc_folder_rel = "Torse_et_Bassin"
+        doc_dir = os.path.join(base_docs, doc_folder_rel)
+    elif any(k in doc_lower for k in ("tete", "tête", "cou", "neck", "head")):
+        sub_label = "Tete_et_Cou"
+        sovereign_dir = os.path.join(base_exports, "02_Tete_et_Cou")
+        doc_folder_rel = "Tete_et_Cou"
+        doc_dir = os.path.join(base_docs, doc_folder_rel)
+    elif any(k in doc_lower for k in ("bras", "epaule", "épaule", "avant_bras")):
+        sub_label = "Bras_et_Epaules"
+        sovereign_dir = os.path.join(base_exports, "03_Bras_et_Epaules")
+        doc_folder_rel = "Bras_et_Mains"
+        doc_dir = os.path.join(base_docs, doc_folder_rel)
+    elif any(k in doc_lower for k in ("main", "d-hand", "dhand")):
+        sub_label = "Mains_DHand"
+        sovereign_dir = os.path.join(base_exports, "04_Mains_DHand")
+        doc_folder_rel = "Bras_et_Mains"
+        doc_dir = os.path.join(base_docs, doc_folder_rel)
+    elif any(k in doc_lower for k in ("jambe", "pied", "cuisse", "tibia", "genou", "cheville")):
+        sub_label = "Jambes_et_Hanches"
+        sovereign_dir = os.path.join(base_exports, "05_Jambes_et_Hanches")
+        doc_folder_rel = "Jambes_et_Pieds"
+        doc_dir = os.path.join(base_docs, doc_folder_rel)
+    else:
+        sub_label = sanitize_filename(doc_name or "Assemblage")
+        sovereign_dir = os.path.join(base_exports, "00_Robot_Complet")
+        doc_folder_rel = sub_label
+        doc_dir = os.path.join(base_docs, doc_folder_rel)
+
+    return {
+        "sub_label": sub_label,
+        "doc_folder_rel": doc_folder_rel,
+        "sovereign_dir": sovereign_dir,
+        "sovereign_audit_dir": os.path.join(sovereign_dir, "Audits"),
+        "doc_dir": doc_dir,
+        "doc_audit_dir": os.path.join(doc_dir, "Audits"),
+    }
 
 
 def sanitize_filename(name):
@@ -88,6 +145,84 @@ def get_world_bbox(local_bbox, transform):
             }
         except:
             return None
+
+_HARDWARE_ACTUATOR_PATTERNS = (
+    "vis ", "ecrou ", "rondelle ", "goupille ", "rb8016", "zyd", "luosi",
+    "000_", "00_", "1_1_", "1_2_", "1_3_", "100_", "1000_", "3_1_",
+    "_2025_", "_gyos", "_pis", "d19_", "dianjiban", "fl82blw",
+    "eb1203", "eb1201", "eb823", "rs04", "rs06", "el05",
+    "screw", "bolt", "nut", "washer", "bearing",
+)
+
+
+def _is_hardware_or_actuator(comp_name):
+    """Indique si un composant est une visserie standard ou sous-pièce actionneur importée."""
+    low = (comp_name or "").lower()
+    return any(pat in low for pat in _HARDWARE_ACTUATOR_PATTERNS)
+
+
+def _transform_point_mm(pt3d, transform):
+    """Transforme un Point3D local (cm) en coordonnées globales d'assemblage (mm)."""
+    pt = adsk.core.Point3D.create(pt3d.x, pt3d.y, pt3d.z)
+    pt.transformBy(transform)
+    return [round(pt.x * 10.0, 2), round(pt.y * 10.0, 2), round(pt.z * 10.0, 2)]
+
+
+def _transform_axis_vec(vec3d, transform):
+    """Transforme un Vector3D local unitaire vers le repère global d'assemblage."""
+    vec = adsk.core.Vector3D.create(vec3d.x, vec3d.y, vec3d.z)
+    vec.transformBy(transform)
+    vec.normalize()
+    return [round(vec.x, 3), round(vec.y, 3), round(vec.z, 3)]
+
+
+def _is_internal_cylinder(face, cyl):
+    """Détecte si une face cylindrique est concave (alésage interne = True) ou convexe (False)."""
+    try:
+        ev = face.evaluator
+        ok_rng, rng = ev.parameterRange()
+        if not ok_rng:
+            return None
+        u_mid = (rng.minPoint.x + rng.maxPoint.x) * 0.5
+        v_mid = (rng.minPoint.y + rng.maxPoint.y) * 0.5
+        prm = adsk.core.Point2D.create(u_mid, v_mid)
+        ok_pt, p_surf = ev.getPointAtParameter(prm)
+        ok_nm, n_surf = ev.getNormalAtParameter(prm)
+        if not (ok_pt and ok_nm):
+            return None
+        # Produit scalaire entre vecteur radial local (P_surf - Orig) et normale sortante
+        vx = p_surf.x - cyl.origin.x
+        vy = p_surf.y - cyl.origin.y
+        vz = p_surf.z - cyl.origin.z
+        ax, ay, az = cyl.axis.x, cyl.axis.y, cyl.axis.z
+        dot_ax = vx * ax + vy * ay + vz * az
+        rx = vx - dot_ax * ax
+        ry = vy - dot_ax * ay
+        rz = vz - dot_ax * az
+        radial_dot = rx * n_surf.x + ry * n_surf.y + rz * n_surf.z
+        return radial_dot < 0.0
+    except Exception:
+        return None
+
+
+def _canonical_axis_signature(origin_mm, axis_vec, use_perp=True):
+    """Signature géométrique canonique pour dédoublonner les demi-faces d'un même perçage."""
+    norm = math.sqrt(axis_vec[0] ** 2 + axis_vec[1] ** 2 + axis_vec[2] ** 2) or 1.0
+    ux, uy, uz = axis_vec[0] / norm, axis_vec[1] / norm, axis_vec[2] / norm
+    for c in (ux, uy, uz):
+        if abs(c) > 1e-3:
+            if c < 0.0:
+                ux, uy, uz = -ux, -uy, -uz
+            break
+    if use_perp:
+        dot = origin_mm[0] * ux + origin_mm[1] * uy + origin_mm[2] * uz
+        px = origin_mm[0] - dot * ux
+        py = origin_mm[1] - dot * uy
+        pz = origin_mm[2] - dot * uz
+    else:
+        px, py, pz = origin_mm[0], origin_mm[1], origin_mm[2]
+    return (round(ux, 2), round(uy, 2), round(uz, 2), round(px, 1), round(py, 1), round(pz, 1))
+
 
 def run(context):
     ui = None
@@ -206,10 +341,12 @@ def run(context):
                 }
             audit_data["hardware_bom"][bom_key]["quantity"] += 1
             
-            # Position globale du composant
-            transform = occ.transform
+            # Matrice monde complète (occ.transform2 inclut toute la hiérarchie parente)
+            transform = getattr(occ, "transform2", None) or occ.transform
             origin, xAxis, yAxis, zAxis = transform.getAsCoordinateSystem()
             comp_origin_mm = [round(origin.x * 10.0, 3), round(origin.y * 10.0, 3), round(origin.z * 10.0, 3)]
+            is_container = (comp.bRepBodies.count == 0)
+            is_hw_or_motor = _is_hardware_or_actuator(comp_name)
             
             # Propriétés physiques du composant
             comp_mass_g = 0.0
@@ -236,6 +373,8 @@ def run(context):
                 "part_number": part_number,
                 "description": desc,
                 "material": comp.material.name if comp.material else "Unknown",
+                "is_container": is_container,
+                "is_hardware_or_actuator": is_hw_or_motor,
                 "mass_g": comp_mass_g,
                 "volume_cm3": comp_vol_cm3,
                 "center_of_mass_mm": comp_cog_mm,
@@ -320,6 +459,8 @@ def run(context):
                 if not body.isLightBulbOn:
                     continue
                     
+                seen_cyl_keys = set()
+                seen_cone_keys = set()
                 for face in body.faces:
                     geom = face.geometry
                     
@@ -329,54 +470,40 @@ def run(context):
                             cyl = adsk.core.Cylinder.cast(geom)
                             radius_mm = cyl.radius * 10.0
                             dia_mm = round(radius_mm * 2.0, 2)
-                            origin_mm = [
-                                round(cyl.origin.x * 10.0 + comp_origin_mm[0], 2),
-                                round(cyl.origin.y * 10.0 + comp_origin_mm[1], 2),
-                                round(cyl.origin.z * 10.0 + comp_origin_mm[2], 2)
-                            ]
-                            axis = [round(cyl.axis.x, 3), round(cyl.axis.y, 3), round(cyl.axis.z, 3)]
+                            origin_mm = _transform_point_mm(cyl.origin, transform)
+                            axis = _transform_axis_vec(cyl.axis, transform)
+                            is_hole = _is_internal_cylinder(face, cyl)
                             
                             cyl_info = {
                                 "diameter_mm": dia_mm,
                                 "radius_mm": round(radius_mm, 2),
                                 "origin_global_mm": origin_mm,
-                                "axis": axis
+                                "axis": axis,
+                                "is_hole": is_hole
                             }
                             comp_entry["cylindrical_faces"].append(cyl_info)
                             
-                            # Classification automatique pour l'audit D-Bot
-                            if 2.9 <= dia_mm <= 3.1:
-                                audit_data["holes_summary"]["dowel_pins_dia_3mm"].append({
-                                    "component": comp_name,
-                                    "instance": occ.name,
-                                    "diameter_mm": dia_mm,
-                                    "origin_mm": origin_mm,
-                                    "axis": axis
-                                })
-                            elif 4.0 <= dia_mm <= 4.8:
-                                audit_data["holes_summary"]["clearance_holes_m4_dia_4_5mm"].append({
-                                    "component": comp_name,
-                                    "instance": occ.name,
-                                    "diameter_mm": dia_mm,
-                                    "origin_mm": origin_mm,
-                                    "axis": axis
-                                })
-                            elif 5.3 <= dia_mm <= 5.7:
-                                audit_data["holes_summary"]["clearance_holes_m5_dia_5_5mm"].append({
-                                    "component": comp_name,
-                                    "instance": occ.name,
-                                    "diameter_mm": dia_mm,
-                                    "origin_mm": origin_mm,
-                                    "axis": axis
-                                })
-                            elif dia_mm >= 60.0:
-                                audit_data["holes_summary"]["large_bores"].append({
-                                    "component": comp_name,
-                                    "instance": occ.name,
-                                    "diameter_mm": dia_mm,
-                                    "origin_mm": origin_mm,
-                                    "axis": axis
-                                })
+                            # Classification structurelle (hors visserie/moteurs, dédoublonnée par axe coaxial)
+                            if not is_hw_or_motor and is_hole is not False:
+                                sig = _canonical_axis_signature(origin_mm, axis, use_perp=True)
+                                dedup_key = (round(dia_mm, 1), sig)
+                                if dedup_key not in seen_cyl_keys:
+                                    seen_cyl_keys.add(dedup_key)
+                                    hole_entry = {
+                                        "component": comp_name,
+                                        "instance": occ.name,
+                                        "diameter_mm": dia_mm,
+                                        "origin_mm": origin_mm,
+                                        "axis": axis
+                                    }
+                                    if 2.9 <= dia_mm <= 3.1:
+                                        audit_data["holes_summary"]["dowel_pins_dia_3mm"].append(hole_entry)
+                                    elif 4.0 <= dia_mm <= 4.8:
+                                        audit_data["holes_summary"]["clearance_holes_m4_dia_4_5mm"].append(hole_entry)
+                                    elif 5.3 <= dia_mm <= 5.7:
+                                        audit_data["holes_summary"]["clearance_holes_m5_dia_5_5mm"].append(hole_entry)
+                                    elif dia_mm >= 60.0:
+                                        audit_data["holes_summary"]["large_bores"].append(hole_entry)
                         except:
                             pass
                             
@@ -386,12 +513,8 @@ def run(context):
                             cone = adsk.core.Cone.cast(geom)
                             half_angle_deg = round(math.degrees(cone.halfAngle), 1)
                             full_angle_deg = round(half_angle_deg * 2.0, 1)
-                            origin_mm = [
-                                round(cone.origin.x * 10.0 + comp_origin_mm[0], 2),
-                                round(cone.origin.y * 10.0 + comp_origin_mm[1], 2),
-                                round(cone.origin.z * 10.0 + comp_origin_mm[2], 2)
-                            ]
-                            axis = [round(cone.axis.x, 3), round(cone.axis.y, 3), round(cone.axis.z, 3)]
+                            origin_mm = _transform_point_mm(cone.origin, transform)
+                            axis = _transform_axis_vec(cone.axis, transform)
                             
                             cone_info = {
                                 "half_angle_deg": half_angle_deg,
@@ -401,29 +524,48 @@ def run(context):
                             }
                             comp_entry["conical_faces"].append(cone_info)
                             
-                            if 88.0 <= full_angle_deg <= 92.0:
-                                audit_data["holes_summary"]["countersinks_90deg_fhc_m4"].append({
-                                    "component": comp_name,
-                                    "instance": occ.name,
-                                    "angle_deg": full_angle_deg,
-                                    "origin_mm": origin_mm,
-                                    "axis": axis
-                                })
+                            if not is_hw_or_motor and 88.0 <= full_angle_deg <= 92.0:
+                                sig = _canonical_axis_signature(origin_mm, axis, use_perp=False)
+                                dedup_key = (round(full_angle_deg, 1), sig)
+                                if dedup_key not in seen_cone_keys:
+                                    seen_cone_keys.add(dedup_key)
+                                    audit_data["holes_summary"]["countersinks_90deg_fhc_m4"].append({
+                                        "component": comp_name,
+                                        "instance": occ.name,
+                                        "angle_deg": full_angle_deg,
+                                        "origin_mm": origin_mm,
+                                        "axis": axis
+                                    })
                         except:
                             pass
                             
             audit_data["components"].append(comp_entry)
 
         # -------------------------------------------------------------
-        # 4b. Calcul de la boîte englobante physique réelle des composants
-        # (Élimine les esquisses et repères d'origine de la racine à Z=0)
+        # 4b. Calcul de la boîte englobante physique réelle des composants feuilles
+        # (Élimine les esquisses, occurrences vides et conteneurs à 0 corps type Ensemble hanche:1)
         # -------------------------------------------------------------
-        all_min_x = [c["bounding_box_mm"]["min"][0] for c in audit_data["components"] if "bounding_box_mm" in c]
-        all_max_x = [c["bounding_box_mm"]["max"][0] for c in audit_data["components"] if "bounding_box_mm" in c]
-        all_min_y = [c["bounding_box_mm"]["min"][1] for c in audit_data["components"] if "bounding_box_mm" in c]
-        all_max_y = [c["bounding_box_mm"]["max"][1] for c in audit_data["components"] if "bounding_box_mm" in c]
-        all_min_z = [c["bounding_box_mm"]["min"][2] for c in audit_data["components"] if "bounding_box_mm" in c]
-        all_max_z = [c["bounding_box_mm"]["max"][2] for c in audit_data["components"] if "bounding_box_mm" in c]
+        valid_bbox_comps = []
+        excluded_zero_bbox = []
+        excluded_containers = []
+        for c in audit_data["components"]:
+            bbox = c.get("bounding_box_mm")
+            if not bbox:
+                continue
+            sz = bbox.get("size", [0, 0, 0])
+            if sz[0] <= 0.01 and sz[1] <= 0.01 and sz[2] <= 0.01:
+                excluded_zero_bbox.append(c.get("instance_name", c.get("component_name", "?")))
+            elif c.get("is_container") or not any(b.get("is_visible", True) for b in c.get("bodies", [])):
+                excluded_containers.append(c.get("instance_name", c.get("component_name", "?")))
+            else:
+                valid_bbox_comps.append(c)
+
+        all_min_x = [c["bounding_box_mm"]["min"][0] for c in valid_bbox_comps]
+        all_max_x = [c["bounding_box_mm"]["max"][0] for c in valid_bbox_comps]
+        all_min_y = [c["bounding_box_mm"]["min"][1] for c in valid_bbox_comps]
+        all_max_y = [c["bounding_box_mm"]["max"][1] for c in valid_bbox_comps]
+        all_min_z = [c["bounding_box_mm"]["min"][2] for c in valid_bbox_comps]
+        all_max_z = [c["bounding_box_mm"]["max"][2] for c in valid_bbox_comps]
 
         if all_min_x:
             p_min = [round(min(all_min_x), 2), round(min(all_min_y), 2), round(min(all_min_z), 2)]
@@ -434,30 +576,35 @@ def run(context):
                 "max": p_max,
                 "size": p_size,
                 "physical_height_mm": p_size[2],
-                "note": "Boîte englobante réelle des pièces mécaniques (exclut les esquisses d'origine au sol)"
+                "excluded_zero_bbox_components": excluded_zero_bbox,
+                "excluded_containers": excluded_containers,
+                "note": "Boîte englobante réelle des pièces physiques feuilles visibles (exclut esquisses, occurrences vides et conteneurs)"
             }
 
         # -------------------------------------------------------------
-        # 5. Sauvegarde des résultats (JSON & Markdown RAG)
+        # 5. Sauvegarde des résultats (Métrologie JSON dans Audits/ & Synthèse MD RAG)
         # -------------------------------------------------------------
-        # Dossier souverain principal dans Exports_CAO_DBot
-        sovereign_torse_dir = "/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin"
-        sovereign_audit_dir = os.path.join(sovereign_torse_dir, "Audits")
-        os.makedirs(sovereign_audit_dir, exist_ok=True)
+        targets = resolve_export_targets(doc_name)
+        sub_label = targets["sub_label"]
+        doc_folder_rel = targets["doc_folder_rel"]
+        sovereign_torse_dir = targets["sovereign_dir"]
+        sovereign_audit_dir = targets["sovereign_audit_dir"]
+        doc_dir = targets["doc_dir"]
+        doc_audit_dir = targets["doc_audit_dir"]
 
-        # Dossier documentation active & RAG
-        doc_dir = "/Users/Shared/Mon Google Drive Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin"
-        backup_json_path = "/Users/Shared/AUDIT_METROLOGIQUE_Torse_et_Bassin.json"
-        
-        sovereign_json_path = os.path.join(sovereign_audit_dir, "AUDIT_METROLOGIQUE_Torse_et_Bassin.json")
-        sovereign_md_path = os.path.join(sovereign_audit_dir, "SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md")
-        doc_json_path = os.path.join(doc_dir, "AUDIT_METROLOGIQUE_Torse_et_Bassin.json")
-        doc_md_path = os.path.join(doc_dir, "SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md")
-        
+        os.makedirs(sovereign_audit_dir, exist_ok=True)
+        if os.path.exists(doc_dir):
+            os.makedirs(doc_audit_dir, exist_ok=True)
+
+        sovereign_json_path = os.path.join(sovereign_audit_dir, f"AUDIT_METROLOGIQUE_{sub_label}.json")
+        sovereign_md_path = os.path.join(sovereign_audit_dir, f"SYNTHESE_METROLOGIQUE_{sub_label}.md")
+        doc_json_path = os.path.join(doc_audit_dir, f"AUDIT_METROLOGIQUE_{sub_label}.json")
+        doc_md_path = os.path.join(doc_dir, f"SYNTHESE_METROLOGIQUE_{sub_label}.md")
+
         json_content = json.dumps(audit_data, indent=2, ensure_ascii=False)
         saved_paths = []
-        
-        # Écriture dans Exports_CAO_DBot
+
+        # Écriture dans Exports_CAO_DBot/.../Audits
         try:
             with open(sovereign_json_path, "w", encoding="utf-8") as f:
                 f.write(json_content)
@@ -465,7 +612,7 @@ def run(context):
         except Exception:
             pass
 
-        # Écriture miroir dans Documentation
+        # Écriture miroir dans Documentation/.../Audits (ignoré par Git, centralisé)
         try:
             if os.path.exists(doc_dir):
                 with open(doc_json_path, "w", encoding="utf-8") as f:
@@ -473,27 +620,73 @@ def run(context):
                 saved_paths.append(doc_json_path)
         except Exception:
             pass
-            
-        try:
-            with open(backup_json_path, "w", encoding="utf-8") as f:
-                f.write(json_content)
-            saved_paths.append(backup_json_path)
-        except Exception:
-            pass
 
         # Génération du Markdown de synthèse pour le RAG et Exports
+        script_dir = os.path.dirname(os.path.realpath(__file__))
+        if script_dir not in sys.path:
+            sys.path.insert(0, script_dir)
+
         try:
-            md_content = build_markdown_summary(audit_data)
+            import metrology_markdown
+            importlib.reload(metrology_markdown)
+            md_content = metrology_markdown.build_markdown_summary(
+                audit_data, sub_label=sub_label, doc_folder_rel=doc_folder_rel
+            )
             with open(sovereign_md_path, "w", encoding="utf-8") as f:
                 f.write(md_content)
             saved_paths.append(sovereign_md_path)
-            
+
             if os.path.exists(doc_dir):
                 with open(doc_md_path, "w", encoding="utf-8") as f:
                     f.write(md_content)
                 saved_paths.append(doc_md_path)
         except Exception:
             pass
+
+        # -------------------------------------------------------------
+        # 5b. Audits Unifiés Cinématique & Alignement (Même passe Fusion 360)
+        # -------------------------------------------------------------
+        kine_summary_str = "Non exécuté"
+        align_summary_str = "Non exécuté"
+        design_obj = adsk.fusion.Design.cast(app.activeProduct)
+
+        kine_targets = [os.path.join(sovereign_audit_dir, f"AUDIT_CINEMATIQUE_{sub_label}.json")]
+        align_targets = [os.path.join(sovereign_audit_dir, f"AUDIT_ALIGNEMENT_{sub_label}.json")]
+        if os.path.exists(doc_audit_dir):
+            kine_targets.append(os.path.join(doc_audit_dir, f"AUDIT_CINEMATIQUE_{sub_label}.json"))
+            align_targets.append(os.path.join(doc_audit_dir, f"AUDIT_ALIGNEMENT_{sub_label}.json"))
+
+        try:
+            import kinematic_audit
+            importlib.reload(kinematic_audit)
+            k_data, k_saved, k_errs = kinematic_audit.run_kinematic_audit(
+                app, design_obj, root_comp, doc_name, sub_label, kine_targets
+            )
+            saved_paths.extend(k_saved)
+            ks = k_data.get("summary", {})
+            kine_summary_str = (
+                f"{ks.get('total_joints', 0)} Joints + {ks.get('total_as_built_joints', 0)} AsBuilt "
+                f"| {ks.get('mobile_joints_active', 0)}/{ks.get('mobile_joints_total', 0)} DDL libres "
+                f"| Anomalies : {ks.get('health_warnings', 0) + ks.get('broken_assembly_constraints', 0)}"
+            )
+        except Exception as k_err:
+            kine_summary_str = f"Erreur module cinématique : {k_err}"
+
+        try:
+            import alignment_audit
+            importlib.reload(alignment_audit)
+            a_data, a_saved, a_errs = alignment_audit.run_alignment_audit(
+                app, design_obj, root_comp, doc_name, sub_label, audit_data["components"], align_targets
+            )
+            saved_paths.extend(a_saved)
+            als = a_data.get("summary", {})
+            align_summary_str = (
+                f"Waist={als.get('waist_concentricity_status')} (Δr={als.get('waist_max_radial_offset_mm')} mm) "
+                f"| Hanches={als.get('hip_bridge_status')} (tilt={als.get('hip_max_montant_tilt_deg')} deg) "
+                f"| Symétrie={als.get('symmetry_pairs_ok')}/{als.get('symmetry_pairs_checked')}"
+            )
+        except Exception as a_err:
+            align_summary_str = f"Erreur module alignement : {a_err}"
 
         # -------------------------------------------------------------
         # 6. Prises de vue visuelles automatiques (Snapshots multi-angles)
@@ -504,6 +697,7 @@ def run(context):
         empty_samples = []
         dxf_count = 0
         drafting_count = 0
+        snapshots_err_msg = ""
         try:
             saved_snapshots, valid_captures, empty_captures, saved_dxf, saved_draft = generate_cad_visual_snapshots(app, root_comp, sovereign_torse_dir)
             snapshots_count = len(saved_snapshots)
@@ -513,270 +707,48 @@ def run(context):
             dxf_count = len(saved_dxf)
             drafting_count = len(saved_draft)
         except Exception:
-            pass
+            snapshots_err_msg = f"\n⚠️ ERREUR DANS LE MODULE DE CAPTURE VISUELLE :\n{traceback.format_exc()}\n"
             
         # Message récapitulatif utilisateur
         mode_str = f"MODE TEST UNITAIRE ACTIF (Cible : '{TARGET_TEST_PIECE_NAME}')" if TEST_MODE_SINGLE_PIECE else "MODE COMPLET (Toutes pièces)"
         qc_str = f"Contrôle Qualité Images : {valid_count} vues certifiées (> 12 Ko)"
         if empty_count > 0:
             qc_str += f"\nATTENTION : {empty_count} vues suspectes (< 12 Ko) :\n" + "\n".join(f"  - {s}" for s in empty_samples)
+        if snapshots_err_msg:
+            qc_str += f"\n{snapshots_err_msg}"
             
         dxf_str = f"Fichiers DXF 1:1 CNC générés : {dxf_count} profils machine\n" if ENABLE_AUTO_CNC_DXF else ""
         draft_str = f"Plans 2D Cotés générés (PDF/SVG) : {drafting_count} liasses officielles\n" if ENABLE_AUTO_DRAFTING else ""
 
         msg = (
-            f"=== AUDIT D-BOT V2 (MÉTROLOGIE & VISION) EXPORTÉ ===\n\n"
+            f"=== AUDIT UNIFIÉ D-BOT V2 (MÉTROLOGIE + CINÉMATIQUE + ALIGNEMENT + VISION) ===\n\n"
             f"Statut : {mode_str}\n"
-            f"Modèle : {doc_name}\n"
+            f"Modèle : {doc_name} ({sub_label})\n"
             f"Masse totale extraite : {audit_data['assembly_summary'].get('total_mass_g', 0)} g\n"
             f"Hauteur physique réelle : {audit_data['assembly_summary'].get('physical_components_bounding_box_mm', {}).get('physical_height_mm', 'N/A')} mm\n"
             f"Composants analysés : {len(audit_data['components'])}\n"
-            f"Goupilles Ø3 mm détectées : {len(audit_data['holes_summary']['dowel_pins_dia_3mm'])}\n"
-            f"Fraisures 90° détectées : {len(audit_data['holes_summary']['countersinks_90deg_fhc_m4'])}\n"
+            f"Goupilles Ø3 mm : {len(audit_data['holes_summary']['dowel_pins_dia_3mm'])} | "
+            f"Fraisures 90° : {len(audit_data['holes_summary']['countersinks_90deg_fhc_m4'])} | "
             f"Alésages majeurs : {len(audit_data['holes_summary']['large_bores'])}\n"
+            f"Cinématique : {kine_summary_str}\n"
+            f"Alignement  : {align_summary_str}\n"
             f"Captures d'écran générées : {snapshots_count} vues\n"
             f"{dxf_str}"
             f"{draft_str}"
             f"{qc_str}\n\n"
-            f"Dossier souverain enrichi :\n"
+            f"Tous les JSON (Métrologie, Cinématique, Alignement) + Synthèse MD mis à jour :\n"
             f"→ {sovereign_audit_dir}\n"
+            f"→ {doc_audit_dir}\n"
             f"→ {os.path.join(sovereign_torse_dir, 'Visual_Snapshots')}\n\n"
-            f"Pipeline 100% automatisé exécuté avec succès !"
+            f"Pipeline unifié 100% automatisé exécuté avec succès !"
         )
         
-        ui.messageBox(msg, "Audit Métrologique & Vision D-Bot")
+        ui.messageBox(msg, "Audit Unifié D-Bot")
 
-    except Exception as e:
+    except Exception:
         if ui:
             ui.messageBox(f"Erreur durant l'audit :\n{traceback.format_exc()}", "Erreur AuditTorse")
 
-
-def build_markdown_summary(audit_data):
-    meta = audit_data.get("metadata", {})
-    summary = audit_data.get("assembly_summary", {})
-    components = audit_data.get("components", [])
-    holes_summary = audit_data.get("holes_summary", {})
-    bom = audit_data.get("hardware_bom", {})
-
-    doc_name = meta.get("document_name", "Inconnu")
-    timestamp = meta.get("timestamp", "Inconnu")
-    total_mass_g = summary.get("total_mass_g", 0.0)
-    com = summary.get("center_of_mass_mm", [0, 0, 0])
-
-    p_bbox = summary.get("physical_components_bounding_box_mm", {})
-    p_min = p_bbox.get("min", [0, 0, 762.87])
-    p_max = p_bbox.get("max", [0, 0, 1547.12])
-    p_size = p_bbox.get("size", [243.0, 383.5, 784.25])
-
-    phys_dx = p_size[0]
-    phys_dy = p_size[1]
-    phys_dz = p_size[2]
-    phys_min_z = p_min[2]
-    phys_max_z = p_max[2]
-
-    bassin_min_z = 762.87
-    bassin_max_z = 1043.18
-    bassin_height = round(bassin_max_z - bassin_min_z, 2)
-
-    torse_min_z = 1034.91
-    torse_max_z = phys_max_z
-    torse_height = round(torse_max_z - torse_min_z, 2)
-
-    waist_parts = {}
-    for c in components:
-        iname = c.get("instance_name", "")
-        cname = c.get("component_name", "")
-        bbox = c.get("bounding_box_mm", {})
-        z_min = bbox.get("min", [0, 0, 0])[2]
-        z_max = bbox.get("max", [0, 0, 0])[2]
-        mass = c.get("mass_g", 0.0)
-        
-        if "RS06" in iname or "RS06" in cname:
-            waist_parts["rs06"] = {"name": iname, "z_min": z_min, "z_max": z_max, "mass": mass}
-        elif "Moyeu_Waist" in iname or "Moyeu_Waist" in cname:
-            waist_parts["moyeu"] = {"name": iname, "z_min": z_min, "z_max": z_max, "mass": mass}
-        elif "Chassis_Structurel_Bassin" in iname or "Chassis_Structurel_Bassin" in cname:
-            waist_parts["chassis_bassin"] = {"name": iname, "z_min": z_min, "z_max": z_max, "mass": mass}
-        elif "Traverse_Renfort_Bassin" in iname or "Traverse_Renfort_Bassin" in cname:
-            waist_parts["traverse"] = {"name": iname, "z_min": z_min, "z_max": z_max, "mass": mass}
-        elif "RB8016" in iname or "RB8016" in cname:
-            waist_parts["bearing"] = {"name": iname, "z_min": z_min, "z_max": z_max, "mass": mass}
-        elif "Waist_Plate" in iname or "Waist_Plate" in cname:
-            waist_parts["waist_plate"] = {"name": iname, "z_min": z_min, "z_max": z_max, "mass": mass}
-        elif "Equerre waist" in iname or "Equerre waist" in cname:
-            waist_parts["equerre"] = {"name": iname, "z_min": z_min, "z_max": z_max, "mass": mass}
-
-    lamage_depth = 3.00
-    traverse_z_max = waist_parts.get("traverse", {}).get("z_max", 1021.91)
-    lamage_floor_z = round(traverse_z_max - lamage_depth, 2)
-    bearing_z_min = waist_parts.get("bearing", {}).get("z_min", 1018.90)
-    bearing_z_max = waist_parts.get("bearing", {}).get("z_max", 1034.94)
-    bearing_contact_gap = round(abs(lamage_floor_z - bearing_z_min), 2)
-
-    waist_plate_z_min = waist_parts.get("waist_plate", {}).get("z_min", 1034.91)
-    bearing_plate_gap = round(abs(bearing_z_max - waist_plate_z_min), 2)
-
-    moyeu_z_max = waist_parts.get("moyeu", {}).get("z_max", 1034.53)
-    anti_talonnage_gap = round(waist_plate_z_min - moyeu_z_max, 2)
-
-    chassis_z_max = waist_parts.get("chassis_bassin", {}).get("z_max", 1011.92)
-    traverse_z_min = waist_parts.get("traverse", {}).get("z_min", 1011.89)
-    chassis_traverse_gap = round(abs(chassis_z_max - traverse_z_min), 2)
-
-    # Détection de la Ceinture et des demi-fûts C1/C2
-    ceinture_body = None
-    c1_body = None
-    c2_body = None
-    for c in components:
-        for b in c.get("bodies", []):
-            bname = b.get("name", "").lower()
-            if "ceinture" in bname:
-                ceinture_body = b
-            elif "torse_haut_c1" in bname or (bname.startswith("c1") and "torse" in bname):
-                c1_body = b
-            elif "torse_haut_c2" in bname or (bname.startswith("c2") and "torse" in bname):
-                c2_body = b
-
-    has_modular = (ceinture_body is not None or c1_body is not None or c2_body is not None)
-    
-    sommaire_suite = (
-        "4. [Architecture Modulaire Torse C1 / C2 & Ceinture](#4-architecture-modulaire-torse-c1--c2--ceinture)\n"
-        "5. [Bilan d'Usinage & Quincaillerie Clé](#5-bilan-dusinage--quincaillerie-clé)\n"
-        "6. [Nomenclature Consolidée Majeure](#6-nomenclature-consolidée-majeure)"
-        if has_modular else
-        "4. [Bilan d'Usinage & Quincaillerie Clé](#4-bilan-dusinage--quincaillerie-clé)\n"
-        "5. [Nomenclature Consolidée Majeure](#5-nomenclature-consolidée-majeure)"
-    )
-
-    modular_section = ""
-    if has_modular:
-        c1_zmin = c1_body['bounding_box_mm']['min'][2] if c1_body and c1_body.get('bounding_box_mm') else 'N/A'
-        c1_zmax = c1_body['bounding_box_mm']['max'][2] if c1_body and c1_body.get('bounding_box_mm') else 'N/A'
-        c1_h = c1_body['bounding_box_mm']['size'][2] if c1_body and c1_body.get('bounding_box_mm') else 'N/A'
-        c1_v = c1_body.get('volume_cm3', 'N/A') if c1_body else 'N/A'
-        c1_m = c1_body.get('mass_g', 'N/A') if c1_body else 'N/A'
-
-        ceint_zmin = ceinture_body['bounding_box_mm']['min'][2] if ceinture_body and ceinture_body.get('bounding_box_mm') else 'N/A'
-        ceint_zmax = ceinture_body['bounding_box_mm']['max'][2] if ceinture_body and ceinture_body.get('bounding_box_mm') else 'N/A'
-        ceint_t = ceinture_body['bounding_box_mm']['size'][2] if ceinture_body and ceinture_body.get('bounding_box_mm') else 'N/A'
-        ceint_v = ceinture_body.get('volume_cm3', 'N/A') if ceinture_body else 'N/A'
-        ceint_m = ceinture_body.get('mass_g', 'N/A') if ceinture_body else 'N/A'
-
-        c2_zmin = c2_body['bounding_box_mm']['min'][2] if c2_body and c2_body.get('bounding_box_mm') else 'N/A'
-        c2_zmax = c2_body['bounding_box_mm']['max'][2] if c2_body and c2_body.get('bounding_box_mm') else 'N/A'
-        c2_h = c2_body['bounding_box_mm']['size'][2] if c2_body and c2_body.get('bounding_box_mm') else 'N/A'
-        c2_v = c2_body.get('volume_cm3', 'N/A') if c2_body else 'N/A'
-        c2_m = c2_body.get('mass_g', 'N/A') if c2_body else 'N/A'
-
-        modular_section = f"""
----
-
-## 4. Architecture Modulaire Torse C1 / C2 & Ceinture
-
-| Élément | Nom du Corps | Z Bas (mm) | Z Haut (mm) | Épaisseur / Hauteur Z (mm) | Volume (cm3) | Masse propre |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Demi-fût Supérieur (C1)** | {c1_body.get('name', 'N/A') if c1_body else 'N/A'} | {c1_zmin} | {c1_zmax} | {c1_h} mm | {c1_v} | {c1_m} g |
-| **Ceinture Intermédiaire Alu** | {ceinture_body.get('name', 'N/A') if ceinture_body else 'N/A'} | {ceint_zmin} | {ceint_zmax} | {ceint_t} mm | {ceint_v} | {ceint_m} g |
-| **Demi-fût Inférieur (C2)** | {c2_body.get('name', 'N/A') if c2_body else 'N/A'} | {c2_zmin} | {c2_zmax} | {c2_h} mm | {c2_v} | {c2_m} g |
-"""
-
-    csinks = holes_summary.get("countersinks_90deg_fhc_m4", [])
-    pins = holes_summary.get("dowel_pins_dia_3mm", [])
-    bores = holes_summary.get("large_bores", [])
-
-    sec_machining = "## 5. Bilan d'Usinage & Quincaillerie Clé" if has_modular else "## 4. Bilan d'Usinage & Quincaillerie Clé"
-    sec_bom = "## 6. Nomenclature Consolidée Majeure" if has_modular else "## 5. Nomenclature Consolidée Majeure"
-
-    content = f"""# Synthèse Métrologique et CAO — Torse et Bassin D-Bot V1
-
-> **Statut** : Document de référence métrologique validé par extraction CAO Fusion 360  
-> **Source de vérité CAO** : `{doc_name}`  
-> **Date de l'audit** : {timestamp}  
-> **Fichier source** : [`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/AUDIT_METROLOGIQUE_Torse_et_Bassin.json)
-
----
-
-## 📑 Sommaire
-
-1. [Vue d'Ensemble & Masses](#1-vue-densemble--masses)
-2. [Dimensions Physiques Réelles & Altitude au Sol](#2-dimensions-physiques-réelles--altitude-au-sol)
-3. [Chaîne Cinématique et Empilement Waist (Z)](#3-chaîne-cinématique-et-empilement-waist-z)
-{sommaire_suite}
-
----
-
-## 1. Vue d'Ensemble & Masses
-
-* **Masse totale de l'ensemble Torse + Bassin** : **{total_mass_g/1000.0:.2f} kg** ({total_mass_g:.1f} g).
-* **Nombre de composants modélisés** : **{len(components)} instances** (BOM de {len(bom)} références uniques).
-* **Centre de gravité global (CoM)** :
-  * **X** (profondeur) = **{com[0]:+.2f} mm** (léger déport avant cohérent avec l'implantation pectorale et batteries).
-  * **Y** (latéral) = **{com[1]:+.2f} mm** (quasi-parfaite symétrie gauche/droite).
-  * **Z** (hauteur) = **{com[2]:.2f} mm** (situé au niveau du plexus, entre le waist à 1035 mm et la plaque de cou à 1476 mm).
-
----
-
-## 2. Dimensions Physiques Réelles & Altitude au Sol
-
-> [!IMPORTANT]
-> **Distinction essentielle pour le dimensionnement robotique** :
-> 1. **L'altitude Z** est repérée par rapport au sol (la plante des pieds du robot debout est à Z = 0 mm).
-> 2. **La hauteur physique réelle** du sous-ensemble Torse + Bassin est de **{phys_dz:.1f} mm** ({phys_dz/10.0:.1f} cm).
-
-| Grandeur | Coordonnées / Plage (mm) | Dimension Physique Réelle | Commentaire |
-| :--- | :--- | :--- | :--- |
-| **Profondeur totale (X)** | [{waist_parts.get('chassis_bassin', {}).get('name', 'Xmin')}] {phys_dx:.1f} mm | **{phys_dx:.1f} mm** | Encombrement avant/arrière plastron + carénages |
-| **Largeur totale (Y)** | Epaules / Hanche : {phys_dy:.1f} mm | **{phys_dy:.1f} mm** | Largeur d'épaules et pivots de hanches |
-| **Altitude Z au sol** | **{phys_min_z:.2f} mm -> {phys_max_z:.2f} mm** | — | Repère mondial D-Bot (pieds à Z = 0 mm) |
-| **Bassin seul (Pelvis)** | 762,87 mm -> 1043,18 mm | **{bassin_height:.1f} mm** (~28,0 cm) | Du bas du carénage hanche au sommet du berceau |
-| **Torse seul (Waist au cou)** | 1034,91 mm -> {phys_max_z:.2f} mm | **{torse_height:.1f} mm** (~51,2 cm) | De la Waist Plate au sommet du tube de cou |
-| **Hauteur Totale Torse + Bassin** | 762,87 mm -> {phys_max_z:.2f} mm | **{phys_dz:.1f} mm** (~78,4 cm) | **Hauteur physique propre de l'assemblage** |
-
----
-
-## 3. Chaîne Cinématique et Empilement Waist (Z)
-
-L'empilement vertical de l'articulation de lacet du buste (Waist Yaw) a été vérifié au micron près :
-
-| Composant / Interface | Z Bas (mm) | Z Haut (mm) | Épaisseur (mm) | Écart mesuré | Statut métrologique |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Moteur RS06 (Rotor)** | {waist_parts.get('rs06', {}).get('z_min', 960.40):.2f} | {waist_parts.get('rs06', {}).get('z_max', 1010.94):.2f} | 50,54 | — | Référence rotor RS06 |
-| **Moyeu Waist Sandwich** | {waist_parts.get('moyeu', {}).get('z_min', 1010.91):.2f} | {waist_parts.get('moyeu', {}).get('z_max', 1034.53):.2f} | 23,62 | Appui rotor : 0,03 mm | **Contact franc** |
-| **Châssis Châssis_Structurel_Bassin** | {waist_parts.get('chassis_bassin', {}).get('z_min', 811.50):.2f} | {waist_parts.get('chassis_bassin', {}).get('z_max', 1011.92):.2f} | 200,42 | — | Sommet du châssis bassin |
-| **Traverse Renfort Bassin** | {waist_parts.get('traverse', {}).get('z_min', 1011.89):.2f} | {waist_parts.get('traverse', {}).get('z_max', 1021.91):.2f} | 10,02 | Appui châssis : {chassis_traverse_gap:.2f} mm | **Contact franc** |
-| ↳ *Lamage Traverse (profondeur 3,00 mm)* | — | **{lamage_floor_z:.2f}** | Prof. 3,00 | — | Face d'appui du RB8016 |
-| **Roulement RB8016** | **{waist_parts.get('bearing', {}).get('z_min', 1018.90):.2f}** | **{waist_parts.get('bearing', {}).get('z_max', 1034.94):.2f}** | 16,04 | Fond lamage : **{bearing_contact_gap:.2f} mm** | **Contact franc parfait (10 µm)** |
-| **Waist Plate 7075** | **{waist_parts.get('waist_plate', {}).get('z_min', 1034.91):.2f}** | **{waist_parts.get('waist_plate', {}).get('z_max', 1042.44):.2f}** | 7,53 | Appui bague int. : {bearing_plate_gap:.2f} mm | **Contact franc** |
-| ↳ *Jeu Anti-talonnage (Moyeu vs Waist Plate)* | {waist_parts.get('moyeu', {}).get('z_max', 1034.53):.2f} | {waist_parts.get('waist_plate', {}).get('z_min', 1034.91):.2f} | — | **{anti_talonnage_gap:.2f} mm** | **CONFORME (Nominal 0,40 mm)** |
-| **Équerre Waist & Plastron Ventral** | {waist_parts.get('equerre', {}).get('z_min', 1042.41):.2f} | {waist_parts.get('equerre', {}).get('z_max', 1072.43):.2f} | 30,02 | Appui Waist Plate : 0,03 mm | **Contact franc** |
-{modular_section}
----
-
-{sec_machining}
-
-* **Fraisures coniques 90° (Vis FHC M4)** : **{len(csinks)} fraisures** détectées et validées sur le châssis, la traverse, les capots et les équerres.
-* **Alésages et lamages majeurs (>= 60 mm)** : **{len(bores)} alésages** de précision répertoriés (notamment le lamage de traverse Ø 120 mm pour RB8016 et les alésages de roulements de hanche).
-* **Goupilles de centrage Ø 3,0 mm (ISO 8734)** : **{len(pins)} positions** de centrage géométrique.
-
----
-
-{sec_bom}
-
-| Composant clé | Référence CAO | Quantité | Matériau principal | Masse unitaire |
-| :--- | :--- | :--- | :--- | :--- |
-| Châssis Structurel Bassin | ASV1_200_01C | 1 | Aluminium 7075-T6 | 3,79 kg |
-| Traverse Renfort Bassin | ASV1_200_16A | 1 | Aluminium 7075-T6 | 247 g |
-| Roulement à rouleaux croisés | RB8016 | 1 | Acier à roulement | 633 g |
-| Waist Plate | Waist_Plate_7075 | 1 | Aluminium 7075-T6 | 320 g |
-| Moyeu Waist Sandwich | Moyeu_Waist_Sandwich_7075 | 1 | Aluminium 7075-T6 | 165 g |
-| Moteur Yaw Waist | RobStride RS06 | 1 | Actionneur QDD | 551 g |
-| Plastron Ventral Torse | Plastron_Ventral_Torse | 1 | Aluminium 7075-T6 | 2,84 kg |
-| Colonne vertébrale | Colonne_Vertebrale | 1 | Aluminium 7075-T6 (2 lumières 54×55 mm) | 490 g (489,8 g) |
-| Panier Batterie Coulissant | Panier_Batterie_Coulissant | 1 | PA12-CF / Al 7075 | 555 g |
-| Plaque de Cou | Plaque_de_Cou_7075 | 1 | Aluminium 7075-T6 | 90 g |
-
-"""
-    return content
 
 def export_piece_cnc_dxf(comp, target_body, piece_folder, p_name):
     """Projette la face plane principale du corps et exporte un DXF 1:1 pour usinage CNC."""
@@ -842,6 +814,7 @@ def generate_cad_visual_snapshots(app, root_comp, sovereign_torse_dir):
     empty_captures = []
     saved_dxf_files = []
     saved_drafting_plans = []
+    active_piece_root_folders = set()
     
     # 1. Dossiers de destination souverains (hors Git)
     v_ensemble_sovereign = os.path.join(sovereign_torse_dir, "Visual_Snapshots/Vues_Ensemble")
@@ -904,6 +877,7 @@ def generate_cad_visual_snapshots(app, root_comp, sovereign_torse_dir):
     def frame_and_capture(bbox, orient, parent_folder, file_prefix, view_name, width=1280, height=960):
         """Cadre la caméra précisément sur la pièce isolée selon l'orientation demandée et enregistre l'image dans son dossier dédié."""
         try:
+            active_piece_root_folders.add(parent_folder.split(os.sep)[0])
             piece_folder = os.path.join(v_pieces_sovereign, parent_folder)
             os.makedirs(piece_folder, exist_ok=True)
             
@@ -1160,7 +1134,22 @@ def generate_cad_visual_snapshots(app, root_comp, sovereign_torse_dir):
             viewport.refresh()
         except Exception:
             pass
-            
+
+    # Purge automatique des dossiers de pièces orphelines (pièces renommées ou supprimées de la CAO)
+    if AUTO_CLEAN_ORPHAN_SNAPSHOTS and not TEST_MODE_SINGLE_PIECE and os.path.exists(v_pieces_sovereign):
+        protected_roots = {
+            "RS04", "EL05", "RS06", "FL82BLW", "RB8016", "Bassin_Pelvis",
+            "Plastron_Ventral_Torse", "ceinture", "colonne_vertébrale"
+        }
+        try:
+            for entry in os.listdir(v_pieces_sovereign):
+                entry_path = os.path.join(v_pieces_sovereign, entry)
+                if os.path.isdir(entry_path) and not entry.startswith("."):
+                    if entry not in active_piece_root_folders and entry not in protected_roots:
+                        shutil.rmtree(entry_path, ignore_errors=True)
+        except Exception:
+            pass
+
     return saved_images, valid_captures, empty_captures, saved_dxf_files, saved_drafting_plans
 
 

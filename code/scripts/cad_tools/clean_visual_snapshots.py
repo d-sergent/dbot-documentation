@@ -10,7 +10,7 @@ Ce script inspecte le répertoire souverain des captures d'écran CAO haute déf
 Il analyse :
 1. Le dossier 'Pieces_Isolees/' : compare chaque dossier de pièce avec les
    composants actifs de la maquette numérique (via dbot_cad_manifest.json et
-   AUDIT_METROLOGIQUE_Torse_et_Bassin.json).
+   Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json).
 2. Le dossier 'Vues_Ensemble/' : détecte les anciens doublons de numérotation
    antérieurs à l'introduction de la vue de dessous (04_vue_dessous.png).
 
@@ -38,6 +38,7 @@ ENSEMBLE_DIR = os.path.join(SNAPSHOTS_DIR, "Vues_Ensemble")
 
 MANIFEST_PATH = "/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/Bibliotheque_Composants_STEP/dbot_cad_manifest.json"
 AUDIT_PATH = "/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json"
+LOCAL_AUDIT_PATH = "/Users/Shared/Mon Google Drive Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json"
 
 OFFICIAL_ENSEMBLE_VIEWS = {
     "01_vue_face.png",
@@ -48,6 +49,14 @@ OFFICIAL_ENSEMBLE_VIEWS = {
     "06_vue_profil_gauche.png",
     "07_vue_isometrique.png"
 }
+
+import re
+
+def sanitize_filename(name):
+    """Nettoie le nom d'un corps ou composant pour en faire un nom de fichier image/json valide."""
+    clean = re.sub(r'[\\/*?:"<>| \(\)\[\]:]', '_', name)
+    clean = re.sub(r'_+', '_', clean).strip('_')
+    return clean or "element"
 
 
 def load_active_components():
@@ -64,22 +73,26 @@ def load_active_components():
                     s_name = comp_info.get("safe_name")
                     if c_name:
                         active_names.add(c_name.strip())
+                        active_names.add(sanitize_filename(c_name))
                     if s_name:
                         active_names.add(s_name.strip())
+                        active_names.add(sanitize_filename(s_name))
         except Exception as e:
             print(f"⚠️ Avertissement lecture manifeste STEP : {e}")
 
-    # 2. Audit Métrologique JSON (pour détecter les pièces ayant des corps bRep réels)
-    if os.path.exists(AUDIT_PATH):
+    # 2. Audit Métrologique JSON (souverain ou local)
+    target_audit_path = AUDIT_PATH if os.path.exists(AUDIT_PATH) else LOCAL_AUDIT_PATH
+    if os.path.exists(target_audit_path):
         try:
-            with open(AUDIT_PATH, "r", encoding="utf-8") as f:
+            with open(target_audit_path, "r", encoding="utf-8") as f:
                 audit_data = json.load(f)
                 for c in audit_data.get("components", []):
                     c_name = c.get("component_name")
                     bodies = c.get("bodies", [])
                     # Une pièce est active si elle a au moins un corps ou si c'est un sous-ensemble
-                    if c_name and (len(bodies) > 0 or "ASV1" in c_name or "RS04" in c_name or "EL05" in c_name):
+                    if c_name and (len(bodies) > 0 or "ASV1" in c_name or "RS04" in c_name or "EL05" in c_name or "RS06" in c_name):
                         active_names.add(c_name.strip())
+                        active_names.add(sanitize_filename(c_name))
         except Exception as e:
             print(f"⚠️ Avertissement lecture audit métrologique : {e}")
 
@@ -87,6 +100,9 @@ def load_active_components():
     active_names.update([
         "RS04",
         "EL05",
+        "RS06",
+        "FL82BLW",
+        "RB8016",
         "Bassin_Pelvis",
         "Plastron_Ventral_Torse",
         "ceinture",
@@ -98,17 +114,15 @@ def load_active_components():
 
 def is_folder_active(folder_name, active_names):
     """Vérifie si un dossier de pièce isolée correspond à un composant actif."""
-    f_norm = folder_name.strip()
-    if f_norm in active_names:
-        return True
+    f_norm = folder_name.strip().lower()
 
-    # Vérification insensible à la casse et tolérance tirets bas / espaces
-    f_lower = f_norm.lower()
     for a in active_names:
-        a_lower = a.lower()
-        if f_lower == a_lower:
+        a_clean = a.strip().lower()
+        if f_norm == a_clean:
             return True
-        if f_lower.replace("_", " ") == a_lower.replace("_", " "):
+        if f_norm == sanitize_filename(a).lower():
+            return True
+        if f_norm.replace("_", " ") == a_clean.replace("_", " "):
             return True
 
     return False
