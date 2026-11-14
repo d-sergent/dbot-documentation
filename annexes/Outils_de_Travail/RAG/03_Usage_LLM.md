@@ -1,12 +1,12 @@
-# 💬 Usage du RAG avec les LLMs (vMLX & Antigravity)
+# 💬 Usage du RAG avec les LLMs (Kilo / Unsloth Studio / Ollama & Antigravity)
 
 Ce guide explique comment faire pour que vos modèles d'IA utilisent réellement la base de connaissances plutôt que de "halluciner" des réponses.
 
 ---
 
-## 🏗️ Utilisation dans vMLX (Local)
+## 🏗️ Utilisation locale (Kilo / Unsloth Studio / Ollama)
 
-Le modèle local (ex: Qwen-35B ou Mistral-119B) n'appelle pas toujours les outils de lui-même par défaut. 
+Un modèle local (`Qwen3.8-27B`, `Gemma 4 26B-A4B`, `qwen3.5:9b`) n'appelle pas toujours les outils de lui-même par défaut s'il n'est pas guidé. 
 
 ### La "Phrase Magique"
 Pour forcer l'usage du RAG, commencez votre question par :

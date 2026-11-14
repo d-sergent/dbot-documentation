@@ -16,6 +16,7 @@ __pycache__/
 
 # Secrets
 .env
+.kilo/kilo.jsonc
 code/rag/rag_indexing.log
 
 # Heavy AI Models & TensorRT Engines

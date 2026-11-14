@@ -1,84 +1,49 @@
 # Spécifications : Architecture IA Locale & Optimisation D-Bot
 
-Ce document définit l'architecture de travail pour l'utilisation d'IA locales (via LM Studio) appliquées à la conception et au développement du projet robotique D-Bot.
+> [!NOTE]
+> Document mis à jour sur l'architecture validée sur MacBook Pro M1 Max (`64 Go`). L'ancien socle `LM Studio / DeepSeek-R1 / Khoj / Qdrant` a été remplacé par le pipeline **LightRAG (`dbot-rag`)**, **Ollama MLX** et **Unsloth Studio**.  
+> Référence opérationnelle détaillée : [00_GUIDE_IA_Locale_M1Max_64Go.md](../Annexes/Outils_de_Travail/IA_sur_Mac_M1_Pro_Max_64Go/00_GUIDE_IA_Locale_M1Max_64Go.md).
 
 ---
-
 
 ## 📑 Sommaire
 
-- [**1. Réorganisation de la Documentation**](#1-réorganisation-de-la-documentation)
-  - [Solution d'Indexation (Le "RAG" Local via MCP)](#solution-dindexation-le-rag-local-via-mcp)
-- [**2. Stratégie des Modèles (Le Duo LM Studio / MLX)**](#2-stratégie-des-modèles-le-duo-lm-studio-mlx)
-  - [A. Le "Scout" / L'Exécuteur (Rapide, Spécialiste Outils MCP & Code)](#a-le-scout-lexécuteur-rapide-spécialiste-outils-mcp-code)
-  - [B. L'"Architecte" (Raisonnement Profond, Mécanique & Cinématique)](#b-larchitecte-raisonnement-profond-mécanique-cinématique)
-- [**3. Workflow (Le "Relais" Local & Escalade Cloud)**](#3-workflow-le-relais-local-escalade-cloud)
-  - [A. Le Relais Local (Résoudre le problème DeepSeek + MCP)](#a-le-relais-local-résoudre-le-problème-deepseek-mcp)
-  - [B. L'Escalade Cloud (Hybride)](#b-lescalade-cloud-hybride)
-- [**4. Prochaines Étapes Techniques (À réaliser ensemble)**](#4-prochaines-étapes-techniques-à-réaliser-ensemble)
+- [1. Organisation Documentaire & RAG](#1-organisation-documentaire--rag)
+- [2. Stratégie des Modèles & Moteurs Actifs](#2-stratégie-des-modèles--moteurs-actifs)
+- [3. Workflow d'Exécution & Escalade Cloud](#3-workflow-dexécution--escalade-cloud)
 
 ---
 
-## 1. Réorganisation de la Documentation
+## 1. Organisation Documentaire & RAG
 
-Pour optimiser le contexte de l'IA (le "KV Cache") et éviter de saturer la mémoire avec les 50 documents actuels, l'arborescence sera structurée hiérarchiquement :
+La base documentaire du projet D-Bot suit une hiérarchie stricte destinée à garantir la fraîcheur des réponses RAG :
 
-*   **`00_Contexte_Constant/`** : Un résumé ultra-condensé (architecture globale, état actuel, contraintes matérielles). C'est le *seul* dossier qui pourra être injecté manuellement en permanence pour orienter le modèle.
-*   **`01_Dossier_Etudes/`** : Historique des recherches, justifications des choix d'ingénierie (ex: moteurs RS-06 vs RS-03, choix de la courroie GT3).
-*   **`02_Implementation/`** : Code source C++, Python, scripts de configuration et architecture logicielle.
-*   **`03_Annexes/`** : Tutoriels, méthodologies, datasheets brutes.
+- **`00_Architecture_Centrale/`** : synthèses consolidées, dimensions et leviers mécaniques.
+- **`01_` à `04_`** : dossiers thématiques (`FINAL_` / `DOSSIER_TECHNIQUE_` = vérité active ; `STUDY_` / `AUDIT_` = études et justifications).
+- **`Archives/` et `00_Archives_Recherche/`** : exclus automatiquement de l'indexation LightRAG via `EXCLUDE_DIRS`.
 
-### Solution d'Indexation (Le "RAG" Local via MCP)
-**Objectif :** Permettre à l'IA de trouver l'information pertinente instantanément sans relire les 50 fichiers.
-**Choix Technologique : Serveur MCP Vectoriel (RAG)**
-*   Au lieu d'utiliser l'outil `filesystem` basique, nous utiliserons un Serveur MCP spécialisé en RAG (comme *Khoj* ou un script MCP *Qdrant* local).
-*   **Fonctionnement :** Une base vectorielle indexe en arrière-plan les dossiers `01` et `02`. Quand le modèle a besoin d'info, il appelle l'outil MCP de recherche sémantique.
-*   *Modèle d'embedding recommandé :* `nomic-embed-text` (ultra-léger et rapide).
+### Solution d'Indexation : LightRAG via Serveur MCP (`dbot-rag`)
+
+- **Moteur d'indexation** : [index_docs.py](../Code/rag/index_docs.py) (`--update --provider auto` par défaut : cascade Gemini puis repli Ollama local).
+- **Serveur MCP** : [mcp_lightrag_server.py](../Code/rag/mcp_lightrag_server.py), configuré dans [kilo.jsonc](../.kilo/kilo.jsonc) sur la base `/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db`.
+- **Modèle d'embedding / reranking** : embeddings vectoriels + graphe LightRAG et reranking cross-encoder local (`BAAI/bge-reranker-v2-m3` / `TextCrossEncoder`).
 
 ---
 
-## 2. Stratégie des Modèles (Le Duo LM Studio / MLX)
+## 2. Stratégie des Modèles & Moteurs Actifs
 
-Pour concilier vitesse d'interaction MCP (outils) et profondeur de réflexion mécanique, nous adoptons une stratégie à deux modèles. Voici les meilleures options optimisées pour un Mac M1 Max (64 Go).
+Deux moteurs et trois profils de modèles complémentaires couvrent l'ensemble des besoins locaux sur M1 Max (`64 Go`) sans swap SSD :
 
-### A. Le "Scout" / L'Exécuteur (Rapide, Spécialiste Outils MCP & Code)
-*   **Rôle :** Interface quotidienne, requêtes RAG, recherches Web (Tavily), exécution d'outils. Il doit être extrêmement rigoureux sur le format JSON des outils et rapide. Ne possède pas de balise `<think>`.
-*   **Modèles recommandés :**
-    1.  **L'Agent Ultime (35B/27B) :** 
-        `mlx-community/Qwen3.6-35B-4bit` (ou la variante 27B). Le sommet pour l'usage intensif d'outils (MCP) avec une excellente culture générale, tout en restant très rapide grâce au format MLX natif Apple.
-    2.  **Le Sprinter (14B) :** 
-        `mlx-community/Qwen2.5-Coder-14B-Instruct-4bit`. Ultra rapide et agréable au quotidien, parfait pour du code pur ou des tâches simples.
-    3.  **L'Option Mistral (24B) :** 
-        `bartowski/Mistral-Small-24B-Instruct-2501-GGUF` (`Q4_K_M`). L'alternative européenne, très fiable et rigoureuse.
-
-### B. L'"Architecte" (Raisonnement Profond, Mécanique & Cinématique)
-*   **Rôle :** Résolution de problèmes d'ingénierie complexes (calculs de couple, choix de matériaux, physique, conception du D-Bot).
-*   **Spécificité :** Utilise la logique "Chain of Thought" (`<think>...</think>`). Il prendra son temps pour éviter les hallucinations mathématiques.
-*   **Modèles recommandés :**
-    1.  **L'Équilibre Parfait Physique/Calculs (32B) :** 
-        `bartowski/DeepSeek-R1-Distill-Qwen-32B-GGUF` (Version `Q4_K_M` ~19GB). Le meilleur ratio Vitesse/Intelligence. (Note : Llama n'existe pas en 32B natif, c'est l'architecture Qwen qui domine cette catégorie).
-    2.  **L'Encyclopédie Industrielle & Matériaux (70B MLX) :**
-        `mlx-community/deepseek-r1-distill-llama-70b-4bit`. Le "Graal" pour brainstormer sur l'usinage CNC ou des choix structurels complexes. Le format MLX permet à ce monstre de tourner de manière fluide sur M1 Max, moyennant environ 40 Go de RAM unifiée.
-    3.  **L'Alternative Généraliste (27B) :**
-        `bartowski/gemma-2-27b-it-GGUF`. Sans balise think, mais doté d'une culture académique redoutable pour lier l'électronique et la mécanique, sans être aussi lourd qu'un 70B.
+1. **Modèle Principal — `Qwen3.8-27B`** :
+   - **Unsloth Studio (`http://127.0.0.1:8888/v1`)** : `unsloth/Qwen3.8-27B-GGUF` (`UD-Q4_K_XL` + `mmproj-F16.gguf`) pour orchestration agentique (Tool Healing), raisonnement et audit **Vision CAO**.
+   - **Ollama MLX (`http://127.0.0.1:11434`)** : `qwen3.8:27b-mlx` (`18 Go`) pour indexation/synthèse LightRAG et inférence MLX rapide.
+2. **Challenger Haute Vitesse — `Gemma 4 26B-A4B`** (`gemma4:26b`, `16 Go` `nvfp4`, `4B` actifs) sous Ollama MLX pour les échanges interactifs privilégiant la vitesse.
+3. **Poids Plume Utilitaire — `qwen3.5:9b`** (`7,6 Go`) sous Ollama pour les tâches rapides à très faible empreinte VRAM.
 
 ---
 
-## 3. Workflow (Le "Relais" Local & Escalade Cloud)
+## 3. Workflow d'Exécution & Escalade Cloud
 
-### A. Le Relais Local (Résoudre le problème DeepSeek + MCP)
-Les modèles de "Raisonnement" (DeepSeek R1) génèrent une balise `<think>` qui les rend instables lorsqu'ils essaient d'appeler directement des outils (JSON). L'architecture repose donc sur un **Relais** :
-1. **L'Éclaireur (Qwen 35B) :** Utilisez-le en premier pour lancer des recherches Web (Tavily) ou fouiller vos notes (MCP Filesystem/RAG). Il rassemble les données brutes dans le chat avec fiabilité.
-2. **L'Architecte (DeepSeek R1 / Llama 70B) :** Changez de modèle **sans fermer la conversation**. Demandez à l'Architecte d'analyser le contexte fraîchement récupéré par l'Éclaireur pour résoudre le problème d'ingénierie (calcul, réflexion physique). L'Architecte est le "Cerveau", le MCP/Qwen sont les "Mains".
-
-### B. L'Escalade Cloud (Hybride)
-*   Le travail quotidien, la documentation et la réflexion se font à 100% en local.
-*   **Escalade :** Lors de "Checkpoints" majeurs (ex: validation finale de l'architecture d'un membre), une session sera ouverte avec un modèle cloud (Claude 3.5 Sonnet / Opus) pour une revue de conception par un expert externe.
-
----
-
-## 4. Prochaines Étapes Techniques (À réaliser ensemble)
-1.  **Restructuration Git :** Créer la nouvelle arborescence des dossiers (`00` à `03`) et y déplacer les 50 fichiers actuels.
-2.  **Téléchargement des Modèles :** Récupérer le *Scout* (Mistral-Small) et l'*Architecte* (R1-Llama-32B) dans LM Studio via les liens HuggingFace fournis.
-3.  **Choix et Installation de l'Indexeur (RAG) :** Définir et installer le serveur MCP qui gérera la base de données vectorielle pour remplacer la recherche basique par une recherche sémantique.
-4.  **Tests de Charge :** Lancer le modèle 32B dans LM Studio et vérifier l'occupation de la mémoire unifiée sur le M1 Max (ajustement du *GPU Offload* si nécessaire).
+1. **Interrogation et édition locale (Antigravity / Kilo + `dbot-rag`)** : l'agent s'appuie en priorité sur `rag_search`, `rag_get_context` et `rag_analyze_impact` pour extraire les cotes, références McMaster-Carr et calculs RDM exacts avant toute modification.
+2. **Audit Vision CAO local** : analyse des planches [Visual_Snapshots](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots) via `Qwen3.8-27B` + `mmproj-F16.gguf` sous Unsloth Studio (`:8888`).
+3. **Escalade Cloud** : pour les revues d'architecture multi-fichiers ou audits système critiques, bascule vers les modèles frontier Cloud via Antigravity ou la cascade Gemini configurée dans `index_docs.py`.

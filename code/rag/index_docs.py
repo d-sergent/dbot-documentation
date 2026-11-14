@@ -1,6 +1,8 @@
 #!/opt/homebrew/bin/python3.11
 import argparse
 import asyncio
+import base64
+import io
 import json
 import os
 import shutil
@@ -103,19 +105,16 @@ handler_file.addFilter(NoExcInfoFilter())
 logging.basicConfig(level=logging.INFO, handlers=[handler_stdout, handler_file], force=True)
 logger = logging.getLogger("D-Bot-RAG")
 
-logging.getLogger("lightrag").setLevel(logging.WARNING)
-logging.getLogger("lightrag").addFilter(NoExcInfoFilter())
-logging.getLogger("nano-vectordb").setLevel(logging.WARNING)
-
 
 # ─── Configuration Chemins ───────────────────────────────────────────────────
 DOCS_ROOT = Path("/Users/Shared/Mon Google Drive Physique/Documentation")
-DB_PATH   = Path("/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db")
+DB_PATH   = Path(os.environ.get("RAG_DB_PATH", "/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db"))
 INDEX_LOG = DB_PATH / "indexed_files.json"
 
 EXCLUDE_DIRS = {".git", ".continue", "__pycache__", "Archives",
                 "Images_ORCA", ".DS_Store", "lightrag_dbot_db", "00_Archives_Recherche",
                 ".kilo", ".gemini", ".cursor", ".roo", "scratch", "cad_views"}
+EXCLUDE_FILES = {"ROADMAP_STRATEGIQUE_V1.md", "PROMPT_Audit_Etude.md", "PROMPT_Consolidation_Technique.md"}
 INCLUDE_EXTS = {".md", ".py", ".txt", ".png", ".jpg", ".jpeg", ".webp", ".pdf", ".svg"}
 IMAGE_EXTS   = {".png", ".jpg", ".jpeg", ".webp"}
 PDF_EXTS     = {".pdf"}
@@ -152,10 +151,38 @@ try:
     from google.genai import types as genai_types
     from PIL import Image
     import pypdf
+    import requests
     import defusedxml.ElementTree as DefusedET
 except ImportError as e:
     logger.error(f"Dépendance manquante : {e}")
     sys.exit(1)
+
+
+class _ForwardWarningToHandler(logging.Handler):
+    """Transfère les logs externes >= min_level vers rag_indexing.log sans dupliquer sur stdout."""
+
+    def __init__(self, target_handler: logging.Handler, min_level: int = logging.WARNING):
+        super().__init__(level=min_level)
+        self._target = target_handler
+
+    def emit(self, record: logging.LogRecord) -> None:
+        self._target.handle(record)
+
+
+def _configure_third_party_loggers() -> None:
+    """Rattache rag_indexing.log aux loggers à propagate=False (ex. LightRAG)."""
+    logging.getLogger("nano-vectordb").setLevel(logging.WARNING)
+    for ext_name in ("lightrag", "nano-vectordb"):
+        ext_logger = logging.getLogger(ext_name)
+        if not any(isinstance(f, NoExcInfoFilter) for f in ext_logger.filters):
+            ext_logger.addFilter(NoExcInfoFilter())
+        if not ext_logger.propagate and not any(
+            isinstance(h, _ForwardWarningToHandler) for h in ext_logger.handlers
+        ):
+            ext_logger.addHandler(_ForwardWarningToHandler(handler_file, logging.WARNING))
+
+
+_configure_third_party_loggers()
 
 # ─── Embeddings Locaux (FastEmbed) ───────────────────────────────────────────
 import warnings
@@ -178,56 +205,432 @@ embedding_func = EmbeddingFunc(
 
 # ─── LLM Factory ─────────────────────────────────────────────────────────────
 
-async def get_llm_func(args):
+# Paramètres recommandés Qwen3.8 / Unsloth en mode Non-Thinking pour l'extraction structurée
+QWEN_EXTRACT_SAMPLING = {
+    "temperature": 0.1,
+    "top_p": 0.80,
+    "top_k": 20,
+    "min_p": 0.0,
+    "repeat_penalty": 1.0,
+    "presence_penalty": 0.3,
+}
+
+
+def _build_local_extra_body(call_kwargs: dict) -> dict:
+    """Construit extra_body pour désactiver Thinking et fixer l'échantillonnage Qwen3.8 sur vMLX/llama-server."""
+    extra_body = {
+        "chat_template_kwargs": {"enable_thinking": False},
+        "top_k": call_kwargs.pop("top_k", QWEN_EXTRACT_SAMPLING["top_k"]),
+        "min_p": call_kwargs.pop("min_p", QWEN_EXTRACT_SAMPLING["min_p"]),
+        "repeat_penalty": call_kwargs.pop("repeat_penalty", QWEN_EXTRACT_SAMPLING["repeat_penalty"]),
+    }
+    user_extra = call_kwargs.pop("extra_body", None)
+    if isinstance(user_extra, dict):
+        extra_body.update(user_extra)
+    return extra_body
+
+
+def _build_openai_messages(
+    prompt: str,
+    system_prompt: str | None = None,
+    history_messages: list | None = None,
+) -> list[dict[str, str]]:
+    """Construit la liste de messages OpenAI/Ollama en incluant history_messages."""
+    messages: list[dict[str, str]] = []
+    if system_prompt:
+        messages.append({"role": "system", "content": system_prompt})
+    for msg in history_messages or []:
+        if isinstance(msg, dict) and "role" in msg and msg.get("content"):
+            messages.append({"role": str(msg["role"]), "content": str(msg["content"])})
+    messages.append({"role": "user", "content": prompt})
+    return messages
+
+
+def _build_gemini_contents(
+    prompt: str,
+    history_messages: list | None = None,
+    system_prompt: str | None = None,
+) -> tuple[list[genai_types.Content] | str, str | None]:
+    """Convertit prompt + history_messages en contents multi-tours Gemini (roles user/model)."""
+    if not history_messages:
+        return prompt, system_prompt
+
+    extra_system = [system_prompt] if system_prompt else []
+    contents: list[genai_types.Content] = []
+    for msg in history_messages:
+        if not isinstance(msg, dict):
+            continue
+        text = str(msg.get("content") or "")
+        if not text.strip():
+            continue
+        raw_role = str(msg.get("role") or "user").lower()
+        if raw_role == "system":
+            extra_system.append(text)
+            continue
+        gem_role = "model" if raw_role in ("assistant", "model") else "user"
+        contents.append(
+            genai_types.Content(role=gem_role, parts=[genai_types.Part.from_text(text=text)])
+        )
+    contents.append(
+        genai_types.Content(role="user", parts=[genai_types.Part.from_text(text=prompt)])
+    )
+    effective_system = "\n\n".join(extra_system) if extra_system else None
+    return contents, effective_system
+
+
+async def _call_openrouter_chat(
+    model_name: str,
+    prompt: str,
+    system_prompt: str | None = None,
+    history_messages: list | None = None,
+    timeout_s: int = 45,
+) -> str:
+    """Appel HTTP OpenRouter partagé avec support de history_messages."""
+    or_key = os.environ.get("OPENROUTER_API_KEY")
+    if not or_key:
+        raise RuntimeError("OPENROUTER_API_KEY manquante")
+    url = "https://openrouter.ai/api/v1/chat/completions"
+    headers = {"Authorization": f"Bearer {or_key}", "Content-Type": "application/json"}
+    messages = _build_openai_messages(prompt, system_prompt, history_messages)
+    timeout = aiohttp.ClientTimeout(total=timeout_s)
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        async with session.post(url, headers=headers, json={"model": model_name, "messages": messages}) as resp:
+            if resp.status != 200:
+                raise RuntimeError(f"HTTP_{resp.status}")
+            data = await resp.json()
+            if "error" in data:
+                err_info = data["error"]
+                raise RuntimeError(
+                    f"OpenRouter_{err_info.get('code', 'Error')}: {err_info.get('message', 'Unknown error')}"
+                )
+            choices = data.get("choices")
+            if not choices:
+                raise RuntimeError("OpenRouter response missing 'choices'")
+            return choices[0]["message"]["content"]
+
+
+GEMINI_CASCADE_MODELS = (
+    "gemini-3.1-flash-lite",
+    "gemini-3.5-flash-lite",
+    "gemini-3.6-flash",
+    "gemini-3.7-flash",
+    "gemini-flash-lite-latest",
+    "gemini-2.5-flash",
+)
+GEMINI_THINKING_BUDGETS = {"minimal": 0, "low": 100, "medium": 512, "high": 1024}
+
+
+def _build_ollama_llm_func(
+    explicit_model: str | None = None,
+    semaphore: asyncio.Semaphore | None = None,
+):
+    """Construit l'adaptateur asynchrone Ollama /api/chat (think=False, sampling Qwen3.8)."""
+    ollama_base = _get_ollama_base_url()
+    target_model = _get_ollama_model(explicit_model)
+    num_ctx = int(os.environ.get("OLLAMA_NUM_CTX", "16384"))
+    keep_alive = os.environ.get("OLLAMA_KEEP_ALIVE", "10m")
+
+    async def _post_ollama(payload: dict) -> str:
+        timeout = aiohttp.ClientTimeout(total=600)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            async with session.post(f"{ollama_base}/api/chat", json=payload) as resp:
+                if resp.status != 200:
+                    err_txt = await resp.text()
+                    raise RuntimeError(f"Ollama HTTP {resp.status}: {err_txt[:200]}")
+                data = await resp.json()
+                content = (data.get("message") or {}).get("content", "")
+                if not content:
+                    raise RuntimeError("Réponse Ollama vide")
+                return content
+
+    async def llm_ollama(prompt, system_prompt=None, history_messages=[], **kwargs):
+        messages = _build_openai_messages(prompt, system_prompt, history_messages)
+
+        payload = {
+            "model": target_model,
+            "messages": messages,
+            "stream": False,
+            "think": False,
+            "keep_alive": keep_alive,
+            "options": {
+                "num_ctx": num_ctx,
+                "temperature": kwargs.get("temperature", QWEN_EXTRACT_SAMPLING["temperature"]),
+                "top_p": kwargs.get("top_p", QWEN_EXTRACT_SAMPLING["top_p"]),
+                "top_k": kwargs.get("top_k", QWEN_EXTRACT_SAMPLING["top_k"]),
+                "min_p": kwargs.get("min_p", QWEN_EXTRACT_SAMPLING["min_p"]),
+                "repeat_penalty": kwargs.get("repeat_penalty", QWEN_EXTRACT_SAMPLING["repeat_penalty"]),
+                "presence_penalty": kwargs.get("presence_penalty", QWEN_EXTRACT_SAMPLING["presence_penalty"]),
+                "num_predict": kwargs.get("max_tokens", 8192),
+            },
+        }
+        if semaphore is not None:
+            async with semaphore:
+                return await _post_ollama(payload)
+        return await _post_ollama(payload)
+
+    return llm_ollama
+
+
+def _resolve_auto_models(explicit_model: str | None) -> tuple[list[str], str]:
+    """Détermine la cascade Gemini et le modèle Ollama local de repli pour --provider auto."""
+    env_models = [m.strip() for m in os.environ.get("GEMINI_AUTO_MODELS", "").split(",") if m.strip()]
+    base_list = env_models or list(GEMINI_CASCADE_MODELS)
+    if explicit_model and "gemini" in explicit_model.lower():
+        cascade = [explicit_model] + [m for m in base_list if m != explicit_model]
+        return cascade, _get_ollama_model(None)
+    return base_list, _get_ollama_model(explicit_model)
+
+
+def _check_ollama_ready(ollama_base: str, target_model: str) -> tuple[bool, str]:
+    """Vérifie sans charger le modèle que le daemon Ollama répond et possède target_model."""
+    try:
+        resp = requests.get(f"{ollama_base}/api/tags", timeout=3)
+        if resp.status_code != 200:
+            return False, f"HTTP {resp.status_code}"
+        models = [m.get("name", "") for m in (resp.json().get("models") or [])]
+        if target_model in models or f"{target_model}:latest" in models:
+            return True, "OK"
+        return False, f"modèle '{target_model}' absent (disponibles: {', '.join(models[:5]) or 'aucun'})"
+    except Exception as err:
+        return False, str(err)[:120]
+
+
+def _classify_gemini_error(err_msg: str) -> str:
+    """Classe une erreur Gemini en auth / permanent / rate_limit / other."""
+    low = err_msg.lower()
+    if any(k in low for k in ("api_key_invalid", "api key not valid", "permission_denied", "unauthenticated", "401", "403")):
+        return "auth"
+    if any(k in low for k in ("404", "not_found", "invalid_argument", "perday", "per_day", "daily", "limit: 0")):
+        return "permanent"
+    if any(k in low for k in ("429", "resource_exhausted", "perminute", "rpm", "tpm", "503", "unavailable", "high demand", "overloaded", "quota", "timeout")):
+        return "rate_limit"
+    return "other"
+
+
+def _create_auto_state(args, api_key: str | None) -> dict:
+    """Initialise l'état partagé du routeur --provider auto (Gemini -> Ollama)."""
+    cascade, ollama_model = _resolve_auto_models(args.model)
+    th_level = getattr(args, "thinking_level", "low").lower()
+    return {
+        "cascade": cascade,
+        "ollama_model": ollama_model,
+        "thinking_budget": GEMINI_THINKING_BUDGETS.get(th_level, 100),
+        "rpm_delay": max(0.0, float(os.environ.get("GEMINI_RPM_DELAY", "2.5"))),
+        "cloud_min_kb": max(0.0, float(getattr(args, "cloud_min_kb", 0.0))),
+        "cloud_exhausted": not bool(api_key),
+        "vlm_gemini_exhausted": not bool(api_key),
+        "prefer_local_doc": False,
+        "switched_logged": False,
+        "exhausted_models": set(),
+        "cooldown_until": {},
+        "transient_hits": {},
+        "gemini_ok": {m: 0 for m in cascade},
+        "gemini_err": 0,
+        "ollama_ok": 0,
+        "ollama_err": 0,
+        "ollama_sem": asyncio.Semaphore(1),
+    }
+
+
+async def _call_gemini_cascade(
+    client: genai.Client,
+    state: dict,
+    prompt: str,
+    system_prompt: str | None = None,
+    history_messages: list | None = None,
+    **kwargs,
+) -> tuple[str | None, str | None]:
+    """Tente la cascade Gemini sans boucle infinie ; retourne (texte, modèle) ou (None, None) si épuisée."""
+    loop = asyncio.get_running_loop()
+    cascade = state["cascade"]
+    waited_cooldown = False
+    contents_payload, effective_system = _build_gemini_contents(
+        prompt, history_messages=history_messages, system_prompt=system_prompt
+    )
+
+    while not state["cloud_exhausted"]:
+        now = time.time()
+        candidates = [
+            m for m in cascade
+            if m not in state["exhausted_models"] and now >= state["cooldown_until"].get(m, 0.0)
+        ]
+        if not candidates:
+            pending = [
+                state["cooldown_until"][m] - now
+                for m in cascade
+                if m not in state["exhausted_models"] and state["cooldown_until"].get(m, 0.0) > now
+            ]
+            if pending and not waited_cooldown:
+                wait_s = max(1.0, min(46.0, max(pending) + 0.05))
+                logger.warning(f"⏳ Rate-limit Gemini temporaire : pause {wait_s:.0f}s avant dernière tentative...")
+                await asyncio.sleep(wait_s)
+                for m_cool in list(state["cooldown_until"]):
+                    if state["cooldown_until"][m_cool] <= now + wait_s + 0.1:
+                        state["cooldown_until"].pop(m_cool, None)
+                waited_cooldown = True
+                continue
+            state["cloud_exhausted"] = True
+            break
+
+        for current_model in candidates:
+            try:
+                cfg = genai_types.GenerateContentConfig(
+                    system_instruction=effective_system,
+                    thinking_config=genai_types.ThinkingConfig(thinking_budget=state["thinking_budget"]),
+                    max_output_tokens=kwargs.get("max_tokens", 8192),
+                    temperature=kwargs.get("temperature", QWEN_EXTRACT_SAMPLING["temperature"]),
+                )
+                response = await loop.run_in_executor(
+                    None,
+                    lambda m=current_model, c=cfg, payload=contents_payload: client.models.generate_content(
+                        model=m,
+                        contents=payload,
+                        config=c,
+                    ),
+                )
+                text = getattr(response, "text", None) or ""
+                if not text.strip():
+                    raise RuntimeError("Réponse Gemini vide")
+                state["transient_hits"][current_model] = 0
+                state["cooldown_until"].pop(current_model, None)
+                state["gemini_ok"][current_model] = state["gemini_ok"].get(current_model, 0) + 1
+                if state["rpm_delay"] > 0:
+                    await asyncio.sleep(state["rpm_delay"])
+                return text, current_model
+            except Exception as err:
+                err_s = str(err)
+                kind = _classify_gemini_error(err_s)
+                state["gemini_err"] += 1
+                if kind == "auth":
+                    logger.error(f"❌ Clé ou accès Gemini refusé ({err_s[:80]}). Bascule immédiate sur Ollama local.")
+                    state["exhausted_models"].update(cascade)
+                    state["cloud_exhausted"] = True
+                    return None, None
+                if kind == "permanent":
+                    logger.warning(f"⚠️ Gemini {current_model} épuisé/indisponible ({err_s[:70]}). Exclu pour la session.")
+                    state["exhausted_models"].add(current_model)
+                    continue
+
+                hits = state["transient_hits"].get(current_model, 0) + 1
+                state["transient_hits"][current_model] = hits
+                if hits >= 2 or waited_cooldown:
+                    logger.warning(f"⚠️ Gemini {current_model} saturé après nouvel essai ({err_s[:70]}). Exclu pour la session.")
+                    state["exhausted_models"].add(current_model)
+                else:
+                    cool_s = 45.0 if kind == "rate_limit" else 5.0
+                    state["cooldown_until"][current_model] = time.time() + cool_s
+                    logger.warning(f"⚠️ Gemini {current_model} limité ({err_s[:70]}). Cooldown {cool_s:.0f}s et passage au modèle suivant.")
+
+        if all(m in state["exhausted_models"] for m in cascade):
+            state["cloud_exhausted"] = True
+
+    return None, None
+
+
+async def get_llm_func(args, auto_state: dict | None = None):
     api_key = args.api_key or os.environ.get("GEMINI_API_KEY")
     
     if args.provider == "local":
         base_url = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8008/v1")
-        model = os.environ.get("VMLX_MODEL", "JANGQ-AI/Qwen3.5-9B-JANG_4S")
-        logger.info(f"🔗 Mode LOCAL : vMLX ({model}) sur {base_url}")
+        model = args.model or os.environ.get("VMLX_MODEL", "JANGQ-AI/Qwen3.5-9B-JANG_4S")
+        logger.info(
+            f"🔗 Mode LOCAL : {model} sur {base_url} "
+            f"[enable_thinking=False, top_p={QWEN_EXTRACT_SAMPLING['top_p']}, "
+            f"presence_penalty={QWEN_EXTRACT_SAMPLING['presence_penalty']}]"
+        )
         
         async def llm_local(prompt, system_prompt=None, history_messages=[], **kwargs):
+            call_kwargs = dict(kwargs)
+            call_kwargs.setdefault("max_tokens", 8192)
+            call_kwargs.setdefault("temperature", QWEN_EXTRACT_SAMPLING["temperature"])
+            call_kwargs.setdefault("top_p", QWEN_EXTRACT_SAMPLING["top_p"])
+            call_kwargs.setdefault("presence_penalty", QWEN_EXTRACT_SAMPLING["presence_penalty"])
+            extra_body = _build_local_extra_body(call_kwargs)
             res = await openai_complete_if_cache(
                 model,
                 prompt,
                 system_prompt=system_prompt,
                 history_messages=history_messages,
                 base_url=base_url,
-                api_key="EMPTY",
-                max_tokens=8192,
-                **kwargs
+                api_key=os.environ.get("VMLX_API_KEY") or os.environ.get("UNSLOTH_API_KEY") or "EMPTY",
+                extra_body=extra_body,
+                **call_kwargs
             )
             return res
         return llm_local
 
+    elif args.provider == "auto":
+        state = auto_state if auto_state is not None else _create_auto_state(args, api_key)
+        client = genai.Client(api_key=api_key) if api_key else None
+        ollama_base = _get_ollama_base_url()
+        ollama_fn = _build_ollama_llm_func(state["ollama_model"], semaphore=state["ollama_sem"])
+        ollama_ok, ollama_diag = _check_ollama_ready(ollama_base, state["ollama_model"])
+
+        if state["cloud_exhausted"]:
+            logger.warning(f"⚠️ GEMINI_API_KEY absente : mode AUTO démarre directement sur Ollama ({state['ollama_model']}).")
+        else:
+            seuil_txt = f" | seuil Cloud >= {state['cloud_min_kb']:.0f} Ko" if state["cloud_min_kb"] > 0 else ""
+            logger.info(
+                f"⚡ Mode AUTO : Gemini ({', '.join(state['cascade'][:3])}...) sur gros docs{seuil_txt} "
+                f"-> repli automatique Ollama ({state['ollama_model']})"
+            )
+        if ollama_ok:
+            logger.info(f"🦙 Repli local vérifié prêt : {state['ollama_model']} sur {ollama_base}")
+        else:
+            logger.warning(f"⚠️ Ollama local non prêt ({ollama_diag}) : le repli échouera si Gemini s'épuise.")
+
+        async def llm_auto(prompt, system_prompt=None, history_messages=[], **kwargs):
+            if client is not None and not state["cloud_exhausted"] and not state["prefer_local_doc"]:
+                res, _ = await _call_gemini_cascade(
+                    client,
+                    state,
+                    prompt,
+                    system_prompt=system_prompt,
+                    history_messages=history_messages,
+                    **kwargs,
+                )
+                if res:
+                    return res
+                if state["cloud_exhausted"] and not state["switched_logged"]:
+                    state["switched_logged"] = True
+                    logger.warning(
+                        f"🔄 Cascade Gemini épuisée -> bascule automatique et définitive sur Ollama "
+                        f"({state['ollama_model']}) pour terminer l'indexation."
+                    )
+
+            try:
+                res = await ollama_fn(prompt, system_prompt=system_prompt, history_messages=history_messages, **kwargs)
+                state["ollama_ok"] += 1
+                return res
+            except Exception:
+                state["ollama_err"] += 1
+                raise
+
+        return llm_auto
+
+    elif args.provider == "ollama":
+        ollama_base = _get_ollama_base_url()
+        target_model = _get_ollama_model(args.model)
+        num_ctx = int(os.environ.get("OLLAMA_NUM_CTX", "16384"))
+        logger.info(
+            f"🦙 Mode OLLAMA : {target_model} sur {ollama_base} "
+            f"[think=False, num_ctx={num_ctx}, num_predict=8192, "
+            f"top_p={QWEN_EXTRACT_SAMPLING['top_p']}, presence_penalty={QWEN_EXTRACT_SAMPLING['presence_penalty']}, lang=French]"
+        )
+        return _build_ollama_llm_func(args.model)
+
     elif args.provider == "openrouter":
         target_model = args.model or "tencent/hy3-preview:free"
         logger.info(f"🌐 Mode OPENROUTER : Modèle unique {target_model}")
-        
-        async def call_openrouter_fixed(model_name, prompt, system_prompt):
-            or_key = os.environ.get("OPENROUTER_API_KEY")
-            url = "https://openrouter.ai/api/v1/chat/completions"
-            headers = {"Authorization": f"Bearer {or_key}", "Content-Type": "application/json"}
-            messages = []
-            if system_prompt: messages.append({"role": "system", "content": system_prompt})
-            messages.append({"role": "user", "content": prompt})
-            
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, headers=headers, json={"model": model_name, "messages": messages}) as resp:
-                    if resp.status != 200:
-                        raise Exception(f"HTTP_{resp.status}")
-                    data = await resp.json()
-                    if "error" in data:
-                        err_info = data["error"]
-                        raise Exception(f"OpenRouter_{err_info.get('code', 'Error')}: {err_info.get('message', 'Unknown error')}")
-                    choices = data.get("choices")
-                    if not choices:
-                        raise Exception("OpenRouter response missing 'choices'")
-                    return choices[0]["message"]["content"]
 
         async def llm_openrouter(prompt, system_prompt=None, history_messages=[], **kwargs):
-            return await call_openrouter_fixed(target_model, prompt, system_prompt)
-            
+            return await _call_openrouter_chat(
+                target_model,
+                prompt,
+                system_prompt=system_prompt,
+                history_messages=history_messages,
+            )
+
         return llm_openrouter
 
     elif args.provider == "gemini":
@@ -255,46 +658,36 @@ async def get_llm_func(args):
         models_cascade = [target_model] + [m for m in all_gemini_models if m != target_model]
         exhausted_models = set()
 
-        async def call_openrouter_fallback(model_name, p, sp):
-            or_key = os.environ.get("OPENROUTER_API_KEY")
-            if not or_key:
-                return None
-            url = "https://openrouter.ai/api/v1/chat/completions"
-            headers = {"Authorization": f"Bearer {or_key}", "Content-Type": "application/json"}
-            messages = []
-            if sp: messages.append({"role": "system", "content": sp})
-            messages.append({"role": "user", "content": p})
+        async def call_openrouter_fallback(model_name, p, sp, hist):
             try:
-                async with aiohttp.ClientSession() as session:
-                    async with session.post(url, headers=headers, json={"model": model_name, "messages": messages}, timeout=25) as resp:
-                        if resp.status == 200:
-                            data = await resp.json()
-                            choices = data.get("choices")
-                            if choices:
-                                return choices[0]["message"]["content"]
+                return await _call_openrouter_chat(
+                    model_name, p, system_prompt=sp, history_messages=hist, timeout_s=25
+                )
             except Exception:
-                pass
-            return None
+                return None
 
         async def llm_gemini(prompt, system_prompt=None, history_messages=[], **kwargs):
-            loop = asyncio.get_event_loop()
-            
+            loop = asyncio.get_running_loop()
+            contents_payload, effective_system = _build_gemini_contents(
+                prompt, history_messages=history_messages, system_prompt=system_prompt
+            )
+
             for current_model in models_cascade:
                 if current_model in exhausted_models:
                     continue
                 try:
                     cfg = genai_types.GenerateContentConfig(
-                        system_instruction=system_prompt if system_prompt else None,
+                        system_instruction=effective_system,
                         thinking_config=genai_types.ThinkingConfig(thinking_budget=thinking_budget),
                         max_output_tokens=kwargs.get("max_tokens", 4096),
                         temperature=kwargs.get("temperature", 0.1)
                     )
                     response = await loop.run_in_executor(
                         None,
-                        lambda m=current_model: client.models.generate_content(
+                        lambda m=current_model, c=cfg, payload=contents_payload: client.models.generate_content(
                             model=m,
-                            contents=prompt,
-                            config=cfg
+                            contents=payload,
+                            config=c
                         )
                     )
                     if response and response.text:
@@ -313,7 +706,7 @@ async def get_llm_func(args):
 
             # Repli de secours sur OpenRouter gratuit si tous les modèles Gemini gratuits sont saturés
             for or_model in ["nvidia/nemotron-3-super-120b-a12b:free", "meta-llama/llama-3.3-70b-instruct:free"]:
-                res = await call_openrouter_fallback(or_model, prompt, system_prompt)
+                res = await call_openrouter_fallback(or_model, prompt, system_prompt, history_messages)
                 if res:
                     logger.info(f"🟢 Repli OpenRouter ({or_model}) réussi.")
                     await asyncio.sleep(2.0)
@@ -328,65 +721,53 @@ async def get_llm_func(args):
     elif args.provider == "online":
         logger.info(f"🚀 Round-Robin Online Parallélisé ({len(MODELS_ROTATION)} modèles)")
         client = genai.Client(api_key=api_key)
-        
-        async def call_openrouter(model_name, prompt, system_prompt):
-            or_key = os.environ.get("OPENROUTER_API_KEY")
-            url = "https://openrouter.ai/api/v1/chat/completions"
-            headers = {"Authorization": f"Bearer {or_key}", "Content-Type": "application/json"}
-            messages = []
-            if system_prompt: messages.append({"role": "system", "content": system_prompt})
-            messages.append({"role": "user", "content": prompt})
-            
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, headers=headers, json={"model": model_name, "messages": messages}) as resp:
-                    if resp.status != 200:
-                        raise Exception(f"HTTP_{resp.status}")
-                    data = await resp.json()
-                    if "error" in data:
-                        err_info = data["error"]
-                        raise Exception(f"OpenRouter_{err_info.get('code', 'Error')}: {err_info.get('message', 'Unknown error')}")
-                    choices = data.get("choices")
-                    if not choices:
-                        raise Exception("OpenRouter response missing 'choices'")
-                    return choices[0]["message"]["content"]
-        
+
         async def llm_online_round_robin(prompt, system_prompt=None, history_messages=[], **kwargs):
-            full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
-            loop = asyncio.get_event_loop()
-            
+            contents_payload, effective_system = _build_gemini_contents(
+                prompt, history_messages=history_messages, system_prompt=system_prompt
+            )
+            loop = asyncio.get_running_loop()
+
             while True:
                 unlocked_model_found = False
                 now = time.time()
-                
+
                 for _ in range(len(MODELS_ROTATION)):
                     model_cfg = next(model_cycle)
                     model_name = model_cfg["name"]
                     model_type = model_cfg["type"]
                     s = stats[model_name]
                     log_id = model_name.split('/')[-1]
-                    
+
                     if now < s["locked_until"]:
                         continue
-                    
+
                     unlocked_model_found = True
                     try:
                         if model_type == "gemini":
+                            gem_cfg = genai_types.GenerateContentConfig(
+                                system_instruction=effective_system,
+                                max_output_tokens=kwargs.get("max_tokens", 4096),
+                                temperature=kwargs.get("temperature", 0.1)
+                            )
                             response = await loop.run_in_executor(
-                                None, 
-                                lambda: client.models.generate_content(
-                                    model=model_name,
-                                    contents=full_prompt,
-                                    config=genai_types.GenerateContentConfig(
-                                        max_output_tokens=kwargs.get("max_tokens", 4096),
-                                        temperature=kwargs.get("temperature", 0.1)
-                                    )
+                                None,
+                                lambda m=model_name, c=gem_cfg, payload=contents_payload: client.models.generate_content(
+                                    model=m,
+                                    contents=payload,
+                                    config=c
                                 )
                             )
                             result_text = response.text
-                        
+
                         elif model_type == "openrouter":
                             # Appel HTTP pur pour OpenRouter (0 log parasite de LightRAG)
-                            result_text = await call_openrouter(model_name, prompt, system_prompt)
+                            result_text = await _call_openrouter_chat(
+                                model_name,
+                                prompt,
+                                system_prompt=system_prompt,
+                                history_messages=history_messages,
+                            )
      
                         s["success"] += 1
                         s["failures"] = 0  # Réinitialisation des erreurs sur un succès
@@ -424,6 +805,7 @@ def collect_files() -> list[Path]:
     files = []
     for path in DOCS_ROOT.rglob("*"):
         if any(excl in path.parts for excl in EXCLUDE_DIRS): continue
+        if path.name in EXCLUDE_FILES: continue
         if path.is_file() and path.suffix.lower() in INCLUDE_EXTS:
             files.append(path)
     return sorted(files)
@@ -469,6 +851,38 @@ def _rel_path_from_doc_entry(doc_id: str, d_data: dict, full_docs_map: dict) -> 
         except Exception:
             return fp
     return None
+
+
+def _relative_doc_path(path: Path, docs_root: Path = DOCS_ROOT) -> str:
+    """Retourne le chemin relatif à DOCS_ROOT, ou le chemin résolu s'il est hors dépôt."""
+    try:
+        return str(path.resolve().relative_to(docs_root.resolve()))
+    except ValueError:
+        return str(path.resolve())
+
+
+def _resolve_cli_files(
+    raw_files: list[str], docs_root: Path = DOCS_ROOT
+) -> tuple[list[Path], list[str]]:
+    """Résout les chemins --files (absolu, ~, CWD ou relatif à DOCS_ROOT) sans doublons."""
+    resolved: list[Path] = []
+    missing: list[str] = []
+    seen: set[Path] = set()
+    for raw_f in raw_files:
+        cand_input = Path(raw_f).expanduser()
+        candidates = (
+            [cand_input]
+            if cand_input.is_absolute()
+            else [cand_input, docs_root / cand_input]
+        )
+        match = next((c.resolve() for c in candidates if c.is_file()), None)
+        if match is None:
+            missing.append(raw_f)
+            continue
+        if match not in seen:
+            seen.add(match)
+            resolved.append(match)
+    return resolved, missing
 
 
 def _is_orphan_entry(
@@ -609,19 +1023,83 @@ VLM_MODELS = [
     "models/gemini-2.5-flash"
 ]
 
+def _get_ollama_base_url() -> str:
+    """Retourne l'URL racine d'Ollama (sans /v1 final)."""
+    raw = os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434").strip().rstrip("/")
+    return raw[:-3] if raw.endswith("/v1") else raw
+
+
+def _get_ollama_model(explicit_model: str | None = None) -> str:
+    """Résout le modèle Ollama actif (argument CLI, variable d'env ou défaut qwen3.8:27b-mlx)."""
+    return explicit_model or os.environ.get("OLLAMA_MODEL", "qwen3.8:27b-mlx")
+
+
+_VLM_TECHNICAL_PROMPT = (
+    "Tu es un expert en ingénierie mécanique, robotique et électronique pour le projet D-Bot.\n"
+    "Analyse cette image technique en détail. Décris avec précision :\n"
+    "1. Les composants mécaniques, électroniques, moteurs, roulements, fixations ou assemblages visibles.\n"
+    "2. Toutes les cotations, dimensions, références, marquages ou annotations textuelles (ex: AXK 5578, M4x70, etc.).\n"
+    "3. La géométrie, le montage et la fonction technique de ce sous-ensemble.\n"
+    "Fournis une description technique exhaustive et structurée."
+)
+
+
+def _encode_image_for_ollama(image_path: Path, max_dim: int = 1600) -> str:
+    """Charge et redimensionne l'image si besoin puis l'encode en base64 PNG pour Ollama."""
+    with Image.open(image_path) as img:
+        if max(img.size) > max_dim:
+            img = img.copy()
+            img.thumbnail((max_dim, max_dim))
+        if img.mode not in ("RGB", "RGBA"):
+            img = img.convert("RGB")
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
+        return base64.b64encode(buf.getvalue()).decode("ascii")
+
+
+def analyze_image_with_vlm_ollama(image_path: Path, model_name: str | None = None) -> str:
+    """Analyse une image technique localement via l'endpoint Ollama /api/chat (think=False)."""
+    ollama_base = _get_ollama_base_url()
+    target_model = _get_ollama_model(model_name)
+    img_b64 = _encode_image_for_ollama(image_path)
+    payload = {
+        "model": target_model,
+        "messages": [
+            {
+                "role": "user",
+                "content": _VLM_TECHNICAL_PROMPT,
+                "images": [img_b64],
+            }
+        ],
+        "stream": False,
+        "think": False,
+        "keep_alive": os.environ.get("OLLAMA_KEEP_ALIVE", "10m"),
+        "options": {
+            "num_ctx": int(os.environ.get("OLLAMA_VLM_NUM_CTX", "8192")),
+            "temperature": QWEN_EXTRACT_SAMPLING["temperature"],
+            "top_p": QWEN_EXTRACT_SAMPLING["top_p"],
+            "top_k": QWEN_EXTRACT_SAMPLING["top_k"],
+            "min_p": QWEN_EXTRACT_SAMPLING["min_p"],
+            "repeat_penalty": QWEN_EXTRACT_SAMPLING["repeat_penalty"],
+            "presence_penalty": QWEN_EXTRACT_SAMPLING["presence_penalty"],
+            "num_predict": 4096,
+        },
+    }
+    resp = requests.post(f"{ollama_base}/api/chat", json=payload, timeout=600)
+    resp.raise_for_status()
+    data = resp.json()
+    content = (data.get("message") or {}).get("content", "")
+    if not content:
+        raise RuntimeError(f"Réponse VLM Ollama vide pour {image_path.name}")
+    return content
+
+
 def analyze_image_with_vlm(client: genai.Client, image_path: Path) -> str:
     if not client:
         raise RuntimeError("API Client VLM non disponible")
     
     img = Image.open(image_path)
-    prompt = (
-        "Tu es un expert en ingénierie mécanique, robotique et électronique pour le projet D-Bot.\n"
-        "Analyse cette image technique en détail. Décris avec précision :\n"
-        "1. Les composants mécaniques, électroniques, moteurs, roulements, fixations ou assemblages visibles.\n"
-        "2. Toutes les cotations, dimensions, références, marquages ou annotations textuelles (ex: AXK 5578, M4x70, etc.).\n"
-        "3. La géométrie, le montage et la fonction technique de ce sous-ensemble.\n"
-        "Fournis une description technique exhaustive et structurée."
-    )
+    prompt = _VLM_TECHNICAL_PROMPT
 
     last_error = None
     for model_name in VLM_MODELS:
@@ -757,17 +1235,66 @@ def extract_svg_text(path: Path) -> str:
     return "\n\n".join(_collect_svg_blocks(root))
 
 
-def prepare_document(path: Path, genai_client: genai.Client = None) -> str:
-    relative = path.relative_to(DOCS_ROOT)
+def _auto_sort_key(path: Path) -> tuple[int, int, str]:
+    """Trie les gros documents textuels d'abord, puis images, puis petits SVG."""
+    ext = path.suffix.lower()
+    if ext in SVG_EXTS:
+        tier = 0
+    elif ext in IMAGE_EXTS:
+        tier = -1
+    else:
+        tier = -2
+    try:
+        size = path.stat().st_size
+    except OSError:
+        size = 0
+    return (tier, -size, str(path))
+
+
+def prepare_document(
+    path: Path,
+    genai_client: genai.Client = None,
+    provider: str = "auto",
+    model: str | None = None,
+    auto_state: dict | None = None,
+) -> str:
+    relative = _relative_doc_path(path)
     ext = path.suffix.lower()
     
     if ext in IMAGE_EXTS:
+        ollama_model = auto_state["ollama_model"] if auto_state else model
+        use_ollama_vlm = provider == "ollama" or (
+            provider == "auto"
+            and (
+                not genai_client
+                or (auto_state is not None and (auto_state["cloud_exhausted"] or auto_state["vlm_gemini_exhausted"]))
+            )
+        )
+        if use_ollama_vlm:
+            logger.info(f"🦙 Analyse VLM Ollama en cours pour l'image: {path.name}...")
+            try:
+                vlm_desc = analyze_image_with_vlm_ollama(path, ollama_model)
+                header = f"---\nFichier: {relative}\nType: Image VLM (Ollama)\nProjet: D-Bot\n---\n\n"
+                return header + f"# Analyse Visuelle et Spécifications Techniques : {path.name}\n\n" + vlm_desc
+            except Exception as e:
+                logger.warning(f"⚠️ Ignoré pour cette session (Ollama VLM): {e}")
+                return ""
         logger.info(f"📸 Analyse VLM en cours pour l'image: {path.name}...")
         try:
             vlm_desc = analyze_image_with_vlm(genai_client, path)
             header = f"---\nFichier: {relative}\nType: Image VLM\nProjet: D-Bot\n---\n\n"
             return header + f"# Analyse Visuelle et Spécifications Techniques : {path.name}\n\n" + vlm_desc
         except Exception as e:
+            if provider == "auto":
+                auto_state["vlm_gemini_exhausted"] = True
+                logger.warning(f"⚠️ VLM Gemini indisponible pour {path.name} ({e}). Bascule sur VLM Ollama local...")
+                try:
+                    vlm_desc = analyze_image_with_vlm_ollama(path, ollama_model)
+                    header = f"---\nFichier: {relative}\nType: Image VLM (Ollama repli)\nProjet: D-Bot\n---\n\n"
+                    return header + f"# Analyse Visuelle et Spécifications Techniques : {path.name}\n\n" + vlm_desc
+                except Exception as err_ol:
+                    logger.warning(f"⚠️ Ignoré pour cette session (VLM Gemini + Ollama): {err_ol}")
+                    return ""
             logger.warning(f"⚠️ Ignoré pour cette session: {e}")
             return ""
 
@@ -821,9 +1348,14 @@ async def run_indexing(args):
         return True
 
     if args.files:
-        to_update = [Path(f).resolve() for f in args.files if Path(f).exists()]
+        to_update, missing_files = _resolve_cli_files(args.files)
+        for missing_f in missing_files:
+            logger.warning(f"⚠️ Fichier introuvable (--files ignoré) : {missing_f}")
         to_delete = []
         check_orphans = False
+        if not to_update:
+            logger.error("❌ Aucun fichier valide trouvé pour --files.")
+            return
     elif args.full:
         to_update = all_files
         to_delete = [path_str for path_str in list(log_idx.keys()) if path_str not in all_files_str]
@@ -839,19 +1371,31 @@ async def run_indexing(args):
 
     api_key = args.api_key or os.environ.get("GEMINI_API_KEY")
     genai_client = genai.Client(api_key=api_key) if api_key else None
+    auto_state = _create_auto_state(args, api_key) if args.provider == "auto" else None
 
-    llm_func = await get_llm_func(args)
+    if args.provider == "auto":
+        to_update = sorted(to_update, key=_auto_sort_key)
 
-    # Parallélisme : 4 pour cloud multi-modèles (online/openrouter), 1 pour local et gemini (quota 15 RPM)
-    max_async = 1 if args.provider in ("local", "gemini") else 4
+    llm_func = await get_llm_func(args, auto_state=auto_state)
+
+    # Parallélisme & chunking pilotables via variables d'environnement (défauts 1600/150 validés Phase 1-2)
+    default_async = 1 if args.provider in ("local", "ollama", "gemini", "auto") else 4
+    max_async = max(1, int(os.environ.get("LLM_MAX_ASYNC", str(default_async))))
+    chunk_size = int(os.environ.get("CHUNK_SIZE", "1600"))
+    chunk_overlap = int(os.environ.get("CHUNK_OVERLAP_SIZE", "150"))
 
     rag = LightRAG(
         working_dir=str(DB_PATH),
         llm_model_func=llm_func,
         embedding_func=embedding_func,
+        chunk_token_size=chunk_size,
+        chunk_overlap_token_size=chunk_overlap,
         llm_model_max_async=max_async,
+        default_llm_timeout=600,
+        addon_params={"language": "French"},
     )
     await rag.initialize_storages()
+    _configure_third_party_loggers()
 
     ds_snapshot, fd_map = await _snapshot_doc_status_and_full_docs(rag)
     resolved_rels = {
@@ -910,16 +1454,28 @@ async def run_indexing(args):
                     logger.info(f"   [-] Orphelin purgé : {o_label} ({o_id})")
 
     if to_update:
-        logger.info(f"📂 Indexation de {len(to_update)} fichier(s) [Parallélisme: {max_async}]...")
+        logger.info(
+            f"📂 Indexation de {len(to_update)} fichier(s) "
+            f"[DB: {DB_PATH.name} | Parallélisme: {max_async} | Chunk: {chunk_size}/{chunk_overlap}]..."
+        )
     for i, path in enumerate(to_update, 1):
-        content = prepare_document(path, genai_client)
+        content = prepare_document(path, genai_client, provider=args.provider, model=args.model, auto_state=auto_state)
         if not content:
             continue
-        logger.info(f"[{i:3d}/{len(to_update)}] 📄 {path.name}")
-        try:
-            rel_path = str(path.relative_to(DOCS_ROOT))
-        except ValueError:
-            rel_path = str(path)
+        if auto_state is not None:
+            doc_kb = len(content) / 1024.0
+            min_kb = auto_state["cloud_min_kb"]
+            auto_state["prefer_local_doc"] = bool(min_kb > 0 and doc_kb < min_kb)
+            if auto_state["cloud_exhausted"]:
+                route_tag = f"🦙 Ollama repli ({doc_kb:.1f} Ko)"
+            elif auto_state["prefer_local_doc"]:
+                route_tag = f"🦙 Ollama seuil ({doc_kb:.1f} Ko < {min_kb:.0f} Ko)"
+            else:
+                route_tag = f"💎 Gemini ({doc_kb:.1f} Ko)"
+            logger.info(f"[{i:3d}/{len(to_update)}] 📄 {path.name} [{route_tag}]")
+        else:
+            logger.info(f"[{i:3d}/{len(to_update)}] 📄 {path.name}")
+        rel_path = _relative_doc_path(path)
         try:
             # Purge complète de l'ancienne version (chunks + vecteurs + graphe) avant réinsertion
             matching_ids = _find_matching_doc_ids(
@@ -948,20 +1504,71 @@ async def run_indexing(args):
 
     save_index_log(log_idx)
     logger.info("🎉 Synthèse Finale :")
-    for m in MODELS_ROTATION:
-        name = m["name"]
-        logger.info(f"  - {name}: OK={stats[name]['success']} | ERR={stats[name]['failures']}")
+    if auto_state is not None:
+        for m_name, ok_count in auto_state["gemini_ok"].items():
+            if ok_count > 0 or m_name in auto_state["exhausted_models"]:
+                stat_tag = " [EXHAUSTED]" if m_name in auto_state["exhausted_models"] else ""
+                logger.info(f"  - {m_name}: OK={ok_count}{stat_tag}")
+        logger.info(f"  - Gemini erreurs/bascules: ERR={auto_state['gemini_err']}")
+        logger.info(f"  - Ollama local ({auto_state['ollama_model']}): OK={auto_state['ollama_ok']} | ERR={auto_state['ollama_err']}")
+    else:
+        for m in MODELS_ROTATION:
+            name = m["name"]
+            logger.info(f"  - {name}: OK={stats[name]['success']} | ERR={stats[name]['failures']}")
 
-async def main():
+def build_arg_parser() -> argparse.ArgumentParser:
+    """Construit le parser CLI avec les défauts incrémental (--update) et --provider auto."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--full", action="store_true", help="Réindexation complète depuis zéro")
-    parser.add_argument("--update", action="store_true", help="Forcer la vérification et mise à jour incrémentale")
-    parser.add_argument("--files", nargs="+", help="Chemins de fichiers spécifiques à réindexer")
-    parser.add_argument("--provider", choices=["local", "online", "openrouter", "gemini"], default="gemini", help="Fournisseur LLM (défaut: gemini)")
-    parser.add_argument("--thinking-level", choices=["minimal", "low", "medium", "high"], default="low", help="Niveau d'effort de réflexion Gemini (défaut: low)")
-    parser.add_argument("--model", type=str, default="gemini-3.1-flash-lite", help="Forcer un modèle spécifique (défaut: gemini-3.1-flash-lite)")
+    parser.add_argument(
+        "--update",
+        action="store_true",
+        default=True,
+        help="Mise à jour incrémentale (actif par défaut si --full et --files sont absents)",
+    )
+    parser.add_argument(
+        "--files",
+        nargs="+",
+        help="Chemins de fichiers spécifiques à réindexer (absolus, relatifs au CWD ou relatifs à DOCS_ROOT)",
+    )
+    parser.add_argument(
+        "--provider",
+        choices=["auto", "local", "ollama", "online", "openrouter", "gemini"],
+        default="auto",
+        help="Fournisseur LLM (défaut: auto = Gemini gros->petits puis repli Ollama)",
+    )
+    parser.add_argument(
+        "--cloud-min-kb",
+        type=float,
+        default=0.0,
+        help="En --provider auto, taille texte minimale (Ko) pour utiliser Gemini avant envoi direct à Ollama (défaut: 0)",
+    )
+    parser.add_argument(
+        "--thinking-level",
+        choices=["minimal", "low", "medium", "high"],
+        default="low",
+        help="Niveau d'effort de réflexion Gemini (défaut: low)",
+    )
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=None,
+        help="Forcer un modèle spécifique (défaut par fournisseur, ex: qwen3.8:27b-mlx pour ollama)",
+    )
     parser.add_argument("--api-key", type=str)
-    args = parser.parse_args()
+    return parser
+
+
+def parse_cli_args(argv: list[str] | None = None) -> argparse.Namespace:
+    """Parse les arguments CLI en désactivant --update lorsque --full ou --files est fourni."""
+    args = build_arg_parser().parse_args(argv)
+    if args.full or args.files:
+        args.update = False
+    return args
+
+
+async def main():
+    args = parse_cli_args()
     await run_indexing(args)
 
 if __name__ == "__main__":

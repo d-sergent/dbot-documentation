@@ -53,9 +53,9 @@
   - Sur la Jetson Orin Nano : appliquer impérativement le drapeau `--no-deps` pour toute commande `pip install` afin de préserver le PyTorch compilé GPU CUDA 12.2.
 
 ## Session Lifecycle & Context Persistence
-- **Session Startup**: At the beginning of any work session, ALWAYS consult the latest entry in `05_Gestion_Projet/JOURNAL_DE_BORD.md` and review the current active level in `05_Gestion_Projet/ROADMAP_STRATEGIQUE_V1.md` to immediately get up to speed with current project status.
-- **Periodic Journal Updates**: Do NOT update `JOURNAL_DE_BORD.md` after every minor interaction or routine fix. Instead, accumulate progress and only update `05_Gestion_Projet/JOURNAL_DE_BORD.md` periodically (at major milestones or when completing a full work session) with a clean, consolidated summary.
-- **Session Closure & RAG Sync**: When concluding a full work session or when the user indicates the session is ending, ask the user if they wish to record the final session summary in `05_Gestion_Projet/JOURNAL_DE_BORD.md` and update checkmarks in `ROADMAP_STRATEGIQUE_V1.md` / `todo_court_terme.md`.
+- **Session Startup**: Consult `05_Gestion_Projet/ROADMAP_STRATEGIQUE_V1.md` (and `git log -n 5` if recent commit context is needed) strictly to review active `[ ]` priorities and blockers. Never rely on checklists for technical specifications — always query LightRAG or inspect authoritative `FINAL_` / `DOSSIER_TECHNIQUE_` / `STUDY_` documents.
+- **Zero Journal & Zero Bloat Rule**: `JOURNAL_DE_BORD.md`, `todo_court_terme.md`, and July 2026 `TODO_*` drafts are retired in `05_Gestion_Projet/Archives/`. Do NOT maintain a chronological session log; Git history tracks past milestones.
+- **Session Closure & Roadmap Hygiene**: When a task in `05_Gestion_Projet/ROADMAP_STRATEGIQUE_V1.md` is completed and documented in its target technical file, ask the user if they want to **remove** the completed item from the active roadmap instead of accumulating `[x]` history blocks.
 - **Interdiction Formelle d'Exécuter `index_docs.py` (Lancement Manuel Utilisateur)** : L'agent ne doit **JAMAIS** lancer de lui-même la commande de réindexation RAG (`index_docs.py`). L'utilisateur préfère systématiquement exécuter cette commande manuellement dans son terminal interactif pour suivre le déroulement et les flux en direct. L'agent peut uniquement rappeler la commande ou demander si l'utilisateur souhaite le faire, sans jamais l'exécuter.
 
 ## Text Formatting & Unit Representation
@@ -99,9 +99,9 @@
   - Lorsqu'une question porte sur un composant ou une articulation isolée, l'analyse ne doit JAMAIS fragmenter ou simplifier arbitrairement le sous-ensemble auquel il se rattache.
   - Tout sous-ensemble mentionné (ex. chaîne cinématique, organe terminal, alimentation, bus de données) doit être décrit dans son **intégralité fonctionnelle exacte**, sans omettre les éléments complémentaires qui le constituent.
 - **Hiérarchie Stricte des Sources Documentaires** :
-  - **Niveau 1 (Vérité Terrain Active)** : Les documents préfixés `FINAL_`, `GUIDE_COMPLET_`, `DOSSIER_TECHNIQUE_`, ainsi que `05_Gestion_Projet/FINAL_Liste_Achats_BOM.md`, `05_Gestion_Projet/JOURNAL_DE_BORD.md` et `05_Gestion_Projet/ROADMAP_STRATEGIQUE_V1.md` font foi absolue.
+  - **Niveau 1 (Vérité Terrain Active)** : Les documents préfixés `FINAL_`, `GUIDE_COMPLET_`, `DOSSIER_TECHNIQUE_`, ainsi que `05_Gestion_Projet/FINAL_Liste_Achats_BOM.md` font foi absolue sur les spécifications techniques. (`05_Gestion_Projet/ROADMAP_STRATEGIQUE_V1.md` ne sert qu'au suivi des chantiers `[ ]` ouverts, jamais de source technique.)
   - **Niveau 2 (Études & R&D en cours)** : Les documents préfixés `STUDY_` ou `AUDIT_` fournissent le contexte technique et les calculs justificatifs.
-  - **Niveau 3 (Interdit d'affirmation)** : Les documents historiques, brouillons ou archives (ex. dossiers `Archives`, `00_Archives_Recherche`) ne doivent JAMAIS être utilisés pour énoncer l'état actuel du robot, sauf si l'utilisateur demande explicitement l'historique d'une décision.
+  - **Niveau 3 (Interdit d'affirmation)** : Les documents historiques, brouillons ou archives (ex. dossiers `Archives`, `00_Archives_Recherche`, `05_Gestion_Projet/Archives`) ne doivent JAMAIS être utilisés pour énoncer l'état actuel du robot, sauf si l'utilisateur demande explicitement l'historique d'une décision.
 - **Auto-Vérification Pré-Génération (Sanity Check)** :
   - Avant de valider le message final, vérifier la cohérence interne entre tous les composants cités dans le message et les inventaires validés de la session. En cas de doute ou d'information manquante, expliciter la nuance plutôt que d'extrapoler.
 - **Détection et Signalement Systématique des Désynchronisations CAO / Documentation** :

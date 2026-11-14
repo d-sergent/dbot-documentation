@@ -1,0 +1,195 @@
+{
+  "benchmark_name": "D-Bot Engineering Technical QA Benchmark",
+  "version": "1.0",
+  "generated_at": "2026-11-14T18:23:37Z",
+  "recipe_id": "dbot-qa-benchmark-v1",
+  "last_job_id": "e42d947b045141298d5fb48a01e29768",
+  "model": "unsloth/Qwen3.8-27B-GGUF",
+  "gguf_variant": "UD-Q4_K_XL",
+  "status": "starter_bootstrapped",
+  "target_data_recipes_items": 100,
+  "counts": {
+    "raw_generated_rows": 12,
+    "validated_data_recipes_qa": 10,
+    "rejected_rows": 2,
+    "rejection_breakdown": {
+      "unanswerable_chunk": 2
+    },
+    "deduplicated_audit_seeds": 7
+  },
+  "source_corpus": [
+    "01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md",
+    "01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md",
+    "05_Gestion_Projet/FINAL_Liste_Achats_BOM.md"
+  ],
+  "audit_seeds": [
+    {
+      "seed_id": 2,
+      "section": "Données Multi-Fichiers Extraites du RAG (20 sources candidates) :",
+      "question": "Le décompte de 12 moteurs pour les jambes (6 par jambe) est-il correct, ou faut-il ajuster ce nombre pour refléter l'architecture F-A-R à la hanche et les actionneurs de la cheville (ce qui pourrait porter le total à 14 ou 16 moteurs RobStride pour les jambes) ?",
+      "answer": "",
+      "source_file": "AUDIT_QUESTION_REPONSE.json",
+      "origin": "audit_question_reponse"
+    },
+    {
+      "seed_id": 3,
+      "section": "Poignet (Wrist)",
+      "question": "Le moteur RS-00 (révision 0.0.27) est-il toujours le modèle actuel pour le poignet (Poignet Pitch) malgré l'absence de mises à jour dans les notes de version Avril 2026, ou doit-il être remplacé par un modèle plus récent ?",
+      "answer": "",
+      "source_file": "AUDIT_QUESTION_REPONSE.json",
+      "origin": "audit_question_reponse"
+    },
+    {
+      "seed_id": 8,
+      "section": "Incohérence supplémentaire : Attribution du RS-05 (Cou vs Poignet)",
+      "question": "Le moteur RS-05 est-il exclusivement réservé au cou (Neck) comme indiqué dans l'entité Rs05 et le document 32_Configuration_ID_Limites_Cou.md, ou doit-il également être utilisé pour les poignets comme mentionné dans l'entité Sn du Knowledge Graph ?",
+      "answer": "",
+      "source_file": "AUDIT_QUESTION_REPONSE.json",
+      "origin": "audit_question_reponse"
+    },
+    {
+      "seed_id": 9,
+      "section": "Anciens modèles encore présents",
+      "question": "Le moteur RS-02 est-il toujours le modèle actuel pour la supination de l'avant-bras, ou doit-il être remplacé par un modèle plus récent (RS-03, RS-04, RS-06) comme suggéré par son absence des mises à jour Avril 2026 ?",
+      "answer": "",
+      "source_file": "AUDIT_QUESTION_REPONSE.json",
+      "origin": "audit_question_reponse"
+    },
+    {
+      "seed_id": 10,
+      "section": "1. Alimentation (Tension Batterie)",
+      "question": "Le document de synthèse indique une régulation 48V → 5V pour la Jetson, tandis que le guide électronique (04_Electronique_Cablage.md) et les spécifications matérielles de la Jetson Orin Nano imposent une alimentation en 19V : souhaitez-vous corriger la synthèse pour indiquer une régulation 48V → 19V pour la Jetson ?",
+      "answer": "",
+      "source_file": "AUDIT_QUESTION_REPONSE.json",
+      "origin": "audit_question_reponse"
+    },
+    {
+      "seed_id": 11,
+      "section": "2. Bus CAN (Nombre de moteurs par bus)",
+      "question": "Le guide électronique (04_Electronique_Cablage.md) interdit formellement toute topologie en étoile pour le bus CAN, mais les documents spécifiques au cou (Doc 42) et le guide de test (33_Test_Multi_Moteurs_CAN_Banc.md) imposent une topologie en étoile pour les moteurs RS-05 : souhaitez-vous modifier le guide électronique pour autoriser une exception de topologie en étoile pour les bus utilisant des moteurs à port",
+      "answer": "",
+      "source_file": "AUDIT_QUESTION_REPONSE.json",
+      "origin": "audit_question_reponse"
+    },
+    {
+      "seed_id": 19,
+      "section": "2. Bus CAN (Nombre de moteurs par bus)",
+      "question": "Le guide électronique (04_Electronique_Cablage.md) interdit formellement toute topologie en étoile pour le bus CAN, mais les documents spécifiques au cou (Doc 42) et le guide de test (33_Test_Multi_Moteurs_CAN_Banc.md) imposent une topologie en étoile pour les moteurs RS-05 : souhaitez-vous modifier le guide électronique pour autoriser une exception de topologie",
+      "answer": "",
+      "source_file": "AUDIT_QUESTION_REPONSE.json",
+      "origin": "audit_question_reponse"
+    }
+  ],
+  "data_recipes_qa": [
+    {
+      "id": "dr_8ab13ccf469c",
+      "category": "fea_rdm",
+      "source_doc": "DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md",
+      "question": "Quelle est la contrainte de flexion calculée sur le combiné de Von Mises et quel est le facteur de sécurité associé ?",
+      "answer": "La contrainte de flexion est de 5,759 MPa (environ 5,76 MPa) avec un facteur de sécurité de 26,04.",
+      "evidence_quote": "Contrainte de flexion : `Sigma_f = 50 000 / 8 682,0 = 5,759 MPa (~5,76 MPa)` (Facteur de sécurité **Sf = ×26,04 ✅**)",
+      "numeric_token": "5.759",
+      "job_id": "e42d947b045141298d5fb48a01e29768",
+      "origin": "unsloth_data_recipes"
+    },
+    {
+      "id": "dr_6f62cda6885f",
+      "category": "bom_hardware",
+      "source_doc": "DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md",
+      "question": "Quel est le couple de serrage spécifié pour la fixation traversante de l'IMU du torse (Plaque Haute) et quelles sont les références catalogue associées ?",
+      "answer": "Le couple de serrage pour la fixation traversante de l'IMU du torse (Plaque Haute) est de 0,5 à 0,6 N.m. Les références catalogue associées sont 91292A017 et 90631A105.",
+      "evidence_quote": "**11. Fixation Traversante IMU Torse (Plaque Haute)** | CHC M2,5 × 14 mm (Inox A2) | 4 | **`0,5 à 0,6 N.m`** | Clé Allen 2,0 mm + Clé 5,0 mm | Entretoises Nylon 3 mm + Rondelles DIN 125A + Nylstop M2,5 flanc gauche | `91292A017` / `90631A105`",
+      "numeric_token": "0,5 à 0,6 N.m",
+      "job_id": "e42d947b045141298d5fb48a01e29768",
+      "origin": "unsloth_data_recipes"
+    },
+    {
+      "id": "dr_61abe5a6a9ad",
+      "category": "fea_rdm",
+      "source_doc": "DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md",
+      "question": "Quel est le couple de charge appliqué dans le cas FEA 2 pour la colonne sagittale basse isolée en tangage ?",
+      "answer": "Le couple de charge appliqué dans le cas FEA 2 pour la colonne sagittale basse isolée en tangage est de 140 N.m.",
+      "evidence_quote": "B. Cas de Charge Tangage (Pitch 140 N.m)",
+      "numeric_token": "140",
+      "job_id": "e42d947b045141298d5fb48a01e29768",
+      "origin": "unsloth_data_recipes"
+    },
+    {
+      "id": "dr_050bb535416e",
+      "category": "metrology_dimensions",
+      "source_doc": "DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md",
+      "question": "Quelle est la longueur cumulée des plaques basse et haute de la colonne sagittale et quelle marge résiduelle reste-t-il sur la barre brute de 495 mm ?",
+      "answer": "La longueur totale cumulée des deux plaques (290,0 mm pour la plaque basse et 142,7 mm pour la plaque haute) est de 432,7 mm. La marge résiduelle sur la barre brute de 495 mm est de 62,3 mm.",
+      "evidence_quote": "Longueur totale cumulée : `290,0 + 142,7 = 432,7 mm` (Marge résiduelle de **62,3 mm** pour le trait de scie et les mors de bridage C500).",
+      "numeric_token": "432,7",
+      "job_id": "e42d947b045141298d5fb48a01e29768",
+      "origin": "unsloth_data_recipes"
+    },
+    {
+      "id": "dr_4d352123c090",
+      "category": "fea_rdm",
+      "source_doc": "DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md",
+      "question": "Quelle est la valeur du coefficient de concentration de contraintes (Kt) à la transition R = 25,64 mm et quelle en est la conséquence sur la durée de vie en fatigue ?",
+      "answer": "Le coefficient de concentration de contraintes Kt est de 1,15. Cette valeur étant inférieure au seuil critique de 1,5, elle garantit une durée de vie infinie supérieure à 10 puissance 7 cycles.",
+      "evidence_quote": "| **Concentration de contraintes (Kt)** | Transition R = 25,64 mm | Seuil fatigue critique (Kt > 1,5) | **Kt = 1,15** | ✅ Durée de vie infinie (> 10⁷ cycles) |",
+      "numeric_token": "1,15",
+      "job_id": "e42d947b045141298d5fb48a01e29768",
+      "origin": "unsloth_data_recipes"
+    },
+    {
+      "id": "dr_23fd1b28f096",
+      "category": "bom_hardware",
+      "source_doc": "FINAL_Liste_Achats_BOM.md",
+      "question": "Quel est le diamètre de la tresse Dyneema DM20 utilisée pour les tendons actifs de flexion et quelle est sa résistance à la rupture indiquée ?",
+      "answer": "Le tendon actif (flexion) utilise une tresse Dyneema DM20 d'un diamètre de 1.0 mm, avec une résistance d'environ 980 N.",
+      "evidence_quote": "**Tendon Actif (Flexion)** | **Tresse Dyneema DM20 Ø1.0 mm** | 1 | Bobine de 50m. Résistance ~980 N, zéro fluage (zéro-creep). À commander.",
+      "numeric_token": "1.0",
+      "job_id": "e42d947b045141298d5fb48a01e29768",
+      "origin": "unsloth_data_recipes"
+    },
+    {
+      "id": "dr_a3b91f070cfb",
+      "category": "bom_hardware",
+      "source_doc": "DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md",
+      "question": "Quelle est la référence catalogue de la vis CHC M4 x 30 mm utilisée pour la reprise de la Corniere haute dans le trou inférieur du hub ?",
+      "answer": "La référence catalogue de la vis est 91292A130.",
+      "evidence_quote": "(Le trou inférieur du hub reçoit la vis CHC M4 × 30 mm `[91292A130]` de reprise de la `Corniere haute`)",
+      "numeric_token": "91292A130",
+      "job_id": "e42d947b045141298d5fb48a01e29768",
+      "origin": "unsloth_data_recipes"
+    },
+    {
+      "id": "dr_b3bbbc2df58b",
+      "category": "fea_rdm",
+      "source_doc": "DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md",
+      "question": "Quelle est la valeur de l'effort appliqué F_roll calculé pour le Cas de Charge 3 (Roulis Frontal) et sur quelle position Z et longueur L_bas cet effort est-il basé ?",
+      "answer": "L'effort appliqué F_roll est de 168,35 N, arrondi à 168,3 N. Cet effort est calculé en appliquant le moment de roulis M_roll de 50,0 N.m sur la Plaque Basse située à Z = 1340,42 mm avec une longueur L_bas de 0,297 m.",
+      "evidence_quote": "F_roll = M_roll / L_bas = 50,0 / 0,297 = 168,35 N ~ 168,3 N",
+      "numeric_token": "168,35",
+      "job_id": "e42d947b045141298d5fb48a01e29768",
+      "origin": "unsloth_data_recipes"
+    },
+    {
+      "id": "dr_5d3a85e11cf3",
+      "category": "metrology_dimensions",
+      "source_doc": "DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md",
+      "question": "Quelle est la hauteur libre rigoureuse disponible pour l'implantation du PCB SparkFun BMI270 entre la face inférieure de l'équerre de cou et l'arête supérieure de l'éclisse d'épaule, ainsi que la largeur pleine continue associée ?",
+      "answer": "La hauteur libre rigoureuse est de 37,125 mm sur une largeur pleine continue de 94,0 mm.",
+      "evidence_quote": "Le relevé CAO direct entre la face inférieure de l'équerre de cou (**Face [1]**, `Z = +100,14 mm`) et l'arête supérieure de l'éclisse d'épaule (**Face [2]**, `Z = +63,01 mm`) établit une hauteur libre rigoureuse de **`37,125 mm`** sur une largeur pleine continue de **`94,0 mm`**.",
+      "numeric_token": "37,125",
+      "job_id": "e42d947b045141298d5fb48a01e29768",
+      "origin": "unsloth_data_recipes"
+    },
+    {
+      "id": "dr_7d904c62c576",
+      "category": "bom_hardware",
+      "source_doc": "DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md",
+      "question": "Quel est le couple de serrage spécifié pour les deux vis CHC M4 x 18 mm en inox 316 utilisées pour la fixation traversante du Support Batterie Central ?",
+      "answer": "Le couple de serrage spécifié pour les deux vis horizontales traversantes CHC M4 x 18 mm est de 2,2 N.m.",
+      "evidence_quote": "serrage à 2,2 N.m",
+      "numeric_token": "2,2",
+      "job_id": "e42d947b045141298d5fb48a01e29768",
+      "origin": "unsloth_data_recipes"
+    }
+  ]
+}

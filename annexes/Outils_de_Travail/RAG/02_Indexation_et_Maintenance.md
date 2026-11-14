@@ -8,18 +8,25 @@ Pour que le RAG soit efficace, il doit refléter l'état actuel de votre documen
 
 ### 1. Mise à jour incrémentale (Recommandé)
 **Fréquence : Quotidienne ou après chaque session de travail.**
-Ce mode scanne uniquement les fichiers modifiés ou nouveaux. C'est très rapide (quelques secondes à minutes).
+Ce mode scanne uniquement les fichiers modifiés ou nouveaux (Markdown, Python, PDF Docling, schémas `.svg` en texte XML structuré, images VLM) et purge proprement du graphe les fichiers déplacés en archive (`00_Archives_Recherche`, `Archives`) ou supprimés (avec protection des homonymes).
+
+**Via Ollama local sur M1 Max (`qwen3.5:9b`, texte + vision, 0 quota cloud) :**
 ```bash
-/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/index_docs.py" --update
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py" --update --provider ollama
+```
+
+**Via API Gemini (cascade automatique) :**
+```bash
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py" --update --provider gemini
 ```
 
 ### 2. Ré-indexation complète
 **Fréquence : Rare (une fois par mois ou si la base semble corrompue).**
 Ce mode supprime toute la base de données et reconstruit tout le graphe de connaissances à partir de zéro.
 ```bash
-/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/index_docs.py" --full
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py" --full --provider ollama
 ```
-*Note : Attention, cela peut prendre 10 à 30 minutes selon la puissance du LLM utilisé pour l'extraction.*
+*Note : En mode local Ollama (`qwen3.5:9b`, `think=False`, `max_async=1`), comptez ~7 à 9 s par appel LLM ; une base complète prend plusieurs dizaines de minutes sans risque d'erreur `429`.*
 
 ---
 

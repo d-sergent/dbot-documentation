@@ -33,7 +33,7 @@ Système nerveux et alimentation.
 Le cerveau et la configuration système.
 - **FINAL_Config_OS_Jetson.md** : Guide d'installation Nvidia Orin.
 - **STUDY_Simulation_Isaac_Gym.md** : Travaux sur l'apprentissage par renforcement.
-- **STUDY_Configuration_IA_Locale.md** : Setup LM Studio, MCP et modèles MLX.
+- **STUDY_Configuration_IA_Locale.md** : Architecture IA locale M1 Max 64 Go (Ollama MLX, Unsloth Studio, MCP LightRAG).
 
 ### [04_Perception_et_Sensors](./04_Perception_et_Sensors/)
 Les capteurs et le traitement des données.

@@ -3,6 +3,7 @@ import os
 import argparse
 import json
 import re
+from pathlib import Path
 from lightrag import LightRAG, QueryParam
 from lightrag.utils import EmbeddingFunc
 from fastembed import TextEmbedding
@@ -11,13 +12,17 @@ import numpy as np
 from datetime import datetime
 from dotenv import load_dotenv
 
-load_dotenv()
+_REPO_ENV = Path(__file__).resolve().parent.parent.parent / ".env"
+if _REPO_ENV.exists():
+    load_dotenv(dotenv_path=_REPO_ENV)
+else:
+    load_dotenv()
 
 # ─── Configuration ────────────────────────────────────────────────────────────
 BASE_DIR = "/Users/Shared/Mon Google Drive Physique/Documentation"
 WORKING_DIR = os.environ.get("RAG_DB_PATH", "/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db")
-REPORT_PATH = os.path.join(BASE_DIR, "annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md")
-QUESTIONS_JSON_PATH = os.path.join(BASE_DIR, "annexes/Outils_de_Travail/RAG/AUDIT_QUESTION_REPONSE.json")
+REPORT_PATH = os.path.join(BASE_DIR, "Annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md")
+QUESTIONS_JSON_PATH = os.path.join(BASE_DIR, "Annexes/Outils_de_Travail/RAG/AUDIT_QUESTION_REPONSE.json")
 
 # ─── Fonctions Embedding ──────────────────────
 import warnings
@@ -39,10 +44,10 @@ async def fastembed_func(texts: list[str]) -> np.ndarray:
 # ─── LLM Factory ─────────────────────────────────────────────────────────────
 async def get_llm_func(args):
     if args.provider == "local":
-        base_url = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8080/v1")
-        model = os.environ.get("VMLX_MODEL", "JANGQ-AI/Qwen3.6-35B-A3B-JANGTQ4")
-        api_key = "none"
-        print(f"🔗 Audit via LOCAL : vMLX sur {base_url}")
+        base_url = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8888/v1").strip().rstrip("/")
+        model = args.model or os.environ.get("VMLX_MODEL", "unsloth/Qwen3.8-27B-GGUF")
+        api_key = os.environ.get("VMLX_API_KEY") or os.environ.get("UNSLOTH_API_KEY") or "EMPTY"
+        print(f"🔗 Audit via LOCAL : Unsloth / vMLX sur {base_url} ({model})")
     elif args.provider == "gemini":
         base_url = "https://generativelanguage.googleapis.com/v1/openai/"
         model = args.model or "models/gemini-1.5-flash"
@@ -63,19 +68,46 @@ async def get_llm_func(args):
         messages = []
         if system_prompt:
             messages.append({"role": "system", "content": system_prompt})
-        messages.extend(history_messages)
+        for msg in history_messages or []:
+            if isinstance(msg, dict) and "role" in msg and "content" in msg:
+                messages.append({"role": msg["role"], "content": msg["content"]})
         messages.append({"role": "user", "content": prompt})
-        
-        response = await client.chat.completions.create(
-            model=model, 
-            messages=messages,
-            temperature=0.1,
-            extra_headers={
-                "HTTP-Referer": "https://github.com/d-bot",
-                "X-Title": "D-Bot Integrity Audit"
+
+        allowed = ["max_tokens", "temperature", "top_p", "presence_penalty", "response_format", "extra_body"]
+        req_kwargs = {k: v for k, v in kwargs.items() if k in allowed}
+
+        if args.provider == "local":
+            enable_thinking = os.environ.get("RAG_ENABLE_THINKING", "false").strip().lower() in ("1", "true", "yes")
+            req_kwargs.setdefault("max_tokens", 4096)
+            req_kwargs.setdefault("temperature", 1.0 if enable_thinking else 0.1)
+            req_kwargs.setdefault("top_p", 0.95 if enable_thinking else 0.80)
+            req_kwargs.setdefault("presence_penalty", 0.0 if enable_thinking else 1.0)
+            extra_body = {
+                "chat_template_kwargs": {"enable_thinking": enable_thinking},
+                "top_k": kwargs.get("top_k", 20),
+                "min_p": kwargs.get("min_p", 0.0),
+                "repeat_penalty": kwargs.get("repeat_penalty", 1.0),
             }
+            if isinstance(req_kwargs.get("extra_body"), dict):
+                extra_body.update(req_kwargs["extra_body"])
+            req_kwargs["extra_body"] = extra_body
+        else:
+            req_kwargs.setdefault("temperature", 0.1)
+            req_kwargs["extra_headers"] = {
+                "HTTP-Referer": "https://github.com/d-bot",
+                "X-Title": "D-Bot Integrity Audit",
+            }
+
+        response = await client.chat.completions.create(
+            model=model,
+            messages=messages,
+            **req_kwargs,
         )
-        return response.choices[0].message.content
+        content = response.choices[0].message.content
+        if not content:
+            finish = response.choices[0].finish_reason
+            raise RuntimeError(f"Réponse LLM vide ({args.provider}, finish_reason={finish})")
+        return content
     return llm_func
 
 # ─── Définition des Audits ─────────────────────────────────────────────────────
@@ -125,14 +157,32 @@ def extract_questions_from_report(report_path):
                 match = re.search(r'Question\s*:\s*\*\*?\s*(.*)', stripped)
                 if match:
                     q_text = match.group(1).strip()
-                    if q_text:
+                    if len(q_text) >= 15 and any(ch.isalpha() for ch in q_text):
                         questions.append({
                             "section": section_title,
                             "question": q_text,
                             "answer": ""  # To be filled by user/AI
                         })
-    
-    return questions
+
+    # Deduplicate exact and truncated duplicate questions while keeping section order & longest text
+    deduped = []
+    for candidate in questions:
+        norm_c = re.sub(r"\s+", " ", candidate["question"]).strip().lower()
+        replaced = False
+        duplicate = False
+        for i, item in enumerate(deduped):
+            norm_e = re.sub(r"\s+", " ", item["question"]).strip().lower()
+            if norm_c == norm_e or (len(norm_c) >= 60 and norm_e.startswith(norm_c[:80])):
+                duplicate = True
+                break
+            if len(norm_e) >= 60 and norm_c.startswith(norm_e[:80]) and len(norm_c) > len(norm_e):
+                deduped[i] = candidate
+                replaced = True
+                break
+        if not duplicate and not replaced:
+            deduped.append(candidate)
+
+    return deduped
 
 def generate_questions_json(report_path, json_path):
     """Génère le fichier JSON structuré avec les questions"""
@@ -154,7 +204,7 @@ async def run_audit(args):
         return
         
     if args.clear_cache:
-        cache_path = os.path.join(WORKING_DIR, "llm_response_cache.json")
+        cache_path = os.path.join(WORKING_DIR, "kv_store_llm_response_cache.json")
         if os.path.exists(cache_path):
             os.remove(cache_path)
             print("🧹 Cache LLM vidé avec succès.")

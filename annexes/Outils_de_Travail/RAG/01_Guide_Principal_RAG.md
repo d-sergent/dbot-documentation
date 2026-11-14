@@ -7,9 +7,21 @@ Ce guide centralise toutes les instructions pour utiliser le système de recherc
 ## 🚀 Commandes Rapides (Le Pense-Bête)
 
 ### 1. Mettre à jour la base (À faire quotidiennement)
-Ajoute les nouveaux fichiers ou les modifications du jour à la mémoire du robot.
+Ajoute les nouveaux fichiers, schémas `.svg` (texte XML), PDF ou images modifiées, et purge proprement les fichiers archivés ou supprimés :
+
+**Mode local recommandé (Ollama `qwen3.5:9b`, texte + vision, sans limite de quota) :**
 ```bash
-/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/index_docs.py" --update
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py" --update --provider ollama
+```
+
+**Mode cloud Gemini (cascade Flash/Lite) :**
+```bash
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py" --update --provider gemini
+```
+
+**Mise à jour instantanée d'un seul fichier via MCP CLI :**
+```bash
+rag --index "01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_BOM_Torse_et_Waist_D-Bot.md" --provider ollama
 ```
 
 ### 2. Poser une question technique en ligne de commande
@@ -41,17 +53,18 @@ Antigravity a accès au même serveur MCP. Vous pouvez lui demander des analyses
 ---
 
 ## 🛠️ Maintenance du Serveur MCP
-Le serveur est situé ici : `code/rag/mcp_lightrag_server.py`.
-Si vous modifiez le code du serveur, n'oubliez pas de le **redémarrer** dans les réglages de vMLX ou de votre client MCP.
+Le serveur est situé ici : `Code/rag/mcp_lightrag_server.py`.
+Si vous modifiez le code du serveur, n'oubliez pas de le **redémarrer** dans les réglages de votre client MCP.
 
 ### Fonctionnalités incluses :
 - **Recherche Hybride** : Combine le graphe (relations) et les vecteurs (mots-clés).
-- **Reranking Automatique** : Trie les résultats par pertinence réelle (modèle BGE-M3).
-- **Fallback Résilient** : Si le graphe ne trouve rien, bascule automatiquement en mode "Naive" pour ne jamais vous laisser sans réponse.
+- **Reranking Automatique** : Trie les résultats par pertinence réelle (`BAAI/bge-reranker-base`).
+- **Fallback Résilient** : Si le graphe ne trouve rien, bascule automatiquement en mode "Naive" ; en mode `auto`, bascule automatiquement de Gemini vers **Ollama local (`qwen3.5:9b`)** puis vMLX.
+- **Accès SVG XML & PDF garanti** : `.svg` et `.pdf` ne sont pas filtrés par `RAG_SKIP_IMAGES`.
 
 ---
 
 ## 📁 Dossiers Clés
 - **Base de données** : `/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db/`
-- **Code source** : `/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/`
-- **Logs vMLX** : À surveiller pour vérifier le chargement du Reranker et les scores de pertinence.
+- **Code source** : `/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/`
+- **Logs d'indexation** : `/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/rag_indexing.log` (et `~/.ollama/logs/server.log` pour Ollama).

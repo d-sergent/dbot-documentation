@@ -24,6 +24,9 @@ Prérequis : pip install lightrag-hku lancedb fastembed mcp
 """
 
 import asyncio
+import base64
+import hashlib
+import io
 import json
 import os
 import re
@@ -54,10 +57,37 @@ REPORT_PATH           = DOCS_ROOT / "annexes/Outils_de_Travail/RAG/AUDIT_INTEGRI
 QUESTIONS_JSON_PATH   = DOCS_ROOT / "annexes/Outils_de_Travail/RAG/AUDIT_QUESTION_REPONSE.json"
 PLAN_CORRECTION_PATH  = DOCS_ROOT / "annexes/Outils_de_Travail/RAG/PLAN_CORRECTION.md"
 PROMPT_CORRECTION_PATH = DOCS_ROOT / "annexes/Outils_de_Travail/RAG/PROMPT_CORRECTION.md"
-VMLX_BASE_URL         = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8006/v1")
-VMLX_MODEL            = os.environ.get("VMLX_MODEL", "JANGQ-AI/Gemma-4-31B-it-JANG_4M")
+VMLX_BASE_URL         = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8888/v1").strip().rstrip("/")
+VMLX_MODEL            = os.environ.get("VMLX_MODEL", "unsloth/Qwen3.8-27B-GGUF")
+VMLX_API_KEY          = os.environ.get("VMLX_API_KEY") or os.environ.get("UNSLOTH_API_KEY") or "EMPTY"
+OLLAMA_BASE_URL       = os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434").strip().rstrip("/")
+if OLLAMA_BASE_URL.endswith("/v1"):
+    OLLAMA_BASE_URL = OLLAMA_BASE_URL[:-3]
+OLLAMA_MODEL          = os.environ.get("OLLAMA_MODEL", "qwen3.8:27b-mlx")
+OLLAMA_NUM_CTX        = int(os.environ.get("OLLAMA_NUM_CTX", "16384"))
+OLLAMA_KEEP_ALIVE     = os.environ.get("OLLAMA_KEEP_ALIVE", "10m")
+RAG_LLM_PROVIDER      = os.environ.get("RAG_LLM_PROVIDER", "auto").strip().lower()
 SKIP_IMAGES           = os.environ.get("RAG_SKIP_IMAGES", "true").lower() in ("1", "true", "yes")
-IMAGE_EXTS            = {".png", ".jpg", ".jpeg", ".svg", ".gif", ".bmp", ".webp", ".tiff", ".pdf"}
+IMAGE_EXTS            = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp", ".tiff"}
+RASTER_VLM_EXTS       = {".png", ".jpg", ".jpeg", ".webp"}
+
+# Profils d'échantillonnage recommandés Qwen3.8 / Unsloth (mode Non-Thinking)
+QWEN_EXTRACT_SAMPLING = {
+    "temperature": 0.1,
+    "top_p": 0.80,
+    "top_k": 20,
+    "min_p": 0.0,
+    "repeat_penalty": 1.0,
+    "presence_penalty": 0.3,
+}
+QWEN_QA_SAMPLING = {
+    "temperature": 0.7,
+    "top_p": 0.80,
+    "top_k": 20,
+    "min_p": 0.0,
+    "repeat_penalty": 1.0,
+    "presence_penalty": 1.0,
+}
 
 _md_img               = re.compile(r'!\[.*?\]\(.*?\)')
 _orphan_ref           = re.compile(r'\[image:.*?\]', re.IGNORECASE)
@@ -148,11 +178,35 @@ def get_rerank_model():
     return _rerank_model
 
 
+async def fastembed_rerank_func(query: str, documents: list[str], top_n: int = None, **kwargs) -> list[dict]:
+    """Fonction de Reranking native pour LightRAG basée sur FastEmbed Cross-Encoder."""
+    if not documents:
+        return []
+    model = get_rerank_model()
+    if model is None:
+        return [{"index": i, "relevance_score": 0.0} for i in range(len(documents))]
+    try:
+        scores = list(model.rerank(query, documents))
+        indexed = [
+            {"index": i, "relevance_score": float(1.0 / (1.0 + np.exp(-float(s))))}
+            for i, s in enumerate(scores)
+        ]
+        indexed.sort(key=lambda x: x["relevance_score"], reverse=True)
+        return indexed[:top_n] if top_n else indexed
+    except Exception as e:
+        print(f"⚠️ Échec technique du Reranking natif : {e}", file=sys.stderr)
+        return [{"index": i, "relevance_score": 0.0} for i in range(len(documents))]
+
+
 async def fast_rerank_func(query: str, chunks: list) -> list:
-    """Ré-ordonne les morceaux de texte manuellement (si disponible)."""
-    if not chunks or not HAS_RERANKER:
+    """Ré-ordonne les morceaux de texte manuellement (si non déjà rerankés par LightRAG)."""
+    if not chunks:
         return chunks
-    
+    if "rerank_score" in chunks[0]:
+        return sorted(chunks, key=lambda x: x.get("rerank_score", 0.0), reverse=True)
+    if not HAS_RERANKER:
+        return chunks
+
     model = get_rerank_model()
     if model is None:
         return chunks
@@ -161,13 +215,12 @@ async def fast_rerank_func(query: str, chunks: list) -> list:
         texts = [c.get("content", "") for c in chunks]
         print(f"⚖️  Reranking de {len(chunks)} morceaux...", file=sys.stderr)
         scores = list(model.rerank(query, texts))
-        
-        # Association score + chunk
+
+        # Association score normalisé sigmoïde [0.0, 1.0] + chunk
         for i, score in enumerate(scores):
-            chunks[i]["rerank_score"] = float(score)
-        
-        # Tri par score décroissant
-        return sorted(chunks, key=lambda x: x.get("rerank_score", 0), reverse=True)
+            chunks[i]["rerank_score"] = float(1.0 / (1.0 + np.exp(-float(score))))
+
+        return sorted(chunks, key=lambda x: x.get("rerank_score", 0.0), reverse=True)
     except Exception as e:
         print(f"⚠️ Échec technique du Reranking : {e}", file=sys.stderr)
         return chunks
@@ -190,49 +243,270 @@ def get_genai_client():
     return _genai_client
 
 
-async def llm_func(prompt, system_prompt=None, history_messages=[], **kwargs):
-    client = get_genai_client()
-    if client is not None:
-        try:
-            from google.genai import types as genai_types
-            full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
-            model_name = os.environ.get("RAG_DEFAULT_MODEL", "gemini-3.8-flash")
-            th_budget = 0 if os.environ.get("RAG_DEFAULT_THINKING_LEVEL", "low") == "minimal" else 100
-            cfg = genai_types.GenerateContentConfig(
-                thinking_config=genai_types.ThinkingConfig(thinking_budget=th_budget)
-            )
-            loop = asyncio.get_event_loop()
-            for attempt in range(3):
-                try:
-                    res = await loop.run_in_executor(
-                        None,
-                        lambda: client.models.generate_content(
-                            model=model_name,
-                            contents=full_prompt,
-                            config=cfg
-                        )
-                    )
-                    if res and res.text:
-                        await asyncio.sleep(1.0)
-                        return res.text
-                except Exception as e:
-                    err_s = str(e)
-                    wait_t = 15 if "429" in err_s else 2
-                    print(f"⚠️ Erreur Gemini LLM (tentative {attempt+1}/3): {err_s[:80]}. Pause {wait_t}s...", file=sys.stderr)
-                    await asyncio.sleep(wait_t)
-        except Exception as ge_err:
-            print(f"⚠️ Échec appel Gemini: {ge_err}. Repli sur vLLM...", file=sys.stderr)
+_SVG_SKIP_TAGS = frozenset({"defs", "style", "script", "metadata"})
+_SVG_INLINE_TEXT_TAGS = frozenset({"tspan", "a", "textpath"})
+_VLM_TECHNICAL_PROMPT = (
+    "Tu es un expert en ingénierie mécanique, robotique et électronique pour le projet D-Bot.\n"
+    "Analyse cette image technique en détail. Décris avec précision :\n"
+    "1. Les composants mécaniques, électroniques, moteurs, roulements, fixations ou assemblages visibles.\n"
+    "2. Toutes les cotations, dimensions, références, marquages ou annotations textuelles (ex: AXK 5578, M4x70, etc.).\n"
+    "3. La géométrie, le montage et la fonction technique de ce sous-ensemble.\n"
+    "Fournis une description technique exhaustive et structurée."
+)
 
-    # Repli vLLM local ou OpenRouter
-    kwargs.setdefault("max_tokens", 512)
+
+def _compute_doc_id(content: str) -> str:
+    """Calcule l'identifiant MD5 canonique compatible LightRAG."""
+    return "doc-" + hashlib.md5(content.strip().encode("utf-8"), usedforsecurity=False).hexdigest()
+
+
+def _svg_local_tag(tag: object) -> str:
+    return tag.split("}", 1)[-1].lower() if isinstance(tag, str) else ""
+
+
+def _extract_svg_text_node(el) -> str:
+    chunks: list[str] = []
+    if el.text:
+        chunks.append(el.text)
+    for child in el:
+        if _svg_local_tag(child.tag) in _SVG_INLINE_TEXT_TAGS:
+            child_text = _extract_svg_text_node(child)
+            if child_text:
+                if chunks and ("x" in child.attrib or "y" in child.attrib or "dy" in child.attrib):
+                    chunks.append(" ")
+                chunks.append(child_text)
+        if child.tail:
+            chunks.append(child.tail)
+    return " ".join("".join(chunks).split())
+
+
+def _collect_svg_blocks(node, depth: int = 0) -> list[str]:
+    blocks: list[str] = []
+    current_lines: list[str] = []
+
+    def flush_current() -> None:
+        if current_lines:
+            blocks.append("\n".join(current_lines))
+            current_lines.clear()
+
+    for child in node:
+        tag = _svg_local_tag(child.tag)
+        if not tag or tag in _SVG_SKIP_TAGS:
+            continue
+        if tag == "title":
+            txt = " ".join("".join(child.itertext()).split())
+            if txt:
+                prefix = "Titre SVG : " if depth == 0 else "Sous-section : "
+                current_lines.append(f"{prefix}{txt}")
+        elif tag == "desc":
+            txt = " ".join("".join(child.itertext()).split())
+            if txt:
+                prefix = "Description SVG : " if depth == 0 else "Note : "
+                current_lines.append(f"{prefix}{txt}")
+        elif tag == "text":
+            txt = _extract_svg_text_node(child)
+            if txt:
+                current_lines.append(txt)
+        else:
+            child_blocks = _collect_svg_blocks(child, depth + 1)
+            if child_blocks:
+                if tag == "g" and len(child_blocks) == 1 and "\n" not in child_blocks[0] and depth >= 2:
+                    current_lines.append(child_blocks[0])
+                elif tag == "g":
+                    flush_current()
+                    blocks.extend(child_blocks)
+                else:
+                    for blk in child_blocks:
+                        current_lines.extend(blk.splitlines())
+    flush_current()
+    return blocks
+
+
+def extract_svg_text(path: Path) -> str:
+    """Extrait le contenu textuel structuré (<title>, <desc>, <text>) d'un SVG via defusedxml."""
+    import defusedxml.ElementTree as DefusedET
+
+    raw_xml = path.read_text(encoding="utf-8")
+    root = DefusedET.fromstring(raw_xml)
+    return "\n\n".join(_collect_svg_blocks(root))
+
+
+def _encode_image_for_ollama(image_path: Path, max_dim: int = 1600) -> str:
+    """Encode une image PNG redimensionnée en base64 pour l'endpoint Ollama /api/chat."""
+    from PIL import Image
+
+    with Image.open(image_path) as img:
+        if max(img.size) > max_dim:
+            img = img.copy()
+            img.thumbnail((max_dim, max_dim))
+        if img.mode not in ("RGB", "RGBA"):
+            img = img.convert("RGB")
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
+        return base64.b64encode(buf.getvalue()).decode("ascii")
+
+
+async def _call_ollama_chat(
+    prompt: str,
+    system_prompt: str | None = None,
+    history_messages: list | None = None,
+    model_name: str | None = None,
+    images: list[str] | None = None,
+    num_ctx: int | None = None,
+    temperature: float = QWEN_EXTRACT_SAMPLING["temperature"],
+    max_tokens: int = 8192,
+    top_p: float = QWEN_EXTRACT_SAMPLING["top_p"],
+    top_k: int = QWEN_EXTRACT_SAMPLING["top_k"],
+    min_p: float = QWEN_EXTRACT_SAMPLING["min_p"],
+    repeat_penalty: float = QWEN_EXTRACT_SAMPLING["repeat_penalty"],
+    presence_penalty: float = QWEN_EXTRACT_SAMPLING["presence_penalty"],
+) -> str:
+    """Appelle Ollama /api/chat avec think=False et profil d'échantillonnage Qwen3.8."""
+    import aiohttp
+
+    messages = []
+    if system_prompt:
+        messages.append({"role": "system", "content": system_prompt})
+    for msg in history_messages or []:
+        if isinstance(msg, dict) and "role" in msg and "content" in msg:
+            messages.append({"role": msg["role"], "content": msg["content"]})
+    user_msg: dict = {"role": "user", "content": prompt}
+    if images:
+        user_msg["images"] = images
+    messages.append(user_msg)
+
+    payload = {
+        "model": model_name or OLLAMA_MODEL,
+        "messages": messages,
+        "stream": False,
+        "think": False,
+        "keep_alive": OLLAMA_KEEP_ALIVE,
+        "options": {
+            "num_ctx": num_ctx or OLLAMA_NUM_CTX,
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+            "min_p": min_p,
+            "repeat_penalty": repeat_penalty,
+            "presence_penalty": presence_penalty,
+            "num_predict": max_tokens,
+        },
+    }
+    timeout = aiohttp.ClientTimeout(total=600)
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        async with session.post(f"{OLLAMA_BASE_URL}/api/chat", json=payload) as resp:
+            if resp.status != 200:
+                err_txt = await resp.text()
+                raise RuntimeError(f"Ollama HTTP {resp.status}: {err_txt[:200]}")
+            data = await resp.json()
+            content = (data.get("message") or {}).get("content", "")
+            if not content:
+                raise RuntimeError("Réponse Ollama vide")
+            return content
+
+
+async def _call_gemini_chat(
+    prompt: str,
+    system_prompt: str | None = None,
+    model_name: str | None = None,
+    thinking_level_str: str = "low",
+    max_attempts: int = 2,
+) -> str | None:
+    """Appelle Gemini Flash via google-genai ; retourne None si saturé (429/503) ou absent."""
+    client = get_genai_client()
+    if client is None:
+        return None
+    from google.genai import types as genai_types
+
+    full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
+    target_model = model_name or os.environ.get("RAG_DEFAULT_MODEL", "gemini-3.1-flash-lite")
+    th_budget = 0 if thinking_level_str == "minimal" else 100
+    cfg = genai_types.GenerateContentConfig(
+        thinking_config=genai_types.ThinkingConfig(thinking_budget=th_budget)
+    )
+    loop = asyncio.get_event_loop()
+    for attempt in range(max_attempts):
+        try:
+            res = await loop.run_in_executor(
+                None,
+                lambda: client.models.generate_content(
+                    model=target_model,
+                    contents=full_prompt,
+                    config=cfg,
+                ),
+            )
+            if res and res.text:
+                await asyncio.sleep(1.0)
+                return res.text
+        except Exception as e:
+            err_s = str(e)
+            if any(k in err_s for k in ("429", "RESOURCE_EXHAUSTED", "503", "UNAVAILABLE")):
+                print(f"⚠️ Gemini saturé ({target_model}): {err_s[:80]}", file=sys.stderr)
+                return None
+            print(f"⚠️ Erreur Gemini (tentative {attempt+1}/{max_attempts}): {err_s[:80]}", file=sys.stderr)
+            await asyncio.sleep(2)
+    return None
+
+
+async def llm_func(prompt, system_prompt=None, history_messages=[], **kwargs):
+    pref = RAG_LLM_PROVIDER
+
+    if pref in ("auto", "gemini"):
+        res = await _call_gemini_chat(
+            prompt,
+            system_prompt=system_prompt,
+            model_name=os.environ.get("RAG_DEFAULT_MODEL", "gemini-3.8-flash"),
+            thinking_level_str=os.environ.get("RAG_DEFAULT_THINKING_LEVEL", "low"),
+        )
+        if res:
+            return res
+        if pref == "gemini":
+            raise RuntimeError("API Gemini indisponible ou quota épuisé")
+
+    if pref in ("auto", "ollama"):
+        try:
+            return await _call_ollama_chat(
+                prompt,
+                system_prompt=system_prompt,
+                history_messages=history_messages,
+                temperature=kwargs.get("temperature", QWEN_QA_SAMPLING["temperature"]),
+                max_tokens=kwargs.get("max_tokens", 4096),
+                top_p=kwargs.get("top_p", QWEN_QA_SAMPLING["top_p"]),
+                top_k=kwargs.get("top_k", QWEN_QA_SAMPLING["top_k"]),
+                min_p=kwargs.get("min_p", QWEN_QA_SAMPLING["min_p"]),
+                repeat_penalty=kwargs.get("repeat_penalty", QWEN_QA_SAMPLING["repeat_penalty"]),
+                presence_penalty=kwargs.get("presence_penalty", QWEN_QA_SAMPLING["presence_penalty"]),
+            )
+        except Exception as oe:
+            if pref == "ollama":
+                raise RuntimeError(f"Ollama indisponible ({OLLAMA_BASE_URL}): {oe}") from oe
+            print(f"ℹ️ Ollama non disponible ({oe}), repli sur vLLM...", file=sys.stderr)
+
+    # Repli vLLM / Unsloth Studio / llama-server local (profil QA Qwen3.8)
+    enable_thinking = os.environ.get("RAG_ENABLE_THINKING", "false").strip().lower() in ("1", "true", "yes")
+    call_kwargs = dict(kwargs)
+    call_kwargs.setdefault("max_tokens", 8192 if enable_thinking else 4096)
+    call_kwargs.setdefault("temperature", 1.0 if enable_thinking else QWEN_QA_SAMPLING["temperature"])
+    call_kwargs.setdefault("top_p", 0.95 if enable_thinking else QWEN_QA_SAMPLING["top_p"])
+    call_kwargs.setdefault("presence_penalty", 0.0 if enable_thinking else QWEN_QA_SAMPLING["presence_penalty"])
+    extra_body = {
+        "chat_template_kwargs": {"enable_thinking": enable_thinking},
+        "top_k": call_kwargs.pop("top_k", QWEN_QA_SAMPLING["top_k"]),
+        "min_p": call_kwargs.pop("min_p", QWEN_QA_SAMPLING["min_p"]),
+        "repeat_penalty": call_kwargs.pop("repeat_penalty", QWEN_QA_SAMPLING["repeat_penalty"]),
+    }
+    user_extra = call_kwargs.pop("extra_body", None)
+    if isinstance(user_extra, dict):
+        extra_body.update(user_extra)
     return await openai_complete_if_cache(
         VMLX_MODEL,
         prompt,
         system_prompt=system_prompt,
         history_messages=history_messages,
         base_url=VMLX_BASE_URL,
-        api_key="not-needed",
-        **kwargs
+        api_key=VMLX_API_KEY,
+        extra_body=extra_body,
+        **call_kwargs
     )
 
 
@@ -246,18 +520,21 @@ async def get_rag() -> LightRAG:
             raise RuntimeError(f"Base de données introuvable : {DB_PATH}")
         
         # Vérification sommaire du contenu
-        kv_file = DB_PATH / "kv_storage_full_docs.json"
+        kv_file = DB_PATH / "kv_store_full_docs.json"
         if kv_file.exists():
             size = kv_file.stat().st_size
             print(f"📊 Base trouvée : {size} octets de documents.", file=sys.stderr)
         else:
-            print(f"⚠️ ATTENTION : La base semble vide (pas de kv_storage_full_docs.json)", file=sys.stderr)
+            print("⚠️ ATTENTION : La base semble vide (pas de kv_store_full_docs.json)", file=sys.stderr)
 
         rag = LightRAG(
             working_dir=str(DB_PATH),
             llm_model_func=llm_func,
             embedding_func=embedding_func,
-            llm_model_max_async=1,
+            rerank_model_func=fastembed_rerank_func if HAS_RERANKER else None,
+            llm_model_max_async=max(1, int(os.environ.get("LLM_MAX_ASYNC", "1"))),
+            default_llm_timeout=600,
+            addon_params={"language": "French"},
         )
         rag.llm_response_timeout = 1200
         await rag.initialize_storages()
@@ -483,9 +760,8 @@ TOOLS = [
     Tool(
         name="rag_index_document",
         description=(
-            "Indexe ou réindexe un document spécifique (Markdown, Python, etc.) dans la base RAG locale au fil de l'eau. "
-            "Permet une mise à jour instantanée en quelques secondes sans devoir relancer l'indexation complète de la documentation. "
-            "Utilise l'API Google Gemini (modèle économe gemini-3.1-flash-lite en mode raisonnement low/minimal)."
+            "Indexe ou réindexe un document spécifique (Markdown, Python, PDF, schéma SVG XML, image PNG/JPG) dans la base RAG locale au fil de l'eau. "
+            "Supporte Ollama local (qwen3.8:27b-mlx, think=False) et Google Gemini avec bascule automatique."
         ),
         inputSchema={
             "type": "object",
@@ -494,16 +770,21 @@ TOOLS = [
                     "type": "string",
                     "description": "Chemin absolu ou relatif vers le fichier à indexer (ex: '01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_Synthese_Mecanique_Torse.md')."
                 },
+                "provider": {
+                    "type": "string",
+                    "enum": ["auto", "ollama", "gemini"],
+                    "description": "Fournisseur LLM : 'auto' (Gemini puis repli immédiat sur Ollama local), 'ollama' (100% local), ou 'gemini'.",
+                    "default": "auto"
+                },
                 "thinking_level": {
                     "type": "string",
                     "enum": ["minimal", "low", "medium", "high"],
-                    "description": "Niveau d'effort de raisonnement Gemini (défaut: 'low', ou 'minimal' pour économie maximale de quota).",
+                    "description": "Niveau d'effort de raisonnement Gemini (défaut: 'low', ignoré en mode ollama où think=False).",
                     "default": "low"
                 },
                 "model": {
                     "type": "string",
-                    "description": "Modèle Gemini à utiliser (défaut: 'gemini-3.1-flash-lite').",
-                    "default": "gemini-3.1-flash-lite"
+                    "description": "Modèle spécifique (défaut: 'qwen3.8:27b-mlx' pour ollama, 'gemini-3.1-flash-lite' pour gemini)."
                 }
             },
             "required": ["file_path"]
@@ -745,10 +1026,20 @@ Ta mission :
                 else:
                     return [TextContent(type="text", text=f"❌ Fichier introuvable : {target_path}")]
 
+            target_path = target_path.resolve()
+            try:
+                relative = str(target_path.relative_to(DOCS_ROOT.resolve()))
+            except Exception:
+                relative = target_path.name
+
+            provider_req = (arguments.get("provider") or "auto").strip().lower()
+            if provider_req not in ("auto", "ollama", "gemini"):
+                provider_req = "auto"
             thinking_level_str = arguments.get("thinking_level", "low").lower()
-            model_name = arguments.get("model", "gemini-3.8-flash")
+            explicit_model = arguments.get("model")
 
             ext = target_path.suffix.lower()
+            used_engine = provider_req
             if ext == ".pdf":
                 try:
                     from docling.document_converter import DocumentConverter
@@ -762,59 +1053,120 @@ Ta mission :
                         content = "\n\n".join([f"--- Page {i} ---\n{p.extract_text().strip()}" for i, p in enumerate(reader.pages, 1) if p.extract_text()])
                     except Exception as pe:
                         return [TextContent(type="text", text=f"❌ Erreur lecture PDF {target_path.name} : {pe}")]
+                header = f"---\nFichier: {relative}\nType: Document PDF\nProjet: D-Bot\n---\n\n"
+                full_content = header + f"# Document PDF : {target_path.name}\n\n" + content
+            elif ext == ".svg":
+                try:
+                    svg_text = extract_svg_text(target_path)
+                except Exception as se:
+                    return [TextContent(type="text", text=f"❌ Erreur lecture XML SVG {target_path.name} : {se}")]
+                if not svg_text.strip():
+                    return [TextContent(type="text", text=f"⚠️ Aucun texte exploitable dans le SVG {target_path.name}.")]
+                header = f"---\nFichier: {relative}\nType: Schéma Vectoriel SVG (Texte XML)\nProjet: D-Bot\n---\n\n"
+                full_content = header + f"# Schéma Technique SVG : {target_path.name}\n\n" + svg_text
+            elif ext in RASTER_VLM_EXTS:
+                vlm_desc = None
+                if provider_req in ("auto", "gemini") and (client := get_genai_client()) is not None:
+                    try:
+                        from PIL import Image
+                        from google.genai import types as genai_types
+                        img = Image.open(target_path)
+                        g_model = explicit_model if (provider_req == "gemini" and explicit_model) else "gemini-3.1-flash-lite"
+                        loop = asyncio.get_event_loop()
+                        g_res = await loop.run_in_executor(
+                            None,
+                            lambda: client.models.generate_content(
+                                model=g_model,
+                                contents=[img, _VLM_TECHNICAL_PROMPT],
+                                config=genai_types.GenerateContentConfig(
+                                    thinking_config=genai_types.ThinkingConfig(thinking_budget=100)
+                                ),
+                            ),
+                        )
+                        if g_res and g_res.text:
+                            vlm_desc = g_res.text
+                            used_engine = f"gemini ({g_model})"
+                    except Exception as ge_vlm:
+                        if provider_req == "gemini":
+                            return [TextContent(type="text", text=f"❌ Erreur VLM Gemini sur {target_path.name} : {ge_vlm}")]
+                        print(f"⚠️ Repli VLM Ollama pour {target_path.name} : {ge_vlm}", file=sys.stderr)
+                if vlm_desc is None:
+                    try:
+                        o_model = explicit_model if (provider_req == "ollama" and explicit_model) else OLLAMA_MODEL
+                        img_b64 = _encode_image_for_ollama(target_path)
+                        vlm_desc = await _call_ollama_chat(
+                            _VLM_TECHNICAL_PROMPT,
+                            model_name=o_model,
+                            images=[img_b64],
+                            num_ctx=int(os.environ.get("OLLAMA_VLM_NUM_CTX", "8192")),
+                        )
+                        used_engine = f"ollama ({o_model})"
+                    except Exception as oe_vlm:
+                        return [TextContent(type="text", text=f"❌ Erreur VLM sur {target_path.name} : {oe_vlm}")]
+                type_label = "Image VLM (Ollama)" if used_engine.startswith("ollama") else "Image VLM"
+                header = f"---\nFichier: {relative}\nType: {type_label}\nProjet: D-Bot\n---\n\n"
+                full_content = header + f"# Analyse Visuelle et Spécifications Techniques : {target_path.name}\n\n" + vlm_desc
             else:
                 try:
                     content = target_path.read_text(encoding="utf-8")
                 except Exception as read_err:
                     return [TextContent(type="text", text=f"❌ Erreur lecture du fichier {target_path.name} : {read_err}")]
+                header = f"---\nFichier: {relative}\nProjet: D-Bot\n---\n\n"
+                full_content = header + content
 
-            try:
-                relative = target_path.relative_to(DOCS_ROOT)
-            except Exception:
-                relative = target_path.name
+            resolved_engine = [provider_req]
 
-            header = f"---\nFichier: {relative}\nProjet: D-Bot\n---\n\n"
-            full_content = header + content
+            async def custom_llm_insert(prompt, system_prompt=None, history_messages=[], **kwargs):
+                if provider_req in ("auto", "gemini"):
+                    g_model = explicit_model if (provider_req == "gemini" and explicit_model) else (explicit_model or "gemini-3.8-flash")
+                    g_txt = await _call_gemini_chat(
+                        prompt,
+                        system_prompt=system_prompt,
+                        model_name=g_model,
+                        thinking_level_str=thinking_level_str,
+                    )
+                    if g_txt:
+                        resolved_engine[0] = f"Google Gemini API ({g_model}, thinking={thinking_level_str})"
+                        return g_txt
+                    if provider_req == "gemini":
+                        raise RuntimeError(f"Échec Gemini API ({g_model}) lors de l'indexation de {relative}")
 
-            # Configuration LLM optimisée pour l'insertion
-            client = get_genai_client()
-            if client is not None:
-                from google.genai import types as genai_types
-                th_budget = 0 if thinking_level_str == "minimal" else 100
-                insert_cfg = genai_types.GenerateContentConfig(
-                    thinking_config=genai_types.ThinkingConfig(thinking_budget=th_budget)
+                o_model = explicit_model if (provider_req == "ollama" and explicit_model) else OLLAMA_MODEL
+                o_txt = await _call_ollama_chat(
+                    prompt,
+                    system_prompt=system_prompt,
+                    history_messages=history_messages,
+                    model_name=o_model,
+                    temperature=kwargs.get("temperature", 0.1),
+                    max_tokens=kwargs.get("max_tokens", 8192),
                 )
-                loop = asyncio.get_event_loop()
-                async def custom_llm_insert(prompt, system_prompt=None, history_messages=[], **kwargs):
-                    full_p = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
-                    for attempt in range(3):
-                        try:
-                            res = await loop.run_in_executor(
-                                None,
-                                lambda: client.models.generate_content(
-                                    model=model_name,
-                                    contents=full_p,
-                                    config=insert_cfg
-                                )
-                            )
-                            if res and res.text:
-                                await asyncio.sleep(2.0)
-                                return res.text
-                        except Exception as ce:
-                            err_s = str(ce)
-                            wait_t = 15 if "429" in err_s else 2
-                            print(f"⚠️ Pause retry ({attempt+1}/3) insertion {err_s[:80]}", file=sys.stderr)
-                            await asyncio.sleep(wait_t)
-                rag.llm_model_func = custom_llm_insert
+                resolved_engine[0] = f"Ollama local ({o_model}, think=False)"
+                return o_txt
 
-            # Purge des anciennes versions dans doc_status et graphe
+            # Purge des anciennes versions exactes dans doc_status et graphe (protège les homonymes)
             purged_count = 0
             try:
                 async with rag.doc_status._storage_lock:
-                    matching_ids = [
-                        d_id for d_id, d_data in rag.doc_status._data.items()
-                        if os.path.basename(d_data.get("file_path", "")) == target_path.name
-                    ]
+                    ds_items = list(rag.doc_status._data.items())
+                full_docs_map = {}
+                try:
+                    async with rag.full_docs._storage_lock:
+                        full_docs_map = dict(rag.full_docs._data)
+                except Exception:
+                    pass
+
+                matching_ids = []
+                for d_id, d_data in ds_items:
+                    fp = d_data.get("file_path", "") or ""
+                    fd_entry = full_docs_map.get(d_id)
+                    fd_rel = None
+                    if isinstance(fd_entry, dict):
+                        m_rel = re.match(r"^---\s*\nFichier:\s*(.+?)\n", fd_entry.get("content", ""))
+                        if m_rel:
+                            fd_rel = m_rel.group(1).strip()
+                    if fd_rel == relative or fp in (relative, str(target_path)):
+                        matching_ids.append(d_id)
+
                 if matching_ids:
                     purged_count = len(matching_ids)
                     for old_id in matching_ids:
@@ -828,10 +1180,15 @@ Ta mission :
                         except Exception:
                             pass
             except Exception as pe:
-                print(f"Info purge doc_status pour {target_path.name}: {pe}", file=sys.stderr)
+                print(f"Info purge doc_status pour {relative}: {pe}", file=sys.stderr)
 
-            # Insertion du document
-            await rag.ainsert(full_content, file_paths=[str(target_path)])
+            doc_id = _compute_doc_id(full_content)
+            prev_llm = rag.llm_model_func
+            rag.llm_model_func = custom_llm_insert
+            try:
+                await rag.ainsert(full_content, ids=[doc_id], file_paths=[relative])
+            finally:
+                rag.llm_model_func = prev_llm
 
             # Synchronisation du journal d'indexation indexed_files.json
             log_file = DB_PATH / "indexed_files.json"
@@ -843,9 +1200,7 @@ Ta mission :
                 except Exception:
                     pass
 
-            import hashlib
-            doc_id = hashlib.md5(full_content.encode("utf-8"), usedforsecurity=False).hexdigest()
-            log_idx[str(target_path.resolve())] = {
+            log_idx[str(target_path)] = {
                 "mtime": os.path.getmtime(target_path),
                 "doc_id": doc_id
             }
@@ -860,9 +1215,9 @@ Ta mission :
             return [TextContent(type="text", text=(
                 f"✅ **Document Indexé avec Succès dans le RAG D-Bot** !\n\n"
                 f"- **Fichier** : `{relative}`\n"
+                f"- **Doc ID** : `{doc_id}`\n"
                 f"- **Volume** : {char_count} caractères{purge_info}\n"
-                f"- **Moteur LLM** : Google Gemini API (`{model_name}`)\n"
-                f"- **Niveau de Raisonnement** : `{thinking_level_str}`\n"
+                f"- **Moteur LLM** : {resolved_engine[0]}\n"
                 f"- **Base RAG** : `{DB_PATH}` (graphe et index vectoriel à jour)"
             ))]
 
@@ -874,12 +1229,29 @@ Ta mission :
         mode = "hybrid"
         query = ""
 
+        def _build_synthesis_param(q_mode: str) -> QueryParam:
+            max_total = int(os.environ.get("RAG_QUERY_MAX_TOKENS", "9500"))
+            chunk_k = int(os.environ.get("RAG_QUERY_CHUNK_TOP_K", "6"))
+            return QueryParam(
+                mode=q_mode,
+                chunk_top_k=max(1, chunk_k),
+                top_k=int(os.environ.get("RAG_QUERY_GRAPH_TOP_K", "20")),
+                max_entity_tokens=int(os.environ.get("RAG_QUERY_MAX_ENTITY_TOKENS", "2000")),
+                max_relation_tokens=int(os.environ.get("RAG_QUERY_MAX_RELATION_TOKENS", "2500")),
+                max_total_tokens=max_total,
+                user_prompt=(
+                    "Réponds en français technique précis et factuel. "
+                    "Écris toutes les formules, unités et tolérances en texte brut lisible "
+                    "(jamais de syntaxe LaTeX ni de symbole dollar)."
+                ),
+            )
+
         if name == "rag_search":
             query = arguments.get("query", "")
             mode = "hybrid"
             if llm_mode in ("internal", "auto"):
                 try:
-                    ans = await rag.aquery(query, param=QueryParam(mode="hybrid"))
+                    ans = await rag.aquery(query, param=_build_synthesis_param("hybrid"))
                     return [TextContent(type="text", text=f"### Synthèse RAG [Mode: internal (vLLM)] pour : {query}\n\n{ans}")]
                 except Exception as ex:
                     if llm_mode == "internal":
@@ -893,7 +1265,7 @@ Ta mission :
             mode = "global"
             if llm_mode in ("internal", "auto"):
                 try:
-                    ans = await rag.aquery(query, param=QueryParam(mode="global"))
+                    ans = await rag.aquery(query, param=_build_synthesis_param("global"))
                     return [TextContent(type="text", text=f"### Analyse d'Impact [Mode: internal (vLLM)] pour : {scenario}\n\n{ans}")]
                 except Exception as ex:
                     if llm_mode == "internal":

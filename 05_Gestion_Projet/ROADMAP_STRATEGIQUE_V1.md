@@ -1,68 +1,31 @@
-# 🗺️ ROADMAP STRATÉGIQUE D-BOT V1 (Logique de Dépendances & Faisabilité)
+# 🗺️ ROADMAP & ACTIONS OUVERTES — D-BOT V1
 
-Ce document établit la hiérarchie logique des sous-systèmes D-Bot V1. Il permet d'évaluer à tout moment quelles tâches sont **faisables immédiatement** et quelles tâches sont **bloquées par des dépendances matérielles ou logicielles**.
-
----
-
-## 🏗️ Graphe des Niveaux de Dépendances Logiques
-
-```
-[ Niveau 0 : Infra & Alim ] ──► [ Niveau 1 : Tête/Cou & WebUI ] ──► [ Niveau 2 : Active Gaze OAK-D ]
-                                           │                                     │
-                                           ▼                                     ▼
-                                [ Niveau 3 : Audio HD & RAG ] ──► [ Niveau 4 : Corps & LeRobot ]
-```
+> **Règle d'hygiène stricte** : ce fichier ne conserve **que les tâches ouvertes `[ ]`** et les blocages actifs. Dès qu'une tâche est validée dans un document `FINAL_` / `DOSSIER_TECHNIQUE_` / `STUDY_`, la supprimer ici (historique suivi via `git log`).  
+> **Specs techniques de référence** : [DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md) · [DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md) · [DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md) · [FINAL_Liste_Achats_BOM.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/05_Gestion_Projet/FINAL_Liste_Achats_BOM.md)
 
 ---
 
-## 🟢 NIVEAU 0 : Infrastructures & Bus de Communication (Prérequis Absolus)
-*Statut : Opérationnel & Validé*
+## 1. CAO & Fabrication Torse / Bassin (Pré-usinage C500)
+*Prérequis avant lancement usinage CNC et intégration corps complet.*
 
-- [x] **Bus CAN 1 Mbps (Jetson)** : Adaptateur InnoMaker USB-CAN reconnu sous SocketCAN (`can0`).
-- [x] **Serveur RAG Documentaire (Mac)** : API LightRAG + FastEmbed sur port 7860/FastAPI (`ask_rag.py`).
-- [ ] **Station d'Alimentation Atelier 600W** : Assemblage du bloc MeanWell LRS-600-48 avec boîtier 3D et connecteurs XT30 2+2 pour alimentation continue sans batterie.
+- [ ] **Butée de lacet arrière (`+/- 95 deg`)** : Modéliser dans Fusion 360 sous `Waist_Plate_7075` (doigt Alu 7075 `16x12x8 mm`, `2x` FHC M4) et sur `Traverse_Renfort_Bassin` (`2x` plots fixes `20x12x9,5 mm` à `+/- 95 deg` avec patins PU 90 ShA, `2x` CHC M4x16 12.9 chacun).
+- [ ] **Tirants bas monoblocs en T (Lame + Sabot)** : Remplacer l'assemblage 2 pièces (`Corniere basse` + `Support Corniere`) par le tirant monobloc nervuré avec semelle 90 deg (`2x` CHC M4x12 borgnes dans `Waist_Plate_7075`), puis valider `Inspect > Interference` face au panier batterie (garde >= `8,5 mm`).
+- [ ] **Définition CAO Hanches (`ASV1_200`)** : Finaliser les `8` occurrences de hanches en cours de définition dans l'assemblage `Torse-123`.
+- [ ] **Approvisionnement & Débit Alu 7075-T6** : Commander `20x100x500mm alu 7075 T6` (Blockenstock, réf `20x100x500mm-alu-7075-t6`, 59,41 EUR TTC) et débiter `2` coupons de `240 mm` pour usinage C500.
 
----
+## 2. Banc Atelier, Tête / Cou & Secours Audio (Jetson)
+*Dépendances : station 48V atelier pour essais continus sans batterie.*
 
-## 🟡 NIVEAU 1 : Réflexes Tête / Cou & Diagnostic (Faisable Immédiatement avec 2x RS-05)
-*Dépendances : Niveau 0 (Bus CAN0 + Alim)*
+- [ ] **Station d'alimentation atelier 600W** : Imprimer le boîtier `RS-power-Top Cover.stp` et assembler le bloc `MeanWell LRS-600-48` (`48 V / 12,5 A`) avec connecteurs `XT30 2+2`.
+- [ ] **Intégration finale Tête / Cou (`2x RS-05`)** : Démonter le casque, ajuster le passage/longueur des câbles sur toute la course Pan/Tilt, remonter le casque, verrouiller les butées logicielles dans `config.py` et valider `OAK-D Pro + ReSpeaker XVF-3800 + cou` en simultané.
+- [ ] **Fallback vocal hors-ligne (`Jetson`)** : Déployer `Kokoro-ONNX` (`onnxruntime-gpu`, voix `ff_siwis`) et valider le Watchdog `5 Hz` basculant sur `Ollama + Kokoro` si coupure Wi-Fi > `2 s`.
 
-- [x] **Web UI Motorbridge (Jetson)** : Serveur léger de diagnostic CAN développé (`Code/dbot/motors/web_ui.py`) pour télémesure en temps réel des 2 moteurs RS-05 (angles, temp, erreurs, Vbus 48V).
-- [x] **Validation Mécanique & Asservissement du Cou (Pan/Tilt)** : Mouvements LERP fluides et non-bloquants qualifiés sur le cou RS-05 via `web_ui.py` et `neck.py`.
-- [x] **Audio Gaze Tracking** : Asservissement angulaire des 2 RS-05 sur la direction DoA (0-360°) renvoyée par le ReSpeaker XVF-3800 (`dbot/behaviors/audio_gaze.py`).
+## 3. Corps Complet, Motorisation & Contrôle (`23 / 27` moteurs acquis)
+*Dépendances : assemblage mécanique Torse/Membres + `2x Teensy 4.1` CAN FD.*
 
----
+- [ ] **Achats moteurs restants (`4 / 27`)** : Acquérir `1x RS-02` (épaule yaw bras 2), `1x RS-00` (poignet pitch bras 2) et `2x` supinations avant-bras (`RS-10P` ou `RS-02`).
+- [ ] **Bus CAN, `Motorbridge` & Zéro encodeurs** : Qualifier les trames MIT (`Kp, Kd, theta, dtheta, tau_ff`) à `1 Mbps`, calibrer le `Zero-Offset` des encodeurs `14-bit` et étendre `web_ui.py` aux `27` moteurs.
+- [ ] **Dynamique `Pinocchio` & Imitation `LeRobot`** : Charger l'URDF complet sous `Pinocchio` (feedforward `G(q)` via `tau_ff`) et connecter `LeRobot` (`ACT / Diffusion Policy`).
 
-## 🔵 NIVEAU 2 : Perception 3D & Regard Actif (OAK-D Pro + Jetson / Mac)
-*Dépendances : Niveau 1 (Tête fonctionnelle) + OAK-D Pro FF*
-
-- [x] **Triade Visuelle Temps Réel & Fusion Spatiale 3D** : Inférence Zero-Shot YOLO-World v2 avec NMS multi-boîtes hiérarchique, classification multicolore et calcul tridimensionnel physique `[X, Y, Z]` (en mm) couplé à la stéréo DepthAI OAK-D Pro.
-- [x] **Déport VPU Myriad X (OAK-D Pro)** : Intégration du filtre matériel WLS (lissage de la carte de profondeur) et du nœud `SpatialLocationCalculator` pour le calcul d'alertes matérielles de danger (Z < 500 mm) à < 5 ms sans charge CPU Jetson.
-- [x] **Mappage Multilingue Français ➔ Anglais pour YOLO-World** : Prise en charge dynamique des prompts en Français avec traduction/correspondance automatique vers CLIP Anglais dans `yolo_world.py` (0 Mo RAM / 0% CPU).
-- [x] **Reconnaissance & Identification de Visages (`face_tracker.py`)** : Identification faciale nommée ultra-compacte (SCRFD 500M + MobileFaceNet ArcFace 512-dim) et persistance dans `known_faces.json`.
-- [x] **Inférence Active Gaze & Cognition 3D Déportée sur Mac (`test_active_gaze.py`)** : Inférence visuelle sémantique complexe via **NVIDIA Cosmos 3D Edge / LocateAnything-3B** **déportée sur le Mac M1 Max (64 Go)** pour l'orientation et le centrage du cou Pan/Tilt ("Regarde la tasse").
-- [x] **Nœud Matériel `dai.node.ObjectTracker` VPU (OAK-D Pro 60+ FPS)** : Suivi optique embarqué sur VPU Myriad X dans `oak_camera.py` pour rafraîchir le tracking à 60 FPS entre les inférences IA.
-- [x] **Filtre de Kalman 3D Anti-Jitter & Trajectoire (`active_gaze.py`)** : Suppression du trépignement des boîtes (gain de 60.8%) et extrapolation d'inertie sur 15 trames (500 ms).
-- [x] **Accélération TensorRT FP16 80+ FPS & Boucle Fermée CAN** : Compilation locale `yolov8m-worldv2.engine` (57.1 Mo, latence 10 ms, VRAM 400 Mo), asservissement physique sur `neck.get_state()`, hystérésis adaptative (117 px), gain dynamique Kp(e) et notificateur de dictionnaire.
-- [x] **Découplage Temporel & Boucle Moteur 100 Hz** : Séparer le contrôle CAN 100 Hz de la perception IA (80 Hz) pour une fluidité cinématographique.
-
----
-
-## 🟣 NIVEAU 3 : Cognition Déportée, Dialogue & Secours Local
-*Dépendances : Niveau 0 (Réseau Hybride Mac ↔ Jetson) + ReSpeaker*
-
-- [x] **Pipeline Audio / Barge-In** : `audio_io_v2.py` non-bloquant et interruption instantanée en cas de parole utilisateur.
-- [x] **Architecture Conversationnelle Autonome Jetson Edge Cloud (DÉFAUT PRODUCTION)** : `test_jetson_edge_cloud.py` (ASR Groq Cloud + LLM Gemini 2.0 Flash + TTS Microsoft Edge-TTS `fr-FR-HenriNeural`) s'exécutant à 100% sur la Jetson sans aucune dépendance serveur Mac (0€, illimité, conversion MP3->WAV 24kHz pour ReSpeaker JST 5W, latence ~350 ms).
-- [x] **Serveur TTS Streaming HD Mac (Option Déportée)** : Inférence Qwen3-TTS VoiceDesign MLX 8-bit déportée sur Mac M1 Max (Port 8002 & Port 8001), streaming 24 kHz ultra-fluide avec vidange du cache Metal (`mx.metal.clear_cache()`), verrou de sécurité `asyncio.Lock`.
-- [x] **Intégration API ElevenLabs Cloud (Annulé)** : Évalué et annulé en raison de l'épuisement rapide du quota gratuit (10 000 car./mois) et de la supériorité d'Edge-TTS (100% gratuit, illimité, ~350 ms).
-- [ ] **Fallback Vocale Hors-Ligne (Jetson)** : Mode dégradé Kokoro-ONNX + Ollama local activé en cas d'interruption Wi-Fi > 2s (Heartbeat 5 Hz).
-
----
-
-## 🔴 NIVEAU 4 : Cinématique Corps Complet, Dynamics & Imitation (En attente d'assemblage)
-*Dépendances : Assemblage mécanique du Torse/Membres + 2x Teensy 4.1 CAN FD*  
-*État Motorisation RobStride : **23 / 27 moteurs acquis (85,2 %)** — Membres inférieurs (Phase 4, 12 DOF : 4× RS-04 + 8× RS-03) et axes de force des bras (2× RS-04 + 4× RS-03) 100% acquis.*
-
-- [ ] **Compensation de Gravité `Pinocchio`** : Urdf D-Bot + injection de couple de gravité G(q) via tau_ff du mode MIT Control sur les 27 moteurs RobStride.
-- [ ] **Apprentissage par Imitation `LeRobot`** : Adaptation du framework Hugging Face pour l'enregistrement et l'exécution de politiques de manipulation autonome (*ACT / Diffusion Policy*).
-- [ ] **Extension Web UI Flotte Complète** : Supervision dynamique de l'ensemble des 27 moteurs CAN du robot.
+## 4. Outillage IA Mac & Qualité RAG
+- [ ] **Campagne `Qwen3.8` / LightRAG & Benchmark QA** : Finaliser la réindexation manuelle (`index_docs.py`), l'audit d'intégrité (`check_integrity.py`) et le benchmark QA (`BENCHMARK_QA_DBOT_120.json`) selon [56_Plan_Deploiement_Tests_Qwen38_LightRAG.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/Outils_de_Travail/IA_sur_Mac_M1_Pro_Max_64Go/56_Plan_Deploiement_Tests_Qwen38_LightRAG.md).

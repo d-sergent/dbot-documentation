@@ -38,11 +38,10 @@ Bienvenue dans la documentation technique du projet de robot humanoïde D-Bot. C
 *Guides d'interfaçage ponctuel et configurations de bas niveau.*
 
 ### Environnement de Développement IA
-*L'architecture de la station de travail pour coder le robot avec l'aide des LLM locaux.*
-- **[Architecture IA (VS Code, Continue, Ollama)](./annexes/ia/02_Architecture_IA_VSCode_Continue.md)** : La stack complète de l'ingénieur robotique.
-- **[Configuration VS Code Multi-Session & Partage IA](./annexes/ia/48_Configuration_VSCode_MultiSession_IA.md)** : Partager les extensions, LanceDB et settings.json entre sessions macOS.
-- **[Importation de Modèles Custom (LM Studio → Ollama)](./annexes/ia/49_Importation_Modeles_Custom_Ollama.md)** : Utiliser les derniers GGUF (Qwen 3.6, etc.) dans Ollama.
-- **[Optimisation du Workflow LLM Local](./annexes/ia/50_Optimisation_Workflow_LLM_Local.md)** : KV Cache, MLX, décodage spéculatif et GPTCache — ce qui marche avec Continue/Ollama.
+*Architecture et benchmarks validés de la station de travail locale (MacBook Pro M1 Max 64 Go) avec Ollama MLX, Unsloth Studio et LightRAG MCP.*
+- **[Guide Référence : IA Locale sur MacBook Pro M1 Max (64 Go)](../Annexes/Outils_de_Travail/IA_sur_Mac_M1_Pro_Max_64Go/00_GUIDE_IA_Locale_M1Max_64Go.md)** : Socle actif (2 moteurs retenus, 3 profils de modèles viables, réglage VRAM et maintenance disque).
+- **[Rapport Expert : Qwen3.8-27B & Unsloth sur M1 Max](../Annexes/Outils_de_Travail/IA_sur_Mac_M1_Pro_Max_64Go/55_Rapport_Expert_Qwen38_Unsloth_M1Max.md)** : Architecture hybride Gated DeltaNet + MTP, calibration sampling et comparatif moteurs.
+- **[Plan de Déploiement & Benchmarks Qwen3.8 / LightRAG](../Annexes/Outils_de_Travail/IA_sur_Mac_M1_Pro_Max_64Go/56_Plan_Deploiement_Tests_Qwen38_LightRAG.md)** : Résultats Pistes A/B/C, Vision CAO Unsloth Studio (`:8888`) et benchmark QA.
 
 ### Actionneurs RobStride
 #### Configuration Initiale

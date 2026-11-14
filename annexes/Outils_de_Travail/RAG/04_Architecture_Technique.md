@@ -51,22 +51,25 @@ Le système utilise une architecture dite **"Pipeline de Recherche Avancé"** en
 
 ## 🛠️ Le Serveur MCP (`mcp_lightrag_server.py`)
 
-C'est le "pont" entre le RAG et vos interfaces (vMLX, Antigravity).
+C'est le "pont" entre le RAG et vos interfaces (Antigravity, Kilo Code, vMLX).
 
 ### Caractéristiques de l'implémentation :
-- **Mode Context-Only** : Le serveur renvoie le texte brut au LLM final pour éviter les appels circulaires et les erreurs de formatage JSON.
+- **Mode Context-Only & Synthèse Hybride** : Le serveur renvoie des extraits classés à l'agent appelant (`llm_mode='antigravity'`), ou synthétise localement en mode `internal` (cascade `Gemini` → `Ollama local qwen3.5:9b` (`think=False`) → `vMLX`).
 - **Async/Sync Parity** : Le moteur d'embedding est forcé en `async` pour garantir la compatibilité avec la boucle d'événements de LightRAG 1.4+.
 - **Failsafe (Mode Naive)** : Si la recherche hybride (complexe) échoue, le serveur bascule automatiquement en recherche vectorielle simple pour garantir une réponse.
+- **Filtrage sélectif `RAG_SKIP_IMAGES`** : Ne filtre que les images raster (`IMAGE_EXTS`), sans jamais masquer les schémas `.svg` XML ni les manuels `.pdf`.
 
 ---
 
 ## 📊 Performance et Matériel
-- **CPU** : L'embedding et le Reranking tournent intégralement sur le CPU du Mac (optimisé Apple Silicon).
-- **RAM** : Le graphe en mémoire consomme environ 500 Mo à 1 Go selon la taille de la base.
-- **Précision** : Le reranker local élimine environ 80% des résultats "presque" pertinents mais hors-sujet.
+- **CPU** : L'embedding (`intfloat/multilingual-e5-large`) et le Reranking (`BAAI/bge-reranker-base`) tournent sur le CPU Apple Silicon.
+- **GPU Unifié (Ollama MLX)** : En mode `--provider ollama`, `qwen3.5:9b` (`nvfp4`, `100 % GPU`, `think=False`, `num_ctx=16384`) consomme ~11–13,5 GiB sur 64 Go et traite les prompts LightRAG en ~4 à 18 s sans dépendance cloud.
+- **RAM Graphe** : Le graphe en mémoire consomme environ 500 Mo à 1 Go selon la taille de la base.
 
 ---
 
-## 📝 Évolutions Futures Possibles
-- **Intégration Vision** : Permettre au RAG d'indexer les schémas techniques (JPG/PNG).
-- **SEA (Stiffness) Integration** : Ajouter des relations spécifiques pour les calculs de torsion SEA.
+## 📝 Capacités Multimodales & Évolutions
+- **Vision Images Raster (Implémentée)** : Analyse technique des `.png`, `.jpg`, `.jpeg`, `.webp` par VLM (Ollama local `qwen3.5:9b` ou Gemini Flash) dans `index_docs.py` et `rag_index_document`.
+- **Schémas Vectoriels `.svg` (Implémentée)** : Extraction XML structurée sécurisée (`defusedxml`) des balises `<title>`, `<desc>`, `<text>` et `<tspan>` groupées par panneau `<g>`, ignorant `<defs>`, `<style>` et géométrie brute.
+- **Purge & Intégrité du Graphe (Implémentée)** : Suppression synchronisée des reliquats archivés/supprimés avec protection contre les collisions d'homonymes (`README.md`, `__init__.py`) et identifiant canonique `doc-<md5>`.
+- **SEA (Stiffness) Integration** : Piste future pour enrichir le graphe sur les calculs de torsion SEA.

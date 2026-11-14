@@ -17,6 +17,7 @@ async def main():
         epilog="""Exemples :
   rag "moteur RS04 spécifications"             # Contexte précis (mode local/naive)
   rag --search "impact d'une hausse de masse"       # Recherche sémantique hybride
+  rag --index fichier.md --provider ollama          # Indexation rapide via Ollama (qwen3.8:27b-mlx)
   rag --topics "mécanique"                      # Liste des thématiques
   rag --audit cinematique_moteurs               # Audit ciblé de cohérence cinématique
   rag --audit                                   # Audit d'intégrité global (tous les domaines)
@@ -53,16 +54,22 @@ async def main():
         help="Choix du moteur d'intelligence (audit, impact, search) : 'antigravity' (délègue à l'agent Antigravity via votre abonnement), 'internal' (vLLM local ou OpenRouter comme avant), ou 'auto'."
     )
     parser.add_argument(
+        "--provider",
+        choices=["auto", "ollama", "gemini"],
+        default="auto",
+        help="Fournisseur pour --index (défaut: auto = Gemini puis repli immédiat sur Ollama local)"
+    )
+    parser.add_argument(
         "--thinking-level",
         choices=["minimal", "low", "medium", "high"],
         default="low",
-        help="Niveau d'effort de raisonnement Antigravity (défaut: low)"
+        help="Niveau d'effort de raisonnement Gemini (défaut: low, ignoré en mode ollama)"
     )
     parser.add_argument(
         "--model",
         type=str,
-        default="gemini-3.1-flash-lite",
-        help="Modèle Gemini pour l'indexation (défaut: gemini-3.1-flash-lite)"
+        default=None,
+        help="Modèle spécifique pour l'indexation (défaut: qwen3.8:27b-mlx pour ollama, gemini-3.1-flash-lite pour gemini)"
     )
     args = parser.parse_args()
 
@@ -75,8 +82,10 @@ async def main():
     server_env = os.environ.copy()
     server_env["RAG_DB_PATH"] = DB_PATH
     server_env["PYTHONPATH"] = os.path.dirname(SERVER_SCRIPT)
-    server_env["VMLX_BASE_URL"] = "http://127.0.0.1:8012/v1"
-    server_env["VMLX_MODEL"] = "lmstudio-community/Qwen3.6-27B-MLX-8bit"
+    server_env.setdefault("RAG_LLM_PROVIDER", "auto")
+    server_env.setdefault("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
+    server_env.setdefault("OLLAMA_MODEL", "qwen3.8:27b-mlx")
+    # VMLX_BASE_URL / VMLX_MODEL / VMLX_API_KEY sont résolus depuis .env ou défauts Unsloth (:8888/v1) dans mcp_lightrag_server.py
     server_env["PYTHONWARNINGS"] = "ignore"
 
     from mcp.client.stdio import stdio_client, StdioServerParameters
@@ -92,11 +101,14 @@ async def main():
         async with ClientSession(read_stream, write_stream) as session:
             await session.initialize()
             if args.index:
-                result = await session.call_tool("rag_index_document", {
+                index_payload = {
                     "file_path": args.index,
+                    "provider": args.provider,
                     "thinking_level": args.thinking_level,
-                    "model": args.model
-                })
+                }
+                if args.model:
+                    index_payload["model"] = args.model
+                result = await session.call_tool("rag_index_document", index_payload)
             elif args.audit:
                 scope = args.audit
                 custom_q = query if scope == "custom" else ""
