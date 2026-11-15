@@ -6,7 +6,7 @@
 > [!NOTE]
 > **Évolution Architecturale V2.6 & Solution C+ (Consolidation CAO `Torse-123 v42`)** :  
 > L'architecture active consolide définitivement le **Squelette Tout-Métal (Traverses Tube Carré 60×60×2 mm en 6060-T6 + Brides Monoblocs 10 lobes centrées Ø 97,00 mm H7, Éclisses Sandwich et Colonne Sagittale en Alu 7075-T651)**, couplé à la **Solution C+** (Ceinture Alu 3 mm `45,43 g` à Z = 1235 mm, Demi-fûts/Carénages PA12-CF, et Portique Anti-Lacet 7075-T6 avec `Corniere haute` `22,54 g` et `Corniere basse` `70,34 g`) et au moteur cervical **RobStride RS-05 (réf. constructeur / CAO : EL05)**.  
-> Cette conception garantit un découplage structural absolu, une rigidité en torsion décuplée (`Corniere haute` : flèche résiduelle `0,1249 mm` sous 210 N, `Sf_P95 = 19,09`) et une démontabilité complète en atelier sans aucune opération destructive. Les pièces PA12-CF du torse ont encore leur masse brute à `ρ = 1,015 g/cm3` dans l'export `v42` (seul `Chassis_Structurel_Bassin_Last` est déjà calibré à `0,700 g/cm3`).
+> Cette conception garantit un découplage structural absolu, une rigidité en torsion décuplée (`Corniere haute` `22,54 g` : flèche résiduelle `0,120 mm` sous 210 N, crête `84,74 MPa` / `Sf_peak = 5,96`, `P95 = 25,15 MPa` / `Sf_P95 = 20,08`) et une démontabilité complète en atelier sans aucune opération destructive. Les pièces PA12-CF du torse ont encore leur masse brute à `ρ = 1,015 g/cm3` dans l'export `v42` (seul `Chassis_Structurel_Bassin_Last` est déjà calibré à `0,700 g/cm3`).
 
 ---
 
@@ -79,7 +79,7 @@ Le torse du D-Bot repose sur une séparation fonctionnelle stricte :
 | **Brides d'Épaules** | Assemblage 3 pièces à pincement | **2 Brides Monoblocs en Alu 7075-T651 (Ø120 mm, `202,30 g`/u)** | Flasque 5 mm + Bossage carré **15 mm** + Centrage direct **Ø 97,00 mm H7** |
 | **Colonne Sagittale** | 2 plaques droites 5 mm + demi-coquilles | **2 Plaques Évidées 2D (5 mm) assemblées par Éclisses 7075** | Éclissage 15 mm sandwich (19,2 kN de précharge) |
 | **Rigidité Latérale (Roll)** | Faible sans renfort (flèche 1,7 mm) | **Traverses Tube Carré 60×60×2 mm (Direct Stator)** | **Flèche au cou = 0,121 mm** (Marge dynamique ×4,1 vs seuil 0,5 mm) |
-| **Système Batteries** | 1 panier central fixe | **2 Paniers Latéraux Symétriques Hot-Swap (48V ORing)** | 480 à 576 Wh (+20% d'autonomie, échange à chaud) |
+| **Système Batteries** | 1 panier central fixe | **2 Paniers Latéraux Coulissants Arrière (`185,5 × 94,9 × 139,7 mm`)** | **2× packs dédiés (spéc. à finaliser)** + Hot-Swap MOSFET ORing / Busbar 150A *(en étude)* |
 
 ---
 
@@ -130,15 +130,8 @@ Les profondeurs intérieures de la cavité du torse ont été mesurées pour fix
 
 ### B. Profil de la Colonne Sagittale : Élargissement Local à 100,0 mm aux Épaules & 94,0 mm au Waist
 
-Partant du plat marchand brut de **`100,0 mm de large`** ([5 × 100 × 495 mm Alu 7075-T6](https://www.blockenstock.fr) @ 18,16 € TTC), la colonne est profilée en 2D sur la NestWorks C500 pour s'adapter rigoureusement à l'environnement géométrique réel :
-
-![Mesure CAO de l'Offset 11.055 mm et Redan 6 mm](./media/cad_mesure_offset_tube_11mm_redan_6mm.png)
-
-*Relevé CAO Fusion 360 : Tube carré 60×60 mm incliné à 15,0° (pitch) avec décentrement sagittal de 11,055 mm. Redan de +6,0 mm sur la colonne sagittale (largeur passant localement à 100,0 mm) garantissant un appui plein avec 5,20 mm de marge de matière résiduelle.*
-
-![Double Rayon R15 mm Tangent sur Redan Colonne Sagittale](./media/cad_colonne_redan_double_rayon_15mm.png)
-
-*Raccordement fluide en double rayon tangent R = 15,0 mm (courbe en S) à la transition 94 mm ➔ 100 mm : annulation du facteur de concentration de contraintes (Kt ~ 1,05) et trajectoire d'usinage 2.5D continue à haute vitesse.*
+Partant du plat marchand brut de **`100,0 mm de large`** ([5 × 100 × 495 mm Alu 7075-T6](https://www.blockenstock.fr) @ 18,16 € TTC), la colonne est profilée en 2D sur la NestWorks C500 pour s'adapter rigoureusement à l'environnement géométrique réel (`Torse-123 v42` — voir les blueprints vectoriels calibrés [`plan_cotation_plaque_basse_colonne.svg`](./media/plan_cotation_plaque_basse_colonne.svg) et [`plan_decoupe_tenon_colonne_haute_basse.svg`](./media/plan_decoupe_tenon_colonne_haute_basse.svg) en § 2F / § 5C, ainsi que les vues orthogonales HD dans `Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/colonne_vertébrale/`) :
+* **Géométrie d'implantation d'épaule** : Tube carré 60×60 mm incliné à `15,0°` (pitch) avec décentrement sagittal de `11,055 mm`. Le redan de `+6,0 mm` sur la colonne sagittale (largeur locale `100,0 mm`) garantit un appui plein avec `5,20 mm` de marge de matière résiduelle et raccordement fluide en double rayon tangent en S `R = 15,0 mm` (`Kt ~ 1,05`).
 
 1. **Au Cou (Sommet, h = 432,7 mm)** : Largeur détourée et biseautée à **`86,5 ~ 94,0 mm`** pour s'inscrire dans l'ouverture circulaire de la coque.
 2. **Aux Épaules (Nœud central, h = 290,0 mm)** : Pleine largeur brute conservée à **`100,0 mm`** (créant le redan de **`+6,0 mm`** côté décentrement du tube). Cela englobe **100% de l'empreinte tournée à 15,0° du tube 60×60 mm** avec une marge de matière résiduelle de **`5,20 mm`** de métal plein. Les transitions haut et bas sont raccordées par un **double rayon tangent en S `R = 15,0 mm`** (concave + convexe), garantissant un écoulement laminaire des contraintes de flexion et une continuité de trajectoire de fraisage.
@@ -500,12 +493,7 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 
 *Blueprint d'ingénierie vectoriel de la Bride d'Épaule Monobloc (Solution C — Révision V2.2). Panel 1 : Usinage 2.5D dans le disque brut Blockenstock Ø120 × 50 mm Alu 7075-T651 (30,00 €) dégageant les 3 étages (Flasque 5,0 mm + Hub 13,20 mm + Bossage carré 55,8×55,8×15 mm, hauteur totale utile = 33,20 mm) d'une seule pièce. Panel 2 : Détail de la vis traversante unique CHC M5×70 mm centrée à X = 7,5 mm (axe vertical Z). Panel 3 : Étude comparative RDM.*
 
-#### Modélisation CAO Réelle — Décomposition en 3 Étages Fonctionnels
-
-| Étage 1 : Flasque Stator (5,00 mm) | Étage 2 : Hub Intermédiaire (13,20 mm) | Étage 3 : Bossage Tube (15,00 mm) |
-| :---: | :---: | :---: |
-| ![Étage 1 : Flasque Stator 5.0 mm](./media/cad_bride_etage1_flasque_5mm.png) | ![Étage 2 : Hub Intermédiaire 13.20 mm](./media/cad_bride_etage2_hub_13mm2.png) | ![Étage 3 : Bossage Tube 15.00 mm](./media/cad_bride_etage3_bossage_15mm.png) |
-| **Appui Stator RS-04 (Festonnage V1)**<br>10 perçages Ø4,3 mm sur PCD Ø106 mm + centrage Ø97 H7 | **Hub de Couple & Épaulement (13,20 mm)**<br>Logement Ø97 mm prof. 13,8 mm (jeu fond 0,6 mm)<br>Épaisseur cumulée = 18,20 mm (vis M4×25)<br>Enveloppe la section arrière Ø96 mm du RS-04 | **Fixation Traverse 60×60 (15,00 mm)**<br>Section 55,8×55,8 mm + poche 44×44 R5<br>Vis M5 traversante à X = 7,5 mm |
+#### Modélisation CAO Réelle — Décomposition en 3 Étages Fonctionnels (`Torse-123 v42`)
 
 * **Architecture monolithique d'un seul bloc (Hauteur totale utile = `33,20 mm` usinée dans le brut Ø120 × 50 mm)** :
   - **Étage 1 — Flasque d'appui stator (5,00 mm) avec Contournage Festonné V1** : Disque allégé à 10 lobes convexes R = 7,0 mm centrés sur les 10 trous de passage Ø4,3 mm (PCD Ø 106,0 mm) et reliés par 10 arcs concaves doux R = 25,64 mm tangents descendant à Ø 105,0 mm. Chanfrein d'entrée d'alésage de `0,5 mm × 45°` dégageant le congé de racine d'épaulement du moteur RS-04 pour un contact plan à 0,0 mm. Se visse directement sur les 10 taraudages M4 du stator.
@@ -513,12 +501,13 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
   - **Étage 3 — Bossage carré d'insertion tube (55,80 × 55,80 × 15,00 mm)** : Usiné directement dans la masse avec congés extérieurs **R = 3,0 mm** et **poche centrale carrée `44 × 44 mm` avec congés verticaux intérieurs R = 5,0 mm et congé de fond intérieur R = 0,5 mm** (profondeur de poche **`15,00 mm`** sur toute la hauteur du bossage, s'appuyant directement sur la face de référence du Hub de 13,20 mm avec adoucissement des contraintes à la racine). Paroi résiduelle latérale = **5,9 mm** (Sf compression M5 = ×8,4 ✅). *(Gain de masse, anti-concentration de contraintes et usinage 2.5D simplifié sans reprise de plancher)*.
   - **Verrouillage traversant épuré (Option 1 validée)** : 1 seul perçage traversant **Ø5,3 mm vertical (axe Z)** centré à **`X = 7,5 mm`** depuis le chant d'extrémité du bossage (pour vis CHC M5 × 70 mm). Distance bord trou Ø5,3 mm / paroi poche : **3,25 mm > 3,0 mm** ✅ (pince latérale = 5,9 mm).
 
-#### Relevés Métrologiques sous Autodesk Fusion 360 (Torse v87 — Version Optimisée 202,3 g)
+#### Relevés Métrologiques Sous Autodesk Fusion 360 (`Torse v87` / `Torse-123 v42` — Version Optimisée `202,30 g`)
 
-| Épaisseur Résiduelle de Creux (4,00 mm) | Rayon Concave d'Arc (R = 25,64 mm) | Étage Hub Intermédiaire (13,20 mm) | Évidements Latéraux & Masse (202,30 g) |
+*(Synthétisés dans le blueprint vectoriel [`contournage_festonne_bride_epaule.svg`](./media/contournage_festonne_bride_epaule.svg) ci-dessous et visibles en 3D HD dans `Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/Bride_Epaule/Bride_Epaule_iso.png`)* :
+
+| Épaisseur Résiduelle de Creux | Rayon Concave d'Arc | Étage Hub Intermédiaire | Évidements Latéraux & Masse |
 | :---: | :---: | :---: | :---: |
-| ![Mesure épaisseur résiduelle 4.00 mm](./media/cad_bride_fusion360_feston_4mm.png) | ![Mesure rayon concave R=25.64 mm](./media/cad_bride_fusion360_rayon_25mm.png) | ![Mesure hauteur Hub 13.20 mm](./media/cad_bride_fusion360_hub_13mm2.png) | ![Évidement latéral et masse 202.30 g](./media/cad_bride_fusion360_evidement_lateral_202g.png) |
-| **Garde Saine Continue : 4,00 mm**<br>Fond de feston Ø 105 mm / alésage Ø 97 mm<br>Rigidité de collerette maximale | **Congé Concave : R = 25,643 mm**<br>Diamètre d'arc = 51,286 mm<br>Transition douce, Kt = 1,15 | **Fût de Guidage Stator : 13,20 mm**<br>Logement Ø 97 mm prof. 13,8 mm<br>Jeu axial de fond = 0,60 mm | **Évidements Latéraux Allégés**<br>Volume = 71 993 mm³ (Alu 7075)<br>Masse unitaire = **202,300 g** (-129,2 g torse) |
+| **Garde Saine Continue : `4,00 mm`**<br>Fond de feston Ø 105 mm / alésage Ø 97 mm<br>Rigidité de collerette maximale | **Congé Concave : `R = 25,643 mm`**<br>Diamètre d'arc = `51,286 mm`<br>Transition douce, Kt = 1,15 | **Fût de Guidage Stator : `13,20 mm`**<br>Logement Ø 97 mm prof. `13,80 mm`<br>Jeu axial de fond = `0,60 mm` | **Évidements Latéraux Allégés**<br>Volume = `71 993 mm3` (Alu 7075)<br>Masse unitaire = **`202,300 g`** (`-129,2 g` torse) |
 
 #### Standard Officiel V1 : Contournage Festonné & Évidements Latéraux (-129,2 g sur la Paire d'Épaules)
 
@@ -580,9 +569,7 @@ Pour canaliser 100% du flux d'air sans fuite interne dans la cavité du torse :
 
 ### C. Interface Colonne : Double Éclisse Structurelle Sandwich & Adaptation Géométrique (15,0°, Offset 11 mm)
 
-![Intégration 3D du Torse, Colonne et Traverse Inclinée](./media/cad_torse_vue_interieure_tube_et_colonne.png)
-
-*Modélisation CAO réelle Torse v71 : Les 2 demi-traverses carrées 60×60 mm sont orientées avec un angle de 15,0° (pitch) et un déport sagittal de 11,055 mm. La semelle éclisse en sandwich assure la liaison rigide sans affaiblir la colonne centrale.*
+Les 2 demi-traverses carrées 60×60 mm sont orientées avec un angle de `15,0°` (pitch) et un déport sagittal de `11,055 mm`. La semelle éclisse en sandwich assure la liaison rigide sans affaiblir la colonne centrale (`Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/semelle_éclisse/`).
 
 ![Plan 2D et Lumières d'Allègement de la Semelle Éclisse 7075-T6](./media/plan_detail_semelle_eclisse_lumieres_2d.svg)
 
@@ -673,10 +660,9 @@ Grâce à la coupe droite plane, la modélisation sous Fusion 360 est rapide, pr
 
 L'assemblage retient **4 alésages fermés 100% en pleine matière** disposés en un **carré parfait de `80,0 mm × 80,0 mm`** centré sur l'origine `(0, 0)` (`Y = ±40,0 mm` et `Z = ±40,0 mm`), éliminant formellement tout risque d'interférence avec l'insert incliné à 15° et maximisant la rigidité angulaire en rotation (Rz) :
 
-| Diagnostic Interférence Initiale (Z = ±30 mm) | Implantation Validée V2.6 en Carré 80 × 80 mm (Y = ±40, Z = ±40 mm) |
+| Diagnostic Interférence Initiale (Z = ±30 mm) | Implantation Validée V2.6 / `v42` en Carré 80 × 80 mm (Y = ±40, Z = ±40 mm) |
 | :---: | :---: |
-| ![Collision initiale avec le coin supérieur de l'insert à Z = 30 mm](./media/cad_fusion360_collision_goupille_insert.png) | ![Validation métrologique CAO sous Fusion 360 — Carré 80 × 80 mm](./media/cad_fusion360_goupilles_carre_80x80.png) |
-| *Interférence physique relevée sur CAO Torse v87 : l'insert incliné à 15° monte jusqu'à Z = +34,17 mm, entrant en collision avec le perçage à Z = 30 mm.* | *Validation métrologique finale : carré parfait 80 × 80 mm (distance mesurée 80,00 mm, dégagement franc ≥ 10,91 mm face à l'insert).* |
+| *Interférence physique relevée sur CAO Torse v87 : l'insert incliné à 15° monte jusqu'à Z = +34,17 mm, entrant en collision avec le perçage à Z = 30 mm.* | *Validation métrologique finale (voir blueprint [`plan_decoupe_tenon_colonne_haute_basse.svg`](./media/plan_decoupe_tenon_colonne_haute_basse.svg) et `semelle_éclisse_face.png`) : carré parfait 80 × 80 mm (distance mesurée 80,00 mm, dégagement franc >= 10,91 mm face à l'insert).* |
 
 ###### 1. Rôle Mécanique & Dimensionnement du Bipoint par Plaque (Entraxe 80 mm)
 * **Plaque Haute (2 Goupilles à Z = +40,0 mm, entraxe Y = 80,0 mm)** : Forme un bipoint d'orientation bloquant 100% des translations (Tx, Ty) et de la rotation dans le plan (Rz) par rapport aux semelles éclisses avec un bras de levier élargi de 80 mm.
@@ -713,9 +699,7 @@ L'assemblage retient **4 alésages fermés 100% en pleine matière** disposés e
 
 ![Imbrication des 2 Inserts dans le Brut 15x80x80 mm Alu 7075](./media/solution_c_imbrication_inserts_15x80x80_7075.svg)
 
-![Modélisation CAO Fusion 360 de l'Insert avec Évidement Circulaire Ø 35 mm](./media/cad_insert_evidement_diametre_35mm_fusion360.png)
-
-*Modélisation CAO réelle sous Fusion 360 de l'Insert carré 55,8 × 55,8 mm (vert) incliné à 15,0° monté sur la Semelle Éclisse (orange). L'évidement circulaire de diamètre Ø 35 mm (Option B traversante dans l'insert) s'intègre parfaitement avec une marge de portée radiale sous les écrous Nylstop M4 (entraxe 42×42 mm) de +8,20 mm de métal plein continu. La semelle éclisse et la colonne restent 100% pleines.*
+*Validation CAO réelle `Torse-123 v42` (`Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/Insert/Insert_iso.png`) : l'insert carré 55,8 × 55,8 × 15,0 mm incliné à 15,0° présente un évidement circulaire traversant **Option B** de diamètre Ø 35,0 mm (`85,71 g`), garantissant une marge de portée radiale continue de `+8,20 mm` sous les 4 écrous Nylstop M4 (entraxe 42×42 mm) tandis que la semelle éclisse (`158,32 g`) et la colonne restent 100% pleines.*
 
 ---
 
@@ -723,42 +707,62 @@ L'assemblage retient **4 alésages fermés 100% en pleine matière** disposés e
 
 ### A. Architecture des Paniers Symétriques
 
-Grâce à l'absence de cage encombrante et au profil épuré des traverses carrées 60×60 mm, le torse intègre **2 paniers latéraux symétriques** coulissant depuis l'arrière :
+Grâce à l'architecture dégagée autour de la colonne vertébrale en 7075-T6 et des traverses carrées 60×60 mm, le torse intègre **2 paniers latéraux symétriques PA12-CF** (`Panier_Batterie_Droit` en `-Y` et `Panier_Batterie_Gauche` en `+Y`) **coulissant facilement vers l'arrière (`-X`) pour extraction et maintenance hors torse**, chacun destiné à recevoir **1 pack batterie dédié** *(spécifications électriques et format cellules à finaliser ultérieurement)* :
 
 ![Vue de dessus des paniers batteries latéraux](./media/paniers_batteries_hot_swap_vue_dessus.svg)
 
-*Vue de dessus des 2 paniers batteries latéraux guidés entre la coque extérieure et la plaque sagittale centrale.*
+*Blueprint vectoriel calibré sur les fichiers STEP/JSON `Torse-123 v42` : vue de dessus X-Y montrant l'extraction arrière `-X`, coupe profil X-Z et nomenclature dimensionnelle exacte des cavités internes.*
 
-| Paramètre | 2 Batteries Latérales (V1/V2) |
+> [!IMPORTANT]
+> **Rectification Métrologique CAO `Torse-123 v42` & Statut des Packs Batteries** :
+> - L'ancien gabarit théorique documenté (~`220 × 50 × 65 mm`) et la configuration figée `12S 5-6 Ah / 480-576 Wh` étaient issus d'une estimation pré-CAO et sont **physiquement incompatibles** avec la longueur hors-tout réelle des paniers (`185,55 mm`).
+> - L'inspection B-Rep directe des fichiers STEP `Panier_Batterie_Droit.step` et `Capot_Droit.step` établit une **cavité rectangulaire interne utile de `~115,8 × 76,5 × 105 mm`** par panier (~`0,93 L` utile chacun, `110,9 mm` brut entre rail de fond et sous-face capot, hors aile arrière alvéolée de ~41 mm et redan avant de ~28 mm).
+> - **2 packs batteries** (1 dans chaque panier) seront dimensionnés et finalisés ultérieurement dans ce volume utile réel (chimie, nombre de cellules en série/parallèle `S/P`, format `18650`/`21700`/LiPo prismatique, BMS intégré et connecteur arrière). *(Les gravures CAO `« 48V 10.5Ah 491W »` sur les capots restent purement indicatives à ce stade.)*
+
+| Paramètre | Architecture Réelle `Torse-123 v42` (2 Paniers Latéraux) |
 | :--- | :---: |
-| **Configuration** | **2× Packs 12S NMC 48V (5Ah à 6Ah)** |
-| **Énergie totale embarquée** | **480 Wh à 576 Wh** (+20% d'autonomie vs pack unique) |
-| **Tension nominale** | 44,4 V (parallélisées via diodes ORing) |
-| **Dimensions unitaires d'un pack** | ~220 × 50 × 65 mm |
-| **Guidage & Coulissement** | Support Batterie Central PA12-CF (`30,39 g` en `v42`) + rails intégrés aux paniers |
-| **Verrouillage mécanique** | Loquet quart-de-tour (Dzus) accessible sur le capot arrière + 2 vis traversantes M4 |
+| **Nombre & Implantation** | **2× Paniers latéraux symétriques** (`-Y` Droit / `+Y` Gauche), **1 pack par panier** |
+| **Cinématique d'Accès** | **Coulissement complet vers l'arrière (`-X`)** pour sortie facile hors du torse |
+| **Encombrement hors-tout d'un panier** | `185,55 × 94,91 × 139,69 mm` (Droit) / `185,11 × 94,91 × 139,69 mm` (Gauche) |
+| **Volume utile interne par panier** | **`~115,8 × 76,5 × 105 mm`** (~`0,93 L` utile sous collerette `Capot`, `110,9 mm` fond-plafond) |
+| **Masses CAO `v42` (PA12-CF brut `1,015`)** | `Panier_D` `307,40 g` / `Panier_G` `307,43 g` *(~212 g calibré/u)* + `Capots` `57,54 / 57,55 g` + `Fixation` `5,17 g × 2` |
+| **Guidage & Coulissement** | `Support Batterie Central` PA12-CF (`30,39 g` brut / ~`21,0 g` cal.) fixé à la colonne (`jeu latéral 0,96 mm`) |
+| **Spécifications Électriques des Packs** | **Cible bus `48V` — Spécifications finales (cellules, S/P, Ah/Wh, BMS) à finaliser ultérieurement** |
 
 #### Support Batterie Central (PA12-CF, CAO Validée `Torse-123 v42`)
-Pour éliminer les anciennes cornières métalliques rapportées et simplifier l'assemblage en atelier, le guidage et le calage axial des deux packs batteries latéraux sont assurés par **`Support Batterie Central`** (`113,04 × 27,03 × 20,04 mm`, en deux demi-coquilles assemblées) :
+Pour éliminer les anciennes cornières métalliques rapportées et simplifier l'assemblage en atelier, le guidage et le calage inférieur des deux paniers coulissants sont assurés par **`Support Batterie Central`** (`113,04 × 27,03 × 20,04 mm`, en deux demi-coquilles assemblées autour de la colonne) :
 * **Matériau & Procédé** : Composite PA12-CF (masse brute CAO `v42` à `ρ = 1,015 g/cm³` = **`30,39 g`**, volume **`29,95 cm³`** ; masse calibrée 0,70 g/cm³ = **`~21,0 g`**).
 * **Fixation Traversante par 2 Vis M4** :
-  * **2 vis horizontales traversantes** : Vis CHC M4 × 18 mm en inox 316 (McMaster `92290A161`) traversant la colonne sagittale centrale de 5,0 mm, associées à 2 rondelles plates DIN 125A M4 (McMaster `93475A230`) et 2 écrous frein Nylstop M4 (McMaster `93625A150`), serrage à 2,2 N.m. *(Audit CAO `v42` : les 2 vis CHC M4x18 sufﬁsent, aucune vis verticale M4x12 supplémentaire n'est nécessaire).*
-* **Fonction de Guidage** : Glissières bilatérales épousant avec un jeu fonctionnel de 0,4 mm les nervures basses des racks coulissants `Panier_Batterie_Droit` (brut `v42` `307,40 g` / calibré ~`212 g`) et `Panier_Batterie_Gauche` (brut `v42` `307,43 g` / calibré ~`212 g`), fermés par `Capot_Droit` / `Capot_Gauche` (`57,54 / 57,55 g` bruts).
+  * **2 vis horizontales traversantes** : Vis CHC M4 × 18 mm en inox 316 (McMaster `92290A161`) traversant la colonne sagittale centrale de `5,04 mm` (entraxe `65,0 mm`, perçages `Ø 4,30 mm`), associées à 2 rondelles plates DIN 125A M4 (McMaster `93475A230`) et 2 écrous frein Nylstop M4 (McMaster `93625A150`), serrage à `2,2 N.m`. *(Audit CAO `v42` : les 2 vis CHC M4x18 suffisent, aucune vis verticale supplémentaire n'est nécessaire).*
+* **Fonction de Guidage** : Glissières bilatérales à ailettes soutenant par-dessous les patins inférieurs des racks coulissants `Panier_Batterie_Droit` et `Panier_Batterie_Gauche` le long de la colonne, fermés en partie supérieure par `Capot_Droit` / `Capot_Gauche` (2 vis de maintien par capot) et épaulés par les barrettes `Fixation Batterie` (`2×`).
 
 ---
 
 ### B. Circuit Électrique Hot-Swap ORing (Remplacement à Chaud)
 
-Le circuit électrique permet de remplacer un pack déchargé sans interrompre l'alimentation des calculateurs (Jetson Orin Nano, PDB, IMU) :
+L'étude électrique d'architecture de puissance est **en cours de finalisation** afin d'autoriser un véritable remplacement à chaud (**Hot-Swap sans coupure**) des 2 packs embarqués tout en respectant l'encombrement réel des paniers (`~115,8 × 76,5 × 105 mm`) et les bonnes pratiques industrielles de bout en bout (thermique, anti-inrush, démontabilité sans dessoudage et séparation bus puissance/logique) :
 
-![Schéma électrique Hot-Swap ORing avec Diodes Schottky](./media/schema_electrique_hot_swap_oring.svg)
+![Architecture Électrique et Étude Hot-Swap ORing D-Bot](./media/schema_electrique_hot_swap_oring.svg)
 
-| Composant | Référence | Spécifications | Rôle dans le Torse |
-| :--- | :--- | :--- | :--- |
-| **2× Diodes Schottky** | **MBR4060PT** (Boîtier TO-247) | 40A, 60V, V_forward = 0,45V | Diodes ORing montées sur radiateurs alu fixés à la colonne sagittale |
-| **2× BMS 12S** | BMS 12S 25A-30A | Protection intégrée pack | Protection surcharge, décharge profonde et équilibrage |
-| **4× Connecteurs Puissance** | **XT60** mâle/femelle | 60A max, câble 10 AWG silicone | Connexion automatique en fin de course d'insertion du panier |
-| **1× Fusible Réarmable** | PTC Resettable 40A | Protection bus principal 48V | Sécurité PDB générale |
+> [!WARNING]
+> **Obsolescence de l'ancien schéma historique (Schottky / PTC / PDB Matek)** :
+> - L'ancien schéma simplifié mentionnant une `PDB Matek` (non dimensionnée pour du 48V haute intensité), un fusible réarmable `PTC 40A` (sous-calibré face aux pics des 27 moteurs RobStride) et deux diodes Schottky `MBR4060PT` (`V_f ~ 0,45..0,65 V`, soit ~`20 à 35 W` dissipés à chaud dans un torse clos PA12-CF) est **formellement abandonné**.
+> - La distribution centrale validée en BOM repose désormais sur le **`Busbar double cuivre 12×M4 150A`** (`✅ Acheté`), le **`Porte-fusible lame ANL 80A`**, le switch High-Side **`Infineon BTS50085-1TMA`** piloté par **`Sony Spresense`** et le convertisseur veille **`Mean Well DDR-15G-5`** (`5V Always-On`).
+
+| Sous-ensemble / Composant | Référence Validée ou Cible | Statut Étude | Rôle & Exigence Ingénierie dans le Torse |
+| :--- | :--- | :---: | :--- |
+| **2× Packs Batteries (1 / panier)** | Cible `48V`, format selon cavité `~115,8 × 76,5 × 105 mm` | ⏳ **À finaliser** | Chimie, S/P, Ah/Wh et BMS à figer selon géométrie panier et pic moteurs |
+| **Connectique Arrière Extractible** | `XT90-S` (anti-étincelle) / `Anderson SB50` ou dock | ⏳ **À finaliser** | Accouplement arrière accessible lors du retrait `-X` (**zéro dessoudage atelier**) |
+| **Étage OR-ing & Précharge Hot-Swap** | **Contrôleurs Ideal-Diode MOSFET N-Ch** + limiteur Inrush / `Delta_V` | ⏳ **À finaliser** | Remplace `MBR4060PT` (`< 2 W` vs `~30 W`), anti-retour `< 1 us` et sécurité d'insertion à soc différent |
+| **Sécurité & Coupure Puissance** | **Fusible Lame ANL 80A** + **E-Stop** + **`BTS50085-1TMA`** | ✅ **BOM Validée** | Protection bus 48V, arrêt d'urgence matériel et coupure logique par `Spresense` |
+| **Distribution Centrale 48V** | **Busbar double cuivre 12 × M4, 150A** (+ couvercle) | ✅ **Acheté** | Remplace toute PDB PCB (`Matek`) ; reçoit banc condensateurs / TVS anti back-EMF |
+| **Convertisseurs DC-DC (4 Bucks)** | `19V/5A` (Jetson + OAK-D) · `12V/10A` (Teensy) · `2× DROK 48V→12V 25A` (`✅ Reçus`) · `Mean Well DDR-15G-5` (`5V Always-On`) | ✅ **Spécifiés / Part. Reçus** | Isolation veille `Spresense/IMU` en amont du switch puissance ; `2× DROK` sur avant-bras pour `16× Feetech` |
+
+#### Points Clés Restant à Finaliser pour Valider le Hot-Swap de Bout en Bout
+1. **Adéquation Pack / Panier** : Arrêter l'arrangement cellules, le BMS et le courant continu/crête admissibles dans le volume utile mesuré (`~115,8 × 76,5 × 105 mm`).
+2. **Gestion `Delta_V` et Inrush à l'Insertion** : Garantir l'absence d'arc électrique et de courant d'égalisation destructeur lors du ré-enfichage d'un pack plein (`~54 V`) alors que l'autre pack alimente déjà le bus sous charge (`~42–46 V`).
+3. **Thermique et Dissipation** : Calibrer les pertes Joule `R_ds(on)` des MOSFET d'OR-ing et prévoir leur refroidissement sur flanc métallique (`colonne 7075-T6`), à distance des parois polymères PA12-CF.
+4. **Ergonomie Connectique Arrière (`-X`)** : Valider un détrompage robuste et une boucle de service souple autorisant l'extraction coulissante vers l'arrière sans contrainte ni dessoudage.
 
 ---
 
@@ -1008,9 +1012,7 @@ En éliminant les oblongs au profit de perçages de précision `Ø 4,30 mm` usin
 
 ### A. Impression Verticale (Debout) & Réduction des Supports
 
-Avec le squelette métallique reprenant tous les efforts structurels, la coque PA12-CF est imprimée **verticalement (torse debout sur le plan de coupe abdominal)**, ce qui réduit de **75% le volume de supports** :
-
-![Orientation d'impression FDM verticale des demi-torses en PA12-CF](./media/orientation_impression_verticale.svg)
+Avec le squelette métallique reprenant tous les efforts structurels, les panneaux modulaires PA12-CF de la **Solution C+** (`Carenage_Pectoral_Haut` P1/P2 coupé à `Z = 1285 mm`, `Carenage_Lombaire_Arriere`, `Plastron_Ventral_Torse`) sont orientés **verticalement selon l'axe Z (coupe plane en appui sur le plateau Qidi Plus 4)** pour optimiser l'anisotropie des parois et réduire d'environ 75 % les supports internes (voir le découpage `Torse-123 v42` complet en § 8B ci-dessous dans [`schema_architecture_decoupage_modulaire_torse_pa12cf.svg`](./media/schema_architecture_decoupage_modulaire_torse_pa12cf.svg)).
 
 ---
 
@@ -1085,25 +1087,31 @@ Afin de certifier formellement la tenue de la liaison anti-torsion d'épaule du 
 | :--- | :--- |
 | **Cornière haute** | `Corniere haute` (gauche / droite, symétrie parfaite, `22,54 g` en `v42`) |
 | **Matériau affecté** | **Aluminium 7075-T651** (E = 71 GPa, nu = 0,33, Rp0,2 = 505 MPa, Rm = 572 MPa) |
-| **Masse propre modélisée FEA** | **`22,45 g`** (Volume net : 7,99 cm³ ; version `v42` CAO : **`22,54 g`**, 8,02 cm³) |
-| **Conditions aux limites (BC)** | **Encastrement rigide (Constraint Fixed)** sur la face inférieure de la semelle d'appui (interface ceinture Alu 3 mm à Z = 1235 mm) |
-| **Effort appliqué** | **Force axiale F = 210 N** (traction / compression le long de l'axe de la patte supérieure, correspondant au couple pic de lacet de 36 N.m avec bras de levier de 170 mm) |
-| **Type de maillage** | Tétraèdres quadratiques de 2nd ordre (Netgen) avec raffinement fin (h = 1,0 mm) dans le congé de raccordement de la nervure |
+| **Masse propre modélisée FEA** | **`22,54 g`** (Volume net : `8,02 cm3` — modèle exact `Torse-123 v42`) |
+| **Conditions aux limites (BC)** | **Encastrement rigide (Constraint Fixed)** sur la face inférieure de la semelle d'appui (interface ceinture Alu 3 mm à Z = 1235 mm) et les 2 perçages M4 |
+| **Effort appliqué** | **Force axiale F = 210,0 N** (traction / cisaillement le long de l'axe de la patte supérieure, correspondant au couple pic de lacet de 36 N.m avec bras de levier de 171,5 mm) |
+| **Type de maillage** | Tétraèdres quadratiques C3D10 (Gmsh, `27 478 nœuds`, `15 688 éléments`) avec raffinement fin dans le congé de raccordement `R = 1,5 mm` de la nervure |
 
-##### Résultats Numériques Consolidés (CalculiX Solver) :
-* **Déplacement maximal au sommet (Flèche axiale)** : **`0,1249 mm`** (quasi-indéformable sous 210 N, garantissant le blocage absolu du déversement en lacet sans perte d'asservissement).
-* **Contrainte de Von Mises maximale absolue (Crête singulière)** : **`83,62 MPa`** (localisée au point de singularité géométrique en fond de congé de redan).
-* **Contrainte de Von Mises au 95e percentile (P95 représentatif)** : **`26,45 MPa`** (champ de contrainte nominal sur 95% du volume de la pièce).
-* **Facteur de sécurité élastique nominal (Sf_P95)** : **`Sf_P95 = 505 MPa / 26,45 MPa = 19,09 ✅`**.
-* **Facteur de sécurité élastique minimal absolu (Sf_min sur crête)** : **`Sf_min = 505 MPa / 83,62 MPa = 6,04 ✅`**.
+##### Résultats Numériques Consolidés (CalculiX Solver — Alignés sur `DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md`) :
+* **Déplacement maximal au sommet (Flèche axiale)** : **`0,120 mm`** (quasi-indéformable sous `210,0 N`, garantissant le blocage absolu du déversement en lacet sans perte d'asservissement).
+* **Contrainte de Von Mises maximale absolue (Crête singulière)** : **`84,74 MPa`** (localisée au point de singularité géométrique en fond de congé de redan).
+* **Contrainte de Von Mises au 95e percentile (P95 représentatif)** : **`25,15 MPa`** (champ de contrainte nominal sur 95% du volume de la pièce).
+* **Facteur de sécurité élastique nominal (Sf_P95)** : **`Sf_P95 = 505 MPa / 25,15 MPa = 20,08`** *(le cartouche résumé HD indique `11,2`, conservatif, les deux restent > 10 ✅)*.
+* **Facteur de sécurité élastique minimal absolu (Sf_peak sur crête)** : **`Sf_peak = 505 MPa / 84,74 MPa = 5,96 ✅`**.
 
-![Simulation FEA FreeCAD CalculiX — Cartographie des Contraintes de Von Mises sur la Cornière Haute 7075-T6](./media/fea_freecad_corniere_haute_von_mises.png)
+![Rendu 3D Haute Définition Von Mises Cornière Haute (CalculiX)](./media/Corniere_haute_VonMises.png)
 
-*Cartographie des contraintes équivalentes de Von Mises (Solver CalculiX / FreeCAD FEM) sur la pièce `Corniere haute` (Alu 7075-T651, 22,45 g) sous effort axial de 210 N (lacet 36 N.m). L'échelle chromatique met en évidence une contrainte nominale uniforme très faible (vert/bleu, 10 à 26 MPa, Sf_P95 = 19,09) et une concentration singulière locale maîtrisée en fond de redan (rouge, 83,62 MPa, Sf_min = 6,04), confirmant la suppression définitive du comportement de lame-ressort grâce à la nervure continue de 3,0 mm.*
+*Rendu 3D volumique CalculiX HD (`Corniere_haute_VonMises.png`, synchronisé automatiquement depuis `Exports_CAO_DBot` via [`sync_visual_snapshots.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/scripts/cad_tools/sync_visual_snapshots.py)) : contrainte crête `84,74 MPa` (`Sf_peak = 5,96`) et contrainte P95 représentative `25,15 MPa` (`Sf_P95 = 20,08`).*
+
+> [!NOTE]
+> **Rendu 3D HD Von Mises (`Corniere_haute_VonMises.png`) & Dossier FEA Complet** :
+> L'ancien aperçu d'interface FreeCAD (`83,62 MPa`) a été purgé et remplacé par le rendu volumique HD souverain CalculiX (`84,74 MPa` crête), maintenu automatiquement à jour depuis :
+> - [Corniere_haute_VonMises.png](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/Corniere_haute/Corniere_haute_VonMises.png)
+> - [DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Calculs_FEA_Torse_et_Bassin.md)
 
 > [!TIP]
 > **Verdict d'Ingénierie Structurelle** :
-> Avec une contrainte représentative de `26,45 MPa` située **19 fois sous la limite élastique Rp0,2 (505 MPa)** et une contrainte de crête singulière de `83,62 MPa` située **6 fois sous Rp0,2**, la `Corniere haute` nervurée (22,45 g) élimine rigoureusement tout effet de lame-ressort. La pièce est validée sans réserve pour fabrication CNC sur la NestWorks C500.
+> Avec une contrainte représentative de `25,15 MPa` située **20 fois sous la limite élastique Rp0,2 (505 MPa)** et une contrainte de crête singulière de `84,74 MPa` située **près de 6 fois sous Rp0,2** (`Sf_peak = 5,96`), la `Corniere haute` nervurée (`22,54 g`) élimine rigoureusement tout effet de lame-ressort. La pièce est validée sans réserve pour fabrication CNC sur la NestWorks C500.
 
 ---
 

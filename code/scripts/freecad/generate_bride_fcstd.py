@@ -25,13 +25,12 @@ import ObjectsFem
 from femmesh.gmshtools import GmshTools
 from femtools import ccxtools
 
-BASE_DOC = Path("/Users/Shared/Mon Google Drive Physique/Documentation")
-STEP_PATH = BASE_DOC / "01_Mecanique_et_Chassis/Torse_et_Bassin/cad/Bride_Epaule.step"
+BASE_CAO = Path("/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot")
+STEP_PATH = BASE_CAO / "Bibliotheque_Composants_STEP/Bride_Epaule.step"
 CCX_BIN = "/Applications/FreeCAD.app/Contents/Resources/bin/ccx"
 
-# Destinations d'enregistrement souveraines
-EXPORT_DIR = Path("/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/Bride_Epaule")
-WORKSPACE_CAD = BASE_DOC / "01_Mecanique_et_Chassis/Torse_et_Bassin/cad"
+# Destination d'enregistrement souveraine
+EXPORT_DIR = BASE_CAO / "01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/Bride_Epaule"
 
 ALU_7075_T6 = {
     "Name": "Aluminium-7075-T651",
@@ -207,21 +206,12 @@ def generate_fea_package():
     except Exception as e:
         print(f"  Note pipeline VTK : {e}")
 
-    # Enregistrement des documents .FCStd
+    # Enregistrement du document .FCStd dans la destination souveraine
     os.makedirs(EXPORT_DIR, exist_ok=True)
-    os.makedirs(WORKSPACE_CAD, exist_ok=True)
-
     fcstd_export = EXPORT_DIR / "Bride_Epaule_FEA_Results.FCStd"
-    fcstd_workspace = WORKSPACE_CAD / "Bride_Epaule_FEA_Results.FCStd"
 
-    doc.saveAs(str(fcstd_workspace))
-    print(f"💾 Fichier .FCStd sauvegardé dans l'espace de travail : {fcstd_workspace}")
-
-    try:
-        shutil.copy2(str(fcstd_workspace), str(fcstd_export))
-        print(f"💾 Fichier .FCStd sauvegardé dans Pièces Isolées : {fcstd_export}")
-    except Exception as e:
-        print(f"⚠️ Erreur copie vers Pieces_Isolees : {e}")
+    doc.saveAs(str(fcstd_export))
+    print(f"💾 Fichier .FCStd sauvegardé dans Pièces Isolées : {fcstd_export}")
 
     # Création du lanceur 1-clic macOS .command
     launcher_path = EXPORT_DIR / "Ouvrir_Simulation_FreeCAD.command"

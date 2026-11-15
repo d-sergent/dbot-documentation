@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > Ce guide synthétise le socle actif d'inférence locale retenu sur Mac M1 Max (`64 Go` de RAM unifiée, `~400 Go/s`). Il remplace les anciens guides de mai 2026 archivés dans [Archives](./Archives/) (`01_` à `54_`, exclus automatiquement de LightRAG).
-> Pour l'architecture détaillée des modèles (`Gated DeltaNet`, `MTP`, calibration sampling) et les mesures empiriques sur le dépôt, voir [55_Rapport_Expert_Qwen38_Unsloth_M1Max.md](./55_Rapport_Expert_Qwen38_Unsloth_M1Max.md) et [56_Plan_Deploiement_Tests_Qwen38_LightRAG.md](./56_Plan_Deploiement_Tests_Qwen38_LightRAG.md).
+> Pour l'architecture détaillée des modèles (`Gated DeltaNet`, `MTP`, calibration sampling), les mesures empiriques et la veille robotique complète, voir [55_Rapport_Expert_Qwen38_Unsloth_M1Max.md](./55_Rapport_Expert_Qwen38_Unsloth_M1Max.md), [56_Plan_Deploiement_Tests_Qwen38_LightRAG.md](./56_Plan_Deploiement_Tests_Qwen38_LightRAG.md) et [57_Veille_et_Benchmark_Modeles_Robotique_Ollama_Unsloth.md](./57_Veille_et_Benchmark_Modeles_Robotique_Ollama_Unsloth.md).
 
 ---
 
@@ -10,6 +10,7 @@
 
 - [1. Architecture Retenue](#1-architecture-retenue)
 - [2. Modèles Viables Conservés](#2-modèles-viables-conservés)
+  - [2.1 Compléments Spécialisés et Pont Robotique](#21-compléments-spécialisés-et-pont-robotique)
 - [3. Exclusions Actées](#3-exclusions-actées)
 - [4. Réglages Système M1 Max](#4-réglages-système-m1-max)
 - [5. Commandes et Nettoyage Disque](#5-commandes-et-nettoyage-disque)
@@ -35,8 +36,16 @@ Le catalogue actif est volontairement restreint à **trois profils complémentai
 | :--- | :--- | :--- | :--- | :--- |
 | **Principal (Code, RAG, Raisonnement & VLM)** | `unsloth/Qwen3.8-27B-GGUF` (`UD-Q4_K_XL` + `mmproj-F16.gguf`) | Unsloth Studio (`:8888`) | ~`19 Go` (+ vision) | Orchestration agentique Kilo, appels outils MCP, analyse schémas/captures CAO. |
 | **Principal MLX (RAG & Débit)** | `qwen3.8:27b-mlx` | Ollama MLX (`:11434`) | `18 Go` | Indexation/synthèse LightRAG, inférence MLX native rapide sur M1 Max. |
-| **Challenger Vitesse (MoE)** | `gemma4:26b` (`26B-A4B nvfp4`, `4B` actifs) | Ollama MLX (`:11434`) | `16 Go` | Itérations conversationnelles rapides quand la latence prime sur le raisonnement dense profond. |
+| **Challenger Vitesse (MoE)** | `gemma4:26b` (`26B-A4B nvfp4`, `~4B` actifs) | Ollama MLX (`:11434`) | `16 Go` | Installé — **À benchmarker** face à `qwen3.8:27b-mlx` pour l'agent vocal / multimodal déporté à faible latence (`35 à 75+ tok/s` MoE). |
 | **Poids Plume Utilitaire** | `qwen3.5:9b` | Ollama (`:11434`) | `7,6 Go` | Tâches légères en arrière-plan, classification rapide et repli minimal en VRAM. |
+
+### 2.1 Compléments Spécialisés et Pont Robotique
+
+Des options spécialisées sont documentées et cadrées dans [57_Veille_et_Benchmark_Modeles_Robotique_Ollama_Unsloth.md](./57_Veille_et_Benchmark_Modeles_Robotique_Ollama_Unsloth.md) sans alourdir le socle permanent :
+
+- **Code lourd ponctuel (Mac `64 Go`, Fusion 360 fermé)** : `unsloth/Qwen3-Coder-Next-GGUF` en **`UD-Q3_K_XL`** (`~33–38 Go`, `80B-A3B`, sans vision ; éviter `UD-Q4` à `~46–50 Go` qui frôle le swap SSD).
+- **Vision Spatiale `Active Gaze` légère (Mac)** : `Molmo2-4B` (`~5,4 Go` natif `mlx-vlm`) ou `LocateAnything-3B` (`~4,7 Go` GGUF), alors que `NVIDIA Cosmos-Reason2` (`2B/8B`) vise d'abord l'écosystème NVIDIA CUDA/Jetson AI Lab et ne dispose pas de portage MLX/`Ollama` officiel sur Mac.
+- **Upgrade Embarqué Jetson Orin Nano `8 Go` (hors-ligne, marge `2,60 Go`)** : **`lfm3:1.7b`** (ou `lfm2.5:1.2b`), **`qwen3.5:2b`** et le micro-routeur **`functiongemma`** (`270M`, `~288 Mo`, fine-tunable Unsloth) en remplacement de `qwen2.5:0.5b` ([47_Cerveau_IA_Ollama_LLM.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/jetson/brain/47_Cerveau_IA_Ollama_LLM.md)).
 
 ---
 
@@ -51,8 +60,9 @@ Pour éviter les crashs Metal, le swap SSD et la dispersion documentaire, les op
   - **VS Code + Continue / Roo Code / LanceDB** : remplacés par **Antigravity / Kilo** et **LightRAG MCP**.
 - **Modèles & formats retirés** :
   - **Quantifications `2-bit`** (`JANG_2L`, `JANG_2S`, ex. `Mistral-Small-4-119B-A6B-JANG_2L`, `Qwen3.5-122B-A10B-JANG_2S`) : perte de rigueur sur le code, la syntaxe XML/JSON et les cotes mécaniques, et instabilité Metal sur longs contextes.
-  - **Modèles massifs `70B` à `120B+`** (`DeepSeek-R1-Distill-Llama-70B`, `Llama 4 Scout`) : `37` à `43 Go` de poids laissant trop peu de marge pour le KV cache, macOS et Fusion 360 sur `64 Go`, avec un débit limité par la bande passante mémoire (`~400 Go/s`).
-  - **Anciennes générations remplacées** : `Qwen 3.6`, `DeepSeek-R1 32B`, `Gemma 4 31B Dense` (redondant face à `Qwen3.8-27B`), `Nemotron Omni`, `MiniMax M2.7`.
+  - **Modèles massifs `70B` à `550B+`** (`DeepSeek-R1-Distill-Llama-70B`, `Llama 4 Scout`, `Qwen3.8-Flash-Next` `176B` à `~80–94 Go`, `DeepSeek-V4.1-Flash` `~500 Go`, `GLM-5.3-Flash` `320B`, `Nemotron 3.5 Super VL` `120B` et `Bolt` `74B`) : dépassent le plafond GPU Metal (`56 GiB`) ou saturent les `64 Go` sans offload SSD ni swap SSD avec Fusion 360 / LightRAG.
+  - **Anciennes générations & MoE intermédiaires redondants** : `Qwen 3.6`, `Qwen3.5/3.6-35B-A3B` (battu en code terminal par `Qwen3.8-27B`), `GLM-4.7-Flash` et `Nemotron-3-Nano` `30B` (texte seul, redondants face à `gemma4:26b` MLX `16 Go`), `DeepSeek-R1 32B`, `Gemma 4 31B Dense`, `Nemotron Omni`, `MiniMax M2.7`.
+  - **Embeddings LightRAG** : `EmbeddingGemma 2` non retenu face à `bge-m3` (`1024-dim`) déjà indexé.
 
 ---
 

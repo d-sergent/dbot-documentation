@@ -1,42 +1,407 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="100%" height="100%">
   <defs>
-    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2a324b" stroke-width="0.8"/>
-    </pattern>
-    <linearGradient id="battery" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#2563eb"/>
-      <stop offset="100%" stop-color="#1e3a8a"/>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1120"/>
     </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="paViolet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4c1d95" stop-opacity="0.72"/>
+      <stop offset="50%" stop-color="#6d28d9" stop-opacity="0.62"/>
+      <stop offset="100%" stop-color="#5b21b6" stop-opacity="0.78"/>
+    </linearGradient>
+    <linearGradient id="aluSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <linearGradient id="packCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0369a1" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.28"/>
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <pattern id="gridPat" width="25" height="25" patternUnits="userSpaceOnUse">
+      <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#334155" stroke-width="0.5" stroke-opacity="0.28"/>
+    </pattern>
+    <pattern id="hexPat" width="16" height="14" patternUnits="userSpaceOnUse">
+      <polygon points="4,1 12,1 15,7 12,13 4,13 1,7" fill="none" stroke="#a78bfa" stroke-width="0.9" stroke-opacity="0.55"/>
+    </pattern>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrCyanRev" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto">
+      <polygon points="8 1, 0 4, 8 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0 1, 9 4.5, 0 8" fill="#10b981"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 1, 8 4, 0 7" fill="#f59e0b"/>
+    </marker>
   </defs>
 
-  <rect width="100%" height="100%" fill="#0f172a"/>
-  <rect width="100%" height="100%" fill="url(#grid)"/>
+  <!-- Canvas & Grid -->
+  <rect width="1600" height="1000" fill="url(#bgGrad)"/>
+  <rect width="1600" height="1000" fill="url(#gridPat)"/>
 
-  <text x="380" y="28" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
-    SYSTÈME BATTERIES D-BOT — 2 PANIERS LATÉRAUX HOT-SWAP (VUE DE DESSUS)
+  <!-- Header -->
+  <rect x="24" y="18" width="1552" height="62" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.3" stroke-opacity="0.6"/>
+  <text x="44" y="45" fill="#f8fafc" font-family="system-ui, -apple-system, sans-serif" font-size="21" font-weight="700">
+    PANIERS BATTERIES LATÉRAUX COULISSANTS — MÉTROLOGIE CAO TORSE-123 v42
+  </text>
+  <text x="44" y="67" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="13">
+    2x Paniers symétriques PA12-CF • Retrait coulissant facile par l'arrière (-X) • 1 pack batterie par panier (spécifications packs à finaliser)
+  </text>
+  <rect x="1290" y="29" width="268" height="38" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+  <text x="1424" y="53" fill="#34d399" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
+    ÉCHELLE CALIBRÉE STEP v42
   </text>
 
-  <g transform="translate(60, 50)">
-    <rect width="640" height="220" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <!-- ================================================================== -->
+  <!-- PANEL 1 : VUE DE DESSUS (X-Y) — Scale 1.85 px/mm, Origin (410,395) -->
+  <!-- ================================================================== -->
+  <rect x="24" y="94" width="906" height="610" rx="10" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.4"/>
+  <text x="44" y="122" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="15" font-weight="700">
+    PANEL 1 — VUE DE DESSUS (PLAN X-Y À Z ~ 1210 mm) &amp; CINÉMATIQUE DE RETRAIT ARRIÈRE (-X)
+  </text>
+  <text x="44" y="141" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11.5">
+    Gauche schéma = ARRIÈRE (-X dorsal) • Droite schéma = AVANT (+X facade) • Axe médian colonne Y = +8,67 mm
+  </text>
 
-    <!-- Labels DOS vs VENTRE -->
-    <text x="70" y="30" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">DOS (Insertion Hot-Swap) ⇦</text>
-    <text x="570" y="30" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">VENTRE ➔</text>
+  <!-- Reference Axes in Panel 1: X=0 at x=410, Y=8.67 at y=405, scale=1.85 px/mm -->
+  <line x1="65" y1="405" x2="885" y2="405" stroke="#475569" stroke-width="1" stroke-dasharray="6,4"/>
+  <text x="916" y="422" fill="#64748b" font-family="monospace" font-size="11" text-anchor="end">+X AVANT</text>
+  <text x="42" y="422" fill="#10b981" font-family="monospace" font-size="11" font-weight="700">-X ARRIÈRE</text>
+  <line x1="410" y1="176" x2="410" y2="660" stroke="#334155" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="415" y="188" fill="#64748b" font-family="monospace" font-size="10.5">X = 0</text>
 
-    <!-- Central Sagittal Spine Plate 2D -->
-    <rect x="70" y="100" width="500" height="16" rx="2" fill="#475569" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="320" y="112" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Plaque Sagittale 2D (5 mm)</text>
+  <!-- Ghost Envelope: Carenage_Lombaire_Arriere (-69.6 .. +128.6) & Carenage_Pectoral_Haut (+59.2 .. +171.3) -->
+  <path d="M 390,174 C 292,177 276,285 276,405 C 276,525 292,640 390,645 L 705,638 C 734,532 734,278 705,180 Z"
+        fill="none" stroke="#64748b" stroke-width="1.3" stroke-dasharray="7,5" stroke-opacity="0.65"/>
+  <text x="484" y="164" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5" font-style="italic" text-anchor="middle">
+    Enveloppe coque PA12-CF (Lombaire Arrière -69,6 mm / Pectoral Haut +171,3 mm)
+  </text>
 
-    <!-- Left Battery Pack Sliding -->
-    <rect x="140" y="45" width="160" height="45" rx="4" fill="url(#battery)" stroke="#60a5fa" stroke-width="1.5"/>
-    <text x="220" y="72" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Batterie Gauche (12S 5Ah)</text>
-    <!-- Arrow Left -->
-    <path d="M 120 67 L 70 67 M 80 60 L 70 67 L 80 74" stroke="#f59e0b" stroke-width="2" fill="none"/>
+  <!-- Platine_Connectique_Facade (+X front: X[136.85..170.59] -> x[663..726], Y[-56..73] -> y[286..525]) -->
+  <rect x="663" y="286" width="63" height="239" rx="6" fill="#c2410c" fill-opacity="0.22" stroke="#f97316" stroke-width="1.5"/>
+  <text x="738" y="302" fill="#fdba74" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Platine_Connectique_Facade</text>
+  <text x="738" y="317" fill="#94a3b8" font-family="monospace" font-size="10">X[+136,9..+170,6] (12V/DEBUG/48V)</text>
 
-    <!-- Right Battery Pack Sliding -->
-    <rect x="140" y="125" width="160" height="45" rx="4" fill="url(#battery)" stroke="#60a5fa" stroke-width="1.5"/>
-    <text x="220" y="152" fill="#ffffff" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Batterie Droite (12S 5Ah)</text>
-    <!-- Arrow Right -->
-    <path d="M 120 147 L 70 147 M 80 140 L 70 147 L 80 154" stroke="#f59e0b" stroke-width="2" fill="none"/>
+  <!-- Support Batterie Central (X[-14.21..98.83] -> x[383.7..592.8], Y[-4.84..22.19] -> y[380.0..430.0]) -->
+  <rect x="383.7" y="380" width="209.1" height="50" rx="4" fill="#ca8a04" fill-opacity="0.22" stroke="#eab308" stroke-width="1.4" stroke-dasharray="4,2"/>
+
+  <!-- Colonne Vertebrale (X[21.79..121.83] -> x[450.3..635.4], Y[6.15..11.19] -> y[400.3..409.7]) -->
+  <rect x="450.3" y="400.3" width="185.1" height="9.4" rx="1" fill="url(#aluSlate)" stroke="#e2e8f0" stroke-width="1.1"/>
+  <!-- 2x CHC M4x18 fixation bolts on Support Batterie Central -->
+  <circle cx="403" cy="405" r="3.5" fill="#fbbf24" stroke="#0f172a" stroke-width="1"/>
+  <circle cx="523" cy="405" r="3.5" fill="#fbbf24" stroke="#0f172a" stroke-width="1"/>
+
+  <!-- Clean right-side callouts with leader lines (zero overlap with baskets) -->
+  <polyline points="636,403 662,368 735,368" fill="none" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="740" y="365" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="700">Colonne 7075-T6</text>
+  <text x="740" y="379" fill="#cbd5e1" font-family="monospace" font-size="10">100,04 x 5,04 mm (axe Y=+8,67)</text>
+
+  <polyline points="593,425 655,446 735,446" fill="none" stroke="#eab308" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="740" y="443" fill="#fde047" font-family="system-ui, sans-serif" font-size="11" font-weight="700">Support Batterie Central</text>
+  <text x="740" y="457" fill="#cbd5e1" font-family="monospace" font-size="10">113,04 x 27,03 mm (guidage inf.)</text>
+
+  <!-- ================================================= -->
+  <!-- PANIER BATTERIE GAUCHE (+Y -> TOP: y = 223..398.6) -->
+  <!-- X[-59.02..+126.09] -> x[300.8..643.3]             -->
+  <!-- Y[+12.15..+107.06] -> y[223.0..398.6]             -->
+  <!-- Spine side wall at y=398.6 (thickness 4.0mm = 7.4px -> inner y=391.2) -->
+  <!-- Outer honeycomb flank at y=223..237 (inner y=237) -->
+  <!-- Rear curved wing: x=300.8..380.3; Internal rear partition at x=377; Front internal wall at x=591; Front nose step to x=643.3 -->
+  <!-- ================================================= -->
+  <g id="panier-gauche">
+    <!-- Outer silhouette matching Panier_Batterie_Droit_dessus.png mirrored in Y -->
+    <path d="M 300.8,398.6 L 643.3,398.6 L 643.3,240 C 643.3,234 638,230 631,230 L 605,230 L 600,223 L 352,223 C 338,262 315,330 300.8,398.6 Z"
+          fill="url(#paViolet)" stroke="#c4b5fd" stroke-width="1.8"/>
+    <!-- Hex flank cutout hint on outer side wall -->
+    <rect x="382" y="223.5" width="206" height="13.5" fill="url(#hexPat)" stroke="#a78bfa" stroke-width="0.9"/>
+    <!-- Rear wing pocket contour (chamfered aerodynamic tail) -->
+    <path d="M 310,391.2 L 372,391.2 L 372,240 L 356,232 C 338,272 320,335 310,391.2 Z"
+          fill="#0f172a" fill-opacity="0.45" stroke="#8b5cf6" stroke-width="1.1"/>
+    <!-- Internal Battery Pocket (115.8 x 76.5 mm -> 214.2 x 141.5 px) -->
+    <rect x="377" y="249.7" width="214.2" height="141.5" rx="3" fill="#090d16" fill-opacity="0.72" stroke="#38bdf8" stroke-width="1.3"/>
+    <!-- Stepped front mounting boss -->
+    <rect x="601" y="240" width="38" height="151" rx="2" fill="#1e1b4b" fill-opacity="0.5" stroke="#8b5cf6" stroke-width="1"/>
+    <circle cx="628" cy="248" r="4.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.3"/>
+    <circle cx="354" cy="240" r="4.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.3"/>
+    <!-- Battery Pack Gauche (TBD spec) inside pocket -->
+    <rect x="384" y="257" width="200" height="127" rx="5" fill="url(#packCyan)" stroke="#22d3ee" stroke-width="1.7" stroke-dasharray="6,3"/>
+    <text x="484" y="309" fill="#e0f2fe" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
+      PACK BATTERIE GAUCHE
+    </text>
+    <text x="484" y="328" fill="#7dd3fc" font-family="system-ui, sans-serif" font-size="11.5" text-anchor="middle">
+      Spécifications à finaliser
+    </text>
+    <text x="484" y="346" fill="#cbd5e1" font-family="monospace" font-size="10.5" text-anchor="middle">
+      Cavité utile : ~115,8 x 76,5 mm
+    </text>
+    <!-- Fixation Batterie Gauche latch bar near spine -->
+    <rect x="468" y="391.5" width="146" height="13" rx="2" fill="#38bdf8" fill-opacity="0.22" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3,2"/>
+    <text x="484" y="207" fill="#c4b5fd" font-family="system-ui, sans-serif" font-size="12" font-weight="700" text-anchor="middle">
+      Panier_Batterie_Gauche (+Y) — L = 185,11 mm | 307,43 g brut
+    </text>
   </g>
+
+  <!-- ================================================= -->
+  <!-- PANIER BATTERIE DROIT (-Y -> BOTTOM: y = 411.4..587.0) -->
+  <!-- X[-59.46..+126.09] -> x[300.0..643.3]             -->
+  <!-- Y[-89.72..+5.19] -> y[411.4..587.0]               -->
+  <!-- ================================================= -->
+  <g id="panier-droit">
+    <path d="M 300.0,411.4 L 643.3,411.4 L 643.3,570 C 643.3,576 638,580 631,580 L 605,580 L 600,587 L 352,587 C 338,548 315,480 300.0,411.4 Z"
+          fill="url(#paViolet)" stroke="#c4b5fd" stroke-width="1.8"/>
+    <rect x="382" y="573" width="206" height="13.5" fill="url(#hexPat)" stroke="#a78bfa" stroke-width="0.9"/>
+    <path d="M 310,418.8 L 372,418.8 L 372,570 L 356,578 C 338,538 320,475 310,418.8 Z"
+          fill="#0f172a" fill-opacity="0.45" stroke="#8b5cf6" stroke-width="1.1"/>
+    <!-- Internal Battery Pocket -->
+    <rect x="377" y="418.8" width="214.2" height="141.5" rx="3" fill="#090d16" fill-opacity="0.72" stroke="#38bdf8" stroke-width="1.3"/>
+    <!-- Stepped front mounting boss -->
+    <rect x="601" y="418.8" width="38" height="151" rx="2" fill="#1e1b4b" fill-opacity="0.5" stroke="#8b5cf6" stroke-width="1"/>
+    <circle cx="628" cy="562" r="4.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.3"/>
+    <circle cx="354" cy="570" r="4.5" fill="#0f172a" stroke="#e2e8f0" stroke-width="1.3"/>
+    <!-- Battery Pack Droit (TBD spec) -->
+    <rect x="384" y="426" width="200" height="127" rx="5" fill="url(#packCyan)" stroke="#22d3ee" stroke-width="1.7" stroke-dasharray="6,3"/>
+    <text x="484" y="479" fill="#e0f2fe" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
+      PACK BATTERIE DROIT
+    </text>
+    <text x="484" y="498" fill="#7dd3fc" font-family="system-ui, sans-serif" font-size="11.5" text-anchor="middle">
+      Spécifications à finaliser
+    </text>
+    <text x="484" y="516" fill="#cbd5e1" font-family="monospace" font-size="10.5" text-anchor="middle">
+      Cavité utile : ~115,8 x 76,5 mm
+    </text>
+    <!-- Fixation Batterie Droit latch bar -->
+    <rect x="468" y="405.5" width="146" height="13" rx="2" fill="#38bdf8" fill-opacity="0.22" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3,2"/>
+    <text x="484" y="608" fill="#c4b5fd" font-family="system-ui, sans-serif" font-size="12" font-weight="700" text-anchor="middle">
+      Panier_Batterie_Droit (-Y) — L = 185,55 mm | 307,40 g brut
+    </text>
+  </g>
+
+  <!-- ================================================= -->
+  <!-- GHOST SLIDE-OUT EXTRACTION POSITIONS (-X REAR)   -->
+  <!-- ================================================= -->
+  <path d="M 88,396 L 265,396 L 265,244 L 118,244 C 106,292 96,342 88,396 Z"
+        fill="#10b981" fill-opacity="0.08" stroke="#10b981" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <path d="M 88,414 L 265,414 L 265,566 L 118,566 C 106,518 96,468 88,414 Z"
+        fill="#10b981" fill-opacity="0.08" stroke="#10b981" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <!-- Prominent Extraction Arrows -->
+  <line x1="292" y1="320" x2="132" y2="320" stroke="#10b981" stroke-width="3" marker-end="url(#arrGreen)"/>
+  <line x1="292" y1="490" x2="132" y2="490" stroke="#10b981" stroke-width="3" marker-end="url(#arrGreen)"/>
+  <rect x="52" y="338" width="218" height="36" rx="5" fill="#064e3b" fill-opacity="0.88" stroke="#10b981" stroke-width="1.2"/>
+  <text x="161" y="354" fill="#6ee7b7" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle">
+    COULISSEMENT ARRIÈRE (-X)
+  </text>
+  <text x="161" y="368" fill="#d1fae5" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">
+    Extraction directe hors torse pour service
+  </text>
+
+  <!-- CAD Dimension Lines in Panel 1 -->
+  <!-- Overall Basket Length 185.55 mm -->
+  <line x1="300.0" y1="620" x2="300.0" y2="672" stroke="#38bdf8" stroke-width="0.9" stroke-dasharray="3,2"/>
+  <line x1="643.3" y1="582" x2="643.3" y2="672" stroke="#38bdf8" stroke-width="0.9" stroke-dasharray="3,2"/>
+  <line x1="304" y1="664" x2="639" y2="664" stroke="#38bdf8" stroke-width="1.4" marker-start="url(#arrCyanRev)" marker-end="url(#arrCyan)"/>
+  <rect x="394" y="652" width="155" height="22" rx="4" fill="#0f172a"/>
+  <text x="471" y="667" fill="#38bdf8" font-family="monospace" font-size="12" font-weight="700" text-anchor="middle">L_ext = 185,55 mm</text>
+
+  <!-- Pocket Length 115.8 mm -->
+  <line x1="377" y1="560" x2="377" y2="640" stroke="#f59e0b" stroke-width="0.9" stroke-dasharray="3,2"/>
+  <line x1="591.2" y1="560" x2="591.2" y2="640" stroke="#f59e0b" stroke-width="0.9" stroke-dasharray="3,2"/>
+  <line x1="381" y1="632" x2="587" y2="632" stroke="#f59e0b" stroke-width="1.3" marker-start="url(#arrAmber)"/>
+  <line x1="381" y1="632" x2="587" y2="632" stroke="#f59e0b" stroke-width="1.3" marker-end="url(#arrAmber)"/>
+  <rect x="415" y="621" width="138" height="20" rx="4" fill="#0f172a"/>
+  <text x="484" y="635" fill="#fbbf24" font-family="monospace" font-size="11.5" font-weight="700" text-anchor="middle">L_poche = 115,8 mm</text>
+
+  <!-- Right-side Y widths callout -->
+  <line x1="646" y1="411.4" x2="770" y2="411.4" stroke="#38bdf8" stroke-width="0.9" stroke-dasharray="3,2"/>
+  <line x1="646" y1="587.0" x2="770" y2="587.0" stroke="#38bdf8" stroke-width="0.9" stroke-dasharray="3,2"/>
+  <line x1="762" y1="416" x2="762" y2="582" stroke="#38bdf8" stroke-width="1.4" marker-end="url(#arrCyan)"/>
+  <text x="772" y="497" fill="#38bdf8" font-family="monospace" font-size="11.5" font-weight="700">l_ext = 94,91 mm</text>
+  <text x="772" y="514" fill="#fbbf24" font-family="monospace" font-size="11">l_poche = 76,5 mm</text>
+  <text x="772" y="531" fill="#94a3b8" font-family="monospace" font-size="10.5">Jeu colonne : 0,96 mm</text>
+
+  <!-- ================================================================== -->
+  <!-- PANEL 2 : VUE DE PROFIL SAGITTALE (X-Z) (x=946..1576, y=94..540)   -->
+  <!-- ================================================================== -->
+  <rect x="946" y="94" width="630" height="446" rx="10" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.4"/>
+  <text x="966" y="122" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="15" font-weight="700">
+    PANEL 2 — COUPE PROFIL (PLAN X-Z) &amp; HAUTEUR UTILE
+  </text>
+  <text x="966" y="141" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11.5">
+    Z mesuré au sol (robot debout) • Flanc droit (Panier_Batterie_Droit + Capot + Support)
+  </text>
+
+  <!-- Profile coords: scale = 1.65 px/mm, X=0 -> x=1260, Z=1210 -> y=340 (+Z UP -> y = 340 - (Z-1210)*1.65) -->
+  <!-- Reference Z lines -->
+  <line x1="970" y1="440.7" x2="1555" y2="440.7" stroke="#334155" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="970" y="454" fill="#64748b" font-family="monospace" font-size="10">Z = 1149 mm (Appui Rail Sup.)</text>
+  <line x1="970" y1="227.5" x2="1555" y2="227.5" stroke="#334155" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="970" y="220" fill="#64748b" font-family="monospace" font-size="10">Z = 1278 mm (Sommet Panier)</text>
+
+  <!-- Colonne Vertebrale background slice (X[21.8..121.8] -> x[1296..1461], Z[1110..1310] -> y[175..505]) -->
+  <rect x="1296" y="175" width="165" height="330" fill="#475569" fill-opacity="0.22" stroke="#64748b" stroke-width="1.2" stroke-dasharray="5,3"/>
+  <text x="1378" y="192" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5" text-anchor="middle">Colonne 7075 (plan médian)</text>
+
+  <!-- Support Batterie Central in profile: X[-14.2..98.8] -> x[1236.5..1423], Z[1129.1..1149.2] -> y[440.5..473.6] -->
+  <rect x="1236.5" y="440.5" width="186.5" height="33" rx="3" fill="#ca8a04" fill-opacity="0.45" stroke="#eab308" stroke-width="1.6"/>
+  <circle cx="1264" cy="461" r="4" fill="#f8fafc" stroke="#0f172a" stroke-width="1"/>
+  <circle cx="1371" cy="461" r="4" fill="#f8fafc" stroke="#0f172a" stroke-width="1"/>
+  <text x="1330" y="492" fill="#fde047" font-family="system-ui, sans-serif" font-size="11" font-weight="600" text-anchor="middle">
+    Support Batterie Central + 2x CHC M4x18 [92290A161]
+  </text>
+
+  <!-- Panier_Batterie_Droit side silhouette matching Panier_Batterie_Droit_face.png:
+       Rear (-X = -59.5 -> x=1161.8 at top Z=1278 -> y=227.5, tapered down to X ~ -29.5 -> x=1211 at bottom Z=1138.5 -> y=458)
+       Front (+X = +126.1 -> x=1468) -->
+  <path d="M 1161.8,227.5 L 1468,227.5 L 1468,450 C 1468,455 1463,458 1456,458 L 1216,458 C 1206,458 1201,452 1196,438 L 1161.8,238 Z"
+        fill="url(#paViolet)" stroke="#c4b5fd" stroke-width="1.8"/>
+  <!-- Honeycomb grille window on outer wall -->
+  <rect x="1248" y="254" width="142" height="162" rx="4" fill="url(#hexPat)" stroke="#a78bfa" stroke-width="1"/>
+  <!-- Internal pocket dashed rectangle (X[-7.8..+108] local aligned -> width 191 px, Z[1153.2..1264.1] -> y[250.7..433.7]) -->
+  <rect x="1230" y="250.7" width="191" height="183" rx="4" fill="#090d16" fill-opacity="0.58" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="1325" y="328" fill="#e0f2fe" font-family="system-ui, sans-serif" font-size="12" font-weight="700" text-anchor="middle">
+    CAVITÉ INTERNE PACK
+  </text>
+  <text x="1325" y="346" fill="#7dd3fc" font-family="monospace" font-size="11" text-anchor="middle">
+    115,8 x 76,5 x ~105 mm
+  </text>
+  <text x="1325" y="364" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5" text-anchor="middle">
+    (110,9 mm sol-plafond brut)
+  </text>
+
+  <!-- Capot_Droit top lid: Z[1236.5..1281.6] -> y[221.9..296.3] top flange + lip -->
+  <path d="M 1164,227.5 L 1164,220 L 1470,220 L 1470,248 L 1450,248 L 1445,227.5 Z"
+        fill="#a855f7" fill-opacity="0.55" stroke="#e9d5ff" stroke-width="1.3"/>
+  <text x="1315" y="212" fill="#e9d5ff" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" text-anchor="middle">
+    Capot_Droit/Gauche (57,5 g) + Fixation Batterie
+  </text>
+
+  <!-- Platine Facade in front -->
+  <rect x="1486" y="204" width="52" height="238" rx="4" fill="#c2410c" fill-opacity="0.22" stroke="#f97316" stroke-width="1.4"/>
+  <text x="1512" y="325" fill="#fdba74" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle" transform="rotate(-90 1512 325)">
+    Platine Facade (+X)
+  </text>
+
+  <!-- Extraction arrow to Left (-X) in Panel 2 -->
+  <line x1="1152" y1="340" x2="1032" y2="340" stroke="#10b981" stroke-width="3" marker-end="url(#arrGreen)"/>
+  <text x="1088" y="328" fill="#34d399" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle">Retrait Arrière</text>
+  <text x="1088" y="362" fill="#a7f3d0" font-family="monospace" font-size="10.5" text-anchor="middle">-X (&gt; 186 mm course)</text>
+
+  <!-- Height dimension H = 139.69 mm -->
+  <line x1="1468" y1="227.5" x2="1483" y2="227.5" stroke="#38bdf8" stroke-width="0.9"/>
+  <line x1="1468" y1="458" x2="1483" y2="458" stroke="#38bdf8" stroke-width="0.9"/>
+  <line x1="1477" y1="231" x2="1477" y2="454" stroke="#38bdf8" stroke-width="1.3"/>
+  <text x="1484" y="518" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="700" text-anchor="end">
+    H_panier = 139,69 mm (143,1 mm capot fermé)
+  </text>
+
+  <!-- ================================================================== -->
+  <!-- PANEL 3 (BOTTOM + RIGHT CARD) : MÉTROLOGIE & ÉTUDE À FINALISER     -->
+  <!-- ================================================================== -->
+  <!-- Right Alert Box (x=946..1576, y=554..704) -->
+  <rect x="946" y="554" width="630" height="150" rx="10" fill="#451a03" fill-opacity="0.55" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="966" y="582" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="14" font-weight="700">
+    POINT CRITIQUE D'INGÉNIERIE — GABARIT PACKS À FINALISER
+  </text>
+  <text x="966" y="606" fill="#fef3c7" font-family="system-ui, sans-serif" font-size="12">
+    • Correction métrologique : l'ancien gabarit documenté (~220 x 50 x 65 mm) est incompatible avec
+  </text>
+  <text x="976" y="624" fill="#fef3c7" font-family="system-ui, sans-serif" font-size="12">
+      le panier réel v42 (longueur hors-tout 185,55 mm ; cavité rectangulaire utile ~115,8 x 76,5 x 105 mm).
+  </text>
+  <text x="966" y="647" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12">
+    • Chaque panier reçoit 1 pack batterie dédié (~0,93 L utile). La chimie, le format cellules (18650 /
+  </text>
+  <text x="976" y="665" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12">
+      21700 / LiPo pouch), le BMS et le connecteur arrière démontable restent à finaliser ultérieurement.
+  </text>
+  <text x="966" y="688" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-style="italic">
+    (Gravure CAO indicative sur capots G+D : « 48V 10.5Ah 491W » — objectif énergétique système à confirmer)
+  </text>
+
+  <!-- Bottom Technical Table Panel (x=24..1576, y=718..980) -->
+  <rect x="24" y="718" width="1552" height="262" rx="10" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.4"/>
+  <text x="44" y="746" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="14.5" font-weight="700">
+    PANEL 3 — NOMENCLATURE MÉTROLOGIQUE CAO (TORSE-123 v42) &amp; VISSERIE NORMALISÉE MCMASTER-CARR
+  </text>
+
+  <!-- Table headers -->
+  <rect x="44" y="760" width="990" height="28" rx="4" fill="#1e293b" stroke="#475569" stroke-width="0.9"/>
+  <text x="58" y="779" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700">Composant CAO v42</text>
+  <text x="310" y="779" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700">Dimensions X x Y x Z (mm)</text>
+  <text x="560" y="779" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700">Masse Brute (1,015)</text>
+  <text x="720" y="779" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700">Rôle &amp; Liaison</text>
+
+  <!-- Row 1 -->
+  <text x="58" y="807" fill="#e2e8f0" font-family="monospace" font-size="11.5">Panier_Batterie_Droit (x1)</text>
+  <text x="310" y="807" fill="#cbd5e1" font-family="monospace" font-size="11.5">185,55 x 94,91 x 139,69</text>
+  <text x="560" y="807" fill="#38bdf8" font-family="monospace" font-size="11.5">307,40 g (~212 g cal.)</text>
+  <text x="720" y="807" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11.5">Tiroir droit (-Y), cavité ~115,8 x 76,5 x 105 mm</text>
+  <line x1="44" y1="817" x2="1034" y2="817" stroke="#334155" stroke-width="0.7"/>
+
+  <!-- Row 2 -->
+  <text x="58" y="836" fill="#e2e8f0" font-family="monospace" font-size="11.5">Panier_Batterie_Gauche (x1)</text>
+  <text x="310" y="836" fill="#cbd5e1" font-family="monospace" font-size="11.5">185,11 x 94,91 x 139,69</text>
+  <text x="560" y="836" fill="#38bdf8" font-family="monospace" font-size="11.5">307,43 g (~212 g cal.)</text>
+  <text x="720" y="836" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11.5">Tiroir gauche (+Y), symétrie autour colonne Y=+8,67</text>
+  <line x1="44" y1="846" x2="1034" y2="846" stroke="#334155" stroke-width="0.7"/>
+
+  <!-- Row 3 -->
+  <text x="58" y="865" fill="#e2e8f0" font-family="monospace" font-size="11.5">Capot_Droit + Capot_Gauche (x2)</text>
+  <text x="310" y="865" fill="#cbd5e1" font-family="monospace" font-size="11.5">185,39 x 88,19 x 45,11 /u</text>
+  <text x="560" y="865" fill="#38bdf8" font-family="monospace" font-size="11.5">57,54 + 57,55 g bruts</text>
+  <text x="720" y="865" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11.5">Couvercles supérieurs PA12-CF + 2 vis maintien</text>
+  <line x1="44" y1="875" x2="1034" y2="875" stroke="#334155" stroke-width="0.7"/>
+
+  <!-- Row 4 -->
+  <text x="58" y="894" fill="#fde047" font-family="monospace" font-size="11.5">Support Batterie Central (2 corps)</text>
+  <text x="310" y="894" fill="#cbd5e1" font-family="monospace" font-size="11.5">113,04 x 27,03 x 20,04</text>
+  <text x="560" y="894" fill="#38bdf8" font-family="monospace" font-size="11.5">30,39 g (~21,0 g cal.)</text>
+  <text x="720" y="894" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11.5">Berceau glissière bilatéral, entraxe 65 mm sur colonne</text>
+  <line x1="44" y1="904" x2="1034" y2="904" stroke="#334155" stroke-width="0.7"/>
+
+  <!-- Row 5 -->
+  <text x="58" y="923" fill="#e2e8f0" font-family="monospace" font-size="11.5">Fixation Batterie (x2)</text>
+  <text x="310" y="923" fill="#cbd5e1" font-family="monospace" font-size="11.5">78,99 x 7,02 x 14,37 /u</text>
+  <text x="560" y="923" fill="#38bdf8" font-family="monospace" font-size="11.5">5,17 g x 2 bruts</text>
+  <text x="720" y="923" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11.5">Barrettes supérieures appui le long de la colonne</text>
+  <line x1="44" y1="933" x2="1034" y2="933" stroke="#334155" stroke-width="0.7"/>
+
+  <!-- Row 6 -->
+  <text x="58" y="954" fill="#a7f3d0" font-family="monospace" font-size="11.5">Visserie Support (McMaster)</text>
+  <text x="310" y="954" fill="#cbd5e1" font-family="monospace" font-size="11.5">2x CHC M4x18 [92290A161]</text>
+  <text x="560" y="954" fill="#10b981" font-family="monospace" font-size="11.5">Serre : 2,2 N.m</text>
+  <text x="720" y="954" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11.5">+ 2x Rondelles 93475A230 + 2x Nylstop M4 93625A150</text>
+
+  <!-- Legend / Color Key Box (Right side of Panel 3: x=1060..1556) -->
+  <rect x="1060" y="760" width="496" height="202" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1"/>
+  <text x="1080" y="786" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="13" font-weight="700">
+    LÉGENDE MATÉRIAUX &amp; CONVENTION CAO
+  </text>
+  <rect x="1080" y="803" width="22" height="14" rx="2" fill="url(#paViolet)" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="1114" y="814" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="11.5">PA12-CF Composite : Paniers G/D &amp; Capots (alvéoles latérales)</text>
+
+  <rect x="1080" y="830" width="22" height="14" rx="2" fill="url(#aluSlate)" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1114" y="841" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="11.5">Aluminium 7075-T6 : Colonne vertébrale sagittale (5,04 mm)</text>
+
+  <rect x="1080" y="857" width="22" height="14" rx="2" fill="#ca8a04" fill-opacity="0.45" stroke="#eab308" stroke-width="1.2"/>
+  <text x="1114" y="868" fill="#fde047" font-family="system-ui, sans-serif" font-size="11.5">PA12-CF Jaune : Support Batterie Central (guidage inférieur)</text>
+
+  <rect x="1080" y="884" width="22" height="14" rx="2" fill="url(#packCyan)" stroke="#22d3ee" stroke-width="1.3" stroke-dasharray="4,2"/>
+  <text x="1114" y="895" fill="#7dd3fc" font-family="system-ui, sans-serif" font-size="11.5">Zone utile pack (1/panier) : Dimensionnement électrique TBD</text>
+
+  <line x1="1080" y1="918" x2="1102" y2="918" stroke="#10b981" stroke-width="3"/>
+  <text x="1114" y="922" fill="#6ee7b7" font-family="system-ui, sans-serif" font-size="11.5">Direction d'extraction arrière (-X) — Maintenance sans outil lourd</text>
+
+  <text x="1080" y="947" fill="#94a3b8" font-family="monospace" font-size="10.5">Source CAO : AUDIT_METROLOGIQUE_Torse_et_Bassin.json (v42)</text>
 </svg>

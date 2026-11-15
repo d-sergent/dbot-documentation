@@ -703,9 +703,7 @@ Le solveur géométrique B-Rep de Fusion 360 fournit instantanément les coordon
   - Perçages liaison basse `Plastron_Ventral_Torse` / `Corniere basse` : perçages `Ø 4,50 mm` pour vis `CHC M4×18 [92290A161]` et `CHC M4×14 [91290A150]` + `Nord-Lock M4 [91812A252]`.
   - Masse finie certifiée CAO (`Torse-123 v42`) : **`433,53 g`** (Aluminium 7075-T6, volume `154,28 cm3`).
 
-##### 3. Livrable C : Plan Technique de Fabrication Imprimable (PDF)
-Pour le contrôle métrologique dimensionnel sur marbre d'atelier *(export historique v105 — se référer au blueprint vectoriel `v42` ci-dessus pour les cotes et masses à jour)* :
-- [Plan de Fabrication Waist Plate 7075 (PDF)](./media/Waist_Plate_7075_Plan_Certifie.pdf)
+*(Note : l'export PDF historique `v105` obsolète `Waist_Plate_7075_Plan_Certifie.pdf` a été purgé ; le blueprint vectoriel `v42` ci-dessus et le fichier DXF 1:1 font foi.)*
 
 ---
 

@@ -27,8 +27,8 @@ from femmesh.gmshtools import GmshTools
 from femtools import ccxtools
 
 # Chemins souverains
-BASE_DIR = Path("/Users/Shared/Mon Google Drive Physique/Documentation")
-STEP_PATH = BASE_DIR / "01_Mecanique_et_Chassis/Torse_et_Bassin/cad/Bride_Epaule.step"
+BASE_DIR = Path("/Users/Shared/Mon Google Drive Physique")
+STEP_PATH = BASE_DIR / "Exports_CAO_DBot/Bibliotheque_Composants_STEP/Bride_Epaule.step"
 CCX_BIN = "/Applications/FreeCAD.app/Contents/Resources/bin/ccx"
 
 # Propriétés Aluminium 7075-T651

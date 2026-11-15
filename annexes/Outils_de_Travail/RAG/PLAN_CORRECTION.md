@@ -11,8 +11,8 @@
 ### - Décision explicite : Masse bride epaule = 202.3 g
 - [ ] `DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md`
 - [ ] `FINAL_CONSOLIDE_Bras_et_Mains.md`
-- [ ] `cad_bride_fusion360_rayon_25mm.png`
-- [ ] `cad_bride_fusion360_evidement_lateral_202g.png`
+- [x] `cad_bride_fusion360_rayon_25mm.png` *(purgée de `media/` le 15/11/2026 — remplacée par `contournage_festonne_bride_epaule.svg`)*
+- [x] `cad_bride_fusion360_evidement_lateral_202g.png` *(purgée de `media/` le 15/11/2026 — remplacée par `contournage_festonne_bride_epaule.svg`)*
 
 ## 3. Règles d'Application Strictes
 1. **Périmètre Officiel** : Ne modifier que les fichiers de Niveau 1 (spécifications actives, BOM, dossiers techniques). Ne jamais altérer les études d'hypothèses historiques (`STUDY_`).

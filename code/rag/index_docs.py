@@ -17,6 +17,18 @@ from pathlib import Path
 from dotenv import load_dotenv
 from itertools import cycle
 
+_RAG_DIR = str(Path(__file__).resolve().parent)
+if _RAG_DIR not in sys.path:
+    sys.path.insert(0, _RAG_DIR)
+
+from source_key_utils import (
+    build_active_source_aliases,
+    build_claimed_source_map,
+    build_rag_source_key,
+    extract_rel_path,
+    is_doc_processed,
+)
+
 # Charger les variables d'environnement (.env du projet)
 env_path = Path(__file__).resolve().parent.parent.parent / ".env"
 load_dotenv(dotenv_path=env_path)
@@ -395,6 +407,63 @@ def _check_ollama_ready(ollama_base: str, target_model: str) -> tuple[bool, str]
         return False, str(err)[:120]
 
 
+def _get_gemini_timeout_s() -> float:
+    """Retourne le timeout HTTP par requête Gemini en secondes (défaut: 60s)."""
+    raw = os.environ.get("GEMINI_HTTP_TIMEOUT_S", "60")
+    try:
+        return max(5.0, float(raw))
+    except ValueError:
+        return 60.0
+
+
+def _create_genai_client(api_key: str | None, timeout_s: float | None = None) -> genai.Client | None:
+    """Instancie un client Google GenAI muni d'un timeout HTTP explicite (en millisecondes)."""
+    if not api_key:
+        return None
+    effective_timeout_s = _get_gemini_timeout_s() if timeout_s is None else max(5.0, float(timeout_s))
+    http_options = genai_types.HttpOptions(timeout=int(round(effective_timeout_s * 1000)))
+    return genai.Client(api_key=api_key, http_options=http_options)
+
+
+async def _generate_gemini_text_async(
+    client: genai.Client,
+    model_name: str,
+    contents_payload,
+    config: genai_types.GenerateContentConfig,
+    timeout_s: float,
+    grace_s: float = 5.0,
+) -> str:
+    """Exécute generate_content dans un thread avec timeout asyncio borné."""
+    loop = asyncio.get_running_loop()
+    wait_budget_s = max(0.05, float(timeout_s)) + max(0.0, float(grace_s))
+    try:
+        response = await asyncio.wait_for(
+            loop.run_in_executor(
+                None,
+                lambda m=model_name, c=config, payload=contents_payload: client.models.generate_content(
+                    model=m,
+                    contents=payload,
+                    config=c,
+                ),
+            ),
+            timeout=wait_budget_s,
+        )
+    except asyncio.TimeoutError as err:
+        raise TimeoutError(f"Gemini timeout après {wait_budget_s:.1f}s ({model_name})") from err
+    return getattr(response, "text", None) or ""
+
+
+def _format_gemini_error(err: Exception) -> str:
+    """Formate une exception Gemini/httpx en conservant le nom de classe utile au routage."""
+    msg = str(err).strip()
+    cls_name = type(err).__name__
+    if not msg:
+        return cls_name
+    if "timeout" in cls_name.lower() and "timeout" not in msg.lower():
+        return f"{cls_name}: {msg}"
+    return msg
+
+
 def _classify_gemini_error(err_msg: str) -> str:
     """Classe une erreur Gemini en auth / permanent / rate_limit / other."""
     low = err_msg.lower()
@@ -402,7 +471,7 @@ def _classify_gemini_error(err_msg: str) -> str:
         return "auth"
     if any(k in low for k in ("404", "not_found", "invalid_argument", "perday", "per_day", "daily", "limit: 0")):
         return "permanent"
-    if any(k in low for k in ("429", "resource_exhausted", "perminute", "rpm", "tpm", "503", "unavailable", "high demand", "overloaded", "quota", "timeout")):
+    if any(k in low for k in ("429", "resource_exhausted", "perminute", "rpm", "tpm", "503", "504", "unavailable", "high demand", "overloaded", "quota", "timeout", "timed out", "deadline_exceeded")):
         return "rate_limit"
     return "other"
 
@@ -415,6 +484,7 @@ def _create_auto_state(args, api_key: str | None) -> dict:
         "cascade": cascade,
         "ollama_model": ollama_model,
         "thinking_budget": GEMINI_THINKING_BUDGETS.get(th_level, 100),
+        "http_timeout_s": _get_gemini_timeout_s(),
         "rpm_delay": max(0.0, float(os.environ.get("GEMINI_RPM_DELAY", "2.5"))),
         "cloud_min_kb": max(0.0, float(getattr(args, "cloud_min_kb", 0.0))),
         "cloud_exhausted": not bool(api_key),
@@ -441,8 +511,8 @@ async def _call_gemini_cascade(
     **kwargs,
 ) -> tuple[str | None, str | None]:
     """Tente la cascade Gemini sans boucle infinie ; retourne (texte, modèle) ou (None, None) si épuisée."""
-    loop = asyncio.get_running_loop()
     cascade = state["cascade"]
+    timeout_s = float(state.get("http_timeout_s") or _get_gemini_timeout_s())
     waited_cooldown = False
     contents_payload, effective_system = _build_gemini_contents(
         prompt, history_messages=history_messages, system_prompt=system_prompt
@@ -480,15 +550,13 @@ async def _call_gemini_cascade(
                     max_output_tokens=kwargs.get("max_tokens", 8192),
                     temperature=kwargs.get("temperature", QWEN_EXTRACT_SAMPLING["temperature"]),
                 )
-                response = await loop.run_in_executor(
-                    None,
-                    lambda m=current_model, c=cfg, payload=contents_payload: client.models.generate_content(
-                        model=m,
-                        contents=payload,
-                        config=c,
-                    ),
+                text = await _generate_gemini_text_async(
+                    client,
+                    current_model,
+                    contents_payload,
+                    cfg,
+                    timeout_s=timeout_s,
                 )
-                text = getattr(response, "text", None) or ""
                 if not text.strip():
                     raise RuntimeError("Réponse Gemini vide")
                 state["transient_hits"][current_model] = 0
@@ -498,7 +566,7 @@ async def _call_gemini_cascade(
                     await asyncio.sleep(state["rpm_delay"])
                 return text, current_model
             except Exception as err:
-                err_s = str(err)
+                err_s = _format_gemini_error(err)
                 kind = _classify_gemini_error(err_s)
                 state["gemini_err"] += 1
                 if kind == "auth":
@@ -561,7 +629,7 @@ async def get_llm_func(args, auto_state: dict | None = None):
 
     elif args.provider == "auto":
         state = auto_state if auto_state is not None else _create_auto_state(args, api_key)
-        client = genai.Client(api_key=api_key) if api_key else None
+        client = _create_genai_client(api_key, timeout_s=state["http_timeout_s"])
         ollama_base = _get_ollama_base_url()
         ollama_fn = _build_ollama_llm_func(state["ollama_model"], semaphore=state["ollama_sem"])
         ollama_ok, ollama_diag = _check_ollama_ready(ollama_base, state["ollama_model"])
@@ -571,8 +639,8 @@ async def get_llm_func(args, auto_state: dict | None = None):
         else:
             seuil_txt = f" | seuil Cloud >= {state['cloud_min_kb']:.0f} Ko" if state["cloud_min_kb"] > 0 else ""
             logger.info(
-                f"⚡ Mode AUTO : Gemini ({', '.join(state['cascade'][:3])}...) sur gros docs{seuil_txt} "
-                f"-> repli automatique Ollama ({state['ollama_model']})"
+                f"⚡ Mode AUTO : Gemini ({', '.join(state['cascade'][:3])}... | timeout={state['http_timeout_s']:.0f}s) "
+                f"sur gros docs{seuil_txt} -> repli automatique Ollama ({state['ollama_model']})"
             )
         if ollama_ok:
             logger.info(f"🦙 Repli local vérifié prêt : {state['ollama_model']} sur {ollama_base}")
@@ -634,7 +702,8 @@ async def get_llm_func(args, auto_state: dict | None = None):
         return llm_openrouter
 
     elif args.provider == "gemini":
-        client = genai.Client(api_key=api_key)
+        timeout_s = _get_gemini_timeout_s()
+        client = _create_genai_client(api_key, timeout_s=timeout_s)
         target_model = args.model or "gemini-3.1-flash-lite"
         th_level_str = getattr(args, "thinking_level", "low").lower()
         th_budget_map = {
@@ -644,7 +713,10 @@ async def get_llm_func(args, auto_state: dict | None = None):
             "high": 1024
         }
         thinking_budget = th_budget_map.get(th_level_str, 100)
-        logger.info(f"💎 Mode GEMINI : Modèle {target_model} [Budget raisonnement: {thinking_budget} tokens ({th_level_str})]")
+        logger.info(
+            f"💎 Mode GEMINI : Modèle {target_model} "
+            f"[Budget raisonnement: {thinking_budget} tokens ({th_level_str}) | timeout={timeout_s:.0f}s]"
+        )
 
         # Cascade intelligente de tous les modèles rapides disponibles
         all_gemini_models = [
@@ -667,7 +739,6 @@ async def get_llm_func(args, auto_state: dict | None = None):
                 return None
 
         async def llm_gemini(prompt, system_prompt=None, history_messages=[], **kwargs):
-            loop = asyncio.get_running_loop()
             contents_payload, effective_system = _build_gemini_contents(
                 prompt, history_messages=history_messages, system_prompt=system_prompt
             )
@@ -682,20 +753,23 @@ async def get_llm_func(args, auto_state: dict | None = None):
                         max_output_tokens=kwargs.get("max_tokens", 4096),
                         temperature=kwargs.get("temperature", 0.1)
                     )
-                    response = await loop.run_in_executor(
-                        None,
-                        lambda m=current_model, c=cfg, payload=contents_payload: client.models.generate_content(
-                            model=m,
-                            contents=payload,
-                            config=c
-                        )
+                    text = await _generate_gemini_text_async(
+                        client,
+                        current_model,
+                        contents_payload,
+                        cfg,
+                        timeout_s=timeout_s,
                     )
-                    if response and response.text:
+                    if text.strip():
                         await asyncio.sleep(2.5)  # Respect du quota 15 RPM
-                        return response.text
+                        return text
                 except Exception as e:
-                    err_s = str(e)
-                    if any(k in err_s for k in ["429", "RESOURCE_EXHAUSTED", "503", "UNAVAILABLE"]) or "quota" in err_s.lower() or "high demand" in err_s.lower():
+                    err_s = _format_gemini_error(e)
+                    kind = _classify_gemini_error(err_s)
+                    if any(k in err_s.lower() for k in ("timeout", "timed out", "504", "deadline_exceeded")):
+                        logger.warning(f"⚠️ Timeout Gemini ({current_model}: {err_s[:80]}). Passage au modèle suivant...")
+                        continue
+                    elif kind in ("auth", "permanent", "rate_limit") or any(k in err_s for k in ("429", "RESOURCE_EXHAUSTED", "503", "UNAVAILABLE")) or "quota" in err_s.lower() or "high demand" in err_s.lower():
                         logger.warning(f"⚠️ Modèle {current_model} saturé ou indisponible ({err_s[:70]}). Verrouillé pour cette session, bascule immédiate sur la cascade.")
                         exhausted_models.add(current_model)
                         continue
@@ -719,14 +793,14 @@ async def get_llm_func(args, auto_state: dict | None = None):
         return llm_gemini
 
     elif args.provider == "online":
-        logger.info(f"🚀 Round-Robin Online Parallélisé ({len(MODELS_ROTATION)} modèles)")
-        client = genai.Client(api_key=api_key)
+        timeout_s = _get_gemini_timeout_s()
+        logger.info(f"🚀 Round-Robin Online Parallélisé ({len(MODELS_ROTATION)} modèles | timeout={timeout_s:.0f}s)")
+        client = _create_genai_client(api_key, timeout_s=timeout_s)
 
         async def llm_online_round_robin(prompt, system_prompt=None, history_messages=[], **kwargs):
             contents_payload, effective_system = _build_gemini_contents(
                 prompt, history_messages=history_messages, system_prompt=system_prompt
             )
-            loop = asyncio.get_running_loop()
 
             while True:
                 unlocked_model_found = False
@@ -750,15 +824,15 @@ async def get_llm_func(args, auto_state: dict | None = None):
                                 max_output_tokens=kwargs.get("max_tokens", 4096),
                                 temperature=kwargs.get("temperature", 0.1)
                             )
-                            response = await loop.run_in_executor(
-                                None,
-                                lambda m=model_name, c=gem_cfg, payload=contents_payload: client.models.generate_content(
-                                    model=m,
-                                    contents=payload,
-                                    config=c
-                                )
+                            result_text = await _generate_gemini_text_async(
+                                client,
+                                model_name,
+                                contents_payload,
+                                gem_cfg,
+                                timeout_s=timeout_s,
                             )
-                            result_text = response.text
+                            if not result_text.strip():
+                                raise RuntimeError("Réponse Gemini vide")
 
                         elif model_type == "openrouter":
                             # Appel HTTP pur pour OpenRouter (0 log parasite de LightRAG)
@@ -776,7 +850,7 @@ async def get_llm_func(args, auto_state: dict | None = None):
                         return result_text
                     
                     except Exception as e:
-                        err_msg = str(e)
+                        err_msg = _format_gemini_error(e)
                         s["failures"] += 1
                         # Pénalité courte adaptée :
                         # Si 429 temporaire (rate limit par minute), pause courte de 20s suffisant pour libérer la minute glissante.
@@ -828,10 +902,7 @@ def compute_doc_id(content: str) -> str:
 
 def _extract_rel_path(content: str) -> str | None:
     """Extrait le chemin relatif inscrit dans l'en-tête injecté par prepare_document."""
-    if not content:
-        return None
-    m = re.match(r"^---\s*\nFichier:\s*(.+?)\n", content)
-    return m.group(1).strip() if m else None
+    return extract_rel_path(content)
 
 
 def _rel_path_from_doc_entry(doc_id: str, d_data: dict, full_docs_map: dict) -> str | None:
@@ -892,8 +963,11 @@ def _is_orphan_entry(
     active_rel_set: set[str],
     all_files_str: set[str],
     active_basenames: set[str],
+    active_flat_keys: set[str] | None = None,
 ) -> bool:
     """Détermine si une entrée doc_status correspond à un fichier archivé ou supprimé du disque."""
+    if d_id.startswith("dup-"):
+        return False
     if rel is not None:
         return rel not in active_rel_set
     fp = (d_data.get("file_path", "") or "").strip()
@@ -902,7 +976,10 @@ def _is_orphan_entry(
     if "/" in fp:
         cand = str(Path(fp).resolve()) if Path(fp).is_absolute() else str((DOCS_ROOT / fp).resolve())
         return cand not in all_files_str
-    return os.path.basename(fp) not in active_basenames
+    base = os.path.basename(fp)
+    if active_flat_keys and (fp in active_flat_keys or base in active_flat_keys):
+        return False
+    return base not in active_basenames
 
 
 def _load_disk_state(
@@ -911,6 +988,7 @@ def _load_disk_state(
     """Lit les stores JSON locaux en lecture seule pour détecter le statut réel et les orphelins."""
     processed_ids, processed_rels, processed_basenames = set(), set(), set()
     orphan_ids: list[str] = []
+    active_flat_keys = build_active_source_aliases(active_rel_set)
     status_file = DB_PATH / "kv_store_doc_status.json"
     full_docs_file = DB_PATH / "kv_store_full_docs.json"
     if not status_file.exists():
@@ -928,7 +1006,15 @@ def _load_disk_state(
                 fp_name = os.path.basename(d_data.get("file_path", "") or "")
                 if fp_name and fp_name != "unknown_source":
                     processed_basenames.add(fp_name)
-            if _is_orphan_entry(d_id, d_data, rel, active_rel_set, all_files_str, active_basenames):
+            if _is_orphan_entry(
+                d_id,
+                d_data,
+                rel,
+                active_rel_set,
+                all_files_str,
+                active_basenames,
+                active_flat_keys=active_flat_keys,
+            ):
                 orphan_ids.append(d_id)
     except Exception as err:
         logger.debug(f"Lecture état disque doc_status/full_docs ignorée: {err}")
@@ -962,6 +1048,7 @@ def _find_matching_doc_ids(
     target_basename: str,
     allow_basename_match: bool,
     extra_doc_id: str | None = None,
+    target_source_key: str | None = None,
 ) -> list[str]:
     """Identifie tous les doc_id dans doc_status correspondant exactement à un fichier cible."""
     matched: list[str] = []
@@ -972,7 +1059,7 @@ def _find_matching_doc_ids(
         fp_entry = d_data.get("file_path", "") or ""
         if rel_target and rel_entry == rel_target:
             matched.append(d_id)
-        elif fp_entry in (target_abs, rel_target):
+        elif fp_entry in (target_abs, rel_target) or (target_source_key and fp_entry == target_source_key):
             matched.append(d_id)
         elif (
             allow_basename_match
@@ -1370,7 +1457,7 @@ async def run_indexing(args):
         return
 
     api_key = args.api_key or os.environ.get("GEMINI_API_KEY")
-    genai_client = genai.Client(api_key=api_key) if api_key else None
+    genai_client = _create_genai_client(api_key)
     auto_state = _create_auto_state(args, api_key) if args.provider == "auto" else None
 
     if args.provider == "auto":
@@ -1402,6 +1489,15 @@ async def run_indexing(args):
         d_id: _rel_path_from_doc_entry(d_id, d_data, fd_map)
         for d_id, d_data in ds_snapshot.items()
     }
+    active_flat_keys = build_active_source_aliases(active_rel_set)
+
+    stale_dup_ids = [d_id for d_id in list(ds_snapshot.keys()) if d_id.startswith("dup-")]
+    if stale_dup_ids:
+        purged_dups = await _purge_doc_ids(rag, stale_dup_ids, "doc_status(dup-*)")
+        for d_id in stale_dup_ids:
+            ds_snapshot.pop(d_id, None)
+            resolved_rels.pop(d_id, None)
+        logger.info(f"🧹 {purged_dups} entrée(s) dup-* résiduelle(s) nettoyée(s) dans doc_status.")
 
     if to_delete:
         logger.info(f"🗑️  Nettoyage intelligent : Suppression de {len(to_delete)} fichier(s) exclu(s)/supprimé(s)...")
@@ -1412,6 +1508,11 @@ async def run_indexing(args):
             except ValueError:
                 rel_target = None
 
+            expected_flat = (
+                (rel_target.replace("/", "--") if "/" in rel_target else f"root--{rel_target}")
+                if rel_target
+                else None
+            )
             matched_ids = _find_matching_doc_ids(
                 ds_snapshot=ds_snapshot,
                 resolved_rels=resolved_rels,
@@ -1420,6 +1521,7 @@ async def run_indexing(args):
                 target_basename=target_path.name,
                 allow_basename_match=(target_path.name not in active_basenames),
                 extra_doc_id=log_idx[path_str].get("doc_id"),
+                target_source_key=expected_flat,
             )
             purged_n = await _purge_doc_ids(rag, matched_ids, target_path.name)
             for mid in matched_ids:
@@ -1440,6 +1542,7 @@ async def run_indexing(args):
                 active_rel_set,
                 all_files_str,
                 active_basenames,
+                active_flat_keys=active_flat_keys,
             )
         ]
         if orphan_entries:
@@ -1478,6 +1581,7 @@ async def run_indexing(args):
         rel_path = _relative_doc_path(path)
         try:
             # Purge complète de l'ancienne version (chunks + vecteurs + graphe) avant réinsertion
+            expected_flat = rel_path.replace("/", "--") if "/" in rel_path else f"root--{rel_path}"
             matching_ids = _find_matching_doc_ids(
                 ds_snapshot=ds_snapshot,
                 resolved_rels=resolved_rels,
@@ -1486,6 +1590,7 @@ async def run_indexing(args):
                 target_basename=path.name,
                 allow_basename_match=(active_name_counts.get(path.name, 0) <= 1),
                 extra_doc_id=log_idx.get(str(path), {}).get("doc_id"),
+                target_source_key=expected_flat,
             )
             if matching_ids:
                 await _purge_doc_ids(rag, matching_ids, path.name)
@@ -1493,12 +1598,29 @@ async def run_indexing(args):
                     ds_snapshot.pop(mid, None)
                     resolved_rels.pop(mid, None)
 
+            claimed_sources = build_claimed_source_map(ds_snapshot, resolved_rels)
+            source_key = build_rag_source_key(
+                rel_path,
+                name_counts=active_name_counts,
+                claimed_sources=claimed_sources,
+            )
             doc_id = compute_doc_id(content)
-            await rag.ainsert(content, ids=[doc_id], file_paths=[rel_path])
-            ds_snapshot[doc_id] = {"file_path": rel_path, "status": "processed"}
-            resolved_rels[doc_id] = rel_path
-            log_idx[str(path)] = {"mtime": os.path.getmtime(path), "doc_id": doc_id}
-            save_index_log(log_idx)
+            await rag.ainsert(content, ids=[doc_id], file_paths=[source_key])
+            inserted_row = await rag.doc_status.get_by_id(doc_id)
+            if is_doc_processed(inserted_row):
+                row_copy = dict(inserted_row) if isinstance(inserted_row, dict) else {"file_path": source_key, "status": "processed"}
+                if not row_copy.get("file_path"):
+                    row_copy["file_path"] = source_key
+                ds_snapshot[doc_id] = row_copy
+                resolved_rels[doc_id] = rel_path
+                log_idx[str(path)] = {"mtime": os.path.getmtime(path), "doc_id": doc_id}
+                save_index_log(log_idx)
+            else:
+                st_val = inserted_row.get("status") if isinstance(inserted_row, dict) else "absent/rejeté (dup-*)"
+                logger.warning(
+                    f"⚠️ Indexation non confirmée pour {rel_path} ({doc_id}, clé={source_key}, statut={st_val!r}) "
+                    f"— indexed_files.json conservé intact pour réessai."
+                )
         except Exception as e:
             logger.warning(f"⚠️ Échec d'indexation pour {path.name}: {e}")
 

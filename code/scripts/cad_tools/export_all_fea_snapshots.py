@@ -331,6 +331,18 @@ def run_export(target_filter=None):
     print("  PRODUCTION COMPLÈTE DE TOUS LES RENDUS FEA TERMINÉE AVEC SUCCÈS")
     print("=" * 78)
 
+    # Synchronisation automatique vers les dossiers media/ de Documentation/
+    try:
+        tools_dir = os.path.dirname(os.path.abspath(__file__))
+        if tools_dir not in sys.path:
+            sys.path.insert(0, tools_dir)
+        from sync_visual_snapshots import sync_snapshots
+
+        print("\n🔄 Synchronisation automatique des rendus FEA vers Documentation/**/media/...")
+        sync_snapshots(check_only=False, strict=False, quiet=False)
+    except Exception as exc:
+        print(f"  ⚠️ Synchronisation post-export ignorée : {exc}")
+
     try:
         FreeCADGui.getMainWindow().close()
     except Exception:

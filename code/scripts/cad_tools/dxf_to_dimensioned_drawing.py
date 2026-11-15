@@ -8,7 +8,7 @@ Ce script applique une méthodologie industrielle rigoureuse SANS AUCUNE HALLUCI
 2. Il utilise le moteur OpenCASCADE de FreeCAD pour convertir fidèlement 100% des courbes réelles (SPLINE, CIRCLE, LINE, LWPOLYLINE) en tracé SVG.
 3. Il extrait mathématiquement les cotes exactes (largeur, hauteur, entraxes des perçages, diamètres réels, rayons).
 4. Il superpose les lignes de cotes normées ISO, les axes et le cartouche ISO 7200.
-5. Il exporte le plan vectoriel SVG et le PDF haute définition via Google Chrome headless.
+5. Il exporte le plan vectoriel SVG haute définition (l'export PDF Chrome a été retiré ; privilégier les workflows FreeCAD / SVG/DXF).
 """
 
 import os
@@ -17,9 +17,9 @@ import subprocess
 import re
 
 FREECAD_CLI = "/Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd"
-CHROME_BIN = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
-def generate_rigorous_plan(dxf_path, output_svg_path, output_pdf_path, part_meta):
+
+def generate_rigorous_plan(dxf_path, output_svg_path, part_meta):
     if not os.path.exists(dxf_path):
         raise FileNotFoundError(f"Fichier DXF introuvable : {dxf_path}")
 
@@ -264,25 +264,10 @@ importSVG.export(shapes_objs, '{tmp_raw_svg}')
         f.write(svg_final)
     print(f"✅ Plan SVG rigoureux généré : {output_svg_path}")
 
-    # Étape 3 : Export PDF vectoriel via Google Chrome headless
-    if os.path.exists(CHROME_BIN):
-        cmd_pdf = [
-            CHROME_BIN,
-            "--headless",
-            "--disable-gpu",
-            "--no-pdf-header-footer",
-            f"--print-to-pdf={output_pdf_path}",
-            output_svg_path
-        ]
-        res_p = subprocess.run(cmd_pdf, capture_output=True, text=True)
-        if os.path.exists(output_pdf_path) and os.path.getsize(output_pdf_path) > 1000:
-            print(f"✅ Plan PDF vectoriel certifié généré : {output_pdf_path} ({os.path.getsize(output_pdf_path)/1024:.1f} Ko)")
-
 
 if __name__ == "__main__":
     dxf_input = "01_Mecanique_et_Chassis/Torse_et_Bassin/DXF_CNC/Waist_Plate_7075_Usinage_1to1.dxf"
     out_svg = "01_Mecanique_et_Chassis/Torse_et_Bassin/media/blueprint_waist_plate_7075_cote.svg"
-    out_pdf = "01_Mecanique_et_Chassis/Torse_et_Bassin/media/Waist_Plate_7075_Plan_Certifie.pdf"
     
     meta = {
         "name": "Waist_Plate_7075",
@@ -295,4 +280,4 @@ if __name__ == "__main__":
         "thickness_z": 9.00
     }
     
-    generate_rigorous_plan(dxf_input, out_svg, out_pdf, meta)
+    generate_rigorous_plan(dxf_input, out_svg, meta)

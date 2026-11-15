@@ -239,11 +239,11 @@
     <text x="390" y="88" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Face Arrière : bride de stator &amp; passage câble</text>
     <text x="390" y="108" fill="#4ade80" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">• Respect règle : arbres pleins RobStride</text>
 
-    <!-- Carte 3 : Pipeline Dual (.FCStd + PDF) -->
+    <!-- Carte 3 : Pipeline Souverain (.FCStd + SVG) -->
     <rect x="750" y="0" width="370" height="135" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.2"/>
-    <text x="765" y="24" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold">3. SORTIES DUALES COMPLÈTES</text>
-    <text x="765" y="48" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Format 1 : PDF Vectoriel (Chrome headless)</text>
-    <text x="765" y="68" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Format 2 : FreeCAD Natif .FCStd (freecadcmd)</text>
+    <text x="765" y="24" fill="#f59e0b" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold">3. SORTIES SOUVERAINES COMPLÈTES</text>
+    <text x="765" y="48" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Format 1 : FreeCAD Natif .FCStd (TechDraw ISO)</text>
+    <text x="765" y="68" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Format 2 : SVG Vectoriel 2D (ISO 128 / DXF)</text>
     <text x="765" y="88" fill="#e2e8f0" font-family="'Segoe UI', sans-serif" font-size="10">• Trait fort 0.5 mm / Trait fin 0.25 mm / Axes mixtes</text>
     <text x="765" y="108" fill="#facc15" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold">• 100% automatisable et souverain</text>
   </g>

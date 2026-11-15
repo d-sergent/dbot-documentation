@@ -12,14 +12,14 @@ conformes aux standards de bureau d'études robotique (style RobStride / ISO) :
   - Vue 3D Isométrique axonométrique intégrée (projetée mathématiquement)
   - Cartouche ISO 7200 complet en bas à droite (zéro titre parasite en haut)
   - Algorithme anti-collision strict (zones réservées étanches, cotes étagées)
-  - Double livrable automatique :
-      1. Format PDF vectoriel haute définition (Google Chrome headless)
-      2. Format natif FreeCAD .FCStd (freecadcmd / TechDraw)
+  - Livrables ouverts & souverains :
+      1. Format natif FreeCAD .FCStd (freecadcmd / TechDraw) [défaut]
+      2. Format vectoriel source .svg haute précision (optionnel via --format svg/all)
 
 Usage :
-  python3 generative_drafting.py --component waist_plate --format all
+  python3 generative_drafting.py --component waist_plate --format fcstd
   python3 generative_drafting.py --component moyeu_waist --format all
-  python3 generative_drafting.py --component robstride_rs06 --format all
+  python3 generative_drafting.py --component robstride_rs06 --format fcstd
   python3 generative_drafting.py --list
 =============================================================================
 """
@@ -35,7 +35,6 @@ import json
 WORKSPACE_DIR = "/Users/Shared/Mon Google Drive Physique/Documentation"
 OUTPUT_DIR = "/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/01_Torse_et_Bassin/Plans_2D"
 STEP_LIB_DIR = "/Users/Shared/Mon Google Drive Physique/Exports_CAO_DBot/Bibliotheque_Composants_STEP"
-CHROME_BIN = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 FREECAD_CLI_BIN = "/Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd"
 FREECAD_GUI_BIN = "/Applications/FreeCAD.app/Contents/MacOS/FreeCAD"
 
@@ -650,82 +649,9 @@ def build_moyeu_waist_drawing():
 
 
 # =============================================================================
-# EXPORT PDF VECTORIEL VIA CHROME HEADLESS
-# =============================================================================
-def export_pdf_via_chrome(svg_path, pdf_path):
-    """Génère un PDF vectoriel pur d'une netteté absolue via Chrome headless."""
-    if not os.path.exists(CHROME_BIN):
-        print(f"   ❌ Google Chrome introuvable à : {CHROME_BIN}")
-        return False
-
-    html_wrapper = svg_path.replace(".svg", ".html")
-    with open(svg_path, "r", encoding="utf-8") as f_svg:
-        svg_content = f_svg.read()
-
-    html_code = f"""<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Plan Technique Normalisé ISO</title>
-  <style>
-    @page {{
-      size: A3 landscape;
-      margin: 0;
-    }}
-    body {{
-      margin: 0;
-      padding: 0;
-      background-color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-    }}
-    svg {{
-      width: 100%;
-      height: 100%;
-    }}
-  </style>
-</head>
-<body>
-  {svg_content}
-</body>
-</html>"""
-
-    with open(html_wrapper, "w", encoding="utf-8") as f_html:
-        f_html.write(html_code)
-
-    cmd = [
-        CHROME_BIN,
-        "--headless=new",
-        f"--print-to-pdf={pdf_path}",
-        "--no-pdf-header-footer",
-        "--print-to-pdf-no-header",
-        f"file://{os.path.abspath(html_wrapper)}"
-    ]
-
-    try:
-        res = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-        if os.path.exists(pdf_path) and os.path.getsize(pdf_path) > 1000:
-            print(f"   ✅ Export PDF Vectoriel réussi : {pdf_path} ({os.path.getsize(pdf_path)/1024:.1f} Ko)")
-            return True
-        else:
-            print(f"   ⚠️ Erreur Chrome PDF : {res.stderr}")
-            return False
-    except Exception as e:
-        print(f"   ❌ Échec génération PDF via Chrome : {e}")
-        return False
-
-
-# =============================================================================
-# EXPORT FREECAD NATIF .FCStd (B-REP + TECHDRAW MULTI-VUES)
-# =============================================================================
-# =============================================================================
 # EXPORT FREECAD NATIF .FCStd (B-REP + TECHDRAW MULTI-VUES SANS SUPERPOSITION)
 # =============================================================================
-def export_freecad_native_fcstd(comp_key, fcstd_path, pdf_path=None):
+def export_freecad_native_fcstd(comp_key, fcstd_path):
     """
     Pilote FreeCAD pour créer le document natif souverain .FCStd comprenant :
       - La géométrie B-Rep solide 3D réelle importée du fichier STEP.
@@ -737,7 +663,6 @@ def export_freecad_native_fcstd(comp_key, fcstd_path, pdf_path=None):
       - Bloc complet de cotations fonctionnelles métriques (diamètres, entraxes, PCD, alésages).
       - Bloc complet de spécifications d'usinage CNC C500 (alliage 7075-T6, tolérances, chanfreins).
       - Cotes géométriques TechDraw DrawViewDimension attachées.
-      - Exportation directe au format PDF natif FreeCAD (TechDrawGui).
     """
     comp = COMPONENTS_DB.get(comp_key)
     if not comp:
@@ -746,7 +671,6 @@ def export_freecad_native_fcstd(comp_key, fcstd_path, pdf_path=None):
     step_path = os.path.join(STEP_LIB_DIR, comp.get("step_name", ""))
     has_step = os.path.exists(step_path)
     step_arg = step_path if has_step else "NONE"
-    pdf_arg = pdf_path if pdf_path else "NONE"
 
     thick_val = comp.get("total_width", comp.get("thickness", 10.0))
     diam_val = comp.get("d_ext", 100.0)
@@ -1151,7 +1075,7 @@ sys.exit(0)
 def main():
     parser = argparse.ArgumentParser(description="Moteur BE de Generative Drafting 2D & 3D (Style RobStride / ISO)")
     parser.add_argument("--component", type=str, default="waist_plate", choices=list(COMPONENTS_DB.keys()), help="Composant cible")
-    parser.add_argument("--format", type=str, default="fcstd", choices=["fcstd", "pdf", "svg", "all"], help="Formats de sortie (défaut: fcstd uniquement)")
+    parser.add_argument("--format", type=str, default="fcstd", choices=["fcstd", "svg", "all"], help="Formats de sortie (défaut: fcstd uniquement)")
     parser.add_argument("--output-dir", type=str, default=OUTPUT_DIR, help="Dossier de sortie des livrables")
     parser.add_argument("--list", action="store_true", help="Lister les composants disponibles")
 
@@ -1168,7 +1092,6 @@ def main():
     base_name = f"{comp['code']}_Plan_Expert_RobStride"
 
     svg_file = os.path.join(args.output_dir, f"{base_name}.svg")
-    pdf_file = os.path.join(args.output_dir, f"{base_name}.pdf")
     fcstd_file = os.path.join(args.output_dir, f"{base_name}.FCStd")
 
     print(f"\n🚀 Lancement du Generative Drafting pour : {comp['code']} ({comp['title']})")
@@ -1190,23 +1113,16 @@ def main():
             f_s.write(svg_content)
         print(f"   ✅ Fichier SVG généré : {svg_file}")
 
-    # 2. Export PDF vectoriel via Chrome headless (uniquement si explicitement demandé)
-    if args.format in ["pdf", "all"]:
-        print("\n📄 [Optionnel] Génération du format PDF vectoriel...")
-        export_pdf_via_chrome(svg_file, pdf_file)
-
-    # 3. Export FreeCAD natif .FCStd (seul livrable actif par défaut)
+    # 2. Export FreeCAD natif .FCStd (seul livrable actif par défaut)
     if args.format in ["fcstd", "all"]:
         print("\n🧱 Génération du format natif souverain FreeCAD (.FCStd)...")
-        export_freecad_native_fcstd(args.component, fcstd_file, pdf_path=None)
+        export_freecad_native_fcstd(args.component, fcstd_file)
 
     print("\n🎉 ===========================================================================")
     print("   GÉNÉRATION DU DRAFTING EXPERT TERMINÉE AVEC SUCCÈS")
     print("   ===========================================================================")
     if args.format in ["fcstd", "all"]:
         print(f"   • Format Natif FreeCAD (.FCStd CAO)    : {fcstd_file}")
-    if args.format in ["pdf", "all"]:
-        print(f"   • Format PDF (Haute Définition Atelier) : {pdf_file}")
     if args.format in ["svg", "all"]:
         print(f"   • Format Vectoriel Source (.svg)       : {svg_file}")
     print("   ===========================================================================\n")

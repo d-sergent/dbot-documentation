@@ -33,6 +33,18 @@ import re
 import sys
 from pathlib import Path
 
+_RAG_DIR = str(Path(__file__).resolve().parent)
+if _RAG_DIR not in sys.path:
+    sys.path.insert(0, _RAG_DIR)
+
+from source_key_utils import (
+    build_claimed_source_map,
+    build_rag_source_key,
+    canonical_source_name,
+    extract_rel_path,
+    is_doc_processed,
+)
+
 # ─── Hack Tiktoken ────────────────────────────────────────────────────────────
 # Désactive globalement la vérification des "special tokens" (<|endoftext|>)
 # pour éviter que les requêtes ou le graphe ne fassent planter le tokenizer.
@@ -1145,26 +1157,24 @@ Ta mission :
 
             # Purge des anciennes versions exactes dans doc_status et graphe (protège les homonymes)
             purged_count = 0
+            ds_items: list = []
+            full_docs_map: dict = {}
+            matching_ids: list[str] = []
+            expected_flat = relative.replace("/", "--") if "/" in relative else f"root--{relative}"
             try:
                 async with rag.doc_status._storage_lock:
                     ds_items = list(rag.doc_status._data.items())
-                full_docs_map = {}
                 try:
                     async with rag.full_docs._storage_lock:
                         full_docs_map = dict(rag.full_docs._data)
                 except Exception:
                     pass
 
-                matching_ids = []
                 for d_id, d_data in ds_items:
                     fp = d_data.get("file_path", "") or ""
                     fd_entry = full_docs_map.get(d_id)
-                    fd_rel = None
-                    if isinstance(fd_entry, dict):
-                        m_rel = re.match(r"^---\s*\nFichier:\s*(.+?)\n", fd_entry.get("content", ""))
-                        if m_rel:
-                            fd_rel = m_rel.group(1).strip()
-                    if fd_rel == relative or fp in (relative, str(target_path)):
+                    fd_rel = extract_rel_path(fd_entry.get("content", "")) if isinstance(fd_entry, dict) else None
+                    if fd_rel == relative or fp in (relative, str(target_path), expected_flat):
                         matching_ids.append(d_id)
 
                 if matching_ids:
@@ -1182,13 +1192,48 @@ Ta mission :
             except Exception as pe:
                 print(f"Info purge doc_status pour {relative}: {pe}", file=sys.stderr)
 
+            purged_set = set(matching_ids)
+            ds_remaining = {d_id: d_data for d_id, d_data in ds_items if d_id not in purged_set}
+            resolved_remaining = {
+                d_id: extract_rel_path(full_docs_map[d_id].get("content", ""))
+                if isinstance(full_docs_map.get(d_id), dict)
+                else None
+                for d_id in ds_remaining
+            }
+            claimed_sources = build_claimed_source_map(ds_remaining, resolved_remaining)
+            other_basenames = {
+                canonical_source_name(rel_val)
+                for rel_val in resolved_remaining.values()
+                if rel_val and rel_val != relative
+            }
+            source_key = build_rag_source_key(
+                relative,
+                claimed_sources=claimed_sources,
+                other_basenames=other_basenames,
+            )
+
             doc_id = _compute_doc_id(full_content)
             prev_llm = rag.llm_model_func
             rag.llm_model_func = custom_llm_insert
             try:
-                await rag.ainsert(full_content, ids=[doc_id], file_paths=[relative])
+                await rag.ainsert(full_content, ids=[doc_id], file_paths=[source_key])
             finally:
                 rag.llm_model_func = prev_llm
+
+            inserted_row = None
+            try:
+                inserted_row = await rag.doc_status.get_by_id(doc_id)
+            except Exception:
+                inserted_row = None
+            if not is_doc_processed(inserted_row):
+                st_val = inserted_row.get("status") if isinstance(inserted_row, dict) else "absent/rejeté (dup-*)"
+                return [TextContent(type="text", text=(
+                    f"❌ **Échec ou Rejet d'Indexation RAG** pour `{relative}`\n\n"
+                    f"- **Doc ID** : `{doc_id}`\n"
+                    f"- **Clé source** : `{source_key}`\n"
+                    f"- **Statut `doc_status`** : `{st_val}`\n"
+                    f"- `indexed_files.json` n'a pas été modifié afin de permettre une réindexation propre."
+                ))]
 
             # Synchronisation du journal d'indexation indexed_files.json
             log_file = DB_PATH / "indexed_files.json"
@@ -1215,6 +1260,7 @@ Ta mission :
             return [TextContent(type="text", text=(
                 f"✅ **Document Indexé avec Succès dans le RAG D-Bot** !\n\n"
                 f"- **Fichier** : `{relative}`\n"
+                f"- **Clé source** : `{source_key}`\n"
                 f"- **Doc ID** : `{doc_id}`\n"
                 f"- **Volume** : {char_count} caractères{purge_info}\n"
                 f"- **Moteur LLM** : {resolved_engine[0]}\n"

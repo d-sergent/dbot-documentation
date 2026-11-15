@@ -22,7 +22,7 @@ Ce dossier technique formalise la stratégie d'indépendance technologique et d'
   - [3.5 Reconstitution des Esquisses & Cotes dans FreeCAD (DXF + Positionnement 3D)](#35-reconstitution-des-esquisses--cotes-dans-freecad-dxf--positionnement-3d)
   - [3.6 Comparatif Ergonomique : Timeline, User-Friendliness & Pose des Joints](#36-comparatif-ergonomique--timeline-user-friendliness--pose-des-joints)
   - [3.7 Génération Automatique des Mises en Plan 2D Cotées (TechDraw & Sketcher)](#37-génération-automatique-des-mises-en-plan-2d-cotées-techdraw--sketcher)
-  - [3.8 Generative Drafting 2D Standard RobStride & Pipeline Dual (.FCStd + PDF)](#38-generative-drafting-2d-standard-robstride--pipeline-dual-fcstd--pdf)
+  - [3.8 Generative Drafting 2D Standard RobStride & Pipeline Dual (.FCStd + SVG)](#38-generative-drafting-2d-standard-robstride--pipeline-dual-fcstd--svg)
 - [**4. Analyse des Frontières Techniques & Faisabilité de Reconstruction de Timeline**](#4-analyse-des-frontières-techniques--faisabilité-de-reconstruction-de-timeline)
   - [4.1 Matrice d'Automatisation Globale](#41-matrice-dautomatisation-globale)
   - [4.2 Faisabilité de Reconstruction Intégrale de la Timeline (Reverse-Engineering d'Arbre)](#42-faisabilité-de-reconstruction-intégrale-de-la-timeline-reverse-engineering-darbre)
@@ -444,7 +444,7 @@ Ci-dessous le plan technique vectoriel généré de manière 100 % automatisée 
 
 ---
 
-### 3.8 Generative Drafting 2D Standard RobStride & Pipeline Dual (.FCStd + PDF)
+### 3.8 Generative Drafting 2D Standard RobStride & Pipeline Dual (.FCStd + SVG)
 
 Pour franchir le cap de l'automatisation intégrale de la liasse de plans d'atelier (concept de **Generative Drafting** en CAO industrielle), le pipeline D-Bot adopte les standards graphiques et métrologiques des datasheets d'actionneurs robotiques de classe mondiale (RobStride RS-04 / RS-06) :
 
@@ -456,9 +456,9 @@ Pour franchir le cap de l'automatisation intégrale de la liasse de plans d'atel
    - Échelonnement étagé des cotes longitudinales (offsets de 8 à 12 mm en dehors de la pièce).
    - Couloirs radiaux réservés pour les lignes de renvoi de perçages avec coude d'épaulement horizontal.
    - Masquage opaque d'arrière-plan sous tout texte de cotation pour éviter les interférences avec les lignes d'axe.
-3. **Architecture de Sortie Duale (.FCStd + PDF)** :
-   - **Format Ouvert PDF Vectoriel** : Génération directe via Chrome headless (`--print-to-pdf`), 100 % vectoriel, sans pixellisation, diffusable immédiatement aux usineurs CNC.
-   - **Format Natif FreeCAD (.FCStd)** : Génération automatisée via `freecadcmd` incluant le B-Rep 3D réel et la page `TechDraw::DrawPage` avec cartouche ISO 7200.
+3. **Architecture de Sortie Souveraine (.FCStd + SVG)** :
+   - **Format Natif FreeCAD (.FCStd)** : Génération automatisée via `freecadcmd` incluant le B-Rep 3D réel et la page `TechDraw::DrawPage` avec cartouche ISO 7200 (livrable par défaut).
+   - **Format Vectoriel Ouvert (.svg)** : Tracé vectoriel 2D ISO 128 généré optionnellement (`--format svg` / `--format all`) pour consultation directe ou reprise DXF/FreeCAD (export PDF Chrome headless retiré).
 
 ![Architecture Generative Drafting 2D Style RobStride](./media/schema_robstride_drafting_principles.svg)
 

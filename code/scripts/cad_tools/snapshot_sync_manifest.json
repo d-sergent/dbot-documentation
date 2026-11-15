@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "description": "Manifeste souverain de synchronisation automatique Exports_CAO_DBot/Visual_Snapshots -> Documentation/**/media/",
+  "exports_root_rel": "../Exports_CAO_DBot",
+  "mappings": [
+    {
+      "id": "bride_epaule_von_mises",
+      "source": "01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/Bride_Epaule/Bride_Epaule_VonMises.png",
+      "target": "01_Mecanique_et_Chassis/Torse_et_Bassin/media/Bride_Epaule_VonMises.png",
+      "referenced_in": "01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Calculs_FEA_Bride_Epaule_RS04.md"
+    },
+    {
+      "id": "corniere_haute_von_mises",
+      "source": "01_Torse_et_Bassin/Visual_Snapshots/Pieces_Isolees/Corniere_haute/Corniere_haute_VonMises.png",
+      "target": "01_Mecanique_et_Chassis/Torse_et_Bassin/media/Corniere_haute_VonMises.png",
+      "referenced_in": "01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md"
+    }
+  ]
+}
