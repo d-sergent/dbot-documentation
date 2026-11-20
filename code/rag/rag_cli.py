@@ -51,7 +51,7 @@ async def main():
         "--llm-mode",
         choices=["antigravity", "internal", "auto"],
         default="antigravity",
-        help="Choix du moteur d'intelligence (audit, impact, search) : 'antigravity' (délègue à l'agent Antigravity via votre abonnement), 'internal' (vLLM local ou OpenRouter comme avant), ou 'auto'."
+        help="Choix du moteur d'intelligence (audit, impact, search) : 'antigravity' (délègue à l'agent Antigravity via votre abonnement), 'internal' (Ollama / Unsloth Studio local ou OpenRouter), ou 'auto'."
     )
     parser.add_argument(
         "--provider",
@@ -85,7 +85,7 @@ async def main():
     server_env.setdefault("RAG_LLM_PROVIDER", "auto")
     server_env.setdefault("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
     server_env.setdefault("OLLAMA_MODEL", "qwen3.8:27b-mlx")
-    # VMLX_BASE_URL / VMLX_MODEL / VMLX_API_KEY sont résolus depuis .env ou défauts Unsloth (:8888/v1) dans mcp_lightrag_server.py
+    # UNSLOTH_BASE_URL / UNSLOTH_MODEL / UNSLOTH_API_KEY (et alias legacy VMLX_*) sont résolus depuis .env ou défauts Unsloth (:8888/v1) dans mcp_lightrag_server.py
     server_env["PYTHONWARNINGS"] = "ignore"
 
     from mcp.client.stdio import stdio_client, StdioServerParameters

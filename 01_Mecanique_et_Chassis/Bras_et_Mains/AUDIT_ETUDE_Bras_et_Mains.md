@@ -22,7 +22,7 @@ L'architecture du membre supérieur du D-Bot est définitivement gelée en confi
 
 | Choix de Conception Final | Justification Technique Clé | Source(s) |
 | :------------------------ | :-------------------------- | :-------- |
-| **Architecture Bras :** "Forearm Supination" (Tesla-like) | Moteur RS-02 déplacé au coude pour la supination, RS-00 Pitch au poignet. Élimine le vrillage des tendons de la main, réduit drastiquement l'inertie distale et assure des proportions anthropomorphes. | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `00_Archives_Recherche/STUDY_Poignet_Optimus.md` |
+| **Architecture Bras :** "Forearm Supination" (Tesla-like) | Moteur **RS-10P** (Option B validée & reçue : Ø 57 × 59,1 mm, 42 N·m pic, 25:1, 460 g — remplace le RS-02 initial) déplacé au coude pour la supination, RS-00 Pitch au poignet. Élimine le vrillage des tendons de la main, réduit drastiquement l'inertie distale et assure des proportions anthropomorphes. | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `FINAL_Liste_Achats_BOM.md`, `00_Archives_Recherche/STUDY_Poignet_Optimus.md` |
 | **Main Hybrid Premium :** 8 DOF (5x Feetech STS3250 + 3x HL-3915) | Élimine les faiblesses de la baseline Dynamixel. Les STS3250 coreless tout-alu (50 kg·cm) apportent un grip d'acier (376 N). Les HL-3915 apportent un mode force constant matériel pour le dosage de préhension fine. | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `00_Archives_Recherche/RECO_FINALE_Architecture_Main_DBot_V1_REVISEE.md` |
 | **Structure Hybride :** Carbone / Alu 6061-T6 Isogrid | Humérus en tube carbone (Ø35-40mm). Avant-bras en plaque alu 6061-T6 Isogrid et coques structurelles PA12-CF vissées (boîte de torsion). Liaison par inserts alu et goupilles Mécanindus. | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `00_Archives_Recherche/etude_comparative_tube_carbone_vs_isogrid_alu.md` |
 | **Verrous Mécaniques Tendons :** Sans Nœuds Simples | Vectran LCP Ø0.80mm (rupture ~950 N, fluage quasi nul) pincé par vis sans tête M1.6 sur spools CNC Ø14mm (1.5 tour) et serti à la pulpe via manchon cuivre Ø1.5mm. Élimine le point de cisaillement du nœud Ashley et le fluage du Dyneema. | `FINAL_CONSOLIDE_Bras_et_Mains.md`, `GUIDE_COMPLET_Fabrication_et_Montage_DHand_V1.md` |
@@ -44,6 +44,7 @@ Cette section présente la validation mathématique rigoureuse des caractéristi
 2.  **Masse totale de l'épaule (actionneurs + brackets alu CNC + visserie)**
     *   **Calcul :** Masse moteurs + Masse Bracket #1 (140g) + Masse Bracket #2 (80g) + Masse visserie (40g)
     *   **Numérique :** 2705 g + 140 g + 80 g + 40 g = **2965 g**
+    *   *(Note post-approvisionnement : le passage de la supination de `RS-02` 405 g à `RS-10P` 460 g Option B retenue & reçue ajoute `+55 g` au bloc coude, portant le bras complet à `~6 449 g` au lieu de `~6 394 g`)*
     *   **Validation :** ✅ Cohérent.
     *   **Criticité :** 🟢
 
@@ -55,8 +56,8 @@ Cette section présente la validation mathématique rigoureuse des caractéristi
     *   **Criticité :** 🟢
 
 4.  **Calcul de la longueur et proportions de l'avant-bras**
-    *   **Données :** Châssis avant-bras (plaque Isogrid) = 200 mm. RS-02 Supination au coude = 78 mm. RS-00 Pitch au poignet = 57 mm.
-    *   **Longueur fonctionnelle coude ➔ poignet :** 78 mm (moteur supination) + 200 mm (châssis avant-bras) = **278 mm**.
+    *   **Données :** Châssis avant-bras (plaque Isogrid) = 200 mm. Bloc Supination **RS-10P** (Option B retenue & reçue : Ø 57 × 59,1 mm + palier découpleur) au coude = ~78 mm. RS-00 Pitch au poignet = 57 mm.
+    *   **Longueur fonctionnelle coude ➔ poignet :** ~78 mm (bloc supination + palier) + 200 mm (châssis avant-bras) = **~278 mm**.
     *   **Validation :** ✅ **RÉSOLU & VALIDÉ** - L'incohérence historique de longueur est résolue. La longueur fonctionnelle de 278 mm s'insère parfaitement dans les proportions anthropomorphes d'un bras de robot de 170 cm. Les 200 mm de la plaque Isogrid abritent le bloc compact de 8 servos (90 mm sur double couche) et le RS-00 Pitch (57 mm), laissant 53 mm libres pour le raccordement et le Buck converter.
     *   **Criticité :** 🟢
 

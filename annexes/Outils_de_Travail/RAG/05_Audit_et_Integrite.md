@@ -14,12 +14,12 @@ Contrairement à une recherche classique, l'audit utilise le **Mode Global** du 
 ### Lancement de l'Audit
 Pour générer un nouveau rapport d'intégrité, exécutez la commande suivante dans le terminal :
 ```bash
-python3 code/rag/check_integrity.py
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/check_integrity.py" --provider ollama
 ```
 
 ### Emplacement du Rapport
 Le rapport est généré et écrasé à chaque passage dans :
-`annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md`
+`Annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md`
 
 ## 4. Processus de Correction (Boucle Humaine)
 Chaque section du rapport d'audit se termine par une série de **Questions de Validation**.
@@ -31,7 +31,7 @@ Chaque section du rapport d'audit se termine par une série de **Questions de Va
    - *Exemple* : "L'audit propose : 'Voulez-vous que je mette à jour le poids à 40.2kg dans le fichier 01_Synthese ?'. Répondez : 'Oui, fais-le'."
 
 ## 5. Maintenance de l'outil
-Les thématiques d'audit (Masse, Cinématique, Électronique, IA) sont définies dans le dictionnaire `AUDITS` au début du script `code/rag/check_integrity.py`. Vous pouvez y ajouter de nouveaux axes d'analyse (ex: budget, matériaux, conformité logicielle) selon l'évolution du projet.
+Les thématiques d'audit (Masse, Cinématique, Électronique, IA) sont définies dans le dictionnaire `AUDITS` au début du script `Code/rag/check_integrity.py` (qui supporte `ollama`, `unsloth`/`local`, `gemini` et `openrouter`). Vous pouvez y ajouter de nouveaux axes d'analyse (ex: budget, matériaux, conformité logicielle) selon l'évolution du projet.
 
 ---
-*Dernière mise à jour : Mai 2026*
+*Dernière mise à jour : Novembre 2026*

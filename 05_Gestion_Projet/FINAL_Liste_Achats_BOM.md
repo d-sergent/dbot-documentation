@@ -119,16 +119,19 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 
 ### Bilan Synthétique des Moteurs : Acquis vs Reste à Acheter
 
-| Modèle Moteur | Emplacements / Fonctions prévues | Total Requis | Déjà Acquis | Reste à Acheter (Option A : Std) | Reste à Acheter (Option B : RS-10P) |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| **Robstride RS-06** | Taille (Waist Yaw) | 1 | 1 (**✅ Acheté & Monté**) | **0** | **0** |
-| **Robstride RS-05 (`EL05`)** | Cou rotatif (Pan `Torse-123` + Tilt `02_Tete_et_Cou`) | 2 | 2 (**✅ Achetés & Montés**) | **0** | **0** |
-| **Robstride RS-04** | Épaules Pitch (2) + Genoux (2) + Hanches Pitch (2) | 6 | 6 (**✅ 100% Achetés : 2 Épaules P + 2 Hanches P + 2 Genoux**) | **0** | **0** |
-| **Robstride RS-03** | Épaules Roll (2) + Coudes Pitch (2) + Hanches R/Y (4) + Chevilles (4) | 12 | 12 (**✅ 100% Achetés : 2 Épaules R + 2 Coudes P + 4 Hanches R/Y + 4 Chevilles**) | **0** | **0** |
-| **Robstride RS-02** | Épaules Yaw (2) + Supinations Avant-bras (2 en std / 0 en Option B) | 4 *(std)* / 2 *(opt B)* | 1 (**✅ Acheté**) | **3** (1 Épaule Yaw + 2 Supinations) | **1** (1 Épaule Yaw Bras 2) |
-| **Robstride RS-00** | Poignets Pitch (2) | 2 | 1 (**✅ Acheté**) | **1** (Poignet Pitch Bras 2) | **1** (Poignet Pitch Bras 2) |
-| **Robstride RS-10P** | Supinations Avant-bras (2) *(Ø 57 mm au lieu de 78.5 mm)* | 0 *(std)* / 2 *(opt B)* | 0 | **0** | **2** (Supination Bras 1 & 2) |
-| **TOTAL ROBSTRIDE** | **Corps complet bipède (27 DOF)** | **27** | **23 (85,2 %)** | **4 moteurs** | **4 moteurs** |
+> [!IMPORTANT]
+> **100 % des actionneurs principaux acquis (`27 / 27` RobStride reçus, `0` reste à acheter)** : Avec la réception du dernier lot (**`2× RS-10P` Option B**, **`1× RS-02`** et **`1× RS-00`**), la motorisation complète des 27 DOF principaux — ainsi que des 16 servomoteurs Feetech des deux mains D-Hand (`43 / 43` actionneurs au total) — est désormais physiquement en stock. L'Option B (**`RS-10P` en Supination Avant-bras**) est définitivement retenue (`+55 g/bras`, soit `22,43 kg` de moteurs RobStride au total).
+
+| Modèle Moteur | Emplacements / Fonctions retenues | Total Requis | Acquis / Reçus | Reste à Acheter |
+| :--- | :--- | :---: | :---: | :---: |
+| **Robstride RS-06** | Taille (Waist Yaw) | 1 | **1 (`✅ Acheté & Monté`)** | **0** |
+| **Robstride RS-05 (`EL05`)** | Cou rotatif (Pan `Torse-123` + Tilt `02_Tete_et_Cou`) | 2 | **2 (`✅ Achetés & Montés`)** | **0** |
+| **Robstride RS-04** | Épaules Pitch (2) + Genoux (2) + Hanches Pitch (2) | 6 | **6 (`✅ 100 % Reçus : 2 Épaules P + 2 Hanches P + 2 Genoux`)** | **0** |
+| **Robstride RS-03** | Épaules Roll (2) + Coudes Pitch (2) + Hanches R/Y (4) + Chevilles (4) | 12 | **12 (`✅ 100 % Reçus : 2 Épaules R + 2 Coudes P + 4 Hanches R/Y + 4 Chevilles`)** | **0** |
+| **Robstride RS-02** | Épaules Yaw (2) *(Option A Std supination non retenue)* | 2 | **2 (`✅ 100 % Reçus : Épaules Yaw Bras 1 & 2`)** | **0** |
+| **Robstride RS-10P** | Supinations Avant-bras (2) — **Option B retenue** *(Ø 57 × 59,1 mm, 42 Nm pic, 25:1, 460 g)* | 2 | **2 (`✅ 100 % Reçus : Supination Bras 1 & 2`)** | **0** |
+| **Robstride RS-00** | Poignets Pitch (2) | 2 | **2 (`✅ 100 % Reçus : Poignets Pitch Bras 1 & 2`)** | **0** |
+| **TOTAL ROBSTRIDE** | **Corps complet bipède (27 DOF)** | **27** | **27 (`100 % — ✅ Tous Reçus`)** | **0 moteur** |
 | **Feetech STS3250** | Flexion puissance des 5 doigts (mains D-Hand) | 10 | 10 (**✅ Achetés**) | **0** (5 par main, 100% complet) | **0** (5 par main, 100% complet) |
 | **Feetech HL-3915** | Opposition pouce + Abduction + Curl palmaire | 6 | 6 (**✅ Achetés**) | **0** (3 par main, 100% complet) | **0** (3 par main, 100% complet) |
 | **TOTAL FEETECH** | **2 mains complètes D-Hand (16 DOF)** | **16** | **16** | **0 (Complet)** | **0 (Complet)** |
@@ -146,20 +149,20 @@ Pour réaliser le découplage des efforts et reproduire une cinématique de type
 | **Robstride RS-03** | 2 | **60 Nm** | Épaule Roll (1) + Coude Pitch (1) | **✅ Achetés** |
 | **Robstride RS-02** | 1 | **17 Nm** | Épaule Yaw | **✅ Acheté** |
 | **Robstride RS-00** | 1 | **14 Nm** | Poignet Pitch | **✅ Acheté** |
-| **Robstride RS-10P** *(Option B)* | 1 | **42 Nm** | Supination Avant-bras *(Ø 57 mm, compact)* | À commander (ou RS-02 en Option A) |
+| **Robstride RS-10P** *(Option B retenue)* | 1 | **42 Nm** | Supination Avant-bras *(Ø 57 × 59,1 mm, 25:1, compact)* | **✅ Reçu** |
 
-> **Capacité immédiate Phase 2** : Le premier bras dispose déjà de 5 DOF complets sur 6 (seule la supination reste à commander pour avoir les 6 DOF).
+> **Jalon Phase 2** : **100 % du premier bras acquis (6 DOF / 6)** — l'ensemble des 6 moteurs RobStride requis (`1× RS-04`, `2× RS-03`, `1× RS-02`, `1× RS-10P`, `1× RS-00`) est en stock.
 
 ### Phase 3 : Deuxième Bras (6 DOF identiques)
 | Modèle | Quantité | Couple (Peak) | Usage | Statut |
 | :--- | :--- | :--- | :--- | :--- |
 | **Robstride RS-04** | 1 | **120 Nm** | Épaule Pitch | **✅ Acheté** |
 | **Robstride RS-03** | 2 | **60 Nm** | Épaule Roll (1) + Coude Pitch (1) | **✅ 100% Achetés (2/2)** |
-| **Robstride RS-02** | 1 | **17 Nm** | Épaule Yaw | À commander |
-| **Robstride RS-00** | 1 | **14 Nm** | Poignet Pitch | À commander |
-| **Robstride RS-10P** *(Option B)* | 1 | **42 Nm** | Supination Avant-bras *(Ø 57 mm, compact)* | À commander (ou RS-02 en Option A) |
+| **Robstride RS-02** | 1 | **17 Nm** | Épaule Yaw | **✅ Reçu** |
+| **Robstride RS-00** | 1 | **14 Nm** | Poignet Pitch | **✅ Reçu** |
+| **Robstride RS-10P** *(Option B retenue)* | 1 | **42 Nm** | Supination Avant-bras *(Ø 57 × 59,1 mm, 25:1, compact)* | **✅ Reçu** |
 
-> **Capacité Phase 3** : Le deuxième bras dispose désormais de ses 2 gros moteurs de puissance (Épaule Pitch RS-04 et Coude Pitch RS-03) ainsi que son Épaule Roll RS-03. Seuls l'Épaule Yaw (RS-02), le Poignet Pitch (RS-00) et la Supination restent à acquérir pour clore le deuxième bras.
+> **Jalon Historique Phase 3** : **100 % du deuxième bras acquis (6 DOF / 6) et 100 % des 27 moteurs RobStride du robot reçus !** Avec la réception du dernier lot (`2× RS-10P`, `1× RS-02`, `1× RS-00`), l'intégralité de la motorisation principale (`27 / 27`) et des mains (`16 / 16` Feetech) est disponible en atelier.
 
 ### Phase 4 : Jambes (12 DOF)
 | Modèle | Quantité | Couple (Peak) | Usage | Statut |
@@ -337,7 +340,7 @@ Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une q
 *   **Métrologie & Contrôle d'Atelier** : **1x Pied à coulisse numérique de précision SHAHE 5110-150** (0-150 mm, IP54, acier inoxydable trempé, règle en verre haute stabilité, résolution 0,01 mm, précision DIN 862). (**✅ Acheté**). Indispensable pour le contrôle dimensionnel des bruts, la visserie, les entraxes PCB et la validation d'usinage sur la NestWorks C500.
 
 ### Machines & Outillage de Débit d'Atelier (Préparation Bruts CNC)
-| Équipement | Référence / Modèle | Spécifications Clés | Rôle Atelier & Usage D-Bot |
-| :--- | :--- | :--- | :--- |
-| **Scie Radiale Multi-Matériaux** | **Evolution R255SMS+** (230V EU, Réf: `052-0001A`) | Moteur 2 000 W, réducteur acier trempé à 2 500 tr/min, capacité de coupe à 90° : 300 × 80 mm, alésage 25,4 mm, serre-joint rapide, guide haut | Débit d'ébauche des tôles larges (Ceinture 230 mm), profilés carrés (Épaules 60×60 mm) et méplats massifs (Portique 25×100 mm en 7075-T651) avant usinage de finition sur CNC C500. |
-| **Lame Dédiée Métaux Non-Ferreux** | **Evolution A255TCT-80MS** (Aluminium 80 Dents, EAN: `0849713053497`) | Ø 255 mm, 80 dents carbure TCG (trapézoïdale/plate), angle d'attaque négatif -5°, alésage 25,4 mm direct | Coupe nette sans bavure, sans ramollissement thermique et sans amorce de recul (kickback) sur l'Alu 7075-T651. Remplace la lame multi-matériaux d'origine pour l'usinage intensif de l'alu. |
+| Équipement | Référence / Modèle | Statut | Spécifications Clés | Rôle Atelier & Usage D-Bot |
+| :--- | :--- | :---: | :--- | :--- |
+| **Scie Radiale Multi-Matériaux** | **Evolution R255SMS+** (230V EU, Réf: `052-0001A`) | **✅ Acheté** | Moteur 2 000 W, réducteur acier trempé à 2 500 tr/min, capacité de coupe à 90° : 300 × 80 mm, alésage 25,4 mm, serre-joint rapide, guide haut | Débit d'ébauche des tôles larges (Ceinture 230 mm), profilés carrés (Épaules 60×60 mm) et méplats massifs (Portique 25×100 mm en 7075-T651) avant usinage de finition sur CNC C500. |
+| **Lame Dédiée Métaux Non-Ferreux** | **Evolution A255TCT-80MS** (Aluminium 80 Dents, EAN: `0849713053497`) | **✅ Achetée** | Ø 255 mm, 80 dents carbure TCG (trapézoïdale/plate), angle d'attaque négatif -5°, alésage 25,4 mm direct | Coupe nette sans bavure, sans ramollissement thermique et sans amorce de recul (kickback) sur l'Alu 7075-T651. Remplace la lame multi-matériaux d'origine pour l'usinage intensif de l'alu. |

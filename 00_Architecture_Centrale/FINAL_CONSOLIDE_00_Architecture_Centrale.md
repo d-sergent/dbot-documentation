@@ -23,16 +23,16 @@ Toutes les valeurs proviennent des sources indiquées. En cas de contradiction, 
 
 ## 1. Vue d’Ensemble (Version Actuelle)
 
-Le D-Bot V1.x est un humanoïde de **~1,58 m** de haut (~1,584 m avec le module Waist élargi et le pelvis scalé, hauteur torse + pelvis = 819,74 mm), **~38,6 kg** au repos (allègement majeur de -6,61 kg suite à l'attribution du matériau composite PA12-CF au caisson pelvien, ensemble Torse + Bassin = 18,16 kg), doté de **27 moteurs RobStride** (QDD) et **16 servomoteurs Feetech** (D-Hand Hybrid Premium).  
+Le D-Bot V1.x est un humanoïde de **~1,58 m** de haut (~1,584 m avec le module Waist élargi et le pelvis scalé, hauteur torse + pelvis = 819,74 mm), **~38,6 à 38,7 kg** au repos (allègement majeur de -6,61 kg suite à l'attribution du matériau composite PA12-CF au caisson pelvien, ensemble Torse + Bassin = 18,16 kg), doté de **27 moteurs RobStride (`100 % acquis — 27/27 reçus`)** et **16 servomoteurs Feetech (`100 % acquis`)** (D-Hand Hybrid Premium).  
 
 Architecture mécanique principale :  
 
 * **Cou** – 2 × RS‑05 (pan/tilt).  
-* **Bras (×2)** – épaule : RS‑04 (Pitch) + RS‑03 (Roll) + RS‑02 (Yaw) ; coude : **RS‑03** (Pitch) + RS‑02 (Supination) ; poignet : RS‑00 (Pitch).  
+* **Bras (×2)** – épaule : RS‑04 (Pitch) + RS‑03 (Roll) + RS‑02 (Yaw) ; coude : **RS‑03** (Pitch) + **RS‑10P** (Supination Option B, Ø 57 × 59,1 mm) ; poignet : RS‑00 (Pitch).  
 * **Taille (Waist)** – 1 × RS‑06 (Waist Yaw).  
 * **Jambes (×2)** – hanche : RS‑04 (Pitch) + RS‑03 (Roll) + RS‑03 (Yaw) ; genou : RS‑04 (Pitch) + courroie GT3 2.5:1 → 300 N·m effectif ; cheville : **Cardan DIN 808** + **2 × RS‑03** (différentiel) → 120 N·m effectif en Pitch et Roll.  
 
-Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈ 9:1) et **back‑drivable**.  
+Les moteurs principaux sont **quasi‑direct‑drive** (réducteur planétaire ≈ 7.75:1 à 10:1, **back‑drivable**), complétés en **Option B validée & acquise** par **2 × RS‑10P** (planétaire fort couple **25:1**) dédiés à la supination des avant‑bras.  
 
 ---  
 
@@ -43,20 +43,20 @@ Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈�
 | Zone / Articulation | Moteur | Qté | Couple nominal (N·m) | Couple pic (N·m) | Réduction mécanique | Couple effectif (N·m) | Statut |
 |---------------------|--------|-----|----------------------|------------------|----------------------|-----------------------|--------|
 | **Cou** (Pan/Tilt) | RS‑05 | 2 | 1.6 | 5.5 | – | 5.5 | ✅ Achetés & Montés |
-| **Épaule Pitch** | RS‑04 | 2 | 40 | 120 | – | 120 | ✅ V1 |
-| **Épaule Roll** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 |
-| **Épaule Yaw** | RS‑02 | 2 | 6 | 17 | – | 17 | ✅ V1 |
-| **Coude Pitch** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 |
-| **Supination Avant‑bras** | RS‑02 | 2 | 6 | 17 | – | 17 | ✅ V1 (nouveau) |
-| **Poignet Pitch** | RS‑00 | 2 | 5 | 14 | – | 14 | ✅ V1 |
+| **Épaule Pitch** | RS‑04 | 2 | 40 | 120 | – | 120 | ✅ V1 — Acquis (2/2) |
+| **Épaule Roll** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 — Acquis (2/2) |
+| **Épaule Yaw** | RS‑02 | 2 | 6 | 17 | – | 17 | ✅ V1 — Acquis (2/2) |
+| **Coude Pitch** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 — Acquis (2/2) |
+| **Supination Avant‑bras** | **RS‑10P** *(Option B)* | 2 | **14** | **42** | – *(25:1 interne)* | **42** | ✅ V1 — Acquis (2/2) |
+| **Poignet Pitch** | RS‑00 | 2 | 5 | 14 | – | 14 | ✅ V1 — Acquis (2/2) |
 | **Waist Yaw (Taille)** | RS‑06 | 1 | 11 | 36 | – | 36 | ✅ Acheté & Monté |
-| **Hanche Pitch** | RS‑04 | 2 | 40 | 120 | – | 120 | ✅ V1 |
-| **Hanche Roll** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 |
-| **Hanche Yaw** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 |
-| **Genou Pitch** | RS‑04 + GT3 2.5:1 | 2 | 40 | 120 | 2.5 : 1 (courroie) | **300** | ✅ V1 |
-| **Cheville Pitch** | 2 × RS‑03 (cardan) | 4 | 20 | 60 | Cardan DIN 808 (différentiel) | **120** | ✅ V1 |
-| **Cheville Roll** | 2 × RS‑03 (cardan) | 4 | 20 | 60 | Cardan DIN 808 (différentiel) | **120** | ✅ V1 |
-| **Main – D‑Hand Hybrid Premium** | 5× STS3250 + 3× HL-3915 | 16 | – | – | – | ~438 N pic / 140 N nom. | ✅ V1 |
+| **Hanche Pitch** | RS‑04 | 2 | 40 | 120 | – | 120 | ✅ V1 — Acquis (2/2) |
+| **Hanche Roll** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 — Acquis (2/2) |
+| **Hanche Yaw** | RS‑03 | 2 | 20 | 60 | – | 60 | ✅ V1 — Acquis (2/2) |
+| **Genou Pitch** | RS‑04 + GT3 2.5:1 | 2 | 40 | 120 | 2.5 : 1 (courroie) | **300** | ✅ V1 — Acquis (2/2) |
+| **Cheville Pitch** | 2 × RS‑03 (cardan) | 4 | 20 | 60 | Cardan DIN 808 (différentiel) | **120** | ✅ V1 — Acquis (4/4) |
+| **Cheville Roll** | 2 × RS‑03 (cardan) | 4 | 20 | 60 | Cardan DIN 808 (différentiel) | **120** | ✅ V1 — Acquis (4/4) |
+| **Main – D‑Hand Hybrid Premium** | 5× STS3250 + 3× HL-3915 | 16 | – | – | – | ~438 N pic / 140 N nom. | ✅ V1 — Acquis (16/16) |
 
 > **Note** : Le couple effectif de la cheville provient du différentiel : chaque RS‑03 fournit 60 N·m → 120 N·m combinés (Pitch + Roll).  
 
@@ -68,9 +68,10 @@ Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈�
 | RS‑04 | 6 | 1 420 | **8 520** |
 | RS‑03 | 12 | 880 | **10 560** |
 | RS‑06 | 1 | 621 | **621** |
-| RS‑02 | 4 | 405 | **1 620** |
+| RS‑02 | 2 | 405 | **810** |
+| **RS‑10P** *(Option B)* | 2 | 460 | **920** |
 | RS‑00 | 2 | 310 | **620** |
-| **TOTAL MOTEURS** | **27** | – | **22 323 g ≈ 22.32 kg** |
+| **TOTAL MOTEURS** | **27** | – | **22 433 g ≈ 22.43 kg** *(100 % acquis)* |
 
 ---  
 
@@ -82,11 +83,12 @@ Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈�
 | Réf. | Désignation | Qté | Fournisseur | Référence fournisseur | Prix unitaire (EUR) | Remarques |
 |------|--------------|-----|-------------|-----------------------|---------------------|-----------|
 | **M‑01** | RS‑05 – Cou Pan/Tilt | 2 | RobStride | RS‑05‑V1 | 210 € | 5.5 N·m pic (✅ Achetés & Montés) |
-| **M‑02** | RS‑04 – Épaule Pitch / Hanche Pitch / Genou Pitch | 6 | RobStride | RS‑04‑V1 | 340 € | 120 N·m pic |
-| **M‑03** | RS‑03 – Épaule Roll / Coude Pitch / Hanche Roll & Yaw / Cheville | 12 | RobStride | RS‑03‑V1 | 190 € | 60 N·m pic |
+| **M‑02** | RS‑04 – Épaule Pitch / Hanche Pitch / Genou Pitch | 6 | RobStride | RS‑04‑V1 | 340 € | 120 N·m pic (✅ 100 % Reçus : 6/6) |
+| **M‑03** | RS‑03 – Épaule Roll / Coude Pitch / Hanche Roll & Yaw / Cheville | 12 | RobStride | RS‑03‑V1 | 190 € | 60 N·m pic (✅ 100 % Reçus : 12/12) |
 | **M‑04** | RS‑06 – Taille (Waist Yaw) | 1 | RobStride | RS‑06‑V1 | 260 € | 36 N·m pic (✅ Acheté & Monté) |
-| **M‑05** | RS‑02 – Épaule Yaw / Supination | 4 | RobStride | RS‑02‑V1 | 150 € | 17 N·m pic |
-| **M‑06** | RS‑00 – Poignet Pitch | 2 | RobStride | RS‑00‑V1 | 130 € | 14 N·m pic |
+| **M‑05** | RS‑02 – Épaule Yaw | 2 | RobStride | RS‑02‑V1 | 150 € | 17 N·m pic (✅ 100 % Reçus : 2/2) |
+| **M‑05b** | **RS‑10P** – Supination Avant‑bras *(Option B retenue)* | 2 | RobStride | RS‑10P | ~210‑240 USD | 42 N·m pic / 14 N·m nom., 25:1, Ø 57 × 59,1 mm (✅ 100 % Reçus : 2/2) |
+| **M‑06** | RS‑00 – Poignet Pitch | 2 | RobStride | RS‑00‑V1 | 130 € | 14 N·m pic (✅ 100 % Reçus : 2/2) |
 | **M‑07** | Cardan DIN 808 – Série G (12 mm) | 2 | Michaud Chailly | A5‑473‑12 | 45 € | Acier C45 |
 | **M‑08** | Bielles carbone 3K Ø10/8 mm | 4 | [À COMPLÉTER] | – | – | Pour cardan |
 | **M‑09** | Rotules Igus EBRM‑05 | 8 | Igus | EBRM‑05 | 12 € | – |
@@ -117,7 +119,7 @@ Tous les moteurs sont **quasi‑direct‑drive** (réducteur planétaire ≈�
 |---------|--------|-------------|--------|--------------|
 | Squelette torse (aluminium CNC) | STEP | V1.2 | **Validé** – dimensions 420 mm × 300 mm × 220 mm | `CAD/Torse_Alu_V1.2.step` |
 | Hanche + genou + cheville (assemblage) | STEP | V1.0 | **Validé** – incl. cardan DIN 808, GT3 | `CAD/Leg_Assembly_V1.0.step` |
-| Bras (épaule → poignet) | STEP | V1.1 | **Validé** – supination RS‑02 intégrée | `CAD/Arm_Assembly_V1.1.step` |
+| Bras (épaule → poignet) | STEP | V1.1 | **Validé** – supination **RS‑10P** (Option B) intégrée | `CAD/Arm_Assembly_V1.1.step` |
 | D‑Hand Hybrid (avant‑bras + main) | STEP + STL | V1.0 | **Validé** – masse 785 g | `CAD/DHand_Hybrid_V1.0.step` |
 | Simulations dynamique (ROS 2 + Gazebo) | URDF + SDF | V1.0 | **Validé** – marche 5 km/h, course 6‑8 km/h | `SIM/URDF/D_Bot_V1.urdf` |
 | Analyse de contraintes (Fusion 360) | F3D | V1.0 | **Validé** – facteur de sécurité > 3 sur toutes les pièces critiques | `SIM/Analysis/Leg_Stress_V1.f3d` |

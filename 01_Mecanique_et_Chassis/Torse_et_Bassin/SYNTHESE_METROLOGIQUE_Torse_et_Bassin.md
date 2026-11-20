@@ -1,8 +1,8 @@
 # Synthèse Métrologique et CAO — Torse et Bassin D-Bot V1
 
 > **Statut** : Document de référence métrologique validé par extraction CAO Fusion 360  
-> **Source de vérité CAO** : `Torse-123 v42`  
-> **Date de l'audit** : 2026-11-13T09:12:05.697562  
+> **Source de vérité CAO** : `Torse-123 v49`  
+> **Date de l'audit** : 2026-11-20T22:37:03.445539  
 > **Fichier source** : [`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json)  
 > **Audits complémentaires (`Audits/`)** : `AUDIT_CINEMATIQUE_Torse_et_Bassin.json`, `AUDIT_ALIGNEMENT_Torse_et_Bassin.json`
 
@@ -21,14 +21,14 @@
 
 ## 1. Vue d'Ensemble & Masses
 
-* **Masse totale de l'ensemble Torse + Bassin** : **18.32 kg** (18316.38 g).
-* **Nombre de composants modélisés** : **614 instances** (BOM de 125 références uniques).
+* **Masse totale de l'ensemble Torse + Bassin** : **18.39 kg** (18390.33 g).
+* **Nombre de composants modélisés** : **627 instances** (BOM de 130 références uniques).
 * **Centre de gravité global (CoM)** :
-  * **X** (profondeur) = **+61.06 mm** (déport avant cohérent avec l'implantation pectorale et les tiroirs batteries).
+  * **X** (profondeur) = **+61.10 mm** (déport avant cohérent avec l'implantation pectorale et les tiroirs batteries).
   * **Y** (latéral) = **+8.03 mm** (symétrie gauche/droite par rapport au plan médian machine).
-  * **Z** (hauteur) = **1128.75 mm** (situé au niveau du plexus, entre le waist à 1033.41 mm et la plaque de cou à 1476.11 mm).
+  * **Z** (hauteur) = **1128.31 mm** (situé au niveau du plexus, entre le waist à 969.08 mm et la plaque de cou à 1476.11 mm).
 > [!NOTE]
-> **Calibration densités PA12-CF** : 20 composant(s)/sous-corps polymères conservent dans ce snapshot une densité pleine (rho ~ 1.015 g/cm3) ou un matériau mixte (masse CAO brute : **18.32 kg**, incluant ~+2.1 kg de marge théorique par rapport à un infill gyroïde 15 %).
+> **Calibration densités PA12-CF** : 20 composant(s)/sous-corps polymères conservent dans ce snapshot une densité pleine (rho ~ 1.015 g/cm3) ou un matériau mixte (masse CAO brute : **18.39 kg**, incluant ~+2.1 kg de marge théorique par rapport à un infill gyroïde 15 %).
 
 ---
 
@@ -45,7 +45,7 @@
 | **Largeur totale (Y)** | -245.87 mm -> 241.19 mm | **487.06 mm** | Largeur d'épaules et pivots de hanches |
 | **Altitude Z au sol** | **714.17 mm -> 1547.12 mm** | — | Repère mondial D-Bot (pieds à Z = 0 mm) |
 | **Bassin seul (Pelvis)** | 714.17 mm -> 1035.41 mm | **321.24 mm** (~32.1 cm) | Du bas des supports de hanche au sommet du berceau |
-| **Torse seul (Waist au cou)** | 1033.41 mm -> 1547.12 mm | **513.71 mm** (~51.4 cm) | De la Waist Plate au sommet du collet de cou |
+| **Torse seul (Waist au cou)** | 969.08 mm -> 1547.12 mm | **578.04 mm** (~57.8 cm) | De la Waist Plate au sommet du collet de cou |
 | **Hauteur Totale Torse + Bassin** | 714.17 mm -> 1547.12 mm | **832.95 mm** (~83.3 cm) | **Hauteur physique propre de l'assemblage** |
 
 ---
@@ -58,12 +58,12 @@ L'empilement vertical de l'articulation de lacet du buste (Waist Yaw) a été v�
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Moteur RS06 (Rotor)** | 958.90 | 1009.44 | 50.54 | — | Référence rotor RS06 |
 | **Moyeu Waist Sandwich** | 1009.41 | 1033.03 | 23.62 | Appui rotor : 0.03 mm | **Contact franc** |
-| **Châssis Structurel Bassin** | 800.88 | 1026.22 | 225.34 | Enveloppe coque PA12-CF | Coque pelvienne encastrée |
+| **Châssis Structurel Bassin** | 800.87 | 1026.23 | 225.36 | Enveloppe coque PA12-CF | Coque pelvienne encastrée |
 | **Traverse Renfort Bassin** | 1007.90 | 1020.41 | 12.51 | Sur Pont de Hanches (Alu 7075) | **Interface Waist maître** |
 | ↳ *Lamage Traverse (profondeur 3,00 mm)* | — | **1017.41** | Prof. 3,00 | — | Face d'appui du RB8016 |
 | **Roulement RB8016** | **1017.40** | **1033.44** | 16.04 | Fond lamage : **0.01 mm** | **Contact franc** |
-| **Waist Plate 7075** | **1033.41** | **1042.43** | 9.02 | Appui bague int. : 0.03 mm | **Contact franc** |
-| ↳ *Jeu Anti-talonnage (Moyeu vs Waist Plate)* | 1033.03 | 1033.41 | — | **0.38 mm** | **Jeu de sécurité axial** |
+| **Waist Plate 7075** | **969.08** | **1042.43** | 73.35 | Appui bague int. : 64.36 mm | **Contact franc** |
+| ↳ *Jeu Anti-talonnage (Moyeu vs Waist Plate)* | 1033.03 | 969.08 | — | **-63.95 mm** | **Jeu de sécurité axial** |
 | **Équerre Waist & Plastron Ventral** | 1042.41 | 1072.43 | 30.02 | Appui Waist Plate : 0.02 mm | **Contact franc** |
 
 ---
@@ -80,9 +80,9 @@ L'empilement vertical de l'articulation de lacet du buste (Waist Yaw) a été v�
 
 ## 5. Bilan d'Usinage & Quincaillerie Clé
 
-* **Fraisures coniques 90° (pièces structurelles usinées/imprimées)** : **423 fraisures** dédoublonnées (hors visserie/moteurs).
-* **Alésages et lamages majeurs (>= 60 mm, pièces structurelles)** : **78 surfaces d'alésages** répertoriées (lamage Traverse Ø 120 mm, alésages Waist Plate Ø 80/130/170 mm, interfaces bassin).
-* **Goupilles / alésages fins Ø 3,0 mm (pièces structurelles)** : **36 perçages** répertoriés (hors moteurs STEP).
+* **Fraisures coniques 90° (pièces structurelles usinées/imprimées)** : **441 fraisures** dédoublonnées (hors visserie/moteurs).
+* **Alésages et lamages majeurs (>= 60 mm, pièces structurelles)** : **88 surfaces d'alésages** répertoriées (lamage Traverse Ø 120 mm, alésages Waist Plate Ø 80/130/170 mm, interfaces bassin).
+* **Goupilles / alésages fins Ø 3,0 mm (pièces structurelles)** : **50 perçages** répertoriés (hors moteurs STEP).
 
 ---
 
@@ -97,10 +97,10 @@ L'empilement vertical de l'articulation de lacet du buste (Waist Yaw) a été v�
 | Bride Epaule | `Bride Epaule` | 4 | Aluminium 7075 | 202.30 g | 809.20 g |
 | 1_1_06_EB1203-504_1 | `1_1_06_EB1203-504_1` | 4 | Acier | 168.34 g | 673.36 g |
 | RB8016 | `1` | 1 | Acier | 633.41 g | 633.41 g |
-| Traverse_Renfort_Bassin [ASV1_200_16A] | `ASV1_200_16A.step` | 1 | Aluminium 7075 | 566.74 g | 566.74 g |
+| Traverse_Renfort_Bassin [ASV1_200_16A] | `ASV1_200_16A.step` | 1 | Aluminium 7075 | 565.76 g | 565.76 g |
 | colonne vertébrale | `colonne vertébrale` | 1 | Aluminium 7075 | 489.50 g | 489.50 g |
-| Chassis_Structurel_Bassin_Last | `Chassis_Structurel_Bassin_Last` | 1 | PA12-CF (Coque 5mm Infill 15% Gyroide) | 441.36 g | 441.36 g |
-| Waist_Plate_7075 | `ASV1_100_02A` | 1 | Aluminium 7075 | 433.53 g | 433.53 g |
+| Chassis_Structurel_Bassin_Last | `Chassis_Structurel_Bassin_Last` | 1 | PA12-CF (Coque 5mm Infill 15% Gyroide) | 481.19 g | 481.19 g |
+| Waist_Plate_7075 | `ASV1_100_02A` | 1 | Multi-corps (1 corps) | 437.09 g | 437.09 g |
 | Support_Hanche_Gauche [ASV1_200_06C] | `ASV1_200_06C.step` | 1 | PA12-CF (Cosmetique Infill 15% Gyroide) [En cours de définition CAO] | 371.19 g | 371.19 g |
 | Support_Hanche_Droit [ASV1_200_08C] | `ASV1_200_08C.step` | 1 | PA12-CF (Cosmetique Infill 15% Gyroide) [En cours de définition CAO] | 371.16 g | 371.16 g |
 | Selle de Pont Pelvis [ASV1_200_10] | `ASV1_200_10` | 1 | Aluminium 7075 | 338.98 g | 338.98 g |

@@ -43,11 +43,30 @@ async def fastembed_func(texts: list[str]) -> np.ndarray:
 
 # ─── LLM Factory ─────────────────────────────────────────────────────────────
 async def get_llm_func(args):
-    if args.provider == "local":
-        base_url = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8888/v1").strip().rstrip("/")
-        model = args.model or os.environ.get("VMLX_MODEL", "unsloth/Qwen3.8-27B-GGUF")
-        api_key = os.environ.get("VMLX_API_KEY") or os.environ.get("UNSLOTH_API_KEY") or "EMPTY"
-        print(f"🔗 Audit via LOCAL : Unsloth / vMLX sur {base_url} ({model})")
+    if args.provider == "ollama":
+        _rag_dir = os.path.dirname(os.path.abspath(__file__))
+        if _rag_dir not in sys.path:
+            sys.path.insert(0, _rag_dir)
+        from rag_runtime import ManagedOllamaServer, check_ollama_ready, resolve_ollama_config
+        from ask_rag import get_llm_func as _rag_get_llm_func
+
+        ollama_url, default_ollama_model, _, _ = resolve_ollama_config()
+        ollama_model = args.model or default_ollama_model
+        if not check_ollama_ready(ollama_url, required_model=ollama_model, timeout=0.5):
+            managed = ManagedOllamaServer(base_url=ollama_url, model=ollama_model)
+            managed.ensure_started()
+        print(f"🔗 Audit via OLLAMA : {ollama_url} ({ollama_model})")
+        return _rag_get_llm_func("ollama", model_override=ollama_model, api_key_override=args.api_key)
+
+    if args.provider in ("local", "unsloth"):
+        _rag_dir = os.path.dirname(os.path.abspath(__file__))
+        if _rag_dir not in sys.path:
+            sys.path.insert(0, _rag_dir)
+        from rag_runtime import resolve_unsloth_config
+
+        base_url, default_model, api_key = resolve_unsloth_config()
+        model = args.model or default_model
+        print(f"🔗 Audit via UNSLOTH : {base_url} ({model})")
     elif args.provider == "gemini":
         base_url = "https://generativelanguage.googleapis.com/v1/openai/"
         model = args.model or "models/gemini-1.5-flash"
@@ -248,7 +267,7 @@ async def run_audit(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--provider", choices=["local", "gemini", "openrouter"], default="local")
+    parser.add_argument("--provider", choices=["ollama", "unsloth", "local", "gemini", "openrouter"], default="local")
     parser.add_argument("--api-key", type=str)
     parser.add_argument("--model", type=str)
     parser.add_argument("--clear-cache", action="store_true", help="Forcer une nouvelle génération en vidant le cache")

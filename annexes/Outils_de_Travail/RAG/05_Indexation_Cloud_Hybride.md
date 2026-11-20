@@ -2,7 +2,7 @@
 
 ## 1. Pourquoi le Cloud pour l'indexation ?
 
-L'indexation par LightRAG repose sur l'extraction d'entités et de relations par un LLM. En local (vMLX), cette tâche est séquentielle et lente (15-30 min pour D-Bot). 
+L'indexation par LightRAG repose sur l'extraction d'entités et de relations par un LLM. En local sur serveur OpenAI-compatible lourd (`Unsloth` / `llama-server`), cette tâche est séquentielle et lente (15-30 min pour D-Bot), d'où la cascade cloud ou Ollama `qwen3.5:9b`.
 L'utilisation d'une API Cloud permet :
 - **Vitesse** : Traitement en 1 à 2 minutes.
 - **Précision** : Modèles "Frontier" (Gemini 1.5 Pro, GPT-4o) plus performants pour structurer les données.
@@ -60,6 +60,6 @@ Sur une mise à jour typique de 5 fichiers (après une séance de travail) :
 ## 6. Prochaines Étapes : Mise à jour du script
 
 Le script `index_docs.py` sera modifié pour accepter les arguments :
-- `--provider` : `local` (vMLX), `gemini` ou `openai-compatible`.
+- `--provider` : `auto` (défaut : Gemini gros->petits puis Ollama), `ollama`, `gemini`, `unsloth` (`local`), `online` ou `openrouter`.
 - `--api-key` : Votre clé secrète.
 - `--model` : Le nom du modèle choisi.

@@ -90,7 +90,7 @@ Ta mission :
     print("Pour exécuter la correction, collez ce texte dans l'interface de votre choix :")
     print("  1. ANTIGRAVITY : Collez ici même pour que je (Antigravity) m'en charge.")
     print("  2. CONTINUE (VS Code) : Collez dans le chat pour utiliser l'IA de votre choix (OpenRouter, locale, etc).")
-    print("  3. vMLX STUDIO : Collez dans le chat si le serveur MCP y est actif.")
+    print("  3. UNSLOTH / MCP : Collez dans le chat si le serveur MCP y est actif.")
     print("------------------------------------------------------\n")
     print("\033[96m" + prompt + "\033[0m")
     print("\n======================================================")

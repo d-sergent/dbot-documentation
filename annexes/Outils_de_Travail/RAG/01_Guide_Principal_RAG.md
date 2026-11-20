@@ -28,26 +28,33 @@ rag --index "01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_BOM_Torse_et_Waist_D-
 Idéal pour une réponse ultra-rapide sans ouvrir d'interface.
 
 ```bash
-# Recherche pure (affiche les extraits sans utiliser de LLM)
-/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/ask_rag.py" "Votre question" --search-only
+# Recherche pure sans LLM (0 Go RAM GPU : injecte hl_keywords/ll_keywords puis repli naive garanti)
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py" --search-only --mode hybrid "Votre question"
 
-# Synthèse avec un modèle local (Qwen)
-/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/ask_rag.py" "Votre question" --provider local
+# Recherche hybride avec mots-cles explicites (contourne l'extraction LLM)
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py" --search-only --mode hybrid --keywords "RB8016,RS-06,waist" "Votre question"
 
-# Synthèse via OpenRouter avec Tencent Hunyuan 3 (Puissant et gratuit)
-/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/ask_rag.py" "Votre question" --provider openrouter --model tencent/hy3-preview:free
+# Synthèse en cascade auto (Ollama -> Unsloth Studio -> Gemini -> OpenRouter)
+# Demarre Ollama a la demande si aucun backend ne repond et l'arrete en fin de requete
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py" "Votre question"
+
+# Synthèse forcee via Unsloth Studio (:8888/v1) ou Ollama (:11434)
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py" "Votre question" --provider unsloth
+
+# Liberer manuellement la memoire unifiee Ollama apres une session
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py" --stop-server
 ```
 
 ---
 
 ## 💬 Usage avec les LLMs
 
-### Dans vMLX (Modèles locaux)
-Le serveur MCP doit être actif. Pour forcer l'usage du RAG, utilisez cette syntaxe :
+### Dans Kilo / Unsloth Studio & Ollama (Modèles locaux)
+Le serveur MCP `dbot-rag` doit être actif. Pour forcer l'usage du RAG, utilisez cette syntaxe :
 > *"Utilise l'outil `rag_search` pour me dire : [Votre question]"*
 
-### Dans Antigravity (Gemini/Cloud)
-Antigravity a accès au même serveur MCP. Vous pouvez lui demander des analyses croisées complexes :
+### Dans Antigravity (Cloud)
+Antigravity a accès au même serveur MCP (`llm_mode="antigravity"` par défaut, 0 Go RAM LLM). Vous pouvez lui demander des analyses croisées complexes :
 > *"Analyse l'impact d'un changement de batterie sur les moteurs RS-04 en utilisant le RAG."*
 
 ---
@@ -57,9 +64,9 @@ Le serveur est situé ici : `Code/rag/mcp_lightrag_server.py`.
 Si vous modifiez le code du serveur, n'oubliez pas de le **redémarrer** dans les réglages de votre client MCP.
 
 ### Fonctionnalités incluses :
-- **Recherche Hybride** : Combine le graphe (relations) et les vecteurs (mots-clés).
+- **Recherche Hybride sans LLM (`--search-only` / `antigravity`)** : Combine graphe (via mots-clés lexicaux `hl_keywords`/`ll_keywords`) et vecteurs sans charger de LLM en RAM.
 - **Reranking Automatique** : Trie les résultats par pertinence réelle (`BAAI/bge-reranker-base`).
-- **Fallback Résilient** : Si le graphe ne trouve rien, bascule automatiquement en mode "Naive" ; en mode `auto`, bascule automatiquement de Gemini vers **Ollama local (`qwen3.5:9b`)** puis vMLX.
+- **Cascade & Fallback Résilients** : Si le graphe ne trouve rien, bascule automatiquement en mode `naive` ; en synthèse `auto`, cascade `Ollama (qwen3.8:27b-mlx)` -> `Unsloth Studio (:8888/v1)` -> `Gemini` -> `OpenRouter` (côté MCP `internal` : `Gemini` -> `Ollama` avec démarrage/arrêt de session -> `Unsloth`).
 - **Accès SVG XML & PDF garanti** : `.svg` et `.pdf` ne sont pas filtrés par `RAG_SKIP_IMAGES`.
 
 ---

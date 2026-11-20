@@ -36,7 +36,7 @@
 
 Le robot humanoïde D-Bot V1 sépare structurellement le corps supérieur en trois sous-ensembles fonctionnels :
 1. **Le Torse Complet** : Colonne sagittale, cou pan `RobStride RS-05 (EL05_ASM_1_ASM)` (le 2e RS-05 Tilt appartient à `02_Tete_et_Cou`), traverses d'épaules `60×60 mm`, articulations d'épaules `RS-04` complètes symétrisées (G/D), plastrons (`Plastron_Ventral_Torse` 6 corps + ceinture Alu `3 mm`), carénages et les 2 packs batteries latéraux 48V (`Panier_Batterie_Droit` / `Gauche`).
-2. **La Liaison Active Waist Yaw** : Pivot de lacet de taille, roulement à rouleaux croisés `RB8016` (`633,41 g`), actionneur `RS-06` (`550,97 g`), `Moyeu_Waist_Sandwich_7075` (`163,94 g`), `Waist_Plate_7075` (`433,53 g`, `176,11 × 173,05 × 9,02 mm`), corridor ventral `45×20 mm` (boucle anti-guillotine) et butée mécanique arrière `±95°` à `R = 83,0 mm` (**Modification CAO prévue avant usinage CNC** — non encore modélisée dans `Torse-123 v42`).
+2. **La Liaison Active Waist Yaw** : Pivot de lacet de taille, roulement à rouleaux croisés `RB8016` (`633,41 g`), actionneur `RS-06` (`550,97 g`), `Moyeu_Waist_Sandwich_7075` (`163,94 g`), `Waist_Plate_7075` (`433,53 g`, `176,11 × 173,05 × 9,02 mm`), arc dorsal `69,05° / 125,05°` (`-X`, anti-guillotine) et butée mécanique `±95,0°` à `R = 80,50 mm` (doigt côté `+X` `0°`, plots à `±109,86°`, **Modification CAO prévue avant usinage CNC** — non encore modélisée dans `Torse-123 v42`).
 3. **Le Bassin & Squelette Pelvien (`Bassin_Pelvis`)** : `Traverse_Renfort_Bassin` en **Aluminium 7075-T6** (`566,74 g`), squelette porteur **« Pont de Hanches »** (`1 114,87 g` avec ses 2 `Bride Epaule` `RS-04` de hanches, `Selle de Pont Pelvis` `338,98 g`, `Tube transverse Hanches` `60×60` `L = 46,33 mm`, 4 `Montant de Hanche` et 8 `Insert`), coque `Chassis_Structurel_Bassin_Last` calibrée PA12-CF (`441,36 g` à `0,700 g/cm3`), plus 8 occurrences d'habillage/support de hanche `ASV1_200` actuellement **en cours de définition côté CAO (non définitives)**.
 
 ### Bilan de Masse Consolidé (Source CAO Active : Fusion 360 `Torse-123 v42` — Audit Métrologique Certifié)
@@ -148,12 +148,12 @@ Le robot humanoïde D-Bot V1 sépare structurellement le corps supérieur en tro
 | Réf. Pièce | Désignation CAO Fusion 360 | Matériau Appliqué | Procédé / Infill | Qté | Masse Unitaire | Masse Totale | Rôle Fonctionnel |
 | :--- | :--- | :--- | :--- | :---: | :---: | :---: | :--- |
 | **WST-01** | `Moyeu_Waist_Sandwich_7075` | Aluminium 7075 | Tournage/Fraisage CNC | 1 | 163,94 g | 163,94 g | Fût Ø 80 h6, collerette Ø 91,52 mm (`Z = 1009,41..1033,03 mm`, jeu `0,38 mm`) |
-| **WST-02** | `Waist_Plate_7075` (`ASV1_100_02A`) | Aluminium 7075 | Usinage CNC C500 (Massif) | 1 | 433,53 g | 433,53 g | Plaque mobile (`176,11 × 173,05 × 9,02 mm`), encoche ventrale en U anti-guillotine et arcs arrière `69,05° / 125,05°` |
+| **WST-02** | `Waist_Plate_7075` (`ASV1_100_02A`) | Aluminium 7075 | Usinage CNC C500 (Massif) | 1 | 433,53 g | 433,53 g | Plaque mobile (`176,11 × 173,05 × 9,02 mm`), côté `+X` pleine matière (porte doigt `WST-07A`) et lumière d'arc arrière `125,05°` anti-guillotine |
 | **WST-03** | `Traverse_Renfort_Bassin` (`ASV1_200_16A`) | Aluminium 7075 | Tournage/Fraisage CNC | 1 | 566,74 g | 566,74 g | Platine d'interface allégée (`174,90 × 174,84 × 12,51 mm`), siège Ø 120 H7, alésage central |
 | **WST-04** | `Bride_Retenue_RB8016_L` | Aluminium 7075 | Usinage CNC C500 | 4 | 4,12 g | 16,48 g | 4 brides étagées en L (`21,95 × 21,95 × 15,02 mm` à 45°) de retenue bague extérieure |
 | **WST-05** | `RB8016` (CRBH 8016 UU) | Acier GCr15 (62 HRC) | Luoyang EFANT Precision | 1 | 633,41 g | 633,41 g | **Reçu & Contrôlé (15/09/2026)** : `d = 79,996 mm`, `D = 119,995 mm`, `B = 15,965 mm`, faux-rond `0,003 mm` |
 | **WST-06** | `RS06 v1` | RobStride RS-06 | Moteur QDD Actuator | 1 | 550,97 g | 550,97 g | Actionneur de lacet Waist Yaw (`85,31 × 83,58 × 50,54 mm`, 36 N.m pic, 11 N.m nom., arbre plein) |
-| **WST-07** | `Doigt_Butee_Arriere` & Plots `±95°` *(Prévu)* | Acier / Alu 7075 | **Modification CAO prévue avant usinage CNC** | 1 + 2 | — | — | Butée mécanique `±95°` à `R = 83,0 mm` **non encore modélisée dans `Torse-123 v42`** |
+| **WST-07** | `Doigt_Butee_Waist` (`WST-07A`) & Plots `±95°` (`WST-07B/C`) *(Prévu)* | Alu 7075 + capuchons **TPU 95A** | **Modification CAO prévue avant usinage CNC** | 1 + 2 | — | — | Butée `±95,0°` à `R = 80,50 mm` : Doigt `+X` (`10×18×8 mm`) + 2 Plots `±109,86°` (`10×18×11,5 mm` + `3 mm` TPU) **non encore modélisée dans `v42`** |
 
 ---
 
@@ -236,7 +236,7 @@ En architecture `Torse-123 v42`, l'ensemble `Bassin_Pelvis [ASV1_200]` est port�
 | **VIS-W11** | Vis CHC M4 × 25 mm Tête Basse (Hanches) | **`92855A422`** | Inox 18-8 / DIN 7984 | 12 *(+10 Ép. = 22)* | 3,0 N.m | Fixation couronne `Brides Epaule` hanches ➔ Stators `RS-04` (`Z = 864,7..927,0 mm`) |
 | **VIS-W12** | Rondelles Nord-Lock M4 (Hanches) | **`91812A252`** | Acier trempé NL4 | 20 *(+24 Torse = 44)* | — | Anti-desserrage sous les 20 vis M4 des brides de hanches |
 | **VIS-W13** | Rondelles & Nylstop M4 / M5 (Pelvis) | **`93475A230`** / **`93475A240`** / **`93625A150`** / **`93625A200`** | Inox 18-8 | 12 rond. M4 + 16 rond. M5 + 8 Nylstop M4 + 6 Nylstop M5 | — | Appuis et freinage visserie Pont de Hanches & Waist (`Z < 1033 mm`) |
-| **VIS-W14** | Quincaillerie Butée Arrière `±95°` *(Prévue)* | — | **Modification CAO prévue avant usinage CNC** | — | — | Plots de butée + doigt à `R = 83,0 mm` à intégrer avant usinage `Traverse` & `Waist_Plate_7075` |
+| **VIS-W14** | Visserie Butée `±95°` (`91290A150` + `93475A230`) *(Prévue)* | **`91290A150`** (`6×`) + **`93475A230`** (`2×`) | Acier 12.9 / Inox — **Mod. CAO avant CNC** | **6 + 2** | **2,8 N.m** | `6× CHC M4×14 mm` (2 Doigt par dessous + 4 Plots Traverse) + `2× rondelles DIN 125A M4` à `R = 80,50 mm` |
 
 ---
 
@@ -340,7 +340,7 @@ Pour garantir une maquette numérique 100% cinématique et conforme aux exports 
    * Composant 1 : Arête centrale inférieure du `Moyeu_Waist_Sandwich_7075`.
    * Composant 2 : Arête supérieure du lamage `Ø 120 H7` de la `Traverse_Renfort_Bassin`.
    * Axe de rotation : Axe **Z** vertical.
-   * **Limites angulaires** : Définir l'asservissement à `-90,0 deg / +90,0 deg` (`Rest = 0,0 deg`) ; la **butée mécanique arrière `±95°` (`R = 83,0 mm`) fait l'objet d'une modification CAO prévue avant usinage CNC**.
+   * **Limites angulaires** : Définir l'asservissement à `-90,0 deg / +90,0 deg` (`Rest = 0,0 deg`) ; la **butée mécanique `±95,0°` (`R = 80,50 mm`, doigt `+X` / plots `±109,86°`) fait l'objet d'une modification CAO prévue avant usinage CNC**.
 3. **Liaisons Pivot de Cou & Épaules / Hanches** :
    * `J_Neck_Pan` : `Revolute` axe **Z** sur `EL05_ASM_1_ASM` (`RobStride RS-05` Pan monté dans `Torse-123 v42`).
    * `J_Neck_Tilt` : `Revolute` axe **Y** sur le 2e `RobStride RS-05` Tilt (assemblé dans le sous-ensemble `02_Tete_et_Cou`).

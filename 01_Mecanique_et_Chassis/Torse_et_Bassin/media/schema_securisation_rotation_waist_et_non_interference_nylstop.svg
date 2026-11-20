@@ -84,17 +84,19 @@
       <circle cx="-98" cy="-98" r="16" fill="#f59e0b" fill-opacity="0.55" stroke="#fbbf24"/>
       <circle cx="-98" cy="98" r="16" fill="#f59e0b" fill-opacity="0.55" stroke="#fbbf24"/>
 
-      <!-- Harnais arc -X (r = 150) -->
-      <path d="M -100 -112 A 150 150 0 0 0 -100 112" fill="none" stroke="#10b981" stroke-width="26" stroke-linecap="round" stroke-opacity="0.55"/>
+      <!-- Harnais arc -X (r = 150, 69.05 deg Traverse) -->
+      <path d="M -130 -74 A 150 150 0 0 0 -130 74" fill="none" stroke="#10b981" stroke-width="26" stroke-linecap="round" stroke-opacity="0.55"/>
 
-      <!-- Hard stop radius R=83 mm -> r=166 -->
-      <circle cx="0" cy="0" r="166" fill="none" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="6,3"/>
-      <circle cx="-14" cy="-165" r="10" fill="#ef4444" stroke="#fecaca"/>
-      <circle cx="-14" cy="165" r="10" fill="#ef4444" stroke="#fecaca"/>
+      <!-- Hard stop radius R=80.50 mm -> r=161 (Doigt +X 0 deg, Plots ±109.86 deg) -->
+      <circle cx="0" cy="0" r="161" fill="none" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="6,3"/>
+      <rect x="151" y="-18" width="20" height="36" rx="3" fill="#ef4444" fill-opacity="0.85" stroke="#fecaca" stroke-width="1.5"/>
+      <text x="183" y="4" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#fca5a5">Doigt +X (0°)</text>
+      <circle cx="-55" cy="-151" r="9" fill="#ef4444" stroke="#fecaca"/>
+      <circle cx="-55" cy="151" r="9" fill="#ef4444" stroke="#fecaca"/>
 
       <!-- Labels strictly outside -->
-      <text x="0" y="-196" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f87171" text-anchor="middle">Couronne prévue butée ±95° : R = 83,0 mm (Plot +95°)</text>
-      <text x="0" y="206" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f87171" text-anchor="middle">Plot -95° à R = 83,0 mm (Modif. CAO prévue)</text>
+      <text x="0" y="-196" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f87171" text-anchor="middle">Couronne prévue butée ±95,0° : R = 80,50 mm (Plots ±109,86°)</text>
+      <text x="0" y="206" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#f87171" text-anchor="middle">Doigt +X (0°) sous Waist + 2 Plots Traverse (Modif. CAO)</text>
       <text x="0" y="226" font-family="Arial, sans-serif" font-size="11.5" font-weight="bold" fill="#fbbf24" text-anchor="middle">Cercle Brides L RB8016 (4× à 45° — Modélisées v42)</text>
       <text x="0" y="-4" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">RB8016</text>
       <text x="0" y="14" font-family="Arial, sans-serif" font-size="10.5" fill="#cbd5e1" text-anchor="middle">Ø 120 / Ø 80</text>
@@ -104,8 +106,8 @@
     <text x="38" y="702" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#34d399">ZONES D'EXCLUSION VALIDÉES</text>
     <text x="38" y="728" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Anneau R = 40..60 mm : Roulement RB8016 + 4× Brides L (Z = 1017..1033)</text>
     <text x="38" y="750" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Anneau R = 64,75..84,75 mm (-X) : Arc dorsal 69,05° / 125,05° libre</text>
-    <text x="38" y="772" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Secteur +X (0 deg) : Encoche ouverte U 45 × 20 mm (harnais XT60)</text>
-    <text x="38" y="794" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">• Rayon R = 83,0 mm (±95°) : Réservé à la butée mécanique avant CNC</text>
+    <text x="38" y="772" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Secteur +X (0 deg) : Pleine matière Alu 7075-T6 (Doigt butée R = 80,50 mm)</text>
+    <text x="38" y="794" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">• Rayon R = 80,50 mm (doigt +X 0°, plots ±109,86°) : Butée ±95,0° avant CNC</text>
     <text x="38" y="822" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8">• Vis coins Traverse : 4× FHC M5×18 [92125A213] affleurantes (zéro saillie)</text>
   </g>
 
@@ -123,15 +125,15 @@
     <text x="38" y="208" font-family="Arial, sans-serif" font-size="11.5" fill="#34d399">  ➔ Jeu fonctionnel garanti : 0,38 mm</text>
     <text x="38" y="232" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Face sup. Traverse_Renfort : Z = 1020,41 mm</text>
     <text x="38" y="256" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Face inf. Traverse_Renfort : Z = 1007,90 mm (ep. 12,51 mm)</text>
-    <text x="38" y="280" font-family="Arial, sans-serif" font-size="11.5" fill="#fbbf24">• Garde dispo entre Traverse &amp; Waist_Plate : 13,00 mm</text>
+    <text x="38" y="280" font-family="Arial, sans-serif" font-size="11.5" fill="#fbbf24">• Garde Traverse / Waist : 13,00 mm (moyeu) / 16,01 mm (aile ext.)</text>
     <text x="38" y="314" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Têtes vis FHC M5×18 [92125A213] (Traverse) :</text>
     <text x="50" y="334" font-family="Arial, sans-serif" font-size="11" fill="#34d399">Fraisées à Z = 1020,4 mm (0,0 mm de saillie)</text>
     <text x="38" y="362" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Nylstop M4 [93625A150] (Equerres / Brides / Plastron) :</text>
     <text x="50" y="382" font-family="Arial, sans-serif" font-size="11" fill="#34d399">Logés côté externe / coins — zéro passage sous Waist mobile</text>
     <text x="38" y="410" font-family="Arial, sans-serif" font-size="11.5" fill="#e2e8f0">• Têtes vis Brides L [92290A154] (M4×16) :</text>
     <text x="50" y="430" font-family="Arial, sans-serif" font-size="11" fill="#cbd5e1">Z_tête max = 1032,0 mm &lt; 1033,41 mm (marge &gt; 1,4 mm)</text>
-    <text x="38" y="464" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f87171">• Règle butée ±95° : loger les plots dans la hauteur 13,0 mm</text>
-    <text x="50" y="484" font-family="Arial, sans-serif" font-size="11" fill="#fecaca">(ou en périphérie ext. Y = ±83 mm sous Waist_Plate).</text>
+    <text x="38" y="464" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f87171">• Règle butée ±95° : Plots 11,5 mm sur Traverse (+4,51 mm sous</text>
+    <text x="50" y="484" font-family="Arial, sans-serif" font-size="11" fill="#fecaca">aile ext. Waist 1036,42 mm) à R = 80,50 mm (±109,86°).</text>
 
     <rect x="22" y="528" width="456" height="344" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
     <text x="38" y="556" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#34d399">VÉRIFICATIONS MCMASTER-CARR V42</text>
@@ -156,7 +158,7 @@
     <text x="36" y="88" font-family="Arial, sans-serif" font-size="12.5" font-weight="bold" fill="#f87171">FICHE 1 : BUTÉE MÉCANIQUE ±95°</text>
     <text x="36" y="116" font-family="Arial, sans-serif" font-size="11" fill="#fecaca">STATUT : MODIFICATION CAO PRÉVUE AVANT CNC</text>
     <text x="36" y="142" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Double rôle : limite logicielle ±80° (Odrive)</text>
-    <text x="48" y="162" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">puis blocage dur physique à ±95° (R = 83,0 mm).</text>
+    <text x="48" y="162" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">puis blocage dur physique à ±95° (R = 80,50 mm).</text>
     <text x="36" y="188" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">• Prévient l'arrachement du faisceau 48V/CAN-FD</text>
     <text x="48" y="208" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0">en cas de dérive codeur ou impact au sol.</text>
     <text x="36" y="236" font-family="Arial, sans-serif" font-size="11" fill="#34d399">• Amortissement TPU 95A sur plots fixes pour</text>

@@ -229,7 +229,7 @@ QWEN_EXTRACT_SAMPLING = {
 
 
 def _build_local_extra_body(call_kwargs: dict) -> dict:
-    """Construit extra_body pour désactiver Thinking et fixer l'échantillonnage Qwen3.8 sur vMLX/llama-server."""
+    """Construit extra_body pour desactiver Thinking et fixer l'echantillonnage Qwen3.8 sur Unsloth / llama-server."""
     extra_body = {
         "chat_template_kwargs": {"enable_thinking": False},
         "top_k": call_kwargs.pop("top_k", QWEN_EXTRACT_SAMPLING["top_k"]),
@@ -598,15 +598,17 @@ async def _call_gemini_cascade(
 async def get_llm_func(args, auto_state: dict | None = None):
     api_key = args.api_key or os.environ.get("GEMINI_API_KEY")
     
-    if args.provider == "local":
-        base_url = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8008/v1")
-        model = args.model or os.environ.get("VMLX_MODEL", "JANGQ-AI/Qwen3.5-9B-JANG_4S")
+    if args.provider in ("local", "unsloth"):
+        from rag_runtime import resolve_unsloth_config
+
+        base_url, default_model, unsloth_key = resolve_unsloth_config()
+        model = args.model or default_model
         logger.info(
-            f"🔗 Mode LOCAL : {model} sur {base_url} "
+            f"🔗 Mode UNSLOTH/LOCAL : {model} sur {base_url} "
             f"[enable_thinking=False, top_p={QWEN_EXTRACT_SAMPLING['top_p']}, "
             f"presence_penalty={QWEN_EXTRACT_SAMPLING['presence_penalty']}]"
         )
-        
+
         async def llm_local(prompt, system_prompt=None, history_messages=[], **kwargs):
             call_kwargs = dict(kwargs)
             call_kwargs.setdefault("max_tokens", 8192)
@@ -620,7 +622,7 @@ async def get_llm_func(args, auto_state: dict | None = None):
                 system_prompt=system_prompt,
                 history_messages=history_messages,
                 base_url=base_url,
-                api_key=os.environ.get("VMLX_API_KEY") or os.environ.get("UNSLOTH_API_KEY") or "EMPTY",
+                api_key=unsloth_key,
                 extra_body=extra_body,
                 **call_kwargs
             )
@@ -1655,7 +1657,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--provider",
-        choices=["auto", "local", "ollama", "online", "openrouter", "gemini"],
+        choices=["auto", "local", "unsloth", "ollama", "online", "openrouter", "gemini"],
         default="auto",
         help="Fournisseur LLM (défaut: auto = Gemini gros->petits puis repli Ollama)",
     )

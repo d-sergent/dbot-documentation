@@ -26,7 +26,7 @@ Le D-Bot est un robot humanoïde de performance agile conçu pour la recherche d
                     │
         ┌───────────┴───────────┐
      [ BRAS G ]              [ BRAS D ] ── Épaules (RS-04/RS-03/RS-02), Coudes (RS-03), 
-        │                       │          Supination (RS-02), Poignets (RS-00) et D-Hand
+        │                       │          Supination (RS-10P), Poignets (RS-00) et D-Hand
    ┌────┴───────────────────────┴────┐
    │             [ BUSTE ]           │ ── Taille Yaw (1× RS-06)
    └────┬───────────────────────┬────┘
@@ -44,7 +44,7 @@ Le D-Bot est un robot humanoïde de performance agile conçu pour la recherche d
     *   Épaule Roll (Abduction/Adduction) ➔ **1× RS-03**
     *   Épaule Yaw (Rotation interne/externe) ➔ **1× RS-02**
     *   Coude Pitch (Flexion/Extension) ➔ **1× RS-03** (Upgrade couple)
-    *   Supination Avant-Bras (Forearm Roll) ➔ **1× RS-02** (Nouveau DOF biomimétique)
+    *   Supination Avant-Bras (Forearm Roll) ➔ **1× RS-10P** *(Option B retenue & reçue — 42 N.m pic, Ø 57 mm)*
     *   Poignet Pitch (Flexion/Extension main) ➔ **1× RS-00**
 *   **Membres Inférieurs (12 DOF - 6 par jambe)** :
     *   Hanche Pitch (Flexion/Extension) ➔ **1× RS-04**
@@ -69,10 +69,11 @@ Voici le décompte matériel et le bilan de masse exact de la motorisation QDD d
 | **RS-04** | **6** | 40 N.m | 120 N.m | 1420g | 8.52 kg | Hanches Pitch (2) + Genoux (2) + Épaules Pitch (2) |
 | **RS-03** | **12** | 20 N.m | 60 N.m | 880g | 10.56 kg | Épaules Roll (2) + Coudes Pitch (2) + Hanches Roll/Yaw (4) + Chevilles (4) |
 | **RS-06** | **1** | 11 N.m | 36 N.m | 621g | 0.62 kg | Taille (Waist Yaw) (1 acheté & monté) |
-| **RS-02** | **4** | 6 N.m | 17 N.m | 405g | 1.62 kg | Épaules Yaw (2) + Supination Avant-Bras (2) |
-| **RS-00** | **2** | 5 N.m | 14 N.m | 310g | 0.62 kg | Poignets Pitch (2) |
-| **RS-05** | **2** | 1.6 N.m | 5.5 N.m | 191g | 0.38 kg | Cou Pan/Tilt (2) |
-| **TOTAL** | **27** | — | — | — | **~22.32 kg**| **Masse totale de la motorisation QDD** |
+| **RS-02** | **2** | 6 N.m | 17 N.m | 405g | 0.81 kg | Épaules Yaw (2) *(✅ 2/2 Acquis)* |
+| **RS-10P** | **2** | **14 N.m** | **42 N.m** | **460g** | **0.92 kg** | Supination Avant-Bras (2) *(Option B retenue — ✅ 2/2 Acquis)* |
+| **RS-00** | **2** | 5 N.m | 14 N.m | 310g | 0.62 kg | Poignets Pitch (2) *(✅ 2/2 Acquis)* |
+| **RS-05** | **2** | 1.6 N.m | 5.5 N.m | 191g | 0.38 kg | Cou Pan/Tilt (2) *(✅ Achetés & Montés)* |
+| **TOTAL** | **27** | — | — | — | **~22.43 kg**| **Masse totale motorisation (27/27 acquis — 100 %)** |
 
 *Note : Les 16 servomoteurs Feetech (10× STS3250 + 6× HL-3915) équipant les mains hybrides (D-Hand) ajoutent ~1.10 kg de motorisation fine (avec drivers/convertisseurs locaux sur l'avant-bras), portant le total à 43 actionneurs embarqués.*
 
@@ -90,7 +91,7 @@ Cette évolution est structurée selon deux axes stratégiques :
 | Ajout DOF D-Bot | Moteur retenu | Qté | Couple Pic unitaire | Intérêt Technique |
 | :--- | :---: | :---: | :---: | :--- |
 | **Tête (Pan/Tilt)** | RS-05 | 2 | 5.5 N.m | Vision active orientable (SLAM/Perception) sans tourner le buste. |
-| **Supination Avant-Bras** | RS-02 | 2 | 17 N.m | Forearm Roll biomimétique (type Tesla Optimus) pour l'orientation des mains. |
+| **Supination Avant-Bras** | RS-10P *(Option B)* | 2 | 42 N.m | Forearm Roll biomimétique compact (Ø 57 × 59,1 mm, 25:1) — ✅ Acquis. |
 | **Cheville Roll** | RS-03 (partagé) | (2) | 60 N.m | Correction latérale fine, équilibrage actif et marche sur terrains irréguliers. |
 | **Waist Yaw (Taille)** | RS-06 | 1 | 36 N.m | Lacet actif de la taille (dissociation buste/bassin pour l'équilibre dynamique). |
 

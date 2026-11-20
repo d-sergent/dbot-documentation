@@ -13,7 +13,7 @@ Ce document présente uniquement les **décisions définitives** pour le D-Bot. 
 - [**1. Cheville — Architecture Cardan + 2× RS-03**](#1-cheville-architecture-cardan-2-rs-03)
 - [**2. Genou — RS-04 + Courroie GT3 (S6)**](#2-genou-rs-04-courroie-gt3-s6)
 - [**3. Hanches — RS-04 (Pitch) + RS-03 (Roll + Yaw) en F-A-R**](#3-hanches-rs-04-pitch-rs-03-roll-yaw-en-f-a-r)
-- [**4. Bras — RS-04 / RS-03 / RS-02 / RS-00 ⭐ UPGRADE HYBRIDE**](#4-bras-rs-04-rs-03-rs-02-rs-00-upgrade-hybride)
+- [**4. Bras, Configuration Retenue (RS-04, RS-03, RS-02, RS-10P, RS-00)**](#4-bras-configuration-retenue-rs-04-rs-03-rs-02-rs-10p-rs-00)
   - [🔮 Évolution Future — GT3 Coude (Non déployée en V1)](#évolution-future-gt3-coude-non-déployée-en-v1)
 - [**5. Main — D-Hand Hybrid Premium (5× STS3250 + 3× HL-3915 + eFlesh)**](#5-main-d-hand-hybrid-premium-5-sts3250-3-hl-3915-eflesh)
 - [**6. Matériaux — Stratégie Hybride**](#6-matériaux-stratégie-hybride)
@@ -41,12 +41,12 @@ Ce document présente uniquement les **décisions définitives** pour le D-Bot. 
 | **Hanche Pitch + Yaw** | **RS-04** (pitch) + **RS-03** (roll/yaw) | 120 / 60 N.m | ✅ V1 |
 | **Épaule** | **RS-04** (Pitch) + **RS-03** (Roll) + **RS-02** (Yaw) | 120 / 60 / 17 N.m | ✅ V1 |
 | **Coude Pitch** | **RS-03** | 60 N.m | ✅ V1 |
-| **Supination Avant-Bras** | **RS-02** | 17 N.m | 🆕 V1 (Doc 22b) |
-| **Poignet Pitch** | **RS-00** | 5 N.m | ✅ V1 |
+| **Supination Avant-Bras** | **RS-10P** *(Option B)* | 42 N.m *(14 N.m nom.)* | ✅ V1 (Acquis 2/2) |
+| **Poignet Pitch** | **RS-00** | 14 N.m *(5 N.m nom.)* | ✅ V1 (Acquis 2/2) |
 | **Waist Yaw (Taille)** | **RS-06** | 36 N.m | ✅ Acheté & Monté |
-| **Main** | **D-Hand Hybrid Premium** (5× STS3250 + 3× HL-3915 + tactile) | ~438 N pic / 140 N nom. | ✅ V1 |
+| **Main** | **D-Hand Hybrid Premium** (5× STS3250 + 3× HL-3915 + tactile) | ~438 N pic / 140 N nom. | ✅ V1 (16/16 Acquis) |
 | **Cou** | **RS-05** (×2) | 5.5 N.m | ✅ Achetés & Montés |
-| **Masse totale** | **40.4 kg** | Squelette Alu + Hybrid Épaules + D-Hand + GT3 + Waist | Référence |
+| **Masse totale** | **~40.5 kg** *(40.4 kg base + 0.11 kg Option B RS-10P)* | Squelette Alu + Hybrid Épaules + RS-10P + D-Hand + GT3 + Waist | Référence |
 | **Vitesse marche** | **~5 km/h** (marge XL) | — | Estimé |
 | **Course V1** | **~6-8 km/h** (mid-foot strike) | — | V1 logiciel |
 
@@ -109,24 +109,24 @@ Fournisseurs : Cardan **Michaud Chailly** A5-473-12, bielles carbone 3K Ø10/8mm
 
 ---
 
-## 4. Bras — RS-04 / RS-03 / RS-02 / RS-00 (Option B : RS-10P) ⭐ UPGRADE HYBRIDE
+## 4. Bras, Configuration Retenue (RS-04, RS-03, RS-02, RS-10P, RS-00)
 
-**Décision : Épaule Pitch RS-04 + Épaule Roll RS-03 + Coude RS-03 + Supination RS-02 (ou RS-10P) + Poignet RS-00 (Architecture "Forearm Supination" — Biomimétique Tesla Optimus Gen 3).**
+**Décision validée & acquise : Épaule Pitch RS-04 + Épaule Roll RS-03 + Coude RS-03 + Supination RS-10P (Option B) + Poignet RS-00 (Architecture "Forearm Supination" — Biomimétique Tesla Optimus Gen 3).**
 
-> 🆕 **Changement vs K-Bot** : L'épaule Pitch passe de RS-03 (60 N.m, 880g) à **RS-04 (120 N.m, 1420g)** pour ×2.5 de portage frontal. L'épaule Roll reste en **RS-03** (suffisant en latéral). Le coude passe de RS-02 (17 N.m) à **RS-03 (60 N.m)** pour ×3.5 de flexion (décision validée fin mai 2026 pour doubler la capacité de portage à 4.3 kg continu). Un moteur de **Supination Avant-Bras** est ajouté directement après le RS-03 : il fait pivoter l'avant-bras entier (architecture biomimétique, voir [Doc 22b](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Poignet_Optimus.md)). Le **RS-00** est redéfini uniquement comme moteur de **Poignet Pitch** (extrémité distale).
+> 🆕 **Changement vs K-Bot** : L'épaule Pitch passe de RS-03 (60 N.m, 880g) à **RS-04 (120 N.m, 1420g)** pour ×2.5 de portage frontal. L'épaule Roll reste en **RS-03** (suffisant en latéral). Le coude passe de RS-02 (17 N.m) à **RS-03 (60 N.m)** pour ×3.5 de flexion (décision validée fin mai 2026 pour doubler la capacité de portage à 4.3 kg continu). Un moteur de **Supination Avant-Bras (`RS-10P`, Option B retenue & reçue)** est ajouté directement après le RS-03 : il fait pivoter l'avant-bras entier (architecture biomimétique, voir [Doc 22b](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Poignet_Optimus.md)). Le **RS-00** est redéfini uniquement comme moteur de **Poignet Pitch** (extrémité distale).
 
-| Articulation | Moteur (Option A / Std) | Moteur (Option B / Optimisée) | Couple Pic | Couple Nom. | Masse | Notes |
+| Articulation | Moteur (Option A / Std écartée) | Moteur Retenu (Option B Validée) | Couple Pic | Couple Nom. | Masse | Notes |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| Épaule Pitch | **RS-04** | **RS-04** | **120 N.m** | 40 N.m | 1420g | Levage frontal |
-| Épaule Roll | **RS-03** | **RS-03** | 60 N.m | 20 N.m | 880g | Écartement latéral |
-| Épaule Yaw | **RS-02** | **RS-02** | 17 N.m | 6 N.m | 405g | Rotation humérus |
-| Coude Pitch | **RS-03** | **RS-03** | **60 N.m** | 20 N.m | 880g | Flexion du coude |
-| **Supination Avant-Bras** | **RS-02** *(Ø 78.5 mm)* | **RS-10P** *(Ø 57 mm)* ⭐ | **17 N.m / 42 N.m** | 6 N.m / 14 N.m | 405g / 460g | **Option B** : avant-bras affiné de 21.5 mm, couple ×2.5 |
-| Poignet Pitch | **RS-00** | **RS-00** | 14 N.m | 5 N.m | 310g | Extrémité distale ultra-légère |
+| Épaule Pitch | RS-04 | **RS-04** | **120 N.m** | 40 N.m | 1420g | Levage frontal *(✅ Acquis 2/2)* |
+| Épaule Roll | RS-03 | **RS-03** | 60 N.m | 20 N.m | 880g | Écartement latéral *(✅ Acquis 2/2)* |
+| Épaule Yaw | RS-02 | **RS-02** | 17 N.m | 6 N.m | 405g | Rotation humérus *(✅ Acquis 2/2)* |
+| Coude Pitch | RS-03 | **RS-03** | **60 N.m** | 20 N.m | 880g | Flexion du coude *(✅ Acquis 2/2)* |
+| **Supination Avant-Bras** | RS-02 *(Ø 78.5 mm)* | **RS-10P** *(Ø 57 × 59.1 mm)* ⭐ | **42 N.m** *(vs 17)* | **14 N.m** *(vs 6)* | **460g** *(vs 405g)* | **Option B retenue & reçue (2/2)** : avant-bras affiné de 21.5 mm, couple ×2.5, 25:1 |
+| Poignet Pitch | RS-00 | **RS-00** | 14 N.m | 5 N.m | 310g | Extrémité distale ultra-légère *(✅ Acquis 2/2)* |
 
 > [!TIP]
-> **Pourquoi l'Option B (RS-10P à la supination) est recommandée ?**  
-> Le RS-10P pèse 460 g (+55 g vs RS-02), mais son diamètre de seulement **Ø 57 mm** (contre Ø 78.5 mm pour le RS-02) permet d'affiner considérablement la ligne esthétique et le volume de l'avant-bras. Placé juste sous le coude, son surpoids de 55 g n'engendre qu'une inertie négligeable (+0.0043 kg.m²), tout en offrant un couple crête de 42 N.m éliminant tout risque de calage en rotation avec charge lourde.
+> **Pourquoi l'Option B (RS-10P à la supination) est retenue et validée ?**  
+> Le RS-10P pèse 460 g (+55 g vs RS-02), mais son diamètre de seulement **Ø 57 mm** (contre Ø 78.5 mm pour le RS-02) permet d'affiner considérablement la ligne esthétique et le volume de l'avant-bras. Placé juste sous le coude, son surpoids de 55 g n'engendre qu'une inertie négligeable (+0.0043 kg.m²), tout en offrant un couple crête de **42 N.m** (14 N.m continu, réducteur 25:1) éliminant tout risque de calage en rotation avec charge lourde. Les 2 unités requises ont été réceptionnées.
 
 **Capacité de portage (avec D-Hand +850g total, bras = ~3 kg) — 1 bras :**
 
@@ -250,14 +250,14 @@ ARCHITECTURE GT3 COUDE (Évolution V3) :
 > - **Stabilité** : Les marges de couple permettent de corriger les perturbations d'équilibre bien plus agressivement.
 
 > [!IMPORTANT]
-> **✅ Coude RS-03 + Supination RS-02 (Architecture Forearm Supination)** : Le coude RS-03 (60 N.m) assure la flexion du bras. Le RS-02 ajouté immédiatement après assure la rotation de l'avant-bras entier (Supination/Pronation). Cette architecture biomimétique (inspirée du Tesla Optimus Gen 3) élimine le crosstalk des tendons de la D-Hand, rend le poignet compact (RS-00 Pitch uniquement), et abaisse l'inertie distale. Voir [Doc 22b](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Poignet_Optimus.md).
+> **✅ Coude RS-03 + Supination RS-10P (Architecture Forearm Supination — Option B Validée)** : Le coude RS-03 (60 N.m) assure la flexion du bras. Le **RS-10P** (42 N.m pic, Ø 57 mm, Option B retenue & reçue) ajouté immédiatement après assure la rotation de l'avant-bras entier (Supination/Pronation). Cette architecture biomimétique (inspirée du Tesla Optimus Gen 3) élimine le crosstalk des tendons de la D-Hand, rend le poignet compact (RS-00 Pitch uniquement), et abaisse l'inertie distale. Voir [Doc 22b](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Poignet_Optimus.md).
 
 > [!TIP]
 > **Démarrer par le gripper.** Un gripper simple (1× STS3215, 30€) permet de valider le bus RS-00 du poignet et l'intégration mécanique de la main **avant** d'investir ~1 110€ dans la D-Hand Hybrid.
 
 ---
 
-*Conclusions établies en Mars 2026, mises à jour Juin 2026. Architecture D-Bot V1 stabilisée — **Option Hybride + Forearm Supination** : RS-04 Pitch + RS-03 Roll épaules + RS-03 coude + **RS-02 Supination** + RS-00 Poignet Pitch + Cardan DIN 808 + 2×RS-03 chevilles + RS-06 Waist Yaw + D-Hand Hybrid Premium. **27 moteurs RobStride.** Masse moteurs de référence : 22.32 kg.*
+*Conclusions établies en Mars 2026, mises à jour Novembre 2026. Architecture D-Bot V1 stabilisée — **Option Hybride + Forearm Supination (Option B)** : RS-04 Pitch + RS-03 Roll épaules + RS-03 coude + **RS-10P Supination** + RS-00 Poignet Pitch + Cardan DIN 808 + 2×RS-03 chevilles + RS-06 Waist Yaw + D-Hand Hybrid Premium. **27 moteurs RobStride (100 % acquis).** Masse moteurs de référence : 22.43 kg (22 433 g).*
 
 ---
 
@@ -267,13 +267,14 @@ ARCHITECTURE GT3 COUDE (Évolution V3) :
 
 | Moteur | Rôle | Qté | Masse unit. | Masse totale |
 | :--- | :--- | :---: | :---: | :---: |
-| **RS-05** | Cou Pan + Tilt | 2 | 191g | **382g** |
-| **RS-04** | Épaule Pitch (×2) + Hanche Pitch (×2) + Genou (×2) | 6 | 1420g | **8 520g** |
-| **RS-03** | Épaule Roll (×2) + Coude Pitch (×2) + Hanche Roll (×2) + Hanche Yaw (×2) + Cheville Cardan (×4) | 12 | 880g | **10 560g** |
-| **RS-06** | Taille (Waist Yaw) | 1 | 621g | **621g** |
-| **RS-02** | Épaule Yaw (×2) + **Supination Avant-Bras (×2)** 🆕 | 4 | 405g | **1 620g** |
-| **RS-00** | Poignet Pitch (×2) | 2 | 310g | **620g** |
-| **TOTAL MOTEURS (27)** | | **27** | | **22 323g = 22.32 kg** |
+| **RS-05** | Cou Pan + Tilt | 2 | 191g | **382g** *(✅ Acquis)* |
+| **RS-04** | Épaule Pitch (×2) + Hanche Pitch (×2) + Genou (×2) | 6 | 1420g | **8 520g** *(✅ Acquis)* |
+| **RS-03** | Épaule Roll (×2) + Coude Pitch (×2) + Hanche Roll (×2) + Hanche Yaw (×2) + Cheville Cardan (×4) | 12 | 880g | **10 560g** *(✅ Acquis)* |
+| **RS-06** | Taille (Waist Yaw) | 1 | 621g | **621g** *(✅ Acquis)* |
+| **RS-02** | Épaule Yaw (×2) | 2 | 405g | **810g** *(✅ Acquis)* |
+| **RS-10P** | **Supination Avant-Bras (×2)** *(Option B retenue)* | 2 | 460g | **920g** *(✅ Acquis)* |
+| **RS-00** | Poignet Pitch (×2) | 2 | 310g | **620g** *(✅ Acquis)* |
+| **TOTAL MOTEURS (27)** | | **27** | | **22 433g = 22.43 kg** *(100 % acquis)* |
 
 ### 9.2 Masse Structurelle Estimée
 
@@ -303,16 +304,16 @@ ARCHITECTURE GT3 COUDE (Évolution V3) :
 
 ### 9.3 Masse Totale Robot — 3 Scénarios
 
-> 🆕 **Mise à jour Mai 2026** : Ajout de 2× RS-02 Supination (+0.81 kg moteurs) suite à la décision de l'architecture Forearm Supination (Doc 22b).
+> 🆕 **Mise à jour Novembre 2026** : Intégration validée & acquise de 2× **RS-10P** en Supination (+0.92 kg moteurs, soit +0.11 kg vs estimation initiale `RS-02`) suite à l'adoption définitive de l'architecture Forearm Supination Option B.
 
 | Scénario | Moteurs | Structure | **Total** | Impact genou 2-3 km/h |
 | :--- | :---: | :---: | :---: | :---: |
-| **A — Option D Révisée (2× RS-04 épaules)** | 22.26 kg | ~17.0 kg | **~39.3 kg** | ✅ ~118/300 N.m (39%) |
-| **B — Option Hybride (Adoptée)** | **22.32 kg** | ~18.08 kg | **~40.4 kg** | ✅ ~120/300 N.m (~40%) |
-| **C — Scénario B + allégement 3D** | **22.32 kg** | ~14.58 kg | **~36.9 kg** | ✅ ~110/300 N.m (37%) — marge XL |
+| **A — Option D Révisée (2× RS-04 épaules)** | 22.37 kg | ~17.0 kg | **~39.4 kg** | ✅ ~118/300 N.m (39%) |
+| **B — Option Hybride (Adoptée + RS-10P)** | **22.43 kg** | ~18.08 kg | **~40.5 kg** | ✅ ~120/300 N.m (~40%) |
+| **C — Scénario B + allégement 3D** | **22.43 kg** | ~14.58 kg | **~37.0 kg** | ✅ ~110/300 N.m (37%) — marge XL |
 
 > [!NOTE]
-> Le Scénario B converge désormais naturellement vers la cible officielle de **~40.4 kg** : l'intégration active du RS-06 à la taille (Waist Yaw) et du RS-03 aux coudes (+1.14 kg de motorisation totale) porte le total moteurs à 22.32 kg.
+> Le Scénario B converge autour de **~40.5 kg** (base 40.4 kg + 0.11 kg de passage en `RS-10P` Option B) : l'intégration active du RS-06 à la taille (Waist Yaw), du RS-03 aux coudes et des 2× RS-10P en supination porte le total moteurs à **22.43 kg (22 433 g — 27/27 acquis)**.
 
 > [!TIP]
 > **Objectif cible réaliste** : Le scénario C + allégement modéré (structure à ~14.6 kg) amène le robot autour de **36.9 kg**. À cette masse, le genou RS-04 opère avec une réserve de puissance monumentale (>60%) → **marche et course sans aucune contrainte thermique**.

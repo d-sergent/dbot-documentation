@@ -70,10 +70,11 @@ Le K-Bot standard est un robot humanoïde open-source de taille réelle dévelop
 | **RS-04** | 6 | 1420g | 8.52 kg | Hanches Pitch (2) + Genoux (2) + Épaules Pitch (2) |
 | **RS-03** | 12 | 880g | 10.56 kg | Épaules Roll (2) + Coudes Pitch (2) + Hanches Roll/Yaw (4) + Chevilles (4) |
 | **RS-06** | 1 | 621g | 0.62 kg | Taille (Waist Yaw) (1 active) |
-| **RS-02** | 4 | 405g | 1.62 kg | Épaules Yaw (2) + Supinations (2) |
-| **RS-00** | 2 | 310g | 0.62 kg | Poignets Pitch (2) |
-| **RS-05** | 2 | 191g | 0.38 kg | Cou Pan/Tilt (2) |
-| **TOTAL** | **27** | — | **~22.32 kg** | **Ensemble du corps robotisé** |
+| **RS-02** | 2 | 405g | 0.81 kg | Épaules Yaw (2) *(✅ 2/2 Acquis)* |
+| **RS-10P** | 2 | 460g | 0.92 kg | Supinations Avant-Bras (2) — **Option B retenue** *(✅ 2/2 Acquis)* |
+| **RS-00** | 2 | 310g | 0.62 kg | Poignets Pitch (2) *(✅ 2/2 Acquis)* |
+| **RS-05** | 2 | 191g | 0.38 kg | Cou Pan/Tilt (2) *(✅ Achetés & Montés)* |
+| **TOTAL** | **27** | — | **~22.43 kg** | **Ensemble du corps robotisé (`27 / 27` acquis — 100 %)** |
 
 ---
 
@@ -87,7 +88,7 @@ Le **D-Bot** ne se contente pas d'ajouter des moteurs, il change de catégorie d
 | Ajout DOF | Moteur | Qté | Couple Pic | Fonction |
 | :--- | :---: | :---: | :---: | :--- |
 | **Tête (Pan/Tilt)** | RS-05 | 2 | 5.5 N.m | Vision active & Interaction sociale |
-| **Supination Avant-Bras** | RS-02 | 2 | 17 N.m | **Forearm Roll** (Biomimétique Tesla) |
+| **Supination Avant-Bras** | RS-10P *(Option B)* | 2 | 42 N.m | **Forearm Roll** compact (Ø 57 mm, 25:1 — ✅ 2/2 Acquis) |
 | **Cheville Roll** | RS-03 | 2 | 60 N.m | Équilibre latéral & terrain irrégulier |
 | **Waist Yaw (Taille)** | RS-06 | 1 | 36 N.m | Lacet actif de la taille (dissociation buste/bassin) |
 
@@ -148,7 +149,7 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
     *   Fixation stator (arrière) : 4 taraudages M3 (profondeur 4.0 mm) sur PCD Ø 38.0 mm. Carter arrière fermé, zéro arbre creux.
 *   **Intérêt pour le D-Bot** :
     1.  **Surclassement du Poignet Pitch** : Avec 14 N.m nominal continu dans le même diamètre frontal (Ø 57 mm) que le RS-00 (qui plafonne à 5 N.m), il multiplie par 2.8 la capacité de maintien continu à bout de bras. Le portage horizontal à bout de bras passe de 4.1 kg à plus de 11 kg sans surchauffe.
-    2.  **Alternative pour la Supination de l'Avant-Bras** : Avec 42 N.m pic et 14 N.m nominal pour seulement 460 g et Ø 57 mm, il délivre plus du double du couple du RS-02 (6 N.m nom / 17 N.m pic, Ø 78.5 mm), tout en réduisant l'encombrement radial de l'avant-bras de plus de 21 mm.
+    2.  **Choix final pour la Supination de l'Avant-Bras (Option B retenue & acquise)** : Avec 42 N.m pic et 14 N.m nominal pour seulement 460 g et Ø 57 mm, il délivre plus du double du couple du RS-02 (6 N.m nom / 17 N.m pic, Ø 78.5 mm), tout en réduisant l'encombrement radial de l'avant-bras de plus de 21 mm. Les 2 unités requises sont physiquement réceptionnées.
     3.  **Contrepartie** : Vitesse maximale limitée à 125 RPM (environ 13 rad/s) et réversibilité mécanique (backdrivability) plus ferme due au ratio 25:1. Parfait pour les membres supérieurs (poignet, coude, supination), mais inadapté pour la marche dynamique ou la course.
 
 ####  RS-05 vs RS-00 (Petits Moteurs)
@@ -163,7 +164,7 @@ Voici les données techniques consolidées pour l'ensemble de la gamme RobStride
 > **Élimination Définitive du RS-01 (Incompatible 12S)** : Brancher un RS-01 sur le bus 12S (50.4V) du D-Bot est un risque de destruction matérielle immédiat. Lors d'un freinage régénératif, le pic de tension dépassera les 52V, ce qui détruira l'ESC du RS-01 (calibré à 48V max). 
 > *   Adapter le robot en 10S (42V max) pour sauver le RS-01 amputerait la vitesse globale du robot de ~16%, détruisant ses capacités futures de course (Sprinting). 
 > *   Créer un bus 36V dédié alourdirait le robot de centaines de grammes (convertisseur DC-DC lourd + circuit de dissipation).
-> **Conclusion : Le RS-01 est définitivement abandonné pour le D-Bot. Le RS-02 reste le seul standard valide et sécurisé pour les couples moyens (Supination, Épaule Yaw).**
+> **Conclusion : Le RS-01 est définitivement abandonné pour le D-Bot. Le RS-02 reste le standard QDD valide et sécurisé en Épaule Yaw, tandis que le RS-10P (Option B) est retenu et acquis pour la Supination d'avant-bras.**
 
 #### RS-06 (Intermédiaire Nouveau)
 *   **Niche** : Entre RS-02 (17 N.m) et RS-03 (60 N.m). Avec **36 N.m** et 621g, c'est un compromis pour des articulations nécessitant plus que du RS-02 sans le poids du RS-03.
@@ -197,6 +198,7 @@ Même le RS-04 dissipe 14.5W au repos. Puisque les moteurs QDD n'ont pas de fric
 | Cou (Pan/Tilt) | RS-05 | 2 | 5.5 N.m | Légèreté critique (tête avec OAK-D Pro ~100g, LiDAR L2 sur le torse) |
 | Taille (Waist Yaw) | RS-06 | 1 | 36 N.m | Lacet actif de la taille |
 | Poignet Pitch | RS-00 | 2 | 14 N.m | Compact, fort couple pour manipulation fine |
+| Supination Avant-Bras | **RS-10P** *(Option B)* | 2 | 42 N.m | Rotation avant-bras compacte (Ø 57 × 59,1 mm, 25:1 — ✅ 2/2 Acquis) |
 | Coude Pitch | RS-03 | 2 | 60 N.m | Force accrue pour manipulation bras plié |
 | Épaule Yaw | RS-02 | 2 | 17 N.m | Rotation de l'humérus proximale |
 | Épaule Pitch | **RS-04** | 2 | 120 N.m | Force pour porte-à-faux bras tendu |

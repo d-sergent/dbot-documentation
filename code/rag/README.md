@@ -8,9 +8,9 @@ Ce sous-module gère le système RAG (Retrieval-Augmented Generation) du projet 
 
 | Fichier | Rôle & Description |
 | :--- | :--- |
-| **[`rag_cli.py`](file:///Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/rag_cli.py)** | Client MCP CLI pour le RAG D-Bot — lance le serveur MCP `dbot-rag` et interroge la base LightRAG via le protocole MCP.<br>`rag "moteur RS04 spécifications"` (ou `/opt/homebrew/bin/rag "votre recherche"`) |
-| **[`ask_rag.py`](file:///Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py)** | Script de recherche directe (sans MCP) dans la base RAG locale.<br>`/opt/homebrew/bin/python3.11 code/rag/ask_rag.py --search-only --mode naive "<votre recherche>"` |
-| **[`index_docs.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/rag/index_docs.py)** | Script de ré-indexation incrémentale et complète (Markdown, Code, PDF Docling, schémas `.svg` via extracteur XML, images VLM). Supporte `ollama` (`qwen3.5:9b` local, texte + vision, `think=False`), `gemini` (cascade), `local` (vMLX) et `online`.<br>`/opt/homebrew/bin/python3.11 Code/rag/index_docs.py --update --provider ollama` |
+| **[`rag_cli.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/rag/rag_cli.py)** | Client MCP CLI pour le RAG D-Bot — lance le serveur MCP `dbot-rag` et interroge la base LightRAG via le protocole MCP.<br>`rag "moteur RS04 spécifications"` (ou `/opt/homebrew/bin/rag "votre recherche"`) |
+| **[`ask_rag.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/rag/ask_rag.py)** | Script de recherche directe (sans MCP) dans la base RAG locale (`--provider auto`, mots-clés lexicaux `--keywords`/`--hl`/`--ll` en `--search-only`, repli `naive` garanti, démarrage/arrêt à la demande d'Ollama pour les synthèses).<br>`/opt/homebrew/bin/python3.11 Code/rag/ask_rag.py --search-only --mode hybrid "<votre recherche>"` |
+| **[`index_docs.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/rag/index_docs.py)** | Script de ré-indexation incrémentale et complète (Markdown, Code, PDF Docling, schémas `.svg` via extracteur XML, images VLM). Supporte `ollama` (`qwen3.5:9b` local, texte + vision, `think=False`), `gemini` (cascade), `unsloth` / `local` (`:8888/v1`) et `online`.<br>`/opt/homebrew/bin/python3.11 Code/rag/index_docs.py --update --provider ollama` |
 | **[`mcp_lightrag_server.py`](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/rag/mcp_lightrag_server.py)** | Serveur MCP exposant 7 outils : `rag_search`, `rag_get_context`, `rag_analyze_impact`, `rag_list_topics`, `rag_audit_integrity`, `rag_resolve_audit`, `rag_index_document` (avec support `auto` / `ollama` / `gemini`, SVG XML et images VLM). |
 
 ---
@@ -21,7 +21,7 @@ Ce sous-module gère le système RAG (Retrieval-Augmented Generation) du projet 
 # Recherche un sujet précis (mode local/naive — retrieval pur, pas de LLM requis)
 rag "moteur d'épaule RS04 spécifications"
 
-# Recherche sémantique hybride (délégation Antigravity par défaut, ou --llm-mode internal pour vLLM)
+# Recherche sémantique hybride (délégation Antigravity par défaut, ou --llm-mode internal pour Ollama / Unsloth)
 rag --search "stratégie de bus CAN-FD"
 
 # Indexation au fil de l'eau d'un document modifié (auto = Gemini puis repli Ollama)
@@ -38,7 +38,7 @@ rag --topics "moteurs"
 # Audit d'intégrité via votre abonnement Antigravity (mode par défaut, 0 token externe)
 rag --audit cinematique_moteurs
 
-# Audit d'intégrité via le modèle LLM interne vLLM / OpenRouter (comme avant)
+# Audit d'intégrité via le modèle LLM interne (Ollama / Unsloth / Gemini / OpenRouter)
 rag --audit cinematique_moteurs --llm-mode internal
 
 # Audit d'intégrité global (tous les domaines)
@@ -76,7 +76,7 @@ Lorsque Kilo tourne en tant qu'**agent autonome continu** (`kilo-auto/free`), le
 2. **Communiquant via le protocole MCP** (initialize → tools/list → tools/call)
 3. **Retournant les extraits** indexés depuis la base LightRAG (`lightrag_dbot_db`)
 
-Le serveur MCP a un **fallback automatique** en mode `naive` (retrieval pur, vectoriel + reranking) si le serveur vLLM local n'est pas disponible → aucune dépendance LLM pour les recherches de spécifications.
+Le serveur MCP et `ask_rag.py --search-only` injectent des mots-cles lexicaux (`hl_keywords`/`ll_keywords`) et appliquent un **repli automatique** en mode `naive` (retrieval pur, vectoriel + reranking) si aucun serveur LLM local (Ollama / Unsloth) n'est actif -> zero dependance LLM et 0 Go de RAM GPU pour les recherches documentaires.
 
 ### Modes de recherche & Contrôle Qualité
 
@@ -84,7 +84,7 @@ Le serveur MCP a un **fallback automatique** en mode `naive` (retrieval pur, vec
 |---|---|---|---|
 | Contexte précis | `rag_get_context` (local) | Non (fallback naive) | Spécifications, valeurs numériques |
 | Recherche sémantique | `rag_search` (hybrid) | Oui si synthèse demandée | Questions générales |
-| Analyse d'impact | `rag_analyze_impact` (global) | Oui (vLLM) | Cause → effet entre composants |
+| Analyse d'impact | `rag_analyze_impact` (global) | Oui (`internal` / Antigravity) | Cause -> effet entre composants |
 | Liste thématiques | `rag_list_topics` (naive) | Non | Explorer les sujets indexés |
 | Audit d'intégrité | `rag_audit_integrity` (global) | Non avec `llm_mode='antigravity'` (utilise abonnement IDE) / Oui si `'internal'` | Détection des contradictions et désynchronisations |
 | Résolution d'audit | `rag_resolve_audit` (naive/local) | Non (retrieval pur) | Localisation des fichiers contradictoires & plan de correction |
@@ -129,7 +129,8 @@ La base RAG contient des descriptions textuelles d'images raster (`.png`, `.jpg`
 | Variable | Valeur par défaut | Description |
 |---|---|---|
 | `RAG_SKIP_IMAGES` | `true` | Filtre uniquement les chunks issus d'images raster (`IMAGE_EXTS`, n'exclut ni `.svg` ni `.pdf`) + nettoie `![]()` |
-| `RAG_LLM_PROVIDER` | `auto` | Fournisseur du serveur MCP pour `internal` (`auto` = Gemini puis repli Ollama puis Unsloth `:8888`, ou forcer `ollama` / `gemini` / `vmlx`) |
+| `RAG_LLM_PROVIDER` | `auto` | Fournisseur du serveur MCP pour `internal` (`auto` = Gemini puis repli Ollama puis Unsloth `:8888`, ou forcer `ollama` / `gemini` / `unsloth`) |
+| `RAG_AUTO_START_SERVER` | `true` | Démarre `ollama serve` à la demande lors d'un appel LLM interne si aucun serveur n'est actif, et l'arrête en fin de session |
 | `OLLAMA_BASE_URL` | `http://127.0.0.1:11434` | URL racine du démon Ollama local |
 | `OLLAMA_MODEL` | `qwen3.8:27b-mlx` (dans `.kilo/kilo.jsonc`) / `qwen3.5:9b` (défaut CLI) | Modèle Ollama utilisé pour texte, graphe et vision (`think=False`) |
 
@@ -172,8 +173,8 @@ Pour désactiver le filtrage (modèle VLM), ajoutez dans `.kilo/kilo.jsonc` → 
       "RAG_LLM_PROVIDER": "auto",
       "OLLAMA_BASE_URL": "http://127.0.0.1:11434",
       "OLLAMA_MODEL": "qwen3.8:27b-mlx",
-      "VMLX_BASE_URL": "http://127.0.0.1:8888/v1",
-      "VMLX_MODEL": "unsloth/Qwen3.8-27B-GGUF",
+      "UNSLOTH_BASE_URL": "http://127.0.0.1:8888/v1",
+      "UNSLOTH_MODEL": "unsloth/Qwen3.8-27B-GGUF",
       "RAG_SKIP_IMAGES": "false"
     },
     "enabled": true, "timeout": 300000
@@ -182,4 +183,4 @@ Pour désactiver le filtrage (modèle VLM), ajoutez dans `.kilo/kilo.jsonc` → 
 "permission": { "dbot-rag_*": "allow", "dbot_rag_*": "allow" }
 ```
 
-> Le format a été migré de `experimental.mcpServers` (déprécié) vers la clé `mcp` (standard actuel). Les outils MCP sont en `allow` pour un usage sans prompt d'approbation. Les variables d'environnement internes `VMLX_BASE_URL` / `VMLX_MODEL` sont conservées par compatibilité avec `mcp_lightrag_server.py` et pointent vers Unsloth Studio (`:8888`).
+> Le format a été migré de `experimental.mcpServers` (déprécié) vers la clé `mcp` (standard actuel). Les outils MCP sont en `allow` pour un usage sans prompt d'approbation. Les variables canoniques `UNSLOTH_BASE_URL` / `UNSLOTH_MODEL` / `UNSLOTH_API_KEY` pointent vers Unsloth Studio (`:8888/v1`), tout en conservant la rétrocompatibilité silencieuse avec les anciennes variables `VMLX_*`.

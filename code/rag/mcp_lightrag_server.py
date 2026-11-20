@@ -2,7 +2,7 @@
 """
 Serveur MCP pour LightRAG — Documentation D-Bot
 
-Expose 4 outils MCP utilisables par n'importe quel LLM compatible MCP (vMLX, Claude, etc.) :
+Expose 4 outils MCP utilisables par n'importe quel LLM compatible MCP (Antigravity, Claude, Unsloth, etc.) :
   - rag_search        : Recherche sémantique hybride dans la documentation
   - rag_analyze_impact: Analyse de cause à effet croisée entre composants
   - rag_get_context   : Contexte précis autour d'un sujet spécifique
@@ -14,7 +14,7 @@ Configuration dans mcp-config.json :
       "command": "python3",
       "args": ["/Users/Shared/Mon Google Drive Physique/Documentation/code/rag/mcp_lightrag_server.py"],
       "env": {
-        "VMLX_BASE_URL": "http://127.0.0.1:1800/v1",
+        "UNSLOTH_BASE_URL": "http://127.0.0.1:8888/v1",
         "RAG_DB_PATH": "/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db"
       }
     }
@@ -69,17 +69,29 @@ REPORT_PATH           = DOCS_ROOT / "annexes/Outils_de_Travail/RAG/AUDIT_INTEGRI
 QUESTIONS_JSON_PATH   = DOCS_ROOT / "annexes/Outils_de_Travail/RAG/AUDIT_QUESTION_REPONSE.json"
 PLAN_CORRECTION_PATH  = DOCS_ROOT / "annexes/Outils_de_Travail/RAG/PLAN_CORRECTION.md"
 PROMPT_CORRECTION_PATH = DOCS_ROOT / "annexes/Outils_de_Travail/RAG/PROMPT_CORRECTION.md"
-VMLX_BASE_URL         = os.environ.get("VMLX_BASE_URL", "http://127.0.0.1:8888/v1").strip().rstrip("/")
-VMLX_MODEL            = os.environ.get("VMLX_MODEL", "unsloth/Qwen3.8-27B-GGUF")
-VMLX_API_KEY          = os.environ.get("VMLX_API_KEY") or os.environ.get("UNSLOTH_API_KEY") or "EMPTY"
-OLLAMA_BASE_URL       = os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434").strip().rstrip("/")
-if OLLAMA_BASE_URL.endswith("/v1"):
-    OLLAMA_BASE_URL = OLLAMA_BASE_URL[:-3]
-OLLAMA_MODEL          = os.environ.get("OLLAMA_MODEL", "qwen3.8:27b-mlx")
-OLLAMA_NUM_CTX        = int(os.environ.get("OLLAMA_NUM_CTX", "16384"))
-OLLAMA_KEEP_ALIVE     = os.environ.get("OLLAMA_KEEP_ALIVE", "10m")
+_RAG_DIR = str(Path(__file__).resolve().parent)
+if _RAG_DIR not in sys.path:
+    sys.path.insert(0, _RAG_DIR)
+
+from rag_runtime import (
+    ManagedOllamaServer,
+    apply_tiktoken_patch,
+    build_local_openai_extra_body,
+    check_ollama_ready,
+    check_unsloth_ready,
+    env_flag,
+    extract_lexical_keywords,
+    resolve_ollama_config,
+    resolve_unsloth_config,
+)
+
+VMLX_BASE_URL, VMLX_MODEL, VMLX_API_KEY = resolve_unsloth_config()
+UNSLOTH_BASE_URL, UNSLOTH_MODEL, UNSLOTH_API_KEY = VMLX_BASE_URL, VMLX_MODEL, VMLX_API_KEY
+OLLAMA_BASE_URL, OLLAMA_MODEL, OLLAMA_NUM_CTX, OLLAMA_KEEP_ALIVE = resolve_ollama_config()
 RAG_LLM_PROVIDER      = os.environ.get("RAG_LLM_PROVIDER", "auto").strip().lower()
-SKIP_IMAGES           = os.environ.get("RAG_SKIP_IMAGES", "true").lower() in ("1", "true", "yes")
+RAG_AUTO_START_SERVER = env_flag("RAG_AUTO_START_SERVER", True)
+_MANAGED_OLLAMA       = ManagedOllamaServer(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL)
+SKIP_IMAGES           = env_flag("RAG_SKIP_IMAGES", True)
 IMAGE_EXTS            = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp", ".tiff"}
 RASTER_VLM_EXTS       = {".png", ".jpg", ".jpeg", ".webp"}
 
@@ -490,11 +502,24 @@ async def llm_func(prompt, system_prompt=None, history_messages=[], **kwargs):
                 presence_penalty=kwargs.get("presence_penalty", QWEN_QA_SAMPLING["presence_penalty"]),
             )
         except Exception as oe:
+            if RAG_AUTO_START_SERVER and not check_ollama_ready(OLLAMA_BASE_URL, timeout=0.4):
+                unsloth_up = pref != "ollama" and check_unsloth_ready(UNSLOTH_BASE_URL, UNSLOTH_API_KEY, timeout=0.4)
+                if not unsloth_up and _MANAGED_OLLAMA.ensure_started():
+                    try:
+                        return await _call_ollama_chat(
+                            OLLAMA_MODEL,
+                            prompt,
+                            system_prompt=system_prompt,
+                            history_messages=history_messages,
+                            **kwargs,
+                        )
+                    except Exception as retry_oe:
+                        oe = retry_oe
             if pref == "ollama":
                 raise RuntimeError(f"Ollama indisponible ({OLLAMA_BASE_URL}): {oe}") from oe
-            print(f"ℹ️ Ollama non disponible ({oe}), repli sur vLLM...", file=sys.stderr)
+            print(f"ℹ️ Ollama non disponible ({oe}), repli sur Unsloth Studio...", file=sys.stderr)
 
-    # Repli vLLM / Unsloth Studio / llama-server local (profil QA Qwen3.8)
+    # Repli Unsloth Studio / llama-server local (profil QA Qwen3.8)
     enable_thinking = os.environ.get("RAG_ENABLE_THINKING", "false").strip().lower() in ("1", "true", "yes")
     call_kwargs = dict(kwargs)
     call_kwargs.setdefault("max_tokens", 8192 if enable_thinking else 4096)
@@ -511,12 +536,12 @@ async def llm_func(prompt, system_prompt=None, history_messages=[], **kwargs):
     if isinstance(user_extra, dict):
         extra_body.update(user_extra)
     return await openai_complete_if_cache(
-        VMLX_MODEL,
+        UNSLOTH_MODEL,
         prompt,
         system_prompt=system_prompt,
         history_messages=history_messages,
-        base_url=VMLX_BASE_URL,
-        api_key=VMLX_API_KEY,
+        base_url=UNSLOTH_BASE_URL,
+        api_key=UNSLOTH_API_KEY,
         extra_body=extra_body,
         **call_kwargs
     )
@@ -626,7 +651,7 @@ TOOLS = [
                 "llm_mode": {
                     "type": "string",
                     "enum": ["antigravity", "internal", "auto"],
-                    "description": "Choix du moteur : 'antigravity' (extraits classés pour synthèse par l'agent Antigravity via votre abonnement), 'internal' (synthèse vLLM local ou OpenRouter comme avant), ou 'auto'.",
+                    "description": "Choix du moteur : 'antigravity' (extraits classés pour synthèse par l'agent Antigravity via votre abonnement), 'internal' (synthèse Ollama / Unsloth local ou OpenRouter), ou 'auto'.",
                     "default": "antigravity"
                 }
             },
@@ -658,7 +683,7 @@ TOOLS = [
                 "llm_mode": {
                     "type": "string",
                     "enum": ["antigravity", "internal", "auto"],
-                    "description": "Choix du moteur : 'antigravity' (extrait le graphe de cause à effet pour analyse par l'agent Antigravity via votre abonnement), 'internal' (analyse vLLM local ou OpenRouter), ou 'auto'.",
+                    "description": "Choix du moteur : 'antigravity' (extrait le graphe de cause à effet pour analyse par l'agent Antigravity via votre abonnement), 'internal' (analyse Ollama / Unsloth local ou OpenRouter), ou 'auto'.",
                     "default": "antigravity"
                 }
             },
@@ -719,7 +744,7 @@ TOOLS = [
                 "llm_mode": {
                     "type": "string",
                     "enum": ["antigravity", "internal", "auto"],
-                    "description": "Choix du moteur d'intelligence : 'antigravity' (délègue le raisonnement à l'agent Antigravity via votre abonnement), 'internal' (synthèse via vLLM local ou OpenRouter comme avant), ou 'auto' (tente internal puis fallback antigravity).",
+                    "description": "Choix du moteur d'intelligence : 'antigravity' (délègue le raisonnement à l'agent Antigravity via votre abonnement), 'internal' (synthèse via Ollama / Unsloth local ou OpenRouter), ou 'auto' (tente internal puis fallback antigravity).",
                     "default": "antigravity"
                 },
                 "custom_query": {
@@ -862,7 +887,7 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
             ]
 
             for title, q_str in audits_to_run:
-                # Mode Internal : appel vLLM / OpenRouter comme dans l'ancienne version
+                # Mode Internal : appel Ollama / Unsloth / OpenRouter / Gemini
                 if llm_mode in ("internal", "auto"):
                     try:
                         ans = await rag.aquery(q_str, param=QueryParam(mode="global", enable_rerank=False))
@@ -873,13 +898,13 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
                         if llm_mode == "internal":
                             results_text.append(
                                 f"## {title} [Mode: internal]\n\n"
-                                f"❌ Impossible de joindre le modèle de synthèse LLM ({VMLX_BASE_URL}).\n"
+                                f"❌ Impossible de joindre le modèle de synthèse LLM ({UNSLOTH_BASE_URL} / {OLLAMA_BASE_URL}).\n"
                                 f"Détail : {err_msg}\n\n---\n"
                             )
                             continue
                         else:
                             # Mode auto : fallback transparent sur le mode Antigravity
-                            results_text.append(f"> ℹ️ *vLLM non joignable ({err_msg[:60]}...). Basculement sur l'analyse Antigravity (abonnement actif).*\n")
+                            results_text.append(f"> ℹ️ *LLM interne non joignable ({err_msg[:60]}...). Basculement sur l'analyse Antigravity (abonnement actif).*\n")
 
                 # Mode Antigravity (ou Fallback Auto) :
                 # Extraction du corpus multi-fichiers pour analyse par l'agent Antigravity
@@ -1298,10 +1323,10 @@ Ta mission :
             if llm_mode in ("internal", "auto"):
                 try:
                     ans = await rag.aquery(query, param=_build_synthesis_param("hybrid"))
-                    return [TextContent(type="text", text=f"### Synthèse RAG [Mode: internal (vLLM)] pour : {query}\n\n{ans}")]
+                    return [TextContent(type="text", text=f"### Synthèse RAG [Mode: internal] pour : {query}\n\n{ans}")]
                 except Exception as ex:
                     if llm_mode == "internal":
-                        return [TextContent(type="text", text=f"❌ Erreur synthèse vLLM ({VMLX_BASE_URL}) : {ex}")]
+                        return [TextContent(type="text", text=f"❌ Erreur synthèse LLM ({UNSLOTH_BASE_URL} / {OLLAMA_BASE_URL}) : {ex}")]
                     print(f"ℹ️ Fallback Antigravity pour rag_search : {ex}", file=sys.stderr)
 
         elif name == "rag_analyze_impact":
@@ -1312,10 +1337,10 @@ Ta mission :
             if llm_mode in ("internal", "auto"):
                 try:
                     ans = await rag.aquery(query, param=_build_synthesis_param("global"))
-                    return [TextContent(type="text", text=f"### Analyse d'Impact [Mode: internal (vLLM)] pour : {scenario}\n\n{ans}")]
+                    return [TextContent(type="text", text=f"### Analyse d'Impact [Mode: internal] pour : {scenario}\n\n{ans}")]
                 except Exception as ex:
                     if llm_mode == "internal":
-                        return [TextContent(type="text", text=f"❌ Erreur analyse d'impact vLLM ({VMLX_BASE_URL}) : {ex}")]
+                        return [TextContent(type="text", text=f"❌ Erreur analyse d'impact LLM ({UNSLOTH_BASE_URL} / {OLLAMA_BASE_URL}) : {ex}")]
                     print(f"ℹ️ Fallback Antigravity pour rag_analyze_impact : {ex}", file=sys.stderr)
 
         elif name == "rag_get_context":
@@ -1330,7 +1355,11 @@ Ta mission :
 
         # Stratégie de recherche résiliente :
         try:
-            result = await rag.aquery_data(query, param=QueryParam(mode=mode))
+            search_param = QueryParam(mode=mode)
+            if mode in ("hybrid", "local", "global", "mix"):
+                hl_kw, ll_kw = extract_lexical_keywords(query)
+                search_param = QueryParam(mode=mode, hl_keywords=hl_kw, ll_keywords=ll_kw)
+            result = await rag.aquery_data(query, param=search_param)
             
             # Vérification si on a des résultats
             chunks = result.get("data", {}).get("chunks", [])
@@ -1397,8 +1426,11 @@ Ta mission :
 # ─── Point d'Entrée ───────────────────────────────────────────────────────────
 
 async def main():
-    async with stdio_server() as (read_stream, write_stream):
-        await server.run(read_stream, write_stream, server.create_initialization_options())
+    try:
+        async with stdio_server() as (read_stream, write_stream):
+            await server.run(read_stream, write_stream, server.create_initialization_options())
+    finally:
+        _MANAGED_OLLAMA.cleanup()
 
 
 if __name__ == "__main__":

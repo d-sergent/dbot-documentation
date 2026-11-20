@@ -64,6 +64,23 @@ def _filter_structural_hole_entries(entries, measure_key):
     return kept
 
 
+def _component_physical_z_bounds(comp):
+    """Retourne (z_min, z_max) d'après les BRepBodies visibles pour éviter la pollution par occurrences enfants."""
+    z_mins = []
+    z_maxs = []
+    for b in comp.get("bodies", []):
+        if not b.get("is_visible", True):
+            continue
+        bbb = b.get("bounding_box_mm")
+        if bbb and "min" in bbb and "max" in bbb:
+            z_mins.append(bbb["min"][2])
+            z_maxs.append(bbb["max"][2])
+    if z_mins and z_maxs:
+        return min(z_mins), max(z_maxs)
+    bbox = comp.get("bounding_box_mm", {})
+    return bbox.get("min", [0, 0, 0])[2], bbox.get("max", [0, 0, 0])[2]
+
+
 def build_markdown_summary(audit_data, sub_label="Torse_et_Bassin", doc_folder_rel="Torse_et_Bassin"):
     """Construit la synthèse Markdown RAG à partir d'un dictionnaire d'audit métrologique."""
     meta = audit_data.get("metadata", {})
@@ -142,9 +159,7 @@ def build_markdown_summary(audit_data, sub_label="Torse_et_Bassin", doc_folder_r
         iname = c.get("instance_name", "")
         cname = c.get("component_name", "")
         cname_l = cname.lower()
-        bbox = c.get("bounding_box_mm", {})
-        z_min = bbox.get("min", [0, 0, 0])[2]
-        z_max = bbox.get("max", [0, 0, 0])[2]
+        z_min, z_max = _component_physical_z_bounds(c)
         mass = c.get("mass_g", 0.0)
 
         if any(k in cname_l for k in pelvis_keywords):

@@ -20,10 +20,9 @@
 - [ ] **Intégration finale Tête / Cou (`2x RS-05`)** : Démonter le casque, ajuster le passage/longueur des câbles sur toute la course Pan/Tilt, remonter le casque, verrouiller les butées logicielles dans `config.py` et valider `OAK-D Pro + ReSpeaker XVF-3800 + cou` en simultané.
 - [ ] **Fallback vocal hors-ligne (`Jetson`)** : Déployer `Kokoro-ONNX` (`onnxruntime-gpu`, voix `ff_siwis`) et valider le Watchdog `5 Hz` basculant sur `Ollama + Kokoro` si coupure Wi-Fi > `2 s`.
 
-## 3. Corps Complet, Motorisation & Contrôle (`23 / 27` moteurs acquis)
+## 3. Corps Complet, Motorisation & Contrôle (`27 / 27` moteurs acquis — 100 %)
 *Dépendances : assemblage mécanique Torse/Membres + `2x Teensy 4.1` CAN FD.*
 
-- [ ] **Achats moteurs restants (`4 / 27`)** : Acquérir `1x RS-02` (épaule yaw bras 2), `1x RS-00` (poignet pitch bras 2) et `2x` supinations avant-bras (`RS-10P` ou `RS-02`).
 - [ ] **Bus CAN, `Motorbridge` & Zéro encodeurs** : Qualifier les trames MIT (`Kp, Kd, theta, dtheta, tau_ff`) à `1 Mbps`, calibrer le `Zero-Offset` des encodeurs `14-bit` et étendre `web_ui.py` aux `27` moteurs.
 - [ ] **Dynamique `Pinocchio` & Imitation `LeRobot`** : Charger l'URDF complet sous `Pinocchio` (feedforward `G(q)` via `tau_ff`) et connecter `LeRobot` (`ACT / Diffusion Policy`).
 

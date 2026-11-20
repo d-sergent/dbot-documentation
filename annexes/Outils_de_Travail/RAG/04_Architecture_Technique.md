@@ -2,8 +2,6 @@
 
 Ce document détaille le fonctionnement "sous le capot" du système pour assurer sa pérennité technique.
 
-Ce document détaille le fonctionnement "sous le capot" du système pour assurer sa pérennité technique.
-
 ---
 
 ## 🏗️ Pourquoi cette Architecture ?
@@ -44,26 +42,28 @@ Le système utilise une architecture dite **"Pipeline de Recherche Avancé"** en
     - Permet de relier des informations entre deux fichiers différents (ex: relier un moteur dans la liste d'achats à sa performance dans l'analyse biomécanique).
 
 3.  **Couche de Raffinement (Reranking Local)** :
-    - Utilise `BAAI/bge-reranker-v2-m3` via `fastembed`.
-    - Trie manuellement les résultats pour s'assurer que les documents avec les scores les plus hauts sont réellement pertinents.
+    - Utilise `BAAI/bge-reranker-base` via `fastembed` (`TextCrossEncoder`).
+    - Trie localement les résultats pour s'assurer que les documents avec les scores sigmoïdes les plus hauts sont remontés en tête.
 
 ---
 
-## 🛠️ Le Serveur MCP (`mcp_lightrag_server.py`)
+## 🛠️ Le Serveur MCP (`mcp_lightrag_server.py`) & CLI (`ask_rag.py`)
 
-C'est le "pont" entre le RAG et vos interfaces (Antigravity, Kilo Code, vMLX).
+C'est le "pont" entre le RAG et vos interfaces (Antigravity, Kilo Code, Unsloth Studio, CLI shell).
 
 ### Caractéristiques de l'implémentation :
-- **Mode Context-Only & Synthèse Hybride** : Le serveur renvoie des extraits classés à l'agent appelant (`llm_mode='antigravity'`), ou synthétise localement en mode `internal` (cascade `Gemini` → `Ollama local qwen3.5:9b` (`think=False`) → `vMLX`).
+- **Mode Context-Only & Synthèse Hybride** : Par défaut (`llm_mode='antigravity'` côté MCP ou `--search-only` côté `ask_rag.py`), l'extracteur lexical déterministe (`rag_runtime.extract_lexical_keywords`) injecte `hl_keywords` et `ll_keywords` pour interroger le graphe sans appel LLM (`0 Go` RAM GPU). En mode `internal` / synthèse : cascade MCP (`Gemini` -> `Ollama qwen3.8:27b-mlx` -> `Unsloth :8888`) ou cascade CLI (`Ollama` -> `Unsloth` -> `Gemini` -> `OpenRouter`), avec démarrage/arrêt automatique d'Ollama à la session si nécessaire.
 - **Async/Sync Parity** : Le moteur d'embedding est forcé en `async` pour garantir la compatibilité avec la boucle d'événements de LightRAG 1.4+.
-- **Failsafe (Mode Naive)** : Si la recherche hybride (complexe) échoue, le serveur bascule automatiquement en recherche vectorielle simple pour garantir une réponse.
+- **Failsafe (Mode Naive)** : Si la recherche graphe (`hybrid`/`local`/`global`) échoue ou ne remonte aucun extrait, le moteur bascule automatiquement en recherche vectorielle `naive` + reranking (code de sortie `0`).
 - **Filtrage sélectif `RAG_SKIP_IMAGES`** : Ne filtre que les images raster (`IMAGE_EXTS`), sans jamais masquer les schémas `.svg` XML ni les manuels `.pdf`.
 
 ---
 
 ## 📊 Performance et Matériel
-- **CPU** : L'embedding (`intfloat/multilingual-e5-large`) et le Reranking (`BAAI/bge-reranker-base`) tournent sur le CPU Apple Silicon.
-- **GPU Unifié (Ollama MLX)** : En mode `--provider ollama`, `qwen3.5:9b` (`nvfp4`, `100 % GPU`, `think=False`, `num_ctx=16384`) consomme ~11–13,5 GiB sur 64 Go et traite les prompts LightRAG en ~4 à 18 s sans dépendance cloud.
+- **CPU** : L'embedding (`intfloat/multilingual-e5-large`) et le Reranking (`BAAI/bge-reranker-base`) tournent localement sur Apple Silicon (`~1 s` en `--search-only`).
+- **GPU Unifié (Ollama MLX)** :
+  - Indexation (`--provider ollama`) : `qwen3.5:9b` (`nvfp4`, `think=False`, `num_ctx=16384`) consomme ~11–13,5 GiB sur 64 Go et cohabite avec Fusion 360.
+  - Synthèse QA (`--provider ollama` ou `auto`) : `qwen3.8:27b-mlx` (~18–27,6 Go), démarré uniquement si requis et déchargé (`keep_alive=0`) + arrêté en fin de session lorsqu'il a été lancé par le RAG.
 - **RAM Graphe** : Le graphe en mémoire consomme environ 500 Mo à 1 Go selon la taille de la base.
 
 ---

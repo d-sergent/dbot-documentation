@@ -35,7 +35,7 @@ Ce mode supprime toute la base de données et reconstruit tout le graphe de conn
 Vous pouvez vérifier que la base est bien chargée en regardant les logs du serveur MCP au démarrage :
 - **📊 Nodes/Edges** : Doivent être > 0 (généralement autour de 5000+ pour D-Bot).
 - **✅ KV Storage** : Indique le nombre de documents indexés.
-- **⚖️ Reranker** : Doit afficher `✅ TextCrossEncoder trouvé !` ou `BAAI/bge-reranker-v2-m3`.
+- **⚖️ Reranker** : Doit afficher `TextCrossEncoder` (`BAAI/bge-reranker-base`).
 
 ---
 
@@ -43,9 +43,9 @@ Vous pouvez vérifier que la base est bien chargée en regardant les logs du ser
 
 ### "No relevant document chunks found"
 Si le RAG ne trouve rien alors que l'info existe :
-1. **Vérifiez le chemin** : Assurez-vous que `RAG_DB_PATH` dans `mcp-config.json` pointe bien vers `/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db`.
+1. **Vérifiez le chemin** : Assurez-vous que `RAG_DB_PATH` dans `mcp_config.json` / `.kilo/kilo.jsonc` pointe bien vers `/Users/Shared/Mon Google Drive Physique/lightrag_dbot_db`.
 2. **Relancez l'indexation** : Un petit `--update` peut suffire.
-3. **Redémarrez le serveur MCP** : Parfois vMLX garde une ancienne instance en mémoire.
+3. **Redémarrez le serveur MCP / libérez Ollama** : Rechargez la configuration MCP ou exécutez `ask_rag.py --stop-server` si un ancien démon local garde un modèle chargé en mémoire.
 
 ### Erreurs de "Asyncio / Await"
 Si vous voyez des erreurs de type `An asyncio.Future is required` :

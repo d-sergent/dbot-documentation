@@ -174,13 +174,13 @@ Les deux moteurs **RS-03** (60 N.m chacun) sont fixés **en haut du tibia** (pas
 
 ## 5. Intégration de l'Avant-Bras (Architecture "Forearm Supination")
 
-> 🆕 **Mise à jour Juin 2026** : L'architecture du bras a été revue pour s'aligner sur le standard biomimétique (Tesla Optimus Gen 3). Le mouvement de rotation de l'avant-bras (Roll/Supination) est désormais assuré par un moteur **RS-02 situé au coude**, juste après le RS-03.
+> 🆕 **Mise à jour (Option B `RS-10P` validée & acquise)** : L'architecture du bras s'aligne sur le standard biomimétique (Tesla Optimus Gen 3). Le mouvement de rotation de l'avant-bras (Roll/Supination) est assuré par un moteur **`RS-10P` (Option B retenue & reçue — Ø 57 × 59,1 mm, 42 N.m crête / 14 N.m nom., 25:1, 460 g)** situé au coude, juste après le RS-03.
 
 ### Le défi du découplage mécanique (Coude)
-Si l'avant-bras complet (main + charge) est fixé directement sur l'axe de sortie du RS-02, les roulements internes du moteur vont s'écraser sous la contrainte radiale (couple de flexion estimé à >10 N.m pour une charge de 5 kg). Le secret de cette architecture réside dans le **découplage des efforts** :
+Si l'avant-bras complet (main + charge) est fixé directement sur l'axe de sortie du `RS-10P`, les roulements internes du moteur subiront une forte contrainte radiale (couple de flexion estimé à >10 N.m pour une charge de 5 kg). Le secret de cette architecture réside dans le **découplage des efforts** :
 
 1. **La Structure (Poids)** : La coque rotative de l'avant-bras (en PETG-CF ou tube Carbone) doit être montée sur un **large roulement annulaire externe** (Thin-Section Bearing ou palier lisse) solidaire du bloc coude fixe. Ce grand roulement encaisse 100% des contraintes de flexion transversale.
-2. **Le Moteur (Rotation)** : Le moteur RS-02 est logé au centre de ce roulement. Son axe est relié à la coque rotative uniquement via un accouplement (ex: joint flexible ou Spline) qui ne transmet **que le couple de torsion** (rotation pure), le protégeant totalement du poids du bras.
+2. **Le Moteur (Rotation)** : Le moteur **`RS-10P`** (diamètre ultra-fin de Ø 57 mm facilitant l'intégration coaxiale sous le palier) est logé au centre de ce roulement. Son axe est relié à la coque rotative uniquement via un accouplement (ex: joint flexible ou Spline) qui ne transmet **que le couple de torsion** (rotation pure jusqu'à 42 N.m crête), le protégeant totalement du poids du bras.
 
 ### Avantages de l'assemblage
 - **Suppression du Crosstalk** : Les moteurs de la main (D-Hand) tournent *avec* l'avant-bras, empêchant les tendons de se vriller lors d'une rotation du poignet.

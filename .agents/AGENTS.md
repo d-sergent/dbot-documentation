@@ -2,11 +2,17 @@
 
 ## Documentation and Knowledge Base Search (RAG)
 - Whenever you need to search or verify details about the D-Bot project (such as mechanical specs, FEA results, electronics, motor choices, wiring, CAN bus, or software components), you MUST query the local LightRAG database first.
-- To perform this query, run the following command using the shell:
-  `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py" --search-only --mode naive "<your search terms>"`
-- **Search Modes**:
-  - `--mode naive` (Vector similarity search): Optimal for retrieving exact dimensional tables, bolt torques, McMaster-Carr part numbers, and FEA Von Mises values.
-  - `--mode hybrid` (Knowledge Graph + Vector search): Optimal for cross-subsystem architectural relationships and kinematic dependencies.
+- **Preferred Search Channels (Zero LLM RAM Required)**:
+  1. **MCP `dbot-rag` (when connected)** : use `rag_search` (`llm_mode="antigravity"`), `rag_analyze_impact` (`llm_mode="antigravity"`), or `rag_get_context` for structured chunks and Knowledge Graph entities/relations.
+  2. **CLI `ask_rag.py --search-only` (default `--provider auto`)** :
+     `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py" --search-only --mode naive "<your search terms>"`
+     or for architectural / cross-subsystem queries:
+     `/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py" --search-only --mode hybrid "<your search terms>"`
+- **Query Phrasing & Search Modes**:
+  - Always include exact technical identifiers when known (e.g., `RB8016`, `RS-06`, `PA12-CF`, `92290A168`, `butee rotation`), because `--search-only` and MCP `antigravity` extract them cleanly into `ll_keywords`.
+  - `--mode naive` (Vector similarity search + Cross-Encoder reranking): Optimal for exact dimensional tables, bolt torques, McMaster-Carr part numbers, and FEA Von Mises values. Zero LLM dependency.
+  - `--mode hybrid` (Knowledge Graph + Vector search): Optimal for cross-subsystem architectural relationships and kinematic dependencies. In `--search-only`, deterministic lexical `hl_keywords`/`ll_keywords` (or `--keywords`/`--hl`/`--ll`) bypass LLM keyword extraction with automatic fallback to `naive` if needed, guaranteeing exit `0` without spawning an `18-27 Go` local LLM server.
+  - **LLM Synthesis Mode** (calling `ask_rag.py` without `--search-only` or MCP `llm_mode="internal"`): `--provider auto` checks Ollama (`127.0.0.1:11434`, `qwen3.8:27b-mlx`) -> Unsloth Studio (`127.0.0.1:8888/v1`, `unsloth/Qwen3.8-27B-GGUF`) -> Gemini -> OpenRouter, and starts/unloads/stops a managed local `ollama serve` session automatically only when no backend is active.
 - **Primary Torso & Pelvis Reference Documents Indexed**:
   - `01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md` (Architecture & CNC machining of Torso).
   - `01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md` (Pelvis PA12-CF, RB8016 bearing & RS-06 Waist).
