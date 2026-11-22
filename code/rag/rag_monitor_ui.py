@@ -539,19 +539,28 @@ pre { background:#090f1d; border:1px solid var(--border); border-radius:8px; pad
 .banner-ro.show { display:block; }
 #subgraph-svg { width:100%; height:420px; background:#090f1d; border:1px solid var(--border); border-radius:10px; }
 .muted { color:var(--muted); }
+.modal-backdrop { display:none; position:fixed; inset:0; background:rgba(2,6,23,0.78); z-index:50; align-items:center; justify-content:center; padding:20px; }
+.modal-backdrop.show { display:flex; }
+.modal-box { background:var(--panel); border:1px solid var(--border); border-radius:12px; max-width:1120px; width:100%; max-height:86vh; overflow:auto; padding:18px 22px; box-shadow:0 20px 50px rgba(0,0,0,0.65); }
+.modal-hdr { display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px; }
+.help-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media (max-width:960px) { .help-grid { grid-template-columns:1fr; } }
+.help-list { margin:6px 0 0 0; padding-left:18px; line-height:1.55; font-size:12.5px; color:var(--text); }
+.help-list li { margin-bottom:6px; }
 </style>
 </head>
 <body>
 <header>
   <div class="brand">
     <span>D-Bot LightRAG — Cockpit Qualite</span>
-    <span id="live-pill" class="pill idle"><span class="dot"></span><span id="live-pill-txt">Verification...</span></span>
-    <span id="storage-pill" class="pill">Stockage...</span>
+    <span id="live-pill" class="pill idle" title="Etat temps reel du verrou d'indexation LightRAG"><span class="dot"></span><span id="live-pill-txt">Verification...</span></span>
+    <span id="storage-pill" class="pill" title="Taille de la base active sur SSD local et du miroir Google Drive">Stockage...</span>
   </div>
   <div class="actions">
-    <button id="btn-run-hygiene" onclick="triggerHygiene(true)">Hygiene & Miroir Drive</button>
-    <button id="btn-refresh-audit" onclick="loadAudit(true)">Rafraichir l'audit</button>
-    <button onclick="downloadHtmlSnapshot()">Exporter HTML</button>
+    <button id="btn-run-hygiene" onclick="triggerHygiene(true)" title="Purge les orphelins, elague le graphe, compacte le cache LLM inutilise et synchronise le SSD local vers Google Drive">Hygiene &amp; Miroir Drive</button>
+    <button id="btn-refresh-audit" onclick="loadAudit(true)" title="Force le recalcul immediat du score de sante de tous les fichiers">Rafraichir l'audit</button>
+    <button onclick="downloadHtmlSnapshot()" title="Telecharge un rapport HTML autonome de l'audit actuel">Exporter HTML</button>
+    <button id="btn-open-help" onclick="toggleHelpModal(true)" title="Guide complet des boutons, options d'indexation et anomalies">? Aide &amp; Guide</button>
   </div>
 </header>
 
@@ -560,6 +569,7 @@ pre { background:#090f1d; border:1px solid var(--border); border-radius:8px; pad
   <button data-tab="files" onclick="switchTab('files', this)">Matrice Fichiers & Re-indexation</button>
   <button data-tab="inspector" onclick="switchTab('inspector', this)">Inspecteur & Sous-Graphe</button>
   <button data-tab="graph" onclick="switchTab('graph', this)">Graphe & Synchronisation</button>
+  <button data-tab="cad" onclick="switchTab('cad', this)">Parite CAO / BOM / SVG</button>
   <button data-tab="retrieval" onclick="switchTab('retrieval', this)">Test Retrieval & Benchmark</button>
 </nav>
 
@@ -676,6 +686,37 @@ pre { background:#090f1d; border:1px solid var(--border); border-radius:8px; pad
     </div>
   </section>
 
+  <section id="tab-cad" class="tab-pane">
+    <div id="kpi-cad" class="kpi-grid"></div>
+    <div class="card" style="margin-bottom:14px;">
+      <h3>1. Controle Metrologique &amp; Versions (JSON CAO &lt;-&gt; Dossiers Markdown)</h3>
+      <div style="overflow:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Statut</th><th>Document cible</th><th>Versions CAO citees</th><th>Pieces controlees / Derive</th><th>Anomalies detectees</th>
+            </tr>
+          </thead>
+          <tbody id="cad-docs-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>2. Parite Quincaillerie McMaster-Carr (CAO &lt;-&gt; FINAL_BOM)</h3>
+        <div id="cad-bom-box" style="max-height:360px; overflow:auto;"></div>
+      </div>
+      <div class="card">
+        <h3>3. Fraicheur des Schemas SVG &amp; Snapshots (mtime CAO vs SVG)</h3>
+        <div id="cad-svg-box" style="max-height:360px; overflow:auto;"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <h3>4. Hierarchie Bi-Temporelle Niveau 1 &gt; Niveau 2 (Etudes STUDY_ plus recentes que FINAL_ / DOSSIER_TECHNIQUE_)</h3>
+      <div id="cad-bitemporal-box" style="max-height:320px; overflow:auto;"></div>
+    </div>
+  </section>
+
   <section id="tab-retrieval" class="tab-pane">
     <div class="toolbar">
       <input id="q-input" type="text" placeholder="Question technique D-Bot (ex: couple serrage IMU plaque haute 91292A017)..." style="flex:1; min-width:300px;">
@@ -694,9 +735,77 @@ pre { background:#090f1d; border:1px solid var(--border); border-radius:8px; pad
   </section>
 </main>
 
+<div id="help-modal" class="modal-backdrop" onclick="if(event.target===this)toggleHelpModal(false)">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <h2 style="margin:0; font-size:17px; color:var(--accent);">Guide du Cockpit Qualite LightRAG D-Bot</h2>
+      <button onclick="toggleHelpModal(false)">Fermer (Echap)</button>
+    </div>
+    <div class="help-grid">
+      <div class="card">
+        <h3 style="margin-top:0;">1. Bandeau Haut &amp; Maintenance (Hygiene)</h3>
+        <ul class="help-list">
+          <li><strong>Base disponible / Indexation active</strong> : surveille le verrou <code>.indexing.lock</code> et <code>.indexing_progress.json</code>. Pendant une indexation, l'interface passe automatiquement en lecture seule et affiche la barre de progression en direct.</li>
+          <li><strong>SSD local ... Mo | Miroir ... Mo</strong> : compare la taille de la base active sur SSD local (<code>/Users/Shared/dbot_rag_local/lightrag_dbot_db</code>) avec la sauvegarde sur Google Drive. Un ecart signifie que de nouvelles indexations ou du cache doivent etre compactes/synchronises.</li>
+          <li><strong>Hygiene &amp; Miroir Drive</strong> : lance <code>repair_db_sync.py --full-hygiene --apply --sync-mirror</code>. Cette etape : (1) purge les documents/chunks/vecteurs orphelins ou archives, (2) elague chirurgicalement les noeuds et aretes morts de <code>graph_chunk_entity_relation.graphml</code>, (3) compacte <code>kv_store_llm_response_cache.json</code> en supprimant les vieilles entrees de cache non referencees, et (4) synchronise le SSD local vers Google Drive.</li>
+          <li><strong>Rafraichir l'audit</strong> : recalcule immediatement tous les scores (vide le cache de 20 s).</li>
+          <li><strong>Exporter HTML</strong> : telecharge une photographie HTML autonome du rapport.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;">2. Options de Re-indexation (Matrice Fichiers)</h3>
+        <ul class="help-list">
+          <li><strong>Moteur (Provider)</strong> :
+            <br>- <code>auto (Gemini -&gt; Ollama)</code> : utilise la cascade Gemini Free Tier non-lite en priorite puis bascule automatiquement sur Ollama local (<code>qwen3.8:27b-mlx</code>) si les quotas cloud sont satures.
+            <br>- <code>ollama (qwen3.8:27b-mlx)</code> : force le modele local souverain 27B MLX (recommande pour les dossiers techniques et tableaux critiques).
+            <br>- <code>gemini</code> / <code>1minai</code> : force uniquement le fournisseur cloud choisi.</li>
+          <li><strong>Fusion (Summary Mode)</strong> : <code>deterministic (0 LLM)</code> (recommande : fusionne les descriptions d'entites par deduplication instantanee sans appel LLM), <code>gemma4</code> ou <code>llm</code> (appelle un LLM sur les gros noeuds hubs <code>&gt;= 24</code> fragments).</li>
+          <li><strong>Gleaning (Passe de relecture)</strong> : <code>adaptive</code> (recommande : <code>G1</code> = 1 passe de relecture sur les fichiers critiques Niveau 1 / PDF / SVG, <code>G0</code> = 0 passe sur les fichiers standards/code), <code>on</code> (<code>G1</code> partout) ou <code>off</code> (<code>G0</code> partout).</li>
+          <li><strong>Lot &amp; Miroir Drive</strong> : taille de lot <code>rag.ainsert</code> (<code>8</code> par defaut) et synchronisation optionnelle vers Google Drive en fin de traitement.</li>
+          <li><strong>Re-indexer selection / Copier commande CLI</strong> : lance en arriere-plan (ou copie) <code>index_docs.py --files ...</code> en purgeant automatiquement l'ancien cache LLM des fichiers coches.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;">3. Scores, Badges &amp; Colonnes</h3>
+        <ul class="help-list">
+          <li><strong>Score (0 a 100)</strong> : somme de 5 sous-scores — Synchro &amp; chunking <code>1600/150</code> (<code>20 pts</code>), Densite graphe entites/relations (<code>25 pts</code>), Integrite syntaxique cache (<code>20 pts</code>), Retention des cotes/references (<code>20 pts</code>) et Hygiene/Ancrage lexical (<code>15 pts</code>).</li>
+          <li><strong>Statuts de sante</strong> :
+            <br>- <span class="badge healthy">Sain (&gt;= 75)</span> : extraction complete et bien ancree.
+            <br>- <span class="badge warning">Avertissement (50-74)</span> : ou fichier critique encore en ancien chunking <code>1200/100</code>.
+            <br>- <span class="badge critical">Critique (&lt; 50)</span> : non traite, 0 entite/relation ou ancrage <code>&lt; 60 %</code>.</li>
+          <li><strong>Badges <code>G1 / G0</code> et <code>N sec. ##</code></strong> : politique de gleaning du fichier, et nombre de sous-documents virtuels decoupes par section <code>##</code> (pour les gros Markdown <code>&gt;= 24 Ko</code>).</li>
+          <li><strong>Retention &amp; Ancrage</strong> : <code>%</code> des valeurs chiffrees/codes (<code>mm</code>, <code>Nm</code>, McMaster, <code>RS-04</code>...) retrouvees dans l'extraction, et <code>%</code> des entites presentes dans le texte source.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;">4. Dictionnaire des Anomalies (Top Anomalies)</h3>
+        <ul class="help-list">
+          <li><code>LEGACY_1200_100</code> (<code>-3 pts</code>) : fichier indexe dans le passe avec l'ancien decoupage <code>1200/100</code> (avant passage a <code>1600/150</code>). Comme <code>--update</code> ne touche qu'aux fichiers modifies, ce compteur reste stable tant que ces anciens fichiers (souvent deja sains) ne sont pas modifies ou re-indexes.</li>
+          <li><code>MISSING_COMPLETE_TAG</code> (<code>-2 a -8 pts</code>) : ancienne passe LLM terminee sans balise <code>&lt;|COMPLETE|&gt;</code>.</li>
+          <li><code>SYNTAX_ERRORS_EXTRACT</code> / <code>BROKEN_DELIMITERS</code> : lignes historiques mal formatees en cache (corrigees a la re-indexation par le nouveau sanitizer).</li>
+          <li><code>LOW_METRIC_RETENTION</code> / <code>LOW_REL_DENSITY</code> / <code>LOW_ENT_DENSITY</code> : faible densite de cotes ou de relations (frequent sur du code Python ; sur un dossier technique, re-indexer avec <code>Moteur: ollama</code>).</li>
+          <li><code>UNGROUNDED_ENTITIES</code> : entites extraites en francais non retrouvees litteralement dans un fichier source anglais/code.</li>
+          <li><code>DOLLAR_OR_LATEX_ARTIFACT</code> / <code>EMPTY_GLEANING_HIGH</code> / <code>NO_CACHE_TRACE</code> : residu dollar/LaTeX en cache, passe <code>G1</code> majoritairement vide, ou trace cache absente.</li>
+          <li><code>CAD_VERSION_DRIFT</code> / <code>PART_MASS_DRIFT</code> / <code>CAD_BOM_MISSING_REF</code> / <code>STALE_VISUAL_SNAPSHOT</code> : derive deterministe en temps reel entre <code>AUDIT_METROLOGIQUE_Torse_et_Bassin.json</code>, les dossiers techniques, la BOM McMaster-Carr et les schemas <code>media/*.svg</code>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 let AUDIT_DATA = null;
 let SELECTED_RELS = new Set();
+
+function toggleHelpModal(show) {
+  var m = document.getElementById("help-modal");
+  if (!m) return;
+  m.className = show ? "modal-backdrop show" : "modal-backdrop";
+}
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") toggleHelpModal(false);
+});
 
 function escapeHtml(str) {
   return String(str == null ? "" : str)
@@ -862,7 +971,8 @@ function renderAll() {
     ["Disque / doc_status / log", (s.disk_files_count || 0) + " / " + (s.doc_status_count || 0) + " / " + (s.indexed_files_log_count || 0), "#38bdf8"],
     ["Sections virtuelles ##", (s.sectioned_files_count || 0) + " fichiers / " + (s.virtual_sections_total || 0) + " sec.", "#38bdf8"],
     ["Stockage actif", storageVal, st.is_local_ssd ? "#10b981" : "#f59e0b"],
-    ["Orphelins / Cache sans COMPLETE", (s.orphans_count || 0) + " / " + (s.cache_missing_complete || 0), "#f59e0b"]
+    ["Orphelins / Cache sans COMPLETE", (s.orphans_count || 0) + " / " + (s.cache_missing_complete || 0), "#f59e0b"],
+    ["Derive CAO / BOM", (AUDIT_DATA.cad_drift && AUDIT_DATA.cad_drift.available) ? (s.cad_drift_alerts_count || 0) : "-", (s.cad_drift_alerts_count || 0) > 0 ? "#f59e0b" : "#10b981"]
   ].map(function(k) {
     return "<div class='card'><div class='kpi-val' style='color:" + k[2] + "'>" + escapeHtml(k[1]) + "</div><div class='kpi-lbl'>" + escapeHtml(k[0]) + "</div></div>";
   }).join("");
@@ -892,6 +1002,7 @@ function renderAll() {
 
   renderFilesTable();
   renderGraphTab();
+  renderCadTab();
 }
 
 function getFilteredDocs() {
@@ -1115,6 +1226,124 @@ function renderGraphTab() {
   loadAuditMd();
 }
 
+function renderBitemporalBox(bt) {
+  var btBox = document.getElementById("cad-bitemporal-box");
+  if (!btBox) return;
+  bt = bt || {};
+  var pending = bt.pending_consolidations || [];
+  var hdr = "<div style='margin-bottom:10px;'>" +
+    "Niveau 1 (Verite Terrain) : <strong>" + (bt.level1_count || 0) + " fichiers</strong> | " +
+    "Etudes STUDY_ anterieures (supplantees / t_invalid) : <strong>" + (bt.level2_superseded_count || 0) + "</strong> | " +
+    "Etudes STUDY_ plus recentes a consolider : <span class='badge " + (pending.length > 0 ? "warning" : "healthy") + "'>" + pending.length + "</span>" +
+    "</div>";
+  if (!pending.length) {
+    btBox.innerHTML = hdr + "<span class='badge healthy'>Aucune etude STUDY_ plus recente que son dossier Niveau 1.</span>";
+    return;
+  }
+  var rows = pending.map(function(it) {
+    return "<tr>" +
+      "<td><code>" + escapeHtml(it.study_rel_path) + "</code></td>" +
+      "<td>" + escapeHtml(it.study_date) + "</td>" +
+      "<td><code>" + escapeHtml(it.target_level1_rel_path) + "</code></td>" +
+      "<td>" + escapeHtml(it.target_level1_date) + "</td>" +
+      "<td><span class='badge warning'>+" + escapeHtml(it.lead_days) + " j</span></td>" +
+      "</tr>";
+  }).join("");
+  btBox.innerHTML = hdr + "<table><thead><tr><th>Etude STUDY_ recente</th><th>Date etude</th><th>Dossier Niveau 1 cible</th><th>Date Niveau 1</th><th>Avance</th></tr></thead><tbody>" + rows + "</tbody></table>";
+}
+
+function renderCadTab() {
+  var cd = AUDIT_DATA.cad_drift || {};
+  var kpiBox = document.getElementById("kpi-cad");
+  var docsBody = document.getElementById("cad-docs-tbody");
+  var bomBox = document.getElementById("cad-bom-box");
+  var svgBox = document.getElementById("cad-svg-box");
+  renderBitemporalBox(cd.bitemporal_hierarchy || {});
+  if (!kpiBox || !docsBody || !bomBox || !svgBox) return;
+
+  if (!cd.available) {
+    kpiBox.innerHTML = "<div class='card'><div class='kpi-val'>Indisponible</div><div class='kpi-lbl'>AUDIT_METROLOGIQUE_Torse_et_Bassin.json absent</div></div>";
+    docsBody.innerHTML = "<tr><td colspan='5' class='muted'>Aucun audit metrologique CAO trouve dans le workspace.</td></tr>";
+    bomBox.innerHTML = "<span class='muted'>Donnees indisponibles.</span>";
+    svgBox.innerHTML = "<span class='muted'>Donnees indisponibles.</span>";
+    return;
+  }
+
+  var cs = cd.cad_summary || {};
+  var bc = cd.bom_check || {};
+  var sf = cd.svg_freshness || {};
+  var docChecks = cd.doc_checks || [];
+  var alignedCount = docChecks.filter(function(d) { return d.status === "aligned"; }).length;
+  var driftCount = docChecks.filter(function(d) { return d.status === "drift"; }).length;
+  var missLocal = (bc.missing_in_local_bom || []).length;
+  var missGlobal = (bc.missing_in_global_bom || []).length;
+
+  kpiBox.innerHTML = [
+    ["Modele CAO Reference", (cs.document_name || "-") + " (" + (cs.total_mass_kg || 0) + " kg)", "#38bdf8"],
+    ["Instances / Refs BOM CAO", (cs.instances_count || 0) + " / " + (cs.unique_bom_count || 0), "#38bdf8"],
+    ["Docs Alignes / En Derive", alignedCount + " / " + driftCount, driftCount > 0 ? "#f59e0b" : "#10b981"],
+    ["McMaster CAO (Manq. Loc / Glob)", (bc.cad_refs_count || 0) + " (" + missLocal + " / " + missGlobal + ")", (missLocal + missGlobal) > 0 ? "#ef4444" : "#10b981"],
+    ["SVG Anterieurs a CAO", (sf.svgs_older_than_cad_count || 0) + " / " + (sf.total_svgs || 0), (sf.svgs_older_than_cad_count || 0) > 0 ? "#f59e0b" : "#10b981"]
+  ].map(function(k) {
+    return "<div class='card'><div class='kpi-val' style='color:" + k[2] + "'>" + escapeHtml(k[1]) + "</div><div class='kpi-lbl'>" + escapeHtml(k[0]) + "</div></div>";
+  }).join("");
+
+  docsBody.innerHTML = docChecks.map(function(d) {
+    var badgeCls = d.status === "aligned" ? "healthy" : (d.status === "drift" ? "warning" : "critical");
+    var vers = (d.versions_found && d.versions_found.length) ? d.versions_found.join(", ") : "-";
+    var issHtml = (d.issues || []).length
+      ? d.issues.map(function(i) { return "<div><span class='tag'>" + escapeHtml(i.code) + "</span> " + escapeHtml(i.message) + "</div>"; }).join("")
+      : "<span class='muted'>Aucune derive detectee</span>";
+    return "<tr>" +
+      "<td><span class='badge " + badgeCls + "'>" + escapeHtml(d.status) + "</span></td>" +
+      "<td><code>" + escapeHtml(d.rel_path) + "</code></td>" +
+      "<td>" + escapeHtml(vers) + "</td>" +
+      "<td>" + (d.checked_parts || 0) + " / " + (d.drifted_parts || 0) + "</td>" +
+      "<td>" + issHtml + "</td>" +
+      "</tr>";
+  }).join("");
+
+  var bomParts = [];
+  bomParts.push("<div style='margin-bottom:8px;'><strong>BOM Locale</strong> (<code>" + escapeHtml(bc.local_bom_rel || "-") + "</code>) : " +
+    (missLocal === 0 ? "<span class='badge healthy'>100 % des " + (bc.cad_refs_count || 0) + " refs presentes</span>" : "<span class='badge critical'>" + missLocal + " manquante(s)</span>") + "</div>");
+  if (missLocal > 0) {
+    bomParts.push("<div style='margin-bottom:8px;'>" + bc.missing_in_local_bom.map(function(m) {
+      return "<div><span class='tag'>" + escapeHtml(m.ref) + "</span> " + escapeHtml(m.component_name || "") + " (qte " + (m.quantity || 1) + ")</div>";
+    }).join("") + "</div>");
+  }
+  bomParts.push("<div style='margin-bottom:8px;'><strong>BOM Globale</strong> (<code>" + escapeHtml(bc.global_bom_rel || "-") + "</code>) : " +
+    (missGlobal === 0 ? "<span class='badge healthy'>Complete</span>" : "<span class='badge warning'>" + missGlobal + " manquante(s) en CAO->Globale</span>") + "</div>");
+  if (missGlobal > 0) {
+    bomParts.push("<div>" + bc.missing_in_global_bom.map(function(m) {
+      return "<div><span class='tag'>" + escapeHtml(m.ref) + "</span> " + escapeHtml(m.component_name || "") + " (qte " + (m.quantity || 1) + ")</div>";
+    }).join("") + "</div>");
+  }
+  if ((bc.extra_in_local_bom || []).length) {
+    bomParts.push("<div class='muted' style='margin-top:8px;font-size:12px;'>Refs BOM locale absentes du JSON CAO : " + escapeHtml(bc.extra_in_local_bom.join(", ")) + "</div>");
+  }
+  bomBox.innerHTML = bomParts.join("");
+
+  var svgParts = [];
+  svgParts.push("<div style='margin-bottom:8px;'>Exports_CAO_DBot : <strong>" + (sf.exports_available ? "Disponible" : "Non monte") + "</strong>" +
+    (sf.newest_snapshot_png ? (" | Dernier PNG : <code>" + escapeHtml(sf.newest_snapshot_png) + "</code>") : "") + "</div>");
+  if ((sf.stale_manifest_pngs || []).length) {
+    svgParts.push("<div style='margin-bottom:8px;color:#fca5a5;'>Snapshots manifestes desynchronises : " +
+      sf.stale_manifest_pngs.map(function(x) { return "<code>" + escapeHtml(x.target) + "</code> (" + escapeHtml(x.reason) + ")"; }).join(", ") + "</div>");
+  } else if (sf.exports_available) {
+    svgParts.push("<div style='margin-bottom:8px;color:#6ee7b7;'>Parite SHA-256 des snapshots manifestes OK.</div>");
+  }
+  var olderSvgs = sf.svgs_older_than_cad || [];
+  if (olderSvgs.length) {
+    svgParts.push("<div><strong>SVG anterieurs au JSON CAO (" + (sf.svgs_older_than_cad_count || olderSvgs.length) + ") :</strong></div>");
+    svgParts.push(olderSvgs.map(function(s) {
+      return "<div style='margin:3px 0;'><code>" + escapeHtml(s.file_name) + "</code> <span class='muted'>(-" + escapeHtml(s.lag_hours) + " h)</span></div>";
+    }).join(""));
+  } else {
+    svgParts.push("<span class='badge healthy'>Tous les schemas SVG sont posterieurs ou egaux au JSON CAO.</span>");
+  }
+  svgBox.innerHTML = svgParts.join("");
+}
+
 async function loadAuditMd() {
   try {
     var resp = await fetch("/api/audit-integrity-md");
@@ -1213,6 +1442,11 @@ def create_app(
     @app.get("/api/audit")
     def api_audit(refresh: bool = Query(default=False)) -> JSONResponse:
         return JSONResponse(audit_cache.get_report(force_refresh=refresh))
+
+    @app.get("/api/cad-drift")
+    def api_cad_drift(refresh: bool = Query(default=False)) -> JSONResponse:
+        report = audit_cache.get_report(force_refresh=refresh)
+        return JSONResponse(report.get("cad_drift") or {"available": False})
 
     @app.get("/api/file")
     def api_file_detail(rel_path: str = Query(..., min_length=1)) -> JSONResponse:

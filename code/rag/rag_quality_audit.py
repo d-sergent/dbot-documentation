@@ -71,6 +71,42 @@ DEFAULT_BENCHMARK_PATH = (
 )
 DEFAULT_AUDIT_MD_PATH = DEFAULT_DOCS_ROOT / "Annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md"
 
+CAD_AUDIT_JSON_REL = (
+    "01_Mecanique_et_Chassis/Torse_et_Bassin/Audits/AUDIT_METROLOGIQUE_Torse_et_Bassin.json"
+)
+CAD_TARGET_DOCS_RELS = (
+    "01_Mecanique_et_Chassis/Torse_et_Bassin/SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md",
+    "01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_BOM_Torse_et_Waist_D-Bot.md",
+    "01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Torse_Complet_D-Bot_V2.md",
+    "01_Mecanique_et_Chassis/Torse_et_Bassin/DOSSIER_TECHNIQUE_Bassin_et_Waist_D-Bot.md",
+    "01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Bilan_Masse_Global_et_Opportunite_Waist_Pitch_2DoF.md",
+)
+LOCAL_BOM_REL = "01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_BOM_Torse_et_Waist_D-Bot.md"
+GLOBAL_BOM_REL = "05_Gestion_Projet/FINAL_Liste_Achats_BOM.md"
+TORSE_MEDIA_REL = "01_Mecanique_et_Chassis/Torse_et_Bassin/media"
+_CAD_KEY_PARTS: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("Plastron_Ventral_Torse", ("Plastron_Ventral_Torse",)),
+    ("RB8016", ("RB8016",)),
+    ("Traverse_Renfort_Bassin", ("Traverse_Renfort_Bassin",)),
+    ("colonne vertebrale", ("colonne vertébrale", "colonne vertebrale")),
+    ("Chassis_Structurel_Bassin_Last", ("Chassis_Structurel_Bassin_Last",)),
+    ("Waist_Plate_7075", ("Waist_Plate_7075",)),
+    ("Selle de Pont Pelvis", ("Selle de Pont Pelvis",)),
+    ("Bride Epaule", ("Bride Epaule",)),
+    ("Moyeu_Waist_Sandwich_7075", ("Moyeu_Waist_Sandwich_7075",)),
+)
+_TORSE_VER_RE = re.compile(r"Torse-123\s*v(\d+)", re.IGNORECASE)
+_MASS_G_RE = re.compile(r"(\d+(?:\.\d+)?)\s*g\b", re.IGNORECASE)
+_MASS_KG_RE = re.compile(r"(\d+(?:\.\d+)?)\s*kg\b", re.IGNORECASE)
+LEVEL1_DOC_PREFIXES = (
+    "FINAL_",
+    "DOSSIER_TECHNIQUE_",
+    "GUIDE_COMPLET_",
+    "SYNTHESE_METROLOGIQUE_",
+)
+LEVEL2_STUDY_PREFIXES = ("STUDY_",)
+LEVEL2_AUDIT_PREFIXES = ("AUDIT_",)
+
 CRITICAL_PREFIXES = CRITICAL_DOC_PREFIXES
 
 _MCMASTER_RE = re.compile(r"\b9\d{4}[A-Za-z]\d{3}\b")
@@ -195,10 +231,10 @@ def _tail_lines(path: Path, max_lines: int = 160, max_bytes: int = 131072) -> li
 
 
 def _detect_running_index_pids() -> list[int]:
-    """Detecte les processus index_docs.py actifs sans shell=True."""
+    """Detecte uniquement les processus python executant index_docs.py (exclut le daemon schedule/sidecar)."""
     try:
         res = subprocess.run(
-            ["pgrep", "-f", "Code/rag/index_docs.py"],
+            ["ps", "-axo", "pid=,command="],
             capture_output=True,
             text=True,
             timeout=1.5,
@@ -206,11 +242,24 @@ def _detect_running_index_pids() -> list[int]:
         )
         if res.returncode != 0 or not res.stdout.strip():
             return []
+        self_pid = os.getpid()
         pids: list[int] = []
         for line in res.stdout.splitlines():
-            s = line.strip()
-            if s.isdigit():
-                pids.append(int(s))
+            parts = line.strip().split(None, 1)
+            if len(parts) < 2 or not parts[0].isdigit():
+                continue
+            pid_val = int(parts[0])
+            cmd_str = parts[1]
+            if pid_val == self_pid:
+                continue
+            if "Code/rag/index_docs.py" not in cmd_str:
+                continue
+            if "multicall schedule" in cmd_str or "agentapi new-conversation" in cmd_str:
+                continue
+            first_bin = os.path.basename(cmd_str.split()[0]).lower()
+            if not first_bin.startswith("python"):
+                continue
+            pids.append(pid_val)
         return pids
     except Exception:
         return []
@@ -1172,6 +1221,603 @@ def _extract_vdb_summary(path: Path) -> tuple[set[str], int, str | None]:
     return ids, len(rows), None
 
 
+def _normalize_cad_text(text: str) -> str:
+    """Normalise accents, separateurs de milliers et virgules decimales pour le controle CAO."""
+    cleaned = _norm_ascii(text or "").replace("\u00a0", " ").replace("\u202f", " ")
+    cleaned = cleaned.replace("`", "").replace("*", "")
+    cleaned = re.sub(r"(\d),(\d)", r"\1.\2", cleaned)
+    for _ in range(2):
+        cleaned = re.sub(r"(?<=\d)\s+(?=\d{3}\b)", "", cleaned)
+    return cleaned
+
+
+def _compute_file_sha256(path: Path) -> str:
+    hasher = hashlib.sha256()
+    with path.open("rb") as fh:
+        while True:
+            chunk = fh.read(65536)
+            if not chunk:
+                break
+            hasher.update(chunk)
+    return hasher.hexdigest()
+
+
+def _extract_cad_reference_snapshot(cad_data: dict[str, Any]) -> dict[str, Any]:
+    """Extrait les grandeurs de reference depuis AUDIT_METROLOGIQUE_Torse_et_Bassin.json."""
+    meta = cad_data.get("metadata") if isinstance(cad_data.get("metadata"), dict) else {}
+    summary = (
+        cad_data.get("assembly_summary")
+        if isinstance(cad_data.get("assembly_summary"), dict)
+        else {}
+    )
+    components = [c for c in (cad_data.get("components") or []) if isinstance(c, dict)]
+    hardware_bom = (
+        cad_data.get("hardware_bom")
+        if isinstance(cad_data.get("hardware_bom"), dict)
+        else {}
+    )
+
+    doc_name = str(meta.get("document_name") or "Inconnu")
+    ver_match = _TORSE_VER_RE.search(doc_name)
+    cad_version_num = int(ver_match.group(1)) if ver_match else None
+
+    total_mass_g = float(summary.get("total_mass_g") or 0.0)
+    phys_bbox = summary.get("physical_components_bounding_box_mm") or summary.get("bounding_box_mm") or {}
+    phys_size = list(phys_bbox.get("size") or [])
+    com_mm = list(summary.get("center_of_mass_mm") or [])
+
+    key_parts: list[dict[str, Any]] = []
+    for label, aliases in _CAD_KEY_PARTS:
+        aliases_norm = tuple(_norm_ascii(a) for a in aliases)
+        matches: list[dict[str, Any]] = []
+        for comp in components:
+            if comp.get("is_container"):
+                continue
+            iname = str(comp.get("instance_name") or "")
+            cname = str(comp.get("component_name") or "")
+            full_norm = _norm_ascii(f"{iname} {cname}")
+            if label == "RB8016" and "bride" in full_norm:
+                continue
+            if any(al in full_norm for al in aliases_norm):
+                matches.append(comp)
+        if matches:
+            unit_mass = float(matches[0].get("mass_g") or 0.0)
+            qty = len(matches)
+            key_parts.append(
+                {
+                    "label": label,
+                    "aliases_norm": aliases_norm,
+                    "unit_mass_g": round(unit_mass, 2),
+                    "total_mass_g": round(sum(float(m.get("mass_g") or 0.0) for m in matches), 2),
+                    "quantity": qty,
+                }
+            )
+
+    mcm_details: dict[str, dict[str, Any]] = {}
+    for key, entry in hardware_bom.items():
+        if not isinstance(entry, dict):
+            continue
+        blob = " ".join(
+            [
+                str(key),
+                str(entry.get("component_name") or ""),
+                str(entry.get("part_number") or ""),
+                str(entry.get("description") or ""),
+            ]
+        )
+        for m in _MCMASTER_RE.findall(blob):
+            ref = m.upper()
+            mcm_details[ref] = {
+                "ref": ref,
+                "component_name": str(entry.get("component_name") or key),
+                "description": str(entry.get("description") or ""),
+                "quantity": int(entry.get("quantity") or 1),
+            }
+
+    if not mcm_details:
+        raw_blob = json.dumps(cad_data, ensure_ascii=False)
+        for m in _MCMASTER_RE.findall(raw_blob):
+            ref = m.upper()
+            if ref not in mcm_details:
+                mcm_details[ref] = {
+                    "ref": ref,
+                    "component_name": ref,
+                    "description": "",
+                    "quantity": 1,
+                }
+
+    return {
+        "document_name": doc_name,
+        "cad_version_num": cad_version_num,
+        "timestamp": str(meta.get("timestamp") or ""),
+        "total_mass_g": round(total_mass_g, 2),
+        "total_mass_kg": round(total_mass_g / 1000.0, 2),
+        "instances_count": len(components),
+        "unique_bom_count": len(hardware_bom),
+        "physical_size_mm": phys_size,
+        "center_of_mass_mm": com_mm,
+        "key_parts": key_parts,
+        "mcmaster_refs": mcm_details,
+    }
+
+
+def _check_doc_against_cad(
+    rel_path: str,
+    abs_path: Path,
+    cad_snap: dict[str, Any],
+) -> dict[str, Any]:
+    """Compare un document Markdown technique aux grandeurs extraites du JSON CAO."""
+    raw_text = abs_path.read_text(encoding="utf-8", errors="replace")
+    norm_text = _normalize_cad_text(raw_text)
+    lines = norm_text.splitlines()
+
+    cad_ver = cad_snap.get("cad_version_num")
+    total_g = float(cad_snap.get("total_mass_g") or 0.0)
+    total_kg = float(cad_snap.get("total_mass_kg") or 0.0)
+
+    versions_found = sorted({int(v) for v in _TORSE_VER_RE.findall(norm_text)})
+    issues: list[dict[str, str]] = []
+
+    if cad_ver is not None and versions_found and max(versions_found) < cad_ver:
+        issues.append(
+            {
+                "code": "CAD_VERSION_DRIFT",
+                "severity": "warning",
+                "message": (
+                    f"Version CAO mentionnee Torse-123 v{max(versions_found)} "
+                    f"(vs {cad_snap['document_name']} dans le JSON CAO)."
+                ),
+            }
+        )
+
+    total_mass_mentioned = False
+    has_current_total = False
+    old_total_candidates: list[float] = []
+    for line in lines:
+        if any(
+            kw in line
+            for kw in (
+                "masse totale",
+                "total haut du corps",
+                "masse cao",
+                "masse brute",
+                "torse + bassin",
+            )
+        ):
+            total_mass_mentioned = True
+            for m in _MASS_G_RE.findall(line):
+                val = float(m)
+                if 12000.0 <= val <= 28000.0:
+                    if abs(val - total_g) <= 2.0:
+                        has_current_total = True
+                    else:
+                        old_total_candidates.append(val)
+            for m in _MASS_KG_RE.findall(line):
+                val_kg = float(m)
+                if 12.0 <= val_kg <= 28.0:
+                    if abs(val_kg - total_kg) <= 0.02:
+                        has_current_total = True
+                    elif abs(val_kg - total_kg) > 0.03:
+                        old_total_candidates.append(round(val_kg * 1000.0, 2))
+
+    if total_mass_mentioned and old_total_candidates and not has_current_total and total_g > 0:
+        issues.append(
+            {
+                "code": "PART_MASS_DRIFT",
+                "severity": "warning",
+                "message": (
+                    f"Masse totale CAO obsolete ({old_total_candidates[0]:.2f} g "
+                    f"vs {total_g:.2f} g / {total_kg:.2f} kg dans {cad_snap['document_name']})."
+                ),
+            }
+        )
+
+    checked_parts = 0
+    drifted_parts = 0
+    for part in cad_snap.get("key_parts") or []:
+        aliases = part["aliases_norm"]
+        unit_g = float(part["unit_mass_g"])
+        qty_mass_g = float(part["total_mass_g"])
+        if unit_g <= 0:
+            continue
+        matching_lines = [ln for ln in lines if any(al in ln for al in aliases)]
+        if not matching_lines:
+            continue
+
+        line_masses: list[float] = []
+        for ln in matching_lines:
+            is_table_row = ln.lstrip().startswith("|")
+            other_aliases_in_ln = any(
+                other["label"] != part["label"]
+                and any(oa in ln for oa in other["aliases_norm"])
+                for other in cad_snap.get("key_parts") or []
+            )
+            if is_table_row and not other_aliases_in_ln:
+                search_slices = [ln]
+            else:
+                search_slices = []
+                for al in aliases:
+                    start = 0
+                    while True:
+                        pos = ln.find(al, start)
+                        if pos < 0:
+                            break
+                        search_slices.append(ln[pos : pos + 140])
+                        start = pos + len(al)
+            for sl in search_slices:
+                for m in _MASS_G_RE.findall(sl):
+                    val = float(m)
+                    if (0.5 * unit_g) <= val <= (1.5 * max(unit_g, qty_mass_g)):
+                        line_masses.append(val)
+        if not line_masses:
+            continue
+
+        checked_parts += 1
+        has_match = any(
+            abs(v - unit_g) <= 0.5 or abs(v - qty_mass_g) <= 0.8 for v in line_masses
+        )
+        if not has_match:
+            drifted_parts += 1
+            issues.append(
+                {
+                    "code": "PART_MASS_DRIFT",
+                    "severity": "warning",
+                    "message": (
+                        f"Masse piece '{part['label']}' divergente : "
+                        f"{line_masses[0]:.2f} g citee vs {unit_g:.2f} g en CAO ({cad_snap['document_name']})."
+                    ),
+                }
+            )
+
+    return {
+        "rel_path": rel_path,
+        "exists": True,
+        "status": "drift" if issues else "aligned",
+        "versions_found": [f"v{v}" for v in versions_found],
+        "checked_parts": checked_parts,
+        "drifted_parts": drifted_parts,
+        "issues": issues,
+    }
+
+
+def _check_svg_and_snapshot_freshness(
+    docs_dir: Path,
+    cad_mtime: float,
+    exports_root: Path | None,
+) -> dict[str, Any]:
+    """Controle la fraicheur temporelle des SVG media/ et des snapshots PNG face au JSON CAO."""
+    svg_dir = docs_dir / TORSE_MEDIA_REL
+    svg_files = sorted(svg_dir.glob("*.svg")) if svg_dir.is_dir() else []
+
+    eff_exports = (
+        Path(exports_root)
+        if exports_root is not None
+        else (docs_dir.resolve().parent / "Exports_CAO_DBot")
+    )
+    snapshots_dir = eff_exports / "01_Torse_et_Bassin" / "Visual_Snapshots"
+    exports_available = eff_exports.is_dir()
+    newest_png_mtime: float | None = None
+    newest_png_name: str | None = None
+    if snapshots_dir.is_dir():
+        pngs = list(snapshots_dir.rglob("*.png"))
+        if pngs:
+            newest_png = max(pngs, key=lambda p: p.stat().st_mtime)
+            newest_png_mtime = newest_png.stat().st_mtime
+            newest_png_name = newest_png.name
+
+    older_than_cad: list[dict[str, Any]] = []
+    for svg in svg_files:
+        smtime = svg.stat().st_mtime
+        if smtime + 60.0 < cad_mtime:
+            lag_h = round((cad_mtime - smtime) / 3600.0, 1)
+            older_than_cad.append(
+                {
+                    "file_name": svg.name,
+                    "svg_mtime_iso": datetime.fromtimestamp(smtime, tz=timezone.utc).isoformat(),
+                    "lag_hours": lag_h,
+                }
+            )
+    older_than_cad.sort(key=lambda item: item["lag_hours"], reverse=True)
+
+    stale_manifest_pngs: list[dict[str, str]] = []
+    manifest_path = Path(__file__).resolve().parent.parent / "scripts/cad_tools/snapshot_sync_manifest.json"
+    if exports_available and manifest_path.is_file():
+        manifest_raw, _ = _safe_read_json(manifest_path)
+        for entry in (manifest_raw or {}).get("mappings") or []:
+            src = eff_exports / str(entry.get("source") or "")
+            dst = docs_dir / str(entry.get("target") or "")
+            if src.is_file():
+                if not dst.is_file():
+                    stale_manifest_pngs.append(
+                        {"target": str(entry.get("target")), "reason": "missing_target"}
+                    )
+                elif _compute_file_sha256(src) != _compute_file_sha256(dst):
+                    stale_manifest_pngs.append(
+                        {"target": str(entry.get("target")), "reason": "sha256_mismatch"}
+                    )
+
+    return {
+        "total_svgs": len(svg_files),
+        "svgs_older_than_cad_count": len(older_than_cad),
+        "svgs_older_than_cad": older_than_cad[:25],
+        "exports_available": exports_available,
+        "newest_snapshot_png": newest_png_name,
+        "newest_snapshot_mtime_iso": (
+            datetime.fromtimestamp(newest_png_mtime, tz=timezone.utc).isoformat()
+            if newest_png_mtime is not None
+            else None
+        ),
+        "stale_manifest_pngs": stale_manifest_pngs,
+    }
+
+
+def compute_bitemporal_doc_hierarchy(
+    docs_root: Path = DEFAULT_DOCS_ROOT,
+) -> dict[str, Any]:
+    """Classe les documents actifs par niveau (Niveau 1 > Niveau 2) et fraicheur temporelle."""
+    docs_dir = Path(docs_root)
+    if not docs_dir.is_dir():
+        return {
+            "level1_count": 0,
+            "level2_study_count": 0,
+            "level2_superseded_count": 0,
+            "pending_consolidations_count": 0,
+            "pending_consolidations": [],
+            "superseded_studies": [],
+        }
+
+    root_res = docs_dir.resolve()
+    by_folder: dict[str, list[tuple[str, Path, float]]] = defaultdict(list)
+    total_l1 = 0
+    total_l2_study = 0
+
+    for p in collect_docs_files(docs_dir):
+        if p.suffix.lower() != ".md":
+            continue
+        try:
+            rel = str(p.resolve().relative_to(root_res))
+        except ValueError:
+            rel = p.name
+        folder_rel = str(Path(rel).parent) if "/" in rel else "."
+        mtime = p.stat().st_mtime
+        by_folder[folder_rel].append((rel, p, mtime))
+
+    pending_consolidations: list[dict[str, Any]] = []
+    superseded_studies: list[dict[str, Any]] = []
+    superseded_count = 0
+
+    for folder_rel, items in sorted(by_folder.items()):
+        l1_items = [
+            it for it in items if it[1].name.startswith(LEVEL1_DOC_PREFIXES)
+        ]
+        l2_studies = [
+            it for it in items if it[1].name.startswith(LEVEL2_STUDY_PREFIXES)
+        ]
+        total_l1 += len(l1_items)
+        total_l2_study += len(l2_studies)
+        if not l1_items or not l2_studies:
+            continue
+
+        newest_l1_rel, _, max_l1_mtime = max(l1_items, key=lambda it: it[2])
+        l1_date = datetime.fromtimestamp(max_l1_mtime, tz=timezone.utc).strftime("%Y-%m-%d")
+
+        for study_rel, _, study_mtime in sorted(l2_studies, key=lambda it: it[2], reverse=True):
+            study_date = datetime.fromtimestamp(study_mtime, tz=timezone.utc).strftime("%Y-%m-%d")
+            if study_mtime > max_l1_mtime + 60.0:
+                pending_consolidations.append(
+                    {
+                        "folder": folder_rel,
+                        "study_rel_path": study_rel,
+                        "study_date": study_date,
+                        "target_level1_rel_path": newest_l1_rel,
+                        "target_level1_date": l1_date,
+                        "lead_days": round((study_mtime - max_l1_mtime) / 86400.0, 1),
+                    }
+                )
+            else:
+                superseded_count += 1
+                superseded_studies.append(
+                    {
+                        "folder": folder_rel,
+                        "study_rel_path": study_rel,
+                        "study_date": study_date,
+                        "superseded_by": newest_l1_rel,
+                        "superseded_by_date": l1_date,
+                    }
+                )
+
+    pending_consolidations.sort(key=lambda item: item["lead_days"], reverse=True)
+    return {
+        "level1_count": total_l1,
+        "level2_study_count": total_l2_study,
+        "level2_superseded_count": superseded_count,
+        "pending_consolidations_count": len(pending_consolidations),
+        "pending_consolidations": pending_consolidations,
+        "superseded_studies": superseded_studies[:40],
+    }
+
+
+def audit_cad_doc_drift(
+    docs_root: Path = DEFAULT_DOCS_ROOT,
+    exports_root: Path | None = None,
+) -> dict[str, Any]:
+    """Compare de maniere 100 % deterministe et lecture seule le JSON CAO, la BOM, les docs et les SVG."""
+    docs_dir = Path(docs_root)
+    bitemporal = compute_bitemporal_doc_hierarchy(docs_dir)
+    cad_path = docs_dir / CAD_AUDIT_JSON_REL
+    if not cad_path.is_file():
+        return {
+            "available": False,
+            "status": "unavailable",
+            "alerts_count": 0,
+            "alerts": [],
+            "doc_checks": [],
+            "bom_check": {},
+            "svg_freshness": {},
+            "bitemporal_hierarchy": bitemporal,
+        }
+
+    cad_raw, err = _safe_read_json(cad_path)
+    if not isinstance(cad_raw, dict):
+        return {
+            "available": False,
+            "status": "error",
+            "error": err or "JSON CAO illisible",
+            "alerts_count": 0,
+            "alerts": [],
+            "doc_checks": [],
+            "bom_check": {},
+            "svg_freshness": {},
+            "bitemporal_hierarchy": bitemporal,
+        }
+
+    cad_mtime = cad_path.stat().st_mtime
+    cad_snap = _extract_cad_reference_snapshot(cad_raw)
+
+    doc_checks: list[dict[str, Any]] = []
+    alerts: list[dict[str, str]] = []
+    for rel in CAD_TARGET_DOCS_RELS:
+        p = docs_dir / rel
+        if not p.is_file():
+            doc_checks.append(
+                {
+                    "rel_path": rel,
+                    "exists": False,
+                    "status": "missing",
+                    "versions_found": [],
+                    "checked_parts": 0,
+                    "drifted_parts": 0,
+                    "issues": [],
+                }
+            )
+            continue
+        chk = _check_doc_against_cad(rel, p, cad_snap)
+        doc_checks.append(chk)
+        for iss in chk["issues"]:
+            alerts.append(
+                {
+                    "severity": iss["severity"],
+                    "code": iss["code"],
+                    "target_file": rel,
+                    "message": iss["message"],
+                }
+            )
+
+    # Controle 2 : parite McMaster-Carr CAO <-> BOM locale & globale
+    cad_mcm_map = cad_snap.get("mcmaster_refs") or {}
+    cad_mcm_set = set(cad_mcm_map.keys())
+
+    def _extract_doc_mcm(rel_p: str) -> tuple[bool, set[str]]:
+        fp = docs_dir / rel_p
+        if not fp.is_file():
+            return False, set()
+        txt = fp.read_text(encoding="utf-8", errors="replace")
+        return True, {m.upper() for m in _MCMASTER_RE.findall(txt)}
+
+    local_exists, local_mcm = _extract_doc_mcm(LOCAL_BOM_REL)
+    global_exists, global_mcm = _extract_doc_mcm(GLOBAL_BOM_REL)
+
+    missing_local = (
+        [cad_mcm_map[r] for r in sorted(cad_mcm_set - local_mcm)] if local_exists else []
+    )
+    missing_global = (
+        [cad_mcm_map[r] for r in sorted(cad_mcm_set - global_mcm)] if global_exists else []
+    )
+    extra_local = sorted(local_mcm - cad_mcm_set) if local_exists else []
+
+    if missing_local:
+        refs_str = ", ".join(item["ref"] for item in missing_local[:8])
+        alerts.append(
+            {
+                "severity": "critical",
+                "code": "CAD_BOM_MISSING_REF",
+                "target_file": LOCAL_BOM_REL,
+                "message": (
+                    f"{len(missing_local)} reference(s) McMaster-Carr presente(s) en CAO "
+                    f"absente(s) de la BOM locale : {refs_str}"
+                ),
+            }
+        )
+    if missing_global:
+        refs_str = ", ".join(item["ref"] for item in missing_global[:8])
+        alerts.append(
+            {
+                "severity": "warning",
+                "code": "CAD_BOM_MISSING_REF",
+                "target_file": GLOBAL_BOM_REL,
+                "message": (
+                    f"{len(missing_global)} reference(s) McMaster-Carr presente(s) en CAO "
+                    f"absente(s) de la BOM globale : {refs_str}"
+                ),
+            }
+        )
+
+    bom_check = {
+        "local_bom_rel": LOCAL_BOM_REL,
+        "global_bom_rel": GLOBAL_BOM_REL,
+        "cad_refs_count": len(cad_mcm_set),
+        "local_bom_refs_count": len(local_mcm),
+        "global_bom_refs_count": len(global_mcm),
+        "missing_in_local_bom": missing_local,
+        "missing_in_global_bom": missing_global,
+        "extra_in_local_bom": extra_local,
+    }
+
+    # Controle 3 : fraicheur des SVG et snapshots PNG
+    svg_freshness = _check_svg_and_snapshot_freshness(docs_dir, cad_mtime, exports_root)
+    if svg_freshness["stale_manifest_pngs"]:
+        alerts.append(
+            {
+                "severity": "warning",
+                "code": "STALE_VISUAL_SNAPSHOT",
+                "target_file": TORSE_MEDIA_REL,
+                "message": (
+                    f"{len(svg_freshness['stale_manifest_pngs'])} snapshot(s) PNG dans media/ "
+                    "desynchronise(s) vis-a-vis de Exports_CAO_DBot."
+                ),
+            }
+        )
+
+    has_crit = any(a["severity"] == "critical" for a in alerts)
+    has_warn = any(a["severity"] == "warning" for a in alerts) or (
+        svg_freshness["svgs_older_than_cad_count"] > 0
+    )
+    overall_status = "critical" if has_crit else ("warning" if has_warn else "healthy")
+
+    return {
+        "available": True,
+        "status": overall_status,
+        "cad_json_rel": CAD_AUDIT_JSON_REL,
+        "cad_mtime_iso": datetime.fromtimestamp(cad_mtime, tz=timezone.utc).isoformat(),
+        "cad_summary": {
+            "document_name": cad_snap["document_name"],
+            "cad_version_num": cad_snap["cad_version_num"],
+            "timestamp": cad_snap["timestamp"],
+            "total_mass_g": cad_snap["total_mass_g"],
+            "total_mass_kg": cad_snap["total_mass_kg"],
+            "instances_count": cad_snap["instances_count"],
+            "unique_bom_count": cad_snap["unique_bom_count"],
+            "physical_size_mm": cad_snap["physical_size_mm"],
+            "center_of_mass_mm": cad_snap["center_of_mass_mm"],
+            "key_parts_checked": [
+                {
+                    "label": p["label"],
+                    "unit_mass_g": p["unit_mass_g"],
+                    "total_mass_g": p["total_mass_g"],
+                    "quantity": p["quantity"],
+                }
+                for p in cad_snap["key_parts"]
+            ],
+        },
+        "alerts_count": len(alerts),
+        "alerts": alerts,
+        "doc_checks": doc_checks,
+        "bom_check": bom_check,
+        "svg_freshness": svg_freshness,
+        "bitemporal_hierarchy": bitemporal,
+    }
+
+
 def run_full_audit(
     *,
     db_path: Path = DEFAULT_DB_PATH,
@@ -1322,6 +1968,31 @@ def run_full_audit(
                 }
             )
 
+    # Audit deterministe temps reel CAO JSON <-> Markdown / BOM / SVG (Brique 1)
+    cad_drift = audit_cad_doc_drift(docs_root=docs_dir)
+    alerts_by_rel: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for al in cad_drift.get("alerts") or []:
+        tgt = str(al.get("target_file") or "")
+        if tgt:
+            alerts_by_rel[tgt].append(al)
+    for doc in documents:
+        doc_alerts = alerts_by_rel.get(doc["rel_path"], [])
+        if not doc_alerts:
+            continue
+        doc["cad_drift_issues"] = doc_alerts
+        for al in doc_alerts:
+            code = str(al.get("code") or "")
+            if code and code not in doc["reasons"]:
+                doc["reasons"].append(code)
+            msg = str(al.get("message") or "")
+            if msg and msg not in doc["warnings"]:
+                doc["warnings"].append(msg)
+        if any(al.get("severity") == "critical" for al in doc_alerts):
+            if doc["health_status"] == "healthy":
+                doc["health_status"] = "warning"
+        elif doc["health_status"] == "healthy":
+            doc["health_status"] = "warning"
+
     # Tri par severite puis score croissant (les plus urgents en premier)
     status_rank = {"critical": 0, "warning": 1, "healthy": 2}
     priority_rank = {"critical": 0, "standard": 1, "image": 2}
@@ -1411,7 +2082,9 @@ def run_full_audit(
             "cache_missing_complete": cache_missing_complete,
             "cache_broken_delimiters": cache_broken_delim,
             "cache_short_or_empty_glean": cache_short,
+            "cad_drift_alerts_count": int(cad_drift.get("alerts_count") or 0),
         },
+        "cad_drift": cad_drift,
         "graph_health": graph_health,
         "log_summary": log_summary,
         "orphans": orphans,
@@ -1598,6 +2271,7 @@ def export_static_html_report(report: dict[str, Any], output_path: Path | None =
     """Genere un rapport HTML autonome (zero dependance CDN) a partir d'un bilan."""
     s = report.get("summary", {})
     g = report.get("graph_health", {})
+    cd = report.get("cad_drift") or {}
     docs = report.get("documents", [])
     live = report.get("live_indexing", {})
     hc = s.get("health_counts", {})
@@ -1673,6 +2347,7 @@ pre {{ background:#0b1220; padding:12px; border-radius:8px; overflow:auto; borde
   <div class="card"><div class="val">{hc.get("healthy", 0)}</div><div class="lbl">Sains</div></div>
   <div class="card"><div class="val">{g.get("nodes", 0)} / {g.get("edges", 0)}</div><div class="lbl">Noeuds / Aretes GraphML</div></div>
   <div class="card"><div class="val">{g.get("degree_zero_nodes", 0)}</div><div class="lbl">Noeuds isoles (degre 0)</div></div>
+  <div class="card"><div class="val">{cd.get("alerts_count", 0) if cd.get("available") else "-"}</div><div class="lbl">Alertes derive CAO / BOM</div></div>
 </div>
 <h2>Commandes prioritaires suggerees (top 30)</h2>
 <pre>{html.escape(chr(10).join(reidx_cmds) if reidx_cmds else "Tout est sain.")}</pre>
@@ -1733,6 +2408,15 @@ def main() -> int:
     print(
         f"GraphML: {g['nodes']} noeuds, {g['edges']} aretes, {g['degree_zero_nodes']} isoles (degre 0)"
     )
+    cd = report.get("cad_drift") or {}
+    if cd.get("available"):
+        cs = cd.get("cad_summary") or {}
+        sf = cd.get("svg_freshness") or {}
+        print(
+            f"CAO JSON: {cs.get('document_name')} ({cs.get('total_mass_kg')} kg) | "
+            f"Alertes derive: {cd.get('alerts_count', 0)} | "
+            f"SVG anterieurs a CAO: {sf.get('svgs_older_than_cad_count', 0)}/{sf.get('total_svgs', 0)}"
+        )
     print(f"Top {args.top} fichiers prioritaires a surveiller / re-indexer :")
     for doc in report["documents"][: max(1, args.top)]:
         print(

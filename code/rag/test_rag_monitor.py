@@ -237,6 +237,18 @@ class TestRagQualityMonitor(unittest.TestCase):
             self.assertIsNone(data)
             self.assertIsNotNone(err)
 
+    def test_detect_running_index_pids_ignores_schedule_daemon(self) -> None:
+        fake_ps = (
+            "  83948 /Applications/Antigravity.app/Contents/Resources/bin/language_server multicall schedule "
+            'CRON_TZ=Europe/Paris 0 0 * * * agentapi new-conversation -- /opt/homebrew/bin/python3.11 '
+            '"/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py" --provider auto\n'
+            "  91234 /opt/homebrew/bin/python3.11 /Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py --provider auto\n"
+        )
+        fake_res = rag_quality_audit.subprocess.CompletedProcess(args=["ps"], returncode=0, stdout=fake_ps, stderr="")
+        with patch.object(rag_quality_audit.subprocess, "run", return_value=fake_res):
+            pids = rag_quality_audit._detect_running_index_pids()
+            self.assertEqual(pids, [91234])
+
     def test_fastapi_endpoints_and_lock_protection(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -270,7 +282,11 @@ class TestRagQualityMonitor(unittest.TestCase):
             client = TestClient(app)
 
             with patch.object(rag_quality_audit, "_detect_running_index_pids", return_value=[]):
-                self.assertEqual(client.get("/").status_code, 200)
+                home_resp = client.get("/")
+                self.assertEqual(home_resp.status_code, 200)
+                self.assertIn("btn-open-help", home_resp.text)
+                self.assertIn("help-modal", home_resp.text)
+                self.assertIn("toggleHelpModal", home_resp.text)
                 audit_resp = client.get("/api/audit")
                 self.assertEqual(audit_resp.status_code, 200)
                 self.assertEqual(audit_resp.json()["summary"]["disk_files_count"], 3)
@@ -761,6 +777,141 @@ class TestRagQualityMonitor(unittest.TestCase):
                     self.assertNotIn("OLD_FILE.md", live["current_progress"])
                 finally:
                     fcntl.flock(fh.fileno(), fcntl.LOCK_UN)
+
+    def test_audit_cad_doc_drift_detects_version_mass_bom_and_svg_drift(self) -> None:
+        import os  # noqa: E402
+        import time  # noqa: E402
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            docs_root, db_path, log_path = _seed_synthetic_workspace(root)
+            tb_dir = docs_root / "01_Mecanique_et_Chassis" / "Torse_et_Bassin"
+            audits_dir = tb_dir / "Audits"
+            media_dir = tb_dir / "media"
+            gestion_dir = docs_root / "05_Gestion_Projet"
+            audits_dir.mkdir(parents=True, exist_ok=True)
+            media_dir.mkdir(parents=True, exist_ok=True)
+            gestion_dir.mkdir(parents=True, exist_ok=True)
+
+            # SVG plus ancien que le JSON CAO
+            old_svg = media_dir / "plan_waist.svg"
+            old_svg.write_text("<svg></svg>", encoding="utf-8")
+            old_ts = time.time() - 7200
+            os.utime(old_svg, (old_ts, old_ts))
+
+            cad_json = {
+                "metadata": {"document_name": "Torse-123 v49", "timestamp": "2026-11-20T22:37:03"},
+                "assembly_summary": {
+                    "total_mass_g": 18390.33,
+                    "center_of_mass_mm": [61.1, 8.0, 1128.3],
+                    "physical_components_bounding_box_mm": {"size": [242.97, 487.06, 832.95]},
+                },
+                "components": [
+                    {
+                        "instance_name": "Waist_Plate_7075:1",
+                        "component_name": "Waist_Plate_7075",
+                        "is_container": False,
+                        "mass_g": 437.09,
+                    }
+                ],
+                "hardware_bom": {
+                    "91292A118": {"component_name": "Vis M4x16", "description": "CHC M4x16", "quantity": 2},
+                    "91585A374": {"component_name": "Goupille 3x14", "description": "ISO 8734", "quantity": 4},
+                },
+            }
+            (audits_dir / "AUDIT_METROLOGIQUE_Torse_et_Bassin.json").write_text(
+                json.dumps(cad_json), encoding="utf-8"
+            )
+
+            # Doc aligne
+            (tb_dir / "SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md").write_text(
+                "# Synthese\nSource: `Torse-123 v49`\nMasse totale : 18390.33 g (18.39 kg)\nWaist_Plate_7075 : 437.09 g\n",
+                encoding="utf-8",
+            )
+            # Doc en derive (v42, ancienne masse Waist_Plate_7075, sans 91585A374)
+            (tb_dir / "FINAL_BOM_Torse_et_Waist_D-Bot.md").write_text(
+                "# BOM\nSource: `Torse-123 v42`\nTOTAL HAUT DU CORPS : 18 316,38 g\nWaist_Plate_7075 : 433,53 g\nVis : 91292A118\n",
+                encoding="utf-8",
+            )
+            (gestion_dir / "FINAL_Liste_Achats_BOM.md").write_text(
+                "# BOM Globale\n91292A118\n91585A374\n",
+                encoding="utf-8",
+            )
+
+            drift = rag_quality_audit.audit_cad_doc_drift(
+                docs_root=docs_root, exports_root=root / "missing_exports"
+            )
+            self.assertTrue(drift["available"])
+            self.assertEqual(drift["status"], "critical")
+            by_doc = {d["rel_path"]: d for d in drift["doc_checks"]}
+            self.assertEqual(
+                by_doc["01_Mecanique_et_Chassis/Torse_et_Bassin/SYNTHESE_METROLOGIQUE_Torse_et_Bassin.md"]["status"],
+                "aligned",
+            )
+            bom_chk = by_doc["01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_BOM_Torse_et_Waist_D-Bot.md"]
+            self.assertEqual(bom_chk["status"], "drift")
+            issue_codes = {i["code"] for i in bom_chk["issues"]}
+            self.assertIn("CAD_VERSION_DRIFT", issue_codes)
+            self.assertIn("PART_MASS_DRIFT", issue_codes)
+            missing_refs = [x["ref"] for x in drift["bom_check"]["missing_in_local_bom"]]
+            self.assertEqual(missing_refs, ["91585A374"])
+            self.assertEqual(drift["svg_freshness"]["svgs_older_than_cad_count"], 1)
+
+            # Verification via run_full_audit et FastAPI /api/cad-drift
+            app = rag_monitor_ui.create_app(db_path=db_path, docs_root=docs_root, log_path=log_path)
+            client = TestClient(app)
+            with patch.object(rag_quality_audit, "_detect_running_index_pids", return_value=[]):
+                resp = client.get("/api/cad-drift")
+                self.assertEqual(resp.status_code, 200)
+                self.assertEqual(resp.json()["cad_summary"]["document_name"], "Torse-123 v49")
+                audit_resp = client.get("/api/audit").json()
+                self.assertGreaterEqual(audit_resp["summary"]["cad_drift_alerts_count"], 3)
+
+    def test_bitemporal_hierarchy_and_check_integrity_query_builder(self) -> None:
+        import os  # noqa: E402
+        import time  # noqa: E402
+        import check_integrity  # noqa: E402
+
+        with tempfile.TemporaryDirectory() as tmp:
+            docs_root = Path(tmp) / "docs"
+            mod_dir = docs_root / "01_Mecanique_et_Chassis" / "Torse_et_Bassin"
+            mod_dir.mkdir(parents=True, exist_ok=True)
+
+            old_study = mod_dir / "STUDY_Old_Hypothese.md"
+            final_doc = mod_dir / "FINAL_Module.md"
+            new_study = mod_dir / "STUDY_New_FEA.md"
+
+            old_study.write_text("# Old\n", encoding="utf-8")
+            final_doc.write_text("# Final\n", encoding="utf-8")
+            new_study.write_text("# New\n", encoding="utf-8")
+
+            now = time.time()
+            os.utime(old_study, (now - 86400 * 10, now - 86400 * 10))
+            os.utime(final_doc, (now - 86400 * 3, now - 86400 * 3))
+            os.utime(new_study, (now, now))
+
+            bt = rag_quality_audit.compute_bitemporal_doc_hierarchy(docs_root)
+            self.assertEqual(bt["level1_count"], 1)
+            self.assertEqual(bt["level2_study_count"], 2)
+            self.assertEqual(bt["level2_superseded_count"], 1)
+            self.assertEqual(bt["pending_consolidations_count"], 1)
+            self.assertEqual(
+                bt["pending_consolidations"][0]["study_rel_path"],
+                "01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_New_FEA.md",
+            )
+            self.assertEqual(
+                bt["superseded_studies"][0]["study_rel_path"],
+                "01_Mecanique_et_Chassis/Torse_et_Bassin/STUDY_Old_Hypothese.md",
+            )
+
+            eff_q = check_integrity.build_bitemporal_audit_query(
+                check_integrity.AUDITS["1. Squelette (Masse & Moteurs)"], bt
+            )
+            self.assertIn("Cas 1", eff_q)
+            self.assertIn("Cas 2", eff_q)
+            self.assertIn("Cas 3", eff_q)
+            self.assertIn("STUDY_New_FEA.md", eff_q)
+            self.assertIn("FINAL_Module.md", eff_q)
 
 
 if __name__ == "__main__":

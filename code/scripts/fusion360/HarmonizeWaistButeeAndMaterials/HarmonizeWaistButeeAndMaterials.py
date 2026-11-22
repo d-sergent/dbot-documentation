@@ -330,6 +330,12 @@ def run(context):
             lib_keywords=("steel, mild", "steel", "acier"),
             lib_exclude=("stainless", "inox", "product", "unknown"),
         )
+        mat_inox = get_or_create_material(
+            design, app, "Acier inoxydable", 8.00,
+            doc_match_fn=lambda ml: ("inox" in ml or "stainless" in ml) and ("product" not in ml),
+            lib_keywords=("stainless steel", "acier inoxydable", "stainless"),
+            lib_exclude=("product", "unknown"),
+        ) or mat_acier
         mat_tpu95a = get_or_create_material(
             design, app, "TPU 95A (Infill 100%)", 1.20,
             doc_match_fn=lambda ml: ("tpu" in ml and "product" not in ml),
@@ -464,6 +470,20 @@ def run(context):
                 mat_chg = apply_material_to_comp_and_bodies(comp, mat_acier)
                 mass_g = get_comp_mass_g(comp)
                 logs.append(f"[91290A154 x{len(occs)}] {cname} -> {new_name} | Acier ({mass_g:.2f} g/pce)")
+                continue
+
+            # D-bis. Rondelles Nord-Lock M4 [91812A252] passées par erreur en Aluminium 7075 (0.18 g -> 0.52 g)
+            if ("91812a252" in nl) or (pn_l == "91812a252") or ("nord-lock" in nl and "m4" in nl):
+                safe_set_metadata(
+                    comp,
+                    part_number="91812A252",
+                    description="Rondelle frein Nord-Lock M4 Acier/Inox (NL4)",
+                )
+                normalize_single_body_name(comp, "Corps1")
+                mat_chg = apply_material_to_comp_and_bodies(comp, mat_inox)
+                if mat_chg or ("acier" not in cur_mat_name.lower() and "steel" not in cur_mat_name.lower()):
+                    mass_g = get_comp_mass_g(comp)
+                    logs.append(f"[91812A252 x{len(occs)}] {cname} | {cur_mat_name} -> Acier inoxydable ({mass_g:.2f} g/pce)")
                 continue
 
             # E. Nettoyage composant parent Waist_Plate_7075 (sans toucher aux occurrences enfants)

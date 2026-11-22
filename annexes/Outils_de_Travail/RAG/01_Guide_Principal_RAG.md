@@ -56,6 +56,17 @@ Idéal pour une réponse ultra-rapide sans ouvrir d'interface (`[Moteur RAG : ..
 /opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/ask_rag.py" --stop-server
 ```
 
+### 3. Contrôler la qualité RAG et la parité CAO / BOM / SVG (0 LLM, Temps Réel)
+Vérifie instantanément l'état de la base LightRAG, les écarts entre `AUDIT_METROLOGIQUE_Torse_et_Bassin.json` et les dossiers techniques/BOM, la fraîcheur des `.svg` et la hiérarchie bi-temporelle `Niveau 1 > Niveau 2` (aussi intégrée dans `check_integrity.py`) :
+
+```bash
+# Audit qualite CLI (0 LLM)
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/rag_quality_audit.py" --top 10
+
+# Cockpit Web FastAPI (http://127.0.0.1:8765 — onglet Parite CAO / BOM / SVG)
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/rag_monitor_ui.py" --port 8765
+```
+
 ---
 
 ## 💬 Usage avec les LLMs

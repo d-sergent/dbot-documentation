@@ -43,6 +43,7 @@ from rag_runtime import (  # noqa: E402
     resolve_ollama_config,
     resolve_unsloth_config,
 )
+from rag_quality_audit import compute_bitemporal_doc_hierarchy  # noqa: E402
 
 _REPO_ENV = Path(__file__).resolve().parent.parent.parent / ".env"
 if _REPO_ENV.exists():
@@ -375,6 +376,33 @@ AUDITS = {
         "Vérifie si les spécifications de la caméra OAK-D, de l'IMU principale et de la Jetson Orin Nano sont identiques partout. Note les divergences sur le matériel audio." + QA_PROMPT,
 }
 
+
+def build_bitemporal_audit_query(base_query: str, bitemporal: dict) -> str:
+    """Enrichit une requete d'audit avec la hierarchie bi-temporelle Niveau 1 > Niveau 2."""
+    pending = list((bitemporal or {}).get("pending_consolidations") or [])
+    if pending:
+        pending_lines = "\n".join(
+            f"- {item['study_rel_path']} ({item['study_date']}) est plus recent que "
+            f"{item['target_level1_rel_path']} ({item['target_level1_date']}, +{item['lead_days']} j)"
+            for item in pending[:15]
+        )
+    else:
+        pending_lines = "- Aucune etude STUDY_ plus recente que son dossier Niveau 1."
+
+    bitemporal_rules = (
+        "\n\nREGLES BI-TEMPORELLES OBLIGATOIRES (HIERARCHIE NIVEAU 1 > NIVEAU 2) :\n"
+        "- Cas 1 (t_invalid — Etude STUDY_ ou AUDIT_ plus ancienne qu'un document FINAL_ / DOSSIER_TECHNIQUE_ / GUIDE_COMPLET_ / SYNTHESE_METROLOGIQUE_) : "
+        "NE SIGNALE JAMAIS d'incoherence et ne pose aucune question si une valeur ancienne d'un fichier STUDY_ differe d'un dossier Niveau 1 plus recent (le Niveau 1 fait foi).\n"
+        "- Cas 2 (Contradiction Niveau 1 vs Niveau 1) : signale en priorite absolue toute divergence entre deux fichiers de Niveau 1 et genere une question.\n"
+        "- Cas 3 (Consolidation en attente — STUDY_ plus recent que Niveau 1) : verifie si les etudes recentes ci-dessous apportent de nouvelles valeurs non encore reportees dans le dossier Niveau 1 cible :\n"
+        f"{pending_lines}"
+    )
+
+    if QA_PROMPT in base_query:
+        core = base_query.replace(QA_PROMPT, "")
+        return core + bitemporal_rules + QA_PROMPT
+    return base_query + bitemporal_rules
+
 def extract_questions_from_report(report_path):
     """Extrait les questions du rapport d'audit généré"""
     questions = []
@@ -476,14 +504,16 @@ async def run_audit(args):
         await rag.initialize_storages()
 
         print("--- Début de l'Audit d'Intégrité D-Bot ---")
+        bitemporal = compute_bitemporal_doc_hierarchy(Path(BASE_DIR))
 
         os.makedirs(os.path.dirname(REPORT_PATH), exist_ok=True)
         section_blocks = []
         for title, query in AUDITS.items():
             print(f"Analyse en cours : {title}...")
+            eff_query = build_bitemporal_audit_query(query, bitemporal)
             try:
                 # Mode global sans reranker pour l'audit complet (évite les warnings inutiles)
-                response = await rag.aquery(query, param=QueryParam(mode="global", enable_rerank=False))
+                response = await rag.aquery(eff_query, param=QueryParam(mode="global", enable_rerank=False))
                 section_blocks.append(f"## {title}\n{response}\n\n---\n\n")
             except Exception as e:
                 print(f"❌ Erreur sur {title}: {e}")
@@ -495,7 +525,13 @@ async def run_audit(args):
             f.write("# 🛡️ Rapport d'Intégrité de la Documentation D-Bot\n")
             f.write(f"> **Date de génération** : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write(f"> **Fournisseur demandé** : `{args.provider}` ({args.model or 'cascade/défaut'})\n")
-            f.write(f"> **Moteur réel utilisé** : `{trace_summary}`\n\n")
+            f.write(f"> **Moteur réel utilisé** : `{trace_summary}`\n")
+            f.write(
+                f"> **Filtre Bi-Temporel (`Niveau 1 > Niveau 2`)** : "
+                f"`{bitemporal['level1_count']}` Niveau 1 | "
+                f"`{bitemporal['level2_superseded_count']}` etudes anterieures ignorees (`t_invalid`) | "
+                f"`{bitemporal['pending_consolidations_count']}` etudes recentes a consolider\n\n"
+            )
             f.write("Ce rapport est généré automatiquement via le système **Graph-RAG**.\n\n")
             f.writelines(section_blocks)
 

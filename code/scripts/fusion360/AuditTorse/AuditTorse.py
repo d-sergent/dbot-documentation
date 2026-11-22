@@ -826,12 +826,19 @@ def generate_cad_visual_snapshots(app, root_comp, sovereign_torse_dir):
     # Sauvegarde de la caméra initiale
     initial_camera = viewport.camera
 
-    # Masquage temporaire des esquisses et éléments de construction (stockage en listes de tuples)
+    # Masquage temporaire des esquisses, éléments de construction et icônes de joints (stockage en listes de tuples)
     sketch_states = []
     constr_states = []
+    joint_folder_states = []
     try:
         design = app.activeProduct
         for c in design.allComponents:
+            if hasattr(c, "isJointsFolderLightBulbOn"):
+                try:
+                    joint_folder_states.append((c, c.isJointsFolderLightBulbOn))
+                    c.isJointsFolderLightBulbOn = False
+                except Exception:
+                    pass
             for sk in c.sketches:
                 try:
                     sketch_states.append((sk, sk.isLightBulbOn))
@@ -856,6 +863,7 @@ def generate_cad_visual_snapshots(app, root_comp, sovereign_torse_dir):
                     cpt.isLightBulbOn = False
                 except Exception:
                     pass
+        adsk.doEvents()
     except Exception:
         pass
 
@@ -863,6 +871,7 @@ def generate_cad_visual_snapshots(app, root_comp, sovereign_torse_dir):
         """Active l'occurrence via la propriété native Fusion 360 isIsolated (atomique, haute performance)."""
         try:
             target_occ.isIsolated = True
+            adsk.doEvents()
             return True
         except Exception:
             return False
@@ -871,8 +880,30 @@ def generate_cad_visual_snapshots(app, root_comp, sovereign_torse_dir):
         """Désactive l'isolation native de l'occurrence."""
         try:
             target_occ.isIsolated = False
+            adsk.doEvents()
         except Exception:
             pass
+
+    def has_valid_tetraptych(parent_folder, file_prefix):
+        """Vérifie si les 4 vues PNG (> 12 Ko) existent déjà sur disque pour un sous-composant interne de moteur COTS."""
+        piece_folder = os.path.join(v_pieces_sovereign, parent_folder)
+        if not os.path.isdir(piece_folder):
+            return False
+        for v_name in ("iso", "face", "dessus", "dessous"):
+            p_img = os.path.join(piece_folder, f"{file_prefix}_{v_name}.png")
+            if not (os.path.exists(p_img) and os.path.getsize(p_img) > 12000):
+                return False
+        return True
+
+    def record_cached_tetraptych(parent_folder, file_prefix):
+        """Enregistre dans les compteurs un tétraptyque de sous-pièce moteur COTS déjà présent sur disque sans solliciter le GPU."""
+        active_piece_root_folders.add(parent_folder.split(os.sep)[0])
+        piece_folder = os.path.join(v_pieces_sovereign, parent_folder)
+        for v_name in ("iso", "face", "dessus", "dessous"):
+            file_name = f"{file_prefix}_{v_name}.png"
+            p_sovereign = os.path.join(piece_folder, file_name)
+            valid_captures.append(f"{parent_folder}/{file_name}")
+            saved_images.append(p_sovereign)
 
     def frame_and_capture(bbox, orient, parent_folder, file_prefix, view_name, width=1280, height=960):
         """Cadre la caméra précisément sur la pièce isolée selon l'orientation demandée et enregistre l'image dans son dossier dédié."""
@@ -1054,28 +1085,37 @@ def generate_cad_visual_snapshots(app, root_comp, sovereign_torse_dir):
                     if has_bodies or is_root_fam:
                         if TEST_MODE_SINGLE_PIECE and TARGET_TEST_PIECE_NAME.lower() not in comp_name.lower():
                             continue
+
+                        clean_cname = sanitize_filename(comp_name)
+                        # Structuration du dossier :
+                        # 1. Si racine de famille (ex: RS04 droit) -> Dossier 'RS04', préfixe 'RS04'
+                        # 2. Si sous-composant d'une famille (ex: DIANJIBAN dans RS04) -> Dossier 'RS04/DIANJIBAN...', préfixe 'DIANJIBAN...'
+                        # 3. Si composant autonome (ex: Corniere, colonne...) -> Dossier 'clean_cname', préfixe 'clean_cname'
+                        if fam_dir:
+                            if is_root_fam:
+                                parent_folder = fam_dir
+                                p_name = fam_dir
+                            else:
+                                parent_folder = os.path.join(fam_dir, clean_cname)
+                                p_name = clean_cname
+                        else:
+                            parent_folder = clean_cname
+                            p_name = clean_cname
+
+                        # Anti-crash GPU : ne pas ré-isoler à chaque run les dizaines de sous-corps internes
+                        # des actionneurs/roulements du commerce (RS04, EL05, RS06, FL82BLW, RB8016) si leurs 4 vues > 12 Ko existent déjà.
+                        # Toutes les pièces D-Bot (y compris dans Bassin_Pelvis) et les vues racines des moteurs restent 100 % régénérées.
+                        cots_motor_families = {"RS04", "EL05", "RS06", "FL82BLW", "RB8016"}
+                        if (fam_dir in cots_motor_families) and (not is_root_fam) and has_valid_tetraptych(parent_folder, p_name):
+                            record_cached_tetraptych(parent_folder, p_name)
+                            captured_components.add(comp_name)
+                            continue
                             
                         try:
                             isolate_occurrence(occ)
                             viewport.refresh()
                                 
-                            clean_cname = sanitize_filename(comp_name)
                             bbox = occ.boundingBox
-                            
-                            # Structuration du dossier :
-                            # 1. Si racine de famille (ex: RS04 droit) -> Dossier 'RS04', préfixe 'RS04'
-                            # 2. Si sous-composant d'une famille (ex: DIANJIBAN dans RS04) -> Dossier 'RS04/DIANJIBAN...', préfixe 'DIANJIBAN...'
-                            # 3. Si composant autonome (ex: Corniere, colonne...) -> Dossier 'clean_cname', préfixe 'clean_cname'
-                            if fam_dir:
-                                if is_root_fam:
-                                    parent_folder = fam_dir
-                                    p_name = fam_dir
-                                else:
-                                    parent_folder = os.path.join(fam_dir, clean_cname)
-                                    p_name = clean_cname
-                            else:
-                                parent_folder = clean_cname
-                                p_name = clean_cname
                             
                             # Tétraptyque d'ingénierie systématique dans le sous-dossier (ISO, Face, Dessus, Dessous)
                             frame_and_capture(bbox, adsk.core.ViewOrientations.IsoTopRightViewOrientation, parent_folder, p_name, "iso")
@@ -1117,7 +1157,7 @@ def generate_cad_visual_snapshots(app, root_comp, sovereign_torse_dir):
         except Exception:
             pass
             
-        # Restauration des esquisses et constructions
+        # Restauration des esquisses, constructions et dossiers de liaisons
         for sk, st in sketch_states:
             try:
                 sk.isLightBulbOn = st
@@ -1128,10 +1168,16 @@ def generate_cad_visual_snapshots(app, root_comp, sovereign_torse_dir):
                 ent.isLightBulbOn = st
             except Exception:
                 pass
+        for comp_j, st in joint_folder_states:
+            try:
+                comp_j.isJointsFolderLightBulbOn = st
+            except Exception:
+                pass
             
         try:
             viewport.camera = initial_camera
             viewport.refresh()
+            adsk.doEvents()
         except Exception:
             pass
 

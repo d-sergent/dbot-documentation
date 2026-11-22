@@ -85,8 +85,8 @@ rag --index "01_Mecanique_et_Chassis/Torse_et_Bassin/FINAL_BOM_Torse_et_Waist_D-
 
 ## 2. Audit d'Intégrité
 
-### Lancement de l'Audit d'Intégrité
-L'audit interroge le graphe en mode `global` pour détecter les contradictions techniques entre les documents. Par défaut (`--provider auto`), il suit la cascade rapide **Gemini Free Tier `-lite` -> `1min.ai` (`mistral-small-2603`) -> Ollama `gemma4:26b`** (sinon `qwen3.8:27b-mlx` / Unsloth), tout en inscrivant le modèle réel utilisé dans l'en-tête du rapport :
+### Lancement de l'Audit d'Intégrité (`check_integrity.py` — Filtrage Bi-Temporel)
+L'audit interroge le graphe en mode `global` pour détecter les contradictions techniques entre les documents tout en appliquant la **hiérarchie bi-temporelle `Niveau 1 > Niveau 2`** (`compute_bitemporal_doc_hierarchy` / `build_bitemporal_audit_query`) : les études `STUDY_` antérieures à un document `FINAL_` / `DOSSIER_TECHNIQUE_` (`t_invalid`) sont ignorées automatiquement pour éviter les faux positifs, tandis que les contradictions `Niveau 1 vs Niveau 1` et les études `STUDY_` plus récentes à consolider sont signalées en priorité. Par défaut (`--provider auto`), il suit la cascade rapide **Gemini Free Tier `-lite` -> `1min.ai` (`mistral-small-2603`) -> Ollama `gemma4:26b`** (sinon `qwen3.8:27b-mlx` / Unsloth), tout en inscrivant le modèle réel utilisé dans l'en-tête du rapport :
 
 ```bash
 # Audit automatique rapide (Gemini -lite -> 1min.ai mistral-small-2603 -> Ollama gemma4:26b)
@@ -94,6 +94,17 @@ L'audit interroge le graphe en mode `global` pour détecter les contradictions t
 
 # Audit 100 % local via Ollama (gemma4:26b par defaut, ou --model qwen3.8:27b-mlx)
 /opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/check_integrity.py" --provider ollama
+```
+
+### Contrôle Qualité Temps Réel & Cockpit Web (`rag_quality_audit.py` & `rag_monitor_ui.py`)
+En complément de l'audit LLM, un contrôleur **100 % déterministe et lecture seule (`0` LLM, `0 Go` VRAM)** vérifie en temps réel la santé de la base LightRAG et la parité entre le dernier export Fusion 360 (`AUDIT_METROLOGIQUE_Torse_et_Bassin.json`), les dossiers techniques, la BOM McMaster-Carr, la fraîcheur des schémas `.svg` et les études `STUDY_` en attente de consolidation (`CAD_VERSION_DRIFT`, `PART_MASS_DRIFT`, `CAD_BOM_MISSING_REF`, `STALE_VISUAL_SNAPSHOT`) :
+
+```bash
+# Audit qualite CLI temps reel (0 LLM)
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/rag_quality_audit.py" --top 10
+
+# Cockpit Web FastAPI (http://127.0.0.1:8765 — onglet "Parite CAO / BOM / SVG" et route /api/cad-drift)
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/rag_monitor_ui.py" --port 8765
 ```
 
 **Résultats générés :**
@@ -209,4 +220,4 @@ Les outils D-Bot sont configurés dans `.kilo/kilo.jsonc` et `~/.gemini/antigrav
 ```
 
 ---
-**Dernière mise à jour** : 2026-11-21 (architecture deux vitesses : Indexation `Gemini non-lite -> qwen3.8:27b-mlx` `0` crédit ; QA & Audit rapides `Gemini -lite -> 1min.ai mistral-small-2603 -> Ollama gemma4:26b` + `llm_mode="auto"` par défaut côté MCP/CLI)
+**Dernière mise à jour** : 2026-11-22 (ajout du contrôle déterministe temps réel `CAO JSON <-> Markdown / BOM / SVG` dans `rag_quality_audit.py` / `rag_monitor_ui.py` et du filtrage bi-temporel `Niveau 1 > Niveau 2` dans `check_integrity.py`)
