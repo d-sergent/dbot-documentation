@@ -25,6 +25,7 @@
   - [7.1 Banc A Mac Gemma 4 26B versus Qwen3.8 27B MLX](#71-banc-a-mac-gemma-4-26b-versus-qwen38-27b-mlx)
   - [7.2 Banc B Jetson Orin Nano LFM3 versus Qwen3.5 2B](#72-banc-b-jetson-orin-nano-lfm3-versus-qwen35-2b)
   - [7.3 Commandes de Téléchargement et Test en 1 Clic](#73-commandes-de-téléchargement-et-test-en-1-clic)
+  - [7.4 Résultats mesurés du Banc A et du test indexation LightRAG (2026-11-21)](#74-résultats-mesurés-du-banc-a-et-du-test-indexation-lightrag-2026-11-21)
 
 ---
 
@@ -32,7 +33,7 @@
 
 1. **Station Mac M1 Max `64 Go` (Cerveau RAG, Code, Tool Calling & VLM CAO)** :
    - **Le socle principal actuel (`qwen3.8:27b-mlx` + `unsloth/Qwen3.8-27B-GGUF UD-Q4_K_XL`) reste la référence optimale** pour la fiabilité agentique, le JSON tool calling strict et l'analyse technique. Aucun méga-MoE récent (`Qwen3.8-Flash-Next`, `DeepSeek-V4.1-Flash`, `GLM-5.3-Flash`) ne tient proprement dans `64 Go` de RAM unifiée sans casser la marge mémoire Metal (`51,3 GiB` par défaut, `56 GiB` relevable).
-   - **Modèle déjà présent à benchmarker en priorité** : **`gemma4:26b`** (`16 GB`, `26,2B` MoE à seulement `~4B` paramètres actifs par token, `nvfp4`) est déjà installé localement mais non encore mesuré face à `qwen3.8:27b-mlx` dans [56_Plan_Deploiement_Tests_Qwen38_LightRAG.md](./56_Plan_Deploiement_Tests_Qwen38_LightRAG.md). Il constitue le meilleur candidat pour un **agent vocal/multimodal déporté à latence minimale**.
+   - **Challenger vitesse validé en inférence interactive (`Banc A` du `2026-11-21`)** : **`gemma4:26b`** (`16 GB` disque / `18,28 GiB` VRAM `ollama ps`, `26,2B` MoE à `~4B` actifs, `nvfp4`) obtient **`15 / 15` (`100 %`)** en Tool Calling ROS 2/MCP (`5/5`), QA chiffrée FR (`5/5`) et Vision CAO/FEA (`5/5`), en étant **`2,55×` plus rapide** que `qwen3.8:27b-mlx` (`49,69 s` vs `126,48 s` cumulés ; TTFT QA moyen de **`0,43 s`** à `67,9 tok/s` en décodage). En revanche, il est **`NO-GO` pour l'indexation LightRAG** (`p1_gemma4_c1600` : `37` relations cassées par double délimiteur `<|#||>`, `-67,4 %` d'arêtes). **`qwen3.8:27b-mlx`** reste l'unique maître de l'indexation LightRAG et du code agentique lourd.
    - **Complément code pur ciblé** : **`Qwen3-Coder-Next`** (`80B-A3B`) uniquement en quantification Unsloth **`UD-Q3_K_XL`** (`~33–38 Go`) pour du refactoring lourd ROS 2 / C++ (en fermant Fusion 360).
 2. **Jetson Orin Nano Super `8 Go` (Cerveau Embarqué Hors-Ligne & Routage ROS 2)** :
    - **C'est le véritable point d'amélioration immédiat.** Le fallback hors-ligne codé dans [async_conversation.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot_next/brain/async_conversation.py) et [llm_client.py](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Code/dbot/brain/llm_client.py) utilise encore **`qwen2.5:0.5b`**, et la note [47_Cerveau_IA_Ollama_LLM.md](file:///Users/Shared/Mon%20Google%20Drive%20Physique/Documentation/Annexes/jetson/brain/47_Cerveau_IA_Ollama_LLM.md) référence d'anciens modèles de mai 2026 (`qwen2.5:3b`, `nemotron-mini`, `gemma3:4b`).
@@ -89,12 +90,13 @@ Les boucles d'asservissement et de perception rapide restent intégralement hors
 | Modèle & Source | Architecture & Paramètres | Empreinte RAM (`64 Go` Mac) | Débit & Comportement Stack | Statut & Justification |
 | :--- | :--- | :--- | :--- | :--- |
 | **`qwen3.8:27b-mlx`**<br>(`unsloth/Qwen3.8-27B-GGUF`) | `27,8B` dense (`qwen3_5`), vision + tools + thinking | `18 Go` (`27,6 GiB` pic MLX) | `32,3 tok/s` mesurés (MTP `68,5 %`) ; `LiveCodeBench v6 : 90,3`, `Terminal-Bench 2.1 : 73,0` ; ~`95–96 %` fiabilité JSON | **CONSERVER (Référence Maître)** — Optimal pour LightRAG, outils MCP stricts et audit code/CAO. |
-| **`gemma4:26b`**<br>(`unsloth/gemma-4-26B-A4B-it-GGUF`) | `26,2B` MoE (**~4B actifs**), vision + tools + thinking | `16 Go` (`nvfp4` MLX) | `35 à 75+ tok/s` sur Apple Silicon Max grâce aux ~4B actifs ; natif Ollama MLX + Unsloth QAT | **TESTER EN PRIORITÉ (Déjà installé)** — Meilleur candidat pour le dialogue robot déporté à faible latence si le tool calling ROS 2 valide le seuil de qualité. |
+| **`gemma4:26b`**<br>(`unsloth/gemma-4-26B-A4B-it-GGUF`) | `26,2B` MoE (**~4B actifs**), vision + tools + thinking | `16 Go` (`18,28 GiB` VRAM `ollama ps`, `15,43 GiB` RSS) | **Mesuré (`Banc A`)** : `67,9 tok/s` decode (`472,4 tok/s` prefill), `15/15` Tool/QA/Vision (`49,69 s` vs `126,48 s`), TTFT QA `0,43 s` | **VALIDÉ AGENT VOCAL, QA & VLM RAPIDE / `NO-GO` INDEXATION LIGHTRAG** — Optimal pour dialogue robot déporté, appels d'outils ROS 2 rapides et synthèse QA ; écarté de l'indexation graphe (`-67,4 %` d'arêtes, `<|#||>`). |
 | **`LFM2.5-24B-A2B`**<br>(`lfm2.5:24b`) | `24B` hybride MoE (**~2,45B actifs**, LIV + GQA), `<think>` | `~15 Go` (`Q4`) | Très rapide (jusqu'à `~184 tok/s` rapportés sur M5 Max) ; `LiveClaw : 48,09` (vs `38,19` `Qwen3.6-35B-A3B`) ; **texte uniquement**, `llama.cpp` Metal | **OPTIONNEL** — Excellent pur routeur d'outils couplé à RAG, mais sans vision et moins polyvalent en code que `qwen3.8:27b-mlx` ou `gemma4:26b`. |
 | **`Qwen3-Coder-Next`**<br>(`unsloth/Qwen3-Coder-Next-GGUF`) | `80B` MoE (**3B actifs**) + Gated DeltaNet | `~33–38 Go` (`UD-Q3_K_XL`)<br>`~46–50 Go` (`UD-Q4`) | `UD-Q3_K_XL` : `22–35 tok/s` estimés sur M1 Max ; `UD-Q4` : `15–22 tok/s` avec risque de swap SSD ; **sans vision** | **COMPLÉMENT CODE PUR** — Utile uniquement pour gros chantiers multi-fichiers ROS 2 / C++ en fermant Fusion 360 (`UD-Q3_K_XL` obligatoire sur `64 Go`). |
 | **`Nemotron-3-Nano` 30B**<br>(`nemotron-3-nano`) | `31,6B` Mamba-Transformer MoE (`~3,5B` actifs) | `~21–24 Go` (`Q4_K_M`) | `50+ tok/s` sur M-series Max ; KV cache Mamba minimal sur très longs contextes ; texte seul | **ÉCARTER EN ROUTINE** — Plus lourd et sans vision face à `gemma4:26b` (`16 Go` MLX `nvfp4`). |
 | **`GLM-4.7-Flash`**<br>(`glm-4.7-flash`) | `~30B` MoE (`~3,6B` actifs) | `~17–19 Go` | `45–75 tok/s` ; texte seul ; frictions documentées entre mode thinking et schémas JSON stricts | **ÉCARTER** — Redondant et sans apport face au tandem Qwen3.8 / Gemma 4 26B. |
 | **`Qwen3.5/3.6-35B-A3B`** | `35B` MoE (`3B` actifs) | `~19–24 Go` | Plus rapide en génération brute, mais nettement battu par `Qwen3.8-27B` sur `LiveCodeBench` (`74,6 / 80,4` vs `90,3`) et `Terminal-Bench` (`40,5 / 51,5` vs `73,0`) | **ÉCARTER** — Moins intelligent que `Qwen3.8-27B` et moins sobre que `Gemma 4 26B`. |
+| **`inkling-2-mini:26b-a5b-nvfp4`**<br>(`Thinking Machines Lab`) | `26,4B` MoE bouclé (`~3,5B` poids / `5,4B` actifs, `48` passes KV) | `20 Go` (`24,38 GiB` VRAM `ollama ps`, `13,82 GiB` RSS) | **Mesuré (`Banc A` Ollama `0.40.17`)** : `18,1 tok/s` decode (`356,29 s` sur `15` req.), `0/5` `tool_calls` en `think=False`, erreur `"9"` sur `V2` (`53,86 s`) | **ÉCARTER (`NO-GO` Banc A, retiré)** — `7,17×` plus lent que `gemma4:26b` et `2,82×` plus lent que `qwen3.8:27b-mlx`, plus lourd en VRAM, et tool calling cassé hors mode Thinking. |
 | **`Qwen3.8-Flash-Next`** | `176B` (`125B` MoE + `51B` table PLE N-gram, `6B` actifs) | `~79,6 Go` (`UD-Q2_K_XL`) à `~94 Go` (`UD-IQ4_XS`) | Nécessite offload SSD NVMe de la table PLE (`oMLX` / `llama.cpp` mmap), non natif Ollama/Unsloth standard | **EXCLURE SUR `64 Go`** — Dépasse le plafond GPU Metal (`56 GiB`). |
 | **`DeepSeek-V4.1-Flash`** / **`GLM-5.3-Flash`** / **`Nemotron 3.5 Super VL & Bolt`** | `552B+196B` / `320B` / `120B` / `74B-A9B` | `~500 Go` / `>180 Go` / `>70 Go` / `>44 Go` | Réservés aux serveurs multi-GPU ou Mac Studio `192–512 Go` (ou surcharge complète RAM avec contextes longs) | **EXCLURE SUR `64 Go`** — Incompatibles avec une station de travail multi-tâches. |
 
@@ -186,3 +188,38 @@ ollama pull functiongemma
 ```bash
 sudo tegrastats
 ```
+
+---
+
+### 7.4 Résultats mesurés du Banc A et du test indexation LightRAG (2026-11-21)
+
+Les deux campagnes de mesure exécutées sur le poste **Apple M1 Max (`64 Go`)** sous Ollama `0.40.16` (un seul modèle chargé à la fois, `think=False`, `temperature=0,1`) établissent une séparation nette des rôles entre **`qwen3.8:27b-mlx`** et **`gemma4:26b`** :
+
+#### 1. Banc A — Inférence Interactive (`15` requêtes avec nonce aléatoire anti-cache KV, `num_ctx=8192`)
+
+| Lot (`5` requêtes chacun) | Critère évalué | **`gemma4:26b`** (`18,28 GiB` `ollama ps` / `15,43 GiB` RSS) | **`qwen3.8:27b-mlx`** (`22,93 GiB` `ollama ps`) | **`inkling-2-mini:26b-a5b-nvfp4`** (`24,38 GiB` `ollama ps` — *retiré*) | Gain `gemma4:26b` vs `qwen3.8` |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **Tool Calling ROS 2 / MCP** | JSON strict valide au 1er essai (`0` prose) | **`5 / 5`** (`2,66 s` moy., TTFT chaud `~0,60 s`, `68,1 tok/s`) | **`5 / 5`** (`7,83 s` moy., TTFT chaud `~3,80 s`, `42,2 tok/s`) | **`0 / 5`** (`16,34 s` moy., JSON brut en `content`, `22,1 tok/s`) | **`2,94×` plus rapide** |
+| **Synthèse QA FR (`BENCHMARK_QA_DBOT_120`)** | Exactitude cotes & refs McMaster (`0` dollar) | **`5 / 5`** (`1,12 s` moy., TTFT `0,43 s`, `75,1 tok/s`) | **`5 / 5`** (`3,15 s` moy., TTFT `1,93 s`, `40,4 tok/s`) | **`5 / 5`** (`16,97 s` moy., TTFT `1,13 s`, `18,0 tok/s`) | **`2,81×` plus rapide** |
+| **Vision CAO / FEA (`Visual_Snapshots`)** | OCR exact FEA, `10/10` perçages, repérage spatial* | **`5 / 5`** (`6,16 s` moy., TTFT `4,73 s`, `60,7 tok/s`) | **`5 / 5`** (`14,31 s` moy., TTFT `11,60 s`, `33,1 tok/s`) | **`4 / 5`** (`37,95 s` moy., `V2` faux `"9"` en `53,86 s`, `14,3 tok/s`) | **`2,32×` plus rapide** |
+| **Total Banc A (`15` requêtes)** | Score global & débit cumulé | **`15 / 15` (`49,69 s`)** — prefill **`472,4 tok/s`**, decode **`67,9 tok/s`** | **`15 / 15` (`126,48 s`)** — prefill **`134,3 tok/s`**, decode **`38,6 tok/s`** | **`9 / 15` (`356,29 s`)** — prefill `244,1 tok/s`, decode **`18,1 tok/s`** | **`2,55×` plus rapide** |
+
+*\*Note méthodologique Vision (`V4`/`V5`) : la vérification manuelle des textes générés confirme `5/5` pour `gemma4:26b` et `qwen3.8:27b-mlx` (la sonde automatique cherchait le mot littéral `"droite"` alors que les deux modèles ont répondu exactement `"à gauche de la coque bleue"` et identifié haut/bas/gauche/droite sans inversion).*
+
+**Diagnostic complémentaire sur `inkling-2-mini:26b-a5b-nvfp4` (Ollama `0.40.17`, `architecture inkling2_loop`) :**
+* **Tool calling dépendant du mode Thinking** : sous `think="none"` ou `"minimal"`, Ollama renvoie `tool_calls=None` (texte libre en anglais ou français) ; seul `think=True` active les `tool_calls`, au prix de `16,78 s` et `662` caractères de réflexion (`345` `eval_tokens`) pour un appel simple.
+* **Surcoût caché & faible spéculation DSpark** : même en `think=False` / `"none"`, le modèle génère `201–929` `eval_tokens` par réponse et plafonne à `18,1 tok/s` (`32–59 %` d'acceptation DSpark dans `server.log`). Le modèle a été **supprimé de la bibliothèque Ollama locale**.
+
+#### 2. Test Sandbox d'Indexation LightRAG (`p1_gemma4_c1600`, Étalon 1 `19 Ko`, `1600/150`, `max_async=1`)
+
+| Modèle | Durée (`5` chunks / `10` appels) | Format LightRAG `<\|#\|>` | Nœuds (chiffrés*) | Arêtes (chiffrées*) | Verdict Indexation |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **`qwen3.8:27b-mlx`** (`p1_c1600`) | `515,78 s` (`103,2 s/chunk`) | **`0` erreur** (`10/10` `<\|COMPLETE\|>`) | **`100`** (`79`) | **`135`** (`99`) | **VALIDÉ (Référence)** |
+| **`gemma4:26b`** (`p1_gemma4_c1600`) | `160,0 s` (`32,0 s/chunk`, `3,22×` rapide) | **`37` lignes `<\|#\|\|>` cassées** (`30` warnings `4/5`) | `69` (`46`, `-41,8 %`) | `44` (`42`, **`-67,4 %`**) | **NO-GO (Écarté)** |
+
+*\*Décompte chiffré strict sur `entity_id + description / keywords` (hors `source_id`).*
+
+**Décision d'architecture actée sur Mac M1 Max :**
+1. **Conserver exclusivement `qwen3.8:27b-mlx` (et `UD-Q4_K_XL` Unsloth) pour l'indexation LightRAG**, l'audit critique et le développement agentique complexe (`Kilo` / refactoring multi-fichiers).
+2. **Promouvoir `gemma4:26b` comme moteur temps réel privilégié** pour le **dialogue vocal déporté**, le **routage rapide d'outils ROS 2 / MCP** (`TTFT ~0,60 s` à chaud), la **synthèse QA rapide sur extraits RAG** (`1,12 s` par réponse, `0` perte de cote) et le **VLM rapide**.
+3. **Écarter `inkling-2-mini`** (`NO-GO` Banc A, retiré du disque).

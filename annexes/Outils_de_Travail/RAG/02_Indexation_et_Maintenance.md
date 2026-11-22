@@ -10,12 +10,17 @@ Pour que le RAG soit efficace, il doit refléter l'état actuel de votre documen
 **Fréquence : Quotidienne ou après chaque session de travail.**
 Ce mode scanne uniquement les fichiers modifiés ou nouveaux (Markdown, Python, PDF Docling, schémas `.svg` en texte XML structuré, images VLM) et purge proprement du graphe les fichiers déplacés en archive (`00_Archives_Recherche`, `Archives`) ou supprimés (avec protection des homonymes).
 
-**Via Ollama local sur M1 Max (`qwen3.5:9b`, texte + vision, 0 quota cloud) :**
+**Mode automatique recommandé (`--provider auto` : cascade `8` modèles Gemini Free Tier non-lite -> repli automatique sur Ollama `qwen3.8:27b-mlx`, `0` crédit payant) :**
+```bash
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py" --update --provider auto
+```
+
+**Via Ollama 100 % local sur M1 Max (`qwen3.8:27b-mlx`, texte + vision, `0` quota cloud) :**
 ```bash
 /opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py" --update --provider ollama
 ```
 
-**Via API Gemini (cascade automatique) :**
+**Via API Gemini seule (cascade complète Free Tier) :**
 ```bash
 /opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py" --update --provider gemini
 ```
@@ -26,7 +31,7 @@ Ce mode supprime toute la base de données et reconstruit tout le graphe de conn
 ```bash
 /opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/index_docs.py" --full --provider ollama
 ```
-*Note : En mode local Ollama (`qwen3.5:9b`, `think=False`, `max_async=1`), comptez ~7 à 9 s par appel LLM ; une base complète prend plusieurs dizaines de minutes sans risque d'erreur `429`.*
+*Note : En mode local Ollama, utilisez impérativement `qwen3.8:27b-mlx` (`think=False`, `max_async=1`, `0` erreur `<|#|>`) pour l'indexation graphe et réservez `gemma4:26b` au QA et à l'audit rapides (`-67,4 %` d'arêtes en indexation graphe).*
 
 ---
 

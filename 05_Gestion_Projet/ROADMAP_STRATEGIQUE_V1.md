@@ -24,6 +24,7 @@
 *Dépendances : assemblage mécanique Torse/Membres + `2x Teensy 4.1` CAN FD.*
 
 - [ ] **Bus CAN, `Motorbridge` & Zéro encodeurs** : Qualifier les trames MIT (`Kp, Kd, theta, dtheta, tau_ff`) à `1 Mbps`, calibrer le `Zero-Offset` des encodeurs `14-bit` et étendre `web_ui.py` aux `27` moteurs.
+- [ ] **Mise à jour firmware `V26.05.19` & OTA depuis Mac (à réaliser plus tard)** : Étendre `Code/scripts/motors/ota_update.py` au backend macOS `gs_usb` (`CANable Pro` / `InnoMaker`, ou protocole série `AT` du Module de Debug) si flash depuis Mac, puis homogénéiser les `27` moteurs en `V26.05.19` (avec recalibration du zéro post-flash).
 - [ ] **Dynamique `Pinocchio` & Imitation `LeRobot`** : Charger l'URDF complet sous `Pinocchio` (feedforward `G(q)` via `tau_ff`) et connecter `LeRobot` (`ACT / Diffusion Policy`).
 
 ## 4. Outillage IA Mac & Qualité RAG

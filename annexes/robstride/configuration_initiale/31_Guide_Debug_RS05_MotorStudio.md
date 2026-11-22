@@ -181,7 +181,7 @@ Le logiciel est distribué sur GitHub :
 
 **→ [https://github.com/RobStride/MotorStudio/releases](https://github.com/RobStride/MotorStudio/releases)**
 
-Télécharger la dernière version : **`motor_toolV13.zip`** (v1.0.3 — Latest — 20.4 MB, Fév 2026).
+Télécharger la dernière version : **`motor_toolV14L.zip`** (v1.0.3 — Latest — Fév 2026).
 
 ![Page GitHub des releases MotorStudio montrant la version v1.0.3 (Latest)](../../../assets/img_motorstudio_github_releases.png)
 
@@ -257,7 +257,7 @@ Le module de debug CAN-to-USB utilise la puce série **GD32F303** (la même puce
 
 | Ressource | URL | Notes |
 | :--- | :--- | :--- |
-| **MotorStudio** (GitHub) | https://github.com/RobStride/MotorStudio/releases | Télécharger `motor_toolV13.zip` |
+| **MotorStudio** (GitHub) | https://github.com/RobStride/MotorStudio/releases | Télécharger `motor_toolV14L.zip` (v1.0.3) |
 | **Manuel EL05-EN** (officiel) | https://lsleg.feishu.cn/wiki/Hkp4wjuXmiYxpRkFc2HciqOpnNh | Manuel complet 40 pages (Feishu, nécessite compte) |
 | **Driver CH340** | https://www.wch.cn/download/CH341SER_EXE.html | Si module non reconnu par Windows |
 | **Seeed Studio Wiki** | https://wiki.seeedstudio.com/robstride_actuator_modules/ | Tutoriel complémentaire |
@@ -421,13 +421,13 @@ Si la position affichée n'est pas 0.0 alors que vous souhaitez définir la posi
 
 C'est la méthode normale si le moteur répond encore au bus CAN.
 
-**Étape 1 — Télécharger le firmware RS-05**
+**Étape 1 — Récupérer le firmware RS-05 (Release `V26.05.19`)**
 
-Le firmware est distribué sur GitHub (dépôt séparé de MotorStudio) :
+Les firmwares officiels sont distribués dans les Releases GitHub (hors historique `git clone`) :
 
 **→ [https://github.com/RobStride/Product_Information/releases](https://github.com/RobStride/Product_Information/releases)**
 
-Télécharger le fichier **`.bin`** correspondant au **RS-05** (vérifier le nom du fichier — il doit contenir "RS05" ou "EL05").
+En local sur le poste atelier, la release `V26.05.19` est déjà archivée dans `/Users/Shared/Mon Google Drive Physique/k-bot/robstride/firmware/V26.05.19/` (pour le RS-05 : `rs05_0.5.0.17.bin`). Si vous téléchargez manuellement depuis GitHub, prenez le `.bin` correspondant exactement au modèle de moteur.
 
 **Étape 2 — Connexion et préparation**
 
@@ -449,6 +449,27 @@ Télécharger le fichier **`.bin`** correspondant au **RS-05** (vérifier le nom
 > Après chaque mise à jour firmware, le zéro position est **effacé**. Refaire impérativement le **Test 5 - Calibration du Zéro** (§12) avant toute utilisation du moteur.
 
 Vérifier également que le Motor ID est toujours correct (parfois remis à 1 par défaut après un flash).
+
+---
+
+### 13.1b Méthode Linux / Jetson — Via SocketCAN (`ota_update.py` / `OTA.py`)
+
+Depuis la mise à jour du dépôt officiel `RobStride/Product_Information` (`OTA/OTA.py`), il est possible de flasher un moteur fonctionnel directement depuis Linux / Jetson Orin Nano via SocketCAN, sans passer par Windows ni MotorStudio.
+
+> [!IMPORTANT]
+> Le bitrate du bus CAN doit impérativement être à **1 Mbps** pendant toute la procédure OTA (y compris pour les variantes CAN-FD). Ne connectez idéalement qu'un seul moteur cible ou ciblez explicitement son `--id` unique avec alimentation Wanptek stabilisée.
+
+```bash
+export PYTHONPATH="/Users/Shared/Mon Google Drive Physique/Documentation/Code"
+python3 Code/scripts/motors/ota_update.py --id 1 --channel can1 --bin "/Users/Shared/Mon Google Drive Physique/k-bot/robstride/firmware/V26.05.19/rs05_0.5.0.17.bin"
+```
+
+*(Protocole utilisé : Type 0 pour lire le MCU UID 64 bits, puis Types 11 `OTA_START`, 12 `OTA_INFO`, 13 `OTA_ING` avec reprise sur erreur, et 14 `OTA_END` — voir [OTA Agreement Description - EN_20251114102200.pdf](../../../Manuels/OTA%20Agreement%20Description%20-%20EN_20251114102200.pdf) et [ota_update.py](../../../Code/scripts/motors/ota_update.py).)*
+
+Après la fin du flash, **recalibrer impérativement le zéro mécanique** (via `Code/scripts/motors/calib_neck_zero.py` pour le cou) et vérifier l'ID CAN.
+
+> [!NOTE]
+> **Compatibilité macOS (À réaliser plus tard) :** Le backend `socketcan` n'existe pas sous macOS. Le support natif depuis Mac via `CANable Pro` / `InnoMaker USB2CAN-C` (`--interface gs_usb` avec `libusb` + `pyusb` + `gs_usb`) ou via le Module de Debug série `AT` (`pyserial`) dans `ota_update.py` est **à réaliser plus tard** avant la campagne de flash des 27 moteurs.
 
 ---
 
@@ -485,8 +506,10 @@ Câble JST-GH moteur — Mode Bootloader Urgence :
 
 | Situation | Méthode |
 | :--- | :--- |
-| Moteur fonctionne, mise à jour de confort | **§13.1** — Via MotorStudio (standard) |
-| Moteur détecté mais instable / bogué | **§13.1** — Via MotorStudio (standard) |
+| Moteur fonctionne, PC Windows (atelier) | **§13.1** — Via MotorStudio (`motor_toolV14L.zip`) |
+| Moteur fonctionne, Linux / Jetson Orin Nano | **§13.1b** — Via SocketCAN ([`ota_update.py`](../../../Code/scripts/motors/ota_update.py)) |
+| Moteur fonctionne, macOS natif (`gs_usb` / série `AT`) | **À réaliser plus tard** — Adapter [`ota_update.py`](../../../Code/scripts/motors/ota_update.py) (ou via SSH Jetson / VM) |
+| Moteur détecté mais instable / bogué | **§13.1** ou **§13.1b** |
 | Moteur ne répond plus du tout au CAN | **§13.2** — Pin BOOT (urgence) |
-| Moteur répond mais firmware très ancien | **§13.1** — Via MotorStudio (standard) |
+| Moteur répond mais firmware très ancien | **§13.1** ou **§13.1b** |
 

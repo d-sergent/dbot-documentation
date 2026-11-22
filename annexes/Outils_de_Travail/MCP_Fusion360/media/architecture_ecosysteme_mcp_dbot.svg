@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 860" width="100%" height="100%">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2a324b" stroke-width="0.8"/>
+    </pattern>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="cadGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="feaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b1d5e"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="simGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="hwGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7c2d12"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arrowCyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1400" height="860" fill="#0f172a"/>
+  <rect width="1400" height="860" fill="url(#grid)"/>
+
+  <!-- Title Banner -->
+  <rect x="20" y="15" width="1360" height="65" rx="8" fill="url(#headerGrad)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="700" y="43" fill="#f8fafc" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">ARCHITECTURE SYSTÈME — ÉCOSYSTÈME MCP ROBOTIQUE HUMANOÏDE D-BOT (43 DOF)</text>
+  <text x="700" y="66" fill="#94a3b8" font-family="SF Mono, Menlo, monospace" font-size="13" text-anchor="middle">Orchestration Agentique Antigravity : CAO Fusion 360 / FreeCAD • FEA CalculiX • Simulation MuJoCo / Isaac • EDA KiCad • ROS 2 Jetson</text>
+
+  <!-- Central Orchestrator Hub -->
+  <rect x="440" y="100" width="520" height="125" rx="10" fill="url(#coreGrad)" stroke="#38bdf8" stroke-width="2"/>
+  <text x="700" y="128" fill="#38bdf8" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">ORCHESTRATEUR AGENTIQUE ANTIGRAVITY (macOS M1 Pro/Max 64 Go)</text>
+  <text x="700" y="150" fill="#e2e8f0" font-family="SF Mono, Menlo, monospace" font-size="12" text-anchor="middle">mcp_config.json • Transport Stdio (uvx isolé) &amp; Streamable HTTP (127.0.0.1)</text>
+
+  <!-- Active Core Services Inside Hub -->
+  <rect x="460" y="165" width="230" height="46" rx="6" fill="#0f172a" stroke="#22d3ee" stroke-width="1.2"/>
+  <text x="575" y="185" fill="#22d3ee" font-family="SF Mono, Menlo, monospace" font-size="12" font-weight="bold" text-anchor="middle">MCP dbot-rag [ACTIF]</text>
+  <text x="575" y="202" fill="#94a3b8" font-family="SF Pro Display, Arial, sans-serif" font-size="11" text-anchor="middle">LightRAG + Graphe + Reranker BGE</text>
+
+  <rect x="710" y="165" width="230" height="46" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1.2"/>
+  <text x="825" y="185" fill="#34d399" font-family="SF Mono, Menlo, monospace" font-size="12" font-weight="bold" text-anchor="middle">Plugin Robotics [ACTIF]</text>
+  <text x="825" y="202" fill="#94a3b8" font-family="SF Pro Display, Arial, sans-serif" font-size="11" text-anchor="middle">MuJoCo Studio, MJX, Audit &amp; Sim2Real</text>
+
+  <!-- PANEL 1: CAO & METROLOGIE (Top Left) -->
+  <rect x="25" y="265" width="660" height="235" rx="8" fill="url(#cadGrad)" stroke="#60a5fa" stroke-width="1.5"/>
+  <rect x="25" y="265" width="660" height="32" rx="8" fill="#1e3a8a"/>
+  <text x="355" y="286" fill="#f8fafc" font-family="SF Pro Display, Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">1. PÔLE CAO PARAMÉTRIQUE, MÉTROLOGIE &amp; SAUVEGARDE SOUVERAINE</text>
+
+  <!-- Fusion 360 Box -->
+  <rect x="45" y="312" width="300" height="170" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="195" y="334" fill="#38bdf8" font-family="SF Mono, Menlo, monospace" font-size="13" font-weight="bold" text-anchor="middle">MCP Autodesk Fusion [ACTIF]</text>
+  <text x="195" y="352" fill="#cbd5e1" font-family="SF Mono, Menlo, monospace" font-size="11" text-anchor="middle">http://127.0.0.1:27182/mcp</text>
+  <text x="58" y="376" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Lecture directe Torse-123 v49 (18,390 kg)</text>
+  <text x="58" y="396" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Audit santé timeline (28 défauts / 1478)</text>
+  <text x="58" y="416" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Snapshots PNG viewport pour schémas SVG</text>
+  <text x="58" y="436" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Recoupement BOM McMaster-Carr (627 occ.)</text>
+  <text x="58" y="456" fill="#34d399" font-family="SF Mono, Menlo, monospace" font-size="10.5">Mode : readOnly=true par défaut</text>
+
+  <!-- FreeCAD Box -->
+  <rect x="365" y="312" width="300" height="170" rx="6" fill="#0f172a" stroke="#93c5fd" stroke-width="1.2" stroke-dasharray="5,3"/>
+  <text x="515" y="334" fill="#93c5fd" font-family="SF Mono, Menlo, monospace" font-size="13" font-weight="bold" text-anchor="middle">MCP FreeCAD (Open-Source)</text>
+  <text x="515" y="352" fill="#cbd5e1" font-family="SF Mono, Menlo, monospace" font-size="11" text-anchor="middle">sandraschi / theosib / sathyavikram</text>
+  <text x="378" y="376" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Pérennité souveraine STEP AP214 -&gt; FCStd</text>
+  <text x="378" y="396" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Inspection topologique B-Rep &amp; volumes</text>
+  <text x="378" y="416" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Passerelle directe Atelier FEM / CalculiX</text>
+  <text x="378" y="436" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Rendu Headless PNG des pièces isolées</text>
+  <text x="378" y="456" fill="#fbbf24" font-family="SF Mono, Menlo, monospace" font-size="10.5">Pont RPC local : 127.0.0.1:9875</text>
+
+  <!-- PANEL 2: FEA & RDM (Top Right) -->
+  <rect x="715" y="265" width="660" height="235" rx="8" fill="url(#feaGrad)" stroke="#c084fc" stroke-width="1.5"/>
+  <rect x="715" y="265" width="660" height="32" rx="8" fill="#581c87"/>
+  <text x="1045" y="286" fill="#f8fafc" font-family="SF Pro Display, Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">2. PÔLE CALCUL DE STRUCTURES (FEA), RDM &amp; ÉLECTRONIQUE (EDA)</text>
+
+  <!-- CalculiX Box -->
+  <rect x="735" y="312" width="300" height="170" rx="6" fill="#0f172a" stroke="#c084fc" stroke-width="1.2" stroke-dasharray="5,3"/>
+  <text x="885" y="334" fill="#c084fc" font-family="SF Mono, Menlo, monospace" font-size="13" font-weight="bold" text-anchor="middle">MCP CalculiX + Gmsh</text>
+  <text x="885" y="352" fill="#cbd5e1" font-family="SF Mono, Menlo, monospace" font-size="11" text-anchor="middle">casys-ai/mcp-calculix</text>
+  <text x="748" y="376" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Maillage tétraédrique 2nd ordre Gmsh</text>
+  <text x="748" y="396" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Statique linéaire Von Mises (Alu 7075-T6)</text>
+  <text x="748" y="416" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Analyse modale tronc complet (f0 &gt; 30 Hz)</text>
+  <text x="748" y="436" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Flambement colonnes 20x20 &amp; chocs 2,5 g</text>
+  <text x="748" y="456" fill="#c084fc" font-family="SF Mono, Menlo, monospace" font-size="10.5">Entrée : STEP + Contrats physiques</text>
+
+  <!-- KiCad Box -->
+  <rect x="1055" y="312" width="300" height="170" rx="6" fill="#0f172a" stroke="#f472b6" stroke-width="1.2" stroke-dasharray="5,3"/>
+  <text x="1205" y="334" fill="#f472b6" font-family="SF Mono, Menlo, monospace" font-size="13" font-weight="bold" text-anchor="middle">MCP KiCad Pro (EDA 48V / CAN)</text>
+  <text x="1205" y="352" fill="#cbd5e1" font-family="SF Mono, Menlo, monospace" font-size="11" text-anchor="middle">oaslananka/kicad-mcp-pro</text>
+  <text x="1068" y="376" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Schémas PDB 48V Hot-Swap Oring (LTC4359)</text>
+  <text x="1068" y="396" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Audit ERC / DRC pistes fort courant 60A</text>
+  <text x="1068" y="416" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Adaptation impédance 120 Ohms CAN-FD</text>
+  <text x="1068" y="436" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Export STEP 3D PCB -&gt; Fusion 360 / FreeCAD</text>
+  <text x="1068" y="456" fill="#f472b6" font-family="SF Mono, Menlo, monospace" font-size="10.5">Diff sémantique entre révisions PCB</text>
+
+  <!-- PANEL 3: SIMULATION & RL (Bottom Left) -->
+  <rect x="25" y="535" width="660" height="235" rx="8" fill="url(#simGrad)" stroke="#34d399" stroke-width="1.5"/>
+  <rect x="25" y="535" width="660" height="32" rx="8" fill="#065f46"/>
+  <text x="355" y="556" fill="#f8fafc" font-family="SF Pro Display, Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">3. PÔLE SIMULATION PHYSIQUE, URDF/MJCF &amp; APPRENTISSAGE RL</text>
+
+  <!-- MuJoCo Robotics Plugin Box -->
+  <rect x="45" y="582" width="300" height="170" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1.5"/>
+  <text x="195" y="604" fill="#34d399" font-family="SF Mono, Menlo, monospace" font-size="13" font-weight="bold" text-anchor="middle">MuJoCo &amp; Studio [ACTIF]</text>
+  <text x="195" y="622" fill="#cbd5e1" font-family="SF Mono, Menlo, monospace" font-size="11" text-anchor="middle">Plugin Robotics + mjlab-mcp-server</text>
+  <text x="58" y="646" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Conversion &amp; audit URDF -&gt; MJCF (10 tests)</text>
+  <text x="58" y="666" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Inerties exactes issues de Torse-123 v49</text>
+  <text x="58" y="686" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Entraînement marche bipède MJX / MJWarp</text>
+  <text x="58" y="706" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Sim2Real Gauntlet (perturbations T0 à T4)</text>
+  <text x="58" y="726" fill="#34d399" font-family="SF Mono, Menlo, monospace" font-size="10.5">Sidecar WebViewer : temps réel 3D</text>
+
+  <!-- Isaac Sim Box -->
+  <rect x="365" y="582" width="300" height="170" rx="6" fill="#0f172a" stroke="#6ee7b7" stroke-width="1.2" stroke-dasharray="5,3"/>
+  <text x="515" y="604" fill="#6ee7b7" font-family="SF Mono, Menlo, monospace" font-size="13" font-weight="bold" text-anchor="middle">MCP NVIDIA Isaac Sim / Lab</text>
+  <text x="515" y="622" fill="#cbd5e1" font-family="SF Mono, Menlo, monospace" font-size="11" text-anchor="middle">isaacsim-mcp-server</text>
+  <text x="378" y="646" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Jumeau numérique photoréaliste Omniverse</text>
+  <text x="378" y="666" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Simulation caméra stéréo OAK-D Pro FF</text>
+  <text x="378" y="686" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Débogage pas-à-pas (step-and-observe)</text>
+  <text x="378" y="706" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Validation couples crête Hip Pitch (120 Nm)</text>
+  <text x="378" y="726" fill="#6ee7b7" font-family="SF Mono, Menlo, monospace" font-size="10.5">Pont Socket OmniGraph / PhysX</text>
+
+  <!-- PANEL 4: EMBARQUE & HARDWARE (Bottom Right) -->
+  <rect x="715" y="535" width="660" height="235" rx="8" fill="url(#hwGrad)" stroke="#fb923c" stroke-width="1.5"/>
+  <rect x="715" y="535" width="660" height="32" rx="8" fill="#9a3412"/>
+  <text x="1045" y="556" fill="#f8fafc" font-family="SF Pro Display, Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">4. PÔLE EMBARQUÉ JETSON ORIN NANO, ROS 2 &amp; ACTIONNEURS ROBSTRIDE</text>
+
+  <!-- ROS 2 MCP Box -->
+  <rect x="735" y="582" width="300" height="170" rx="6" fill="#0f172a" stroke="#fb923c" stroke-width="1.2" stroke-dasharray="5,3"/>
+  <text x="885" y="604" fill="#fb923c" font-family="SF Mono, Menlo, monospace" font-size="13" font-weight="bold" text-anchor="middle">MCP ROS 2 (Jetson Orin Nano)</text>
+  <text x="885" y="622" fill="#cbd5e1" font-family="SF Mono, Menlo, monospace" font-size="11" text-anchor="middle">ros-mcp-server (Humble / Jazzy)</text>
+  <text x="748" y="646" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Inspection live topics, services &amp; actions</text>
+  <text x="748" y="666" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Télémétrie thermique 27 moteurs RobStride</text>
+  <text x="748" y="686" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Monitoring bus CAN-FD &amp; tensions 12S Li-Ion</text>
+  <text x="748" y="706" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Contrôle mains D-Hand (16 servos Feetech)</text>
+  <text x="748" y="726" fill="#fbbf24" font-family="SF Mono, Menlo, monospace" font-size="10.5">Règle Jetson : pip install --no-deps</text>
+
+  <!-- Physical Robot Target Box -->
+  <rect x="1055" y="582" width="300" height="170" rx="6" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="1205" y="604" fill="#fbbf24" font-family="SF Mono, Menlo, monospace" font-size="13" font-weight="bold" text-anchor="middle">ROBOT PHYSIQUE D-BOT V1.0</text>
+  <text x="1205" y="622" fill="#cbd5e1" font-family="SF Mono, Menlo, monospace" font-size="11" text-anchor="middle">43 DOF • Masse 39,04 - 40,03 kg</text>
+  <text x="1068" y="646" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• 27 RobStride (RS-06, RS-04, RS-03, RS-02/10P)</text>
+  <text x="1068" y="666" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• 2 Mains D-Hand Hybrid (10 STS3250 + 6 HL3915)</text>
+  <text x="1068" y="686" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• Squelette Alu 7075-T6 / 6060-T6 + PA12-CF</text>
+  <text x="1068" y="706" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="11.5">• 2 Packs 12S Li-Ion Hot-Swap + Orin Nano</text>
+  <text x="1068" y="726" fill="#38bdf8" font-family="SF Mono, Menlo, monospace" font-size="10.5">Zéro arbre creux : routage déporté</text>
+
+  <!-- Interconnection Arrows -->
+  <path d="M 480 225 L 355 260" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <path d="M 920 225 L 1045 260" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#arrowPurple)"/>
+  <path d="M 550 225 L 355 530" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <path d="M 850 225 L 1045 530" fill="none" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrowAmber)"/>
+
+  <!-- Horizontal Data Flows between boxes -->
+  <path d="M 345 397 L 363 397" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrowCyan)"/>
+  <path d="M 665 397 L 733 397" fill="none" stroke="#c084fc" stroke-width="1.8" marker-end="url(#arrowPurple)"/>
+  <path d="M 345 667 L 363 667" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arrowGreen)"/>
+  <path d="M 665 667 L 733 667" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrowAmber)"/>
+  <path d="M 1035 667 L 1053 667" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrowAmber)"/>
+  <path d="M 195 482 L 195 580" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arrowGreen)"/>
+
+  <!-- Legend Footer -->
+  <rect x="25" y="790" width="1350" height="52" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1.2"/>
+  <rect x="45" y="808" width="18" height="16" rx="3" fill="#0f172a" stroke="#34d399" stroke-width="1.8"/>
+  <text x="72" y="820" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="12">Bordure pleine : Serveur MCP / Plugin ACTIF et opérationnel</text>
+
+  <rect x="440" y="808" width="18" height="16" rx="3" fill="#0f172a" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="467" y="820" fill="#e2e8f0" font-family="SF Pro Display, Arial, sans-serif" font-size="12">Bordure pointillée : Serveur MCP open-source qualifié (déploiement via uvx / addon)</text>
+
+  <text x="980" y="820" fill="#38bdf8" font-family="SF Mono, Menlo, monospace" font-size="11.5">D-Bot Engineering Standard • Audit DevSecOps : Zéro shell=True • Zéro LaTeX</text>
+</svg>

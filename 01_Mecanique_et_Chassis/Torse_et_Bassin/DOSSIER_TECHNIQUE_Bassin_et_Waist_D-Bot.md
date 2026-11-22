@@ -762,7 +762,7 @@ Le stator du moteur RobStride RS-04 présente une couronne de 10 taraudages borg
   - **Abandon Définitif de la Cage H-Bracket Avant** : L'ajout d'une plaque avant enfermant le stator en sandwich apporterait 350 g de masse morte superflue par côté (soit **700 g sur le bassin**), compliquerait la maintenance et confinerait la face avant du moteur.
 
 ##### 2. Règle Inviolable de la Profondeur Borgne Stator (`6,0 mm MAX` — Zone 1 & Zone 2 `Bride Epaule v87`)
-Le plan officiel constructeur (`RS04User Manual260112.pdf`, page 10) spécifie : `10-M4 EQS Blind Hole 6`.
+Le plan officiel constructeur (`RS04User Manual260713.pdf`, page 10) spécifie : `10-M4 EQS Blind Hole 6`.
 - **Zone 2 (6 bossages épais `18,2 mm` du moyeu `Bride Epaule v87`)** : **6 vis CHC M4 × 25 mm Tête Basse DIN 7984 (`92855A422`)** + **Nord-Lock M4 (`91812A252`, ~1,8 mm)** -> pénétration filetée exacte `25,0 - 18,2 - 1,8 = 5,0 mm` (garde de fond saine **`1,0 mm`**).
 - **Zone 1 (4 oreilles périphériques `5,0 mm` entre échancrures)** : Dans la CAO `Torse-123 v42`, des vis **`CHC M4 × 16 mm [90128A214]`** sont insérées en guise de repères. **Vigilance atelier obligatoire** : avec `5,0 mm` de flasque + `1,8 mm` de Nord-Lock, une vis de `16 mm` engage `9,2 mm > 6,0 mm` (risque de talonnage dans le taraudage borgne stator de `6,0 mm` !). **Au montage atelier réel, utiliser impérativement `CHC M4 × 12 mm [91290A154]`** (`12,0 - 6,8 = 5,20 mm` de prise utile, garde de fond **`0,80 mm`**) ou interposer une entretoise calibrée de `4 mm`.
 

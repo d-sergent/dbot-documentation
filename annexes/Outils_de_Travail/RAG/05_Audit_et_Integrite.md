@@ -12,14 +12,18 @@ Contrairement à une recherche classique, l'audit utilise le **Mode Global** du 
 ## 3. Utilisation
 
 ### Lancement de l'Audit
-Pour générer un nouveau rapport d'intégrité, exécutez la commande suivante dans le terminal :
+Par défaut (`--provider auto` et MCP `llm_mode="auto"`), l'audit suit la cascade rapide à 3 paliers : **Gemini Free Tier `-lite`** (`gemini-3.1-flash-lite` -> `gemini-3.5-flash-lite` -> `gemini-flash-lite-latest`) -> **`1min.ai` (`mistral-small-2603`)** -> **Ollama `gemma4:26b`** (sinon `qwen3.8:27b-mlx` / Unsloth `unsloth/Qwen3.8-27B-GGUF`), tout en inscrivant le modèle réel utilisé dans l'en-tête du rapport :
 ```bash
+# Audit automatique rapide (Gemini -lite -> 1min.ai mistral-small-2603 -> Ollama gemma4:26b)
+/opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/check_integrity.py"
+
+# Audit 100 % local via Ollama (gemma4:26b par defaut, ou --model qwen3.8:27b-mlx)
 /opt/homebrew/bin/python3.11 "/Users/Shared/Mon Google Drive Physique/Documentation/Code/rag/check_integrity.py" --provider ollama
 ```
 
 ### Emplacement du Rapport
 Le rapport est généré et écrasé à chaque passage dans :
-`Annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md`
+`Annexes/Outils_de_Travail/RAG/AUDIT_INTEGRITE.md` (avec `> **Moteur réel utilisé** : ...` précisant le modèle exact et les bascules éventuelles).
 
 ## 4. Processus de Correction (Boucle Humaine)
 Chaque section du rapport d'audit se termine par une série de **Questions de Validation**.
@@ -31,7 +35,7 @@ Chaque section du rapport d'audit se termine par une série de **Questions de Va
    - *Exemple* : "L'audit propose : 'Voulez-vous que je mette à jour le poids à 40.2kg dans le fichier 01_Synthese ?'. Répondez : 'Oui, fais-le'."
 
 ## 5. Maintenance de l'outil
-Les thématiques d'audit (Masse, Cinématique, Électronique, IA) sont définies dans le dictionnaire `AUDITS` au début du script `Code/rag/check_integrity.py` (qui supporte `ollama`, `unsloth`/`local`, `gemini` et `openrouter`). Vous pouvez y ajouter de nouveaux axes d'analyse (ex: budget, matériaux, conformité logicielle) selon l'évolution du projet.
+Les thématiques d'audit (Masse, Cinématique, Électronique, IA) sont définies dans le dictionnaire `AUDITS` au début du script `Code/rag/check_integrity.py` (qui supporte `auto`, `gemini`, `1minai`, `ollama`, `unsloth`/`local` et `openrouter`, avec `1minai` défaut `mistral-small-2603` et OpenRouter `nvidia/nemotron-3-super-120b-a12b:free`). Vous pouvez y ajouter de nouveaux axes d'analyse (ex: budget, matériaux, conformité logicielle) selon l'évolution du projet.
 
 ---
 *Dernière mise à jour : Novembre 2026*

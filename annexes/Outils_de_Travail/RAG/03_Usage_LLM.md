@@ -17,10 +17,10 @@ Pour forcer l'usage du RAG, commencez votre question par :
 2.  **`rag_analyze_impact`** : Pour les relations de cause à effet (ex: changement de moteur).
 3.  **`rag_get_context`** : Pour extraire des spécifications techniques précises (couples, poids, dimensions).
 
-### Interprétation des résultats
-Depuis notre mise à jour, le serveur MCP renvoie des **extraits bruts**. Vous verrez apparaître des blocs comme :
-`[Source 1: 15_Analyse_Biomecanique.md] [Score: 0.92] ...`
-C'est normal et c'est ce qui permet au modèle d'être précis.
+### Interprétation des résultats et Traces Moteur
+- **Mode `auto` (défaut MCP `rag_search`, `rag_analyze_impact`, `rag_audit_integrity` & CLI `ask_rag.py` / `check_integrity.py`)** : synthétise via la cascade rapide **Gemini `-lite` -> `1min.ai` (`mistral-small-2603`) -> Ollama `gemma4:26b`** (sinon `qwen3.8:27b-mlx` / Unsloth), en basculant automatiquement vers les extraits bruts `antigravity` sous MCP si tous les LLM échouent, et en affichant systématiquement `> **Trace Moteur RAG** : <fournisseur> / <modele> | bascules: ...`.
+- **Mode `internal`** : impose la même cascade LLM rapide sans repli sur les extraits bruts `antigravity`.
+- **Mode `antigravity` (`--search-only` / `llm_mode="antigravity"`)** : le serveur renvoie directement les **extraits bruts rerankés** (`[Source 1: ...] [Score: 0.92]`) avec `> **Trace Moteur RAG** : Aucun LLM (...)` pour synthèse directe par l'agent actif sans aucun appel LLM.
 
 ---
 

@@ -1,0 +1,288 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="100%" height="100%" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <!-- Grid pattern -->
+    <pattern id="blueprint-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#1e293b" stroke-width="0.8"/>
+      <path d="M 150 0 L 0 0 0 150" fill="none" stroke="#2a324b" stroke-width="1.2"/>
+    </pattern>
+
+    <!-- Gradients -->
+    <linearGradient id="header-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <linearGradient id="jetson-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b"/>
+      <stop offset="100%" stop-color="#022c22"/>
+    </linearGradient>
+
+    <linearGradient id="mac-day-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#172554"/>
+    </linearGradient>
+
+    <linearGradient id="night-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b0764"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+
+    <linearGradient id="store-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f"/>
+      <stop offset="100%" stop-color="#451a03"/>
+    </linearGradient>
+
+    <!-- Arrow markers -->
+    <marker id="arrow-emerald" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1400" height="960" fill="#0f172a"/>
+  <rect width="1400" height="960" fill="url(#blueprint-grid)"/>
+
+  <!-- Top Title Banner -->
+  <rect x="20" y="16" width="1360" height="68" rx="8" fill="url(#header-grad)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="700" y="44" fill="#f8fafc" font-size="20" font-weight="700" text-anchor="middle" letter-spacing="1">
+    ARCHITECTURE DE MÉMOIRE NOCTURNE &amp; COGNITION INCARNÉE — D-BOT V1
+  </text>
+  <text x="700" y="68" fill="#94a3b8" font-size="13" text-anchor="middle">
+    Cycle Diurne Temps Réel (Jetson Orin Nano 8 Go &lt;-&gt; Mac M1 Max 64 Go) &amp; Consolidation Nocturne « Sleep-Time Compute » (00:00 Europe/Paris)
+  </text>
+
+  <!-- ===================================================================== -->
+  <!-- PANEL 1: PHASE DIURNE - JETSON ORIN NANO 8 Go (LEFT)                  -->
+  <!-- ===================================================================== -->
+  <rect x="20" y="100" width="660" height="330" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.8"/>
+  <rect x="20" y="100" width="660" height="36" rx="10" fill="url(#jetson-grad)"/>
+  <text x="40" y="123" fill="#ecfdf5" font-size="14" font-weight="700">
+    1. PHASE DIURNE (ÉVEIL) — CERVEAU EMBARQUÉ JETSON ORIN NANO SUPER (8 Go)
+  </text>
+  <rect x="520" y="106" width="146" height="24" rx="4" fill="#065f46" stroke="#34d399" stroke-width="1"/>
+  <text x="593" y="122" fill="#a7f3d0" font-size="11" font-weight="700" text-anchor="middle">
+    VRAM : 2.90 / 5.50 Go
+  </text>
+
+  <!-- Sensor Box 1: Vision OAK-D Pro -->
+  <rect x="38" y="152" width="295" height="105" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1.2"/>
+  <text x="50" y="172" fill="#34d399" font-size="12" font-weight="700">Luxonis OAK-D Pro Fixed-Focus</text>
+  <text x="50" y="191" fill="#cbd5e1" font-size="11">• Niv. 0 : Depth IR Myriad X (&lt; 15 ms, Z &lt; 20 cm)</text>
+  <text x="50" y="208" fill="#cbd5e1" font-size="11">• Niv. 1 : YOLO-World v2 TensorRT (0.40 Go VRAM)</text>
+  <text x="50" y="225" fill="#cbd5e1" font-size="11">• Odométrie V-SLAM 120 Hz : Pose (x, y, z, yaw)</text>
+  <text x="50" y="242" fill="#6ee7b7" font-size="10" font-style="italic">-&gt; Émet ROIs &amp; Capsules Spatio-Temporelles</text>
+
+  <!-- Sensor Box 2: Audio ReSpeaker XVF-3800 -->
+  <rect x="358" y="152" width="304" height="105" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1.2"/>
+  <text x="370" y="172" fill="#34d399" font-size="12" font-weight="700">ReSpeaker XVF-3800 (4 MEMS + TPU 95A)</text>
+  <text x="370" y="191" fill="#cbd5e1" font-size="11">• VAD matériel + DoA 360 deg (100 Hz, 0% CPU)</text>
+  <text x="370" y="208" fill="#cbd5e1" font-size="11">• Orientation réflexe cou RobStride RS-05</text>
+  <text x="370" y="225" fill="#cbd5e1" font-size="11">• STT Faster-Whisper small CUDA (1.50 Go VRAM)</text>
+  <text x="370" y="242" fill="#6ee7b7" font-size="10" font-style="italic">-&gt; Émet Transcriptions + Azimut Locuteur + Barge-In</text>
+
+  <!-- Sensor Box 3: Proprioception CAN & Micro-ROS -->
+  <rect x="38" y="272" width="624" height="88" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1.2"/>
+  <text x="50" y="292" fill="#34d399" font-size="12" font-weight="700">Cinématique 43 DOF, Bus CAN 1 Mbps &amp; Surveillance Temps Réel</text>
+  <text x="50" y="311" fill="#cbd5e1" font-size="11">• 2x Teensy 4.1 (Triple CAN-FD SK Pang, 100-500 Hz) : 27 QDD RobStride (RS-00 à RS-06, arbres pleins) + 16 Feetech</text>
+  <text x="50" y="328" fill="#cbd5e1" font-size="11">• Sony Spresense (UART micro-ROS) : IMU Torse BMI270, Batterie 13S 48V, Watchdog MOSFET matériel</text>
+  <text x="50" y="345" fill="#6ee7b7" font-size="10" font-style="italic">-&gt; Émet Télémétrie Courants (Iq), Températures Bobinages (deg C), Résidus Équilibre IMU &amp; Alertes Couples</text>
+
+  <!-- Safety Margin Footer in Panel 1 -->
+  <rect x="38" y="372" width="624" height="42" rx="6" fill="#022c22" stroke="#10b981" stroke-width="1"/>
+  <text x="350" y="391" fill="#a7f3d0" font-size="12" font-weight="700" text-anchor="middle">
+    INVARIANT D'ARCHITECTURE : +0 Mo DE CHARGE MÉMOIRE NOCTURNE SUR LA JETSON ORIN NANO
+  </text>
+  <text x="350" y="407" fill="#6ee7b7" font-size="11" text-anchor="middle">
+    Marge libre de 2.60 Go (32%) intégralement préservée pour la marche bipède et l'évitement réflexe (Heartbeat 5 Hz : 200 ms / 2.0 s)
+  </text>
+
+  <!-- ===================================================================== -->
+  <!-- PANEL 2: PHASE DIURNE - MAC M1 MAX 64 Go (RIGHT)                      -->
+  <!-- ===================================================================== -->
+  <rect x="720" y="100" width="660" height="330" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+  <rect x="720" y="100" width="660" height="36" rx="10" fill="url(#mac-day-grad)"/>
+  <text x="740" y="123" fill="#f0f9ff" font-size="14" font-weight="700">
+    2. PHASE DIURNE (ÉVEIL) — SERVEUR COGNITIF MAC M1 MAX (64 Go / 400 Go/s)
+  </text>
+  <rect x="1220" y="106" width="144" height="24" rx="4" fill="#1e40af" stroke="#60a5fa" stroke-width="1"/>
+  <text x="1292" y="122" fill="#bfdbfe" font-size="11" font-weight="700" text-anchor="middle">
+    Latence Wi-Fi 6 &lt; 5 ms
+  </text>
+
+  <!-- Fast Dialogue Engine -->
+  <rect x="738" y="152" width="302" height="122" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+  <text x="750" y="172" fill="#38bdf8" font-size="12" font-weight="700">Cerveau Vocal Rapide &amp; Tool Calling ROS 2</text>
+  <text x="750" y="191" fill="#cbd5e1" font-size="11">• Modèle actif : gemma4:26b (MoE 26B-A4B, 16 Go)</text>
+  <text x="750" y="208" fill="#cbd5e1" font-size="11">• Débit : 67.9 tok/s | TTFT chaud : 0.43 s</text>
+  <text x="750" y="225" fill="#cbd5e1" font-size="11">• TTS : Qwen3-TTS 1.7B MLX (PCM 24 kHz &lt; 200 ms)</text>
+  <text x="750" y="242" fill="#cbd5e1" font-size="11">• Vision Niv. 2 : NVIDIA Cosmos 3D Edge (8-12 Go)</text>
+  <text x="750" y="261" fill="#7dd3fc" font-size="10" font-weight="700">• Injection Cache-Safe : MEMORY_SUMMARY.md hors System Prompt</text>
+
+  <!-- Active Memory Retrieval -->
+  <rect x="1058" y="152" width="304" height="122" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+  <text x="1070" y="172" fill="#38bdf8" font-size="12" font-weight="700">Lecture Mémoire Longue &amp; Spatiale (~15 ms)</text>
+  <text x="1070" y="191" fill="#cbd5e1" font-size="11">• LightRAG + FastEmbed : Graphe documentaire &amp; Wiki</text>
+  <text x="1070" y="208" fill="#cbd5e1" font-size="11">• Fiches Wiki Entités : Personnes, Outils, Atelier</text>
+  <text x="1070" y="225" fill="#cbd5e1" font-size="11">• Règles proactives apprises : PROACTIVE_RULES.md</text>
+  <text x="1070" y="242" fill="#cbd5e1" font-size="11">• Graphe Scène 3D : Priors d'emplacement d'objets</text>
+  <text x="1070" y="261" fill="#7dd3fc" font-size="10" font-weight="700">• Vérification bi-temporelle des états dynamiques</text>
+
+  <!-- Append-Only Episodic Stream Buffer -->
+  <rect x="738" y="290" width="624" height="124" rx="6" fill="#091526" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="754" y="313" fill="#fbbf24" font-size="13" font-weight="700">
+    TAMBOUR ÉPISODIQUE DIURNE (APPEND-ONLY, ZÉRO RÉINDEXATION LOURDE EN JOURNÉE)
+  </text>
+  <text x="754" y="334" fill="#e2e8f0" font-size="11">
+    1. Flux Conversationnel &amp; Feedback : Dialogues, réactions utilisateur (« pas maintenant », « préviens-moi plus tôt »), appels outils
+  </text>
+  <text x="754" y="353" fill="#e2e8f0" font-size="11">
+    2. Capsules Spatio-Temporelles (Type NVIDIA ReMEmbR) : {timestamp, pose_vslam, doa_azimuth, objets_yolo, roi_caption}
+  </text>
+  <text x="754" y="372" fill="#e2e8f0" font-size="11">
+    3. Épisodes Proprioceptifs &amp; CAN (.mcap / JSONL) : Pics Iq RobStride RS-00..RS-06, pentes thermiques, alertes IMU BMI270
+  </text>
+  <text x="754" y="396" fill="#fde68a" font-size="11" font-family="monospace">
+    Fichier tampon : /Users/Shared/dbot_rag_local/episodic_buffer/episodic_stream_YYYY-MM-DD.jsonl
+  </text>
+
+  <!-- Network Bridge Arrows between Panel 1 and Panel 2 -->
+  <path d="M 680 210 L 720 210" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow-emerald)"/>
+  <path d="M 720 235 L 680 235" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow-cyan)"/>
+  <path d="M 680 325 L 732 325" stroke="#fbbf24" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#arrow-amber)"/>
+
+  <!-- ===================================================================== -->
+  <!-- PANEL 3: PHASE NOCTURNE "DREAMING" (00:00 EUROPE/PARIS)               -->
+  <!-- ===================================================================== -->
+  <rect x="20" y="458" width="1360" height="395" rx="10" fill="#1e293b" stroke="#c084fc" stroke-width="2"/>
+  <rect x="20" y="458" width="1360" height="40" rx="10" fill="url(#night-grad)"/>
+  <text x="45" y="483" fill="#faf5ff" font-size="15" font-weight="700">
+    3. PHASE NOCTURNE « SLEEP-TIME COMPUTE / DREAMING » (00:00 EUROPE/PARIS — ROBOT EN CHARGE 13S 48V)
+  </text>
+  <rect x="1030" y="465" width="334" height="26" rx="5" fill="#4c1d95" stroke="#d8b4fe" stroke-width="1"/>
+  <text x="1197" y="482" fill="#f3e8ff" font-size="11" font-weight="700" text-anchor="middle">
+    Moteur : qwen3.8:27b-mlx (18 Go, 0 erreur &lt;|#|&gt;)
+  </text>
+
+  <!-- Arrow from Episodic Buffer to Nightly Pipeline -->
+  <path d="M 1050 414 L 1050 454" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- 4 Consolidation Passes (Cards) -->
+  <!-- PASS 1 -->
+  <rect x="38" y="516" width="315" height="190" rx="8" fill="#0f172a" stroke="#c084fc" stroke-width="1.4"/>
+  <rect x="38" y="516" width="315" height="30" rx="8" fill="#3b0764"/>
+  <text x="195" y="536" fill="#f3e8ff" font-size="12" font-weight="700" text-anchor="middle">
+    PASSE 1 : RÈGLES &amp; PRÉFÉRENCES
+  </text>
+  <text x="50" y="562" fill="#d8b4fe" font-size="11" font-weight="700">Inspiration : Linger Proactive Dreaming</text>
+  <text x="50" y="582" fill="#cbd5e1" font-size="11">• Analyse les initiatives du robot + les</text>
+  <text x="50" y="598" fill="#cbd5e1" font-size="11">  20 messages / réactions qui suivent.</text>
+  <text x="50" y="618" fill="#cbd5e1" font-size="11">• 1 remarque implicite -&gt; 1 Indice (Clue).</text>
+  <text x="50" y="634" fill="#cbd5e1" font-size="11">• 2 Indices identiques ou 1 ordre direct</text>
+  <text x="50" y="650" fill="#cbd5e1" font-size="11">  -&gt; Règle Permanente (Rule).</text>
+  <text x="50" y="672" fill="#cbd5e1" font-size="11">• Calibre le niveau de proactivité vocale</text>
+  <text x="50" y="688" fill="#e9d5ff" font-size="10" font-family="monospace">-&gt; Cible : PROACTIVE_RULES.md</text>
+
+  <!-- PASS 2 -->
+  <rect x="372" y="516" width="320" height="190" rx="8" fill="#0f172a" stroke="#c084fc" stroke-width="1.4"/>
+  <rect x="372" y="516" width="320" height="30" rx="8" fill="#3b0764"/>
+  <text x="532" y="536" fill="#f3e8ff" font-size="12" font-weight="700" text-anchor="middle">
+    PASSE 2 : SPATIO-TEMPOREL &amp; SCÈNE 3D
+  </text>
+  <text x="384" y="562" fill="#d8b4fe" font-size="11" font-weight="700">Inspiration : ReMEmbR + Graphiti + ConceptGraphs</text>
+  <text x="384" y="582" fill="#cbd5e1" font-size="11">• Agrège les capsules OAK-D Pro + V-SLAM.</text>
+  <text x="384" y="600" fill="#cbd5e1" font-size="11">• Modèle bi-temporel : n'écrase pas le passé,</text>
+  <text x="384" y="616" fill="#cbd5e1" font-size="11">  invalide l'arête obsolète (t_invalid) et</text>
+  <text x="384" y="632" fill="#cbd5e1" font-size="11">  active le nouvel emplacement (t_valid).</text>
+  <text x="384" y="652" fill="#cbd5e1" font-size="11">• Met à jour le graphe hiérarchique :</text>
+  <text x="384" y="668" fill="#cbd5e1" font-size="11">  Pièce -&gt; Meuble -&gt; Objet -&gt; Affordance.</text>
+  <text x="384" y="688" fill="#e9d5ff" font-size="10" font-family="monospace">-&gt; Cible : Wiki_Atelier_3D &amp; Priors</text>
+
+  <!-- PASS 3 -->
+  <rect x="710" y="516" width="320" height="190" rx="8" fill="#0f172a" stroke="#c084fc" stroke-width="1.4"/>
+  <rect x="710" y="516" width="320" height="30" rx="8" fill="#3b0764"/>
+  <text x="870" y="536" fill="#f3e8ff" font-size="12" font-weight="700" text-anchor="middle">
+    PASSE 3 : PROPRIOCEPTION &amp; SANTÉ CAN
+  </text>
+  <text x="722" y="562" fill="#d8b4fe" font-size="11" font-weight="700">Spécificité Bipède : RoboEXP / Skill Library</text>
+  <text x="722" y="582" fill="#cbd5e1" font-size="11">• Analyse les logs CAN 1 Mbps (2x Teensy 4.1)</text>
+  <text x="722" y="598" fill="#cbd5e1" font-size="11">  et IMU BMI270 / 13S 48V (Sony Spresense).</text>
+  <text x="722" y="618" fill="#cbd5e1" font-size="11">• Compare courant Iq et pente thermique des</text>
+  <text x="722" y="634" fill="#cbd5e1" font-size="11">  27 RobStride (RS-00..RS-06) à mouvement égal.</text>
+  <text x="722" y="654" fill="#cbd5e1" font-size="11">• Consigne les échecs de saisie / équilibre</text>
+  <text x="722" y="670" fill="#cbd5e1" font-size="11">  en contraintes cinématiques apprises.</text>
+  <text x="722" y="688" fill="#e9d5ff" font-size="10" font-family="monospace">-&gt; Cible : Actuator_Health &amp; Skill_Wiki</text>
+
+  <!-- PASS 4 -->
+  <rect x="1048" y="516" width="314" height="190" rx="8" fill="#0f172a" stroke="#c084fc" stroke-width="1.4"/>
+  <rect x="1048" y="516" width="314" height="30" rx="8" fill="#3b0764"/>
+  <text x="1205" y="536" fill="#f3e8ff" font-size="12" font-weight="700" text-anchor="middle">
+    PASSE 4 : WIKI BORNÉ, DECAY &amp; LIGHTRAG
+  </text>
+  <text x="1060" y="562" fill="#d8b4fe" font-size="11" font-weight="700">Inspiration : EverMemOS + Hindsight + LightRAG</text>
+  <text x="1060" y="582" fill="#cbd5e1" font-size="11">• Édition par ID atomique (max 3000 car. /</text>
+  <text x="1060" y="598" fill="#cbd5e1" font-size="11">  20 entrées de 500 car., Change Log code).</text>
+  <text x="1060" y="618" fill="#cbd5e1" font-size="11">• Oubli sélectif (Decay) : purge des traces</text>
+  <text x="1060" y="634" fill="#cbd5e1" font-size="11">  épisodiques triviales non répétées.</text>
+  <text x="1060" y="654" fill="#cbd5e1" font-size="11">• Déclenche Nightly RAG Reindex incrémental</text>
+  <text x="1060" y="670" fill="#cbd5e1" font-size="11">  et régénère l'index MEMORY_SUMMARY.md.</text>
+  <text x="1060" y="688" fill="#e9d5ff" font-size="10" font-family="monospace">-&gt; Cible : LightRAG Graph + Summary</text>
+
+  <!-- Connecting arrows between passes -->
+  <path d="M 353 610 L 372 610" stroke="#c084fc" stroke-width="2" marker-end="url(#arrow-purple)"/>
+  <path d="M 692 610 L 710 610" stroke="#c084fc" stroke-width="2" marker-end="url(#arrow-purple)"/>
+  <path d="M 1030 610 L 1048 610" stroke="#c084fc" stroke-width="2" marker-end="url(#arrow-purple)"/>
+
+  <!-- Persistent Consolidated Memory Store Bar (Bottom of Panel 3) -->
+  <rect x="38" y="726" width="1324" height="108" rx="8" fill="url(#store-grad)" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="700" y="750" fill="#fef3c7" font-size="13" font-weight="700" text-anchor="middle">
+    SOCLE MÉMORIEL CONSOLIDÉ D-BOT (SUR SSD MAC M1 MAX — PRÊT AU RÉVEIL DU ROBOT EN ~15 ms)
+  </text>
+
+  <!-- 4 Storage Artifacts inside the Store Bar -->
+  <rect x="56" y="764" width="305" height="54" rx="5" fill="#0f172a" stroke="#fbbf24" stroke-width="1"/>
+  <text x="208" y="784" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">1. MEMORY_SUMMARY.md (&lt; 4 Ko)</text>
+  <text x="208" y="803" fill="#cbd5e1" font-size="10" text-anchor="middle">Injecté hors System Prompt (Cache KV gemma4 intact)</text>
+
+  <rect x="382" y="764" width="305" height="54" rx="5" fill="#0f172a" stroke="#fbbf24" stroke-width="1"/>
+  <text x="534" y="784" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">2. Fiches Wiki Entités &amp; Scène 3D</text>
+  <text x="534" y="803" fill="#cbd5e1" font-size="10" text-anchor="middle">Pages Markdown bornées + Change Log déterministe</text>
+
+  <rect x="708" y="764" width="305" height="54" rx="5" fill="#0f172a" stroke="#fbbf24" stroke-width="1"/>
+  <text x="860" y="784" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">3. Registre Santé &amp; Compétences</text>
+  <text x="860" y="803" fill="#cbd5e1" font-size="10" text-anchor="middle">Dérives courant/température RS-00..06 &amp; IK</text>
+
+  <rect x="1034" y="764" width="310" height="54" rx="5" fill="#0f172a" stroke="#fbbf24" stroke-width="1"/>
+  <text x="1189" y="784" fill="#fde68a" font-size="11" font-weight="700" text-anchor="middle">4. Graphe Hybride LightRAG (dbot-rag)</text>
+  <text x="1189" y="803" fill="#cbd5e1" font-size="10" text-anchor="middle">Indexé à 00:00 via index_docs.py --provider auto</text>
+
+  <!-- Vertical arrows from Passes into Store Bar -->
+  <path d="M 195 706 L 195 760" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrow-amber)"/>
+  <path d="M 532 706 L 532 760" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrow-amber)"/>
+  <path d="M 870 706 L 870 760" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrow-amber)"/>
+  <path d="M 1205 706 L 1205 760" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrow-amber)"/>
+
+  <!-- ===================================================================== -->
+  <!-- TECHNICAL LEGEND BAR (BOTTOM)                                         -->
+  <!-- ===================================================================== -->
+  <rect x="20" y="870" width="1360" height="72" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <text x="45" y="894" fill="#94a3b8" font-size="12" font-weight="700">LÉGENDE TECHNIQUE &amp; RÉFÉRENTIEL D-BOT V1 :</text>
+
+  <rect x="45" y="908" width="16" height="16" rx="3" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="70" y="920" fill="#cbd5e1" font-size="11">Survie &amp; Perception Embarquée (Jetson Orin Nano 8 Go — 2.90 Go VRAM alloués)</text>
+
+  <rect x="520" y="908" width="16" height="16" rx="3" fill="#1e3a8a" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="545" y="920" fill="#cbd5e1" font-size="11">Cognition Diurne Rapide (Mac M1 Max 64 Go — gemma4:26b @ 67.9 tok/s)</text>
+
+  <rect x="965" y="908" width="16" height="16" rx="3" fill="#3b0764" stroke="#c084fc" stroke-width="1.5"/>
+  <text x="990" y="920" fill="#cbd5e1" font-size="11">Consolidation Nocturne 00:00 (qwen3.8:27b-mlx + LightRAG)</text>
+</svg>

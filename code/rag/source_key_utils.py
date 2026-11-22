@@ -20,6 +20,7 @@ except ImportError:  # pragma: no cover - repli si importé hors environnement L
     _lightrag_norm_path = None
 
 _HEADER_FILE_RE = re.compile(r"^---\s*\nFichier:\s*(.+?)\n")
+_HEADER_SECTION_RE = re.compile(r"^---\s*\n(?:[^\n]*\n){0,6}?Section:\s*(.+?)\n")
 
 
 def extract_rel_path(content: str) -> str | None:
@@ -28,6 +29,48 @@ def extract_rel_path(content: str) -> str | None:
         return None
     match = _HEADER_FILE_RE.match(content)
     return match.group(1).strip() if match else None
+
+
+def extract_section_key(content: str) -> str | None:
+    """Extrait la clé ``Section:`` de l'en-tête YAML d'un sous-document virtuel."""
+    if not content:
+        return None
+    match = _HEADER_SECTION_RE.match(content)
+    return match.group(1).strip() if match else None
+
+
+def build_section_source_key(
+    rel_path: str,
+    section_key: str,
+    *,
+    claimed_sources: Mapping[str, set[str | None]] | None = None,
+) -> str:
+    """Construit une clé ``file_path`` unique avant extension pour une section virtuelle."""
+    rel_clean = (rel_path or "").strip()
+    base = os.path.basename(rel_clean) or "document.md"
+    stem, ext = os.path.splitext(base)
+    if not ext:
+        ext = ".md"
+    safe_sec = re.sub(r"[^a-zA-Z0-9_-]+", "-", (section_key or "").strip()).strip("-")[:32] or "sec"
+    digest = hashlib.md5(f"{rel_clean}::{section_key}".encode("utf-8"), usedforsecurity=False).hexdigest()[:6]
+
+    def _taken(cand: str) -> bool:
+        if not claimed_sources:
+            return False
+        canon = canonical_source_name(cand)
+        owners = claimed_sources.get(canon)
+        return bool(owners)
+
+    candidate = f"{stem}--sec-{safe_sec}--{digest}{ext}"
+    if not _taken(candidate):
+        return candidate
+
+    idx = 2
+    while True:
+        alt = f"{stem}--sec-{safe_sec}--{digest}-{idx}{ext}"
+        if not _taken(alt):
+            return alt
+        idx += 1
 
 
 def canonical_source_name(file_path: str) -> str:

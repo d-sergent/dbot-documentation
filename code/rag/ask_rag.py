@@ -6,9 +6,10 @@ Mode par defaut (--provider auto) :
   - En --search-only : execute d'abord le graphe sans appel LLM via des mots-cles
     lexicaux deterministes (ou --keywords/--hl/--ll), avec repli automatique et
     garanti sur mode="naive" + reranking bge-reranker-base (exit 0).
-  - En synthese complete : cascade Ollama (:11434) -> Unsloth (:8888/v1) ->
-    Gemini -> OpenRouter, avec demarrage a la demande et arret propre d'Ollama
-    lorsque le serveur est lance pour la session.
+  - En synthese complete : privilegie la cascade courte rapide Gemini (-lite) ->
+    passerelle 1min.ai (mistral-small-2603) -> Ollama local gemma4:26b
+    (repli qwen3.8:27b-mlx) -> Unsloth (:8888/v1) -> OpenRouter, avec trace
+    explicite du modele utilise.
 """
 
 from __future__ import annotations
@@ -32,19 +33,37 @@ from rag_runtime import (  # noqa: E402
     DEFAULT_DB_PATH,
     DEFAULT_EMBED_MODEL,
     DEFAULT_FASTEMBED_CACHE_DIR,
+    DEFAULT_OLLAMA_INDEX_MODEL,
+    DEFAULT_ONEMINAI_QA_MODEL,
+    DEFAULT_OPENROUTER_MODEL,
     QWEN_QA_SAMPLING,
+    GeminiCascadeSession,
     ManagedOllamaServer,
+    ModelExecutionTracker,
+    OneMinAiCascadeSession,
     apply_tiktoken_patch,
+    build_gemini_cascade,
     build_local_openai_extra_body,
+    build_openai_messages,
     build_rerank_model,
+    call_1minai_stateless_async,
+    call_openai_chat_adaptive_async,
     check_ollama_ready,
     check_unsloth_ready,
+    create_genai_client,
     env_flag,
     extract_lexical_keywords,
     filter_and_clean_chunks,
+    format_gemini_error,
+    get_gemini_timeout_s,
+    is_1minai_compatible_model_override,
+    is_gemini_model_name,
     parse_keywords_arg,
+    resolve_1minai_config,
     resolve_active_provider,
+    resolve_default_db_path,
     resolve_ollama_config,
+    resolve_ollama_model_for_role,
     resolve_unsloth_config,
     score_documents_with_reranker,
 )
@@ -71,7 +90,7 @@ except ImportError as exc:
     print(f"Erreur d'importation dans ask_rag.py : {exc}", file=sys.stderr)
     sys.exit(1)
 
-DB_PATH = os.environ.get("RAG_DB_PATH", DEFAULT_DB_PATH)
+DB_PATH = resolve_default_db_path()
 FASTEMBED_CACHE_DIR = os.environ.get("FASTEMBED_CACHE_PATH", DEFAULT_FASTEMBED_CACHE_DIR)
 
 _embed_model = None
@@ -129,7 +148,13 @@ async def rerank_chunks(query: str, chunks: list[dict[str, Any]], top_k: int | N
     return chunks[:top_k] if top_k else chunks
 
 
-def _build_ollama_llm_func(model_name: str, base_url: str, num_ctx: int, keep_alive: str):
+def _build_ollama_llm_func(
+    model_name: str,
+    base_url: str,
+    num_ctx: int,
+    keep_alive: str,
+    tracker: ModelExecutionTracker | None = None,
+):
     async def ollama_llm(
         prompt: str,
         system_prompt: str | None = None,
@@ -176,12 +201,19 @@ def _build_ollama_llm_func(model_name: str, base_url: str, num_ctx: int, keep_al
                 text = str(data.get("message", {}).get("content", "")).strip()
                 if not text:
                     raise RuntimeError(f"Reponse Ollama vide ({model_name} sur {base_url})")
+                if tracker is not None:
+                    tracker.record_success("ollama", model_name)
                 return text
 
     return ollama_llm
 
 
-def _build_unsloth_llm_func(model_name: str, base_url: str, api_key: str):
+def _build_unsloth_llm_func(
+    model_name: str,
+    base_url: str,
+    api_key: str,
+    tracker: ModelExecutionTracker | None = None,
+):
     async def unsloth_llm(
         prompt: str,
         system_prompt: str | None = None,
@@ -214,16 +246,30 @@ def _build_unsloth_llm_func(model_name: str, base_url: str, api_key: str):
         if not content.strip():
             finish = resp.choices[0].finish_reason
             raise RuntimeError(f"Reponse Unsloth vide ({base_url}, finish_reason={finish})")
+        if tracker is not None:
+            tracker.record_success("unsloth", model_name)
         return content
 
     return unsloth_llm
 
 
-def _build_gemini_llm_func(model_name: str, api_key: str):
-    from google import genai
-    from google.genai import types as genai_types
-
-    client = genai.Client(api_key=api_key)
+def _build_gemini_llm_func(
+    model_name: str | None,
+    api_key: str,
+    tracker: ModelExecutionTracker | None = None,
+    role: str = "qa",
+):
+    cascade = build_gemini_cascade(role=role, explicit_model=model_name)
+    timeout_s = get_gemini_timeout_s(role=role)
+    client = create_genai_client(api_key=api_key, timeout_s=timeout_s)
+    session = GeminiCascadeSession(
+        cascade,
+        timeout_s=timeout_s,
+        thinking_budget=100,
+        rpm_delay=0.0,
+        wait_on_transient=False,
+        tracker=tracker,
+    )
 
     async def gemini_llm(
         prompt: str,
@@ -231,25 +277,18 @@ def _build_gemini_llm_func(model_name: str, api_key: str):
         history_messages: list | None = None,
         **kwargs,
     ) -> str:
-        parts: list[str] = []
-        if system_prompt:
-            parts.append(f"SYSTEM:\n{system_prompt}")
-        if history_messages:
-            for msg in history_messages:
-                if isinstance(msg, dict) and "content" in msg:
-                    parts.append(f"{msg.get('role', 'user').upper()}:\n{msg['content']}")
-        parts.append(prompt)
-        full_prompt = "\n\n".join(parts)
-
-        def _invoke() -> str:
-            cfg = genai_types.GenerateContentConfig(temperature=0.2)
-            resp = client.models.generate_content(model=model_name, contents=full_prompt, config=cfg)
-            text = (resp.text or "").strip()
-            if not text:
-                raise RuntimeError(f"Reponse Gemini vide ({model_name})")
-            return text
-
-        return await asyncio.to_thread(_invoke)
+        text, _ = await session.call(
+            client,
+            prompt,
+            system_prompt=system_prompt,
+            history_messages=history_messages,
+            max_tokens=int(kwargs.get("max_tokens", 4096)),
+            temperature=float(kwargs.get("temperature", 0.2)),
+            tracker=tracker,
+        )
+        if not text:
+            raise RuntimeError(f"Cascade Gemini indisponible ({', '.join(cascade[:3])}...)")
+        return text
 
     return gemini_llm
 
@@ -259,18 +298,27 @@ async def _noop_search_only_llm(prompt: str, system_prompt: str | None = None, h
     raise RuntimeError("Aucun appel LLM ne doit etre effectue en mode --search-only sans --llm-keywords.")
 
 
+def _resolve_qa_ollama_target(explicit_model: str | None) -> str:
+    """Choisit le modele Ollama QA (gemma4:26b par defaut, surcharge CLI non-Gemini acceptee)."""
+    if explicit_model and not is_gemini_model_name(explicit_model):
+        return explicit_model.strip()
+    _, default_qa_model, _, _ = resolve_ollama_config(role="qa")
+    return default_qa_model
+
+
 def _select_provider_with_lifecycle(
     args: argparse.Namespace,
     managed_ollama: ManagedOllamaServer,
     need_llm: bool,
 ) -> str | None:
     """
-    Selectionne le fournisseur actif et demarre Ollama a la demande si necessaire.
+    Selectionne le fournisseur actif (Gemini en ligne par defaut en 'auto', puis
+    repli local Ollama gemma4:26b -> Unsloth -> OpenRouter).
     Ne demarre aucun serveur lourd lors des recherches --search-only par defaut.
     """
-    ollama_url, default_ollama_model, _, _ = resolve_ollama_config()
+    ollama_url, _, _, _ = resolve_ollama_config(role="qa")
     unsloth_url, _, unsloth_key = resolve_unsloth_config()
-    ollama_model = args.model if (args.provider == "ollama" and args.model) else default_ollama_model
+    ollama_model = _resolve_qa_ollama_target(args.model)
     gemini_key = os.environ.get("GEMINI_API_KEY", "").strip()
     openrouter_key = args.api_key or os.environ.get("OPENROUTER_API_KEY", "").strip()
 
@@ -289,6 +337,9 @@ def _select_provider_with_lifecycle(
         if auto_start_allowed and managed_ollama.ensure_started():
             if check_ollama_ready(ollama_url, required_model=ollama_model, timeout=1.0):
                 return "ollama"
+            if not args.model and check_ollama_ready(ollama_url, required_model=DEFAULT_OLLAMA_INDEX_MODEL, timeout=1.0):
+                managed_ollama.model = DEFAULT_OLLAMA_INDEX_MODEL
+                return "ollama"
             print(
                 f"⚠️ Ollama demarre sur {ollama_url}, mais le modele '{ollama_model}' n'est pas installe.",
                 file=sys.stderr,
@@ -297,15 +348,11 @@ def _select_provider_with_lifecycle(
         return None
 
     if pref == "auto":
-        # Si --auto-start explicite, privilegier la souverainete locale M1 Max avant les API cloud.
-        if args.auto_start is True:
-            if check_ollama_ready(ollama_url, required_model=ollama_model, timeout=0.5):
-                return "ollama"
-            if check_unsloth_ready(unsloth_url, unsloth_key, timeout=0.5):
-                return "unsloth"
-            if managed_ollama.ensure_started() and check_ollama_ready(ollama_url, required_model=ollama_model, timeout=1.0):
-                return "ollama"
-
+        # En --provider auto, priorite aux API cloud rapides (Gemini -lite puis 1min.ai) ;
+        # le demarrage paresseux d'Ollama ne survient qu'au repli local effectif.
+        _, _, oneminai_key = resolve_1minai_config(role="qa")
+        if gemini_key or oneminai_key:
+            return "auto"
         resolved = resolve_active_provider(
             "auto",
             ollama_url=ollama_url,
@@ -314,13 +361,18 @@ def _select_provider_with_lifecycle(
             unsloth_api_key=unsloth_key,
             gemini_key=gemini_key,
             openrouter_key=openrouter_key,
+            role="qa",
+            prefer_online=True,
+            oneminai_key=oneminai_key,
         )
         if resolved:
-            return resolved
-
+            return "auto"
         if auto_start_allowed and managed_ollama.ensure_started():
             if check_ollama_ready(ollama_url, required_model=ollama_model, timeout=1.0):
-                return "ollama"
+                return "auto"
+            if check_ollama_ready(ollama_url, required_model=DEFAULT_OLLAMA_INDEX_MODEL, timeout=1.0):
+                managed_ollama.model = DEFAULT_OLLAMA_INDEX_MODEL
+                return "auto"
             managed_ollama.cleanup()
         return None
 
@@ -332,20 +384,147 @@ def _select_provider_with_lifecycle(
         unsloth_api_key=unsloth_key,
         gemini_key=gemini_key,
         openrouter_key=openrouter_key,
+        role="qa",
+        prefer_online=True,
     )
 
 
-def get_llm_func(provider_name: str, model_override: str | None = None, api_key_override: str | None = None):
+def _build_auto_qa_llm_func(
+    *,
+    model_override: str | None,
+    api_key_override: str | None,
+    managed_ollama: ManagedOllamaServer,
+    auto_start_allowed: bool,
+    tracker: ModelExecutionTracker,
+):
+    """Cascade live QA : Gemini (-lite) -> 1min.ai (mistral-small-2603) -> Ollama (gemma4:26b) -> Unsloth -> OpenRouter."""
+    ollama_url, _, ollama_num_ctx, ollama_keep_alive = resolve_ollama_config(role="qa")
+    unsloth_url, unsloth_model, unsloth_key = resolve_unsloth_config()
+    gemini_key = os.environ.get("GEMINI_API_KEY", "").strip()
+    openrouter_key = (api_key_override or os.environ.get("OPENROUTER_API_KEY", "")).strip()
+
+    explicit_ollama = model_override if (model_override and not is_gemini_model_name(model_override)) else None
+    ollama_candidates: list[str] = []
+    for cand in (
+        explicit_ollama,
+        resolve_ollama_model_for_role("qa", base_url=ollama_url),
+        DEFAULT_OLLAMA_INDEX_MODEL,
+    ):
+        if cand and cand not in ollama_candidates:
+            ollama_candidates.append(cand)
+
+    gemini_cascade = build_gemini_cascade("qa", explicit_model=model_override if is_gemini_model_name(model_override) else None)
+    gemini_timeout_s = get_gemini_timeout_s("qa")
+    genai_client = create_genai_client(gemini_key, timeout_s=gemini_timeout_s) if gemini_key else None
+    gemini_session = GeminiCascadeSession(
+        gemini_cascade,
+        timeout_s=gemini_timeout_s,
+        thinking_budget=100,
+        rpm_delay=0.0,
+        wait_on_transient=False,
+        tracker=tracker,
+    )
+    oneminai_session = OneMinAiCascadeSession(
+        role="qa",
+        model_override=model_override,
+        api_key_override=api_key_override if (api_key_override and not gemini_key) else None,
+        timeout_s=30.0,
+    )
+    fallback_logged = False
+
+    async def auto_qa_llm(
+        prompt: str,
+        system_prompt: str | None = None,
+        history_messages: list | None = None,
+        **kwargs,
+    ) -> str:
+        nonlocal fallback_logged
+        if genai_client is not None and not gemini_session.cloud_exhausted:
+            text, used_model = await gemini_session.call(
+                genai_client,
+                prompt,
+                system_prompt=system_prompt,
+                history_messages=history_messages,
+                max_tokens=int(kwargs.get("max_tokens", 4096)),
+                temperature=float(kwargs.get("temperature", 0.2)),
+                tracker=tracker,
+            )
+            if text:
+                return text
+
+        if kwargs.get("keyword_extraction"):
+            prompt_lower = (prompt or "").lower()
+            if "high_level_keywords" in prompt_lower and "low_level_keywords" in prompt_lower:
+                hl, ll = extract_lexical_keywords(prompt)
+                return json.dumps({"high_level_keywords": hl, "low_level_keywords": ll}, ensure_ascii=False)
+
+        if oneminai_session.is_available:
+            om_text = await oneminai_session.call(
+                prompt,
+                system_prompt=system_prompt,
+                history_messages=history_messages,
+                temperature=kwargs.get("temperature", 0.2),
+                max_tokens=kwargs.get("max_tokens", 4096),
+                tracker=tracker,
+            )
+            if om_text:
+                return om_text
+
+        if (genai_client is not None or oneminai_session.api_key) and not fallback_logged:
+            fallback_logged = True
+            print(
+                f"🔄 Cascade Cloud (Gemini -lite / 1min.ai) indisponible -> repli local QA (Ollama {ollama_candidates[0]}).",
+                file=sys.stderr,
+            )
+
+        ollama_ready = check_ollama_ready(ollama_url, required_model=None, timeout=0.5)
+        if not ollama_ready and auto_start_allowed:
+            ollama_ready = managed_ollama.ensure_started()
+        if ollama_ready:
+            for cand_model in ollama_candidates:
+                if check_ollama_ready(ollama_url, required_model=cand_model, timeout=0.5):
+                    try:
+                        ollama_fn = _build_ollama_llm_func(
+                            cand_model, ollama_url, ollama_num_ctx, ollama_keep_alive, tracker=tracker
+                        )
+                        return await ollama_fn(prompt, system_prompt=system_prompt, history_messages=history_messages, **kwargs)
+                    except Exception as oe:
+                        tracker.record_failure("ollama", cand_model, format_gemini_error(oe))
+
+        if check_unsloth_ready(unsloth_url, unsloth_key, timeout=0.5):
+            try:
+                unsloth_fn = _build_unsloth_llm_func(unsloth_model, unsloth_url, unsloth_key, tracker=tracker)
+                return await unsloth_fn(prompt, system_prompt=system_prompt, history_messages=history_messages, **kwargs)
+            except Exception as ue:
+                tracker.record_failure("unsloth", unsloth_model, format_gemini_error(ue))
+
+        if openrouter_key:
+            or_fn = get_llm_func("openrouter", model_override=None, api_key_override=openrouter_key, tracker=tracker)
+            return await or_fn(prompt, system_prompt=system_prompt, history_messages=history_messages, **kwargs)
+
+        raise RuntimeError(f"Aucun backend RAG joignable ({tracker.format_summary()})")
+
+    return auto_qa_llm
+
+
+def get_llm_func(
+    provider_name: str,
+    model_override: str | None = None,
+    api_key_override: str | None = None,
+    tracker: ModelExecutionTracker | None = None,
+):
     """Construit la coroutine LLM adaptee au fournisseur selectionne."""
-    ollama_url, ollama_model, ollama_num_ctx, ollama_keep_alive = resolve_ollama_config()
+    ollama_url, ollama_model, ollama_num_ctx, ollama_keep_alive = resolve_ollama_config(role="qa")
     unsloth_url, unsloth_model, unsloth_key = resolve_unsloth_config()
 
     if provider_name == "ollama":
+        eff_model = model_override or resolve_ollama_model_for_role("qa", base_url=ollama_url)
         return _build_ollama_llm_func(
-            model_override or ollama_model,
+            eff_model,
             ollama_url,
             ollama_num_ctx,
             ollama_keep_alive,
+            tracker=tracker,
         )
 
     if provider_name == "unsloth":
@@ -353,22 +532,53 @@ def get_llm_func(provider_name: str, model_override: str | None = None, api_key_
             model_override or unsloth_model,
             unsloth_url,
             api_key_override or unsloth_key,
+            tracker=tracker,
         )
 
     if provider_name == "gemini":
         gem_key = api_key_override or os.environ.get("GEMINI_API_KEY", "").strip()
         if not gem_key:
             raise ValueError("GEMINI_API_KEY manquante.")
-        return _build_gemini_llm_func(model_override or "models/gemini-2.5-flash", gem_key)
+        return _build_gemini_llm_func(model_override, gem_key, tracker=tracker, role="qa")
+
+    if provider_name == "1minai":
+        base_url, default_model, def_key = resolve_1minai_config(role="qa")
+        om_key = (api_key_override or def_key).strip()
+        if not om_key:
+            raise ValueError("ONEMINAI_API_KEY manquante.")
+        target_model = (
+            model_override.strip()
+            if (model_override and is_1minai_compatible_model_override(model_override))
+            else default_model
+        )
+
+        async def oneminai_llm(prompt: str, system_prompt: str | None = None, history_messages=None, **kwargs):
+            messages = build_openai_messages(prompt, system_prompt=system_prompt, history_messages=history_messages)
+            eff_temp = 0.2 if kwargs.get("temperature") is None else float(kwargs["temperature"])
+            eff_max_tokens = int(kwargs.get("max_tokens") or 4096)
+            content, _, _ = await call_1minai_stateless_async(
+                target_model,
+                messages,
+                base_url=base_url,
+                api_key=om_key,
+                temperature=eff_temp,
+                max_tokens=eff_max_tokens,
+                timeout_s=30.0,
+            )
+            if tracker is not None:
+                tracker.record_success("1minai", target_model)
+            return content
+
+        return oneminai_llm
 
     if provider_name == "openrouter":
         or_key = api_key_override or os.environ.get("OPENROUTER_API_KEY", "").strip()
         if not or_key:
             raise ValueError("OPENROUTER_API_KEY manquante.")
-        target_model = model_override or "google/gemini-2.5-flash"
+        target_model = model_override or DEFAULT_OPENROUTER_MODEL
 
         async def openrouter_llm(prompt: str, system_prompt: str | None = None, history_messages=None, **kwargs):
-            return await openai_complete_if_cache(
+            text = await openai_complete_if_cache(
                 target_model,
                 prompt,
                 system_prompt=system_prompt,
@@ -377,6 +587,9 @@ def get_llm_func(provider_name: str, model_override: str | None = None, api_key_
                 api_key=or_key,
                 **kwargs,
             )
+            if tracker is not None:
+                tracker.record_success("openrouter", target_model)
+            return text
 
         return openrouter_llm
 
@@ -553,9 +766,9 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--top-k", type=int, default=20)
     parser.add_argument(
         "--provider",
-        choices=["auto", "ollama", "unsloth", "local", "gemini", "openrouter"],
+        choices=["auto", "ollama", "unsloth", "local", "gemini", "1minai", "openrouter"],
         default="auto",
-        help="Fournisseur LLM (defaut: auto = Ollama -> Unsloth -> Gemini -> OpenRouter)",
+        help="Fournisseur LLM (defaut: auto = Gemini -lite -> 1min.ai mistral-small-2603 -> Ollama gemma4:26b -> Unsloth -> OpenRouter)",
     )
     parser.add_argument("--model", type=str, default=None, help="Surcharge du nom de modele LLM")
     parser.add_argument("--api-key", type=str, default=None, help="Cle API explicite si requise")
@@ -621,8 +834,8 @@ async def run_cli(args: argparse.Namespace) -> int:
         print(f"❌ Erreur : base RAG introuvable dans {DB_PATH}", file=sys.stderr)
         return 1
 
-    ollama_url, default_ollama_model, _, _ = resolve_ollama_config()
-    ollama_model = args.model if (args.provider == "ollama" and args.model) else default_ollama_model
+    ollama_url, _, _, _ = resolve_ollama_config(role="qa")
+    ollama_model = _resolve_qa_ollama_target(args.model)
     managed_ollama = ManagedOllamaServer(base_url=ollama_url, model=ollama_model)
 
     need_llm = (not args.search_only) or (args.search_only and args.llm_keywords and args.mode != "naive")
@@ -632,6 +845,12 @@ async def run_cli(args: argparse.Namespace) -> int:
             file=sys.stderr,
         )
 
+    no_llm_label = (
+        "Aucun LLM (recherche graphe/vecteur --search-only)"
+        if args.search_only
+        else "Cache LightRAG (réponse en cache — 0 appel LLM)"
+    )
+    tracker = ModelExecutionTracker(role="qa", default_no_llm_label=no_llm_label)
     exit_code = 0
     try:
         active_provider = _select_provider_with_lifecycle(args, managed_ollama, need_llm=need_llm)
@@ -646,16 +865,33 @@ async def run_cli(args: argparse.Namespace) -> int:
                 llm_model_func = _noop_search_only_llm
             else:
                 print(
-                    "❌ Aucun backend LLM disponible (Ollama, Unsloth, Gemini ou OpenRouter).\n"
+                    "❌ Aucun backend LLM disponible (Gemini, Ollama, Unsloth ou OpenRouter).\n"
                     "Conseil : utilisez --search-only (0 Go RAM) ou verifiez 'ollama serve' / 'unsloth'.",
                     file=sys.stderr,
                 )
                 return 1
-        elif active_provider is not None:
-            llm_model_func = get_llm_func(
-                active_provider,
+        elif active_provider == "auto":
+            auto_start_allowed = args.auto_start if args.auto_start is not None else True
+            llm_model_func = _build_auto_qa_llm_func(
                 model_override=args.model,
                 api_key_override=args.api_key,
+                managed_ollama=managed_ollama,
+                auto_start_allowed=auto_start_allowed,
+                tracker=tracker,
+            )
+            print(
+                f"🔗 Pipeline actif : auto (Gemini -lite -> 1min.ai {DEFAULT_ONEMINAI_QA_MODEL} -> Ollama gemma4:26b)",
+                file=sys.stderr,
+            )
+        elif active_provider is not None:
+            eff_model_override = args.model
+            if active_provider == "ollama" and not eff_model_override:
+                eff_model_override = getattr(managed_ollama, "model", None) or ollama_model
+            llm_model_func = get_llm_func(
+                active_provider,
+                model_override=eff_model_override,
+                api_key_override=args.api_key,
+                tracker=tracker,
             )
             print(f"🔗 Backend actif : {active_provider}", file=sys.stderr)
         else:
@@ -671,6 +907,7 @@ async def run_cli(args: argparse.Namespace) -> int:
 
         if args.search_only:
             exit_code = await _run_search_only(rag, args)
+            print(f"🧭 {tracker.format_summary()}", file=sys.stderr)
         else:
             print(f"🔍 Interrogation en cours ({args.mode}, provider={active_provider})...", file=sys.stderr)
             answer = await rag.aquery(
@@ -682,7 +919,10 @@ async def run_cli(args: argparse.Namespace) -> int:
                     enable_rerank=True,
                 ),
             )
+            trace_line = tracker.format_summary()
+            print(f"🧭 {trace_line}", file=sys.stderr)
             print("\n=== Reponse RAG ===\n")
+            print(f"[Moteur RAG : {trace_line}]\n")
             print(answer)
     except Exception as exc:
         print(f"❌ Erreur lors de la requete : {exc}", file=sys.stderr)

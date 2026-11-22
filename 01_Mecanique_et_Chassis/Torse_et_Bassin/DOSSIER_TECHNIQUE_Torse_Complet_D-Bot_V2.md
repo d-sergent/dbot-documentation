@@ -355,7 +355,7 @@ La **Bride d'Épaule Monobloc (Alu 7075-T6, `202,30 g`)** se monte **directement
 
 > [!CAUTION]
 > **Sécurité Moteur RS-04 — Profondeur Taraudée Borgne Stator (6,0 mm MAX)** :  
-> Le plan officiel constructeur RobStride (`Manuels/RS04User Manual260112.pdf`, page 10) spécifie une profondeur borgne maximale de taraudage de **6,0 mm** (`10-M4 EQS \/ 6`).  
+> Le plan officiel constructeur RobStride (`Manuels/RS04User Manual260713.pdf`, page 10) spécifie une profondeur borgne maximale de taraudage de **6,0 mm** (`10-M4 EQS \/ 6`).  
 > * **Vigilance Atelier Zone 1 (`90128A214` vs `91290A154`)** : Dans la CAO `Torse-123 v42`, les 4 trous Zone 1 portent des vis `M4 × 16 mm [90128A214]` (ce qui théoriquement donne `16,0 - 5,0 - 1,8 = 9,20 mm` de dépassement). **Au montage sur les stators physiques RS-04**, contrôler impérativement au jaugeur de profondeur : si le trou borgne stator s'arrête à `6,0 mm`, monter impérativement du **M4 × 12 mm (`91290A154` ou `92290A144`)** (pénétration exacte **`5,20 mm`**, marge **`0,80 mm`**) sous rondelle Nord-Lock pour ne jamais talonner ni blesser le bobinage. En Zone 2 (`18,20 mm + 1,80 mm`), la `TB M4 × 25 mm [92855A422]` obtient exactement **`5,00 mm`** de prise utile ✅.
 
 > [!IMPORTANT]

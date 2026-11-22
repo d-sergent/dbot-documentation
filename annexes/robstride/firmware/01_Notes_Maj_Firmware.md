@@ -1,6 +1,30 @@
-# Notes de Mise à Jour du Firmware (Avril 2026) — Moteurs RobStride
+# Notes de Mise à Jour du Firmware (Mai 2026 — Release V26.05.19) — Moteurs RobStride
 
-Ce document est la traduction exhaustive du changelog officiel des firmwares (Avril 2026) équipant la gamme de moteurs RobStride. Il couvre les modifications, corrections et ajouts fonctionnels vitaux pour l'opération via les protocoles CANopen et MIT.
+Ce document consolide le changelog officiel des firmwares RobStride (`V26.04.07` et `V26.05.19`, issu de `default.pdf`), les binaires archivés en local, ainsi que la procédure de flash OTA sous Linux (SocketCAN) et les points de vigilance matériels (CAN-FD 5 Mbps, module de décharge).
+
+---
+
+## 0. Inventaire des Firmwares Archivés & Matrice `V26.05.19`
+
+> [!NOTE]
+> Les binaires `.bin` et `.hex` sont hébergés dans les **Release Assets** GitHub (`https://github.com/RobStride/Product_Information/releases`), en dehors de l'historique `git clone`.
+
+En local, les archives sont rangées sous `/Users/Shared/Mon Google Drive Physique/k-bot/robstride/firmware/` :
+- **`122025/` (`V25.12.09`)** : Inclut les `.bin` et les `.hex` usine (`_FAC_`) pour récupération bas niveau.
+- **`042026/` (`V26.04.07`)** : Release d'avril 2026 (`update.pdf`).
+- **`V26.05.19/` (Release du 19 mai 2026 — Dernière version)** : Inclut `default.pdf` et les 9 binaires `.bin` ci-dessous :
+
+| Moteur | Usage D-Bot | Binaire `042026` (`V26.04.07`) | Binaire `V26.05.19` (Recommandé) |
+| :--- | :--- | :--- | :--- |
+| **RS00** | Poignet Pitch (x2) | `rs00-0.0.3.27.bin` | `rs00_0.0.3.36.bin` |
+| **RS01** | *(Non retenu — max 48V)* | `rs01-0.1.3.14.bin` | `rs01_0.1.3.21.bin` |
+| **RS02** | Épaule Yaw (x2), Supination (x2) | `rs02-0.2.3.32.bin` | `rs02_0.2.3.36.bin` |
+| **RS03** | Épaule Roll, Hanche Roll/Yaw, Cheville | `rs03-0.3.1.41.bin` | `rs03_0.3.1.50.bin` |
+| **RS04** | Hanche Pitch, Genou, Épaule Pitch | `rs04-0.4.1.29.bin` | `rs04_0.4.1.38.bin` |
+| **RS05** | Cou Pan + Tilt (x2) | `rs05_0.5.0.13.bin` | `rs05_0.5.0.17.bin` |
+| **RS06** | Taille (Waist Yaw) | `rs06_0.6.0.11.bin` | `rs06_0.6.0.18.bin` |
+| **EL05** | *(Gamme Edulite 242g)* | `EL05_1.0.5.0.4.bin` | `el05_1.0.5.0.6.bin` |
+| **RS10P** | *(Planétaire 25:1 — 42 Nm)* | *(absent)* | `rs10_0.10.0.6.bin` |
 
 ---
 
@@ -20,7 +44,8 @@ Ce document est la traduction exhaustive du changelog officiel des firmwares (Av
 | **0.0.3.19** | 1. Mode PP : La vitesse maximale limite s'ajuste dynamiquement selon la tension d'alimentation, prévenant la désynchronisation entre planification de trajectoire et suivi réel.<br>2. CANopen : le mode Vitesse inclut un port de config d'accélération. En cas de valeurs non renseignées (Accel/Couple en Position, or Couple en Vitesse), les paramètres se reportent sur les valeurs par défaut. |
 | **0.0.3.21** | 1. Blindage contre les interférences induites par l'usage des Trames Étendues (Extended frames) en bus partagé CANopen.<br>2. Correction d'échec occasionnel de calibrage zéro au moment de porter une charge.<br>3. Remède aux échecs de premier "Enable" imputables à une rampe d'alimentation (montée en tension) trop lente.<br>4. Optimisation détermination du Zéro au démarrage.<br>5. CANopen : Fix du silence radio après l'usage de "reset" en état Actif (Enabled).<br>6. Suppression de l'amortissement persistant qui subsistait après acquittement matériel d'un défaut.<br>7. CANopen : Fix de l'impossibilité d'émettre 4 TPDO simultanés.<br>8. CANopen : Vitesses, accélérations, et limites disposent désormais de pré-valeurs de démarrage en interne.<br>9. L'identifiant constructeur (Manufacturer Code) validé sans rejets initiaux. |
 | **0.0.3.22** | Renseigne et active des valeurs initiales de Vitesse pour le mode Position. |
-| **0.0.3.27** | 1. Protocole MIT : Ajout des rapports actifs de statut, de sauvegarde asynchrone des paramètres, des lectures/écritures et champs d'états dans les trames.<br>2. Optimisation des conflits réseau entre rapports actifs et trames de retour (Feedbacks).<br>3. CANopen : La trame de quittance (Feedback) d'Activation/Désactivation est envoyée APRÈS exécution mécanique, fiabilisant le retour d'état du bus.<br>4. **Calibrage Initialisation Précise :** Actionné via `iq_test=1`. Au redémarrage, l'échantillonnage de courant est stabilisé, réduisant le "jitter" mécanique (tremblements).<br>5. **Calibrage Cogging (Couple de Détente) :** Activable via `alveolous_open=1` pour corriger les irrégularités de denture. Nécessite au préalable d'avoir fait un `iq_test` suivi d'un redémarrage à vide pour acquisition parfaite.<br>6. CANopen PP : Planification des arrêts d'urgence corrigée lors des modes combinés.<br>7. **Watchdog :** Via Index CANopen `0x6099` Sous-index 1. Toute valeur non nulle l'approuve.<br>8. **Protection NVRAM :** Lors d'un Disable, le moteur attend une tension stricte pour enregistrer ses données en ROM et utilise un bloc Mémoire de Secours Backup. S'il y a coupure durant l'écriture, le moteur boote sur le backup et remonte un code d'Alerte requérant une sauvegarde manuelle saine.<br>9. Profile Position (PP) : Découplage de la rampe en réglant `acc_status=1` (permettant la Décélération à `0x702E` indépendamment de l'accélération).<br> |
+| **0.0.3.27** | 1. Protocole MIT : Ajout des rapports actifs de statut, de sauvegarde asynchrone des paramètres, des lectures/écritures et champs d'états dans les trames.<br>2. Optimisation des conflits réseau entre rapports actifs et trames de retour (Feedbacks).<br>3. CANopen : La trame de quittance (Feedback) d'Activation/Désactivation est envoyée APRÈS exécution mécanique, fiabilisant le retour d'état du bus.<br>4. **Calibrage Initialisation Précise :** Actionné via `iq_test=1`. Au redémarrage, l'échantillonnage de courant est stabilisé, réduisant le "jitter" mécanique (tremblements).<br>5. **Calibrage Cogging (Couple de Détente) :** Activable via `alveolous_open=1` pour corriger les irrégularités de denture. Nécessite au préalable d'avoir fait un `iq_test` suivi d'un redémarrage à vide pour acquisition parfaite.<br>6. CANopen PP : Planification des arrêts d'urgence corrigée lors des modes combinés.<br>7. **Watchdog :** Via Index CANopen `0x6099` Sous-index 1. Toute valeur non nulle l'approuve.<br>8. **Protection NVRAM :** Lors d'un Disable, le moteur attend une tension stricte pour enregistrer ses données en ROM et utilise un bloc Mémoire de Secours Backup. S'il y a coupure durant l'écriture, le moteur boote sur le backup et remonte un code d'Alerte requérant une sauvegarde manuelle saine.<br>9. Profile Position (PP) : Découplage de la rampe en réglant `acc_status=1` (permettant la Décélération à `0x702E` indépendamment de l'accélération). |
+| **0.0.3.32 -> .36** | *(Release `V26.05.19`)*<br>1. **Filtrage MIT par mode :** En mode MIT, le moteur ignore désormais les trames de commande ne correspondant pas au mode actif.<br>2. **Diagnostic driver :** Ajout du bit de défaut driver dans les trames d'erreur MIT et protocole privé.<br>3. Suppression de déclenchements intempestifs d'avertissements.<br>4. CANopen : Ajout de la lecture de température et du bit de défaut driver.<br>5. `.36` : Mise à jour firmware finale `V26.05.19` (`rs00_0.0.3.36.bin`). |
 
 ---
 
@@ -69,11 +94,32 @@ Les moteurs à fort couple suivent les optimisations fonctionnelles globales, av
 | :--- | :--- |
 | **0.5.0.5 <br> 0.6.0.3** | - Refonte des modes thermiques protecteurs adaptatifs qui compensent mathématiquement le dégagement joule du stator, idéal pour les efforts d'immobilité des hanches et fixations.<br>- Tous les variables du module Registres 17 et 18 sont en mode Read-Write.<br>- Verrouillage absolu OVP à 60 Volts sans tolérance de temps d'abaissement. |
 | **0.5.0.6 <br> 0.6.0.4** | - Planificateur de vitesse de profilé adaptatif (Désynchronisation gérée vis-à-vis des chutes de courants de batterie).<br>- RS06 : Implémentation des remontées CANopen ERREURS sur un octet transparent exclusif. |
-| **0.5.0.13 <br> 0.6.0.11** | Dernière révision. C'est ici que l'arsenal final apparaît (Sauvegarde M.I.T. protégée des crashs de tension, étalonnage initial avancé de filtrage du courant "jitter", rattrapages Cogging pour un glissement pur en vitesse base non bruitée, et désynchronisation des temps d'accélération et de décélération pour des robots bi-pédiques plus organiques). |
+| **0.5.0.13 <br> 0.6.0.11** | Apport des fonctionnalités majeures d'avril 2026 : sauvegarde M.I.T. protégée des crashs de tension, étalonnage initial avancé `iq_test`, rattrapage Cogging `alveolous_open`, et découplage accélération/décélération en mode PP (`0x702E`). |
+| **0.5.0.14 -> .17 <br> 0.6.0.12 -> .18** | *(Release `V26.05.19` — également appliqué à RS01 `.18->.21`, RS02 `.34->.36`, RS03 `.34/.50` et RS04 `.32->.38`)*<br>1. Filtrage strict des trames de commande MIT si le moteur n'est pas dans le mode correspondant.<br>2. Bit de défaut driver ajouté aux trames d'erreur MIT et protocole privé.<br>3. Correction d'alertes/avertissements parasites.<br>4. Remontée température et bit de défaut driver sous CANopen. |
+
+---
+
+## 6. Flash OTA sous Linux (`ota_update.py`) & Notes Matérielles 2026
+
+### 6.1 Procédure OTA Linux / Jetson (SocketCAN 1 Mbps)
+Le dépôt officiel `RobStride/Product_Information` fournit le script `OTA/OTA.py` (adapté pour D-Bot dans [`Code/scripts/motors/ota_update.py`](../../../Code/scripts/motors/ota_update.py)) utilisant les trames CAN étendues Types `0`, `11`, `12`, `13`, `14` :
+
+```bash
+export PYTHONPATH="/Users/Shared/Mon Google Drive Physique/Documentation/Code"
+python3 Code/scripts/motors/ota_update.py --id 1 --channel can1 --bin "/Users/Shared/Mon Google Drive Physique/k-bot/robstride/firmware/V26.05.19/rs05_0.5.0.17.bin"
+```
+
+* **Exigence stricte :** Le bus CAN doit être configuré à **1 Mbps** pendant toute l'opération OTA.
+* **Post-flash obligatoire :** Toute mise à jour efface le zéro mécanique et peut réinitialiser l'ID CAN. Vérifier l'ID puis recalibrer le zéro (ex. `calib_neck_zero.py`).
+* **Compatibilité macOS (À réaliser plus tard) :** `ota_update.py` utilise `SocketCAN` (Linux/Jetson uniquement, non supporté par le noyau macOS). L'ajout d'un mode natif macOS via `gs_usb` (`CANable Pro` / `InnoMaker USB2CAN-C` avec `libusb` + `pyusb` + `gs_usb`) ou via le Module de Debug série `AT` (`pyserial`) est **à réaliser plus tard**, lors de la phase de mise à jour globale des moteurs.
+
+### 6.2 Variantes CAN-FD (Manuels `CANFD/` jusqu'à 5 Mbps) & Module de Décharge
+* **CAN-FD :** Les manuels `Manuels/CANFD/` documentent les variantes CAN-FD (RS00..RS06 + RS10P) configurables via Type 23 (`0x17`) jusqu'à **5 Mbps** (`F_CMD = 05`, `06`=4M, `07`=3M, `08`=2M, `01`=1M — note : certaines éditions anglaises `260529` mentionnent encore `1Mbps` par coquille, la fiche chinoise `260826` et le manuel `RS10PCANFDUser Manual261016.pdf` confirment `5Mbps`). Le format applicatif reste en ID étendu 29 bits / 8 octets de données, avec connectique spécifique (`XT30PB(2+2)-M.G.B` / `GH1.25-2PWT`).
+* **Vigilance Module de Décharge (`DischargeModule`) :** La révision V1.0 EN (`Manuels/Discharge Module User Manual V1.0.pdf`) indique un seuil d'amorçage 48V à `64 V` (coupure `59 V`), tandis que la révision V1.1 CN abaisse ce seuil à `53.5 +/- 0.5 V` (coupure `50.5 +/- 0.5 V`). En cas d'utilisation sur la batterie 13S NMC du D-Bot (`54.6 V` pleine charge), vérifier impérativement le seuil calibré sur le module avant raccordement.
 
 ---
 
 > [!TIP]
-> **Action pour D-Bot / OpenClaw** : Assurez-vous d'utiliser `MotorStudio` pour garantir que toute l'équipe de vos moteurs (de la série RS02 des chevilles au RS05 du cou) soit actualisée avec les `.bin/.hex` d'avril 2026 afin de profitez du lissage des paramètres thermiques du courant à froid (réduit considérablement la température au repos), de la protection OVP de 60V universelle et du Calibrage automatique pré-mouvement (éliminant la vibration induite au Disable).
+> **Action pour D-Bot :** Privilégiez les binaires de la release **`V26.05.19`** (`rs00_0.0.3.36.bin` à `rs06_0.6.0.18.bin`) via `MotorStudio` (`motor_toolV14L.zip`) ou `Code/scripts/motors/ota_update.py` afin d'homogénéiser l'ensemble des 27 moteurs (lissage thermique à froid, OVP 60V unifiée, filtrage des trames MIT hors-mode et bit de défaut driver).
 
-*Note: Ce document est classé avec le matériel de support d'acquisition matérielle.*
+*Note : Ce document est classé avec le matériel de support d'acquisition matérielle.*
