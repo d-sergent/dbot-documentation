@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import json
 import math
 import os
 import re
@@ -26,7 +27,7 @@ from typing import Any
 import numpy as np
 import uvicorn
 from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import HTMLResponse, JSONResponse, Response
+from fastapi.responses import HTMLResponse, JSONResponse, Response, StreamingResponse
 from pydantic import BaseModel, Field
 
 _RAG_DIR = str(Path(__file__).resolve().parent)
@@ -45,6 +46,27 @@ from rag_quality_audit import (  # noqa: E402
     export_static_html_report,
     inspect_document_detail,
     run_full_audit,
+)
+from rag_studio_service import (  # noqa: E402
+    DBOT_SYSTEM_PROMPT_BASE,
+    DEFAULT_SNAPSHOTS_ROOT,
+    build_cad_drift_messages,
+    build_chat_context,
+    build_system_prompt,
+    build_vlm_cad_context,
+    complete_llm_chat,
+    encode_image_file_b64,
+    get_engines_status,
+    list_visual_snapshots,
+    load_arena_questions,
+    resolve_profile_target,
+    resolve_snapshot_path,
+    run_arena_comparison,
+    search_searxng,
+    start_searxng,
+    stop_searxng,
+    stream_llm_chat,
+    unload_ollama_models,
 )
 from source_key_utils import (  # noqa: E402
     canonical_source_name,
@@ -81,6 +103,75 @@ class HygieneRequest(BaseModel):
     full_hygiene: bool = Field(default=True)
     sync_mirror: bool = Field(default=False)
     dry_run: bool = Field(default=False)
+
+
+class UnloadOllamaRequest(BaseModel):
+    models: list[str] = Field(default_factory=list, max_length=16)
+
+
+class WebSearchRequest(BaseModel):
+    query: str = Field(..., min_length=1, max_length=600)
+    max_results: int = Field(default=5, ge=1, le=8)
+    categories: str = Field(default="general", pattern="^(general|it|science|news)$")
+    fetch_pages: bool = True
+
+
+class ChatMessageInput(BaseModel):
+    role: str = Field(..., pattern="^(user|assistant)$")
+    content: str = Field(..., min_length=1, max_length=16000)
+
+
+class ChatStreamRequest(BaseModel):
+    query: str = Field(..., min_length=1, max_length=4000)
+    profile: str = Field(default="ollama_gemma4")
+    context_mode: str = Field(default="hybrid", pattern="^(hybrid|naive|file|none)$")
+    target_rel_path: str | None = Field(default=None, max_length=500)
+    top_k: int = Field(default=8, ge=1, le=20)
+    thinking: bool = Field(default=False)
+    use_web: bool = Field(default=False)
+    web_max_results: int = Field(default=5, ge=1, le=8)
+    web_categories: str = Field(default="general", pattern="^(general|it|science|news)$")
+    web_fetch_pages: bool = Field(default=True)
+    history: list[ChatMessageInput] = Field(default_factory=list, max_length=20)
+    max_tokens: int = Field(default=1800, ge=64, le=8192)
+    custom_url: str | None = Field(default=None, max_length=300)
+    custom_model: str | None = Field(default=None, max_length=120)
+
+
+class VlmAnalyzeRequest(BaseModel):
+    prompt: str = Field(..., min_length=1, max_length=4000)
+    profile: str = Field(default="ollama_gemma4")
+    snapshot_rel_path: str | None = Field(default=None, max_length=500)
+    image_b64: str | None = Field(default=None, max_length=15_000_000)
+    include_cad_context: bool = Field(default=True)
+    thinking: bool = Field(default=False)
+    max_tokens: int = Field(default=1600, ge=64, le=4096)
+
+
+class CadDiagnoseRequest(BaseModel):
+    mode: str = Field(default="diagnose", pattern="^(diagnose|diff)$")
+    profile: str = Field(default="ollama_gemma4")
+    rel_path: str = Field(default="", max_length=500)
+    drift_item: dict[str, Any] = Field(default_factory=dict)
+    thinking: bool = Field(default=False)
+
+
+class ArenaTargetInput(BaseModel):
+    profile: str = Field(..., min_length=1, max_length=60)
+    custom_url: str | None = Field(default=None, max_length=300)
+    custom_model: str | None = Field(default=None, max_length=120)
+    thinking: bool = Field(default=False)
+
+
+class ArenaRunRequest(BaseModel):
+    question: str = Field(..., min_length=1, max_length=4000)
+    targets: list[ArenaTargetInput] = Field(..., min_length=2, max_length=4)
+    use_rag: bool = Field(default=True)
+    use_web: bool = Field(default=False)
+    context_mode: str = Field(default="hybrid", pattern="^(hybrid|naive)$")
+    unload_ollama_between: bool = Field(default=True)
+    expected_token: str | None = Field(default=None, max_length=200)
+    max_tokens: int = Field(default=1200, ge=64, le=4096)
 
 
 class _AuditCache:
@@ -508,14 +599,14 @@ button:disabled { opacity:0.45; cursor:not-allowed; }
 nav.tabs { display:flex; gap:6px; padding:10px 20px; background:#0e1729; border-bottom:1px solid var(--border); overflow-x:auto; }
 nav.tabs button { background:transparent; border:1px solid transparent; color:var(--muted); padding:8px 14px; }
 nav.tabs button.active { background:var(--card); border-color:var(--border); color:var(--accent); }
-main { padding:18px 20px; max-width:1600px; margin:0 auto; }
+main { padding:16px 24px; width:100%; max-width:none; margin:0; }
 .tab-pane { display:none; }
 .tab-pane.active { display:block; }
 .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:18px; }
-.card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px; min-width:0; }
 .kpi-val { font-size:24px; font-weight:700; color:var(--accent); }
 .kpi-lbl { font-size:12px; color:var(--muted); margin-top:4px; }
-.two-col { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px; }
+.two-col { display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:14px; margin-bottom:16px; }
 @media (max-width:960px) { .two-col { grid-template-columns:1fr; } }
 .bar-row { display:flex; align-items:center; gap:10px; margin:7px 0; font-size:12px; }
 .bar-lbl { width:190px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--muted); }
@@ -533,7 +624,7 @@ tr:hover td { background:#18243f; }
 .tag { display:inline-block; padding:2px 6px; margin:1px 3px 1px 0; border-radius:5px; font-size:11px; background:#0f172a; border:1px solid var(--border); color:#cbd5e1; }
 code, pre { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; }
 pre { background:#090f1d; border:1px solid var(--border); border-radius:8px; padding:10px; overflow:auto; max-height:280px; white-space:pre-wrap; word-break:break-word; }
-.split { display:grid; grid-template-columns:1.1fr 1fr; gap:14px; }
+.split { display:grid; grid-template-columns:minmax(0, 1.1fr) minmax(0, 1fr); gap:14px; }
 @media (max-width:1100px) { .split { grid-template-columns:1fr; } }
 .banner-ro { display:none; margin-bottom:14px; padding:10px 14px; border-radius:8px; background:#451a03; border:1px solid #d97706; color:#fde68a; }
 .banner-ro.show { display:block; }
@@ -541,26 +632,55 @@ pre { background:#090f1d; border:1px solid var(--border); border-radius:8px; pad
 .muted { color:var(--muted); }
 .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(2,6,23,0.78); z-index:50; align-items:center; justify-content:center; padding:20px; }
 .modal-backdrop.show { display:flex; }
-.modal-box { background:var(--panel); border:1px solid var(--border); border-radius:12px; max-width:1120px; width:100%; max-height:86vh; overflow:auto; padding:18px 22px; box-shadow:0 20px 50px rgba(0,0,0,0.65); }
+.modal-box { background:var(--panel); border:1px solid var(--border); border-radius:12px; max-width:94vw; width:100%; max-height:86vh; overflow:auto; padding:18px 22px; box-shadow:0 20px 50px rgba(0,0,0,0.65); }
 .modal-hdr { display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px; }
 .help-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 @media (max-width:960px) { .help-grid { grid-template-columns:1fr; } }
 .help-list { margin:6px 0 0 0; padding-left:18px; line-height:1.55; font-size:12.5px; color:var(--text); }
 .help-list li { margin-bottom:6px; }
+.pill.warn { background:#451a03; border-color:#f59e0b; color:#fde68a; }
+.pill.down { background:#450a0a; border-color:#ef4444; color:#fecaca; }
+.banner-warn { display:none; margin-bottom:14px; padding:10px 14px; border-radius:8px; background:#451a03; border:1px solid #f59e0b; color:#fde68a; align-items:center; justify-content:space-between; gap:10px; }
+.banner-warn.show { display:flex; }
+textarea { background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:9px 12px; font-size:13px; font-family:inherit; resize:vertical; }
+.chat-grid { display:grid; grid-template-columns:minmax(0, 2.2fr) minmax(360px, 1fr); gap:14px; }
+@media (max-width:1100px) { .chat-grid { grid-template-columns:1fr; } }
+#chat-sources-box { overflow-wrap:anywhere; word-break:break-word; }
+.chat-log { height:calc(100vh - 280px); min-height:520px; overflow:auto; background:#090f1d; border:1px solid var(--border); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:10px; }
+.chat-msg { padding:10px 12px; border-radius:10px; border:1px solid var(--border); line-height:1.5; white-space:pre-wrap; word-break:break-word; }
+.chat-msg.user { background:#132a4a; border-color:#0284c7; align-self:flex-end; max-width:90%; }
+.chat-msg.assistant { background:#111a2e; align-self:stretch; }
+.chat-meta { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:6px; font-size:11.5px; color:var(--muted); }
+.chat-think { margin:6px 0; border:1px dashed var(--border); border-radius:8px; padding:6px 8px; background:#0b1222; font-size:12px; }
+.chip-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; align-items:center; }
+.copy-chip { background:#0f172a; border:1px solid var(--accent); color:var(--accent); border-radius:6px; padding:3px 8px; font-size:11.5px; cursor:pointer; }
+.drop-zone { border:2px dashed var(--border); border-radius:10px; padding:14px; text-align:center; background:#090f1d; cursor:pointer; margin-bottom:10px; }
+.drop-zone.dragover { border-color:var(--accent); background:#0f1e36; }
+.snap-list { max-height:260px; overflow:auto; border:1px solid var(--border); border-radius:8px; background:#090f1d; }
+.snap-item { padding:7px 10px; border-bottom:1px solid var(--border); cursor:pointer; font-size:12px; display:flex; justify-content:space-between; gap:8px; }
+.snap-item:hover, .snap-item.active { background:#18243f; color:var(--accent); }
+.arena-cols { display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:14px; margin-top:12px; }
+@media (max-width:1000px) { .arena-cols { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
 <header>
   <div class="brand">
-    <span>D-Bot LightRAG — Cockpit Qualite</span>
+    <span>D-Bot LightRAG — Cockpit &amp; Studio</span>
     <span id="live-pill" class="pill idle" title="Etat temps reel du verrou d'indexation LightRAG"><span class="dot"></span><span id="live-pill-txt">Verification...</span></span>
     <span id="storage-pill" class="pill" title="Taille de la base active sur SSD local et du miroir Google Drive">Stockage...</span>
+    <span id="ollama-pill" class="pill" title="Etat Ollama :11434 et VRAM occupee">Ollama...</span>
+    <span id="unsloth-pill" class="pill" title="Etat Unsloth Studio :8888">Unsloth...</span>
+    <span id="searxng-pill" class="pill" title="Etat SearXNG natif Python (:8088, 0 Docker)">SearXNG...</span>
+    <span id="ram-pill" class="pill" title="Memoire unifiee macOS utilisee (M1 Max 64 Go)">RAM...</span>
   </div>
   <div class="actions">
+    <button id="btn-toggle-searxng" onclick="toggleSearxng()" title="Demarrer ou arreter SearXNG natif Python (:8088, 0 Docker, ~32 Mo RAM actif)">Demarrer SearXNG</button>
+    <button id="btn-unload-ollama" onclick="unloadOllamaVram()" title="Libere immediatement les modeles charges en VRAM Ollama (keep_alive=0)">Decharger Ollama VRAM</button>
     <button id="btn-run-hygiene" onclick="triggerHygiene(true)" title="Purge les orphelins, elague le graphe, compacte le cache LLM inutilise et synchronise le SSD local vers Google Drive">Hygiene &amp; Miroir Drive</button>
     <button id="btn-refresh-audit" onclick="loadAudit(true)" title="Force le recalcul immediat du score de sante de tous les fichiers">Rafraichir l'audit</button>
     <button onclick="downloadHtmlSnapshot()" title="Telecharge un rapport HTML autonome de l'audit actuel">Exporter HTML</button>
-    <button id="btn-open-help" onclick="toggleHelpModal(true)" title="Guide complet des boutons, options d'indexation et anomalies">? Aide &amp; Guide</button>
+    <button id="btn-open-help" onclick="toggleHelpModal(true)" title="Guide complet des boutons, options d'indexation et Studio IA">? Aide &amp; Guide</button>
   </div>
 </header>
 
@@ -570,11 +690,14 @@ pre { background:#090f1d; border:1px solid var(--border); border-radius:8px; pad
   <button data-tab="inspector" onclick="switchTab('inspector', this)">Inspecteur & Sous-Graphe</button>
   <button data-tab="graph" onclick="switchTab('graph', this)">Graphe & Synchronisation</button>
   <button data-tab="cad" onclick="switchTab('cad', this)">Parite CAO / BOM / SVG</button>
-  <button data-tab="retrieval" onclick="switchTab('retrieval', this)">Test Retrieval & Benchmark</button>
+  <button data-tab="retrieval" onclick="switchTab('retrieval', this)">Test Retrieval & Arena</button>
+  <button data-tab="chat" onclick="switchTab('chat', this)">Chat D-Bot</button>
+  <button data-tab="vision" onclick="switchTab('vision', this)">Vision CAO / FEA</button>
 </nav>
 
 <main>
   <div id="ro-banner" class="banner-ro"></div>
+  <div id="ram-guard-banner" class="banner-warn"><span id="ram-guard-text"></span><button onclick="unloadOllamaVram()">Decharger Ollama</button></div>
 
   <section id="tab-overview" class="tab-pane active">
     <div id="kpi-overview" class="kpi-grid"></div>
@@ -694,7 +817,7 @@ pre { background:#090f1d; border:1px solid var(--border); border-radius:8px; pad
         <table>
           <thead>
             <tr>
-              <th>Statut</th><th>Document cible</th><th>Versions CAO citees</th><th>Pieces controlees / Derive</th><th>Anomalies detectees</th>
+              <th>Statut</th><th>Document cible</th><th>Versions CAO citees</th><th>Pieces controlees / Derive</th><th>Anomalies detectees</th><th>Diagnostic IA</th>
             </tr>
           </thead>
           <tbody id="cad-docs-tbody"></tbody>
@@ -732,8 +855,164 @@ pre { background:#090f1d; border:1px solid var(--border); border-radius:8px; pad
     </div>
     <div id="retrieval-results"></div>
     <div id="benchmark-results" style="margin-top:16px;"></div>
+
+    <div class="card" style="margin-top:18px;">
+      <h3 style="margin-top:0;">Comparateur A/B &amp; Arena Locale (Sequentiel 64 Go M1 Max)</h3>
+      <div class="toolbar">
+        <select id="arena-q-select" onchange="onSelectArenaQuestion()" style="max-width:440px;">
+          <option value="">-- Charger une question depuis BENCHMARK_QA_DBOT_120.json --</option>
+        </select>
+        <input id="arena-token" type="text" placeholder="Token attendu (optionnel, ex: 85 MPa)" style="width:220px;">
+        <label><input id="arena-rag" type="checkbox" checked> Injecter contexte RAG</label>
+        <label><input id="arena-web" type="checkbox"> + Web (SearXNG)</label>
+        <select id="arena-rag-mode">
+          <option value="hybrid" selected>Mode RAG: hybrid</option>
+          <option value="naive">Mode RAG: naive</option>
+        </select>
+        <label><input id="arena-unload-between" type="checkbox" checked> Decharger Ollama entre runs</label>
+      </div>
+      <div class="toolbar">
+        <label>Cible A:
+          <select id="arena-t1">
+            <option value="ollama_gemma4" selected>Ollama gemma4:26b (Quotidien)</option>
+            <option value="unsloth_qwen38">Unsloth Qwen3.8-27B-GGUF</option>
+            <option value="ollama_qwen38">Ollama qwen3.8:27b-mlx</option>
+          </select>
+        </label>
+        <label>Cible B:
+          <select id="arena-t2" onchange="toggleCustomArenaFields()">
+            <option value="unsloth_qwen38" selected>Unsloth Qwen3.8-27B-GGUF</option>
+            <option value="ollama_qwen38">Ollama qwen3.8:27b-mlx</option>
+            <option value="ollama_gemma4">Ollama gemma4:26b</option>
+            <option value="custom_openai">Serveur OpenAI local custom (loopback)</option>
+          </select>
+        </label>
+        <input id="arena-custom-url" type="text" placeholder="http://127.0.0.1:8080/v1" style="display:none; width:210px;">
+        <input id="arena-custom-model" type="text" placeholder="nom-modele" style="display:none; width:160px;">
+        <button id="btn-run-arena" class="primary" onclick="runArena()">Lancer Arena Sequentielle</button>
+      </div>
+      <textarea id="arena-question" rows="2" style="width:100%;" placeholder="Saisissez la question technique a evaluer cote a cote..."></textarea>
+      <div id="arena-results" style="margin-top:12px;"></div>
+    </div>
+  </section>
+
+  <section id="tab-chat" class="tab-pane">
+    <div class="toolbar">
+      <label>Profil:
+        <select id="chat-profile">
+          <option value="ollama_gemma4" selected>Rapide &amp; Multimodal : Ollama gemma4:26b</option>
+          <option value="unsloth_qwen38">Expert Ingenierie : Unsloth Qwen3.8-27B-GGUF</option>
+          <option value="ollama_qwen38">Souverain MLX : Ollama qwen3.8:27b-mlx</option>
+        </select>
+      </label>
+      <label>Contexte:
+        <select id="chat-context-mode">
+          <option value="hybrid" selected>Hybride (Vecteurs + GraphML)</option>
+          <option value="naive">Vectoriel + Rerank BGE</option>
+          <option value="file">Fichier specifique</option>
+          <option value="none">Chat libre (0 RAG)</option>
+        </select>
+      </label>
+      <span id="chat-target-badge" class="tag" style="display:none;"></span>
+      <button id="btn-clear-target-file" onclick="clearChatTargetFile()" style="display:none;">Retirer fichier</button>
+      <label><input id="chat-thinking" type="checkbox"> Activer Thinking</label>
+      <label><input id="chat-use-web" type="checkbox"> + Web (SearXNG)</label>
+      <select id="chat-web-cat" title="Categorie de recherche SearXNG">
+        <option value="general" selected>Web: general</option>
+        <option value="it">Web: dev / IT</option>
+        <option value="science">Web: science</option>
+        <option value="news">Web: actualites</option>
+      </select>
+      <label title="Lire le contenu texte des 3 premieres pages publiques (filtre anti-SSRF)"><input id="chat-web-fetch" type="checkbox" checked> Lire pages</label>
+      <button onclick="resetChatSession()">Nouvelle session</button>
+    </div>
+    <div class="chat-grid">
+      <div class="card">
+        <div id="chat-messages" class="chat-log"></div>
+        <div class="chip-row" style="margin-top:8px;">
+          <button class="copy-chip" onclick="setChatPrompt('Donne le couple de serrage, la reference McMaster-Carr et le materiau des fixations du roulement RB8016.')">RB8016 &amp; Vis</button>
+          <button class="copy-chip" onclick="setChatPrompt('Resume les contraintes Von Mises max et le facteur de securite Sf pour la Bride Epaule RS-04.')">FEA Bride RS-04</button>
+          <button class="copy-chip" onclick="setChatPrompt('Explique la regle de routage de cable sur les actionneurs RobStride RS-00 a RS-06.')">Routage RobStride</button>
+        </div>
+        <div class="toolbar" style="margin-top:8px; margin-bottom:0; align-items:flex-end;">
+          <textarea id="chat-input" rows="2" style="flex:1;" placeholder="Posez votre question technique D-Bot (Ctrl+Entree pour envoyer)..." onkeydown="if((event.ctrlKey||event.metaKey)&&event.key==='Enter'){event.preventDefault();sendChatMessage();}"></textarea>
+          <button id="btn-chat-send" class="primary" onclick="sendChatMessage()">Envoyer</button>
+          <button id="btn-chat-stop" class="danger" onclick="stopChatStream()" disabled>Arreter</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;">Sources &amp; References McMaster Detectees</h3>
+        <div id="chat-mcmaster-box" class="chip-row" style="margin-bottom:10px;"><span class="muted">Aucune reference detectee pour l'instant.</span></div>
+        <div id="chat-sources-box" style="max-height:calc(100vh - 310px); min-height:490px; overflow:auto;"><span class="muted">Les extraits LightRAG, entites GraphML et liens vers l'Inspecteur apparaitront ici.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-vision" class="tab-pane">
+    <div class="two-col">
+      <div class="card">
+        <h3 style="margin-top:0;">1. Navigateur Visual_Snapshots &amp; Import Image</h3>
+        <div class="toolbar">
+          <select id="vlm-group" onchange="renderSnapshotList()">
+            <option value="ALL">Tous dossiers</option>
+            <option value="Vues_Ensemble">Vues_Ensemble</option>
+            <option value="Assemblages">Assemblages</option>
+            <option value="Pieces_Isolees">Pieces_Isolees</option>
+          </select>
+          <input id="vlm-filter" type="text" placeholder="Filtrer piece (ex: selle, bride, pelvis)..." oninput="renderSnapshotList()" style="flex:1;">
+          <button onclick="loadSnapshots()">Actualiser PNG</button>
+        </div>
+        <div id="vlm-snap-list" class="snap-list"></div>
+        <div id="vlm-drop-zone" class="drop-zone" style="margin-top:10px;" onclick="document.getElementById('vlm-file-input').click()">
+          Glissez-deposez ici une capture PNG/JPG/WebP (ou cliquez pour importer)
+          <input id="vlm-file-input" type="file" accept="image/png,image/jpeg,image/webp" style="display:none;" onchange="handleVlmFileInput(this.files)">
+        </div>
+        <div id="vlm-preview-wrap" style="text-align:center;">
+          <div id="vlm-selected-label" class="muted" style="margin-bottom:6px;">Aucune image selectionnee.</div>
+          <img id="vlm-preview-img" alt="Apercu CAO" style="max-width:100%; max-height:280px; border-radius:8px; border:1px solid var(--border); display:none;">
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;">2. Inspection Multimodale CAO / FEA</h3>
+        <div class="toolbar">
+          <label>Modele VLM:
+            <select id="vlm-profile">
+              <option value="ollama_gemma4" selected>Ollama gemma4:26b (VLM Natif)</option>
+              <option value="unsloth_qwen38">Unsloth Qwen3.8-27B-GGUF</option>
+            </select>
+          </label>
+          <label><input id="vlm-include-cad" type="checkbox" checked> Croiser JSON metrologique + RAG</label>
+          <label><input id="vlm-thinking" type="checkbox"> Thinking</label>
+        </div>
+        <div class="chip-row" style="margin-bottom:8px;">
+          <button class="copy-chip" onclick="setVlmPrompt('Decris la geometrie visible, identifie les perçages, bossages et symetries par rapport au JSON metrologique CAO.')">Controler silhouette &amp; percages</button>
+          <button class="copy-chip" onclick="setVlmPrompt('Verifie les degagements d assemblage, l absence d interference visuelle et rappelle le passage de cable deporte si un moteur RobStride est present.')">Degagements &amp; routage</button>
+          <button class="copy-chip" onclick="setVlmPrompt('Lis les zones critiques, concentrations de contraintes ou annotations visibles sur cette capture FEA / technique.')">Analyser carte FEA</button>
+        </div>
+        <textarea id="vlm-prompt" rows="3" style="width:100%;" placeholder="Question d'inspection sur l'image selectionnee..."></textarea>
+        <div class="toolbar" style="margin-top:8px;">
+          <button id="btn-vlm-analyze" class="primary" onclick="runVlmAnalysis()">Analyser Image</button>
+        </div>
+        <div id="vlm-result" style="max-height:360px; overflow:auto;"></div>
+      </div>
+    </div>
   </section>
 </main>
+
+<div id="cad-diag-modal" class="modal-backdrop" onclick="if(event.target===this)toggleCadDiagModal(false)">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <h2 id="cad-diag-title" style="margin:0; font-size:16px; color:var(--accent);">Diagnostic CAO / BOM / SVG</h2>
+      <div style="display:flex; gap:8px;">
+        <button id="btn-copy-cad-diag" onclick="copyCadDiagText()">Copier diagnostic / diff</button>
+        <button onclick="toggleCadDiagModal(false)">Fermer (Echap)</button>
+      </div>
+    </div>
+    <div id="cad-diag-meta" class="muted" style="margin-bottom:8px; font-size:12px;"></div>
+    <div id="cad-diag-chips" class="chip-row" style="margin-bottom:8px;"></div>
+    <pre id="cad-diag-body" style="max-height:60vh;"></pre>
+  </div>
+</div>
 
 <div id="help-modal" class="modal-backdrop" onclick="if(event.target===this)toggleHelpModal(false)">
   <div class="modal-box">
@@ -789,6 +1068,16 @@ pre { background:#090f1d; border:1px solid var(--border); border-radius:8px; pad
           <li><code>CAD_VERSION_DRIFT</code> / <code>PART_MASS_DRIFT</code> / <code>CAD_BOM_MISSING_REF</code> / <code>STALE_VISUAL_SNAPSHOT</code> : derive deterministe en temps reel entre <code>AUDIT_METROLOGIQUE_Torse_et_Bassin.json</code>, les dossiers techniques, la BOM McMaster-Carr et les schemas <code>media/*.svg</code>.</li>
         </ul>
       </div>
+      <div class="card">
+        <h3 style="margin-top:0;">5. Studio IA Local (Gemma4 + Unsloth Qwen3.8 + Garde RAM)</h3>
+        <ul class="help-list">
+          <li><strong>Bandeau Moteurs &amp; RAM</strong> : surveille Ollama (<code>:11434</code>), Unsloth Studio (<code>:8888</code>) et la RAM macOS. Le bouton <code>Decharger Ollama VRAM</code> libere la VRAM (<code>keep_alive=0</code>) avant de lancer Unsloth pour eviter les swap sur 64 Go.</li>
+          <li><strong>Verrou d'indexation</strong> : si <code>.indexing.lock</code> est actif, Chat, VLM, Diagnostic CAO et Arena sont verrouilles (HTTP 409) par securite.</li>
+          <li><strong>Chat D-Bot &amp; Vision CAO</strong> : streaming SSE avec raisonnement depliable, citations cliquables vers l'Inspecteur, extraction 1-clic des references McMaster-Carr 9 caracteres, et navigation directe dans <code>Visual_Snapshots</code>.</li>
+          <li><strong>Diagnostic CAO &amp; Arena A/B</strong> : propositions de correctifs strictement en lecture seule (aucune ecriture disque) et comparatif sequentiel TTFT / tok/s sur <code>BENCHMARK_QA_DBOT_120.json</code>.</li>
+          <li><strong>Recherche Web Souveraine (SearXNG natif :8088, 0 Docker)</strong> : demarrez/arretez SearXNG a la demande depuis le bandeau haut (<code>0 Mo</code> lorsque arrete), puis cochez <code>+ Web (SearXNG)</code> dans <code>Chat D-Bot</code> ou <code>Arena</code>. Protection anti-SSRF sur les URL externes et priorite absolue a la verite terrain D-Bot.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
@@ -804,7 +1093,10 @@ function toggleHelpModal(show) {
 }
 
 document.addEventListener("keydown", function(e) {
-  if (e.key === "Escape") toggleHelpModal(false);
+  if (e.key === "Escape") {
+    toggleHelpModal(false);
+    toggleCadDiagModal(false);
+  }
 });
 
 function escapeHtml(str) {
@@ -821,6 +1113,8 @@ function switchTab(tabId, btn) {
   document.querySelectorAll("nav.tabs button").forEach(function(el) { el.classList.remove("active"); });
   document.getElementById("tab-" + tabId).classList.add("active");
   if (btn) btn.classList.add("active");
+  if (tabId === "vision" && !VLM_SNAPSHOTS_LOADED) loadSnapshots();
+  if (tabId === "retrieval" && !ARENA_QUESTIONS_LOADED) loadArenaQuestions();
 }
 
 function renderBars(containerId, items, color) {
@@ -1046,7 +1340,8 @@ function renderFilesTable() {
       "<td>" + ret + "</td>" +
       "<td>" + grd + "</td>" +
       "<td>" + (tags || "<span class='muted'>OK</span>") + "</td>" +
-      "<td><button onclick='inspectFile(" + JSON.stringify(d.rel_path) + ")'>Inspecter</button></td>" +
+      "<td style='white-space:nowrap;'><button onclick='inspectFile(" + JSON.stringify(d.rel_path) + ")'>Inspecter</button> " +
+      "<button onclick='openFileInChat(" + JSON.stringify(d.rel_path) + ")'>Discuter</button></td>" +
       "</tr>";
   }).join("");
 }
@@ -1138,7 +1433,8 @@ async function inspectFile(relPath) {
   var a = data.audit || {};
   var secTxt = (a.sections_count && a.sections_count > 0) ? (" | Sections: <strong>" + a.sections_count + "</strong>") : "";
   document.getElementById("insp-title").innerHTML = "<strong>" + escapeHtml(relPath) + "</strong> | Score: <span class='badge " +
-    escapeHtml(a.health_status) + "'>" + a.score + "/100</span>" + secTxt + " | doc_id: <code>" + escapeHtml(a.doc_id || "absent") + "</code>";
+    escapeHtml(a.health_status) + "'>" + a.score + "/100</span>" + secTxt + " | doc_id: <code>" + escapeHtml(a.doc_id || "absent") +
+    "</code> <button style='margin-left:8px;' onclick='openFileInChat(" + JSON.stringify(relPath) + ")'>Discuter de ce fichier</button>";
 
   var chunksHtml = (data.chunks || []).map(function(c) {
     var errs = (c.syntax_errors || []).length
@@ -1226,6 +1522,18 @@ function renderGraphTab() {
   loadAuditMd();
 }
 
+function _registerCadDriftItem(relPath, payload) {
+  window._CAD_DRIFT_ITEMS = window._CAD_DRIFT_ITEMS || [];
+  var idx = window._CAD_DRIFT_ITEMS.length;
+  window._CAD_DRIFT_ITEMS.push({ rel_path: relPath || "", drift_item: payload || {} });
+  return idx;
+}
+
+function _cadActionButtons(idx) {
+  return "<button onclick='runCadDiagnose(" + idx + ", &quot;diagnose&quot;, &quot;ollama_gemma4&quot;)'>Diagnostiquer (Gemma4)</button> " +
+    "<button onclick='runCadDiagnose(" + idx + ", &quot;diff&quot;, &quot;unsloth_qwen38&quot;)'>Proposer Diff (Unsloth)</button>";
+}
+
 function renderBitemporalBox(bt) {
   var btBox = document.getElementById("cad-bitemporal-box");
   if (!btBox) return;
@@ -1241,18 +1549,21 @@ function renderBitemporalBox(bt) {
     return;
   }
   var rows = pending.map(function(it) {
+    var idx = _registerCadDriftItem(it.target_level1_rel_path || it.study_rel_path, it);
     return "<tr>" +
       "<td><code>" + escapeHtml(it.study_rel_path) + "</code></td>" +
       "<td>" + escapeHtml(it.study_date) + "</td>" +
       "<td><code>" + escapeHtml(it.target_level1_rel_path) + "</code></td>" +
       "<td>" + escapeHtml(it.target_level1_date) + "</td>" +
       "<td><span class='badge warning'>+" + escapeHtml(it.lead_days) + " j</span></td>" +
+      "<td style='white-space:nowrap;'>" + _cadActionButtons(idx) + "</td>" +
       "</tr>";
   }).join("");
-  btBox.innerHTML = hdr + "<table><thead><tr><th>Etude STUDY_ recente</th><th>Date etude</th><th>Dossier Niveau 1 cible</th><th>Date Niveau 1</th><th>Avance</th></tr></thead><tbody>" + rows + "</tbody></table>";
+  btBox.innerHTML = hdr + "<table><thead><tr><th>Etude STUDY_ recente</th><th>Date etude</th><th>Dossier Niveau 1 cible</th><th>Date Niveau 1</th><th>Avance</th><th>Diagnostic IA</th></tr></thead><tbody>" + rows + "</tbody></table>";
 }
 
 function renderCadTab() {
+  window._CAD_DRIFT_ITEMS = [];
   var cd = AUDIT_DATA.cad_drift || {};
   var kpiBox = document.getElementById("kpi-cad");
   var docsBody = document.getElementById("cad-docs-tbody");
@@ -1263,7 +1574,7 @@ function renderCadTab() {
 
   if (!cd.available) {
     kpiBox.innerHTML = "<div class='card'><div class='kpi-val'>Indisponible</div><div class='kpi-lbl'>AUDIT_METROLOGIQUE_Torse_et_Bassin.json absent</div></div>";
-    docsBody.innerHTML = "<tr><td colspan='5' class='muted'>Aucun audit metrologique CAO trouve dans le workspace.</td></tr>";
+    docsBody.innerHTML = "<tr><td colspan='6' class='muted'>Aucun audit metrologique CAO trouve dans le workspace.</td></tr>";
     bomBox.innerHTML = "<span class='muted'>Donnees indisponibles.</span>";
     svgBox.innerHTML = "<span class='muted'>Donnees indisponibles.</span>";
     return;
@@ -1294,12 +1605,14 @@ function renderCadTab() {
     var issHtml = (d.issues || []).length
       ? d.issues.map(function(i) { return "<div><span class='tag'>" + escapeHtml(i.code) + "</span> " + escapeHtml(i.message) + "</div>"; }).join("")
       : "<span class='muted'>Aucune derive detectee</span>";
+    var idx = _registerCadDriftItem(d.rel_path, d);
     return "<tr>" +
       "<td><span class='badge " + badgeCls + "'>" + escapeHtml(d.status) + "</span></td>" +
       "<td><code>" + escapeHtml(d.rel_path) + "</code></td>" +
       "<td>" + escapeHtml(vers) + "</td>" +
       "<td>" + (d.checked_parts || 0) + " / " + (d.drifted_parts || 0) + "</td>" +
       "<td>" + issHtml + "</td>" +
+      "<td style='white-space:nowrap;'>" + _cadActionButtons(idx) + "</td>" +
       "</tr>";
   }).join("");
 
@@ -1307,6 +1620,8 @@ function renderCadTab() {
   bomParts.push("<div style='margin-bottom:8px;'><strong>BOM Locale</strong> (<code>" + escapeHtml(bc.local_bom_rel || "-") + "</code>) : " +
     (missLocal === 0 ? "<span class='badge healthy'>100 % des " + (bc.cad_refs_count || 0) + " refs presentes</span>" : "<span class='badge critical'>" + missLocal + " manquante(s)</span>") + "</div>");
   if (missLocal > 0) {
+    var bomLocalIdx = _registerCadDriftItem(bc.local_bom_rel || "", { kind: "missing_in_local_bom", items: bc.missing_in_local_bom });
+    bomParts.push("<div style='margin-bottom:6px;'>" + _cadActionButtons(bomLocalIdx) + "</div>");
     bomParts.push("<div style='margin-bottom:8px;'>" + bc.missing_in_local_bom.map(function(m) {
       return "<div><span class='tag'>" + escapeHtml(m.ref) + "</span> " + escapeHtml(m.component_name || "") + " (qte " + (m.quantity || 1) + ")</div>";
     }).join("") + "</div>");
@@ -1314,6 +1629,8 @@ function renderCadTab() {
   bomParts.push("<div style='margin-bottom:8px;'><strong>BOM Globale</strong> (<code>" + escapeHtml(bc.global_bom_rel || "-") + "</code>) : " +
     (missGlobal === 0 ? "<span class='badge healthy'>Complete</span>" : "<span class='badge warning'>" + missGlobal + " manquante(s) en CAO->Globale</span>") + "</div>");
   if (missGlobal > 0) {
+    var bomGlobIdx = _registerCadDriftItem(bc.global_bom_rel || "", { kind: "missing_in_global_bom", items: bc.missing_in_global_bom });
+    bomParts.push("<div style='margin-bottom:6px;'>" + _cadActionButtons(bomGlobIdx) + "</div>");
     bomParts.push("<div>" + bc.missing_in_global_bom.map(function(m) {
       return "<div><span class='tag'>" + escapeHtml(m.ref) + "</span> " + escapeHtml(m.component_name || "") + " (qte " + (m.quantity || 1) + ")</div>";
     }).join("") + "</div>");
@@ -1334,7 +1651,8 @@ function renderCadTab() {
   }
   var olderSvgs = sf.svgs_older_than_cad || [];
   if (olderSvgs.length) {
-    svgParts.push("<div><strong>SVG anterieurs au JSON CAO (" + (sf.svgs_older_than_cad_count || olderSvgs.length) + ") :</strong></div>");
+    var svgIdx = _registerCadDriftItem("", { kind: "svgs_older_than_cad", svgs: olderSvgs });
+    svgParts.push("<div style='margin-bottom:6px;'><strong>SVG anterieurs au JSON CAO (" + (sf.svgs_older_than_cad_count || olderSvgs.length) + ") :</strong> " + _cadActionButtons(svgIdx) + "</div>");
     svgParts.push(olderSvgs.map(function(s) {
       return "<div style='margin:3px 0;'><code>" + escapeHtml(s.file_name) + "</code> <span class='muted'>(-" + escapeHtml(s.lag_hours) + " h)</span></div>";
     }).join(""));
@@ -1408,8 +1726,641 @@ function downloadHtmlSnapshot() {
   window.open("/api/export/html", "_blank");
 }
 
+var CHAT_HISTORY = [];
+var CHAT_TARGET_FILE = null;
+var CHAT_ABORT = null;
+var VLM_SNAPSHOTS_DATA = null;
+var VLM_SNAPSHOTS_LOADED = false;
+var VLM_SELECTED_SNAPSHOT = null;
+var VLM_UPLOADED_B64 = null;
+var ARENA_QUESTIONS = [];
+var ARENA_QUESTIONS_LOADED = false;
+var CAD_DIAG_LAST_TEXT = "";
+var SEARXNG_RUNNING = false;
+
+function copyTextOneClick(txt, btn) {
+  if (!navigator.clipboard) return;
+  navigator.clipboard.writeText(txt || "").then(function() {
+    if (btn) {
+      var old = btn.textContent;
+      btn.textContent = "Copie OK";
+      setTimeout(function() { btn.textContent = old; }, 1200);
+    }
+  });
+}
+
+function renderMcmasterChips(refs) {
+  if (!refs || !refs.length) return "<span class='muted'>Aucune reference McMaster-Carr 9 car. detectee.</span>";
+  return refs.map(function(code) {
+    return "<button class='copy-chip' title='Copier uniquement " + escapeHtml(code) + " pour Fusion 360' onclick='copyTextOneClick(" + JSON.stringify(code) + ", this)'>" + escapeHtml(code) + " (Copier)</button>";
+  }).join("");
+}
+
+function hasDollarOrLatexClient(txt) {
+  if (!txt) return false;
+  if (txt.indexOf(String.fromCharCode(36)) !== -1) return true;
+  return /\\\\text\\{|\\\\approx|\\\\pm|\\\\varnothing|\\\\sqrt\\{|\\\\circ/.test(txt);
+}
+
+function formatRichAnswerHtml(rawText) {
+  var txt = String(rawText || "");
+  var fence = String.fromCharCode(96, 96, 96);
+  var parts = txt.split(fence);
+  if (parts.length === 1) return "<div style='white-space:pre-wrap;'>" + escapeHtml(txt) + "</div>";
+  var out = [];
+  for (var i = 0; i < parts.length; i++) {
+    if (i % 2 === 0) {
+      if (parts[i]) out.push("<div style='white-space:pre-wrap;'>" + escapeHtml(parts[i]) + "</div>");
+    } else {
+      var lines = parts[i].split("\\n");
+      var lang = lines[0].trim();
+      var codeBody = lines.length > 1 ? lines.slice(1).join("\\n") : parts[i];
+      out.push("<div style='margin:6px 0;'><div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;'>" +
+        "<span class='tag'>" + escapeHtml(lang || "code") + "</span>" +
+        "<button class='copy-chip' onclick='copyTextOneClick(" + JSON.stringify(codeBody) + ", this)'>Copier bloc</button></div>" +
+        "<pre style='margin:0;'>" + escapeHtml(codeBody) + "</pre></div>");
+    }
+  }
+  return out.join("");
+}
+
+async function loadEnginesStatus() {
+  try {
+    var resp = await fetch("/api/engines/status");
+    if (!resp.ok) return;
+    var st = await resp.json();
+    var ol = st.ollama || {};
+    var un = st.unsloth || {};
+    var sx = st.searxng || {};
+    var mem = st.memory || {};
+    var idx = st.indexing || {};
+
+    var olPill = document.getElementById("ollama-pill");
+    if (olPill) {
+      if (!ol.reachable) {
+        olPill.className = "pill down";
+        olPill.textContent = "Ollama : OFF";
+      } else {
+        var loadedNames = (ol.loaded_models || []).map(function(m) { return m.name; });
+        olPill.className = (ol.total_vram_gb > 0) ? "pill warn" : "pill idle";
+        olPill.textContent = loadedNames.length
+          ? ("Ollama : " + loadedNames.join(", ") + " (" + ol.total_vram_gb + " Go)")
+          : "Ollama : Pret (0 Go VRAM)";
+      }
+    }
+
+    var unPill = document.getElementById("unsloth-pill");
+    if (unPill) {
+      if (!un.reachable) {
+        unPill.className = "pill down";
+        unPill.textContent = "Unsloth : OFF";
+      } else {
+        unPill.className = "pill idle";
+        unPill.textContent = "Unsloth : Actif (:8888)";
+      }
+    }
+
+    var sxPill = document.getElementById("searxng-pill");
+    var sxBtn = document.getElementById("btn-toggle-searxng");
+    SEARXNG_RUNNING = Boolean(sx.reachable || sx.running_pid);
+    if (sxPill) {
+      if (!sx.installed) {
+        sxPill.className = "pill down";
+        sxPill.textContent = "SearXNG : Non installe";
+      } else if (sx.reachable) {
+        sxPill.className = "pill idle";
+        sxPill.textContent = "SearXNG : Actif (" + (sx.rss_mb || 0) + " Mo)";
+      } else {
+        sxPill.className = "pill";
+        sxPill.textContent = "SearXNG : OFF (0 Mo)";
+      }
+    }
+    if (sxBtn) {
+      sxBtn.disabled = !sx.installed;
+      sxBtn.textContent = SEARXNG_RUNNING ? "Arreter SearXNG" : "Demarrer SearXNG";
+    }
+
+    var ramPill = document.getElementById("ram-pill");
+    if (ramPill) {
+      if (mem.available) {
+        ramPill.className = mem.percent_used >= 85 ? "pill warn" : "pill";
+        ramPill.textContent = "RAM : " + mem.used_gb + " / " + mem.total_gb + " Go (" + mem.percent_used + " %)";
+      } else {
+        ramPill.className = "pill";
+        ramPill.textContent = "RAM : N/A";
+      }
+    }
+
+    var warnBanner = document.getElementById("ram-guard-banner");
+    var warnTxt = document.getElementById("ram-guard-text");
+    if (warnBanner && warnTxt) {
+      var reasons = st.warning_reasons || [];
+      if (reasons.length) {
+        warnBanner.classList.add("show");
+        warnTxt.textContent = reasons.join(" | ");
+      } else {
+        warnBanner.classList.remove("show");
+      }
+    }
+
+    var locked = Boolean(idx.lock_active);
+    ["btn-unload-ollama", "btn-chat-send", "btn-vlm-analyze", "btn-run-arena"].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.disabled = locked;
+    });
+  } catch (e) {}
+}
+
+async function toggleSearxng() {
+  var btn = document.getElementById("btn-toggle-searxng");
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = SEARXNG_RUNNING ? "Arret..." : "Demarrage...";
+  }
+  try {
+    var endpoint = SEARXNG_RUNNING ? "/api/engines/searxng/stop" : "/api/engines/searxng/start";
+    var resp = await fetch(endpoint, { method: "POST" });
+    if (!resp.ok) {
+      var err = await resp.json();
+      alert("Action SearXNG echouee : " + (err.detail || resp.status));
+    }
+  } finally {
+    await loadEnginesStatus();
+  }
+}
+
+async function unloadOllamaVram() {
+  var btn = document.getElementById("btn-unload-ollama");
+  if (btn) btn.disabled = true;
+  try {
+    var resp = await fetch("/api/engines/ollama/unload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({})
+    });
+    if (!resp.ok) {
+      var err = await resp.json();
+      alert("Dechargement bloque : " + (err.detail || resp.status));
+    }
+  } finally {
+    await loadEnginesStatus();
+  }
+}
+
+function openFileInChat(relPath) {
+  CHAT_TARGET_FILE = relPath;
+  var modeSel = document.getElementById("chat-context-mode");
+  if (modeSel) modeSel.value = "file";
+  var badge = document.getElementById("chat-target-badge");
+  var clr = document.getElementById("btn-clear-target-file");
+  if (badge) { badge.style.display = "inline-block"; badge.textContent = "Fichier: " + relPath; }
+  if (clr) clr.style.display = "inline-block";
+  switchTab("chat", document.querySelector("nav.tabs button[data-tab='chat']"));
+  var inp = document.getElementById("chat-input");
+  if (inp) inp.focus();
+}
+
+function clearChatTargetFile() {
+  CHAT_TARGET_FILE = null;
+  var modeSel = document.getElementById("chat-context-mode");
+  if (modeSel && modeSel.value === "file") modeSel.value = "hybrid";
+  var badge = document.getElementById("chat-target-badge");
+  var clr = document.getElementById("btn-clear-target-file");
+  if (badge) badge.style.display = "none";
+  if (clr) clr.style.display = "none";
+}
+
+function resetChatSession() {
+  CHAT_HISTORY = [];
+  var box = document.getElementById("chat-messages");
+  if (box) box.innerHTML = "";
+  var mc = document.getElementById("chat-mcmaster-box");
+  if (mc) mc.innerHTML = "<span class='muted'>Session reinitialisee.</span>";
+}
+
+function setChatPrompt(txt) {
+  var inp = document.getElementById("chat-input");
+  if (inp) { inp.value = txt; inp.focus(); }
+}
+
+function stopChatStream() {
+  if (CHAT_ABORT) CHAT_ABORT.abort();
+}
+
+async function sendChatMessage() {
+  var inp = document.getElementById("chat-input");
+  var query = (inp && inp.value || "").trim();
+  if (!query) return;
+  var profile = document.getElementById("chat-profile").value;
+  var ctxMode = document.getElementById("chat-context-mode").value;
+  if (ctxMode === "file" && !CHAT_TARGET_FILE) {
+    alert("Selectionnez un fichier via Discuter dans la matrice, ou passez en mode Hybride.");
+    return;
+  }
+  var thinking = document.getElementById("chat-thinking").checked;
+
+  var logBox = document.getElementById("chat-messages");
+  var userBubble = document.createElement("div");
+  userBubble.className = "chat-msg user";
+  userBubble.textContent = query;
+  logBox.appendChild(userBubble);
+  inp.value = "";
+
+  var asstBubble = document.createElement("div");
+  asstBubble.className = "chat-msg assistant";
+  asstBubble.innerHTML = "<div class='chat-meta'><span class='tag'>" + escapeHtml(profile) + "</span> <span class='tag'>" + escapeHtml(ctxMode) + "</span> <span class='chat-stat muted'>Connexion...</span></div>" +
+    "<details class='chat-think' style='display:none;'><summary>Raisonnement (thinking)</summary><pre class='think-pre' style='margin-top:6px;'></pre></details>" +
+    "<div class='answer-body'></div><div class='chip-row answer-chips'></div>";
+  logBox.appendChild(asstBubble);
+  logBox.scrollTop = logBox.scrollHeight;
+
+  var statEl = asstBubble.querySelector(".chat-stat");
+  var thinkDet = asstBubble.querySelector(".chat-think");
+  var thinkPre = asstBubble.querySelector(".think-pre");
+  var ansBody = asstBubble.querySelector(".answer-body");
+  var chipsEl = asstBubble.querySelector(".answer-chips");
+
+  var sendBtn = document.getElementById("btn-chat-send");
+  var stopBtn = document.getElementById("btn-chat-stop");
+  sendBtn.disabled = true;
+  stopBtn.disabled = false;
+  CHAT_ABORT = new AbortController();
+
+  var accAnswer = "";
+  var accThink = "";
+  try {
+    var resp = await fetch("/api/chat/stream", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      signal: CHAT_ABORT.signal,
+      body: JSON.stringify({
+        query: query,
+        profile: profile,
+        context_mode: ctxMode,
+        target_rel_path: CHAT_TARGET_FILE,
+        thinking: thinking,
+        use_web: Boolean(document.getElementById("chat-use-web") && document.getElementById("chat-use-web").checked),
+        web_categories: (document.getElementById("chat-web-cat") && document.getElementById("chat-web-cat").value) || "general",
+        web_fetch_pages: Boolean(document.getElementById("chat-web-fetch") && document.getElementById("chat-web-fetch").checked),
+        history: CHAT_HISTORY.slice(-8)
+      })
+    });
+    if (!resp.ok) {
+      var errObj = await resp.json();
+      throw new Error(errObj.detail || ("HTTP " + resp.status));
+    }
+    var reader = resp.body.getReader();
+    var decoder = new TextDecoder("utf-8");
+    var buf = "";
+    while (true) {
+      var rd = await reader.read();
+      if (rd.done) break;
+      buf += decoder.decode(rd.value, { stream: true }).replace(/\\r/g, "");
+      var frames = buf.split("\\n\\n");
+      buf = frames.pop() || "";
+      frames.forEach(function(frame) {
+        var evName = "message";
+        var dataStr = "";
+        frame.split("\\n").forEach(function(ln) {
+          if (ln.indexOf("event:") === 0) evName = ln.slice(6).trim();
+          else if (ln.indexOf("data:") === 0) dataStr += ln.slice(5).trim();
+        });
+        if (!dataStr) return;
+        var ev = JSON.parse(dataStr);
+        if (evName === "context") {
+          var srcBox = document.getElementById("chat-sources-box");
+          var srcs = ev.sources || [];
+          var webSrcs = ev.web_sources || [];
+          var gSum = ev.graph_summary ? ("<div style='margin-bottom:8px;'><strong>Sous-graphe LightRAG</strong><pre>" + escapeHtml(ev.graph_summary) + "</pre></div>") : "";
+          var sHtml = srcs.map(function(s) {
+            return "<div style='border:1px solid #273654;border-radius:8px;padding:8px;margin-bottom:8px;'>" +
+              "<div><a href='#' style='color:#38bdf8;font-weight:700;' onclick='inspectFile(" + JSON.stringify(s.rel_path) + ");return false;'>" + escapeHtml(s.rel_path) + "</a> " +
+              "<span class='tag'>score=" + escapeHtml(s.score) + "</span></div>" +
+              "<div class='muted' style='font-size:11.5px;margin-top:4px;'>" + escapeHtml(s.snippet) + "</div></div>";
+          }).join("");
+          var wHtml = "";
+          if (ev.web_error) {
+            wHtml += "<div style='border:1px solid #f59e0b;border-radius:8px;padding:8px;margin-bottom:8px;color:#fde68a;'>SearXNG indisponible : " + escapeHtml(ev.web_error) + "</div>";
+          }
+          if (webSrcs.length) {
+            wHtml += "<div style='margin:8px 0 6px 0;'><strong>Sources Web SearXNG (" + webSrcs.length + ")</strong></div>" +
+              webSrcs.map(function(w) {
+                var safeHref = (w.url && (w.url.indexOf("http://") === 0 || w.url.indexOf("https://") === 0)) ? w.url : "#";
+                return "<div style='border:1px solid #0e7490;border-radius:8px;padding:8px;margin-bottom:8px;background:#0a1929;'>" +
+                  "<div><a href='" + escapeHtml(safeHref) + "' target='_blank' rel='noopener noreferrer' style='color:#22d3ee;font-weight:700;'>" + escapeHtml(w.title || safeHref) + "</a> " +
+                  "<span class='tag'>" + escapeHtml(w.engine || "web") + "</span></div>" +
+                  "<div class='muted' style='font-size:11px;word-break:break-all;'>" + escapeHtml(w.url || "") + "</div>" +
+                  "<div class='muted' style='font-size:11.5px;margin-top:4px;'>" + escapeHtml(w.snippet || "") + "</div></div>";
+              }).join("");
+          }
+          srcBox.innerHTML = gSum + sHtml + wHtml || "<span class='muted'>Mode sans retrieval RAG ni Web (0 sources).</span>";
+        } else if (evName === "thinking") {
+          accThink += (ev.delta || "");
+          thinkDet.style.display = "block";
+          thinkPre.textContent = accThink;
+        } else if (evName === "token") {
+          accAnswer += (ev.delta || "");
+          statEl.textContent = "Streaming...";
+          ansBody.textContent = accAnswer;
+          logBox.scrollTop = logBox.scrollHeight;
+        } else if (evName === "done") {
+          accAnswer = ev.answer || accAnswer;
+          ansBody.innerHTML = formatRichAnswerHtml(accAnswer);
+          var m = ev.metrics || {};
+          var latexFlag = ev.has_dollar_or_latex ? "<span class='badge warning'>Attention LaTeX/Dollar</span>" : "<span class='badge healthy'>Zero-Dollar OK</span>";
+          statEl.innerHTML = "TTFT " + m.ttft_s + " s | " + m.tok_per_s + " tok/s | " + m.total_s + " s " + latexFlag;
+          var mcRefs = ev.mcmaster_refs || [];
+          document.getElementById("chat-mcmaster-box").innerHTML = renderMcmasterChips(mcRefs);
+          chipsEl.innerHTML = "<button class='copy-chip' onclick='copyTextOneClick(" + JSON.stringify(accAnswer) + ", this)'>Copier reponse</button> " + (mcRefs.length ? renderMcmasterChips(mcRefs) : "");
+          CHAT_HISTORY.push({ role: "user", content: query });
+          CHAT_HISTORY.push({ role: "assistant", content: accAnswer });
+        } else if (evName === "error") {
+          statEl.innerHTML = "<span class='badge critical'>Erreur</span>";
+          ansBody.textContent = ev.message || "Erreur moteur LLM";
+        }
+      });
+    }
+  } catch (err) {
+    if (err.name === "AbortError") {
+      statEl.textContent = "Interrompu par utilisateur";
+    } else {
+      statEl.innerHTML = "<span class='badge critical'>Erreur</span>";
+      ansBody.textContent = err.message || String(err);
+    }
+  } finally {
+    sendBtn.disabled = false;
+    stopBtn.disabled = true;
+    CHAT_ABORT = null;
+    loadEnginesStatus();
+  }
+}
+
+async function loadSnapshots() {
+  var box = document.getElementById("vlm-snap-list");
+  if (!box) return;
+  try {
+    var resp = await fetch("/api/vlm/snapshots");
+    if (!resp.ok) return;
+    VLM_SNAPSHOTS_DATA = await resp.json();
+    VLM_SNAPSHOTS_LOADED = true;
+    renderSnapshotList();
+  } catch (e) {}
+}
+
+function renderSnapshotList() {
+  var box = document.getElementById("vlm-snap-list");
+  if (!box || !VLM_SNAPSHOTS_DATA) return;
+  if (!VLM_SNAPSHOTS_DATA.available) {
+    box.innerHTML = "<div class='muted' style='padding:10px;'>Dossier Visual_Snapshots non monte : " + escapeHtml(VLM_SNAPSHOTS_DATA.root) + "</div>";
+    return;
+  }
+  var grp = document.getElementById("vlm-group").value;
+  var flt = (document.getElementById("vlm-filter").value || "").toLowerCase();
+  var groups = VLM_SNAPSHOTS_DATA.groups || {};
+  var list = [];
+  Object.keys(groups).forEach(function(k) {
+    if (grp !== "ALL" && k !== grp) return;
+    (groups[k] || []).forEach(function(item) { list.push(item); });
+  });
+  if (flt) list = list.filter(function(it) { return it.rel_path.toLowerCase().indexOf(flt) !== -1; });
+  if (!list.length) {
+    box.innerHTML = "<div class='muted' style='padding:10px;'>Aucun snapshot correspondant.</div>";
+    return;
+  }
+  box.innerHTML = list.slice(0, 200).map(function(it) {
+    var cls = VLM_SELECTED_SNAPSHOT === it.rel_path ? "snap-item active" : "snap-item";
+    return "<div class='" + cls + "' onclick='selectSnapshot(" + JSON.stringify(it.rel_path) + ")'>" +
+      "<span><code>" + escapeHtml(it.rel_path) + "</code></span>" +
+      "<span class='muted'>" + it.size_kb + " Ko</span></div>";
+  }).join("");
+}
+
+function selectSnapshot(relPath) {
+  VLM_SELECTED_SNAPSHOT = relPath;
+  VLM_UPLOADED_B64 = null;
+  renderSnapshotList();
+  var img = document.getElementById("vlm-preview-img");
+  var lbl = document.getElementById("vlm-selected-label");
+  lbl.textContent = "Snapshot : " + relPath;
+  img.src = "/api/vlm/snapshot-image?rel_path=" + encodeURIComponent(relPath);
+  img.style.display = "inline-block";
+}
+
+function handleVlmFileInput(files) {
+  if (!files || !files.length) return;
+  var f = files[0];
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    VLM_SELECTED_SNAPSHOT = null;
+    VLM_UPLOADED_B64 = String(ev.target.result || "");
+    renderSnapshotList();
+    var img = document.getElementById("vlm-preview-img");
+    var lbl = document.getElementById("vlm-selected-label");
+    lbl.textContent = "Image importee : " + f.name;
+    img.src = VLM_UPLOADED_B64;
+    img.style.display = "inline-block";
+  };
+  reader.readAsDataURL(f);
+}
+
+function setVlmPrompt(txt) {
+  var el = document.getElementById("vlm-prompt");
+  if (el) { el.value = txt; el.focus(); }
+}
+
+async function runVlmAnalysis() {
+  var prompt = (document.getElementById("vlm-prompt").value || "").trim();
+  if (!prompt) { alert("Saisissez une question pour l'analyse image."); return; }
+  if (!VLM_SELECTED_SNAPSHOT && !VLM_UPLOADED_B64) { alert("Selectionnez un snapshot ou importez une image."); return; }
+  var out = document.getElementById("vlm-result");
+  var btn = document.getElementById("btn-vlm-analyze");
+  btn.disabled = true;
+  out.innerHTML = "<div class='card'>Analyse multimodale VLM en cours...</div>";
+  try {
+    var resp = await fetch("/api/vlm/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: prompt,
+        profile: document.getElementById("vlm-profile").value,
+        snapshot_rel_path: VLM_SELECTED_SNAPSHOT,
+        image_b64: VLM_UPLOADED_B64,
+        include_cad_context: document.getElementById("vlm-include-cad").checked,
+        thinking: document.getElementById("vlm-thinking").checked
+      })
+    });
+    var data = await resp.json();
+    if (!resp.ok) throw new Error(data.detail || ("HTTP " + resp.status));
+    var m = data.metrics || {};
+    var thinkHtml = data.thinking ? ("<details class='chat-think'><summary>Raisonnement VLM</summary><pre>" + escapeHtml(data.thinking) + "</pre></details>") : "";
+    var srcsHtml = (data.sources || []).map(function(s) {
+      return "<span class='tag'><a href='#' style='color:#38bdf8;' onclick='inspectFile(" + JSON.stringify(s.rel_path) + ");return false;'>" + escapeHtml(s.rel_path) + "</a></span>";
+    }).join(" ");
+    out.innerHTML = "<div class='card'>" +
+      "<div class='chat-meta'><strong>" + escapeHtml(data.model) + "</strong> | TTFT " + m.ttft_s + " s | " + m.tok_per_s + " tok/s | " + m.total_s + " s " +
+      (data.has_dollar_or_latex ? "<span class='badge warning'>LaTeX detecte</span>" : "<span class='badge healthy'>Zero-Dollar OK</span>") + "</div>" +
+      thinkHtml +
+      formatRichAnswerHtml(data.answer) +
+      "<div class='chip-row'><button class='copy-chip' onclick='copyTextOneClick(" + JSON.stringify(data.answer) + ", this)'>Copier analyse</button>" + renderMcmasterChips(data.mcmaster_refs) + "</div>" +
+      (srcsHtml ? ("<div style='margin-top:8px;'>Sources RAG : " + srcsHtml + "</div>") : "") +
+      "</div>";
+  } catch (err) {
+    out.innerHTML = "<div class='card'><span class='badge critical'>Erreur VLM</span> " + escapeHtml(err.message || err) + "</div>";
+  } finally {
+    btn.disabled = false;
+    loadEnginesStatus();
+  }
+}
+
+function toggleCadDiagModal(show) {
+  var m = document.getElementById("cad-diag-modal");
+  if (m) m.className = show ? "modal-backdrop show" : "modal-backdrop";
+}
+
+function copyCadDiagText() {
+  copyTextOneClick(CAD_DIAG_LAST_TEXT, document.getElementById("btn-copy-cad-diag"));
+}
+
+async function runCadDiagnose(idx, mode, profile) {
+  var entry = (window._CAD_DRIFT_ITEMS || [])[idx];
+  if (!entry) return;
+  document.getElementById("cad-diag-title").textContent = (mode === "diff" ? "Proposition Diff Read-Only (" + profile + ")" : "Diagnostic Derive CAO (" + profile + ")") + (entry.rel_path ? (" — " + entry.rel_path) : "");
+  document.getElementById("cad-diag-meta").textContent = "Generation en cours (strictement lecture seule, aucune modification disque)...";
+  document.getElementById("cad-diag-chips").innerHTML = "";
+  document.getElementById("cad-diag-body").textContent = "Patientez...";
+  CAD_DIAG_LAST_TEXT = "";
+  toggleCadDiagModal(true);
+  try {
+    var resp = await fetch("/api/cad/diagnose", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mode: mode,
+        profile: profile,
+        rel_path: entry.rel_path,
+        drift_item: entry.drift_item
+      })
+    });
+    var data = await resp.json();
+    if (!resp.ok) throw new Error(data.detail || ("HTTP " + resp.status));
+    var m = data.metrics || {};
+    CAD_DIAG_LAST_TEXT = data.answer || "";
+    document.getElementById("cad-diag-meta").textContent = "Modele : " + data.model + " | TTFT " + m.ttft_s + " s | " + m.tok_per_s + " tok/s | Zero modification disque";
+    document.getElementById("cad-diag-chips").innerHTML = renderMcmasterChips(data.mcmaster_refs || []);
+    document.getElementById("cad-diag-body").textContent = CAD_DIAG_LAST_TEXT;
+  } catch (err) {
+    document.getElementById("cad-diag-meta").textContent = "Echec";
+    document.getElementById("cad-diag-body").textContent = err.message || String(err);
+  } finally {
+    loadEnginesStatus();
+  }
+}
+
+async function loadArenaQuestions() {
+  var sel = document.getElementById("arena-q-select");
+  if (!sel) return;
+  try {
+    var resp = await fetch("/api/arena/questions");
+    if (!resp.ok) return;
+    var data = await resp.json();
+    ARENA_QUESTIONS = data.items || [];
+    ARENA_QUESTIONS_LOADED = true;
+    sel.innerHTML = "<option value=''>-- Charger une question depuis BENCHMARK_QA_DBOT_120.json (" + ARENA_QUESTIONS.length + ") --</option>" +
+      ARENA_QUESTIONS.map(function(it, i) {
+        return "<option value='" + i + "'>[" + escapeHtml(it.id) + "] " + escapeHtml(it.question.slice(0, 95)) + "</option>";
+      }).join("");
+  } catch (e) {}
+}
+
+function onSelectArenaQuestion() {
+  var sel = document.getElementById("arena-q-select");
+  var idx = sel && sel.value !== "" ? Number(sel.value) : -1;
+  if (idx < 0 || !ARENA_QUESTIONS[idx]) return;
+  var it = ARENA_QUESTIONS[idx];
+  document.getElementById("arena-question").value = it.question || "";
+  document.getElementById("arena-token").value = it.numeric_token || "";
+}
+
+function toggleCustomArenaFields() {
+  var isCust = document.getElementById("arena-t2").value === "custom_openai";
+  document.getElementById("arena-custom-url").style.display = isCust ? "inline-block" : "none";
+  document.getElementById("arena-custom-model").style.display = isCust ? "inline-block" : "none";
+}
+
+async function runArena() {
+  var q = (document.getElementById("arena-question").value || "").trim();
+  if (!q) { alert("Saisissez une question pour lancer l'Arena."); return; }
+  var t1 = document.getElementById("arena-t1").value;
+  var t2 = document.getElementById("arena-t2").value;
+  var target2 = { profile: t2 };
+  if (t2 === "custom_openai") {
+    target2.custom_url = document.getElementById("arena-custom-url").value.trim();
+    target2.custom_model = document.getElementById("arena-custom-model").value.trim();
+  }
+  var out = document.getElementById("arena-results");
+  var btn = document.getElementById("btn-run-arena");
+  btn.disabled = true;
+  out.innerHTML = "<div class='card'>Execution sequentielle en cours (A puis B)...</div>";
+  try {
+    var resp = await fetch("/api/arena/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        question: q,
+        targets: [{ profile: t1 }, target2],
+        use_rag: document.getElementById("arena-rag").checked,
+        use_web: Boolean(document.getElementById("arena-web") && document.getElementById("arena-web").checked),
+        context_mode: document.getElementById("arena-rag-mode").value,
+        unload_ollama_between: document.getElementById("arena-unload-between").checked,
+        expected_token: document.getElementById("arena-token").value.trim() || null
+      })
+    });
+    var data = await resp.json();
+    if (!resp.ok) throw new Error(data.detail || ("HTTP " + resp.status));
+    var rows = (data.results || []).map(function(r) {
+      var m = r.metrics || {};
+      var tokCell = r.token_matched == null ? "-" : (r.token_matched ? "<span class='badge healthy'>OK</span>" : "<span class='badge critical'>ABSENT</span>");
+      var lxCell = r.has_dollar_or_latex ? "<span class='badge warning'>LaTeX/Dollar</span>" : "<span class='badge healthy'>OK</span>";
+      return "<tr><td><strong>" + escapeHtml(r.label) + "</strong></td>" +
+        "<td><span class='badge " + (r.status === "ok" ? "healthy" : "critical") + "'>" + escapeHtml(r.status) + "</span></td>" +
+        "<td>" + (m.ttft_s != null ? m.ttft_s + " s" : "-") + "</td>" +
+        "<td>" + (m.tok_per_s || 0) + " tok/s</td>" +
+        "<td>" + (m.total_s || 0) + " s</td>" +
+        "<td>" + (r.ram_used_gb != null ? r.ram_used_gb + " Go" : "-") + "</td>" +
+        "<td>" + tokCell + "</td><td>" + lxCell + "</td></tr>";
+    }).join("");
+    var cards = (data.results || []).map(function(r) {
+      return "<div class='card'>" +
+        "<div class='chat-meta'><strong>" + escapeHtml(r.label) + "</strong> | " + (r.metrics.tok_per_s || 0) + " tok/s</div>" +
+        (r.error ? ("<div style='color:#fca5a5;'>" + escapeHtml(r.error) + "</div>") : formatRichAnswerHtml(r.answer)) +
+        "<div class='chip-row'><button class='copy-chip' onclick='copyTextOneClick(" + JSON.stringify(r.answer || "") + ", this)'>Copier</button>" + renderMcmasterChips(r.mcmaster_refs || []) + "</div></div>";
+    }).join("");
+    out.innerHTML = "<table><thead><tr><th>Cible</th><th>Statut</th><th>TTFT</th><th>Debit</th><th>Duree</th><th>RAM Mac</th><th>Token Cible</th><th>Zero-Dollar</th></tr></thead><tbody>" + rows + "</tbody></table>" +
+      "<div class='arena-cols'>" + cards + "</div>";
+  } catch (err) {
+    out.innerHTML = "<div class='card'><span class='badge critical'>Erreur Arena</span> " + escapeHtml(err.message || err) + "</div>";
+  } finally {
+    btn.disabled = false;
+    loadEnginesStatus();
+  }
+}
+
+(function initVlmDropZone() {
+  var dz = document.getElementById("vlm-drop-zone");
+  if (!dz) return;
+  dz.addEventListener("dragover", function(e) { e.preventDefault(); dz.classList.add("dragover"); });
+  dz.addEventListener("dragleave", function() { dz.classList.remove("dragover"); });
+  dz.addEventListener("drop", function(e) {
+    e.preventDefault();
+    dz.classList.remove("dragover");
+    if (e.dataTransfer && e.dataTransfer.files) handleVlmFileInput(e.dataTransfer.files);
+  });
+})();
+
 loadAudit(false);
+loadEnginesStatus();
 setInterval(pollLiveStatus, 5000);
+setInterval(loadEnginesStatus, 10000);
 </script>
 </body>
 </html>"""
@@ -1422,14 +2373,23 @@ def create_app(
     log_path: Path = DEFAULT_LOG_PATH,
     benchmark_path: Path = DEFAULT_BENCHMARK_PATH,
     audit_md_path: Path = DEFAULT_AUDIT_MD_PATH,
+    snapshots_root: Path = DEFAULT_SNAPSHOTS_ROOT,
     cache_ttl_s: float = 20.0,
 ) -> FastAPI:
     """Construit l'application FastAPI du cockpit qualite LightRAG D-Bot."""
-    app = FastAPI(title="D-Bot LightRAG Quality Monitor", version="1.0.0")
+    app = FastAPI(title="D-Bot LightRAG Quality Monitor", version="1.1.0")
     audit_cache = _AuditCache(
         db_path=db_path, docs_root=docs_root, log_path=log_path, ttl_s=cache_ttl_s
     )
     searcher = _ReadOnlyVectorSearcher(db_path=db_path)
+
+    def _assert_llm_ready_for_interactive_use() -> None:
+        live = detect_live_indexing_status(db_path=db_path, log_path=log_path)
+        if live["indexing_active"] or is_indexing_lock_active(Path(db_path)):
+            raise HTTPException(
+                status_code=409,
+                detail="Une indexation RAG est active (.indexing.lock). Inference et gestion VRAM bloquees par securite.",
+            )
 
     @app.get("/", response_class=HTMLResponse)
     def index_page() -> HTMLResponse:
@@ -1591,6 +2551,233 @@ def create_app(
             },
         )
 
+    @app.get("/api/engines/status")
+    def api_engines_status() -> JSONResponse:
+        return JSONResponse(get_engines_status(db_path=db_path, log_path=log_path))
+
+    @app.post("/api/engines/ollama/unload")
+    def api_engines_ollama_unload(req: UnloadOllamaRequest) -> JSONResponse:
+        _assert_llm_ready_for_interactive_use()
+        res = unload_ollama_models(req.models or None)
+        return JSONResponse(res)
+
+    @app.post("/api/engines/searxng/start")
+    def api_engines_searxng_start() -> JSONResponse:
+        try:
+            return JSONResponse(start_searxng())
+        except RuntimeError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    @app.post("/api/engines/searxng/stop")
+    def api_engines_searxng_stop() -> JSONResponse:
+        return JSONResponse(stop_searxng())
+
+    @app.post("/api/web/search")
+    def api_web_search(req: WebSearchRequest) -> JSONResponse:
+        res = search_searxng(
+            req.query,
+            max_results=req.max_results,
+            categories=req.categories,
+            fetch_pages=req.fetch_pages,
+        )
+        if not res.get("available"):
+            raise HTTPException(
+                status_code=502,
+                detail=str(res.get("error") or "SearXNG local injoignable."),
+            )
+        return JSONResponse(res)
+
+    @app.post("/api/chat/stream")
+    def api_chat_stream(req: ChatStreamRequest) -> StreamingResponse:
+        _assert_llm_ready_for_interactive_use()
+        try:
+            target = resolve_profile_target(
+                req.profile,
+                custom_url=req.custom_url,
+                custom_model=req.custom_model,
+                thinking=req.thinking,
+            )
+            ctx_info = build_chat_context(
+                query=req.query,
+                context_mode=req.context_mode,
+                docs_root=docs_root,
+                db_path=db_path,
+                searcher=searcher,
+                target_rel_path=req.target_rel_path,
+                top_k=req.top_k,
+                use_web=req.use_web,
+                web_max_results=req.web_max_results,
+                web_categories=req.web_categories,
+                web_fetch_pages=req.web_fetch_pages,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+        messages: list[dict[str, Any]] = [{"role": "system", "content": build_system_prompt(use_web=req.use_web)}]
+        for prev in req.history[-8:]:
+            messages.append({"role": prev.role, "content": prev.content})
+        user_content = (
+            f"Contexte D-Bot recupere (mode={ctx_info['mode']}, web={req.use_web}) :\n{ctx_info['context_text']}\n\nQuestion :\n{req.query}"
+            if ctx_info.get("context_text")
+            else req.query
+        )
+        messages.append({"role": "user", "content": user_content})
+
+        def _sse_gen() -> Any:
+            ctx_payload = {
+                "mode": ctx_info["mode"],
+                "sources": ctx_info.get("sources") or [],
+                "web_sources": ctx_info.get("web_sources") or [],
+                "web_error": ctx_info.get("web_error"),
+                "graph_summary": ctx_info.get("graph_summary") or "",
+            }
+            yield f"event: context\ndata: {json.dumps(ctx_payload, ensure_ascii=False)}\n\n"
+            for ev in stream_llm_chat(target=target, messages=messages, max_tokens=req.max_tokens):
+                ev_type = str(ev.get("type") or "token")
+                yield f"event: {ev_type}\ndata: {json.dumps(ev, ensure_ascii=False)}\n\n"
+
+        return StreamingResponse(_sse_gen(), media_type="text/event-stream")
+
+    @app.get("/api/vlm/snapshots")
+    def api_vlm_snapshots() -> JSONResponse:
+        return JSONResponse(list_visual_snapshots(snapshots_root=snapshots_root))
+
+    @app.get("/api/vlm/snapshot-image")
+    def api_vlm_snapshot_image(rel_path: str = Query(..., min_length=1)) -> Response:
+        try:
+            img_path = resolve_snapshot_path(rel_path, snapshots_root=snapshots_root)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        ext = img_path.suffix.lower()
+        media = "image/png" if ext == ".png" else ("image/webp" if ext == ".webp" else "image/jpeg")
+        return Response(content=img_path.read_bytes(), media_type=media)
+
+    @app.post("/api/vlm/analyze")
+    def api_vlm_analyze(req: VlmAnalyzeRequest) -> JSONResponse:
+        _assert_llm_ready_for_interactive_use()
+        if not req.snapshot_rel_path and not req.image_b64:
+            raise HTTPException(status_code=400, detail="Fournissez snapshot_rel_path ou image_b64.")
+        try:
+            target = resolve_profile_target(req.profile, thinking=req.thinking)
+            if req.snapshot_rel_path:
+                img_path = resolve_snapshot_path(req.snapshot_rel_path, snapshots_root=snapshots_root)
+                img_b64 = encode_image_file_b64(img_path)
+                img_label = req.snapshot_rel_path
+            else:
+                img_b64 = str(req.image_b64 or "").strip()
+                img_label = "image_importee"
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+        cad_ctx = (
+            build_vlm_cad_context(
+                docs_root=docs_root,
+                searcher=searcher,
+                query_hint=f"{img_label} {req.prompt}",
+            )
+            if req.include_cad_context
+            else {"cad_context": "", "rag_context": "", "sources": []}
+        )
+        user_txt = (
+            f"Analyse visuelle CAO/FEA pour : {img_label}\n"
+            + (f"\nMetriques JSON CAO associees :\n{cad_ctx['cad_context']}\n" if cad_ctx.get("cad_context") else "")
+            + (f"\nExtraits RAG associes :\n{cad_ctx['rag_context']}\n" if cad_ctx.get("rag_context") else "")
+            + f"\nConsigne utilisateur :\n{req.prompt}"
+        )
+        messages = [
+            {"role": "system", "content": DBOT_SYSTEM_PROMPT_BASE},
+            {"role": "user", "content": user_txt},
+        ]
+        try:
+            res = complete_llm_chat(
+                target=target,
+                messages=messages,
+                images_b64=[img_b64],
+                max_tokens=req.max_tokens,
+            )
+        except Exception as exc:
+            raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+        return JSONResponse(
+            {
+                "image_label": img_label,
+                "model": res["metrics"]["model"],
+                "answer": res["answer"],
+                "thinking": res.get("thinking") or "",
+                "mcmaster_refs": res.get("mcmaster_refs") or [],
+                "has_dollar_or_latex": bool(res.get("has_dollar_or_latex")),
+                "metrics": res["metrics"],
+                "sources": cad_ctx.get("sources") or [],
+            }
+        )
+
+    @app.post("/api/cad/diagnose")
+    def api_cad_diagnose(req: CadDiagnoseRequest) -> JSONResponse:
+        _assert_llm_ready_for_interactive_use()
+        try:
+            target = resolve_profile_target(req.profile, thinking=req.thinking)
+            messages = build_cad_drift_messages(
+                mode=req.mode,
+                rel_path=req.rel_path,
+                drift_item=req.drift_item,
+                docs_root=docs_root,
+            )
+            res = complete_llm_chat(target=target, messages=messages, max_tokens=1600)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            raise HTTPException(status_code=502, detail=str(exc)) from exc
+        return JSONResponse(
+            {
+                "mode": req.mode,
+                "rel_path": req.rel_path,
+                "model": res["metrics"]["model"],
+                "answer": res["answer"],
+                "thinking": res.get("thinking") or "",
+                "mcmaster_refs": res.get("mcmaster_refs") or [],
+                "has_dollar_or_latex": bool(res.get("has_dollar_or_latex")),
+                "metrics": res["metrics"],
+            }
+        )
+
+    @app.get("/api/arena/questions")
+    def api_arena_questions() -> JSONResponse:
+        return JSONResponse(load_arena_questions(benchmark_path=benchmark_path))
+
+    @app.post("/api/arena/run")
+    def api_arena_run(req: ArenaRunRequest) -> JSONResponse:
+        _assert_llm_ready_for_interactive_use()
+        try:
+            resolved_targets = [
+                resolve_profile_target(
+                    t.profile,
+                    custom_url=t.custom_url,
+                    custom_model=t.custom_model,
+                    thinking=t.thinking,
+                )
+                for t in req.targets
+            ]
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        out = run_arena_comparison(
+            question=req.question,
+            targets=resolved_targets,
+            use_rag=req.use_rag,
+            context_mode=req.context_mode,
+            unload_ollama_between=req.unload_ollama_between,
+            docs_root=docs_root,
+            db_path=db_path,
+            searcher=searcher,
+            use_web=req.use_web,
+            expected_token=req.expected_token,
+            max_tokens=req.max_tokens,
+        )
+        return JSONResponse(out)
+
     return app
 
 
@@ -1602,6 +2789,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--port", type=int, default=8765, help="Port HTTP local (defaut: 8765)")
     parser.add_argument("--db-path", type=Path, default=DEFAULT_DB_PATH)
     parser.add_argument("--docs-root", type=Path, default=DEFAULT_DOCS_ROOT)
+    parser.add_argument("--snapshots-root", type=Path, default=DEFAULT_SNAPSHOTS_ROOT)
     parser.add_argument("--ttl", type=float, default=20.0, help="Cache audit en secondes")
     return parser
 
@@ -1611,6 +2799,7 @@ def main() -> int:
     app = create_app(
         db_path=args.db_path,
         docs_root=args.docs_root,
+        snapshots_root=args.snapshots_root,
         cache_ttl_s=args.ttl,
     )
     print(f"D-Bot RAG Quality Monitor pret sur http://{args.host}:{args.port}")

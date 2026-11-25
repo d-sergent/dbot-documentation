@@ -31,7 +31,10 @@
 ---
 
 ## 1. Visserie & Fixations (Hardware)
-**Stratégie** : Utilisation de vis **DIN 912 (Tête Cylindrique)** en Acier Inoxydable A2 (Inox 304) pour la résistance à la corrosion, ou Acier Noir 12.9 pour les axes moteurs de force.
+**Stratégie** : Utilisation de vis **DIN 912 (Tête Cylindrique)** en Acier Inoxydable A4/A2 pour l'électronique, carénages et fraisées, et **Acier 12.9 Geomet** (anti-corrosion zinc-lamellaire) / **Acier 12.9 Noir** pour les axes moteurs et traversées de force.
+
+> [!NOTE]
+> **Lot Visserie Bricovis Black Friday (`✅ Validé / Commandé le 23/11/2026`)** : Commande groupée couvrant la visserie Torse/Waist/Bassin + stock membres/mains : `TCHC DIN 912 Acier 12.9 Geomet` (`M4x12` x50, `M4x16` x100, `M4x20` x25, `M4x25` x25, `M4x30` x15, `M5x16` x30, `M5x20` x15, `M5x25` x15), `Acier 12.9 Noir` (`M4x14` x20, `M5x35` x10, `M5x70` x10, `M5x80` x6), `Inox A4/A2` (`M2.5x14` x15, `M3x6` x50, `M3x8` x100, `M3x10` x100, `M3x12` x50, `M4x18` x15, `M5x50` x15), `Tête Basse DIN 7984` (`M3x12 A2` x20, `M4x25 8.8 Zingué` x35), `FHC DIN 7991 A4` (`M3x8` x20, `M4x30` x20, `M5x18` x10, `M5x25` x15), `STHC DIN 913 A4` (`M3x4` x20), `Nord-Lock NL4 Delta-Protekt KL100` (x50 paires), `Nylstop DIN 985 A4` + `Écrous DIN 934 A2` + `Rondelles DIN 125A A4` (`M2.5/M3/M4/M5`), et `Goupilles rectifiées m6 DIN 7` (`Ø 2x6 A4` x50, `Ø 3x14 A1` x10). **Reste hors Bricovis** : `4x Entretoises Nylon M2.5 H=3mm`, `6x Aimants N52 + 6x Disques`, `8x Axes inox 3x55 mm` et roulements `2RS`.
 
 ### Quantités Requises (D-Bot + 2x RS-05)
 | Type | Diamètre | Longueur | Quantité Est. | Usage |
@@ -215,14 +218,14 @@ Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une q
 | **Tendon Actif (Flexion)** | **Tresse Dyneema DM20 Ø1.0 mm** | 1 | Bobine de 50m. Résistance ~980 N, zéro fluage (zéro-creep). À commander. |
 | **Tendon Passif (Retour)** | **Cordon élastique TPU Ø0.8 mm** | 1 | Bobine de 25m (Beadalon Elasticity). **✅ Reçu** (en stock). |
 | **Manchons de Sertissage** | **Sleeves Ø1.5 mm (Alu ou Cuivre)** | 50 | 25 par main. Amagnétiques pour éviter les perturbations. À commander. |
-| **Vis de Pression** | **Vis sans tête M3 × 4 mm (bout plat)** | 10 | 5 par main, bridage mécanique des élastiques dans la paume. À commander. |
+| **Vis de Pression** | **Vis sans tête M3 × 4 mm (bout plat)** | 10 | 5 par main, bridage mécanique des élastiques dans la paume. **✅ Commandées (20× Inox A4 DIN 913, Bricovis 23/11/2026)**. |
 
 #### 5.5 Outils & Consommables Spécifiques
 | Composant | Modèle | Quantité | Note |
 | :--- | :--- | :---: | :--- |
 | **Pince à sertir** | **Pince à sleeves de pêche** (0.1–2 mm) | 1 | Pour la micro-compression des manchons sans endommager la tresse. À commander. |
 | **Colle Structurelle** | **3M DP490 (Époxy bicomposant)** | 1 cart. | Pour l'assemblage carbone/métal de la structure. À commander. |
-| **Colle Rapide** | **Loctite Super Glue Gel** | 1 tube | Pour le maintien instantané des aimants et des nœuds. À commander. |
+| **Colle Rapide** | **Loctite Super Glue Gel** | 1 tube | Pour le maintien instantané des aimants et des nœuds. **✅ Commandée (Loctite 454 Gel 5g, Bricovis 23/11/2026)**. |
 
 > **Note** : Voir [Étude Main Robotique](../01_Mecanique_et_Chassis/Bras_et_Mains/STUDY_Main_D_Hand.md) pour l'architecture D-Hand Hybrid consolidée.
 
@@ -255,10 +258,10 @@ Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une q
 ### Électronique de Contrôle
 - **Microcontrôleur Cinématique (Nouveau)** : **Teensy 4.1** (Quantité : 2).
     - Architecture décentralisée : 1x pour le *Lower Body* (Jambes/Taille) et 1x pour le *Upper Body* (Bras/Cou).
-    - Gère l'IK et les boucles de contrôle temps réel grâce à ses 3x bus CAN FD natifs par carte. Reléguera les adaptateurs USB-CAN InnoMaker/CANable au simple rôle d'outils de debug.
+    - Gère l'IK et les boucles de contrôle temps réel grâce à ses 3 contrôleurs FlexCAN natifs par carte (CAN1/CAN2 en CAN 2.0B, CAN3 en CAN-FD). Reléguera les adaptateurs USB-CAN InnoMaker/CANable au simple rôle d'outils de debug.
 - **Shield d'extension CAN (Nouveau)** : **Teensy 4.1 Triple CAN Board avec LCD (SK Pang)** (Quantité : 2).
     - [Lien fabricant (SK Pang UK)](https://www.skpang.co.uk) / [Lien revendeur (Buyzero DE)](https://buyzero.de).
-    - Remplace l'achat de 6 transceivers nus. Se clipse sur le Teensy et fournit directement 3 borniers CAN FD propres, intégrant les transceivers et résistances de terminaison 120 ohms.
+    - Remplace l'achat de 6 transceivers nus. Se clipse sur le Teensy et fournit directement 3 borniers CAN (2x CAN 2.0B + 1x CAN-FD) propres, intégrant les transceivers et résistances de terminaison 120 ohms.
     - *Écran LCD 240x240 intégré* : Permet d'afficher la télémétrie des moteurs (température, courant, erreurs CAN) directement sur le torse du robot sans brancher d'écran à la Jetson.
     - *Alimentation intégrée* : Dispose d'un régulateur de tension Buck (7V-24V). Vous pouvez l'alimenter directement depuis votre convertisseur 12V DROK existant pour alimenter le Teensy.
 - **Sony Spresense** :
@@ -330,9 +333,9 @@ Le système D-Hand Hybrid Premium nécessite des servomoteurs performants, une q
 
 ### Consommables d'Impression 3D & Assemblage
 *   **Filament Flexible** : **1x Bobine Qidi TPU 95A-HF**. C'est le matériau universel officiel pour toutes les pièces souples du robot (supports amortisseurs pour les micros, semelles antidérapantes des pieds en utilisant le "Fuzzy Skin").
-*   **Frein Filet** : **Loctite 222** (Faible) pour visserie M3 (coques, électronique). **Loctite 243** (Moyen, Bleu) pour visserie M4/M5 haute charge (moteurs RS-04, brackets CNC). Indispensable ! Les vibrations desserrent les vis en quelques heures sans cela.
+*   **Frein Filet** : **Loctite 222** (Faible) pour visserie M3 (coques, électronique) — **✅ Commandé (10 mL, Bricovis 23/11/2026)**. **Loctite 243** (Moyen, Bleu) pour visserie M4/M5 haute charge (moteurs RS-04, brackets CNC) — **✅ Commandé (Amazon, 23/11/2026)**. Indispensable ! Les vibrations desserrent les vis en quelques heures sans cela.
 *   **Protection Thermique (Aimants tactile)** : **1x Rouleau de Ruban Adhésif en Tissu de Verre (ex: 3M 69)** ou à défaut du **Ruban Kapton**. Indispensable pour réaliser les pastilles d'isolation double-face sur les aimants NdFeB et éviter leur démagnétisation sous l'effet du TPU extrudé chaud à 220 °C. (Acheter chez : Amazon.fr, RS-Components ou Farnell).
-*   **Lubrification de Tronçonnage & Usinage Alu** : **1x Bâton de cire de coupe** ou **Spray WD-40 Spécialiste Coupe** pour métaux non-ferreux. Indispensable pour éviter le collage à chaud des copeaux d'Alu 7075-T651 sur la lame carbure et sur les fraises CNC.
+*   **Lubrification de Tronçonnage & Usinage Alu** : **✅ Commandé (WD-40 Spécialist Huile de Coupe 400 mL + Lubrifiant Sec 400 mL, Bricovis 23/11/2026)** pour métaux non-ferreux et protection des vis acier 12.9 noir. Indispensable pour éviter le collage à chaud des copeaux d'Alu 7075-T651 sur la lame carbure et sur les fraises CNC.
 
 ### Outillage à Main & Métrologie
 *   **Outils Filetage CNC (C500)** : **1x Micro-fraise à fileter M3 (1 dent, DLC)** + **1x Foret carbure 2.5mm**. (Queue de 4mm). Obligatoire pour fileter mécaniquement vos pièces Aluminium sans risquer de casser des tarauds manuels. (Acheter spécialisé : e.g., CncFraises).

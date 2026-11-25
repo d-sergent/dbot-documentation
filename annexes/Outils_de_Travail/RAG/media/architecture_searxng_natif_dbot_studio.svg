@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760">
+  <defs>
+    <pattern id="bp-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="grad-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#059669" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#d97706" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="grad-violet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#6d28d9" stop-opacity="0.08"/>
+    </linearGradient>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-emerald" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+    <style>
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 20px; font-weight: 700; fill: #f8fafc; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #94a3b8; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; font-weight: 700; fill: #e2e8f0; }
+      .body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #cbd5e1; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #7dd3fc; }
+      .badge-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="760" fill="#0f172a"/>
+  <rect width="1200" height="760" fill="url(#bp-grid)"/>
+
+  <!-- Header -->
+  <rect x="24" y="20" width="1152" height="66" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <text x="44" y="48" class="title">D-Bot Studio — Architecture Recherche Web Souveraine SearXNG (Option 2 : Python Natif, 0 Docker)</text>
+  <text x="44" y="70" class="subtitle">Apple M1 Max 64 Go | Surcout au repos : 0.0 Mo RAM | Surcout actif mesure : 31.5 Mo RSS (258 moteurs) | Isolation venv + Anti-SSRF</text>
+
+  <!-- Layer 1: UI Cockpit -->
+  <rect x="40" y="108" width="1120" height="106" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <rect x="40" y="108" width="1120" height="32" rx="10" fill="url(#grad-cyan)"/>
+  <text x="58" y="129" class="card-title">1. INTERFACE WEB LOCALE — Cockpit &amp; Studio D-Bot (http://127.0.0.1:8765 — rag_monitor_ui.py)</text>
+
+  <rect x="58" y="152" width="335" height="48" rx="7" fill="#0f172a" stroke="#475569"/>
+  <text x="72" y="172" class="body" font-weight="700">Bandeau Pilules &amp; Pilotage a la Demande</text>
+  <text x="72" y="190" class="mono">#searxng-pill | Demarrer / Arreter SearXNG</text>
+
+  <rect x="415" y="152" width="360" height="48" rx="7" fill="#0f172a" stroke="#475569"/>
+  <text x="429" y="172" class="body" font-weight="700">Onglet Chat D-Bot (#tab-chat)</text>
+  <text x="429" y="190" class="mono">[x] + Web (SearXNG) | Cat. (general/it/science) | Lire</text>
+
+  <rect x="797" y="152" width="345" height="48" rx="7" fill="#0f172a" stroke="#475569"/>
+  <text x="811" y="172" class="body" font-weight="700">Onglet Arena A/B (#tab-retrieval)</text>
+  <text x="811" y="190" class="mono">Comparatif sequentiel RAG + Web (TTFT, tok/s)</text>
+
+  <!-- Arrows UI -> Orchestrator -->
+  <line x1="600" y1="214" x2="600" y2="246" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+
+  <!-- Layer 2: Orchestrator & Guards -->
+  <rect x="40" y="250" width="1120" height="92" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+  <rect x="40" y="250" width="1120" height="30" rx="10" fill="url(#grad-violet)"/>
+  <text x="58" y="270" class="card-title">2. ORCHESTRATEUR BACKEND &amp; GARDE-FOUS (Code/rag/rag_studio_service.py)</text>
+  <text x="58" y="298" class="body">- POST /api/engines/searxng/{start,stop}  |  POST /api/web/search  |  POST /api/chat/stream (SSE)  |  POST /api/arena/run</text>
+  <text x="58" y="318" class="body">- Garde .indexing.lock (HTTP 409)  |  Loopback-only pour APIs locales  |  Budget contexte &lt;= 5 500 car. web  |  Priorite Verite Terrain D-Bot</text>
+
+  <!-- Arrows Orchestrator -> 3 Pillars -->
+  <line x1="215" y1="342" x2="215" y2="378" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-emerald)"/>
+  <line x1="600" y1="342" x2="600" y2="378" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+  <line x1="985" y1="342" x2="985" y2="378" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrow-amber)"/>
+
+  <!-- Pillar Left: LightRAG -->
+  <rect x="40" y="384" width="350" height="250" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+  <rect x="40" y="384" width="350" height="32" rx="10" fill="url(#grad-emerald)"/>
+  <text x="56" y="405" class="card-title">3A. MEMOIRE SOUVERAINE D-BOT</text>
+  <text x="56" y="432" class="body" font-weight="700">Verite Terrain Prioritaire</text>
+  <text x="56" y="454" class="mono">/Users/Shared/dbot_rag_local/</text>
+  <text x="56" y="476" class="body">- Vecteurs E5-Large (vdb_chunks.json)</text>
+  <text x="56" y="496" class="body">- Reranker local BAAI/bge-reranker-base</text>
+  <text x="56" y="516" class="body">- Graphe entites/relations (GraphML)</text>
+  <text x="56" y="536" class="body">- Audits JSON CAO Torse-123 &amp; BOM</text>
+  <rect x="56" y="560" width="318" height="56" rx="6" fill="#052e16" stroke="#10b981"/>
+  <text x="68" y="582" class="badge-txt" fill="#a7f3d0">Regle d'arbitrage systeme :</text>
+  <text x="68" y="601" class="body">Les specs D-Bot priment toujours sur le Web.</text>
+
+  <!-- Pillar Center: Native SearXNG + Anti-SSRF -->
+  <rect x="415" y="384" width="370" height="250" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <rect x="415" y="384" width="370" height="32" rx="10" fill="url(#grad-cyan)"/>
+  <text x="431" y="405" class="card-title">3B. SEARXNG NATIF PYTHON (0 DOCKER)</text>
+  <text x="431" y="432" class="mono">Code/rag/searxng_manager.py</text>
+  <text x="431" y="452" class="mono">/Users/Shared/dbot_searxng/.venv (uv + Py3.11)</text>
+  <text x="431" y="472" class="body">- Serveur : Granian WSGI 127.0.0.1:8088</text>
+  <text x="431" y="492" class="body">- Metarecherche JSON : 258 moteurs (DDG, GitHub...)</text>
+  <text x="431" y="512" class="body">- Empreinte : 31.5 Mo actif | 0.0 Mo arrete</text>
+  <rect x="431" y="528" width="338" height="90" rx="6" fill="#0f172a" stroke="#38bdf8"/>
+  <text x="443" y="548" class="badge-txt" fill="#7dd3fc">Pare-feu Web Anti-SSRF &amp; Anti-Injection</text>
+  <text x="443" y="567" class="body">1. Verification DNS : IP publique is_global requise</text>
+  <text x="443" y="585" class="body">2. Blocage loopback/LAN/169.254 (+ redirections)</text>
+  <text x="443" y="603" class="body">3. Balises [RESULTATS_RECHERCHE_WEB_SEARXNG] isolees</text>
+
+  <!-- Pillar Right: Inference Engines -->
+  <rect x="810" y="384" width="350" height="250" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+  <rect x="810" y="384" width="350" height="32" rx="10" fill="url(#grad-amber)"/>
+  <text x="826" y="405" class="card-title">3C. INFERENCE LOCALE M1 MAX 64 Go</text>
+  <rect x="826" y="428" width="318" height="62" rx="6" fill="#0f172a" stroke="#475569"/>
+  <text x="838" y="448" class="body" font-weight="700">Ollama (:11434) — Vitesse &amp; Vision</text>
+  <text x="838" y="466" class="mono">gemma4:26b (~17 Go) | qwen3.8:27b-mlx</text>
+  <text x="838" y="482" class="body">Bouton Decharger VRAM (keep_alive=0)</text>
+
+  <rect x="826" y="502" width="318" height="62" rx="6" fill="#0f172a" stroke="#475569"/>
+  <text x="838" y="522" class="body" font-weight="700">Unsloth Studio (:8888/v1) — Ingenierie</text>
+  <text x="838" y="540" class="mono">unsloth/Qwen3.8-27B-GGUF</text>
+  <text x="838" y="556" class="body">Raisonnement approfondi &amp; diffs read-only</text>
+
+  <rect x="826" y="576" width="318" height="42" rx="6" fill="#451a03" stroke="#f59e0b"/>
+  <text x="838" y="601" class="badge-txt" fill="#fde68a">Garde RAM 64 Go : alerte double chargement &gt; 85 %</text>
+
+  <!-- Legend / Footer -->
+  <rect x="40" y="654" width="1120" height="82" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.2"/>
+  <text x="58" y="678" class="card-title">LEGENDE &amp; SECURITE OPERATIONNELLE</text>
+  <line x1="58" y1="698" x2="98" y2="698" stroke="#34d399" stroke-width="3"/>
+  <text x="108" y="702" class="body">Contexte interne LightRAG</text>
+  <line x1="295" y1="698" x2="335" y2="698" stroke="#38bdf8" stroke-width="3"/>
+  <text x="345" y="702" class="body">Metarecherche Web SearXNG (127.0.0.1:8088)</text>
+  <line x1="640" y1="698" x2="680" y2="698" stroke="#fbbf24" stroke-width="3"/>
+  <text x="690" y="702" class="body">Prompt assemble vers LLM 26B/27B</text>
+  <text x="58" y="723" class="mono">settings.yml : chmod 0600 (secret_key 256 bits) | Hors Google Drive (/Users/Shared/dbot_searxng) | Zero Docker Desktop / Zero VM</text>
+</svg>

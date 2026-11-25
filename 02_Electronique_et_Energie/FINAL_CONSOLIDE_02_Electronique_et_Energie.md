@@ -1,8 +1,8 @@
 # 🦾 Spécifications Finales – 02 Électronique et Énergie (D‑Bot V1.x)
 
-> **Version du document :** V1.0 – 16 mai 2026  
+> **Version du document :** V1.1 – 25 novembre 2026  
 > **Portée :** Toutes les pièces, sous‑systèmes d’alimentation, de distribution, de conversion, de communication et de capteurs associés au module 02 Électronique & Énergie du robot humanoïde D‑Bot (40 kg).  
-> **Sources principales :** `FINAL_Bilan_Tensions.md`, `STUDY_Electronique_Historique.md`, `STUDY_Motorisation_QDD_RobStride.md`, `STUDY_Watchdog_Robot.md`.  
+> **Sources principales :** `FINAL_Bilan_Tensions.md`, `STUDY_Electronique_Historique.md`, `STUDY_Motorisation_QDD_RobStride.md`, `STUDY_Watchdog_Robot.md`, `AUDIT_ETUDE_02_Electronique_et_Energie.md` (points 1-2), manuels `Manuels/RS0x*` et `Manuels/CANFD/`.  
 > **Conformité :** Toutes les valeurs proviennent d’une source datée ou d’un résultat de test réel. En cas d’ambiguïté, la donnée la plus récente a été retenue ; les points non résolus sont listés dans la section 6.
 
 ---
@@ -12,6 +12,7 @@
 
 - [**1. Vue d’Ensemble (Version Actuelle)**](#1-vue-densemble-version-actuelle)
 - [**2. Spécifications Matérielles Validées**](#2-spécifications-matérielles-validées)
+  - [2.1 Budget de Bande Passante CAN et Affectation des 27 Moteurs](#21-budget-de-bande-passante-can-et-affectation-des-27-moteurs)
 - [**3. Nomenclature (BOM Locale)**](#3-nomenclature-bom-locale)
 - [**4. État de la Conception (CAD & Simulation)**](#4-état-de-la-conception-cad-simulation)
 - [**5. Instructions de Montage Critiques**](#5-instructions-de-montage-critiques)
@@ -29,7 +30,7 @@ L’architecture électrique du D‑Bot repose sur :
 * **Source principale** : batterie Li‑ion NMC 13 S ≈ 48 V (46,8 V nominal, 54,6 V max).  
 * **Distribution** : bus‑bar central (torse) à 48 V, alimentant **six zones** (bras G/D, jambe G/D, cou/tête, logique).  
 * **Conversion** : quatre rails de tension secondaire dérivés du 48 V via des convertisseurs buck isolés : 19 V (Jetson), 12 V Logique (10 A), 12 V Puissance (20 A) et 5 V (Always‑On).  
-* **Cervelet (Locomotion)** : 2x **Teensy 4.1 + Shields Triple CAN FD (SK Pang)** gérant 6 bus CAN haute vitesse de manière décentralisée (Upper Body / Lower Body). Les adaptateurs USB-CAN InnoMaker/CANable ont été retirés.
+* **Cervelet (Locomotion)** : 2x **Teensy 4.1 + Shields Triple CAN FD (SK Pang)** gérant 6 bus CAN (4x CAN 2.0B 1 Mbps sur CAN1/CAN2 + 2x CAN3 compatibles CAN-FD, exploités en 1 Mbps par défaut) de manière décentralisée (Upper Body / Lower Body). Boucle Teensy ↔ moteurs à 500 Hz pour les jambes et la taille, 250 Hz pour les bras, 100 Hz pour le cou ; politique RL à 50 Hz sur la Jetson ; voir §2.1. Les adaptateurs USB-CAN InnoMaker/CANable ont été retirés de l'architecture embarquée (relégués aux tests sur banc).
 * **Lien Cerveau-Cervelet** : La communication entre la Jetson et les Teensys se fait via **USB natif** (très haut débit 480 Mbps) pour la phase de prototypage (V1). Les ports Ethernet (RJ45) présents sur les shields SK Pang sont gardés en réserve pour une éventuelle V2 industrielle nécessitant une tolérance absolue aux chocs et déconnexions physiques (via protocole UDP / micro-ROS).
 * **Supervision (Moelle Épinière)** : Sony Spresense « Always‑On » (watchdog, lecture ADC, IMU BMI270) couplée aux Teensys via UART pour les réflexes d'amortissement matériels.  
 
@@ -48,14 +49,14 @@ L’architecture électrique du D‑Bot repose sur :
 | **Convertisseur 48 V → 5 V** | Buck isolé, 5 A, 25 W | 48 V | 5 A | Spresense, hub USB, accessoires | Fournisseur à confirmer |
 | **Hub USB 3.0 (Petit Format)** | Petit hub USB 3.0 standard (non industriel) | 5 V | – | Centralise les Teensy, l'OAK-D et le Spresense vers la Jetson | Allègement du robot suite à la suppression des CANable |
 | **Cervelet (Locomotion)** | **2x Teensy 4.1** (NXP i.MX RT1062, 600MHz) | 5 V (USB) | – | Calculs d'IK, PID, équilibre temps réel | 1x Lower Body, 1x Upper Body |
-| **Shields Triple CAN FD** | **2x SK Pang Teensy 4.1 Triple CAN Board** | 12 V (rail 12 V Logique) | – | Intègre 3x Transceivers CAN FD, résistances 120 ohms et LCD télémétrie | Se clipe sur le Teensy. Remplace les CANable/InnoMaker |
+| **Shields Triple CAN FD** | **2x SK Pang Teensy 4.1 Triple CAN Board** | 12 V (rail 12 V Logique) | – | 2x CAN 2.0B (CAN1/CAN2) + 1x CAN-FD (CAN3), terminaisons 120 Ω côté Teensy, LCD de télémétrie | Se clipe sur le Teensy. Remplace les CANable/InnoMaker |
 | **Module de debug CAN** | Interface opto‑couplée (isolée) | 48 V bus | – | Configuration ID moteurs, firmware sur PC | Acheté |
 | **Module Dual MOSFET D4184** | Driver MOSFET D4184 (2 × N‑channel) | 12 V (rail 12 V Logique) | 2 × 0,6 A (solénoïdes) | Pilotage solénoïdes tête | Diodes 1N4007 à souder en parallèle |
 | **Solénoïdes tête** | LEX‑SOLEN‑04, 12 V, 0,6 A chacun | 12 V | 0,6 A | Blocage/déblocage tête | 2 unités |
 | **Sony Spresense Standard Board** | CXD5602PWBEXT1, 6 ADC, 3,3 V I/O | 5 V (Always‑On) | 1 A (typ.) | Watchdog, lecture FSR, IMU, UART | Achetée |
 | **IMU BMI270** | SparkFun BMI270 Breakout (SEN‑22397) | 3,3 V (via Spresense) | – | Équilibre bipède (416 Hz) | Connecté I2C Qwiic |
 | **Feetech STS3250 / HL-3915** | Servomoteur TTL, 12 V, 1.5 A (max) | 12 V Puissance | 1.5 A (max) | Actionneurs mains (16 unités) | Alimentés via buck 12 V Puissance (ou DROK 25A) |
-| **Moteurs RobStride (QDD)** | Voir tableau [3.1] ci‑dessous | 48 V (15‑60 V admissible) | Voir tableau [3.1] | Actionneurs membres (26 unités) | Tous connectés au bus CAN |
+| **Moteurs RobStride (QDD)** | Voir tableau [3.1] ci‑dessous | 48 V (15‑60 V admissible) | Voir tableau [3.1] | Actionneurs membres (27 unités, dont Waist Yaw RS-06) ; affectation des bus au §2.1 | Tous connectés au bus CAN |
 | **Micro‑Hub eFlesh (ESP32‑S3)** | ESP32‑S3 USB‑Hub, régulation 5 → 3,3 V | 5 V (USB Hub) | – | Gestion 9‑16 × MLX90393 (tactile) par main | Aucun rail externe requis |
 | **Capteurs MLX90393** | Magnétomètre 3‑axis, 0‑5 V | 3,3 V (via micro‑hub) | – | Tactile eFlesh (mains) | 9‑16 par main |
 | **Capteurs FSR (Force Sensing Resistor)** | 4 × FSR par pied, résistance variable 1 kΩ‑∞ | 3,3 V (via régulation locale) | – | Détection de charge plantaire | Connectés aux ADC Spresense |
@@ -71,11 +72,63 @@ L’architecture électrique du D‑Bot repose sur :
 | **MOSFET Haute‑côté BTS50085** | 100 V, 5 A, opto‑isolé | – | – | Coupure 48 V pilotée par Spresense | [À COMPLÉTER] |
 | **Diviseur de tension batterie → Spresense** | R1 = 150 kΩ, R2 = 10 kΩ (3,3 V ref) | – | – | Surveillance tension batterie | Implémenté dans firmware |
 | **Diodes de roue‑libre** | 1N4007 (x2 par solénoïde) | – | – | Protection MOSFET D4184 | À souder |
-| **Câbles USB‑C → USB‑A blindés** | 30 cm, 90 Ω, ferrite | – | – | Connexion CANable Pro au hub | Achetés |
+| **Câbles USB‑C → USB‑A blindés** | 30 cm, 90 Ω, ferrite | – | – | Connexion des 2 Teensy 4.1 au hub | Achetés |
 | **Câbles JST‑GH 4‑broches** | 1,25 mm pitch, 0,5 mm² | – | – | CAN H/L/GND/VCC logique des moteurs | Achetés |
 | **Connecteur Qwiic → pins mâles** | Adafruit 4209 | – | – | Liaison BMI270 à Spresense | Acheté |
 
 > **NB :** Tous les éléments listés ci‑dessus sont **validés** (commande passée ou stock disponible) pour la version V1.x du robot.
+
+### 2.1 Budget de Bande Passante CAN et Affectation des 27 Moteurs
+
+> [!NOTE]
+> **Correctif des points bloquants n°1 et n°2 (`AUDIT_ETUDE_02_Electronique_et_Energie.md`, revue du 22 novembre 2026)** : réconciliation matérielle des 6 bus réels (`2x Teensy 4.1 + SK Pang Triple CAN`), intégration du 27e moteur (`Waist Yaw RS-06`) et dimensionnement sans saturation du trafic bidirectionnel (commande + retour d'état).
+
+* **Ressources matérielles réelles :** Chaque Teensy 4.1 possède `3` contrôleurs FlexCAN dont **seul `CAN3` gère le CAN-FD** (`CAN1` et `CAN2` sont en CAN 2.0B classique). Sur deux cartes + shields SK Pang Triple CAN, le robot dispose donc de **`4` bus CAN 2.0B + `2` bus compatibles CAN-FD**, tous exploités par défaut en **CAN 2.0B à 1 Mbps**.
+* **Hypothèses de trafic (manuels `Manuels/RS0xUser Manual*.pdf` & `Manuels/CANFD/`) :**
+  * Format par défaut : trame étendue `29 bits`, `8 octets` de données, débit `1 Mbps` (commande type 23 acceptant `1M / 500K / 250K / 125K`).
+  * En mode MIT, chaque moteur émet **1 trame de retour** pour **1 trame de commande**, soit **2 trames par moteur et par cycle**.
+  * Variantes CAN-FD (`Manuels/CANFD/`, jusqu'à `5 Mbps` en phase de données via `F_CMD` `05 = 5M`, `06 = 4M`, `07 = 3M`, `08 = 2M`, `01 = 1M`, cf. `Annexes/robstride/firmware/01_Notes_Maj_Firmware.md` §6.2) : charge utile inchangée à `8 octets` ; l'arbitrage, l'accusé de réception, la fin de trame et l'intervalle inter-trames restent à `1 Mbps`.
+* **Durées de trame et critère d'acceptation :**
+  * **CAN 2.0B étendu 29 bits, 8 octets à 1 Mbps** (intervalle inter-trames inclus) : `131 bits` min / `~140 bits` typique / `160 bits` pire cas -> durée d'une paire commande + retour `T_paire` = **`262 µs` min / `280 µs` typique / `320 µs` pire cas**.
+  * **CAN-FD 5 Mbps** (arbitrage `1 Mbps`, données `5 Mbps`, BRS) : `~72 µs` typique / `80 µs` pire cas par trame -> `T_paire` ≈ **`145 µs` typique / `160 µs` pire cas**.
+  * **Trame standard 11 bits, 8 octets** (protocole MIT natif via type 25 -> `2`) : `111 à 135 bits`.
+  * **Formule :** `Charge_bus = N_moteurs x f_boucle x T_paire`.
+  * **Critère d'acceptation :** charge **`<= 70 %` en typique** et **`<= 80 %` en pire cas** (marge réservée aux trames d'erreur, lectures/écritures de paramètres types 17/18 et trames de défaut type 21).
+
+| Scénario de référence | Nb moteurs | Fréquence | Charge CAN 2.0B (typique / pire cas) | Charge CAN-FD 5 Mbps (typique / pire cas) | Verdict |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| Membre complet à 1 kHz | 6 | 1 000 Hz | 168 % / 192 % | 87 % / 96 % | ❌ Saturé / non admissible |
+| Membre complet à 500 Hz | 6 | 500 Hz | 84 % / 96 % | 43 % / 48 % | ❌ Non admissible en 2.0B / ✅ OK en FD |
+| Membre complet à 400 Hz | 6 | 400 Hz | 67 % / 77 % | – | ✅ Limite en 2.0B |
+| 3 moteurs à 1 kHz (ex. cou + Waist) | 3 | 1 000 Hz | 84 % / 96 % | 44 % / 48 % | ❌ Non admissible en 2.0B / ✅ OK en FD |
+| 2 moteurs à 1 kHz (cou seul) | 2 | 1 000 Hz | 56 % / 64 % | 29 % / 32 % | ✅ OK |
+| 4 moteurs à 500 Hz | 4 | 500 Hz | 56 % / 64 % | 29 % / 32 % | ✅ OK |
+| 5 moteurs à 500 Hz | 5 | 500 Hz | 70 % / 80 % | ~36 % / 40 % | ✅ Limite en 2.0B / ✅ OK en FD |
+| 4 moteurs à 1 kHz (CAN-FD) | 4 | 1 000 Hz | – | 58 % / 64 % | ✅ OK en CAN-FD uniquement |
+
+* **Principe de commande MIT retenu :** En mode MIT, la loi d'impédance `tau = Kp*(q_des - q) + Kd*(dq_des - dq) + tau_ff` est calculée **à l'intérieur du contrôleur de chaque moteur** à la fréquence de sa boucle interne de courant. Le bus CAN ne transporte que les consignes et les retours d'état : la raideur et l'amortissement ne dépendent donc pas du débit CAN. Une boucle Teensy ↔ moteurs à **`500 Hz`** pour les jambes et la taille représente `10x` la fréquence de la politique RL (`50 Hz` sur Jetson) pour une latence de bus de `2 ms`. Le `1 kHz` n'est requis que pour un contrôle en couple pur de type MPC/WBC (hors périmètre V1).
+
+#### Affectation retenue des 27 moteurs sur les 6 bus (répartition bas du corps 4 / 4 / 5)
+
+| Teensy | Port | Mode matériel | Moteurs affectés | Nb | Fréquence | Charge CAN 2.0B (typique / pire cas) | Si variante CAN-FD 5 Mbps |
+| :--- | :--- | :--- | :--- | :---: | :---: | :---: | :---: |
+| **Lower** | `CAN1` | CAN 2.0B | Hanche G (`RS-04` Pitch + `RS-03` Roll + `RS-03` Yaw) + Genou G (`RS-04`) | 4 | 500 Hz | 56 % / 64 % | – (port non FD) |
+| **Lower** | `CAN2` | CAN 2.0B | Hanche D (`RS-04` Pitch + `RS-03` Roll + `RS-03` Yaw) + Genou D (`RS-04`) | 4 | 500 Hz | 56 % / 64 % | – (port non FD) |
+| **Lower** | `CAN3` | Compatible FD | 4x `RS-03` cheville (cardans G + D) + `Waist Yaw RS-06` | 5 | 500 Hz | 70 % / 80 % *(limite)* | ~36 % / 40 % |
+| **Upper** | `CAN1` | CAN 2.0B | Bras G (`RS-04` épaule pitch, `RS-03` roll, `RS-02` yaw, `RS-03` coude, `RS-10P` supination, `RS-00` poignet) | 6 | 250 Hz | 42 % / 48 % | – (port non FD) |
+| **Upper** | `CAN2` | CAN 2.0B | Bras D (`RS-04` épaule pitch, `RS-03` roll, `RS-02` yaw, `RS-03` coude, `RS-10P` supination, `RS-00` poignet) | 6 | 250 Hz | 42 % / 48 % | – (port non FD) |
+| **Upper** | `CAN3` | Compatible FD | Cou (`2x RS-05` Pan + Tilt) | 2 | 100 Hz | 6 % / 6 % | ~3 % |
+
+*(Total vérifié : `4 + 4 + 5 + 6 + 6 + 2 = 27` actionneurs RobStride.)*
+
+* **Leviers si `CAN3` Lower dépasse les seuils lors des essais au banc :**
+  1. Activer le mode **CAN-FD à 5 Mbps** sur `CAN3` si la variante CAN-FD des `RS-03` et `RS-06` reçus est confirmée (`~36 à 40 %` de charge).
+  2. Basculer les moteurs en **protocole MIT natif** (trames standard `11 bits` via type 25 -> `2`) : `~60 %` typique / `~68 %` pire cas.
+  3. Abaisser `CAN3` Lower à **`400 Hz`** (`56 %` typique / `64 %` pire cas).
+* **Ordre de câblage `CAN3` Lower (chaînage série obligatoire) :** `Teensy Lower (120 Ω intégrée au shield SK Pang)` -> `Waist Yaw RS-06` -> `Cheville G A (RS-03)` -> `Cheville G B (RS-03)` -> `Cheville D A (RS-03)` -> `Cheville D B (RS-03, terminaison 120 Ω en bout de bus)`.
+  * Longueur estimée : `~3,2 m` `[À VALIDER au harnais]`, dérivations `< 30 cm`.
+  * **Règle mécanique RobStride (arbres pleins) :** aucun moteur RobStride ne dispose d'arbre creux traversant ; tout câble CAN et 48 V contourne le `Waist RS-06` et les actionneurs par les corridors latéraux/ventraux avec boucle de service libre.
+  * Si activation CAN-FD `5 Mbps`, valider impérativement la qualité du signal sur ce harnais au banc avant déploiement.
 
 ---
 
@@ -97,8 +150,8 @@ L’architecture électrique du D‑Bot repose sur :
 |12| **Buck 48→12 V 20 A** | DC‑DC 60 V in / 12 V out | 1 | 10‑18 | Amazon.fr | – |
 |13| **Buck 48→5 V 5 A** | DC‑DC isolé 25 W | 1 | 10‑15 | Amazon.fr | – |
 |14| **Hub USB 3.0 10 ports** | StarTech ST103008U2C (ou Sabrent HB‑BU10) | 1 | 70‑120 | Amazon.fr | Alimentation 12 V requise |
-|15| **InnoMaker USB2CAN‑C** | CAN‑USB isolé 2.5 kV | 1 | 45‑55 | OpenLightLabs / Tindie | Firmware candleLight |
-|16| **CANable Pro** | CAN‑USB isolé 2.5 kV (PCB) | 4 | 30‑40 | OpenLightLabs / AliExpress / Tindie | – |
+|15| **InnoMaker USB2CAN‑C** | CAN‑USB isolé 2.5 kV | 1 | 45‑55 | OpenLightLabs / Tindie | Outil de debug banc uniquement (hors robot embarqué) |
+|16| **CANable Pro** | CAN‑USB isolé 2.5 kV (PCB) | 4 | 30‑40 | OpenLightLabs / AliExpress / Tindie | Outil de debug banc uniquement (hors robot embarqué) |
 |17| **Module Debug CAN** | Interface opto‑couplée | 1 | 25‑35 | OpenLightLabs | – |
 |18| **Dual MOSFET D4184** | Driver 2 × MOSFET | 1 | 8‑12 | Amazon.fr | Diodes 1N4007 à souder |
 |19| **Solénoïde LEX‑SOLEN‑04** | 12 V 0,6 A | 2 | 5‑8 | Digi‑Key / Mouser | – |
@@ -115,7 +168,7 @@ L’architecture électrique du D‑Bot repose sur :
 |30| **Diodes 1N4007** | 1000 V, 1 A | 2 × solénoïde | 0,05 | Digi‑Key | – |
 |31| **MOSFET Haute‑côté BTS50085** | Smart‑Switch 100 V 5 A | 1 | [À COMPLÉTER] | Infineon / Digi‑Key | – |
 |32| **Bouton E‑Stop** | Coup de poing NC, 48 V | 1 | 8‑12 | Amazon.fr | – |
-|33| **Résistances 120 Ω** | 1 % 0,25 W | 5 (terminations) | 0,1 | Digi‑Key | – |
+|33| **Résistances 120 Ω** | 1 % 0,25 W | 6 (1 par bus, côté dernier moteur ; extrémité Teensy intégrée au shield SK Pang) | 0,1 | Digi‑Key | – |
 
 > **[À COMPLÉTER]** indique les informations (fabricant, prix exact) qui n’apparaissent pas explicitement dans les sources fournies.
 
@@ -126,7 +179,7 @@ L’architecture électrique du D‑Bot repose sur :
 | Sous‑module | Fichier CAD | Statut | Commentaire |
 |---|---|---|---|
 | Bus‑bar central & splitters | `02_Elec_Busbar.step` | ✅ Modélisé, vérifié dimensions | Export STL pour impression de support |
-| Supports CANable Pro | `CANable_Cluster.step` | ✅ Modélisé, assemblage prévu | Espacement 5 mm, ventilation |
+| Supports CANable Pro | `CANable_Cluster.step` | ❌ Obsolète (CANable retirés de l'architecture embarquée) | Remplacé par l'architecture `2x Teensy 4.1 + SK Pang Triple CAN` |
 | Boîtier hub USB | `Hub_Enclosure.step` | ✅ Modélisé, pré‑impression | Prévoir découpe pour ventilation |
 | Câblage d’alimentation 48 V | `Power_Wiring_48V.iam` | ✅ Simulé (PTC, chute de tension) | Vérif. perte < 0,2 V sur troncs |
 | Distribution logique 12 V/5 V | `Logic_Distribution.step` | ✅ Modélisé | Inclut buck, régulateurs locaux |
@@ -178,6 +231,8 @@ Pour garantir un temps de réaction < 1 ms en cas de chute, la Moelle Épinière
 | 8 | **Valeur de la résistance de pull‑down (10 kΩ) du diviseur batterie** – confirmée mais pas de tolérance. | `STUDY_Watchdog_Robot.md`. | Basse | Utiliser 1 % 10 kΩ, vérifier la lecture ADC (≈ 3,3 V à 55 V). |
 | 9 | **Gestion thermique du RS‑04 (hanches/genoux)** – besoin d’un calcul détaillé de dissipation et d’un plan de refroidissement (aluminium CNC). | `STUDY_Motorisation_QDD_RobStride.md` indique 14,5 W dissipation, mais pas de dissipateur. | Haute | Concevoir un insert aluminium avec contact thermique (pâte thermique) et valider par simulation CFD. |
 |10| **Éventuelle utilisation d’un ORing MOSFET pour la mise en parallèle de deux packs batterie** – non implémenté dans V1. | Roadmap future (section 7). | Faible | Documenter la solution pour la version V2. |
+|11| **Identification variante CAN 2.0B / CAN-FD des 27 moteurs reçus + mesure de charge réelle des 6 bus au banc** – vérifier si les lots livrés supportent le CAN-FD `5 Mbps` (`Manuels/CANFD/`) ou uniquement le CAN 2.0B `1 Mbps`. | `AUDIT_ETUDE_02_Electronique_et_Energie.md` (point 1), `Manuels/RS0x*`, `Manuels/CANFD/`. | Haute | Tester 1 seul moteur sur alimentation Wanptek : lire le paramètre baud dans Motor Studio (`motor_baud` `0x2009` ou `baud` `0x2022`/`0x2024` selon modèle) ; une variante CAN-FD accepte `F_CMD` `05` à `08` en type 23 (redémarrage moteur requis, puis revenir à `01` = `1 Mbps`). Mesurer ensuite la charge réelle via les compteurs d'erreurs FlexCAN du Teensy ou `candump` sur CANable au banc. |
+|12| **Figer les IDs CAN des 27 moteurs par bus** – table d'adressage unique `ID` par articulation et par port `CAN1..CAN3` sur Teensy Lower/Upper. | §2.1 et `FINAL_CAN_Bus_Topology.md`. | Moyenne | `[À COMPLÉTER]` Attribuer et vérifier les 27 IDs uniques avant câblage définitif des harnais. |
 
 ---
 
@@ -188,7 +243,8 @@ Pour garantir un temps de réaction < 1 ms en cas de chute, la Moelle Épinière
 | **V2** | Ajout d’un **rail 3,3 V dédié** (au lieu de dérivation via Spresense) pour les capteurs eFlesh et IMU. | Réduction du bruit sur le rail 5 V, meilleure isolation. |
 | **V2** | **SVS Électromagnétique** (solénoïde de verrouillage) sur les RS‑04 pour éliminer la dissipation statique. | Autonomie accrue, moins de chauffe au repos. |
 | **V3** | **Batterie sur‑mesure** (forme adaptée au torse) – 15 Ah, 50 A cont. | Augmentation de l’autonomie à ≈ 1 h 30. |
-| **V3** | **CAN FD** (2 Mbps) pour augmenter la bande passante des bus moteurs. | Possibilité d’ajouter plus de capteurs en temps réel. |
+| **V1.5** | **Activation CAN-FD 5 Mbps sur les 2 bus `CAN3`** (si variante CAN-FD confirmée au banc sur `RS-03`, `RS-06`, `RS-05`). | Réduction de la charge `CAN3 Lower` de `70 %` à `~36-40 %` à `500 Hz`. |
+| **V2** | **Contrôleurs CAN-FD SPI additionnels (`MCP2518FD`) ou 3e Teensy** si un contrôle en couple pur à `1 kHz` (`MPC / WBC`) devient requis. | Débit `5 Mbps` sur les bus membres sans saturation. |
 | **V4** | **Intégration d’un deuxième MOSFET BTS50085** en parallèle (ORing) pour la redondance de l’alimentation principale. | Sécurité accrue, gestion de la défaillance d’un pack. |
 | **V5** | **Remplacement du hub USB 3.0 industriel** par un hub **PCIe‑Express** pour bande passante vidéo OAK‑D Pro. | Latence réduite, support de caméras 4K à 120 fps. |
 
